@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
+import net.n2oapp.framework.api.metadata.meta.action.SetActiveRegionEntityPayload;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
@@ -19,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -137,5 +140,25 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat((((GroupScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getTitle(), is("Title4"));
         assertThat(((SingleScrollspyElement) ((GroupScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getContent().size(), is(1));
         assertThat(((Form) ((SingleScrollspyElement) ((GroupScrollspyElement) ((GroupScrollspyElement) element).getMenu().get(2)).getMenu().get(0)).getContent().get(0)).getName(), is("form5"));
+    }
+
+    @Test
+    public void testScrollspyRegionRoute() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testScrollspyRegionRoute.page.xml")
+                .get(new PageContext("testScrollspyRegionRoute"));
+
+        Map<String, PageRoutes.Query> queryMapping = page.getRoutes().getQueryMapping();
+
+        assertThat(queryMapping.get("scrollspy_0"), notNullValue());
+        assertThat(queryMapping.get("scrollspy_0").getOnGet().getType(), is("n2o/regions/SET_ACTIVE_REGION_ENTITY"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("scrollspy_0").getOnGet().getPayload()).getRegionId(), is("scrollspy_0"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("scrollspy_0").getOnGet().getPayload()).getActiveEntity(), is(":scrollspy_0"));
+        assertThat(queryMapping.get("scrollspy_0").getOnSet().getBindLink(), is("regions.scrollspy_0.activeEntity"));
+
+        assertThat(queryMapping.get("item"), notNullValue());
+        assertThat(queryMapping.get("item").getOnGet().getType(), is("n2o/regions/SET_ACTIVE_REGION_ENTITY"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("item").getOnGet().getPayload()).getRegionId(), is("scrollspy_1"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("item").getOnGet().getPayload()).getActiveEntity(), is(":item"));
+        assertThat(queryMapping.get("item").getOnSet().getBindLink(), is("regions.scrollspy_1.activeEntity"));
     }
 }

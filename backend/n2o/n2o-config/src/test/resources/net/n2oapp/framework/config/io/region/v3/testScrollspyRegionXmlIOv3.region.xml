@@ -6,7 +6,8 @@
            active="mi1"
            title="regionTitle"
            placement="right"
-           headlines="true">
+           headlines="true"
+           routable="false">
     <menu-item id="mi1" title="First item title in the list">
         <tabs>
             <tab>

@@ -577,10 +577,12 @@ http://n2oapp.net/framework/config/schema/region-3.0
 
 |Наименование|Тип       |Описание                                   |Значение по умолчанию|
 |------------|----------|-------------------------------------------|---------------------|
-|active      |Строка    |Активный блок по умолчанию                 |                     |
+|active      |Строка    |Активный элемент по умолчанию              |                     |
 |title       |Строка    |Общий некликабельный заголовок меню        |                     |
 |placement   |left right|Расположение меню                          |left                 |
 |headlines   |true false|Наличие разделительной строки между блоками|false                |
+|routable    |true false|Восстановление активного элемента  по URL  |true                 |
+|active-param|Строка    |Имя параметра активного элемента в URL     |                     |
 
 **Пример**
 
@@ -588,7 +590,8 @@ http://n2oapp.net/framework/config/schema/region-3.0
 <scrollspy active="mi1"
             title="regionTitle"
             placement="right"
-            headlines="true">
+            headlines="true"
+            routable="false">
     <menu-item>
         ...
     </menu-item>

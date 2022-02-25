@@ -15,6 +15,8 @@ public abstract class AbstractRegionIOv3<T extends N2oRegion & NamespaceUriAware
     public void io(Element e, T r, IOProcessor p) {
         super.io(e, r, p);
         p.attribute(e, "id", r::getId, r::setId);
+        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
+        p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
     }
 
     @Override
