@@ -27,7 +27,7 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     private String[] validateDatasources;
     private N2oAction action;
 
-    private Boolean confirm;
+    private String confirm;
     private ConfirmType confirmType;
     private String confirmText;
     private String confirmTitle;
