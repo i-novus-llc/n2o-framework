@@ -35,7 +35,6 @@ public abstract class BaseValidationCompiler<D extends Validation, S extends N2o
         String expression = p.resolveJS(source.getEnabled());
         if (StringUtils.isJs(expression)) {
             compiled.addEnablingCondition(StringUtils.unwrapJs(expression));
-            compiled.setEnabled(true);
         } else
             compiled.setEnabled(Boolean.valueOf(expression));
     }
