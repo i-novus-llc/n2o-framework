@@ -43,16 +43,18 @@ public class BasePageUtil {
      */
     private static List<Widget<?>> getRegionWidgets(List<? extends Compiled> items) {
         List<Widget<?>> widgets = new ArrayList<>();
-        for (Compiled i : items)
-            if (i instanceof Widget)
-                widgets.add((Widget) i);
-            else if (i instanceof Itemable) {
-                Itemable<RegionItem> region = ((Itemable) i);
-                if (region.getItems() != null)
-                    for (RegionItem regionItem : region.getItems())
-                        widgets.addAll(getRegionWidgets(regionItem.getContent()));
-            } else if (i instanceof Region && ((Region) i).getContent() != null)
-                widgets.addAll(getRegionWidgets(((Region) i).getContent()));
+        if (items != null) {
+            for (Compiled i : items)
+                if (i instanceof Widget)
+                    widgets.add((Widget) i);
+                else if (i instanceof Itemable) {
+                    Itemable<RegionItem> region = ((Itemable) i);
+                    if (region.getItems() != null)
+                        for (RegionItem regionItem : region.getItems())
+                            widgets.addAll(getRegionWidgets(regionItem.getContent()));
+                } else if (i instanceof Region && ((Region) i).getContent() != null)
+                    widgets.addAll(getRegionWidgets(((Region) i).getContent()));
+        }
         return widgets;
     }
 

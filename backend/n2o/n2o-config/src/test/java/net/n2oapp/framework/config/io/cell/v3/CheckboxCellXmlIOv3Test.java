@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * Тестирование чтения и записи ячейки с ссылкой
  */
-public class CheckboxCellXmlIOTest {
+public class CheckboxCellXmlIOv3Test {
     @Test
     public void testCheckboxCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();

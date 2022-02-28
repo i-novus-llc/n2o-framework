@@ -81,6 +81,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         compiled.setValidations(initValidations(source, p));
+        compiled.setQueryId(source.getQueryId());
         return compiled;
     }
 

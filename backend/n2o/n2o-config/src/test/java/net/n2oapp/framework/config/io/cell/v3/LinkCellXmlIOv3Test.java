@@ -7,15 +7,15 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения/записи ячейки с изображением
+ * Тестирование чтения и записи ячейки с ссылкой
  */
-public class ImageCellXmlIOTest {
+public class LinkCellXmlIOv3Test {
     @Test
-    public void testImageCell() {
+    public void testLinkCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new TableElementIOV5(), new CloseActionElementIOV2())
                 .addPack(new N2oCellsV3IOPack());
 
-        assert tester.check("net/n2oapp/framework/config/io/cell/v3/testImageCellIOv3.widget.xml");
+        assert tester.check("net/n2oapp/framework/config/io/cell/v3/testLinkCellIOv3.widget.xml");
     }
 }

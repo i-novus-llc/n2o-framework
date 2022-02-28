@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 import Toolbar from '../../../../buttons/Toolbar'
 import { Spinner } from '../../../../snippets/Spinner/Spinner'
@@ -46,9 +46,6 @@ import { FieldActionsPropTypes } from './FieldPropTypes'
  *             style={display: 'inline-block'}/>
  */
 class StandardField extends React.Component {
-    /**
-     * Базовый рендер компонента
-     */
     render() {
         const {
             id,
@@ -125,7 +122,7 @@ class StandardField extends React.Component {
             visible && (
                 <div
                     id={fieldId}
-                    className={cx('n2o-form-group', 'form-group', className, {
+                    className={classNames('n2o-form-group', 'form-group', className, {
                         [`label-${labelPosition}`]: labelPosition,
                         'n2o-form-group--disabled': loading,
                     })}
@@ -136,7 +133,7 @@ class StandardField extends React.Component {
                             id={id}
                             value={label}
                             style={extendedLabelStyle}
-                            className={cx(
+                            className={classNames(
                                 labelClass,
                                 { [`label-alignment-${labelAlignment}`]: labelAlignment },
                                 'n2o-label',
@@ -147,7 +144,7 @@ class StandardField extends React.Component {
                     ) : null}
                     <div style={styleHelper}>
                         <div
-                            className={cx('form-container', {
+                            className={classNames('form-container', {
                                 'form-container_with-toolbar': toolbar,
                             })}
                         >
@@ -162,7 +159,7 @@ class StandardField extends React.Component {
                                 help={help}
                                 {...props}
                                 {...control}
-                                className={cx(control.className, {
+                                className={classNames(control.className, {
                                     [validationClass]: validationClass && touched,
                                     'form-control__with-toolbar': toolbar,
                                 })}
@@ -186,7 +183,7 @@ class StandardField extends React.Component {
                         </div>
                         <Description value={description} />
                         <div
-                            className={cx(
+                            className={classNames(
                                 'n2o-validation-message',
                                 validationMap[validationClass],
                             )}

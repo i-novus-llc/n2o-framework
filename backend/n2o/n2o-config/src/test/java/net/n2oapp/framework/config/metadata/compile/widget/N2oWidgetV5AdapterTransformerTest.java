@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -66,5 +67,14 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(form.getDatasource().getSubmit().getRoute(), is("/test"));
         assertThat(form.getDatasource().getSubmit().getRefreshDatasources().length, is(1));
         assertThat(form.getDatasource().getSubmit().getRefreshDatasources()[0], is("f1"));
+    }
+
+    @Test
+    public void testTableV5adapterTransformer() {
+        N2oTable table = read("net/n2oapp/framework/config/metadata/transformer/testTableTransformer.widget.xml")
+                .merge().transform().get("testTableTransformer", N2oTable.class);
+        assertThat(table.getDatasource().getQueryId(), is("test"));
+        assertThat(table.getDatasource().getObjectId(), is("test"));
+        assertThat(table.getFiltersDatasource().getQueryId(), is("test"));
     }
 }

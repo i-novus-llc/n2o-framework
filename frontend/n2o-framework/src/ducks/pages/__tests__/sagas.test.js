@@ -136,7 +136,7 @@ describe('Сага для для наблюдения за изменением 
 
             const value = gen.next()
             expect(value.value.type).toBe('PUT')
-            expect(value.value.payload.action.type).toBe('BATCHING_REDUCER.BATCH')
+            expect(value.value.payload.action).toEqual({ link: 'test.id' })
             expect(gen.next().done).toBeTruthy()
         })
     })
@@ -170,16 +170,21 @@ describe('Сага для для наблюдения за изменением 
                         },
                     },
                     queryMapping: {
-                        q: {
-                            link: 'model',
-                            value: '`q`',
+                        name: {
+                            get: {
+                                payload: "",
+                                type: "test",
+                            }
                         },
                     },
                 },
             )
             const value = gen.next()
             expect(value.value.type).toBe('PUT')
-            expect(value.value.payload.action.type).toBe('BATCHING_REDUCER.BATCH')
+            expect(value.value.payload.action).toEqual({
+                payload: "",
+                type: "test",
+            })
             expect(gen.next().done).toBeTruthy()
         })
     })
@@ -227,9 +232,11 @@ describe('Сага для для наблюдения за изменением 
                                         },
                                     },
                                     queryMapping: {
-                                        q: {
-                                            link: 'model',
-                                            value: '`q`',
+                                        name: {
+                                            get: {
+                                                payload: "",
+                                                type: "test",
+                                            }
                                         },
                                     },
                                 },
@@ -262,10 +269,12 @@ describe('Сага для для наблюдения за изменением 
                     },
                 },
                 queryMapping: {
-                    q: {
-                        link: 'model',
-                        value: '`q`',
-                    },
+                    name: {
+                        get: {
+                            payload: "",
+                            type: "test",
+                        }
+                    }
                 },
             })
             await delay(300)
@@ -317,10 +326,12 @@ describe('Сага для для наблюдения за изменением 
                                         },
                                     },
                                     queryMapping: {
-                                        q: {
-                                            link: 'model',
-                                            value: '`q`',
-                                        },
+                                        name: {
+                                            get: {
+                                                payload: "",
+                                                type: "test",
+                                            }
+                                        }
                                     },
                                 },
                             },
@@ -333,10 +344,11 @@ describe('Сага для для наблюдения за изменением 
             await runSaga(fakeStore, processUrl)
             await delay(300)
 
-            expect(dispatched[0].type).toBe('BATCHING_REDUCER.BATCH')
-            expect(dispatched[0].payload).toEqual([{ link: 'test.id' }])
-            expect(dispatched[1].type).toBe('BATCHING_REDUCER.BATCH')
-            expect(dispatched[1].payload).toEqual([])
+            expect(dispatched[0]).toEqual({ link: 'test.id' })
+            expect(dispatched[1]).toEqual({
+                payload: "",
+                type: "test",
+            })
         })
     })
     describe('тесты getMetadata', () => {
@@ -345,6 +357,7 @@ describe('Сага для для наблюдения за изменением 
             const fakeStore = {
                 getState: () => ({
                     router: {
+                        action: 'push',
                         location: {
                             search: '?name=Sergey',
                         },
@@ -400,6 +413,7 @@ describe('Сага для для наблюдения за изменением 
             const fakeStore = {
                 getState: () => ({
                     router: {
+                        action: 'push',
                         location: {
                             search: '',
                         },
@@ -441,33 +455,6 @@ describe('Сага для для наблюдения за изменением 
             expect(dispatched[2].payload).toEqual({
                 pageId: 'test',
                 status: 200,
-            })
-        })
-
-        it('должен вызвать ошибку', async () => {
-            const dispatched = []
-            const fakeStore = {
-                getState: () => ({}),
-                dispatch: action => dispatched.push(action),
-            }
-            const action = {
-                payload: {
-                    pageId: 'errorPage',
-                },
-            }
-
-            await runSaga(fakeStore, getMetadata, undefined, action)
-            await delay(200)
-
-            expect(dispatched[0].type).toBe(metadataFail.type)
-            expect(dispatched[0].payload).toEqual({
-                pageId: 'errorPage',
-                err: {
-                    closeButton: false,
-                    title: 'Ошибка',
-                    severity: 'danger',
-                    text: expect.any(String),
-                },
             })
         })
     })

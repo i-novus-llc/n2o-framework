@@ -4,8 +4,8 @@
         <datasource id="outer" query-id="testActionContext"/>
     </datasources>
     <toolbar>
-        <button id="test">
-            <invoke operation-id="update" datasource="outer"/>
+        <button id="test" datasource="outer">
+            <invoke operation-id="update"/>
         </button>
     </toolbar>
     <regions>
@@ -15,8 +15,8 @@
                 <button id="test1" model="filter">
                     <invoke operation-id="create" optimistic="true"/>
                 </button>
-                <button id="test2">
-                    <invoke operation-id="create" datasource="outer"/>
+                <button id="test2" datasource="outer">
+                    <invoke operation-id="create"/>
                 </button>
             </toolbar>
         </form>

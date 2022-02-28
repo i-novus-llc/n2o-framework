@@ -7,7 +7,6 @@ import withListContainer from './withListContainer'
  * Композер хоков {@Link withFetchData} & {@Link withListContainer}
  * @param WrappedComponent - оборачиваемый компонент
  */
-
 const listContainer = WrappedComponent => compose(
     withFetchData,
     withListContainer,

@@ -18,5 +18,5 @@ export const makeOverlaysbyName = index => createSelector(
 
 export const makeShowPromptByName = name => createSelector(
     overlaysSelector,
-    overlaysState => find(overlaysState, overlay => overlay.name === name).showPrompt,
+    overlaysState => find(overlaysState, overlay => overlay.name === name)?.showPrompt,
 )

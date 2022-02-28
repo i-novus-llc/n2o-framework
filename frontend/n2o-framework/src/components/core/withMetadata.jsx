@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { batchActions } from 'redux-batched-actions'
 import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
 import { createStructuredSelector } from 'reselect'
@@ -73,7 +72,10 @@ const withMetadata = (Component) => {
                 location: { pathname, state = {} },
             } = this.props
 
-            if (!isEmpty(metadata) && !isEmpty(metadata.routes)) {
+            if (!isEmpty(metadata?.routes)) {
+                if (state?.silent) {
+                    return false
+                }
                 const findedRoutes = filter(metadata.routes.list, (route) => {
                     const re = pathToRegexp(route.path)
 
@@ -82,13 +84,12 @@ const withMetadata = (Component) => {
                 const isNewPage = find(findedRoutes, route => route.isOtherPage)
 
                 return (
+                    isNewPage ||
                     (
-                        isNewPage || (
-                            this.isEqualPageId(prevProps) &&
-                            !this.isEqualPageUrl(prevProps) &&
-                            isEmpty(findedRoutes)
-                        )
-                    ) && !state.silent
+                        this.isEqualPageId(prevProps) &&
+                        !this.isEqualPageUrl(prevProps) &&
+                        isEmpty(findedRoutes)
+                    )
                 )
             }
 
@@ -142,7 +143,7 @@ const withMetadata = (Component) => {
             getMetadata: (pageId, pageUrl, pageMapping, rootPage) => dispatch(metadataRequest(
                 pageId, rootPage, pageUrl, pageMapping,
             )),
-            reset: pageId => dispatch(batchActions([resetPage(pageId)])),
+            reset: pageId => dispatch(resetPage(pageId)),
             routeMap: pageId => dispatch(mapUrl(pageId)),
         }
     }

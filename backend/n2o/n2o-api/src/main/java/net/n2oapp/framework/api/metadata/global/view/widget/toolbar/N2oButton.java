@@ -22,12 +22,12 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     private Boolean rounded;
     private String enabled;
     private Boolean validate;
-    private String datasource;
+    private String datasourceId;
     private ReduxModel model;
     private String[] validateDatasources;
     private N2oAction action;
 
-    private Boolean confirm;
+    private String confirm;
     private ConfirmType confirmType;
     private String confirmText;
     private String confirmTitle;
@@ -44,12 +44,12 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
 
     @Deprecated
     public String getWidgetId() {
-        return datasource;
+        return datasourceId;
     }
 
     @Deprecated
     public void setWidgetId(String widgetId) {
-        this.datasource = widgetId;
+        this.datasourceId = widgetId;
     }
 
     @Deprecated
