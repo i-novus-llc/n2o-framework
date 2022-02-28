@@ -3,7 +3,7 @@ import NoneRegion from './None/NoneRegion'
 import TabsRegion from './Tabs/TabsRegion'
 import ListRegion from './List/ListRegion'
 import PanelRegion from './Panel/PanelRegion'
-import ScrollSpyRegion from './ScrollSpyRegion/ScrollSpyRegion'
+import ScrollSpyRegion from './ScrollSpy/Region'
 
 export default {
     NoneRegion,

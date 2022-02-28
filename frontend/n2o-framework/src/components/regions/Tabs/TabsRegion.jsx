@@ -67,6 +67,10 @@ class TabRegion extends React.Component {
                 return this.atLeastOneVisibleWidget(meta.content)
             }
 
+            if (meta.menu) {
+                return this.atLeastOneVisibleWidget(meta.menu)
+            }
+
             return this.isVisibleWidget(meta.id)
         })
     }
