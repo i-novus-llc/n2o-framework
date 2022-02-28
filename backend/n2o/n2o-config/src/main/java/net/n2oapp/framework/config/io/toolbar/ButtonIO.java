@@ -33,7 +33,7 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
 
-        p.attributeBoolean(e, "confirm", b::getConfirm, b::setConfirm);
+        p.attribute(e, "confirm", b::getConfirm, b::setConfirm);
         p.attribute(e, "confirm-text", b::getConfirmText, b::setConfirmText);
         p.attributeEnum(e, "confirm-type", b::getConfirmType, b::setConfirmType, ConfirmType.class);
         p.attribute(e, "confirm-title", b::getConfirmTitle, b::setConfirmTitle);
