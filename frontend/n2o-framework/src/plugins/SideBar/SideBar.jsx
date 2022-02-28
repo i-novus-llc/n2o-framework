@@ -86,7 +86,7 @@ export function SideBar({
     className,
     logo,
     menu,
-    extraMenu = {},
+    extraMenu = [],
     defaultState = sidebarView.mini,
     toggledState = sidebarView.maxi,
     onMouseEnter,
@@ -154,7 +154,7 @@ export function SideBar({
             <div className="n2o-sidebar__footer">
                 {showContent && (
                     <div className="n2o-sidebar__extra">
-                        <ul className="n2o-sidebar__nav-list">{renderItems(extraMenu.items)}</ul>
+                        <ul className="n2o-sidebar__nav-list">{renderItems(extraMenu)}</ul>
                     </div>
                 )}
                 {!controlled && !isStaticView && (
@@ -206,7 +206,7 @@ SideBar.propTypes = {
     side: PropTypes.string,
     className: PropTypes.string,
     menu: PropTypes.object,
-    extraMenu: PropTypes.object,
+    extraMenu: PropTypes.array,
     defaultState: PropTypes.string,
     toggledState: PropTypes.string,
     onMouseEnter: PropTypes.func,
