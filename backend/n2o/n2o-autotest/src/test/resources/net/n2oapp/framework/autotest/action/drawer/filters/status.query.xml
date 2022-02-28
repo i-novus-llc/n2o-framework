@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
     <list>
-        <test file="region.json"/>
+        <test file="net/n2oapp/framework/autotest/action/drawer/filters/status.json"/>
     </list>
     <count>
-        <test file="region.json" operation="count"/>
+        <test file="net/n2oapp/framework/autotest/action/drawer/filters/status.json" operation="count"/>
     </count>
 
     <fields>

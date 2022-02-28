@@ -12,7 +12,6 @@ import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
-import net.n2oapp.framework.autotest.run.AutoTestApplication;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -23,14 +22,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * Автотест для проверки фильтров в отдельном окне
  */
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/uxcases/filters/drawer/"},
-        classes = AutoTestApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FiltersInDrawerAT extends AutoTestBase {
 
     @BeforeAll
@@ -49,12 +44,12 @@ public class FiltersInDrawerAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("/uxcases/filters/drawer/index.page.xml"),
-                new CompileInfo("/uxcases/filters/drawer/modal.page.xml"),
-                new CompileInfo("/uxcases/filters/drawer/data.query.xml"),
-                new CompileInfo("/uxcases/filters/drawer/department.query.xml"),
-                new CompileInfo("/uxcases/filters/drawer/region.query.xml"),
-                new CompileInfo("/uxcases/filters/drawer/status.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/department.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/region.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/status.query.xml"));
     }
 
     //todo убрать после решения https://jira.i-novus.ru/browse/NNO-7586
