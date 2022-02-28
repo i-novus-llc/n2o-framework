@@ -1,5 +1,5 @@
 import React from 'react'
-import cn from 'classnames'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
 import { Factory } from '../../../../../core/factory/Factory'
@@ -15,7 +15,7 @@ import { CONTROLS } from '../../../../../core/factory/factoryLevels'
  */
 const Control = ({ component, className, ...props }) => {
     const newProps = { ...props, className }
-    const classes = cn('form-control', className)
+    const classes = classNames('form-control', className)
 
     return typeof component !== 'string' ? (
         React.createElement(component, newProps)

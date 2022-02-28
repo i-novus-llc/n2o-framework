@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual'
 import each from 'lodash/each'
 import concat from 'lodash/concat'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -14,16 +14,19 @@ import {
     disableMultiFields,
 } from '../../../ducks/form/store'
 import propsResolver from '../../../utils/propsResolver'
+import { parseExpression } from '../../../utils/evalExpression'
 
 import Label from './fields/StandardField/Label'
 // eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
 import { resolveExpression } from './utils'
+import HelpPopover from './fields/StandardField/HelpPopover'
 
 /**
  * Компонент - филдсет формы
  * @reactProps {array} rows - ряды, которые содержит филдсет. Они содержат колонки, которые содержат либо поля, либо филдсеты(филдсет рекрсивный).
  * @reactProps {string} className - класс компонента Fieldset
+ * @reactProps {string} help - подсказка около label
  * @reactProps {string} labelPosition - позиция лейбела относительно контрола: top-left, top-right, left, right.
  * @reactProps {string} label - заголовок филдсета
  * @reactProps {string} childrenLabel - заголовоки дочерних элементов  филдсета
@@ -242,6 +245,7 @@ class Fieldset extends React.Component {
             type,
             childrenLabel,
             activeModel,
+            help,
             ...rest
         } = this.props
 
@@ -260,7 +264,8 @@ class Fieldset extends React.Component {
             'd-none': !visible,
         })
 
-        const resolveLabel = activeModel ? propsResolver(label, activeModel) : label
+        const resolvedLabel = activeModel ? propsResolver(label, activeModel) : label
+        const resolvedHelp = activeModel && parseExpression(help) ? propsResolver(help, activeModel) : help
 
         return (
             <div className={classes} style={style}>
@@ -271,9 +276,10 @@ class Fieldset extends React.Component {
                                 className={classNames(
                                     'n2o-fieldset__label', { 'with-description': description },
                                 )}
-                                value={resolveLabel}
+                                value={resolvedLabel}
                             />
                         )}
+                        {resolvedHelp && <HelpPopover help={resolvedHelp} />}
                         {needDescription && (
                             <Label
                                 className={classNames(
@@ -287,7 +293,7 @@ class Fieldset extends React.Component {
                 <ElementType
                     childrenLabel={childrenLabel}
                     enabled={enabled}
-                    label={resolveLabel}
+                    label={resolvedLabel}
                     type={type}
                     activeModel={activeModel}
                     description={description}
@@ -297,6 +303,7 @@ class Fieldset extends React.Component {
 
                         return rows.map((row, id) => this.renderRow(id, row, props))
                     }}
+                    help={resolvedHelp}
                 />
             </div>
         )
@@ -336,6 +343,7 @@ Fieldset.propTypes = {
     style: PropTypes.object,
     autoSubmit: PropTypes.bool,
     activeField: PropTypes.string,
+    help: PropTypes.string,
 }
 
 Fieldset.defaultProps = {
@@ -343,9 +351,7 @@ Fieldset.defaultProps = {
     component: 'div',
 }
 
-Fieldset.contextTypes = {
-    store: PropTypes.object,
-}
+Fieldset.contextType = ReactReduxContext
 
 const mapDispatchToProps = dispatch => bindActionCreators(
     {

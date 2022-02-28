@@ -13,7 +13,7 @@ const setup = (propOverrides) => {
     }
 
     const wrapper = shallow(
-        <Provider dtore={configureMockStore()({})}>
+        <Provider store={configureMockStore()({})}>
             <Application {...props} />
         </Provider>,
     )

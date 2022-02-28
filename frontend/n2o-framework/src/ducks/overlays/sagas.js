@@ -62,7 +62,9 @@ export function* checkPrompt(action) {
 }
 
 export function* closeOverlays({ meta }) {
-    yield put(destroyOverlays(meta.modalsToClose))
+    if (meta.modalsToClose) {
+        yield put(destroyOverlays(meta.modalsToClose))
+    }
 }
 
 function* onCloseEffects() {
@@ -102,12 +104,16 @@ export const overlaysSagas = [
     takeEvery(CLOSE, checkPrompt),
 
     takeEvery(
-        action => (action.meta &&
-      action.payload &&
-      !action.payload.prompt &&
-      action.meta.modalsToClose &&
-      action.type !== CLOSE) ||
-      (action.type === LOCATION_CHANGE && action.payload.action !== 'REPLACE'),
+        action => (
+            action.meta &&
+            action.payload &&
+            !action.payload.prompt &&
+            action.meta.modalsToClose &&
+            action.type !== CLOSE
+        ) || (
+            action.type === LOCATION_CHANGE &&
+            action.payload.action !== 'REPLACE'
+        ),
         closeOverlays,
     ),
     fork(onCloseEffects),

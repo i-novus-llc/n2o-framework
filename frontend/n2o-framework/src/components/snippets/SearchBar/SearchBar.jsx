@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { batchActions } from 'redux-batched-actions'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
@@ -66,8 +65,10 @@ function SearchBar({
                         onChange={onChange}
                         placeholder={placeholder}
                         onBlur={onBlur}
-                        onFocus={() => batchActions([toggleDropdown('true'), onFocus && onFocus()])
-                        }
+                        onFocus={() => {
+                            toggleDropdown('true')
+                            if (onFocus) { onFocus() }
+                        }}
                     />
                     {isIconClear && (
                         <Icon

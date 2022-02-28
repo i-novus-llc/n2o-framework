@@ -83,10 +83,6 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private Map<N2oNamespace, Map<String, String>> extAttributes;
     private N2oDependency[] dependencies;
 
-    public Class getWidgetClass() {
-        return this.getClass();
-    }
-
     @Override
     public final String getPostfix() {
         return "widget";
@@ -95,19 +91,6 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     @Override
     public final Class<? extends N2oMetadata> getSourceBaseClass() {
         return N2oWidget.class;
-    }
-
-    /**
-     * Добавить предустановленные фильтры
-     *
-     * @param preFilters Список предустановленных фильтров
-     */
-    public void addPreFilters(List<N2oPreFilter> preFilters) {
-        List<N2oPreFilter> list = new ArrayList<>();
-        if (this.preFilters != null)
-            list.addAll(Arrays.asList(this.preFilters));
-        list.addAll(preFilters);
-        this.preFilters = list.toArray(new N2oPreFilter[list.size()]);
     }
 
     @Deprecated

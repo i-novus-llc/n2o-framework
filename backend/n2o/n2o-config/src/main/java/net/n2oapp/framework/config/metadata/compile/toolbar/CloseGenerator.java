@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -28,13 +27,13 @@ public class CloseGenerator implements ButtonGenerator {
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        String datasource = toolbar.getDatasource();
+        String datasource = toolbar.getDatasourceId();
         N2oButton closeButton = new N2oButton();
         closeButton.setId(GenerateType.close.name());
         closeButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.close.label"));
         N2oCloseAction cancelAction = new N2oCloseAction();
         cancelAction.setId(GenerateType.close.name());
-        closeButton.setDatasource(datasource);
+        closeButton.setDatasourceId(datasource);
         closeButton.setModel(ReduxModel.filter);
         if (context instanceof PageContext) {
             cancelAction.setRefreshOnClose(((PageContext) context).getRefreshOnClose());

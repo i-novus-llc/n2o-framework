@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { Field as ReduxFormField } from 'redux-form'
 import { compose, withProps } from 'recompose'
@@ -13,6 +13,7 @@ import withFieldContainer from './fields/withFieldContainer'
 import StandardField from './fields/StandardField/StandardField'
 
 const config = {
+    // FIXME Непонятно почему зависимость 'fetch' реализована тут, отдельно от всех остальных. Надо свести всё в единое место
     onChange({ dependency }, dependencyType) {
         if (!this.controlRef) { return }
         const { _fetchData, size, labelFieldId } = this.controlRef.props
@@ -71,9 +72,7 @@ class ReduxField extends React.Component {
     }
 }
 
-ReduxField.contextTypes = {
-    store: PropTypes.object,
-}
+ReduxField.contextType = ReactReduxContext
 
 ReduxField.defaultProps = {
     component: StandardField,

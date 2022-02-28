@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 @Getter
 @Setter
 public class N2oClearAction extends N2oAbstractAction implements N2oAction, DatasourceIdAware {
-    private String datasource;
+    private String datasourceId;
     private String[] model;
     private Boolean closeOnSuccess;
 }

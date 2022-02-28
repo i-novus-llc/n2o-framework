@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { usePrevious } from '../../utils/usePrevious'
 import {
@@ -29,99 +29,75 @@ export const WithDataSource = (Component) => {
      * Запрос за data
      * прокидывает methods - управление datasource
      */
-    const Register = (props) => {
+    const WithDataSource = (props) => {
         const {
+            id,
             visible,
-            switchRegistration,
-            setFilter,
-            setResolve,
-            setSelected,
-            setSorting,
-            setPage,
-            setSize,
-            fetchData,
+            datasource,
+            fetch,
         } = props
-
         const prevVisible = usePrevious(visible)
+        const dispatch = useDispatch()
+        const models = useSelector(dataSourceModelsSelector(datasource))
+        const isEmptyData = !(models.datasource?.length)
+        const methods = useMemo(() => {
+            const addComponentToSource = () => dispatch(addComponent(datasource, id))
+            const removeComponentFromSource = () => dispatch(removeComponent(datasource, id))
 
-        const methods = useMemo(
-            () => ({ fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize }),
-            [fetchData, setFilter, setResolve, setSelected, setSorting, setPage, setSize],
-        )
+            /**
+             * Методы взаимодействия с DataSource
+             */
+            return {
+                switchRegistration: visible => (visible ? addComponentToSource() : removeComponentFromSource()),
+                fetchData(options, force) {
+                    if (
+                        visible && (
+                            fetch === FETCH_TYPE.always ||
+                            (fetch === FETCH_TYPE.lazy && (isEmptyData || force))
+                        )
+                    ) {
+                        dispatch(dataRequest(datasource, options))
+                    }
+                },
+                setFilter(filterModel) {
+                    dispatch(setDataSourceFilter(datasource, filterModel))
+                },
+                setResolve(model) {
+                    dispatch(setActiveModel(datasource, model))
+                },
+                setEdit(model) {
+                    dispatch(setEditModel(datasource, model))
+                },
+                setSelected(models) {
+                    dispatch(setMultiModel(datasource, models))
+                },
+                setSorting(field, sorting) {
+                    dispatch(setDataSourceSorting(datasource, field, sorting))
+                },
+                setPage(page = 1) {
+                    dispatch(changePage(datasource, page))
+                },
+                setSize(size) {
+                    dispatch(changeSize(datasource, size))
+                },
+            }
+        }, [dispatch, datasource, id, visible, fetch, isEmptyData])
 
         useEffect(() => {
             if (visible !== prevVisible) {
-                switchRegistration(visible)
-
-                fetchData()
+                methods.switchRegistration(visible)
+                methods.fetchData()
             }
-        }, [visible, prevVisible, switchRegistration, fetchData])
+        }, [visible, prevVisible, methods])
 
         return (
             <DataSourceContext.Provider value={methods}>
-                <Component {...props} methods={methods} />
+                <Component {...props} {...methods} />
             </DataSourceContext.Provider>
         )
     }
 
-    Register.propTypes = WithDataSourceTypes
+    WithDataSource.propTypes = WithDataSourceTypes
 
-    const mapStateToProps = (state, { datasource }) => ({
-        models: datasource ? dataSourceModelsSelector(datasource)(state) : {},
-    })
-
-    const mapDispatchToProps = (dispatch,
-        {
-            datasource: dataSourceId,
-            id: componentId,
-            visible,
-            models,
-            fetch,
-        }) => {
-        const addComponentToSource = () => dispatch(addComponent(dataSourceId, componentId))
-        const removeComponentFromSource = () => dispatch(removeComponent(dataSourceId, componentId))
-
-        /**
-         * Методы взаимодействия с DataSource
-         */
-
-        return {
-            addComponent: () => addComponentToSource(),
-            removeComponent: () => removeComponentFromSource(),
-            switchRegistration: visible => (visible ? addComponentToSource() : removeComponentFromSource()),
-            fetchData(options, force) {
-                if (
-                    visible && (
-                        fetch === FETCH_TYPE.always ||
-                        (fetch === FETCH_TYPE.lazy && (!models.datasource?.length || force))
-                    )
-                ) {
-                    dispatch(dataRequest(dataSourceId, options))
-                }
-            },
-            setFilter(filterModel) {
-                dispatch(setDataSourceFilter(dataSourceId, filterModel))
-            },
-            setResolve(model) {
-                dispatch(setActiveModel(dataSourceId, model))
-            },
-            setEdit(model) {
-                dispatch(setEditModel(dataSourceId, model))
-            },
-            setSelected(models) {
-                dispatch(setMultiModel(dataSourceId, models))
-            },
-            setSorting(field, sorting) {
-                dispatch(setDataSourceSorting(dataSourceId, field, sorting))
-            },
-            setPage(page = 1) {
-                dispatch(changePage(dataSourceId, page))
-            },
-            setSize(size) {
-                dispatch(changeSize(dataSourceId, size))
-            },
-        }
-    }
-
-    return connect(mapStateToProps, mapDispatchToProps)(Register)
+    return WithDataSource
 }

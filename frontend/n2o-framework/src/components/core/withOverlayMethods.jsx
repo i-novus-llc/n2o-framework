@@ -57,7 +57,8 @@ function withOverlayMethods(WrappedComponent) {
         showPrompt() {
             const { t } = this.props
 
-            if (window.confirm(t('defaultPromptMessage'))) { // eslint-disable-line no-alert
+            // eslint-disable-next-line no-alert
+            if (window.confirm(t('defaultPromptMessage'))) {
                 this.closeOverlay(false)
             } else {
                 this.closePrompt()

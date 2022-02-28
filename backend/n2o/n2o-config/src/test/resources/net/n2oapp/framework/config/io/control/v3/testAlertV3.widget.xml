@@ -1,8 +1,13 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
-        <alert id="alert" header="header" footer="footer" fade="false" color="info" tag="span"
-               ref-datasource="ds1" param="test" >
-            Text
-        </alert>
+        <alert id="alert"
+               title="title"
+               text="text"
+               style="background:blue"
+               class="css-on-field"
+               color="info"
+               href="http://example.org"
+               close-button="true"
+               ref-datasource="ds1" param="test"/>
     </fields>
 </form>

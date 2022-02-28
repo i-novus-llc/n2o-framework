@@ -25,7 +25,9 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -67,9 +69,9 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         TableFiltersScope tableFiltersScope = null;
         if (filtersScope != null)
             tableFiltersScope = new TableFiltersScope(datasource.getId(), filtersScope);
-        table.setFilter(createFilter(source, context, p, widgetScope, query, object,
+        initFilter(table, source, context, p, widgetScope, query, object,
                 new ModelsScope(ReduxModel.filter, widgetScope.getGlobalDatasourceId(), p.getScope(Models.class)), subModelsScope,
-                new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope, tableFiltersScope));
+                new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope, tableFiltersScope);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
@@ -141,14 +143,13 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         }
     }
 
-    private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
+    private void initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                               WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
                                               Object... scopes) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
                 widgetQuery, object, scopes);
-
         if (fieldSets.isEmpty())
-            return null;
+            return;
         AbstractTable.Filter filter = new AbstractTable.Filter();
         filter.setFilterFieldsets(fieldSets);
         filter.setFilterButtonId("filter");
@@ -169,7 +170,30 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         filter.setSearchOnChange(source.getSearchOnChange());
         if (hasSearchButtons || (filter.getSearchOnChange() != null && filter.getSearchOnChange()))
             filter.setHideButtons(true);
-        return filter;
+        initInlineFiltersDatasource(compiled, source, p);
+        compiled.setFilter(filter);
+    }
+
+    /**
+     * Инициализация встроенного источника данных
+     */
+    protected void initInlineFiltersDatasource(Table compiled, N2oTable source, CompileProcessor p) {
+        if (source.getFiltersDatasourceId() == null && source.getFiltersDatasource() == null)
+            return;
+        String datasourceId = source.getFiltersDatasourceId();
+        if (source.getFiltersDatasourceId() == null) {
+            datasourceId = CompileUtil.generateSourceDatasourceId(source.getId() + "_filter");
+            N2oDatasource datasource = source.getFiltersDatasource();
+            source.setFiltersDatasource(null);
+            datasource.setId(datasourceId);
+            source.setFiltersDatasourceId(datasourceId);
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            if (dataSourcesScope != null) {
+                dataSourcesScope.put(datasourceId, datasource);
+            }
+        }
+        PageScope pageScope = p.getScope(PageScope.class);
+        compiled.setFiltersDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId);
     }
 }
 

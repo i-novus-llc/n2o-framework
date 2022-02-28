@@ -16,10 +16,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
  */
 @Getter
 @Setter
-public class N2oInvokeAction extends N2oAbstractAction implements DatasourceIdAware {
+public class N2oInvokeAction extends N2oAbstractAction {
     private String operationId;
-    private String datasource;
-    @Deprecated
     private String objectId;
     private Boolean closeOnSuccess;
     private Boolean doubleCloseOnSuccess;

@@ -6,6 +6,10 @@
         </column>
         <column text-field-id="test2">
             <toolbar>
+                <group>
+                    <button/>
+                    <button/>
+                </group>
                 <button icon="icon" color="danger">
                     <close/>
                 </button>

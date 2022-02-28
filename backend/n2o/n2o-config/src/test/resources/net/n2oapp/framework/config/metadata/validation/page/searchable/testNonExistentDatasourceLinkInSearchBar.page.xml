@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <search-bar datasource="ds1"/>
+</searchable-page>
