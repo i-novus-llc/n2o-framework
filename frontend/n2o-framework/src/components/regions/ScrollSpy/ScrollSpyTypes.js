@@ -11,7 +11,7 @@ const menuTypes = {
     menu: menuElementsTypes,
 }
 
-export const ScrollSpyRegionTypes = {
+export const ScrollSpyTypes = {
     src: PropTypes.string,
     id: PropTypes.string,
     placement: PropTypes.string,

@@ -2,7 +2,7 @@
            id="r1"
            class="regionClass"
            style="width: 500px"
-           src="ScrollSpyRegion"
+           src="ScrollSpy"
            active="mi1"
            title="regionTitle"
            placement="right"
