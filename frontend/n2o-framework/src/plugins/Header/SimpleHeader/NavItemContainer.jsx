@@ -41,8 +41,8 @@ NavItemIcon.propTypes = {
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
  * @param {object} props - пропсы
- * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, title, href,type, link, linkType}
- * @param {boolean} props.active  - active (применять || нет active class)
+ * @param {object} itemProps  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, title, href,type, link, linkType}
+ * @param {boolean} active  - active (применять || нет active class)
  */
 
 const NavItemContainer = ({
@@ -192,24 +192,35 @@ const NavItemContainer = ({
         ))
     }
 
-    return (
-        (item.type === 'dropdown' && !sidebarOpen && handleLinkDropdown(item, dropdownItems)) ||
-            (item.type === 'link' && handleLink(item)) ||
-            (item.type === 'text' && (
-                <NavItem active={active}>
-                    {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
-                    { item.imageSrc && (
-                        <NavItemImage
-                            imageSrc={item.imageSrc}
-                            title={item.title}
-                            imageShape={item.imageShape}
-                        />
-                    )}
-                    <span className="nav-link">{item.title}</span>
-                </NavItem>
-            )) ||
-            null
-    )
+    if (item.type === 'dropdown' && !sidebarOpen) {
+        if (dropdownItems.length > 0) {
+            return handleLinkDropdown(item, dropdownItems)
+        }
+
+        return null
+    }
+
+    if (item.type === 'link') {
+        return handleLink(item)
+    }
+
+    if (item.type === 'text') {
+        return (
+            <NavItem active={active}>
+                {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
+                { item.imageSrc && (
+                    <NavItemImage
+                        imageSrc={item.imageSrc}
+                        title={item.title}
+                        imageShape={item.imageShape}
+                    />
+                )}
+                <span className="nav-link">{item.title}</span>
+            </NavItem>
+        )
+    }
+
+    return null
 }
 
 NavItemContainer.propTypes = {
@@ -230,6 +241,10 @@ NavItemContainer.propTypes = {
     sidebarOpen: PropTypes.bool,
     direction: PropTypes.string,
     options: PropTypes.object,
+    itemProps: PropTypes.object,
+    active: PropTypes.bool,
+    datasources: PropTypes.object,
+    models: PropTypes.object,
 }
 
 NavItemContainer.defaultProps = {

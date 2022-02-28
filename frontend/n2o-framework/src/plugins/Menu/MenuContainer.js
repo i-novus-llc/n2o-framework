@@ -2,12 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getContext, compose, mapProps } from 'recompose'
 import isEqual from 'lodash/isEqual'
-import uniqBy from 'lodash/uniqBy'
 import isEmpty from 'lodash/isEmpty'
-import filter from 'lodash/filter'
 import get from 'lodash/get'
-import toArray from 'lodash/toArray'
-import findIndex from 'lodash/findIndex'
 import { withRouter } from 'react-router-dom'
 
 import withSecurity from '../../core/auth/withSecurity'
@@ -57,7 +53,53 @@ export class MenuContainer extends React.Component {
         }
     }
 
-     checkItem = async (item, type, id = null) => {
+    giveAccess = (newItem, type, parentId, isChildren) => {
+        /* isChildren dropdown children items */
+        if (isChildren) {
+            this.setState((prevState) => {
+                const resolvedItems = prevState[type]
+
+                const nextResolvedItems = resolvedItems.map((item) => {
+                    const { id } = item
+
+                    if (id === parentId) {
+                        const { items = [] } = item
+
+                        return {
+                            ...item,
+                            items: items.concat(newItem),
+                        }
+                    }
+
+                    return item
+                })
+
+                return {
+                    ...prevState,
+                    [type]: nextResolvedItems,
+                }
+            })
+
+            return
+        }
+
+        /* init state items, this is necessary for deep verification */
+        const finalItem = newItem.type === 'dropdown'
+            ? { ...newItem, items: [] }
+            : newItem
+
+        this.setState(prevState => ({
+            ...prevState,
+            [type]: prevState[type].concat(finalItem),
+        }))
+    }
+
+     checkItem = async (item, type, parentId, isChildren = false) => {
+         const { id, items } = item
+
+         /* if the item is the parent, take its id (item.id)  */
+         const currentId = parentId || id
+
          if (item.security) {
              const { user, authProvider } = this.props
              const config = item.security
@@ -68,48 +110,19 @@ export class MenuContainer extends React.Component {
                      user,
                  })
 
-                 if (!id) {
-                     this.setState(prevState => ({
-                         ...prevState,
-                         [type]: toArray(uniqBy(prevState[type].concat(item), 'id')),
-                     }))
-                 }
+                 this.giveAccess(item, type, currentId, isChildren)
              } catch (error) {
-                 if (id) {
-                     this.setSubItem(item, type, id)
-                 }
+                 /* nothing to do */
              }
          } else {
-             if (!id) {
-                 this.setState(prevState => ({
-                     ...prevState,
-                     [type]: toArray(uniqBy(prevState[type].concat(item), 'id')),
-                 }))
-             }
-             if (item.items) {
-                 for (const subItem of item.items) {
-                     await this.checkItem(subItem, 'items', item.id)
-                 }
+             this.giveAccess(item, type, currentId, isChildren)
+         }
+
+         if (items) {
+             for (const subItem of items) {
+                 await this.checkItem(subItem, type, currentId, true)
              }
          }
-     }
-
-     setSubItem = (item, type, id) => {
-         const { [type]: stateItem } = this.state
-
-         const parentIndex = findIndex(stateItem, i => i.id === id)
-         const parentItem = get(stateItem, parentIndex.toString())
-         let subItems = get(parentItem, 'items', [])
-
-         subItems = filter(subItems, i => i.id !== item.id)
-         parentItem.items = subItems
-         this.setState((prevState) => {
-             const newState = prevState
-
-             newState[type][parentIndex].items = subItems
-
-             return newState
-         })
      }
 
      makeSecure = async (headerItems, headerExtraItems, sidebarItems, sidebarExtraItems) => {
@@ -153,18 +166,26 @@ export class MenuContainer extends React.Component {
                   datasources,
                   location,
                   menu: {
-                      items: filter(items, i => !i.items || !isEmpty(i.items)),
+                      items,
                   },
-                  extraMenu: {
-                      items: filter(extraItems, i => !i.items || !isEmpty(i.items)),
-                  },
+                  extraMenu: extraItems,
               },
           })
 
           return {
               ...this.props,
-              ...withSecurityProps(header, headerItems, headerExtraItems, 'header'),
-              ...withSecurityProps(sidebar, sidebarItems, sidebarExtraItems, 'sidebar'),
+              ...withSecurityProps(
+                  header,
+                  headerItems,
+                  headerExtraItems,
+                  'header',
+              ),
+              ...withSecurityProps(
+                  sidebar,
+                  sidebarItems,
+                  sidebarExtraItems,
+                  'sidebar',
+              ),
           }
       }
 
