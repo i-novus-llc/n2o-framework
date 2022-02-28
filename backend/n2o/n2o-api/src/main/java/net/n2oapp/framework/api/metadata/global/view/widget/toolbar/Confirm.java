@@ -24,5 +24,7 @@ public class Confirm implements Compiled {
     @JsonProperty
     private String modelLink;
     @JsonProperty
+    private String condition;
+    @JsonProperty
     private ConfirmType mode;
 }

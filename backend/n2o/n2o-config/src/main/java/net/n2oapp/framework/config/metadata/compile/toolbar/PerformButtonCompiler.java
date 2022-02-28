@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
@@ -62,27 +63,21 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
         button.setProperties(p.mapAttributes(source));
 
-        CompiledObject.Operation operation = null;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
 
         if (source.getWidgetId() == null && widgetObjectScope != null && widgetObjectScope.size() == 1)
             source.setWidgetId(widgetObjectScope.keySet().iterator().next());
 
         Action action = compileAction(source, button, context, p);
-        if (action != null) {
-            button.setAction(action);
-            if (action instanceof InvokeAction) {
-                CompiledObject compiledObject = getCompiledObject(p, ((InvokeAction) action).getObjectId(), source.getWidgetId());
-
-                operation = compiledObject != null && compiledObject.getOperations() != null
-                        && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
-                        compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
-            }
-            //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
-        }
+        button.setAction(action);
 
         initLinkAction(button);
-        initConfirm(source, button, operation, context, p);
+
+        String objectId = null;
+        if (action instanceof InvokeAction)
+            objectId = ((InvokeAction) action).getObjectId();
+        CompiledObject compiledObject = getCompiledObject(p, objectId, source.getWidgetId());
+        button.setConfirm(compileConfirm(source, action, context, p, compiledObject));
 
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
@@ -121,36 +116,78 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             button.setValidatePageId(p.getScope(PageScope.class).getPageId());
     }
 
-    private void initConfirm(N2oButton source, PerformButton button, CompiledObject.Operation operation,
-                             CompileContext<?, ?> context, CompileProcessor p) {
-        if ((source.getConfirm() == null || !source.getConfirm()) &&
-                (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
-            return;
+    private Confirm compileConfirm(N2oButton source,
+                                   Action action, CompileContext<?, ?> context,
+                                   CompileProcessor p, CompiledObject object) {
+        CompiledObject.Operation operation = getOperation(action, object);
+        boolean operationConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
+        if (source.getConfirm() != null) {
+            Object condition = p.resolveJS(source.getConfirm(), Boolean.class);
+            if (condition instanceof Boolean) {
+                if (!((Boolean) condition || operationConfirm))
+                    return null;
+                return initConfirm(source, p, context, operation, true);
+            }
+            if (condition instanceof String) {
+                return initConfirm(source, p, context, operation, condition);
+            }
+        }
+        if (operationConfirm)
+            return initConfirm(source, p, context, operation, true);
+        return null;
+    }
+
+    private Confirm initConfirm(N2oButton source, CompileProcessor p, CompileContext<?, ?> context, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
+        confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
         confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
-        confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
         confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
-        if (StringUtils.hasLink(confirm.getText())) {
-            Set<String> links = StringUtils.collectLinks(confirm.getText());
-            String text = js("'" + confirm.getText() + "'");
-            for (String link : links) {
-                text = text.replace(ref(link), "' + this." + link + " + '");
-            }
-            confirm.setText(text);
-        }
-        if (StringUtils.isJs(confirm.getText())) {
+        confirm.setText(initExpression(
+                p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
+        confirm.setCondition(initConfirmCondition(condition));
+        if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String widgetId = initWidgetId(source, context, p);
             String datasource = initDatasource(widgetId, p);
             ReduxModel reduxModel = source.getModel();
             confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.RESOLVE : reduxModel, datasource).getBindLink());
         }
-        button.setConfirm(confirm);
+        return confirm;
     }
 
-    private Action compileAction(N2oButton source, PerformButton button,
-                                 CompileContext<?, ?> context, CompileProcessor p) {
+    private String initConfirmCondition(Object condition) {
+        if (condition instanceof Boolean)
+            return Placeholders.js(Boolean.toString(true));
+        return initExpression((String) condition);
+    }
+
+    private String initExpression(String attr) {
+        if (StringUtils.hasLink(attr)) {
+            Set<String> links = StringUtils.collectLinks(attr);
+            String text = js("'" + attr + "'");
+            for (String link : links) {
+                text = text.replace(ref(link), "' + this." + link + " + '");
+            }
+            return text;
+        }
+        return attr;
+    }
+
+    private CompiledObject.Operation getOperation(Action action, CompiledObject compiledObject) {
+        CompiledObject.Operation operation = null;
+        if (action != null) {
+            if (action instanceof InvokeAction) {
+
+                operation = compiledObject != null && compiledObject.getOperations() != null
+                        && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
+                        compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
+            }
+            //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
+        }
+        return operation;
+    }
+
+    private Action compileAction(N2oButton source, PerformButton button, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getAction() != null) {
             N2oAction butAction = source.getAction();
             CompiledObject compiledObject = getCompiledObject(p, butAction.getObjectId(), source.getWidgetId());
