@@ -70,6 +70,9 @@ class WidgetFilters extends React.Component {
             this.setState({
                 defaultValues: filterModel,
             })
+            if (searchOnChange) {
+                this.handleFilter()
+            }
         } else if (!isEqual(reduxFormFilter, prevProps.reduxFormFilter)) {
             const { store } = this.context
             const state = store.getState()
