@@ -4,6 +4,56 @@ import { MenuContainer } from './MenuContainer'
 
 const setup = (props = {}) => mount(<MenuContainer {...props} render={() => null} />)
 
+const dropdownItem = {
+    'id': 'mi1',
+    'title': 'Доступ',
+    'items': [
+        {
+            'id': '1',
+            'title': 'роль med',
+            'href': '/1',
+            'linkType': 'inner',
+            'type': 'link',
+            'security': {
+                'custom': {
+                    'roles': [
+                        'med',
+                    ],
+                },
+            },
+        },
+        {
+            'id': '2',
+            'title': 'роль admin',
+            'href': '/2',
+            'linkType': 'inner',
+            'type': 'link',
+            'security': {
+                'custom': {
+                    'roles': [
+                        'admin',
+                    ],
+                },
+            },
+        },
+        {
+            'id': '3',
+            'title': 'роль edit',
+            'href': '/3',
+            'linkType': 'inner',
+            'type': 'link',
+            'security': {
+                'custom': {
+                    'permissions': [
+                        'edit',
+                    ],
+                },
+            },
+        },
+    ],
+    'type': 'dropdown',
+}
+
 describe('Проверка MenuContainer', () => {
     it('проверка  items', async () => {
         const wrapper = setup({
@@ -121,107 +171,54 @@ describe('Проверка MenuContainer', () => {
         })
     })
 
-    it('правильно удаляет subItems', () => {
-        const wrapper = setup()
-        wrapper.setState({
-            items: [
-                {
-                    id: 'menuItem0',
-                    label: 'ссылка',
-                    href: '/',
-                    type: 'link',
-                    icon: 'icon',
-                    linkType: 'outer',
-                    security: {
-                        roles: ['admin'],
-                    },
-                },
-                {
-                    id: 'menuItem1',
-                    label: 'список',
-                    href: '/pageRoute',
-                    type: 'dropdown',
-                    linkType: 'inner',
-                    items: [
-                        {
-                            id: 'menuItem2',
-                            label: 'Название страницы',
-                            href: '/pageRoute',
-                            type: 'link',
-                            linkType: 'inner',
-                        },
-                        {
-                            id: 'menuItem3',
-                            label: 'элемент списка №2',
-                            href: '/pageRoute1',
-                            type: 'link',
-                            linkType: 'inner',
-                        },
-                    ],
-                },
-            ],
-            extraItems: [],
+    it('проверка вложенных items, доступен с ролью admin', async () => {
+        const wrapper = setup({
+            authProvider: (type, config) => {
+                if (!config.config.custom.roles.includes('admin')) {
+                    throw new Error()
+                }
+            },
+            user: {
+                'username': 'Admin',
+                'email': null,
+                'name': null,
+                'surname': null,
+                'roles': [
+                    'admin',
+                ],
+                'permissions': [
+                    'delete',
+                ],
+            },
         })
-        wrapper.instance().setSubItem(
-            {
-                id: 'menuItem2',
-                label: 'Название страницы',
-                href: '/pageRoute',
-                type: 'link',
-                linkType: 'inner',
-            },
-            'items',
-            'menuItem1',
-        )
-        console.log('Yo!!!', wrapper.state())
-        expect(wrapper.state().items[1].items).toEqual([
-            {
-                id: 'menuItem3',
-                label: 'элемент списка №2',
-                href: '/pageRoute1',
-                type: 'link',
-                linkType: 'inner',
-            },
-        ])
-    })
 
-    it('Правильно удаляет пустые dropdown', () => {
-        const wrapper = setup({header: {}})
-        wrapper.setState({
-            headerItems: [
-                {
-                    id: 'menuItem0',
-                    label: 'ссылка',
-                    href: '/',
-                    type: 'link',
-                    icon: 'icon',
-                    linkType: 'outer',
-                    security: {
-                        roles: ['admin'],
+        await wrapper.instance().checkItem(dropdownItem, 'headerItems')
+
+        expect(wrapper.state()).toEqual({
+            headerExtraItems: [],
+            headerItems: [{
+                'id': 'mi1',
+                'title': 'Доступ',
+                'items': [
+                    {
+                        'id': '2',
+                        'title': 'роль admin',
+                        'href': '/2',
+                        'linkType': 'inner',
+                        'type': 'link',
+                        'security': {
+                            'custom': {
+                                'roles': [
+                                    'admin',
+                                ],
+                            },
+                        },
                     },
-                },
-                {
-                    id: 'menuItem1',
-                    label: 'список',
-                    href: '/pageRoute',
-                    type: 'dropdown',
-                    linkType: 'inner',
-                    items: [],
-                },
-            ],
+                ],
+                'type': 'dropdown',
+            }],
+            sidebarItems: [],
+            sidebarExtraItems: [],
         })
-        expect(wrapper.instance().mapRenderProps().header.menu.items).toEqual([
-            {
-                id: 'menuItem0',
-                label: 'ссылка',
-                href: '/',
-                type: 'link',
-                icon: 'icon',
-                linkType: 'outer',
-                security: {
-                    roles: ['admin'],
-                },
-            },
-        ])
     })
 })
