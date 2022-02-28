@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.boot.graphql.GraphqlDataProviderEngine;
 import net.n2oapp.framework.boot.graphql.GraphqlExecutor;
-import net.n2oapp.framework.boot.graphql.GraphqlPayload;
 import net.n2oapp.framework.boot.graphql.N2oGraphqlExecutor;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.*;
@@ -66,6 +65,9 @@ public class N2oEngineConfiguration {
 
     @Value("${n2o.engine.test.classpath}")
     private String resourcePath;
+
+    @Value("${n2o.engine.graphql.endpoint}")
+    private String graphqlEndpoint;
 
     @Bean
     @ConditionalOnMissingBean
@@ -176,8 +178,7 @@ public class N2oEngineConfiguration {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        GraphqlPayload payload = new GraphqlPayload();
-        return new N2oGraphqlExecutor(restTemplate, headers, payload);
+        return new N2oGraphqlExecutor(restTemplate, headers);
     }
 
     @Bean
@@ -185,6 +186,7 @@ public class N2oEngineConfiguration {
     public GraphqlDataProviderEngine graphqlDataProviderEngine(GraphqlExecutor graphqlExecutor) {
         GraphqlDataProviderEngine graphqlDataProviderEngine = new GraphqlDataProviderEngine();
         graphqlDataProviderEngine.setGraphqlExecutor(graphqlExecutor);
+        graphqlDataProviderEngine.setEndpoint(graphqlEndpoint);
         return graphqlDataProviderEngine;
     }
 

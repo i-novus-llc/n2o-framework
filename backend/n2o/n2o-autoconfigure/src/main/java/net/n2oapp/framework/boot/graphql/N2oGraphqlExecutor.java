@@ -1,6 +1,7 @@
 package net.n2oapp.framework.boot.graphql;
 
-import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphqlDataProvider;
+import net.n2oapp.criteria.dataset.DataSet;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
@@ -11,32 +12,27 @@ public class N2oGraphqlExecutor implements GraphqlExecutor {
 
     private RestTemplate restTemplate;
     private HttpHeaders headers;
-    private GraphqlPayload payload;
+    private JSONObject payload = new JSONObject();
 
-    public N2oGraphqlExecutor(RestTemplate restTemplate, HttpHeaders headers, GraphqlPayload payload) {
+    public N2oGraphqlExecutor(RestTemplate restTemplate, HttpHeaders headers) {
         this.restTemplate = restTemplate;
         this.headers = headers;
-        this.payload = payload;
     }
 
     @Override
-    public Object execute(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
-        String endpoint = initEndpoint(invocation);
-        initPayload(invocation, data);
+    public Object execute(String query, String endpoint, Map<String, Object> data) {
+        initPayload(query, data);
         HttpEntity<String> entity = new HttpEntity<>(payload.toString(), headers);
-        return restTemplate.postForObject(endpoint, entity, String.class);
+        return restTemplate.postForObject(endpoint, entity, DataSet.class);
     }
 
-    private void initPayload(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
-        if (invocation.getQuery() == null)
+    private void initPayload(String query, Map<String, Object> data) {
+        if (query == null)
             throw new N2oGraphqlException("Запрос не найден");
-        payload.setQuery(invocation.getQuery());
+        setQuery(query);
     }
 
-    private String initEndpoint(N2oGraphqlDataProvider invocation) {
-        if (invocation.getEndpoint() == null)
-            throw new N2oGraphqlException("Не задан endpoint");
-        return invocation.getEndpoint();
+    private void setQuery(String query) {
+        payload.put("query", query);
     }
-
 }

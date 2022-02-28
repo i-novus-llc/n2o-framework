@@ -9,6 +9,7 @@ import java.util.Map;
 @Setter
 public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphqlDataProvider> {
 
+    private String endpoint;
     private GraphqlExecutor graphqlExecutor;
 
     @Override
@@ -18,6 +19,12 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     @Override
     public Object invoke(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
-        return graphqlExecutor.execute(invocation, data);
+        return graphqlExecutor.execute(invocation.getQuery(), initEndpoint(invocation.getEndpoint()), data);
+    }
+
+    private String initEndpoint(String invocationEndpoint) {
+        if (invocationEndpoint != null)
+            return invocationEndpoint;
+        return endpoint;
     }
 }
