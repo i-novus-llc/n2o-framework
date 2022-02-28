@@ -19,6 +19,8 @@ import java.util.Map;
 public abstract class N2oRegion extends N2oComponent implements SourceMetadata, RegionItem {
     private String id;
     private String width;
+    private String activeParam;
+    private Boolean routable;
     @Deprecated
     private String place;
     private SourceComponent[] content;

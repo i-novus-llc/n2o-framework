@@ -286,7 +286,7 @@
 
         <xs:attribute name="active" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Активный блок по умолчанию</xs:documentation>
+                <xs:documentation>Активный элемент по умолчанию</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="placement" type="scrollspyPlacement" default="left">
@@ -302,6 +302,16 @@
         <xs:attribute name="headlines" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Наличие разделительной строки между блоками</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="routable" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Восстановление активных элементов по URL.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="active-param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Имя параметра активного элемента в URL.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
 
