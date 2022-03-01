@@ -4,6 +4,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphqlDataProvider;
+import net.n2oapp.framework.engine.data.QueryUtil;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -12,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
 
 /**
  * GraphQL провайдер данных
@@ -30,7 +33,15 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     @Override
     public Object invoke(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
-        return execute(invocation.getQuery(), initEndpoint(invocation.getEndpoint()), data);
+        return execute(prepareQuery(invocation.getQuery(), data), initEndpoint(invocation.getEndpoint()), data);
+    }
+
+    private String prepareQuery(String query, Map<String, Object> data) {
+        if (query == null)
+            throw new N2oGraphqlException("Запрос не найден");
+        Map<String, Object> args = new HashMap<>(data);
+        query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
+        return query;
     }
 
     private Object execute(String query, String endpoint, Map<String, Object> data) {
@@ -39,8 +50,6 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
     }
 
     private void initPayload(String query, Map<String, Object> data) {
-        if (query == null)
-            throw new N2oGraphqlException("Запрос не найден");
         payload.put("query", query);
         payload.put("variables", initVariables(query, data));
     }
