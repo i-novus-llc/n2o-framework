@@ -6,6 +6,9 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphqlDataProvider;
 
 import java.util.Map;
 
+/**
+ * GraphQL провайдер данных
+ */
 @Setter
 public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphqlDataProvider> {
 

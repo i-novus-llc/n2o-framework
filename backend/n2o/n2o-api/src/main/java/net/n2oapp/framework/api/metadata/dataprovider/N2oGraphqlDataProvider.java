@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oMapInvocation;
 
 /**
- * GraphQL провайдер данных
+ * Структура GraphQL провайдера данных
  */
 @Getter
 @Setter
