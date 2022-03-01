@@ -1,4 +1,6 @@
-<graphql xmlns="http://n2oapp.net/framework/config/schema/data-provider-1.0" endpoint="http://localhost:8080/graphql">
+<graphql xmlns="http://n2oapp.net/framework/config/schema/data-provider-1.0"
+         endpoint="http://localhost:8080/graphql"
+         filter-separator=", and:">
     query getAllPeople($first: Integer, $last: Integer) {
         allPeople(first: $first, last: $last) {
             people {
