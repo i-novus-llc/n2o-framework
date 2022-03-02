@@ -19,10 +19,10 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
 /**
  * GraphQL провайдер данных
  */
-@Setter
 public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphqlDataProvider> {
-
+    @Setter
     private String endpoint;
+    @Setter
     private RestTemplate restTemplate;
 
     private Pattern pattern = Pattern.compile("\\$\\w+");

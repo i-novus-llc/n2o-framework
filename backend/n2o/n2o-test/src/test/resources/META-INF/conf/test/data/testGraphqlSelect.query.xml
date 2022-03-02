@@ -1,11 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-    <list result-mapping="['data.person']">
-        <graphql>
-            query person() {
-              {{select}}
-            }
-        </graphql>
+    <list result-mapping="['data.persons']">
+        <graphql>query persons() { {{select}} }</graphql>
     </list>
 
     <fields>
