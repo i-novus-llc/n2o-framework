@@ -8,6 +8,7 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu'
 import Badge from 'reactstrap/lib/Badge'
 import Button from 'reactstrap/lib/Button'
 import isNumber from 'lodash/isNumber'
+import isBoolean from 'lodash/isBoolean'
 
 import { MODIFIERS } from '../../controls/DatePicker/utils'
 
@@ -59,7 +60,7 @@ class AdvancedTableFilter extends Component {
     onResetFilter() {
         const { value } = this.state
 
-        if (isNumber(value) || !isEmpty(value)) {
+        if (isNumber(value) || isBoolean(value) || !isEmpty(value)) {
             const { id, onFilter } = this.props
 
             this.setState({ value: '' }, () => onFilter({ id, value: '' }))
