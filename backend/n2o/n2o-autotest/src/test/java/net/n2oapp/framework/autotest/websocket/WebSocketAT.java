@@ -11,10 +11,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Автотест отправки уведомлений в веб-сокетах
+ */
 public class WebSocketAT extends AutoTestBase {
 
     @Autowired
     private WebSocketMessageController webSocketMessageController;
+
+    private SimplePage page;
 
     private static final String DESTINATION = "badge";
 
@@ -27,6 +32,7 @@ public class WebSocketAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        page = open(SimplePage.class);
     }
 
     @Override
@@ -35,15 +41,13 @@ public class WebSocketAT extends AutoTestBase {
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oActionsPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/websocket/test.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/websocket/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/websocket/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/websocket/app.application.xml"));
     }
 
     @Test
     public void testWebSocketCount() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/websocket/app.application.xml"));
-
         Integer exceptedCount = 10;
-        SimplePage page = open(SimplePage.class);
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
 
         webSocketMessageController.sendCount(DESTINATION, exceptedCount);
@@ -56,10 +60,7 @@ public class WebSocketAT extends AutoTestBase {
 
     @Test
     public void testWebSocketColor() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/websocket/app.application.xml"));
-
         BadgeColor exceptedColor = BadgeColor.info;
-        SimplePage page = open(SimplePage.class);
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
 
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
