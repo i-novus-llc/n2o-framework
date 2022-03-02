@@ -44,12 +44,29 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
         query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
+        query = resolvePaginationMappings(query, args, invocation);
         query = resolveFilters(query, args, invocation.getFilterSeparator());
         for (String key : data.keySet()) {
             Object value = args.get(key);
             query = replacePlaceholder(query, "{{" + key + "}}", value instanceof String ? "\"" + value + "\"" : value, "");
         }
         return query;
+    }
+
+    private String resolvePaginationMappings(String query, Map<String, Object> args, N2oGraphqlDataProvider invocation) {
+        if (invocation.getPageMapping() != null)
+            query = removeLast(query, "$" + invocation.getPageMapping(), "{{page}}");
+        if (invocation.getSizeMapping() != null)
+            query = removeLast(query, "$" + invocation.getSizeMapping(), "{{size}}");
+        query = replacePlaceholder(query, "{{page}}", args.remove("page"), "1");
+        query = replacePlaceholder(query, "{{size}}", args.remove("limit"), "10");
+        return query;
+    }
+
+    private String removeLast(String query, String mapping, String value) {
+        StringBuilder b = new StringBuilder(query);
+        b.replace(query.lastIndexOf(mapping), query.lastIndexOf(mapping) + mapping.length(), value);
+        return b.toString();
     }
 
     private String resolveFilters(String query, Map<String, Object> args, String filterSeparator) {
