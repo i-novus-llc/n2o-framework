@@ -4,6 +4,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphqlDataProvider;
+import net.n2oapp.framework.engine.data.QueryUtil;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -13,6 +14,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
+
 /**
  * GraphQL провайдер данных
  */
@@ -21,7 +24,8 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     private String endpoint;
     private RestTemplate restTemplate;
-    private Map<String, Object> payload = new HashMap<>();
+
+    private Pattern pattern = Pattern.compile("\\$\\w+");
 
     @Override
     public Class<? extends N2oGraphqlDataProvider> getType() {
@@ -30,19 +34,27 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     @Override
     public Object invoke(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
-        return execute(invocation.getQuery(), initEndpoint(invocation.getEndpoint()), data);
+        return execute(prepareQuery(invocation.getQuery(), data), initEndpoint(invocation.getEndpoint()), data);
+    }
+
+    private String prepareQuery(String query, Map<String, Object> data) {
+        if (query == null)
+            throw new N2oGraphqlException("Запрос не найден");
+        Map<String, Object> args = new HashMap<>(data);
+        query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
+        return query;
     }
 
     private Object execute(String query, String endpoint, Map<String, Object> data) {
-        initPayload(query, data);
+        Map<String, Object> payload = initPayload(query, data);
         return restTemplate.postForObject(endpoint, payload, DataSet.class);
     }
 
-    private void initPayload(String query, Map<String, Object> data) {
-        if (query == null)
-            throw new N2oGraphqlException("Запрос не найден");
+    private Map<String, Object> initPayload(String query, Map<String, Object> data) {
+        Map<String, Object> payload = new HashMap<>();
         payload.put("query", query);
         payload.put("variables", initVariables(query, data));
+        return payload;
     }
 
     private Object initVariables(String query, Map<String, Object> data) {
@@ -58,16 +70,13 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     private Set<String> extractVariables(String query) {
         Set<String> variables = new HashSet<>();
-        Pattern pattern = Pattern.compile("\\$\\w+");
         Matcher matcher = pattern.matcher(query);
         while (matcher.find())
-            variables.add(query.substring(matcher.start(), matcher.end()).replace("$", ""));
+            variables.add(query.substring(matcher.start() + 1, matcher.end()));
         return variables;
     }
 
     private String initEndpoint(String invocationEndpoint) {
-        if (invocationEndpoint != null)
-            return invocationEndpoint;
-        return endpoint;
+        return invocationEndpoint != null ? invocationEndpoint : endpoint;
     }
 }
