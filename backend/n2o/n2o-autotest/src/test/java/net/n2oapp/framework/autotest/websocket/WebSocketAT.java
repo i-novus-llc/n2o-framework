@@ -65,7 +65,7 @@ public class WebSocketAT extends AutoTestBase {
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
         menuItem.badgeShouldHaveValue(exceptedColor.toString());
 
-        exceptedColor = BadgeColor.info;
+        exceptedColor = BadgeColor.danger;
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
         menuItem.badgeShouldHaveValue(exceptedColor.toString());
     }
