@@ -37,7 +37,8 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/testDeleteMongo", getTestInsertMongodbContext("delete", "/testDeleteMongo")),
                 new RouteInfo("/test/mongodb", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodb")),
                 new RouteInfo("/test/mongodbCount", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodbCount")),
-                new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
+                new RouteInfo("/test/subModels", getQueryContextWithSubModel()),
+                new RouteInfo("/test/graphql/select", getTestQueryContext("testGraphqlSelect", "/test/graphql/select")));
     }
 
     private QueryContext getTestQueryContext(String testQuery, String s) {

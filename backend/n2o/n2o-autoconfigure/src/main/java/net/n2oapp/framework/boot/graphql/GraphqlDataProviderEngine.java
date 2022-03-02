@@ -24,7 +24,8 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     private String endpoint;
     private RestTemplate restTemplate;
-    private Map<String, Object> payload = new HashMap<>();
+
+    private Pattern pattern = Pattern.compile("\\$\\w+");
 
     @Override
     public Class<? extends N2oGraphqlDataProvider> getType() {
@@ -45,13 +46,15 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
     }
 
     private Object execute(String query, String endpoint, Map<String, Object> data) {
-        initPayload(query, data);
+        Map<String, Object> payload = initPayload(query, data);
         return restTemplate.postForObject(endpoint, payload, DataSet.class);
     }
 
-    private void initPayload(String query, Map<String, Object> data) {
+    private Map<String, Object> initPayload(String query, Map<String, Object> data) {
+        Map<String, Object> payload = new HashMap<>();
         payload.put("query", query);
         payload.put("variables", initVariables(query, data));
+        return payload;
     }
 
     private Object initVariables(String query, Map<String, Object> data) {
@@ -67,16 +70,13 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     private Set<String> extractVariables(String query) {
         Set<String> variables = new HashSet<>();
-        Pattern pattern = Pattern.compile("\\$\\w+");
         Matcher matcher = pattern.matcher(query);
         while (matcher.find())
-            variables.add(query.substring(matcher.start(), matcher.end()).replace("$", ""));
+            variables.add(query.substring(matcher.start() + 1, matcher.end()));
         return variables;
     }
 
     private String initEndpoint(String invocationEndpoint) {
-        if (invocationEndpoint != null)
-            return invocationEndpoint;
-        return endpoint;
+        return invocationEndpoint != null ? invocationEndpoint : endpoint;
     }
 }
