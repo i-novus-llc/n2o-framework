@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Изменение счетчика в меню навигации по web-socket">
+    <form>
+        <fields>
+            <output-text id="changeCount" label="Для изменения счетчика баджа отправьте GET запрос /sandbox/websocket/:destination/count"/>
+            <output-text id="changeColor" label="Для изменения цвета баджа отправьте GET запрос /sandbox/websocket/:destination/color"/>
+        </fields>
+    </form>
+</simple-page>

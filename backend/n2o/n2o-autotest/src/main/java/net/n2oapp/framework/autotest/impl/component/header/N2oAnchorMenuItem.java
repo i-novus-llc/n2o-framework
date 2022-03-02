@@ -28,6 +28,11 @@ public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
     }
 
     @Override
+    public void badgeColorShouldHaveValue(String value) {
+        element().$(".badge-color").shouldHave(Condition.text(value));
+    }
+
+    @Override
     public void urlShouldHave(String url) {
         element().$("a").shouldHave(Condition.attribute("href", url));
     }
