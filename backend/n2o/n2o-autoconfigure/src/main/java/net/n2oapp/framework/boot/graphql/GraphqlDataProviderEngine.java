@@ -7,14 +7,12 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphqlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
+import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
 
 /**
  * GraphQL провайдер данных
@@ -33,14 +31,32 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     @Override
     public Object invoke(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
-        return execute(prepareQuery(invocation.getQuery(), data), initEndpoint(invocation.getEndpoint()), data);
+        return execute(prepareQuery(invocation, data), initEndpoint(invocation.getEndpoint()), data);
     }
 
-    private String prepareQuery(String query, Map<String, Object> data) {
-        if (query == null)
+    private String prepareQuery(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
+        if (invocation.getQuery() == null)
             throw new N2oGraphqlException("Запрос не найден");
+        return resolvePlaceHolders(invocation, data);
+    }
+
+    private String resolvePlaceHolders(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
+        String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
         query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
+        query = resolveFilters(query, args, invocation.getFilterSeparator());
+        for (String key : data.keySet()) {
+            Object value = args.get(key);
+            query = replacePlaceholder(query, "{{" + key + "}}", value instanceof String ? "\"" + value + "\"" : value, "");
+        }
+        return query;
+    }
+
+    private String resolveFilters(String query, Map<String, Object> args, String filterSeparator) {
+        if (((List<Object>) args.get("filters")).size() > 1 && filterSeparator == null)
+            throw new N2oGraphqlException("Не задан сепаратор для фильтров");
+        query = replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
+                "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
         return query;
     }
 
