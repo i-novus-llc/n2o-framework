@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.boot.graphql.GraphqlDataProviderEngine;
+import net.n2oapp.framework.boot.graphql.GraphqlExecutor;
+import net.n2oapp.framework.boot.graphql.N2oGraphqlExecutor;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
@@ -22,6 +25,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -60,6 +65,9 @@ public class N2oEngineConfiguration {
 
     @Value("${n2o.engine.test.classpath}")
     private String resourcePath;
+
+    @Value("${n2o.engine.graphql.endpoint}")
+    private String graphqlEndpoint;
 
     @Bean
     @ConditionalOnMissingBean
@@ -162,6 +170,24 @@ public class N2oEngineConfiguration {
         testDataProviderEngine.setPathOnDisk(configPath);
         testDataProviderEngine.setClasspathResourcePath(resourcePath);
         return testDataProviderEngine;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public GraphqlExecutor graphqlExecutor() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new N2oGraphqlExecutor(restTemplate, headers);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public GraphqlDataProviderEngine graphqlDataProviderEngine(GraphqlExecutor graphqlExecutor) {
+        GraphqlDataProviderEngine graphqlDataProviderEngine = new GraphqlDataProviderEngine();
+        graphqlDataProviderEngine.setGraphqlExecutor(graphqlExecutor);
+        graphqlDataProviderEngine.setEndpoint(graphqlEndpoint);
+        return graphqlDataProviderEngine;
     }
 
     private ObjectMapper restObjectMapper() {
