@@ -8,6 +8,7 @@
     <xs:element name="test" type="testDefinition"/>
     <xs:element name="mongodb" type="mongoDbDefinition"/>
     <xs:element name="camunda" type="camundaDefinition"/>
+    <xs:element name="graphql" type="graphqlDefinition"/>
 
     <xs:complexType name="sqlDefinition">
         <xs:annotation>
@@ -277,6 +278,18 @@
                     <xs:enumeration value="startProcess"/>
                 </xs:restriction>
             </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="graphqlDefinition">
+        <xs:annotation>
+            <xs:documentation>GraphQL провайдер данных.</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="endpoint" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>URL точки подключения</xs:documentation>
+            </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
