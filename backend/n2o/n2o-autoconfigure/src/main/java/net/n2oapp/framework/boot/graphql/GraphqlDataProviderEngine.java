@@ -24,6 +24,7 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
     private RestTemplate restTemplate;
 
     private Pattern pattern = Pattern.compile("\\$\\w+");
+    private Set<String> keyArgs = Set.of("select", "filters", "sorting", "join", "limit", "offset", "page");
 
     @Override
     public Class<? extends N2oGraphqlDataProvider> getType() {
@@ -47,18 +48,22 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
         query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
         query = resolveFilters(query, args, invocation.getFilterSeparator());
         for (String key : data.keySet()) {
-            Object value = args.get(key);
-            query = replacePlaceholder(query, "{{" + key + "}}", value instanceof String ? "\"" + value + "\"" : value, "");
+            if (!keyArgs.contains(key)) {
+                Object value = args.get(key);
+                query = replacePlaceholder(query, "{{" + key + "}}", value instanceof String ? "\"" + value + "\"" : value, "");
+            }
         }
         return query;
     }
 
     private String resolveFilters(String query, Map<String, Object> args, String filterSeparator) {
+        if (args.get("filters") == null)
+            return query;
         if (((List<Object>) args.get("filters")).size() > 1 && filterSeparator == null)
-            throw new N2oGraphqlException("Не задан сепаратор для фильтров");
-        query = replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
+            throw new N2oGraphqlException("Не задан атрибут filter-separator");
+
+        return replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
                 "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
-        return query;
     }
 
     private Object execute(String query, String endpoint, Map<String, Object> data) {
