@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.ui;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +45,7 @@ public class ResponseMessage implements Serializable {
     private List<String> stacktrace;
     @JsonProperty
     private LocalDateTime time;
+    @JsonIgnore
     private Random idGenerator = new Random();
 
     public ResponseMessage() {
