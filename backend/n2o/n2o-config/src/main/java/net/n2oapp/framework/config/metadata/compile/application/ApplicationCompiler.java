@@ -44,7 +44,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setDatasources(initDatasources(source.getDatasources(), context, p));
         application.setEvents(initEvents(source.getEvents(), context, p));
         application.setWsPrefix(
-                application.getDatasources() != null ? p.resolve(property("n2o.config.ws.endpoint"), String.class) : null);//TODO если будем отправлять не только stomp-datasources нужно изменить проверку
+                (application.getDatasources() != null || application.getEvents() != null) ? p.resolve(property("n2o.config.ws.endpoint"), String.class) : null);//TODO если будем отправлять не только stomp-datasources нужно изменить проверку
 
         return application;
     }
