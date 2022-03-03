@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list result-mapping="#this">
+        <graphql>query persons() { {{select}} }</graphql>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select/>
+        </field>
+
+        <field id="name">
+            <select>name</select>
+        </field>
+
+        <field id="age">
+            <select>age</select>
+        </field>
+    </fields>
+</query>
