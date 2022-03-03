@@ -25,6 +25,7 @@ public class GraphqlDataProviderIOv1 implements NamespaceIO<N2oGraphqlDataProvid
     @Override
     public void io(Element e, N2oGraphqlDataProvider m, IOProcessor p) {
         p.attribute(e, "endpoint", m::getEndpoint, m::setEndpoint);
+        p.attribute(e, "filter-separator", m::getFilterSeparator, m::setFilterSeparator);
         p.text(e, m::getQuery, m::setQuery);
     }
 }
