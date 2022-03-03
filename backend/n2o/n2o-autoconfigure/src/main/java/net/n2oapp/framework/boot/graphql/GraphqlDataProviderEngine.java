@@ -62,7 +62,7 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
         DataSet result = new DataSet();
         for (String variable : variables) {
             if (!data.containsKey(variable))
-                throw new N2oGraphqlException("Переменная запроса не найдена");
+                throw new N2oGraphqlException(String.format("Значение переменной '%s' не задано", variable));
             result.add(variable, data.get(variable));
         }
         return result;
