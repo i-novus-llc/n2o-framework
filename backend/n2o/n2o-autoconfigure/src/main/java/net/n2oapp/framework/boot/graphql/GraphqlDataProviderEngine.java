@@ -44,6 +44,7 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
         query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
+        query = replaceListPlaceholder(query, "{{sortings}}", args.remove("sorting"), "", QueryUtil::reduceSpace);
         query = resolvePaginationMappings(query, args, invocation);
         query = resolveFilters(query, args, invocation.getFilterSeparator());
         for (String key : data.keySet()) {
