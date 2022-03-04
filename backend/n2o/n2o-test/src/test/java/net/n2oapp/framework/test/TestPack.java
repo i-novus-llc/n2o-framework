@@ -41,8 +41,10 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
 
                 new RouteInfo("/test/graphql/query/variables", getTestGraphqlQueryContext("testGraphqlVariables", "/test/graphql/query/variables")),
                 new RouteInfo("/test/graphql/mutationVariables", getTestInsertGraphqlContext("testVariables", "/test/graphql/mutationVariables")),
+                new RouteInfo("/test/graphql/mutationPlaceholders", getTestInsertGraphqlContext("testPlaceholders", "/test/graphql/mutationPlaceholders")),
                 new RouteInfo("/test/graphql/select", getTestGraphqlQueryContext("testGraphqlSelect", "/test/graphql/select")),
-                new RouteInfo("/test/graphql/filters", getTestGraphqlQueryContext("testGraphqlFilters", "/test/graphql/filters")));
+                new RouteInfo("/test/graphql/filters", getTestGraphqlQueryContext("testGraphqlFilters", "/test/graphql/filters")),
+                new RouteInfo("/test/graphql/pagination", getTestGraphqlQueryContext("testGraphqlPagination", "/test/graphql/pagination")));
     }
 
     private QueryContext getTestQueryContext(String testQuery, String s) {

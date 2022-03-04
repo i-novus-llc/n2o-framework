@@ -3,7 +3,7 @@
          filter-separator=", and:"
          page-mapping="pageNum"
          size-mapping="sizeNum">
-    query getAllPeople($first: Integer, $last: Integer) {
+    query getAllPeople($first: Int, $last: Int) {
         allPeople(first: $first, last: $last) {
             people {
                 id
