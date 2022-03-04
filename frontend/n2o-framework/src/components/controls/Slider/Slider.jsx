@@ -72,6 +72,9 @@ function Slider(props) {
         onChange(value)
     }
 
+    /* here the conflict with n2o redux form onBlur */
+    const onBlur = event => event
+
     // eslint-disable-next-line no-nested-ternary
     const currentValue = isNumber(value) ? value : !isUndefined(min) ? min : 0
 
@@ -93,6 +96,7 @@ function Slider(props) {
             max={max}
             step={step}
             {...restProps}
+            onBlur={onBlur}
         />
     )
 }
