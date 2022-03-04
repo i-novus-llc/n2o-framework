@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <list result-mapping="['data.persons']" filters="type, personName, age">
+        <graphql>query persons(name: {{name}}, age: {{age}}) {id name age}</graphql>
+    </list>
+
     <list result-mapping="['data.persons']">
         <graphql filter-separator=" AND ">query persons(filter: { {{filters}} }) {id name age}</graphql>
     </list>
@@ -20,6 +25,14 @@
             <select/>
             <filters>
                 <eq filter-id="age">{ age: {ge: {{age}} } }</eq>
+            </filters>
+        </field>
+
+        <!-- just for different <list> call -->
+        <field id="type">
+            <select/>
+            <filters>
+                <eq filter-id="type"/>
             </filters>
         </field>
     </fields>

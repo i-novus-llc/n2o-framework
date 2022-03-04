@@ -83,6 +83,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         createFilter(filters, "id");
         createFilter(filters, "personName");
         createFilter(filters, "age");
+        createFilter(filters, "type");
         queryContext.setFilters(filters);
         return queryContext;
     }
