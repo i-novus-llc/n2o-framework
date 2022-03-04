@@ -15,6 +15,12 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
 
+/* TODO избавиться от alertEffect
+    для этого бэку нужно присылать
+    структуру как в alert action
+    { payload: { key: 'key', alerts: [...] }, type: 'type'}
+    alertEffect - обрабатывает alert.meta server responses
+    маппит id и выполняет redux action */
 export function* alertEffect(action) {
     try {
         const { messages, stacked } = action.meta.alert
