@@ -24,6 +24,11 @@ export function Factory(props, context) {
             />
         )
     }
+
+    if (!src) {
+        return null
+    }
+
     // eslint-disable-next-line no-console
     console.error(`Фабрике не удалось найти компонент: ${src} в ${level}`)
 
