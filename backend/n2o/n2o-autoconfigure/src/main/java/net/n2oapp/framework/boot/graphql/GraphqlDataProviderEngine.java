@@ -48,6 +48,7 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
         Map<String, Object> args = new HashMap<>(data);
 
         query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
+        query = replaceListPlaceholder(query, "{{sorting}}", args.remove("sorting"), "", (a, b) -> QueryUtil.reduceSeparator(a, b, ", "));
         if (invocation.getPageMapping() == null)
             query = replacePlaceholder(query, "{{page}}", args.remove("page"), "1");
         if (invocation.getSizeMapping() == null)
