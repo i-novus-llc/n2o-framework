@@ -65,14 +65,18 @@ public abstract class QueryUtil {
     }
 
     public static String reduceAnd(String a, String b) {
-        return a + " AND " + b;
+        return reduceSeparator(a, b, " AND ");
     }
 
     public static String reduceComma(String a, String b) {
-        return a + ", " + b;
+        return reduceSeparator(a, b, ", ");
     }
 
     public static String reduceSpace(String a, String b) {
-        return a + " " + b;
+        return reduceSeparator(a, b, " ");
+    }
+
+    public static String reduceSeparator(String a, String b, String separator) {
+        return a + separator + b;
     }
 }

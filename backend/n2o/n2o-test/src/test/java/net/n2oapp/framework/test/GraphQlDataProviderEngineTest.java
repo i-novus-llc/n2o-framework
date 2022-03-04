@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -21,10 +20,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
@@ -57,7 +60,7 @@ public class GraphQlDataProviderEngineTest {
     // TODO - nesting field filtering
     @Test
     public void testQueryWithVariables() {
-        String queryPath = "/n2o/data/test/graphql/query/variables?personName=name2&age=20";
+        String queryPath = "/n2o/data/test/graphql/query/variables?personName=test&age=20";
         String url = "http://localhost:" + appPort + queryPath;
 
         // mocked data
@@ -65,21 +68,21 @@ public class GraphQlDataProviderEngineTest {
         Map<String, Object> persons = new HashMap<>();
         persons.put("persons", Collections.singletonList(
                 Map.of("id", 2,
-                        "name", "name2",
+                        "name", "test",
                         "age", 20)));
         data.put("data", persons);
 
         String expectedQuery = "query Persons($name: String, $age: Int) { persons(name: $name, age: $age) {id name age}";
-        Mockito.when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
-        Mockito.verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Map<String, Object> payloadValue = payloadCaptor.getValue();
 
         // graphql payload
-        assertEquals("name2", ((DataSet) payloadValue.get("variables")).get("name"));
+        assertEquals("test", ((DataSet) payloadValue.get("variables")).get("name"));
         assertEquals(20, ((DataSet) payloadValue.get("variables")).get("age"));
         assertEquals(expectedQuery, payloadValue.get("query"));
 
@@ -87,7 +90,7 @@ public class GraphQlDataProviderEngineTest {
         GetDataResponse result = response.getBody();
         assertEquals(1, result.getList().size());
         assertEquals(2, result.getList().get(0).get("id"));
-        assertEquals("name2", result.getList().get(0).get("personName"));
+        assertEquals("test", result.getList().get(0).get("personName"));
         assertEquals(20, result.getList().get(0).get("age"));
     }
 
@@ -112,11 +115,11 @@ public class GraphQlDataProviderEngineTest {
 
         String expectedQuery = "mutation CreatePerson($name: String!, $age: Int!, $addresses: [Address!]) " +
                 "{ createPerson(name: $name, age: $age, addresses: $addresses) {id name age address: {street}}";
-        Mockito.when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         SetDataResponse response = restTemplate.postForObject(url, request, SetDataResponse.class);
-        Mockito.verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
         assertEquals("success", response.getMeta().getAlert().getMessages().get(0).getColor());
         Map<String, Object> payloadValue = payloadCaptor.getValue();
 
@@ -146,17 +149,16 @@ public class GraphQlDataProviderEngineTest {
         // mocked data
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> persons = new HashMap<>();
-        persons.put("persons", Arrays.asList(
-                Map.of("name", "test1", "age", 10),
-                Map.of("name", "test2", "age", 20)));
+        persons.put("persons", Collections.singletonList(
+                Map.of("name", "test", "age", 20)));
         data.put("data", persons);
 
         String expectedQuery = "query persons() { name age }";
-        Mockito.when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
-        Mockito.verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Map<String, Object> payloadValue = payloadCaptor.getValue();
 
@@ -165,6 +167,56 @@ public class GraphQlDataProviderEngineTest {
         assertEquals(expectedQuery, payloadValue.get("query"));
     }
 
+    /**
+     * Проверка работы плейсхолдера {{filters}}
+     */
+    @Test
+    public void testFiltersPlaceholder() {
+        // TWO FILTERS
+        String queryPath = "/n2o/data/test/graphql/filters?personName=test&age=20";
+        String url = "http://localhost:" + appPort + queryPath;
+
+        // mocked data
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> persons = new HashMap<>();
+        persons.put("persons", Collections.singletonList(
+                Map.of("name", "test", "age", 20)));
+        data.put("data", persons);
+
+        String expectedQuery = "query persons(" +
+                "filter: { { name: {eq: \"test\" } } AND { age: {ge: 20 } } }) " +
+                "{id name age}";
+        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Map<String, Object> payloadValue = payloadCaptor.getValue();
+
+        // graphql payload
+        assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
+        assertEquals(expectedQuery, payloadValue.get("query"));
+
+        // ONE FILTER (without separator)
+        queryPath = "/n2o/data/test/graphql/filters?personName=test";
+        url = "http://localhost:" + appPort + queryPath;
+
+        expectedQuery = "query persons(" +
+                "filter: { { name: {eq: \"test\" } } }) " +
+                "{id name age}";
+        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        response = restTemplate.getForEntity(url, GetDataResponse.class);
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        payloadValue = payloadCaptor.getValue();
+
+        // graphql payload
+        assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
+        assertEquals(expectedQuery, payloadValue.get("query"));
+    }
 
     @Getter
     @Setter
