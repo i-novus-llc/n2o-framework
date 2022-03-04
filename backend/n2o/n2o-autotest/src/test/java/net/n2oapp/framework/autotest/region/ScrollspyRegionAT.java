@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.region;
 
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.ScrollspyRegion;
+import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -32,12 +33,12 @@ public class ScrollspyRegionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
     public void testScrollspyRegion() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Регион с автоматически прокручиваемым меню");
@@ -65,5 +66,19 @@ public class ScrollspyRegionAT extends AutoTestBase {
         menu.menuItem("Дополнительная информация").click();
         region.activeContentItemShouldBe("Дополнительная информация");
         region.activeMenuItemShouldBe("Дополнительная информация");
+    }
+
+    @Test
+    public void testDefaultActiveElement() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/active/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Тестирование активного элемента по умолчанию");
+
+        ScrollspyRegion region = page.regions().region(0, TabsRegion.class).tab(0).content().region(ScrollspyRegion.class);
+        region.shouldExists();
+        region.menuShouldHavePosition(ScrollspyRegion.MenuPosition.left);
+        region.activeMenuItemShouldBe("Дополнительная информация");
+        region.activeContentItemShouldBe("Дополнительная информация");
     }
 }
