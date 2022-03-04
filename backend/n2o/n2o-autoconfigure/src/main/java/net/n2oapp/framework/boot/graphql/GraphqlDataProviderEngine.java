@@ -5,6 +5,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphqlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -33,7 +34,7 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
 
     @Override
     public Object invoke(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
-        return execute(prepareQuery(invocation, data), initEndpoint(invocation.getEndpoint()), data);
+        return execute(invocation, prepareQuery(invocation, data), data);
     }
 
     private String prepareQuery(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
@@ -45,8 +46,14 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
     private String resolvePlaceHolders(N2oGraphqlDataProvider invocation, Map<String, Object> data) {
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
+
         query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
+        if (invocation.getPageMapping() == null)
+            query = replacePlaceholder(query, "{{page}}", args.remove("page"), "1");
+        if (invocation.getSizeMapping() == null)
+            query = replacePlaceholder(query, "{{size}}", args.remove("limit"), "10");
         query = resolveFilters(query, args, invocation.getFilterSeparator());
+
         for (String key : data.keySet()) {
             if (!keyArgs.contains(key)) {
                 Object value = args.get(key);
@@ -57,30 +64,35 @@ public class GraphqlDataProviderEngine implements MapInvocationEngine<N2oGraphql
     }
 
     private String resolveFilters(String query, Map<String, Object> args, String filterSeparator) {
-        if (args.get("filters") == null)
+        if (filterSeparator == null || CollectionUtils.isEmpty((List) args.get("filters")))
             return query;
-        if (((List<Object>) args.get("filters")).size() > 1 && filterSeparator == null)
-            throw new N2oGraphqlException("Не задан атрибут filter-separator");
 
         return replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
                 "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
     }
 
-    private Object execute(String query, String endpoint, Map<String, Object> data) {
-        Map<String, Object> payload = initPayload(query, data);
+    private Object execute(N2oGraphqlDataProvider invocation, String query, Map<String, Object> data) {
+        Map<String, Object> payload = initPayload(invocation, query, data);
+        String endpoint = initEndpoint(invocation.getEndpoint());
         return restTemplate.postForObject(endpoint, payload, DataSet.class);
     }
 
-    private Map<String, Object> initPayload(String query, Map<String, Object> data) {
+    private Map<String, Object> initPayload(N2oGraphqlDataProvider invocation, String query, Map<String, Object> data) {
         Map<String, Object> payload = new HashMap<>();
         payload.put("query", query);
-        payload.put("variables", initVariables(query, data));
+        payload.put("variables", initVariables(invocation, query, data));
         return payload;
     }
 
-    private Object initVariables(String query, Map<String, Object> data) {
+    private Object initVariables(N2oGraphqlDataProvider invocation, String query, Map<String, Object> data) {
         Set<String> variables = extractVariables(query);
         DataSet result = new DataSet();
+
+        if (invocation.getPageMapping() != null)
+            data.put(invocation.getPageMapping(), data.get("page"));
+        if (invocation.getSizeMapping() != null)
+            data.put(invocation.getSizeMapping(), data.get("limit"));
+
         for (String variable : variables) {
             if (!data.containsKey(variable))
                 throw new N2oGraphqlException(String.format("Значение переменной '%s' не задано", variable));
