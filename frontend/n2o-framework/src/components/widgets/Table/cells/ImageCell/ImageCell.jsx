@@ -82,7 +82,13 @@ function ImageCell(props) {
 
     return (
         <span
-            className="n2o-image-cell-container"
+            className={classNames(
+                'n2o-image-cell-container',
+                {
+                    'with-statuses': hasStatuses,
+                },
+            )
+            }
             onClick={onClick}
         >
             <ActionWrapper {...wrapperProps}>
@@ -104,12 +110,14 @@ function ImageCell(props) {
                     src={resolveProps.data || resolveProps.url}
                 />
                 {hasStatuses && (
-                    <ImageStatuses
-                        statuses={statuses}
-                        model={model}
-                        className="image-cell-statuses"
-                        onClick={onClick}
-                    />
+                    <div className="n2o-image-statuses">
+                        <ImageStatuses
+                            statuses={statuses}
+                            model={model}
+                            className="image-cell-statuses"
+                            onClick={onClick}
+                        />
+                    </div>
                 )}
             </ActionWrapper>
             {hasInfo && (
