@@ -44,7 +44,8 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/graphql/mutationPlaceholders", getTestInsertGraphqlContext("testPlaceholders", "/test/graphql/mutationPlaceholders")),
                 new RouteInfo("/test/graphql/select", getTestGraphqlQueryContext("testGraphqlSelect", "/test/graphql/select")),
                 new RouteInfo("/test/graphql/filters", getTestGraphqlQueryContext("testGraphqlFilters", "/test/graphql/filters")),
-                new RouteInfo("/test/graphql/pagination", getTestGraphqlQueryContext("testGraphqlPagination", "/test/graphql/pagination")));
+                new RouteInfo("/test/graphql/pagination", getTestGraphqlQueryContext("testGraphqlPagination", "/test/graphql/pagination")),
+                new RouteInfo("/test/graphql/sorting", getTestGraphqlQueryContext("testGraphqlSorting", "/test/graphql/sorting")));
     }
 
     private QueryContext getTestQueryContext(String testQuery, String s) {
@@ -79,12 +80,19 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
 
     private QueryContext getTestGraphqlQueryContext(String testQuery, String s) {
         QueryContext queryContext = new QueryContext(testQuery, s);
+
         ArrayList<Filter> filters = new ArrayList<>();
         createFilter(filters, "id");
         createFilter(filters, "personName");
         createFilter(filters, "age");
         createFilter(filters, "type");
         queryContext.setFilters(filters);
+
+        HashMap<String, String> sortingMap = new HashMap<>();
+        sortingMap.put("sorting.name", "name");
+        sortingMap.put("sorting.age", "age");
+        queryContext.setSortingMap(sortingMap);
+
         return queryContext;
     }
 
