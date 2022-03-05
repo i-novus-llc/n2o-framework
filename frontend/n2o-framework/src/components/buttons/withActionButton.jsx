@@ -134,12 +134,14 @@ export default function withActionButton(options = {}) {
                 let valid = true
 
                 for (const datasourceId of validate) {
-                    valid = valid && validateDatasource(
+                    const isDatasourceValid = await validateDatasource(
                         store.getState(),
                         datasourceId,
                         dispatch,
                         true,
                     )
+
+                    valid = valid && isDatasourceValid
                 }
 
                 return valid
