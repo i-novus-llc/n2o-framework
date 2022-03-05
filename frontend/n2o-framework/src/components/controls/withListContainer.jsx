@@ -13,19 +13,18 @@ import { alertsByKeySelector } from '../../ducks/alerts/store'
 
 function withListContainer(WrappedComponent) {
     /**
-   * Класс для хока
-   * @reactProps {boolean} loading - флаг анимации загрузки
-   * @reactProps {array} options - данные
-   * @reactProps {string} labelFieldId - поле для для названия
-   * @reactProps {function} onInput - callback при вводе в инпут
-   * @reactProps {function} onScrollEnd - callback при прокрутке скролла popup
-   * @reactProps {function} onOpen - callback на открытие попапа
-   * @reactProps {string} queryId - queryId
-   * @reactProps {number} size - size
-   * @reactProps {function} fetchData - callback на загрузку данных
-   * @reactProps {array} options - данные с сервера
-   */
-
+     * Класс для хока
+     * @reactProps {boolean} loading - флаг анимации загрузки
+     * @reactProps {array} options - данные
+     * @reactProps {string} labelFieldId - поле для для названия
+     * @reactProps {function} onInput - callback при вводе в инпут
+     * @reactProps {function} onScrollEnd - callback при прокрутке скролла popup
+     * @reactProps {function} onOpen - callback на открытие попапа
+     * @reactProps {string} queryId - queryId
+     * @reactProps {number} size - size
+     * @reactProps {function} fetchData - callback на загрузку данных
+     * @reactProps {array} options - данные с сервера
+     */
     const WithListContainer = ({
         _fetchData,
         dataProvider,
@@ -42,12 +41,11 @@ function withListContainer(WrappedComponent) {
         valueFieldId,
         ...rest
     }) => {
-    /**
-     * Совершает вызов апи с параметрами
-     * @param optionalParams {object} - дополнительные параметра запроса
-     * @param concat {boolean} - флаг добавления новых данных к текущим
-     */
-
+        /**
+         * Совершает вызов апи с параметрами
+         * @param optionalParams {object} - дополнительные параметра запроса
+         * @param concat {boolean} - флаг добавления новых данных к текущим
+         */
         const callApiWithParams = (optionalParams = {}, concat = false) => {
             const sortId = sortFieldId || valueFieldId || labelFieldId
 
@@ -62,10 +60,9 @@ function withListContainer(WrappedComponent) {
         }
 
         /**
-     * Обрабатывает открытие попапа
-     * @private
-     */
-
+         * Обрабатывает открытие попапа
+         * @private
+         */
         const handleOpen = () => {
             callApiWithParams({ page: 1 })
 
@@ -75,15 +72,13 @@ function withListContainer(WrappedComponent) {
         }
 
         /**
-     * Обрабатывает серверный поиск
-     * @param value - Значение для поиска
-     * @param delay - Задержка при вводе
-     * @private
-     */
-
+         * Обрабатывает серверный поиск
+         * @param value - Значение для поиска
+         * @param delay - Задержка при вводе
+         * @private
+         */
         const handleSearch = debounce((value) => {
-            const quickSearchParam =
-        (dataProvider && dataProvider.quickSearchParam) || 'search'
+            const quickSearchParam = (dataProvider && dataProvider.quickSearchParam) || 'search'
 
             callApiWithParams({ [quickSearchParam]: value, page: 1 })
         }, 300)
@@ -93,11 +88,10 @@ function withListContainer(WrappedComponent) {
         }
 
         /**
-     * Обрабатывает изменение инпута
-     * @param value {string|number} - новое значение
-     * @private
-     */
-
+         * Обрабатывает изменение инпута
+         * @param value {string|number} - новое значение
+         * @private
+         */
         const handleInputChange = (value) => {
             if (onInput) {
                 onInput(value)
@@ -105,10 +99,9 @@ function withListContainer(WrappedComponent) {
         }
 
         /**
-     * Обрабатывает конец скролла
-     * @private
-     */
-
+         * Обрабатывает конец скролла
+         * @private
+         */
         const handleScrollEnd = throttle((filter = {}) => {
             if ((page && size && count) && (page * size < count)) {
                 callApiWithParams({ page: page + 1, ...filter }, true)
@@ -117,10 +110,6 @@ function withListContainer(WrappedComponent) {
                 onScrollEnd()
             }
         }, 400)
-
-        /**
-     * Рендер
-     */
 
         return (
             <WrappedComponent
@@ -171,7 +160,6 @@ function withListContainer(WrappedComponent) {
 
 const mapStateToProps = (state, ownProps) => ({
     alerts: alertsByKeySelector(`${ownProps.form}.${ownProps.labelFieldId}`)(state),
-
 })
 
 export default withListContainer

@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.persister.MetadataPersister;
-import net.n2oapp.framework.config.reader.*;
+import net.n2oapp.framework.config.reader.ConfigMetadataLockerImpl;
 import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;

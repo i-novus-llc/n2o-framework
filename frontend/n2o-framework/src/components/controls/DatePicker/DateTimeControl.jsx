@@ -260,8 +260,7 @@ class DateTimeControl extends React.Component {
     /**
      * Навешивание листенеров для появления / исчезания попапа
      */
-    // eslint-disable-next-line react/no-deprecated
-    componentWillMount() {
+    componentDidMount() {
         if (typeof window !== 'undefined') {
             document.addEventListener('mousedown', this.onClickOutside.bind(this))
             document.addEventListener('touchstart', this.onClickOutside.bind(this))

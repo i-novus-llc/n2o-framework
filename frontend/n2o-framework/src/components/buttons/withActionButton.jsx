@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import { compose, withPropsOnChange } from 'recompose'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
@@ -134,12 +134,14 @@ export default function withActionButton(options = {}) {
                 let valid = true
 
                 for (const datasourceId of validate) {
-                    valid = valid && validateDatasource(
+                    const isDatasourceValid = await validateDatasource(
                         store.getState(),
                         datasourceId,
                         dispatch,
                         true,
                     )
+
+                    valid = valid && isDatasourceValid
                 }
 
                 return valid
@@ -336,9 +338,7 @@ export default function withActionButton(options = {}) {
             url: PropTypes.string,
         }
 
-        ButtonContainer.contextTypes = {
-            store: PropTypes.object,
-        }
+        ButtonContainer.contextType = ReactReduxContext
 
         return compose(
             withPropsOnChange(

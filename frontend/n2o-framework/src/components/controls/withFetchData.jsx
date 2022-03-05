@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
 import has from 'lodash/has'
@@ -15,6 +15,8 @@ import { dataProviderResolver } from '../../core/dataProviderResolver'
  * HOC для работы с данными
  * @param WrappedComponent - оборачиваемый компонент
  * @param apiCaller - promise для вызова апи
+ *
+ * TODO разобраться почему нормально не вешается ref, необходимый для ReduxField, если оборачиваемый компонент функциональный, а не классовый
  */
 
 function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
@@ -217,6 +219,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
             }
         }
 
+        componentWillUnmount() {
+            const { abortController } = this.state
+
+            if (abortController) {
+                abortController.abort()
+            }
+        }
+
         render() {
             const { setRef } = this.props
 
@@ -245,7 +255,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         ]),
     }
 
-    WithFetchData.contextTypes = { store: PropTypes.object }
+    WithFetchData.contextType = ReactReduxContext
 
     WithFetchData.defaultProps = {
         caching: false,
@@ -260,6 +270,10 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     return connect(
         null,
         mapDispatchToProps,
+        null,
+        {
+            pure: false,
+        },
     )(WithFetchData)
 }
 

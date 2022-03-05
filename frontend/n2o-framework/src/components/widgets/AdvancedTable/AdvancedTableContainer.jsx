@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { compose, withHandlers, getContext } from 'recompose'
+import { connect, useStore, useDispatch } from 'react-redux'
+import { compose } from 'recompose'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
@@ -270,12 +270,12 @@ const mapStateToProps = (state, props) => ({
     registredColumns: getContainerColumns(props.id)(state, props),
 })
 
-export const withWidgetHandlers = compose(
-    getContext({
-        store: PropTypes.object,
-    }),
-    withHandlers({
-        onRowClickAction: ({ rowClick, dispatch, store }) => (model) => {
+export const withWidgetHandlers = (WrappedComponent) => {
+    const WithHandlers = (props) => {
+        const { rowClick } = props
+        const store = useStore()
+        const dispatch = useDispatch()
+        const onRowClickAction = useCallback((model) => {
             const state = store.getState()
             const {
                 enablingCondition,
@@ -303,9 +303,19 @@ export const withWidgetHandlers = compose(
                     window.location = compiledUrl
                 }
             }
-        },
-    }),
-)
+        }, [dispatch, rowClick, store])
+
+        return (
+            <WrappedComponent {...props} onRowClickAction={onRowClickAction} />
+        )
+    }
+
+    WithHandlers.propTypes = {
+        rowClick: PropTypes.object,
+    }
+
+    return WithHandlers
+}
 
 const enhance = compose(
     withTranslation(),

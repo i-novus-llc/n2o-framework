@@ -12,7 +12,6 @@ import {
     cancelled,
 } from 'redux-saga/effects'
 import { matchPath } from 'react-router-dom'
-import { batchActions } from 'redux-batched-actions'
 import compact from 'lodash/compact'
 import each from 'lodash/each'
 import head from 'lodash/head'
@@ -90,14 +89,14 @@ export function* pathMapping(location, routes) {
     )
 
     if (parsedPath && !isEmpty(parsedPath.params)) {
-        yield put(
-            batchActions(
-                map(parsedPath.params, (value, key) => ({
-                    ...routes.pathMapping[key],
-                    ...applyPlaceholders(key, routes.pathMapping[key], parsedPath.params),
-                })),
-            ),
-        )
+        const actions = map(parsedPath.params, (value, key) => ({
+            ...routes.pathMapping[key],
+            ...applyPlaceholders(key, routes.pathMapping[key], parsedPath.params),
+        }))
+
+        for (const action of actions) {
+            yield put(action)
+        }
     }
 }
 
@@ -105,22 +104,22 @@ export function* queryMapping(location, routes) {
     const parsedQuery = queryString.parse(location.search)
 
     if (!isEmpty(parsedQuery)) {
-        yield put(
-            batchActions(
-                compact(
-                    map(parsedQuery, (value, key) => (
-                        routes.queryMapping[key] && {
-                            ...get(routes, `queryMapping[${key}].get`, {}),
-                            ...applyPlaceholders(
-                                key,
-                                get(routes, `queryMapping[${key}].get`, {}),
-                                parsedQuery,
-                            ),
-                        }
-                    )),
-                ),
-            ),
+        const actions = compact(
+            map(parsedQuery, (value, key) => (
+                routes.queryMapping[key] && {
+                    ...get(routes, `queryMapping[${key}].get`, {}),
+                    ...applyPlaceholders(
+                        key,
+                        get(routes, `queryMapping[${key}].get`, {}),
+                        parsedQuery,
+                    ),
+                }
+            )),
         )
+
+        for (const action of actions) {
+            yield put(action)
+        }
     }
 }
 

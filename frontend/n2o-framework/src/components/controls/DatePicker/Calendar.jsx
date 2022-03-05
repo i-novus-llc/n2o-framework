@@ -367,8 +367,7 @@ class Calendar extends React.Component {
     /**
      * Навешивание листенера на нажатие кнопок
      */
-    // eslint-disable-next-line react/no-deprecated
-    componentWillMount() {
+    componentDidMount() {
         document.addEventListener('keydown', this.onKeyDown)
     }
 

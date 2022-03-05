@@ -1,6 +1,12 @@
 package net.n2oapp.framework.boot;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.security.auth.UserPrincipal;
+import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.boot.stomp.N2oWebSocketController;
+import net.n2oapp.framework.boot.stomp.WebSocketController;
+import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -41,5 +47,16 @@ public class N2oWebSocketAutoConfiguration implements WebSocketMessageBrokerConf
                 return new UserPrincipal(UUID.randomUUID().toString());
             }
         };
+    }
+
+    @Bean
+    public WebSocketController wsController(MetadataEnvironment environment) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        return new N2oWebSocketController(N2oPipelineSupport.readPipeline(environment), environment, mapper);
     }
 }

@@ -18,10 +18,11 @@ import regionsSagas from './ducks/regions/sagas'
 import { overlaysSagas } from './ducks/overlays/sagas'
 import toolbarSagas from './ducks/toolbar/sagas'
 import { addComponent, removeComponent } from './ducks/datasource/store'
+import { requestConfigSuccess } from './ducks/global/store'
 import { updateModel } from './ducks/models/store'
 
 const webSocketConfig = {
-    observables: [addComponent, removeComponent],
+    observables: [addComponent, removeComponent, requestConfigSuccess],
     updater: updateModel,
     source: 'datasource',
     connected: 'components',
@@ -36,7 +37,7 @@ export default function generateSagas(dispatch, config) {
             ...actionsImplSagas(config.apiProvider, config.factories),
             ...alertsSagas(config.messages),
             ...formPluginSagas,
-            ...fieldDependencySagas.map(saga => saga(dispatch)),
+            ...fieldDependencySagas,
             ...authSagas(config.security),
             ...metaSagas,
             ...globalSagas(config.apiProvider),

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { ReactReduxContext } from 'react-redux'
 import { compose, getContext, withProps } from 'recompose'
 import map from 'lodash/map'
 
@@ -47,9 +48,8 @@ BreadcrumbContainer.defaultProps = {
     defaultBreadcrumb: () => null,
 }
 
-export default compose(
+const ComposedComponent = compose(
     getContext({
-        store: PropTypes.object,
         defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     }),
     withProps(props => ({
@@ -68,3 +68,9 @@ export default compose(
         }),
     })),
 )(BreadcrumbContainer)
+
+export default props => (
+    <ReactReduxContext.Consumer>
+        {({ store }) => <ComposedComponent {...props} store={store} />}
+    </ReactReduxContext.Consumer>
+)

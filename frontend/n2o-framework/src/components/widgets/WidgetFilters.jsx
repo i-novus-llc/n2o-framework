@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, ReactReduxContext } from 'react-redux'
 import { getFormValues, reset } from 'redux-form'
 import isEqual from 'lodash/isEqual'
 import difference from 'lodash/difference'
@@ -70,6 +70,9 @@ class WidgetFilters extends React.Component {
             this.setState({
                 defaultValues: filterModel,
             })
+            if (searchOnChange) {
+                this.handleFilter()
+            }
         } else if (!isEqual(reduxFormFilter, prevProps.reduxFormFilter)) {
             const { store } = this.context
             const state = store.getState()
@@ -197,9 +200,7 @@ WidgetFilters.defaultProps = {
     searchOnChange: false,
 }
 
-WidgetFilters.contextTypes = {
-    store: PropTypes.object,
-}
+WidgetFilters.contextType = ReactReduxContext
 
 WidgetFilters.childContextTypes = {
     _widgetFilter: PropTypes.object.isRequired,
