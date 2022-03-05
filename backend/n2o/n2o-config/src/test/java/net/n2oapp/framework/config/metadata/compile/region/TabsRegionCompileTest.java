@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.action.SetActiveRegionEntityPayload;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -89,7 +89,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         // tab1
         assertThat(items.get(0), instanceOf(TabsRegion.Tab.class));
         assertThat(items.get(0).getLabel(), is("Tab1"));
-        List<Compiled> content = items.get(0).getContent();
+        List<CompiledRegionItem> content = items.get(0).getContent();
         assertThat(content.size(), is(3));
         // tab1 form
         assertThat(content.get(0), instanceOf(Form.class));

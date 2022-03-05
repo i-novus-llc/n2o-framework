@@ -1,14 +1,13 @@
 package net.n2oapp.framework.api.metadata.global.view.page;
 
-import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.Itemable;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.api.metadata.meta.region.RegionItem;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -37,20 +36,11 @@ public class BasePageUtil {
      * @param items Список элементов региона (вложенные регионы и виджеты)
      * @return Список виджетов скомпилированного региона
      */
-    private static List<Widget<?>> getRegionWidgets(List<? extends Compiled> items) {
+    private static List<Widget<?>> getRegionWidgets(List<? extends CompiledRegionItem> items) {
         List<Widget<?>> widgets = new ArrayList<>();
-        if (items != null) {
-            for (Compiled i : items)
-                if (i instanceof Widget)
-                    widgets.add((Widget) i);
-                else if (i instanceof Itemable) {
-                    Itemable<RegionItem> region = ((Itemable) i);
-                    if (region.getItems() != null)
-                        for (RegionItem regionItem : region.getItems())
-                            widgets.addAll(getRegionWidgets(regionItem.getContent()));
-                } else if (i instanceof Region && ((Region) i).getContent() != null)
-                    widgets.addAll(getRegionWidgets(((Region) i).getContent()));
-        }
+        if (!CollectionUtils.isEmpty(items))
+            for (CompiledRegionItem item : items)
+                item.collectWidgets(widgets);
         return widgets;
     }
 

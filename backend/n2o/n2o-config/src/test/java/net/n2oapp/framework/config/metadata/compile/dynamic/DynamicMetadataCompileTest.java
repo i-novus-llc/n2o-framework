@@ -21,7 +21,6 @@ import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.instanceOf;

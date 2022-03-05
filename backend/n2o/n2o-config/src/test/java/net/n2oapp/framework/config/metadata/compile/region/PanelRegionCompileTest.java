@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -73,7 +73,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0).getSrc(), is("PanelRegion"));
         assertThat(((PanelRegion) regions.get(0)).getHeaderTitle(), is("Panel1"));
         assertThat(((PanelRegion) regions.get(0)).getCollapsible(), is(false));
-        List<Compiled> content = regions.get(0).getContent();
+        List<CompiledRegionItem> content = regions.get(0).getContent();
         assertThat(content.size(), is(3));
         // panel form1
         assertThat(content.get(0), instanceOf(Form.class));
@@ -84,7 +84,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(((PanelRegion) content.get(1)).getId(), is("panel_1"));
         assertThat(((PanelRegion) content.get(1)).getCollapsible(), is(true));
         assertThat(((PanelRegion) content.get(1)).getContent().size(), is(2));
-        List<Compiled> panel1Content = ((PanelRegion) content.get(1)).getContent();
+        List<CompiledRegionItem> panel1Content = ((PanelRegion) content.get(1)).getContent();
         assertThat(panel1Content.size(), is(2));
         // panel panel form2
         assertThat(panel1Content.get(0), instanceOf(Form.class));
@@ -93,7 +93,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         // panel panel panel
         assertThat(panel1Content.get(1), instanceOf(PanelRegion.class));
         assertThat(((PanelRegion) panel1Content.get(1)).getId(), is("panel_2"));
-        List<Compiled> panel2Content = ((PanelRegion) panel1Content.get(1)).getContent();
+        List<CompiledRegionItem> panel2Content = ((PanelRegion) panel1Content.get(1)).getContent();
         assertThat(panel2Content.size(), is(1));
         // panel panel panel form3
         assertThat(panel2Content.get(0), instanceOf(Form.class));
