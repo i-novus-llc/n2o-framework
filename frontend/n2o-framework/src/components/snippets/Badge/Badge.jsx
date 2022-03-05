@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import classNames from 'classnames'
 
 export const renderBadge = ({
     badge,
@@ -9,7 +9,7 @@ export const renderBadge = ({
 }) => ((badge || typeof badge === 'number') ? (
     <span
         className={
-            cx(
+            classNames(
                 `ml-1 rounded-pill badge badge-${badgeColor}`,
             )}
     >
@@ -19,7 +19,7 @@ export const renderBadge = ({
     : icon && (
         <span
             className={
-                cx(
+                classNames(
                     `n2o-counter badge badge-${badgeColor}`,
                     badge !== ' ' ? 'n2o-badge-counter' : 'n2o-badge-dot',
                 )}

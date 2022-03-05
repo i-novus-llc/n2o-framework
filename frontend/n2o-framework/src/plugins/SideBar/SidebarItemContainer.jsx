@@ -2,46 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import map from 'lodash/map'
-import { NavLink } from 'react-router-dom'
 
 import { getFromSource } from '../Header/SimpleHeader/NavItemContainer'
 import { id as generateId } from '../../utils/id'
-import { renderBadge } from '../../components/snippets/Badge/Badge'
-import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
-import { Tooltip } from '../../components/snippets/Tooltip/Tooltip'
 import { SimpleTooltip } from '../../components/snippets/Tooltip/SimpleTooltip'
 import { WithDataSource } from '../../core/datasource/WithDataSource'
 
-// eslint-disable-next-line import/no-cycle
 import SidebarDropdown from './SidebarDropdown'
-
-const ItemType = {
-    DROPDOWN: 'dropdown',
-    LINK: 'link',
-}
+import { ItemType } from './utils'
+import { OuterLink } from './OuterLink'
+import { InnerLink } from './InnerLink'
 
 const OUTER_LINK_TYPE = 'outer'
-
-/**
- * Рендер иконки
- * @param icon - иконка
- * @param title - текст итема
- * @param type - тип итема
- * @param sidebarOpen - флаг сжатия сайдбара
- * @param subItems
- * @returns {*}
- */
-export const renderIcon = (icon, title, type, sidebarOpen, subItems) => {
-    let component = <i className={classNames(icon)} />
-
-    if (!sidebarOpen && type === ItemType.DROPDOWN && !subItems) {
-        return title
-    } if (!sidebarOpen && !icon) {
-        component = title.substring(0, 1)
-    }
-
-    return <span className="n2o-sidebar__item-content-icon">{component}</span>
-}
 
 /**
  * Sidebar Item
@@ -56,14 +28,6 @@ export const renderIcon = (icon, title, type, sidebarOpen, subItems) => {
  * @returns {*}
  * @constructor
  */
-
-const ItemHOC = ({ children, needTooltip, hint }) => {
-    if (needTooltip) {
-        return <Tooltip label={children} placement="right" hint={hint} />
-    }
-
-    return children
-}
 
 export function SidebarItemContainer({
     className,
@@ -89,83 +53,24 @@ export function SidebarItemContainer({
     )
 
     const renderLink = item => (linkType === OUTER_LINK_TYPE
-        ? renderOuterLink(item)
-        : renderInnerLink(item))
-
-    const renderCurrentTitle = (isMiniView, icon, title, imageSrc) => {
-        if (isMiniView) {
-            if (icon || imageSrc) {
-                return null
-            }
-
-            return title.substring(0, 1)
-        }
-
-        return title
-    }
-
-    // eslint-disable-next-line react/prop-types
-    const renderOuterLink = ({ href, title, icon, imageSrc, imageShape }) => {
-        const id = generateId()
-
-        return (
-            <a id={id} className="n2o-sidebar__item" href={href}>
-                {!imageSrc && icon && renderIcon(icon, title, type, sidebarOpen)}
-                {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
-                {title && (
-                    <span className={classNames(
-                        'n2o-sidebar__item__title',
-                        {
-                            none: isMiniView && icon,
-                        },
-                    )}
-                    >
-                        {renderCurrentTitle(isMiniView, icon, title, imageSrc)}
-                    </span>
-                )}
-                {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
-                {renderBadge(item)}
-            </a>
+        ? (
+            <OuterLink
+                sidebarOpen={sidebarOpen}
+                isMiniView={isMiniView}
+                item={item}
+                {...item}
+            />
         )
-    }
-    // eslint-disable-next-line react/prop-types
-    const renderInnerLink = ({ href, title, icon, imageSrc, imageShape }) => {
-        const id = generateId()
-
-        const Component = () => (
-            <>
-                <NavLink
-                    exact
-                    to={href}
-                    className="n2o-sidebar__item"
-                    activeClassName="active"
-                    id={id}
-                >
-                    {icon && renderIcon(icon, title, type, sidebarOpen)}
-                    {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
-                    {title && (
-                        <span
-                            className={classNames(
-                                'n2o-sidebar__item-title',
-                                {
-                                    visible: isStaticView ? true : showContent,
-                                },
-                            )}
-                        >
-                            {renderCurrentTitle(isMiniView, icon, title, imageSrc)}
-                        </span>
-                    )}
-                    {renderBadge(item)}
-                </NavLink>
-            </>
-        )
-
-        return (
-            <ItemHOC needTooltip={isMiniView} hint={title}>
-                <Component />
-            </ItemHOC>
-        )
-    }
+        : (
+            <InnerLink
+                sidebarOpen={sidebarOpen}
+                isMiniView={isMiniView}
+                item={item}
+                isStaticView={isStaticView}
+                showContent={showContent}
+                {...item}
+            />
+        ))
 
     const renderDropdown = () => {
         const id = generateId()
