@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.ui;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.UUID;
 
 /**
  * Стандартное сообщение N2O
@@ -45,11 +44,9 @@ public class ResponseMessage implements Serializable {
     private List<String> stacktrace;
     @JsonProperty
     private LocalDateTime time;
-    @JsonIgnore
-    private Random idGenerator = new Random();
 
-    public ResponseMessage() {
-        this.id = "a" + Math.abs(idGenerator.nextInt());
+    public String getId() {
+        return UUID.randomUUID().toString();
     }
 
     public void setSeverityType(SeverityType severity) {
