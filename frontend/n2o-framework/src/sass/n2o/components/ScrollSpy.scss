@@ -1,9 +1,10 @@
 .n2o-scroll-spy-region {
     position: relative;
-    max-height: 784px;
+    align-items: start;
 
     .n2o-scroll-spy-region__menu-group {
-        position: relative;
+        position: sticky;
+        top: 0px;
 
         .n2o-scroll-spy-region__menu-title {
             margin-bottom: 15px;
