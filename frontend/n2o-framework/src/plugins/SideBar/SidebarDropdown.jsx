@@ -5,8 +5,7 @@ import { compose, withState, withHandlers } from 'recompose'
 
 import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
 
-// eslint-disable-next-line import/no-cycle
-import { renderIcon } from './SidebarItemContainer'
+import { Icon } from './utils'
 
 /**
  * Sidebar Dropdown Item
@@ -56,8 +55,8 @@ function SidebarDropdown({
                 className={itemDropdownClass}
                 id={id}
             >
-                {icon && renderIcon(icon, title, type, sidebarOpen, true)}
-                {imageSrc && <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />}
+                <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
+                <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
                 <span className={classNames('n2o-sidebar__item-title', { mini: isMiniView, visible: showContent })}>{title}</span>
                 <i className={classNames(
                     'align-self-center w-100 d-flex justify-content-end',
