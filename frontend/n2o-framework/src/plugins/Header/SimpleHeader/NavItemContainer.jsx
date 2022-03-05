@@ -68,13 +68,11 @@ const NavItemContainer = ({
             target={item.target}
         >
             {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
-            {item.imageSrc && (
-                <NavItemImage
-                    imageSrc={item.imageSrc}
-                    title={item.title}
-                    imageShape={item.imageShape}
-                />
-            )}
+            <NavItemImage
+                imageSrc={item.imageSrc}
+                title={item.title}
+                imageShape={item.imageShape}
+            />
             {item.title}
         </NavLink>
     )
@@ -89,13 +87,11 @@ const NavItemContainer = ({
                         target={item.target}
                     >
                         {!item.imageSrc && item.icon && <i className={cx('mr-1', item.icon)} />}
-                        {item.imageSrc && (
-                            <NavItemImage
-                                imageSrc={item.imageSrc}
-                                title={item.title}
-                                imageShape={item.imageShape}
-                            />
-                        )}
+                        <NavItemImage
+                            imageSrc={item.imageSrc}
+                            title={item.title}
+                            imageShape={item.imageShape}
+                        />
                         {item.title}
                         {renderBadge(item)}
                     </a>
@@ -113,13 +109,11 @@ const NavItemContainer = ({
                     target={item.target}
                 >
                     {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
-                    {item.imageSrc && (
-                        <NavItemImage
-                            imageSrc={item.imageSrc}
-                            title={item.title}
-                            imageShape={item.imageShape}
-                        />
-                    )}
+                    <NavItemImage
+                        imageSrc={item.imageSrc}
+                        title={item.title}
+                        imageShape={item.imageShape}
+                    />
                     {item.title}
                     {renderBadge(item)}
                 </NavLink>
@@ -131,13 +125,11 @@ const NavItemContainer = ({
         <UncontrolledDropdown nav inNavbar direction={direction}>
             <DropdownToggle nav caret>
                 {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
-                {item.imageSrc && (
-                    <NavItemImage
-                        imageSrc={item.imageSrc}
-                        title={item.title}
-                        imageShape={item.imageShape}
-                    />
-                )}
+                <NavItemImage
+                    imageSrc={item.imageSrc}
+                    title={item.title}
+                    imageShape={item.imageShape}
+                />
                 {item.title}
             </DropdownToggle>
             <DropdownMenu right={get(options, 'right', false)}>
@@ -169,13 +161,11 @@ const NavItemContainer = ({
         const defaultLink = item => (
             <Link className="dropdown-item" to={item.href} target={item.target}>
                 {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
-                {item.imageSrc && (
-                    <NavItemImage
-                        imageSrc={item.imageSrc}
-                        title={item.title}
-                        imageShape={item.imageShape}
-                    />
-                )}
+                <NavItemImage
+                    imageSrc={item.imageSrc}
+                    title={item.title}
+                    imageShape={item.imageShape}
+                />
                 {item.title}
             </Link>
         )
@@ -208,13 +198,11 @@ const NavItemContainer = ({
         return (
             <NavItem active={active}>
                 {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
-                { item.imageSrc && (
-                    <NavItemImage
-                        imageSrc={item.imageSrc}
-                        title={item.title}
-                        imageShape={item.imageShape}
-                    />
-                )}
+                <NavItemImage
+                    imageSrc={item.imageSrc}
+                    title={item.title}
+                    imageShape={item.imageShape}
+                />
                 <span className="nav-link">{item.title}</span>
             </NavItem>
         )
