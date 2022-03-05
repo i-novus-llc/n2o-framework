@@ -7,4 +7,5 @@ export const propTypes = {
     children: PropTypes.any,
     side: PropTypes.oneOf(['left', 'right']),
     fixed: PropTypes.bool,
+    className: PropTypes.string,
 }
