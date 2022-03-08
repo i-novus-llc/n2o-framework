@@ -170,12 +170,12 @@ public class N2oEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public GraphQlDataProviderEngine graphqlDataProviderEngine() {
-        GraphQlDataProviderEngine graphqlDataProviderEngine = new GraphQlDataProviderEngine();
+    public GraphQlDataProviderEngine graphQlDataProviderEngine() {
+        GraphQlDataProviderEngine graphQlDataProviderEngine = new GraphQlDataProviderEngine();
         RestTemplate restTemplate = new RestTemplate();
-        graphqlDataProviderEngine.setRestTemplate(restTemplate);
-        graphqlDataProviderEngine.setEndpoint(graphqlEndpoint);
-        return graphqlDataProviderEngine;
+        graphQlDataProviderEngine.setRestTemplate(restTemplate);
+        graphQlDataProviderEngine.setEndpoint(graphqlEndpoint);
+        return graphQlDataProviderEngine;
     }
 
     private ObjectMapper restObjectMapper() {

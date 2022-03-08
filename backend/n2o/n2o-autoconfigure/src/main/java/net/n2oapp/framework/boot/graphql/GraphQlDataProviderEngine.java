@@ -5,7 +5,6 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphQlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -28,6 +27,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private Pattern pattern = Pattern.compile("\\$\\w+");
     private Set<String> keyArgs = Set.of("select", "filters", "sorting", "join", "limit", "offset", "page");
 
+
     @Override
     public Class<? extends N2oGraphQlDataProvider> getType() {
         return N2oGraphQlDataProvider.class;
@@ -38,12 +38,55 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         return execute(invocation, prepareQuery(invocation, data), data);
     }
 
+    /**
+     * Формирование и отправка GraphQl запроса
+     *
+     * @param invocation Провайдер данных
+     * @param query      Строка GraphQl запроса
+     * @param data       Входные данные
+     * @return Исходящие данные
+     */
+    private Object execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
+        Map<String, Object> payload = initPayload(invocation, query, data);
+        String endpoint = initEndpoint(invocation.getEndpoint());
+        return restTemplate.postForObject(endpoint, payload, DataSet.class);
+    }
+
+    /**
+     * Формирование GraphQl запроса
+     *
+     * @param invocation Провайдер данных
+     * @param data       Входные данные
+     * @return GraphQl запрос
+     */
     private String prepareQuery(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
         if (invocation.getQuery() == null)
-            throw new N2oGraphQlException("Запрос не найден");
+            throw new N2oGraphQlException("Строка GraphQl запроса не задана");
         return resolvePlaceHolders(invocation, data);
     }
 
+    /**
+     * Инициализация payload для отправки
+     *
+     * @param invocation Провайдер данных
+     * @param query      Строка GraphQl запроса
+     * @param data       Входные данные
+     * @return Payload
+     */
+    private Map<String, Object> initPayload(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("query", query);
+        payload.put("variables", initVariables(invocation, query, data));
+        return payload;
+    }
+
+    /**
+     * Замена плейсхолдеров во входной строке GraphQl запроса
+     *
+     * @param invocation Провайдер данных
+     * @param data       Входные данные
+     * @return Строка GraphQl запроса с плейсхолдерами, замененными данными
+     */
     private String resolvePlaceHolders(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
@@ -54,7 +97,9 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             query = replacePlaceholder(query, "{{page}}", args.remove("page"), "1");
         if (invocation.getSizeMapping() == null)
             query = replacePlaceholder(query, "{{size}}", args.remove("limit"), "10");
-        query = resolveFilters(query, args, invocation.getFilterSeparator());
+        if (args.get("filters") != null && (invocation.getFilterSeparator() != null || ((List) args.get("filters")).size() == 1))
+            query = replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
+                    "", (a, b) -> QueryUtil.reduceSeparator(a, b, invocation.getFilterSeparator()));
 
         for (String key : data.keySet()) {
             if (!keyArgs.contains(key)) {
@@ -65,27 +110,14 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         return query;
     }
 
-    private String resolveFilters(String query, Map<String, Object> args, String filterSeparator) {
-        if (filterSeparator == null || CollectionUtils.isEmpty((List) args.get("filters")))
-            return query;
-
-        return replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
-                "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
-    }
-
-    private Object execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
-        Map<String, Object> payload = initPayload(invocation, query, data);
-        String endpoint = initEndpoint(invocation.getEndpoint());
-        return restTemplate.postForObject(endpoint, payload, DataSet.class);
-    }
-
-    private Map<String, Object> initPayload(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("query", query);
-        payload.put("variables", initVariables(invocation, query, data));
-        return payload;
-    }
-
+    /**
+     * Инициализация множества переменных GraphQl запроса значениями
+     *
+     * @param invocation Провайдер данных
+     * @param query      Строка GraphQl запроса
+     * @param data       Входные данные
+     * @return Объект со значениями переменных GraphQl запроса
+     */
     private Object initVariables(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
         Set<String> variables = extractVariables(query);
         DataSet result = new DataSet();
@@ -103,6 +135,12 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         return result;
     }
 
+    /**
+     * Получение множества переменных из входной строки GraphQl запроса
+     *
+     * @param query Строка GraphQl запроса
+     * @return Множество переменных
+     */
     private Set<String> extractVariables(String query) {
         Set<String> variables = new HashSet<>();
         Matcher matcher = pattern.matcher(query);
@@ -111,6 +149,12 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         return variables;
     }
 
+    /**
+     * Инициализация эндпоинта
+     *
+     * @param invocationEndpoint Эндпоинт, заданный в моделе провайдера
+     * @return Эндпоинт
+     */
     private String initEndpoint(String invocationEndpoint) {
         return invocationEndpoint != null ? invocationEndpoint : endpoint;
     }
