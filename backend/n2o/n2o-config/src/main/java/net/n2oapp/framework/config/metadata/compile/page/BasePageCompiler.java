@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
@@ -195,14 +194,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     @Deprecated
     //todo в целевой модели не должно требоваться собирать исходные ввиджеты в список, т.к. виджеты независимы друг от друга
     protected List<N2oWidget> collectWidgets(SourceComponent[] items, CompileProcessor p) {
-        List<N2oWidget> widgets = new ArrayList<>();
-        if (items != null) {
-            Map<String, Integer> ids = new HashMap<>();
-            for (SourceComponent item : items) {
-                if (item instanceof RegionItem)
-                    ((RegionItem) item).collectWidgets(widgets, ids, "w");
-            }
-        }
+        List<N2oWidget> widgets = BasePageUtil.collectWidgets(items);
         return mergeNotDynamic(widgets, p);
     }
 
