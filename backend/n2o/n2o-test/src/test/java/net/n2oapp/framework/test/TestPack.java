@@ -86,7 +86,6 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         createFilter(filters, "personName");
         createFilter(filters, "age");
         createFilter(filters, "address.name");
-        createFilter(filters, "type");
         queryContext.setFilters(filters);
 
         HashMap<String, String> sortingMap = new HashMap<>();

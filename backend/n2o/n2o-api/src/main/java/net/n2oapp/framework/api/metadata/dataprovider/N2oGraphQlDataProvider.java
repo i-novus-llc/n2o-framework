@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oMapInvoc
  */
 @Getter
 @Setter
-public class N2oGraphqlDataProvider extends AbstractDataProvider implements N2oMapInvocation {
+public class N2oGraphQlDataProvider extends AbstractDataProvider implements N2oMapInvocation {
 
     private String endpoint;
     private String query;

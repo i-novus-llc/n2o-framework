@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
-import net.n2oapp.framework.boot.graphql.GraphqlDataProviderEngine;
+import net.n2oapp.framework.boot.graphql.GraphQlDataProviderEngine;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
@@ -170,8 +170,8 @@ public class N2oEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public GraphqlDataProviderEngine graphqlDataProviderEngine() {
-        GraphqlDataProviderEngine graphqlDataProviderEngine = new GraphqlDataProviderEngine();
+    public GraphQlDataProviderEngine graphqlDataProviderEngine() {
+        GraphQlDataProviderEngine graphqlDataProviderEngine = new GraphQlDataProviderEngine();
         RestTemplate restTemplate = new RestTemplate();
         graphqlDataProviderEngine.setRestTemplate(restTemplate);
         graphqlDataProviderEngine.setEndpoint(graphqlEndpoint);
