@@ -21,10 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -58,22 +55,23 @@ public class GraphQlDataProviderEngineTest {
     /**
      * Проверка отправки запроса с переменными
      */
-    // TODO - nesting field filtering
     @Test
     public void testQueryWithVariables() {
-        String queryPath = "/n2o/data/test/graphql/query/variables?personName=test&age=20";
+        String queryPath = "/n2o/data/test/graphql/query/variables?personName=test&age=20&address.name=address1&address.name=address2";
         String url = "http://localhost:" + appPort + queryPath;
 
         // mocked data
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> persons = new HashMap<>();
         persons.put("persons", Collections.singletonList(
-                Map.of("id", 2,
+                new HashMap<>(Map.of("id", 2,
                         "name", "test",
-                        "age", 20)));
+                        "age", 20,
+                        "addresses", List.of(new Address("address1"), new Address("address2"))))));
         data.put("data", persons);
 
-        String expectedQuery = "query Persons($name: String, $age: Int) { persons(name: $name, age: $age) {id name age} }";
+        String expectedQuery = "query Persons($name: String, $age: Int, $addresses: [Address!]) " +
+                "{ persons(name: $name, age: $age, addresses: $addresses) {id name age} }";
         when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -85,6 +83,10 @@ public class GraphQlDataProviderEngineTest {
         // graphql payload
         assertEquals("test", ((DataSet) payloadValue.get("variables")).get("name"));
         assertEquals(20, ((DataSet) payloadValue.get("variables")).get("age"));
+        DataList addresses = (DataList) ((DataSet) payloadValue.get("variables")).get("addresses");
+        assertEquals(2, addresses.size());
+        assertEquals("address1", addresses.get(0));
+        assertEquals("address2", addresses.get(1));
         assertEquals(expectedQuery, payloadValue.get("query"));
 
         // response
