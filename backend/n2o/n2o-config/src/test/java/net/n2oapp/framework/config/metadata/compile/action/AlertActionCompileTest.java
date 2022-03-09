@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Тестирование компиляции {@link AlertActionCompiler}
@@ -43,7 +44,8 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
 
         assertThat(((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getType(), is("n2o/alerts/ADD_MULTI"));
         assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getKey(), is(MessagePlacement.top));
-        ResponseMessage message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getAlert();
+        ResponseMessage message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getAlerts().get(0);
+        assertThat(message.getId(), notNullValue());
         assertThat(message.getTitle(), is("title"));
         assertThat(message.getText(), is("text"));
         assertThat(message.getTimeout(), is(3000));
@@ -52,7 +54,8 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
 
         assertThat(((AlertAction) page.getToolbar().getButton("alert").getAction()).getType(), is("n2o/alerts/ADD_MULTI"));
         assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getKey(), is(MessagePlacement.bottomRight));
-        message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getAlert();
+        message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getAlerts().get(0);
+        assertThat(message.getId(), notNullValue());
         assertThat(message.getTitle(), is("`'Title '+message`"));
         assertThat(message.getText(), is("`'Text '+message`"));
         assertThat(message.getPlacement(), is(MessagePlacement.bottomRight));
