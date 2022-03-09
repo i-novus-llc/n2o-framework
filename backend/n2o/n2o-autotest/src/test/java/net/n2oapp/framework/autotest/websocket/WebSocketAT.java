@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -46,6 +47,7 @@ public class WebSocketAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testWebSocketCount() {
         Integer exceptedCount = 10;
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
@@ -61,7 +63,7 @@ public class WebSocketAT extends AutoTestBase {
 
     @Test
     public void testWebSocketColor() {
-        BadgeColor exceptedColor = BadgeColor.info;
+        BadgeColor exceptedColor = BadgeColor.primary;
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.badgeColorShouldHaveValue("danger");
 
