@@ -20,10 +20,9 @@ public class GraphQlUtil {
             return null;
 
         if (obj instanceof Map) {
-            StringJoiner joiner = new StringJoiner(" ");
+            StringJoiner joiner = new StringJoiner(", ", "{", "}");
             for (Map.Entry<String, Object> entry : ((Map<String, Object>) obj).entrySet()) {
-                joiner.add(entry.getKey() + ":");
-                joiner.add(toGraphQlString(entry.getValue()));
+                joiner.add(entry.getKey() + ": " + toGraphQlString(entry.getValue()));
             }
             return joiner.toString();
         } else if (obj instanceof List) {
