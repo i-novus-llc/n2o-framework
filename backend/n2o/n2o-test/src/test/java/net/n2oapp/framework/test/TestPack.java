@@ -91,6 +91,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         HashMap<String, String> sortingMap = new HashMap<>();
         sortingMap.put("sorting.name", "name");
         sortingMap.put("sorting.age", "age");
+        sortingMap.put("sorting.id", "id");
         queryContext.setSortingMap(sortingMap);
 
         return queryContext;
