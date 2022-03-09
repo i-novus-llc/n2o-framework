@@ -5,6 +5,12 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphQlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.PropertyResolver;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -19,8 +25,14 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
  * GraphQL провайдер данных
  */
 public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQlDataProvider> {
-    @Setter
+
+    @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
+    @Value("${n2o.engine.graphql.access-token:}")
+    private String accessToken;
+    @Autowired
+    private PropertyResolver propertyResolver;
+
     @Setter
     private RestTemplate restTemplate;
 
@@ -49,7 +61,25 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private Object execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
         Map<String, Object> payload = initPayload(invocation, query, data);
         String endpoint = initEndpoint(invocation.getEndpoint());
-        return restTemplate.postForObject(endpoint, payload, DataSet.class);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        addAuthorization(invocation, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+
+        return restTemplate.postForObject(endpoint, entity, DataSet.class);
+    }
+
+    /**
+     * Добавление авторизации в хэдер запроса
+     *
+     * @param invocation Провайдер данных
+     * @param headers    Хэдер запроса
+     */
+    private void addAuthorization(N2oGraphQlDataProvider invocation, HttpHeaders headers) {
+        String token = invocation.getAccessToken() != null ?
+            invocation.getAccessToken() : accessToken;
+        headers.set("Authorization", "Bearer " + token);
     }
 
     /**
