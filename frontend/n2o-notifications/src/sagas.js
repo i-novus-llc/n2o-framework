@@ -61,7 +61,7 @@ export function* createSocketChannel(
                 console.log('isConnected: ' + frame)
                 for (const { destination } of destinations) {
                     if (permanent) {
-                        stompClient.subscribe(destination, doReduxAction(emitter))
+                        stompClient.subscribe('/user' + destination, doReduxAction(emitter))
                     } else {
                         const subscribed = stompClient.subscribe(
                             destination,

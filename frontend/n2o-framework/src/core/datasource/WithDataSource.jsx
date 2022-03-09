@@ -92,7 +92,7 @@ export const WithDataSource = (Component) => {
 
         return (
             <DataSourceContext.Provider value={methods}>
-                <Component {...props} {...methods} />
+                <Component {...props} {...methods} models={models} />
             </DataSourceContext.Provider>
         )
     }
