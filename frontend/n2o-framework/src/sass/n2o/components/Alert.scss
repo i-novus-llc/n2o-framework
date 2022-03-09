@@ -137,6 +137,7 @@
             overflow-y: scroll;
             opacity: 0;
             transition: 0.2s;
+            word-break: break-all;
         }
 
         .n2o-alert-segment__stacktrace-area.visible {
