@@ -4,9 +4,18 @@
         <graphql>query persons(sort: { {{sorting}} }) { name age }</graphql>
     </list>
 
+    <list result-mapping="['data.persons']" filters="id">
+        <graphql>query persons( {{sorting}} ) { name age }</graphql>
+    </list>
+
     <fields>
         <field id="id">
             <select/>
+            <!-- only for using different <list> -->
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+            <sorting mapping="['idDir']">sort: { {{idDir}} : "id" }</sorting>
         </field>
 
         <field id="name">

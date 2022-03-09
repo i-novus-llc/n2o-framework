@@ -8,6 +8,7 @@ import net.n2oapp.framework.engine.data.QueryUtil;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,8 +25,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     @Setter
     private RestTemplate restTemplate;
 
-    private Pattern pattern = Pattern.compile("\\$\\w+");
-    private Set<String> keyArgs = Set.of("select", "filters", "sorting", "join", "limit", "offset", "page");
+    private final Pattern variablePattern = Pattern.compile("\\$\\w+");
+    private final Pattern placeholderKeyPattern = Pattern.compile("\\{\\{\\w+}}\\s*:");
 
 
     @Override
@@ -97,15 +98,18 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             query = replacePlaceholder(query, "{{page}}", args.remove("page"), "1");
         if (invocation.getSizeMapping() == null)
             query = replacePlaceholder(query, "{{size}}", args.remove("limit"), "10");
+        query = replacePlaceholder(query, "{{offset}}", args.remove("offset"), "0");
         if (args.get("filters") != null && (invocation.getFilterSeparator() != null || ((List) args.get("filters")).size() == 1))
             query = replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, invocation.getFilterSeparator()));
 
-        for (String key : data.keySet()) {
-            if (!keyArgs.contains(key)) {
-                String value = toGraphQlString(args.get(key));
-                query = replacePlaceholder(query, "{{" + key + "}}", value, "");
-            }
+        Set<String> placeholderKeys = extractPlaceholderKeys(query);
+        for (Map.Entry<String, Object> entry : args.entrySet()) {
+            String placeholder = "{{" + entry.getKey() + "}}";
+            String value = placeholderKeys.contains(placeholder) ?
+                    (String) entry.getValue() :
+                    toGraphQlString(entry.getValue());
+            query = replacePlaceholder(query, placeholder, value, "");
         }
         return query;
     }
@@ -142,11 +146,33 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      * @return Множество переменных
      */
     private Set<String> extractVariables(String query) {
-        Set<String> variables = new HashSet<>();
+        return extract(query, variablePattern, (s, m) -> s.substring(m.start() + 1, m.end()));
+    }
+
+    /**
+     * Получение множества ключей-плейсхолдеров из входной строки GraphQl запроса
+     *
+     * @param query Строка GraphQl запроса
+     * @return Множество ключей-плейсхолдеров
+     */
+    private Set<String> extractPlaceholderKeys(String query) {
+        return extract(query, placeholderKeyPattern, (s, m) -> s.substring(m.start(), m.end() - 1).trim());
+    }
+
+    /**
+     * Получение множества значений из входной строки GraphQl запроса
+     *
+     * @param query    Строка GraphQl запроса
+     * @param pattern  Паттерн, по которому будут находиться значения
+     * @param function Функция, описывающая действия с найденными значениями
+     * @return Множество значений
+     */
+    private Set<String> extract(String query, Pattern pattern, BiFunction<String, Matcher, String> function) {
+        Set<String> result = new HashSet<>();
         Matcher matcher = pattern.matcher(query);
         while (matcher.find())
-            variables.add(query.substring(matcher.start() + 1, matcher.end()));
-        return variables;
+            result.add(function.apply(query, matcher));
+        return result;
     }
 
     /**

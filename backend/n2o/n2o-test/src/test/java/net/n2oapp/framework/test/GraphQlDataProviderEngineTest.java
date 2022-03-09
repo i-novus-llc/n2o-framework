@@ -318,7 +318,7 @@ public class GraphQlDataProviderEngineTest {
                 Map.of("name", "test", "age", 20)));
         data.put("data", persons);
 
-        String expectedQuery = "query persons(page: 2, size: 5) {id name age}";
+        String expectedQuery = "query persons(page: 2, size: 5, offset: 5) {id name age}";
         when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -385,6 +385,23 @@ public class GraphQlDataProviderEngineTest {
         url = "http://localhost:" + appPort + queryPath;
 
         expectedQuery = "query persons(sort: { {name: \"asc\"} }) { name age }";
+        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        response = restTemplate.getForEntity(url, GetDataResponse.class);
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        payloadValue = payloadCaptor.getValue();
+
+        // graphql payload
+        assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
+        assertEquals(expectedQuery, payloadValue.get("query"));
+
+        // ONE SORT (another option)
+        queryPath = "/n2o/data/test/graphql/sorting?id=5&sorting.id=ASC";
+        url = "http://localhost:" + appPort + queryPath;
+
+        expectedQuery = "query persons( sort: { asc : \"id\" } ) { name age }";
         when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
