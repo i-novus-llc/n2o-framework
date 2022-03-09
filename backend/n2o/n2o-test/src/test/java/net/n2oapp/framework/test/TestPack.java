@@ -38,7 +38,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/mongodb", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodb")),
                 new RouteInfo("/test/mongodbCount", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodbCount")),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()),
-
+                // graphql
                 new RouteInfo("/test/graphql/query/variables", getTestGraphqlQueryContext("testGraphqlVariables", "/test/graphql/query/variables")),
                 new RouteInfo("/test/graphql/mutationVariables", getTestInsertGraphqlContext("testVariables", "/test/graphql/mutationVariables")),
                 new RouteInfo("/test/graphql/mutationPlaceholders", getTestInsertGraphqlContext("testPlaceholders", "/test/graphql/mutationPlaceholders")),
@@ -85,7 +85,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         createFilter(filters, "id");
         createFilter(filters, "personName");
         createFilter(filters, "age");
-        createFilter(filters, "type");
+        createFilter(filters, "address.name");
         queryContext.setFilters(filters);
 
         HashMap<String, String> sortingMap = new HashMap<>();
