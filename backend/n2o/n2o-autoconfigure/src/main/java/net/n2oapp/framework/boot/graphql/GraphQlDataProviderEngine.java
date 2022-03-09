@@ -31,8 +31,6 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private String endpoint;
     @Value("${n2o.engine.graphql.access-token:}")
     private String accessToken;
-    @Autowired
-    private PropertyResolver propertyResolver;
 
     @Setter
     private RestTemplate restTemplate;
