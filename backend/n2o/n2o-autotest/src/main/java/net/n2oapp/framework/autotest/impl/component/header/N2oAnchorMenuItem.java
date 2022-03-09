@@ -29,7 +29,7 @@ public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
 
     @Override
     public void badgeColorShouldHaveValue(String value) {
-        element().$(".badge-color").shouldHave(Condition.text(value));
+        element().$(".badge").shouldHave(Condition.cssClass("badge-" + value));
     }
 
     @Override

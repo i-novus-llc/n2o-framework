@@ -49,6 +49,7 @@ public class WebSocketAT extends AutoTestBase {
     public void testWebSocketCount() {
         Integer exceptedCount = 10;
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
+        menuItem.badgeShouldHaveValue("1");
 
         webSocketMessageController.sendCount(DESTINATION, exceptedCount);
         menuItem.badgeShouldHaveValue(exceptedCount.toString());
@@ -62,13 +63,14 @@ public class WebSocketAT extends AutoTestBase {
     public void testWebSocketColor() {
         BadgeColor exceptedColor = BadgeColor.info;
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
+        menuItem.badgeColorShouldHaveValue("danger");
 
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
-        menuItem.badgeShouldHaveValue(exceptedColor.toString());
+        menuItem.badgeColorShouldHaveValue(exceptedColor.toString());
 
         exceptedColor = BadgeColor.danger;
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
-        menuItem.badgeShouldHaveValue(exceptedColor.toString());
+        menuItem.badgeColorShouldHaveValue(exceptedColor.toString());
     }
 
 }

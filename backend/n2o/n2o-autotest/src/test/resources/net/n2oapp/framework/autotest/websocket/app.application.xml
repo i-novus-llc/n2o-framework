@@ -15,7 +15,7 @@
                        icon="fa fa-bell"
                        badge="{count}"
                        badge-color="{color}">
-                <open-page  page-id="test" route="/test"/>
+                <open-page page-id="test" route="/test"/>
             </menu-item>
         </nav>
     </header>
