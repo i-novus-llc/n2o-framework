@@ -28,6 +28,8 @@ import { isBottom } from './utils'
  * @reactProps {any} expandPopUp
  * @reactProps {boolean} needAddFilter
  * @reactProps {node} children - элемент потомок компонента PopupList
+ * @reactProps {function} handleMouseEnter - обработчик для события onMouseEnter
+ * @reactProps {function} handleMouseLeave - обработчик для события onMouseLeave
  */
 
 function PopupList({
@@ -38,10 +40,17 @@ function PopupList({
     filterValue,
     needAddFilter,
     setMenuElement,
+    handleMouseEnter,
+    handleMouseLeave,
     ...rest
 }) {
     return (
-        <div className={classNames('n2o-dropdown-control n2o-pop-up')} ref={setMenuElement}>
+        <div
+            className={classNames('n2o-dropdown-control n2o-pop-up')}
+            ref={setMenuElement}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             {children}
             <PopupItems {...rest} />
         </div>
@@ -70,6 +79,8 @@ PopupList.propTypes = {
     needAddFilter: PropTypes.bool,
     filterValue: PropTypes.any,
     setMenuElement: PropTypes.func,
+    handleMouseEnter: PropTypes.func,
+    handleMouseLeave: PropTypes.func,
 }
 
 const enhance = compose(
