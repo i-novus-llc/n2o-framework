@@ -137,7 +137,7 @@ GraphQl запрос.
 
 ```xml title="Запрос к GraphQl для <object> с использованием плейсхолдеров"
 <object>
-  <operation>
+  <operation id="create">
     <invocation>
       <graphql>
           mutation {
@@ -152,7 +152,14 @@ GraphQl запрос.
           }
       </graphql>
     </invocation>
-  </list>
+    <in>
+      <field id="name"/>
+      <field id="age"/>
+      <list id="addresses">
+        <field id="street"/>
+      </list>
+    </in>
+  </operation>
 </object>
 ```
 
@@ -186,7 +193,7 @@ GraphQl запрос.
 
   <fields>
     <field id="id">
-      <select/>
+      <select>id</select>
     </field>
 
     <field id="name">
@@ -197,7 +204,7 @@ GraphQl запрос.
         <eq filter-id="name">{ name: {eq: {{name}} } }</eq>
       </filters>
       <!-- при указании тела в sorting оно будет добавлено в {{sorting}} плейсхолдер -->
-      <sorting mapping="['nameDir']">{name: {{nameDir}}}</sorting>
+      <sorting mapping="['nameDir']">{ name: {{nameDir}} }</sorting>
     </field>
 
     <field id="age">
@@ -205,7 +212,7 @@ GraphQl запрос.
       <filters>
         <eq filter-id="age">{ age: {ge: {{age}} } }</eq>
       </filters>
-      <sorting mapping="['ageDir']">{age: {{ageDir}}}</sorting>
+      <sorting mapping="['ageDir']">{ age: {{ageDir}} }</sorting>
     </field>
   </fields>
 </query>
