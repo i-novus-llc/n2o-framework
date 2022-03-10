@@ -31,8 +31,8 @@ import java.util.Map;
 @ComponentScan("net/n2oapp/framework/autotest")
 public class AutoTestApplication {
 
-    @Value("${n2o.stomp.session-id}")
-    private String sessionId;
+    @Value("${n2o.stomp.user-id}")
+    private String userId;
 
     public static void main(String[] args) {
         SpringApplication.run(AutoTestApplication.class, args);
@@ -49,7 +49,7 @@ public class AutoTestApplication {
         return new DefaultHandshakeHandler() {
             @Override
             protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-                return new UserPrincipal(sessionId);
+                return new UserPrincipal(userId);
             }
         };
     }

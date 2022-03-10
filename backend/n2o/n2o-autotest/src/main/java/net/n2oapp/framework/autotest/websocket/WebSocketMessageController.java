@@ -11,18 +11,18 @@ public class WebSocketMessageController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @Value("${n2o.stomp.session-id}")
-    private String sessionId;
+    @Value("${n2o.stomp.user-id}")
+    private String userId;
 
     public void sendCount(String destination, Integer count) {
         BadgeMessage message = new BadgeMessage();
         message.setCount(count);
-        messagingTemplate.convertAndSendToUser(sessionId, destination, message);
+        messagingTemplate.convertAndSendToUser(userId, destination, message);
     }
 
     public void sendColor(String destination, BadgeColor color) {
         BadgeMessage message = new BadgeMessage();
         message.setColor(color.toString());
-        messagingTemplate.convertAndSendToUser(sessionId, destination, message);
+        messagingTemplate.convertAndSendToUser(userId, destination, message);
     }
 }
