@@ -301,6 +301,11 @@
                 <xs:documentation>Разделитель фильтров</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="sorting-separator" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Разделитель сортировок</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="page-mapping" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Маппинг поля страницы выборки в запросе</xs:documentation>

@@ -33,6 +33,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     @Setter
     private RestTemplate restTemplate;
 
+    private static final String DEFAULT_FILTER_SEPARATOR = " and ";
+    private static final String DEFAULT_SORTING_SEPARATOR = ", ";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\{\\{\\w+}}\\s*:");
 
@@ -89,7 +91,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private String prepareQuery(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
         if (invocation.getQuery() == null)
             throw new N2oGraphQlException("Строка GraphQl запроса не задана");
-        return resolvePlaceHolders(invocation, data);
+        return resolvePlaceholders(invocation, data);
     }
 
     /**
@@ -114,20 +116,26 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      * @param data       Входные данные
      * @return Строка GraphQl запроса с плейсхолдерами, замененными данными
      */
-    private String resolvePlaceHolders(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
+    private String resolvePlaceholders(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
 
         query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
-        query = replaceListPlaceholder(query, "{{sorting}}", args.remove("sorting"), "", (a, b) -> QueryUtil.reduceSeparator(a, b, ", "));
+        if (args.get("sorting") != null) {
+            String sortingSeparator = Objects.requireNonNullElse(invocation.getSortingSeparator(), DEFAULT_SORTING_SEPARATOR);
+            query = replaceListPlaceholder(query, "{{sorting}}", args.remove("sorting"),
+                    "", (a, b) -> QueryUtil.reduceSeparator(a, b, sortingSeparator));
+        }
         if (invocation.getPageMapping() == null)
             query = replacePlaceholder(query, "{{page}}", args.remove("page"), "1");
         if (invocation.getSizeMapping() == null)
             query = replacePlaceholder(query, "{{size}}", args.remove("limit"), "10");
         query = replacePlaceholder(query, "{{offset}}", args.remove("offset"), "0");
-        if (args.get("filters") != null && (invocation.getFilterSeparator() != null || ((List) args.get("filters")).size() == 1))
+        if (args.get("filters") != null) {
+            String filterSeparator = Objects.requireNonNullElse(invocation.getFilterSeparator(), DEFAULT_FILTER_SEPARATOR);
             query = replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
-                    "", (a, b) -> QueryUtil.reduceSeparator(a, b, invocation.getFilterSeparator()));
+                    "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
+        }
 
         Set<String> placeholderKeys = extractPlaceholderKeys(query);
         for (Map.Entry<String, Object> entry : args.entrySet()) {

@@ -26,6 +26,7 @@ public class GraphQlDataProviderIOv1 implements NamespaceIO<N2oGraphQlDataProvid
     public void io(Element e, N2oGraphQlDataProvider m, IOProcessor p) {
         p.attribute(e, "endpoint", m::getEndpoint, m::setEndpoint);
         p.attribute(e, "filter-separator", m::getFilterSeparator, m::setFilterSeparator);
+        p.attribute(e, "sorting-separator", m::getSortingSeparator, m::setSortingSeparator);
         p.attribute(e, "page-mapping", m::getPageMapping, m::setPageMapping);
         p.attribute(e, "size-mapping", m::getSizeMapping, m::setSizeMapping);
         p.attribute(e, "access-token", m::getAccessToken, m::setAccessToken);

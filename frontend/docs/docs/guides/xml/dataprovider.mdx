@@ -3,7 +3,7 @@ title: Провайдеры данных
 description: ""
 ---
 
-### Стандартные провайдеры {#Standard_providers}
+### Стандартные провайдеры {#standard_providers}
 
 **Библиотека компонентов**
 
@@ -11,7 +11,7 @@ description: ""
 http://n2oapp.net/framework/config/schema/data-provider-1.0
 ```
 
-#### &lt;sql&gt; {#sql}
+### &lt;sql&gt; {#sql}
 
 Вызов SQL запросов.
 
@@ -72,7 +72,7 @@ UPDATE mytable SET :params WHERE id = :id;
 
 :::
 
-#### &lt;mongodb&gt; {#mongodb}
+### &lt;mongodb&gt; {#mongodb}
 
 Вызов запросов к MongoDb.
 
@@ -85,6 +85,8 @@ UPDATE mytable SET :params WHERE id = :id;
 |collection-name|Строка                                                      |Имя коллекции документов         |                     |
 |operation      |find insertOne updateOne deleteOne deleteMany countDocuments|Операция, выполняемая провайдером|                     |
 
+**Пример**
+
 ```xml title="Запрос к MongoDb для &lt;query&gt;"
 <query>
   <list>
@@ -96,7 +98,120 @@ UPDATE mytable SET :params WHERE id = :id;
 </query>
 ```
 
-#### &lt;rest&gt; {#rest}
+### &lt;graphql&gt; {#graphql}
+
+Вызов GraphQl запросов.
+
+**Атрибуты**
+
+|Наименование     |Тип      |Описание                               |Значение по умолчанию|
+|-----------------|---------|---------------------------------------|---------------------|
+|endpoint         |Строка   |URL точки подключения                  |                     |
+|access-token     |Строка   |Токен доступа                          |                     |
+|page-mapping     |Строка   |Маппинг поля страницы выборки в запросе|                     |
+|size-mapping     |Строка   |Маппинг поля размера выборки в запросе |                     |
+|filter-separator |Строка   |Разделитель фильтров                   | and                 |
+|sorting-separator|Строка   |Разделитель сортировок                 | ,                   |
+
+**Тело**
+
+GraphQl запрос.
+
+**Пример**
+
+```xml title="Запрос к GraphQl для <query> с использованием variables"
+<query>
+  <list>
+    <graphql>
+        query Persons($name: String, $age: Int, $addresses: [Address!]) {
+           persons(name: $name, age: $age, addresses: $addresses) {
+              id
+              name
+              age
+           }
+        }
+    <graphql/>
+  </list>
+</query>
+```
+
+```xml title="Запрос к GraphQl для <object> с использованием плейсхолдеров"
+<object>
+  <operation>
+    <invocation>
+      <graphql>
+          mutation {
+             createPerson(name: {{name}}, age: {{age}}, addresses: {{addresses}}) {
+                id
+                name
+                age
+                address: {
+                   street
+                }
+             }
+          }
+      </graphql>
+    </invocation>
+  </list>
+</object>
+```
+
+:::note
+
+В запросе могут быть использованы плейсхолдеры в двойных фигурных скобках (например: `{{name}}`).
+:::
+
+**Служебные плейсхолдеры**
+
+|Наименование     |Описание                                     |
+|-----------------|---------------------------------------------|
+|{{select}}       |Собирает и объединяет тела полей запроса     |
+|{{filters}}      |Собирает и объединяет тела фильтров запроса  |
+|{{sorting}}      |Собирает и объединяет тела сортировок запроса|
+|{{limit}}        |Количество элементов на странице             |
+|{{page}}         |Номер страницы                               |
+|{{offset}}       |Смещение элементов страницы                  |
+
+**Пример**
+
+```xml title="Запрос к GraphQl с использованием различных плейсхолдеров"
+<query>
+  <list>
+    <graphql>
+        query persons(filters: { {{filters}} }, page: {{page}}, size: {{limit}}, sort: { {{sorting}} }) {
+           {{select}}
+        }
+    <graphql/>
+  </list>
+
+  <fields>
+    <field id="id">
+      <select/>
+    </field>
+
+    <field id="name">
+      <!-- при указании тела в select оно будет добавлено в {{select}} плейсхолдер -->
+      <select>name</select>
+      <!-- при указании тела в фильтре оно будет добавлено в {{filters}} плейсхолдер -->
+      <filters>
+        <eq filter-id="name">{ name: {eq: {{name}} } }</eq>
+      </filters>
+      <!-- при указании тела в sorting оно будет добавлено в {{sorting}} плейсхолдер -->
+      <sorting mapping="['nameDir']">{name: {{nameDir}}}</sorting>
+    </field>
+
+    <field id="age">
+      <select>age</select>
+      <filters>
+        <eq filter-id="age">{ age: {ge: {{age}} } }</eq>
+      </filters>
+      <sorting mapping="['ageDir']">{age: {{ageDir}}}</sorting>
+    </field>
+  </fields>
+</query>
+```
+
+### &lt;rest&gt; {#rest}
 
 Вызов REST запросов.
 
@@ -154,7 +269,7 @@ UPDATE mytable SET :params WHERE id = :id;
 
 :::
 
-#### &lt;java&gt; {#java}
+### &lt;java&gt; {#java}
 
 Вызов java методов.
 
@@ -307,19 +422,7 @@ public class MyService {
 </java>
 ```
 
-### JPA
-
-#### &lt;find&gt;
-
-#### &lt;persist&gt;
-
-#### &lt;merge&gt;
-
-#### &lt;remove&gt;
-
-#### &lt;query&gt;
-
-### Spring Data
+### Spring Data{#spring_data}
 
 Вызов Spring Data сервисов.
 
