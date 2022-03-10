@@ -291,6 +291,11 @@
                 <xs:documentation>URL точки подключения</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="access-token" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Токен доступа</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="filter-separator" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Разделитель фильтров</xs:documentation>

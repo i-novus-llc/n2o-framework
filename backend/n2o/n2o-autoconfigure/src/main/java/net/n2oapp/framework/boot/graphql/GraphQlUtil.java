@@ -21,9 +21,8 @@ public class GraphQlUtil {
 
         if (obj instanceof Map) {
             StringJoiner joiner = new StringJoiner(", ", "{", "}");
-            for (Map.Entry<String, Object> entry : ((Map<String, Object>) obj).entrySet()) {
+            for (Map.Entry<String, Object> entry : ((Map<String, Object>) obj).entrySet())
                 joiner.add(entry.getKey() + ": " + toGraphQlString(entry.getValue()));
-            }
             return joiner.toString();
         } else if (obj instanceof List) {
             StringJoiner joiner = new StringJoiner(", ", "[", "]");

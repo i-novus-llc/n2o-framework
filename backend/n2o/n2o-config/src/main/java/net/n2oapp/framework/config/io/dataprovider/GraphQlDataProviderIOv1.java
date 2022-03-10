@@ -28,6 +28,7 @@ public class GraphQlDataProviderIOv1 implements NamespaceIO<N2oGraphQlDataProvid
         p.attribute(e, "filter-separator", m::getFilterSeparator, m::setFilterSeparator);
         p.attribute(e, "page-mapping", m::getPageMapping, m::setPageMapping);
         p.attribute(e, "size-mapping", m::getSizeMapping, m::setSizeMapping);
+        p.attribute(e, "access-token", m::getAccessToken, m::setAccessToken);
         p.text(e, m::getQuery, m::setQuery);
     }
 }

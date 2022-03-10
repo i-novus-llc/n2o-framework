@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -29,7 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = {"n2o.engine.graphql.endpoint=http://graphql"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class GraphQlDataProviderEngineTest {
 
@@ -37,7 +39,7 @@ public class GraphQlDataProviderEngineTest {
     private int appPort;
 
     @Captor
-    ArgumentCaptor<Map<String, Object>> payloadCaptor;
+    ArgumentCaptor<HttpEntity> httpEntityCaptor;
 
     @Autowired
     private GraphQlDataProviderEngine provider;
@@ -51,7 +53,6 @@ public class GraphQlDataProviderEngineTest {
     @BeforeEach
     public void before() {
         provider.setRestTemplate(restTemplateMock);
-        provider.setEndpoint("http://graphql");
     }
 
     /**
@@ -74,13 +75,13 @@ public class GraphQlDataProviderEngineTest {
 
         String expectedQuery = "query Persons($name: String, $age: Int, $addresses: [Address!]) " +
                 "{ persons(name: $name, age: $age, addresses: $addresses) {id name age} }";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        Map<String, Object> payloadValue = payloadCaptor.getValue();
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals("test", ((DataSet) payloadValue.get("variables")).get("name"));
@@ -120,13 +121,13 @@ public class GraphQlDataProviderEngineTest {
 
         String expectedQuery = "mutation CreatePerson($name: String!, $age: Int!, $addresses: [Address!]) " +
                 "{ createPerson(name: $name, age: $age, addresses: $addresses) {id name age address: {street}} }";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         SetDataResponse response = restTemplate.postForObject(url, request, SetDataResponse.class);
-        verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals("success", response.getMeta().getAlert().getMessages().get(0).getColor());
-        Map<String, Object> payloadValue = payloadCaptor.getValue();
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(request.getPersonName(), ((DataSet) payloadValue.get("variables")).get("name"));
@@ -159,13 +160,13 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons() { name age }";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        Map<String, Object> payloadValue = payloadCaptor.getValue();
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
@@ -191,13 +192,13 @@ public class GraphQlDataProviderEngineTest {
         String expectedQuery = "query persons(" +
                 "filter: { { name: {eq: \"test\" } } AND { age: {ge: 20 } } }) " +
                 "{id name age}";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        Map<String, Object> payloadValue = payloadCaptor.getValue();
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
@@ -210,13 +211,13 @@ public class GraphQlDataProviderEngineTest {
         expectedQuery = "query persons(" +
                 "filter: { { name: {eq: \"test\" } } }) " +
                 "{id name age}";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        payloadValue = payloadCaptor.getValue();
+        payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
@@ -242,13 +243,13 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons(name: \"test\", age: 20, addresses: [\"address1\", \"address2\"]) {id name age}";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        Map<String, Object> payloadValue = payloadCaptor.getValue();
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
@@ -284,14 +285,14 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "mutation { createPerson(name: \"newName\", age: 99, " +
-                "addresses: [street: \"address1\"]) {id name age address: {street}} }";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+                "addresses: [{street: \"address1\"}]) {id name age address: {street}} }";
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         SetDataResponse response = restTemplate.postForObject(url, request, SetDataResponse.class);
-        verify(restTemplateMock).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals("success", response.getMeta().getAlert().getMessages().get(0).getColor());
-        Map<String, Object> payloadValue = payloadCaptor.getValue();
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
@@ -319,13 +320,13 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons(page: 2, size: 5, offset: 5) {id name age}";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        Map<String, Object> payloadValue = payloadCaptor.getValue();
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
@@ -337,13 +338,13 @@ public class GraphQlDataProviderEngineTest {
 
         expectedQuery = "query Persons($pageNum: Int!, $sizeNum: Int!) " +
                 "{ persons(page: $pageNum, size: $sizeNum) {id name age} }";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        payloadValue = payloadCaptor.getValue();
+        payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(3, ((DataSet) payloadValue.get("variables")).get("pageNum"));
@@ -368,13 +369,13 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons(sort: { {name: \"asc\"}, {age: \"desc\"} }) { name age }";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        Map<String, Object> payloadValue = payloadCaptor.getValue();
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
@@ -385,13 +386,13 @@ public class GraphQlDataProviderEngineTest {
         url = "http://localhost:" + appPort + queryPath;
 
         expectedQuery = "query persons(sort: { {name: \"asc\"} }) { name age }";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        payloadValue = payloadCaptor.getValue();
+        payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
@@ -402,13 +403,13 @@ public class GraphQlDataProviderEngineTest {
         url = "http://localhost:" + appPort + queryPath;
 
         expectedQuery = "query persons( sort: { asc : \"id\" } ) { name age }";
-        when(restTemplateMock.postForObject(anyString(), anyMap(), eq(DataSet.class)))
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
         response = restTemplate.getForEntity(url, GetDataResponse.class);
-        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), payloadCaptor.capture(), eq(DataSet.class));
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        payloadValue = payloadCaptor.getValue();
+        payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
         assertEquals(Collections.emptyMap(), payloadValue.get("variables"));

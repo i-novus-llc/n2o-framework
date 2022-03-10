@@ -62,8 +62,6 @@ public class N2oEngineConfiguration {
     @Value("${n2o.engine.test.classpath}")
     private String resourcePath;
 
-    @Value("${n2o.engine.graphql.endpoint}")
-    private String graphqlEndpoint;
 
     @Bean
     @ConditionalOnMissingBean
@@ -174,7 +172,6 @@ public class N2oEngineConfiguration {
         GraphQlDataProviderEngine graphQlDataProviderEngine = new GraphQlDataProviderEngine();
         RestTemplate restTemplate = new RestTemplate();
         graphQlDataProviderEngine.setRestTemplate(restTemplate);
-        graphQlDataProviderEngine.setEndpoint(graphqlEndpoint);
         return graphQlDataProviderEngine;
     }
 
