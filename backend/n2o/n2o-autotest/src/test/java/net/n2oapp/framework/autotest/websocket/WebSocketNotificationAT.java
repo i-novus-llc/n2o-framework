@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.websocket;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -41,7 +40,6 @@ public class WebSocketNotificationAT extends AutoTestBase {
     @BeforeEach
     @Override
     public void setUp() throws Exception {
-        Configuration.headless = false;
         super.setUp();
     }
 
@@ -53,9 +51,9 @@ public class WebSocketNotificationAT extends AutoTestBase {
         wsController.setPipeline(N2oPipelineSupport.readPipeline(environment));
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oActionsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/ws-notification/test.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/ws-notification/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/ws-notification/app.application.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/test.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/app.application.xml"));
     }
 
     @Test
