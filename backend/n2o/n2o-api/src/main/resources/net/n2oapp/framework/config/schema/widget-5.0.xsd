@@ -525,6 +525,13 @@
                         <xs:documentation>Показать предупреждение о наличии несохраненных данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="mode" type="formMode" default="one-model">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Режим формы. Может быть одно или двух модельный(количество моделей на клиенте).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1341,6 +1348,16 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="formMode">
+        <xs:annotation>
+            <xs:documentation>Режим формы.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="one-model"/>
+            <xs:enumeration value="two-models"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
