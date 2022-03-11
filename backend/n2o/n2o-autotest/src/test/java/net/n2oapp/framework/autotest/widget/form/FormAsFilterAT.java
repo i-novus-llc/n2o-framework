@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 /**
  * Автотест Форма как фильтры таблицы
  */
@@ -34,7 +32,6 @@ public class FormAsFilterAT extends AutoTestBase {
     @BeforeEach
     @Override
     public void setUp() throws Exception {
-        headless = false;
         super.setUp();
     }
 
@@ -47,8 +44,6 @@ public class FormAsFilterAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/test.query.xml"));
     }
 
-
-    //wait https://jira.i-novus.ru/browse/NNO-7328
     @Test
     public void openWithoutParam() {
         StandardPage page = open(StandardPage.class);
@@ -157,5 +152,6 @@ public class FormAsFilterAT extends AutoTestBase {
 
         form.toolbar().topLeft().button("Очистить").click();
         searchField.shouldHaveValue("");
+        table.columns().rows().shouldHaveSize(4);
     }
 }
