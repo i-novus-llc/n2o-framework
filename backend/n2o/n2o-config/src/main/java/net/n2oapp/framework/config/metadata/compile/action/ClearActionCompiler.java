@@ -32,7 +32,9 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         clearAction.getPayload().setPrefixes(p.cast(source.getModel(), new String[]{widgetScope.getModel().getId()}));
         String widgetId = initClientWidgetId(context, p);
         PageScope pageScope = p.getScope(PageScope.class);
-        clearAction.getPayload().setKey(pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null
+        clearAction.getPayload().setKey(
+                pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ||
+                        pageScope.getWidgetIdClientDatasourceMap().get(widgetId) == null
                 ? widgetId : pageScope.getWidgetIdClientDatasourceMap().get(widgetId));
         if (Boolean.TRUE.equals(source.getCloseOnSuccess())) {
             if (clearAction.getMeta() == null)

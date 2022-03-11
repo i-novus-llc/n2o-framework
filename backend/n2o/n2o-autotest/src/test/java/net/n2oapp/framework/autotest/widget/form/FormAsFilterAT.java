@@ -44,8 +44,6 @@ public class FormAsFilterAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/test.query.xml"));
     }
 
-
-    //wait https://jira.i-novus.ru/browse/NNO-7328
     @Test
     public void openWithoutParam() {
         StandardPage page = open(StandardPage.class);
@@ -129,6 +127,31 @@ public class FormAsFilterAT extends AutoTestBase {
         Select select = form.fields().field("Period").control(Select.class);
         select.shouldSelected("Month");
         select.clear();
+        table.columns().rows().shouldHaveSize(4);
+    }
+
+    @Test
+    public void filterByButtonClick() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.breadcrumb().titleShouldHaveText("Фильтрация по нажатию кнопки");
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
+        table.columns().rows().shouldHaveSize(4);
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        form.shouldExists();
+
+        InputText searchField = form.fields().field("Поиск").control(InputText.class);
+        searchField.val("test2");
+        form.toolbar().topLeft().button("Найти").click();
+        table.columns().rows().shouldHaveSize(1);
+        table.columns().rows().row(0).cell(0).textShouldHave("test2");
+
+        form.toolbar().topLeft().button("Очистить").click();
+        searchField.shouldHaveValue("");
         table.columns().rows().shouldHaveSize(4);
     }
 }
