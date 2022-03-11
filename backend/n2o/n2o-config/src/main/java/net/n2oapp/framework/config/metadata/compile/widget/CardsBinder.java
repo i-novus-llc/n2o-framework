@@ -19,7 +19,7 @@ public class CardsBinder extends BaseListWidgetBinder<Cards> {
     public Cards bind(Cards compiled, BindProcessor p) {
         if (compiled.getCards() != null)
             compiled.getCards().stream()
-                    .flatMap(x -> x.getContent().stream()).forEach(p::bind);
+                    .flatMap(x -> x.getContent().stream().map(Cards.Block::getComponent)).forEach(p::bind);
         return compiled;
     }
 }
