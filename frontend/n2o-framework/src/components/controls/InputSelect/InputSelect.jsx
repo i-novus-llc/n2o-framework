@@ -66,6 +66,7 @@ class InputSelect extends React.Component {
             isInputSelected: false,
             value: valueArray,
             activeValueId: null,
+            isPopupFocused: false,
             options,
             input,
         }
@@ -108,7 +109,7 @@ class InputSelect extends React.Component {
      * @private
      */
     handleValueChangeOnBlur = () => {
-        const { value, input } = this.state
+        const { value, input, isPopupFocused } = this.state
         const {
             onChange,
             multiSelect,
@@ -126,7 +127,7 @@ class InputSelect extends React.Component {
         value.some(person => person.id === input) !== true
         )
 
-        if (input && isEmpty(findValue) && resetOnBlur) {
+        if (input && isEmpty(findValue) && resetOnBlur && !isPopupFocused) {
             this.setState(
                 {
                     input: multiSelect ? '' : (value[0] && value[0][labelFieldId]) || '',
@@ -434,9 +435,21 @@ class InputSelect extends React.Component {
         }
     }
 
+    handlePopupListMouseEnter = () => {
+        this.setState({
+            isPopupFocused: true,
+        })
+    }
+
+    handlePopupListMouseLeave = () => {
+        this.setState({
+            isPopupFocused: false,
+        })
+    }
+
     onInputBlur = () => {
         const { onBlur } = this.props
-        const { isExpanded, value } = this.state
+        const { isExpanded, value, isPopupFocused } = this.state
 
         if (!isExpanded) {
             onBlur(this.getValue())
@@ -445,7 +458,7 @@ class InputSelect extends React.Component {
         this.handleValueChangeOnBlur()
         this.setInputFocus(false)
 
-        if (isEmpty(value)) {
+        if (isEmpty(value) && !isPopupFocused) {
             this.setNewInputValue('')
         }
     }
@@ -579,6 +592,8 @@ class InputSelect extends React.Component {
                         })}
                     >
                         <PopupList
+                            handleMouseEnter={this.handlePopupListMouseEnter}
+                            handleMouseLeave={this.handlePopupListMouseLeave}
                             scheduleUpdate={() => {}}
                             loading={loading}
                             isExpanded={isExpanded}
