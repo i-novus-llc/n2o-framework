@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
@@ -29,7 +30,7 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new N2oAllPagesPack())
-                .sources(new JavaInfo("testDynamic", N2oTable.class))
+                .sources(new JavaInfo("testDynamic", N2oWidget.class))
                 .providers(new TestToolbarDynamicProvider())
                 .loaders(new JavaSourceLoader(builder.getEnvironment().getDynamicMetadataProviderFactory()));
     }
