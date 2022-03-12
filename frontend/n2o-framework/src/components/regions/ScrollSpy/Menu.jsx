@@ -77,9 +77,9 @@ function DropdownMenuItem({ title, menu, active, setActive }) {
     return (
         <div className="d-flex n2o-scroll-spy-region__dropdown-menu-item">
             <div className="n2o-scroll-spy-region__dropdown-menu-items-wrapper">
-                <section className="n2o-scroll-spy-region__dropdown-toggle">
+                <section className="n2o-scroll-spy-region__dropdown-toggle" onClick={toggle}>
                     <i className={classNames('n2o-scroll-spy-region__dropdown-icon', { 'fa fa-sort-asc up': isOpen, 'fa fa-sort-desc down': !isOpen })} />
-                    <Title title={title} className="n2o-scroll-spy-region__dropdown-menu-title" onClick={toggle} />
+                    <Title title={title} className="n2o-scroll-spy-region__dropdown-menu-title" />
                 </section>
                 <Menu menu={menu} active={active} setActive={setActive} isOpen={isOpen} />
             </div>
