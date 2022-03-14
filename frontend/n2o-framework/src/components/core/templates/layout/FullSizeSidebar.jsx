@@ -15,6 +15,7 @@ import { propTypes } from './propTypes'
  * @param [footer] Подвал страницы
  */
 export function Layout({
+    className,
     sidebar,
     fixed,
     header,
@@ -25,7 +26,7 @@ export function Layout({
     const ContainerElement = fixed ? ScrollContainer : 'div'
 
     return (
-        <div className="d-flex">
+        <div className={className}>
             {sidebar}
             <LayoutElement className={classNames(' wq2s w-100 d-flex flex-column vh-100')}>
                 {header}
