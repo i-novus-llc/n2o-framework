@@ -61,21 +61,39 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
         CompilePipeline pipeline = N2oPipelineSupport.compilePipeline(builder.getEnvironment());
         CompileContext<?, ?> context = new WidgetContext("");
 
+        //Add external scope
+        IndexScope indexScope = new IndexScope(5);
+        Toolbar filterField = pipeline.compile().get(toolbar, context, indexScope);
+
+        AbstractButton button = filterField.getButton("mi5");
+        assertThat(button, notNullValue());
+
+        AbstractButton button2 = filterField.getButton("mi6");
+        assertThat(button2, notNullValue());
+    }
+
+    @Test
+    public void testDynamicToolbarCompilerNoScope() {
+        builder.scan();
+        N2oToolbar toolbar = new N2oToolbar();
+        N2oButton deleteButton = new N2oButton();
+        N2oButton addButton = new N2oButton();
+        deleteButton.setType(LabelType.icon);
+        deleteButton.setIcon("fa fa-pencil");
+        deleteButton.setColor("danger");
+        addButton.setType(LabelType.icon);
+        addButton.setIcon("fa fa-pencil");
+        addButton.setColor("primary");
+
+        toolbar.setItems(new ToolbarItem[]{deleteButton, addButton});
+        CompilePipeline pipeline = N2oPipelineSupport.compilePipeline(builder.getEnvironment());
+        CompileContext<?, ?> context = new WidgetContext("");
+
         //Add Scope in ToolBarCompiler
         Toolbar filterField = pipeline.compile().get(toolbar, context);
         AbstractButton button = filterField.getButton("mi0");
 
         assertThat(button, notNullValue());
-
-        //Add external scope
-        IndexScope indexScope = new IndexScope(5);
-        filterField = pipeline.compile().get(toolbar, context, indexScope);
-
-        AbstractButton button1 = filterField.getButton("mi5");
-        assertThat(button1, notNullValue());
-
-        AbstractButton button2 = filterField.getButton("mi6");
-        assertThat(button2, notNullValue());
     }
 
 }
