@@ -3,7 +3,9 @@ package net.n2oapp.framework.api.metadata.meta.region.scrollspy;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ScrollspyRegion extends Region {
+public class ScrollspyRegion extends Region implements CompiledRegionItem {
 
     @JsonProperty
     private String placement;
@@ -24,4 +26,9 @@ public class ScrollspyRegion extends Region {
     private Boolean headlines;
     @JsonProperty
     private List<ScrollspyElement> menu;
+
+    @Override
+    public void collectWidgets(List<Widget<?>> compiledWidgets) {
+        collectWidgets(menu, compiledWidgets);
+    }
 }

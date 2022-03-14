@@ -14,7 +14,6 @@ import { TabContent } from './TabContent'
  * @reactProps {string} className - css-класс
  * @reactProps {string} navClassName - css-класс для нава
  * @reactProps {string} maxHeight - кастом max-высота контента таба, фиксация табов
- * @reactProps {string} title - title табов
  * @reactProps {function} onChangeActive
  * @reactProps {function} hideSingleTab - скрывать / не скрывать навигацию таба, если он единственный
  * @reactProps {node} children - элемент потомок компонента Tabs
@@ -80,10 +79,6 @@ class Tabs extends React.Component {
         return foundChild && foundChild.props.id
     }
 
-    /**
-    * Базовый рендер
-    * @return {JSX.Element}
-    */
     render() {
         const {
             className,
@@ -93,7 +88,6 @@ class Tabs extends React.Component {
             dependencyVisible,
             scrollbar,
             maxHeight,
-            title,
         } = this.props
 
         const activeId = this.defaultOpenedId
@@ -142,7 +136,6 @@ class Tabs extends React.Component {
                             'n2o-nav-tabs_tabs-fixed': maxHeight,
                         })}
                     >
-                        {title && <h5 className="n2o-nav-tabs__title">{title}</h5>}
                         <Group
                             className={classNames('n2o-nav-tabs__tabs-list', {
                                 navClassName,
@@ -155,26 +148,20 @@ class Tabs extends React.Component {
                         />
                     </div>
                 )}
-                <div
+                <TabContent
                     className={classNames('n2o-tab-content__container', {
                         visible: dependencyVisible,
                         fixed: maxHeight,
+                        'tab-content_fixed': maxHeight,
+                        'tab-content_no-scrollbar': scrollbar === false,
                     })}
+                    style={tabContentStyle}
                 >
-                    <TabContent
-                        className={classNames({
-                            'tab-content_fixed': maxHeight,
-                            'tab-content_fixed tabs-with-title': (title && maxHeight),
-                            'tab-content_height-fixed': maxHeight,
-                            'tab-content_no-scrollbar': scrollbar === false,
-                        })}
-                        style={tabContentStyle}
-                    >
-                        {React.Children.map(children, child => React.cloneElement(child, {
-                            active: activeId === child.props.id,
-                        }))}
-                    </TabContent>
-                </div>
+                    {React.Children.map(children, child => React.cloneElement(child, {
+                        active: activeId === child.props.id,
+                        fixed: !!maxHeight,
+                    }))}
+                </TabContent>
             </div>
         )
     }
@@ -198,10 +185,6 @@ Tabs.propTypes = {
      * спрятать/не прятать scrollbar
      */
     scrollbar: PropTypes.bool,
-    /**
-     * title табов
-     */
-    title: PropTypes.string,
     activeId: PropTypes.string,
     maxHeight: PropTypes.number,
     hideSingleTab: PropTypes.bool,
