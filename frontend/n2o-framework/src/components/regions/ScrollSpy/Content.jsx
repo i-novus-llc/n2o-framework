@@ -54,7 +54,7 @@ export const Content = forwardRef(({
     }, SCROLL_THROTTLE, { maxWait: SCROLL_THROTTLE }), [ignoreScroll, active, setActive])
 
     useEffect(() => {
-        if (!isEqual(scrollSate, prevScroll)) {
+        if (prevScroll && (scrollSate.scrollTop !== prevScroll.scrollTop)) {
             onScroll(scrollSate)
         }
     }, [scrollSate, prevScroll, onScroll])
