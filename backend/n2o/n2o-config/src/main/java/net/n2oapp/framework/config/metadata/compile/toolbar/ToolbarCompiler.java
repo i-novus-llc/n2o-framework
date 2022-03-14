@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -90,7 +91,9 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
     }
 
     private AbstractButton getButton(N2oToolbar source, ToolbarItem item, CompileContext<?, ?> context, CompileProcessor p) {
-        return p.compile(item, context, source);
+        IndexScope scope = p.getScope(IndexScope.class);
+        scope = scope == null ? new IndexScope() : scope;
+        return p.compile(item, context, source, scope);
     }
 
     private ToolbarItem[] push(N2oToolbar source, N2oButton button) {
