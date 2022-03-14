@@ -1,0 +1,51 @@
+---
+title: События
+description: ""
+---
+
+В N2O есть возможность выполнять действия не только по активному событию вроде нажатия кнопки,
+но и по событию, которое может прийти по сети.
+
+### Stomp события {#Stomp_events}
+Одной из разновидностей таких событий являются stomp событие, которое может быть получено по STOMP протоколу.
+События должны отрабатывать одинаково вне зависимости от страницы, поэтому они определяются в *.application.xml файле.
+
+Простейшим примером такого события может быть отправка информации об уведомлении.
+Клиент, получив эту информацию, сформирует уведомление и отобразит его на странице.
+
+```xml title="Получение информации уведомления и отображение его на странице"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <events>
+        <!-- клиент будет прослушивать данные, полученные по указанному destination -->
+        <stomp-event id="notif" destination="/notifications">
+            <!-- действие отображения уведомления (атрибуты-ссылки будут прочитаны из пришедших данных) -->
+            <alert title="{header}" text="{body}" placement="{placement}" color="{severity}" timeout="7000"/>
+        </stomp-event>
+    </events>
+
+    ...
+</application>
+```
+
+На сервере же достаточно вызвать один из методов WebSocketController.
+
+```java title="Отправка сообщения с сервера"
+@Autowired
+private WebSocketController wsController;
+
+public void sendMessage() {
+    ...
+    wsController.convertAndSendToUser(userId, destination, message);
+    ...
+}
+```
+
+```java title="Структура отправляемого сообщения"
+public class Message {
+    private String header;
+    private String body;
+    private String placement;
+    private String severity;
+}
+```
+Как можно заметить, атрибуты действия `alert` ссылаются на конкретные поля Message.

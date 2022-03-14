@@ -1398,7 +1398,7 @@ class MyService {
 Источник данных - это способ получения данных на клиенте.
 С помощью него виджеты могут отображать свои данные.
 
-Источники данных создаются на странице:
+Стандартные источники данных, как правило, создаются на странице:
 
 ```xml title="Источники данных на странице"
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
@@ -1481,6 +1481,69 @@ class MyService {
 :::
 
 [Подробнее об источниках данных](../xml/page#datasources)
+
+### Stomp источник данных {#Stomp-Datasources}
+
+Stomp источник данных также получает данные на клиенте, но делает это с помощью STOMP протокола.
+Его использование ограничивается *.application.xml файлами.
+
+Пожалуй наиболее частым случаем применения Stomp источника данных является асинхронное получение счетчиков.
+
+```xml title="Изменение счетчика меню с использованием stomp источника данных"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <!-- клиент будет прослушивать данные, полученные по указанному destination -->
+        <stomp-datasource id="notifCount" destination="/notif">
+            <values>
+                <!-- значение счетчика на момент инициализации -->
+                <value count=""/>
+            </values>
+        </stomp-datasource>
+    </datasources>
+
+    <header title="Хедер">
+        <nav>
+            <!-- элемент меню, в котором отобразится обновленное значение счетчика -->
+            <!-- атрибут должен ссылаться на имя поля, используемого в stomp-datasource (в данном случае count) -->
+            <menu-item id="notif"
+                       datasource="notifCount"
+                       icon="fa fa-bell"
+                       badge="{count}"
+                       badge-color="dander">
+                ...
+            </menu-item>
+        </nav>
+    </header>
+</application>
+```
+
+Изменять можно не только значение элемента меню, но и, например, цвет его значка
+```xml title="Изменение цвета значка меню с использованием stomp источника данных"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <stomp-datasource id="notifCount" destination="/notif">
+            <values>
+                <!-- цвет значка на момент инициализации -->
+                <value color="danger"/>
+            </values>
+        </stomp-datasource>
+    </datasources>
+
+    <header title="Хедер">
+        <nav>
+            <menu-item id="notif"
+                       datasource="notifCount"
+                       icon="fa fa-bell"
+                       badge="9"
+                       badge-color="{color}">
+                ...
+            </menu-item>
+        </nav>
+    </header>
+</application>
+```
+
+[Подробнее о stomp источниках данных](../xml/application#stomp-datasource)
 
 ### Модели данных {#Data_models}
 
