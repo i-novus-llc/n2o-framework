@@ -1,6 +1,6 @@
 import React, { useRef, useImperativeHandle, forwardRef, useCallback, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { debounce, isEqual } from 'lodash'
+import { debounce } from 'lodash'
 
 import { ScrollContext } from '../../snippets/ScrollContainer/ScrollContainer'
 import { usePrevious } from '../../../utils/usePrevious'
