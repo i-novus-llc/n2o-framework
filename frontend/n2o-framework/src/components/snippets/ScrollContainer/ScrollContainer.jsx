@@ -11,18 +11,20 @@ const DEFAULT_STATE = {
     scrollLeft: 0,
     top: 0,
     left: 0,
+    scrollTo() {},
 }
 const STATE_KEYS = Object.keys(DEFAULT_STATE)
 
 export const ScrollContext = createContext(DEFAULT_STATE)
 
-const getState = (element) => {
+const getState = (element, scrollTo) => {
     const { top, left } = element.getBoundingClientRect()
 
     return {
         ...pick(element, STATE_KEYS),
         top,
         left,
+        scrollTo,
     }
 }
 
@@ -38,6 +40,9 @@ export const ScrollContainer = ({
             setState(getState(container))
         }
     }, [container])
+    const scrollTo = useCallback((prop = {}) => {
+        container?.scrollTo(prop)
+    }, [container])
 
     useEffect(() => {
         if (!container) {
@@ -45,12 +50,12 @@ export const ScrollContainer = ({
 
             return
         }
-        const newState = getState(container)
+        const newState = getState(container, scrollTo)
 
         if (!isEqual(state, newState)) {
             setState(newState)
         }
-    }, [container, state])
+    }, [container, state, scrollTo])
 
     return (
         <div
