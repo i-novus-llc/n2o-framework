@@ -31,6 +31,11 @@ public class N2oCompilePipeline extends N2oPipeline implements CompilePipeline {
             }
 
             @Override
+            public <D extends Compiled, S> D get(S input, CompileContext<?, ?> ctx, Object... scopes) {
+                return execute(ctx, null, input, scopes);
+            }
+
+            @Override
             public <D extends Compiled, S> D get(S input, CompileContext<?, ?> ctx, CompileProcessor p) {
                 return execute(ctx, null, input, (N2oCompileProcessor) p);
             }

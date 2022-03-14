@@ -33,11 +33,14 @@ public class TestToolbarDynamicProvider implements DynamicMetadataProvider {
 
         N2oToolbarCell toolbar = new N2oToolbarCell();
         N2oButton deleteButton = new N2oButton();
-        deleteButton.setId("deleteRecord_r_");
+        N2oButton addButton = new N2oButton();
         deleteButton.setType(LabelType.icon);
         deleteButton.setIcon("fa fa-pencil");
         deleteButton.setColor("danger");
-        toolbar.setItems(new ToolbarItem[]{deleteButton});
+        addButton.setType(LabelType.icon);
+        addButton.setIcon("fa fa-pencil");
+        addButton.setColor("primary");
+        toolbar.setItems(new ToolbarItem[]{deleteButton, addButton});
         N2oSimpleColumn n2oSimpleColumn = new N2oSimpleColumn();
         n2oSimpleColumn.setCell(toolbar);
         table.setColumns(new N2oSimpleColumn[]{n2oSimpleColumn});

@@ -52,6 +52,10 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         int gi = 0;
         int i = 0;
         Boolean buttonGrouping = isGrouping(p);
+
+        IndexScope scope = p.getScope(IndexScope.class);
+        final IndexScope indexScope = scope == null ? new IndexScope() : scope;
+
         while (i < source.getItems().length) {
             Group gr = new Group(place + gi++);
             List<AbstractButton> buttons = new ArrayList<>();
@@ -61,17 +65,17 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                 if (group.getGenerate() != null) {
                     for (String generate : group.getGenerate()) {
                         buttonGeneratorFactory.generate(generate.trim(), source, context, p)
-                                .forEach(j -> buttons.add(getButton(source, j, context, p)));
+                                .forEach(j -> buttons.add(getButton(source, j, context, p, indexScope)));
                     }
                 } else {
                     for (GroupItem it : group.getItems()) {
-                        buttons.add(getButton(source, it, context, p));
+                        buttons.add(getButton(source, it, context, p, indexScope));
                     }
                 }
                 i++;
             } else {
                 while (i < source.getItems().length && !(source.getItems()[i] instanceof N2oGroup)) {
-                    buttons.add(getButton(source, source.getItems()[i], context, p));
+                    buttons.add(getButton(source, source.getItems()[i], context, p, indexScope));
                     i++;
                     if (!buttonGrouping) break;
                 }
@@ -90,9 +94,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         }
     }
 
-    private AbstractButton getButton(N2oToolbar source, ToolbarItem item, CompileContext<?, ?> context, CompileProcessor p) {
-        IndexScope scope = p.getScope(IndexScope.class);
-        scope = scope == null ? new IndexScope() : scope;
+    private AbstractButton getButton(N2oToolbar source, ToolbarItem item, CompileContext<?, ?> context, CompileProcessor p, IndexScope scope) {
         return p.compile(item, context, source, scope);
     }
 

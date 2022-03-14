@@ -7,9 +7,11 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.pipeline.CompilePipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -19,6 +21,12 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNull.notNullValue;
+
+/**
+ * Тестирование компиляции динамического тулбара
+ */
 public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
 
     @Override
@@ -41,13 +49,33 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
         builder.scan();
         N2oToolbar toolbar = new N2oToolbar();
         N2oButton deleteButton = new N2oButton();
-        deleteButton.setId("deleteRecord_r_");
+        N2oButton addButton = new N2oButton();
         deleteButton.setType(LabelType.icon);
         deleteButton.setIcon("fa fa-pencil");
         deleteButton.setColor("danger");
-        toolbar.setItems(new ToolbarItem[]{deleteButton});
+        addButton.setType(LabelType.icon);
+        addButton.setIcon("fa fa-pencil");
+        addButton.setColor("primary");
+
+        toolbar.setItems(new ToolbarItem[]{deleteButton, addButton});
         CompilePipeline pipeline = N2oPipelineSupport.compilePipeline(builder.getEnvironment());
         CompileContext<?, ?> context = new WidgetContext("");
+
+        //Add Scope in ToolBarCompiler
         Toolbar filterField = pipeline.compile().get(toolbar, context);
+        AbstractButton button = filterField.getButton("mi0");
+
+        assertThat(button, notNullValue());
+
+        //Add external scope
+        IndexScope indexScope = new IndexScope(5);
+        filterField = pipeline.compile().get(toolbar, context, indexScope);
+
+        AbstractButton button1 = filterField.getButton("mi5");
+        assertThat(button1, notNullValue());
+
+        AbstractButton button2 = filterField.getButton("mi6");
+        assertThat(button2, notNullValue());
     }
+
 }
