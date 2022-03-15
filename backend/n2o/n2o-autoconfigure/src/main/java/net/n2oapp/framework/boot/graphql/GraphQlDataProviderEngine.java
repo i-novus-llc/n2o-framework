@@ -36,7 +36,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private static final String DEFAULT_FILTER_SEPARATOR = " and ";
     private static final String DEFAULT_SORTING_SEPARATOR = ", ";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
-    private final Pattern placeholderKeyPattern = Pattern.compile("\\{\\{\\w+}}\\s*:");
+    private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
 
 
     @Override
@@ -120,26 +120,26 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
 
-        query = replaceListPlaceholder(query, "{{select}}", args.remove("select"), "", QueryUtil::reduceSpace);
+        query = replaceListPlaceholder(query, "$$select", args.remove("select"), "", QueryUtil::reduceSpace);
         if (args.get("sorting") != null) {
             String sortingSeparator = Objects.requireNonNullElse(invocation.getSortingSeparator(), DEFAULT_SORTING_SEPARATOR);
-            query = replaceListPlaceholder(query, "{{sorting}}", args.remove("sorting"),
+            query = replaceListPlaceholder(query, "$$sorting", args.remove("sorting"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, sortingSeparator));
         }
         if (invocation.getPageMapping() == null)
-            query = replacePlaceholder(query, "{{page}}", args.remove("page"), "1");
+            query = replacePlaceholder(query, "$$page", args.remove("page"), "1");
         if (invocation.getSizeMapping() == null)
-            query = replacePlaceholder(query, "{{size}}", args.remove("limit"), "10");
-        query = replacePlaceholder(query, "{{offset}}", args.remove("offset"), "0");
+            query = replacePlaceholder(query, "$$size", args.remove("limit"), "10");
+        query = replacePlaceholder(query, "$$offset", args.remove("offset"), "0");
         if (args.get("filters") != null) {
             String filterSeparator = Objects.requireNonNullElse(invocation.getFilterSeparator(), DEFAULT_FILTER_SEPARATOR);
-            query = replaceListPlaceholder(query, "{{filters}}", args.remove("filters"),
+            query = replaceListPlaceholder(query, "$$filters", args.remove("filters"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
         }
 
         Set<String> placeholderKeys = extractPlaceholderKeys(query);
         for (Map.Entry<String, Object> entry : args.entrySet()) {
-            String placeholder = "{{" + entry.getKey() + "}}";
+            String placeholder = "$$" + entry.getKey();
             String value = placeholderKeys.contains(placeholder) ?
                     (String) entry.getValue() :
                     toGraphQlString(entry.getValue());

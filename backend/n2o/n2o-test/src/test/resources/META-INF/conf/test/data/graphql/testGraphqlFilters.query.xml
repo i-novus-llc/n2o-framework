@@ -2,11 +2,11 @@
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
 
     <list result-mapping="['data.persons']" filters="personName, age, address.name">
-        <graphql>query persons(name: {{name}}, age: {{age}}, addresses: {{addresses}}) {id name age}</graphql>
+        <graphql>query persons(name: $$name, age: $$age, addresses: $$addresses) {id name age}</graphql>
     </list>
 
     <list result-mapping="['data.persons']">
-        <graphql filter-separator=" AND ">query persons(filter: { {{filters}} }) {id name age}</graphql>
+        <graphql filter-separator=" AND ">query persons(filter: { $$filters }) {id name age}</graphql>
     </list>
 
     <fields>
@@ -17,14 +17,14 @@
         <field id="personName">
             <select mapping="['name']"/>
             <filters>
-                <eq filter-id="personName" mapping="['name']">{ name: {eq: {{name}} } }</eq>
+                <eq filter-id="personName" mapping="['name']">{ name: {eq: $$name } }</eq>
             </filters>
         </field>
 
         <field id="age">
             <select/>
             <filters>
-                <eq filter-id="age">{ age: {ge: {{age}} } }</eq>
+                <eq filter-id="age">{ age: {ge: $$age } }</eq>
             </filters>
         </field>
 

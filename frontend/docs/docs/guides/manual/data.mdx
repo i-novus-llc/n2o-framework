@@ -333,7 +333,7 @@ GraphQl провайдер позволяет выполнять GraphQl зап�
 <query>
   <list>
     <graphql>
-        query persons(filters: { {{filters}} }, page: {{page}}, size: {{limit}}, sort: { {{sorting}} }) {
+        query persons(filters: { $$filters }, page: $$page, size: $$limit, sort: { $$sorting }) {
            id
            name
            age
@@ -349,9 +349,9 @@ GraphQl провайдер позволяет выполнять GraphQl зап�
     <field id="name">
       <select/>
       <filters>
-        <eq filter-id="name">{ name: {eq: {{name}} } }</eq>
+        <eq filter-id="name">{ name: {eq: $$name} }</eq>
       </filters>
-      <sorting mapping="['nameDir']">{ name: {{nameDir}} }</sorting>
+      <sorting mapping="['nameDir']">{ name: $$nameDir }</sorting>
     </field>
 
     <field id="age">
@@ -366,7 +366,7 @@ GraphQl провайдер позволяет выполнять GraphQl зап�
   <invocation>
     <graphql>
       mutation {
-         createPerson(name: {{name}}, age: {{age}}) {
+         createPerson(name: $$name, age: $$age) {
             id
             name
             age
@@ -878,7 +878,7 @@ Java провайдеры в качестве альтернативы могу�
 <query>
   <list>
     <graphql filter-separator=", and:">
-      query posts(filter: {{filters}}) {
+      query posts(filter: $$filters) {
         score
         completed
       }
@@ -888,15 +888,15 @@ Java провайдеры в качестве альтернативы могу�
   <fields>
     <field id="score">
       <select mapping="['score']"/>
-      <!-- при указании тела в фильтре оно будет добавлено в {{filters}} плейсхолдер -->
+      <!-- при указании тела в фильтре оно будет добавлено в $$filters плейсхолдер -->
       <filters>
-        <eq filter-id="score">{ score: {gt: {{score}}} }</eq>
+        <eq filter-id="score">{ score: {gt: $$score} }</eq>
       </filters>
     </field>
     <field id="completed">
       <select mapping="['completed']"/>
       <filters>
-        <eq filter-id="completed">{ completed: {{completed}} }</eq>
+        <eq filter-id="completed">{ completed: $$completed }</eq>
       </filters>
     </field>
        ...
@@ -938,7 +938,7 @@ Java провайдеры в качестве альтернативы могу�
 ```xml title="Маппинг входных параметров в graphql провайдере"
 <operation>
   <invocation>
-    <graphql>mutation { create(score: {{user_score}}, completed: {{is_completed}}) {id score completed}</graphql>
+    <graphql>mutation { create(score: $$user_score, completed: $$is_completed) {id score completed}</graphql>
   </invocation>
   <in>
     <field id="score" mapping="['user_score']"/>
