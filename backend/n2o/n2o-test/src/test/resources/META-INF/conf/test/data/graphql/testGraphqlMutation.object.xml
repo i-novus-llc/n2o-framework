@@ -19,7 +19,7 @@
 
         <operation id="testPlaceholders">
             <invocation>
-                <graphql>mutation { createPerson(name: {{name}}, age: {{age}}, addresses: {{addresses}}) {id name age address: {street}} }</graphql>
+                <graphql>mutation { createPerson(name: $$name, age: $$age, addresses: $$addresses) {id name age address: {street}} }</graphql>
             </invocation>
             <in>
                 <field id="personName" mapping="['name']"/>

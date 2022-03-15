@@ -141,7 +141,7 @@ GraphQl запрос.
     <invocation>
       <graphql>
           mutation {
-             createPerson(name: {{name}}, age: {{age}}, addresses: {{addresses}}) {
+             createPerson(name: $$name, age: $$age, addresses: $$addresses) {
                 id
                 name
                 age
@@ -165,19 +165,19 @@ GraphQl запрос.
 
 :::note
 
-В запросе могут быть использованы плейсхолдеры в двойных фигурных скобках (например: `{{name}}`).
+В запросе могут быть использованы плейсхолдеры через использование указателя в виде: `$$` (например: `$$name`).
 :::
 
 **Служебные плейсхолдеры**
 
-|Наименование     |Описание                                     |
-|-----------------|---------------------------------------------|
-|{{select}}       |Собирает и объединяет тела полей запроса     |
-|{{filters}}      |Собирает и объединяет тела фильтров запроса  |
-|{{sorting}}      |Собирает и объединяет тела сортировок запроса|
-|{{limit}}        |Количество элементов на странице             |
-|{{page}}         |Номер страницы                               |
-|{{offset}}       |Смещение элементов страницы                  |
+|Наименование   |Описание                                     |
+|---------------|---------------------------------------------|
+|$$select       |Собирает и объединяет тела полей запроса     |
+|$$filters      |Собирает и объединяет тела фильтров запроса  |
+|$$sorting      |Собирает и объединяет тела сортировок запроса|
+|$$limit        |Количество элементов на странице             |
+|$$page         |Номер страницы                               |
+|$$offset       |Смещение элементов страницы                  |
 
 **Пример**
 
@@ -185,8 +185,8 @@ GraphQl запрос.
 <query>
   <list>
     <graphql>
-        query persons(filters: { {{filters}} }, page: {{page}}, size: {{limit}}, sort: { {{sorting}} }) {
-           {{select}}
+        query persons(filters: { $$filters }, page: $$page, size: $$limit, sort: { $$sorting }) {
+           $$select
         }
     <graphql/>
   </list>
@@ -197,22 +197,22 @@ GraphQl запрос.
     </field>
 
     <field id="name">
-      <!-- при указании тела в select оно будет добавлено в {{select}} плейсхолдер -->
+      <!-- при указании тела в select оно будет добавлено в $$select плейсхолдер -->
       <select>name</select>
-      <!-- при указании тела в фильтре оно будет добавлено в {{filters}} плейсхолдер -->
+      <!-- при указании тела в фильтре оно будет добавлено в $$filters плейсхолдер -->
       <filters>
-        <eq filter-id="name">{ name: {eq: {{name}} } }</eq>
+        <eq filter-id="name">{ name: {eq: $$name } }</eq>
       </filters>
-      <!-- при указании тела в sorting оно будет добавлено в {{sorting}} плейсхолдер -->
-      <sorting mapping="['nameDir']">{ name: {{nameDir}} }</sorting>
+      <!-- при указании тела в sorting оно будет добавлено в $$sorting плейсхолдер -->
+      <sorting mapping="['nameDir']">{ name: $$nameDir }</sorting>
     </field>
 
     <field id="age">
       <select>age</select>
       <filters>
-        <eq filter-id="age">{ age: {ge: {{age}} } }</eq>
+        <eq filter-id="age">{ age: {ge: $$age } }</eq>
       </filters>
-      <sorting mapping="['ageDir']">{ age: {{ageDir}} }</sorting>
+      <sorting mapping="['ageDir']">{ age: $$ageDir }</sorting>
     </field>
   </fields>
 </query>
