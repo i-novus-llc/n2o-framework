@@ -54,10 +54,22 @@ export const Content = forwardRef(({
     }, SCROLL_THROTTLE, { maxWait: SCROLL_THROTTLE }), [ignoreScroll, active, setActive])
 
     useEffect(() => {
-        if (prevScroll && (scrollSate.scrollTop !== prevScroll.scrollTop)) {
+        if (!prevScroll) { return }
+
+        // Корректировочный скрол при изменении размеров контенера
+        if (
+            (scrollSate.scrollHeight !== prevScroll.scrollHeight) ||
+            (scrollSate.clientHeight !== prevScroll.clientHeight)
+        ) {
+            forwardedRef.current.scrollTo(active)
+
+            return
+        }
+
+        if (scrollSate.scrollTop !== prevScroll.scrollTop) {
             onScroll(scrollSate)
         }
-    }, [scrollSate, prevScroll, onScroll])
+    }, [scrollSate, prevScroll, onScroll, forwardedRef, active])
 
     return (
         <section className={CONTENT_GROUP_CLASS_NAME} ref={contentRef}>
