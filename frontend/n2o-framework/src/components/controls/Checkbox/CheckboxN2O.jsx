@@ -34,6 +34,7 @@ function CheckboxN2O({
     onBlur,
     elementId,
     help,
+    tabIndex,
 }) {
     return (
         <div
@@ -59,6 +60,7 @@ function CheckboxN2O({
                 onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
+                tabIndex={tabIndex}
             />
             <label className="custom-control-label" htmlFor={elementId}>
                 {label}
@@ -114,11 +116,13 @@ CheckboxN2O.propTypes = {
      * Подсказка в popover
      */
     help: PropTypes.string,
+    tabIndex: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
 }
 
 CheckboxN2O.defaultProps = {
     disabled: false,
     inline: false,
+    tabIndex: 0,
     onFocus: () => {},
     onBlur: () => {},
     onChange: () => {},
