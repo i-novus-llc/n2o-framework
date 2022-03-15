@@ -148,11 +148,11 @@ function PopupItems({
         )
     }
 
-    const onMouseOver = useCallback((item) => {
+    const onMouseOver = (item) => {
         if (setActiveValueId) {
             setActiveValueId(item[valueFieldId])
         }
-    }, [setActiveValueId, valueFieldId])
+    }
 
     const onMouseLeave = useCallback(() => setActiveValueId(''), [setActiveValueId])
 
@@ -165,7 +165,7 @@ function PopupItems({
                     active: activeValueId === item[valueFieldId] && !disabled,
                     'n2o-eclipse-content__with-status': withStatus(item),
                 })}
-                onMouseOver={onMouseOver}
+                onMouseOver={() => onMouseOver(item)}
                 onMouseLeave={onMouseLeave}
                 disabled={disabled}
                 ref={handleRef}
@@ -208,6 +208,7 @@ function PopupItems({
             value={inArray(selected, item)}
             label={displayTitle(item)}
             inline
+            tabIndex={-1}
         />
     )
     const renderLabel = item => (
