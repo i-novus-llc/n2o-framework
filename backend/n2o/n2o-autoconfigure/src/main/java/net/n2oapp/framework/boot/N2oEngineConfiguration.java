@@ -58,6 +58,9 @@ public class N2oEngineConfiguration {
     @Value("${n2o.config.path}")
     private String configPath;
 
+    @Value("${n2o.engine.readonly}")
+    private boolean readonly;
+
     @Value("${n2o.engine.test.classpath}")
     private String resourcePath;
 
@@ -161,6 +164,7 @@ public class N2oEngineConfiguration {
         TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
         testDataProviderEngine.setPathOnDisk(configPath);
         testDataProviderEngine.setClasspathResourcePath(resourcePath);
+        testDataProviderEngine.setReadonly(readonly);
         return testDataProviderEngine;
     }
 
