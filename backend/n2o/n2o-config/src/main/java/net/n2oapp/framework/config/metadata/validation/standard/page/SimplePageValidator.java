@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,12 @@ public class SimplePageValidator implements SourceValidator<N2oSimplePage>, Sour
 
     @Override
     public void validate(N2oSimplePage source, SourceProcessor p) {
+        if (source.getWidget() == null)
+            throw new N2oMetadataValidationException("Не задан виджет простой страницы");
+        checkDatasource(source, p);
+    }
+
+    private void checkDatasource(N2oSimplePage source, SourceProcessor p) {
         DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope();
         if (source.getWidget() != null) {
             datasourceIdsScope.add(source.getWidget().getId());
