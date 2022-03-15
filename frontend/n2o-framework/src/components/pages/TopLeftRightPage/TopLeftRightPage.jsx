@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import {
     compose,
@@ -16,6 +16,7 @@ import { REGIONS } from '../../../core/factory/factoryLevels'
 // eslint-disable-next-line import/no-named-as-default
 import Factory from '../../../core/factory/Factory'
 import DefaultPage from '../DefaultPage'
+import { ScrollContext } from '../../snippets/ScrollContainer/ScrollContainer'
 
 import FixedContainer from './FixedContainer'
 
@@ -30,8 +31,6 @@ let timeoutId = null
 function TopLeftRightPage({
     id,
     regions,
-    setContainerRef,
-    setFixedRef,
     isFixed,
     style,
     scrollTo,
@@ -44,14 +43,14 @@ function TopLeftRightPage({
     const rightRegion = get(regions, 'right', null)
 
     return (
-        <DefaultPage {...rest}>
+        <DefaultPage
+            {...rest}
+        >
             <div
                 className="n2o-page n2o-page__top-left-right-layout"
-                ref={setContainerRef}
             >
                 <FixedContainer
                     className="n2o-page__top"
-                    setRef={setFixedRef(FixedPlace.TOP)}
                     isFixed={isFixed}
                     style={style[FixedPlace.TOP]}
                     {...places[FixedPlace.TOP]}
@@ -64,7 +63,6 @@ function TopLeftRightPage({
                 <div className="n2o-page__left-right-layout">
                     <FixedContainer
                         className="n2o-page__left"
-                        setRef={setFixedRef(FixedPlace.LEFT)}
                         isFixed={isFixed}
                         style={style[FixedPlace.LEFT]}
                         {...places[FixedPlace.LEFT]}
@@ -77,7 +75,6 @@ function TopLeftRightPage({
                     <FixedContainer
                         className="n2o-page__right"
                         name={FixedPlace.RIGHT}
-                        setRef={setFixedRef(FixedPlace.RIGHT)}
                         isFixed={isFixed}
                         style={style[FixedPlace.RIGHT]}
                         {...places[FixedPlace.RIGHT]}
@@ -105,8 +102,6 @@ TopLeftRightPage.propTypes = {
     id: PropTypes.string,
     regions: PropTypes.object,
     width: PropTypes.object,
-    setContainerRef: PropTypes.func,
-    setFixedRef: PropTypes.func,
     isFixed: PropTypes.bool,
     style: PropTypes.object,
     scrollTo: PropTypes.func,
@@ -119,10 +114,15 @@ TopLeftRightPage.defaultProps = {
     width: {},
 }
 
+const withContext = (Context, mapper) => Component => (props) => {
+    const contextValue = useContext(Context)
+    const mappedValue = mapper(contextValue)
+
+    return (<Component {...props} {...mappedValue} />)
+}
+
 const enhance = compose(
-    withState('containerRef', 'setContainerRef', null),
-    withState('fixedElementRef', 'setFixedElementRef', {}),
-    withState('eventListens', 'setEventListens', false),
+    withContext(ScrollContext, scrollContext => ({ scrollContext })),
     withState('isFixed', 'setFixed', null),
     withState('style', 'setStyle', {}),
     withState('showScrollButton', 'setShowScrollButton', false),
@@ -133,99 +133,35 @@ const enhance = compose(
     })),
     withHandlers({
         addScrollEvent: ({
-            places,
-            setFixed,
-            setStyle,
-            fixedElementRef,
             setShowScrollButton,
             needScrollButton,
-        }) => (e) => {
+        }) => (scrollContext) => {
             if (timeoutId) { clearTimeout(timeoutId) }
 
             timeoutId = setTimeout(() => {
-                let allStyles = {}
-                let isFixed = false
-
                 if (needScrollButton) {
-                    setShowScrollButton(window.scrollY > 100)
+                    setShowScrollButton(scrollContext.scrollTop > 100)
                 }
-
-                map(fixedElementRef, (ref, key) => {
-                    const offset = get(places, [key, 'offset'], 0)
-                    const { body } = e.target
-                    const html = e.target.documentElement
-                    const position = ref.getBoundingClientRect()
-                    const translateY = Math.abs(position.top) + offset
-                    const bodyHeight = Math.max(
-                        body.scrollHeight,
-                        body.offsetHeight,
-                        html.clientHeight,
-                        html.scrollHeight,
-                        html.offsetHeight,
-                    )
-                    const xEndPosition =
-            ref.clientHeight + translateY + Math.abs(ref.offsetTop)
-
-                    if (bodyHeight < xEndPosition) { return }
-
-                    const style = {
-                        transform: `translate(0, ${translateY}px)`,
-                    }
-
-                    isFixed = position.y <= 0
-
-                    allStyles = {
-                        ...allStyles,
-                        [key]: position.y <= 0 ? style : {},
-                    }
-                })
-
-                if (fixedElementRef.top) {
-                    allStyles = {
-                        ...allStyles,
-                        left: allStyles.top,
-                        right: allStyles.top,
-                    }
-                }
-
-                setStyle(allStyles)
-                setFixed(isFixed)
             }, 100)
         },
-        scrollTo: ({ setShowScrollButton }) => () => {
-            window.scrollTo({
+        scrollTo: ({ setShowScrollButton, scrollContext }) => () => {
+            scrollContext.scrollTo({
                 top: 0,
                 behavior: 'smooth',
             })
             setShowScrollButton(false)
         },
-        setFixedRef: ({ fixedElementRef, setFixedElementRef }) => name => (ref) => {
-            if (ref && !fixedElementRef[name]) {
-                setFixedElementRef({ ...fixedElementRef, [name]: ref })
-            }
-        },
     }),
     lifecycle({
-        componentDidUpdate() {
+        componentDidUpdate({ scrollContext: prevScrollContext }) {
             const {
-                eventListens,
-                containerRef,
-                fixedElementRef,
                 addScrollEvent,
-                setEventListens,
+                scrollContext,
             } = this.props
 
-            if (!eventListens && containerRef && fixedElementRef) {
-                window.addEventListener('scroll', addScrollEvent)
-
-                setEventListens(true)
+            if (scrollContext.scrollTop !== prevScrollContext.scrollTop) {
+                addScrollEvent(scrollContext)
             }
-        },
-
-        componentWillUnmount() {
-            const { addScrollEvent } = this.props
-
-            window.removeEventListener('scroll', addScrollEvent)
         },
     }),
 )
