@@ -48,6 +48,16 @@ public abstract class N2oPipeline implements Pipeline {
     protected <O, I> O execute(CompileContext<?, ?> context,
                                DataSet data,
                                I input,
+                               Object... scopes) {
+        N2oCompileProcessor processor = new N2oCompileProcessor(env, context, data);
+        processor.addScopes(scopes);
+        return execute(context, data, input, processor);
+    }
+
+
+    protected <O, I> O execute(CompileContext<?, ?> context,
+                               DataSet data,
+                               I input,
                                SubModelsProcessor subModelsProcessor) {
         N2oCompileProcessor processor = new N2oCompileProcessor(env, context, data,
                 subModelsProcessor);
