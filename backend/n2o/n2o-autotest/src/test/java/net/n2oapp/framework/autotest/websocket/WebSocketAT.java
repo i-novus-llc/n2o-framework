@@ -47,7 +47,6 @@ public class WebSocketAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void testWebSocketCount() {
         Integer exceptedCount = 10;
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
@@ -62,7 +61,6 @@ public class WebSocketAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void testWebSocketColor() {
         BadgeColor exceptedColor = BadgeColor.primary;
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
