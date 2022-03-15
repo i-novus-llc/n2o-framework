@@ -22,6 +22,7 @@ export function Tab({ className, active, children, fixed }) {
             className={classNames('tab-pane flex-grow-1', className, {
                 active,
                 'd-none': !active,
+                'tab-pane-fixed': fixed,
             })}
         >
             {children}

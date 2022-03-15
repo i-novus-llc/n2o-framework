@@ -17,6 +17,26 @@ const STATE_KEYS = Object.keys(DEFAULT_STATE)
 
 export const ScrollContext = createContext(DEFAULT_STATE)
 
+const useResizeObserver = (element, callback) => {
+    const callbackRef = useRef(callback)
+
+    useEffect(() => { callbackRef.current = callback }, [callback])
+
+    useEffect(() => {
+        if (!element) { return }
+        const resizeObserver = new ResizeObserver(() => {
+            callbackRef.current()
+        })
+
+        resizeObserver.observe(element)
+
+        // eslint-disable-next-line consistent-return
+        return () => {
+            resizeObserver.unobserve(element)
+        }
+    }, [callbackRef, element])
+}
+
 const getState = (element, scrollTo) => {
     const { top, left } = element.getBoundingClientRect()
 
@@ -33,18 +53,19 @@ export const ScrollContainer = ({
     className = '',
 }) => {
     const containerRef = useRef(null)
+    const contentRef = useRef(null)
     const container = containerRef.current
     const [state, setState] = useState(DEFAULT_STATE)
-    const onScroll = useCallback(() => {
-        if (container) {
-            setState(getState(container))
-        }
-    }, [container])
     const scrollTo = useCallback((prop = {}) => {
         container?.scrollTo(prop)
     }, [container])
+    const onScroll = useCallback(() => {
+        if (container) {
+            setState(getState(container, scrollTo))
+        }
+    }, [container, scrollTo])
 
-    useEffect(() => {
+    useResizeObserver(contentRef.current, () => {
         if (!container) {
             setState(DEFAULT_STATE)
 
@@ -55,7 +76,7 @@ export const ScrollContainer = ({
         if (!isEqual(state, newState)) {
             setState(newState)
         }
-    }, [container, state, scrollTo])
+    })
 
     return (
         <div
@@ -63,9 +84,14 @@ export const ScrollContainer = ({
             onScroll={onScroll}
             ref={containerRef}
         >
-            <ScrollContext.Provider value={state}>
-                {children}
-            </ScrollContext.Provider>
+            <div
+                className="n2o-scrollcontainer__content"
+                ref={contentRef}
+            >
+                <ScrollContext.Provider value={state}>
+                    {children}
+                </ScrollContext.Provider>
+            </div>
         </div>
     )
 }
