@@ -149,7 +149,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     /**
-     * Метод добавления scopes в N2oCompileProcessor
+     * Метод добавления scopes в процессор
      *
      * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов
      */
