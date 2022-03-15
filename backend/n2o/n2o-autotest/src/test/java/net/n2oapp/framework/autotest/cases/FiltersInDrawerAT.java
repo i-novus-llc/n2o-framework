@@ -20,7 +20,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -52,8 +51,6 @@ public class FiltersInDrawerAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/status.query.xml"));
     }
 
-    //todo убрать после решения https://jira.i-novus.ru/browse/NNO-7586
-    @Disabled
     @Test
     public void searchOnFiltersChangeTest() {
         StandardPage page = open(StandardPage.class);

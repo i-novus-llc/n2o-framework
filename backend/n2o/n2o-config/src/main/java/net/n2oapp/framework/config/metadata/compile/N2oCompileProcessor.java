@@ -148,6 +148,20 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         this.forbiddenIds = parent.forbiddenIds;
     }
 
+    /**
+     * Метод добавления scopes в процессор
+     *
+     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов
+     */
+    public void addScopes(Object... scopes) {
+        Object[] flattedScopes = flatScopes(scopes);
+        if (this.scope.isEmpty() && scopes.length != 0) {
+            this.scope = new HashMap<>();
+        }
+        Stream.of(Optional.ofNullable(flattedScopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
+                .forEach(s -> this.scope.put(s.getClass(), s));
+    }
+
     @Override
     public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scopes) {
         Object[] flattedScopes = flatScopes(scopes);

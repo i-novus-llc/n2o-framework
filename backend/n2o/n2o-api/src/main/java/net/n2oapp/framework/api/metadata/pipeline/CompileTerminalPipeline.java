@@ -10,5 +10,7 @@ public interface CompileTerminalPipeline<N extends Pipeline> extends Pipeline,
 
     <D extends Compiled, S> D get(S input, CompileContext<?, ?> ctx);
 
+    <D extends Compiled, S> D get(S input, CompileContext<?, ?> ctx, Object... scopes);
+
     <D extends Compiled, S> D get(S input, CompileContext<?, ?> ctx, CompileProcessor p);
 }
