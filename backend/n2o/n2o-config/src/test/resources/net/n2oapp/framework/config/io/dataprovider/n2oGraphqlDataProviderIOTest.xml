@@ -1,6 +1,7 @@
 <graphql xmlns="http://n2oapp.net/framework/config/schema/data-provider-1.0"
          endpoint="http://localhost:8080/graphql"
          filter-separator=", and:"
+         sorting-separator="} and {"
          access-token="token"
          page-mapping="pageNum"
          size-mapping="sizeNum">

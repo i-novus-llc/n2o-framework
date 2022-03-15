@@ -272,7 +272,7 @@ __*Типы фильтраций*__
 ### Провайдеры данных {#Data_providers}
 
 Провайдеры — это универсальный способ обращения к источнику или к сервису предоставляющему данные.
-В N2O есть библиотека провайдеров данных: SQL, REST, EJB, Spring Framework, Mongo DB.
+В N2O есть библиотека провайдеров данных: SQL, REST, EJB, Spring Framework, MongoDB, GraphQl.
 
 Провайдер можно задать при получении выборки данных,
 при выполнении операций над объектом, в валидациях и в других случаях.
@@ -325,11 +325,77 @@ __*Настройки SQL провайдера*__
 
 <Sandbox height={400} projectId="data_providers_sql" />
 
+#### GraphQl провайдер данных {#GraphQl}
+
+GraphQl провайдер позволяет выполнять GraphQl запросы к backend сервисам.
+
+```xml title="Получение списка записей GraphQl провайдером"
+<query>
+  <list>
+    <graphql>
+        query persons(filters: { {{filters}} }, page: {{page}}, size: {{limit}}, sort: { {{sorting}} }) {
+           id
+           name
+           age
+        }
+    <graphql/>
+  </list>
+
+  <fields>
+    <field id="id">
+      <select/>
+    </field>
+
+    <field id="name">
+      <select/>
+      <filters>
+        <eq filter-id="name">{ name: {eq: {{name}} } }</eq>
+      </filters>
+      <sorting mapping="['nameDir']">{ name: {{nameDir}} }</sorting>
+    </field>
+
+    <field id="age">
+      <select/>
+    </field>
+  </fields>
+</query>
+```
+
+```xml title="Выполнение операции GraphQl провайдером"
+<operation id="create">
+  <invocation>
+    <graphql>
+      mutation {
+         createPerson(name: {{name}}, age: {{age}}) {
+            id
+            name
+            age
+         }
+      }
+    </graphql>
+  </invocation>
+  <in>
+    <field id="name"/>
+    <field id="age"/>
+  </in>
+</operation>
+```
+
+__*Настройки GraphQl провайдера*__
+
+Для подключения к backend сервису используется атрибут `endpoint`.
+Вместо задания `endpoint` в каждом определении провайдера можно воспользоваться глобальной настройкой `n2o.engine.graphql.endpoint`.
+
+Для обеспечения безопасного доступа к backend сервису необходимо использовать атрибут `access-token` или
+глобальную настройку `n2o.engine.graphql.access-token`.
+
+<Sandbox height={700} projectId="data_providers_graphql" />
+
 #### REST провайдер данных {#Rest}
 
 REST провайдер выполняет http запросы к backend сервисам.
 
-```xml title="олучение списка записей REST провайдером"
+```xml title="Получение списка записей REST провайдером"
 <query>
   <list>
     <rest>/api/myentity/items?{filters}&amp;{sortings}</rest>
@@ -742,7 +808,7 @@ Java провайдеры в качестве альтернативы могу�
 
 #### Маппинг фильтров {#Mapping_filters}
 
-##### Маппинг фильтров в sql, rest и mongodb
+##### Маппинг фильтров в sql, rest, graphql и mongodb
 
 ```xml title="Маппинг фильтров в sql провайдере"
 <query>
@@ -808,6 +874,36 @@ Java провайдеры в качестве альтернативы могу�
 
 <Sandbox height={500} projectId="data_providers_rest_mapping" />
 
+```xml title="Маппинг фильтров в graphql провайдере"
+<query>
+  <list>
+    <graphql filter-separator=", and:">
+      query posts(filter: {{filters}}) {
+        score
+        completed
+      }
+    </graphql>
+   </list>
+
+  <fields>
+    <field id="score">
+      <select mapping="['score']"/>
+      <!-- при указании тела в фильтре оно будет добавлено в {{filters}} плейсхолдер -->
+      <filters>
+        <eq filter-id="score">{ score: {gt: {{score}}} }</eq>
+      </filters>
+    </field>
+    <field id="completed">
+      <select mapping="['completed']"/>
+      <filters>
+        <eq filter-id="completed">{ completed: {{completed}} }</eq>
+      </filters>
+    </field>
+       ...
+  </fields>
+</query>
+```
+
 ```xml title="Маппинг сортировки в mongodb провайдере"
 <query>
   <list>
@@ -835,6 +931,18 @@ Java провайдеры в качестве альтернативы могу�
   <in>
     <field id="name" mapping="['first_name']"/>
     <field id="gender.id" mapping="['gender_id']"/>
+  </in>
+</operation>
+```
+
+```xml title="Маппинг входных параметров в graphql провайдере"
+<operation>
+  <invocation>
+    <graphql>mutation { create(score: {{user_score}}, completed: {{is_completed}}) {id score completed}</graphql>
+  </invocation>
+  <in>
+    <field id="score" mapping="['user_score']"/>
+    <field id="completed" mapping="['is_completed']"/>
   </in>
 </operation>
 ```
@@ -1036,6 +1144,34 @@ SELECT name as fname, surname as lname FROM mytable
     </field>
     <field id="lastName">
       <select mapping="['lname']"/>
+    </field>
+  </fields>
+</query>
+```
+
+##### Маппинг результатов выборки graphql
+
+```json title="GraphQl запрос"
+query persons() {name age}
+```
+
+```xml title="Маппинг результатов выборки sql провайдера"
+<query>
+  <list result-mapping="['data.persons']">
+    <graphql>
+      query persons() {
+        name
+        age
+      }
+    </graphql>
+  </list>
+
+  <fields>
+    <field id="personName">
+      <select mapping="['name']"/>
+    </field>
+    <field id="personAge">
+      <select mapping="['age']"/>
     </field>
   </fields>
 </query>
