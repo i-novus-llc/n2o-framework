@@ -56,14 +56,14 @@ export const ScrollContainer = ({
     const contentRef = useRef(null)
     const container = containerRef.current
     const [state, setState] = useState(DEFAULT_STATE)
-    const onScroll = useCallback(() => {
-        if (container) {
-            setState(getState(container))
-        }
-    }, [container])
     const scrollTo = useCallback((prop = {}) => {
         container?.scrollTo(prop)
     }, [container])
+    const onScroll = useCallback(() => {
+        if (container) {
+            setState(getState(container, scrollTo))
+        }
+    }, [container, scrollTo])
 
     useResizeObserver(contentRef.current, () => {
         if (!container) {
