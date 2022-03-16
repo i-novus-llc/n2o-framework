@@ -210,7 +210,7 @@ export function* checkAndModify(
             // eslint-disable-next-line no-restricted-syntax
             for (const dep of field.dependency) {
                 if (
-                    (isInitAction && dep.applyOnInit) ||
+                    (isInitAction && dep.applyOnInit && (fieldName === fieldId)) ||
                     (isChangeAction && (
                         includes(dep.on, fieldName) ||
                         some(

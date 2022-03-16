@@ -52,7 +52,7 @@ const mockData = {
         },
     },
     formName: 'test',
-    fieldName: 'field2',
+    fieldName: 'field1',
     dispatch: () => {},
     actionType: actionTypes.INITIALIZE,
 }
@@ -168,6 +168,7 @@ describe('Тестирование саги', () => {
     it('Экшен вызывается при изменении значения формы', () => {
         set(mockData, 'fields.field1.dependency[0].applyOnInit', false)
         set(mockData, 'actionType', REDUX_CHANGE)
+        set(mockData, 'fieldName', get(mockData, 'fields.field1.dependency[0].on[0]'))
         const gen = setup(mockData)
         expect(gen.next().done).toBe(false)
     })
