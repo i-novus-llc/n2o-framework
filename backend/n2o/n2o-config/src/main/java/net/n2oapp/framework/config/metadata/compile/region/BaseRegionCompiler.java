@@ -1,12 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -42,14 +42,14 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         return id.toString();
     }
 
-    protected List<Compiled> initContent(SourceComponent[] items,
-                                         PageContext context,
-                                         CompileProcessor p,
-                                         Source source) {
+    protected List<CompiledRegionItem> initContent(SourceComponent[] items,
+                                                   PageContext context,
+                                                   CompileProcessor p,
+                                                   Source source) {
         if (items == null || items.length == 0)
             return null;
 
-        List<Compiled> content = new ArrayList<>();
+        List<CompiledRegionItem> content = new ArrayList<>();
         ComponentScope componentScope = new ComponentScope(source);
         BasePageUtil.resolveRegionItems(items,
                 item -> content.add(p.compile(item, context, componentScope)),

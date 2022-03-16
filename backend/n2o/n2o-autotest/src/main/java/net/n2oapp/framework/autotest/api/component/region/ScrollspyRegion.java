@@ -11,6 +11,12 @@ public interface ScrollspyRegion extends Region {
 
     ContentItem contentItem(String title);
 
+    void activeContentItemShouldBe(String title);
+
+    void activeMenuItemShouldBe(String title);
+
+    void menuShouldHavePosition(MenuPosition position);
+
     Menu menu();
 
     interface ContentItem extends Region {
@@ -21,8 +27,6 @@ public interface ScrollspyRegion extends Region {
     interface Menu extends Component {
 
         void shouldHaveTitle(String title);
-
-        void itemShouldBeActive(String title);
 
         MenuItem menuItem(int index);
 
@@ -45,5 +49,10 @@ public interface ScrollspyRegion extends Region {
         MenuItem menuItem(int index);
 
         MenuItem menuItem(String title);
+    }
+
+    enum MenuPosition {
+        left,
+        right
     }
 }

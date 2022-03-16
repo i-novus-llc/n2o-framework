@@ -1,6 +1,9 @@
-import React, { useRef, useImperativeHandle, forwardRef, useCallback } from 'react'
-import throttle from 'lodash/throttle'
+import React, { useRef, useImperativeHandle, forwardRef, useCallback, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { debounce } from 'lodash'
+
+import { ScrollContext } from '../../snippets/ScrollContainer/ScrollContainer'
+import { usePrevious } from '../../../utils/usePrevious'
 
 import { SectionGroup } from './Section'
 import { CONTENT_GROUP_CLASS_NAME, SCROLL_DELAY, SCROLL_THROTTLE } from './const'
@@ -17,9 +20,10 @@ export const Content = forwardRef(({
     active,
     setActive,
 }, forwardedRef) => {
+    const scrollSate = useContext(ScrollContext)
+    const prevScroll = usePrevious(scrollSate)
     const sections = useRef({})
     const contentRef = useRef(null)
-    const prevScroll = useRef(0)
     const setSectionRef = useCallback((id, ref) => {
         sections.current[id] = ref
     }, [sections])
@@ -34,23 +38,29 @@ export const Content = forwardRef(({
         },
     }), [sections, setIgnoreScroll])
 
-    const onScroll = useCallback(throttle(() => {
-        const contentElement = contentRef.current
+    const onScroll = useCallback(debounce((scrollSate) => {
+        const content = contentRef.current
 
-        if (ignoreScroll || !contentElement) { return }
+        if (ignoreScroll || !content) { return }
 
-        const { scrollTop } = contentElement
+        const { top } = content.getBoundingClientRect()
+        const offset = Math.round(top - scrollSate.top + scrollSate.scrollTop)
 
-        const newActive = getActive(contentElement, sections.current, scrollTop - prevScroll.current)
+        const newActive = getActive(scrollSate, sections.current, offset)
 
         if (newActive && newActive !== active) {
             setActive(newActive)
         }
-        prevScroll.current = scrollTop
-    }, SCROLL_THROTTLE), [ignoreScroll, active, setActive])
+    }, SCROLL_THROTTLE, { maxWait: SCROLL_THROTTLE }), [ignoreScroll, active, setActive])
+
+    useEffect(() => {
+        if (prevScroll && (scrollSate.scrollTop !== prevScroll.scrollTop)) {
+            onScroll(scrollSate)
+        }
+    }, [scrollSate, prevScroll, onScroll])
 
     return (
-        <section onScroll={onScroll} className={CONTENT_GROUP_CLASS_NAME} ref={contentRef}>
+        <section className={CONTENT_GROUP_CLASS_NAME} ref={contentRef}>
             {items.map(item => (
                 <SectionGroup
                     {...item}

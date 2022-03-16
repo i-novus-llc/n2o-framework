@@ -3,15 +3,15 @@ package net.n2oapp.framework.access.integration.metadata.transform;
 import net.n2oapp.framework.access.metadata.schema.AccessContext;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.Itemable;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.api.metadata.meta.region.RegionItem;
+import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -49,12 +49,13 @@ public class PageAccessTransformer extends BaseAccessTransformer<StandardPage, C
     /**
      * Глубинная трансформация метаданных, в ходе которой происходит слияние
      * атрибутов доступа потомков (регионов, виджетов) в регион-родитель
+     *
      * @param compiledList Список метаданных
      */
-    private void transform(List<? extends Compiled> compiledList) {
-        for (Compiled compiled : compiledList) {
-            if (compiled instanceof Itemable)
-                for (RegionItem item : ((Itemable<RegionItem>) compiled).getItems()) {
+    private void transform(List<? extends CompiledRegionItem> compiledList) {
+        for (CompiledRegionItem compiled : compiledList) {
+            if (compiled instanceof TabsRegion)
+                for (TabsRegion.Tab item : ((TabsRegion) compiled).getItems()) {
                     if (item.getContent() != null) {
                         transform(item.getContent());
                         merge(item, ((List<PropertiesAware>) (List<?>) item.getContent()));

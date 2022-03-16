@@ -1,9 +1,10 @@
 .n2o-scroll-spy-region {
     position: relative;
-    max-height: 784px;
+    align-items: start;
 
     .n2o-scroll-spy-region__menu-group {
-        position: relative;
+        position: sticky;
+        top: 0;
 
         .n2o-scroll-spy-region__menu-title {
             margin-bottom: 15px;
@@ -125,7 +126,6 @@
         flex-flow: row wrap;
         align-items: flex-start;
         justify-content: center;
-        overflow-y: scroll;
 
         .n2o-scroll-spy-region__content-wrapper {
             width: 90%;

@@ -20,8 +20,26 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
     }
 
     @Override
+    public void activeContentItemShouldBe(String title) {
+        element().$(".n2o-scroll-spy-region__content-wrapper.active").shouldHave(Condition.text(title));
+    }
+
+    @Override
+    public void activeMenuItemShouldBe(String title) {
+        menu().element().$(".n2o-scroll-spy-region__menu-item.active").shouldHave(Condition.text(title));
+    }
+
+    @Override
     public Menu menu() {
         return new N2oMenu(element().$(".n2o-scroll-spy-region__menu-wrapper"));
+    }
+
+    @Override
+    public void menuShouldHavePosition(MenuPosition position) {
+        if (MenuPosition.left.equals(position))
+            element().parent().$(".position-right").shouldNotBe(Condition.exist);
+        else
+            element().parent().$(".position-right").shouldHave(Condition.exist);
     }
 
     public static class N2oContentItem extends N2oRegion implements ContentItem {
@@ -33,6 +51,7 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         public RegionItems content() {
             return N2oSelenide.collection(firstLevelElements(".n2o-scroll-spy-region__content", "div"), RegionItems.class);
         }
+
     }
 
     public static class N2oMenu extends N2oComponent implements Menu {
@@ -44,11 +63,6 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         @Override
         public void shouldHaveTitle(String title) {
             element().$(".n2o-scroll-spy-region__menu-title").shouldHave(Condition.text(title));
-        }
-
-        @Override
-        public void itemShouldBeActive(String title) {
-            element().$$(".n2o-scroll-spy-region__menu-item").findBy(Condition.text(title)).shouldHave(Condition.cssClass("active"));
         }
 
         @Override
