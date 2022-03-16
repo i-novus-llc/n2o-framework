@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Тестирование контента">
+    <regions>
+        <scrollspy>
+            <menu-item id="mi1" title="Элемент1">
+                <tabs>
+                    <tab name="Один">
+                        <form/>
+                    </tab>
+                    <tab name="Два">
+                        <form/>
+                    </tab>
+                    <tab name="Три">
+                        <form/>
+                    </tab>
+                </tabs>
+                <panel title="Регион в виде панелей">
+                    <form/>
+                    <form/>
+                </panel>
+                <line label="Регион с горизонтальным делителем">
+                    <form/>
+                </line>
+                <region>
+                    <form name="Форма с оберткой в регион">
+                        <fields>
+                            <input-text id="Поле1"/>
+                        </fields>
+                    </form>
+                </region>
+                <form>
+                    <fields>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                    </fields>
+                </form>
+            </menu-item>
+            <menu-item id="mi2" title="Элемент2">
+                <form name="Виджет Форма">
+                    <fields>
+                        <input-text id="Поле2"/>
+                    </fields>
+                </form>
+            </menu-item>
+        </scrollspy>
+    </regions>
+</page>
