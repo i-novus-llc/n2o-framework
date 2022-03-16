@@ -134,6 +134,12 @@ public class TestDataProviderEngineTest {
 
         //Проверяем, что новые данные не записались в файл
         assertThat(result.size(), is(1));
+
+        provider.setOperation(count);
+        Map<String, Object> inParams = Collections.emptyMap();
+
+        Integer resultCount = (Integer) engine.invoke(provider, inParams);
+        assertThat(resultCount, is(2));
     }
 
     @Test

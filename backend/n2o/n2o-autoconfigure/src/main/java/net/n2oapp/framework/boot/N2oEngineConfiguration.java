@@ -58,7 +58,7 @@ public class N2oEngineConfiguration {
     @Value("${n2o.config.path}")
     private String configPath;
 
-    @Value("${n2o.engine.readonly}")
+    @Value("${n2o.engine.test.readonly}")
     private boolean readonly;
 
     @Value("${n2o.engine.test.classpath}")

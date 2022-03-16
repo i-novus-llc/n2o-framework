@@ -58,7 +58,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     public TestDataProviderEngine() {
         objectMapper = new ObjectMapper();
-        readonly = false;
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
@@ -82,8 +81,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     protected synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
         if (invocation.getFile() == null)
             return new ArrayList<>();
-        if (getRepositoryData(invocation.getFile()) == null ||
-                fileExistsOnDisk(invocation.getFile())) {
+        boolean isInit = getRepositoryData(invocation.getFile()) == null;
+        if (isInit || (!readonly && fileExistsOnDisk(invocation.getFile()))) {
             initRepository(invocation);
         }
 
