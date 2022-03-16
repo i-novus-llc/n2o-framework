@@ -4,7 +4,7 @@
     <regions>
         <tabs scrollbar="true" max-height="500px">
             <tab name="Один">
-                <scrollspy>
+                <scrollspy active="mi1">
                     <menu-item id="mi1" title="Элемент1 в первом табе">
                         <form>
                             <fields>
@@ -44,7 +44,7 @@
                 </scrollspy>
             </tab>
             <tab name="Два">
-                <scrollspy>
+                <scrollspy active="mi1">
                     <menu-item id="mi1" title="Элемент1 во втором табе">
                         <form>
                             <fields>
