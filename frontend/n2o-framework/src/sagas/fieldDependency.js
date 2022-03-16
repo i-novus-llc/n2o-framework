@@ -208,7 +208,7 @@ export function* checkAndModify(
         if (field.dependency) {
             for (const dep of field.dependency) {
                 if (
-                    (isInitAction && dep.applyOnInit) ||
+                    (isInitAction && dep.applyOnInit && (fieldName === fieldId)) ||
                     (isChangeAction && (
                         includes(dep.on, fieldName) ||
                         some(
