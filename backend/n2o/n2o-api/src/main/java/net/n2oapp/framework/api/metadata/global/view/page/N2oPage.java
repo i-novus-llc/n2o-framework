@@ -1,5 +1,8 @@
 package net.n2oapp.framework.api.metadata.global.view.page;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
@@ -7,6 +10,9 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
+import net.n2oapp.framework.api.metadata.global.util.N2oMapSerializer;
+import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceDeserializer;
+import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceSerializer;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.List;
@@ -28,6 +34,8 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     private Boolean showTitle;
     private String cssClass;
     private String style;
+    @JsonDeserialize(keyUsing = N2oNamespaceDeserializer.class)
+    @JsonSerialize(keyUsing = N2oNamespaceSerializer.class, contentUsing = N2oMapSerializer.class)
     protected Map<N2oNamespace, Map<String, String>> extAttributes;
 
 
@@ -41,6 +49,7 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
      *
      * @return Список виджетов
      */
+    @JsonIgnore
     public abstract List<N2oWidget> getWidgets();
 
     @Override

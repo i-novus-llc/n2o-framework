@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.metadata.menu;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
@@ -10,6 +12,9 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
+import net.n2oapp.framework.api.metadata.global.util.N2oMapSerializer;
+import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceDeserializer;
+import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceSerializer;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 
@@ -43,6 +48,8 @@ public class N2oSimpleMenu extends N2oMenu {
         private String icon;
         private String image;
         private ImageShape imageShape;
+        @JsonDeserialize(keyUsing = N2oNamespaceDeserializer.class)
+        @JsonSerialize(keyUsing = N2oNamespaceSerializer.class, contentUsing = N2oMapSerializer.class)
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
 

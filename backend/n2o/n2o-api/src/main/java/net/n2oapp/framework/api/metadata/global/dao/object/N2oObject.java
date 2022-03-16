@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.dao.object;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
@@ -11,6 +13,9 @@ import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.util.N2oMapSerializer;
+import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceDeserializer;
+import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceSerializer;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -63,6 +68,8 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private ObjectSimpleField[] failOutFields;
 
         private Validations validations;
+        @JsonDeserialize(keyUsing = N2oNamespaceDeserializer.class)
+        @JsonSerialize(keyUsing = N2oNamespaceSerializer.class, contentUsing = N2oMapSerializer.class)
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
         @Override

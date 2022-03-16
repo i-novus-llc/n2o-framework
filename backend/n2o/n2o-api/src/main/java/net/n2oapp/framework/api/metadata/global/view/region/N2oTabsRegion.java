@@ -1,11 +1,16 @@
 package net.n2oapp.framework.api.metadata.global.view.region;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.global.util.N2oMapSerializer;
+import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceDeserializer;
+import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceSerializer;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.Arrays;
@@ -32,6 +37,8 @@ public class N2oTabsRegion extends N2oRegion {
         private String id;
         private String name;
         private SourceComponent[] content;
+        @JsonDeserialize(keyUsing = N2oNamespaceDeserializer.class)
+        @JsonSerialize(keyUsing = N2oNamespaceSerializer.class, contentUsing = N2oMapSerializer.class)
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
 
