@@ -87,7 +87,7 @@ public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(region.getSrc(), is("ScrollSpyRegion"));
         assertThat(region.getClassName(), nullValue());
         assertThat(region.getStyle(), nullValue());
-        assertThat(region.getActive(), is("mi1"));
+        assertThat(region.getActive(), nullValue());
         assertThat(region.getPlacement(), is("left"));
         assertThat(region.getHeadlines(), is(false));
 
