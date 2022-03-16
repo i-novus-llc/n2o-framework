@@ -100,6 +100,13 @@ public class ScrollspyRegionAT extends AutoTestBase {
         formWidget = scrollspy.contentItem("Элемент2").content().widget(FormWidget.class);
         formWidget.shouldExists();
         formWidget.fields().field("Поле2").shouldExists();
+
+        page.scrollDown();
+        scrollspy.activeContentItemShouldBe("Элемент2");
+        scrollspy.activeMenuItemShouldBe("Элемент2");
+        page.scrollUp();
+        scrollspy.activeContentItemShouldBe("Элемент1");
+        scrollspy.activeMenuItemShouldBe("Элемент1");
     }
 
     @Test

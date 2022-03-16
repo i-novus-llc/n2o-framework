@@ -29,6 +29,16 @@
                         </fields>
                     </form>
                 </region>
+                <form>
+                    <fields>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                        <text-area id="field" label="Поле"/>
+                    </fields>
+                </form>
             </menu-item>
             <menu-item id="mi2" title="Элемент2">
                 <form name="Виджет Форма">

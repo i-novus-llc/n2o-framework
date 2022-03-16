@@ -7,6 +7,9 @@ import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.ScrollspyRegion;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
+/**
+ * Регион с отслеживанием прокрутки для автотестирования
+ */
 public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
 
     @Override
