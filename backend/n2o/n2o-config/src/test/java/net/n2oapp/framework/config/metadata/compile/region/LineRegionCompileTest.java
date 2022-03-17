@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -76,7 +76,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0).getId(), is("line_0"));
         assertThat(((LineRegion) regions.get(0)).getLabel(), is("Line1"));
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
-        List<Compiled> content = regions.get(0).getContent();
+        List<CompiledRegionItem> content = regions.get(0).getContent();
         assertThat(content.size(), is(3));
         // line form1
         assertThat(content.get(0), instanceOf(Form.class));
@@ -87,7 +87,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(((LineRegion) content.get(1)).getId(), is("line_1"));
         assertThat(((LineRegion) content.get(1)).getCollapsible(), is(true));
         assertThat(((LineRegion) content.get(1)).getContent().size(), is(2));
-        List<Compiled> line1Content = ((LineRegion) content.get(1)).getContent();
+        List<CompiledRegionItem> line1Content = ((LineRegion) content.get(1)).getContent();
         assertThat(line1Content.size(), is(2));
         // line line form2
         assertThat(line1Content.get(0), instanceOf(Form.class));
@@ -96,7 +96,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         // line line line
         assertThat(line1Content.get(1), instanceOf(LineRegion.class));
         assertThat(((LineRegion) line1Content.get(1)).getId(), is("line_2"));
-        List<Compiled> line2Content = ((LineRegion) line1Content.get(1)).getContent();
+        List<CompiledRegionItem> line2Content = ((LineRegion) line1Content.get(1)).getContent();
         assertThat(line2Content.size(), is(1));
         // line line line form3
         assertThat(line2Content.get(0), instanceOf(Form.class));

@@ -7,6 +7,7 @@
     <xs:element name="tabs" type="tabsDefinition"/>
     <xs:element name="line" type="lineDefinition"/>
     <xs:element name="panel" type="panelDefinition"/>
+    <xs:element name="scrollspy" type="scrollspyDefinition"/>
 
     <xs:complexType name="regionsAndWidgets" abstract="true">
         <xs:sequence>
@@ -15,6 +16,7 @@
             <xs:element name="tabs" type="tabsDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="line" type="lineDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="panel" type="panelDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="scrollspy" type="scrollspyDefinition" maxOccurs="unbounded" minOccurs="0"/>
 
             <xs:element name="table" type="wgt:tableReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="form" type="wgt:formReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
@@ -251,5 +253,122 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="scrollspyDefinition">
+        <xs:annotation>
+            <xs:documentation>Регион с отслеживанием прокрутки</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="menu-item" type="menuItemDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="sub-menu" type="subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор региона.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация региона.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс панели.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль панели.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:attribute name="active" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Активный элемент по умолчанию</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="placement" type="scrollspyPlacement" default="left">
+            <xs:annotation>
+                <xs:documentation>Расположение меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Общий некликабельный заголовок меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="headlines" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Наличие разделительной строки между блоками</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="routable" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Восстановление активных элементов по URL.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="active-param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Имя параметра активного элемента в URL.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:simpleType name="scrollspyPlacement">
+        <xs:restriction>
+            <xs:annotation>
+                <xs:documentation>Сторона расположения меню</xs:documentation>
+            </xs:annotation>
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="menuItemDefinition">
+        <xs:annotation>
+            <xs:documentation>Элемент меню</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="regionsAndWidgets">
+                <xs:attribute name="id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор элемента меню</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Название элемента меню</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="subMenuDefinition">
+        <xs:annotation>
+            <xs:documentation>Вложенное меню</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="menu-item" type="menuItemDefinition" maxOccurs="unbounded"/>
+            <xs:element name="sub-menu" type="subMenuDefinition" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор вложенного меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок вложенного меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 </xs:schema>

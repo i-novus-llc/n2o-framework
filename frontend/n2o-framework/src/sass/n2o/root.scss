@@ -11,8 +11,8 @@ body {
 }
 
 .application {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -37,6 +37,11 @@ body {
     overflow: auto;
 }
 
+.n2o-layout-container {
+    height: 100vh;
+    width: 100vw;
+}
+
 .n2o-layout-fixed {
     overflow: hidden;
     max-height: 100vh;
@@ -52,9 +57,9 @@ body {
     }
 }
 
-.application-body-container-fixed {
-    overflow-y: auto;
-}
+// .application-body-container-fixed {
+//     overflow-y: auto;
+// }
 
 .n2o-footer {
     height: auto;
