@@ -65,11 +65,7 @@ const alertsSlice = createSlice({
             reducer(state, action) {
                 const { key, alerts } = action.payload
 
-                if (state[key]) {
-                    state[key] = state[key].concat(alerts)
-                } else {
-                    state[key] = alerts
-                }
+                state[key] = alerts
             },
         },
 

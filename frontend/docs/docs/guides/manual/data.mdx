@@ -1529,12 +1529,14 @@ class MyService {
 
 [Пример](https://n2oapp.net/sandbox/new/data/object/nesting_object_fields_for_args_provider)
 
-### Источник данных {#Datasources}
+### Источники данных {#Datasources}
 
 Источник данных - это способ получения данных на клиенте.
-С помощью него виджеты могут отображать свои данные.
+С помощью него элементы страницы могут отображать свои данные.
+Источники могут задаваться на странице или в *.application.xml файлах с помощью `<datasources>`.
 
-Источники данных создаются на странице:
+#### Стандартный источник данных
+Стандартные источники данных используются для отображения данных виджетов и, как правило, создаются на странице:
 
 ```xml title="Источники данных на странице"
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
@@ -1616,7 +1618,58 @@ class MyService {
 Он будет сливаться с единственным источником данных который есть на странице.
 :::
 
-[Подробнее об источниках данных](../xml/page#datasources)
+[Подробнее о стандартных источниках данных](../xml/page#datasources)
+
+#### Stomp источник данных
+
+Stomp источник данных получает данные с помощью [STOMP](http://stomp.github.io/) протокола и
+задается элементом `<stomp-datasource>` в *.application.xml файлах.
+
+Пожалуй наиболее частым случаем применения Stomp источника данных является асинхронное получение счетчиков.
+
+```xml title="Задание Stomp источника для получения счетчика и цвета"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <datasources>
+        <!-- Stomp источник данных -->
+        <!-- клиент будет прослушивать данные, полученные по указанному destination -->
+        <stomp-datasource id="notifCount" destination="/notif">
+            <values>
+                <!-- значение счетчика на момент инициализации -->
+                <value count=""/>
+                 <!-- цвет значка на момент инициализации -->
+                <value color="success"/>
+            </values>
+        </stomp-datasource>
+    </datasources>
+    ...
+</application>
+```
+
+Здесь следует обратить внимание на обязательность задания атрибута `destination`.
+По этому пути клиент будет прослушивать информацию из STOMP протокола.
+С помощью `values` задаются значения при старте страницы, когда данные из STOMP еще не были получены.
+
+
+```xml title="Использование счетчика и цвета в элементах страницы"
+<application>
+    ...
+    <header title="Хедер">
+        <nav>
+            <!-- элемент меню, в котором отобразится обновленное значение счетчика и изменится цвет значка-->
+            <!-- атрибут должен ссылаться на имя поля, используемого в stomp-datasource (в данном случае count и color) -->
+            <menu-item id="notif"
+                       datasource="notifCount"
+                       icon="fa fa-bell"
+                       badge="{count}"
+                       badge-color="{color}">
+                ...
+            </menu-item>
+        </nav>
+    </header>
+</application>
+```
+
+[Подробнее о stomp источниках данных](../xml/application#stomp-datasource)
 
 ### Модели данных {#Data_models}
 

@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.datasource;
 
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.control.SubmitOn;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
@@ -10,15 +11,22 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.io.TypedElementIO;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Чтение\запись источника данных
  */
-public class DatasourceIO extends AbstractDatasourceIO<N2oDatasource> implements TypedElementIO<N2oDatasource> {
+public class DatasourceIO extends AbstractDatasourceIO<N2oDatasource> implements NamespaceUriAware {
+
+    static Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/datasource-1.0");
+
+    @Override
+    public String getNamespaceUri() {
+        return NAMESPACE.getURI();
+    }
 
     @Override
     public Class<N2oDatasource> getElementClass() {

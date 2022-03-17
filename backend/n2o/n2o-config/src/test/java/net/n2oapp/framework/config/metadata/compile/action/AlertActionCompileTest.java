@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
+import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.ui.ResponseMessage;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Тестирование компиляции {@link AlertActionCompiler}
@@ -40,14 +42,20 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAlert.page.xml")
                 .get(new PageContext("testAlert"));
 
-        ResponseMessage message = ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getMeta().getAlert().getMessages().get(0);
+        assertThat(((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getType(), is("n2o/alerts/ADD_MULTI"));
+        assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getKey(), is(MessagePlacement.top));
+        ResponseMessage message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getAlerts().get(0);
+        assertThat(message.getId(), notNullValue());
         assertThat(message.getTitle(), is("title"));
         assertThat(message.getText(), is("text"));
         assertThat(message.getTimeout(), is(3000));
         assertThat(message.getPlacement(), is(MessagePlacement.top));
         assertThat(message.getCloseButton(), is(true));
 
-        message = ((AlertAction) page.getToolbar().getButton("alert").getAction()).getMeta().getAlert().getMessages().get(0);
+        assertThat(((AlertAction) page.getToolbar().getButton("alert").getAction()).getType(), is("n2o/alerts/ADD_MULTI"));
+        assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getKey(), is(MessagePlacement.bottomRight));
+        message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getAlerts().get(0);
+        assertThat(message.getId(), notNullValue());
         assertThat(message.getTitle(), is("`'Title '+message`"));
         assertThat(message.getText(), is("`'Text '+message`"));
         assertThat(message.getPlacement(), is(MessagePlacement.bottomRight));
