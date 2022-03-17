@@ -196,12 +196,6 @@ export function* checkAndModify(
     fieldName,
     actionType,
 ) {
-    const isInitAction = [
-        actionTypes.INITIALIZE,
-        registerFieldExtra.type,
-    ].includes(actionType)
-    const isChangeAction = actionType === actionTypes.CHANGE
-
     // eslint-disable-next-line no-restricted-syntax
     for (const fieldId of Object.keys(fields)) {
         const field = fields[fieldId]
@@ -210,14 +204,20 @@ export function* checkAndModify(
             // eslint-disable-next-line no-restricted-syntax
             for (const dep of field.dependency) {
                 if (
-                    (isInitAction && dep.applyOnInit && (fieldName === fieldId)) ||
-                    (isChangeAction && (
-                        includes(dep.on, fieldName) ||
-                        some(
-                            dep.on,
-                            field => includes(field, '.') && includes(field, fieldName),
+                    (
+                        dep.applyOnInit && (
+                            (actionType === actionTypes.INITIALIZE) ||
+                            ((actionType === registerFieldExtra.type) && (fieldName === fieldId))
                         )
-                    ))
+                    ) ||
+                    some(
+                        dep.on,
+                        field => (
+                            field === fieldName ||
+                            (includes(field, '.') && includes(field, fieldName))
+                        ),
+                    )
+
                 ) {
                     yield fork(modify, values, formName, fieldId, dep, field)
                 }
