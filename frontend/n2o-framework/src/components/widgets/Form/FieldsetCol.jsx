@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, withHandlers, pure, getContext, mapProps } from 'recompose'
-import Col from 'reactstrap/lib/Col'
+import { compose, withHandlers, pure, mapProps } from 'recompose'
+import { Col } from 'reactstrap'
 import get from 'lodash/get'
 
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'
@@ -28,7 +28,9 @@ function FieldsetColComponent({
     autoSubmit,
     activeField,
 }) {
-    return colVisible ? (
+    if (!colVisible) { return null }
+
+    return (
         <Col xs={col.size || defaultCol} key={colId} className={col.className}>
             {col.fields &&
         col.fields.map((field, i) => {
@@ -74,14 +76,11 @@ function FieldsetColComponent({
             )
         })}
         </Col>
-    ) : null
+    )
 }
 
 const enhance = compose(
     pure,
-    getContext({
-        store: PropTypes.object,
-    }),
     withHandlers({
         resolveVisible: props => () => {
             const visible = get(props, 'col.visible')
