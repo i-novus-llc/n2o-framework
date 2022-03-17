@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <scrollspy>
+            <menu-item id="mi1"
+                       title="First item title in the list">
+                <tabs>
+                    <tab id="tab1"/>
+                    <tab id="tab2"/>
+                </tabs>
+                <form name="form1"/>
+            </menu-item>
+            <menu-item title="Second item title in the list">
+                <table name="table1"/>
+                <form name="form2"/>
+            </menu-item>
+            <sub-menu title="Third item title in the list">
+                <menu-item id="mi2" title="Title1">
+                    <table name="table2"/>
+                    <form name="form3"/>
+                </menu-item>
+                <menu-item title="Title2">
+                    <form name="form4"/>
+                </menu-item>
+                <sub-menu title="Title3">
+                    <menu-item id="mi3" title="Title4">
+                        <form name="form5"/>
+                    </menu-item>
+                </sub-menu>
+            </sub-menu>
+        </scrollspy>
+    </regions>
+</page>

@@ -45,14 +45,16 @@ function PopupList({
     ...rest
 }) {
     return (
-        <div
-            className={classNames('n2o-dropdown-control n2o-pop-up')}
-            ref={setMenuElement}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-        >
-            {children}
-            <PopupItems {...rest} />
+        <div className="n2o-pop-up__wrapper">
+            <div
+                className={classNames('n2o-dropdown-control n2o-pop-up')}
+                ref={setMenuElement}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                {children}
+                <PopupItems {...rest} />
+            </div>
         </div>
     )
 }
@@ -87,7 +89,9 @@ const enhance = compose(
     withState('menuElement', 'setMenuElement', null),
     withHandlers({
         onScroll: ({ needAddFilter, filterValue, onScrollEnd }) => (e) => {
-            if (isBottom(e.target)) { onScrollEnd(needAddFilter ? filterValue : {}) }
+            if (isBottom(e.target)) {
+                onScrollEnd(needAddFilter ? filterValue : {})
+            }
         },
     }),
     lifecycle({

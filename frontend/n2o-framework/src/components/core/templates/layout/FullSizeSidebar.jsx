@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import { ScrollContainer } from '../../../snippets/ScrollContainer/ScrollContainer'
+
 import { propTypes } from './propTypes'
 
 /**
@@ -13,23 +15,25 @@ import { propTypes } from './propTypes'
  * @param [footer] Подвал страницы
  */
 export function Layout({
+    className,
     sidebar,
     fixed,
     header,
     children: content,
     footer,
 }) {
+    const LayoutElement = fixed ? 'div' : ScrollContainer
+    const ContainerElement = fixed ? ScrollContainer : 'div'
+
     return (
-        <>
+        <div className={className}>
             {sidebar}
-            <div className={classNames('w-100 d-flex flex-column', { 'vh-100': fixed })}>
+            <LayoutElement className={classNames(' wq2s w-100 d-flex flex-column vh-100')}>
                 {header}
-                <div className={classNames({ 'd-flex w-100 flex-grow-1': sidebar, 'application-body-container-fixed': fixed })}>
-                    <div className="application-body container-fluid">{content}</div>
-                </div>
+                <ContainerElement className="application-body container-fluid">{content}</ContainerElement>
                 {footer}
-            </div>
-        </>
+            </LayoutElement>
+        </div>
     )
 }
 

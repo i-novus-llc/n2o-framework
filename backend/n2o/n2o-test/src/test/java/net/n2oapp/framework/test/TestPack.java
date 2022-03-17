@@ -37,7 +37,15 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/testDeleteMongo", getTestInsertMongodbContext("delete", "/testDeleteMongo")),
                 new RouteInfo("/test/mongodb", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodb")),
                 new RouteInfo("/test/mongodbCount", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodbCount")),
-                new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
+                new RouteInfo("/test/subModels", getQueryContextWithSubModel()),
+                // graphql
+                new RouteInfo("/test/graphql/query/variables", getTestGraphqlQueryContext("testGraphqlVariables", "/test/graphql/query/variables")),
+                new RouteInfo("/test/graphql/mutationVariables", getTestInsertGraphqlContext("testVariables", "/test/graphql/mutationVariables")),
+                new RouteInfo("/test/graphql/mutationPlaceholders", getTestInsertGraphqlContext("testPlaceholders", "/test/graphql/mutationPlaceholders")),
+                new RouteInfo("/test/graphql/select", getTestGraphqlQueryContext("testGraphqlSelect", "/test/graphql/select")),
+                new RouteInfo("/test/graphql/filters", getTestGraphqlQueryContext("testGraphqlFilters", "/test/graphql/filters")),
+                new RouteInfo("/test/graphql/pagination", getTestGraphqlQueryContext("testGraphqlPagination", "/test/graphql/pagination")),
+                new RouteInfo("/test/graphql/sorting", getTestGraphqlQueryContext("testGraphqlSorting", "/test/graphql/sorting")));
     }
 
     private QueryContext getTestQueryContext(String testQuery, String s) {
@@ -68,6 +76,31 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         createFilter(filters, "birthdayLess");
         queryContext.setFilters(filters);
         return queryContext;
+    }
+
+    private QueryContext getTestGraphqlQueryContext(String testQuery, String s) {
+        QueryContext queryContext = new QueryContext(testQuery, s);
+
+        ArrayList<Filter> filters = new ArrayList<>();
+        createFilter(filters, "id");
+        createFilter(filters, "personName");
+        createFilter(filters, "age");
+        createFilter(filters, "address.name");
+        queryContext.setFilters(filters);
+
+        HashMap<String, String> sortingMap = new HashMap<>();
+        sortingMap.put("sorting.name", "name");
+        sortingMap.put("sorting.age", "age");
+        sortingMap.put("sorting.id", "id");
+        queryContext.setSortingMap(sortingMap);
+
+        return queryContext;
+    }
+
+    private ActionContext getTestInsertGraphqlContext(String operationId, String route) {
+        ActionContext actionContext = new ActionContext("testGraphqlMutation", operationId, route);
+        actionContext.setMessagesForm("testForm");
+        return actionContext;
     }
 
     private void createFilter(ArrayList<Filter> filters, String id) {

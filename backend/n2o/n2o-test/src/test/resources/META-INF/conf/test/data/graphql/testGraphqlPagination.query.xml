@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list result-mapping="['data.persons']" filters="personName">
+        <graphql>query persons(page: $$page, size: $$size, offset: $$offset) {id name age}</graphql>
+    </list>
+
+    <list result-mapping="['data.persons']" filters="age">
+        <graphql page-mapping="pageNum" size-mapping="sizeNum">query Persons($pageNum: Int!, $sizeNum: Int!) { persons(page: $pageNum, size: $sizeNum) {id name age} }</graphql>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select/>
+        </field>
+
+        <field id="personName">
+            <select mapping="['name']"/>
+            <filters>
+                <eq filter-id="personName"/>
+            </filters>
+        </field>
+
+        <field id="age">
+            <select mapping="['age']"/>
+            <filters>
+                <eq filter-id="age"/>
+            </filters>
+        </field>
+    </fields>
+</query>
