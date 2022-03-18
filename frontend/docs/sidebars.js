@@ -17,6 +17,7 @@ module.exports = {
                 'guides/manual/setting',
                 'guides/manual/context',
                 'guides/manual/dynamic',
+                'guides/manual/events',
                 'guides/manual/processing',
                 'guides/manual/security',
                 'guides/manual/customization',

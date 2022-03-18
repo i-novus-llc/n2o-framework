@@ -13,6 +13,7 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import net.n2oapp.framework.autotest.impl.component.application.N2oFooter;
 import net.n2oapp.framework.autotest.impl.component.application.N2oSidebar;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -76,12 +77,14 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public void scrollUp() {
-        Selenide.executeJavaScript("window.scrollTo(0, 0)");
+        element().click();
+        element().sendKeys(Keys.HOME);
     }
 
     @Override
     public void scrollDown() {
-        Selenide.executeJavaScript("window.scrollTo(0, document.body.scrollHeight)");
+        element().click();
+        element().sendKeys(Keys.END);
     }
 
     public void shouldHaveCssClass(String classname) {

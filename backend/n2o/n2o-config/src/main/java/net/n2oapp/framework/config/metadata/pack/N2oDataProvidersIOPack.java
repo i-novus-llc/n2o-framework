@@ -14,6 +14,7 @@ public class N2oDataProvidersIOPack implements MetadataPack<XmlIOBuilder> {
                 new SqlDataProviderIOv1(),
                 new JavaDataProviderIOv1(),
                 new TestDataProviderIOv1(),
-                new MongoDbDataProviderIOv1());
+                new MongoDbDataProviderIOv1(),
+                new GraphQlDataProviderIOv1());
     }
 }

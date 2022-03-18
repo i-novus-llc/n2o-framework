@@ -53,17 +53,16 @@ export function Page({
     const Layout = fullSizeHeader ? FullSizeHeader : FullSizeSidebar
 
     return (
-        <div className={layoutClassName}>
-            <Layout
-                header={header}
-                sidebar={sidebar}
-                footer={footer}
-                fixed={fixed}
-                side={side}
-            >
-                {content}
-            </Layout>
-        </div>
+        <Layout
+            className={layoutClassName}
+            header={header}
+            sidebar={sidebar}
+            footer={footer}
+            fixed={fixed}
+            side={side}
+        >
+            {content}
+        </Layout>
     )
 }
 

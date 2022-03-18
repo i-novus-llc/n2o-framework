@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.CustomRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -50,7 +50,7 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0), instanceOf(CustomRegion.class));
         assertThat(regions.get(0).getId(), is("region_0"));
         assertThat(regions.get(0).getSrc(), is("NoneRegion"));
-        List<Compiled> content = regions.get(0).getContent();
+        List<CompiledRegionItem> content = regions.get(0).getContent();
         assertThat(content.size(), is(2));
         // region form1
         assertThat(content.get(0), instanceOf(Form.class));
@@ -76,7 +76,7 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
         assertThat(content.get(1), instanceOf(CustomRegion.class));
         assertThat(((CustomRegion) content.get(1)).getId(), is("region_2"));
         assertThat(((CustomRegion) content.get(1)).getSrc(), is("NoneRegion"));
-        List<Compiled> regionContent = ((CustomRegion) content.get(1)).getContent();
+        List<CompiledRegionItem> regionContent = ((CustomRegion) content.get(1)).getContent();
         assertThat(regionContent.size(), is(1));
         // region region form4
         assertThat(regionContent.get(0), instanceOf(Form.class));

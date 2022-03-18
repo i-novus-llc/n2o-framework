@@ -2,13 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-function FixedContainer({ className, setRef, fixed, width, style, children }) {
-    const ref = fixed ? setRef : undefined
-
+function FixedContainer({ className, fixed, width, style, children }) {
     return (
         <div
             className={className}
-            ref={ref}
             style={{
                 width,
                 height: fixed && style.height,
@@ -28,7 +25,6 @@ function FixedContainer({ className, setRef, fixed, width, style, children }) {
 
 FixedContainer.propTypes = {
     className: PropTypes.string,
-    setRef: PropTypes.func,
     fixed: PropTypes.string,
     width: PropTypes.object,
     style: PropTypes.object,

@@ -1,0 +1,94 @@
+---
+title: События
+description: ""
+---
+
+В N2O есть возможность выполнять действия не только по активному событию вроде нажатия кнопки,
+но и по событию, которое может прийти по сети.
+
+События задаются элементом `events` в *.application.xml файле.
+
+### Stomp события {#Stomp_events}
+Stomp событие - это событие, которое может быть получено по [STOMP](http://stomp.github.io/) протоколу.
+
+#### Обработка события
+
+Простейшим примером может быть отправка пустого события, которое, тем не менее, является сигналом для выполнения действия.
+Клиент, получив эту информацию, отобразит уведомление на странице.
+
+```xml title="Получение события и отображение уведомления на странице"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <events>
+        <!-- клиент будет прослушивать данные, полученные по указанному destination -->
+        <stomp-event id="notif" destination="/notifications">
+            <!-- действие отображения уведомления -->
+            <alert title="Привет, Мир!" text="Текст сообщения" placement="top-right" color="success" timeout="3000"/>
+        </stomp-event>
+    </events>
+
+    ...
+</application>
+```
+
+Но механизм событий способен и на гораздо большее. Например, отображаемое уведомление будет задаваться динамически
+с помощью информации переданной в событии.
+
+```xml title="Получение информации уведомления и отображение его на странице"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+    <events>
+        <!-- клиент будет прослушивать данные, полученные по указанному destination -->
+        <stomp-event id="notif" destination="/notifications">
+            <!-- действие отображения уведомления (атрибуты-ссылки будут прочитаны из пришедших данных) -->
+            <alert title="{header}" text="{body}" placement="{placement}" color="{severity}" timeout="7000"/>
+        </stomp-event>
+    </events>
+
+    ...
+</application>
+```
+
+В примере выше значение атрибутов задается через ссылки на поля пришедшего объекта.
+Например поле title ссылается на значение поля header.
+
+```java title="Возможная структура отправляемого объекта"
+public class Message {
+    private String header;
+    private String body;
+    private String placement;
+    private String severity;
+    ...
+}
+```
+
+#### Отправка события
+
+Для отправки событий по STOMP с помощью N2O можно воспользоваться интерфейсом WebSocketController;
+
+Для этого необходимо подключить следующую зависимость.
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-websocket</artifactId>
+</dependency>
+```
+
+Теперь для отправки останется всего лишь вызвать один из методов WebSocketController.
+В данном случае сообщение отправляется конкретному пользователю по userId.
+
+```js title="Отправка сообщения с сервера"
+@Autowired
+private WebSocketController wsController;
+private static final DESTINATION = "/notifications";
+
+public void sendMessage(String userId) {
+    Message message = new Message();
+    message.setHeader("Hello World!");
+    ...
+    wsController.convertAndSendToUser(userId, DESTINATION, message);
+    ...
+}
+```
+
+:::note
+Для отправки сообщения всем воспользуйтесь методом `convertAndSend(...)`.
+:::
