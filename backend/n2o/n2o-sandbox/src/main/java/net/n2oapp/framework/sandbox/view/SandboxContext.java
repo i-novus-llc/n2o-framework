@@ -1,17 +1,12 @@
 package net.n2oapp.framework.sandbox.view;
 
 import net.n2oapp.framework.api.context.ContextEngine;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
-import net.n2oapp.framework.sandbox.fileupload.FileModel;
-import net.n2oapp.framework.sandbox.utils.FileNameUtil;
-import net.n2oapp.framework.sandbox.utils.ProjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
-import java.io.*;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,8 +26,6 @@ public class SandboxContext implements ContextEngine {
 
     @Value("${n2o.config.path}")
     private String basePath;
-    @Autowired
-    private TemplatesHolder templatesHolder;
     @Autowired
     private HttpSession session;
 
@@ -103,37 +96,38 @@ public class SandboxContext implements ContextEngine {
     }
 
     private Properties createProperties(String projectId) {
-        Properties props = new Properties();
-        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
-        String filename = basePath + SESSION_PROJECT_SEPARATOR + projectId + USER_PROPERTIES;
-        ProjectModel project = ProjectUtil.getFromSession(session, projectId);
-        if (templateModel == null && new File(filename).isFile()) {
-            try (FileInputStream inputStream = new FileInputStream(filename)) {
-                props.load(inputStream);
-            } catch (IOException e) {
-                throw new N2oException(e);
-            }
-        } else if (project != null) {
-            FileModel propsFile = project.getFiles()
-                    .stream().filter(f -> FileNameUtil.isPropertyFile(f.getFile()))
-                    .findFirst().orElse(null);
-            if (propsFile != null) {
-                try (InputStream propertiesResource = new ByteArrayInputStream(propsFile.getSource().getBytes())) {
-                    props.load(propertiesResource);
-                } catch (IOException e) {
-                    throw new N2oException(e);
-                }
-            }
-        } else if (templateModel != null) {
-            try (InputStream propertiesResource = getClass().getClassLoader()
-                    .getResourceAsStream(templateModel.getTemplateId() + USER_PROPERTIES)) {
-                if (propertiesResource != null)
-                    props.load(propertiesResource);
-            } catch (IOException e) {
-                throw new N2oException(e);
-            }
-        }
-        return props;
+//        Properties props = new Properties();
+//        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
+//        String filename = basePath + SESSION_PROJECT_SEPARATOR + projectId + USER_PROPERTIES;
+//        ProjectModel project = ProjectUtil.getFromSession(session, projectId);
+//        if (templateModel == null && new File(filename).isFile()) {
+//            try (FileInputStream inputStream = new FileInputStream(filename)) {
+//                props.load(inputStream);
+//            } catch (IOException e) {
+//                throw new N2oException(e);
+//            }
+//        } else if (project != null) {
+//            FileModel propsFile = project.getFiles()
+//                    .stream().filter(f -> FileNameUtil.isPropertyFile(f.getFile()))
+//                    .findFirst().orElse(null);
+//            if (propsFile != null) {
+//                try (InputStream propertiesResource = new ByteArrayInputStream(propsFile.getSource().getBytes())) {
+//                    props.load(propertiesResource);
+//                } catch (IOException e) {
+//                    throw new N2oException(e);
+//                }
+//            }
+//        } else if (templateModel != null) {
+//            try (InputStream propertiesResource = getClass().getClassLoader()
+//                    .getResourceAsStream(templateModel.getTemplateId() + USER_PROPERTIES)) {
+//                if (propertiesResource != null)
+//                    props.load(propertiesResource);
+//            } catch (IOException e) {
+//                throw new N2oException(e);
+//            }
+//        }
+//        return props;
+        return new Properties();
     }
 
     private String getSessionProjectId(String projectId) {
@@ -141,6 +135,7 @@ public class SandboxContext implements ContextEngine {
     }
 
     private boolean isTemplateProject(String projectId) {
-        return templatesHolder.getTemplateModel(projectId) != null;
+//        return templatesHolder.getTemplateModel(projectId) != null;
+        return false;
     }
 }

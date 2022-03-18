@@ -45,9 +45,11 @@ import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
-import net.n2oapp.framework.sandbox.fileupload.FileModel;
+import net.n2oapp.framework.sandbox.loader.ProjectFileLoader;
+import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
+import net.n2oapp.framework.sandbox.scanner.model.FileModel;
+import net.n2oapp.framework.sandbox.scanner.model.ProjectModel;
 import net.n2oapp.framework.sandbox.utils.FileNameUtil;
-import net.n2oapp.framework.sandbox.utils.ProjectUtil;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
@@ -85,6 +87,8 @@ public class ViewController {
     private String basePath;
     @Value("${spring.messages.basename}")
     private String messageBundleBasename;
+    @Value("")
+    private String baseApiUrl;
 
     @Autowired
     private DataProcessingStack dataProcessingStack;
@@ -102,8 +106,8 @@ public class ViewController {
     private RouteRegister projectRouteRegister;
     @Autowired
     private ContextEngine sandboxContext;
-    @Autowired
-    private TemplatesHolder templatesHolder;
+//    @Autowired
+//    private TemplatesHolder templatesHolder;
     @Autowired
     private SandboxPropertyResolver propertyResolver;
 
@@ -267,26 +271,27 @@ public class ViewController {
     }
 
     private N2oApplicationBuilder getBuilder(@PathVariable("projectId") String projectId, HttpSession session) {
-        ProjectModel project = ProjectUtil.getFromSession(session, projectId);
-        N2oEnvironment env = createEnvironment(projectId, project);
+        //ProjectModel project = ProjectUtil.getFromSession(session, projectId);
+        N2oEnvironment env = createEnvironment(projectId, new ProjectModel());
 
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(), new N2oAllIOPack(), new N2oApplicationPack(),
                 new N2oLoadersPack(), new N2oOperationsPack(), new N2oSourceTypesPack(),
                 new AccessSchemaPack(), new N2oAllValidatorsPack());
-        builder.scanners(new XmlInfoScanner("classpath:META-INF/conf/*.xml"), new DefaultXmlInfoScanner());
+        builder.scanners(new DefaultXmlInfoScanner(), new ProjectFileScanner(baseApiUrl + projectId, session, builder.getEnvironment().getSourceTypeRegister()));
         builder.binders(new SecurityPageBinder(securityProvider));
         builder.scanners(new JavaInfoScanner((N2oDynamicMetadataProviderFactory) env.getDynamicMetadataProviderFactory()));
+        builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
 
-        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
-        if (templateModel == null) {
-            builder.scanners(new SandboxScanner(env.getSourceTypeRegister(), basePath, projectId));
-        } else if (project != null) {
-            builder.scanners(new SandboxSessionScanner(project, builder));
-            builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
-        } else {
-            builder.scanners(new SandboxReadOnlyScanner(env.getSourceTypeRegister(), templateModel));
-        }
+//        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
+//        if (templateModel == null) {
+//            builder.scanners(new SandboxScanner(env.getSourceTypeRegister(), basePath, projectId));
+//        } else if (project != null) {
+//            builder.scanners(new SandboxSessionScanner(project, builder));
+//            builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
+//        } else {
+//            builder.scanners(new SandboxReadOnlyScanner(env.getSourceTypeRegister(), templateModel));
+//        }
 
         builder.transformers(new TestEngineQueryTransformer(), new MongodbEngineQueryTransformer());
         return builder.scan();
