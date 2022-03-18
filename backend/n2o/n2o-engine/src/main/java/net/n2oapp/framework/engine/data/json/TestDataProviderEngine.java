@@ -46,6 +46,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private String classpathResourcePath;
 
+    /**
+     * Обновление данных в файле на диске
+     */
+    private boolean readonly;
+
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
     private final Map<String, AtomicLong> sequences = new ConcurrentHashMap<>();
@@ -76,8 +81,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     protected synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
         if (invocation.getFile() == null)
             return new ArrayList<>();
-        if (getRepositoryData(invocation.getFile()) == null ||
-                fileExistsOnDisk(invocation.getFile())) {
+        boolean isInit = getRepositoryData(invocation.getFile()) == null;
+        if (isInit || (!readonly && fileExistsOnDisk(invocation.getFile()))) {
             initRepository(invocation);
         }
 
@@ -131,7 +136,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      * @param filename Имя файла
      */
     protected void updateFile(String filename) {
-        if (fileExistsOnDisk(filename)) {
+        if (!readonly && fileExistsOnDisk(filename)) {
             try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
                 String mapAsJson = objectMapper.writeValueAsString(getRepositoryData(filename));
                 fileWriter.write(mapAsJson);
@@ -644,6 +649,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     public void setPathOnDisk(String pathOnDisk) {
         this.pathOnDisk = pathOnDisk;
+    }
+
+    public void setReadonly(boolean readonly) {
+        this.readonly = readonly;
     }
 
     public String getClasspathResourcePath() {
