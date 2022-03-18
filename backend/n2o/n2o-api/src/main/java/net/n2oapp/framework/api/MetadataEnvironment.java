@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
+import net.n2oapp.framework.api.register.ComponentTypeRegister;
 import net.n2oapp.framework.api.register.DynamicMetadataProviderFactory;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
@@ -31,6 +32,8 @@ public interface MetadataEnvironment {
     ContextProcessor getContextProcessor();
 
     SourceTypeRegister getSourceTypeRegister();
+
+    ComponentTypeRegister getComponentTypeRegister();
 
     MetadataRegister getMetadataRegister();
 

@@ -41,6 +41,7 @@ import net.n2oapp.framework.config.reader.N2oNamespaceReaderFactory;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.ConfigRepository;
+import net.n2oapp.framework.config.register.N2oComponentTypeRegister;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
@@ -86,6 +87,12 @@ public class N2oEnvironmentConfiguration {
     @ConditionalOnMissingBean
     public MetadataRegister metadataRegister() {
         return new N2oMetadataRegister();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ComponentTypeRegister componentTypeRegister() {
+        return new N2oComponentTypeRegister();
     }
 
     @Bean

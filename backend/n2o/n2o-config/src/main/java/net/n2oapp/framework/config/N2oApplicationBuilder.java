@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
+import net.n2oapp.framework.api.metadata.global.util.ComponentType;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.pipeline.*;
@@ -23,14 +24,14 @@ import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.PropertyResolver;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -221,7 +222,25 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         List<? extends SourceInfo> sources = environment.getMetadataScannerFactory().scan();
         environment.getMetadataRegister().addAll(sources);
         logger.info("Scanned " + sources.size() + " metadata");
+        componentTypeScan();
         return this;
+    }
+
+    private void componentTypeScan() {
+        Reflections reflections = new Reflections("net.n2oapp.framework.api");
+        Set<Class<?>> set = reflections.getTypesAnnotatedWith(ComponentType.class);
+        set.forEach(clazz -> {
+            Set<Class<?>> subTypesOf = reflections.getSubTypesOf((Class<Object>) clazz);
+            subTypesOf.stream().filter(cl -> !Modifier.isAbstract(cl.getModifiers()))
+                    .forEach(c -> {
+                        if (c.isAnnotationPresent(ComponentType.class)) {
+                            ComponentType annotation = c.getAnnotation(ComponentType.class);
+                            environment.getComponentTypeRegister().add(annotation.value(), c);
+                        } else {
+                            environment.getComponentTypeRegister().add(c.getSimpleName(), c);
+                        }
+                    });
+        });
     }
 
     /**

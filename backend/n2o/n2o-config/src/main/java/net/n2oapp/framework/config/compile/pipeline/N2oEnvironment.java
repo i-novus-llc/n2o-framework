@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
+import net.n2oapp.framework.api.register.ComponentTypeRegister;
 import net.n2oapp.framework.api.register.DynamicMetadataProviderFactory;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
@@ -19,6 +20,7 @@ import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
+import net.n2oapp.framework.config.register.N2oComponentTypeRegister;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
@@ -38,6 +40,7 @@ public class N2oEnvironment implements MetadataEnvironment {
     private MetadataRegister metadataRegister;
     private RouteRegister routeRegister;
     private SourceTypeRegister sourceTypeRegister;
+    private ComponentTypeRegister componentTypeRegister;
 
     private MessageSourceAccessor messageSource;
     private DomainProcessor domainProcessor;
@@ -71,6 +74,7 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.metadataRegister = new N2oMetadataRegister();
         this.routeRegister = new N2oRouteRegister();
         this.sourceTypeRegister = new N2oSourceTypeRegister();
+        this.componentTypeRegister = new N2oComponentTypeRegister();
 
         this.messageSource = new MessageSourceAccessor(new ResourceBundleMessageSource());
         this.systemProperties = new N2oWebAppEnvironment();
@@ -245,6 +249,11 @@ public class N2oEnvironment implements MetadataEnvironment {
     @Override
     public SourceTypeRegister getSourceTypeRegister() {
         return sourceTypeRegister;
+    }
+
+    @Override
+    public ComponentTypeRegister getComponentTypeRegister() {
+        return componentTypeRegister;
     }
 
     public void setSourceTypeRegister(SourceTypeRegister sourceTypeRegister) {
