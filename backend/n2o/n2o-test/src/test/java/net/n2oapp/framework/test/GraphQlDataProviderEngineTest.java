@@ -1,6 +1,7 @@
 package net.n2oapp.framework.test;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +72,7 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 2,
                         "name", "test",
                         "age", 20,
-                        "addresses", List.of(new Address("address1"), new Address("address2"))))));
+                        "addresses", List.of(Map.of("street", "address1"), Map.of("street", "address2"))))));
         data.put("data", persons);
 
         String expectedQuery = "query Persons($name: String, $age: Int, $addresses: [Address!]) " +
@@ -116,7 +118,7 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 1,
                         "name", request.getPersonName(),
                         "age", request.getAge(),
-                        "addresses", request.getAddresses())));
+                        "addresses", List.of(Map.of("street", "address1")))));
         data.put("data", persons);
 
         String expectedQuery = "mutation CreatePerson($name: String!, $age: Int!, $addresses: [Address!]) " +
@@ -239,7 +241,7 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 2,
                         "name", "test",
                         "age", 20,
-                        "addresses", List.of(new Address("address1"), new Address("address2"))))));
+                        "addresses", List.of(Map.of("street", "address1"), Map.of("street", "address2"))))));
         data.put("data", persons);
 
         String expectedQuery = "query persons(name: \"test\", age: 20, addresses: [\"address1\", \"address2\"]) {id name age}";
@@ -281,7 +283,7 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 1,
                         "name", request.getPersonName(),
                         "age", request.getAge(),
-                        "addresses", request.getAddresses())));
+                        "addresses", List.of(Map.of("street", "address1")))));
         data.put("data", persons);
 
         String expectedQuery = "mutation { createPerson(name: \"newName\", age: 99, " +
