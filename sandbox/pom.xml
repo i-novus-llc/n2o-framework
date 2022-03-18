@@ -20,6 +20,15 @@
         <module>server</module>
     </modules>
 
+    <properties>
+        <n2o.version>7.22.0-SNAPSHOT</n2o.version>
+        <java.version>11</java.version>
+        <junit-jupiter.version>5.6.0</junit-jupiter.version>
+        <maven.failsafe.version>2.22.2</maven.failsafe.version>
+        <allure-junit5.version>2.13.3</allure-junit5.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
 
@@ -82,14 +91,5 @@
 
         </dependencies>
     </dependencyManagement>
-
-    <properties>
-        <n2o.version>7.22.0-SNAPSHOT</n2o.version>
-        <java.version>11</java.version>
-        <junit-jupiter.version>5.6.0</junit-jupiter.version>
-        <maven.failsafe.version>2.22.2</maven.failsafe.version>
-        <allure-junit5.version>2.13.3</allure-junit5.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-    </properties>
 
 </project>
