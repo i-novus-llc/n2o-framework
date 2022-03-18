@@ -113,7 +113,7 @@
     "react-resize-detector": "^5.2.0",
     "react-router-dom": "5.2.0",
     "react-rte": "0.16.0",
-    "react-syntax-highlighter": "^11.0.2",
+    "react-syntax-highlighter": "^13.0.0",
     "react-text-mask": "5.4.3",
     "react-textarea-autosize": "7.0.4",
     "react-virtualized": "^9.21.0",
