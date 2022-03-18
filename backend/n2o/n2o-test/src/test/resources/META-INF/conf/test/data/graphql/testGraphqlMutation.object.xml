@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="testVariables">
+            <invocation>
+                <graphql>mutation CreatePerson($name: String!, $age: Int!, $addresses: [Address!]) { createPerson(name: $name, age: $age, addresses: $addresses) {id name age address: {street}} }</graphql>
+            </invocation>
+            <in>
+                <field id="personName" mapping="['name']"/>
+                <field id="age"/>
+                <list id="addresses">
+                    <field id="street"/>
+                </list>
+            </in>
+            <out>
+                <field id="person" mapping="['data.createPerson']"/>
+            </out>
+        </operation>
+
+        <operation id="testPlaceholders">
+            <invocation>
+                <graphql>mutation { createPerson(name: $$name, age: $$age, addresses: $$addresses) {id name age address: {street}} }</graphql>
+            </invocation>
+            <in>
+                <field id="personName" mapping="['name']"/>
+                <field id="age"/>
+                <list id="addresses">
+                    <field id="street"/>
+                </list>
+            </in>
+            <out>
+                <field id="person" mapping="['data.createPerson']"/>
+            </out>
+        </operation>
+    </operations>
+</object>

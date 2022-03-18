@@ -3,6 +3,7 @@
            xmlns:menu="http://n2oapp.net/framework/config/schema/menu-3.0"
            xmlns:search="http://n2oapp.net/framework/config/schema/search-1.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
+           xmlns:ac="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="application" type="applicationDefinition"/>
@@ -12,6 +13,11 @@
             <xs:element name="datasources" type="datasourcesDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Источники данных</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="events" type="eventsDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>События</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="header" type="headerDefinition" minOccurs="0">
@@ -53,14 +59,24 @@
 
     <xs:complexType name="datasourcesDefinition">
         <xs:sequence>
-            <xs:element name="datasource" type="datasourceDefinition" maxOccurs="unbounded">
+            <xs:element name="datasource" type="datasourceDefinition" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Стандартный источник данных</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="stomp-datasource" type="stompDatasourceDefinition" maxOccurs="unbounded">
+            <xs:element name="stomp-datasource" type="stompDatasourceDefinition" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>STOMP-источник данных</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="eventsDefinition">
+        <xs:sequence>
+            <xs:element name="stomp-event" type="stompEventDefinition" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Событие, приходящее через STOMP протокол</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -309,44 +325,43 @@
     </xs:simpleType>
 
     <xs:complexType name="datasourceDefinition">
-        <xs:sequence>
-            <xs:element name="filters" type="ds:datasourceFiltersDefinition" minOccurs="0"/>
-            <xs:element name="dependencies" type="ds:dependenciesDefinition" minOccurs="0"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Идентификатор источника данных</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="query-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор выборки, на основе которой происходит получение данных
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="size" type="xs:integer" default="10">
-            <xs:annotation>
-                <xs:documentation>Размер выборки</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="route" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>URL получения данных</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
+        <xs:complexContent>
+            <xs:extension base="baseDatasourceDefinition">
+                <xs:sequence>
+                    <xs:element name="filters" type="ds:datasourceFiltersDefinition" minOccurs="0"/>
+                    <xs:element name="dependencies" type="ds:dependenciesDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="query-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор выборки, на основе которой происходит получение данных
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="size" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Размер выборки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="route" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>URL получения данных</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
     
     <xs:complexType name="stompDatasourceDefinition">
         <xs:complexContent>
-            <xs:extension base="datasourceDefinition">
+            <xs:extension base="baseDatasourceDefinition">
                 <xs:sequence>
-                    <xs:element name="values" type="valuesDefinition">
+                    <xs:element name="values" type="valuesDefinition" minOccurs="0">
                         <xs:annotation>
                             <xs:documentation>Значения на момент инициализации</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
-                <xs:attribute name="destination" type="xs:string">
+                <xs:attribute name="destination" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Место назначения</xs:documentation>
                     </xs:annotation>
@@ -357,7 +372,7 @@
 
     <xs:complexType name="valuesDefinition">
         <xs:sequence>
-            <xs:element name="value" type="valueDefinition" maxOccurs="unbounded">
+            <xs:element name="value" type="valueDefinition" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>Инициализирующее значение</xs:documentation>
                 </xs:annotation>
@@ -373,4 +388,40 @@
         </xs:anyAttribute>
     </xs:complexType>
 
+    <xs:complexType name="stompEventDefinition">
+        <xs:complexContent>
+            <xs:extension base="baseEventDefinition">
+                <xs:sequence>
+                    <xs:element name="alert" type="ac:alertDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="destination" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Место назначения</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="baseEventDefinition">
+        <xs:annotation>
+            <xs:documentation>Базовый тип события</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор события.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="baseDatasourceDefinition">
+        <xs:annotation>
+            <xs:documentation>Базовый тип источников данных</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 </xs:schema>

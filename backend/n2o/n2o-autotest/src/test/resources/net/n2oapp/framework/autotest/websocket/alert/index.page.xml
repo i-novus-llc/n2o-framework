@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Отправка уведомлений по web-socket">
+    <form>
+        <fields>
+            <alert id="info" color="info"
+                   text="Для отображения всплывающего уведомления отправьте GET запрос
+                      /sandbox/websocket/notifications/alert?title=Новое сообщение&amp;text=Привет, мир!&amp;color=success&amp;placement=topRight"/>
+        </fields>
+    </form>
+</simple-page>

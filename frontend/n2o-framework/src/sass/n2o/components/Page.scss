@@ -46,11 +46,12 @@
 
 .n2o-page__fixed-container {
     position: relative;
-    transition: 0.5s;
 }
 
 .n2o-page__fixed-container--fixed {
-    z-index: 2;
+    position: sticky;
+    top: $spacer;
+    width: 100%;
 }
 
 .n2o-page__scroll-to-top {

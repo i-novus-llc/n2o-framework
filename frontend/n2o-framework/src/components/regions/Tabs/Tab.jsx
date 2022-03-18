@@ -1,9 +1,8 @@
-/**
- * Created by emamoshin on 09.10.2017.
- */
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+
+import { ScrollContainer } from '../../snippets/ScrollContainer/ScrollContainer'
 
 /**
  * Компонент Таб
@@ -15,45 +14,25 @@ import classNames from 'classnames'
  * @reactProps {string} id - id таба
  * @reactProps {node} children - элемент потомок компонента Tab
  */
-export class Tab extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            // eslint-disable-next-line react/no-unused-state
-            wasActive: false,
-        }
-    }
+export function Tab({ className, active, children, fixed }) {
+    const ContentWrapper = fixed ? ScrollContainer : 'div'
 
-    static getDerivedStateFromProps(nextProps) {
-        if (nextProps.active) {
-            return {
-                wasActive: true,
-            }
-        }
-
-        return null
-    }
-
-    render() {
-        const { className, active, children } = this.props
-        const tabStyle = { paddingTop: 2, paddingBottom: 2 }
-
-        return (
-            <div className={classNames('tab-pane', className, { active })} style={tabStyle}>
-                {children}
-            </div>
-        )
-    }
+    return (
+        <ContentWrapper
+            className={classNames('tab-pane flex-grow-1', className, {
+                active,
+                'd-none': !active,
+                'tab-pane-fixed': fixed,
+            })}
+        >
+            {children}
+        </ContentWrapper>
+    )
 }
 
 Tab.propTypes = {
-    /**
-     * Флаг активного в данный момент таба
-     */
     active: PropTypes.bool,
-    /**
-     * Класс
-     */
+    fixed: PropTypes.bool,
     className: PropTypes.string,
     children: PropTypes.node,
 }

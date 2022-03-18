@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
@@ -14,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceSerializer;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +23,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class N2oTabsRegion extends N2oRegion {
+public class N2oTabsRegion extends N2oRegion implements RegionItem {
     private Boolean alwaysRefresh;
     private Boolean lazy;
     private String activeParam;
@@ -33,13 +35,25 @@ public class N2oTabsRegion extends N2oRegion {
 
     @Getter
     @Setter
-    public static class Tab implements Source, ExtensionAttributesAware {
+    public static class Tab implements Source, ExtensionAttributesAware, RegionItem {
         private String id;
         private String name;
         private SourceComponent[] content;
         @JsonDeserialize(keyUsing = N2oNamespaceDeserializer.class)
         @JsonSerialize(keyUsing = N2oNamespaceSerializer.class, contentUsing = N2oMapSerializer.class)
         private Map<N2oNamespace, Map<String, String>> extAttributes;
+
+        @Override
+        public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
+            if (content != null) {
+                if (!ids.containsKey(prefix))
+                    ids.put(prefix, 1);
+                for (SourceComponent component : content) {
+                    if (component instanceof RegionItem)
+                        ((RegionItem) component).collectWidgets(result, ids, prefix);
+                }
+            }
+        }
     }
 
     @Deprecated
@@ -66,5 +80,12 @@ public class N2oTabsRegion extends N2oRegion {
     @Override
     public String getAlias() {
         return "tab";
+    }
+
+    @Override
+    public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
+        if (tabs != null)
+            for (Tab tab : tabs)
+                 tab.collectWidgets(result, ids, getAlias());
     }
 }

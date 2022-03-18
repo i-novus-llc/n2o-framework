@@ -1,6 +1,3 @@
-/**
- * Created by emamoshin on 09.10.2017.
- */
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'

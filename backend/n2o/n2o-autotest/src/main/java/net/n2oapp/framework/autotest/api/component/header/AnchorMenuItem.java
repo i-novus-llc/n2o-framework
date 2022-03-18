@@ -13,5 +13,7 @@ public interface AnchorMenuItem extends MenuItem {
 
     void badgeShouldHaveValue(String value);
 
+    void badgeColorShouldHaveValue(String value);
+
     void urlShouldHave(String url);
 }

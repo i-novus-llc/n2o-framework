@@ -14,7 +14,9 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -40,9 +42,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setSidebar(initSidebar(source.getSidebar(), header, context, p));
         application.setFooter(initFooter(source.getFooter(), p));
         application.setDatasources(initDatasources(source.getDatasources(), context, p));
-        application.setWsPrefix(
-                application.getDatasources() != null ? p.resolve(property("n2o.config.ws.endpoint"), String.class) : null);//TODO если будем отправлять не только stomp-datasources нужно изменить проверку
-
+        application.setEvents(initEvents(source.getEvents(), context, p));
+        application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
         return application;
     }
 
@@ -129,6 +130,22 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
             result.put(datasource.getId(), datasource);
         }
         return result;
+    }
+
+    private List<Event> initEvents(N2oAbstractEvent[] source, ApplicationContext context, CompileProcessor p) {
+        if (source == null)
+            return null;
+        List<Event> events = new ArrayList<>();
+        for (N2oAbstractEvent e : source)
+            events.add(p.compile(e, context));
+
+        return events;
+    }
+
+    private String initWsPrefix(Map<String, AbstractDatasource> datasources, List<Event> events, CompileProcessor p) {
+        if (datasources == null && events == null) //TODO если будем отправлять не только stomp-datasources нужно изменить проверку
+            return null;
+        return p.resolve(property("n2o.config.ws.endpoint"), String.class);
     }
 
     @Override
