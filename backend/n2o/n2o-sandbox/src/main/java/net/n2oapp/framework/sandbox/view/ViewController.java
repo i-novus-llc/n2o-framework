@@ -71,9 +71,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -354,18 +352,18 @@ public class ViewController {
     }
 
     private void configurePropertyResolver(Map<String, String> runtimeProperties, String projectId, ProjectModel project) {
-        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
-
-        if (templateModel == null) {
-            String propertiesPath = basePath + "/" + projectId + "/application.properties";
-            propertyResolver.configure(environment, runtimeProperties, propertiesPath);
-        } else if (project != null && findPropertyFile(project) != null) {
-            InputStream propertiesResource = new ByteArrayInputStream(findPropertyFile(project).getSource().getBytes());
-            propertyResolver.configure(environment, runtimeProperties, propertiesResource);
-        } else {
-            InputStream propertiesResource = getClass().getClassLoader().getResourceAsStream(templateModel.getTemplateId() + "/application.properties");
-            propertyResolver.configure(environment, runtimeProperties, propertiesResource);
-        }
+//        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
+//
+//        if (templateModel == null) {
+//            String propertiesPath = basePath + "/" + projectId + "/application.properties";
+//            propertyResolver.configure(environment, runtimeProperties, propertiesPath);
+//        } else if (project != null && findPropertyFile(project) != null) {
+//            InputStream propertiesResource = new ByteArrayInputStream(findPropertyFile(project).getSource().getBytes());
+//            propertyResolver.configure(environment, runtimeProperties, propertiesResource);
+//        } else {
+//            InputStream propertiesResource = getClass().getClassLoader().getResourceAsStream(templateModel.getTemplateId() + "/application.properties");
+//            propertyResolver.configure(environment, runtimeProperties, propertiesResource);
+//        }
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
