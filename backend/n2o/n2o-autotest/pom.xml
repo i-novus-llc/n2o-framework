@@ -10,7 +10,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.22.0</version>
+        <version>7.22.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
