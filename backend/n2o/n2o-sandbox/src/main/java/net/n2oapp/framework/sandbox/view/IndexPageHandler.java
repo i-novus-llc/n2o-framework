@@ -1,6 +1,8 @@
 package net.n2oapp.framework.sandbox.view;
 
+import net.n2oapp.framework.sandbox.client.ApiClient;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
@@ -27,6 +29,8 @@ public class IndexPageHandler {
 
     @Value("${server.servlet.context-path}")
     private String servletContext;
+    @Autowired
+    private ApiClient apiClient;
 
     private static final String SERVICE_WORKER_JS = "serviceWorker.js";
     private static final String VIEW_INDEX_HTML = "META-INF/resources/index.html";
@@ -34,8 +38,8 @@ public class IndexPageHandler {
     @CrossOrigin(origins = "*")
     @GetMapping("/view/{projectId}/")
     public ResponseEntity<Resource> getIndex(@PathVariable(value = "projectId") String projectId) {
-//        if (api.isProjectNotExists(projectId))
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project " + projectId + " not found");
+        if (apiClient.isProjectNotExists(projectId))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project " + projectId + " not found");
 
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_HTML)

@@ -1,10 +1,10 @@
-package net.n2oapp.framework.sandbox.view;
+package net.n2oapp.framework.sandbox.client;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import net.n2oapp.framework.sandbox.view.MutablePropertyResolver;
 import org.springframework.core.env.PropertyResolver;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,12 +30,12 @@ public class SandboxPropertyResolver implements PropertyResolver {
 
     public void configure(PropertyResolver defaultPropertyResolver,
                           Map<String, String> runtimeProperties,
-                          String projectFilename) {
+                          String projectFile) {
         initResolvers(defaultPropertyResolver, runtimeProperties);
         Properties properties = new Properties();
 
-        if (projectFilename != null && new File(projectFilename).isFile()) {
-            try (FileInputStream inputStream = new FileInputStream(projectFilename)) {
+        if (projectFile != null) {
+            try (InputStream inputStream = new FileInputStream(projectFile)) {
                 properties.load(inputStream);
             } catch (IOException e) {
                 throw new N2oException(e);

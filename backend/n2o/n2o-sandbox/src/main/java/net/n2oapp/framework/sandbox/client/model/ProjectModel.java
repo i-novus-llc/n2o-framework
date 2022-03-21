@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox.scanner.model;
+package net.n2oapp.framework.sandbox.client.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

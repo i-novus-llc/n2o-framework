@@ -3,10 +3,10 @@ package net.n2oapp.framework.sandbox.scanner;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.config.register.scanner.OverrideInfoScanner;
-import net.n2oapp.framework.sandbox.scanner.model.FileModel;
-import net.n2oapp.framework.sandbox.scanner.model.ProjectModel;
+import net.n2oapp.framework.sandbox.client.ApiClient;
+import net.n2oapp.framework.sandbox.client.model.FileModel;
+import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.utils.FileNameUtil;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -14,20 +14,21 @@ import java.util.List;
 
 public class ProjectFileScanner implements OverrideInfoScanner<ProjectFileInfo> {
 
-    private String projectUrl;
+    private String projectId;
     private HttpSession session;
     private SourceTypeRegister typeRegister;
+    private ApiClient apiClient;
 
-    public ProjectFileScanner(String projectUrl, HttpSession session, SourceTypeRegister typeRegister) {
-        this.projectUrl = projectUrl;
+    public ProjectFileScanner(String projectId, HttpSession session, SourceTypeRegister typeRegister, ApiClient apiClient) {
+        this.projectId = projectId;
         this.session = session;
         this.typeRegister = typeRegister;
+        this.apiClient = apiClient;
     }
 
     @Override
     public List<ProjectFileInfo> scan() {
-        RestTemplate restTemplate = new RestTemplate();
-        ProjectModel projectModel = restTemplate.postForObject(projectUrl, null, ProjectModel.class);
+        ProjectModel projectModel = apiClient.getProject(projectId, session);
         List<ProjectFileInfo> result = new ArrayList<>();
         if (projectModel != null) {
             for (FileModel fm : projectModel.getFiles()) {

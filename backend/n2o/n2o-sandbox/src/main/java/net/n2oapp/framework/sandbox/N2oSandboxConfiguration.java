@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.boot.*;
+import net.n2oapp.framework.sandbox.client.ApiClient;
+import net.n2oapp.framework.sandbox.client.SandboxApiClient;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
-import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
+import net.n2oapp.framework.sandbox.client.SandboxPropertyResolver;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.query.GetController;
@@ -119,6 +121,11 @@ public class N2oSandboxConfiguration {
                 sandboxContext.deleteSessionProjectsProperties(session);
             }
         };
+    }
+
+    @Bean
+    public ApiClient apiClient() {
+        return new SandboxApiClient();
     }
 
 
