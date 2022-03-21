@@ -69,7 +69,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenDrawerRootPage", "/p"));
 
 
-        Table table = (Table) rootPage.getRegions().get("left").get(0).getContent().get(0);
+        Table table = (Table) rootPage.getRegions().get("single").get(0).getContent().get(0);
         OpenDrawerPayload payload = ((OpenDrawer) table.getToolbar().getButton("create").getAction()).getPayload();
         //create
         assertThat(payload.getPageUrl(), is("/p/create"));
@@ -122,7 +122,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
 
-        Table table = (Table) rootPage.getRegions().get("left").get(0).getContent().get(0);
+        Table table = (Table) rootPage.getRegions().get("single").get(0).getContent().get(0);
         OpenDrawerPayload payload = ((OpenDrawer) table.getToolbar().getButton("update").getAction()).getPayload();
 
         //update
@@ -185,7 +185,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         CloseAction close = (CloseAction) openDrawer.getToolbar().getButton("close").getAction();
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
-        Widget modalWidget = (Widget) openDrawer.getRegions().get("left").get(0).getContent().get(0);
+        Widget modalWidget = (Widget) openDrawer.getRegions().get("single").get(0).getContent().get(0);
         assertThat(openDrawer.getDatasources().get(modalWidget.getDatasource()).getProvider().getPathMapping().size(), is(0));
         assertThat(openDrawer.getDatasources().get(modalWidget.getDatasource()).getProvider().getQueryMapping().size(), is(0));
     }
@@ -285,7 +285,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
-        OpenDrawer openDrawer = (OpenDrawer) ((Widget) rootPage.getRegions().get("left").get(0).getContent().get(0))
+        OpenDrawer openDrawer = (OpenDrawer) ((Widget) rootPage.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("updateEditWithPrefilters").getAction();
         assertThat(openDrawer.getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
 

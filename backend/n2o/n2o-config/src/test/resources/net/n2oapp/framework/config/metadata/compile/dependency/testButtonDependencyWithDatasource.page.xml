@@ -1,52 +1,54 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <regions>
         <tabs place="single">
-            <form id="table" src="test" object-id="testJsonForm">
-                <toolbar>
-                    <sub-menu>
-                        <menu-item id="filter" label="Видимость" context="true"
-                                   visibility-condition="name !== 'Афанасий'">
-<!--                                Скроется, если имя в выбранной записи Афанасий-->
-                            <invoke operation-id="testId"/>
-                        </menu-item>
-                        <menu-item id="enable" label="Блокировка" enabling-condition="name !== 'Иннокентий'">
-<!--                                Заблокируется, если имя в выбранной записи Иннокентий-->
-                            <invoke operation-id="testId"/>
-                        </menu-item>
-                        <menu-item id="combo" label="Комбинация"
-                                   enabling-condition="name !== 'Людмила'" visibility-condition="surname !== 'Ревин'">
-<!--                                Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин-->
-                            <invoke operation-id="testId"/>
-                        </menu-item>
-                    </sub-menu>
-
-                    <button id="btn1" visible="false" enabled="false"/>
-                    <button id="btn2" visible="{property1}" enabled="{property2}" disable-on-empty-model="false"/>
-                    <button id="btn3" model="multi"/>
-                    <button id="btn4" model="multi" disable-on-empty-model="true"/>
-                    <button id="btn5" model="filter" visible="{property1}"/>
-                    <button id="btn6">
-                        <close/>
-                        <dependencies>
-                            <visibility ref-widget-id="test" ref-model="filter">a==b</visibility>
-                            <enabling message="Не указана дата">c==d</enabling>
-                        </dependencies>
-                    </button>
+            <tab>
+                <form id="table" src="test" object-id="testJsonForm">
+                    <toolbar>
                         <sub-menu>
-                            <menu-item visible="false" enabled="false"/>
-                            <menu-item visible="{property1}" enabled="{property2}"/>
-                            <menu-item>
-                                <close/>
-                                <dependencies>
-                                    <visibility ref-widget-id="test" ref-model="filter">a==b</visibility>
-                                    <enabling message="Не указана дата">c==d</enabling>
-                                </dependencies>
+                            <menu-item id="filter" label="Видимость" context="true"
+                                       visibility-condition="name !== 'Афанасий'">
+    <!--                                Скроется, если имя в выбранной записи Афанасий-->
+                                <invoke operation-id="testId"/>
+                            </menu-item>
+                            <menu-item id="enable" label="Блокировка" enabling-condition="name !== 'Иннокентий'">
+    <!--                                Заблокируется, если имя в выбранной записи Иннокентий-->
+                                <invoke operation-id="testId"/>
+                            </menu-item>
+                            <menu-item id="combo" label="Комбинация"
+                                       enabling-condition="name !== 'Людмила'" visibility-condition="surname !== 'Ревин'">
+    <!--                                Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин-->
+                                <invoke operation-id="testId"/>
                             </menu-item>
                         </sub-menu>
-                </toolbar>
-            </form>
-            <table id="test"/>
+
+                        <button id="btn1" visible="false" enabled="false"/>
+                        <button id="btn2" visible="{property1}" enabled="{property2}" disable-on-empty-model="false"/>
+                        <button id="btn3" model="multi"/>
+                        <button id="btn4" model="multi" disable-on-empty-model="true"/>
+                        <button id="btn5" model="filter" visible="{property1}"/>
+                        <button id="btn6">
+                            <close/>
+                            <dependencies>
+                                <visibility ref-widget-id="test" ref-model="filter">a==b</visibility>
+                                <enabling message="Не указана дата">c==d</enabling>
+                            </dependencies>
+                        </button>
+                            <sub-menu>
+                                <menu-item visible="false" enabled="false"/>
+                                <menu-item visible="{property1}" enabled="{property2}"/>
+                                <menu-item>
+                                    <close/>
+                                    <dependencies>
+                                        <visibility ref-widget-id="test" ref-model="filter">a==b</visibility>
+                                        <enabling message="Не указана дата">c==d</enabling>
+                                    </dependencies>
+                                </menu-item>
+                            </sub-menu>
+                    </toolbar>
+                </form>
+                <table id="test"/>
+            </tab>
         </tabs>
     </regions>
 </page>
