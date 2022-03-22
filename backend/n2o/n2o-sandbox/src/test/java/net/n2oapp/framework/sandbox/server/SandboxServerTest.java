@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
+import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
@@ -22,7 +23,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.annotation.DirtiesContext;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,7 +37,9 @@ import static org.mockito.Mockito.when;
  * Тест на проверку обработки запросов на получение конфинурации и страницы примера
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, SandboxContext.class})
+        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, SandboxContext.class,
+                SandboxTestDataProviderEngine.class},
+        properties = {"n2o.access.deny_objects=false"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
@@ -45,10 +50,12 @@ public class SandboxServerTest {
 
     @Autowired
     private ViewController viewController;
+    @Autowired
+    private HttpSession session;
 
     @BeforeAll
     static void setUp() {
-        when(request.getRequestURI()).thenReturn("/sandbox/view/myProjectId/n2o/page/");
+        when(request.getRequestURI()).thenReturn("/sandbox/view/rrtTG/n2o/page/");
         when(request.getParameterMap()).thenReturn(new ParameterMap<>());
         wireMockServer.start();
     }
@@ -168,5 +175,13 @@ public class SandboxServerTest {
         assertThat(page.getModels().get("resolve['main'].email").getValue(), is("test@example.com"));
         assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(0), is("USER"));
         assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(1), is("ADMIN"));
+    }
+
+    @Test
+    public void testGetData() {
+        when(request.getRequestURI()).thenReturn("/sandbox/view/rrtTG/n2o/data/main");
+        when(request.getParameterMap()).thenReturn(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
+        //viewController.getPage("rrtTG", request, null);
+        viewController.getData("rrtTG", request, session);
     }
 }
