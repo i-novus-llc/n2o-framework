@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.register;
 import java.util.Map;
 
 /**
- * Реестр типов сырых метаданных для выгрузки в json
+ * Реестр типов исходных метаданных для выгрузки в json
  */
 public interface ComponentTypeRegister {
 

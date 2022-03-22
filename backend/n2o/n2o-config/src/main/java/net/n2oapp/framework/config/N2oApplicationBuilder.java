@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
-import net.n2oapp.framework.api.metadata.global.util.ComponentType;
+import net.n2oapp.framework.api.metadata.jackson.ComponentType;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.pipeline.*;
@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.PropertyResolver;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Stream;
@@ -215,6 +214,14 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
     }
 
     /**
+     * Добавить классы как отмеченные {link net.n2oapp.framework.api.metadata.global.util.ComponentType}
+     */
+    public N2oApplicationBuilder componentTypes(Class... classes) {
+        Stream.of(classes).forEach(c -> environment.getComponentTypeRegister().add(c.getSimpleName(), c));
+        return this;
+    }
+
+    /**
      * Запустить сканирование метаданных
      */
     public N2oApplicationBuilder scan() {
@@ -222,12 +229,12 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         List<? extends SourceInfo> sources = environment.getMetadataScannerFactory().scan();
         environment.getMetadataRegister().addAll(sources);
         logger.info("Scanned " + sources.size() + " metadata");
-        componentTypeScan();
+        scanComponentType("net.n2oapp.framework.api");
         return this;
     }
 
-    private void componentTypeScan() {
-        Reflections reflections = new Reflections("net.n2oapp.framework.api");
+    public void scanComponentType(String packageName) {
+        Reflections reflections = new Reflections(packageName);
         Set<Class<?>> set = reflections.getTypesAnnotatedWith(ComponentType.class);
         set.forEach(clazz -> {
             Set<Class<?>> subTypesOf = reflections.getSubTypesOf((Class<Object>) clazz);

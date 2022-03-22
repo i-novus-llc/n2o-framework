@@ -1,8 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
@@ -11,10 +9,9 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.global.util.N2oMapSerializer;
-import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceDeserializer;
-import net.n2oapp.framework.api.metadata.global.util.N2oNamespaceSerializer;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
+import net.n2oapp.framework.api.metadata.jackson.ComponentType;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.Map;
 
@@ -23,6 +20,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
+@ComponentType
 public abstract class AbstractColumn implements IdAware, Source, ExtensionAttributesAware {
     private String id;
     private String src;
@@ -43,8 +41,7 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
     private ColumnFixedPosition fixed;
     private ColumnVisibility[] columnVisibilities;
     private Boolean hideOnBlur;
-    @JsonDeserialize(keyUsing = N2oNamespaceDeserializer.class)
-    @JsonSerialize(keyUsing = N2oNamespaceSerializer.class, contentUsing = N2oMapSerializer.class)
+    @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     @Getter

@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.metadata.global.util;
+package net.n2oapp.framework.api.metadata.jackson;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.DatabindContext;
@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import net.n2oapp.framework.api.register.ComponentTypeRegister;
-
-import java.io.IOException;
 
 /**
  * Соотношение объектов json с типами N2O

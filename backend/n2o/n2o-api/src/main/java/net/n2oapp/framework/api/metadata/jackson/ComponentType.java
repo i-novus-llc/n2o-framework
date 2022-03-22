@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.metadata.global.util;
+package net.n2oapp.framework.api.metadata.jackson;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
