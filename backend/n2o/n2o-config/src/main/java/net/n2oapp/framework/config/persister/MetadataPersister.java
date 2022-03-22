@@ -19,10 +19,10 @@ import net.n2oapp.framework.config.register.event.ConfigPersistEvent;
 import net.n2oapp.framework.config.register.event.MetadataRemovedEvent;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
-import net.n2oapp.framework.config.util.XmlUtil;
 import net.n2oapp.watchdir.WatchDir;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -87,7 +87,7 @@ public class MetadataPersister {
         Document doc = new Document();
         doc.addContent(element);
         XMLOutputter xmlOutput = new XMLOutputter();
-        xmlOutput.setFormat(XmlUtil.N2O_FORMAT);
+        xmlOutput.setFormat(Format.getPrettyFormat());
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
             xmlOutput.output(doc, outputStream);
