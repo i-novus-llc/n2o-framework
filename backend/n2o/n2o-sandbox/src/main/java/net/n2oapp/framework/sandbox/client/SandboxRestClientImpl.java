@@ -11,13 +11,13 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 /**
  * Реализация клиента для отправки запросов на ApiController
  */
-public class SandboxApiClient implements ApiClient {
+public class SandboxRestClientImpl implements SandboxRestClient {
 
     @Value("${n2o.sandbox.api.url}")
     private String baseApiUrl;
     private RestTemplate restTemplate;
 
-    public SandboxApiClient() {
+    public SandboxRestClientImpl() {
         this.restTemplate = new RestTemplate();
     }
 
@@ -27,12 +27,12 @@ public class SandboxApiClient implements ApiClient {
     }
 
     @Override
-    public String getFile(String projectId, String file) {
+    public String getFile(String projectId, String file, HttpSession session) {
         return restTemplate.getForObject(baseApiUrl + normalize(projectId) + normalize(file), String.class);
     }
 
     @Override
-    public Boolean isProjectNotExists(String projectId) {
+    public Boolean isProjectExists(String projectId) {
         return restTemplate.getForObject(baseApiUrl + normalize(projectId) + "/nonexistent", Boolean.class);
     }
 }

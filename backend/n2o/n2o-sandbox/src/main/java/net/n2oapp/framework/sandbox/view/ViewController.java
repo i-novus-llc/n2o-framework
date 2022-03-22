@@ -44,7 +44,7 @@ import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
-import net.n2oapp.framework.sandbox.client.ApiClient;
+import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
@@ -106,7 +106,7 @@ public class ViewController {
     @Autowired
     private SandboxPropertyResolver propertyResolver;
     @Autowired
-    private ApiClient apiClient;
+    private SandboxRestClient restClient;
 
     private MessageSourceAccessor messageSourceAccessor;
     private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
@@ -268,7 +268,7 @@ public class ViewController {
     }
 
     private N2oApplicationBuilder getBuilder(@PathVariable("projectId") String projectId, HttpSession session) {
-        N2oEnvironment env = createEnvironment(projectId, new ProjectModel());
+        N2oEnvironment env = createEnvironment(projectId, session);
 
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(), new N2oAllIOPack(), new N2oApplicationPack(),
@@ -276,7 +276,7 @@ public class ViewController {
                 new AccessSchemaPack(), new N2oAllValidatorsPack());
         builder.scanners(new DefaultXmlInfoScanner(),
                 new XmlInfoScanner("classpath:META-INF/conf/*.xml"),
-                new ProjectFileScanner(projectId, session, builder.getEnvironment().getSourceTypeRegister(), apiClient),
+                new ProjectFileScanner(projectId, session, builder.getEnvironment().getSourceTypeRegister(), restClient),
                 new JavaInfoScanner((N2oDynamicMetadataProviderFactory) env.getDynamicMetadataProviderFactory()));
         builder.binders(new SecurityPageBinder(securityProvider));
         builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
@@ -315,13 +315,13 @@ public class ViewController {
         return null;
     }
 
-    private N2oEnvironment createEnvironment(String projectId, ProjectModel project) {
+    private N2oEnvironment createEnvironment(String projectId, HttpSession session) {
         N2oEnvironment env = new N2oEnvironment();
         String path = basePath + "/" + projectId;
 
         Map<String, String> runtimeProperties = new HashMap<>();
         runtimeProperties.put("n2o.access.schema.id", getAccessFilename(path));
-        configurePropertyResolver(runtimeProperties, projectId, project);
+        configurePropertyResolver(runtimeProperties, projectId, session);
 
         env.setSystemProperties(propertyResolver);
         env.setMessageSource(getMessageSourceAccessor(path));
@@ -341,8 +341,8 @@ public class ViewController {
         return env;
     }
 
-    private void configurePropertyResolver(Map<String, String> runtimeProperties, String projectId, ProjectModel project) {
-        propertyResolver.configure(environment, runtimeProperties, apiClient.getFile(projectId, "application.properties"));
+    private void configurePropertyResolver(Map<String, String> runtimeProperties, String projectId, HttpSession session) {
+        propertyResolver.configure(environment, runtimeProperties, restClient.getFile(projectId, "application.properties", session));
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
