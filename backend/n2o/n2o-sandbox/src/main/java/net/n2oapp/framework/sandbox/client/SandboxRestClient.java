@@ -7,11 +7,11 @@ import javax.servlet.http.HttpSession;
 /**
  * Клиент для отправки запросов на ApiController
  */
-public interface ApiClient {
+public interface SandboxRestClient {
 
     ProjectModel getProject(String projectId, HttpSession session);
 
-    String getFile(String projectId, String file);
+    String getFile(String projectId, String file, HttpSession session);
 
-    Boolean isProjectNotExists(String projectId);
+    Boolean isProjectExists(String projectId);
 }

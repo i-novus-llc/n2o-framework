@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.boot.*;
-import net.n2oapp.framework.sandbox.client.ApiClient;
-import net.n2oapp.framework.sandbox.client.SandboxApiClient;
+import net.n2oapp.framework.sandbox.client.SandboxRestClient;
+import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -79,7 +79,6 @@ public class N2oSandboxConfiguration {
             public void addViewControllers(ViewControllerRegistry registry) {
                 registry.addViewController("/").setViewName("redirect:/editor/");
                 registry.addViewController("/view/*/").setViewName("forward:/index.html");
-                registry.addViewController("/editor/*/").setViewName("forward:/editor/index.html");
             }
 
             @Override
@@ -124,8 +123,8 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
-    public ApiClient apiClient() {
-        return new SandboxApiClient();
+    public SandboxRestClient restClient() {
+        return new SandboxRestClientImpl();
     }
 
 
