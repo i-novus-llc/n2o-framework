@@ -8,7 +8,7 @@ import net.n2oapp.framework.sandbox.client.ApiClient;
 import net.n2oapp.framework.sandbox.client.SandboxApiClient;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
-import net.n2oapp.framework.sandbox.client.SandboxPropertyResolver;
+import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.query.GetController;

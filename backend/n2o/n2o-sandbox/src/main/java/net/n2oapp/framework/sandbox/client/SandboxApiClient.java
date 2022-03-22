@@ -8,6 +8,9 @@ import javax.servlet.http.HttpSession;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
+/**
+ * Реализация клиента для отправки запросов на ApiController
+ */
 public class SandboxApiClient implements ApiClient {
 
     @Value("${n2o.sandbox.api.url}")

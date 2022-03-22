@@ -1,8 +1,7 @@
-package net.n2oapp.framework.sandbox.client;
+package net.n2oapp.framework.sandbox.view;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
-import net.n2oapp.framework.sandbox.view.MutablePropertyResolver;
 import org.springframework.core.env.PropertyResolver;
 
 import java.io.FileInputStream;

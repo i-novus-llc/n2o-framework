@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.sandbox.client.SandboxApiClient;
-import net.n2oapp.framework.sandbox.client.SandboxPropertyResolver;
+import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.apache.catalina.util.ParameterMap;
 import org.json.JSONObject;
@@ -27,6 +27,9 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Тест на проверку обработки запросов на получение конфинурации и страницы примера
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxApiClient.class})
 @PropertySource("classpath:sandbox.properties")

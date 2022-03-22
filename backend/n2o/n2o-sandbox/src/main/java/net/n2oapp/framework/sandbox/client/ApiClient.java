@@ -4,6 +4,9 @@ import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * Клиент для отправки запросов на ApiController
+ */
 public interface ApiClient {
 
     ProjectModel getProject(String projectId, HttpSession session);
