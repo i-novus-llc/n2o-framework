@@ -2,7 +2,7 @@ package net.n2oapp.framework.sandbox.view;
 
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.sandbox.client.ApiClient;
+import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,9 @@ public class SandboxContext implements ContextEngine {
     private final Map<String, Properties> properties = new ConcurrentHashMap<>();
 
     @Autowired
-    private ApiClient apiClient;
+    private SandboxRestClient restClient;
+    @Autowired
+    private HttpSession session;
 
 
     @Override
@@ -82,7 +84,7 @@ public class SandboxContext implements ContextEngine {
 
     private Properties createProperties(String projectId) {
         Properties props = new Properties();
-        String userProperties = apiClient.getFile(projectId, USER_PROPERTIES);
+        String userProperties = restClient.getFile(projectId, USER_PROPERTIES, session);
         if (userProperties != null) {
             try (InputStream inputStream = new ByteArrayInputStream(userProperties.getBytes())) {
                 props.load(inputStream);
