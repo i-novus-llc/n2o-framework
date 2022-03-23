@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.PropertyResolver;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Stream;
@@ -217,7 +218,7 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
      * Добавить классы как отмеченные {link net.n2oapp.framework.api.metadata.global.util.ComponentType}
      */
     public N2oApplicationBuilder componentTypes(Class... classes) {
-        Stream.of(classes).forEach(c -> environment.getComponentTypeRegister().add(c.getSimpleName(), c));
+        Stream.of(classes).forEach(this::addComponentType);
         return this;
     }
 
@@ -239,14 +240,7 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         set.forEach(clazz -> {
             Set<Class<?>> subTypesOf = reflections.getSubTypesOf((Class<Object>) clazz);
             subTypesOf.stream().filter(cl -> !Modifier.isAbstract(cl.getModifiers()))
-                    .forEach(c -> {
-                        if (c.isAnnotationPresent(ComponentType.class)) {
-                            ComponentType annotation = c.getAnnotation(ComponentType.class);
-                            environment.getComponentTypeRegister().add(annotation.value(), c);
-                        } else {
-                            environment.getComponentTypeRegister().add(c.getSimpleName(), c);
-                        }
-                    });
+                    .forEach(this::addComponentType);
         });
     }
 
@@ -333,5 +327,14 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         AwareFactorySupport.enrich(environment.getMetadataBinderFactory(), environment);
         AwareFactorySupport.enrich(environment.getPipelineOperationFactory(), environment);
         return this;
+    }
+
+    private void addComponentType(Class c) {
+        if (c.isAnnotationPresent(ComponentType.class)) {
+            ComponentType annotation = (ComponentType) c.getAnnotation(ComponentType.class);
+            environment.getComponentTypeRegister().add(annotation.value(), c);
+        } else {
+            environment.getComponentTypeRegister().add(c.getSimpleName(), c);
+        }
     }
 }
