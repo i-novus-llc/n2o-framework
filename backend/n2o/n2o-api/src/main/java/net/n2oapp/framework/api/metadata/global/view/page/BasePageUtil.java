@@ -64,6 +64,25 @@ public class BasePageUtil {
     }
 
     /**
+     * Сбор всех виджетов из массива регионов и виджетов.
+     * Регионы могут содержать, как виджеты, так и регионы, поэтому производится глубокий поиск.
+     *
+     * @param items Массив компонентов(регионов и виджетов)
+     * @param ids
+     * @return Список всех виджетов
+     */
+    public static List<N2oWidget> collectWidgets(SourceComponent[] items, Map<String, Integer> ids) {
+        List<N2oWidget> widgets = new ArrayList<>();
+        if (items != null) {
+            for (SourceComponent item : items) {
+                if (item instanceof net.n2oapp.framework.api.metadata.RegionItem)
+                    ((net.n2oapp.framework.api.metadata.RegionItem) item).collectWidgets(widgets, ids, "w");
+            }
+        }
+        return widgets;
+    }
+
+    /**
      * Позволяет выполнять установленные операции над элементами региона (вложенными регионами и виджетами)
      * в зависимости от типа элемента.
      *
