@@ -19,9 +19,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.util.StreamUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -61,9 +64,9 @@ public class SandboxServerTest {
     @SneakyThrows
     @Test
     public void testGetConfig() {
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody("{\"id\":\"myProjectId\",\"name\":null,\"viewUrl\":\"/sandbox/view/myProjectId/\",\"files\":[{\"file\":\"index.page.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\n<simple-page xmlns=\\\"http://n2oapp.net/framework/config/schema/page-3.0\\\"\\n             name=\\\"Моя первая страница\\\">\\n    <form>\\n        <fields>\\n            <text id=\\\"hello\\\">Привет Мир!</text>\\n        </fields>\\n    </form>\\n</simple-page>\"}]}")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse().withBody("")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse().withBody("")));
+        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json")));
+        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse()));
+        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse()));
         JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
 
         assertThat(config.getString("project"), is("myProjectId"));
@@ -84,10 +87,12 @@ public class SandboxServerTest {
         assertThat(config.getJSONObject("user").getString("roles"), is("null"));
     }
 
+    @SneakyThrows
     @Test
     public void testGetPage() {
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody("{\"id\":\"myProjectId\",\"name\":null,\"viewUrl\":\"/sandbox/view/myProjectId/\",\"files\":[{\"file\":\"index.page.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\n<simple-page xmlns=\\\"http://n2oapp.net/framework/config/schema/page-3.0\\\"\\n             name=\\\"Моя первая страница\\\">\\n    <form>\\n        <fields>\\n            <text id=\\\"hello\\\">Привет Мир!</text>\\n        </fields>\\n    </form>\\n</simple-page>\"}]}")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse().withBody("")));
+        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json")
+                .withBody(StreamUtils.copyToString(new ClassPathResource("data/testGetPage.json").getInputStream(), Charset.defaultCharset()))));
+        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse()));
         Page page = viewController.getPage("myProjectId", request, null);
 
         assertThat(page.getId(), is("_"));
@@ -130,7 +135,7 @@ public class SandboxServerTest {
     @SneakyThrows
     @Test
     public void testApplicationProperties() {
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody("{\"id\":\"myProjectId\",\"name\":null,\"viewUrl\":\"/sandbox/view/myProjectId/\",\"files\":[{\"file\":\"index.page.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\r\\n<simple-page xmlns=\\\"http://n2oapp.net/framework/config/schema/page-3.0\\\"\\r\\n             name=\\\"Главная страница\\\">\\r\\n    <form/>\\r\\n</simple-page>\"},{\"file\":\"application.properties\",\"source\":\"n2o.api.header.src=CustomHeader\\r\\nn2o.api.footer.src=CustomFooter\\r\\nn2o.api.page.simple.src=CustomPage\\r\\nn2o.api.widget.form.src=CustomForm\"}]}")));
+        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json")));
         stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse().withBody("n2o.api.header.src=CustomHeader\n" +
                 "n2o.api.footer.src=CustomFooter\n" +
                 "n2o.api.page.simple.src=CustomPage\n" +
@@ -149,8 +154,9 @@ public class SandboxServerTest {
     @SneakyThrows
     @Test
     public void testUserProperties() {
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody("{\"id\":\"myProjectId\",\"name\":null,\"viewUrl\":\"/sandbox/view/myProjectId/\",\"files\":[{\"file\":\"index.page.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\n<simple-page xmlns=\\\"http://n2oapp.net/framework/config/schema/page-3.0\\\"\\n             name=\\\"Placeholder context\\\">\\n    <form>\\n        <fields>\\n            <output-text id=\\\"email\\\" default-value=\\\"#{email}\\\"/>\\n            <output-text id=\\\"roles\\\" default-value=\\\"#{roles}\\\"/>\\n        </fields>\\n    </form>\\n</simple-page>\"},{\"file\":\"user.properties\",\"source\":\"email=test@example.com\\nusername=Joe\\nroles=[USER,ADMIN]\"}]}")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse().withBody("")));
+        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json")
+                .withBody(StreamUtils.copyToString(new ClassPathResource("data/testUserProperties.json").getInputStream(), Charset.defaultCharset()))));
+        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse()));
         stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse().withBody("email=test@example.com\n" +
                 "username=Joe\n" +
                 "roles=[USER,ADMIN]")));
