@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.n2oapp.framework.sandbox</groupId>
+    <artifactId>sandbox</artifactId>
+    <name>N2O Sandbox</name>
+    <version>7.22.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <artifactId>framework</artifactId>
+        <groupId>net.n2oapp.framework</groupId>
+        <version>7.22.0-SNAPSHOT</version>
+    </parent>
+
+    <modules>
+        <module>server</module>
+    </modules>
+
+    <properties>
+        <n2o.version>7.22.0-SNAPSHOT</n2o.version>
+        <java.version>11</java.version>
+        <junit-jupiter.version>5.6.0</junit-jupiter.version>
+        <maven.failsafe.version>2.22.2</maven.failsafe.version>
+        <allure-junit5.version>2.13.3</allure-junit5.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-spring-boot-starter</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-rest</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-web</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-access</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-autotest</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-junit5</artifactId>
+                <version>${allure-junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-selenide</artifactId>
+                <version>${allure-junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.20</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

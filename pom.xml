@@ -238,6 +238,15 @@
             </modules>
         </profile>
         <profile>
+            <id>sandbox</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>sandbox</module>
+            </modules>
+        </profile>
+        <profile>
             <id>demo</id>
             <activation>
                 <activeByDefault>true</activeByDefault>

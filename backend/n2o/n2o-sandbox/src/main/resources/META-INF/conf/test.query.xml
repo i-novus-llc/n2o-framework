@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="test">
+    <list>
+        <test file="json/test.json"/>
+    </list>
+    <count>
+        <test file="json/test.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="type">
+            <select/>
+            <filters>
+                <eq filter-id="type"/>
+            </filters>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <eq filter-id="name_eq"/>
+                <like filter-id="name"/>
+            </filters>
+        </field>
+        <field id="ref.id" domain="integer">
+            <select/>
+            <filters>
+                <in filter-id="refs*.id"/>
+                <eq filter-id="ref.id"/>
+            </filters>
+        </field>
+        <field id="ref.name" domain="string">
+            <select/>
+        </field>
+        <field id="check">
+            <select/>
+            <filters>
+                <eq filter-id="check"/>
+            </filters>
+        </field>
+        <field id="birthDate" domain="localdate">
+            <select/>
+            <filters>
+                <more filter-id="birthDate.begin">birthDateFrom={birthDate.begin}</more>
+                <less filter-id="birthDate.end">birthDate={birthDate.end}</less>
+            </filters>
+        </field>
+    </fields>
+</query>
