@@ -17,6 +17,7 @@
         <n2o.version>7.22.0-SNAPSHOT</n2o.version>
         <java.version>11</java.version>
         <junit-jupiter.version>5.6.0</junit-jupiter.version>
+        <mockito.version>3.8.0</mockito.version>
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
         <allure-junit5.version>2.13.3</allure-junit5.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -102,6 +103,20 @@
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
             <version>1.58</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 

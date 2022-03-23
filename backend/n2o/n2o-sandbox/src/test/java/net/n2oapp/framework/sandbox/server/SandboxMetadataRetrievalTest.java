@@ -7,11 +7,8 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
-import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
-import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
-import org.apache.catalina.util.ParameterMap;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,43 +17,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.annotation.DirtiesContext;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест на проверку обработки запросов на получение конфинурации и страницы примера
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, SandboxContext.class,
-                SandboxTestDataProviderEngine.class},
-        properties = {"n2o.access.deny_objects=false"})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
-public class SandboxServerTest {
+public class SandboxMetadataRetrievalTest {
 
-    private static final HttpServletRequest request = mock(HttpServletRequest.class);
+    private static final MockHttpServletRequest request = new MockHttpServletRequest();
     private static final WireMockServer wireMockServer = new WireMockServer();
 
     @Autowired
     private ViewController viewController;
-    @Autowired
-    private HttpSession session;
 
     @BeforeAll
     static void setUp() {
-        when(request.getRequestURI()).thenReturn("/sandbox/view/rrtTG/n2o/page/");
-        when(request.getParameterMap()).thenReturn(new ParameterMap<>());
+        request.setRequestURI("/sandbox/view/myProjectId/n2o/page/");
         wireMockServer.start();
     }
 
@@ -134,54 +120,50 @@ public class SandboxServerTest {
         assertThat(((Text) ((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getText(), is("Привет Мир!"));
     }
 
-    @SneakyThrows
-    @Test
-    public void testApplicationProperties() {
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody("{\"id\":\"myProjectId\",\"name\":null,\"viewUrl\":\"/sandbox/view/myProjectId/\",\"files\":[{\"file\":\"index.page.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\r\\n<simple-page xmlns=\\\"http://n2oapp.net/framework/config/schema/page-3.0\\\"\\r\\n             name=\\\"Главная страница\\\">\\r\\n    <form/>\\r\\n</simple-page>\"},{\"file\":\"application.properties\",\"source\":\"n2o.api.header.src=CustomHeader\\r\\nn2o.api.footer.src=CustomFooter\\r\\nn2o.api.page.simple.src=CustomPage\\r\\nn2o.api.widget.form.src=CustomForm\"}]}")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse().withBody("n2o.api.header.src=CustomHeader\n" +
-                "n2o.api.footer.src=CustomFooter\n" +
-                "n2o.api.page.simple.src=CustomPage\n" +
-                "n2o.api.widget.form.src=CustomForm")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse().withBody("")));
-
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
-        assertThat(config.getJSONObject("menu").getJSONObject("header").getString("src"), is("CustomHeader"));
-        assertThat(config.getJSONObject("menu").getJSONObject("footer").getString("src"), is("CustomFooter"));
-
-        Page page = viewController.getPage("myProjectId", request, null);
-        assertThat(page.getSrc(), is("CustomPage"));
-        assertThat(((SimplePage) page).getWidget().getSrc(), is("CustomForm"));
-    }
-
-    @SneakyThrows
-    @Test
-    public void testUserProperties() {
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody("{\"id\":\"myProjectId\",\"name\":null,\"viewUrl\":\"/sandbox/view/myProjectId/\",\"files\":[{\"file\":\"index.page.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\n<simple-page xmlns=\\\"http://n2oapp.net/framework/config/schema/page-3.0\\\"\\n             name=\\\"Placeholder context\\\">\\n    <form>\\n        <fields>\\n            <output-text id=\\\"email\\\" default-value=\\\"#{email}\\\"/>\\n            <output-text id=\\\"roles\\\" default-value=\\\"#{roles}\\\"/>\\n        </fields>\\n    </form>\\n</simple-page>\"},{\"file\":\"user.properties\",\"source\":\"email=test@example.com\\nusername=Joe\\nroles=[USER,ADMIN]\"}]}")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse().withBody("")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse().withBody("email=test@example.com\n" +
-                "username=Joe\n" +
-                "roles=[USER,ADMIN]")));
-
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
-        assertThat(config.getJSONObject("user").getString("email"), is("test@example.com"));
-        assertThat(config.getJSONObject("user").getString("name"), is("null"));
-        assertThat(config.getJSONObject("user").getString("permissions"), is("null"));
-        assertThat(config.getJSONObject("user").getJSONArray("roles").get(0), is("USER"));
-        assertThat(config.getJSONObject("user").getJSONArray("roles").get(1), is("ADMIN"));
-        assertThat(config.getJSONObject("user").getString("surname"), is("null"));
-        assertThat(config.getJSONObject("user").getString("username"), is("Joe"));
-
-        Page page = viewController.getPage("myProjectId", request, null);
-        assertThat(page.getModels().get("resolve['main'].email").getValue(), is("test@example.com"));
-        assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(0), is("USER"));
-        assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(1), is("ADMIN"));
-    }
-
-    @Test
-    public void testGetData() {
-        when(request.getRequestURI()).thenReturn("/sandbox/view/rrtTG/n2o/data/main");
-        when(request.getParameterMap()).thenReturn(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
-        //viewController.getPage("rrtTG", request, null);
-        viewController.getData("rrtTG", request, session);
-    }
+//    @Test
+//    public void testGetData() {
+//        when(request.getRequestURI()).thenReturn("/sandbox/view/myProjectId/n2o/data/main");
+//        when(request.getParameterMap()).thenReturn(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
+//        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody("{\"id\":\"myProjectId\",\"name\":null,\"viewUrl\":\"/sandbox/view/myProjectId/\",\"files\":[{\"file\":\"index.page.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\r\\n<simple-page xmlns=\\\"http://n2oapp.net/framework/config/schema/page-3.0\\\"\\r\\n             name=\\\"CRUD Операции\\\">\\r\\n    <table query-id=\\\"test\\\" auto-focus=\\\"true\\\">\\r\\n        <columns>\\r\\n            <column text-field-id=\\\"id\\\"/>\\r\\n            <column text-field-id=\\\"name\\\"/>\\r\\n        </columns>\\r\\n        <toolbar generate=\\\"crud\\\"/>\\r\\n    </table>\\r\\n</simple-page>\\r\\n\"},{\"file\":\"test.json\",\"source\":\"[\\r\\n  {\\r\\n    \\\"id\\\": 1,\\r\\n    \\\"name\\\": \\\"test1\\\"\\r\\n  },\\r\\n  {\\r\\n    \\\"id\\\": 2,\\r\\n    \\\"name\\\": \\\"test2\\\"\\r\\n  },\\r\\n  {\\r\\n    \\\"id\\\": 3,\\r\\n    \\\"name\\\": \\\"test3\\\"\\r\\n  },\\r\\n  {\\r\\n    \\\"id\\\": 4,\\r\\n    \\\"name\\\": \\\"test4\\\"\\r\\n  }\\r\\n]\\r\\n\"},{\"file\":\"test.object.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\r\\n<object xmlns=\\\"http://n2oapp.net/framework/config/schema/object-4.0\\\">\\r\\n    <operations>\\r\\n        <operation id=\\\"create\\\">\\r\\n            <invocation>\\r\\n                <test file=\\\"test.json\\\" operation=\\\"create\\\"/>\\r\\n            </invocation>\\r\\n            <in>\\r\\n                <field id=\\\"name\\\"/>\\r\\n            </in>\\r\\n            <out>\\r\\n                <field id=\\\"id\\\"/>\\r\\n            </out>\\r\\n        </operation>\\r\\n\\r\\n        <operation id=\\\"update\\\">\\r\\n            <invocation>\\r\\n                <test file=\\\"test.json\\\" operation=\\\"update\\\"/>\\r\\n            </invocation>\\r\\n            <in>\\r\\n                <field id=\\\"id\\\"/>\\r\\n                <field id=\\\"name\\\"/>\\r\\n            </in>\\r\\n        </operation>\\r\\n\\r\\n        <operation id=\\\"delete\\\">\\r\\n            <invocation>\\r\\n                <test file=\\\"test.json\\\" operation=\\\"delete\\\"/>\\r\\n            </invocation>\\r\\n            <in>\\r\\n                <field id=\\\"id\\\"/>\\r\\n            </in>\\r\\n        </operation>\\r\\n    </operations>\\r\\n</object>\\r\\n\"},{\"file\":\"test.page.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\r\\n<simple-page xmlns=\\\"http://n2oapp.net/framework/config/schema/page-3.0\\\">\\r\\n    <form query-id=\\\"test\\\">\\r\\n        <fields>\\r\\n            <input-text id=\\\"name\\\"/>\\r\\n        </fields>\\r\\n    </form>\\r\\n</simple-page>\\r\\n\"},{\"file\":\"test.query.xml\",\"source\":\"<?xml version='1.0' encoding='UTF-8'?>\\r\\n<query xmlns=\\\"http://n2oapp.net/framework/config/schema/query-4.0\\\"\\r\\n       object-id=\\\"test\\\">\\r\\n    <list>\\r\\n        <test file=\\\"test.json\\\" operation=\\\"findAll\\\"/>\\r\\n    </list>\\r\\n\\r\\n    <fields>\\r\\n        <field id=\\\"id\\\" domain=\\\"integer\\\">\\r\\n            <select/>\\r\\n            <filters>\\r\\n                <eq filter-id=\\\"id\\\"/>\\r\\n            </filters>\\r\\n        </field>\\r\\n        <field id=\\\"name\\\">\\r\\n            <select/>\\r\\n        </field>\\r\\n    </fields>\\r\\n</query>\\r\\n\"}]}")));
+//        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse().withBody("")));
+//        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse().withBody("")));
+//        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/test.json")).willReturn(aResponse().withBody("[\n" +
+//                "  {\n" +
+//                "    \"id\": 1,\n" +
+//                "    \"name\": \"test1\"\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"id\": 2,\n" +
+//                "    \"name\": \"test2\"\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"id\": 3,\n" +
+//                "    \"name\": \"test3\"\n" +
+//                "  },\n" +
+//                "  {\n" +
+//                "    \"id\": 4,\n" +
+//                "    \"name\": \"test4\"\n" +
+//                "  }\n" +
+//                "]")));
+//
+//        ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request, null);
+//        assertThat(response.getBody().getCount(), is(4));
+//        assertThat(response.getBody().getList().get(0).get("id"), is(1L));
+//        assertThat(response.getBody().getList().get(1).get("id"), is(2L));
+//        assertThat(response.getBody().getList().get(2).get("id"), is(3L));
+//        assertThat(response.getBody().getList().get(3).get("id"), is(4L));
+//        assertThat(response.getBody().getList().get(0).get("name"), is("test1"));
+//        assertThat(response.getBody().getList().get(1).get("name"), is("test2"));
+//        assertThat(response.getBody().getList().get(2).get("name"), is("test3"));
+//        assertThat(response.getBody().getList().get(3).get("name"), is("test4"));
+//
+//    }
+//
+//    @Test
+//    public void testSetData() {
+//        MockHttpServletRequest servletRequest = new MockHttpServletRequest();
+//        servletRequest.setRequestURI("/sandbox/view/T0BZE/n2o/data/main/5/update/submit");
+//        servletRequest.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
+//        viewController.setData("T0BZE", new LinkedHashMap<>(Map.of("name", "qwe1", "id", 5)), servletRequest, session);
+//    }
 }
