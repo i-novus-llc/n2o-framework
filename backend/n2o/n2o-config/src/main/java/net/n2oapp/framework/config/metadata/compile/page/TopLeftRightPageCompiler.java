@@ -27,6 +27,13 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
         if (source.getTop() != null || source.getLeft() != null || source.getRight() != null) {
             TopLeftRightPage.Places places = new TopLeftRightPage.Places();
             page.setPlaces(places);
+
+            if (source.getTop() != null)
+                places.setTop(compileRegionOptions(source.getTopOptions(), p));
+            if (source.getLeft() != null)
+                places.setLeft(compileRegionOptions(source.getLeftOptions(), p));
+            if (source.getRight() != null)
+                places.setRight(compileRegionOptions(source.getRightOptions(), p));
         }
 
         return compilePage(source, page, context, p, null);
