@@ -56,7 +56,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
 
-        List<N2oWidget> sourceWidgets = source.getWidgets();
+        List<N2oWidget> sourceWidgets = collectWidgets(source, p);
         N2oWidget resultWidget = initResultWidget(context, sourceWidgets);
 
         String pageName = p.cast(context.getPageName(), source.getName());
@@ -189,6 +189,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 }
             }
         }
+    }
+
+    protected List<N2oWidget> collectWidgets(S source, CompileProcessor p) {
+        List<N2oWidget> widgets = source.getWidgets();
+        return mergeNotDynamic(widgets, p);
     }
 
     private List<N2oWidget> mergeNotDynamic(List<N2oWidget> widgets, CompileProcessor p) {
