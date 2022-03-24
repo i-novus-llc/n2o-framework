@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
-import { SECURITY_CHECK } from "n2o-framework/lib/core/auth/authTypes";
+import { SECURITY_CHECK } from "src/authTypes";
 import authProvider, { checkPermission } from "src/authProvider";
 
 const user = {
