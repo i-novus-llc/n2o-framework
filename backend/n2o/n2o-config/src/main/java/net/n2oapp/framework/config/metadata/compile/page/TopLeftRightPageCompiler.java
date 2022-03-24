@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oTopLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
@@ -24,27 +23,13 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
         TopLeftRightPage page = new TopLeftRightPage();
         page.setNeedScrollButton(p.cast(source.getScrollTopButton(),
                 p.resolve(property("n2o.api.page.top_left_right.need_scroll_button"), Boolean.class)));
-        List<SourceComponent> allItems = new ArrayList<>();
 
         if (source.getTop() != null || source.getLeft() != null || source.getRight() != null) {
             TopLeftRightPage.Places places = new TopLeftRightPage.Places();
-
-            if (source.getTop() != null) {
-                allItems.addAll(Arrays.asList(source.getTop()));
-                places.setTop(compileRegionOptions(source.getTopOptions(), p));
-            }
-            if (source.getLeft() != null) {
-                allItems.addAll(Arrays.asList(source.getLeft()));
-                places.setLeft(compileRegionOptions(source.getLeftOptions(), p));
-            }
-            if (source.getRight() != null) {
-                allItems.addAll(Arrays.asList(source.getRight()));
-                places.setRight(compileRegionOptions(source.getRightOptions(), p));
-            }
             page.setPlaces(places);
         }
 
-        return compilePage(source, page, context, p, allItems.toArray(new SourceComponent[0]), null);
+        return compilePage(source, page, context, p, null);
     }
 
     private TopLeftRightPage.Places.RegionOptions compileRegionOptions(N2oTopLeftRightPage.RegionOptions source, CompileProcessor p) {

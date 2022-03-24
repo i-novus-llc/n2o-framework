@@ -52,11 +52,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     protected abstract Map<String, List<Region>> initRegions(S source, D page, CompileProcessor p, PageContext context,
                                                              Object... scopes);
 
-    public D compilePage(S source, D page, PageContext context, CompileProcessor p, SourceComponent[] items, SearchBarScope searchBarScope) {
+    public D compilePage(S source, D page, PageContext context, CompileProcessor p, SearchBarScope searchBarScope) {
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
 
-        List<N2oWidget> sourceWidgets = collectWidgets(items, p);
+        List<N2oWidget> sourceWidgets = source.getWidgets();
         N2oWidget resultWidget = initResultWidget(context, sourceWidgets);
 
         String pageName = p.cast(context.getPageName(), source.getName());
@@ -189,13 +189,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 }
             }
         }
-    }
-
-    @Deprecated
-    //todo в целевой модели не должно требоваться собирать исходные ввиджеты в список, т.к. виджеты независимы друг от друга
-    protected List<N2oWidget> collectWidgets(SourceComponent[] items, CompileProcessor p) {
-        List<N2oWidget> widgets = BasePageUtil.collectWidgets(items);
-        return mergeNotDynamic(widgets, p);
     }
 
     private List<N2oWidget> mergeNotDynamic(List<N2oWidget> widgets, CompileProcessor p) {

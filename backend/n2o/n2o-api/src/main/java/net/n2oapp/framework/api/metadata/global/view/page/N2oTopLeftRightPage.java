@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.collectWidgets;
 
@@ -39,6 +40,15 @@ public class N2oTopLeftRightPage extends N2oBasePage {
     public List<N2oWidget> getWidgets() {
         List<N2oWidget> containers = new ArrayList<>();
         Map<String, Integer> ids = new HashMap<>();
+        List<SourceComponent> sourceComponents = new ArrayList<>();
+
+        if (top != null)
+            sourceComponents.addAll(Arrays.asList(top));
+        if (left != null)
+            sourceComponents.addAll(Arrays.asList(left));
+        if (right != null)
+            sourceComponents.addAll(Arrays.asList(right));
+
         containers.addAll(collectWidgets(top, ids));
         containers.addAll(collectWidgets(left, ids));
         containers.addAll(collectWidgets(right, ids));
