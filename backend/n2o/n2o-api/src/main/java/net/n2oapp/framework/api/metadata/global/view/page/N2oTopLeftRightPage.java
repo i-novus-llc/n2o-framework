@@ -49,9 +49,7 @@ public class N2oTopLeftRightPage extends N2oBasePage {
         if (right != null)
             sourceComponents.addAll(Arrays.asList(right));
 
-        containers.addAll(collectWidgets(top, ids));
-        containers.addAll(collectWidgets(left, ids));
-        containers.addAll(collectWidgets(right, ids));
+        containers.addAll(collectWidgets(sourceComponents.toArray(new SourceComponent[0]), ids));
         return containers;
     }
 }
