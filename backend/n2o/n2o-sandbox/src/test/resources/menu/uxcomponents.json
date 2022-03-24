@@ -1,0 +1,854 @@
+{
+  "name": "Компоненты",
+  "sections": [
+    {
+      "name": "Страницы",
+      "templates": [
+        {
+          "templateId": "uxcomponents/pages/simple_page",
+          "name": "Простая страница"
+        },
+        {
+          "templateId": "uxcomponents/pages/simple_regions",
+          "name": "Страница с регионами"
+        },
+        {
+          "templateId": "uxcomponents/pages/left_right_regions",
+          "name": "Страница с регионами слева и справа"
+        },
+        {
+          "templateId": "uxcomponents/pages/three_regions",
+          "name": "Страница с тремя регионами"
+        },
+        {
+          "templateId": "uxcomponents/pages/search",
+          "name": "Страница с поисковой строкой"
+        }
+      ]
+    },
+    {
+      "name": "Регионы",
+      "templates": [
+        {
+          "templateId": "uxcomponents/regions/region",
+          "name": "Простой регион"
+        },
+        {
+          "templateId": "uxcomponents/regions/panel",
+          "name": "Регион в виде панелей"
+        },
+        {
+          "templateId": "uxcomponents/regions/panel_without_title",
+          "name": "Панель без заголовка"
+        },
+        {
+          "templateId": "uxcomponents/regions/collapsible_panel",
+          "name": "Сворачиваемая панель"
+        },
+        {
+          "templateId": "uxcomponents/regions/panel_colors",
+          "name": "Цвета панелей"
+        },
+        {
+          "templateId": "uxcomponents/regions/line",
+          "name": "Регион с горизонтальным делителем"
+        },
+        {
+          "templateId": "uxcomponents/regions/tabs",
+          "name": "Регион в виде вкладок"
+        },
+        {
+          "templateId": "uxcomponents/regions/scrollspy",
+          "name": "Регион с автоматически прокручиваемым меню"
+        }
+      ]
+    },
+    {
+      "name": "Филдсеты",
+      "templates": [
+        {
+          "templateId": "uxcomponents/fieldsets/field_label",
+          "name": "Заголовок"
+        },
+        {
+          "templateId": "uxcomponents/fieldsets/field_label_separator",
+          "name": "Заголовок с делителем"
+        },
+        {
+          "templateId": "uxcomponents/fieldsets/field_label_subtitle_separator",
+          "name": "Заголовок и подзаголовок с делителем"
+        },
+        {
+          "templateId": "uxcomponents/fieldsets/field_separator",
+          "name": "Делитель без заголовка"
+        },
+        {
+          "templateId": "uxcomponents/fieldsets/field_separator_collapsible",
+          "name": "Сворачиваемый делитель"
+        },
+        {
+          "templateId": "uxcomponents/fieldsets/col_row",
+          "name": "Расположение полей"
+        }
+      ]
+    },
+
+    {
+      "name": "Таблица",
+      "templates": [
+        {
+          "templateId": "uxcomponents/tables/simple",
+          "name": "Простая таблица"
+        },
+        {
+          "templateId": "uxcomponents/tables/select_active",
+          "name": "Таблица с выделением строк"
+        },
+        {
+          "templateId": "uxcomponents/tables/select_checkbox",
+          "name": "Таблица с выделением строк чекбоксом"
+        },
+        {
+          "templateId": "uxcomponents/tables/select_radio",
+          "name": "Таблица с выделением строк радио"
+        },
+        {
+          "templateId": "uxcomponents/tables/rows_color",
+          "name": "Подсветка строк"
+        },
+        {
+          "templateId": "uxcomponents/tables/tree",
+          "name": "Древовидные строки"
+        },
+        {
+          "templateId": "uxcomponents/tables/multi_column",
+          "name": "Многоуровневый заголовок"
+        },
+        {
+          "templateId": "uxcomponents/tables/filter_column",
+          "name": "Фильтры в заголовках"
+        },
+        {
+          "templateId": "uxcomponents/tables/scroll_h",
+          "name": "Горизонтальный скрол"
+        },
+        {
+          "templateId": "uxcomponents/tables/scroll_v",
+          "name": "Вертикальный скрол"
+        },
+        {
+          "templateId": "uxcomponents/tables/open_on_click",
+          "name": "Открытие кликом по строке"
+        },
+        {
+          "templateId": "uxcomponents/tables/edit_inline",
+          "name": "Редактируемые ячейки"
+        }
+      ]
+    },
+    {
+      "name": "Форма",
+      "templates": [
+        {
+          "templateId": "uxcomponents/form/form",
+          "name": "Форма"
+        },
+        {
+          "templateId": "uxcomponents/form/form_validation",
+          "name": "Форма c валидацией"
+        },
+        {
+          "templateId": "uxcomponents/form/form_grid",
+          "name": "Сетка полей"
+        },
+        {
+          "templateId": "uxcomponents/form/form_horizontal-fields",
+          "name": "Горизонтальные поля"
+        }
+      ]
+    },
+    {
+      "name": "Список",
+      "templates": [
+        {
+          "templateId": "uxcomponents/list/list",
+          "name": "Список"
+        }
+      ]
+    },
+    {
+      "name": "Дерево",
+      "templates": [
+        {
+          "templateId": "uxcomponents/tree/tree",
+          "name": "Дерево"
+        },
+        {
+          "templateId": "uxcomponents/tree/tree_with_checkboxes",
+          "name": "Дерево с чекбоксами"
+        }
+      ]
+    },
+    {
+      "name": "Карточки",
+      "templates": [
+        {
+          "templateId": "uxcomponents/cards/card_single_line",
+          "name": "Карточки"
+        },
+        {
+          "templateId": "uxcomponents/cards/card_multi_line",
+          "name": "Карточки в несколько блоков"
+        }
+      ]
+    },
+    {
+      "name": "Плитки",
+      "templates": [
+        {
+          "templateId": "uxcomponents/tiles/tiles",
+          "name": "Плитки"
+        },
+        {
+          "templateId": "uxcomponents/tiles/tiles_sizes",
+          "name": "Размеры плиток"
+        }
+      ]
+    },
+    {
+      "name": "Графики",
+      "templates": [
+        {
+          "templateId": "uxcomponents/charts/areas",
+          "name": "Диаграмма-область"
+        },
+        {
+          "templateId": "uxcomponents/charts/bars",
+          "name": "Гистограмма"
+        },
+        {
+          "templateId": "uxcomponents/charts/lines",
+          "name": "Линейный график"
+        },
+        {
+          "templateId": "uxcomponents/charts/pie",
+          "name": "Круговая диаграмма"
+        }
+      ]
+    },
+
+    {
+      "name": "Поля ввода",
+      "templates": [
+        {
+          "templateId": "uxcomponents/fields/input",
+          "name": "Поле ввода"
+        },
+        {
+          "templateId": "uxcomponents/fields/text_area",
+          "name": "Многострочный ввод"
+        },
+        {
+          "templateId": "uxcomponents/fields/text_editor",
+          "name": "Редактор текста"
+        },
+        {
+          "templateId": "uxcomponents/fields/code_editor",
+          "name": "Поле редактора кода"
+        },
+        {
+          "templateId": "uxcomponents/fields/masked_input",
+          "name": "Поле с маской ввода"
+        },
+        {
+          "templateId": "uxcomponents/fields/input_money",
+          "name": "Поле ввода денег"
+        },
+        {
+          "templateId": "uxcomponents/fields/password",
+          "name": "Поле ввода пароля"
+        },
+        {
+          "templateId": "uxcomponents/fields/input_number",
+          "name": "Поле ввода чисел"
+        },
+        {
+          "templateId": "uxcomponents/fields/number_interval",
+          "name": "Интервал чисел"
+        },
+        {
+          "templateId": "uxcomponents/fields/input_with_measure",
+          "name": "Поле с подсказкой справа"
+        },
+        {
+          "templateId": "uxcomponents/fields/status",
+          "name": "Поле статус"
+        },
+        {
+          "templateId": "uxcomponents/fields/number_picker",
+          "name": "Поле ввода числа из диапазона"
+        },
+        {
+          "templateId": "uxcomponents/fields/file_upload",
+          "name": "Загрузка файлов"
+        },
+        {
+          "templateId": "uxcomponents/fields/autocomplete",
+          "name": "Поле ввода с автозаполнением"
+        },
+        {
+          "templateId": "uxcomponents/fields/autocomplete_multi",
+          "name": "Поле ввода с автозаполнением и множественным выбором"
+        }
+      ]
+    },
+    {
+      "name": "Поля вывода",
+      "templates": [
+        {
+          "templateId": "uxcomponents/output_fields/text",
+          "name": "Текст"
+        },
+        {
+          "templateId": "uxcomponents/output_fields/output_text",
+          "name": "Вывод текста"
+        },
+        {
+          "templateId": "uxcomponents/output_fields/output_list",
+          "name": "Многострочный вывод текста"
+        },
+        {
+          "templateId": "uxcomponents/output_fields/code_viewer",
+          "name": "Компонент вывода кода"
+        }
+      ]
+    },
+    {
+      "name": "Поле с выпадающим списком",
+      "templates": [
+        {
+          "templateId": "uxcomponents/select/select",
+          "name": "Выпадающий список"
+        },
+        {
+          "templateId": "uxcomponents/select/input_select",
+          "name": "Поле ввода с выпадающим списком"
+        },
+        {
+          "templateId": "uxcomponents/select/status",
+          "name": "Выпадающий список со статусом"
+        },
+        {
+          "templateId": "uxcomponents/select/with_description",
+          "name": "Выпадающий спискок с описанием"
+        },
+        {
+          "templateId": "uxcomponents/select/badges",
+          "name": "Выпадающий список с ярлыками"
+        },
+        {
+          "templateId": "uxcomponents/select/pressed_text",
+          "name": "Выпадающий список со сжатием текста"
+        },
+        {
+          "templateId": "uxcomponents/select/checkboxes",
+          "name": "Выпадающий список с чекбоксами"
+        },
+        {
+          "templateId": "uxcomponents/select/groups",
+          "name": "Выпадающий список с группой"
+        },
+        {
+          "templateId": "uxcomponents/select/icons",
+          "name": "Выпадающий список с иконками"
+        },
+        {
+          "templateId": "uxcomponents/select/images",
+          "name": "Выпадающий список с изображениями"
+        },
+        {
+          "templateId": "uxcomponents/select/multi",
+          "name": "Выпадающий список с мультирежимом"
+        }
+      ]
+    },
+    {
+      "name": "Поле с выпадающим деревом",
+      "templates": [
+        {
+          "templateId": "uxcomponents/select_tree/tree",
+          "name": "Выпадающий список-дерево"
+        },
+        {
+          "templateId": "uxcomponents/select_tree/badges",
+          "name": "Выпадающий список-дерево с баджами"
+        },
+        {
+          "templateId": "uxcomponents/select_tree/pressed_text",
+          "name": "Выпадающий список-дерево со сжатием текста"
+        },
+        {
+          "templateId": "uxcomponents/select_tree/checkboxes",
+          "name": "Выпадающий список-дерево с чекбоксами"
+        },
+        {
+          "templateId": "uxcomponents/select_tree/icons",
+          "name": "Выпадающий список-дерево с иконками"
+        },
+        {
+          "templateId": "uxcomponents/select_tree/image",
+          "name": "Выпадающий список-дерево с изображениями"
+        }
+      ]
+    },
+    {
+      "name": "Поле ввода даты и времени",
+      "templates": [
+        {
+          "templateId": "uxcomponents/date_time/date_time",
+          "name": "Выбор даты и времени"
+        },
+        {
+          "templateId": "uxcomponents/date_time/date",
+          "name": "Выбор даты"
+        },
+        {
+          "templateId": "uxcomponents/date_time/time",
+          "name": "Выбор времени"
+        },
+        {
+          "templateId": "uxcomponents/date_time/hours_minutes",
+          "name": "Выбор часа и минуты"
+        },
+        {
+          "templateId": "uxcomponents/date_time/format_output",
+          "name": "Форматирование вывода"
+        },
+        {
+          "templateId": "uxcomponents/date_time/date_interval",
+          "name": "Интервал дат"
+        }
+      ]
+    },
+    {
+      "name": "Ячейки",
+      "templates": [
+        {
+          "templateId": "uxcomponents/cells/badge",
+          "name": "Ярлык"
+        },
+        {
+          "templateId": "uxcomponents/cells/list",
+          "name": "Сворачиваемые ярлыки"
+        },
+        {
+          "templateId": "uxcomponents/cells/icon",
+          "name": "Ячейка с иконкой"
+        },
+        {
+          "templateId": "uxcomponents/cells/image",
+          "name": "Ячейка с картинкой"
+        },
+        {
+          "templateId": "uxcomponents/cells/link",
+          "name": "Ячейка с ссылкой"
+        },
+        {
+          "templateId": "uxcomponents/cells/text",
+          "name": "Ячейка с текстом"
+        },
+        {
+          "templateId": "uxcomponents/cells/formatting",
+          "name": "Форматирование текста"
+        },
+        {
+          "templateId": "uxcomponents/cells/list_in_tooltip",
+          "name": "Ячейка со списоком в тултипе"
+        },
+        {
+          "templateId": "uxcomponents/cells/rating",
+          "name": "Ячейка с рейтингом"
+        },
+        {
+          "templateId": "uxcomponents/cells/switch",
+          "name": "Переключаемая ячейка"
+        },
+        {
+          "templateId": "uxcomponents/cells/progress",
+          "name": "Ячейка - индикатор"
+        },
+        {
+          "templateId": "uxcomponents/cells/status",
+          "name": "Ячейка со статусом"
+        },
+        {
+          "templateId": "uxcomponents/cells/checkbox",
+          "name": "Ячейка с чекбоксом"
+        },
+        {
+          "templateId": "uxcomponents/cells/toolbar",
+          "name": "Ячейка с меню кнопкок"
+        },
+        {
+          "templateId": "uxcomponents/cells/in_table",
+          "name": "Ячейка в таблице"
+        },
+        {
+          "templateId": "uxcomponents/cells/in_list",
+          "name": "Ячейка в списке"
+        }
+      ]
+    },
+    {
+      "name": "Изображение",
+      "templates": [
+        {
+          "templateId": "uxcomponents/image/image",
+          "name": "Изображение"
+        },
+        {
+          "templateId": "uxcomponents/image/image_with_text",
+          "name": "Изображение с текстом"
+        },
+        {
+          "templateId": "uxcomponents/image/image_upload",
+          "name": "Компонент загрузки изображения с превью"
+        },
+        {
+          "templateId": "uxcomponents/image/image_text_position",
+          "name": "Позиционирование текста"
+        }
+      ]
+    },
+    {
+      "name": "Чекбокс",
+      "templates": [
+        {
+          "templateId": "uxcomponents/checkbox/simple",
+          "name": "Чекбокс"
+        },
+        {
+          "templateId": "uxcomponents/checkbox/group",
+          "name": "Группа чекбоксов"
+        },
+        {
+          "templateId": "uxcomponents/checkbox/group_inline",
+          "name": "Группа чекбоксы в линию"
+        }
+      ]
+    },
+    {
+      "name": "Радиокнопки",
+      "templates": [
+        {
+          "templateId": "uxcomponents/radio/group_column",
+          "name": "Радиогруппа"
+        },
+        {
+          "templateId": "uxcomponents/radio/group_inline",
+          "name": "Радиогруппа в линию"
+        },
+        {
+          "templateId": "uxcomponents/radio/buttons",
+          "name": "Радиогруппа в виде кнопок"
+        },
+        {
+          "templateId": "uxcomponents/radio/tabs",
+          "name": "Радиогруппа в виде табов"
+        }
+      ]
+    },
+    {
+      "name": "Индикатор прогресса",
+      "templates": [
+        {
+          "templateId": "uxcomponents/progress/progress",
+          "name": "Индикатор прогресса"
+        }
+      ]
+    },
+    {
+      "name": "Ползунок",
+      "templates": [
+        {
+          "templateId": "uxcomponents/slider/slider",
+          "name": "Ползунок"
+        },
+        {
+          "templateId": "uxcomponents/slider/slider_multi",
+          "name": "Ползунок мультирежим"
+        },
+        {
+          "templateId": "uxcomponents/slider/slider_vertical",
+          "name": "Ползунок вертикальный"
+        }
+      ]
+    },
+    {
+      "name": "Переключатель",
+      "templates": [
+        {
+          "templateId": "uxcomponents/switcher/switcher",
+          "name": "Переключатель"
+        }
+      ]
+    },
+    {
+      "name": "Рейтинг",
+      "templates": [
+        {
+          "templateId": "uxcomponents/rating/rating",
+          "name": "Рейтинг"
+        },
+        {
+          "templateId": "uxcomponents/rating/rating_with_half",
+          "name": "Рейтинг с половинками"
+        },
+        {
+          "templateId": "uxcomponents/rating/rating_with_tooltip",
+          "name": "Рейтинг с подписью"
+        }
+      ]
+    },
+
+    {
+      "name": "Навигация",
+      "templates": [
+        {
+          "templateId": "uxcomponents/menu/header_on_top",
+          "name": "Меню сверху"
+        },
+        {
+          "templateId": "uxcomponents/menu/brand",
+          "name": "Бренд"
+        },
+        {
+          "templateId": "uxcomponents/menu/brand_light_background",
+          "name": "Бренд на светлом фоне"
+        },
+        {
+          "templateId": "uxcomponents/menu/page",
+          "name": "Внутренняя ссылка"
+        },
+        {
+          "templateId": "uxcomponents/menu/a",
+          "name": "Внешняя ссылка"
+        },
+        {
+          "templateId": "uxcomponents/menu/submenu",
+          "name": "Выпадающее меню"
+        },
+        {
+          "templateId": "uxcomponents/menu/sidebar/simple",
+          "name": "Стандартная боковая панель"
+        },
+        {
+          "templateId": "uxcomponents/menu/sidebar/fullsize",
+          "name": "Боковая панель во всю высоту"
+        },
+        {
+          "templateId": "uxcomponents/menu/sidebar/fixed",
+          "name": "Фиксированная боковая панель"
+        },
+        {
+          "templateId": "uxcomponents/menu/sidebar/right",
+          "name": "Боковая панель справа"
+        },
+        {
+          "templateId": "uxcomponents/menu/sidebar/default_micro",
+          "name": "Боковая панель по умолчанию тонкая полоса"
+        },
+        {
+          "templateId": "uxcomponents/menu/sidebar/default_mini",
+          "name": "Боковая панель по умолчанию только иконки"
+        },
+        {
+          "templateId": "uxcomponents/menu/sidebar/overlay",
+          "name": "Боковая панель перекрывает страницу"
+        }
+      ]
+    },
+    {
+      "name": "Пагинация",
+      "templates": [
+        {
+          "templateId": "uxcomponents/pagination/attributes_variability",
+          "name": "Пагинация"
+        },
+        {
+          "templateId": "uxcomponents/pagination/layout_separated",
+          "name": "Пагинация c разделёнными кнопками"
+        },
+        {
+          "templateId": "uxcomponents/pagination/layout_flat",
+          "name": "Пагинация с плоскими кнопками"
+        },
+        {
+          "templateId": "uxcomponents/pagination/layout_bordered",
+          "name": "Пагинация с окаймлёнными кнопками"
+        },
+        {
+          "templateId": "uxcomponents/pagination/layout_separated_rounded",
+          "name": "Пагинация с круглыми кнопками"
+        },
+        {
+          "templateId": "uxcomponents/pagination/layout_flat_rounded",
+          "name": "Пагинация с плоскими круглыми кнопками"
+        },
+        {
+          "templateId": "uxcomponents/pagination/layout_bordered_rounded",
+          "name": "Пагинация с окаймлёнными кнопками со скруглением"
+        },
+        {
+          "templateId": "uxcomponents/pagination/without_numbers",
+          "name": "Пагинация без нумерации страниц"
+        }
+      ]
+    },
+    {
+      "name": "Кнопки",
+      "templates": [
+        {
+          "templateId": "uxcomponents/buttons/button",
+          "name": "Кнопка"
+        },
+        {
+          "templateId": "uxcomponents/buttons/button_colors",
+          "name": "Цвета кнопок"
+        },
+        {
+          "templateId": "uxcomponents/buttons/button_groups",
+          "name": "Группа кнопок"
+        },
+        {
+          "templateId": "uxcomponents/buttons/button_places",
+          "name": "Расположение кнопок"
+        },
+        {
+          "templateId": "uxcomponents/buttons/button_sizes",
+          "name": "Размеры кнопок"
+        },
+        {
+          "templateId": "uxcomponents/buttons/confirm_button",
+          "name": "Кнопка с подтверждением"
+        },
+        {
+          "templateId": "uxcomponents/buttons/dropdown_button",
+          "name": "Кнопка с выпадающим списком"
+        },
+        {
+          "templateId": "uxcomponents/buttons/icon_buttons",
+          "name": "Кнопки с иконкой"
+        },
+        {
+          "templateId": "uxcomponents/buttons/outline_buttons",
+          "name": "Контурные кнопки"
+        },
+        {
+          "templateId": "uxcomponents/buttons/rounded_buttons",
+          "name": "Скругленные кнопки"
+        },
+        {
+          "templateId": "uxcomponents/buttons/field_toolbar",
+          "name": "Кнопки в полях"
+        }
+      ]
+    },
+
+    {
+      "name": "Взаимодействие",
+      "templates": [
+        {
+          "templateId": "uxcomponents/actions/link",
+          "name": "Открытие ссылок"
+        },
+        {
+          "templateId": "uxcomponents/actions/open_page",
+          "name": "Открытие вложенной страницы"
+        },
+        {
+          "templateId": "uxcomponents/actions/close",
+          "name": "Закрытие страницы"
+        },
+        {
+          "templateId": "uxcomponents/actions/print",
+          "name": "Печать документа"
+        },
+        {
+          "templateId": "uxcomponents/actions/submit",
+          "name": "Сохранение данных"
+        },
+        {
+          "templateId": "uxcomponents/actions/copy",
+          "name": "Копирование данных"
+        },
+        {
+          "templateId": "uxcomponents/actions/refresh",
+          "name": "Обновление данных"
+        },
+        {
+          "templateId": "uxcomponents/actions/clear",
+          "name": "Очистка данных"
+        },
+        {
+          "templateId": "uxcomponents/actions/alert",
+          "name": "Уведомление"
+        }
+      ]
+    },
+    {
+      "name": "Модальные окна",
+      "templates": [
+        {
+          "templateId": "uxcomponents/modal/modal",
+          "name": "Модальное окно"
+        },
+        {
+          "templateId": "uxcomponents/modal/modal_with_scroll",
+          "name": "Модальное окно со скроллом"
+        },
+        {
+          "templateId": "uxcomponents/modal/modal_without_header",
+          "name": "Модальное окно без заголовка"
+        },
+        {
+          "templateId": "uxcomponents/modal/drawer",
+          "name": "Боковая панель"
+        },
+        {
+          "templateId": "uxcomponents/modal/drawer_placement",
+          "name": "Расположение боковой панели"
+        },
+        {
+          "templateId": "uxcomponents/modal/modal_without_backdrop",
+          "name": "Модальные окна без затемнения фона"
+        },
+        {
+          "templateId": "uxcomponents/modal/close",
+          "name": "Закрытие модального окна"
+        },
+        {
+          "templateId": "uxcomponents/modal/modal_close_on_backdrop",
+          "name": "Закрытие модальных окон кликом по фону"
+        }
+      ]
+    },
+    {
+      "name": "Сообщения",
+      "templates": [
+        {
+          "templateId": "uxcomponents/alerts/simple",
+          "name": "Сообщение"
+        },
+        {
+          "templateId": "uxcomponents/alerts/with_header",
+          "name": "Сообщение с заголовком"
+        },
+        {
+          "templateId": "uxcomponents/alerts/colors",
+          "name": "Цвета сообщений"
+        }
+      ]
+    }
+  ]
+}

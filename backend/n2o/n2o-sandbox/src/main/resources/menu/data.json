@@ -1,0 +1,109 @@
+{
+  "name": "Данные",
+  "sections": [
+    {
+      "name": "Объект",
+      "templates": [
+        {
+          "templateId": "data/object/operations",
+          "name": "Операции объекта"
+        },
+        {
+          "templateId": "data/object/validation_condition",
+          "name": "Валидация на месте"
+        },
+        {
+          "templateId": "data/object/validation_constraint",
+          "name": "Валидация в сервисе"
+        },
+        {
+          "templateId": "data/object/nesting_object_fields_for_map_provider",
+          "name": "Вложенные поля в объекте на примере TestProvider"
+        },
+        {
+          "templateId": "data/object/nesting_object_fields_for_args_provider",
+          "name": "Вложенные поля в объекте на примере JavaProvider"
+        }
+      ]
+    },
+    {
+      "name": "Выборка",
+      "templates": [
+        {
+          "templateId": "data/query/list",
+          "name": "Пагинация"
+        },
+        {
+          "templateId": "data/query/list_filters",
+          "name": "Фильтрация"
+        },
+        {
+          "templateId": "data/query/unique",
+          "name": "Уникальность"
+        }
+      ]
+    },
+    {
+      "name": "Связывание",
+      "templates": [
+        {
+          "templateId": "data/binding/simple",
+          "name": "Простое поле"
+        },
+        {
+          "templateId": "data/binding/select",
+          "name": "Списковое поле"
+        },
+        {
+          "templateId": "data/binding/interval",
+          "name": "Интервальное поле"
+        }
+      ]
+    },
+    {
+      "name": "Провайдеры данных",
+      "templates": [
+        {
+          "templateId": "data/providers/sql",
+          "name": "SQL"
+        },
+        {
+          "templateId": "data/providers/sql_mapping",
+          "name": "Маппинг в SQL"
+        },
+        {
+          "templateId": "data/providers/rest",
+          "name": "REST"
+        },
+        {
+          "templateId": "data/providers/rest_mapping",
+          "name": "Маппинг в REST"
+        },
+        {
+          "templateId": "data/providers/java",
+          "name": "Java"
+        },
+        {
+          "templateId": "data/providers/mapping_java_primitive",
+          "name": "Маппинг примитивов в Java"
+        },
+        {
+          "templateId": "data/providers/mapping_java_entity",
+          "name": "Маппинг сущности в Java"
+        },
+        {
+          "templateId": "data/providers/mapping_java_criteria",
+          "name": "Маппинг критериев в Java"
+        },
+        {
+          "templateId": "data/providers/mongodb",
+          "name": "MongoDb"
+        },
+        {
+          "templateId": "data/providers/graphql",
+          "name": "GraphQL"
+        }
+      ]
+    }
+  ]
+}

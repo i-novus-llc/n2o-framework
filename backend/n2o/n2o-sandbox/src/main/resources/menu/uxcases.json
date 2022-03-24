@@ -1,0 +1,125 @@
+{
+  "name": "Варианты использования",
+  "sections": [
+    {
+      "name": "Фильтрация",
+      "templates": [
+        {
+          "templateId": "uxcases/filters/simple_filters",
+          "name": "Обычные фильтры"
+        },
+        {
+          "templateId": "uxcases/filters/expandable_filters",
+          "name": "Расширенные фильтры"
+        },
+        {
+          "templateId": "uxcases/filters/quick_filters",
+          "name": "Быстрые фильтры"
+        },
+        {
+          "templateId": "uxcases/filters/tabs_filters",
+          "name": "Фильтрация по вкладкам"
+        },
+	    {
+          "templateId": "uxcases/filters/end_to_end_filters",
+          "name": "Сквозная фильтрация"
+        },
+        {
+          "templateId": "uxcases/filters/drawer",
+          "name": "Фильтры в отдельном окне"
+        },
+        {
+          "templateId": "uxcases/filters/all_columns_filters",
+          "name": "Фильтры по каждому столбцу"
+        },
+        {
+          "templateId": "uxcases/filters/right_side_filters",
+          "name": "Картотека и фильтры справа от списка"
+        }
+      ]
+    },
+    {
+      "name": "Данные в виде списков",
+      "templates": [
+        {
+          "templateId": "uxcases/list/simple_table",
+          "name": "Список в виде простой таблицы"
+        },
+        {
+          "templateId": "uxcases/list/table",
+          "name": "Список в виде таблицы"
+        },
+        {
+          "templateId": "uxcases/list/tree",
+          "name": "Список в виде дерева"
+        },
+        {
+          "templateId": "uxcases/list/cards",
+          "name": "Cписок в виде карточек"
+        },
+        {
+          "templateId": "uxcases/list/tiles",
+          "name": "Список в виде плиток"
+        },
+        {
+          "templateId": "uxcases/list/two_level_list",
+          "name": "Список с двухуровневой информацией в одной ячейке"
+        },
+        {
+          "templateId": "uxcases/list/action_icons",
+          "name": "Список c иконками действий в правом столбце"
+        },
+        {
+          "templateId": "uxcases/list/action_submenu",
+          "name": "Список с кнопкой действий в правом столбце"
+        },
+        {
+          "templateId": "uxcases/list/action_header",
+          "name": "Список c иконками действий в хедере списка"
+        },
+        {
+          "templateId": "uxcases/list/multi_action_header",
+          "name": "Список c иконками действий со множеством в хедере списка"
+        },
+        {
+          "templateId": "uxcases/list/row_click_action",
+          "name": "Список с действием по клику по строке"
+        }
+      ]
+    },
+    {
+      "name": "Ввод Данных",
+      "templates": [
+        {
+          "templateId": "uxcases/input/show_modal",
+          "name": "Окно ввода данных"
+        },
+        {
+          "templateId": "uxcases/input/open_page",
+          "name": "Страница ввода данных"
+        }
+      ]
+    },
+    {
+      "name": "Редактирование данных",
+      "templates": [
+        {
+          "templateId": "uxcases/editing/on_tabs",
+          "name": "Редактирование данных на нескольких вкладках"
+        },
+        {
+          "templateId": "uxcases/editing/on_page",
+          "name": "Редактирование данных на странице с данными"
+        }
+      ]
+    },
+    {
+      "name": "Функции таблицы",
+      "templates": [
+        {
+          "templateId": "uxcases/table/basic_function",
+          "name": "Базовые функции таблицы"
+        }      ]
+    }
+  ]
+}

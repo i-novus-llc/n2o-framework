@@ -49,6 +49,9 @@ import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import net.n2oapp.framework.sandbox.loader.ProjectFileLoader;
+import net.n2oapp.framework.sandbox.resource.TemplatesHolder;
+import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
+import net.n2oapp.framework.sandbox.resource.model.CategoryModel;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.utils.FileNameUtil;
 import net.n2oapp.framework.ui.controller.DataController;
@@ -66,13 +69,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -82,6 +89,8 @@ import java.util.*;
 public class ViewController {
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
 
+    @Value("${n2o.version:unknown}")
+    private String n2oVersion;
     @Value("${n2o.config.path}")
     private String basePath;
     @Value("${spring.messages.basename}")
@@ -107,6 +116,10 @@ public class ViewController {
     private SandboxPropertyResolver propertyResolver;
     @Autowired
     private SandboxRestClient restClient;
+    @Autowired
+    private TemplatesHolder templatesHolder;
+    @Autowired
+    private XsdSchemaParser schemaParser;
 
     private MessageSourceAccessor messageSourceAccessor;
     private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
@@ -119,6 +132,27 @@ public class ViewController {
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory(providers.orElse(Collections.emptyMap()));
         this.objectMapper = new ObjectMapper();
         this.domainProcessor = new DomainProcessor(objectMapper);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/version")
+    public String getVersion() {
+        return n2oVersion;
+    }
+
+    @GetMapping("/templates")
+    public List<CategoryModel> getProjectTemplates() {
+        return templatesHolder.getProjectTemplates();
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/schemas")
+    public ResponseEntity<Resource> loadSchema(@RequestParam(name = "name") String schemaNamespace) throws IOException {
+        Resource schema = schemaParser.getSchema(schemaNamespace);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + schema.getFilename() + "\"")
+                .body(schema);
     }
 
     @CrossOrigin(origins = "*")
