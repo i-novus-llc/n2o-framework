@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <form id="form" object-id="testFormValidations">
         <submit message-on-fail="true" operation-id="test" route="a/b/c" refresh-on-success="true">
             <path-param name="name1" value="value1" ref-model="resolve" ref-widget-id="id1"/>

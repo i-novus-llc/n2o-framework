@@ -1,4 +1,4 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <form>
         <fields>
             <slider id="slider1" label="Slider1" min="-10" max="10" step="2" measure="%"/>
