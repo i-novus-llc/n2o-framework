@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -19,15 +18,10 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, St
     @Override
     public StandardPage compile(N2oLeftRightPage source, PageContext context, CompileProcessor p) {
         StandardPage page = new StandardPage();
-        List<SourceComponent> allItems = new ArrayList<>();
-        if (source.getLeft() != null)
-            allItems.addAll(Arrays.asList(source.getLeft()));
-        if (source.getRight() != null)
-            allItems.addAll(Arrays.asList(source.getRight()));
         if ((source.getLeftWidth() != null && !source.getLeftWidth().isEmpty()) ||
                 (source.getRightWidth() != null && !source.getRightWidth().isEmpty()))
             page.setWidth(page.new RegionWidth(source.getLeftWidth(), source.getRightWidth()));
-        return compilePage(source, page, context, p, allItems.toArray(new SourceComponent[0]), null);
+        return compilePage(source, page, context, p, null);
     }
 
     @Override

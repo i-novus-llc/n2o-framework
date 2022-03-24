@@ -28,7 +28,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         initDefaults(source, context, p);
         SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getDatasource(), source.getSearchBar().getSearchFilterId());
         searchBarScope.setParam(source.getSearchBar().getSearchParam());
-        page = compilePage(source, page, context, p, source.getItems(), searchBarScope);
+        page = compilePage(source, page, context, p, searchBarScope);
         page.setSearchBar(compileSearchBar(source, page, p));
         return page;
     }

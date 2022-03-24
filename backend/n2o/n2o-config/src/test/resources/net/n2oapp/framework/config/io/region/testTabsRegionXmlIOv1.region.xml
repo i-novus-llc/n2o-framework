@@ -1,6 +1,0 @@
-<tabs xmlns="http://n2oapp.net/framework/config/schema/region-1.0"
-      id="tabs" class="test" place="single" src="test" style="test"
-      always-refresh="true" lazy="false" active-param="param" routable="false">
-    <form/>
-    <table/>
-</tabs>
