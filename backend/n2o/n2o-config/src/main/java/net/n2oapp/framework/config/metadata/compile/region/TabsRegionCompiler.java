@@ -1,16 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -47,23 +43,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         region.setMaxHeight(p.cast(source.getMaxHeight(), p.resolve(property("n2o.api.region.tabs.max_height"), String.class)));
         region.setHideSingleTab(p.cast(source.getHideSingleTab(),
                 p.resolve(property("n2o.api.region.tabs.hide_single_tab"), Boolean.class)));
-        compileTabsRoute(source, region.getId(), p);
+        compileRoute(source, region.getId(), "n2o.api.region.tabs.routable", p);
         return region;
-    }
-
-    private void compileTabsRoute(N2oTabsRegion source, String regionId, CompileProcessor p) {
-        String activeParam = p.cast(source.getActiveParam(), regionId);
-        Boolean routable = p.cast(source.getRoutable(), p.resolve(property("n2o.api.region.tabs.routable"), Boolean.class));
-
-        PageRoutes routes = p.getScope(PageRoutes.class);
-        if (routes == null || !Boolean.TRUE.equals(routable))
-            return;
-
-        routes.addQueryMapping(
-                activeParam,
-                Redux.dispatchSetActiveRegionEntity(regionId, activeParam),
-                Redux.createActiveRegionEntityLink(regionId)
-        );
     }
 
     @Override

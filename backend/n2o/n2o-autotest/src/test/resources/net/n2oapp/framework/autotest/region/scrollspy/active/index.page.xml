@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Тестирование активного элемента по умолчанию">
+    <regions>
+        <tabs>
+            <tab>
+                <scrollspy id="r1"
+                           title="Меню"
+                           headlines="true"
+                           active="mi5">
+                    <menu-item id="mi1" title="Личные данные">
+                        <form>
+                            <fields>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                            </fields>
+                        </form>
+                    </menu-item>
+                    <menu-item id="mi5" title="Дополнительная информация">
+                        <form>
+                            <fields>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                                <text-area id="field" label="Поле"/>
+                            </fields>
+                        </form>
+                    </menu-item>
+                    <sub-menu id="mi2" title="Вложенное меню">
+                        <menu-item id="mi3" title="Список участников">
+                            <form>
+                                <fields>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                </fields>
+                            </form>
+                        </menu-item>
+                        <menu-item id="mi4" title="Список победителей">
+                            <form>
+                                <fields>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                    <text-area id="field" label="Поле"/>
+                                </fields>
+                            </form>
+                        </menu-item>
+                    </sub-menu>
+                </scrollspy>
+            </tab>
+            <tab>
+                <form/>
+            </tab>
+        </tabs>
+    </regions>
+</page>

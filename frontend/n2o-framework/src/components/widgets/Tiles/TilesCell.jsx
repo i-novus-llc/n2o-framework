@@ -18,7 +18,7 @@ function TilesCell(props) {
     const resolvedProps = propsResolver(omit(component, ['src']), model)
 
     return (
-        <div style={style}>
+        <div className="w-100 d-flex justify-content-center" style={style}>
             <Factory
                 src={get(component, 'src')}
                 level={CELLS}

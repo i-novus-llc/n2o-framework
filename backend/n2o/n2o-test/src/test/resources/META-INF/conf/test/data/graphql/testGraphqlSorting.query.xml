@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list result-mapping="['data.persons']">
+        <graphql>query persons(sort: { $$sorting }) { name age }</graphql>
+    </list>
+
+    <list result-mapping="['data.persons']" filters="id">
+        <graphql>query persons( $$sorting ) { name age }</graphql>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select/>
+            <!-- only for using different <list> -->
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+            <sorting mapping="['idDir']">sort: { $$idDir : "id" }</sorting>
+        </field>
+
+        <field id="name">
+            <select/>
+            <sorting mapping="['nameDir']">{name: $$nameDir}</sorting>
+        </field>
+
+        <field id="age">
+            <select/>
+            <sorting mapping="['ageDir']">{age: $$ageDir}</sorting>
+        </field>
+    </fields>
+</query>

@@ -5,8 +5,8 @@ import { createStructuredSelector } from 'reselect'
 import moment from 'moment'
 
 import { Alerts } from '../snippets/Alerts/Alerts'
-import { GLOBAL_KEY } from '../../ducks/alerts/constants'
-import { alertsByKeySelector, removeAlert } from '../../ducks/alerts/store'
+import { STORE_KEY_PATH, SUPPORTED_PLACEMENTS } from '../../ducks/alerts/constants'
+import { removeAlert } from '../../ducks/alerts/store'
 
 /**
  * Глобальные алерты
@@ -15,8 +15,14 @@ import { alertsByKeySelector, removeAlert } from '../../ducks/alerts/store'
  */
 
 export function GlobalAlerts({ alerts = [], onDismiss }) {
-    const mappedAlerts = alerts.map((alert) => {
+    const mappedAlerts = alerts.map((alertsGroup) => {
+        /* 1 alert в каждом поддерживаемом placement
+           до реализации stacked */
+        const alert = alertsGroup[0]
+
         const { time, id } = alert
+
+        const storeKey = alert[STORE_KEY_PATH]
 
         const getTimestamp = (time) => {
             if (!time) {
@@ -35,7 +41,7 @@ export function GlobalAlerts({ alerts = [], onDismiss }) {
         return {
             ...alert,
             key: id,
-            onDismiss: () => id && onDismiss(id),
+            onDismiss: () => id && onDismiss(storeKey, id),
             timestamp: getTimestamp(time),
             className: 'd-inline-flex mb-0 p-2 mw-100',
             animate: true,
@@ -44,7 +50,7 @@ export function GlobalAlerts({ alerts = [], onDismiss }) {
     })
 
     return (
-        <Alerts alerts={mappedAlerts} />
+        <Alerts alerts={mappedAlerts} placements={SUPPORTED_PLACEMENTS} />
     )
 }
 
@@ -54,11 +60,11 @@ GlobalAlerts.propTypes = {
 }
 
 const mapStateToProps = createStructuredSelector({
-    alerts: (state, props) => alertsByKeySelector(GLOBAL_KEY)(state, props),
+    alerts: state => Object.values(state.alerts),
 })
 
 const mapDispatchToProps = dispatch => ({
-    onDismiss: alertId => dispatch(removeAlert(GLOBAL_KEY, alertId)),
+    onDismiss: (storeKey, alertId) => dispatch(removeAlert(storeKey, alertId)),
 })
 
 export const GlobalAlertsConnected = connect(

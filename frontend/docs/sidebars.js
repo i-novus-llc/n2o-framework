@@ -17,6 +17,7 @@ module.exports = {
                 'guides/manual/setting',
                 'guides/manual/context',
                 'guides/manual/dynamic',
+                'guides/manual/events',
                 'guides/manual/processing',
                 'guides/manual/security',
                 'guides/manual/customization',
@@ -50,6 +51,7 @@ module.exports = {
             type: 'category',
             label: 'Миграция',
             items: [
+                'guides/migration/to_7_22',
                 'guides/migration/to_7_21',
                 'guides/migration/to_7_20',
                 'guides/migration/to_7_19',

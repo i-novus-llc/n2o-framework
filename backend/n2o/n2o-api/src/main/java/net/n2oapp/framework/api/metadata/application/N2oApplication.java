@@ -49,6 +49,11 @@ public class N2oApplication extends N2oMetadata {
      */
     private N2oAbstractDatasource[] datasources;
 
+    /**
+     * События
+     */
+    private N2oAbstractEvent[] events;
+
     @Override
     public String getPostfix() {
         return "application";

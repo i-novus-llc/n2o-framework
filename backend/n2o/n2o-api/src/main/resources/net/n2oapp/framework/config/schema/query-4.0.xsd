@@ -82,7 +82,7 @@
             <xs:extension base="selectionDefinition">
                 <xs:attribute name="result-mapping" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Маппинг результа уникальной записи.</xs:documentation>
+                        <xs:documentation>Маппинг результата уникальной записи.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -97,6 +97,7 @@
             <xs:element name="test" type="dp:testDefinition" minOccurs="0"/>
             <xs:element name="mongodb" type="dp:mongoDbDefinition" minOccurs="0"/>
             <xs:element name="camunda" type="dp:camundaDefinition" minOccurs="0"/>
+            <xs:element name="graphql" type="dp:graphqlDefinition" minOccurs="0"/>
             <xs:any namespace="##other" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Провайдер данных.</xs:documentation>

@@ -109,6 +109,21 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     /**
+     *
+     * @param env Окружение сборки метаданных
+     * @param context Входной контекст сборки(не используется для компиляции метаданных)
+     * @param params Параметры запроса
+     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов.
+     */
+    public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params, Object... scopes) {
+        this(env, context, params);
+        Object[] flattedScopes = flatScopes(scopes);
+        this.scope = new HashMap<>();
+        Stream.of(Optional.ofNullable(flattedScopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
+                .forEach(s -> this.scope.put(s.getClass(), s));
+    }
+
+    /**
      * Конструктор процессора сборки метаданных со связыванием и процессором вложенных моделей
      *
      * @param env                Окружение сборки метаданных
@@ -146,20 +161,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         this.params = parent.params;
         this.context = parent.context;
         this.forbiddenIds = parent.forbiddenIds;
-    }
-
-    /**
-     * Метод добавления scopes в процессор
-     *
-     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов
-     */
-    public void addScopes(Object... scopes) {
-        Object[] flattedScopes = flatScopes(scopes);
-        if (this.scope.isEmpty() && scopes.length != 0) {
-            this.scope = new HashMap<>();
-        }
-        Stream.of(Optional.ofNullable(flattedScopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
-                .forEach(s -> this.scope.put(s.getClass(), s));
     }
 
     @Override

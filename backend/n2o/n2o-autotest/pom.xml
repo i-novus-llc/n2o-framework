@@ -10,7 +10,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.22.0-SNAPSHOT</version>
+        <version>7.23.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -27,6 +27,10 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <dependency>
             <groupId>net.n2oapp.framework</groupId>

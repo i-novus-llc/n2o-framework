@@ -3,13 +3,9 @@ package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oPanelRegion;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import org.springframework.stereotype.Component;
-
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция региона в виде панелей.
@@ -39,24 +35,9 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setOpen(p.cast(source.getOpen(), true));
         region.setCollapsible(p.cast(source.getCollapsible(), true));
         region.setFullScreen(false);
-        compilePanelRoute(source, region.getId(), p);
+        compileRoute(source, region.getId(), "n2o.api.region.panel.routable", p);
         region.setHeaderTitle(source.getTitle());
         return region;
-    }
-
-    private void compilePanelRoute(N2oPanelRegion source, String regionId, CompileProcessor p) {
-        String activeParam = p.cast(source.getActiveParam(), regionId);
-        Boolean routable = p.cast(source.getRoutable(), p.resolve(property("n2o.api.region.panel.routable"), Boolean.class));
-
-        PageRoutes routes = p.getScope(PageRoutes.class);
-        if (routes == null || !Boolean.TRUE.equals(routable))
-            return;
-
-        routes.addQueryMapping(
-                activeParam,
-                Redux.dispatchSetActiveRegionEntity(regionId, activeParam),
-                Redux.createActiveRegionEntityLink(regionId)
-        );
     }
 
     @Override

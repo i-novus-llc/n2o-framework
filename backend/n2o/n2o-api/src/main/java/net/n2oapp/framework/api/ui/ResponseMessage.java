@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Стандартное сообщение N2O
@@ -17,6 +18,8 @@ import java.util.Map;
 @Getter
 @Setter
 public class ResponseMessage implements Serializable {
+    @JsonProperty
+    private String id;
     @JsonProperty
     private String field;
     @JsonProperty
@@ -41,6 +44,10 @@ public class ResponseMessage implements Serializable {
     private List<String> stacktrace;
     @JsonProperty
     private LocalDateTime time;
+
+    public String getId() {
+        return UUID.randomUUID().toString();
+    }
 
     public void setSeverityType(SeverityType severity) {
         this.color = severity != null ? severity.getId() : null;
