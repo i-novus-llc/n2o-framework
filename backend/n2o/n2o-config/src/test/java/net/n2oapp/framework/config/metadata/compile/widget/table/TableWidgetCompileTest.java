@@ -127,7 +127,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
                 .get(new PageContext("testTable4RowClickCompile"));
         List<TableWidgetComponent> rowClicks = new ArrayList<>();
-        page.getRegions().get("right").get(0).getContent().forEach(c -> rowClicks.add(((Table) c).getComponent()));
+        page.getRegions().get("single").get(0).getContent().forEach(c -> rowClicks.add(((Table) c).getComponent()));
 
         assertThat(rowClicks.size(), is(10));
         assertThat(rowClicks.get(0).getRowClick(), nullValue());
@@ -257,7 +257,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testColumnVisibility() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
                 .get(new PageContext("testTableColumnVisibility"));
-        List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("top").get(0).getContent().get(0))
+        List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0))
                 .getComponent().getHeaders();
         assertThat(columnHeaders.get(0).getVisible(), nullValue());
         assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));

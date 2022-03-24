@@ -124,32 +124,4 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(2).getId(), is("panel_4"));
         assertThat(regions.get(2).getContent(), nullValue());
     }
-
-    @Test
-    public void testV1() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testPanelRegionV1.page.xml")
-                .get(new PageContext("testPanelRegionV1"));
-
-        assertThat(page.getRegions().size(), is(1));
-        List<Region> regions = page.getRegions().get("single");
-        assertThat(regions.size(), is(2));
-
-        // PANEL1
-        assertThat(regions.get(0), instanceOf(PanelRegion.class));
-        assertThat(regions.get(0).getId(), is("panel_0"));
-        assertThat(regions.get(0).getSrc(), is("PanelRegion"));
-        assertThat(((PanelRegion) regions.get(0)).getHeaderTitle(), is("Panel1"));
-        assertThat(regions.get(0).getContent().size(), is(1));
-        assertThat(regions.get(0).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) (regions.get(0).getContent().get(0))).getName(), is("form1"));
-
-        // PANEL2
-        assertThat(regions.get(1), instanceOf(PanelRegion.class));
-        assertThat(regions.get(1).getId(), is("panel_1"));
-        assertThat(regions.get(1).getSrc(), is("PanelRegion"));
-        assertThat(((PanelRegion) regions.get(1)).getHeaderTitle(), is("form2"));
-        assertThat(regions.get(1).getContent().size(), is(1));
-        assertThat(regions.get(1).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) (regions.get(1).getContent().get(0))).getName(), is("form2"));
-    }
 }
