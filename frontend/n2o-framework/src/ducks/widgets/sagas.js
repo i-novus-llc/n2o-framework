@@ -10,6 +10,7 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import last from 'lodash/last'
+import omit from 'lodash/omit'
 import { reset } from 'redux-form'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
@@ -68,13 +69,17 @@ const isQueryEqual = (() => {
  * сайд-эффекты на экшен DATA_REQUEST
  */
 function* dataRequest(action) {
+    const state = yield select()
+
     const {
         payload: { widgetId, options, modelId },
     } = action
+
     // TODO удалить селектор, когда бекенд начнёт присылать modelId для экшонов, которые присылает в конфиге
     const model = modelId || (yield select(makeModelIdSelector(widgetId)))
+    const withoutSelectedId = !isEmpty(get(state, `models.filter.${model}`))
 
-    yield fork(handleFetch, model, widgetId, options, isQueryEqual)
+    yield fork(handleFetch, model, widgetId, { ...options, withoutSelectedId }, isQueryEqual)
 }
 
 /**
@@ -138,7 +143,10 @@ export function* doFetch(modelId, provider) {
         yield cancel(cached.worker)
     }
 
-    const { basePath, baseQuery, headersParams } = provider
+    const { basePath, baseQuery: queryParams, headersParams } = provider
+    const { withoutSelectedId } = queryParams
+    const baseQuery = withoutSelectedId ? omit(queryParams, 'selectedId') : queryParams
+
     const worker = (yield fork(fetchSaga, FETCH_WIDGET_DATA, {
         basePath,
         baseQuery,
