@@ -2,6 +2,7 @@ package net.n2oapp.framework.sandbox.client;
 
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
+import net.n2oapp.framework.sandbox.resource.model.CategoryModel;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -18,4 +19,6 @@ public interface SandboxRestClient {
     Boolean isProjectExists(String projectId);
 
     void putFiles(String projectId, List<FileModel> files, HttpSession session);
+
+    List<CategoryModel> getProjectTemplates();
 }
