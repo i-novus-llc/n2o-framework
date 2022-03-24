@@ -20,6 +20,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 @Component
 public class PersonDocRestClient {
 
+    private static final String FILES_PREFIX = "/files";
     @Value("${n2o.sandbox.case.file_upload}")
     private String baseUrl;
     private RestTemplate restTemplate;
@@ -32,14 +33,14 @@ public class PersonDocRestClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity request = new HttpEntity<>(headers);
-        return restTemplate.postForObject(baseUrl + normalize(personId) + "/files", request, FileModel.class, Map.of("file", file));
+        return restTemplate.postForObject(baseUrl + normalize(personId) + FILES_PREFIX + "?file={file}", request, FileModel.class, Map.of("file", file));
     }
 
     public void deleteFile(String personId, String id) {
-        restTemplate.delete(baseUrl + normalize(personId) + "/files" + normalize(id));
+        restTemplate.delete(baseUrl + normalize(personId) + FILES_PREFIX + normalize(id));
     }
 
     public Resource downloadFile(@PathVariable String personId, @PathVariable String fileName) {
-        return restTemplate.getForObject(baseUrl + normalize(personId) + "/files" + normalize(fileName), Resource.class);
+        return restTemplate.getForObject(baseUrl + normalize(personId) + FILES_PREFIX + normalize(fileName), Resource.class);
     }
 }
