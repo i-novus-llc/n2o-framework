@@ -173,10 +173,10 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionBind.page.xml")
                 .get(new PageContext("testInvokeActionBind", "/p/:parent_id/create"), data);
-        InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("left").get(0).getContent().get(0)).getToolbar()
+        InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getAction();
         assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a1"));
-        InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getToolbar().getButton("a2").getAction();
+        InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("single").get(1).getContent().get(0)).getToolbar().getButton("a2").getAction();
         assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a2"));
     }
 
@@ -186,7 +186,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testInvokeActionBind", "/p/:parent_id/create");
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionBind.page.xml")
                 .get(context, data);
-        InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("left").get(0).getContent().get(0)).getToolbar()
+        InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getAction();
         assertThat(a1.getMeta().getSuccess().getRedirect().getPath(), is("/p/123"));
     }
@@ -243,13 +243,13 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/routeAndPath.page.xml")
                 .get(new PageContext("routeAndPath"), data);
-        InvokeAction action = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getToolbar().getButton("b1").getAction();
+        InvokeAction action = (InvokeAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("b1").getAction();
         assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/:main_id"));
         assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(action.getPayload().getModel(), is(ReduxModel.resolve));
         assertThat(action.getPayload().getDatasource(), is("routeAndPath_w2"));
 
-        action = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getToolbar().getButton("b2").getAction();
+        action = (InvokeAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("b2").getAction();
         assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/b2"));
         assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(action.getPayload().getModel(), is(ReduxModel.resolve));
@@ -285,10 +285,10 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionObject.page.xml")
                 .get(new PageContext("testInvokeActionObject", "/p/:parent_id/create"), data);
-        InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("left").get(0).getContent().get(0)).getToolbar()
+        InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getAction();
         assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a1"));
-        InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getToolbar().getButton("a2").getAction();
+        InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("single").get(1).getContent().get(0)).getToolbar().getButton("a2").getAction();
         assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a2"));
     }
 

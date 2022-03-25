@@ -1,4 +1,4 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="${gender}">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="${gender}">
     <table query-id="ProtoGender" name="${gender}">
         <columns>
             <column text-field-id="id"/>
