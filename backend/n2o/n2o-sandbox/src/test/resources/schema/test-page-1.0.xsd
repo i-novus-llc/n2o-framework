@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ac="http://n2oapp.net/framework/config/schema/test-action-1.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/test-button-1.0"
+           targetNamespace="http://n2oapp.net/framework/config/schema/test-page-1.0">
+
+    <xs:complexType name="basePageDefinition" abstract="true">
+        <xs:annotation>
+            <xs:documentation>Базовое определение страницы.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="actions" type="ac:actions" minOccurs="0"/>
+            <xs:element name="button" type="btn:baseButtonDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Наименование страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+</xs:schema>
+
