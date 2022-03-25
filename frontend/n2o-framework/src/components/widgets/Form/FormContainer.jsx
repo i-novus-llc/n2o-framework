@@ -101,6 +101,11 @@ class Container extends React.Component {
             setActive, modelPrefix, reduxFormValues,
             resolveModel, onResolve, onSetModel, widgetId,
         } = this.props
+
+        if (isEmpty(reduxFormValues)) {
+            return
+        }
+
         const { initialValues, validators } = this.state
 
         if (setActive) {
