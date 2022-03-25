@@ -86,13 +86,13 @@ public class N2oMessagesConfiguration {
         return new MessageSourceAccessor(messageSource);
     }
 
-    @Bean(name = "localeResolver")
+    @Bean(name = "n2oLocaleResolver")
     @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
     public LocaleResolver fixedLocaleResolver() {
         return new FixedLocaleResolver(new Locale(defaultLocale));
     }
 
-    @Bean(name = "localeResolver")
+    @Bean(name = "n2oLocaleResolver")
     @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "true")
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();

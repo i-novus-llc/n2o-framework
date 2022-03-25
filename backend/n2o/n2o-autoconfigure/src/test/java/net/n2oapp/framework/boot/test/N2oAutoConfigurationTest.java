@@ -3,7 +3,7 @@ package net.n2oapp.framework.boot.test;
 import net.n2oapp.framework.boot.N2oSqlAutoConfiguration;
 import net.n2oapp.framework.boot.sql.SqlDataProviderEngine;
 import net.n2oapp.framework.boot.sql.rowmapper.PostgresIndexRowMapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
