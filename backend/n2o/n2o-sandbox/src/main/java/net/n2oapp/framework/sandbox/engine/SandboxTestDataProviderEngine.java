@@ -64,15 +64,6 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     @Override
     protected InputStream getResourceInputStream(N2oTestDataProvider invocation) {
         String projectId = ThreadLocalProjectId.getProjectId();
-        ProjectModel project = ProjectUtil.getFromSession(session, projectId);
-        if (project != null) {
-            FileModel jsonFile = project.getFiles().stream()
-                    .filter(f -> f.getFile().equals(invocation.getFile()))
-                    .findFirst()
-                    .get();
-            return new ByteArrayInputStream(jsonFile.getSource().getBytes());
-        }
-
         return new ByteArrayInputStream(restClient.getFile(projectId, invocation.getFile(), session).getBytes());
     }
 
