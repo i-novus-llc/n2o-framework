@@ -276,7 +276,22 @@ export function* watcherDefaultModels(config) {
 export function* flowDefaultModels(config) {
     if (isEmpty(config)) { return false }
     const state = yield select()
-    const initialModels = yield call(compareAndResolve, config, state)
+    const path = Object.keys(config)
+
+    const finalConfig = { ...config }
+
+    // An exception for filter models is when it is not empty
+    // and has an initial value from the backend
+    // this is necessary to save filters when changing the page with a filter
+    for (const destination of path) {
+        const existingValue = get(state, `models.${destination}`)
+
+        if (destination.startsWith('filter') && existingValue && !isObject(existingValue)) {
+            delete finalConfig[destination]
+        }
+    }
+
+    const initialModels = yield call(compareAndResolve, finalConfig, state)
 
     if (!isEmpty(initialModels)) {
         yield put(combineModels(initialModels))
