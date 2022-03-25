@@ -158,4 +158,34 @@ public class OpenPageAT extends AutoTestBase {
         page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
         Selenide.closeWindow();
     }
+
+    @Test
+    public void testNestedRoutesWithPathParameters() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/book.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/books.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/reader.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/readers.query.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Тестирование вложенных роутов с path-параметрами");
+        page.urlShouldMatches(getBaseUrl() + "/#/");
+
+        TableWidget table = page.widget(TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().row(0).click();
+        table.toolbar().topLeft().button("Open").click();
+
+        page.breadcrumb().titleByIndexShouldHaveText("Первая вложенная страница", 1);
+        page.urlShouldMatches(getBaseUrl() + "/#/1/reader");
+
+        table = page.widget(TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().row(1).click();
+        table.toolbar().topLeft().button("Open").click();
+
+        page.breadcrumb().titleByIndexShouldHaveText("Вторая вложенная страница", 2);
+        page.urlShouldMatches(getBaseUrl() + "/#/1/reader/2/book");
+    }
 }

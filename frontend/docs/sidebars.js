@@ -51,6 +51,7 @@ module.exports = {
             type: 'category',
             label: 'Миграция',
             items: [
+                'guides/migration/to_7_22',
                 'guides/migration/to_7_21',
                 'guides/migration/to_7_20',
                 'guides/migration/to_7_19',

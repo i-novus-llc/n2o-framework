@@ -1,12 +1,12 @@
 package net.n2oapp.framework.boot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -38,9 +38,8 @@ public class N2oMongoAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MongoDbDataProviderEngine mongoDbDataProviderEngine(ObjectProvider<MongoClientOptions> options) {
-        MongoClientOptions mongoClientOptions = options.getIfAvailable(() -> MongoClientOptions.builder().build());
-        MongoDbDataProviderEngine mongoDbDataProviderEngine = new MongoDbDataProviderEngine(mongoClientOptions, mongoObjectMapper());
+    public MongoDbDataProviderEngine mongoDbDataProviderEngine() {
+        MongoDbDataProviderEngine mongoDbDataProviderEngine = new MongoDbDataProviderEngine(mongoObjectMapper());
         return mongoDbDataProviderEngine;
     }
 
@@ -54,7 +53,11 @@ public class N2oMongoAutoConfiguration {
     @Bean
     @ConditionalOnProperty(value = "n2o.engine.mongodb.connection_url")
     public MongoClient mongo() {
-        mongo = new MongoClient(new MongoClientURI(connectionUrl));
+        ConnectionString connectionString = new ConnectionString(connectionUrl);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+        mongo = MongoClients.create(mongoClientSettings);
         return mongo;
     }
 

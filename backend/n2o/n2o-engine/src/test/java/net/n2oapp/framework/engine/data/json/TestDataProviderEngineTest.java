@@ -107,6 +107,42 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
+    public void testCreateOnReadonlyFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        engine.setReadonly(true);
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(testFile.getName());
+
+        //Добавление новых данных
+        provider.setOperation(create);
+
+        Map<String, Object> inParamsForCreate = new LinkedHashMap<>();
+        inParamsForCreate.put("id", 9L);
+        inParamsForCreate.put("name", "test9");
+        inParamsForCreate.put("type", "9");
+
+        engine.invoke(provider, inParamsForCreate);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, HashMap.class);
+        List<Map> result = objectMapper.readValue(testFile, collectionType);
+
+        //Проверяем, что новые данные не записались в файл
+        assertThat(result.size(), is(1));
+
+        provider.setOperation(count);
+        Map<String, Object> inParams = Collections.emptyMap();
+
+        Integer resultCount = (Integer) engine.invoke(provider, inParams);
+        assertThat(resultCount, is(2));
+    }
+
+    @Test
     public void testUpdateOnFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
