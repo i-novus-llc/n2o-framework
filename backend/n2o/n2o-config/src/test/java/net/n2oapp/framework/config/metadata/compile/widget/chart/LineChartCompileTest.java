@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.widget.chart;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.*;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.page.v2.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.widget.v4.ChartWidgetIOv4;
 import net.n2oapp.framework.config.io.widget.v4.charts.LineChartIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;

@@ -103,32 +103,4 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(1)).getId(), is("testCustomRegionNesting_w7"));
         assertThat(((Form) content.get(1)).getName(), is("form7"));
     }
-
-    @Test
-    public void testV1() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testCustomRegionV1.page.xml")
-                .get(new PageContext("testCustomRegionV1"));
-
-        assertThat(page.getRegions().size(), is(1));
-        List<Region> regions = page.getRegions().get("single");
-        assertThat(regions.size(), is(2));
-
-        // REGION1
-        assertThat(regions.get(0), instanceOf(CustomRegion.class));
-        assertThat(regions.get(0).getId(), is("region_0"));
-        assertThat(regions.get(0).getSrc(), is("NoneRegion"));
-        assertThat(regions.get(0).getContent().size(), is(2));
-        assertThat(regions.get(0).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) regions.get(0).getContent().get(0)).getName(), is("form1"));
-        assertThat(regions.get(0).getContent().get(1), instanceOf(Form.class));
-        assertThat(((Form) regions.get(0).getContent().get(1)).getName(), is("form2"));
-
-        // REGION2
-        assertThat(regions.get(1), instanceOf(CustomRegion.class));
-        assertThat(regions.get(1).getId(), is("region_1"));
-        assertThat(regions.get(1).getSrc(), is("NoneRegion"));
-        assertThat(regions.get(1).getContent().size(), is(1));
-        assertThat(regions.get(1).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) regions.get(1).getContent().get(0)).getName(), is("form3"));
-    }
 }

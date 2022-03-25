@@ -414,7 +414,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(p2.getDatasources().get("testOpenPageMasterParam_modalDetail").getProvider().getUrl(), is("n2o/data/testOpenPageMasterParam/detail2"));
         assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam"), notNullValue());
 
-        ShowModal showModal = (ShowModal) ((Form) p2.getRegions().get("left").get(0).getContent().get(0)).getToolbar().getButton("byName").getAction();
+        ShowModal showModal = (ShowModal) ((Form) p2.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("byName").getAction();
         assertThat(showModal.getPayload().getPageUrl(), is("/testOpenPageMasterParam/byName"));
         Map<String, ModelLink> pathMapping = showModal.getPayload().getPathMapping();
         Map<String, ModelLink> queryMapping = showModal.getPayload().getQueryMapping();

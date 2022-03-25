@@ -65,9 +65,9 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.page.xml")
                 .get(new PageContext("testStandardPageDependency"));
-        Table master = (Table) page.getRegions().get("left").get(0).getContent().get(0);
-        Table detail = (Table) page.getRegions().get("right").get(0).getContent().get(0);
-        Table panel = (Table) page.getRegions().get("right").get(0).getContent().get(1);
+        Table master = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+        Table detail = (Table) page.getRegions().get("single").get(1).getContent().get(0);
+        Table panel = (Table) page.getRegions().get("single").get(1).getContent().get(1);
 
         assertThat(master, notNullValue());
         assertThat(detail, notNullValue());

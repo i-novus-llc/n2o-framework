@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.collectWidgets;
 
@@ -23,9 +24,13 @@ public class N2oLeftRightPage extends N2oBasePage {
 
     @Override
     public List<N2oWidget> getWidgets() {
-        List<N2oWidget> containers = new ArrayList<>();
-        containers.addAll(collectWidgets(left));
-        containers.addAll(collectWidgets(right));
-        return containers;
+        List<SourceComponent> sourceComponents = new ArrayList<>();
+
+        if (left != null)
+            sourceComponents.addAll(Arrays.asList(left));
+        if (right != null)
+            sourceComponents.addAll(Arrays.asList(right));
+
+        return collectWidgets(sourceComponents.toArray(new SourceComponent[0]));
     }
 }
