@@ -18,6 +18,7 @@ import static net.n2oapp.framework.config.register.storage.PathUtil.convertPathT
 /**
  * Утилитный класс для работы с проектами (в сессии)
  */
+@Deprecated
 public class ProjectUtil {
 
     public static final String MODIFIED_TEMPLATE_PROJECTS = "modifiedTemplateProjects";

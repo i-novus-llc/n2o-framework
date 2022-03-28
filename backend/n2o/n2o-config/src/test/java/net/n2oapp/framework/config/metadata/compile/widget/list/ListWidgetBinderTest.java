@@ -41,7 +41,7 @@ public class ListWidgetBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml");
         PageContext context = new PageContext("testListWidgetRowClick", "/p/w/:param/row");
         ListWidget listWidget = (ListWidget) ((StandardPage) pipeline.get(context, new DataSet().add("param", "1")))
-                .getRegions().get("right").get(0).getContent().get(8);
+                .getRegions().get("single").get(0).getContent().get(8);
         assertThat(listWidget.getRowClick().getUrl(), is("https://www.google.com/"));
         assertThat(listWidget.getRowClick().getTarget(), is(Target.self));
     }

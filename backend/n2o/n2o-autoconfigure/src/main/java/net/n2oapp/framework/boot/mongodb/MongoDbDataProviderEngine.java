@@ -2,11 +2,13 @@ package net.n2oapp.framework.boot.mongodb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+
 import lombok.Setter;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
@@ -47,7 +49,6 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     @Value("${spring.data.mongodb.database:}")
     private String springDatabaseName;
 
-    private MongoClientOptions.Builder mongoOptionsBuilder;
     private ObjectMapper mapper;
 
     private static final Function<String, Integer> defaultSuffixIdx = str -> {
@@ -57,8 +58,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         return ends[0].replaceAll("\\.+$", "").length();
     };
 
-    public MongoDbDataProviderEngine(MongoClientOptions mongoClientOptions, ObjectMapper objectMapper) {
-        this.mongoOptionsBuilder = MongoClientOptions.builder(mongoClientOptions);
+    public MongoDbDataProviderEngine(ObjectMapper objectMapper) {
         this.mapper = objectMapper;
     }
 
@@ -71,13 +71,19 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
                     .getDatabase(dbName)
                     .getCollection(invocation.getCollectionName());
             return execute(invocation, inParams, collection);
-        } else
-            try (MongoClient mongoClient = new MongoClient(new MongoClientURI(invocation.getConnectionUrl(), mongoOptionsBuilder))) {
+        } else {
+            ConnectionString connectionString = new ConnectionString(invocation.getConnectionUrl());
+            MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                    .applyConnectionString(connectionString)
+                    .build();
+
+            try (MongoClient mongoClient = MongoClients.create(mongoClientSettings)) {
                 MongoCollection<Document> collection = mongoClient
                         .getDatabase(dbName)
                         .getCollection(invocation.getCollectionName());
                 return execute(invocation, inParams, collection);
             }
+        }
     }
 
     @Override

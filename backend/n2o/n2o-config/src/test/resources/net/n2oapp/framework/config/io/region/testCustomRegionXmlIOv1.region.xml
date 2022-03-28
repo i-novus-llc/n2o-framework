@@ -1,5 +1,0 @@
-<region xmlns="http://n2oapp.net/framework/config/schema/region-1.0"
-      id="region" class="test" place="single" src="test" style="test">
-    <form/>
-    <table/>
-</region>

@@ -131,32 +131,6 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testV1() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegionV1.page.xml")
-                .get(new PageContext("testTabsRegionV1"));
-
-        assertThat(page.getRegions().size(), is(1));
-        List<Region> regions = page.getRegions().get("single");
-        assertThat(regions.size(), is(1));
-        List<TabsRegion.Tab> items = ((TabsRegion) regions.get(0)).getItems();
-
-        assertThat(items.size(), is(2));
-        assertThat(items.get(0), instanceOf(TabsRegion.Tab.class));
-        assertThat(items.get(0).getId(), is("testTabsRegionV1_tab_1"));
-        assertThat(items.get(0).getLabel(), is("form1"));
-        assertThat(items.get(0).getContent().size(), is(1));
-        assertThat(items.get(0).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) items.get(0).getContent().get(0)).getName(), is("form1"));
-
-        assertThat(items.get(1), instanceOf(TabsRegion.Tab.class));
-        assertThat(items.get(1).getId(), is("testTabsRegionV1_tab_2"));
-        assertThat(items.get(1).getLabel(), is("form2"));
-        assertThat(items.get(1).getContent().size(), is(1));
-        assertThat(items.get(1).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) items.get(1).getContent().get(0)).getName(), is("form2"));
-    }
-
-    @Test
     public void testTabsRegionRoute() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegion.page.xml")
                 .get(new PageContext("testTabsRegion"));

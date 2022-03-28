@@ -9,13 +9,9 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.22.0-SNAPSHOT</version>
+        <version>7.23.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
-
-    <properties>
-        <mongo.java.driver>3.4.3</mongo.java.driver>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -93,8 +89,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
             <optional>true</optional>
         </dependency>
 

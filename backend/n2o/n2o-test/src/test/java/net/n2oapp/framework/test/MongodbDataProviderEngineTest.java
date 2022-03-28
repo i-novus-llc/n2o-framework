@@ -1,8 +1,9 @@
 package net.n2oapp.framework.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClients;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataList;
@@ -70,7 +71,12 @@ public class MongodbDataProviderEngineTest {
         provider.setDatabaseName("dbName");
         provider.setConnectionUrl("mongodb://localhost:" + port);
 
-        MongoTemplate mongoTemplate = new MongoTemplate(new MongoClient(new MongoClientURI("mongodb://localhost:" + port)), "dbName");
+        ConnectionString connectionString = new ConnectionString("mongodb://localhost:" + port);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .build();
+
+        MongoTemplate mongoTemplate = new MongoTemplate(MongoClients.create(mongoClientSettings), "dbName");
         mongoTemplate.dropCollection(collectionName);
         mongoTemplate.createCollection(collectionName);
         mongoTemplate.getCollection(collectionName).insertMany(TestUserBuilder.testData());
