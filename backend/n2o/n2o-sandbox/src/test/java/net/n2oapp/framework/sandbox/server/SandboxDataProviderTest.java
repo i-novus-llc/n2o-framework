@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
-import net.n2oapp.framework.sandbox.resource.TemplatesHolder;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.utils.ProjectUtil;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -40,8 +39,8 @@ import static org.mockito.Mockito.mockStatic;
  * Тест получения и установки значений провайдером данных
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, TemplatesHolder.class,
-                SandboxRestClientImpl.class, SandboxTestDataProviderEngine.class, XsdSchemaParser.class},
+        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
+                SandboxTestDataProviderEngine.class, XsdSchemaParser.class},
         properties = {"n2o.access.deny_objects=false"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @PropertySource("classpath:sandbox.properties")

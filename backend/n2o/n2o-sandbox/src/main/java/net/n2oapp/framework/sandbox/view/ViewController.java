@@ -49,9 +49,7 @@ import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import net.n2oapp.framework.sandbox.loader.ProjectFileLoader;
-import net.n2oapp.framework.sandbox.resource.TemplatesHolder;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
-import net.n2oapp.framework.sandbox.resource.model.CategoryModel;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.utils.FileNameUtil;
 import net.n2oapp.framework.ui.controller.DataController;
@@ -85,6 +83,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
 
+import static net.n2oapp.framework.sandbox.utils.ProjectUtil.findFilesByUri;
+
 @RestController
 public class ViewController {
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
@@ -117,8 +117,6 @@ public class ViewController {
     @Autowired
     private SandboxRestClient restClient;
     @Autowired
-    private TemplatesHolder templatesHolder;
-    @Autowired
     private XsdSchemaParser schemaParser;
 
     private MessageSourceAccessor messageSourceAccessor;
@@ -135,18 +133,18 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/version")
+    @GetMapping("/n2o/version")
     public String getVersion() {
         return n2oVersion;
     }
 
-    @GetMapping("/templates")
-    public List<CategoryModel> getProjectTemplates() {
-        return templatesHolder.getProjectTemplates();
+    @GetMapping("/n2o/templates/{fileName}")
+    public String getTemplateFile(@PathVariable String fileName) {
+        return getTemplate(fileName);
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/schemas")
+    @GetMapping("/n2o/schemas")
     public ResponseEntity<Resource> loadSchema(@RequestParam(name = "name") String schemaNamespace) throws IOException {
         Resource schema = schemaParser.getSchema(schemaNamespace);
         return ResponseEntity.ok()
@@ -273,6 +271,25 @@ public class ViewController {
         N2oResponse dataResponse = new N2oResponse();
         dataResponse.setMeta(meta);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(dataResponse);
+    }
+
+    private String getTemplate(String fileName) {
+        String type = getFileType(fileName);
+        if (type != null) {
+            FileModel fileModel = findFilesByUri("/templates").stream()
+                    .filter(f -> type.equals(f.getFile())).findFirst().orElse(null);
+            if (fileModel != null)
+                return fileModel.getSource();
+        }
+        return "";
+    }
+
+    private String getFileType(String fileName) {
+        String[] spl = fileName.toLowerCase().split("\\.");
+        if (spl.length > 2 && "xml".equals(spl[spl.length - 1])) {
+            return spl[spl.length - 2] + "." + spl[spl.length - 1];
+        }
+        return null;
     }
 
     private Map<String, Object> getMenu(N2oApplicationBuilder builder) {
