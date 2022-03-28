@@ -126,25 +126,4 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(2).getId(), is("line_4"));
         assertThat(regions.get(2).getContent(), nullValue());
     }
-
-    @Test
-    public void testV1() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testLineRegionV1.page.xml")
-                .get(new PageContext("testLineRegionV1"));
-
-        assertThat(page.getRegions().size(), is(1));
-        List<Region> regions = page.getRegions().get("single");
-        assertThat(regions.size(), is(1));
-
-        // LINE
-        assertThat(regions.get(0), instanceOf(LineRegion.class));
-        assertThat(regions.get(0).getId(), is("line_0"));
-        assertThat(regions.get(0).getSrc(), is("ListRegion"));
-        assertThat(((LineRegion) regions.get(0)).getLabel(), is("form1"));
-        assertThat(regions.get(0).getContent().size(), is(2));
-        assertThat(regions.get(0).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) (regions.get(0).getContent().get(0))).getName(), is("form1"));
-        assertThat(regions.get(0).getContent().get(1), instanceOf(Form.class));
-        assertThat(((Form) (regions.get(0).getContent().get(1))).getName(), is("form2"));
-    }
 }

@@ -89,7 +89,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetRowClick.page.xml")
                 .get(new PageContext("testListWidgetRowClick"));
         List<RowClick> rowClicks = new ArrayList<>();
-        page.getRegions().get("right").get(0).getContent().forEach(c -> rowClicks.add(((ListWidget) c).getRowClick()));
+        page.getRegions().get("single").get(0).getContent().forEach(c -> rowClicks.add(((ListWidget) c).getRowClick()));
 
         assertThat(rowClicks.size(), is(9));
         assertThat(rowClicks.get(0), nullValue());
