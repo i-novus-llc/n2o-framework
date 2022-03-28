@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.register;
 
+import net.n2oapp.framework.api.metadata.Source;
+
 import java.util.Map;
 
 /**
@@ -7,13 +9,13 @@ import java.util.Map;
  */
 public interface ComponentTypeRegister {
 
-    void add(String type, Class clazz);
+    void add(String type, Class<? extends Source> clazz);
 
-    void addAll(Map<String, Class> componentTypes);
+    void addAll(Map<String, Class<? extends Source>> componentTypes);
 
-    String getByClass(Class clazz);
+    String getByClass(Class<? extends Source> clazz);
 
-    Class getByType(String type);
+    Class<? extends Source> getByType(String type);
 
     void clearAll();
 }
