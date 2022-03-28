@@ -1,10 +1,13 @@
 package net.n2oapp.framework.sandbox.client;
 
+import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -34,5 +37,11 @@ public class SandboxRestClientImpl implements SandboxRestClient {
     @Override
     public Boolean isProjectExists(String projectId) {
         return restTemplate.getForObject(baseApiUrl + normalize(projectId) + "/nonexistent", Boolean.class);
+    }
+
+    @Override
+    public void putFiles(String projectId, List<FileModel> files, HttpSession session) {
+        HttpEntity<List<FileModel>> requestUpdate = new HttpEntity<>(files);
+        restTemplate.put(baseApiUrl + normalize(projectId), requestUpdate);
     }
 }
