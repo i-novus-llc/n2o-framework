@@ -75,7 +75,7 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
 
             @Override
             public ReadSerializeTerminalPipeline serialize() {
-                pullOp(PERSIST);
+                pullOp(SERIALIZE);
                 return new ReadSerializeTerminalPipeline() {
                     @Override
                     public <S extends SourceMetadata> InputStream get(String id, Class<S> sourceClass) {

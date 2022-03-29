@@ -12,5 +12,6 @@ public enum PipelineOperationType {
     COMPILE_CACHE,
     BIND,
     PERSIST,
-    DESERIALIZE
+    DESERIALIZE,
+    SERIALIZE
 }
