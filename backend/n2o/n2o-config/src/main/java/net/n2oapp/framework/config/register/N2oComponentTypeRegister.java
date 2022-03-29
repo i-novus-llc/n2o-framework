@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.register;
 
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.register.ComponentTypeRegister;
 import net.n2oapp.framework.config.reader.MetaTypeNotFoundException;
 
@@ -11,29 +12,29 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class N2oComponentTypeRegister implements ComponentTypeRegister {
 
-    private Map<String, Class> typeClassMap = new ConcurrentHashMap<>();
-    private Map<Class, String> classTypeMap = new ConcurrentHashMap<>();
+    private final Map<String, Class<? extends Source>> typeClassMap = new ConcurrentHashMap<>();
+    private final Map<Class<? extends Source>, String> classTypeMap = new ConcurrentHashMap<>();
 
     @Override
-    public void add(String type, Class clazz) {
+    public void add(String type, Class<? extends Source> clazz) {
         typeClassMap.put(type, clazz);
         classTypeMap.put(clazz, type);
     }
 
     @Override
-    public void addAll(Map<String, Class> componentTypes) {
+    public void addAll(Map<String, Class<? extends Source>> componentTypes) {
         componentTypes.forEach(this::add);
     }
 
     @Override
-    public String getByClass(Class clazz) {
+    public String getByClass(Class<? extends Source> clazz) {
         if (!classTypeMap.containsKey(clazz))
             throw new MetaTypeNotFoundException(clazz);
         return classTypeMap.get(clazz);
     }
 
     @Override
-    public Class getByType(String type) {
+    public Class<? extends Source> getByType(String type) {
         if (!typeClassMap.containsKey(type))
             throw new MetaTypeNotFoundException(type);
         return typeClassMap.get(type);

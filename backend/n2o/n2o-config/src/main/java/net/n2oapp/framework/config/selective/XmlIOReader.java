@@ -23,8 +23,7 @@ import java.util.stream.Stream;
 
 
 /**
- * @author operehod
- * @since 22.04.2015
+ * Чтение XML файлов через сервисы чтения/записи
  */
 public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder<XmlIOReader> {
 

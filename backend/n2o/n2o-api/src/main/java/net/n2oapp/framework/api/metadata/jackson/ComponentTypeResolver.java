@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DatabindContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.register.ComponentTypeRegister;
 
 /**
@@ -23,12 +24,15 @@ public class ComponentTypeResolver implements TypeIdResolver {
         return idFromValueAndType(o, o.getClass());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public String idFromValueAndType(Object o, Class<?> aClass) {
-        String type = register.getByClass(aClass);
-        if (type != null)
-            return type;
-        throw new IllegalStateException("Class " + aClass + " is not in the packages");
+        if (Source.class.isAssignableFrom(aClass)) {
+            String type = register.getByClass((Class<? extends Source>) aClass);
+            if (type != null)
+                return type;
+        }
+        throw new IllegalStateException("Class " + aClass + " is not assignable a Source class");
     }
 
     @Override
@@ -38,7 +42,7 @@ public class ComponentTypeResolver implements TypeIdResolver {
 
     @Override
     public JavaType typeFromId(DatabindContext databindContext, String type) {
-        Class<?> clazz = register.getByType(type);
+        Class<? extends Source> clazz = register.getByType(type);
         if (clazz == null)
             throw new IllegalStateException("Class for type " + type + " not found");
         return TypeFactory.defaultInstance().constructType(clazz);
