@@ -51,6 +51,7 @@ public class WebSocketAT extends AutoTestBase {
     @Test
     public void testWebSocketCount() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
+        menuItem.shouldExists();
         menuItem.badgeShouldHaveValue("1");
 
         Integer exceptedCount = 10;
@@ -65,6 +66,7 @@ public class WebSocketAT extends AutoTestBase {
     @Test
     public void testWebSocketColor() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
+        menuItem.shouldExists();
         menuItem.badgeColorShouldHaveValue("danger");
 
         BadgeColor exceptedColor = BadgeColor.primary;
