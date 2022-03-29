@@ -70,7 +70,7 @@ public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
         assertTrue(securityObject.getRoles().contains("admin"));
 
 
-        Map<String, Security.SecurityObject> securityMap = ((Security) ((Widget) page.getRegions().get("topLeft")
+        Map<String, Security.SecurityObject> securityMap = ((Security) ((Widget) page.getRegions().get("single")
                 .get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons().get(0)
                 .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
@@ -116,7 +116,7 @@ public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
         assertTrue(securityObject.getRoles().contains("admin"));
         assertThat(securityObject.getAnonymous(), nullValue());
 
-        List<AbstractButton> buttons = ((Widget) page.getRegions().get("topLeft").get(0).getContent().get(0))
+        List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons();
         securityObject = ((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObject.getPermissions().size(), is(2));

@@ -49,7 +49,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         pageContext.setQueryRouteMapping(queryRouteMapping);
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelect.page.xml")
                 .get(pageContext);
-        Form form = (Form) page.getRegions().get("left").get(0).getContent().get(0);
+        Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
 
         Models models = page.getModels();
         assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("id"), is(1));
@@ -97,7 +97,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         CompiledQuery compiledQuery = routeAndGet("/selectFetch", CompiledQuery.class);
         assertThat(compiledQuery.getId(), is("testSelectFetch"));
 
-        Table table = (Table) page.getRegions().get("right").get(0).getContent().get(0);
+        Table table = (Table) page.getRegions().get("single").get(1).getContent().get(0);
         cdp = ((InputSelect) ((StandardField) table.getFilter().getFilterFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
         assertThat(cdp.getUrl(), is("n2o/data/test"));

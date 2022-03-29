@@ -49,6 +49,7 @@ import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import net.n2oapp.framework.sandbox.loader.ProjectFileLoader;
+import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.utils.FileNameUtil;
 import net.n2oapp.framework.ui.controller.DataController;
@@ -66,22 +67,30 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
 
+import static net.n2oapp.framework.sandbox.utils.ProjectUtil.findFilesByUri;
+
 @RestController
 public class ViewController {
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
 
+    @Value("${n2o.version:unknown}")
+    private String n2oVersion;
     @Value("${n2o.config.path}")
     private String basePath;
     @Value("${spring.messages.basename}")
@@ -107,6 +116,8 @@ public class ViewController {
     private SandboxPropertyResolver propertyResolver;
     @Autowired
     private SandboxRestClient restClient;
+    @Autowired
+    private XsdSchemaParser schemaParser;
 
     private MessageSourceAccessor messageSourceAccessor;
     private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
@@ -119,6 +130,27 @@ public class ViewController {
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory(providers.orElse(Collections.emptyMap()));
         this.objectMapper = new ObjectMapper();
         this.domainProcessor = new DomainProcessor(objectMapper);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/n2o/version")
+    public String getVersion() {
+        return n2oVersion;
+    }
+
+    @GetMapping("/n2o/templates/{fileName}")
+    public String getTemplateFile(@PathVariable String fileName) {
+        return getTemplate(fileName);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/n2o/schemas")
+    public ResponseEntity<Resource> loadSchema(@RequestParam(name = "name") String schemaNamespace) throws IOException {
+        Resource schema = schemaParser.getSchema(schemaNamespace);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + schema.getFilename() + "\"")
+                .body(schema);
     }
 
     @CrossOrigin(origins = "*")
@@ -239,6 +271,25 @@ public class ViewController {
         N2oResponse dataResponse = new N2oResponse();
         dataResponse.setMeta(meta);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(dataResponse);
+    }
+
+    private String getTemplate(String fileName) {
+        String type = getFileType(fileName);
+        if (type != null) {
+            FileModel fileModel = findFilesByUri("/templates").stream()
+                    .filter(f -> type.equals(f.getFile())).findFirst().orElse(null);
+            if (fileModel != null)
+                return fileModel.getSource();
+        }
+        return "";
+    }
+
+    private String getFileType(String fileName) {
+        String[] spl = fileName.toLowerCase().split("\\.");
+        if (spl.length > 2 && "xml".equals(spl[spl.length - 1])) {
+            return spl[spl.length - 2] + "." + spl[spl.length - 1];
+        }
+        return null;
     }
 
     private Map<String, Object> getMenu(N2oApplicationBuilder builder) {

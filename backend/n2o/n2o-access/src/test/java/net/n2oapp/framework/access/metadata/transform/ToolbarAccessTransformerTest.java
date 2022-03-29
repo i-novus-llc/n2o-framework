@@ -63,7 +63,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObjectToolbar.getRoles().size(), is(1));
         assertThat(securityObjectToolbar.getRoles().contains("admin"), is(true));
 
-        Widget widget = (Widget) page.getRegions().get("topLeft").get(0).getContent().get(0);
+        Widget widget = (Widget) page.getRegions().get("single").get(0).getContent().get(0);
         securityObjectToolbar = ((Security) widget.getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         securityObjectAction = ((Security) ((Action) widget.getToolbar()
@@ -96,7 +96,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObjectToolbar.getRoles(), hasItem("admin"));
         assertThat(securityObjectToolbar.getAnonymous(), is(true));
 
-        Widget widget = (Widget) page.getRegions().get("topLeft").get(0).getContent().get(0);
+        Widget widget = (Widget) page.getRegions().get("single").get(0).getContent().get(0);
         securityObjectToolbar = ((Security) widget.getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         securityObjectAction = ((Security) ((Action) widget.getToolbar()
@@ -122,7 +122,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testSubMenuAccess"));
 
         //permitAll в одном из menuItem делает доступным subMenu
-        List<AbstractButton> buttons = ((Widget) page.getRegions().get("topRight").get(0).getContent().get(0))
+        List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons();
         AbstractButton subMenu1 = buttons.get(0);
         assertTrue(((Security) subMenu1.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermitAll());

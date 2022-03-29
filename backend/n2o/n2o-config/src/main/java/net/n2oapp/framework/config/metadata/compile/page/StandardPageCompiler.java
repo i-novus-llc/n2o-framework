@@ -24,7 +24,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
 
     @Override
     public StandardPage compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
-        return compilePage(source, new StandardPage(), context, p, source.getItems(), null);
+        return compilePage(source, new StandardPage(), context, p, null);
     }
 
     @Override

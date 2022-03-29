@@ -70,7 +70,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getRoles().size(), is(1));
         assertTrue(securityObject.getRoles().contains("admin"));
 
-        List<AbstractButton> buttons = ((Widget) page.getRegions().get("topLeft").get(0).getContent().get(0)).getToolbar().get("topLeft")
+        List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().get("topLeft")
                 .get(0).getButtons();
         securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).getSecurityMap().get("object");
         assertThat(securityObject.getPermissions().size(), is(2));
@@ -121,7 +121,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertTrue(securityObject.getRoles().contains("admin"));
         assertThat(securityObject.getAnonymous(), nullValue());
 
-        List<AbstractButton> buttons = ((Widget) page.getRegions().get("topLeft").get(0).getContent().get(0))
+        List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons();
         securityObject = (((Security) buttons.get(0).getProperties().get(SECURITY_PROP_NAME))).getSecurityMap().get("object");
         assertThat(securityObject.getPermissions().size(), is(2));

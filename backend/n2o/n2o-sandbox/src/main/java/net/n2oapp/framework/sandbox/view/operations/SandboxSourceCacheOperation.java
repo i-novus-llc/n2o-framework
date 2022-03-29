@@ -1,5 +1,6 @@
 package net.n2oapp.framework.sandbox.view.operations;
 
+import com.sun.istack.NotNull;
 import net.n2oapp.cache.template.CacheTemplate;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
@@ -18,7 +19,6 @@ import net.n2oapp.framework.api.register.SourceInfo;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
-import javax.validation.constraints.NotNull;
 import java.util.function.Supplier;
 
 public class SandboxSourceCacheOperation<S extends SourceMetadata> extends MetadataChangeListener implements PipelineOperation<S, S>,

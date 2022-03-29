@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page  xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page" name="first" object-id="testActionContext">
+<page  xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/page" name="first" object-id="testActionContext">
     <actions>
         <action id="test" model="filter" widget-id="w">
             <invoke operation-id="create" close-on-success="false"/>

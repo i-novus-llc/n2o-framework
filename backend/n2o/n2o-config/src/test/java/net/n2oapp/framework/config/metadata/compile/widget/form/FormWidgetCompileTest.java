@@ -22,8 +22,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.page.v2.SimplePageElementIOv2;
-import net.n2oapp.framework.config.io.page.v2.StandardPageElementIOv2;
 import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
 import net.n2oapp.framework.config.io.page.v3.StandardPageElementIOv3;
 import net.n2oapp.framework.config.io.page.v4.SimplePageElementIOv4;
@@ -61,7 +59,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack(),
                 new N2oWidgetsPack(), new N2oRegionsPack())
-                .ios(new SimplePageElementIOv4(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv2(), new StandardPageElementIOv2())
+                .ios(new SimplePageElementIOv4(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv3(), new StandardPageElementIOv3())
                 .compilers(new SimplePageCompiler(), new StandardPageCompiler(), new DatasourceCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));

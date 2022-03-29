@@ -1,7 +1,0 @@
-<panel xmlns="http://n2oapp.net/framework/config/schema/region-1.0"
-       id="panel" class="test" place="single" src="test" style="test"
-       title="header" collapsible="true" header="true"
-       icon="fa fa-exclamation" color="secondary" open="false"
-       footer-title="footer" active-param="active" routable="false">
-    <form/>
-</panel>

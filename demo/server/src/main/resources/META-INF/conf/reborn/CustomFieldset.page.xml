@@ -1,4 +1,4 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/custom/route/fieldset">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/custom/route/fieldset">
     <form query-id="ProtoClient" name="${clients.card}">
         <fields>
             <set src="CollapsedCardFieldset">
