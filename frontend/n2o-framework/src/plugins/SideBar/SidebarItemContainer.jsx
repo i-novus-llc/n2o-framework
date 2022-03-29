@@ -5,7 +5,6 @@ import map from 'lodash/map'
 
 import { getFromSource } from '../Header/SimpleHeader/NavItemContainer'
 import { id as generateId } from '../../utils/id'
-import { SimpleTooltip } from '../../components/snippets/Tooltip/SimpleTooltip'
 import { WithDataSource } from '../../core/datasource/WithDataSource'
 
 import SidebarDropdown from './SidebarDropdown'
@@ -45,13 +44,6 @@ export function SidebarItemContainer({
     const item = getFromSource(itemProps, datasources, datasource, models)
     const { type, linkType, items = [] } = item
 
-    const renderItem = type => (
-        <>
-            {type === ItemType.LINK && renderLink(item)}
-            {type === ItemType.DROPDOWN && renderDropdown()}
-        </>
-    )
-
     const renderLink = item => (linkType === OUTER_LINK_TYPE
         ? (
             <OuterLink
@@ -73,7 +65,7 @@ export function SidebarItemContainer({
         ))
 
     const renderDropdown = () => {
-        const id = generateId()
+        const dropdownId = generateId()
 
         return (
             <>
@@ -82,31 +74,44 @@ export function SidebarItemContainer({
                     sidebarOpen={sidebarOpen}
                     showContent={showContent}
                     isMiniView={isMiniView}
-                    id={id}
+                    id={dropdownId}
                 >
-                    {map(items, (item, i) => (
-                        <div
-                            key={i}
-                            className={classNames(
-                                'n2o-sidebar__sub-item',
-                                `n2o-sidebar__sub-item--level-${level}`,
-                            )}
-                        >
-                            <SidebarItemContainer
-                                level={level + 1}
+                    <div
+                        className={classNames(
+                            'n2o-sidebar__sub-items-container',
+                            {
+                                mini: isMiniView,
+                            },
+                        )
+                        }
+                    >
+                        {map(items, (item, i) => (
+                            <div
                                 key={i}
-                                activeId={activeId}
-                                item={item}
-                                sidebarOpen={sidebarOpen}
-                                showContent={showContent}
-                                isMiniView={isMiniView}
-                            />
-                        </div>
-                    ))}
+                                className={classNames(
+                                    'n2o-sidebar__sub-item',
+                                    `n2o-sidebar__sub-item--level-${level}`,
+                                )}
+                            >
+                                <SidebarItemContainer
+                                    level={level + 1}
+                                    key={i}
+                                    activeId={activeId}
+                                    itemProps={item}
+                                    sidebarOpen={sidebarOpen}
+                                    showContent={showContent}
+                                    isMiniView={isMiniView}
+                                    datasources={datasources}
+                                    datasource={datasource}
+                                    models={models}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </SidebarDropdown>
-                {isMiniView && <SimpleTooltip id={id} message={item.title} placement="right" />}
             </>
         )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }
 
     return (
@@ -115,7 +120,7 @@ export function SidebarItemContainer({
                 'n2o-sidebar__item--dropdown': type === ItemType.DROPDOWN,
             })}
         >
-            {renderItem(type)}
+            {type === ItemType.LINK ? renderLink(item) : renderDropdown()}
         </div>
     )
 }
