@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { compose, withState, withHandlers } from 'recompose'
 
 import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
+import { Tooltip } from '../../components/snippets/Tooltip/Tooltip'
 
 import { Icon } from './utils'
 
@@ -13,8 +13,6 @@ import { Icon } from './utils'
  * @param title - текст дропдауна
  * @param children - subItems
  * @param isOpen - флаг видимости subItems
- * @param toggle - переключене видимости
- * @param iconClass - класс
  * @param type - тип
  * @param id - id
  * @returns {*}
@@ -24,8 +22,6 @@ function SidebarDropdown({
     sidebarOpen,
     title,
     children,
-    isOpen,
-    toggle,
     icon,
     type,
     showContent,
@@ -34,10 +30,14 @@ function SidebarDropdown({
     imageSrc,
     imageShape,
 }) {
+    const [isOpen, setOpen] = useState(false)
+    const toggle = () => setOpen(!isOpen)
+
     const itemDropdownClass = classNames(
         'n2o-sidebar__item-dropdown-label',
         {
             'pl-3': !isMiniView,
+            mini: isMiniView,
         },
     )
 
@@ -49,27 +49,46 @@ function SidebarDropdown({
     )
 
     return (
-        <div className="n2o-sidebar__item-dropdown">
-            <div
-                onClick={toggle}
-                className={itemDropdownClass}
-                id={id}
-            >
-                <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
-                <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
-                <span className={classNames('n2o-sidebar__item-title', { mini: isMiniView, visible: showContent })}>{title}</span>
-                <i className={classNames(
-                    'align-self-center w-100 d-flex justify-content-end',
-                    {
-                        'fa fa-angle-down': isOpen,
-                        'fa fa-angle-right': !isOpen,
-                    },
+        <>
+            <Tooltip
+                label={(
+                    <div className="n2o-sidebar__item-dropdown">
+                        <div
+                            onClick={toggle}
+                            className={itemDropdownClass}
+                            id={id}
+                        >
+                            <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
+                            <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
+                            <span className={classNames(
+                                'n2o-sidebar__item-title',
+                                {
+                                    mini: isMiniView,
+                                    visible: showContent,
+                                },
+                            )
+                            }
+                            >
+                                {title}
+                            </span>
+                            <i className={classNames(
+                                'align-self-center w-100 d-flex justify-content-end',
+                                'n2o-sidebar__item-dropdown-toggle',
+                                {
+                                    'fa fa-angle-up': isOpen,
+                                    'fa fa-angle-down': !isOpen,
+                                    mini: isMiniView,
+                                },
+                            )}
+                            />
+                        </div>
+                    </div>
                 )}
-                />
-            </div>
-            {isOpen && (<div className={subItemsClass}>{children}</div>
-            )}
-        </div>
+                hint={title}
+                placement="right"
+            />
+            {isOpen && (<div className={subItemsClass}>{children}</div>)}
+        </>
     )
 }
 
@@ -77,10 +96,8 @@ SidebarDropdown.propTypes = {
     sidebarOpen: PropTypes.bool,
     title: PropTypes.string,
     children: PropTypes.node,
-    isOpen: PropTypes.bool,
     showContent: PropTypes.bool,
     isMiniView: PropTypes.bool,
-    toggle: PropTypes.func,
     icon: PropTypes.string,
     type: PropTypes.string,
     id: PropTypes.string,
@@ -88,9 +105,4 @@ SidebarDropdown.propTypes = {
     imageShape: PropTypes.string,
 }
 
-export default compose(
-    withState('isOpen', 'setOpen', false),
-    withHandlers({
-        toggle: ({ isOpen, setOpen }) => () => setOpen(!isOpen),
-    }),
-)(SidebarDropdown)
+export default SidebarDropdown
