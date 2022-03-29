@@ -72,7 +72,6 @@ public class SandboxMetadataRetrievalTest {
         assertThat(config.getJSONObject("menu").getJSONObject("header").getJSONObject("logo").getString("title"), is("N2O"));
 
         assertThat(config.getJSONObject("menu").getJSONObject("footer").getString("src"), is("DefaultFooter"));
-        assertThat(config.getJSONObject("menu").getJSONObject("footer").getString("textLeft"), is("N2O 7.22.0-SNAPSHOT © 2013-2021"));
 
         assertThat(config.getJSONObject("menu").getJSONObject("layout").getBoolean("fixed"), is(false));
         assertThat(config.getJSONObject("menu").getJSONObject("layout").getBoolean("fullSizeHeader"), is(true));
