@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<chart xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
-       width="600" height="400">
-    <areas x-field-id="name" x-position="top" x-has-label="true"
-           y-field-id="value" y-position="right" y-has-label="false"
-           grid-horizontal="false" grid-vertical="true" grid-stroke-dasharray="3 3"
-           tooltip-separator=":" legend-icon-type="diamond">
-    </areas>
-</chart>
