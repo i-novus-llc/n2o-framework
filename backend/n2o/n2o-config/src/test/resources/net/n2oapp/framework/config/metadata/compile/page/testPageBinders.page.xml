@@ -1,4 +1,4 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Hello, {name}" show-title="true">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Hello, {name}" show-title="true">
     <regions>
         <region place="test">
             <form id="main">

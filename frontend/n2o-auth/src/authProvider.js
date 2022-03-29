@@ -8,7 +8,7 @@ import {
   SECURITY_LOGOUT,
   SECURITY_ERROR,
   SECURITY_CHECK
-} from 'n2o-framework/lib/core/auth/authTypes';
+} from './authTypes';
 
 export function checkPermission(cfg = {}, user = {}) {
   if (cfg.denied) return false;
