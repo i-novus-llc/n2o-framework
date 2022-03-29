@@ -12,6 +12,7 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,6 +57,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/app.application.xml"));
     }
 
+    @Disabled
     @Test
     public void testAlertNotification() {
         SimplePage page = open(SimplePage.class);
