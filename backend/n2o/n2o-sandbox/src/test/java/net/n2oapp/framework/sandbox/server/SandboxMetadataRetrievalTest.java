@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
+import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ import static org.hamcrest.Matchers.is;
  * Тест на проверку обработки запросов на получение конфигурации и страницы примера
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class})
+        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, XsdSchemaParser.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
