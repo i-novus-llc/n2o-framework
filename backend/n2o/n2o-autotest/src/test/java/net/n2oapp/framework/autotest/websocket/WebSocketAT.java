@@ -8,10 +8,8 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 /**
  * Автотест отправки уведомлений в веб-сокетах
@@ -25,6 +23,7 @@ public class WebSocketAT extends AutoTestBase {
 
     private static final String DESTINATION = "badge";
 
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -35,6 +34,8 @@ public class WebSocketAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
         page = open(SimplePage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Изменение счетчика в меню навигации по web-socket");
     }
 
     @Override
@@ -47,16 +48,12 @@ public class WebSocketAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/websocket/app.application.xml"));
     }
 
-    //TODO: пофиксить моргание, добавить доп. проверки при загрузке страницы
-    @Disabled
     @Test
     public void testWebSocketCount() {
-        Integer exceptedCount = 10;
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
-        menuItem.shouldExists();
         menuItem.badgeShouldHaveValue("1");
-        menuItem.badgeColorShouldHaveValue("danger");
 
+        Integer exceptedCount = 10;
         webSocketMessageController.sendCount(DESTINATION, exceptedCount);
         menuItem.badgeShouldHaveValue(exceptedCount.toString());
 
@@ -65,15 +62,12 @@ public class WebSocketAT extends AutoTestBase {
         menuItem.badgeShouldHaveValue(exceptedCount.toString());
     }
 
-    @Disabled
     @Test
-    public void testWebSocketColor()  {
-        BadgeColor exceptedColor = BadgeColor.primary;
+    public void testWebSocketColor() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
-        menuItem.shouldExists();
-        menuItem.badgeShouldHaveValue("1");
         menuItem.badgeColorShouldHaveValue("danger");
 
+        BadgeColor exceptedColor = BadgeColor.primary;
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
         menuItem.badgeColorShouldHaveValue(exceptedColor.toString());
 
