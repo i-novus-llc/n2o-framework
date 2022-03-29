@@ -5,7 +5,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
 
 /**
- * Набор стандартных операций конвеера по сборке метаданных
+ * Набор стандартных операций конвейера по сборке метаданных
  */
 public class N2oOperationsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override

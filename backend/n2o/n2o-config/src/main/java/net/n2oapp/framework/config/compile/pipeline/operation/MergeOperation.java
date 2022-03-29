@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import java.util.function.Supplier;
 
 /**
- * Операция слияния метаданных в конвеере
+ * Операция слияния метаданных в конвейере
  *
  * @param <S> Тип исходной метаданной
  */

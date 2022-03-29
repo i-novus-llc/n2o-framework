@@ -35,7 +35,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * Конструктор окружения {@link N2oEnvironment} и конвеера сборки метаданных {@link ReadPipeline}
+ * Конструктор окружения {@link N2oEnvironment} и конвейера сборки метаданных {@link ReadPipeline}
  */
 public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder>, PipelineSupport {
     private static final Logger logger = LoggerFactory.getLogger(N2oApplicationBuilder.class);
@@ -291,6 +291,15 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
     public PersistTerminalPipeline persist() {
         build();
         return N2oPipelineSupport.persistPipeline(environment).persist();
+    }
+
+    /**
+     * Запустить конвейер десериализации метаданных
+     */
+    @Override
+    public DeserializeTerminalPipeline<DeserializePersistTerminalPipeline> deserialize() {
+        build();
+        return N2oPipelineSupport.deserializePipeline(environment).deserialize();
     }
 
     /**

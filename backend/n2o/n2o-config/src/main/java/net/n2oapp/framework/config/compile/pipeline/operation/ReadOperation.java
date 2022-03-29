@@ -20,7 +20,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import java.util.function.Supplier;
 
 /**
- * Операция чтения метаданных в конвеере
+ * Операция чтения метаданных в конвейере
  */
 public class ReadOperation<S extends SourceMetadata, I> implements PipelineOperation<S, I>, PipelineOperationTypeAware, MetadataEnvironmentAware {
 

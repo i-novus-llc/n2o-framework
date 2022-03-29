@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 
 /**
- * Конвеер маппинга метаданных
+ * Конвейер маппинга метаданных
  */
 public interface BindTerminalPipeline extends Pipeline,
         BindProcessingPipeline<BindTerminalPipeline> {

@@ -35,7 +35,8 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
     @Override
     public ReadTerminalPipeline<ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>> read() {
         pullOp(READ);
-        return new ReadTerminalPipeline<ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>>() {
+        return new ReadTerminalPipeline<>() {
+
             @Override
             public <S extends SourceMetadata> S get(String id, Class<S> sourceClass) {
                 return execute(new DummyCompileContext<>(id, sourceClass), null, null);
@@ -68,6 +69,26 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
                     public <S extends SourceMetadata> void set(String id, MetaType metaType, String directory) {
                         String path = PathUtil.concatFileNameAndBasePath(id + "." + metaType.getSourceType() + ".xml", directory);
                         FileSystemUtil.saveContentToFile(get(id, metaType.getBaseSourceClass()), new File(path));
+                    }
+                };
+            }
+
+            @Override
+            public ReadSerializeTerminalPipeline serialize() {
+                pullOp(PERSIST);
+                return new ReadSerializeTerminalPipeline() {
+                    @Override
+                    public <S extends SourceMetadata> InputStream get(String id, Class<S> sourceClass) {
+                        return execute(new DummyCompileContext<>(id, sourceClass), null, null);
+                    }
+
+                    @Override
+                    public <S extends SourceMetadata> void set(String id, Class<S> sourceClass, OutputStream output) {
+                        try (InputStream is = get(id, sourceClass)) {
+                            IOUtils.copy(is, output);
+                        } catch (IOException e) {
+                            throw new IllegalStateException(e);
+                        }
                     }
                 };
             }

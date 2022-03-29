@@ -117,7 +117,7 @@ public class N2oBuildProcessor<O, I> implements BuildProcessor<O, I> {
     }
 
     /**
-     * Конвеер сборки поля
+     * Конвейер сборки поля
      *
      * @param <D> Тип собранной метаданной
      * @param <S> Тип исходной метаданной*

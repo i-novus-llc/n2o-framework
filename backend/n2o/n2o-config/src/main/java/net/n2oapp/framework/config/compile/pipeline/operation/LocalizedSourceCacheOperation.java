@@ -8,7 +8,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import java.util.Locale;
 
 /**
- * Операция кэширования исходных метаданных в конвеере с учетом локализации
+ * Операция кэширования исходных метаданных в конвейере с учетом локализации
  */
 public class LocalizedSourceCacheOperation<S extends SourceMetadata> extends SourceCacheOperation<S> {
 

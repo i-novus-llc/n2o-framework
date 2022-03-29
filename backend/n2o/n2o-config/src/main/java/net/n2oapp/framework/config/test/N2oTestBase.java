@@ -17,7 +17,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import java.util.Locale;
 
 /**
- * Базовый класс для тестирования конвеерной сборки метаданных
+ * Базовый класс для тестирования конвейерной сборки метаданных
  */
 public abstract class N2oTestBase {
     protected N2oApplicationBuilder builder;

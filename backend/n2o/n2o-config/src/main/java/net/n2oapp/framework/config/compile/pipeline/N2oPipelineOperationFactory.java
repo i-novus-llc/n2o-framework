@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Реализация фабрики операций в конвеере по сборке метаданных
+ * Реализация фабрики операций в конвейере по сборке метаданных
  */
 public class N2oPipelineOperationFactory implements MetadataFactory<PipelineOperation>, PipelineOperationFactory,
         MetadataEnvironmentAware {

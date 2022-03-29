@@ -8,7 +8,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import java.util.Locale;
 
 /**
- * Операция кэширования собранных метаданных в конвеере с учетом локализации
+ * Операция кэширования собранных метаданных в конвейере с учетом локализации
  */
 public class LocalizedCompileCacheOperation<S> extends CompileCacheOperation<S> {
 

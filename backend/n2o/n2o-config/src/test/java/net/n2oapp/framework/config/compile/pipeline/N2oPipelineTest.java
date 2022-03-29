@@ -42,7 +42,7 @@ import static org.mockito.Mockito.*;
 
 
 /**
- * Тест конвеера сборки метаданных ({@link N2oPipelineSupport})
+ * Тест конвейера сборки метаданных ({@link N2oPipelineSupport})
  */
 public class N2oPipelineTest {
 
