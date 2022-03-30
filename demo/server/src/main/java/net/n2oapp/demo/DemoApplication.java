@@ -1,17 +1,14 @@
 package net.n2oapp.demo;
 
 import net.n2oapp.framework.boot.N2oFrameworkAutoConfiguration;
-import net.n2oapp.framework.boot.N2oMessagesConfiguration;
 import net.n2oapp.framework.boot.sql.jdbc.RoutingDataSourceAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.EmbeddedDataSourceConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +34,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //        JacksonAutoConfiguration.class,
 //        PropertyPlaceholderAutoConfiguration.class,
 //        ThymeleafAutoConfiguration.class,
-        WebMvcAutoConfiguration.class,
 //        WebSocketAutoConfiguration.class,
         RoutingDataSourceAutoConfiguration.class,
         N2oFrameworkAutoConfiguration.class
