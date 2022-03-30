@@ -39,6 +39,11 @@ public class N2oWebSocketAutoConfiguration implements WebSocketMessageBrokerConf
                 .withSockJS();
     }
 
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.setUserDestinationPrefix("/user");
+    }
+
     @Bean
     @ConditionalOnMissingBean(DefaultHandshakeHandler.class)
     public DefaultHandshakeHandler handshakeHandler() {
@@ -48,11 +53,6 @@ public class N2oWebSocketAutoConfiguration implements WebSocketMessageBrokerConf
                 return new UserPrincipal(UUID.randomUUID().toString());
             }
         };
-    }
-
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setUserDestinationPrefix("/user");
     }
 
     @Bean

@@ -34,7 +34,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //        JacksonAutoConfiguration.class,
 //        PropertyPlaceholderAutoConfiguration.class,
 //        ThymeleafAutoConfiguration.class,
-//        WebMvcAutoConfiguration.class,
 //        WebSocketAutoConfiguration.class,
         RoutingDataSourceAutoConfiguration.class,
         N2oFrameworkAutoConfiguration.class

@@ -23,9 +23,7 @@ import static org.hamcrest.Matchers.*;
         "spring.datasource.driver-class-name=org.h2.Driver",
         "spring.datasource.url=jdbc:h2:mem:test",
         "spring.datasource.username=sa",
-        "spring.datasource.password=sa",
-        "spring.jpa.defer-datasource-initialization=true",
-        "spring.datasource.initialization-mode=always"})
+        "spring.datasource.password=sa"})
 @EnableAutoConfiguration(exclude = N2oSqlAutoConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class JDBCRouteRepositoryTest {
