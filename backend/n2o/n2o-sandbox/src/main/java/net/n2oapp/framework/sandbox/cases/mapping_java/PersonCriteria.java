@@ -2,6 +2,7 @@ package net.n2oapp.framework.sandbox.cases.mapping_java;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -88,5 +89,10 @@ public class PersonCriteria implements Pageable {
     @Override
     public boolean hasPrevious() {
         return this.page > 0;
+    }
+
+    @Override
+    public Pageable withPage(int pageNumber) {
+        return PageRequest.of(pageNumber, this.getPageSize());
     }
 }
