@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="test">
+        <fields>
+            <select id="type">
+                <options>
+                    <option id="1" name="1"/>
+                    <option id="2" name="2"/>
+                </options>
+            </select>
+            <input-text id="name"/>
+        </fields>
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
+    </form>
+</simple-page>
