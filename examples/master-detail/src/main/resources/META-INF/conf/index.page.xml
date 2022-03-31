@@ -1,8 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                  name="Связь Master Detail">
+    <datasources>
+        <datasource id="ds1" query-id="test"/>
+        <datasource id="ds2" query-id="test">
+            <dependencies>
+                <fetch on="ds1"
+                       model="resolve"/>
+            </dependencies>
+            <filters>
+                <eq field-id="id"
+                    value="{id}"
+                    datasource="ds1"
+                    required="true"/>
+            </filters>
+        </datasource>
+
+    </datasources>
     <left>
-        <table id="master" query-id="test">
+        <table datasource="ds1">
             <columns>
                 <column text-field-id="id" label="ID"/>
                 <column text-field-id="name" label="Имя"/>
@@ -10,7 +26,7 @@
         </table>
     </left>
     <right>
-        <form query-id="test" depends-on="master" master-param="id">
+        <form datasource="ds2">
             <fields>
                 <input-text id="id" label="ID" enabled="false"/>
                 <input-text id="name" label="Имя" enabled="false"/>
