@@ -1,27 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
     <operations>
 
         <operation id="setTaskVariables">
             <invocation>
                 <camunda operation="setTaskVariables"/>
             </invocation>
-            <in-parameters>
-                <param id="id" domain="string"/>
-                <param id="lastName"/>
-                <param id="salaryExpected"/>
-            </in-parameters>
+            <in>
+                <field id="id" domain="string"/>
+                <field id="lastName"/>
+                <field id="salaryExpected"/>
+            </in>
         </operation>
 
         <operation id="completeTask">
             <invocation>
                 <camunda operation="completeTask"/>
             </invocation>
-            <in-parameters>
-                <param id="id" domain="string"/>
-                <param id="lastName" required="true"/>
-                <param id="salaryExpected" required="true"/>
-            </in-parameters>
+            <in>
+                <field id="id" domain="string"/>
+                <field id="lastName" required="true"/>
+                <field id="salaryExpected" required="true"/>
+            </in>
         </operation>
 
     </operations>
