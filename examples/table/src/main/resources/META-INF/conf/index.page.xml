@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Таблица">
-    <table query-id="test">
+    <table>
+        <datasource query-id="test"/>
         <columns>
             <column text-field-id="name" label="Имя"/>
             <column text-field-id="type" label="Тип"/>
