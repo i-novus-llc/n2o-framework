@@ -8,7 +8,7 @@
             <menu-item>
                 <open-page page-id="menu2" label="Вторая страница"/>
             </menu-item>
-            <dropdown-menu label="Вложенное меню">
+            <dropdown-menu name="Вложенное меню">
                 <menu-item>
                     <open-page page-id="menu3" label="Третья страница"/>
                 </menu-item>

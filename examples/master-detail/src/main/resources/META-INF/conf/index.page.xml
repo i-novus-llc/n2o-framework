@@ -15,7 +15,6 @@
                     required="true"/>
             </filters>
         </datasource>
-
     </datasources>
     <left>
         <table datasource="ds1">
