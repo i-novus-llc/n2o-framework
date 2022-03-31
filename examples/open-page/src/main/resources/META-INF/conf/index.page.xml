@@ -1,15 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Первая страница">
-    <table query-id="test">
+    <table id="ds1">
+        <datasource query-id="test"/>
         <columns>
-            <column text-field-id="id" label="ID"/>
-            <column text-field-id="name" label="Имя"/>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
         </columns>
         <toolbar>
             <button label="Открыть">
                 <open-page page-id="page" route="/:id/open">
-                    <path-param name="id" value="{id}"/>
+                    <params>
+                        <path-param name="id"
+                                    value="{id}"/>
+                    </params>
                 </open-page>
             </button>
         </toolbar>
