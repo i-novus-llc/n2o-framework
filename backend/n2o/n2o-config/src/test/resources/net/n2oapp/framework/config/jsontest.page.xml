@@ -7,8 +7,8 @@
             <column text-field-id="name"/>
             <column text-field-id="type"/>
         </columns>
-        <!--  <toolbar>
+          <toolbar>
               <button id="create"/>
-          </toolbar>-->
+          </toolbar>
     </table>
 </simple-page>

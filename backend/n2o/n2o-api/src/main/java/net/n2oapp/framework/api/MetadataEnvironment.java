@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.compile.*;
@@ -76,4 +77,6 @@ public interface MetadataEnvironment {
     ExtensionAttributeMapperFactory getExtensionAttributeMapperFactory();
 
     ButtonGeneratorFactory getButtonGeneratorFactory();
+
+    ObjectMapper getSerializeObjectMapper();
 }

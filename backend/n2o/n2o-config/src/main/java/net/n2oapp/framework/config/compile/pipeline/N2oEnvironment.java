@@ -1,11 +1,16 @@
 package net.n2oapp.framework.config.compile.pipeline;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oWebAppEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.compile.*;
+import net.n2oapp.framework.api.metadata.jackson.ComponentTypeResolver;
+import net.n2oapp.framework.api.metadata.jackson.SingletonTypeIdHandlerInstantiator;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
@@ -46,6 +51,7 @@ public class N2oEnvironment implements MetadataEnvironment {
     private DomainProcessor domainProcessor;
     private PropertyResolver systemProperties;
     private ContextProcessor contextProcessor;
+    private ObjectMapper serializeObjectMapper;
 
     private MetadataScannerFactory metadataScannerFactory;
     private SourceLoaderFactory sourceLoaderFactory;
@@ -80,6 +86,7 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.systemProperties = new N2oWebAppEnvironment();
         this.domainProcessor = new DomainProcessor(new ObjectMapper());
         this.contextProcessor = new ContextProcessor(new TestContextEngine());
+        this.serializeObjectMapper = createDefaultSerializeObjectMapper();
 
         this.namespaceReaderFactory = new ReaderFactoryByMap();
         this.namespacePersisterFactory = new PersisterFactoryByMap();
@@ -106,6 +113,7 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.systemProperties = copy.getSystemProperties();
         this.domainProcessor = copy.getDomainProcessor();
         this.contextProcessor = copy.getContextProcessor();
+        this.serializeObjectMapper = copy.getSerializeObjectMapper();
 
         this.namespaceReaderFactory = copy.getNamespaceReaderFactory();
         this.namespacePersisterFactory = copy.getNamespacePersisterFactory();
@@ -360,11 +368,34 @@ public class N2oEnvironment implements MetadataEnvironment {
         return buttonGeneratorFactory;
     }
 
+    @Override
+    public ObjectMapper getSerializeObjectMapper() {
+        return serializeObjectMapper;
+    }
+
     public void setButtonGeneratorFactory(ButtonGeneratorFactory buttonGeneratorFactory) {
         this.buttonGeneratorFactory = buttonGeneratorFactory;
     }
 
     public void setExtensionAttributeMapperFactory(ExtensionAttributeMapperFactory extensionAttributeMapperFactory) {
         this.extensionAttributeMapperFactory = extensionAttributeMapperFactory;
+    }
+
+    public void setSerializeObjectMapper(ObjectMapper serializeObjectMapper) {
+        this.serializeObjectMapper = serializeObjectMapper;
+    }
+
+    private ObjectMapper createDefaultSerializeObjectMapper() {
+        ObjectMapper om = new ObjectMapper();
+        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        om.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        SingletonTypeIdHandlerInstantiator instantiator = new SingletonTypeIdHandlerInstantiator();
+        ComponentTypeResolver typeIdResolver = new ComponentTypeResolver();
+        typeIdResolver.setRegister(componentTypeRegister);
+        instantiator.addTypeIdResolver(ComponentTypeResolver.class, typeIdResolver);
+        om.setHandlerInstantiator(instantiator);
+        return om;
     }
 }
