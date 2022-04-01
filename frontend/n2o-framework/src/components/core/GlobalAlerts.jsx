@@ -6,7 +6,7 @@ import moment from 'moment'
 
 import { Alerts } from '../snippets/Alerts/Alerts'
 import { STORE_KEY_PATH, SUPPORTED_PLACEMENTS } from '../../ducks/alerts/constants'
-import { removeAlert } from '../../ducks/alerts/store'
+import { removeAlert, stopRemoving } from '../../ducks/alerts/store'
 
 /**
  * Глобальные алерты
@@ -14,7 +14,7 @@ import { removeAlert } from '../../ducks/alerts/store'
  * @param isoTime
  */
 
-export function GlobalAlerts({ alerts = [], onDismiss }) {
+export function GlobalAlerts({ alerts = [], onDismiss, stopRemoving }) {
     const mappedAlerts = alerts.map((alertsGroup) => {
         /* 1 alert в каждом поддерживаемом placement
            до реализации stacked */
@@ -42,10 +42,12 @@ export function GlobalAlerts({ alerts = [], onDismiss }) {
             ...alert,
             key: id,
             onDismiss: () => id && onDismiss(storeKey, id),
+            stopRemoving: () => id && stopRemoving(storeKey, id),
             timestamp: getTimestamp(time),
             className: 'd-inline-flex mb-0 p-2 mw-100',
             animate: true,
             position: 'fixed',
+            id,
         }
     })
 
@@ -57,6 +59,7 @@ export function GlobalAlerts({ alerts = [], onDismiss }) {
 GlobalAlerts.propTypes = {
     alerts: PropTypes.array,
     onDismiss: PropTypes.func,
+    stopRemoving: PropTypes.func,
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -65,6 +68,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
     onDismiss: (storeKey, alertId) => dispatch(removeAlert(storeKey, alertId)),
+    stopRemoving: (storeKey, alertId) => dispatch(stopRemoving(storeKey, alertId)),
 })
 
 export const GlobalAlertsConnected = connect(

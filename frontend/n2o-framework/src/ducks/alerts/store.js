@@ -119,6 +119,25 @@ const alertsSlice = createSlice({
 
             delete state[action.payload]
         },
+
+        STOP_REMOVING: {
+            prepare(alertStoreKey, id) {
+                return ({
+                    payload: { alertStoreKey, id },
+                })
+            },
+            reducer(state, action) {
+                const { alertStoreKey, id } = action.payload
+
+                state[alertStoreKey] = state[alertStoreKey].map((alert) => {
+                    if (alert.id === id) {
+                        return { ...alert, stopped: true }
+                    }
+
+                    return alert
+                })
+            },
+        },
     },
 })
 
@@ -157,5 +176,6 @@ export const {
     ADD_MULTI: addMultiAlerts,
     REMOVE: removeAlert,
     REMOVE_ALL: removeAllAlerts,
+    STOP_REMOVING: stopRemoving,
 } = alertsSlice.actions
 export default alertsSlice.reducer
