@@ -18,8 +18,8 @@
             </dropdown-menu>
         </nav>
         <extra-menu>
-            <menu-item>
-                <a label="Внешняя ссылка" href="http://example.com" icon="fa fa-hand-peace-o"/>
+            <menu-item name="Внешняя ссылка">
+                <a href="http://example.com" icon="fa fa-hand-peace-o"/>
             </menu-item>
         </extra-menu>
     </header>
