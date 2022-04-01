@@ -6,9 +6,9 @@ description: ""
 
 - Появилась новая схема `application-2.0` и `menu-3.0`.
 Чтобы перейти на новую схему, нужно:
--- Заменить `<a>` на `<menu-item><a/></menu-item>`
+-- Заменить `<a>` на `<menu-item><a/></menu-item>`, атрибут `label` перенести в `<menu-item>` заменив на `name`
 -- Заменить `<page>` на `<menu-item><open-page/></menu-item>`
--- Заменить `<sub-menu>` на `<dropdown-menu>`
+-- Заменить `<sub-menu>` на `<dropdown-menu>`, атрибут `label` заменить на `name`
 
 - У ячеек `image` атрибут `width` изменил тип с числа на строку, если вы задавали этот атрибут ранее, необходимо добавить
 в конце `px`. Например, было `width="50"` должно стать `width="50px"`
