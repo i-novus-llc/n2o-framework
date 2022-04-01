@@ -3,6 +3,7 @@ package net.n2oapp.framework.boot.graphql;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphQlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +36,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
     private static final String DEFAULT_FILTER_SEPARATOR = " and ";
     private static final String DEFAULT_SORTING_SEPARATOR = ", ";
+    private static final String RESPONSE_ERROR_KEY = "errors";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
 
@@ -66,7 +68,10 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
-        return restTemplate.postForObject(endpoint, entity, DataSet.class);
+        DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
+        if (result.get(RESPONSE_ERROR_KEY) != null)
+            throw new N2oException();
+        return result;
     }
 
     /**
