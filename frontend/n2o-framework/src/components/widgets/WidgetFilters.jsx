@@ -121,16 +121,30 @@ class WidgetFilters extends React.Component {
         toReset.forEach((field) => {
             unset(newReduxForm, field)
         })
-        this.setState(
-            {
-                defaultValues: newReduxForm,
-            },
-            () => {
-                resetFilterModel(this.formName)
-                setFilterModel(widgetId, newReduxForm)
-                this.validateAndFetch()
-            },
-        )
+
+        /*
+          fakeDefaultValues HACK!
+          для button выполняющего redux-form/RESET
+          Если defaultValues = {} и newReduxForm = {}
+          redux-form не кидает reinitialize из за того что defaultValues не поменялись,
+          -> не срабатывают field dependency завязанные на actionTypes.INITIALIZE
+          (прим. не меняется enabled зависимого поля)
+        */
+
+        const fakeDefaultValues = Date.now()
+
+        this.setState({ defaultValues: fakeDefaultValues }, () => {
+            this.setState(
+                {
+                    defaultValues: newReduxForm,
+                },
+                () => {
+                    resetFilterModel(this.formName)
+                    setFilterModel(widgetId, newReduxForm)
+                    this.validateAndFetch()
+                },
+            )
+        })
     }
 
     validateAndFetch(options) {
