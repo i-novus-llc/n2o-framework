@@ -1,8 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Пример bpm">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Пример bpm">
+    <datasources>
+        <datasource id="ds1" query-id="tasks"/>
+        <datasource id="ds2" query-id="tasks">
+            <dependencies>
+                <fetch on="ds1"
+                       model="resolve"/>
+            </dependencies>
+            <filters>
+                <eq field-id="id"
+                    value="{id}"
+                    datasource="ds1"
+                    required="true"/>
+            </filters>
+        </datasource>
+    </datasources>
     <regions>
         <region place="single">
-            <table query-id="tasks" id="tasks_table">
+            <table id="tasks_table" datasource="ds1">
                 <toolbar>
                     <button id="startRecruitment" label="Открыть вакансию" model="edit">
                         <show-modal page-id="openVacancy" submit-operation-id="newProcess"/>
@@ -16,8 +31,11 @@
                 <rows>
                     <click>
                         <open-page page-id="{taskDefinitionKey}" route="/:id/:task_form">
-                            <path-param name="id" value="{id}"/>
-                            <path-param name="task_form" value="{taskDefinitionKey}"/>
+
+                            <params>
+                                <path-param name="id" value="{id}"/>
+                                <path-param name="task_form" value="{taskDefinitionKey}"/>
+                            </params>
                         </open-page>
                     </click>
                 </rows>

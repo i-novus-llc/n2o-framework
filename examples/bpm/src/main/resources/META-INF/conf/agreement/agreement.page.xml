@@ -1,6 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Согласование кадидата">
-    <form id="agreement" query-id="agreement" object-id="agreement">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Согласование кадидата">
+    <form id="agreement">
+        <datasource query-id="agreement" object-id="agreement">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
         <fields>
             <output-text id="id"/>
             <row>
