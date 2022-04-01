@@ -36,7 +36,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
     private static final String DEFAULT_FILTER_SEPARATOR = " and ";
     private static final String DEFAULT_SORTING_SEPARATOR = ", ";
-    private static final String ERRORS = "errors";
+    private static final String RESPONSE_ERROR_KEY = "errors";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
 
@@ -69,7 +69,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
         DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
-        if (result.get(ERRORS) != null)
+        if (result.get(RESPONSE_ERROR_KEY) != null)
             throw new N2oException();
         return result;
     }
