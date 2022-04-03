@@ -1,7 +1,6 @@
-package net.n2oapp.framework.sandbox.server;
+package net.n2oapp.framework.sandbox;
 
 import net.n2oapp.framework.boot.N2oFrameworkAutoConfiguration;
-import net.n2oapp.framework.sandbox.N2oSandboxConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;

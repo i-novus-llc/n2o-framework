@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox.server;
+package net.n2oapp.framework.sandbox;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
@@ -22,7 +22,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.util.StreamUtils;
 
 import javax.servlet.http.HttpSession;
@@ -42,8 +41,7 @@ import static org.mockito.Mockito.mockStatic;
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 SandboxTestDataProviderEngine.class, XsdSchemaParser.class},
         properties = {"n2o.access.deny_objects=false"})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@PropertySource("classpath:sandbox.properties")
+@PropertySource("classpath:test.properties")
 @EnableAutoConfiguration
 public class SandboxDataProviderTest {
 

@@ -20,10 +20,6 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -73,37 +69,6 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
-    public WebMvcConfigurer forwardToIndex() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addViewControllers(ViewControllerRegistry registry) {
-                registry.addViewController("/").setViewName("redirect:/editor/");
-                registry.addViewController("/view/*/").setViewName("forward:/index.html");
-            }
-
-            @Override
-            public void addResourceHandlers(ResourceHandlerRegistry registry) {
-                registry.addResourceHandler("/view/*/static/**")
-                        .addResourceLocations("/static/").resourceChain(true).addResolver(new WebStaticResolver("META-INF/resources"));
-
-                registry.addResourceHandler(
-                        "/view/*/serviceWorker.js",
-                        "/view/*/manifest.json",
-                        "/view/*/favicon.ico",
-                        "/editor/*/*",
-                        "/editor/*/static/**"
-                )
-                        .addResourceLocations("/editor/static/").resourceChain(true).addResolver(new WebStaticResolver("META-INF/resources/editor"));
-            }
-
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*");
-            }
-        };
-    }
-
-    @Bean
     public HttpSessionListener httpSessionListener() {
         return new HttpSessionListener() {
 
@@ -126,14 +91,5 @@ public class N2oSandboxConfiguration {
     public SandboxRestClient restClient() {
         return new SandboxRestClientImpl();
     }
-
-
-    /*
-    решили пока зкомментировать и отключить кеширование, потому что есть проблемы с обновлением application.properties
-    @Bean
-    public ProjectFileUpdateListener projectFileUpdateListener(CacheManager cacheManager, SourceTypeRegister sourceTypeRegister) {
-        return new ProjectFileUpdateListener(sourceTypeRegister, cacheManager);
-    }
-*/
 
 }

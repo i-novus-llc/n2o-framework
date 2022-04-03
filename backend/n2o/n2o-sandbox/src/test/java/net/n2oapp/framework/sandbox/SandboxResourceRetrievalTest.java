@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox.server;
+package net.n2oapp.framework.sandbox;
 
 import lombok.SneakyThrows;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
@@ -13,7 +13,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.util.StreamUtils;
 
 import java.nio.charset.Charset;
@@ -26,8 +25,7 @@ import static org.hamcrest.Matchers.is;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, XsdSchemaParser.class, SandboxRestClientImpl.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@PropertySource("classpath:sandbox.properties")
+@PropertySource("classpath:test.properties")
 @EnableAutoConfiguration
 public class SandboxResourceRetrievalTest {
 

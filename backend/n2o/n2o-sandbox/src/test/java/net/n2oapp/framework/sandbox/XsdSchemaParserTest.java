@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox.server;
+package net.n2oapp.framework.sandbox;
 
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import org.junit.jupiter.api.Test;
@@ -40,9 +40,6 @@ public class XsdSchemaParserTest {
 
     @Test
     public void testParser() throws IOException {
-        String schemaName = "http://n2oapp.net/framework/config/schema/page-3.0";
-        Resource schema = schemaParser.getSchema(schemaName);
-
         // test-action-1.0
         checkResource(schemaParser.getSchema(actionSchemaNamespace), getResource("test-action-1.0"));
 
