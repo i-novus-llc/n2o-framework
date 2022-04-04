@@ -2,11 +2,26 @@ import { call, put, select, takeEvery, all, delay } from 'redux-saga/effects'
 
 import { addAlert, addMultiAlerts, removeAlert, alertsByKeySelector } from './store'
 
+function getStopped(alertsByKey, targetId) {
+    if (!alertsByKey.length) {
+        return null
+    }
+
+    const alertProps = alertsByKey
+        .find(({ id }) => id === targetId)
+
+    return alertProps.stopped
+}
+
 export function* removeAlertSideEffect(action, alert, timeout) {
     yield delay(timeout)
     const alertsByKey = yield select(alertsByKeySelector(action.payload.key))
 
-    yield alertsByKey && put(removeAlert(action.payload.key, alert.id))
+    const wasStopped = getStopped(alertsByKey, alert.id)
+
+    if (alertsByKey && !wasStopped) {
+        yield put(removeAlert(action.payload.key, alert.id))
+    }
 }
 
 export function* addAlertSideEffect(config, action) {

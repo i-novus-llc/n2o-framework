@@ -1,16 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0" welcome-page-id="index">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0" welcome-page-id="index">
     <header title="Шапка">
         <nav>
-            <page page-id="menu1" label="Первая страница"/>
-            <page page-id="menu2" label="Вторая страница"/>
-            <sub-menu label="Вложенное меню">
-                <page page-id="menu3" label="Третья страница"/>
-                <page page-id="menu4" label="Четвертая страница"/>
-            </sub-menu>
+            <menu-item>
+                <open-page page-id="menu1" label="Первая страница"/>
+            </menu-item>
+            <menu-item>
+                <open-page page-id="menu2" label="Вторая страница"/>
+            </menu-item>
+            <dropdown-menu name="Вложенное меню">
+                <menu-item>
+                    <open-page page-id="menu3" label="Третья страница"/>
+                </menu-item>
+                <menu-item>
+                    <open-page page-id="menu4" label="Четвертая страница"/>
+                </menu-item>
+            </dropdown-menu>
         </nav>
         <extra-menu>
-            <a label="Внешняя ссылка" href="http://example.com" icon="fa fa-hand-peace-o"/>
+            <menu-item>
+                <a label="Внешняя ссылка" href="http://example.com" icon="fa fa-hand-peace-o"/>
+            </menu-item>
         </extra-menu>
     </header>
 </application>

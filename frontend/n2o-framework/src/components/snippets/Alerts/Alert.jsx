@@ -35,10 +35,15 @@ function Alert(props) {
         t,
         stacktrace,
         onDismiss,
+        stopRemoving,
     } = props
 
     const [stacktraceVisible, setStacktraceVisible] = useState(false)
-    const togglingStacktrace = useCallback(() => setStacktraceVisible(!stacktraceVisible), [stacktraceVisible])
+
+    const togglingStacktrace = useCallback(() => {
+        setStacktraceVisible(!stacktraceVisible)
+        stopRemoving()
+    }, [stacktraceVisible, stopRemoving])
 
     const formattingDetails = useCallback((stacktrace) => {
         if (!stacktrace) {
@@ -97,8 +102,8 @@ Alert.defaultProps = {
     details: '',
     closeButton: true,
     visible: true,
-    onDismiss: () => {
-    },
+    onDismiss: () => {},
+    stopRemoving: () => {},
     position: 'relative',
     animate: false,
     t: () => {
