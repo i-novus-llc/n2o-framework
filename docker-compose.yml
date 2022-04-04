@@ -24,7 +24,7 @@ services:
         constraints:
           - node.role == worker
   sandbox:
-    image: "${DOCKER_REGISTRY}/n2o/sandbox:${TAG}"
+    image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
     ports:
       - "8080"
     deploy:

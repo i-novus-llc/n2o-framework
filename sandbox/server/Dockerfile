@@ -7,5 +7,5 @@ ENV TZ=Europe/Moscow
 
 EXPOSE 8080
 
-COPY target/sandbox.jar sandbox.jar
-ENTRYPOINT ["java","-jar","sandbox.jar"]
+COPY target/sandbox.jar n2o-sandbox.jar
+ENTRYPOINT ["java","-jar","n2o-sandbox.jar"]
