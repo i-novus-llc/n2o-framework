@@ -23,3 +23,14 @@ services:
       placement:
         constraints:
           - node.role == worker
+  sandbox:
+    image: "${DOCKER_REGISTRY}/n2o/sandbox:${TAG}"
+    ports:
+      - "8080"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+      placement:
+        constraints:
+          - node.role == worker
