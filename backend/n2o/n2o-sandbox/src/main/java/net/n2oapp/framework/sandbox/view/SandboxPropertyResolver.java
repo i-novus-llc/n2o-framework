@@ -121,7 +121,7 @@ public class SandboxPropertyResolver implements PropertyResolver {
     }
 
     /**
-     * Разрешение настройки, если предлыдущее значение null
+     * Разрешение настройки, если предыдущее значение null
      *
      * @param key       Ключ property
      * @param prevValue Предыдущее значение

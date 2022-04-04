@@ -16,7 +16,6 @@
     </parent>
 
     <properties>
-        <n2o.version>7.23.0-SNAPSHOT</n2o.version>
         <mockito.version>3.8.0</mockito.version>
     </properties>
 
