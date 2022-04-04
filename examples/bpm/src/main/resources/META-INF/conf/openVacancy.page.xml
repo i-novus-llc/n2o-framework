@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Открыть вакансию" >
-    <form id="recruitment" object-id="openVacancy">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Открыть вакансию" >
+    <form id="recruitment">
+        <datasource object-id="openVacancy"/>
         <fields>
             <hidden id="id" default-value="recruitment"/>
             <input-text id="position" label="Должность" required="true"/>

@@ -1,6 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Интервью">
-    <form id="interview" query-id="interview" object-id="interview">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Интервью">
+    <form id="interview">
+        <datasource query-id="interview" object-id="interview">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
         <fields>
             <output-text id="id"/>
             <row>

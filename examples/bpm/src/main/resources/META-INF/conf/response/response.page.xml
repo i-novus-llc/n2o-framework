@@ -1,6 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Обработка отклика">
-    <form id="response" query-id="response" object-id="response">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Обработка отклика">
+    <form id="response">
+        <datasource query-id="response" object-id="response">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
         <fields>
             <output-text id="id"/>
             <row>
@@ -9,7 +14,7 @@
             </row>
             <row>
                 <input-text id="lastName" label="Фамилия" default-value=""/>
-                <input-text id="salaryExpected" label="Ожидаемая зарплата" default-value="{salary}"/>
+                <input-text id="salaryExpected" label="Ожидаемая зарплата" default-value="{salaryExpected}"/>
             </row>
         </fields>
         <toolbar place="bottomRight">
