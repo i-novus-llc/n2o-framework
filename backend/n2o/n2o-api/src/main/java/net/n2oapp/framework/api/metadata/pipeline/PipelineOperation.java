@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import java.util.function.Supplier;
 
 /**
- * Операция по сборке метаданных в конвеере
+ * Операция по сборке метаданных в конвейере
  */
 @FunctionalInterface
 public interface PipelineOperation<O, I> {
@@ -19,8 +19,8 @@ public interface PipelineOperation<O, I> {
      *
      * @param context  Конеткст сборки
      * @param data     Данные запроса
-     * @param supplier Поставщик объекта из конвеера
-     * @return Объект, отправляемый дальше по конвееру
+     * @param supplier Поставщик объекта из конвейера
+     * @return Объект, отправляемый дальше по конвейеру
      */
     O execute(CompileContext<?, ?> context, DataSet data, Supplier<I> supplier,
               CompileProcessor compileProcessor,

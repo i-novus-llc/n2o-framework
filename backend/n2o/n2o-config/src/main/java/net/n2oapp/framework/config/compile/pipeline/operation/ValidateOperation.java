@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import java.util.function.Supplier;
 
 /**
- * Операция по валидации метаданных в конвеере
+ * Операция по валидации метаданных в конвейере
  */
 public class ValidateOperation<S> implements PipelineOperation<S, S>, PipelineOperationTypeAware, MetadataEnvironmentAware {
 

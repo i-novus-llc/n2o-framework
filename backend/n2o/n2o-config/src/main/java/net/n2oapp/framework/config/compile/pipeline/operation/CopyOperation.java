@@ -13,7 +13,7 @@ import org.springframework.util.SerializationUtils;
 import java.util.function.Supplier;
 
 /**
- * Операция копирования метаданных в конвеере
+ * Операция копирования метаданных в конвейере
  */
 public class CopyOperation<S> implements PipelineOperation<S, S>, PipelineOperationTypeAware {
     @Override

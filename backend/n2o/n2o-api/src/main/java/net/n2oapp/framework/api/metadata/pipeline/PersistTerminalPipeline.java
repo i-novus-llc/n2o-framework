@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Завершающий конвеер сохранения метаданных
+ * Завершающий конвейер сохранения метаданных
  */
 public interface PersistTerminalPipeline extends Pipeline  {
     <S extends SourceMetadata> InputStream get(S input);

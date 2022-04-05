@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import java.util.function.Supplier;
 
 /**
- * Операция по сборке метаданных в конвеере
+ * Операция по сборке метаданных в конвейере
  */
 public class CompileOperation<D extends Compiled, S> implements PipelineOperation<D, S>, PipelineOperationTypeAware, MetadataEnvironmentAware {
 
