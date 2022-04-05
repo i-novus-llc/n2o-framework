@@ -35,8 +35,7 @@ public class DeserializeOperation<D extends SourceMetadata> implements PipelineO
     @Override
     public D execute(CompileContext<?, ?> context, DataSet data, Supplier<InputStream> supplier, CompileProcessor compileProcessor,
                      BindProcessor bindProcessor, SourceProcessor sourceProcessor) {
-        InputStream value = supplier.get();
-        try {
+        try (InputStream value = supplier.get()) {
             return (D) mapper.readValue(value, context.getSourceClass());
         } catch (IOException e) {
             throw new N2oException("Error during deserialize json to " + context.getSourceClass(), e);

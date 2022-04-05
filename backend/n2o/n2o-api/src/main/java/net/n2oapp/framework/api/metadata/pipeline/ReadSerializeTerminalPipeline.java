@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Завершающий конвейер сериализации исходных метеданных в json
+ * Завершающий конвейер сериализации исходных метаданных в json
  */
 public interface ReadSerializeTerminalPipeline extends Pipeline {
 
