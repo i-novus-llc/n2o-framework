@@ -70,7 +70,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
         if (result.get(RESPONSE_ERROR_KEY) != null)
-            throw new N2oException();
+            errorHandler(result);
         return result;
     }
 
@@ -196,6 +196,15 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private Set<String> extractPlaceholderKeys(String query) {
         return extract(query, placeholderKeyPattern, (s, m) -> s.substring(m.start(), m.end() - 1).trim());
+    }
+
+    /**
+     * Обработка ошибки, сгенерированый GraphQl сервером
+     *
+     * @param result данные с информацией об ошибке
+     */
+    protected void errorHandler(DataSet result) {
+        throw new N2oException();
     }
 
     /**
