@@ -33,7 +33,7 @@ public class N2oImage extends N2oSnippet implements Image {
     @Override
     public void shouldHaveWidth(int width) {
         element().$(".n2o-image__image").should(
-                Condition.attributeMatching("style", ".*max-width: " + width + "px;.*"));
+                Condition.attributeMatching("style", ".*width: " + width + "px;.*"));
     }
 
     @Override

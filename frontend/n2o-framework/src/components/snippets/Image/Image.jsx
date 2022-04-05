@@ -31,7 +31,7 @@ export function Image({
     className,
 }) {
     const style = width ? { maxWidth: width } : {}
-    const imageStyle = height || width ? { height, maxWidth: width } : {}
+    const imageStyle = height || width ? { height, width } : {}
     const hasInfo = title || description
 
     if (!visible) {
