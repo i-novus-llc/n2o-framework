@@ -31,12 +31,10 @@
 .n2o-page__left-right-layout {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
 
     .n2o-page__left,
     .n2o-page__right {
-        min-width: max-content;
-        flex-grow: 1;
+        width: 49%;
     }
 
     .n2o-page__left + .n2o-page__right {
@@ -76,7 +74,7 @@
     pointer-events: none;
 }
 
-@media screen and (max-width: $mobile-max-width) {
+@media screen and (max-width: $desktops-max-width) {
     .n2o-page__left-right-layout {
         flex-wrap: wrap;
 
