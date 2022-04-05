@@ -389,6 +389,8 @@ __*Настройки GraphQl провайдера*__
 Для обеспечения безопасного доступа к backend сервису необходимо использовать атрибут `access-token` или
 глобальную настройку `n2o.engine.graphql.access-token`.
 
+__*Обработка ошибок GraphQl провайдера*__
+
 Для кастомизированный обработки ошибок результатов GraphQl сервера требуется переопределить метод `errorHandler` GraphQl провайдера.
 
 ```java title="Кастомный обработчик ошибок"
@@ -397,7 +399,20 @@ package com.example;
 public class MyGraphQlDataProviderEngine extends GraphQlDataProviderEngine {
     @Override
     protected void errorHandler(DataSet result) {
-        ...
+        StringBuilder builder = new StringBuilder();
+        DataSet errors = result.getDataSet("errors");
+
+        //Получение информации об ошибки валидации
+        DataSet validation = errors.getDataSet("validation");
+        String variable = validation.getString("variable");
+        String value = validation.getString("value");
+
+        //Создание сообщение ошибки
+        builder.append("Неверное значение для переменной " + variable + ". ");
+        builder.append("Значение не может быть равно " + value + ". ");
+
+        //Выбрасываем исключение
+        throw new N2oValidationException(builder.toString());
     }
 }
 ```
