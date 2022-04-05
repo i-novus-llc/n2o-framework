@@ -80,12 +80,12 @@ export const ScrollContainer = ({
 
     return (
         <div
-            className={`n2o-scrollcontainer overflow-auto ${className}`}
+            className="n2o-scrollcontainer overflow-auto"
             onScroll={onScroll}
             ref={containerRef}
         >
             <div
-                className="n2o-scrollcontainer__content"
+                className={`n2o-scrollcontainer__content ${className}`}
                 ref={contentRef}
             >
                 <ScrollContext.Provider value={state}>
