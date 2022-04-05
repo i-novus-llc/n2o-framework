@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.util;
 
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.apache.commons.io.FileUtils;
@@ -11,9 +10,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;

@@ -25,6 +25,8 @@ services:
           - node.role == worker
   n2o-sandbox:
     image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
+    environment:
+      SANDBOX_API_URL: http://sandbox:8080
     ports:
       - "8080"
     deploy:
