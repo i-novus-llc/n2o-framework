@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Конвейр десериализации json в исходные модели метаданных
+ * Конвейер десериализации json в исходные модели метаданных
  */
 public interface DeserializePersistTerminalPipeline extends Pipeline {
 
