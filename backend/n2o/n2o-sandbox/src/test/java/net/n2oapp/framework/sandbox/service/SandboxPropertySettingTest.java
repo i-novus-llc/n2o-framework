@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox;
+package net.n2oapp.framework.sandbox.service;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
@@ -34,7 +34,7 @@ import static org.hamcrest.Matchers.is;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 SandboxContext.class, XsdSchemaParser.class})
-@PropertySource("classpath:test.properties")
+@PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxPropertySettingTest {
 

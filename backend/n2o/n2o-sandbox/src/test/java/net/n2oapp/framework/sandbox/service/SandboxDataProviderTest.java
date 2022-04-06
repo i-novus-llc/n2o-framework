@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox;
+package net.n2oapp.framework.sandbox.service;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
@@ -41,7 +41,7 @@ import static org.mockito.Mockito.mockStatic;
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 SandboxTestDataProviderEngine.class, XsdSchemaParser.class},
         properties = {"n2o.access.deny_objects=false"})
-@PropertySource("classpath:test.properties")
+@PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxDataProviderTest {
 
