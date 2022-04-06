@@ -70,7 +70,7 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 2,
                         "name", "test",
                         "age", 20,
-                        "addresses", List.of(new Address("address1"), new Address("address2"))))));
+                        "addresses", List.of(Map.of("street", "address1"), Map.of("street", "address2"))))));
         data.put("data", persons);
 
         String expectedQuery = "query Persons($name: String, $age: Int, $addresses: [Address!]) " +
@@ -116,7 +116,7 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 1,
                         "name", request.getPersonName(),
                         "age", request.getAge(),
-                        "addresses", request.getAddresses())));
+                        "addresses", List.of(Map.of("street", "address1")))));
         data.put("data", persons);
 
         String expectedQuery = "mutation CreatePerson($name: String!, $age: Int!, $addresses: [Address!]) " +
@@ -239,7 +239,7 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 2,
                         "name", "test",
                         "age", 20,
-                        "addresses", List.of(new Address("address1"), new Address("address2"))))));
+                        "addresses", List.of(Map.of("street", "address1"), Map.of("street", "address2"))))));
         data.put("data", persons);
 
         String expectedQuery = "query persons(name: \"test\", age: 20, addresses: [\"address1\", \"address2\"]) {id name age}";
@@ -281,7 +281,7 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 1,
                         "name", request.getPersonName(),
                         "age", request.getAge(),
-                        "addresses", request.getAddresses())));
+                        "addresses", List.of(Map.of("street", "address1")))));
         data.put("data", persons);
 
         String expectedQuery = "mutation { createPerson(name: \"newName\", age: 99, " +

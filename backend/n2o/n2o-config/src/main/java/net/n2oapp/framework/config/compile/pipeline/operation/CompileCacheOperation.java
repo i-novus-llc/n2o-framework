@@ -19,7 +19,7 @@ import org.springframework.cache.support.NoOpCacheManager;
 import java.util.function.Supplier;
 
 /**
- * Операция кэширования собранных метаданных в конвеере
+ * Операция кэширования собранных метаданных в конвейере
  */
 public class CompileCacheOperation<S> extends MetadataChangeListener implements PipelineOperation<S, S>, PipelineOperationTypeAware, MetadataEnvironmentAware {
 

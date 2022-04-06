@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 
@@ -43,6 +44,7 @@ public class N2oSimpleMenu extends N2oMenu {
         private String icon;
         private String image;
         private ImageShape imageShape;
+        @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
 

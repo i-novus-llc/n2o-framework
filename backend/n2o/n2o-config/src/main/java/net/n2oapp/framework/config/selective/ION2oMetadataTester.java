@@ -11,8 +11,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
- * @author operehod
- * @since 23.04.2015
+ * Сервис тестирования чтения/записи метаданных
  */
 public class ION2oMetadataTester implements XmlIOBuilder<ION2oMetadataTester> {
 

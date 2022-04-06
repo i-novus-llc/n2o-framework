@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Завершающий конвеер сохранения метаданных после чтения
+ * Завершающий конвейер сохранения метаданных после чтения
  */
 public interface ReadPersistTerminalPipeline extends Pipeline {
     <S extends SourceMetadata> InputStream get(String id, Class<S> sourceClass);

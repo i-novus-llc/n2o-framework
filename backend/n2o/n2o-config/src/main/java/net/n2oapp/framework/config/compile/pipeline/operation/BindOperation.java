@@ -17,7 +17,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import java.util.function.Supplier;
 
 /**
- * Операция связывания с данными метаданных в конвеере
+ * Операция связывания с данными метаданных в конвейере
  */
 public class BindOperation<D extends Compiled> implements PipelineOperation<D, D>, PipelineOperationTypeAware, MetadataEnvironmentAware {
 

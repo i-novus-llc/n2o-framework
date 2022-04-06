@@ -38,11 +38,12 @@ export function* getConfig(apiProvider, action) {
     } catch (err) {
         yield put(
             requestConfigFail({
-                stacked: true,
                 messages: {
+                    title: 'Ошибка',
                     text: 'Не удалось получить конфигурацию приложения',
                     stacktrace: err.stack,
-                    severity: 'danger',
+                    color: 'danger',
+                    placement: 'top',
                 },
             }),
         )

@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Конвеер для работы с метаданными N2O
+ * Конвейер для работы с метаданными N2O
  */
 public abstract class N2oPipeline implements Pipeline {
 
