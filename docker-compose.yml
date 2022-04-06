@@ -28,7 +28,7 @@ services:
     environment:
       SANDBOX_API_URL: http://sandbox:8080
     ports:
-      - "8080"
+      - "8090"
     deploy:
       resources:
         limits:
