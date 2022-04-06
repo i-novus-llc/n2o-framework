@@ -89,7 +89,7 @@ import static net.n2oapp.framework.sandbox.utils.ProjectUtil.findFilesByUri;
 public class ViewController {
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
 
-    @Value("${project.version:unknown}")
+    @Value("${n2o.version:unknown}")
     private String n2oVersion;
     @Value("${n2o.config.path}")
     private String basePath;
