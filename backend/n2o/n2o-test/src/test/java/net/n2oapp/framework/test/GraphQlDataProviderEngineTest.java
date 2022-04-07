@@ -20,7 +20,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -175,7 +175,7 @@ public class GraphQlDataProviderEngineTest {
         //test error message
         try {
             restTemplate.postForObject(url, request, SetDataResponse.class);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpServerErrorException e) {
             SetDataResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), SetDataResponse.class);
             assertEquals("Message: Invalid field type, line: 3, column: 1.",
                     resp.getMeta().getAlert().getMessages().get(0).getText());
