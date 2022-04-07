@@ -5,6 +5,8 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,6 +28,12 @@ public class FieldsEnablingAT extends SandboxAutotestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+    }
+
+    @Override
+    protected void configure(N2oApplicationBuilder builder) {
+        super.configure(builder);
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test

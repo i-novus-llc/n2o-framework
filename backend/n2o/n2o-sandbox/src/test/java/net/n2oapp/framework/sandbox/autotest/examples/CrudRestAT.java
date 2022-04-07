@@ -8,27 +8,33 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
-import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
-import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.engine.data.rest.SpringRestDataProviderEngine;
+import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
+import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
+import net.n2oapp.framework.sandbox.cases.CasesConfiguration;
+import net.n2oapp.framework.sandbox.cases.cars.CarRepository;
+import net.n2oapp.framework.sandbox.cases.persons.PersonRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
-//@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/crud_sql/"},FIXME
-//        classes = AutoTestApplication.class,
-//        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@ContextConfiguration(classes = {CasesConfiguration.class})
-//@EnableJpaRepositories(basePackageClasses = {net.n2oapp.framework.sandbox.server.cases.cars.CarRepository.class,
-//        net.n2oapp.framework.sandbox.server.cases.persons.PersonRepository.class})
-//@EntityScan(basePackages = {"net.n2oapp.framework.sandbox.server.cases.cars", "net.n2oapp.framework.sandbox.server.cases.persons"})
-//@TestPropertySource(locations = "/crud-rest.properties")
-public class CrudRestAT extends AutoTestBase {
+@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/crud_sql/",
+        "n2o.sandbox.project-id=examples_crud_rest"},
+        classes = SandboxAutotestApplication.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ContextConfiguration(classes = {CasesConfiguration.class})
+@EnableJpaRepositories(basePackageClasses = {CarRepository.class, PersonRepository.class})
+@EntityScan(basePackages = {"net.n2oapp.framework.sandbox.cases.cars", "net.n2oapp.framework.sandbox.cases.persons"})
+@TestPropertySource("classpath:autotest/examples/crud_rest/crud-rest.properties")
+public class CrudRestAT extends SandboxAutotestBase {
 
     @Autowired
     SpringRestDataProviderEngine restDataProviderEngine;
@@ -47,12 +53,7 @@ public class CrudRestAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("/examples/crud_rest/index.page.xml"),
-                new CompileInfo("/examples/crud_rest/car.object.xml"),
-                new CompileInfo("/examples/crud_rest/car.page.xml"),
-                new CompileInfo("/examples/crud_rest/car.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
         restDataProviderEngine.setBaseRestUrl(getBaseUrl());
     }
 

@@ -8,14 +8,14 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static com.codeborne.selenide.Configuration.headless;
 
 @SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/crud/",
         "n2o.sandbox.project-id=examples_crud"},
@@ -31,8 +31,13 @@ public class CrudAT extends SandboxAutotestBase {
     @BeforeEach
     @Override
     public void setUp() throws Exception {
-        headless = false;
         super.setUp();
+    }
+
+    @Override
+    protected void configure(N2oApplicationBuilder builder) {
+        super.configure(builder);
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test

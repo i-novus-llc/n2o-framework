@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
         "n2o.sandbox.project-id=examples_crud_sql"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CrudSQLAT extends SandboxAutotestBase { //FIXME
+public class CrudSQLAT extends SandboxAutotestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -36,6 +37,7 @@ public class CrudSQLAT extends SandboxAutotestBase { //FIXME
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test

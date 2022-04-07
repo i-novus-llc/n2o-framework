@@ -9,9 +9,6 @@ import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
-import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
@@ -37,7 +34,14 @@ public class ModalAT extends SandboxAutotestBase {
         super.setUp();
     }
 
+    @Override
+    protected void configure(N2oApplicationBuilder builder) {
+        super.configure(builder);
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
+    }
+
     @Test
+
     public void modalTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

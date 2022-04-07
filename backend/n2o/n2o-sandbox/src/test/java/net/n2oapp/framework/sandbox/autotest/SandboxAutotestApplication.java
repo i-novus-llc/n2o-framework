@@ -6,7 +6,10 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FileStorageController;
+import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FilesRestController;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
+import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -19,21 +22,29 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockHttpSession;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 
+/**
+ * Веб сервер для прогона автотестов по примерам сендбокса
+ */
 @Import({N2oMessagesConfiguration.class,
         N2oContextConfiguration.class,
         N2oEnvironmentConfiguration.class,
         N2oEngineConfiguration.class,
-        N2oMetadataConfiguration.class})
+        N2oMetadataConfiguration.class,
+        FileStorageController.class,
+        FilesRestController.class,
+        net.n2oapp.framework.sandbox.autotest.examples.fileupload.FileModel.class})
 @SpringBootApplication(exclude = {N2oFrameworkAutoConfiguration.class})
-@ComponentScan(value = {"net.n2oapp.framework.sandbox", "net.n2oapp.framework.autotest"}, excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = net.n2oapp.framework.autotest.run.AutoTestApplication.class)
-})
+@ComponentScan(value = {"net.n2oapp.framework.autotest", "net.n2oapp.framework.sandbox.autotest.examples.fileupload"},  excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = net.n2oapp.framework.autotest.run.AutoTestApplication.class),
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = net.n2oapp.framework.autotest.run.FileStoreController.class)})
 @PropertySource("classpath:sandbox.properties")
 public class SandboxAutotestApplication {
 
@@ -52,7 +63,11 @@ public class SandboxAutotestApplication {
             private SandboxRestClient restClient;
 
             @Override
-            protected InputStream getResourceInputStream(N2oTestDataProvider invocation) {
+            protected InputStream getResourceInputStream(N2oTestDataProvider invocation) throws IOException {
+                ClassPathResource classPathResource = new ClassPathResource(invocation.getFile());
+                if (classPathResource.exists()) {
+                    return classPathResource.getInputStream();
+                }
                 return new ByteArrayInputStream(restClient.getFile(projectId, invocation.getFile(), new MockHttpSession()).getBytes());
             }
 
@@ -72,12 +87,18 @@ public class SandboxAutotestApplication {
     }
 
     @Bean
+    public SandboxRestClient restClient() {
+        return new SandboxRestClientImpl();
+    }
+
+    @Bean
     AlertMessageBuilder messageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
-                                       @Qualifier("sandboxPropertyResolver") PropertyResolver propertyResolver) {
+                                       PropertyResolver propertyResolver) {
         return new AlertMessageBuilder(messageSourceAccessor, propertyResolver);
     }
 
     @Bean
+    @Primary
     PropertyResolver sandboxPropertyResolver() {
         SandboxPropertyResolver propertyResolver = new SandboxPropertyResolver();
         propertyResolver.configure(new SimplePropertyResolver(PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties")), null, null);

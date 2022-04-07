@@ -3,9 +3,13 @@ package net.n2oapp.framework.sandbox.autotest.examples;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,12 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/placeholder_context/",
-        "n2o.sandbox.project-id=examples_placeholder_context"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/placeholder_context/"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:/examples/placeholder_context/user.properties")
-public class PlaceholderContextAT extends SandboxAutotestBase {
+@TestPropertySource("classpath:/autotest/examples/placeholder_context/user.properties")
+public class PlaceholderContextAT extends AutoTestBase {//TODO работает на файлах из classpath, т.к. файлы примера больше не сетятся в templatesHolder
 
     @Value("${username}")
     private String username;
@@ -44,6 +47,9 @@ public class PlaceholderContextAT extends SandboxAutotestBase {
         builder.getEnvironment().getContextProcessor().set("username", username);
         builder.getEnvironment().getContextProcessor().set("email", email);
         builder.getEnvironment().getContextProcessor().set("roles", roles);
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+                new CompileInfo("autotest/examples/placeholder_context/index.page.xml"));
     }
 
     @Test
