@@ -40,8 +40,14 @@ export class EditableCell extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { model: propsModel, editable, prevResolveModel } = this.props
+        const { model: propsModel, editable, prevResolveModel, editFieldId } = this.props
         const { model: stateModel, editing, prevModel } = this.state
+
+        const isPropsModelCleared = (
+            isEmpty(propsModel[editFieldId]) &&
+            !isEmpty(prevModel[editFieldId]) &&
+            !isEqual(propsModel[editFieldId], stateModel[editFieldId])
+        )
 
         if (
             prevProps.editable !== editable &&
@@ -63,6 +69,10 @@ export class EditableCell extends React.Component {
             this.setState({
                 prevModel: stateModel,
                 model: prevResolveModel,
+            })
+        } else if (isPropsModelCleared) {
+            this.setState({
+                model: propsModel,
             })
         }
 
