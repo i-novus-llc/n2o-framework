@@ -138,6 +138,7 @@ public class ViewController {
         return n2oVersion;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/n2o/templates/{fileName}")
     public String getTemplateFile(@PathVariable String fileName) {
         return getTemplate(fileName);
@@ -222,6 +223,7 @@ public class ViewController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> putData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
@@ -229,6 +231,7 @@ public class ViewController {
         return setData(projectId, body, request, session);
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> deleteData(@PathVariable(value = "projectId") String projectId,
                                                       @RequestBody Object body,
@@ -236,6 +239,7 @@ public class ViewController {
         return setData(projectId, body, request, session);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> setData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
