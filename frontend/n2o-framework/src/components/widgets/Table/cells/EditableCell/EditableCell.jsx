@@ -43,6 +43,7 @@ export class EditableCell extends React.Component {
         const { model: propsModel, editable, prevResolveModel, editFieldId } = this.props
         const { model: stateModel, editing, prevModel } = this.state
 
+        // Нужно для того, чтобы сбросить внутренний стейт компонента, когда очищается propsModel
         const isPropsModelCleared = (
             isEmpty(propsModel[editFieldId]) &&
             !isEmpty(prevModel[editFieldId]) &&
@@ -203,6 +204,8 @@ EditableCell.propTypes = {
 
 EditableCell.defaultProps = {
     visible: true,
+    model: {},
+    editFieldId: null,
 }
 
 export default compose(
