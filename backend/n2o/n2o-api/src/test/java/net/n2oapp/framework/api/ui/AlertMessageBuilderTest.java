@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.ui;
 
+import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.N2oUserException;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -25,10 +26,10 @@ public class AlertMessageBuilderTest {
         ResponseMessage message = builder.build(e);
         assertThat(message.getText(), is("Internal error"));
         assertThat(message.getColor(), is("danger"));
-        assertThat(message.getStacktrace(), hasItem(containsString("AlertMessageBuilderTest")));
+        assertThat(message.getPayload(), hasItem(containsString("AlertMessageBuilderTest")));
         builder = new AlertMessageBuilder(messageSource, null, false);
         message = builder.build(e);
-        assertThat(message.getStacktrace(), nullValue());
+        assertThat(message.getPayload(), nullValue());
     }
 
     @Test
@@ -51,8 +52,26 @@ public class AlertMessageBuilderTest {
         when(propertyResolver.getProperty("n2o.api.message.danger.timeout")).thenReturn("8000");
         AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, propertyResolver);
         N2oException e = new N2oMetadataValidationException("Unspecified label for dropdown-menu");
+
         ResponseMessage message = builder.build(e);
         assertThat(message.getText(), is("Unspecified label for dropdown-menu"));
-        assertThat(message.getStacktrace(), notNullValue());
+        assertThat(message.getPayload(), notNullValue());
+    }
+
+    @Test
+    public void testGraphqlQlQueryPrintInDevMode() {
+        MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
+        when(messageSource.getMessage("Query execution error", "Query execution error"))
+                .thenReturn("Query execution error");
+        PropertyResolver propertyResolver = mock(PropertyResolver.class);
+        when(propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class)).thenReturn(true);
+        when(propertyResolver.getProperty("n2o.api.message.danger.timeout")).thenReturn("8000");
+        AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, propertyResolver);
+        N2oQueryExecutionException e = new N2oQueryExecutionException("query MyQuery {getCar(id: )}");
+
+        ResponseMessage message = builder.build(e);
+        assertThat(message.getText(), is("Query execution error"));
+        assertThat(message.getPayload().size(), is(1));
+        assertThat(message.getPayload().get(0), is("query MyQuery {getCar(id: )}"));
     }
 }
