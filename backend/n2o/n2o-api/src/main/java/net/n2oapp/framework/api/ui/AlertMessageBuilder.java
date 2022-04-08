@@ -23,10 +23,12 @@ public class AlertMessageBuilder {
     private MessageSourceAccessor messageSourceAccessor;
     private PropertyResolver propertyResolver;
     private Boolean showStacktrace = true;
+    private Boolean devMode;
 
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.propertyResolver = propertyResolver;
+        this.devMode = initDevMode(propertyResolver);
     }
 
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver,
@@ -34,6 +36,7 @@ public class AlertMessageBuilder {
         this.messageSourceAccessor = messageSourceAccessor;
         this.propertyResolver = propertyResolver;
         this.showStacktrace = showStacktrace;
+        this.devMode = initDevMode(propertyResolver);
     }
 
     public ResponseMessage build(Exception e) {
@@ -63,6 +66,11 @@ public class AlertMessageBuilder {
         ResponseMessage message = buildMessage(requestInfo, SeverityType.success);
         message.setText(StringUtils.resolveLinks(successText, data));
         return message;
+    }
+
+    private Boolean initDevMode(PropertyResolver propertyResolver) {
+        Boolean activeDevMod = propertyResolver != null ? propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class) : null;
+        return  activeDevMod != null && activeDevMod;
     }
 
     private SeverityType getExceptionSeverity(Exception e) {
@@ -124,7 +132,7 @@ public class AlertMessageBuilder {
 
     private String buildText(Exception e) {
         String message = "n2o.exceptions.error.message";
-        String userMessage = e instanceof N2oException ? ((N2oException) e).getUserMessage() : null;
+        String userMessage = initUserMessage(e);
         message = userMessage != null ? userMessage : message;
         String localizedMessage = messageSourceAccessor.getMessage(message, message);
         if (e instanceof N2oException)
@@ -133,4 +141,11 @@ public class AlertMessageBuilder {
             return localizedMessage;
     }
 
+    private String initUserMessage(Exception e) {
+        if (devMode)
+            return e.getMessage();
+        if (e instanceof N2oException)
+            return ((N2oException) e).getUserMessage();
+        return null;
+    }
 }
