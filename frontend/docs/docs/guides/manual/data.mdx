@@ -391,27 +391,34 @@ __*Настройки GraphQl провайдера*__
 
 __*Обработка ошибок GraphQl провайдера*__
 
-Для кастомизированной обработки ошибок результатов GraphQl сервера требуется переопределить метод `errorHandler` GraphQl провайдера.
+Для кастомизированной обработки ошибок результатов GraphQl сервера требуется включить её в реализации интерфейсов `OperationExceptionHandler`
+ и `QueryExceptionHandler`.
 
-```java title="Кастомный обработчик ошибок валидации"
+```java title="Кастомный обработчик ошибок операций GraphQl сервера"
 package com.example;
 
-public class MyGraphQlDataProviderEngine extends GraphQlDataProviderEngine {
+public class GraphQlOperationExceptionHandler implements OperationExceptionHandler {
     @Override
-    protected void errorHandler(DataSet result) {
-        // получение ошибок из ответа
-        DataList errors = (DataList) result.get(RESPONSE_ERROR_KEY);
+    public N2oException handle(CompiledObject.Operation o, DataSet data, Exception e) {
         ...
-        // формирование сообщений валидации по ошибкам
-        List<ValidationMessage> validationMessages = new ArrayList<>();
-        for (Object obj : errors) {
-            DataSet error = (DataSet) obj;
-            String message = error.getString("message");
-            String fieldId = error.getString("field");
+        // Обработка ошибки GraphQl сервера
+        if (e instanceof N2oGraphQlException) {
+            // Получение ответа, который вернул GraphQl сервер
+            DataSet result = ((N2oGraphQlException) e).getResponse();
+            DataList errors = (DataList) result.get("errors");
             ...
-            validationMessages.add(new ValidationMessage(message, fieldId, validationId));
+            // формирование сообщений валидации по ошибкам
+            List<ValidationMessage> validationMessages = new ArrayList<>();
+            for (Object obj : errors) {
+                DataSet error = (DataSet) obj;
+                String message = error.getString("message");
+                String fieldId = error.getString("field");
+                ...
+                validationMessages.add(new ValidationMessage(message, fieldId, validationId));
+            }
+            return new N2oUserException("Ошибка валидации", null, validationMessages);
         }
-        throw new N2oUserException("Ошибка валидации", null, validationMessages);
+        ...
     }
 }
 ```

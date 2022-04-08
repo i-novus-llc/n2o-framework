@@ -70,7 +70,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
         if (result.get(RESPONSE_ERROR_KEY) != null)
-            errorHandler(result);
+            throw new N2oGraphQlException(result);
         return result;
     }
 
@@ -95,7 +95,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private String prepareQuery(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
         if (invocation.getQuery() == null)
-            throw new N2oGraphQlException("Строка GraphQl запроса не задана");
+            throw new N2oException("Строка GraphQl запроса не задана");
         return resolvePlaceholders(invocation, data);
     }
 
@@ -172,7 +172,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         for (String variable : variables) {
             if (!data.containsKey(variable))
-                throw new N2oGraphQlException(String.format("Значение переменной '%s' не задано", variable));
+                throw new N2oException(String.format("Значение переменной '%s' не задано", variable));
             result.add(variable, data.get(variable));
         }
         return result;
@@ -196,15 +196,6 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private Set<String> extractPlaceholderKeys(String query) {
         return extract(query, placeholderKeyPattern, (s, m) -> s.substring(m.start(), m.end() - 1).trim());
-    }
-
-    /**
-     * Обработка ошибки, сгенерированый GraphQl сервером
-     *
-     * @param result данные с информацией об ошибке
-     */
-    protected void errorHandler(DataSet result) {
-        throw new N2oException();
     }
 
     /**

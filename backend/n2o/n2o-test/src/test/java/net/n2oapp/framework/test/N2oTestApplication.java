@@ -1,6 +1,6 @@
 package net.n2oapp.framework.test;
 
-import net.n2oapp.framework.boot.graphql.GraphQlDataProviderEngine;
+import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.boot.sql.jdbc.EnableRoutingDataSource;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.springframework.boot.SpringApplication;
@@ -9,13 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Primary;
 
 @SpringBootApplication(exclude = RedisAutoConfiguration.class)
 @EnableAutoConfiguration
 @EnableRoutingDataSource
-@ComponentScan(excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ExceptionHandlerConfiguration.class)})
+@ComponentScan
 public class N2oTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(N2oTestApplication.class, args);
@@ -28,8 +27,8 @@ public class N2oTestApplication {
 
     @Bean
     @Primary
-    public GraphQlDataProviderEngine dataProviderEngine() {
-        return new ConfiguredHandlerGraphQlDataProviderEngine();
+    public OperationExceptionHandler testOperationExceptionHandler() {
+        return new TestOperationExceptionHandler();
     }
 
 }
