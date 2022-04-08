@@ -301,9 +301,29 @@
                 <xs:documentation>Разделитель фильтров</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="filter-prefix" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Префикс для фильтров</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="filter-suffix" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Суффикс для фильтров</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="sorting-separator" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Разделитель сортировок</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-prefix" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Префикс для сортировок</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-suffix" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Суффикс для сортировок</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="page-mapping" type="xs:string">
