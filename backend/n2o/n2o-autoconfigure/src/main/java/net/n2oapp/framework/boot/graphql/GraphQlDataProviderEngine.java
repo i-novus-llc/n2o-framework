@@ -156,7 +156,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             query = replacePlaceholder(query, placeholder, value, "");
         }
 
-        log.debug(query);
+        log.debug("Execute GraphQL query: " + query);
         return query;
     }
 
