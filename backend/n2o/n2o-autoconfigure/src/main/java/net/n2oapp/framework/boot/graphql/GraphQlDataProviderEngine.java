@@ -53,9 +53,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         String query = prepareQuery(invocation, data);
         DataSet result = execute(invocation, query, data);
         if (result.containsKey(ERROR_MAPPING)) {
-            N2oQueryExecutionException e = new N2oQueryExecutionException(query);
             log.error("Execution error with GraphQL query: " + query);
-            throw e;
+            throw new N2oQueryExecutionException(query);
         }
         return result;
     }
