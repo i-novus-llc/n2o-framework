@@ -10,13 +10,9 @@ import net.n2oapp.framework.api.exception.N2oException;
 public class N2oGraphQlException extends N2oException {
 
     @Getter
-    private DataSet serverResult;
-
-    public N2oGraphQlException(String message) {
-        super(message);
-    }
+    private DataSet response;
 
     public N2oGraphQlException(DataSet result) {
-        this.serverResult = result;
+        this.response = result;
     }
 }

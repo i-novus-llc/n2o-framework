@@ -16,7 +16,7 @@ public class TestOperationExceptionHandler implements OperationExceptionHandler 
 
     private N2oException generateExceptionFromGraphQl(Exception e) {
         N2oException exception = new N2oException();
-        DataSet result = ((N2oGraphQlException) e).getServerResult();
+        DataSet result = ((N2oGraphQlException) e).getResponse();
         StringBuilder builder = new StringBuilder();
         DataSet errors = result.getDataSet("errors");
 

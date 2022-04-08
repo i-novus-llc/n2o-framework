@@ -404,8 +404,8 @@ public class GraphQlOperationExceptionHandler implements OperationExceptionHandl
         // Обработка ошибки GraphQl сервера
         if (e instanceof N2oGraphQlException) {
             // Получение ответа, который вернул GraphQl сервер
-            DataSet result = ((N2oGraphQlException) e).getServerResult();
-            DataList errors = (DataList) result.get(RESPONSE_ERROR_KEY);
+            DataSet result = ((N2oGraphQlException) e).getResponse();
+            DataList errors = (DataList) result.get("errors");
             ...
             // формирование сообщений валидации по ошибкам
             List<ValidationMessage> validationMessages = new ArrayList<>();
