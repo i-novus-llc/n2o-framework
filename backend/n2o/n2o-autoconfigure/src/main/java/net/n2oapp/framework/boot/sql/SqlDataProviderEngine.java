@@ -6,12 +6,15 @@ import net.n2oapp.engine.factory.EngineFactory;
 import net.n2oapp.engine.factory.TypicalEngine;
 import net.n2oapp.engine.factory.integration.spring.SpringEngineFactory;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
+import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
 import net.n2oapp.framework.engine.util.NamedParameterUtils;
 import net.n2oapp.framework.engine.util.QueryBlank;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -39,6 +42,7 @@ import static net.n2oapp.framework.engine.data.QueryUtil.*;
  */
 public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProvider>,
         ApplicationContextAware, ResourceLoaderAware {
+    private static final Logger log = LoggerFactory.getLogger(SqlDataProviderEngine.class);
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private String defaultJdbcDriver;
@@ -58,14 +62,21 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         query = replacePlaceholder(query, ":limit", args.remove("limit"), "10");
         query = replacePlaceholder(query, ":offset", args.remove("offset"), "0");
         query = replacePlaceholder(query, ":count", args.remove("count"), "-1");
-        if (invocation.getConnectionUrl() == null)
-            return executeQuery(args,
-                    query,
-                    rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")),
-                    namedParameterJdbcTemplate);
-        NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
-        return executeQuery(args, query,
-                rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
+        log.debug("Execute SQL query: " + query);
+
+        try {
+            if (invocation.getConnectionUrl() == null)
+                return executeQuery(args,
+                        query,
+                        rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")),
+                        namedParameterJdbcTemplate);
+            NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
+            return executeQuery(args, query,
+                    rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
+        } catch (Exception e) {
+            log.error("Execution error with SQL query: " + query);
+            throw new N2oQueryExecutionException(query);
+        }
     }
 
     private String replaceSortDirection(String sortCause, Map<String, Object> data) {
