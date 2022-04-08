@@ -14,7 +14,7 @@ import net.n2oapp.framework.boot.graphql.N2oGraphQlException;
 
 public class TestOperationExceptionHandler implements OperationExceptionHandler {
 
-    private N2oException generateExceptionFromGraphQl(Exception e) {
+    private N2oException handleGraphQlException(Exception e) {
         N2oException exception = new N2oException();
         DataSet result = ((N2oGraphQlException) e).getResponse();
         StringBuilder builder = new StringBuilder();
@@ -35,7 +35,7 @@ public class TestOperationExceptionHandler implements OperationExceptionHandler 
     @Override
     public N2oException handle(CompiledObject.Operation o, DataSet data, Exception e) {
         if (e instanceof N2oGraphQlException)
-            return generateExceptionFromGraphQl(e);
+            return handleGraphQlException(e);
         N2oException exception = new N2oException();
         N2oDialog dialog = new N2oDialog("testDialog");
         dialog.setTitle("Registration accept");
