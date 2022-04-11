@@ -28,7 +28,6 @@ public class AlertMessageBuilder {
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.propertyResolver = propertyResolver;
-        this.devMode = initDevMode(propertyResolver);
     }
 
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver,
@@ -36,7 +35,6 @@ public class AlertMessageBuilder {
         this.messageSourceAccessor = messageSourceAccessor;
         this.propertyResolver = propertyResolver;
         this.showStacktrace = showStacktrace;
-        this.devMode = initDevMode(propertyResolver);
     }
 
     public ResponseMessage build(Exception e) {
@@ -68,9 +66,9 @@ public class AlertMessageBuilder {
         return message;
     }
 
-    private Boolean initDevMode(PropertyResolver propertyResolver) {
-        Boolean activeDevMod = propertyResolver != null ? propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class) : null;
-        return  activeDevMod != null && activeDevMod;
+    private void initDevMode(PropertyResolver propertyResolver) {
+        Boolean activeDevMode = propertyResolver != null ? propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class) : null;
+        this.devMode = activeDevMode != null && activeDevMode;
     }
 
     private SeverityType getExceptionSeverity(Exception e) {
@@ -78,6 +76,7 @@ public class AlertMessageBuilder {
     }
 
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
+        initDevMode(propertyResolver);
         resp.setText(buildText(e));
 
         if (showStacktrace && !(e instanceof N2oUserException))
