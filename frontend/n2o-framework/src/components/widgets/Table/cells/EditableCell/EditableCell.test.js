@@ -95,9 +95,6 @@ describe('Тесты EditableCell', () => {
             .find('input')
             .at(0)
             .simulate('change', { target: { value: 'Sergey' } })
-        expect(wrapper.state().prevModel).toEqual({
-            name: 'Ivan',
-        })
         expect(wrapper.state().model).toEqual({
             name: 'Sergey',
         })
