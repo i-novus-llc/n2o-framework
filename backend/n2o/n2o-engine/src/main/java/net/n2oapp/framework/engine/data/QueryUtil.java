@@ -2,9 +2,11 @@ package net.n2oapp.framework.engine.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Собирает данные для вызова InvocationEngine
@@ -78,5 +80,9 @@ public abstract class QueryUtil {
 
     public static String reduceSeparator(String a, String b, String separator) {
         return a + separator + b;
+    }
+
+    public static List<String> insertPrefixSuffix(Map<String, Object> args, String placeholder, String prefix, String suffix) {
+        return ((List<String>) args.get(placeholder)).stream().map(s -> prefix + s + suffix).collect(Collectors.toList());
     }
 }
