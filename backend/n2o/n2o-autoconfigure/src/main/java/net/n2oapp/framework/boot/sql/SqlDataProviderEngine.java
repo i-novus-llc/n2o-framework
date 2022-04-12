@@ -21,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -73,7 +74,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
             NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
             return executeQuery(args, query,
                     rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
-        } catch (Exception e) {
+        } catch (BadSqlGrammarException e) {
             log.error("Execution error with SQL query: " + query);
             throw new N2oQueryExecutionException(query);
         }
