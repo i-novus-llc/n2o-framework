@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -153,7 +154,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
                 default:
                     throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
             }
-        } catch (Exception e) {
+        } catch (RestClientResponseException e) {
             log.error("Execution error with REST query: " + query);
             throw new N2oQueryExecutionException(query);
         }
