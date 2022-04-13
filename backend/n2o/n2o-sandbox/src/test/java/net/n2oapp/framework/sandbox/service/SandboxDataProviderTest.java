@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox;
+package net.n2oapp.framework.sandbox.service;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.SneakyThrows;
@@ -7,14 +7,12 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
-import net.n2oapp.framework.sandbox.utils.ProjectUtil;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.apache.catalina.util.ParameterMap;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.util.StreamUtils;
 
-import javax.servlet.http.HttpSession;
 import java.nio.charset.Charset;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,7 +29,6 @@ import java.util.Map;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mockStatic;
 
 /**
  * Тест получения и установки значений провайдером данных
@@ -41,18 +37,16 @@ import static org.mockito.Mockito.mockStatic;
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 SandboxTestDataProviderEngine.class, XsdSchemaParser.class},
         properties = {"n2o.access.deny_objects=false"})
-@PropertySource("classpath:test.properties")
+@PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxDataProviderTest {
 
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
     private static final WireMockServer wireMockServer = new WireMockServer();
-    private static final MockedStatic<ProjectUtil> mockedUtil = mockStatic(ProjectUtil.class);
 
     @Autowired
     private ViewController viewController;
-    @Autowired
-    private HttpSession session;
+
 
     @BeforeAll
     static void setUp() {
@@ -67,7 +61,6 @@ public class SandboxDataProviderTest {
     @SneakyThrows
     @Test
     public void testGetData() {
-        mockedUtil.when(() -> ProjectUtil.getFromSession(session, "myProjectId")).thenReturn(null);
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
         stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
@@ -110,7 +103,6 @@ public class SandboxDataProviderTest {
     @SneakyThrows
     @Test
     public void testSetData() {
-        mockedUtil.when(() -> ProjectUtil.getFromSession(session, "myProjectId")).thenReturn(null);
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main/3/update/submit");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
         stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
