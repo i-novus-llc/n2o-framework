@@ -124,11 +124,11 @@ public class ViewController {
     private ObjectMapper objectMapper;
     private DomainProcessor domainProcessor;
 
-    public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers,
+    public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers, ObjectMapper objectMapper,
                           @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory(providers.orElse(Collections.emptyMap()));
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
         this.domainProcessor = new DomainProcessor(objectMapper);
     }
 
