@@ -6,7 +6,7 @@
     </list>
 
     <list result-mapping="['data.persons']">
-        <graphql filter-separator=" AND ">query persons(filter: { $$filters }) {id name age}</graphql>
+        <graphql filter-separator=" AND " filter-prefix="[" filter-suffix="]">query persons(filter: { $$filters }) {id name age}</graphql>
     </list>
 
     <fields>
