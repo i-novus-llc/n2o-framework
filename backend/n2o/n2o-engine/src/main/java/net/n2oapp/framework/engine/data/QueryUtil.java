@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Собирает данные для вызова InvocationEngine
@@ -78,5 +79,9 @@ public abstract class QueryUtil {
 
     public static String reduceSeparator(String a, String b, String separator) {
         return a + separator + b;
+    }
+
+    public static List<String> insertPrefixSuffix(List<String> args, String prefix, String suffix) {
+        return args.stream().map(s -> prefix + s + suffix).collect(Collectors.toList());
     }
 }

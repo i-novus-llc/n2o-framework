@@ -133,6 +133,11 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         query = replaceListPlaceholder(query, "$$select", args.remove("select"), "", QueryUtil::reduceSpace);
         if (args.get("sorting") != null) {
+            String sortingPrefix = invocation.getSortingPrefix() == null ? defaultSortingPrefix : invocation.getSortingPrefix();
+            String sortingSuffix = invocation.getSortingSuffix() == null ? defaultSortingSuffix : invocation.getSortingSuffix();
+            String prefix = Objects.requireNonNullElse(sortingPrefix, "");
+            String suffix = Objects.requireNonNullElse(sortingSuffix, "");
+            args.put("sorting", QueryUtil.insertPrefixSuffix((List<String>) args.get("sorting"), prefix, suffix));
             String sortingSeparator = Objects.requireNonNullElse(invocation.getSortingSeparator(), defaultSortingSeparator);
             query = replaceListPlaceholder(query, "$$sorting", args.remove("sorting"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, sortingSeparator));
@@ -143,6 +148,11 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             query = replacePlaceholder(query, "$$size", args.remove("limit"), "10");
         query = replacePlaceholder(query, "$$offset", args.remove("offset"), "0");
         if (args.get("filters") != null) {
+            String filterPrefix = invocation.getFilterPrefix() == null ? defaultFilterPrefix : invocation.getFilterPrefix();
+            String filterSuffix = invocation.getFilterSuffix() == null ? defaultFilterSuffix : invocation.getFilterSuffix();
+            String prefix = Objects.requireNonNullElse(filterPrefix, "");
+            String suffix = Objects.requireNonNullElse(filterSuffix, "");
+            args.put("filters", QueryUtil.insertPrefixSuffix((List<String>) args.get("filters"), prefix, suffix));
             String filterSeparator = Objects.requireNonNullElse(invocation.getFilterSeparator(), defaultFilterSeparator);
             query = replaceListPlaceholder(query, "$$filters", args.remove("filters"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
