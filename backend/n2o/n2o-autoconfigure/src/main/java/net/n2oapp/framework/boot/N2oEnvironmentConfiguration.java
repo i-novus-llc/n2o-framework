@@ -367,6 +367,12 @@ public class N2oEnvironmentConfiguration {
 
         @Bean
         @ConditionalOnMissingBean
+        PersistOperation persistOperation(NamespacePersisterFactory namespacePersisterFactory) {
+            return new PersistOperation(namespacePersisterFactory);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
         CopyOperation cloneOperation() {
             return new CopyOperation();
         }
