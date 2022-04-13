@@ -26,9 +26,9 @@ services:
   n2o-sandbox:
     image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
     environment:
-      SANDBOX_API_URL: http://sandbox:8080
+      SANDBOX_API_URL: http://sandbox:8080/sandbox/api
     ports:
-      - "8090"
+      - "8080"
     deploy:
       resources:
         limits:
