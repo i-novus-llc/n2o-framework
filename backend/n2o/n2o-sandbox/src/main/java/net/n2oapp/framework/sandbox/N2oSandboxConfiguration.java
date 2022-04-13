@@ -39,8 +39,6 @@ import java.util.Map;
 @EnableJpaRepositories
 @EnableAutoConfiguration
 @EnableCaching
-@ComponentScan(basePackages = {"net.n2oapp.framework.api", "net.n2oapp.framework.ui", "net.n2oapp.framework.sandbox"}, lazyInit = true)
-@PropertySource("classpath:sandbox.properties")
 public class N2oSandboxConfiguration {
 
     @Bean
