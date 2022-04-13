@@ -21,14 +21,14 @@ public class N2oTestApplication {
     }
 
     @Bean
-    @Primary
-    public OperationExceptionHandler operationExceptionHandler() {
-        return new TestOperationExceptionHandler();
+    public ProcessEngine processEngine() {
+        return null;
     }
 
     @Bean
-    public ProcessEngine processEngine() {
-        return null;
+    @Primary
+    public OperationExceptionHandler testOperationExceptionHandler() {
+        return new TestOperationExceptionHandler();
     }
 
 }
