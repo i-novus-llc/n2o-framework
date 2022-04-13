@@ -2,7 +2,6 @@ package net.n2oapp.framework.engine.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -82,7 +81,7 @@ public abstract class QueryUtil {
         return a + separator + b;
     }
 
-    public static List<String> insertPrefixSuffix(Map<String, Object> args, String placeholder, String prefix, String suffix) {
-        return ((List<String>) args.get(placeholder)).stream().map(s -> prefix + s + suffix).collect(Collectors.toList());
+    public static List<String> insertPrefixSuffix(List<String> args, String prefix, String suffix) {
+        return args.stream().map(s -> prefix + s + suffix).collect(Collectors.toList());
     }
 }
