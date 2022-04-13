@@ -97,7 +97,7 @@
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
             <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="required">
+        <xs:attribute name="id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля</xs:documentation>
             </xs:annotation>

@@ -30,6 +30,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
@@ -83,7 +84,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         compileComponent(field, source, context, p);
 
-        field.setId(source.getId());
+        IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope(1);
+        if (source.getId() == null)
+            field.setId(Integer.toString(idx.get()));
+        else
+            field.setId(source.getId());
+
         field.setLabel(initLabel(source, p));
         field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
                 p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
