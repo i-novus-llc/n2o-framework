@@ -1087,11 +1087,6 @@
         <xs:annotation>
             <xs:documentation>Cтатус.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="id" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Идентификатор поля</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация статуса.</xs:documentation>
