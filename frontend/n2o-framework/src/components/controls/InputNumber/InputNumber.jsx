@@ -139,6 +139,14 @@ export class InputNumber extends React.Component {
         const currentValue = toNumber(formatToFloat(val, this.stepPrecition))
         let newValue = currentValue
 
+        if (value === null || value === '') {
+            let closestToZero = 0
+
+            if (max < 0) { closestToZero = max } else if (min > 0) { closestToZero = min }
+
+            this.setState({ value: closestToZero }, () => onChange(closestToZero))
+        }
+
         if (type === 'up') {
             newValue = currentValue + delta
         } else if (type === 'down') {
@@ -152,10 +160,6 @@ export class InputNumber extends React.Component {
                 onChange(newValue)
                 onBlur(newValue)
             })
-        }
-
-        if ((value === null || value === '') && min) {
-            this.setState({ value: min }, () => onChange(min))
         }
     }
 
