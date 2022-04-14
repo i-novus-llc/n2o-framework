@@ -837,14 +837,14 @@
     <xs:complexType name="controlAlertDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор поля</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Текст заголовка уведомления.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор поля</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text" type="xs:string">
@@ -1360,6 +1360,11 @@
                 <xs:annotation>
                     <xs:documentation>Компонент отображения статуса.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор поля</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="color" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Цвет индикатора.</xs:documentation>
