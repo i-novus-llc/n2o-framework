@@ -97,7 +97,7 @@
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
             <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:string">
+        <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля</xs:documentation>
             </xs:annotation>
@@ -797,6 +797,11 @@
     <xs:complexType name="controlText">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентафикатор поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="format" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Формат текста.</xs:documentation>
@@ -835,6 +840,11 @@
                 <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Текст заголовка уведомления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор поля</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text" type="xs:string">
@@ -1085,6 +1095,11 @@
         <xs:annotation>
             <xs:documentation>Cтатус.</xs:documentation>
         </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация статуса.</xs:documentation>

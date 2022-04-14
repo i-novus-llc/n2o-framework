@@ -84,12 +84,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         compileComponent(field, source, context, p);
 
-        IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope(1);
-        if (source.getId() == null)
-            field.setId(Integer.toString(idx.get()));
-        else
-            field.setId(source.getId());
-
+        IndexScope idx = p.getScope(IndexScope.class);
+        field.setId(p.cast(source.getId(), "f" + Integer.toString(idx.get())));
         field.setLabel(initLabel(source, p));
         field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
                 p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
