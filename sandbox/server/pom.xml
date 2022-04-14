@@ -110,6 +110,14 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <!-- for getting project.version in application code -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>
