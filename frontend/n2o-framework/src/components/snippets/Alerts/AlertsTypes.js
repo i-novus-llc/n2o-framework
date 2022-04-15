@@ -75,4 +75,8 @@ export const AlertTypes = {
      * custom onClose заменяет onDismiss
      */
     onClose: PropTypes.func,
+    /**
+     * флаг для AlertField
+     */
+    isField: PropTypes.bool,
 }
