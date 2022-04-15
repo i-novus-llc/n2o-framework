@@ -50,7 +50,6 @@ export function AlertField({
             onClose={closeButton && onClose}
             closeButton={closeButton}
             href={href}
-            isField
         />
     )
 }

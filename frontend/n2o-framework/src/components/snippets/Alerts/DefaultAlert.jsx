@@ -21,7 +21,6 @@ export const DefaultAlert = ({
     stacktraceVisible,
     togglingStacktrace,
     onClose = null,
-    isField = false,
 }) => {
     const color = propsColor || 'secondary'
 
@@ -41,12 +40,7 @@ export const DefaultAlert = ({
         togglingStacktrace()
     }
 
-    const currentTitle = isField ? (title || text) : title
-    const currentText = (isField && !title) ? null : text
-
-    const titleSegmentClassName = title ? 'n2o-alert-segment__title' : 'n2o-alert-segment__text'
-
-    const needToDivide = (currentTitle && currentText) || !!(currentText && (timestamp || closeButton))
+    const needToDivide = !!(text && title)
 
     /* this is necessary for custom text colors or font-sizes */
     const getSectionStyle = (style) => {
@@ -80,17 +74,23 @@ export const DefaultAlert = ({
                 )}
             >
                 <AlertSection
-                    text={currentTitle}
+                    text={title || text}
                     timestamp={timestamp}
                     closeButton={closeButton}
                     onClick={batchedActionToClose}
-                    textClassName={titleSegmentClassName}
+                    textClassName={classNames(
+                        {
+                            'n2o-alert-segment__title': !!title,
+                        },
+                    )}
                     style={getSectionStyle(style)}
                 />
                 {
                     needToDivide && <hr className="w-100 n2o-alert__divider" />
                 }
-                <AlertSection text={currentText} textClassName="n2o-alert-segment__text" />
+                {
+                    !!title && <AlertSection text={text} textClassName="n2o-alert-segment__text" />
+                }
                 <AlertSection
                     onClick={batchedActionToToggling}
                     stacktraceVisible={stacktraceVisible}
