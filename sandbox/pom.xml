@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.n2oapp.framework</groupId>
+        <artifactId>framework</artifactId>
+        <version>7.23.0-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <artifactId>sandbox</artifactId>
+    <packaging>pom</packaging>
+    <version>7.23.0-SNAPSHOT</version>
+
+
+    <modules>
+        <module>server</module>
+    </modules>
+
+    <properties>
+        <java.version>11</java.version>
+        <junit-jupiter.version>5.6.0</junit-jupiter.version>
+        <maven.failsafe.version>2.22.2</maven.failsafe.version>
+        <allure-junit5.version>2.13.3</allure-junit5.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-spring-boot-starter</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-rest</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-web</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-access</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.n2oapp.framework</groupId>
+                <artifactId>n2o-autotest</artifactId>
+                <version>${n2o.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-junit5</artifactId>
+                <version>${allure-junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-selenide</artifactId>
+                <version>${allure-junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
