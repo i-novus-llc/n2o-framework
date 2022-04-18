@@ -779,7 +779,7 @@
         <xs:attribute name="url" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>
-                    Путь к html файлу. Если не задан, необходимо задать содержимое в теле.
+                    URL адрес HTML страницы. Если не задан, необходимо задать содержимое в теле.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
