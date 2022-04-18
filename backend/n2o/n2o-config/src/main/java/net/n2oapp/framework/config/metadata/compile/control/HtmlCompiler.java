@@ -28,6 +28,8 @@ public class HtmlCompiler extends FieldCompiler<Html, N2oHtml> {
     public Html compile(N2oHtml source, CompileContext<?, ?> context, CompileProcessor p) {
         Html htmlControl = new Html();
         htmlControl.setHtml(source.getHtml());
+        initDefaults(source, context, p);
+        compileField(htmlControl, source, context, p);
         return htmlControl;
     }
 }
