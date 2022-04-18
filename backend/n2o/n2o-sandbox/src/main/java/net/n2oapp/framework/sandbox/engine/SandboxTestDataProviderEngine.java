@@ -10,9 +10,11 @@ import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -50,13 +52,16 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
 
     @Override
     protected InputStream getResourceInputStream(N2oTestDataProvider invocation) throws IOException {
-        ClassPathResource classPathResource = new ClassPathResource(invocation.getFile());
-        if (classPathResource.exists()) {
-            return classPathResource.getInputStream();
+        try {
+            String projectId = ThreadLocalProjectId.getProjectId();
+            return new ByteArrayInputStream(restClient.getFile(projectId, invocation.getFile(), session).getBytes());
+        } catch (HttpClientErrorException.NotFound e) {
+            ClassPathResource classPathResource = new ClassPathResource(invocation.getFile());
+            if (classPathResource.exists()) {
+                return classPathResource.getInputStream();
+            }
+            throw new FileNotFoundException(invocation.getFile());
         }
-        String projectId = ThreadLocalProjectId.getProjectId();
-        return new ByteArrayInputStream(restClient.getFile(projectId, invocation.getFile(), session).getBytes());
-
     }
 
     @Override
