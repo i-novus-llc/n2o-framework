@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.openjdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +39,7 @@ public class HtmlAT extends AutoTestBase {
 
     //TODO: Пофиксить после изменений на фронте
     @Test
-    @Ignore
+    @Disabled
     public void testHtml() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
