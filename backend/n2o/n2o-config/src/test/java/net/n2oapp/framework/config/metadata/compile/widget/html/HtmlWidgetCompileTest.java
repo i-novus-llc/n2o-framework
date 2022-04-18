@@ -42,4 +42,12 @@ public class HtmlWidgetCompileTest extends SourceCompileTestBase {
         HtmlWidget htmlWidget = (HtmlWidget) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(htmlWidget.getId(), is("testHtmlWidget4Compile_w1"));
     }
+
+    @Test
+    public void testCompileContent() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testHtmlWidgetContentCompile.page.xml")
+                .get(new PageContext("testHtmlWidgetContentCompile"));
+        HtmlWidget htmlWidget = (HtmlWidget) page.getRegions().get("single").get(0).getContent().get(0);
+        assertThat(htmlWidget.getHtml(), is("<div class='test'><p>Hello</p></div>"));
+    }
 }
