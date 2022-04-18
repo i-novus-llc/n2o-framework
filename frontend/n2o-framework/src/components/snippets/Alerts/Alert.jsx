@@ -100,7 +100,7 @@ Alert.defaultProps = {
     title: '',
     color: 'danger',
     details: '',
-    closeButton: true,
+    closeButton: false,
     visible: true,
     onDismiss: () => {},
     stopRemoving: () => {},

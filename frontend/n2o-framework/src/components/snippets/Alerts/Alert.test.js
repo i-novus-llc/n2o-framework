@@ -27,7 +27,7 @@ describe('<Alert />', () => {
 
     it('проверяет выполнение onDismiss при закрытии', () => {
         const onDismiss = sinon.spy()
-        const { wrapper } = setup({ onDismiss, visible: true })
+        const { wrapper } = setup({ onDismiss, visible: true, closeButton: true })
         wrapper.find('.n2o-alert-segment__icon-close').simulate('click')
         expect(onDismiss.calledOnce).toEqual(true)
     })

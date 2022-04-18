@@ -3,11 +3,8 @@ package net.n2oapp.framework.boot.graphql;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
-import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphQlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -76,7 +73,10 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
-        return restTemplate.postForObject(endpoint, entity, DataSet.class);
+        DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
+        if (result.get(RESPONSE_ERROR_KEY) != null)
+            throw new N2oGraphQlException(result);
+        return result;
     }
 
     /**
@@ -100,7 +100,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private String prepareQuery(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
         if (invocation.getQuery() == null)
-            throw new N2oGraphQlException("Строка GraphQl запроса не задана");
+            throw new N2oException("Строка GraphQl запроса не задана");
         return resolvePlaceholders(invocation, data);
     }
 
@@ -179,7 +179,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         for (String variable : variables) {
             if (!data.containsKey(variable))
-                throw new N2oGraphQlException(String.format("Значение переменной '%s' не задано", variable));
+                throw new N2oException(String.format("Значение переменной '%s' не задано", variable));
             result.add(variable, data.get(variable));
         }
         return result;

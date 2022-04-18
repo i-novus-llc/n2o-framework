@@ -66,7 +66,7 @@ public class N2oMetadataPersisterFactory
 
     private synchronized void initFactory() {
         if (engines == null) {
-            Map<String, Map<Class, NamespacePersister<NamespaceUriAware>>> result = new HashMap<>();
+            engines = new HashMap<>();
             Collection<NamespacePersister> beans = new ArrayList<>(context.getBeansOfType(NamespacePersister.class).values());
             if (processor != null) {
                 for (NamespaceIO ioBean : context.getBeansOfType(NamespaceIO.class).values()) {
@@ -82,7 +82,6 @@ public class N2oMetadataPersisterFactory
                     engines.put(b.getNamespaceUri(), typedEngines);
                 }
             });
-            engines = result;
         }
     }
 

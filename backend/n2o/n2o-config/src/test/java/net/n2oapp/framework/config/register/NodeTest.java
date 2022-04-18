@@ -17,7 +17,7 @@ public class NodeTest {
     public void testCalculateLocalPathByLocationPattern() throws Exception {
 
         String folderPath =
-                "classpath*:META-INF/conf/**/*.xml";
+                "classpath*:META-INF//conf/**/*.xml";
         String absolutePath =
                 "jar:file:/C:/n2o-bundle/target/n2o-bundle-1.0-SNAPSHOT/WEB-INF/lib/n2o-config.jar!/META-INF/conf/header/default.application.xml";
         String localPath

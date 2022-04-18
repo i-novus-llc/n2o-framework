@@ -1,0 +1,11 @@
+{
+  "user": {
+    "username": "#{username}",
+    "email":"#{email}",
+    "name":"#{name}",
+    "surname":"#{surname}",
+    "roles": "#{roles}",
+    "permissions": "#{permissions}"
+  },
+  "locale": "${n2o.i18n.default-locale}"
+}
