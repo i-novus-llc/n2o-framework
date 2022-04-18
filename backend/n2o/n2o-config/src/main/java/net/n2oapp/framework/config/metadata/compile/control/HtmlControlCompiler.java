@@ -28,6 +28,7 @@ public class HtmlControlCompiler extends StandardFieldCompiler<HtmlControl, N2oH
     @Override
     public StandardField<HtmlControl> compile(N2oHtml source, CompileContext<?, ?> context, CompileProcessor p) {
         HtmlControl htmlControl = new HtmlControl();
+        htmlControl.setHtml(source.getHtml());
         return compileStandardField(htmlControl, source, context, p);
     }
 }

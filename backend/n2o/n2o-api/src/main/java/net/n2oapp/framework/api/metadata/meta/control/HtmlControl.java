@@ -9,4 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HtmlControl extends Control {
+    private String html;
 }
