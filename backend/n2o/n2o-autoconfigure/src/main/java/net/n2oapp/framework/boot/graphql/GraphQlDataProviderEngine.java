@@ -3,8 +3,11 @@ package net.n2oapp.framework.boot.graphql;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphQlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +31,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private static final Logger log = LoggerFactory.getLogger(GraphQlDataProviderEngine.class);
     private static final String DEFAULT_FILTER_SEPARATOR = " and ";
     private static final String DEFAULT_SORTING_SEPARATOR = ", ";
-    private static final String ERROR_MAPPING = "errors";
+    private static final String RESPONSE_ERROR_KEY = "errors";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
 
@@ -47,13 +50,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
     @Override
     public Object invoke(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
-        String query = prepareQuery(invocation, data);
-        DataSet result = execute(invocation, query, data);
-        if (result.containsKey(ERROR_MAPPING)) {
-            log.error("Execution error with GraphQL query: " + query);
-            throw new N2oQueryExecutionException(query);
-        }
-        return result;
+        return execute(invocation, prepareQuery(invocation, data), data);
     }
 
     /**
@@ -75,7 +72,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
         if (result.get(RESPONSE_ERROR_KEY) != null)
-            throw new N2oGraphQlException(result);
+            throw new N2oGraphQlException(query, result);
         return result;
     }
 
