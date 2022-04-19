@@ -264,6 +264,10 @@ public class N2oEnvironment implements MetadataEnvironment {
         return componentTypeRegister;
     }
 
+    public void setComponentTypeRegister(ComponentTypeRegister componentTypeRegister) {
+        this.componentTypeRegister = componentTypeRegister;
+    }
+
     public void setSourceTypeRegister(SourceTypeRegister sourceTypeRegister) {
         this.sourceTypeRegister = sourceTypeRegister;
     }
