@@ -5,8 +5,8 @@ import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
@@ -80,6 +81,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private ActionsBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
+    @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
     private N2oDependency[] dependencies;
 

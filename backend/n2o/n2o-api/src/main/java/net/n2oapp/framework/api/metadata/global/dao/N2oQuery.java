@@ -182,7 +182,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         }
 
         public Boolean getHasSorting() {
-            return !noSorting;
+            return noSorting == null ? null : !noSorting;
         }
 
         public void setHasSorting(Boolean hasSorting) {
@@ -190,7 +190,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         }
 
         public Boolean getHasSelect() {
-            return !noDisplay;
+            return noDisplay == null ? null : !noDisplay;
         }
 
         public void setHasSelect(Boolean hasDisplay) {
@@ -198,7 +198,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         }
 
         public Boolean getHasJoin() {
-            return !noJoin;
+            return noJoin == null ? null : !noJoin;
         }
 
         public void setHasJoin(Boolean hasJoin) {

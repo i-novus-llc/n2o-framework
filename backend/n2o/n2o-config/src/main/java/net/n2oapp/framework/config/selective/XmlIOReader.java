@@ -13,6 +13,7 @@ import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.ElementNameQualifier;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.jdom2.Element;
+import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +21,9 @@ import org.slf4j.LoggerFactory;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
-import static net.n2oapp.framework.config.util.XmlUtil.N2O_FORMAT;
-
 
 /**
- * @author operehod
- * @since 22.04.2015
+ * Чтение XML файлов через сервисы чтения/записи
  */
 public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder<XmlIOReader> {
 
@@ -49,7 +47,7 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
         }
     };
 
-    private static final XMLOutputter XML_OUTPUTTER = new XMLOutputter(N2O_FORMAT);
+    private static final XMLOutputter XML_OUTPUTTER = new XMLOutputter(Format.getPrettyFormat());
     private PersisterFactoryByMap persisterFactory;
     private IOProcessor persisterProcessor;
 

@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -63,6 +64,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private ObjectSimpleField[] failOutFields;
 
         private Validations validations;
+        @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
         @Override

@@ -2,8 +2,10 @@ package net.n2oapp.framework.config;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
+import net.n2oapp.framework.api.metadata.jackson.ComponentType;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.pipeline.*;
@@ -23,18 +25,17 @@ import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.PropertyResolver;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.lang.reflect.Modifier;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * Конструктор окружения {@link N2oEnvironment} и конвеера сборки метаданных {@link ReadPipeline}
+ * Конструктор окружения {@link N2oEnvironment} и конвейера сборки метаданных {@link ReadPipeline}
  */
 public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder>, PipelineSupport {
     private static final Logger logger = LoggerFactory.getLogger(N2oApplicationBuilder.class);
@@ -214,6 +215,15 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
     }
 
     /**
+     * Добавить классы как отмеченные {link net.n2oapp.framework.api.metadata.global.util.ComponentType}
+     */
+    @SafeVarargs
+    public final N2oApplicationBuilder componentTypes(Class<? extends Source>... classes) {
+        Stream.of(classes).forEach(this::addComponentType);
+        return this;
+    }
+
+    /**
      * Запустить сканирование метаданных
      */
     public N2oApplicationBuilder scan() {
@@ -222,6 +232,21 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         environment.getMetadataRegister().addAll(sources);
         logger.info("Scanned " + sources.size() + " metadata");
         return this;
+    }
+
+    /**
+     * Запустить сканирование типов метаданных
+     * @param packageName Пакет для сканирования
+     */
+    @SuppressWarnings("unchecked")
+    public void scanComponentTypes(String packageName) {
+        Reflections reflections = new Reflections(packageName);
+        Set<Class<?>> set = reflections.getTypesAnnotatedWith(ComponentType.class);
+        set.forEach(clazz -> {
+            Set<Class<?>> subTypesOf = reflections.getSubTypesOf((Class<Object>) clazz);
+            subTypesOf.stream().filter(cl -> !Modifier.isAbstract(cl.getModifiers()))
+                    .forEach(cl -> addComponentType((Class<? extends Source>) cl));
+        });
     }
 
     /**
@@ -269,6 +294,15 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
     }
 
     /**
+     * Запустить конвейер десериализации метаданных
+     */
+    @Override
+    public DeserializeTerminalPipeline<DeserializePersistTerminalPipeline> deserialize() {
+        build();
+        return N2oPipelineSupport.deserializePipeline(environment).deserialize();
+    }
+
+    /**
      * Найти контекст метаданной по маршруту
      *
      * @param url           Адрес маршрута
@@ -307,5 +341,14 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         AwareFactorySupport.enrich(environment.getMetadataBinderFactory(), environment);
         AwareFactorySupport.enrich(environment.getPipelineOperationFactory(), environment);
         return this;
+    }
+
+    private void addComponentType(Class<? extends Source> clazz) {
+        if (clazz.isAnnotationPresent(ComponentType.class)) {
+            ComponentType annotation = clazz.getAnnotation(ComponentType.class);
+            environment.getComponentTypeRegister().add(annotation.value(), clazz);
+        } else {
+            environment.getComponentTypeRegister().add(clazz.getSimpleName(), clazz);
+        }
     }
 }

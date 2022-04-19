@@ -1,5 +1,9 @@
 package net.n2oapp.framework.config.compile.pipeline;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.cache.template.CacheCallback;
 import net.n2oapp.cache.template.CacheTemplate;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -8,14 +12,16 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
+import net.n2oapp.framework.api.metadata.jackson.ComponentTypeResolver;
+import net.n2oapp.framework.api.metadata.jackson.SingletonTypeIdHandlerInstantiator;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.api.register.ComponentTypeRegister;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
 import net.n2oapp.framework.config.factory.MockMetadataFactory;
@@ -30,6 +36,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -42,12 +49,13 @@ import static org.mockito.Mockito.*;
 
 
 /**
- * Тест конвеера сборки метаданных ({@link N2oPipelineSupport})
+ * Тест конвейера сборки метаданных ({@link N2oPipelineSupport})
  */
 public class N2oPipelineTest {
 
     private N2oEnvironment env;
     private MetadataRegister metadataRegister;
+    private ComponentTypeRegister componentTypeRegister;
     private N2oSourceLoaderFactory readerFactory;
     private CacheTemplate sourceCacheTemplate;
     private CacheTemplate compileCacheTemplate;
@@ -59,6 +67,9 @@ public class N2oPipelineTest {
         compileCacheTemplate = new MockCompiledCacheTemplate();
 
         env = mock(N2oEnvironment.class);
+        componentTypeRegister = mock(ComponentTypeRegister.class);
+        ObjectMapper mapper = getSerializeObjectMapper(componentTypeRegister);
+        when(env.getSerializeObjectMapper()).thenReturn(mapper);
         metadataRegister = mock(MetadataRegister.class);
         when(env.getMetadataRegister()).thenReturn(metadataRegister);
         readerFactory = mock(N2oSourceLoaderFactory.class);
@@ -116,6 +127,13 @@ public class N2oPipelineTest {
             Assert.fail();
         } catch (N2oMetadataValidationException e) {
         }
+
+        // read + serialize + deserialize
+        doReturn(N2oSimplePage.class).when(componentTypeRegister).getByType("N2oSimplePage");
+        doReturn("N2oSimplePage").when(componentTypeRegister).getByClass(N2oSimplePage.class);
+        InputStream pageJsonInputStream = N2oPipelineSupport.readPipeline(env).read().serialize().get("pageId", N2oSimplePage.class);
+        N2oSimplePage deserializedPage = N2oPipelineSupport.deserializePipeline(env).deserialize().get(pageJsonInputStream, N2oSimplePage.class);
+        assertThat(source.getName(), is(deserializedPage.getName()));
 
         // read + cache
         ReadTerminalPipeline<ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>> readPipeline = N2oPipelineSupport.readPipeline(env).read().cache();
@@ -252,6 +270,19 @@ public class N2oPipelineTest {
         assertThat(xml, containsString("<test xmlns=\"test-namespace\" />"));
     }
 
+    @Test
+    public void deserializePipeline() throws IOException {
+        doReturn(N2oSimplePage.class).when(componentTypeRegister).getByType("N2oSimplePage");
+        doReturn("N2oSimplePage").when(componentTypeRegister).getByClass(N2oSimplePage.class);
+
+        //deserialize
+        String json = "{\"componentType\":\"N2oSimplePage\",\"namespaceUri\":\"http://n2oapp.net/framework/config/schema/page-3.0\",\"id\":\"index\",\"name\":\"Форма\"}";
+        N2oSimplePage page = N2oPipelineSupport.deserializePipeline(env).deserialize()
+                .get(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)), N2oSimplePage.class);
+        assertThat(page.getId(), is("index"));
+        assertThat(page.getName(), is("Форма"));
+    }
+
     private N2oSimplePage createSource() {
         N2oSimplePage sourcePage;
         sourcePage = new N2oSimplePage();
@@ -266,6 +297,20 @@ public class N2oPipelineTest {
         page = new Page();
         page.getPageProperty().setTitle("test");
         return page;
+    }
+
+    private ObjectMapper getSerializeObjectMapper(ComponentTypeRegister componentTypeRegister) {
+        SingletonTypeIdHandlerInstantiator instantiator = new SingletonTypeIdHandlerInstantiator();
+        ComponentTypeResolver typeIdResolver = new ComponentTypeResolver();
+        typeIdResolver.setRegister(componentTypeRegister);
+        instantiator.addTypeIdResolver(ComponentTypeResolver.class, typeIdResolver);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        mapper.setHandlerInstantiator(instantiator);
+        return mapper;
     }
 
 
@@ -375,7 +420,9 @@ public class N2oPipelineTest {
                     new CompileCacheOperation<>(compileCacheTemplate),
                     new CompileOperation<>(env.getSourceCompilerFactory()),
                     new BindOperation<>(env.getMetadataBinderFactory()),
-                    new PersistOperation<>(env.getNamespacePersisterFactory()));
+                    new PersistOperation<>(env.getNamespacePersisterFactory()),
+                    new SerializeOperation(env.getSerializeObjectMapper()),
+                    new DeserializeOperation(env.getSerializeObjectMapper()));
         }
     }
 

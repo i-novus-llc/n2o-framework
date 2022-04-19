@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.Arrays;
@@ -34,6 +35,7 @@ public class N2oTabsRegion extends N2oRegion implements RegionItem {
         private String id;
         private String name;
         private SourceComponent[] content;
+        @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
         @Override

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.run;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.security.auth.UserPrincipal;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.autotest.websocket.WebSocketMessageController;
@@ -10,10 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.http.server.ServerHttpRequest;
@@ -44,6 +42,12 @@ public class AutoTestApplication {
     AlertMessageBuilder messageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
                                        PropertyResolver propertyResolver) {
         return new AlertMessageBuilder(messageSourceAccessor, propertyResolver);
+    }
+
+    @Bean
+    @Primary
+    ObjectMapper objectMapper() {
+        return ObjectMapperConstructor.metaObjectMapper();
     }
 
     @Configuration

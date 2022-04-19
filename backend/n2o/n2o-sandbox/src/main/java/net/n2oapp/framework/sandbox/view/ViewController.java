@@ -89,7 +89,7 @@ import static net.n2oapp.framework.sandbox.utils.ProjectUtil.findFilesByUri;
 public class ViewController {
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
 
-    @Value("${project.version:unknown}")
+    @Value("${n2o.version:unknown}")
     private String n2oVersion;
     @Value("${n2o.config.path}")
     private String basePath;
@@ -124,11 +124,11 @@ public class ViewController {
     private ObjectMapper objectMapper;
     private DomainProcessor domainProcessor;
 
-    public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers,
+    public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers, ObjectMapper objectMapper,
                           @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory(providers.orElse(Collections.emptyMap()));
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
         this.domainProcessor = new DomainProcessor(objectMapper);
     }
 
@@ -138,6 +138,7 @@ public class ViewController {
         return n2oVersion;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/n2o/templates/{fileName}")
     public String getTemplateFile(@PathVariable String fileName) {
         return getTemplate(fileName);
@@ -222,6 +223,7 @@ public class ViewController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> putData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
@@ -229,6 +231,7 @@ public class ViewController {
         return setData(projectId, body, request, session);
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> deleteData(@PathVariable(value = "projectId") String projectId,
                                                       @RequestBody Object body,
@@ -236,6 +239,7 @@ public class ViewController {
         return setData(projectId, body, request, session);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> setData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,

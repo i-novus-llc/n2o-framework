@@ -1,8 +1,7 @@
 package net.n2oapp.framework.config;
 
-import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
@@ -14,6 +13,8 @@ import net.n2oapp.framework.config.register.scanner.MockInfoScanner;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.io.InputStream;
 
 public class N2oApplicationBuilderTest {
     @Test
@@ -32,10 +33,11 @@ public class N2oApplicationBuilderTest {
                 .compile()
                 .bind();
 
-        new N2oApplicationBuilder().compile().copy().cache().bind();
-//        new N2oApplicationBuilder().read().cache().validate().persist().set(null);
-//        new N2oApplicationBuilder().read().merge().get()
-
-        Page page = pipeline.get(new PageContext("test"), new DataSet());
+        Compiled compiled = new N2oApplicationBuilder().compile().copy().cache().bind().get(null, null, null);
+        InputStream json = new N2oApplicationBuilder().read().cache().validate().serialize().get("test", N2oPage.class);
+        N2oPage source = new N2oApplicationBuilder().read().merge().get("test", N2oPage.class);
+        InputStream xml = new N2oApplicationBuilder().read().transform().persist().get("test", N2oPage.class);
+        N2oPage source2 = new N2oApplicationBuilder().deserialize().validate().get(null, N2oPage.class);
+        InputStream xml2 = new N2oApplicationBuilder().deserialize().persist().get(json, N2oPage.class);
     }
 }

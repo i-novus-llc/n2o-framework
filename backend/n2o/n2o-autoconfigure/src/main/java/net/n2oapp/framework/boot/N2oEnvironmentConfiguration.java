@@ -1,5 +1,8 @@
 package net.n2oapp.framework.boot;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.cache.template.SyncCacheTemplate;
 import net.n2oapp.framework.api.MetadataEnvironment;
@@ -14,6 +17,8 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.jackson.ComponentTypeResolver;
+import net.n2oapp.framework.api.metadata.jackson.SingletonTypeIdHandlerInstantiator;
 import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
@@ -41,6 +46,7 @@ import net.n2oapp.framework.config.reader.N2oNamespaceReaderFactory;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.ConfigRepository;
+import net.n2oapp.framework.config.register.N2oComponentTypeRegister;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
@@ -86,6 +92,40 @@ public class N2oEnvironmentConfiguration {
     @ConditionalOnMissingBean
     public MetadataRegister metadataRegister() {
         return new N2oMetadataRegister();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ComponentTypeRegister componentTypeRegister() {
+        return new N2oComponentTypeRegister();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ComponentTypeResolver typeIdResolver(ComponentTypeRegister componentTypeRegister) {
+        ComponentTypeResolver typeIdResolver = new ComponentTypeResolver();
+        typeIdResolver.setRegister(componentTypeRegister);
+        return typeIdResolver;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SingletonTypeIdHandlerInstantiator singletonTypeIdHandlerInstantiator(ComponentTypeResolver typeIdResolver) {
+        SingletonTypeIdHandlerInstantiator instantiator = new SingletonTypeIdHandlerInstantiator();
+        instantiator.addTypeIdResolver(ComponentTypeResolver.class, typeIdResolver);
+        return instantiator;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ObjectMapper serializeObjectMapper(SingletonTypeIdHandlerInstantiator instantiator) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        mapper.setHandlerInstantiator(instantiator);
+        return mapper;
     }
 
     @Bean
@@ -137,7 +177,8 @@ public class N2oEnvironmentConfiguration {
                                               PipelineOperationFactory pipelineOperationFactory,
                                               DynamicMetadataProviderFactory dynamicMetadataProviderFactory,
                                               ExtensionAttributeMapperFactory extensionAttributeMapperFactory,
-                                              ButtonGeneratorFactory buttonGeneratorFactory) {
+                                              ButtonGeneratorFactory buttonGeneratorFactory,
+                                              @Qualifier("serializeObjectMapper") ObjectMapper serializeObjectMapper) {
         ((CrudGenerator) generators.get("crudGenerator")).setButtonGeneratorFactory(buttonGeneratorFactory);
         N2oEnvironment environment = new N2oEnvironment();
         environment.setSystemProperties(properties);
@@ -163,6 +204,7 @@ public class N2oEnvironmentConfiguration {
         environment.setContextProcessor(contextProcessor);
         environment.setExtensionAttributeMapperFactory(extensionAttributeMapperFactory);
         environment.setButtonGeneratorFactory(buttonGeneratorFactory);
+        environment.setSerializeObjectMapper(serializeObjectMapper);
         return environment;
     }
 
@@ -325,8 +367,26 @@ public class N2oEnvironmentConfiguration {
 
         @Bean
         @ConditionalOnMissingBean
+        PersistOperation persistOperation(NamespacePersisterFactory namespacePersisterFactory) {
+            return new PersistOperation(namespacePersisterFactory);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
         CopyOperation cloneOperation() {
             return new CopyOperation();
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        SerializeOperation serializeOperation(@Qualifier("serializeObjectMapper") ObjectMapper serializeObjectMapper) {
+            return new SerializeOperation(serializeObjectMapper);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        DeserializeOperation deserializeOperation(@Qualifier("serializeObjectMapper") ObjectMapper serializeObjectMapper) {
+            return new DeserializeOperation(serializeObjectMapper);
         }
 
     }

@@ -1,16 +1,22 @@
 package net.n2oapp.framework.config.compile.pipeline;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oWebAppEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.compile.*;
+import net.n2oapp.framework.api.metadata.jackson.ComponentTypeResolver;
+import net.n2oapp.framework.api.metadata.jackson.SingletonTypeIdHandlerInstantiator;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
+import net.n2oapp.framework.api.register.ComponentTypeRegister;
 import net.n2oapp.framework.api.register.DynamicMetadataProviderFactory;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
@@ -19,6 +25,7 @@ import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
+import net.n2oapp.framework.config.register.N2oComponentTypeRegister;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
@@ -38,11 +45,13 @@ public class N2oEnvironment implements MetadataEnvironment {
     private MetadataRegister metadataRegister;
     private RouteRegister routeRegister;
     private SourceTypeRegister sourceTypeRegister;
+    private ComponentTypeRegister componentTypeRegister;
 
     private MessageSourceAccessor messageSource;
     private DomainProcessor domainProcessor;
     private PropertyResolver systemProperties;
     private ContextProcessor contextProcessor;
+    private ObjectMapper serializeObjectMapper;
 
     private MetadataScannerFactory metadataScannerFactory;
     private SourceLoaderFactory sourceLoaderFactory;
@@ -71,11 +80,13 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.metadataRegister = new N2oMetadataRegister();
         this.routeRegister = new N2oRouteRegister();
         this.sourceTypeRegister = new N2oSourceTypeRegister();
+        this.componentTypeRegister = new N2oComponentTypeRegister();
 
         this.messageSource = new MessageSourceAccessor(new ResourceBundleMessageSource());
         this.systemProperties = new N2oWebAppEnvironment();
         this.domainProcessor = new DomainProcessor(new ObjectMapper());
         this.contextProcessor = new ContextProcessor(new TestContextEngine());
+        this.serializeObjectMapper = createDefaultSerializeObjectMapper();
 
         this.namespaceReaderFactory = new ReaderFactoryByMap();
         this.namespacePersisterFactory = new PersisterFactoryByMap();
@@ -102,6 +113,7 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.systemProperties = copy.getSystemProperties();
         this.domainProcessor = copy.getDomainProcessor();
         this.contextProcessor = copy.getContextProcessor();
+        this.serializeObjectMapper = copy.getSerializeObjectMapper();
 
         this.namespaceReaderFactory = copy.getNamespaceReaderFactory();
         this.namespacePersisterFactory = copy.getNamespacePersisterFactory();
@@ -247,6 +259,11 @@ public class N2oEnvironment implements MetadataEnvironment {
         return sourceTypeRegister;
     }
 
+    @Override
+    public ComponentTypeRegister getComponentTypeRegister() {
+        return componentTypeRegister;
+    }
+
     public void setSourceTypeRegister(SourceTypeRegister sourceTypeRegister) {
         this.sourceTypeRegister = sourceTypeRegister;
     }
@@ -351,11 +368,34 @@ public class N2oEnvironment implements MetadataEnvironment {
         return buttonGeneratorFactory;
     }
 
+    @Override
+    public ObjectMapper getSerializeObjectMapper() {
+        return serializeObjectMapper;
+    }
+
     public void setButtonGeneratorFactory(ButtonGeneratorFactory buttonGeneratorFactory) {
         this.buttonGeneratorFactory = buttonGeneratorFactory;
     }
 
     public void setExtensionAttributeMapperFactory(ExtensionAttributeMapperFactory extensionAttributeMapperFactory) {
         this.extensionAttributeMapperFactory = extensionAttributeMapperFactory;
+    }
+
+    public void setSerializeObjectMapper(ObjectMapper serializeObjectMapper) {
+        this.serializeObjectMapper = serializeObjectMapper;
+    }
+
+    private ObjectMapper createDefaultSerializeObjectMapper() {
+        ObjectMapper om = new ObjectMapper();
+        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        om.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        SingletonTypeIdHandlerInstantiator instantiator = new SingletonTypeIdHandlerInstantiator();
+        ComponentTypeResolver typeIdResolver = new ComponentTypeResolver();
+        typeIdResolver.setRegister(componentTypeRegister);
+        instantiator.addTypeIdResolver(ComponentTypeResolver.class, typeIdResolver);
+        om.setHandlerInstantiator(instantiator);
+        return om;
     }
 }

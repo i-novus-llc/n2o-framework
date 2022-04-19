@@ -69,7 +69,8 @@ public class Node {
         }
         String tmp = locationPattern.split("\\*\\*")[0];
         tmp = tmp.replaceAll("file:", "").replaceAll("url:", "")
-                .replaceAll("classpath:", "").replaceAll("classpath\\*:", "").replaceAll("http:", "");
+                .replaceAll("classpath:", "").replaceAll("classpath\\*:", "")
+                .replaceAll("http:", "").replaceAll("//", "/");
         return uri.split(tmp)[1];
     }
 
