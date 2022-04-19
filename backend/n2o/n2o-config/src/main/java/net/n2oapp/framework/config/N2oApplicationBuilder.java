@@ -346,7 +346,8 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
     private void addComponentType(Class<? extends Source> clazz) {
         if (clazz.isAnnotationPresent(ComponentType.class)) {
             ComponentType annotation = clazz.getAnnotation(ComponentType.class);
-            environment.getComponentTypeRegister().add(annotation.value(), clazz);
+            environment.getComponentTypeRegister()
+                    .add(annotation.value() == null ? clazz.getSimpleName() : annotation.value(), clazz);
         } else {
             environment.getComponentTypeRegister().add(clazz.getSimpleName(), clazz);
         }
