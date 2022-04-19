@@ -15,7 +15,7 @@ public interface SandboxRestClient {
 
     String getFile(String projectId, String file, HttpSession session);
 
-    Boolean isProjectExists(String projectId);
+    boolean isProjectExists(String projectId);
 
     void putFiles(String projectId, List<FileModel> files, HttpSession session);
 }
