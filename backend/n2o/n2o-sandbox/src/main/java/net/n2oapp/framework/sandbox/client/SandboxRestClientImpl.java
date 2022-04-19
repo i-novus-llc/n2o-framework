@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
@@ -40,8 +41,9 @@ public class SandboxRestClientImpl implements SandboxRestClient {
     }
 
     @Override
-    public Boolean isProjectExists(String projectId) {
-         return HttpStatus.OK.equals(restTemplate.exchange(baseApiProjectUrl + normalize(projectId), HttpMethod.HEAD, null, ProjectModel.class).getStatusCode());
+    public boolean isProjectExists(String projectId) {
+        ResponseEntity<ProjectModel> result = restTemplate.exchange(baseApiProjectUrl + normalize(projectId), HttpMethod.HEAD, null, ProjectModel.class);
+        return HttpStatus.OK.equals(result.getStatusCode());
     }
 
     @Override
