@@ -30,12 +30,21 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private String endpoint;
     @Value("${n2o.engine.graphql.access-token:}")
     private String accessToken;
+    @Value("${n2o.engine.graphql.filter-separator:}")
+    private String defaultFilterSeparator;
+    @Value("${n2o.engine.graphql.sorting-separator:}")
+    private String defaultSortingSeparator;
+    @Value("${n2o.engine.graphql.filter-prefix:}")
+    private String defaultFilterPrefix;
+    @Value("${n2o.engine.graphql.filter-suffix:}")
+    private String defaultFilterSuffix;
+    @Value("${n2o.engine.graphql.sorting-prefix:}")
+    private String defaultSortingPrefix;
+    @Value("${n2o.engine.graphql.sorting-suffix:}")
+    private String defaultSortingSuffix;
 
     @Setter
     private RestTemplate restTemplate;
-
-    private static final String DEFAULT_FILTER_SEPARATOR = " and ";
-    private static final String DEFAULT_SORTING_SEPARATOR = ", ";
     private static final String RESPONSE_ERROR_KEY = "errors";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
@@ -127,10 +136,10 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         query = replaceListPlaceholder(query, "$$select", args.remove("select"), "", QueryUtil::reduceSpace);
         if (args.get("sorting") != null) {
-            String prefix = Objects.requireNonNullElse(invocation.getSortingPrefix(), "");
-            String suffix = Objects.requireNonNullElse(invocation.getSortingSuffix(), "");
+            String prefix = Objects.requireNonNullElse(invocation.getSortingPrefix(), defaultSortingPrefix);
+            String suffix = Objects.requireNonNullElse(invocation.getSortingSuffix(), defaultSortingSuffix);
             args.put("sorting", QueryUtil.insertPrefixSuffix((List<String>) args.get("sorting"), prefix, suffix));
-            String sortingSeparator = Objects.requireNonNullElse(invocation.getSortingSeparator(), DEFAULT_SORTING_SEPARATOR);
+            String sortingSeparator = Objects.requireNonNullElse(invocation.getSortingSeparator(), defaultSortingSeparator);
             query = replaceListPlaceholder(query, "$$sorting", args.remove("sorting"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, sortingSeparator));
         }
@@ -140,10 +149,10 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             query = replacePlaceholder(query, "$$size", args.remove("limit"), "10");
         query = replacePlaceholder(query, "$$offset", args.remove("offset"), "0");
         if (args.get("filters") != null) {
-            String prefix = Objects.requireNonNullElse(invocation.getFilterPrefix(), "");
-            String suffix = Objects.requireNonNullElse(invocation.getFilterSuffix(), "");
+            String prefix = Objects.requireNonNullElse(invocation.getFilterPrefix(), defaultFilterPrefix);
+            String suffix = Objects.requireNonNullElse(invocation.getFilterSuffix(), defaultFilterSuffix);
             args.put("filters", QueryUtil.insertPrefixSuffix((List<String>) args.get("filters"), prefix, suffix));
-            String filterSeparator = Objects.requireNonNullElse(invocation.getFilterSeparator(), DEFAULT_FILTER_SEPARATOR);
+            String filterSeparator = Objects.requireNonNullElse(invocation.getFilterSeparator(), defaultFilterSeparator);
             query = replaceListPlaceholder(query, "$$filters", args.remove("filters"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
         }
