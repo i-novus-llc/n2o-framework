@@ -30,6 +30,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -47,6 +48,10 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
  */
 @Component
 public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, PerformButton> {
+
+    @Value("${n2o.config.button.confirm.closeButton}")
+    private boolean closeButton = false;
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oButton.class;
@@ -192,6 +197,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         confirm.setText(initExpression(
                 p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
         confirm.setCondition(initConfirmCondition(condition));
+        confirm.setCloseButton(closeButton);
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasourceId());
