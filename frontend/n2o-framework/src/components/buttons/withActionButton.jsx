@@ -258,6 +258,7 @@ export default function withActionButton(options = {}) {
                     visibleFromState,
                     disabled,
                     disabledFromState,
+                    hintPosition,
                 } = this.props
 
                 const { confirmVisible, permittedUrl } = this.state
@@ -281,6 +282,7 @@ export default function withActionButton(options = {}) {
                         <SimpleTooltip
                             id={this.generatedTooltipId}
                             message={currentMessage}
+                            placement={hintPosition}
                         />
                         <WrappedComponent
                             {...omit(this.props, [
@@ -372,6 +374,7 @@ export default function withActionButton(options = {}) {
             toolbar: PropTypes.object,
             visibleFromState: PropTypes.bool,
             disabledFromState: PropTypes.bool,
+            hintPosition: PropTypes.oneOf(['left', 'top', 'right', 'bottom']),
             url: PropTypes.string,
         }
 
