@@ -44,7 +44,7 @@ public class ResponseMessage implements Serializable {
     private List<String> payload;
     @JsonProperty
     private LocalDateTime time;
-
+    @JsonProperty
     public String getId() {
         return UUID.randomUUID().toString();
     }
