@@ -18,7 +18,6 @@ import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -27,15 +26,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 
 /**
  * Сборка компонента ButtonField
  */
 @Component
 public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oButtonField> {
-
-    @Value("${n2o.config.button.confirm.closeButton}")
-    private boolean closeButton = false;
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -139,7 +137,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
         confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
-        confirm.setCloseButton(closeButton);
+        confirm.setCloseButton(p.cast(p.resolve(property("n2o.confirm.default.closeButton"), Boolean.class), false));
+
         if (StringUtils.hasLink(confirm.getText())) {
             Set<String> links = StringUtils.collectLinks(confirm.getText());
             String text = Placeholders.js("'" + confirm.getText() + "'");
