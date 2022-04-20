@@ -44,7 +44,7 @@ function ModalDialog({
             isOpen={visible}
             size={size}
             toggle={close}
-            modalClassName={classNames({
+            modalClassName={classNames('n2o-modal-dialog', {
                 'simple-modal-dialog': !title && !text,
             })}
         >
