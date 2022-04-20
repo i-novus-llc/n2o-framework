@@ -4,7 +4,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
-import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphQlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
@@ -54,7 +53,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         DataSet result = execute(invocation, query, data);
         if (result.containsKey(RESPONSE_ERROR_KEY)) {
             log.error("Execution error with GraphQL query: " + query);
-            throw new N2oQueryExecutionException(query);
+            throw new N2oGraphQlException(result, query);
         }
 
         return result;
