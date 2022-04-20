@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.*;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -9,10 +10,7 @@ import org.springframework.core.env.PropertyResolver;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 
 /**
@@ -22,8 +20,8 @@ public class AlertMessageBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private MessageSourceAccessor messageSourceAccessor;
     private PropertyResolver propertyResolver;
-    private Boolean showStacktrace = true;
-    private Boolean devMode;
+    private boolean showStacktrace = true;
+    private boolean devMode;
 
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver) {
         this.messageSourceAccessor = messageSourceAccessor;
@@ -31,7 +29,7 @@ public class AlertMessageBuilder {
     }
 
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver,
-                               Boolean showStacktrace) {
+                               boolean showStacktrace) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.propertyResolver = propertyResolver;
         this.showStacktrace = showStacktrace;
@@ -80,10 +78,16 @@ public class AlertMessageBuilder {
         resp.setText(buildText(e));
 
         if (showStacktrace && !(e instanceof N2oUserException))
-            resp.setStacktrace(getStackFrames(getStackTrace(e)));
+            resp.setPayload(initPayload(e));
         if (e instanceof N2oException)
             resp.setField(((N2oException) e).getField());
         return resp;
+    }
+
+    private List<String> initPayload(Exception e) {
+        if (devMode && e instanceof N2oQueryExecutionException)
+            return Collections.singletonList(((N2oQueryExecutionException) e).getQuery());
+        return getStackFrames(getStackTrace(e));
     }
 
     private ResponseMessage constructMessage(SeverityType severityType) {
