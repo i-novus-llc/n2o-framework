@@ -1,13 +1,12 @@
 package net.n2oapp.framework.boot.graphql;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oGraphQlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,11 +25,9 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
 /**
  * GraphQL провайдер данных
  */
+@Slf4j
 public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQlDataProvider> {
 
-    private static final Logger log = LoggerFactory.getLogger(GraphQlDataProviderEngine.class);
-    private static final String DEFAULT_FILTER_SEPARATOR = " and ";
-    private static final String DEFAULT_SORTING_SEPARATOR = ", ";
     private static final String RESPONSE_ERROR_KEY = "errors";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
@@ -39,6 +36,18 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private String endpoint;
     @Value("${n2o.engine.graphql.access-token:}")
     private String accessToken;
+    @Value("${n2o.engine.graphql.filter-separator:}")
+    private String defaultFilterSeparator;
+    @Value("${n2o.engine.graphql.sorting-separator:}")
+    private String defaultSortingSeparator;
+    @Value("${n2o.engine.graphql.filter-prefix:}")
+    private String defaultFilterPrefix;
+    @Value("${n2o.engine.graphql.filter-suffix:}")
+    private String defaultFilterSuffix;
+    @Value("${n2o.engine.graphql.sorting-prefix:}")
+    private String defaultSortingPrefix;
+    @Value("${n2o.engine.graphql.sorting-suffix:}")
+    private String defaultSortingSuffix;
 
     @Setter
     private RestTemplate restTemplate;
@@ -49,8 +58,15 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     }
 
     @Override
-    public Object invoke(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
-        return execute(invocation, prepareQuery(invocation, data), data);
+    public DataSet invoke(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
+        String query = prepareQuery(invocation, data);
+        DataSet result = execute(invocation, query, data);
+        if (result.containsKey(RESPONSE_ERROR_KEY)) {
+            log.error("Execution error with GraphQL query: " + query);
+            throw new N2oGraphQlException(query, result);
+        }
+
+        return result;
     }
 
     /**
@@ -70,10 +86,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
-        DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
-        if (result.containsKey(RESPONSE_ERROR_KEY))
-            throw new N2oGraphQlException(query, result);
-        return result;
+        return restTemplate.postForObject(endpoint, entity, DataSet.class);
     }
 
     /**
@@ -84,7 +97,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private void addAuthorization(N2oGraphQlDataProvider invocation, HttpHeaders headers) {
         String token = invocation.getAccessToken() != null ?
-            invocation.getAccessToken() : accessToken;
+                invocation.getAccessToken() : accessToken;
         headers.set("Authorization", "Bearer " + token);
     }
 
@@ -129,7 +142,10 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         query = replaceListPlaceholder(query, "$$select", args.remove("select"), "", QueryUtil::reduceSpace);
         if (args.get("sorting") != null) {
-            String sortingSeparator = Objects.requireNonNullElse(invocation.getSortingSeparator(), DEFAULT_SORTING_SEPARATOR);
+            String prefix = Objects.requireNonNullElse(invocation.getSortingPrefix(), defaultSortingPrefix);
+            String suffix = Objects.requireNonNullElse(invocation.getSortingSuffix(), defaultSortingSuffix);
+            args.put("sorting", QueryUtil.insertPrefixSuffix((List<String>) args.get("sorting"), prefix, suffix));
+            String sortingSeparator = Objects.requireNonNullElse(invocation.getSortingSeparator(), defaultSortingSeparator);
             query = replaceListPlaceholder(query, "$$sorting", args.remove("sorting"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, sortingSeparator));
         }
@@ -139,7 +155,10 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             query = replacePlaceholder(query, "$$size", args.remove("limit"), "10");
         query = replacePlaceholder(query, "$$offset", args.remove("offset"), "0");
         if (args.get("filters") != null) {
-            String filterSeparator = Objects.requireNonNullElse(invocation.getFilterSeparator(), DEFAULT_FILTER_SEPARATOR);
+            String prefix = Objects.requireNonNullElse(invocation.getFilterPrefix(), defaultFilterPrefix);
+            String suffix = Objects.requireNonNullElse(invocation.getFilterSuffix(), defaultFilterSuffix);
+            args.put("filters", QueryUtil.insertPrefixSuffix((List<String>) args.get("filters"), prefix, suffix));
+            String filterSeparator = Objects.requireNonNullElse(invocation.getFilterSeparator(), defaultFilterSeparator);
             query = replaceListPlaceholder(query, "$$filters", args.remove("filters"),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
         }
