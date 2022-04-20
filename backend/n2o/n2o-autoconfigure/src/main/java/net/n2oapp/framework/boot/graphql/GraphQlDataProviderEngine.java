@@ -63,7 +63,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         DataSet result = execute(invocation, query, data);
         if (result.containsKey(RESPONSE_ERROR_KEY)) {
             log.error("Execution error with GraphQL query: " + query);
-            throw new N2oGraphQlException(result, query);
+            throw new N2oGraphQlException(query, result);
         }
 
         return result;
@@ -97,7 +97,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private void addAuthorization(N2oGraphQlDataProvider invocation, HttpHeaders headers) {
         String token = invocation.getAccessToken() != null ?
-            invocation.getAccessToken() : accessToken;
+                invocation.getAccessToken() : accessToken;
         headers.set("Authorization", "Bearer " + token);
     }
 
