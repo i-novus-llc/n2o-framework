@@ -28,8 +28,6 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
 @Slf4j
 public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQlDataProvider> {
 
-    private static final String DEFAULT_FILTER_SEPARATOR = " and ";
-    private static final String DEFAULT_SORTING_SEPARATOR = ", ";
     private static final String RESPONSE_ERROR_KEY = "errors";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
