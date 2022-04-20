@@ -228,7 +228,7 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons(" +
-                "filter: { { name: {eq: \"test\" } } AND { age: {ge: 20 } } }) " +
+                "filter: { [{ name: {eq: \"test\" } }] AND [{ age: {ge: 20 } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
@@ -247,7 +247,7 @@ public class GraphQlDataProviderEngineTest {
         url = "http://localhost:" + appPort + queryPath;
 
         expectedQuery = "query persons(" +
-                "filter: { { name: {eq: \"test\" } } }) " +
+                "filter: { [{ name: {eq: \"test\" } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
@@ -406,7 +406,7 @@ public class GraphQlDataProviderEngineTest {
                 Map.of("name", "test", "age", 20)));
         data.put("data", persons);
 
-        String expectedQuery = "query persons(sort: { {name: \"asc\"}, {age: \"desc\"} }) { name age }";
+        String expectedQuery = "query persons(sort: { [{name: \"asc\"}], [{age: \"desc\"}] }) { name age }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -423,7 +423,7 @@ public class GraphQlDataProviderEngineTest {
         queryPath = "/n2o/data/test/graphql/sorting?sorting.name=ASC";
         url = "http://localhost:" + appPort + queryPath;
 
-        expectedQuery = "query persons(sort: { {name: \"asc\"} }) { name age }";
+        expectedQuery = "query persons(sort: { [{name: \"asc\"}] }) { name age }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
