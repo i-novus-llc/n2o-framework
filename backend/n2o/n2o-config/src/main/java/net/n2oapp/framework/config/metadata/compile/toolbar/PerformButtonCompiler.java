@@ -192,6 +192,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         confirm.setText(initExpression(
                 p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
         confirm.setCondition(initConfirmCondition(condition));
+        confirm.setCloseButton(p.resolve(property("n2o.api.confirm.default.closeButton"), Boolean.class));
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String clientDatasource = p.getScope(PageScope.class).getClientDatasourceId(source.getDatasourceId());

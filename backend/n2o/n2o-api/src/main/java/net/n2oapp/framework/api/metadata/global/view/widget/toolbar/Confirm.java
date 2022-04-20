@@ -26,5 +26,7 @@ public class Confirm implements Compiled {
     @JsonProperty
     private String condition;
     @JsonProperty
+    private Boolean closeButton;
+    @JsonProperty
     private ConfirmType mode;
 }
