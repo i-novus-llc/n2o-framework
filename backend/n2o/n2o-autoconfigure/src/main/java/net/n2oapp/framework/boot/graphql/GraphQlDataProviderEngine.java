@@ -1,6 +1,7 @@
 package net.n2oapp.framework.boot.graphql;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -24,7 +25,14 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
 /**
  * GraphQL провайдер данных
  */
+@Slf4j
 public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQlDataProvider> {
+
+    private static final String DEFAULT_FILTER_SEPARATOR = " and ";
+    private static final String DEFAULT_SORTING_SEPARATOR = ", ";
+    private static final String RESPONSE_ERROR_KEY = "errors";
+    private final Pattern variablePattern = Pattern.compile("\\$\\w+");
+    private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
 
     @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
@@ -34,21 +42,21 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     @Setter
     private RestTemplate restTemplate;
 
-    private static final String DEFAULT_FILTER_SEPARATOR = " and ";
-    private static final String DEFAULT_SORTING_SEPARATOR = ", ";
-    private static final String RESPONSE_ERROR_KEY = "errors";
-    private final Pattern variablePattern = Pattern.compile("\\$\\w+");
-    private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
-
-
     @Override
     public Class<? extends N2oGraphQlDataProvider> getType() {
         return N2oGraphQlDataProvider.class;
     }
 
     @Override
-    public Object invoke(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
-        return execute(invocation, prepareQuery(invocation, data), data);
+    public DataSet invoke(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
+        String query = prepareQuery(invocation, data);
+        DataSet result = execute(invocation, query, data);
+        if (result.containsKey(RESPONSE_ERROR_KEY)) {
+            log.error("Execution error with GraphQL query: " + query);
+            throw new N2oGraphQlException(result, query);
+        }
+
+        return result;
     }
 
     /**
@@ -59,7 +67,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      * @param data       Входные данные
      * @return Исходящие данные
      */
-    private Object execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
+    private DataSet execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
         Map<String, Object> payload = initPayload(invocation, query, data);
         String endpoint = initEndpoint(invocation.getEndpoint());
 
@@ -68,10 +76,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
-        DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
-        if (result.get(RESPONSE_ERROR_KEY) != null)
-            throw new N2oGraphQlException(result);
-        return result;
+        return restTemplate.postForObject(endpoint, entity, DataSet.class);
     }
 
     /**
@@ -150,6 +155,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
                     toGraphQlString(entry.getValue());
             query = replacePlaceholder(query, placeholder, value, "");
         }
+
+        log.debug("Execute GraphQL query: " + query);
         return query;
     }
 
