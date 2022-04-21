@@ -1,5 +1,7 @@
 package net.n2oapp.framework.boot.graphql;
 
+import java.time.temporal.Temporal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -29,7 +31,7 @@ public class GraphQlUtil {
             for (Object item : ((List) obj))
                 joiner.add(toGraphQlString(item));
             return joiner.toString();
-        } else if (obj instanceof String)
+        } else if (obj instanceof String || obj instanceof Temporal || obj instanceof Date)
             return "\"" + obj + "\"";
         else
             return obj.toString();
