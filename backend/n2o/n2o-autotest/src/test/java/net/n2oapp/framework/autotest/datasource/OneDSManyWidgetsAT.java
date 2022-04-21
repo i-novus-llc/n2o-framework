@@ -39,13 +39,13 @@ public class OneDSManyWidgetsAT extends AutoTestBase {
 
     @Test
     public void testOneDSManyWidgets() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasource/index.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/datasource/testOneDSManyWidgets.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasource/testOneDSManyWidgets/index.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/datasource/testOneDSManyWidgets/testOneDSManyWidgets.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
-        TilesWidget tiles = page.regions().region(0, SimpleRegion.class).content().widget(TilesWidget.class);
-        CardsWidget cards = page.regions().region(0, SimpleRegion.class).content().widget(CardsWidget.class);
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        TilesWidget tiles = page.regions().region(0, SimpleRegion.class).content().widget(1, TilesWidget.class);
+        CardsWidget cards = page.regions().region(0, SimpleRegion.class).content().widget(2, CardsWidget.class);
 
         table.columns().rows().shouldHaveSize(4);
         tiles.paging().totalElementsShouldBe(4);
