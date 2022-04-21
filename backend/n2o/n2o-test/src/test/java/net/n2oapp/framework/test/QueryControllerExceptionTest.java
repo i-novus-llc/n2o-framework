@@ -34,7 +34,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование кейсов с ошибками в GraphQl, SQL и REST запросах
  */
-@SpringBootTest
+@SpringBootTest(properties = {"n2o.ui.message.dev-mode=true"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class QueryControllerExceptionTest {
 
