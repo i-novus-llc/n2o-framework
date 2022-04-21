@@ -1,0 +1,11 @@
+{
+  "id": "myProjectId",
+  "name": null,
+  "viewUrl": "/sandbox/view/myProjectId/",
+  "files": [
+    {
+      "file": "index.page.xml",
+      "source": "<?xml version='1.0' encoding='UTF-8'?>\r\n<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\r\n             name=\"Моя первая страница\">\r\n    <form>\r\n        <fields>\r\n            <text id=\"hello\">Привет Мир!</text>\r\n        </fields>\r\n    </form>\r\n</simple-page>"
+    }
+  ]
+}
