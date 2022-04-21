@@ -178,6 +178,7 @@ public class N2oEnvironmentConfiguration {
                                               DynamicMetadataProviderFactory dynamicMetadataProviderFactory,
                                               ExtensionAttributeMapperFactory extensionAttributeMapperFactory,
                                               ButtonGeneratorFactory buttonGeneratorFactory,
+                                              ComponentTypeRegister componentTypeRegister,
                                               @Qualifier("serializeObjectMapper") ObjectMapper serializeObjectMapper) {
         ((CrudGenerator) generators.get("crudGenerator")).setButtonGeneratorFactory(buttonGeneratorFactory);
         N2oEnvironment environment = new N2oEnvironment();
@@ -205,6 +206,7 @@ public class N2oEnvironmentConfiguration {
         environment.setExtensionAttributeMapperFactory(extensionAttributeMapperFactory);
         environment.setButtonGeneratorFactory(buttonGeneratorFactory);
         environment.setSerializeObjectMapper(serializeObjectMapper);
+        environment.setComponentTypeRegister(componentTypeRegister);
         return environment;
     }
 
@@ -363,6 +365,12 @@ public class N2oEnvironmentConfiguration {
         @ConditionalOnMissingBean
         BindOperation bindOperation(MetadataBinderFactory binderFactory) {
             return new BindOperation(binderFactory);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        PersistOperation persistOperation(NamespacePersisterFactory namespacePersisterFactory) {
+            return new PersistOperation(namespacePersisterFactory);
         }
 
         @Bean

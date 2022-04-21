@@ -14,7 +14,11 @@ public class N2oGraphQlDataProvider extends AbstractDataProvider implements N2oM
     private String endpoint;
     private String query;
     private String filterSeparator;
+    private String filterPrefix;
+    private String filterSuffix;
     private String sortingSeparator;
+    private String sortingPrefix;
+    private String sortingSuffix;
     private String pageMapping;
     private String sizeMapping;
     private String accessToken;

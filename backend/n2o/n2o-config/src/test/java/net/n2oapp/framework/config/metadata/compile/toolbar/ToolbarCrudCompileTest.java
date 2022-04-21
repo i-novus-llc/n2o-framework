@@ -89,6 +89,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 assertThat(button.getConfirm().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.title")));
                 assertThat(button.getConfirm().getOkLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.okLabel")));
                 assertThat(button.getConfirm().getCancelLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.cancelLabel")));
+                assertThat(button.getConfirm().getCloseButton(), is(false));
             } else {
                 assertThat(button.getConfirm(), nullValue());
             }

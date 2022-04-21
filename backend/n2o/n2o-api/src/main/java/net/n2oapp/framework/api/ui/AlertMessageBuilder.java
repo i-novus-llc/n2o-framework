@@ -20,8 +20,8 @@ public class AlertMessageBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private MessageSourceAccessor messageSourceAccessor;
     private PropertyResolver propertyResolver;
-    private Boolean showStacktrace = true;
-    private Boolean devMode;
+    private boolean showStacktrace = true;
+    private boolean devMode;
 
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver) {
         this.messageSourceAccessor = messageSourceAccessor;
@@ -29,7 +29,7 @@ public class AlertMessageBuilder {
     }
 
     public AlertMessageBuilder(MessageSourceAccessor messageSourceAccessor, PropertyResolver propertyResolver,
-                               Boolean showStacktrace) {
+                               boolean showStacktrace) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.propertyResolver = propertyResolver;
         this.showStacktrace = showStacktrace;

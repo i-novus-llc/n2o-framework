@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.data.exception;
 import net.n2oapp.framework.api.exception.N2oException;
 
 /**
- * Ошибка выполнения запроса
+ * Ошибка выполнения запроса провайдера
  */
 public class N2oQueryExecutionException extends N2oException {
 

@@ -59,7 +59,7 @@ public class AlertMessageBuilderTest {
     }
 
     @Test
-    public void testGraphqlQlQueryPrintInDevMode() {
+    public void testQueryExecutionExceptionInDevMode() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
         when(messageSource.getMessage("Query execution error", "Query execution error"))
                 .thenReturn("Query execution error");

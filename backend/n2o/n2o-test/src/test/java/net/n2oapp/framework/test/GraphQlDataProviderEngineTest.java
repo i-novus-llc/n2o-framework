@@ -1,5 +1,6 @@
 package net.n2oapp.framework.test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataList;
@@ -19,8 +20,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -145,6 +148,41 @@ public class GraphQlDataProviderEngineTest {
     }
 
     /**
+     * Тестирование кастомной обработки ошибок
+     */
+    @Test
+    public void testErrorHandler() throws IOException {
+        Map<String, Object> errors = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        provider.setRestTemplate(restTemplateMock);
+
+        String queryPath = "/n2o/data/test/graphql/mutationVariables";
+        Request request = new Request("newName", 99, List.of(new Address("address1")));
+        String url = "http://localhost:" + appPort + queryPath;
+
+        //graphql error payload
+        errors.put("message", "Invalid field type");
+        errors.put("line", 3);
+        errors.put("column", 1);
+
+        data.put("errors", errors);
+
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        //test error message
+        try {
+            restTemplate.postForObject(url, request, SetDataResponse.class);
+        } catch (HttpServerErrorException e) {
+            SetDataResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), SetDataResponse.class);
+            assertEquals("Message: Invalid field type, line: 3, column: 1.",
+                    resp.getMeta().getAlert().getMessages().get(0).getText());
+        }
+    }
+
+    /**
      * Проверка работы плейсхолдера {{select}}
      */
     @Test
@@ -190,7 +228,7 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons(" +
-                "filter: { { name: {eq: \"test\" } } AND { age: {ge: 20 } } }) " +
+                "filter: { [{ name: {eq: \"test\" } }] AND [{ age: {ge: 20 } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
@@ -209,7 +247,7 @@ public class GraphQlDataProviderEngineTest {
         url = "http://localhost:" + appPort + queryPath;
 
         expectedQuery = "query persons(" +
-                "filter: { { name: {eq: \"test\" } } }) " +
+                "filter: { [{ name: {eq: \"test\" } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
@@ -368,7 +406,7 @@ public class GraphQlDataProviderEngineTest {
                 Map.of("name", "test", "age", 20)));
         data.put("data", persons);
 
-        String expectedQuery = "query persons(sort: { {name: \"asc\"}, {age: \"desc\"} }) { name age }";
+        String expectedQuery = "query persons(sort: { [{name: \"asc\"}], [{age: \"desc\"}] }) { name age }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -385,7 +423,7 @@ public class GraphQlDataProviderEngineTest {
         queryPath = "/n2o/data/test/graphql/sorting?sorting.name=ASC";
         url = "http://localhost:" + appPort + queryPath;
 
-        expectedQuery = "query persons(sort: { {name: \"asc\"} }) { name age }";
+        expectedQuery = "query persons(sort: { [{name: \"asc\"}] }) { name age }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 

@@ -2,6 +2,7 @@ package net.n2oapp.framework.boot.sql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.engine.factory.EngineFactory;
 import net.n2oapp.engine.factory.TypicalEngine;
 import net.n2oapp.engine.factory.integration.spring.SpringEngineFactory;
@@ -13,8 +14,6 @@ import net.n2oapp.framework.engine.data.QueryUtil;
 import net.n2oapp.framework.engine.util.NamedParameterUtils;
 import net.n2oapp.framework.engine.util.QueryBlank;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -41,9 +40,9 @@ import static net.n2oapp.framework.engine.data.QueryUtil.*;
  * Выполнение sql действия. На вход приходит map аргументов, на выход отправляется
  * List<Object[]> если mapByIndex = true, иначе List<Map<String, Object>>.
  */
+@Slf4j
 public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProvider>,
         ApplicationContextAware, ResourceLoaderAware {
-    private static final Logger log = LoggerFactory.getLogger(SqlDataProviderEngine.class);
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private String defaultJdbcDriver;

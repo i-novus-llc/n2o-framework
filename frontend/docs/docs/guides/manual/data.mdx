@@ -389,6 +389,40 @@ __*Настройки GraphQl провайдера*__
 Для обеспечения безопасного доступа к backend сервису необходимо использовать атрибут `access-token` или
 глобальную настройку `n2o.engine.graphql.access-token`.
 
+__*Обработка ошибок GraphQl провайдера*__
+
+Для кастомизированной обработки ошибок результатов GraphQl сервера требуется включить её в реализации интерфейсов `OperationExceptionHandler`
+ и `QueryExceptionHandler`.
+
+```java title="Кастомный обработчик ошибок операций GraphQl сервера"
+package com.example;
+
+public class GraphQlOperationExceptionHandler implements OperationExceptionHandler {
+    @Override
+    public N2oException handle(CompiledObject.Operation o, DataSet data, Exception e) {
+        ...
+        // Обработка ошибки GraphQl сервера
+        if (e instanceof N2oGraphQlException) {
+            // Получение ответа, который вернул GraphQl сервер
+            DataSet result = ((N2oGraphQlException) e).getResponse();
+            DataList errors = (DataList) result.get("errors");
+            ...
+            // формирование сообщений валидации по ошибкам
+            List<ValidationMessage> validationMessages = new ArrayList<>();
+            for (Object obj : errors) {
+                DataSet error = (DataSet) obj;
+                String message = error.getString("message");
+                String fieldId = error.getString("field");
+                ...
+                validationMessages.add(new ValidationMessage(message, fieldId, validationId));
+            }
+            return new N2oUserException("Ошибка валидации", null, validationMessages);
+        }
+        ...
+    }
+}
+```
+
 <Sandbox height={700} projectId="data_providers_graphql" />
 
 #### REST провайдер данных {#Rest}
