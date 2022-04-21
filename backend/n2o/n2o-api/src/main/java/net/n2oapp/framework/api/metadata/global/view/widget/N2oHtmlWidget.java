@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oHtmlWidget extends N2oWidget {
-    private String src;
+    private String url;
     private String html;
 
     @Override
