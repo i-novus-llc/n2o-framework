@@ -238,7 +238,7 @@
             </modules>
         </profile>
         <profile>
-            <id>sandbox</id>
+            <id>n2o-sandbox</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
