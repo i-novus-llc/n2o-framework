@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "type": 1,
+    "name": "test1",
+    "ref": {
+      "id": 1,
+      "name" : "Один"
+    },
+    "check" : true,
+    "birthDate": "01.01.1990 00:00:00"
+  },
+  {
+    "id": 2,
+    "type": 1,
+    "name": "test2",
+    "ref": {
+      "id": 1,
+      "name" : "Один"
+    },
+    "check" : true,
+    "birthDate": "01.01.1990 00:00:00"
+  },
+  {
+    "id": 3,
+    "type": 2,
+    "ref": {
+      "id": 2,
+      "name" : "Два"
+    },
+    "check" : false,
+    "birthDate": "01.01.1990 00:00:00"
+  },
+  {
+    "id": 4,
+    "type": 2,
+    "ref": {
+      "id": 2,
+      "name" : "Два"
+    },
+    "check" : false,
+    "birthDate": "01.01.1990 00:00:00"
+  }
+]
