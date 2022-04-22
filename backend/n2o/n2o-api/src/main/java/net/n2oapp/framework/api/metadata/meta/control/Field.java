@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
@@ -19,11 +18,11 @@ public class Field extends Component {
     @JsonProperty
     private String id;
     @JsonProperty
-    private Boolean required;
+    private String required;
     @JsonProperty
-    private Boolean visible;
+    private String visible;
     @JsonProperty
-    private Boolean enabled;
+    private String enabled;
     @JsonProperty
     private String label;
     @JsonProperty
