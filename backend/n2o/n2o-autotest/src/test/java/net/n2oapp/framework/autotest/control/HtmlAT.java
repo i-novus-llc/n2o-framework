@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.api.component.control.Html;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Html;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -9,7 +9,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -37,9 +36,7 @@ public class HtmlAT extends AutoTestBase {
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
     }
 
-    //TODO: Пофиксить после изменений на фронте
     @Test
-    @Disabled
     public void testHtml() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
@@ -47,12 +44,15 @@ public class HtmlAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Html html = page.widget(FormWidget.class).fields().field("Html")
-                .control(Html.class);
+        Html html = page.widget(FormWidget.class).fields().field(Html.class);
         html.shouldExists();
 
+        html.shouldHaveElement("h3.class1");
+        html.shouldHaveText("Hello, World!");
+
         Map<String, String> attributes = new HashMap<>();
-        attributes.put("style", "margin: 10px;");
+        attributes.put("style", "color: red;");
         html.shouldHaveElementWithAttributes("h3.class1", attributes);
+
     }
 }
