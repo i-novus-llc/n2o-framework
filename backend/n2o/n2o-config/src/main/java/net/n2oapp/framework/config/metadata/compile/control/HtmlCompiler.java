@@ -26,10 +26,10 @@ public class HtmlCompiler extends FieldCompiler<Html, N2oHtml> {
 
     @Override
     public Html compile(N2oHtml source, CompileContext<?, ?> context, CompileProcessor p) {
-        Html htmlControl = new Html();
-        htmlControl.setHtml(source.getHtml());
+        Html html = new Html();
+        html.setHtml(source.getHtml().trim());
         initDefaults(source, context, p);
-        compileField(htmlControl, source, context, p);
-        return htmlControl;
+        compileField(html, source, context, p);
+        return html;
     }
 }

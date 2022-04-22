@@ -38,7 +38,8 @@ public class HtmlCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         Html field = (Html)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
-        assertThat(field.getHtml(), is("\n                <h3 class='class1' style='color:red;'>Hello, World!</h3>\n            "));
+        assertThat(field.getSrc(), is("Html"));
+        assertThat(field.getHtml(), is("<h3 class='class1' style='color:red;'>Hello, World!</h3>"));
     }
 
 }
