@@ -13,6 +13,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для виджета html
+ */
 public class HtmlWidgetAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {

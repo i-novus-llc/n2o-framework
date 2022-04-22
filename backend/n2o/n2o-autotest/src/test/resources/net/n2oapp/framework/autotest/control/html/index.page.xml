@@ -1,8 +1,9 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <html id="html" label="Html"
-                  default-value="&lt;h3 class='class1' style='margin: 10px;'&gt;Hello, World!&lt;/h3&gt;"/>
+            <html id="test">
+                <![CDATA[<h3 class='class1' style='color:red;'>Hello, World!</h3>]]>
+            </html>
         </fields>
     </form>
 </simple-page>

@@ -25,6 +25,7 @@ import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.page.*;
 import net.n2oapp.framework.autotest.impl.component.region.*;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oAlert;
+import net.n2oapp.framework.autotest.impl.component.snippet.N2oHtml;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oImage;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
