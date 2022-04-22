@@ -38,6 +38,7 @@ import net.n2oapp.framework.autotest.impl.component.widget.cards.N2oCard;
 import net.n2oapp.framework.autotest.impl.component.widget.cards.N2oCardsWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.chart.N2oArea;
 import net.n2oapp.framework.autotest.impl.component.widget.chart.N2oAreaChartWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.html.N2oHtmlWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableFilterHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableMultiHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableSimpleHeader;
@@ -65,7 +66,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oListWidget.class, N2oFormWidget.class,
                 N2oTilesWidget.class, N2oTile.class,
                 N2oTableWidget.class, N2oTableSimpleHeader.class, N2oTableFilterHeader.class, N2oTableMultiHeader.class,
-                N2oCardsWidget.class, N2oCard.class,
+                N2oCardsWidget.class, N2oCard.class, N2oHtmlWidget.class,
                 // widgets (chart)
                 N2oAreaChartWidget.class, N2oArea.class,
                 // widgets (calendar)
