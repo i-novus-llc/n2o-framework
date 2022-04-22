@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Html as HtmlSnippet } from '../../snippets/Html/Html'
+import { Html } from '../../../../snippets/Html/Html'
 
 /**
  * Компонент поле html
@@ -11,9 +11,9 @@ import { Html as HtmlSnippet } from '../../snippets/Html/Html'
  * @param {string} className - className
  * @constructor
  */
-export function Html({ id, html, className }) {
+export function HtmlField({ id, html, className }) {
     return (
-        <HtmlSnippet
+        <Html
             id={id}
             html={html}
             className={
@@ -26,10 +26,8 @@ export function Html({ id, html, className }) {
     )
 }
 
-Html.propTypes = {
+HtmlField.propTypes = {
     id: PropTypes.string,
     html: PropTypes.string,
     className: PropTypes.string,
 }
-
-export default Html

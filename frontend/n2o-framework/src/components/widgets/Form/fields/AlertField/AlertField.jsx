@@ -45,7 +45,7 @@ export function AlertField({
             title={title}
             text={text}
             style={style}
-            className={classNames('n2o-alert-field', className)}
+            className={classNames('n2o-snippet n2o-alert-field', className)}
             color={color}
             onClose={closeButton && onClose}
             closeButton={closeButton}
