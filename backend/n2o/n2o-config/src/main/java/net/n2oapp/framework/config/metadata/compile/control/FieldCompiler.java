@@ -93,9 +93,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
-        field.setVisible(p.resolveJS(source.getVisible()));
-        field.setEnabled(p.resolveJS(source.getEnabled()));
-        field.setRequired(p.resolveJS(source.getRequired()));
+        field.setVisible(p.resolve(source.getVisible(), Boolean.class));
+        field.setEnabled(p.resolve(source.getEnabled(), Boolean.class));
+        field.setRequired(p.resolve(source.getRequired(), Boolean.class));
         compileFieldToolbar(field, source, context, p);
         compileDependencies(field, source, context, p);
     }
@@ -278,7 +278,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             mandatory.addEnablingConditions(visibilityConditions);
             mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
             result.add(mandatory);
-            field.setRequired(String.valueOf(true));
+            field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(requiredMessage), field.getId());
             if (momentScope != null)

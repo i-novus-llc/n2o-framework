@@ -18,11 +18,11 @@ public class Field extends Component {
     @JsonProperty
     private String id;
     @JsonProperty
-    private String required;
+    private Boolean required;
     @JsonProperty
-    private String visible;
+    private Boolean visible;
     @JsonProperty
-    private String enabled;
+    private Boolean enabled;
     @JsonProperty
     private String label;
     @JsonProperty
