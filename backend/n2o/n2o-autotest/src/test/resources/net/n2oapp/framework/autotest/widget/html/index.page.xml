@@ -4,7 +4,7 @@
         <html>
             <content>
                 <![CDATA[
-                    <div class='test'><p>Hello world</p></div>
+                    <div class='test'><h3 class='class1' style='color:red;'>Hello, World!</h3></div>
                 ]]>
             </content>
         </html>

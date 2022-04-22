@@ -11,6 +11,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Автотест для компонента ввода html
  */
@@ -46,5 +49,10 @@ public class HtmlAT extends AutoTestBase {
 
         html.shouldHaveElement("h3.class1");
         html.shouldHaveText("Hello, World!");
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("style", "color: red;");
+        html.shouldHaveElementWithAttributes("h3.class1", attributes);
+
     }
 }

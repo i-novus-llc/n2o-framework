@@ -13,6 +13,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Автотест для виджета html
  */
@@ -42,6 +45,10 @@ public class HtmlWidgetAT extends AutoTestBase {
         page.shouldExists();
 
         page.regions().region(0, SimpleRegion.class).content().widget(HtmlWidget.class).shouldHaveElement("div.test");
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("style", "color: red;");
+        page.regions().region(0, SimpleRegion.class).content().widget(HtmlWidget.class).shouldHaveElementWithAttributes("h3.class1", attributes);
     }
 
     @Test
