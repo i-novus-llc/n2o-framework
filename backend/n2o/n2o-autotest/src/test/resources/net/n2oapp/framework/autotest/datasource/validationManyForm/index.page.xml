@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Валидация на месте">
+    <datasources>
+        <datasource id="ds" object-id="myObject"/>
+    </datasources>
+
+    <regions>
+        <form id="form1" datasource="ds">
+            <fields>
+                <alert id="messageName" color="info" text="Для вызова валидации повторно введите то же самое имя"/>
+                <input-text id="name" label="Наименование"/>
+            </fields>
+        </form>
+        <form id="form2" datasource="ds">
+            <fields>
+                <alert id="messageBirthday" color="info" text="Для вызова валидации введите дату в будущем"/>
+                <date-time id="birthday" label="Дата рождения"/>
+            </fields>
+            <toolbar place="bottomLeft">
+                <button id="create" label="Создать">
+                    <invoke operation-id="create">
+                        <form-param id="name" datasource="ds" value="{name}"/>
+                    </invoke>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>
