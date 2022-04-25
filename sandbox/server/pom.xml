@@ -25,19 +25,19 @@
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-spring-boot-starter</artifactId>
-            <version>${n2o.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-web</artifactId>
-            <version>${n2o.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-sandbox</artifactId>
-            <version>${n2o.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
