@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Валидация на месте">
+      name="Валидация на несколько форм">
     <datasources>
         <datasource id="ds" object-id="test"/>
     </datasources>
