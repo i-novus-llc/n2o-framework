@@ -27,7 +27,7 @@ services:
   n2o-sandbox:
     image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
     environment:
-      - SANDBOX_URL=http://yandex.stable:8800/sandbox
+      - SANDBOX_URL=https://sandbox.n2oapp.net
     ports:
       - "8080"
     deploy:
