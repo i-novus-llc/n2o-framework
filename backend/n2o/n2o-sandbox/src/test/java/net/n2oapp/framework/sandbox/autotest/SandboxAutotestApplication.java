@@ -1,6 +1,7 @@
 package net.n2oapp.framework.sandbox.autotest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
@@ -103,5 +104,11 @@ public class SandboxAutotestApplication {
         SandboxPropertyResolver propertyResolver = new SandboxPropertyResolver();
         propertyResolver.configure(new SimplePropertyResolver(PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties")), null, null);
         return propertyResolver;
+    }
+
+    @Bean
+    @Primary
+    ObjectMapper objectMapper() {
+        return ObjectMapperConstructor.metaObjectMapper();
     }
 }
