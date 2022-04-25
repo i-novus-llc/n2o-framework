@@ -22,11 +22,16 @@ export const WidgetHOC = (WidgetComponent) => {
             id,
             dependency,
             dispatch,
+            visible = true,
         } = props
 
         useEffect(() => {
             dispatch(registerDependency(id, dependency))
         }, [id, dispatch, dependency])
+
+        if (!visible) {
+            return null
+        }
 
         return <WidgetComponent {...props} />
     }
