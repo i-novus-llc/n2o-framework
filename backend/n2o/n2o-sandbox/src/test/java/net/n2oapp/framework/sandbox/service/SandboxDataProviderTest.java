@@ -1,6 +1,8 @@
 package net.n2oapp.framework.sandbox.service;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
@@ -42,7 +45,15 @@ import static org.hamcrest.Matchers.is;
 public class SandboxDataProviderTest {
 
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
-    private static final WireMockServer wireMockServer = new WireMockServer();
+    private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
+            .enableBrowserProxying(true));
+
+    @Value("${n2o.sandbox.api.host}")
+    private String host;
+
+    @Value("${n2o.sandbox.api.port}")
+    private Integer port;
+
 
     @Autowired
     private ViewController viewController;
@@ -51,11 +62,13 @@ public class SandboxDataProviderTest {
     @BeforeAll
     static void setUp() {
         wireMockServer.start();
+        JvmProxyConfigurer.configureFor(wireMockServer);
     }
 
     @AfterAll
     static void tearDown() {
         wireMockServer.stop();
+        JvmProxyConfigurer.restorePrevious();
     }
 
     @SneakyThrows
@@ -63,11 +76,11 @@ public class SandboxDataProviderTest {
     public void testGetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
+        wireMockServer.stubFor(get(urlMatching("/api/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse()));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse()));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/test.json")).willReturn(aResponse().withBody("[\n" +
+        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/api/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
                 "  {\n" +
                 "    \"id\": 1,\n" +
                 "    \"name\": \"test1\"\n" +
@@ -105,12 +118,12 @@ public class SandboxDataProviderTest {
     public void testSetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main/3/update/submit");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
+        wireMockServer.stubFor(get("/api/project/myProjectId").willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
-        stubFor(put(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withStatus(200)));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse()));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse()));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/test.json")).willReturn(aResponse().withBody("[\n" +
+        wireMockServer.stubFor(put("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withStatus(200)));
+        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/api/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
                 "  {\n" +
                 "    \"id\": 1,\n" +
                 "    \"name\": \"test1\"\n" +

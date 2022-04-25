@@ -1,6 +1,8 @@
 package net.n2oapp.framework.sandbox.service;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
@@ -38,7 +41,14 @@ import static org.hamcrest.Matchers.is;
 public class SandboxMetadataRetrievalTest {
 
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
-    private static final WireMockServer wireMockServer = new WireMockServer();
+    private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
+            .enableBrowserProxying(true));
+
+    @Value("${n2o.sandbox.api.host}")
+    private String host;
+
+    @Value("${n2o.sandbox.api.port}")
+    private Integer port;
 
     @Autowired
     private ViewController viewController;
@@ -47,19 +57,21 @@ public class SandboxMetadataRetrievalTest {
     static void setUp() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/page/");
         wireMockServer.start();
+        JvmProxyConfigurer.configureFor(wireMockServer);
     }
 
     @AfterAll
     static void tearDown() {
         wireMockServer.stop();
+        JvmProxyConfigurer.restorePrevious();
     }
 
     @SneakyThrows
     @Test
-    public void testGetConfig() {
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json")));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse()));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse()));
+    public void testGetConfig(){
+        wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")));
+        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
 
         assertThat(config.getString("project"), is("myProjectId"));
@@ -82,9 +94,9 @@ public class SandboxMetadataRetrievalTest {
     @SneakyThrows
     @Test
     public void testGetPage() {
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json")
+        wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")
                 .withBody(StreamUtils.copyToString(new ClassPathResource("data/testMetadataRetrieval.json").getInputStream(), Charset.defaultCharset()))));
-        stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         Page page = viewController.getPage("myProjectId", request, null);
 
         assertThat(page.getId(), is("_"));
