@@ -68,6 +68,11 @@ export const enhance = compose(
     }),
     withHandlers({
         onAddField: ({ form, name, dispatch, fields }) => () => {
+            if (fields === null) {
+                dispatch(change(form, name, [{}]))
+
+                return
+            }
             const newValue = fields.slice()
 
             newValue.push({})
