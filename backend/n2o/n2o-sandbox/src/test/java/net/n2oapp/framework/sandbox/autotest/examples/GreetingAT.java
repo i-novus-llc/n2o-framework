@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.sandbox.project-id=examples_greeting"},
+@SpringBootTest(properties = {"n2o.sandbox.project-id=examples_greeting"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GreetingAT extends SandboxAutotestBase {

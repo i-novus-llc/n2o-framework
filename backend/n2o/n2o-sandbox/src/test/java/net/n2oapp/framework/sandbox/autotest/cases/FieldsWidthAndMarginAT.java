@@ -24,7 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
-@SpringBootTest(properties = "server.servlet.context-path=/",
+@SpringBootTest(
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FieldsWidthAndMarginAT extends AutoTestBase {

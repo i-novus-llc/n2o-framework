@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.sandbox.project-id=cases_7.1_case43"},
+@SpringBootTest(properties = {"n2o.sandbox.project-id=cases_7.1_case43"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class Case43AT extends SandboxAutotestBase {

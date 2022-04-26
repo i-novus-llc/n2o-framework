@@ -20,7 +20,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/access/attributes/widgets/",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/access/attributes/widgets/",
         "n2o.sandbox.project-id=access_attributes_widgets"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

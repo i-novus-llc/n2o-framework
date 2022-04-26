@@ -18,9 +18,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.codeborne.selenide.Configuration.headless;
-
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/access/attributes/header/",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/access/attributes/header/",
         "n2o.sandbox.project-id=access_attributes_header"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

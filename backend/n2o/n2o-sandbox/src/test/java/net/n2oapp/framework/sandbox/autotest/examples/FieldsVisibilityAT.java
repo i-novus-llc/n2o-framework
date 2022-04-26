@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.sandbox.project-id=examples_fields_visibility"},
+@SpringBootTest(properties = {"n2o.sandbox.project-id=examples_fields_visibility"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FieldsVisibilityAT extends SandboxAutotestBase {

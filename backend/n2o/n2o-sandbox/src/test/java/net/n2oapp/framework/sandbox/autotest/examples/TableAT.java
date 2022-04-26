@@ -13,7 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/table/",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/examples/table/",
         "n2o.sandbox.project-id=examples_table"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

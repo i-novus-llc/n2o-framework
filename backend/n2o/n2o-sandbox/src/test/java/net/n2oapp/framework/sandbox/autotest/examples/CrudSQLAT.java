@@ -17,7 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/crud_sql/",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/examples/crud_sql/",
         "n2o.sandbox.project-id=examples_crud_sql"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

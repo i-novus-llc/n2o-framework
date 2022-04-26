@@ -20,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * Автотест фильтрации списковых полей
  */
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.sandbox.project-id=cases_7.0_case11"},
+@SpringBootTest(properties = {"n2o.sandbox.project-id=cases_7.0_case11"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class Case11AT extends SandboxAutotestBase {

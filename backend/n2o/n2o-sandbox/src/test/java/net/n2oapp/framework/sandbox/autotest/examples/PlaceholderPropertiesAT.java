@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.annotation.EnableCaching;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/placeholder_properties/",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/examples/placeholder_properties/",
         "n2o.sandbox.project-id=examples_placeholder_properties"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

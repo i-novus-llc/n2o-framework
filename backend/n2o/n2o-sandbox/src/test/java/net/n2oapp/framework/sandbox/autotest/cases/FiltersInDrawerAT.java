@@ -24,7 +24,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * Автотест для проверки фильтров в отдельном окне
  */
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/uxcases/filters/drawer/",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/uxcases/filters/drawer/",
         "n2o.sandbox.project-id=uxcases_filters_drawer"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

@@ -26,7 +26,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/crud_sql/",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/examples/crud_sql/",
         "n2o.sandbox.project-id=examples_crud_rest"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

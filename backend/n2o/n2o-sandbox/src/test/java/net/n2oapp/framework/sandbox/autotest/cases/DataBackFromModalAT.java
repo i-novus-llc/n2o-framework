@@ -19,7 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * Автотест для проверки проброса значения обратно из модального окна
  */
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/cases/7.17/data_back_from_modal",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/cases/7.17/data_back_from_modal",
         "n2o.sandbox.project-id=cases_7.17_data_back_from_modal"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

@@ -12,7 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/uxcomponents/pages/search",
+@SpringBootTest(properties = {
+        "n2o.engine.test.classpath=/uxcomponents/pages/search",
         "n2o.sandbox.project-id=uxcomponents_pages_search"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

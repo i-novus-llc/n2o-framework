@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/cases/7.11/refresh_toolbar_cell",
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/cases/7.11/refresh_toolbar_cell",
         "n2o.sandbox.project-id=cases_7.11_refresh_toolbar_cell"},
         classes = SandboxAutotestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
