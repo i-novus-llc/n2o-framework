@@ -73,6 +73,6 @@ public class AlertMessageBuilderTest {
         ResponseMessage responseMessage = builder.build(e);
         assertThat(responseMessage.getText(), is(message));
         assertThat(responseMessage.getPayload().size(), is(1));
-        assertThat(responseMessage.getPayload().get(0), is(query));
+        assertThat(responseMessage.getPayload().get(0), is("Executed query: " + query));
     }
 }
