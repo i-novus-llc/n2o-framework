@@ -1,9 +1,6 @@
 package net.n2oapp.framework.config.metadata.application;
 
-import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.application.Event;
-import net.n2oapp.framework.api.metadata.application.StompDatasource;
-import net.n2oapp.framework.api.metadata.application.StompEvent;
+import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -96,5 +93,19 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         event = application.getEvents().get(1);
         assertThat(event.getId(), is("showTask"));
         assertThat(((StompEvent) event).getDestination(), is("/task"));
+    }
+
+    @Test
+    public void sidebars() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebars.application.xml")
+                .get(new ApplicationContext("sidebars"));
+
+        assertThat(application.getSidebars().size(), is(2));
+        Sidebar sidebar = application.getSidebars().get(0);
+
+        assertThat(sidebar.getPath(), is("/home"));
+
+        sidebar = application.getSidebars().get(1);
+        assertThat(sidebar.getPath(), is("/profile"));
     }
 }

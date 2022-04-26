@@ -23,8 +23,9 @@ public class ApplicationValidator extends TypedMetadataValidator<N2oApplication>
     public void validate(N2oApplication application, SourceProcessor p) {
         if(application.getHeader() != null)
             checkHeader(application.getHeader(), p);
-        if (application.getSidebar() != null) {
-            checkSidebar(application.getSidebar(), p);
+        if (application.getSidebars() != null) {
+            for (N2oSidebar sidebar : application.getSidebars())
+                checkSidebar(sidebar, p);
         }
     }
 
