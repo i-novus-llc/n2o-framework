@@ -56,7 +56,7 @@ public class FileUploadAT extends SandboxAutotestBase {
         fileUpload.shouldBeEnabled();
 
         fileStoreController.clear();
-        fileUpload.uploadFromClasspath("META-INF/conf/test.query.xml");
+        fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.query.xml");
         fileUpload.uploadFilesShouldBe(1);
         fileUpload.uploadFileNameShouldBe(0, "test.query.xml");
         assertEquals(1, fileStoreController.size());
@@ -74,14 +74,14 @@ public class FileUploadAT extends SandboxAutotestBase {
         fileUpload.shouldBeEnabled();
 
         fileStoreController.clear();
-        fileUpload.uploadFromClasspath("META-INF/conf/test.query.xml");
+        fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.query.xml");
         fileUpload.uploadFilesShouldBe(1);
         fileUpload.uploadFileNameShouldBe(0, "test.query.xml");
         assertEquals(1, fileStoreController.size());
 
         page = open(SimplePage.class); //что бы очистить значение формы загрузки файлов
         page.shouldExists();
-        fileUpload.uploadFromClasspath("META-INF/conf/test.page.xml");
+        fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.page.xml");
         fileUpload.uploadFilesShouldBe(2);
         fileUpload.uploadFileNameShouldBe(1, "test.page.xml");
         assertEquals(2, fileStoreController.size());
