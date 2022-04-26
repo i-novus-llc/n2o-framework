@@ -39,6 +39,7 @@
                                 <echo file="${basedir}/src/ci-config.json">{
   "docusaurusUrl": "${docusaurusUrl}",
   "sandboxUrl": "${sandboxUrl}",
+  "n2oSandboxUrl": "${n2oSandboxUrl}",
   "n2oVersion": "${version}"
 }
                                 </echo>
