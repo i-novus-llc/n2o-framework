@@ -75,7 +75,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
                     rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
         } catch (BadSqlGrammarException e) {
             log.error("Execution error with SQL query: " + query);
-            throw new N2oQueryExecutionException(query);
+            throw new N2oQueryExecutionException("Bad SQL grammar", query);
         }
     }
 

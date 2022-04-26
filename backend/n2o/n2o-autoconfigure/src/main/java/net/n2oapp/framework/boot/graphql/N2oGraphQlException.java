@@ -12,8 +12,8 @@ public class N2oGraphQlException extends N2oQueryExecutionException {
     @Getter
     private DataSet response;
 
-    public N2oGraphQlException(String query, DataSet response) {
-        super(query);
+    public N2oGraphQlException(String message, String query, DataSet response) {
+        super(message, query);
         this.response = response;
     }
 }

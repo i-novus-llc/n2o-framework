@@ -29,6 +29,7 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
 public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQlDataProvider> {
 
     private static final String RESPONSE_ERROR_KEY = "errors";
+    private static final String RESPONSE_ERROR_MESSAGE_KEY = "message";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
 
@@ -63,7 +64,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         DataSet result = execute(invocation, query, data);
         if (result.containsKey(RESPONSE_ERROR_KEY)) {
             log.error("Execution error with GraphQL query: " + query);
-            throw new N2oGraphQlException(query, result);
+            throw new N2oGraphQlException(((DataSet) result.getList(RESPONSE_ERROR_KEY).get(0)).getString(RESPONSE_ERROR_MESSAGE_KEY),
+                    query, result);
         }
 
         return result;

@@ -24,10 +24,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -152,7 +149,7 @@ public class GraphQlDataProviderEngineTest {
      */
     @Test
     public void testErrorHandler() throws IOException {
-        Map<String, Object> errors = new HashMap<>();
+        DataList errors = new DataList();
         Map<String, Object> data = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -163,10 +160,12 @@ public class GraphQlDataProviderEngineTest {
         String url = "http://localhost:" + appPort + queryPath;
 
         //graphql error payload
-        errors.put("message", "Invalid field type");
-        errors.put("line", 3);
-        errors.put("column", 1);
+        DataSet ds = new DataSet();
+        ds.put("message", "Invalid field type");
+        ds.put("line", 3);
+        ds.put("column", 1);
 
+        errors.add(ds);
         data.put("errors", errors);
 
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))

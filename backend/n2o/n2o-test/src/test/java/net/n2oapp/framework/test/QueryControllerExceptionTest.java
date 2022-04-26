@@ -47,7 +47,7 @@ public class QueryControllerExceptionTest {
     static void beforeAll() {
         mockServer.start();
         stubFor(post(urlMatching("/graphql")).willReturn(aResponse().withHeader("Content-Type", "application/json")
-                .withBody("{ \"errors\":[] }")));
+                .withBody("{ \"errors\":[ {\"message\": \"couldn't rewrite queryCar\"}] }")));
         stubFor(get(urlMatching("/data/car/search/findAll")).willReturn(aResponse().withStatus(404)));
     }
 
@@ -85,9 +85,9 @@ public class QueryControllerExceptionTest {
         GetDataResponse response = queryController.execute(requestInfo, null);
 
         assertThat(response.getMeta().getAlert().getMessages().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("Query execution error"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("couldn't rewrite queryCar"));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("query { queryCar { id } }"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("Executed query: query { queryCar { id } }"));
     }
 
     @Test
@@ -99,9 +99,9 @@ public class QueryControllerExceptionTest {
         GetDataResponse response = queryController.execute(requestInfo, null);
 
         assertThat(response.getMeta().getAlert().getMessages().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("Query execution error"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("Bad SQL grammar"));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("SELECT * FROM"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("Executed query: SELECT * FROM"));
     }
 
     @Test
@@ -113,8 +113,9 @@ public class QueryControllerExceptionTest {
         GetDataResponse response = queryController.execute(requestInfo, null);
 
         assertThat(response.getMeta().getAlert().getMessages().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("Query execution error"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("404 Not Found: [no body]"));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("http://localhost:8080/data/car/search/findAll"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0),
+                is("Executed query: http://localhost:8080/data/car/search/findAll"));
     }
 }

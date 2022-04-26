@@ -61,17 +61,18 @@ public class AlertMessageBuilderTest {
     @Test
     public void testQueryExecutionExceptionInDevMode() {
         MessageSourceAccessor messageSource = mock(MessageSourceAccessor.class);
-        when(messageSource.getMessage("Query execution error", "Query execution error"))
-                .thenReturn("Query execution error");
+        String message = "couldn't rewrite query getCar";
+        String query = "query MyQuery {getCar(id: )}";
+        when(messageSource.getMessage(message, message)).thenReturn(message);
         PropertyResolver propertyResolver = mock(PropertyResolver.class);
         when(propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class)).thenReturn(true);
         when(propertyResolver.getProperty("n2o.api.message.danger.timeout")).thenReturn("8000");
         AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, propertyResolver);
-        N2oQueryExecutionException e = new N2oQueryExecutionException("query MyQuery {getCar(id: )}");
+        N2oQueryExecutionException e = new N2oQueryExecutionException(message, query);
 
-        ResponseMessage message = builder.build(e);
-        assertThat(message.getText(), is("Query execution error"));
-        assertThat(message.getPayload().size(), is(1));
-        assertThat(message.getPayload().get(0), is("query MyQuery {getCar(id: )}"));
+        ResponseMessage responseMessage = builder.build(e);
+        assertThat(responseMessage.getText(), is(message));
+        assertThat(responseMessage.getPayload().size(), is(1));
+        assertThat(responseMessage.getPayload().get(0), is("Executed query: " + query));
     }
 }
