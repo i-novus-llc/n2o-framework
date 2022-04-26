@@ -25,7 +25,7 @@ function HeaderBody({ projectId, activeFileName, setActiveFileName, filesMap }) 
         <ul className={classnames('tabs', style.headerList)}>
             <a
                 className={classnames('tabs__item', style.headerListItem)}
-                href={`${CONFIG.sandboxUrl}/${projectId}/`}
+                href={`${CONFIG.sandboxUrl}/editor/${projectId}/`}
                 target="_blank"
             >
                 Sandbox
