@@ -7,12 +7,11 @@ import net.n2oapp.framework.api.exception.N2oException;
  */
 public class N2oQueryExecutionException extends N2oException {
 
-    private static final String DEFAULT_MESSAGE = "Query execution error";
     private String query;
 
-    public N2oQueryExecutionException(String query) {
-        super(DEFAULT_MESSAGE);
-        this.query = query;
+    public N2oQueryExecutionException(String message, String query) {
+        super(message);
+        this.query = "Executed query: " + query;
     }
 
     public String getQuery() {
