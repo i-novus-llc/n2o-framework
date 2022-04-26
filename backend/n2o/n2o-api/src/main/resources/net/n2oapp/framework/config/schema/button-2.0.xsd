@@ -36,6 +36,16 @@
                         <xs:documentation>Цвет кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Бадж кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет баджа.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>CSS класс кнопки.</xs:documentation>

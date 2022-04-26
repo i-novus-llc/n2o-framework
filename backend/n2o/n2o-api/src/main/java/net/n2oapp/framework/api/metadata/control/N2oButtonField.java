@@ -15,6 +15,8 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
     private String titleFieldId;
     private String icon;
     private String iconFieldId;
+    private String badge;
+    private String badgeColor;
     private LabelType type;
     private String datasourceId;
     private ReduxModel model;

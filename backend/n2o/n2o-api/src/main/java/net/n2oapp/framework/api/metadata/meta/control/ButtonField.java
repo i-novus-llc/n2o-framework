@@ -18,6 +18,10 @@ public class ButtonField extends ActionField {
     @JsonProperty
     private String icon;
     @JsonProperty
+    private String badge;
+    @JsonProperty
+    private String badgeColor;
+    @JsonProperty
     private String hint;
     @JsonProperty
     private String hintPosition;

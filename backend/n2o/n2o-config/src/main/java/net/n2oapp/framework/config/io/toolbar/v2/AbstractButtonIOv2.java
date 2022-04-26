@@ -24,6 +24,8 @@ public abstract class AbstractButtonIOv2<T extends N2oAbstractButton> extends Co
         p.attribute(e, "label", mi::getLabel, mi::setLabel);
         p.attribute(e, "icon", mi::getIcon, mi::setIcon);
         p.attributeEnum(e, "type", mi::getType, mi::setType, LabelType.class);
+        p.attribute(e, "badge", mi::getBadge, mi::setBadge);
+        p.attribute(e, "badge-color", mi::getBadgeColor, mi::setBadgeColor);
         p.attribute(e, "color", mi::getColor, mi::setColor);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);
         p.attribute(e, "tooltip-position", mi::getTooltipPosition, mi::setTooltipPosition);
