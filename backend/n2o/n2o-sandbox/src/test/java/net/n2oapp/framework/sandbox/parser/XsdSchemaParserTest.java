@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox;
+package net.n2oapp.framework.sandbox.parser;
 
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import org.junit.jupiter.api.Test;

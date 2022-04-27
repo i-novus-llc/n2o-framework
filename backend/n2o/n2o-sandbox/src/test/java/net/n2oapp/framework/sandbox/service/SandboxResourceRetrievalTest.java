@@ -1,4 +1,4 @@
-package net.n2oapp.framework.sandbox;
+package net.n2oapp.framework.sandbox.service;
 
 import lombok.SneakyThrows;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.is;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, XsdSchemaParser.class, SandboxRestClientImpl.class})
-@PropertySource("classpath:test.properties")
+@PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxResourceRetrievalTest {
 

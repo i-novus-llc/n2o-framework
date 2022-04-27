@@ -20,12 +20,6 @@
         <module>server</module>
     </modules>
 
-    <properties>
-        <junit-jupiter.version>5.6.0</junit-jupiter.version>
-        <maven.failsafe.version>2.22.2</maven.failsafe.version>
-        <allure-junit5.version>2.13.3</allure-junit5.version>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
 
@@ -51,26 +45,6 @@
                 <groupId>net.n2oapp.framework</groupId>
                 <artifactId>n2o-access</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>net.n2oapp.framework</groupId>
-                <artifactId>n2o-autotest</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-junit5</artifactId>
-                <version>${allure-junit5.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-selenide</artifactId>
-                <version>${allure-junit5.version}</version>
-                <scope>test</scope>
             </dependency>
 
         </dependencies>
