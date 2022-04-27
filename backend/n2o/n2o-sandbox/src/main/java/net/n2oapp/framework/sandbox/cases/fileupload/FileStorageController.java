@@ -13,7 +13,7 @@ import java.util.Collection;
 @Component
 public class FileStorageController implements StorageController {
 
-    @Value("${n2o.sandbox.url}/file")
+    @Value("${n2o.sandbox.url}/files")
     private String requestUrl;
     private RestTemplate restTemplate;
 
