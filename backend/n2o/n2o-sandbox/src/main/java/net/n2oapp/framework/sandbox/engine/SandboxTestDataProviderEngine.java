@@ -1,6 +1,7 @@
 package net.n2oapp.framework.sandbox.engine;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
@@ -17,7 +18,9 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +37,18 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     @Override
     public Object invoke(N2oTestDataProvider invocation, Map<String, Object> inParams) {
         return super.invoke(invocation, inParams);
+    }
+
+    @Override
+    protected synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
+        if (invocation.getFile() == null)
+            return new ArrayList<>();
+        boolean isInit = getRepositoryData(invocation.getFile()) == null;
+        if (isInit || !readonly) {
+            initRepository(invocation);
+        }
+
+        return repository.get(richKey(invocation.getFile()));
     }
 
     @Override

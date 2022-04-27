@@ -49,10 +49,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     /**
      * Обновление данных в файле на диске
      */
-    private boolean readonly;
+    protected boolean readonly;
 
+
+    protected final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
-    private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
     private final Map<String, AtomicLong> sequences = new ConcurrentHashMap<>();
     private ObjectMapper objectMapper;
 
