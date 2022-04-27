@@ -145,7 +145,7 @@ public class AlertMessageBuilder {
     }
 
     private String initUserMessage(Exception e) {
-        if (devMode)
+        if (devMode && !(e instanceof N2oUserException))
             return e.getMessage();
         if (e instanceof N2oException)
             return ((N2oException) e).getUserMessage();
