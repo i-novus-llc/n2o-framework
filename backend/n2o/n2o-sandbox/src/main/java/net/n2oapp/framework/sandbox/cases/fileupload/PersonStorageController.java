@@ -15,7 +15,7 @@ public class PersonStorageController implements StorageController {
 
     private static final String CREATE_PREFIX = "/create";
     private static final String UPDATE_PREFIX = "/update";
-    @Value("${n2o.sandbox.url}/person")
+    @Value("${n2o.sandbox.url}/persons")
     private String requestUrl;
     private RestTemplate restTemplate;
 
