@@ -29,6 +29,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static java.util.Objects.nonNull;
+import static org.springframework.util.StringUtils.hasText;
+
 /**
  * Реализация процессора считывания и записи DOM элементов
  */
@@ -1143,7 +1146,9 @@ public final class IOProcessorImpl implements IOProcessor {
             P extends NamespacePersister<? super T>> T read(NamespaceIOFactory<T, R, P> factory, Element element,
                                                             Namespace parentNamespace, Namespace... defaultNamespaces) {
         R reader;
-        if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && parentNamespace.getURI().equals(element.getNamespaceURI())) {
+        String parentNameSpacePrefix = nonNull(element.getParentElement()) ? element.getParentElement().getNamespacePrefix() : null;
+
+        if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && (hasText(parentNameSpacePrefix) || parentNamespace.getURI().equals(element.getNamespaceURI()))) {
             reader = factory.produce(element, parentNamespace, defaultNamespaces);
         } else {
             reader = factory.produce(element, parentNamespace, null);

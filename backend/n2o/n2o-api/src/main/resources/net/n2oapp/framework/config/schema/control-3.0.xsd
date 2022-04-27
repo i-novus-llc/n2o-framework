@@ -87,6 +87,7 @@
             <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
             <xs:element name="number-picker" type="numberPickerFieldDefinition" minOccurs="0"/>
             <xs:element name="time-picker" type="controlTimePickerDefinition" minOccurs="0"/>
+            <xs:any namespace="##other"/>
         </xs:sequence>
     </xs:complexType>
 
