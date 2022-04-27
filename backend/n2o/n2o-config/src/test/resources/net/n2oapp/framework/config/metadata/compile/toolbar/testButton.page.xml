@@ -1,14 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" object-id="utBlank">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <table id="table"/>
+            <table id="table">
+                <datasource object-id="utBlank"/>
+            </table>
         </region>
     </regions>
 
     <toolbar>
-        <button id="btn1" label="delete" color="danger" icon="fa fa-trash" type="text" widget-id="table"
-                tooltip-position="right" class="Button" style="color:red;" description="hint">
+        <button id="btn1" label="delete" badge="{badge}" badge-color="{color}" color="danger" icon="fa fa-trash" type="text"
+                datasource="table" tooltip-position="right" class="Button" style="color:red;" description="hint">
             <invoke operation-id="delete"/>
         </button>
         <button id="btn2" label="edit" icon="fa fa-pencil" type="icon"/>
