@@ -37,7 +37,7 @@ public class FileUploadAT extends SandboxAutotestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        addRuntimeProperty("n2o.sandbox.editor.url", "/sandbox");
+        addRuntimeProperty("n2o.sandbox.url", getBaseUrl());
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
