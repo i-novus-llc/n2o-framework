@@ -1,6 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +29,9 @@ public abstract class N2oAbstractCell implements N2oCell, ExtensionAttributesAwa
     private String cssClass;
     @JsonProperty("style")
     private Map<String, String> reactStyle;
+    @JsonIgnore
     private String style;
+    @JsonIgnore
     private String visible;
     @JsonProperty("visible")
     private Object jsonVisible;
