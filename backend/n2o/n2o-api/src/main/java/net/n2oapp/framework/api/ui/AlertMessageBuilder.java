@@ -86,7 +86,7 @@ public class AlertMessageBuilder {
 
     private List<String> initPayload(Exception e) {
         if (devMode && e instanceof N2oQueryExecutionException)
-            return Collections.singletonList(((N2oQueryExecutionException) e).getQuery());
+            return Collections.singletonList("Executed query: " + ((N2oQueryExecutionException) e).getQuery());
         return getStackFrames(getStackTrace(e));
     }
 

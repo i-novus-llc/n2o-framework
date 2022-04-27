@@ -11,7 +11,7 @@ public class N2oQueryExecutionException extends N2oException {
 
     public N2oQueryExecutionException(String message, String query) {
         super(message);
-        this.query = "Executed query: " + query;
+        this.query = query;
     }
 
     public String getQuery() {
