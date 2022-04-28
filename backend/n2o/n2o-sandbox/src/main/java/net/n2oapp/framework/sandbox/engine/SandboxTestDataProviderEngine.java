@@ -69,7 +69,10 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     protected InputStream getResourceInputStream(N2oTestDataProvider invocation) throws IOException {
         try {
             String projectId = ThreadLocalProjectId.getProjectId();
-            return new ByteArrayInputStream(restClient.getFile(projectId, invocation.getFile(), session).getBytes());
+            String response = restClient.getFile(projectId, invocation.getFile(), session);
+            if (response != null)
+                return new ByteArrayInputStream(response.getBytes());
+            throw new FileNotFoundException(invocation.getFile());
         } catch (HttpClientErrorException.NotFound e) {
             ClassPathResource classPathResource = new ClassPathResource(invocation.getFile());
             if (classPathResource.exists()) {

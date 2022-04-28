@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class IndexPageHandler {
 
-    @Value("${server.servlet.context-path}")
+    @Value("${server.servlet.context-path:/}")
     private String servletContext;
     @Autowired
     private SandboxRestClient restClient;

@@ -87,6 +87,11 @@
             <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
             <xs:element name="number-picker" type="numberPickerFieldDefinition" minOccurs="0"/>
             <xs:element name="time-picker" type="controlTimePickerDefinition" minOccurs="0"/>
+            <xs:any namespace="##other" processContents="strict">
+                <xs:annotation>
+                    <xs:documentation>Подключаемое через библиотеку поле.</xs:documentation>
+                </xs:annotation>
+            </xs:any>
         </xs:sequence>
     </xs:complexType>
 

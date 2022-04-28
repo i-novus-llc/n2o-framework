@@ -39,6 +39,7 @@ import java.util.Map;
 @EnableJpaRepositories
 @EnableAutoConfiguration
 @EnableCaching
+@ComponentScan("net.n2oapp.framework.sandbox")
 public class N2oSandboxConfiguration {
 
     @Bean

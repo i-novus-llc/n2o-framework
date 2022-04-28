@@ -22,7 +22,7 @@ public class SandboxRestClientImpl implements SandboxRestClient {
     private static final String PROJECT_PREFIX = "/project";
     private static final String TEMPLATES_PREFIX = "/templates";
     private static final String SCHEMAS_PREFIX = "/schemas";
-    @Value("${n2o.sandbox.api.url}/project")
+    @Value("${n2o.sandbox.url}/api/project")
     private String baseApiProjectUrl;
     private RestTemplate restTemplate;
 
