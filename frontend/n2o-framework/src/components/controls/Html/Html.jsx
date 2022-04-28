@@ -9,9 +9,14 @@ import { Html as HtmlSnippet } from '../../snippets/Html/Html'
  * @param {string} id - id
  * @param {string} html - html
  * @param {string} className - className
+ * @param {boolean} visible
  * @constructor
  */
-export function Html({ id, html, className }) {
+export function Html({ id, html, className, visible }) {
+    if (!visible) {
+        return null
+    }
+
     return (
         <HtmlSnippet
             id={id}
@@ -30,6 +35,7 @@ Html.propTypes = {
     id: PropTypes.string,
     html: PropTypes.string,
     className: PropTypes.string,
+    visible: PropTypes.bool,
 }
 
 export default Html
