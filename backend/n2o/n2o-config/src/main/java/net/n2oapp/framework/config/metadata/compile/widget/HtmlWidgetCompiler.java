@@ -28,9 +28,9 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
         MetaActions widgetActions = initMetaActions(source, p);
         if (source.getHtml() != null)
-            widget.setHtml(source.getHtml().trim());
+            widget.setHtml(p.resolveJS(source.getHtml().trim()));
         else if (source.getUrl() != null)
-            widget.setHtml(getContentByUri(source.getUrl()));
+            widget.setHtml(p.resolveJS(getContentByUri(source.getUrl())));
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetActions, object, null);
         return widget;
     }
