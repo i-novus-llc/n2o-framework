@@ -21,7 +21,7 @@ public class N2oApplicationPack implements MetadataPack<N2oApplicationBuilder> {
         b.ios(new ApplicationIO(), new ApplicationIOv2(), new ApplicationIOv3(), new SimpleMenuIOv2(), new SimpleMenuIOv3(), new OpenPageElementIOV1(),
                 new AnchorElementIOV1());
         b.compilers(new ApplicationCompiler(), new SimpleMenuCompiler(), new SearchBarCompiler(),
-                new StompDatasourceCompiler(), new StompEventCompiler());
+                new StompDatasourceCompiler(), new StompEventCompiler(), new SidebarCompiler());
         b.binders(new ApplicationBinder());
     }
 }

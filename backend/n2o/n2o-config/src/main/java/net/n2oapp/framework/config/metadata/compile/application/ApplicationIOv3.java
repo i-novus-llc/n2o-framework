@@ -10,7 +10,12 @@ import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
 import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.metadata.compile.header.HeaderIOv2;
 import org.jdom2.Element;
+import org.springframework.stereotype.Component;
 
+/**
+ * Запись/чтение приложения версии 3.0
+ */
+@Component
 public class ApplicationIOv3 implements NamespaceIO<N2oApplication> {
     @Override
     public Class<N2oApplication> getElementClass() {

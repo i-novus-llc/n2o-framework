@@ -212,7 +212,7 @@
         </xs:attribute>
         <xs:attribute name="subtitle" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Подзаголовок в бокой панели</xs:documentation>
+                <xs:documentation>Подзаголовок в боковой панели</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="home-page-url" type="xs:string">

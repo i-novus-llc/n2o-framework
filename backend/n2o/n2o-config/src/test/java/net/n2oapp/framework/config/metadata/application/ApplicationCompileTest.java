@@ -94,18 +94,4 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(event.getId(), is("showTask"));
         assertThat(((StompEvent) event).getDestination(), is("/task"));
     }
-
-    @Test
-    public void sidebars() {
-        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebars.application.xml")
-                .get(new ApplicationContext("sidebars"));
-
-        assertThat(application.getSidebars().size(), is(2));
-        Sidebar sidebar = application.getSidebars().get(0);
-
-        assertThat(sidebar.getPath(), is("/home"));
-
-        sidebar = application.getSidebars().get(1);
-        assertThat(sidebar.getPath(), is("/profile"));
-    }
 }

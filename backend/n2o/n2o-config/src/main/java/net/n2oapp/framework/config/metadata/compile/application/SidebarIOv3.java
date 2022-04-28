@@ -8,7 +8,12 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.io.control.ComponentIO;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
 import org.jdom2.Element;
+import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись боковой панели версии 3.0
+ */
+@Component
 public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
 
     @Override

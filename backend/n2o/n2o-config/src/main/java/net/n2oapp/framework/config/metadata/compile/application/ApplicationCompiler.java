@@ -30,7 +30,6 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     @Override
     public Application compile(N2oApplication source, ApplicationContext context, CompileProcessor p) {
         Application application = new Application();
-        List<Sidebar> sidebars = new ArrayList<>();
 
         initWelcomePage(source, p);
 
@@ -43,6 +42,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         Header header = initHeader(source.getHeader(), context, p);
         application.setHeader(header);
 
+        List<Sidebar> sidebars = new ArrayList<>();
         if (source.getSidebars() != null) {
             for (N2oSidebar n2oSidebar : source.getSidebars()) {
                 Sidebar sidebar = initSidebar(n2oSidebar, header, context, p);
@@ -83,8 +83,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
 
     private Sidebar initSidebar(N2oSidebar source, Header header, ApplicationContext context, CompileProcessor p) {
         if (source == null || source.getVisible() != null && !source.getVisible()) return null;
-        SidebarCompiler sidebarCompiler = new SidebarCompiler();
-        Sidebar sidebar = sidebarCompiler.compile(source, context, p);
+        Sidebar sidebar = p.compile(source, context);
         if (header != null && header.getSidebarSwitcher() != null) {
             sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.none));
             sidebar.setToggledState(p.cast(source.getToggledState(), SidebarState.maxi));

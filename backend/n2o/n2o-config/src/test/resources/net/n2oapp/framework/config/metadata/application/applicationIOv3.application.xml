@@ -58,7 +58,7 @@
             <extra-menu ref-id="MenuRef"/>
             <nav ref-id="MenuRef"/>
         </sidebar>
-        <sidebar visible="true" path="/home">
+        <sidebar visible="true" path="/home" subtitle="Home description">
 
         </sidebar>
     </sidebars>

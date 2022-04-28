@@ -113,4 +113,19 @@ public class SidebarCompileTest extends SourceCompileTestBase {
 
         assertThat(application.getSidebars().get(0), nullValue());
     }
+
+    @Test
+    public void sidebars() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebars.application.xml")
+                .get(new ApplicationContext("sidebars"));
+
+        assertThat(application.getSidebars().size(), is(2));
+        Sidebar sidebar = application.getSidebars().get(0);
+
+        assertThat(sidebar.getPath(), is("/home"));
+        assertThat(sidebar.getSubtitle(), is("Home description"));
+
+        sidebar = application.getSidebars().get(1);
+        assertThat(sidebar.getPath(), is("/profile"));
+    }
 }

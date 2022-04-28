@@ -8,9 +8,14 @@ import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.util.StylesResolver;
+import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
+/**
+ * Компиляция боковой панели
+ */
+@Component
 public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, ApplicationContext>, SourceClassAware {
 
     @Override
@@ -20,7 +25,6 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
 
     @Override
     public Sidebar compile(N2oSidebar source, ApplicationContext context, CompileProcessor p) {
-        if (source == null || source.getVisible() != null && !source.getVisible()) return null;
         Sidebar sidebar = new Sidebar();
         sidebar.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.sidebar.src"), String.class)));
         sidebar.setClassName(source.getCssClass());
