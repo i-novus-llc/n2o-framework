@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.is;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 SandboxTestDataProviderEngine.class, XsdSchemaParser.class},
-        properties = {"n2o.access.deny_objects=false"})
+        properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxDataProviderTest {
