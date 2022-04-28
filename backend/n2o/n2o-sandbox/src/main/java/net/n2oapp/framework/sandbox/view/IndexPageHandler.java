@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * Процессинг index.html
@@ -32,7 +33,7 @@ public class IndexPageHandler {
     @Autowired
     private SandboxRestClient restClient;
 
-    private static final String SERVICE_WORKER_JS = "serviceWorker.js";
+    private static final String RELATIVE_PATH = "./";
     private static final String VIEW_INDEX_HTML = "META-INF/resources/index.html";
 
     @CrossOrigin(origins = "*")
@@ -50,24 +51,16 @@ public class IndexPageHandler {
     private ByteArrayResource processHtml() {
         try (InputStream io = new ClassPathResource(VIEW_INDEX_HTML).getInputStream()) {
             String html = IOUtils.toString(io, StandardCharsets.UTF_8);
-
-            String rp = findReplaceablePath(html);
-
-            html = html.replace(rp + "static/", servletContext + "/static/")
-                    .replace(rp + "favicon.ico", servletContext + "/favicon.ico")
-                    .replace(rp + "logo192.png", servletContext + "/logo192.png")
-                    .replace(rp + "manifest.json", servletContext + "/manifest.json")
-                    .replace(rp + SERVICE_WORKER_JS, servletContext + "/" + SERVICE_WORKER_JS);
+            String rp = RELATIVE_PATH;
+            html = html.replace(rp + "static/", servletContext + "static/")
+                    .replace(rp + "favicon.ico", servletContext + "favicon.ico")
+                    .replace(rp + "logo192.png", servletContext + "logo192.png")
+                    .replace(rp + "manifest.json", servletContext + "manifest.json")
+                    .replace(rp + "serviceWorker.js", servletContext + "serviceWorker.js");
             return new ByteArrayResource(html.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-    }
-
-    private String findReplaceablePath(String html) {
-        int swj = html.indexOf(SERVICE_WORKER_JS);
-        int sw2 = html.lastIndexOf("\"", swj);
-        return swj != -1 ? html.substring(sw2 + 1, swj) : html;
     }
 
 }
