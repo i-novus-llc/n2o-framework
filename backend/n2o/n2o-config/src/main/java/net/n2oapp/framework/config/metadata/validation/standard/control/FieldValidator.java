@@ -30,7 +30,6 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     @Override
     public void validate(N2oField source, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        checkIdExistence(source, widgetScope, p);
         if (p.getScope(FieldsScope.class) != null) {
             FieldsScope scope = p.getScope(FieldsScope.class);
             Boolean sameFieldIdHasDependency = scope.get(source.getId());
@@ -45,21 +44,6 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         checkRefDatasource(source, datasourceIdsScope);
         if (widgetScope != null)
             checkWhiteListValidation(source, widgetScope, p);
-    }
-
-    /**
-     * Проверка наличия идентификатора поля
-     * @param source      Поле
-     * @param widgetScope Скоуп виджета, в котором находится поле
-     * @param p           Процессор исходных метаданных
-     */
-    private void checkIdExistence(N2oField source, WidgetScope widgetScope, SourceProcessor p) {
-        if (source instanceof N2oButtonField)
-            return;
-        p.checkIdExistence(source, String.format(
-                "Для компиляции виджета %s необходимо задать идентификаторы для всех полей",
-                widgetScope != null ? ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()) : ""
-         ));
     }
 
     /**
