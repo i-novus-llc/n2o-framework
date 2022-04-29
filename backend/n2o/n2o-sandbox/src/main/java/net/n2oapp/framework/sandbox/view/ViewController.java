@@ -93,7 +93,7 @@ public class ViewController {
     private String n2oVersion;
     @Value("${n2o.config.path}")
     private String basePath;
-    @Value("${spring.messages.basename}")
+    @Value("${spring.messages.basename:messages}")
     private String messageBundleBasename;
 
     @Autowired
@@ -437,6 +437,7 @@ public class ViewController {
     }
 
     private UserContext getUserContext(String projectId) {
+        sandboxContext.refresh();
         return new UserContext(sandboxContext);
     }
 
