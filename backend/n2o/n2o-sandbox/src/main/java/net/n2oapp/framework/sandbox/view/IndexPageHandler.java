@@ -20,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 /**
  * Процессинг index.html
@@ -52,6 +51,8 @@ public class IndexPageHandler {
         try (InputStream io = new ClassPathResource(VIEW_INDEX_HTML).getInputStream()) {
             String html = IOUtils.toString(io, StandardCharsets.UTF_8);
             String rp = RELATIVE_PATH;
+            if (!servletContext.endsWith("/"))
+                servletContext += "/";
             html = html.replace(rp + "static/", servletContext + "static/")
                     .replace(rp + "favicon.ico", servletContext + "favicon.ico")
                     .replace(rp + "logo192.png", servletContext + "logo192.png")
