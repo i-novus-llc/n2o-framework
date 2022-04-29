@@ -1,8 +1,6 @@
 package net.n2oapp.framework.sandbox.autotest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.boot.*;
@@ -11,7 +9,6 @@ import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FileStorageCont
 import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FilesRestController;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
-import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.properties.reader.PropertiesReader;
@@ -29,7 +26,6 @@ import org.springframework.mock.web.MockHttpSession;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 
 /**
  * Веб сервер для прогона автотестов по примерам сендбокса
@@ -55,7 +51,7 @@ public class SandboxAutotestApplication {
 
     @Bean
     public SandboxTestDataProviderEngine dataProviderEngine() {
-        return new SandboxTestDataProviderEngine() {
+        SandboxTestDataProviderEngine dataProviderEngine = new SandboxTestDataProviderEngine() {
 
             @Value("${n2o.sandbox.project-id}")
             private String projectId;
@@ -74,17 +70,10 @@ public class SandboxAutotestApplication {
 
             @Override
             protected void updateFile(String filename) {
-                try {
-                    String mapAsJson = super.getObjectMapper().writeValueAsString(getRepositoryData(filename));
-                    FileModel fileModel = new FileModel();
-                    fileModel.setFile(filename);
-                    fileModel.setSource(mapAsJson);
-                    restClient.putFiles(projectId, Collections.singletonList(fileModel), new MockHttpSession());
-                } catch (JsonProcessingException e) {
-                    throw new N2oException(e);
-                }
             }
         };
+        dataProviderEngine.setReadonly(true);
+        return dataProviderEngine;
     }
 
     @Bean
