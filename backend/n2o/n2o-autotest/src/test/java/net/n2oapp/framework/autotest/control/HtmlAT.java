@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.api.component.control.Html;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Html;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -44,12 +44,15 @@ public class HtmlAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Html html = page.widget(FormWidget.class).fields().field("Html")
-                .control(Html.class);
+        Html html = page.widget(FormWidget.class).fields().field(Html.class);
         html.shouldExists();
 
+        html.shouldHaveElement("h3.class1");
+        html.shouldHaveText("Hello, World!");
+
         Map<String, String> attributes = new HashMap<>();
-        attributes.put("style", "margin: 10px;");
+        attributes.put("style", "color: red;");
         html.shouldHaveElementWithAttributes("h3.class1", attributes);
+
     }
 }

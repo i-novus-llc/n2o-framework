@@ -22,7 +22,7 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CodeEditorCompiler(),
                 new CodeViewerCompiler(),
                 new MaskedInputCompiler(),
-                new HtmlControlCompiler(),
+                new HtmlCompiler(),
                 new TextAreaCompiler(),
                 new RadioGroupCompiler(),
                 new OutputTextCompiler(),

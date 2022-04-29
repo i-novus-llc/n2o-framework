@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta.control;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,5 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class HtmlControl extends Control {
+public class Html extends Field {
+    @JsonProperty
+    private String html;
 }
