@@ -44,11 +44,11 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
         if (invocation.getFile() == null)
             return new ArrayList<>();
         boolean isInit = getRepositoryData(invocation.getFile()) == null;
-        if (isInit || !readonly) {
+        if (isInit || !isReadonly()) {
             initRepository(invocation);
         }
 
-        return repository.get(richKey(invocation.getFile()));
+        return getRepository().get(richKey(invocation.getFile()));
     }
 
     @Override
