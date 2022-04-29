@@ -2,11 +2,11 @@ package net.n2oapp.framework.test;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -15,10 +15,9 @@ import net.n2oapp.framework.boot.graphql.N2oGraphQlException;
 public class TestOperationExceptionHandler implements OperationExceptionHandler {
 
     private N2oException handleGraphQlException(Exception e) {
-        N2oException exception = new N2oException();
         DataSet result = ((N2oGraphQlException) e).getResponse();
         StringBuilder builder = new StringBuilder();
-        DataSet errors = result.getDataSet("errors");
+        DataSet errors = ((DataSet) result.getList("errors").get(0));
 
         String message = errors.getString("message");
         Integer column = errors.getInteger("column");
@@ -28,6 +27,7 @@ public class TestOperationExceptionHandler implements OperationExceptionHandler 
         builder.append("line: " + line + ", ");
         builder.append("column: " + column + ".");
 
+        N2oException exception = new N2oException();
         exception.setUserMessage(builder.toString());
         return exception;
     }

@@ -5,10 +5,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
+import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -36,6 +40,7 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
  * Сервис вызова Spring RestTemplate
  */
 public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRestDataProvider> {
+    private static final Logger log = LoggerFactory.getLogger(SpringRestDataProviderEngine.class);
     private RestTemplate restTemplate;
 
     private ObjectMapper objectMapper;
@@ -136,17 +141,24 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         HttpHeaders headers = initHeaders(args);
         Map<String, Object> body = new HashMap<>(args);
 
-        switch (method) {
-            case GET:
-                return exchange(query, method, headers, args);
-            case DELETE:
-            case POST:
-            case PUT:
-            case PATCH:
-                return exchange(query, method, body, headers, args);
-            default:
-                throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
+        log.debug("Execute REST query: " + query);
+        try {
+            switch (method) {
+                case GET:
+                    return exchange(query, method, headers, args);
+                case DELETE:
+                case POST:
+                case PUT:
+                case PATCH:
+                    return exchange(query, method, body, headers, args);
+                default:
+                    throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
+            }
+        } catch (RestClientResponseException e) {
+            log.error("Execution error with REST query: " + query);
+            throw new N2oQueryExecutionException(e.getMessage().replaceAll("[{}]", ""), query);
         }
+
     }
 
     private Object exchange(String query, HttpMethod method, HttpHeaders headers, Map<String, Object> args) {
