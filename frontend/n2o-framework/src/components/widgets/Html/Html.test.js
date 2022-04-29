@@ -15,31 +15,20 @@ it('correct class in html', () => {
 it('correct string in html (with placeholders)', () => {
     const wrapper = render(
         <Html
-            html={'name is {name} , surname is {surname}'}
-            data={{ name: 'Tom', surname: 'Sower' }}
+            html="`'<div class='test'><h3 class='class3' style='color:green;'>'+name+' : '+second+'</h3></div>'`"
+            data={{ name: 'Tom', second: 'Sower' }}
         />,
     )
-    expect(wrapper.text()).toBe('name is Tom , surname is Sower')
+    expect(wrapper.text()).toBe("Tom : Sower")
 })
 
-it('correct string in html (with placeholders and empty placeholders)', () => {
+it('right html with placeholders', () => {
     const wrapper = render(
         <Html
-            html={'name is {name} , surname is {surname}{}{}'}
-            data={{ name: 'Tom', surname: 'Sower' }}
+            html="`'<div class='test'><h3 class='class3' style='color:green;'>'+name+' : '+second+'</h3></div>'`"
+            data={{ name: 'Tom', second: 'Sower' }}
         />,
     )
-    expect(wrapper.text()).toBe('name is Tom , surname is Sower')
-})
 
-it('correct string in html, (with placeholders and wrong keys)', () => {
-    const wrapper = render(
-        <Html
-            html={
-                'name is {name}{test} , surname is {surname}{some key}{12345}{TEST KEY}'
-            }
-            data={{ name: 'Tom', surname: 'Sower' }}
-        />,
-    )
-    expect(wrapper.text()).toBe('name is Tom , surname is Sower')
+    expect(wrapper.html()).toEqual("<div><div class=\"test\"><h3 class=\"class3\" style=\"color:green;\">Tom : Sower</h3></div></div>")
 })

@@ -1,32 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 
-const Html = ({ value, visible, disabled, className }) => {
-    const disabledStyle = {
-        pointerEvents: 'none',
-        opacity: '0.4',
+import { Html as HtmlResolver } from '../../widgets/Html/Html'
+
+/**
+ * Компонент поле html
+ * @param {string} id - id
+ * @param {object} model - className
+ * @param {boolean} visible
+ * @constructor
+ */
+export function Html({ visible, model, ...rest }) {
+    if (!visible) {
+        return null
     }
-    const style = disabled ? disabledStyle : undefined
 
     return (
-        <div style={style} className={classNames('n2o-html', className)}>
-            {/* eslint-disable-next-line react/no-danger */}
-            {visible && <div dangerouslySetInnerHTML={{ __html: value }} />}
-        </div>
+        <HtmlResolver {...rest} data={model} />
     )
 }
 
 Html.propTypes = {
+    id: PropTypes.string,
+    html: PropTypes.string,
     className: PropTypes.string,
-    value: PropTypes.string,
     visible: PropTypes.bool,
-    disabled: PropTypes.bool,
-}
-
-Html.defaultProps = {
-    visible: true,
-    disabled: false,
+    model: PropTypes.object,
 }
 
 export default Html

@@ -4,8 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.N2oHtml;
-import net.n2oapp.framework.api.metadata.meta.control.HtmlControl;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.Html;
 import org.springframework.stereotype.Component;
 
 
@@ -13,10 +12,10 @@ import org.springframework.stereotype.Component;
  * Компиляция компонента вывода html
  */
 @Component
-public class HtmlControlCompiler extends StandardFieldCompiler<HtmlControl, N2oHtml> {
+public class HtmlCompiler extends FieldCompiler<Html, N2oHtml> {
 
     @Override
-    protected String getControlSrcProperty() {
+    protected String getSrcProperty() {
         return "n2o.api.control.html.src";
     }
 
@@ -26,8 +25,11 @@ public class HtmlControlCompiler extends StandardFieldCompiler<HtmlControl, N2oH
     }
 
     @Override
-    public StandardField<HtmlControl> compile(N2oHtml source, CompileContext<?, ?> context, CompileProcessor p) {
-        HtmlControl htmlControl = new HtmlControl();
-        return compileStandardField(htmlControl, source, context, p);
+    public Html compile(N2oHtml source, CompileContext<?, ?> context, CompileProcessor p) {
+        Html html = new Html();
+        html.setHtml(p.resolveJS(source.getHtml().trim()));
+        initDefaults(source, context, p);
+        compileField(html, source, context, p);
+        return html;
     }
 }

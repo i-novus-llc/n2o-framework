@@ -775,22 +775,35 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="htmlContentDefinition">
+        <xs:attribute name="url" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    URL адрес HTML страницы. Если не задан, необходимо задать содержимое в теле.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="htmlReferenceDefinition">
         <xs:complexContent>
             <xs:extension base="widgetDefinition">
                 <xs:annotation>
                     <xs:documentation>Html виджет.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="src" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Путь к html файлу. Если не задан, необходимо задать содержимое в теле
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+        <xs:sequence>
+            <xs:element name="content" type="htmlContentDefinition">
+                <xs:annotation>
+                    <xs:documentation>
+                        Контент для отображения html.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
     </xs:complexType>
+
 
     <xs:complexType name="tilesReferenceDefinition">
         <xs:complexContent>

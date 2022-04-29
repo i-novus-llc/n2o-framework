@@ -14,6 +14,7 @@ public class HtmlIOv3 extends PlainFieldIOv3<N2oHtml> {
     @Override
     public void io(Element e, N2oHtml m, IOProcessor p) {
         super.io(e, m, p);
+        p.text(e, m::getHtml, m::setHtml);
     }
 
     @Override
