@@ -31,6 +31,7 @@ import java.util.function.Supplier;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
 
 /**
@@ -1169,7 +1170,7 @@ public final class IOProcessorImpl implements IOProcessor {
                                                                      Namespace parentNamespace, Namespace... defaultNamespaces) {
         P persister;
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null
-                && (hasText(entity.getNamespacePrefix()) || entity.getNamespaceUri().equals(parentNamespace.getURI())))
+                && (isEmpty(entity.getNamespacePrefix()) || entity.getNamespaceUri().equals(parentNamespace.getURI())))
             persister = factory.produce((Class<T>) entity.getClass(), defaultNamespaces);
         else
             persister = factory.produce(entity);
