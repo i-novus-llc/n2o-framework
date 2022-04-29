@@ -19,7 +19,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура приложения"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
              welcome-page-id="index">
   <header>
     ...
@@ -40,7 +40,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура шапки"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Мое приложение">
       <nav>
         ...
@@ -58,15 +58,17 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура бооковой панели"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
-    <sidebar title="Мое приложение">
-      <nav>
-        ...
-      </nav>
-      <extra-menu>
-        ...
-      </extra-menu>
-    </sidebar>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar title="Мое приложение">
+          <nav>
+            ...
+          </nav>
+          <extra-menu>
+            ...
+          </extra-menu>
+        </sidebar>
+    </sidebars>
 </application>
 ```
 
@@ -76,7 +78,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура подвала"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <footer left-text="N2O ${n2o.version}"/>
 </application>
 ```
@@ -102,7 +104,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Меню навигации в приложении"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Мое приложение">
         <nav>
               <menu-item id="mi1" name="Первая страница">
@@ -113,16 +115,18 @@ N2O - компонентно-ориентированный фреймворк.
               </menu-item>
         </nav>
     </header>
-    <sidebar title="Мое приложение">
-        <extra-menu>
-              <menu-item id="mi1" name="Первая страница">
-                  <open-page page-id="menu1"/>
-              </menu-item>
-              <menu-item id="mi2" name="Вторая страница">
-                  <open-page page-id="menu2"/>
-              </menu-item>
-        </extra-menu>
-    </sidebar>
+    <sidebars>
+        <sidebar title="Мое приложение">
+            <extra-menu>
+                  <menu-item id="mi1" name="Первая страница">
+                      <open-page page-id="menu1"/>
+                  </menu-item>
+                  <menu-item id="mi2" name="Вторая страница">
+                      <open-page page-id="menu2"/>
+                  </menu-item>
+            </extra-menu>
+        </sidebar>
+    </sidebars>
 </application>
 ```
 
@@ -131,12 +135,14 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Ссылка на меню навигации"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Мое приложение">
         <nav ref-id="myMenu"/>
-    <sidebar title="Мое приложение">
-        <extra-menu ref-id="myMenu"/>
-    </sidebar>
+    <sidebars>
+        <sidebar title="Мое приложение">
+            <extra-menu ref-id="myMenu"/>
+        </sidebar>
+    </sidebars>
 </application>
 ```
 

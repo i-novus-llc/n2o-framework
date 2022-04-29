@@ -17,7 +17,7 @@ Stomp событие - это событие, которое может быть
 Клиент, получив эту информацию, отобразит уведомление на странице.
 
 ```xml title="Получение события и отображение уведомления на странице"
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <events>
         <!-- клиент будет прослушивать данные, полученные по указанному destination -->
         <stomp-event id="notif" destination="/notifications">
@@ -34,7 +34,7 @@ Stomp событие - это событие, которое может быть
 с помощью информации переданной в событии.
 
 ```xml title="Получение информации уведомления и отображение его на странице"
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <events>
         <!-- клиент будет прослушивать данные, полученные по указанному destination -->
         <stomp-event id="notif" destination="/notifications">
