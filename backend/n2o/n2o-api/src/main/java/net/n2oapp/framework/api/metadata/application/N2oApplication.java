@@ -37,7 +37,7 @@ public class N2oApplication extends N2oMetadata {
     /**
      * Боковая панель приложения
      */
-    private N2oSidebar sidebar;
+    private N2oSidebar[] sidebars;
 
     /**
      * Подвал приложения

@@ -1,9 +1,6 @@
 package net.n2oapp.framework.config.metadata.application;
 
-import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.application.Event;
-import net.n2oapp.framework.api.metadata.application.StompDatasource;
-import net.n2oapp.framework.api.metadata.application.StompEvent;
+import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
