@@ -64,6 +64,7 @@ public class DataBackFromModalAT extends SandboxAutotestBase {
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Страница с/без выборки");
         StandardField testField = page.widget(FormWidget.class).fields().field("Поле с данными, введенными в модальном окне");
+        testField.control(InputText.class).shouldBeVisible();
         testField.control(InputText.class).shouldBeDisabled();
         testField.control(InputText.class).shouldBeEmpty();
         page.widget(FormWidget.class).fields().field("Выборка текущего виджета").control(InputText.class).shouldBeDisabled();
