@@ -5,7 +5,7 @@ import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 
-import Html from './Html'
+import { Html } from './Html'
 import 'whatwg-fetch'
 
 /**
