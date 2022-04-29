@@ -81,16 +81,6 @@ public class FieldValidatorTest extends SourceValidationTestBase {
     }
 
     /**
-     * Проверяется наличие идентификатора у поля
-     */
-    @Test
-    public void testIdExistence() {
-        exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Для компиляции виджета testIdExistence необходимо задать идентификаторы для всех полей");
-        validate("net/n2oapp/framework/config/metadata/validation/field/testIdExistence.widget.xml");
-    }
-
-    /**
      * Проверяется наличие источника данных виджета для поля c white-list валидацией
      */
     @Test
