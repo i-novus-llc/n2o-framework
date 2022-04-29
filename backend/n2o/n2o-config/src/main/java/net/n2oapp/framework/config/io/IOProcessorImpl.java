@@ -1169,7 +1169,7 @@ public final class IOProcessorImpl implements IOProcessor {
                                                                      Namespace parentNamespace, Namespace... defaultNamespaces) {
         P persister;
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null
-                && (isNull(entity.getNamespacePrefix()) || entity.getNamespaceUri().equals(parentNamespace.getURI())))
+                && (hasText(entity.getNamespacePrefix()) || entity.getNamespaceUri().equals(parentNamespace.getURI())))
             persister = factory.produce((Class<T>) entity.getClass(), defaultNamespaces);
         else
             persister = factory.produce(entity);
