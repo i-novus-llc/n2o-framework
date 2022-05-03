@@ -3,10 +3,12 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 import CONFIG from '../../ci-config.json'
+import { projectPathPrefix } from '../../constants/constants'
 
 import style from './sandbox.module.scss'
+import { fetchProjectId } from './utils'
 
-function HeaderBody({ projectId, activeFileName, setActiveFileName, filesMap }) {
+function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, filesMap }) {
     const fileNames = Object.keys(filesMap)
 
     let indexFileName = ''
@@ -21,15 +23,21 @@ function HeaderBody({ projectId, activeFileName, setActiveFileName, filesMap }) 
         fileNames.splice(0, 1)
     }
 
+    const onClick = async () => {
+        const { projectId } = await fetchProjectId(templateId)
+
+        window.open(`${CONFIG.sandboxUrl}${projectPathPrefix}${projectId}/`, '_blank')
+    }
+
     return (
         <ul className={classnames('tabs', style.headerList)}>
-            <a
+            <div
                 className={classnames('tabs__item', style.headerListItem)}
-                href={`${CONFIG.sandboxUrl}/new/${projectId}/`}
-                target="_blank"
+                onClick={onClick}
+                role="button"
             >
                 Sandbox
-            </a>
+            </div>
 
             {
                 indexFileName
