@@ -51,8 +51,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private boolean readonly;
 
-    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+
     private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
+    private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final Map<String, AtomicLong> sequences = new ConcurrentHashMap<>();
     private ObjectMapper objectMapper;
 
@@ -669,6 +670,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    public boolean isReadonly() {
+        return readonly;
+    }
+
+    public Map<String, List<DataSet>> getRepository() {
+        return repository;
     }
 
     /**
