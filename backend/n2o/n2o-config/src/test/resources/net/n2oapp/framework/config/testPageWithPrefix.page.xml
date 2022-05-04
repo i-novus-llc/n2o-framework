@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:someschema="http://n2oapp.net/framework/config/schema/some-schema">
+    <regions>
+        <panel>
+            <form>
+                <fields>
+                    <someschema:set></someschema:set>
+                    <someschema:set></someschema:set>
+                </fields>
+            </form>
+        </panel>
+
+    </regions>
+</page>
