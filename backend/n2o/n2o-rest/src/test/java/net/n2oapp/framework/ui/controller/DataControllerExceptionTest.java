@@ -53,7 +53,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
         assertThat(response.getMeta().getAlert().getAlertKey(), is("page_main"));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getColor(), is("danger"));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getStacktrace().get(0), is("net.n2oapp.framework.api.exception.N2oException: Message"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("net.n2oapp.framework.api.exception.N2oException: Message"));
 
         List<ValidationMessage> messages = new ArrayList<>();
         messages.add(new ValidationMessage("message1", "field1", "validation1"));
@@ -81,7 +81,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         DataController controller = buildController(dataProcessingStack);
         GetDataResponse response = controller.getData("/page/main", null, null);
         assertThat(response.getMeta().getAlert().getMessages().get(0).getColor(), is(SeverityType.danger.toString()));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getStacktrace().get(0), is("net.n2oapp.framework.api.exception.N2oException: Message"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("net.n2oapp.framework.api.exception.N2oException: Message"));
 
         List<ValidationMessage> messages = new ArrayList<>();
         messages.add(new ValidationMessage("message1", "field1", "validation1"));

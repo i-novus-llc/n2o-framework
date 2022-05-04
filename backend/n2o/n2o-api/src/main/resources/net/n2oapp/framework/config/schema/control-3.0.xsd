@@ -1286,7 +1286,13 @@
             <xs:documentation>Компонент вывода html.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="controlSimpleFieldDefinition"/>
+            <xs:extension base="controlDefinition">
+                <xs:attribute name="id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 

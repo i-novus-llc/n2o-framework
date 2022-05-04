@@ -5,6 +5,7 @@ import { RangeField } from './RangeField/RangeField'
 import { AlertField } from './AlertField/AlertField'
 import ButtonField from './ButtonField/ButtonField'
 import ImageField from './ImageField/ImageField'
+import { HtmlField as Html } from './HtmlField/HtmlField'
 
 export default {
     StandardField,
@@ -14,4 +15,5 @@ export default {
     AlertField,
     ButtonField,
     ImageField,
+    Html,
 }

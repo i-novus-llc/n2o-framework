@@ -2,10 +2,12 @@ package net.n2oapp.framework.boot.sql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.engine.factory.EngineFactory;
 import net.n2oapp.engine.factory.TypicalEngine;
 import net.n2oapp.engine.factory.integration.spring.SpringEngineFactory;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
+import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.engine.data.QueryUtil;
@@ -18,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -37,6 +40,7 @@ import static net.n2oapp.framework.engine.data.QueryUtil.*;
  * Выполнение sql действия. На вход приходит map аргументов, на выход отправляется
  * List<Object[]> если mapByIndex = true, иначе List<Map<String, Object>>.
  */
+@Slf4j
 public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProvider>,
         ApplicationContextAware, ResourceLoaderAware {
     @Autowired
@@ -58,14 +62,21 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         query = replacePlaceholder(query, ":limit", args.remove("limit"), "10");
         query = replacePlaceholder(query, ":offset", args.remove("offset"), "0");
         query = replacePlaceholder(query, ":count", args.remove("count"), "-1");
-        if (invocation.getConnectionUrl() == null)
-            return executeQuery(args,
-                    query,
-                    rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")),
-                    namedParameterJdbcTemplate);
-        NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
-        return executeQuery(args, query,
-                rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
+        log.debug("Execute SQL query: " + query);
+
+        try {
+            if (invocation.getConnectionUrl() == null)
+                return executeQuery(args,
+                        query,
+                        rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")),
+                        namedParameterJdbcTemplate);
+            NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
+            return executeQuery(args, query,
+                    rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
+        } catch (BadSqlGrammarException e) {
+            log.error("Execution error with SQL query: " + query);
+            throw new N2oQueryExecutionException("Bad SQL grammar", query);
+        }
     }
 
     private String replaceSortDirection(String sortCause, Map<String, Object> data) {

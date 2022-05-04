@@ -155,7 +155,6 @@ export default (Field) => {
 
         /**
          * мэппинг сообщений
-         * @param error
          * @returns {string}
          */
 
@@ -223,7 +222,7 @@ export default (Field) => {
                     return false
                 }
 
-                const { input, message, meta, model, ...rest } = props
+                const { input, message, meta, model, html, ...rest } = props
                 const pr = propsResolver(rest, model, ['toolbar'])
 
                 return {
@@ -231,6 +230,8 @@ export default (Field) => {
                     ...meta,
                     validationClass: getValidationState(message),
                     message,
+                    html,
+                    model,
                     ...input,
                 }
             }),

@@ -1,6 +1,8 @@
 package net.n2oapp.framework.boot.graphql;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -10,8 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.regex.Matcher;
@@ -24,7 +28,13 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
 /**
  * GraphQL провайдер данных
  */
+@Slf4j
 public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQlDataProvider> {
+
+    private static final String RESPONSE_ERROR_KEY = "errors";
+    private static final String RESPONSE_ERROR_MESSAGE_KEY = "message";
+    private final Pattern variablePattern = Pattern.compile("\\$\\w+");
+    private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
 
     @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
@@ -45,10 +55,12 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
     @Setter
     private RestTemplate restTemplate;
-    private static final String RESPONSE_ERROR_KEY = "errors";
-    private final Pattern variablePattern = Pattern.compile("\\$\\w+");
-    private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
+    private ObjectMapper mapper;
 
+    public GraphQlDataProviderEngine(RestTemplate restTemplate, ObjectMapper mapper) {
+        this.restTemplate = restTemplate;
+        this.mapper = mapper;
+    }
 
     @Override
     public Class<? extends N2oGraphQlDataProvider> getType() {
@@ -56,7 +68,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     }
 
     @Override
-    public Object invoke(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
+    public DataSet invoke(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
         return execute(invocation, prepareQuery(invocation, data), data);
     }
 
@@ -68,7 +80,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      * @param data       Входные данные
      * @return Исходящие данные
      */
-    private Object execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
+    private DataSet execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
         Map<String, Object> payload = initPayload(invocation, query, data);
         String endpoint = initEndpoint(invocation.getEndpoint());
 
@@ -76,11 +88,32 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         headers.setContentType(MediaType.APPLICATION_JSON);
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+        try {
+            DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
+            checkErrors(result, query);
+            return result;
+        } catch (RestClientResponseException e) {
+            try {
+                checkErrors(mapper.readValue(e.getResponseBodyAsString(), DataSet.class), query);
+            } catch (IOException ex) {
+                throw new IllegalStateException(ex);
+            }
+            throw e;
+        }
+    }
 
-        DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
-        if (result.get(RESPONSE_ERROR_KEY) != null)
-            throw new N2oGraphQlException(result);
-        return result;
+    /**
+     * Проверка наличия RESPONSE_ERROR_KEY в ответе сервера
+     *
+     * @param response Ответ GraphQl сревера
+     * @param query    Строка GraphQl запроса
+     */
+    private void checkErrors(DataSet response, String query) {
+        if (response.containsKey(RESPONSE_ERROR_KEY)) {
+            log.error("Execution error with GraphQL query: " + query);
+            throw new N2oGraphQlException(((DataSet) response.getList(RESPONSE_ERROR_KEY).get(0)).getString(RESPONSE_ERROR_MESSAGE_KEY),
+                    query, response);
+        }
     }
 
     /**
@@ -91,7 +124,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private void addAuthorization(N2oGraphQlDataProvider invocation, HttpHeaders headers) {
         String token = invocation.getAccessToken() != null ?
-            invocation.getAccessToken() : accessToken;
+                invocation.getAccessToken() : accessToken;
         headers.set("Authorization", "Bearer " + token);
     }
 
@@ -165,6 +198,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
                     toGraphQlString(entry.getValue());
             query = replacePlaceholder(query, placeholder, value, "");
         }
+
+        log.debug("Execute GraphQL query: " + query);
         return query;
     }
 

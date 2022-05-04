@@ -22,5 +22,9 @@ public interface NamespaceUriAware {
         return Namespace.getNamespace(getNamespacePrefix(), getNamespaceUri());
     }
 
-    default void setNamespaceUri(String namespaceUri) {}
+    default void setNamespaceUri(String namespaceUri) {
+    }
+
+    default void setNamespacePrefix(String namespacePrefix) {
+    }
 }

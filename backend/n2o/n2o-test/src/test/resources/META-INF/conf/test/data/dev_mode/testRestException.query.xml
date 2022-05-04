@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list result-mapping="['_embedded.cars']" count-mapping="['page.totalElements']">
+        <rest>/data/car/search/findAll</rest>
+    </list>
+</query>
