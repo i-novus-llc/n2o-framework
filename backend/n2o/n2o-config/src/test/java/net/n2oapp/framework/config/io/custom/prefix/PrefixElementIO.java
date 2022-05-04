@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.customPrefix;
+package net.n2oapp.framework.config.io.custom.prefix;
 
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;

@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.customPrefix;
+package net.n2oapp.framework.config.io.custom.prefix;
 
 import lombok.Getter;
 import lombok.Setter;
