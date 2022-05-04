@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.customPrefix;
+package net.n2oapp.framework.config.io.custom.prefix;
 
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
