@@ -36,6 +36,8 @@ public class ProjectFileLoader implements SourceLoader<ProjectFileInfo> {
             if (!sourceClass.isAssignableFrom(source.getClass()))
                 throw new MetadataReaderException("read class [" + source.getClass() + "], but expected [" + sourceClass + "]");
             return source;
+        } catch (N2oException e) {
+            throw e;
         } catch (Exception e) {
             throw new N2oException(e);
         } finally {
