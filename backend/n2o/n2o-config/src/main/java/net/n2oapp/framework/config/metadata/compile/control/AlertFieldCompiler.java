@@ -18,6 +18,7 @@ public class AlertFieldCompiler extends FieldCompiler<AlertField, N2oAlertField>
 
     @Override
     public AlertField compile(N2oAlertField source, CompileContext<?, ?> context, CompileProcessor p) {
+        initDefaults(source, context, p);
         AlertField alert = new AlertField();
         if (source.getText() != null)
             alert.setText(p.resolveJS(source.getText().trim()));
