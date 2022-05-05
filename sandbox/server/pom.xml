@@ -67,6 +67,7 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
+        </plugins>
 
         <resources>
             <!-- for getting project.version in application code -->
