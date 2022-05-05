@@ -301,7 +301,7 @@ class Fieldset extends React.Component {
                     render={(rows, props = { parentName, parentIndex }) => {
                         this.fields = this.calculateAllFields(rows)
 
-                        return rows.map((row, id) => this.renderRow(id, row, props))
+                        return rows?.map((row, id) => this.renderRow(id, row, props))
                     }}
                     help={resolvedHelp}
                 />
