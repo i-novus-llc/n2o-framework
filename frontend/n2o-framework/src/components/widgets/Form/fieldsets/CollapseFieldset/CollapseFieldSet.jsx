@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Panel, Collapse } from '../../../../snippets/Collapse/Collapse'
+import { withFieldsetHeader } from '../withFieldsetHeader'
 
 function CollapseFieldSet({
     render,
@@ -50,4 +51,4 @@ CollapseFieldSet.defaultProps = {
     hasSeparator: true,
 }
 
-export default CollapseFieldSet
+export default withFieldsetHeader(CollapseFieldSet)
