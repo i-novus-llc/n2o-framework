@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
+
 /**
  * Валидатор действия открытия страницы
  */
@@ -23,24 +25,24 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
     @Override
     public void validate(N2oAbstractPageAction source, SourceProcessor p) {
         p.checkForExists(source.getObjectId(), N2oObject.class,
-                "Действие открытия страницы: " + source.getId() +
-                        " ссылается на несуществующий объект: " + source.getObjectId());
+                "Действие открытия страницы " + getIdOrEmptyString(source.getId()) +
+                        " ссылается на несуществующий объект " + source.getObjectId());
 
         p.checkForExists(source.getPageId(), N2oPage.class,
-                "Действие открытия страницы: " + source.getId() +
-                        " ссылается на несуществующую страницу: " + source.getPageId());
+                "Действие открытия страницы " + getIdOrEmptyString(source.getId()) +
+                        " ссылается на несуществующую страницу " + source.getPageId());
         if (source.getSubmitOperationId() != null && source.getObjectId() != null) {
             N2oObject object = p.getOrThrow(source.getObjectId(), N2oObject.class);
             p.safeStreamOf(object.getOperations()).
                     filter(operation -> source.getSubmitOperationId().equals(operation.getId())).
-                    findFirst().orElseThrow(() -> new N2oMetadataValidationException("Действие открытия страницы: " + source.getId() +
-                    " ссылается на несуществующую в объекте: " + source.getObjectId() + " операцию: " + source.getSubmitOperationId()));
+                    findFirst().orElseThrow(() -> new N2oMetadataValidationException("Действие открытия страницы " + getIdOrEmptyString(source.getId()) +
+                    " ссылается на несуществующую в объекте " + source.getObjectId() + " операцию " + source.getSubmitOperationId()));
         }
         PageScope pageScope = p.getScope(PageScope.class);
         if (source.getRefreshWidgetId() != null && pageScope != null
                 && !pageScope.getWidgetIds().contains(source.getRefreshWidgetId())) {
             throw new N2oMetadataValidationException(p.getMessage(
-                    "Атрибут refresh-widget-id ссылается на несуществующий виджет: " + source.getRefreshWidgetId()));
+                    "Атрибут refresh-widget-id ссылается на несуществующий виджет " + source.getRefreshWidgetId()));
         }
 
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
@@ -59,14 +61,15 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
 
     /**
      * Проверка существования источника данных для копирования при открытии модального окна
+     *
      * @param source           Действие открытия страницы
      * @param datasourceIdsScope Скоуп источников данных
      */
     private void checkTargetDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getTargetDatasource() != null) {
-            String openPage = ValidationUtils.getIdOrEmptyString(source.getPageId());
+            String openPage = getIdOrEmptyString(source.getPageId());
             ValidationUtils.checkForExistsDatasource(source.getTargetDatasource(), datasourceIdsScope,
-                    String.format("Атрибут \"target-datasource\" действия открытия страницы %s ссылается на несущетсвующий источник данных '%s'",
+                    String.format("Атрибут \"target-datasource\" действия открытия страницы %s ссылается на несуществующий источник данных '%s'",
                             openPage, source.getTargetDatasource()));
         }
     }
