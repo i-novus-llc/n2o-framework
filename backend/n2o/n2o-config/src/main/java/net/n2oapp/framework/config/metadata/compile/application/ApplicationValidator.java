@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class ApplicationValidator extends TypedMetadataValidator<N2oApplication> {
 
-    private static final String EMPTY_URL = "empty-url";
+    private static final String EMPTY_PATH = "empty-path";
 
     @Override
     public Class<N2oApplication> getSourceClass() {
@@ -44,9 +44,9 @@ public class ApplicationValidator extends TypedMetadataValidator<N2oApplication>
             p.checkForExists(sidebar.getExtraMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for header");
         }
 
-        String sidebarPath = sidebar.getPath() != null ? sidebar.getPath() : EMPTY_URL;
+        String sidebarPath = sidebar.getPath() != null ? sidebar.getPath() : EMPTY_PATH;
         if (paths.contains(sidebarPath)) {
-            String errorMessage = sidebarPath.equals(EMPTY_URL)
+            String errorMessage = sidebarPath.equals(EMPTY_PATH)
                     ? "More than one sidebar does not contain a path"
                     : String.format("The {0} path is already taken by one of the sidebars", sidebarPath);
             throw new N2oMetadataValidationException(errorMessage);
