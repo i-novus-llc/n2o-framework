@@ -11,9 +11,9 @@ import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceInfo;
 import org.springframework.cache.Cache;
@@ -48,7 +48,7 @@ public class SandboxSourceCacheOperation<S extends SourceMetadata> extends Metad
 
     @Override
     public S execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
-                     BindProcessor bindProcessor, SourceProcessor sourceProcessor) {
+                     BindProcessor bindProcessor, ValidateProcessor sourceProcessor) {
         String sourceId = context.getSourceId(bindProcessor);
         SourceInfo info = metadataRegister.get(sourceId, (Class<? extends SourceMetadata>) context.getSourceClass());
         String key = getKey(sourceId, info.getBaseSourceClass());
