@@ -77,6 +77,28 @@ N2O - компонентно-ориентированный фреймворк.
 </application>
 ```
 
+```xml title="Пример множественных боковых панелей"
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/home" title="Домашняя страница" subtitle="Адрес страницы: my.website.com/home">
+          <nav>
+            ...
+          </nav>
+          <extra-menu>
+            ...
+          </extra-menu>
+        </sidebar>
+        <sidebar path="/profile" title="Страница профиля" subtitle="Адрес страницы: my.website.com/profile">
+          <nav>
+            ...
+          </nav>
+        </sidebar>
+    </sidebars>
+</application>
+```
+
+
 #### Подвал (footer)
 
 Подвал (footer) - информация, отображаемая внизу страницы.
