@@ -16,11 +16,9 @@ import {
 import propsResolver from '../../../utils/propsResolver'
 import { parseExpression } from '../../../utils/evalExpression'
 
-import Label from './fields/StandardField/Label'
 // eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
 import { resolveExpression } from './utils'
-import HelpPopover from './fields/StandardField/HelpPopover'
 
 /**
  * Компонент - филдсет формы
@@ -268,44 +266,27 @@ class Fieldset extends React.Component {
         const resolvedHelp = activeModel && parseExpression(help) ? propsResolver(help, activeModel) : help
 
         return (
-            <div className={classes} style={style}>
-                {(needLabel || needDescription) && (
-                    <div className="n2o-fieldset__label-container">
-                        {needLabel && (
-                            <Label
-                                className={classNames(
-                                    'n2o-fieldset__label', { 'with-description': description },
-                                )}
-                                value={resolvedLabel}
-                            />
-                        )}
-                        {resolvedHelp && <HelpPopover help={resolvedHelp} />}
-                        {needDescription && (
-                            <Label
-                                className={classNames(
-                                    'n2o-fieldset__description', { 'line-description': type === 'line' },
-                                )}
-                                value={description}
-                            />
-                        )}
-                    </div>
-                )}
-                <ElementType
-                    childrenLabel={childrenLabel}
-                    enabled={enabled}
-                    label={resolvedLabel}
-                    type={type}
-                    activeModel={activeModel}
-                    description={description}
-                    {...rest}
-                    render={(rows, props = { parentName, parentIndex }) => {
-                        this.fields = this.calculateAllFields(rows)
+            <ElementType
+                classes={classes}
+                style={style}
+                needLabel={needLabel}
+                needDescription={needDescription}
+                resolvedLabel={resolvedLabel}
+                resolvedHelp={resolvedHelp}
+                childrenLabel={childrenLabel}
+                enabled={enabled}
+                label={resolvedLabel}
+                type={type}
+                activeModel={activeModel}
+                description={description}
+                {...rest}
+                render={(rows, props = { parentName, parentIndex }) => {
+                    this.fields = this.calculateAllFields(rows)
 
-                        return rows.map((row, id) => this.renderRow(id, row, props))
-                    }}
-                    help={resolvedHelp}
-                />
-            </div>
+                    return rows?.map((row, id) => this.renderRow(id, row, props))
+                }}
+                help={resolvedHelp}
+            />
         )
     }
 }
