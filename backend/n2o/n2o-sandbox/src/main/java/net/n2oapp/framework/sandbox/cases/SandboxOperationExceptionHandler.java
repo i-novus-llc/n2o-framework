@@ -51,7 +51,7 @@ public class SandboxOperationExceptionHandler implements OperationExceptionHandl
         registerNew.setId("registerNew");
         registerNew.setSrc("StandardButton");
         registerNew.setLabel("Зарегистрировать нового");
-        registerNew.setModel(ReduxModel.resolve);
+        registerNew.setModel(ReduxModel.RESOLVE);
         N2oInvokeAction registerNewAction = new N2oInvokeAction();
         registerNewAction.setOperationId("register");
         registerNewAction.setDoubleCloseOnSuccess(true);
@@ -67,7 +67,7 @@ public class SandboxOperationExceptionHandler implements OperationExceptionHandl
         useExists.setId("useExists");
         useExists.setSrc("StandardButton");
         useExists.setLabel("Использовать существующего");
-        useExists.setModel(ReduxModel.resolve);
+        useExists.setModel(ReduxModel.RESOLVE);
         N2oInvokeAction useExistsAction = new N2oInvokeAction();
         useExistsAction.setOperationId("register");
         useExistsAction.setDoubleCloseOnSuccess(true);
@@ -83,7 +83,7 @@ public class SandboxOperationExceptionHandler implements OperationExceptionHandl
         cancel.setId("cancel");
         cancel.setSrc("StandardButton");
         cancel.setLabel("Отмена");
-        cancel.setModel(ReduxModel.resolve);
+        cancel.setModel(ReduxModel.RESOLVE);
         cancel.setAction(new N2oCloseAction());
 
         dialog.setToolbar(new N2oToolbar());

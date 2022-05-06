@@ -93,14 +93,9 @@ public class SandboxMetadataRetrievalTest {
 
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("Моя первая страница"));
 
-        assertThat(page.getDatasources().get("main").getDependencies().size(), is(0));
-        assertThat(page.getDatasources().get("main").getId(), is("main"));
-        assertThat(page.getDatasources().get("main").getSize(), is(1));
-        assertThat(page.getDatasources().get("main").getValidations().size(), is(0));
-
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));
 
-        assertThat(page.getRoutes().getPathMapping().size(), is(0));
+        assertThat(page.getRoutes().getPathMapping().size(), is(1));
         assertThat(page.getRoutes().getQueryMapping().size(), is(0));
         assertThat(page.getRoutes().getList().get(0).getIsOtherPage(), is(false));
         assertThat(page.getRoutes().getList().get(0).getExact(), is(true));
@@ -109,10 +104,10 @@ public class SandboxMetadataRetrievalTest {
         assertThat(((SimplePage) page).getWidget().getId(), is("main"));
         assertThat(((SimplePage) page).getWidget().getDatasource(), is("main"));
         assertThat(((SimplePage) page).getWidget().getSrc(), is("FormWidget"));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(false));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(true));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getModelPrefix(), is("resolve"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getPrompt(), is(false));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(false));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(true));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getSrc(), is("StandardFieldset"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("hello"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getDependencies().size(), is(0));

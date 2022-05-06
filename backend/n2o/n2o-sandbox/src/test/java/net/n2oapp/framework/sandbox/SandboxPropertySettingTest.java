@@ -22,7 +22,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.util.StreamUtils;
 
 import java.nio.charset.Charset;
-import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -94,7 +93,6 @@ public class SandboxPropertySettingTest {
 
         Page page = viewController.getPage("myProjectId", request, null);
         assertThat(page.getModels().get("resolve['main'].email").getValue(), is("test@example.com"));
-        assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(0), is("USER"));
-        assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(1), is("ADMIN"));
+        assertThat((page.getModels().get("resolve['main'].roles").getValue()), is("[USER, ADMIN]"));
     }
 }
