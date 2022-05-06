@@ -54,12 +54,7 @@ public class AppConfigJsonWriter {
     /**
      * Загрузить конфигурации из разных файлов и слить в один
      */
-    @Deprecated
-    public void loadValues() {
-        build();
-    }
-
-    private N2oConfigBuilder<AppConfig> build() {
+    public N2oConfigBuilder<AppConfig> build() {
         N2oConfigBuilder<AppConfig> configBuilder = new N2oConfigBuilder<>(new AppConfig(),
                 objectMapper, propertyResolver, contextProcessor);
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
@@ -96,6 +91,26 @@ public class AppConfigJsonWriter {
      */
     public Map<String, Object> getValues(Map<String, Object> addedValues) {
         return objectMapper.convertValue(build().addAll(addedValues).get(), Map.class);
+    }
+
+    protected ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    protected PropertyResolver getPropertyResolver() {
+        return propertyResolver;
+    }
+
+    protected ContextProcessor getContextProcessor() {
+        return contextProcessor;
+    }
+
+    protected String getPath() {
+        return path;
+    }
+
+    protected List<String> getConfigs() {
+        return configs;
     }
 
     public void setPropertyResolver(PropertyResolver propertyResolver) {

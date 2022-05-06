@@ -156,7 +156,7 @@ public class ViewController {
 
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/config"})
-    public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId) {
+    public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId, HttpSession session) {
         Map<String, Object> addedValues = new HashMap<>();
         addedValues.put("project", projectId);
 
@@ -167,14 +167,10 @@ public class ViewController {
             addedValues.put("menu", getMenu(builder));
             addedValues.put("user", getUserInfo(projectId));
 
-            AppConfigJsonWriter appConfigJsonWriter = new AppConfigJsonWriter();
-            String path = basePath + "/" + projectId + "/config.json";
-            if (new File(path).isFile()) {
-                appConfigJsonWriter.setOverridePath("file:" + path);
-            }
+            AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient, session);
             appConfigJsonWriter.setPropertyResolver(builder.getEnvironment().getSystemProperties());
             appConfigJsonWriter.setContextProcessor(builder.getEnvironment().getContextProcessor());
-            appConfigJsonWriter.loadValues();
+            appConfigJsonWriter.build();
 
             return appConfigJsonWriter.getValues(addedValues);
         } finally {
