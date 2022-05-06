@@ -1,0 +1,34 @@
+[
+  {
+    "id" : 1,
+    "name" : "1"
+  },
+  {
+    "id" : 2,
+    "name" : "2"
+  },
+  {
+    "id" : 11,
+    "name" : "11",
+    "parent" : 1,
+    "icon" : "fa fa-plus"
+  },
+  {
+    "id" : 12,
+    "name" : "12",
+    "parent" : 1,
+    "icon" : "fa fa-pencil"
+  },
+  {
+    "id" : 21,
+    "name" : "21",
+    "parent" : 2,
+    "icon" : "fa fa-trash"
+  },
+  {
+    "id" : 111,
+    "name" : "111",
+    "parent" : 11,
+    "icon" : "fa fa-trash"
+  }
+]
