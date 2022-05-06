@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import CollapseFieldset from '../CollapseFieldset/CollapseFieldSet'
 import TitleFieldset from '../TitleFieldset/TitleFieldset'
+import { withFieldsetHeader } from '../withFieldsetHeader'
 
 class LineFieldset extends React.Component {
     constructor(props) {
@@ -91,4 +92,4 @@ LineFieldset.propTypes = {
     activeModel: PropTypes.object,
 }
 
-export default LineFieldset
+export default withFieldsetHeader(LineFieldset)

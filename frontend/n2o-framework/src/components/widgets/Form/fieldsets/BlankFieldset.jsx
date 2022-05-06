@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { withFieldsetHeader } from './withFieldsetHeader'
+
 function BlankFieldset({ render, rows }) {
     return <div className="blank-fieldset">{render(rows)}</div>
 }
@@ -15,4 +17,4 @@ BlankFieldset.defaultProps = {
     render: () => {},
 }
 
-export default BlankFieldset
+export default withFieldsetHeader(BlankFieldset)
