@@ -5,6 +5,25 @@ import cn from 'classnames'
 
 import { Icon } from '../../snippets/Icon/Icon'
 
+const convertCounter = count => (count > 100 ? '99+' : count)
+
+const renderEntity = (badge, count, badgeColor) => {
+    if (badge || (count || count === 0)) {
+        return (
+            <Badge
+                className={cn({
+                    'badge-counter': count,
+                })}
+                color={badgeColor}
+            >
+                {badge || convertCounter(count)}
+            </Badge>
+        )
+    }
+
+    return null
+}
+
 const SimpleButton = ({
     id,
     label,
@@ -20,6 +39,8 @@ const SimpleButton = ({
     onClick,
     rounded,
     className,
+    badge,
+    badgeColor,
     ...rest
 }) => (visible ? (
     <Button
@@ -34,12 +55,13 @@ const SimpleButton = ({
             'btn-rounded': rounded && !label,
             'btn-disabled': disabled,
             'btn-rounded__with-content': rounded && label,
+            'btn-with-entity': badge || (count || count === 0),
         })}
         {...rest}
     >
         {icon && <Icon name={icon} />}
         {children || label}
-        {count ? <Badge color="secondary">{count}</Badge> : ''}
+        {renderEntity(badge, count, badgeColor)}
     </Button>
 ) : null)
 
@@ -69,10 +91,13 @@ SimpleButton.propTypes = {
     rounded: PropTypes.bool,
     className: PropTypes.string,
     children: PropTypes.node,
+    badge: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    badgeColor: PropTypes.string,
 }
 
 SimpleButton.defaultProps = {
     tag: 'button',
+    badgeColor: 'primary',
     rounded: false,
     visible: true,
     onClick: () => {},

@@ -45,6 +45,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         ButtonField field = new ButtonField();
         compileField(field, source, context, p);
         field.setColor(source.getColor());
+        field.setBadge(p.resolveJS(source.getBadge()));
+        field.setBadgeColor(p.resolveJS(source.getBadgeColor()));
 
         initItem(field, source, context, p);
 

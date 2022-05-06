@@ -52,6 +52,8 @@ class ButtonContainer extends React.Component {
                 conditions,
                 resolveEnabled,
                 hintPosition,
+                badge,
+                badgeColor,
             },
         } = props
 
@@ -74,6 +76,8 @@ class ButtonContainer extends React.Component {
                     containerKey,
                     resolveEnabled,
                     hintPosition,
+                    badge,
+                    badgeColor,
                 }),
             )
         }

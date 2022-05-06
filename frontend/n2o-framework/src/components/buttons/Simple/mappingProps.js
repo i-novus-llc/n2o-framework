@@ -16,5 +16,7 @@ export default function mappingProps(props) {
         showToggleIcon: props.showToggleIcon,
         toolbar: props.toolbar,
         children: props.children,
+        badge: props.badge,
+        badgeColor: props.badgeColor,
     }
 }
