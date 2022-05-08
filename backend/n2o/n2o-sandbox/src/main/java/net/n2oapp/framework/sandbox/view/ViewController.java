@@ -355,17 +355,23 @@ public class ViewController {
      * Ищет *.access.xml файлы в папке проекта, и
      * передает имя первого попавшегося файла
      *
-     * @param path Путь к файлу
+     * @param projectId Идентификатор проекта
+     * @param session   Сессия проекта
      * @return Имя файла (без .access.xml) или null,
      * если папка проекта не содержит файлов указанного формата
      */
-    private String getAccessFilename(String path) {
+    private String getAccessFilename(String projectId, HttpSession session) {
         String format = ".access.xml";
-        File[] files = new File(path).listFiles((d, name) -> name.endsWith(format));
-
-        if (files != null && files.length != 0) {
-            String filename = files[0].getName();
-            return filename.substring(0, (filename.length() - format.length()));
+        ProjectModel project = restClient.getProject(projectId, session);
+        if (project != null && project.getFiles() != null) {
+            Optional<String> first = project.getFiles().stream()
+                    .map(FileModel::getFile)
+                    .filter(name -> name.endsWith(format))
+                    .findFirst();
+            if (first.isPresent()) {
+                String filename = first.get();
+                return filename.substring(0, (filename.length() - format.length()));
+            }
         }
         return null;
     }
@@ -375,7 +381,7 @@ public class ViewController {
         String path = basePath + "/" + projectId;
 
         Map<String, String> runtimeProperties = new HashMap<>();
-        runtimeProperties.put("n2o.access.schema.id", getAccessFilename(path));
+        runtimeProperties.put("n2o.access.schema.id", getAccessFilename(projectId, session));
         configurePropertyResolver(runtimeProperties, projectId, session);
 
         env.setSystemProperties(propertyResolver);
