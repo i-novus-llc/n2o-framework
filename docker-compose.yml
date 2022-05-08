@@ -23,3 +23,17 @@ services:
       placement:
         constraints:
           - node.role == worker
+
+  n2o-sandbox:
+    image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
+    environment:
+      - SANDBOX_URL=https://sandbox.n2oapp.net
+    ports:
+      - "8080"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+      placement:
+        constraints:
+          - node.role == worker

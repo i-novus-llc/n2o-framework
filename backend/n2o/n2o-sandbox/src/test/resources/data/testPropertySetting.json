@@ -1,0 +1,15 @@
+{
+  "id": "myProjectId",
+  "name": null,
+  "viewUrl": "/sandbox/view/myProjectId/",
+  "files": [
+    {
+      "file": "index.page.xml",
+      "source": "<?xml version='1.0' encoding='UTF-8'?>\r\n<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\r\n             name=\"Placeholder context\">\r\n    <form>\r\n        <fields>\r\n            <output-text id=\"email\" default-value=\"#{email}\"/>\r\n            <output-text id=\"roles\" default-value=\"#{roles}\"/>\r\n        </fields>\r\n    </form>\r\n</simple-page>"
+    },
+    {
+      "file": "user.properties",
+      "source": "email=test@example.com\nusername=Joe\nroles=[USER,ADMIN]"
+    }
+  ]
+}
