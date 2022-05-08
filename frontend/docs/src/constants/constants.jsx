@@ -86,3 +86,6 @@ export const cardItems = items.filter(item => cardsParams[item.label]).map(item 
 
     return { ...item, ...{ icon : cardsParams[label]['icon'], href: currentHref } }
 })
+
+export const newPath = '/new'
+export const projectPathPrefix = '/editor/'

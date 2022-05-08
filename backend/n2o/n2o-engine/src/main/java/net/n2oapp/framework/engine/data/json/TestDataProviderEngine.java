@@ -13,6 +13,7 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -44,8 +46,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private String classpathResourcePath;
 
-    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+    /**
+     * Обновление данных в файле на диске
+     */
+    private boolean readonly;
+
     private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
+    private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final Map<String, AtomicLong> sequences = new ConcurrentHashMap<>();
     private ObjectMapper objectMapper;
 
@@ -62,6 +69,81 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     @Override
     public Object invoke(N2oTestDataProvider invocation, Map<String, Object> inParams) {
         return execute(invocation, inParams, getData(invocation));
+    }
+
+    public void deleteSessionDataSets(HttpSession session) {
+        for (Map.Entry<String, List<DataSet>> entry : repository.entrySet()) {
+            if (session.getId().equals(entry.getKey().split("/")[0]))
+                repository.remove(entry.getKey());
+        }
+    }
+
+    protected synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
+        if (invocation.getFile() == null)
+            return new ArrayList<>();
+        boolean isInit = getRepositoryData(invocation.getFile()) == null;
+        if (isInit || (!readonly && fileExistsOnDisk(invocation.getFile()))) {
+            initRepository(invocation);
+        }
+
+        return repository.get(richKey(invocation.getFile()));
+    }
+
+    protected List<DataSet> getRepositoryData(String key) {
+        return repository.get(richKey(key));
+    }
+
+    /**
+     * Заполняет хранилище данных из файла
+     */
+    protected void initRepository(N2oTestDataProvider invocation) {
+        try {
+            InputStream inputStream = getResourceInputStream(invocation);
+            List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
+            repository.put(richKey(invocation.getFile()), data);
+            if (integer.equals(invocation.getPrimaryKeyType())) {
+                long maxId = data
+                        .stream()
+                        .filter(v -> v.get(invocation.getPrimaryKey()) != null)
+                        .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
+                        .max().orElse(0);
+                sequences.put(richKey(invocation.getFile()), new AtomicLong(maxId));
+            }
+        } catch (IOException e) {
+            throw new N2oException(e);
+        }
+    }
+
+    protected InputStream getResourceInputStream(N2oTestDataProvider invocation) throws IOException {
+        String path = getFullResourcePath(invocation.getFile());
+
+        if (fileExistsOnDisk(invocation.getFile())) {
+            path = "file:" + getFullPathOnDisk(invocation.getFile());
+        }
+
+        return resourceLoader.getResource(path).getInputStream();
+    }
+
+    protected String richKey(String key) {
+        if (pathOnDisk != null) return pathOnDisk + "/" + key;
+        if (classpathResourcePath != null) return classpathResourcePath + "/" + key;
+        return key;
+    }
+
+    /**
+     * Обновляет содержимое файла на диске
+     *
+     * @param filename Имя файла
+     */
+    protected void updateFile(String filename) {
+        if (!readonly && fileExistsOnDisk(filename)) {
+            try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
+                String mapAsJson = objectMapper.writeValueAsString(getRepositoryData(filename));
+                fileWriter.write(mapAsJson);
+            } catch (IOException e) {
+                throw new N2oException(e);
+            }
+        }
     }
 
     private Object execute(N2oTestDataProvider invocation,
@@ -413,11 +495,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return ((Number) m.get(field)).longValue() < ((Number) pattern).longValue();
                         }
                         if (pattern instanceof LocalDate) {
-                            LocalDate date = LocalDate.parse(m.get(field).toString());
+                            LocalDate date = parseToLocalDate(m.get(field).toString());
                             return date.isEqual((ChronoLocalDate) pattern) || date.isBefore((ChronoLocalDate) pattern);
                         }
                         if (pattern instanceof LocalDateTime) {
-                            LocalDateTime dateTime = LocalDateTime.parse(m.get(field).toString());
+                            LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
                             return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isBefore((ChronoLocalDateTime<?>) pattern);
                         }
                         return m.get(field).toString().compareTo(pattern.toString()) < 0;
@@ -438,11 +520,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return ((Long) ((Number) m.get(field)).longValue()).compareTo(((Number) pattern).longValue()) > 0;
                         }
                         if (pattern instanceof LocalDate) {
-                            LocalDate date = LocalDate.parse(m.get(field).toString());
+                            LocalDate date = parseToLocalDate(m.get(field).toString());
                             return date.isEqual((ChronoLocalDate) pattern) || date.isAfter((ChronoLocalDate) pattern);
                         }
                         if (pattern instanceof LocalDateTime) {
-                            LocalDateTime dateTime = LocalDateTime.parse(m.get(field).toString());
+                            LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
                             return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isAfter((ChronoLocalDateTime<?>) pattern);
                         }
                         return m.get(field).toString().compareTo(pattern.toString()) > 0;
@@ -504,50 +586,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         data.sort(comparator);
     }
 
-    private synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
-        if (invocation.getFile() == null)
-            return new ArrayList<>();
-        if (getRepositoryData(invocation.getFile()) == null ||
-                fileExistsOnDisk(invocation.getFile())) {
-            initRepository(invocation);
-        }
-
-        return repository.get(richKey(invocation.getFile()));
-    }
-
     private void updateRepository(String key, List<DataSet> newData) {
         repository.put(richKey(key), newData);
-    }
-
-    private List<DataSet> getRepositoryData(String key) {
-        return repository.get(richKey(key));
-    }
-
-    /**
-     * Заполняет хранилище данных из файла
-     */
-    private void initRepository(N2oTestDataProvider invocation) {
-        String path = getFullResourcePath(invocation.getFile());
-
-        if (fileExistsOnDisk(invocation.getFile())) {
-            path = "file:" + getFullPathOnDisk(invocation.getFile());
-        }
-
-        try (InputStream inputStream = resourceLoader.getResource(path).getInputStream()) {
-            List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
-            repository.put(richKey(invocation.getFile()), data);
-            if (integer.equals(invocation.getPrimaryKeyType())) {
-                long maxId = data
-                        .stream()
-                        .filter(v -> v.get(invocation.getPrimaryKey()) != null)
-                        .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
-                        .max().orElse(0);
-                sequences.put(richKey(invocation.getFile()), new AtomicLong(maxId));
-            }
-
-        } catch (IOException e) {
-            throw new N2oException(e);
-        }
     }
 
     private List<DataSet> loadJson(InputStream is, PrimaryKeyType primaryKeyType, String primaryKeyFieldId) throws IOException {
@@ -611,6 +651,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         this.pathOnDisk = pathOnDisk;
     }
 
+    public void setReadonly(boolean readonly) {
+        this.readonly = readonly;
+    }
+
     public String getClasspathResourcePath() {
         return classpathResourcePath;
     }
@@ -627,6 +671,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         this.objectMapper = objectMapper;
     }
 
+    public boolean isReadonly() {
+        return readonly;
+    }
+
+    public Map<String, List<DataSet>> getRepository() {
+        return repository;
+    }
+
     /**
      * Проверяет существование файла на диске
      *
@@ -640,24 +692,32 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     /**
-     * Обновляет содержимое файла на диске
+     * Переводит строковое представление даты в LocalDate
      *
-     * @param filename Имя файла
+     * @param strDate Строковое представление даты в формате ISO_LOCAL_DATE
+     * @return Переменную типа LocalDate, соответствующую строковому представлению даты, при неверном формате
+     * строкового представления выбрасывается N2oException
      */
-    private void updateFile(String filename) {
-        if (fileExistsOnDisk(filename)) {
-            try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
-                String mapAsJson = objectMapper.writeValueAsString(getRepositoryData(filename));
-                fileWriter.write(mapAsJson);
-            } catch (IOException e) {
-                throw new N2oException(e);
-            }
+    private LocalDate parseToLocalDate(String strDate) {
+        try {
+            return LocalDate.parse(strDate);
+        } catch (DateTimeParseException e) {
+            throw new N2oException("Формат даты, используемый в json, не соответствует ISO_LOCAL_DATE", e);
         }
     }
 
-    private String richKey(String key) {
-        if (pathOnDisk != null) return pathOnDisk + "/" + key;
-        if (classpathResourcePath != null) return classpathResourcePath + "/" + key;
-        return key;
+    /**
+     * Переводит строковое представление даты и времени в LocalDateTime
+     *
+     * @param strDateTime Строковое представление даты и времени в формате ISO_LOCAL_DATE_TIME
+     * @return Переменную типа LocalDateTime, соответствующую строковому представлению даты и времени, при неверном формате
+     * строкового представления выбрасывается N2oException
+     */
+    private LocalDateTime parseToLocalDateTime(String strDateTime) {
+        try {
+            return LocalDateTime.parse(strDateTime);
+        } catch (DateTimeParseException e) {
+            throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
+        }
     }
 }

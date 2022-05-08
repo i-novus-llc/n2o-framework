@@ -56,7 +56,7 @@ module.exports = {
                     position: 'left',
                 },
                 {
-                    href: 'https://n2oapp.net/sandbox/editor/',
+                    href: 'https://sandbox.n2oapp.net/',
                     label: 'Песочница',
                     position: 'left',
                 },

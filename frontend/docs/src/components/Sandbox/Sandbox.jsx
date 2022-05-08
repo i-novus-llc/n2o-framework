@@ -18,7 +18,7 @@ function SandboxBody({
     showBreadcrumb,
     showFooter,
     className,
-    isLightEditor = false
+    isLightEditor = false,
                      }) {
     const [loadError, setLoadError] = useState(null)
     const [projectData, setProjectData] = useState(null)
@@ -77,7 +77,7 @@ function SandboxBody({
     }
     const src = isLightEditor ?
             `${CONFIG.sandboxUrl}/editor/${projectData.id}/?light` :
-            `${CONFIG.sandboxUrl}/view/${projectData.id}/`
+            `${CONFIG.n2oSandboxUrl}/view/${projectData.id}/`
 
     return (
             <>
