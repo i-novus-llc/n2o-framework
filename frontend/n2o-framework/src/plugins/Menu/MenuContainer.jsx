@@ -5,10 +5,11 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import { withRouter } from 'react-router-dom'
-import pathToRegexp from 'path-to-regexp'
 
 import withSecurity from '../../core/auth/withSecurity'
 import { SECURITY_CHECK } from '../../core/auth/authTypes'
+
+import { getMatchingSidebar } from './helpers'
 
 const initialItems = {
     headerItems: [],
@@ -228,19 +229,10 @@ export const ConfigContainer = compose(
             configProps = getFromConfig('menu')
         }
 
-        const { header, sidebars } = configProps
+        const { header, sidebars = [] } = configProps
         const { location: { pathname } } = rest
 
-        const sidebar = (sidebars || [])
-            .sort((a, b) => {
-                if (!a.path && b.path) { return 1 }
-
-                if (a.path && !b.path) { return -1 }
-
-                return 0
-            })
-            .map(sidebar => ({ ...sidebar, path: sidebar.path ? sidebar.path.replace('*', '(.*)') : '(.*)' }))
-            .find(sidebar => !isEmpty(pathToRegexp(sidebar.path).exec(pathname)))
+        const sidebar = getMatchingSidebar(sidebars, pathname)
 
         return {
             ...rest,
