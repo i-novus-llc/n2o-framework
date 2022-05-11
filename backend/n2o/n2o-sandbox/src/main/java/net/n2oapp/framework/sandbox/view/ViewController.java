@@ -443,6 +443,7 @@ public class ViewController {
     }
 
     private UserContext getUserContext(String projectId) {
+        sandboxContext.refresh();
         return new UserContext(sandboxContext);
     }
 
