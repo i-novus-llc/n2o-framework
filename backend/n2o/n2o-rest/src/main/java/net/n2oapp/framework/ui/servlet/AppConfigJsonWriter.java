@@ -70,6 +70,9 @@ public class AppConfigJsonWriter {
         return configBuilder;
     }
 
+    /**
+     * Чтение из файла config.json
+     */
     protected void readOverrideResource(PathMatchingResourcePatternResolver r, N2oConfigBuilder<AppConfig> configBuilder)
             throws IOException {
         for (Resource resource : r.getResources(overridePath))
