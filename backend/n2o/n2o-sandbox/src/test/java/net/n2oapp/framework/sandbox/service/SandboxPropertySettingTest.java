@@ -77,7 +77,7 @@ public class SandboxPropertySettingTest {
                 "n2o.api.widget.form.src=CustomForm")));
         wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
 
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
         assertThat(config.getJSONObject("menu").getJSONObject("header").getString("src"), is("CustomHeader"));
         assertThat(config.getJSONObject("menu").getJSONObject("footer").getString("src"), is("CustomFooter"));
 
@@ -96,7 +96,7 @@ public class SandboxPropertySettingTest {
                 "username=Joe\n" +
                 "roles=[USER,ADMIN]")));
 
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
         assertThat(config.getJSONObject("user").getString("email"), is("test@example.com"));
         assertThat(config.getJSONObject("user").getString("name"), is("null"));
         assertThat(config.getJSONObject("user").getString("permissions"), is("null"));
