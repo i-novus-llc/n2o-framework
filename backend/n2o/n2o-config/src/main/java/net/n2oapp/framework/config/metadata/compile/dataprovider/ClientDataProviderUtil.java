@@ -123,12 +123,20 @@ public class ClientDataProviderUtil {
                 }
                 widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
             }
-            link = new ModelLink(p.cast(param.getRefModel(), model), p.cast(widgetId, targetWidgetId));
+            link = new ModelLink(p.cast(param.getRefModel(), model),
+                    p.cast(widgetId, getWidgetDatasource(p.getScope(PageScope.class), targetWidgetId), targetWidgetId));
             link.setValue(value);
         } else {
             link = new ModelLink(value);
         }
         return link;
+    }
+
+    private static String getWidgetDatasource(PageScope pageScope, String targetWidgetId) {
+        if (pageScope != null && pageScope.getWidgetIdDatasourceMap() != null)
+            return pageScope.getWidgetIdDatasourceMap().get(targetWidgetId);
+
+        return null;
     }
 
     private static ModelLink getModelLinkByParam(CompileContext<?, ?> context, N2oParam param) {
