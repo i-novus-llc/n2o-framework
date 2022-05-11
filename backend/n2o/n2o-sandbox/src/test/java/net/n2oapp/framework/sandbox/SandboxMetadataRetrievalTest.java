@@ -60,7 +60,7 @@ public class SandboxMetadataRetrievalTest {
         stubFor(get(urlMatching("/sandbox/api/project/myProjectId")).willReturn(aResponse().withHeader("Content-Type", "application/json")));
         stubFor(get(urlMatching("/sandbox/api/project/myProjectId/application.properties")).willReturn(aResponse()));
         stubFor(get(urlMatching("/sandbox/api/project/myProjectId/user.properties")).willReturn(aResponse()));
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
 
         assertThat(config.getString("project"), is("myProjectId"));
 
