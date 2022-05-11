@@ -62,15 +62,18 @@ public class AppConfigJsonWriter {
             for (Resource resource : r.getResources(path)) {
                 configBuilder.read(resource);
             }
-            for (Resource resource : r.getResources(overridePath)) {
-                configBuilder.read(resource);
-            }
-
+            readOverrideResource(r, configBuilder);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
         configs.forEach(configBuilder::read);
         return configBuilder;
+    }
+
+    protected void readOverrideResource(PathMatchingResourcePatternResolver r, N2oConfigBuilder<AppConfig> configBuilder)
+            throws IOException {
+        for (Resource resource : r.getResources(overridePath))
+            configBuilder.read(resource);
     }
 
     /**
@@ -91,26 +94,6 @@ public class AppConfigJsonWriter {
      */
     public Map<String, Object> getValues(Map<String, Object> addedValues) {
         return objectMapper.convertValue(build().addAll(addedValues).get(), Map.class);
-    }
-
-    protected ObjectMapper getObjectMapper() {
-        return objectMapper;
-    }
-
-    protected PropertyResolver getPropertyResolver() {
-        return propertyResolver;
-    }
-
-    protected ContextProcessor getContextProcessor() {
-        return contextProcessor;
-    }
-
-    protected String getPath() {
-        return path;
-    }
-
-    protected List<String> getConfigs() {
-        return configs;
     }
 
     public void setPropertyResolver(PropertyResolver propertyResolver) {

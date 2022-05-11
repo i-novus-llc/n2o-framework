@@ -4,11 +4,9 @@ import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 public class SandboxAppConfigJsonWriter extends AppConfigJsonWriter {
 
@@ -23,21 +21,9 @@ public class SandboxAppConfigJsonWriter extends AppConfigJsonWriter {
     }
 
     @Override
-    public N2oConfigBuilder<AppConfig> build() {
-        N2oConfigBuilder<AppConfig> configBuilder = new N2oConfigBuilder<>(new AppConfig(),
-                getObjectMapper(), getPropertyResolver(), getContextProcessor());
-        PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
-        try {
-            for (Resource resource : r.getResources(getPath())) {
-                configBuilder.read(resource);
-            }
-            String file = restClient.getFile(projectId, "config.json", session);
-            if (file != null)
-                configBuilder.read(file);
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
-        getConfigs().forEach(configBuilder::read);
-        return configBuilder;
+    protected void readOverrideResource(PathMatchingResourcePatternResolver r, N2oConfigBuilder<AppConfig> configBuilder) {
+        String file = restClient.getFile(projectId, "config.json", session);
+        if (file != null)
+            configBuilder.read(file);
     }
 }
