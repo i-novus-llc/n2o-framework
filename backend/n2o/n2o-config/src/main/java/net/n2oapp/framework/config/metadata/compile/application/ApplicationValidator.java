@@ -9,16 +9,14 @@ import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Валидатор приложения
  */
 @Component
 public class ApplicationValidator extends TypedMetadataValidator<N2oApplication> {
-
-    private static final String EMPTY_PATH = "empty-path";
 
     @Override
     public Class<N2oApplication> getSourceClass() {
@@ -30,25 +28,25 @@ public class ApplicationValidator extends TypedMetadataValidator<N2oApplication>
         if (application.getHeader() != null)
             checkHeader(application.getHeader(), p);
         if (application.getSidebars() != null) {
-            List<String> sidebarsPaths = new ArrayList<>();
+            Set<String> sidebarsPaths = new HashSet<>();
             for (N2oSidebar sidebar : application.getSidebars())
                 checkSidebar(sidebar, p, sidebarsPaths);
         }
     }
 
-    private void checkSidebar(N2oSidebar sidebar, SourceProcessor p, List<String> paths) {
+    private void checkSidebar(N2oSidebar sidebar, SourceProcessor p, Set<String> paths) {
         if (sidebar.getMenu() != null) {
-            p.checkForExists(sidebar.getMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for header");
+            p.checkForExists(sidebar.getMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for sidebar");
         }
         if (sidebar.getExtraMenu() != null) {
-            p.checkForExists(sidebar.getExtraMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for header");
+            p.checkForExists(sidebar.getExtraMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for sidebar");
         }
 
-        String sidebarPath = sidebar.getPath() != null ? sidebar.getPath() : EMPTY_PATH;
+        String sidebarPath = sidebar.getPath();
         if (paths.contains(sidebarPath)) {
-            String errorMessage = sidebarPath.equals(EMPTY_PATH)
+            String errorMessage = sidebarPath == null
                     ? "More than one sidebar does not contain a path"
-                    : String.format("The {0} path is already taken by one of the sidebars", sidebarPath);
+                    : String.format("The %s path is already taken by one of the sidebars", sidebarPath);
             throw new N2oMetadataValidationException(errorMessage);
         } else {
             paths.add(sidebarPath);

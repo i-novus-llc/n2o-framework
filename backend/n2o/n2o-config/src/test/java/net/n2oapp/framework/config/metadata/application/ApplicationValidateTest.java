@@ -10,12 +10,18 @@ import net.n2oapp.framework.config.metadata.compile.application.ApplicationValid
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Тест валидации приложения
  */
 public class ApplicationValidateTest extends SourceValidationTestBase {
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     @Override
     @Before
     public void setUp() throws Exception {
@@ -41,12 +47,14 @@ public class ApplicationValidateTest extends SourceValidationTestBase {
     }
 
     @Test(expected = N2oMetadataValidationException.class)
-    public void testEmptySidebarsValidationFail(){
-        validate("net/n2oapp/framework/config/metadata/application/applicationEmptySidebarsValidationFail.application.xml");
+    public void testEmptyPathSidebarsValidationFail(){
+        validate("net/n2oapp/framework/config/metadata/application/applicationEmptyPathSidebarsValidationFail.application.xml");
     }
 
-    @Test(expected = N2oMetadataValidationException.class)
+    @Test
     public void testEqualPathsSidebarsValidationFail(){
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("The /persons path is already taken by one of the sidebars");
         validate("net/n2oapp/framework/config/metadata/application/applicationEqualPathSidebarsValidationFail.application.xml");
     }
 
