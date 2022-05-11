@@ -1,0 +1,9 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Вторая страница">
+    <form>
+        <toolbar place="bottomLeft">
+            <button label="Open" disable-on-empty-model="false">
+                <open-page page-id="page" route="/persons/open/page"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

@@ -34,30 +34,13 @@ public class SidebarsAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oActionsPack(), new N2oAllDataPack());
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
     }
 
     @Test
     public void testSingleSidebar() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/single_sidebar/single_sidebar.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/single_sidebar/index.page.xml"));
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        SimpleHeader header = page.header();
-        header.shouldExists();
-        header.sidebarSwitcherShouldExists();
-        header.switchSidebar();
-        page.sidebar().shouldExists();
-        page.sidebar().brandNameShouldBe("Лого");
-        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
-        header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.none);
-    }
-
-    @Test
-    public void testNoPathSidebar() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/no_path_sidebars/no_path_sidebars.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/no_path_sidebars/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
@@ -101,9 +84,106 @@ public class SidebarsAT extends AutoTestBase {
         open.urlShouldMatches(getBaseUrl() + "/#/persons");
         open.sidebar().shouldExists();
         open.sidebar().brandNameShouldBe("Persons Sidebar");
+        open.sidebar().brandLogoShouldBe("images/logoPersons.png");
     }
 
+    @Test
+    public void testDynamicPathsSidebar(){
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/multi_sidebar/multi_sidebar.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/multi_sidebar/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/multi_sidebar/page.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        SimpleHeader header = page.header();
+        header.shouldExists();
+        header.sidebarSwitcherShouldExists();
+        header.switchSidebar();
+        page.sidebar().shouldExists();
+        page.sidebar().brandNameShouldBe("Лого");
+        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        header.switchSidebar();
+        page.sidebar().shouldHaveState(SidebarState.none);
+        FormWidget form = page.widget(FormWidget.class);
+        form.shouldExists();
+        form.toolbar().bottomLeft().button("Open").click();
 
+        SimplePage open = N2oSelenide.page(SimplePage.class);
+        open.shouldExists();
+        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        SimpleHeader openHeader = page.header();
+        openHeader.shouldExists();
+        openHeader.sidebarSwitcherShouldExists();
+        openHeader.switchSidebar();
+        open.urlShouldMatches(getBaseUrl() + "/#/persons/1/list");
+        open.sidebar().shouldExists();
+        open.sidebar().brandNameShouldBe("Лист");
+        open.sidebar().brandLogoShouldBe("images/logoList.png");
+    }
 
+    @Test
+    public void testAllRegxPathSidebar(){
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/all_regx_path.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/page.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        SimpleHeader header = page.header();
+        header.shouldExists();
+        header.sidebarSwitcherShouldExists();
+        header.switchSidebar();
+        page.sidebar().shouldExists();
+        page.sidebar().brandNameShouldBe("Лого");
+        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        header.switchSidebar();
+        page.sidebar().shouldHaveState(SidebarState.none);
+        FormWidget form = page.widget(FormWidget.class);
+        form.shouldExists();
+        form.toolbar().bottomLeft().button("Open").click();
+
+        SimplePage open = N2oSelenide.page(SimplePage.class);
+        open.shouldExists();
+        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        SimpleHeader openHeader = page.header();
+        openHeader.shouldExists();
+        openHeader.sidebarSwitcherShouldExists();
+        openHeader.switchSidebar();
+        open.urlShouldMatches(getBaseUrl() + "/#/persons/user");
+        open.sidebar().shouldExists();
+        open.sidebar().brandNameShouldBe("Пользователь");
+        open.sidebar().brandLogoShouldBe("images/logoUser.png");
+    }
+
+    @Test
+    public void testOverlappingPathsSidebar() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/all_regx_path.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/page.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        SimpleHeader header = page.header();
+        header.shouldExists();
+        header.sidebarSwitcherShouldExists();
+        header.switchSidebar();
+        page.sidebar().shouldExists();
+        page.sidebar().brandNameShouldBe("Лого");
+        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        header.switchSidebar();
+        page.sidebar().shouldHaveState(SidebarState.none);
+        FormWidget form = page.widget(FormWidget.class);
+        form.shouldExists();
+        form.toolbar().bottomLeft().button("Open").click();
+
+        SimplePage open = N2oSelenide.page(SimplePage.class);
+        open.shouldExists();
+        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        SimpleHeader openHeader = page.header();
+        openHeader.shouldExists();
+        openHeader.sidebarSwitcherShouldExists();
+        openHeader.switchSidebar();
+        open.urlShouldMatches(getBaseUrl() + "/#/persons/user");
+        open.sidebar().shouldExists();
+        open.sidebar().brandNameShouldBe("Пользователь");
+        open.sidebar().brandLogoShouldBe("images/logoUser.png");
+    }
 
 }
