@@ -138,6 +138,7 @@
             opacity: 0;
             transition: 0.2s;
             word-break: break-all;
+            white-space: pre-wrap;
         }
 
         .n2o-alert-segment__stacktrace-area.visible {
