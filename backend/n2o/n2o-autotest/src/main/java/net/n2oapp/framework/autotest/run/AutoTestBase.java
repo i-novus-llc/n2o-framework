@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Configuration.headless;
+import static com.codeborne.selenide.Configuration.timeout;
 
 /**
  * Базовый класс для автотестов
@@ -34,6 +35,7 @@ public class AutoTestBase extends N2oTestBase {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
         headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
+        timeout = Long.parseLong(System.getProperty("selenide.timeout", "5000"));
     }
 
     @Override
