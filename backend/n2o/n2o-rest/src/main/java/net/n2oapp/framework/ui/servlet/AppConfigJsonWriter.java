@@ -54,12 +54,7 @@ public class AppConfigJsonWriter {
     /**
      * Загрузить конфигурации из разных файлов и слить в один
      */
-    @Deprecated
-    public void loadValues() {
-        build();
-    }
-
-    private N2oConfigBuilder<AppConfig> build() {
+    public N2oConfigBuilder<AppConfig> build() {
         N2oConfigBuilder<AppConfig> configBuilder = new N2oConfigBuilder<>(new AppConfig(),
                 objectMapper, propertyResolver, contextProcessor);
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
@@ -67,15 +62,21 @@ public class AppConfigJsonWriter {
             for (Resource resource : r.getResources(path)) {
                 configBuilder.read(resource);
             }
-            for (Resource resource : r.getResources(overridePath)) {
-                configBuilder.read(resource);
-            }
-
+            readOverrideResource(r, configBuilder);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
         configs.forEach(configBuilder::read);
         return configBuilder;
+    }
+
+    /**
+     * Чтение из файла config.json
+     */
+    protected void readOverrideResource(PathMatchingResourcePatternResolver r, N2oConfigBuilder<AppConfig> configBuilder)
+            throws IOException {
+        for (Resource resource : r.getResources(overridePath))
+            configBuilder.read(resource);
     }
 
     /**
