@@ -4,6 +4,7 @@ import omit from 'lodash/omit'
 import { isEmpty } from 'lodash'
 import { compose, withHandlers } from 'recompose'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
@@ -51,7 +52,7 @@ function LinkCell(props) {
         >
             <StandardButton
                 id={id}
-                className={className}
+                className={classNames(className, 'n2o-link-cell')}
                 color="link"
                 model={model}
                 entityKey={widgetId}
