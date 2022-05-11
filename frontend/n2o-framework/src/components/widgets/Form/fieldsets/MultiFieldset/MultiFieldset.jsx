@@ -16,6 +16,7 @@ import evalExpression, {
 import { resolveExpression } from '../../utils'
 import propsResolver from '../../../../../utils/propsResolver'
 import HelpPopover from '../../fields/StandardField/HelpPopover'
+import { withFieldsetHeader } from '../withFieldsetHeader'
 
 import MultiFieldsetItem from './MultiFieldsetItem'
 
@@ -120,6 +121,7 @@ export const enhance = compose(
             return childrenLabel
         },
     }),
+    withFieldsetHeader,
 )
 
 MultiFieldset.propTypes = {

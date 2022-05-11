@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import HelpPopover from '../../fields/StandardField/HelpPopover'
+import { withFieldsetHeader } from '../withFieldsetHeader'
 
 function TitleFieldset({ render, rows, title, showLine, className, subTitle, help }) {
     return (
@@ -57,4 +58,4 @@ TitleFieldset.defaultProps = {
     showLine: true,
 }
 
-export default TitleFieldset
+export default withFieldsetHeader(TitleFieldset)
