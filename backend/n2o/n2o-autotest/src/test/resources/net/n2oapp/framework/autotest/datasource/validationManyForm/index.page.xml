@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Валидация на несколько форм">
+    <datasources>
+        <datasource id="ds" object-id="test"/>
+    </datasources>
+    <regions>
+        <table>
+            <datasource query-id="test">
+                <dependencies>
+                    <fetch on="ds" model="resolve"/>
+                </dependencies>
+            </datasource>
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="birthday"/>
+            </columns>
+        </table>
+        <form id="form1" datasource="ds">
+            <fields>
+                <alert id="messageName" color="info" text="Для вызова валидации повторно введите то же самое имя"/>
+                <input-text id="name" label="Наименование" required="true"/>
+            </fields>
+        </form>
+        <form id="form2" datasource="ds">
+            <fields>
+                <alert id="messageBirthday" color="info" text="Для вызова валидации введите дату в будущем"/>
+                <date-time id="birthday" label="Дата рождения" required="true"/>
+            </fields>
+        </form>
+    </regions>
+    <toolbar place="bottomLeft">
+        <button id="create" label="Создать" datasource="ds">
+            <invoke operation-id="create"/>
+        </button>
+    </toolbar>
+</page>
