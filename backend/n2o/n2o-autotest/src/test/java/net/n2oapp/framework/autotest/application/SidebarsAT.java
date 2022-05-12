@@ -83,7 +83,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.switchSidebar();
         open.urlShouldMatches(getBaseUrl() + "/#/persons");
         open.sidebar().shouldExists();
-        open.sidebar().brandNameShouldBe("Persons Sidebar");
+        open.sidebar().brandNameShouldBe("Боковая панель для страницы Persons");
         open.sidebar().brandLogoShouldBe("images/logoPersons.png");
     }
 
@@ -155,9 +155,10 @@ public class SidebarsAT extends AutoTestBase {
 
     @Test
     public void testOverlappingPathsSidebar() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/all_regx_path.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/all_regx_path/page.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/overlapping_case/overlapping_case.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/overlapping_case/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/overlapping_case/page.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/overlapping_case/list.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         SimpleHeader header = page.header();
@@ -173,17 +174,32 @@ public class SidebarsAT extends AutoTestBase {
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
 
-        SimplePage open = N2oSelenide.page(SimplePage.class);
-        open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        SimplePage list = N2oSelenide.page(SimplePage.class);
+        list.shouldExists();
+        list.breadcrumb().titleShouldHaveText("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
         openHeader.sidebarSwitcherShouldExists();
         openHeader.switchSidebar();
-        open.urlShouldMatches(getBaseUrl() + "/#/persons/user");
-        open.sidebar().shouldExists();
-        open.sidebar().brandNameShouldBe("Пользователь");
-        open.sidebar().brandLogoShouldBe("images/logoUser.png");
-    }
+        list.urlShouldMatches(getBaseUrl() + "/#/persons/1/list");
+        list.sidebar().shouldExists();
+        list.sidebar().brandNameShouldBe("Лист");
+        list.sidebar().brandLogoShouldBe("images/logoList.png");
 
+        form = list.widget(FormWidget.class);
+        form.shouldExists();;
+        form.toolbar().bottomLeft().button("Open").click();
+
+        SimplePage open = N2oSelenide.page(SimplePage.class);
+        open.shouldExists();
+        open.breadcrumb().titleShouldHaveText("Третья страница");
+        openHeader = page.header();
+        openHeader.shouldExists();
+        openHeader.sidebarSwitcherShouldExists();
+        openHeader.switchSidebar();
+        open.urlShouldMatches(getBaseUrl() + "/#/persons/open/page");
+        open.sidebar().shouldExists();
+        open.sidebar().brandNameShouldBe("Профиль");
+        open.sidebar().brandLogoShouldBe("images/logoPerson.png");
+    }
 }

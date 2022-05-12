@@ -2,9 +2,7 @@
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0" welcome-page-id="index">
     <header sidebar-toggled-icon="fa fa-bars" sidebar-icon="fa fa-bars"/>
     <sidebars>
-        <sidebar title="Лого" logo-src="images/logoWhite.png">
-        </sidebar>
-        <sidebar path="/persons/*/list" title="Лист" logo-src="images/logoList.png">
-        </sidebar>
+        <sidebar title="Лого" logo-src="images/logoWhite.png"/>
+        <sidebar path="/persons/*/list" title="Лист" logo-src="images/logoList.png"/>
     </sidebars>
 </application>

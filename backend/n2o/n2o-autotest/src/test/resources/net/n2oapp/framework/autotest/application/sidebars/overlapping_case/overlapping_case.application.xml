@@ -4,6 +4,6 @@
     <sidebars>
         <sidebar title="Лого" logo-src="images/logoWhite.png"/>
         <sidebar path="/persons/*/list" title="Лист" logo-src="images/logoList.png"/>
-        <sidebar path="/persons/*" title="Профиль" logo-src="images/logoPerson.png"/>
+        <sidebar path="/persons/**" title="Профиль" logo-src="images/logoPerson.png"/>
     </sidebars>
 </application>
