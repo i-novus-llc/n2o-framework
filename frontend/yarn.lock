@@ -9605,11 +9605,6 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-crypto-pro@^2.0.5:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/crypto-pro/-/crypto-pro-2.1.0.tgz#f408ac189fe692060188569217dae2ab6d7da8e1"
-  integrity sha512-zLPX/m51fiMS6aWXZ8e8e/Lcw/8VkeIlMo0nvsdvMik6koec+UbNP+syRp07eWJEmRDb8IZLjzLGjrb0oGT64g==
-
 css-animation@1.x, css-animation@^1.3.2:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/css-animation/-/css-animation-1.6.1.tgz#162064a3b0d51f958b7ff37b3d6d4de18e17039e"
@@ -10970,7 +10965,7 @@ enzyme-to-json@3.6.2:
     lodash "^4.17.21"
     react-is "^16.12.0"
 
-enzyme@3.11.0, enzyme@^3.9.0:
+enzyme@3.11.0:
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/enzyme/-/enzyme-3.11.0.tgz#71d680c580fe9349f6f5ac6c775bc3e6b7a79c28"
   integrity sha512-Dw8/Gs4vRjxY6/6i9wU0V+utmQO9kvh9XLnz3LIudviOnVYDEe2ec+0k+NQoMamn1VrjKgCUOWj5jG/5M5M0Qw==
