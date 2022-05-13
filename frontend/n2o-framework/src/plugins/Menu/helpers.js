@@ -1,10 +1,11 @@
 import isEmpty from 'lodash/isEmpty'
 import pathToRegexp from 'path-to-regexp'
 
-const asteriskCount = str => str.split('*').length - 1
+const libAsterisk = '(.*)' // this string is used by pathToRegexp library instead of common asterisk
+const asteriskLength = str => (str.split(libAsterisk).length - 1) * libAsterisk.length
 
 export const getMatchingSidebar = (sidebars, pathname) => [...sidebars]
-    .map(sidebar => ({ ...sidebar, path: sidebar.path ? sidebar.path.replace(/\*/g, '(.*)') : '/(.*)' }))
+    .map(sidebar => ({ ...sidebar, path: sidebar.path ? sidebar.path.replace(/\*/g, libAsterisk) : `/${libAsterisk}` }))
     .filter((sidebar) => {
         const array = pathToRegexp(sidebar.path).exec(pathname) || []
         const isValid = array.every((e, i) => {
@@ -17,4 +18,4 @@ export const getMatchingSidebar = (sidebars, pathname) => [...sidebars]
 
         return !isEmpty(array) && isValid
     })
-    .sort((a, b) => (b.path.length - asteriskCount(b.path)) - (a.path.length - asteriskCount(a.path)))[0]
+    .sort((a, b) => (b.path.length - asteriskLength(b.path)) - (a.path.length - asteriskLength(a.path)))[0]
