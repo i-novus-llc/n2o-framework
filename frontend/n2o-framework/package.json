@@ -83,7 +83,6 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "n2o-auth": "^7.23.1",
-    "n2o-notifications": "^7.23.1",
     "numeral": "2.0.6",
     "path-to-regexp": "2.2.1",
     "print-js": "1.5.0",
@@ -132,7 +131,10 @@
     "url-parse": "^1.4.7",
     "whatwg-fetch": "2.0.3",
     "why-did-you-update": "0.1.1",
-    "xhr-mock": "2.4.1"
+    "xhr-mock": "2.4.1",
+    "net": "^1.0.2",
+    "sockjs-client": "^1.3.0",
+    "stompjs": "^2.3.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
@@ -163,6 +165,8 @@
     "core-js": "^3.15.1",
     "css-loader": "^0.28.9",
     "enzyme": "3.11.0",
+    "mocha": "^6.2.2",
+    "nwb": "0.25.0",
     "enzyme-to-json": "3.6.2",
     "eslint": "^7.23.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -189,7 +193,8 @@
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.19.0",
     "webpack": "^5.44.0",
-    "webpack-cli": "^4.7.2"
+    "webpack-cli": "^4.7.2",
+    "chai": "^4.2.0"
   },
   "peerDependencies": {
     "css-animation": "*",
