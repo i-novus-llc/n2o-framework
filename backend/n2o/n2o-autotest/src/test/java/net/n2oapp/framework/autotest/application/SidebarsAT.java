@@ -185,6 +185,8 @@ public class SidebarsAT extends AutoTestBase {
         list.sidebar().shouldExists();
         list.sidebar().brandNameShouldBe("Лист");
         list.sidebar().brandLogoShouldBe("images/logoList.png");
+        openHeader.switchSidebar();
+        list.sidebar().shouldHaveState(SidebarState.none);
 
         form = list.widget(FormWidget.class);
         form.shouldExists();;
@@ -197,7 +199,6 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.shouldExists();
         openHeader.sidebarSwitcherShouldExists();
         openHeader.switchSidebar();
-        open.urlShouldMatches(getBaseUrl() + "/#/persons/open/page");
         open.sidebar().shouldExists();
         open.sidebar().brandNameShouldBe("Профиль");
         open.sidebar().brandLogoShouldBe("images/logoPerson.png");
