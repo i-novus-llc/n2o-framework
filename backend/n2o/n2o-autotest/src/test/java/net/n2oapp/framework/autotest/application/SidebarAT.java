@@ -10,11 +10,14 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
  * Автотест Боковой панели
  */
+//TODO: NNO-7794
+@Disabled
 public class SidebarAT extends AutoTestBase {
 
     @BeforeAll

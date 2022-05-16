@@ -13,11 +13,10 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Запись/чтение приложения версии 2.0
+ * Запись/чтение приложения версии 3.0
  */
 @Component
-public class ApplicationIOv2 implements NamespaceIO<N2oApplication> {
-
+public class ApplicationIOv3 implements NamespaceIO<N2oApplication> {
     @Override
     public Class<N2oApplication> getElementClass() {
         return N2oApplication.class;
@@ -30,7 +29,7 @@ public class ApplicationIOv2 implements NamespaceIO<N2oApplication> {
 
     @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/application-2.0";
+        return "http://n2oapp.net/framework/config/schema/application-3.0";
     }
 
     @Override
@@ -39,12 +38,13 @@ public class ApplicationIOv2 implements NamespaceIO<N2oApplication> {
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
         p.attributeBoolean(e, "navigation-layout-fixed", m::getNavigationLayoutFixed, m::setNavigationLayoutFixed);
         p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIOv2());
-        p.children(e, null, "sidebar", m::getSidebars, m::setSidebars, new SidebarIOv2());
         p.child(e, null, "footer", m::getFooter, m::setFooter, new FooterIO());
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.oneOf(N2oAbstractDatasource.class)
                 .add("datasource", N2oDatasource.class, new DatasourceIO())
                 .add("stomp-datasource", N2oStompDatasource.class, new StompDatasourceIO()));
         p.anyChildren(e, "events", m::getEvents, m::setEvents, p.oneOf(N2oAbstractEvent.class)
                 .add("stomp-event", N2oStompEvent.class, new StompEventIO()));
+        p.anyChildren(e, "sidebars", m::getSidebars, m::setSidebars, p.oneOf(N2oSidebar.class)
+                .add("sidebar", N2oSidebar.class, new SidebarIOv3()));
     }
 }
