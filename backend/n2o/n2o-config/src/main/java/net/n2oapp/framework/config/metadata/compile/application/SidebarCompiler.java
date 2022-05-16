@@ -36,7 +36,7 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
         logo.setClassName(source.getLogoClass());
         sidebar.setLogo(logo);
         sidebar.setPath(source.getPath());
-        sidebar.setSubtitle(p.resolveJS(source.getSubtitle()).trim());
+        sidebar.setSubtitle(p.resolveJS(source.getSubtitle()));
         sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
         sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
         sidebar.setSide(p.cast(source.getSide(), p.resolve(property("n2o.api.sidebar.side"), Side.class)));

@@ -2,6 +2,6 @@
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
         <sidebar path="/home" subtitle="Home description"></sidebar>
-        <sidebar path="/profile"></sidebar>
+        <sidebar path="/profile" subtitle="Profile for {username}"></sidebar>
     </sidebars>
 </application>
