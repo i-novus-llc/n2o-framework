@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
+import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.apache.catalina.util.ParameterMap;
@@ -38,7 +39,7 @@ import static org.hamcrest.Matchers.is;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
-                SandboxTestDataProviderEngine.class, XsdSchemaParser.class},
+                SandboxTestDataProviderEngine.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
         properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
@@ -99,7 +100,7 @@ public class SandboxDataProviderTest {
                 "  }\n" +
                 "]")));
 
-        ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request, null);
+        ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody().getCount(), is(4));
         assertThat(response.getBody().getList().get(0).get("id"), is(1L));
@@ -142,7 +143,7 @@ public class SandboxDataProviderTest {
                 "  }\n" +
                 "]")));
 
-        ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId", new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request, null);
+        ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId", new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody().getData().get("id"), is(3));
         assertThat(response.getBody().getData().get("name"), is("name3"));
