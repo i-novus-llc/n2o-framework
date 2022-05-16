@@ -1,17 +1,15 @@
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
-import { take, call, fork, select, put, takeEvery, cancel } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { take, call, fork, select, put, takeEvery } from 'redux-saga/effects'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
-import {
-    requestConfigSuccess,
-    userConfigSelector,
-    menuSelector,
-} from 'n2o-framework/lib/ducks/global/store'
-import { eventChannel } from 'redux-saga'
+
+import { menuSelector } from '../../ducks/global/store'
 
 export function subscribeMetadata(emitter, updater, dataSourceId, source) {
-    return response => {
+    // eslint-disable-next-line consistent-return
+    return (response) => {
         if (response.body) {
             const metadata = JSON.parse(response.body) || {}
             const responseKeys = Object.keys(metadata)
@@ -27,22 +25,24 @@ export function subscribeMetadata(emitter, updater, dataSourceId, source) {
     }
 }
 
-
 /* response from the stomp with meta for redux action */
 export function doReduxAction(emitter) {
-    return response => {
+    return (response) => {
         if (response.body) {
             const action = JSON.parse(response.body) || {}
+
             if (!isEmpty(action)) {
                 emitter(action)
             } else {
                 return {}
             }
         }
+
+        return {}
     }
 }
 
-export function* createSocketChannel(
+export function createSocketChannel(
     stompClient,
     destinations,
     needToSubscribe,
@@ -51,37 +51,37 @@ export function* createSocketChannel(
     source,
     permanent,
 ) {
-    return eventChannel(emitter => {
+    return eventChannel((emitter) => {
         // unsubscribe function
         const unsubscribe = () => {
             stompClient.disconnect()
         }
 
-        stompClient.connect({}, frame => {
-                console.log('isConnected: ' + frame)
-                for (const { destination } of destinations) {
-                    if (permanent) {
-                        stompClient.subscribe('/user' + destination, doReduxAction(emitter))
-                    } else {
-                        const subscribed = stompClient.subscribe(
-                            destination,
-                            subscribeMetadata(emitter, updater, dataSourceId, source),
-                        )
+        stompClient.connect({}, (frame) => {
+            // eslint-disable-next-line no-console
+            console.log(`isConnected: ${frame}`)
+            for (const { destination } of destinations) {
+                if (permanent) {
+                    stompClient.subscribe(`/user${destination}`, doReduxAction(emitter))
+                } else {
+                    const subscribed = stompClient.subscribe(
+                        destination,
+                        subscribeMetadata(emitter, updater, dataSourceId, source),
+                    )
 
-                        if (!needToSubscribe) {
-                            subscribed.unsubscribe()
-                        }
+                    if (!needToSubscribe) {
+                        subscribed.unsubscribe()
                     }
-
-                    stompClient.send(destination)
                 }
 
-            },
+                stompClient.send(destination)
+            }
+        },
 
-            errorCallback => {
-                console.log(errorCallback)
-            },
-        )
+        (errorCallback) => {
+            // eslint-disable-next-line no-console
+            console.log(errorCallback)
+        })
 
         return unsubscribe
     })
@@ -89,7 +89,7 @@ export function* createSocketChannel(
 
 function* connectionWS() {
     // yield take(requestConfigSuccess.type)
-    /*FIXME bring it back it awaits config json*/
+    /* FIXME bring it back it awaits config json*/
     const menu = yield select(menuSelector)
     const { wsPrefix } = menu
 
@@ -102,6 +102,7 @@ function* connectionWS() {
     return null
 }
 
+// eslint-disable-next-line consistent-return
 function* connectionExecutor({ dataSourceId, componentId, updater, source, connected, menu, type }) {
     const state = yield select()
 
@@ -120,10 +121,11 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
             return null
         } else {
             const connectedComponents = state[source][dataSourceId][connected] || []
+
             needToSubscribe = connectedComponents.length > 0
 
             /* user prefix for private messages */
-            destinations = [{ destination: '/user' + get(state, `${source}.${dataSourceId}.provider.destination`) }]
+            destinations = [{ destination: `/user${get(state, `${source}.${dataSourceId}.provider.destination`)}` }]
         }
 
         const socketChannel = yield call(
@@ -140,8 +142,10 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
         while (true) {
             try {
                 const action = yield take(socketChannel)
+
                 yield put(action)
             } catch (error) {
+                // eslint-disable-next-line no-console
                 console.error('socketChannel Error: ', error)
 
                 socketChannel.close()
@@ -150,14 +154,14 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
             }
         }
     } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error)
     }
-
 }
-
 
 export function* wsSagaWorker(config) {
     const { observables, updater, source, connected } = config
+
     yield takeEvery(observables, ({ payload, type }) => connectionExecutor({
         ...payload,
         type,
@@ -167,4 +171,4 @@ export function* wsSagaWorker(config) {
     }))
 }
 
-export const sagas = (config) => [fork(wsSagaWorker, config)]
+export const sagas = config => [fork(wsSagaWorker, config)]
