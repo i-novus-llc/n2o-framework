@@ -47,6 +47,15 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    public void sidebarWithSubtitle() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebarWithSubtitle.application.xml")
+                .get(new ApplicationContext("sidebarWithSubtitle"));
+        Sidebar sidebar = application.getSidebars().get(0);
+        assertThat(sidebar.getLogo().getTitle(), is("N2O"));
+        assertThat(sidebar.getSubtitle(), is("`'Subtitle '+message`"));
+    }
+
+    @Test
     public void defaultSidebarSwitchedInHeader() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/defaultSidebarSwitchedInHeader.application.xml")
                 .get(new ApplicationContext("defaultSidebarSwitchedInHeader"));
