@@ -28,7 +28,6 @@ public class SidebarsAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        Configuration.headless = false;
     }
 
     @Override
@@ -189,7 +188,7 @@ public class SidebarsAT extends AutoTestBase {
         list.sidebar().shouldHaveState(SidebarState.none);
 
         form = list.widget(FormWidget.class);
-        form.shouldExists();;
+        form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
 
         SimplePage open = N2oSelenide.page(SimplePage.class);

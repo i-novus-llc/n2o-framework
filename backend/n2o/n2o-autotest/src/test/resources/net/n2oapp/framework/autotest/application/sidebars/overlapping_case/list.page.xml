@@ -2,7 +2,7 @@
     <form>
         <toolbar place="bottomLeft">
             <button label="Open" disable-on-empty-model="false">
-                <open-page page-id="page" route="/persons/open/page"/>
+                <open-page page-id="page" route="/page"/>
             </button>
         </toolbar>
     </form>
