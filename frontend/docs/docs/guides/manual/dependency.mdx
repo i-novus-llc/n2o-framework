@@ -19,10 +19,11 @@ description: ""
   <dependencies>
     <!-- Поле "Девичья фамилия" доступно для редактирования, если пол женский, где
          gender - это поле в источнике данных виджета с текущей моделью данных -->
-    <enabling>gender == 'woman'</enabling>
+    <enabling on="gender">gender == 'woman'</enabling>
   </dependencies>
 </input-text>
 ```
+<Sandbox height={200} projectId="dependency_enabling" showHeader />
 
 Существует короткая запись условия блокировки поля с помощью атрибута `enabled`.
 Атрибут `enabled` принимает значение `true` или `false`,
@@ -35,6 +36,7 @@ description: ""
     <!-- Поле "Девичья фамилия" доступно для редактирования, если пол женский, где
          gender - это поле в источнике данных виджета с текущей моделью данных -->
 ```
+<Sandbox height={200} projectId="dependency_enabledshort" showHeader />
 
 #### Блокировка филдсетов
 
@@ -49,6 +51,7 @@ description: ""
   ...
 </set>
 ```
+<Sandbox height={200} projectId="dependency_enabledset" showHeader />
 
 В данном примере переменная `gender` - это ссылка на другое поле в этой же форме.
 
@@ -67,6 +70,7 @@ description: ""
   ... <!-- Действие -->
 </button>
 ```
+<Sandbox height={200} projectId="dependency_enablingbutton" showHeader />
 
 Существует короткая запись условия блокировки кнопки с помощью атрибута `enabled`.
 Атрибут `enabled` принимает значение `true` или `false`,
@@ -80,6 +84,23 @@ description: ""
    ... <!-- Действие -->
 </button>
 ```
+<Sandbox height={200} projectId="dependency_enabledbutton" showHeader />
+
+
+Блокирование кнопки по условию в элементе не работает в ячейке, нужно использовать условие в атрибуте.
+
+```xml title="Блокирование кнопки ячейки по условию в атрибуте"
+<column label="Доступно для status!=1">
+    <toolbar>
+        <button label="Изменить"
+               enabled="{status != 1}">
+          ... <!-- Действие -->
+       </button>
+    </toolbar>
+</column>
+```
+<Sandbox height={200} projectId="dependency_enabledcell" showHeader />
+
 
 ### Скрытие
 
@@ -98,6 +119,7 @@ description: ""
     </dependencies>
 </input-text>
 ```
+<Sandbox height={200} projectId="dependency_visibility" showHeader />
 
 Существует короткая запись условия скрытия с помощью атрибута `visible`, аналогично блокировке:
 
@@ -107,6 +129,7 @@ description: ""
             visible="{gender == 'woman'}"/>
     <!-- Поле "Девичья фамилия" видимо, если пол женский -->
 ```
+<Sandbox height={200} projectId="dependency_visible" showHeader />
 
 #### Скрытие филдсетов
 
@@ -120,6 +143,7 @@ description: ""
   ...
 </set>
 ```
+<Sandbox height={200} projectId="dependency_visibleset" showHeader />
 
 #### Скрытие кнопок
 
@@ -133,8 +157,9 @@ description: ""
                     model="resolve">status != 1</visibility>
     </dependencies>
     ... <!-- Действие -->
-</menu-item>
+</button>
 ```
+<Sandbox height={200} projectId="dependency_visibilitybutton" showHeader />
 
 Существует короткая запись условия скрытия кнопки с помощью атрибута `visible`, аналогично блокировке:
 
@@ -143,8 +168,9 @@ description: ""
         visible="{status != 1}">
     <!-- Кнопка "Изменить" видима, если status не равен 1 -->
     ... <!-- Действие -->
-</menu-item>
+</button>
 ```
+<Sandbox height={200} projectId="dependency_visiblebutton" showHeader />
 
 #### Скрытие столбцов таблицы
 
@@ -153,7 +179,7 @@ description: ""
 ```xml title="Скрытие столбца по условию через элемент"
 <column text-field-id="shortName">
     <dependencies>
-        <!-- Столбец shortName скроется, если type равен 1, где
+        <!-- Столбец shortName видим, если type равен 1, где
              type - поле в источнике данных form с моделью resolve -->
         <visibility datasource="form"
                     model="resolve">type == 1</visibility>
@@ -161,6 +187,19 @@ description: ""
     ... <!-- Ячейка -->
 </column>
 ```
+<Sandbox height={200} projectId="dependency_visibilitycolumn" showHeader />
+
+Скрытие кнопки по условию в элементе не работает в ячейке, нужно использовать условие в атрибуте.
+
+```xml title="Скрытие кнопки ячейки по условию в атрибуте"
+<column label="Видима для status!=1">
+    <toolbar>
+        <button label="Изменить" visible="{status!=1}"/>
+    </toolbar>
+</column>
+```
+<Sandbox height={200} projectId="dependency_visibilitycell" showHeader />
+
 
 ### Установка значений
 
@@ -179,6 +218,8 @@ description: ""
     </dependencies>
 </input-text>
 ```
+<Sandbox height={200} projectId="dependency_setvalue" showHeader />
+
 В теле `<set-value>` должно быть записано выражение на языке JavaScript, которое вернёт новое значение поля.
 
 Если в теле необходимо написать не одно, а несколько выражений,
@@ -201,6 +242,7 @@ description: ""
     </dependencies>
 </select>
 ```
+<Sandbox height={200} projectId="dependency_setvaluelist" showHeader />
 
 :::note
 Чтобы значение поля не изменилось после срабатывания `<set-value>`, просто не нужно ничего возвращать (или вернуть `undefined`).
@@ -223,6 +265,7 @@ description: ""
     </dependencies>
 </checkbox>
 ```
+<Sandbox height={200} projectId="dependency_setvaluecheckbox" showHeader />
 
 :::warning
 Необходимо возвращать значение поля в том формате, в котором работает компонент.
@@ -238,10 +281,11 @@ description: ""
 <input-text id="maidenName"
             label="Девичья фамилия">
     <dependencies>
-        <requiring>gender == 'woman'</requiring>
+        <requiring on="gender">gender == 'woman'</requiring>
     </dependencies>
 </input-text>
 ```
+<Sandbox height={200} projectId="dependency_requiring" showHeader />
 
 Существует короткая запись условия обязательности поля с помощью атрибута `required`.
 Атрибут `required` принимает значение `true` или `false`,
@@ -252,3 +296,4 @@ description: ""
             label="Девичья фамилия"
             required="{gender == 'woman'}"/>
 ```
+<Sandbox height={200} projectId="dependency_required" showHeader />
