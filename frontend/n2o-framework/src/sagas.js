@@ -1,7 +1,7 @@
 import defaultTo from 'lodash/defaultTo'
 import { all } from 'redux-saga/effects'
-import { sagas as wsSaga } from 'n2o-notifications'
 
+import { sagas as wsSaga } from './sagas/notifications/notifications'
 import pagesSagas from './ducks/pages/sagas'
 import widgetsSagas from './ducks/widgets/sagas'
 import dataSourceSagas from './ducks/datasource/sagas'
