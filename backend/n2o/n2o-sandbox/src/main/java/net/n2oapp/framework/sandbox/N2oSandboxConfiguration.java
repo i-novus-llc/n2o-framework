@@ -1,12 +1,14 @@
 package net.n2oapp.framework.sandbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
+import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
@@ -15,8 +17,12 @@ import net.n2oapp.framework.ui.controller.query.GetController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -26,6 +32,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Конфигурация Sandbox
@@ -39,6 +46,7 @@ import java.util.Map;
 @EnableJpaRepositories
 @EnableAutoConfiguration
 @EnableCaching
+@ComponentScan("net.n2oapp.framework.sandbox")
 public class N2oSandboxConfiguration {
 
     @Bean
@@ -90,4 +98,9 @@ public class N2oSandboxConfiguration {
         return new SandboxRestClientImpl();
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public SandboxApplicationBuilderConfigurer sandboxApplicationBuilderConfigurer(Optional<Map<String, DynamicMetadataProvider>> providers, @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
+        return new SandboxApplicationBuilderConfigurer(providers, messageSourceAccessor);
+    }
 }

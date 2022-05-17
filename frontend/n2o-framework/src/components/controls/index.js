@@ -6,7 +6,7 @@ import DateInterval from './DatePicker/DateInterval'
 import PasswordInput from './PasswordInput/PasswordInput'
 import CheckboxGroup from './CheckboxGroup/CheckboxGroupControl'
 import CodeEditor from './CodeEditor/CodeEditor'
-import Html from './Html/Html'
+import { Html } from './Html/Html'
 import InputMask from './InputMask/InputMask'
 // eslint-disable-next-line import/no-named-as-default
 import InputNumber from './InputNumber/InputNumber'

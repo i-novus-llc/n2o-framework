@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Форма как фильтр">
+    <datasources>
+        <datasource id="data" query-id="test">
+            <dependencies>
+                <fetch on="filter" model="resolve"/>
+            </dependencies>
+            <filters>
+                <eq field-id="id" value="{id}" datasource="filter"/>
+                <eq field-id="name" value="{name}" datasource="filter"/>
+            </filters>
+        </datasource>
+        <datasource id="filter"/>
+    </datasources>
+    <regions>
+        <form datasource="filter" mode="two-models" name="Фильтры">
+            <fields>
+                <input-text id="id" label="Фильтр по id"/>
+                <input-text id="name" label="Фильтр по name"/>
+            </fields>
+            <toolbar>
+                <button label="Найти" color="primary" model="edit">
+                    <copy source-model="edit" target-model="resolve"/>
+                </button>
+                <button label="Очистить" id="clear">
+                    <clear model="resolve"/>
+                </button>
+            </toolbar>
+        </form>
+        <table datasource="data">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+</page>

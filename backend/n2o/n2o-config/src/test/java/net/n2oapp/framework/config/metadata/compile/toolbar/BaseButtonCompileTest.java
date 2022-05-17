@@ -14,9 +14,9 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
 
 /**
  * Тестирование компиляции базовой кнопки
@@ -49,6 +49,8 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(btn.getClassName(), is("Button"));
         assertThat(btn.getStyle().size(), is(1));
         assertThat(btn.getStyle().get("color"), is("red"));
+        assertThat(btn.getBadge(), is("`badge`"));
+        assertThat(btn.getBadgeColor(), is("`color`"));
         assertThat(btn.getHint(), is("hint"));
         assertThat(((InvokeAction) btn.getAction()).getPayload().getDatasource(), is("testButton_table"));
 

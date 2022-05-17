@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://n2oapp.net/framework/config/schema/some-schema">
+
+    <xs:element name="set" type="setDef">
+    </xs:element>
+
+    <xs:complexType name="setDef">
+
+    </xs:complexType>
+
+</xs:schema>

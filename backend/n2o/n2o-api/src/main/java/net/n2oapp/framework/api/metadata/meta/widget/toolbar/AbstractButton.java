@@ -30,6 +30,10 @@ public abstract class AbstractButton extends Component implements IdAware, Seria
     @JsonProperty
     private String color;
     @JsonProperty
+    private String badge;
+    @JsonProperty
+    private String badgeColor;
+    @JsonProperty
     private Boolean rounded;
     @JsonProperty
     private Object visible;

@@ -26,6 +26,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 
 /**
  * Сборка компонента ButtonField
@@ -43,6 +45,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         ButtonField field = new ButtonField();
         compileField(field, source, context, p);
         field.setColor(source.getColor());
+        field.setBadge(p.resolveJS(source.getBadge()));
+        field.setBadgeColor(p.resolveJS(source.getBadgeColor()));
 
         initItem(field, source, context, p);
 
@@ -61,10 +65,10 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             button.setLabel(null);
             button.setIcon(source.getIcon());
         } else if (source.getType() != null && source.getType() == LabelType.text) {
-            button.setLabel(source.getLabel());
+            button.setLabel(p.resolveJS(source.getLabel()));
         } else {
             button.setIcon(source.getIcon());
-            button.setLabel(source.getLabel());
+            button.setLabel(p.resolveJS(source.getLabel()));
         }
         CompiledObject.Operation operation = null;
         Action action = compileAction(source, button, context, p);
@@ -85,7 +89,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
 
         String hint;
         if (LabelType.icon.equals(source.getType()))
-            hint = p.cast(source.getDescription(), source.getLabel());
+            hint = p.cast(source.getDescription(), p.resolveJS(source.getLabel()));
         else
             hint = source.getDescription();
 
@@ -135,6 +139,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
         confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
+        confirm.setCloseButton(p.resolve(property("n2o.api.confirm.close_button"), Boolean.class));
+
         if (StringUtils.hasLink(confirm.getText())) {
             Set<String> links = StringUtils.collectLinks(confirm.getText());
             String text = Placeholders.js("'" + confirm.getText() + "'");

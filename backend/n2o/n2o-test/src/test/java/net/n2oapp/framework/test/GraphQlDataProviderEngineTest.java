@@ -24,10 +24,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -152,7 +149,7 @@ public class GraphQlDataProviderEngineTest {
      */
     @Test
     public void testErrorHandler() throws IOException {
-        Map<String, Object> errors = new HashMap<>();
+        DataList errors = new DataList();
         Map<String, Object> data = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -163,10 +160,12 @@ public class GraphQlDataProviderEngineTest {
         String url = "http://localhost:" + appPort + queryPath;
 
         //graphql error payload
-        errors.put("message", "Invalid field type");
-        errors.put("line", 3);
-        errors.put("column", 1);
+        DataSet ds = new DataSet();
+        ds.put("message", "Invalid field type");
+        ds.put("line", 3);
+        ds.put("column", 1);
 
+        errors.add(ds);
         data.put("errors", errors);
 
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
@@ -228,7 +227,7 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons(" +
-                "filter: { { name: {eq: \"test\" } } AND { age: {ge: 20 } } }) " +
+                "filter: { [{ name: {eq: \"test\" } }] AND [{ age: {ge: 20 } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
@@ -247,7 +246,7 @@ public class GraphQlDataProviderEngineTest {
         url = "http://localhost:" + appPort + queryPath;
 
         expectedQuery = "query persons(" +
-                "filter: { { name: {eq: \"test\" } } }) " +
+                "filter: { [{ name: {eq: \"test\" } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
@@ -406,7 +405,7 @@ public class GraphQlDataProviderEngineTest {
                 Map.of("name", "test", "age", 20)));
         data.put("data", persons);
 
-        String expectedQuery = "query persons(sort: { {name: \"asc\"}, {age: \"desc\"} }) { name age }";
+        String expectedQuery = "query persons(sort: { [{name: \"asc\"}], [{age: \"desc\"}] }) { name age }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -423,7 +422,7 @@ public class GraphQlDataProviderEngineTest {
         queryPath = "/n2o/data/test/graphql/sorting?sorting.name=ASC";
         url = "http://localhost:" + appPort + queryPath;
 
-        expectedQuery = "query persons(sort: { {name: \"asc\"} }) { name age }";
+        expectedQuery = "query persons(sort: { [{name: \"asc\"}] }) { name age }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 

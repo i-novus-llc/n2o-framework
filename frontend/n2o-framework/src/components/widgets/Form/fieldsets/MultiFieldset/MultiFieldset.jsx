@@ -16,6 +16,7 @@ import evalExpression, {
 import { resolveExpression } from '../../utils'
 import propsResolver from '../../../../../utils/propsResolver'
 import HelpPopover from '../../fields/StandardField/HelpPopover'
+import { withFieldsetHeader } from '../withFieldsetHeader'
 
 import MultiFieldsetItem from './MultiFieldsetItem'
 
@@ -68,6 +69,11 @@ export const enhance = compose(
     }),
     withHandlers({
         onAddField: ({ form, name, dispatch, fields }) => () => {
+            if (fields === null) {
+                dispatch(change(form, name, [{}]))
+
+                return
+            }
             const newValue = fields.slice()
 
             newValue.push({})
@@ -115,6 +121,7 @@ export const enhance = compose(
             return childrenLabel
         },
     }),
+    withFieldsetHeader,
 )
 
 MultiFieldset.propTypes = {

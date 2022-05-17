@@ -13,6 +13,7 @@ import { StatusText } from './StatusText/StatusText'
 import { Image } from './Image/Image'
 import { Status } from './Status/Status'
 import { renderBadge } from './Badge/Badge'
+import { Html } from './Html/Html'
 
 export default {
     Alert,
@@ -30,4 +31,5 @@ export default {
     Image,
     Status,
     Badge: renderBadge,
+    Html,
 }

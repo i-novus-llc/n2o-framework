@@ -27,17 +27,19 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
             case icon:
                 button.setIcon(source.getIcon());
             case text:
-                button.setLabel(source.getLabel());
+                button.setLabel(p.resolveJS(source.getLabel()));
                 break;
             case textAndIcon: {
                 button.setIcon(source.getIcon());
-                button.setLabel(source.getLabel());
+                button.setLabel(p.resolveJS(source.getLabel()));
             }
             break;
         }
         button.setClassName(source.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         button.setColor(source.getColor());
+        button.setBadge(p.resolveJS(source.getBadge()));
+        button.setBadgeColor(p.resolveJS(source.getBadgeColor()));
         initHint(source, button, p);
     }
 

@@ -1,43 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sandbox-server</artifactId>
-    <version>7.23.0-SNAPSHOT</version>
+    <version>7.23.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>net.n2oapp.framework.sandbox</groupId>
+        <groupId>net.n2oapp.framework</groupId>
         <artifactId>sandbox</artifactId>
-        <version>7.23.0-SNAPSHOT</version>
+        <version>7.23.3-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
 
     <dependencies>
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-spring-boot-starter</artifactId>
-            <version>${n2o.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-web</artifactId>
-            <version>${n2o.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-sandbox</artifactId>
-            <version>${n2o.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -70,43 +63,6 @@
                 </executions>
                 <configuration>
                     <executable>true</executable>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven.failsafe.version}</version>
-                <configuration>
-                    <argLine>-Dfile.encoding=UTF-8</argLine>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/classes</additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <includes>
-                        <include>**/*AT.java</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/*Test.java</exclude>
-                        <exclude>**/*Tests.java</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>2.10.0</version>
-                <configuration>
-                    <reportDirectory>allure-report</reportDirectory>
-                    <resultsDirectory>allure-results</resultsDirectory>
                 </configuration>
             </plugin>
         </plugins>

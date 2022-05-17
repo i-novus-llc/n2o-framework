@@ -4,6 +4,9 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
+import static java.util.Objects.nonNull;
+import static org.springframework.util.StringUtils.hasText;
+
 /**
  * Фабрика ридеров порожденных по неймспейсу
  *
@@ -12,7 +15,6 @@ import org.jdom2.Namespace;
  */
 public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends NamespaceReader<? extends T>> extends ElementReaderFactory<T, R> {
 
-
     R produce(String elementName, Namespace... namespaces);
 
     default R produce(Element element) {
@@ -20,7 +22,8 @@ public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends N
     }
 
     default R produce(Element element, Namespace parentNamespace, Namespace... defaultNamespaces) {
-        if (defaultNamespaces != null && element.getNamespace().getURI().equals(parentNamespace.getURI())) {
+        String parentNameSpacePrefix = nonNull(element.getParentElement()) ? element.getParentElement().getNamespacePrefix() : null;
+        if (defaultNamespaces != null && (hasText(parentNameSpacePrefix) || element.getNamespace().getURI().equals(parentNamespace.getURI()))) {
             return produce(element.getName(), defaultNamespaces);
         } else {
             return produce(element);
@@ -28,5 +31,4 @@ public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends N
     }
 
     void add(NamespaceReader<T> reader);
-
 }

@@ -40,11 +40,11 @@ public class ResponseMessage implements Serializable {
     private MessagePlacement placement;
     @JsonProperty
     private Map<String, String> style;
-    @JsonProperty
-    private List<String> stacktrace;
+    @JsonProperty("stacktrace")
+    private List<String> payload;
     @JsonProperty
     private LocalDateTime time;
-
+    @JsonProperty
     public String getId() {
         return UUID.randomUUID().toString();
     }

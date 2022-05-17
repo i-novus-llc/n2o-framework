@@ -27,6 +27,8 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModel.class);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
+        p.attribute(e, "badge", m::getBadge, m::setBadge);
+        p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attributeBoolean(e, "validate", m::getValidate, m::setValidate);
         p.attributeArray(e, "validate-datasources", ",", m::getValidateDatasources, m::setValidateDatasources);
@@ -42,7 +44,7 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attribute(e, "confirm-cancel-label", m::getConfirmCancelLabel, m::setConfirmCancelLabel);
 
         p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
     }
 
     @Override

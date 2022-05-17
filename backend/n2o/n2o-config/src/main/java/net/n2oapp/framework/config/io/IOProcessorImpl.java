@@ -29,6 +29,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.springframework.util.StringUtils.hasText;
+
 /**
  * Реализация процессора считывания и записи DOM элементов
  */
@@ -1143,7 +1148,7 @@ public final class IOProcessorImpl implements IOProcessor {
             P extends NamespacePersister<? super T>> T read(NamespaceIOFactory<T, R, P> factory, Element element,
                                                             Namespace parentNamespace, Namespace... defaultNamespaces) {
         R reader;
-        if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && parentNamespace.getURI().equals(element.getNamespaceURI())) {
+        if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && (hasText(getParentNameSpacePrefix(element)) || parentNamespace.getURI().equals(element.getNamespaceURI()))) {
             reader = factory.produce(element, parentNamespace, defaultNamespaces);
         } else {
             reader = factory.produce(element, parentNamespace, null);
@@ -1153,6 +1158,7 @@ public final class IOProcessorImpl implements IOProcessor {
                 ((IOProcessorAware) reader).setIOProcessor(this);
             T model = reader.read(element);
             model.setNamespaceUri(element.getNamespaceURI());
+            model.setNamespacePrefix(element.getNamespacePrefix());
             return model;
         } else
             return null;
@@ -1164,7 +1170,7 @@ public final class IOProcessorImpl implements IOProcessor {
                                                                      Namespace parentNamespace, Namespace... defaultNamespaces) {
         P persister;
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null
-                && entity.getNamespaceUri().equals(parentNamespace.getURI()))
+                && (isEmpty(entity.getNamespacePrefix()) || entity.getNamespaceUri().equals(parentNamespace.getURI())))
             persister = factory.produce((Class<T>) entity.getClass(), defaultNamespaces);
         else
             persister = factory.produce(entity);
@@ -1179,6 +1185,11 @@ public final class IOProcessorImpl implements IOProcessor {
             return null;
     }
 
+    private String getParentNameSpacePrefix(Element element) {
+        if (isNull(element))
+            return null;
+        return nonNull(element.getParentElement()) ? element.getParentElement().getNamespacePrefix() : null;
+    }
 
     public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {
         this.messageSourceAccessor = messageSourceAccessor;

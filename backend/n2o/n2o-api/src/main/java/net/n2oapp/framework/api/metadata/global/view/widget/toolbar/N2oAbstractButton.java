@@ -16,6 +16,8 @@ public abstract class N2oAbstractButton extends N2oComponent implements IdAware 
     private String label;
     private String icon;
     private LabelType type;
+    private String badge;
+    private String badgeColor;
     private String color;
     private String description;
     private String tooltipPosition;

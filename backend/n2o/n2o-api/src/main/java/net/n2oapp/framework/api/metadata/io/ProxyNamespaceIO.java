@@ -52,6 +52,7 @@ public class ProxyNamespaceIO<T extends NamespaceUriAware> implements NamespaceR
         T entity = newInstance(element);
         io.io(element, entity, processor);
         entity.setNamespaceUri(element.getNamespaceURI());
+        entity.setNamespacePrefix(element.getNamespacePrefix());
         return entity;
     }
 
