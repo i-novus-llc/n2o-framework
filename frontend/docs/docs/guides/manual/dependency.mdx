@@ -24,7 +24,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
   </dependencies>
 </input-text>
 ```
-<Sandbox height={200} projectId="documentation_dependency_enabling" showHeader />
+<Sandbox height={380} projectId="documentation_dependency_enabling" showHeader />
 
 Существует короткая запись условия блокировки поля с помощью атрибута `enabled`.
 Атрибут `enabled` принимает значение `true` или `false`,
@@ -37,7 +37,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     <!-- Поле "Девичья фамилия" доступно для редактирования, если пол женский, где
          gender - это поле в источнике данных виджета с текущей моделью данных -->
 ```
-<Sandbox height={200} projectId="documentation_dependency_enabledshort" showHeader />
+<Sandbox height={380} projectId="documentation_dependency_enabledshort" showHeader />
 
 #### Блокировка филдсетов
 
@@ -52,7 +52,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
   ...
 </set>
 ```
-<Sandbox height={200} projectId="documentation_dependency_enabledset" showHeader />
+<Sandbox height={420} projectId="documentation_dependency_enabledset" showHeader />
 
 В данном примере переменная `gender` - это ссылка на другое поле в этой же форме.
 
@@ -71,7 +71,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
   ... <!-- Действие -->
 </button>
 ```
-<Sandbox height={200} projectId="documentation_dependency_enablingbutton" showHeader />
+<Sandbox height={330} projectId="documentation_dependency_enablingbutton" showHeader />
 
 Существует короткая запись условия блокировки кнопки с помощью атрибута `enabled`.
 Атрибут `enabled` принимает значение `true` или `false`,
@@ -85,7 +85,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
    ... <!-- Действие -->
 </button>
 ```
-<Sandbox height={200} projectId="documentation_dependency_enabledbutton" showHeader />
+<Sandbox height={330} projectId="documentation_dependency_enabledbutton" showHeader />
 
 
 Блокирование кнопки по условию в элементе не работает в ячейке, нужно использовать условие в атрибуте.
@@ -100,7 +100,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </toolbar>
 </column>
 ```
-<Sandbox height={200} projectId="documentation_dependency_enabledcell" showHeader />
+<Sandbox height={420} projectId="documentation_dependency_enabledcell" showHeader />
 
 
 ### Скрытие
@@ -120,7 +120,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </dependencies>
 </input-text>
 ```
-<Sandbox height={200} projectId="documentation_dependency_visibility" showHeader />
+<Sandbox height={380} projectId="documentation_dependency_visibility" showHeader />
 
 Существует короткая запись условия скрытия с помощью атрибута `visible`, аналогично блокировке:
 
@@ -130,7 +130,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
             visible="{gender == 'woman'}"/>
     <!-- Поле "Девичья фамилия" видимо, если пол женский -->
 ```
-<Sandbox height={200} projectId="documentation_dependency_visible" showHeader />
+<Sandbox height={380} projectId="documentation_dependency_visible" showHeader />
 
 #### Скрытие филдсетов
 
@@ -144,7 +144,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
   ...
 </set>
 ```
-<Sandbox height={200} projectId="documentation_dependency_visibleset" showHeader />
+<Sandbox height={420} projectId="documentation_dependency_visibleset" showHeader />
 
 #### Скрытие кнопок
 
@@ -160,7 +160,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     ... <!-- Действие -->
 </button>
 ```
-<Sandbox height={200} projectId="documentation_dependency_visibilitybutton" showHeader />
+<Sandbox height={350} projectId="documentation_dependency_visibilitybutton" showHeader />
 
 Существует короткая запись условия скрытия кнопки с помощью атрибута `visible`, аналогично блокировке:
 
@@ -171,7 +171,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     ... <!-- Действие -->
 </button>
 ```
-<Sandbox height={200} projectId="documentation_dependency_visiblebutton" showHeader />
+<Sandbox height={350} projectId="documentation_dependency_visiblebutton" showHeader />
 
 #### Скрытие столбцов таблицы
 
@@ -188,7 +188,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     ... <!-- Ячейка -->
 </column>
 ```
-<Sandbox height={200} projectId="documentation_dependency_visibilitycolumn" showHeader />
+<Sandbox height={520} projectId="documentation_dependency_visibilitycolumn" showHeader />
 
 Скрытие кнопки по условию в элементе не работает в ячейке, нужно использовать условие в атрибуте.
 
@@ -199,7 +199,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </toolbar>
 </column>
 ```
-<Sandbox height={200} projectId="documentation_dependency_visibilitycell" showHeader />
+<Sandbox height={400} projectId="documentation_dependency_visibilitycell" showHeader />
 
 
 ### Установка значений
@@ -219,7 +219,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </dependencies>
 </input-text>
 ```
-<Sandbox height={200} projectId="documentation_dependency_setvalue" showHeader />
+<Sandbox height={450} projectId="documentation_dependency_setvalue" showHeader />
 
 В теле `<set-value>` должно быть записано выражение на языке JavaScript, которое вернёт новое значение поля.
 
@@ -243,7 +243,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </dependencies>
 </select>
 ```
-<Sandbox height={200} projectId="documentation_dependency_setvaluelist" showHeader />
+<Sandbox height={400} projectId="documentation_dependency_setvaluelist" showHeader />
 
 :::note
 Чтобы значение поля не изменилось после срабатывания `<set-value>`, просто не нужно ничего возвращать (или вернуть `undefined`).
@@ -266,7 +266,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </dependencies>
 </checkbox>
 ```
-<Sandbox height={200} projectId="documentation_dependency_setvaluecheckbox" showHeader />
+<Sandbox height={450} projectId="documentation_dependency_setvaluecheckbox" showHeader />
 
 :::warning
 Необходимо возвращать значение поля в том формате, в котором работает компонент.
@@ -286,7 +286,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
     </dependencies>
 </input-text>
 ```
-<Sandbox height={200} projectId="documentation_dependency_requiring" showHeader />
+<Sandbox height={380} projectId="documentation_dependency_requiring" showHeader />
 
 Существует короткая запись условия обязательности поля с помощью атрибута `required`.
 Атрибут `required` принимает значение `true` или `false`,
@@ -297,4 +297,4 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
             label="Девичья фамилия"
             required="{gender == 'woman'}"/>
 ```
-<Sandbox height={200} projectId="documentation_dependency_required" showHeader />
+<Sandbox height={380} projectId="documentation_dependency_required" showHeader />
