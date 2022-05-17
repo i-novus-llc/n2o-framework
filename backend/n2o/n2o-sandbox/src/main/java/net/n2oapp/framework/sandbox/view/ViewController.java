@@ -2,9 +2,6 @@ package net.n2oapp.framework.sandbox.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.access.data.SecurityProvider;
-import net.n2oapp.framework.access.metadata.SecurityPageBinder;
-import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -31,13 +28,8 @@ import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.query.MongodbEngineQueryTransformer;
-import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
-import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.register.scanner.DefaultXmlInfoScanner;
-import net.n2oapp.framework.config.register.scanner.JavaInfoScanner;
 import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
@@ -48,7 +40,6 @@ import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
-import net.n2oapp.framework.sandbox.loader.ProjectFileLoader;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.ui.controller.DataController;
@@ -105,8 +96,7 @@ public class ViewController {
     private N2oOperationProcessor operationProcessor;
     @Autowired
     private Environment environment;
-    @Autowired
-    private SecurityProvider securityProvider;
+
     @Autowired
     private RouteRegister projectRouteRegister;
     @Autowired
@@ -322,21 +312,10 @@ public class ViewController {
 
     private N2oApplicationBuilder getBuilder(@PathVariable("projectId") String projectId, HttpSession session) {
         N2oEnvironment env = createEnvironment(projectId, session);
-
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
-        builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(), new N2oAllIOPack(), new N2oApplicationPack(),
-                new N2oLoadersPack(), new N2oOperationsPack(), new N2oSourceTypesPack(),
-                new AccessSchemaPack(), new N2oAllValidatorsPack());
-        builder.scanners(new DefaultXmlInfoScanner(),
-                new XmlInfoScanner("classpath:META-INF/conf/*.xml"),
-                new ProjectFileScanner(projectId, session, builder.getEnvironment().getSourceTypeRegister(), restClient),
-                new JavaInfoScanner((N2oDynamicMetadataProviderFactory) env.getDynamicMetadataProviderFactory()));
-        builder.binders(new SecurityPageBinder(securityProvider));
-        builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
-
-        builder.transformers(new TestEngineQueryTransformer(), new MongodbEngineQueryTransformer());
-        return builder.scan();
+        builder.scanners(new ProjectFileScanner(projectId, session, builder.getEnvironment().getSourceTypeRegister(), restClient));
+        return builder;
     }
 
     private void getIndex(N2oApplicationBuilder builder) {
