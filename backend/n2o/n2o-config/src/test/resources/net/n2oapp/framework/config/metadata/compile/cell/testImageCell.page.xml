@@ -4,7 +4,7 @@
     <table>
         <columns>
             <column text-field-id="test">
-                <image width="20" shape="rounded" test:width="30" title="{Title}" text-position="left"
+                <image width="20px" shape="rounded" test:width="30" title="{Title}" text-position="left"
                        data="data:image/jpeg;base64{image}" description="{Description}">
                     <statuses>
                         <status

@@ -5,7 +5,7 @@
             <text/>
         </block>
         <block text-field-id="id2">
-            <image src="cell2" width="100"/>
+            <image src="cell2" width="100px"/>
         </block>
     </content>
     <pagination next="true" prev="true" last="true" first="false"
