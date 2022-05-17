@@ -51,7 +51,6 @@ import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import net.n2oapp.framework.sandbox.loader.ProjectFileLoader;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
-import net.n2oapp.framework.sandbox.utils.FileNameUtil;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
@@ -168,7 +167,7 @@ public class ViewController {
             ThreadLocalProjectId.setProjectId(projectId);
             builder = getBuilder(projectId, null);
             addedValues.put("menu", getMenu(builder));
-            addedValues.put("user", getUserInfo(projectId));
+            addedValues.put("user", getUserInfo());
 
             AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient, session);
             appConfigJsonWriter.setPropertyResolver(builder.getEnvironment().getSystemProperties());
@@ -205,7 +204,7 @@ public class ViewController {
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<GetDataResponse> getData(@PathVariable(value = "projectId") String projectId,
-                                                   HttpServletRequest request, HttpSession session) {
+                                                   HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             N2oApplicationBuilder builder = getBuilder(projectId, null);
@@ -215,7 +214,7 @@ public class ViewController {
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
             GetDataResponse response = dataController.getData(path, request.getParameterMap(),
-                    getUserContext(projectId));
+                    getUserContext());
             return ResponseEntity.status(response.getStatus()).body(response);
         } finally {
             ThreadLocalProjectId.clear();
@@ -226,23 +225,23 @@ public class ViewController {
     @PutMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> putData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
-                                                   HttpServletRequest request, HttpSession session) {
-        return setData(projectId, body, request, session);
+                                                   HttpServletRequest request) {
+        return setData(projectId, body, request);
     }
 
     @CrossOrigin(origins = "*")
     @DeleteMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> deleteData(@PathVariable(value = "projectId") String projectId,
                                                       @RequestBody Object body,
-                                                      HttpServletRequest request, HttpSession session) {
-        return setData(projectId, body, request, session);
+                                                      HttpServletRequest request) {
+        return setData(projectId, body, request);
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> setData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
-                                                   HttpServletRequest request, HttpSession session) {
+                                                   HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
 
@@ -255,7 +254,7 @@ public class ViewController {
                     request.getParameterMap(),
                     getHeaders(request),
                     getBody(body),
-                    getUserContext(projectId));
+                    getUserContext());
             return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
         } finally {
             ThreadLocalProjectId.clear();
@@ -442,13 +441,13 @@ public class ViewController {
         return new MessageSourceAccessor(messageSource);
     }
 
-    private UserContext getUserContext(String projectId) {
+    private UserContext getUserContext() {
         sandboxContext.refresh();
         return new UserContext(sandboxContext);
     }
 
-    private Map<String, Object> getUserInfo(String projectId) {
-        UserContext userContext = getUserContext(projectId);
+    private Map<String, Object> getUserInfo() {
+        UserContext userContext = getUserContext();
         Map<String, Object> user = new HashMap<>();
         user.put("username", userContext.get("username"));
         user.put("roles", userContext.get("roles"));
@@ -464,10 +463,5 @@ public class ViewController {
             result.put(name, new String[]{req.getHeader(name)});
         }
         return result;
-    }
-
-    private FileModel findPropertyFile(ProjectModel project) {
-        return project.getFiles().stream()
-                .filter(f -> "application".equals(FileNameUtil.getNameFromFile(f.getFile()))).findFirst().orElse(null);
     }
 }
