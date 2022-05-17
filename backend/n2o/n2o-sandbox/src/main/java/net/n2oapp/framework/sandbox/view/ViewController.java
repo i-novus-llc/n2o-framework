@@ -119,17 +119,20 @@ public class ViewController {
     @Autowired
     private XsdSchemaParser schemaParser;
 
+    private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
+
     private MessageSourceAccessor messageSourceAccessor;
     private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
     private ObjectMapper objectMapper;
     private DomainProcessor domainProcessor;
 
     public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers, ObjectMapper objectMapper,
-                          @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
+                          @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor, List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory(providers.orElse(Collections.emptyMap()));
         this.objectMapper = objectMapper;
         this.domainProcessor = new DomainProcessor(objectMapper);
+        this.applicationBuilderConfigurers = applicationBuilderConfigurers;
     }
 
     @CrossOrigin(origins = "*")
@@ -322,6 +325,7 @@ public class ViewController {
         N2oEnvironment env = createEnvironment(projectId, session);
 
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
+        applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
         builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(), new N2oAllIOPack(), new N2oApplicationPack(),
                 new N2oLoadersPack(), new N2oOperationsPack(), new N2oSourceTypesPack(),
                 new AccessSchemaPack(), new N2oAllValidatorsPack());
