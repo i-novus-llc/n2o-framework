@@ -127,6 +127,5 @@ public class SidebarCompileTest extends SourceCompileTestBase {
 
         sidebar = application.getSidebars().get(1);
         assertThat(sidebar.getPath(), is("/profile"));
-        assertThat(sidebar.getSubtitle(), is("`'Profile for '+username`"));
     }
 }
