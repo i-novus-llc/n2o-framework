@@ -33,6 +33,8 @@ public class IndexPageHandler {
     private SandboxRestClient restClient;
 
     private static final String RELATIVE_PATH = "./";
+    private static final String HREF_PATTERN = "href=\"";
+    private static final String SRC_PATTERN = "src=\"";
     private static final String VIEW_INDEX_HTML = "META-INF/resources/index.html";
 
     @CrossOrigin(origins = "*")
@@ -53,11 +55,8 @@ public class IndexPageHandler {
             String rp = RELATIVE_PATH;
             if (!servletContext.endsWith("/"))
                 servletContext += "/";
-            html = html.replace(rp + "static/", servletContext + "static/")
-                    .replace(rp + "favicon.ico", servletContext + "favicon.ico")
-                    .replace(rp + "logo192.png", servletContext + "logo192.png")
-                    .replace(rp + "manifest.json", servletContext + "manifest.json")
-                    .replace(rp + "serviceWorker.js", servletContext + "serviceWorker.js");
+            html = html.replace(HREF_PATTERN + rp, HREF_PATTERN + servletContext)
+                    .replace(SRC_PATTERN + rp, SRC_PATTERN + servletContext);
             return new ByteArrayResource(html.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
