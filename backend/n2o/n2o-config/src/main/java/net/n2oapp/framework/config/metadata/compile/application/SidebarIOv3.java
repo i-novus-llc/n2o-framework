@@ -28,7 +28,7 @@ public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
 
     @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/application-2.0";
+        return "http://n2oapp.net/framework/config/schema/sidebar-3.0";
     }
 
     @Override
