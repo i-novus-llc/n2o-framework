@@ -82,7 +82,7 @@
     "invariant": "^2.2.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "n2o-auth": "^7.23.1",
+    "n2o-auth": "^7.23.2",
     "net": "^1.0.2",
     "numeral": "2.0.6",
     "path-to-regexp": "2.2.1",
