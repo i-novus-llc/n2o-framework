@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
 import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.metadata.compile.header.HeaderIOv2;
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ApplicationIOv3 implements NamespaceIO<N2oApplication> {
+
+    private Namespace sidebarNamespace = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/sidebar-3.0");
+
     @Override
     public Class<N2oApplication> getElementClass() {
         return N2oApplication.class;
@@ -44,7 +48,6 @@ public class ApplicationIOv3 implements NamespaceIO<N2oApplication> {
                 .add("stomp-datasource", N2oStompDatasource.class, new StompDatasourceIO()));
         p.anyChildren(e, "events", m::getEvents, m::setEvents, p.oneOf(N2oAbstractEvent.class)
                 .add("stomp-event", N2oStompEvent.class, new StompEventIO()));
-        p.anyChildren(e, "sidebars", m::getSidebars, m::setSidebars, p.oneOf(N2oSidebar.class)
-                .add("sidebar", N2oSidebar.class, new SidebarIOv3()));
+        p.anyChildren(e, "sidebars", m::getSidebars, m::setSidebars, p.anyOf(N2oSidebar.class), sidebarNamespace);
     }
 }
