@@ -41,6 +41,7 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
         if (sidebar != null) {
             bindMenu(sidebar.getMenu(), p);
             bindMenu(sidebar.getExtraMenu(), p);
+            sidebar.setSubtitle(p.resolveText(sidebar.getSubtitle()));
         }
     }
 
