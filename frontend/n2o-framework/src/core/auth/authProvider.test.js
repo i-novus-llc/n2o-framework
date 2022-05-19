@@ -1,7 +1,5 @@
-import { describe, it } from "mocha";
-import { expect } from "chai";
-import { SECURITY_CHECK } from "src/authTypes";
-import authProvider, { checkPermission } from "src/authProvider";
+import { SECURITY_CHECK } from "./authTypes";
+import authProvider, { checkPermission } from "./authProvider";
 
 const user = {
   username: "test",
@@ -27,48 +25,48 @@ describe("Тесты функции проверки прав (checkPermission)"
       ...config.test,
       denied: true
     };
-    expect(checkPermission(cfg)).to.be.false;
+    expect(checkPermission(cfg)).toBe(false);
   });
   it("должен дать доступ (permitAll=true)", () => {
     const cfg = {
       ...config.test,
       permitAll: true
     };
-    expect(checkPermission(cfg)).to.be.true;
+    expect(checkPermission(cfg)).toBe(true);
   });
   it("должен дать доступ, когда нет пользователя, но разрешен для анонимных", () => {
     const cfg = {
       ...config.test,
       anonymous: true
     };
-    expect(checkPermission(cfg)).to.be.true;
+    expect(checkPermission(cfg)).toBe(true);
   });
   it("не должен дать доступ, когда нет пользователя и не разрешен для анонимных", () => {
     const cfg = {
       ...config.test,
       anonymous: false
     };
-    expect(checkPermission(cfg)).to.be.false;
+    expect(checkPermission(cfg)).toBe(false);
   });
   it("не должен дать доступ, когда есть пользователь и разрешен для анонимных", () => {
     const cfg = {
       ...config.test,
       anonymous: true
     };
-    expect(checkPermission(cfg, user)).to.be.false;
+    expect(checkPermission(cfg, user)).toBe(false);
   });
   it("должен дать доступ, когда есть пользователь и authenticated=true", () => {
     const cfg = {
       ...config.test,
       authenticated: true
     };
-    expect(checkPermission(cfg, user)).to.be.true;
+    expect(checkPermission(cfg, user)).toBe(true);
   });
   it("не должен дать доступ, когда roles, permissions и usernames пустые", () => {
     const cfg = {
       ...config.test
     };
-    expect(checkPermission(cfg, user)).to.be.false;
+    expect(checkPermission(cfg, user)).toBe(false);
   });
   it("должен дать доступ, совпадение по roles", () => {
     const cfg = {
@@ -77,7 +75,7 @@ describe("Тесты функции проверки прав (checkPermission)"
       permissions: ["dummy"],
       usernames: ["dummy"]
     };
-    expect(checkPermission(cfg, user)).to.be.true;
+    expect(checkPermission(cfg, user)).toBe(true);
   });
   it("должен дать доступ - совпадение по permissions", () => {
     const cfg = {
@@ -86,7 +84,7 @@ describe("Тесты функции проверки прав (checkPermission)"
       permissions: ["read"],
       usernames: ["dummy"]
     };
-    expect(checkPermission(cfg, user)).to.be.true;
+    expect(checkPermission(cfg, user)).toBe(true);
   });
   it("должен дать доступ - совпадение по usernames", () => {
     const cfg = {
@@ -95,7 +93,7 @@ describe("Тесты функции проверки прав (checkPermission)"
       permissions: ["dummy"],
       usernames: ["test"]
     };
-    expect(checkPermission(cfg, user)).to.be.true;
+    expect(checkPermission(cfg, user)).toBe(true);
   });
   // it('не должен дать доступ - не найдено совпадений', () => {
   //   const cfg = {
@@ -104,7 +102,7 @@ describe("Тесты функции проверки прав (checkPermission)"
   //     permissions: ["dummy"],
   //     usernames: ["dummy"],
   //   };
-  //   expect(checkPermission(cfg, user)).to.be.false;
+  //   expect(checkPermission(cfg, user)).toBe(false);
   // });
   // it('должен дать доступ - полное совпадение', () => {
   //   const cfg = {
@@ -113,7 +111,7 @@ describe("Тесты функции проверки прав (checkPermission)"
   //     permissions: ["read", "edit"],
   //     usernames: ["test"],
   //   };
-  //   expect(checkPermission(cfg, user)).to.be.true;
+  //   expect(checkPermission(cfg, user)).toBe(true);
   // });
   // it('должен дать доступ - пустые кроме одной', () => {
   //   const cfg = {
@@ -122,7 +120,7 @@ describe("Тесты функции проверки прав (checkPermission)"
   //     permissions: ["edit"],
   //     usernames: [],
   //   };
-  //   expect(checkPermission(cfg, user)).to.be.true;
+  //   expect(checkPermission(cfg, user)).toBe(true);
   // });
   // it('не должен дать доступ - юзера нет', () => {
   //   const cfg = {
@@ -131,14 +129,14 @@ describe("Тесты функции проверки прав (checkPermission)"
   //     permissions: ["edit"],
   //     usernames: [],
   //   };
-  //   expect(checkPermission(cfg, {})).to.be.false;
+  //   expect(checkPermission(cfg, {})).toBe(false);
   // });
   // it('не должен дать доступ - в конфиге permission, у юзера нет', () => {
   //   const cfg = {
   //     permissions: ['edit']
   //   };
   //
-  //   expect(checkPermission(cfg, { permissions: [] })).to.be.false;
+  //   expect(checkPermission(cfg, { permissions: [] })).toBe(false);
   // });
 });
 
@@ -147,7 +145,7 @@ describe("Тесты провайдера по типу SECURITY_CHECK", () => {
     try {
       await authProvider(SECURITY_CHECK, { config, user });
     } catch (e) {
-      expect(e).to.be.equal("Нет доступа.");
+      expect(e.message).toEqual("Нет доступа.");
     }
   });
   it("не должен дать доступ - два объекта, один подходит, другой нет", async () => {
@@ -174,7 +172,7 @@ describe("Тесты провайдера по типу SECURITY_CHECK", () => {
     try {
       await authProvider(SECURITY_CHECK, { config, user });
     } catch (e) {
-      expect(e).to.be.equal("Нет доступа.");
+      expect(e.message).toEqual("Нет доступа.");
     }
   });
   it("должен дать доступ - 3 объекта которые подходят", async () => {
@@ -208,6 +206,6 @@ describe("Тесты провайдера по типу SECURITY_CHECK", () => {
       }
     };
     const res = await authProvider(SECURITY_CHECK, { config, user });
-    expect(res).to.be.equal(config);
+    expect(res).toEqual(config);
   });
 });
