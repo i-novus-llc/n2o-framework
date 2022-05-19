@@ -13,7 +13,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 **Библиотека компонентов**
 
 ```
-http://n2oapp.net/framework/config/schema/application-2.0
+http://n2oapp.net/framework/config/schema/application-3.0
 ```
 
 **Атрибуты**
@@ -28,19 +28,19 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
     navigation-layout="fullSizeSidebar" navigation-layout-fixed="true" welcome-page-id="index">
     <datasources>...</datasources>
     <events>...</events>
     <header>...</header>
-    <sidebar>...</sidebar>
+    <sidebars>...</sidebars>
     <footer>...</footer>
 </application>
 ```
 
 **Тело**
 
-[Источники данных](../xml/application#datasources), [События](../xml/application#events), [Шапка(header)](../xml/application#header), [Боковая панель](../xml/application#sidebar), [Подвал(footer)](../xml/application#footer)
+[Источники данных](../xml/application#datasources), [События](../xml/application#events), [Шапка(header)](../xml/application#header), [Боковые панели](../xml/application#sidebars), [Подвал(footer)](../xml/application#footer)
 
 ### Источники данных (&lt;datasources&gt;) {#datasources}
 
@@ -48,7 +48,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <datasources>
         ...
     </datasources>
@@ -74,7 +74,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <datasources>
         <datasource id="ds1"/>
     </datasources>
@@ -115,7 +115,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <datasources>
         <stomp-datasource id="notifCount" destination="/notif/count">
             <values>
@@ -165,7 +165,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <events>
         ...
     </events>
@@ -190,7 +190,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <events>
         <stomp-event id="ev1" destination="/notifications">
             ...
@@ -228,7 +228,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="N2O">
         <nav>...</nav>
         <extra-menu>...</extra-menu>
@@ -239,6 +239,21 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 <Sandbox height={300} projectId="uxcomponents_menu_header_on_top" showHeader />
 
+### Боковые панели (&lt;sidebars&gt;) {#sidebars}
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        ...
+    </sidebars>
+</application>
+```
+
+[Стандартная боковая панель](../xml/application#sidebar)
+
 ### Боковая панель (&lt;sidebar&gt;) {#sidebar}
 
 **Атрибуты**
@@ -247,6 +262,8 @@ http://n2oapp.net/framework/config/schema/application-2.0
 |----------------|---------------|------------------------------------------------|---------------------|
 |src             |React компонент|Реализация боковой панели                       |Sidebar              |
 |title           |Строка         |Название в заголовке боковой панели             |                     |
+|subtitle        |Строка         |Название в подзаголовке боковой панели          |                     |
+|path            |Строка         |URL по которому будет отображаться боковая панель                           |                     |
 |style           |CSS свойства   |Список CSS свойств                              |                     |
 |class           |CSS класс      |CSS класс боковой панели                        |                     |
 |visible         |Boolean        |Видимость боковой панели                        |true                 |
@@ -264,11 +281,13 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
-    <sidebar title="N2O">
-        <nav>...</nav>
-        <extra-menu>...</extra-menu>
-    </sidebar>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar title="N2O">
+            <nav>...</nav>
+            <extra-menu>...</extra-menu>
+        </sidebar>
+    </sidebars>
 </application>
 ```
 
@@ -291,7 +310,7 @@ http://n2oapp.net/framework/config/schema/application-2.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <footer left-text="N2O"/>
 </application>
 ```

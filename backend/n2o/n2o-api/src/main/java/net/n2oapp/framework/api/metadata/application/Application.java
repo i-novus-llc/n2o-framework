@@ -23,7 +23,7 @@ public class Application implements Compiled {
     private Header header;
 
     @JsonProperty
-    private Sidebar sidebar;
+    private List<Sidebar> sidebars;
 
     @JsonProperty
     private Footer footer;

@@ -23,6 +23,10 @@ public class Sidebar extends Component {
     @JsonProperty
     private Side side;
     @JsonProperty
+    private String path;
+    @JsonProperty
+    private String subtitle;
+    @JsonProperty
     private SidebarState defaultState;
     @JsonProperty
     private SidebarState toggledState;
