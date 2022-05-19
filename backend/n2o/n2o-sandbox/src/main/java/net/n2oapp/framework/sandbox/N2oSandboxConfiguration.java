@@ -1,7 +1,6 @@
 package net.n2oapp.framework.sandbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.boot.*;
@@ -32,7 +31,6 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Конфигурация Sandbox
@@ -100,7 +98,7 @@ public class N2oSandboxConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SandboxApplicationBuilderConfigurer sandboxApplicationBuilderConfigurer(Optional<Map<String, DynamicMetadataProvider>> providers, @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
-        return new SandboxApplicationBuilderConfigurer(providers, messageSourceAccessor);
+    public SandboxApplicationBuilderConfigurer sandboxApplicationBuilderConfigurer() {
+        return new SandboxApplicationBuilderConfigurer();
     }
 }
