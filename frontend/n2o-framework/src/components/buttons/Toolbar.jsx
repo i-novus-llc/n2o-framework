@@ -17,21 +17,22 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         onClick()
     }
 
-    const remapButtons = (obj) => {
-        const subMenu = get(obj, 'subMenu')
-        const enabled = get(obj, 'enabled')
+    const remapButtons = (buttonProps) => {
+        const newProps = { ...buttonProps }
+        const subMenu = get(newProps, 'subMenu')
+        const enabled = get(newProps, 'enabled')
 
         if (!isUndefined(enabled)) {
-            set(obj, 'disabled', !enabled)
-            set(obj, 'entityKey', entityKey)
+            set(newProps, 'disabled', !enabled)
+            set(newProps, 'entityKey', entityKey)
 
-            unset(obj, 'enabled')
+            unset(newProps, 'enabled')
         }
         if (!isUndefined(subMenu)) {
             map(subMenu, item => remapButtons(item))
         }
 
-        return obj
+        return newProps
     }
 
     const renderButtons = (buttonProps, i) => (
