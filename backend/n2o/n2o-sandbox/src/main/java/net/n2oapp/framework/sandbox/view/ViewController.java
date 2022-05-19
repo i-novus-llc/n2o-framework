@@ -75,6 +75,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.sandbox.utils.ProjectUtil.findFilesByUri;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
 public class ViewController {
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
@@ -315,7 +316,7 @@ public class ViewController {
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
         builder.scanners(new ProjectFileScanner(projectId, session, builder.getEnvironment().getSourceTypeRegister(), restClient));
-        return builder;
+        return builder.scan();
     }
 
     private void getIndex(N2oApplicationBuilder builder) {

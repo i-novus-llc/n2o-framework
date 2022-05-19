@@ -33,6 +33,5 @@ public class SandboxApplicationBuilderConfigurer implements ApplicationBuilderCo
         builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
 
         builder.transformers(new TestEngineQueryTransformer(), new MongodbEngineQueryTransformer());
-        builder.scan();
     }
 }
