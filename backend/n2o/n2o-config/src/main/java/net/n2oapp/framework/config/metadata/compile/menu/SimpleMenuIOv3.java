@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
-import net.n2oapp.framework.config.io.action.ActionIOv1;
+import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
 
-    private final Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
+    private final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
     @Override
     public Class<N2oSimpleMenu> getElementClass() {
