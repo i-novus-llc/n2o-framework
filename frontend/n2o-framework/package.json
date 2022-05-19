@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.23.2",
+  "version": "7.23.3",
   "description": "N2O React",
   "homepage": "https://n2oapp.net/",
   "repository": {
@@ -82,7 +82,7 @@
     "invariant": "^2.2.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "n2o-auth": "^7.23.2",
+    "n2o-auth": "^7.23.3",
     "net": "^1.0.2",
     "numeral": "2.0.6",
     "path-to-regexp": "2.2.1",
