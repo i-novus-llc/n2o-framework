@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/menu-3.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0">
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0">
 
     <xs:element name="menu" type="menuDefinition"/>
 
