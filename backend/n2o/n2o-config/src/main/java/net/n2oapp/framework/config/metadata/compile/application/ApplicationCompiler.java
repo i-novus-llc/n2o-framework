@@ -40,30 +40,40 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         layout.setFullSizeHeader(source.getNavigationLayout() == null || source.getNavigationLayout().equals(NavigationLayout.fullSizeHeader));
         application.setLayout(layout);
 
-        DataSourcesScope dataSourcesScope = new DataSourcesScope();
-        if (source.getDatasources() != null) {
-            for (N2oAbstractDatasource datasource : source.getDatasources()) {
-                if (datasource instanceof N2oDatasource)
-                    dataSourcesScope.put(datasource.getId(), (N2oDatasource) datasource);
-            }
-            application.setDatasources(initDatasources(source.getDatasources(), context, p));
-        }
+        DataSourcesScope dataSourcesScope = initDatasourcesScope(source.getDatasources());
+        application.setDatasources(initDatasources(source.getDatasources(), context, p));
 
         Header header = initHeader(source.getHeader(), context, dataSourcesScope, p);
         application.setHeader(header);
 
-        List<Sidebar> sidebars = new ArrayList<>();
-        if (source.getSidebars() != null) {
-            for (N2oSidebar n2oSidebar : source.getSidebars()) {
-                Sidebar sidebar = initSidebar(n2oSidebar, header, context, dataSourcesScope, p);
-                sidebars.add(sidebar);
-            }
-        }
-        application.setSidebars(sidebars.isEmpty() ? null : sidebars);
+        application.setSidebars(collectSidebars(source.getSidebars(), header, context, dataSourcesScope, p));
         application.setFooter(initFooter(source.getFooter(), p));
         application.setEvents(initEvents(source.getEvents(), context, p));
         application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
         return application;
+    }
+
+    private List<Sidebar> collectSidebars(N2oSidebar[] sidebars, Header header, ApplicationContext context,
+                                          DataSourcesScope dataSourcesScope, CompileProcessor p) {
+        if (sidebars == null)
+            return null;
+        List<Sidebar> result = new ArrayList<>();
+        for (N2oSidebar n2oSidebar : sidebars) {
+            Sidebar sidebar = initSidebar(n2oSidebar, header, context, dataSourcesScope, p);
+            result.add(sidebar);
+        }
+        return result;
+    }
+
+    private DataSourcesScope initDatasourcesScope(N2oAbstractDatasource[] datasources) {
+        DataSourcesScope scope = new DataSourcesScope();
+        if (datasources == null)
+            return scope;
+        for (N2oAbstractDatasource datasource : datasources) {
+            if (datasource instanceof N2oDatasource)
+                scope.put(datasource.getId(), ((N2oDatasource) datasource));
+        }
+        return scope;
     }
 
     private Header initHeader(N2oHeader source, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
