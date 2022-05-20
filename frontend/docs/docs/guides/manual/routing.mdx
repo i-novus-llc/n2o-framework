@@ -48,7 +48,7 @@ http://localhost:8080/#/[route]
 </application>
 ````
 
-<Sandbox height={200} projectId="routing_header" showHeader />
+<Sandbox height={200} projectId="routing_routingnav" showHeader />
 
 :::note
 Если `route` не задан, адресом по умолчанию будет id страницы.
@@ -56,7 +56,7 @@ http://localhost:8080/#/[route]
 
 Можно указать пустой маршрут `route="/"`, в таком случае страница будет открываться по корневому адресу.
 
-Корневой адрес регистрируется автоматичеки, если в структуре приложения задать атрибут `welcome-page-id`:
+Корневой адрес регистрируется автоматически, если в структуре приложения задать атрибут `welcome-page-id`:
 
 ````xml title="Начальная страница приложения"
 <application welcome-page-id="homePage">
@@ -64,7 +64,7 @@ http://localhost:8080/#/[route]
 </application>
 ````
 
-<Sandbox height={200} projectId="routing_header" showHeader />
+<Sandbox height={200} projectId="routing_homepage" showHeader />
 
 
 ### Маршрутизация вложенных страниц {#Routing_page}
@@ -82,6 +82,7 @@ http://localhost:8080/#/[route]
 ````
 
 Если `route` не задан, маршрутом по умолчанию будет идентификатор действия (или кнопки).
+<Sandbox height={200} projectId="routing_childpage" showHeader />
 
 #### Параметры пути страницы {#Routing_path_param}
 
@@ -103,6 +104,9 @@ http://localhost:8080/#/[route]
     </params>
 </open-page>
 ````
+
+<Sandbox height={200} projectId="routing_pathparam" showHeader />
+
 
 #### Параметры запроса страницы {#Routing_query_param}
 
@@ -133,6 +137,9 @@ http://localhost:8080/#/[route]?param1=[value1]&param2=[value2]
 </open-page>
 ````
 
+<Sandbox height={200} projectId="routing_queryparam" showHeader />
+
+
 #### Использование параметров страницы {#Routing_use_param}
 
 Параметры, переданные при открытии страницы,
@@ -160,6 +167,7 @@ http://localhost:8080/#/[route]?param1=[value1]&param2=[value2]
 </open-page>
 ````
 
+<Sandbox height={200} projectId="routing_pageparam" showHeader />
 
 
 
@@ -187,6 +195,9 @@ GET http://localhost:8080/n2o/data/[route]
 </datasources>
 ````
 
+<Sandbox height={200} projectId="routing_queryroute" showHeader />
+
+
 Фильтрам выборки можно задать имя параметра запроса через атрибут `param`:
 
 ````xml title="Параметры запроса фильтра выборки"
@@ -199,22 +210,11 @@ GET http://localhost:8080/n2o/data/[route]
         <like filter-id="name"
               param="name_like"/>
     </filters>
-</field>
+</datasource>
 ````
 
-Сортировке выборки можно задать имя параметра запроса в столбце таблицы через атрибут `sorting-param`:
+<Sandbox height={200} projectId="routing_queryfilter" showHeader />
 
-````xml title="Параметры запроса сортировки выборки"
-<table datasource="persons">
-    <columns>
-        <!-- Сортировка по столбцу name будет задаваться по адресу
-             http://localhost:8080/n2o/data/persons/list?sorting.full_name=asc -->
-        <column text-field-id="name"
-                sorting-field-id="fullName"
-                sorting-param="full_name"/>
-    </columns>
-</table>
-````
 
 ### Маршрутизация операций {#Routing_operation}
 
@@ -240,6 +240,9 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 </button>
 ````
 
+<Sandbox height={200} projectId="routing_operation" showHeader />
+
+
 #### Параметры пути операции {#Routing_operation_path}
 
 Можно задать параметры пути операции через элемент `<path-param>`:
@@ -261,6 +264,8 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
     </invoke>
 </button>
 ````
+
+<Sandbox height={200} projectId="routing_operationpath" showHeader />
 
 #### Параметры тела запроса {#Routing_operation_body}
 
@@ -299,6 +304,10 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 В таком случае в теле запроса будут отправлены только дополнительные значения, заданные через `<form-param>`.
 :::
 
+
+<Sandbox height={200} projectId="routing_operationbody" showHeader />
+
+
 #### Использование параметров операции
 
 Параметры операции можно использовать в полях операции объекта с помощью атрибута `param`:
@@ -325,6 +334,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 </object>
 ````
 
+
 ### Задание значений полей через параметры {#Routing_field}
 
 Через параметры в URL адреса страницы можно задавать значения полей.
@@ -342,6 +352,8 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 только если источник данных этих полей загружается значениями по умолчанию.
 :::
 
+<Sandbox height={200} projectId="routing_field" showHeader />
+
 #### Задание значений списковых полей через параметры {#Routing_field_list}
 
 Списковые поля можно задавать через параметры `param` используя только поле `id`:
@@ -351,13 +363,16 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
      значение поля gender можно задать по адресу
      http://localhost:8080/#/card?gender_id=1 -->
 <select id="gender"
-        param="gender_id"/>
+        param="gender_id">
     <options>
         <option id="1" name="Мужской"/> <!-- ?gender_id=1 -->
         <option id="2" name="Женский"/> <!-- ?gender_id=2 -->
     </options>
 </select>
 ````
+
+<Sandbox height={200} projectId="routing_fieldlist" showHeader />
+
 
 #### Задание значений интервальных полей через параметры {#Routing_field_interval}
 
@@ -367,10 +382,13 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 <!-- Если адрес текущей страницы /card, то
      значение поля period можно задать по адресу
      http://localhost:8080/#/card?begin=2021-01-01&end=2021-12-31 -->
-<interval-date id="period"
+<date-interval id="period"
                begin-param="begin"
                end-param="end"/>
 ````
+
+<Sandbox height={200} projectId="routing_fieldinterval" showHeader />
+
 
 ### Репликация маршрутизации {#Routing_replication}
 
