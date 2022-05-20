@@ -8,10 +8,10 @@ import org.springframework.web.servlet.resource.ResourceResolverChain;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class TestDataStaticResolver implements ResourceResolver {
+public class WebStaticResolver implements ResourceResolver {
     private String baseLocation;
 
-    public TestDataStaticResolver(String baseLocation) {
+    public WebStaticResolver(String baseLocation) {
         this.baseLocation = baseLocation;
     }
 

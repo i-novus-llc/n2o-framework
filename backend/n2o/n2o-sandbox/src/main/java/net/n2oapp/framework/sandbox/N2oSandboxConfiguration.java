@@ -62,7 +62,7 @@ public class N2oSandboxConfiguration {
                 registry.addResourceHandler("/view/*/static/**")
                         .addResourceLocations("/static/")
                         .resourceChain(true)
-                        .addResolver(new TestDataStaticResolver("META-INF/resources"));
+                        .addResolver(new WebStaticResolver("META-INF/resources"));
             }
         };
     }
