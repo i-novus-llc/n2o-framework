@@ -213,7 +213,7 @@ GET http://localhost:8080/n2o/data/[route]
 </datasource>
 ````
 
-<Sandbox height={500} projectId="documentation_routing_queryfilter" showHeader />
+<Sandbox height={400} projectId="documentation_routing_queryfilter" showHeader />
 
 
 ### Маршрутизация операций {#Routing_operation}
@@ -340,7 +340,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 Через параметры в URL адреса страницы можно задавать значения полей.
 Для этого необходимо использовать атрибут `param`:
 
-````xml title="Значение простого поля заданное через параметр"
+````xml title="Значение простого поля, заданное через параметр"
 <!-- Если адрес текущей страницы /card, то
      значение поля name можно задать по адресу
      http://localhost:8080/#/card?name=Joe -->
@@ -356,9 +356,9 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 
 #### Задание значений списковых полей через параметры {#Routing_field_list}
 
-Списковые поля можно задавать через параметры `param` используя только поле `id`:
+Списковые поля можно задавать через параметры `param`, используя только поле `id`:
 
-````xml title="Значение спискового поля заданное через параметр"
+````xml title="Значение спискового поля, заданное через параметр"
 <!-- Если адрес текущей страницы /card, то
      значение поля gender можно задать по адресу
      http://localhost:8080/#/card?gender_id=1 -->
@@ -378,7 +378,7 @@ POST/PUT/DELETE http://localhost:8080/n2o/data/[route]
 
 Интервальные поля можно задавать через параметры в атрибутах `begin-param` и `end-param`:
 
-````xml title="Значение интервального поля заданное через параметр"
+````xml title="Значение интервального поля, заданное через параметр"
 <!-- Если адрес текущей страницы /card, то
      значение поля period можно задать по адресу
      http://localhost:8080/#/card?begin=2021-01-01&end=2021-12-31 -->
