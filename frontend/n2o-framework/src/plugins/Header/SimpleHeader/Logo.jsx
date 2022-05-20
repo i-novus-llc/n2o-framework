@@ -5,7 +5,7 @@ import { NavbarBrand } from 'reactstrap'
 
 import { NavbarBrandContent } from './NavbarBrandContent'
 
-export function Logo({ title, className, style, href, src, showContent, isMiniView }) {
+export function Logo({ title, subtitle, className, style, href, src, showContent, isMiniView }) {
     return (
         <section
             className={classNames(
@@ -28,12 +28,18 @@ export function Logo({ title, className, style, href, src, showContent, isMiniVi
                     {title}
                 </a>
             )}
+            {subtitle && (
+                <small className="navbar-brand logo-subtitle">
+                    {subtitle}
+                </small>
+            )}
         </section>
     )
 }
 
 Logo.propTypes = {
     title: PropTypes.string,
+    subtitle: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
     href: PropTypes.string,

@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.23.2",
+  "version": "7.23.3",
   "description": "N2O React",
   "homepage": "https://n2oapp.net/",
   "repository": {
@@ -44,8 +44,7 @@
     "start": "node scripts/run.js",
     "server": "node scripts/dev-server/dev-server.js",
     "prepublishOnly": "yarn run build",
-    "test": "yarn run test:jest",
-    "test:jest": "jest --noStackTrace --coverage --silent ./src",
+    "test": "jest --noStackTrace --coverage --silent ./src",
     "test:watch": "jest --watch --noStackTrace",
     "test:hook": "jest --bail --findRelatedTests",
     "eslint": "eslint --ext .js,.jsx ./src",
@@ -82,7 +81,6 @@
     "invariant": "^2.2.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "n2o-auth": "^7.23.2",
     "net": "^1.0.2",
     "numeral": "2.0.6",
     "path-to-regexp": "2.2.1",
