@@ -30,6 +30,7 @@ import N2OSelectInput from './N2OSelectInput'
  * @reactProps {string} badgeColorFieldId - поле для цвета баджа
  * @reactProps {boolean} disabled - флаг неактивности
  * @reactProps {array} disabledValues - неактивные данные
+ * @reactProps {string} enabledFieldId - поле для активности
  * @reactProps {string} filter - варианты фильтрации
  * @reactProps {string} value - текущее значение
  * @reactProps {function} onInput - callback при вводе в инпут
@@ -457,6 +458,7 @@ class N2OSelect extends React.Component {
             iconFieldId,
             disabled,
             disabledValues,
+            enabledFieldId,
             imageFieldId,
             statusFieldId,
             groupFieldId,
@@ -524,6 +526,7 @@ class N2OSelect extends React.Component {
                             statusFieldId={statusFieldId}
                             badgeFieldId={badgeFieldId}
                             descriptionFieldId={descriptionFieldId}
+                            enabledFieldId={enabledFieldId}
                             badgeColorFieldId={badgeColorFieldId}
                             onSelect={this.handleItemSelect}
                             onScrollEnd={onScrollEnd}
@@ -589,6 +592,10 @@ N2OSelect.propTypes = {
      * Неактивные данные
      */
     disabledValues: PropTypes.array,
+    /**
+     * Ключ enabled в данных
+     */
+    enabledFieldId: PropTypes.string,
     /**
      * Фильтрация
      */
