@@ -13,6 +13,7 @@ import withFetchData from '../withFetchData'
  * @reactProps {array} data - данные для чекбоксов
  * @reactProps {string} valueFieldId - ключ для value в data
  * @reactProps {string} labelFieldId - ключ для label в дата
+ * @reactProps {string} enabledFieldId - ключ для enabled в data
  * @reactProps {string|number} value - выбранное значение
  * @reactProps {function} onChange - вызывается при изменении значения
  * @reactProps {boolean} disabled - только для чтения
@@ -61,9 +62,9 @@ class RadioGroupControl extends Component {
     static getDerivedStateFromProps({ data, valueFieldId, labelFieldId }) {
         return {
             options: data ? data.map(radio => ({
+                ...radio,
                 value: radio[valueFieldId],
                 label: radio[labelFieldId],
-                disabled: radio.disabled,
             })) : [],
         }
     }
@@ -76,6 +77,7 @@ class RadioGroupControl extends Component {
             className,
             value,
             valueFieldId,
+            enabledFieldId,
             disabled,
             visible,
             style,
@@ -92,6 +94,7 @@ class RadioGroupControl extends Component {
                 onChange={this.changeHandler}
                 disabled={disabled}
                 visible={visible}
+                enabledFieldId={enabledFieldId}
                 style={style}
                 className={className}
                 name={groupName}
@@ -107,6 +110,7 @@ RadioGroupControl.propTypes = {
     data: PropTypes.array,
     valueFieldId: PropTypes.string,
     labelFieldId: PropTypes.string,
+    enabledFieldId: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     inline: PropTypes.bool,
     onChange: PropTypes.func,
