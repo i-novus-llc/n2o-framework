@@ -3,7 +3,9 @@ package net.n2oapp.framework.engine.util;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionException;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -39,18 +41,22 @@ public class MapInvocationUtil {
             Expression expression;
             Object data = dataSet.get(map.getKey());
             if (map.getValue() != null) {
-                expression = writeParser.parseExpression(
-                        map.getValue().getMapping() != null ? map.getValue().getMapping() : "['" + map.getKey() + "']");
-                if (map.getValue().getChildMapping() != null) {
-                    if (data instanceof Collection) {
-                        List list = new ArrayList();
-                        for (Object obj : (DataList) data)
-                            list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
-                        expression.setValue(result, list);
-                    } else if (data instanceof DataSet)
-                        expression.setValue(result, mapToMap((DataSet) data, map.getValue().getChildMapping()));
-                } else
-                    expression.setValue(result, data);
+                try {
+                    expression = writeParser.parseExpression(
+                            map.getValue().getMapping() != null ? map.getValue().getMapping() : "['" + map.getKey() + "']");
+                    if (map.getValue().getChildMapping() != null) {
+                        if (data instanceof Collection) {
+                            List list = new ArrayList();
+                            for (Object obj : (DataList) data)
+                                list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
+                            expression.setValue(result, list);
+                        } else if (data instanceof DataSet)
+                            expression.setValue(result, mapToMap((DataSet) data, map.getValue().getChildMapping()));
+                    } else
+                        expression.setValue(result, data);
+                } catch (ExpressionException e) {
+                    throw new N2oSpelException(map.getValue().getMapping(), e);
+                }
             } else {
                 expression = writeParser.parseExpression("['" + map.getKey() + "']");
                 expression.setValue(result, data);

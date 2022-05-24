@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 
 /**
@@ -44,6 +45,10 @@ public abstract class GetController implements ControllerTypeAware {
         try {
             pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
             executeSubModels(requestInfo, pageData, responseInfo);
+        } catch (N2oSpelException e) {
+            dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
+            e.addData(e.getMapping(), requestInfo.getQuery().getId(), e.getFieldId());
+            throw e;
         } catch (N2oException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
             throw e;

@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 
 /**
@@ -41,6 +42,10 @@ public abstract class SetController implements ControllerTypeAware {
                     inDataSet,
                     requestInfo.getInParametersMap().values(),
                     requestInfo.getOutParametersMap().values());
+        } catch (N2oSpelException e) {
+            dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet);
+            e.addData(e.getMapping(), requestInfo.getObject().getId(), e.getFieldId());
+            throw e;
         } catch (N2oException e) {
             dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet);
             responseInfo.prepare(inDataSet);
