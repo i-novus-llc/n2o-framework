@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import toString from 'lodash/toString'
+import isNil from 'lodash/isNil'
 
 import { InputRadio, RadioTypes } from './Input'
 
@@ -16,22 +17,29 @@ export function Group({
     type,
     name,
     onChange,
+    enabledFieldId,
 }) {
     const changeHandler = useCallback(event => onChange(event.target.value), [onChange])
 
     if (visible === false) { return <></> }
 
-    const children = options.map(radio => (
-        <InputRadio
-            {...radio}
-            key={radio.value}
-            name={name}
-            type={type}
-            disabled={disabled || radio.disabled}
-            checked={toString(radio.value) === toString(value)}
-            onChange={changeHandler}
-        />
-    ))
+    const children = options.map((radio) => {
+        const isDisabled = !isNil(radio[enabledFieldId])
+            ? !radio[enabledFieldId]
+            : disabled
+
+        return (
+            <InputRadio
+                {...radio}
+                key={radio.value}
+                name={name}
+                type={type}
+                disabled={isDisabled}
+                checked={toString(radio.value) === toString(value)}
+                onChange={changeHandler}
+            />
+        )
+    })
 
     return (
         <div
@@ -64,6 +72,7 @@ Group.propTypes = {
         className: PropTypes.string,
     })),
     type: PropTypes.oneOf([RadioTypes.input, RadioTypes.button, RadioTypes.tabs]),
+    enabledFieldId: PropTypes.string,
 }
 
 Group.defaultProps = {

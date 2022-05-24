@@ -19,7 +19,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура приложения"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
              welcome-page-id="index">
   <header>
     ...
@@ -40,7 +40,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура шапки"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Мое приложение">
       <nav>
         ...
@@ -54,19 +54,93 @@ N2O - компонентно-ориентированный фреймворк.
 
 #### Боковая панель
 
-Боковая панель - содержит меню навигации, может содерждать логотип и название.
+Боковая панель - содержит меню навигации, может содержать логотип и название.
 
-```xml title="Структура бооковой панели"
+Боковые панели перечисляются в приложении в элементе `<sidebars>`.
+
+```xml title="Структура боковой панели"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
-    <sidebar title="Мое приложение">
-      <nav>
-        ...
-      </nav>
-      <extra-menu>
-        ...
-      </extra-menu>
-    </sidebar>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar title="Мое приложение">
+          <nav>
+            ...
+          </nav>
+          <extra-menu>
+            ...
+          </extra-menu>
+        </sidebar>
+    </sidebars>
+</application>
+```
+
+На странице отобразится та боковая панель, атрибут `path` которой совпадет с адресом этой страницы.
+
+```xml title="Пример множественных боковых панелей"
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/home" title="Домашняя страница">
+          <nav>
+            ...
+          </nav>
+          <extra-menu>
+            ...
+          </extra-menu>
+        </sidebar>
+        <sidebar path="/profile" title="Страница профиля">
+          <nav>
+            ...
+          </nav>
+        </sidebar>
+    </sidebars>
+</application>
+```
+
+:::note
+В случае, если `path` не указан, то боковая панель будет отображаться во всем приложении, кроме тех страниц, для которых заданы конкретные боковые панели.
+:::
+
+
+***Задание путей через шаблоны***
+
+В качестве атрибута `path` можно использовать шаблонные пути с использованием `*` и `**`:
+
+- `*` используется для замены одного ресурса в пути.
+Например, паттерн `/person/*/profile` отобразит боковую панель на страницах, пути которых соответствуют шаблону,
+под данный критерий попадут следующие пути: `/person/1/profile` или `/person/person1/profile`, но не `/person/1/profile/img`.
+
+- `**` используется для замены одного и более ресурсов в пути.
+Например, паттерн `/person/**` отобразит боковую панель на всех страницах, путь которых начинается с `/person/`,
+кроме тех страниц, для которых заданы конкретные боковые панели.
+
+
+```xml title="Пример использования шаблонных путей"
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/person/list" title="Список пользователей">
+           <nav>
+            ...
+           </nav>
+           <extra-menu>
+             ...
+           </extra-menu>
+        </sidebar>
+        <sidebar path="/person/*/profile" title="Профиль пользователя">
+          <nav>
+            ...
+          </nav>
+          <extra-menu>
+            ...
+          </extra-menu>
+        </sidebar>
+        <sidebar path="/profile/**" title="Другие страницы пользователей">
+          <nav>
+            ...
+          </nav>
+        </sidebar>
+    </sidebars>
 </application>
 ```
 
@@ -76,7 +150,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Структура подвала"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <footer left-text="N2O ${n2o.version}"/>
 </application>
 ```
@@ -102,7 +176,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Меню навигации в приложении"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Мое приложение">
         <nav>
               <menu-item id="mi1" name="Первая страница">
@@ -113,16 +187,18 @@ N2O - компонентно-ориентированный фреймворк.
               </menu-item>
         </nav>
     </header>
-    <sidebar title="Мое приложение">
-        <extra-menu>
-              <menu-item id="mi1" name="Первая страница">
-                  <open-page page-id="menu1"/>
-              </menu-item>
-              <menu-item id="mi2" name="Вторая страница">
-                  <open-page page-id="menu2"/>
-              </menu-item>
-        </extra-menu>
-    </sidebar>
+    <sidebars>
+        <sidebar title="Мое приложение">
+            <extra-menu>
+                  <menu-item id="mi1" name="Первая страница">
+                      <open-page page-id="menu1"/>
+                  </menu-item>
+                  <menu-item id="mi2" name="Вторая страница">
+                      <open-page page-id="menu2"/>
+                  </menu-item>
+            </extra-menu>
+        </sidebar>
+    </sidebars>
 </application>
 ```
 
@@ -131,12 +207,14 @@ N2O - компонентно-ориентированный фреймворк.
 
 ```xml title="Ссылка на меню навигации"
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Мое приложение">
         <nav ref-id="myMenu"/>
-    <sidebar title="Мое приложение">
-        <extra-menu ref-id="myMenu"/>
-    </sidebar>
+    <sidebars>
+        <sidebar title="Мое приложение">
+            <extra-menu ref-id="myMenu"/>
+        </sidebar>
+    </sidebars>
 </application>
 ```
 

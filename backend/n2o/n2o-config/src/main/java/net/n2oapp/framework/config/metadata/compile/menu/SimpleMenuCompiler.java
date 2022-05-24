@@ -77,12 +77,13 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             if (action instanceof LinkAction) {
                 LinkAction linkAction = (LinkAction) action;
                 compiled.setHref(linkAction.getUrl());
+                compiled.setPathMapping(linkAction.getPathMapping());
+
                 compiled.setTarget(linkAction.getTarget());
                 if (linkAction.getTarget().equals(Target.application))
                     compiled.setLinkType(HeaderItem.LinkType.inner);
                 else
                     compiled.setLinkType(HeaderItem.LinkType.outer);
-                //            compiled.setPathMapping(linkAction.getPathMapping());
                 //            compiled.setQueryMapping(linkAction.getQueryMapping());
             } else
                 throw new N2oException("Action " + action.getClass() + " not supported in menu yet");

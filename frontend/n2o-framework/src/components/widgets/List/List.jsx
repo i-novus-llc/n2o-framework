@@ -4,7 +4,6 @@ import ReactDom from 'react-dom'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
-import { authProvider } from 'n2o-auth'
 import {
     WindowScroller,
     AutoSizer,
@@ -13,6 +12,7 @@ import {
     List as Virtualizer,
 } from 'react-virtualized'
 
+import authProvider from '../../../core/auth/authProvider'
 import { getIndex } from '../Table/Table'
 import { SECURITY_CHECK } from '../../../core/auth/authTypes'
 

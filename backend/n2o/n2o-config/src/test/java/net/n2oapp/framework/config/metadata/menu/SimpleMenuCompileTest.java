@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.menu;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
@@ -17,8 +18,8 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
 public class SimpleMenuCompileTest extends SourceCompileTestBase {
     @Override
@@ -84,5 +85,22 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         dropdownMenu = menu.getItems().get(3);
         assertThat(dropdownMenu.getTitle(), is("Сообщения"));
         assertThat(dropdownMenu.getIcon(), is("fa fa-bell"));
+    }
+
+    @Test
+    public void testMenuItemWithPathParam() {
+        Application application = read().compile().get(new ApplicationContext("testApplication"));
+        HeaderItem item = application.getHeader().getMenu().getItems().get(4);
+
+        assertThat(item.getId(), is("messages"));
+        assertThat(item.getDatasource(), is("ds1"));
+        assertThat(item.getType(), is("link"));
+        assertThat(item.getHref(), is("/:id"));
+        assertThat(item.getLinkType(), is(HeaderItem.LinkType.inner));
+        assertThat(item.getPathMapping().size(), is(1));
+        assertThat(item.getPathMapping().get("id").getModel(), is(ReduxModel.resolve));
+        assertThat(item.getPathMapping().get("id").getDatasource(), is("ds1"));
+        assertThat(item.getPathMapping().get("id").getBindLink(), is("models.resolve['ds1']"));
+        assertThat(item.getPathMapping().get("id").getValue(), is("`id`"));
     }
 }

@@ -39,6 +39,7 @@ import {
  * @reactProps {string} groupFieldId - поле для группировки
  * @reactProps {string} badgeFieldId - поле для баджей
  * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {string} enabledFieldId - поле для активности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {function} onSelect - callback при выборе элемента
  * @reactProps {string} format - формат

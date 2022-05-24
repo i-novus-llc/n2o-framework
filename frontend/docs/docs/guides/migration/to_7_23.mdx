@@ -11,3 +11,46 @@ description: ""
 ### Изменения в XML API {#changes-xml-api}
 
 - Упразднены устаревшие схемы: `page-2.0`, `region-1.0`
+
+- Появилась новая схема `application-3.0`. В данной схеме добавлены новые атрибуты `path` и `subtitle` для элемента `<sidebar>`.
+Также добавлен новый элемент `<sidebars>`.
+Чтобы перейти на новую схему нужно перенести элемент `<sidebar>` во внутрь элемента `<sidebars>`. Таким образом добавлена поддержка нескольких
+`<sidebar>`, которые будут отображаться в зависимости от url страницы, который должен соответствовать атрибуту `path`.
+
+*Пример как работало в схемах application-1.0 и application-2.0*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+    <sidebar src="test" class="test"
+            title="Test Sidebar" home-page-url="http://google.com/">
+        <nav ref-id="testMenu"/>
+    </sidebar>
+</application>
+```
+
+*Пример как работает в схеме application-3.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/home"
+                 src="home" class="home"
+                 title="Home Sidebar" home-page-url="http://google.com/">
+            <nav ref-id="homeMenu"/>
+        </sidebar>
+        <sidebar path="/profile"
+                 src="profile" class="profile"
+                 title="Profile Sidebar">
+             <nav ref-id="profileMenu"/>
+        </sidebar>
+    </sidebars>
+</application>
+```
+
+### Изменения в сборке Frontend {#changes-frontend-build}
+
+Удалены модули
+    * n2o-auth - содержимое перенесено в n2o-framework/core/auth/
+    * n2o-notifications - содержимое перенесено в n2o-framework/sagas/notifications/
+    * n2o-ecp-plugin

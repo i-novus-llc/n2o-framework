@@ -56,7 +56,8 @@ public class IndexPageHandler {
             if (!servletContext.endsWith("/"))
                 servletContext += "/";
             html = html.replace(HREF_PATTERN + rp, HREF_PATTERN + servletContext)
-                    .replace(SRC_PATTERN + rp, SRC_PATTERN + servletContext);
+                    .replace(SRC_PATTERN + rp, SRC_PATTERN + servletContext)
+                    .replace(rp + "serviceWorker.js", servletContext + "serviceWorker.js");
             return new ByteArrayResource(html.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
