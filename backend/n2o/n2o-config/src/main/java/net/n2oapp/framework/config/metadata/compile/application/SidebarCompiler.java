@@ -45,6 +45,7 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
                 SidebarState.maxi.equals(sidebar.getDefaultState()) ? SidebarState.mini : SidebarState.maxi, SidebarState.class));
         sidebar.setOverlay(p.cast(source.getOverlay(), p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
         sidebar.setToggleOnHover(p.cast(source.getToggleOnHover(), p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
+        sidebar.setProperties(p.mapAttributes(source));
         return sidebar;
     }
 }

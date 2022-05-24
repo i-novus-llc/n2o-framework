@@ -72,6 +72,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         header.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
         header.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
         header.setSearch(source.getSearchBar() != null ? p.compile(source.getSearchBar(), context) : null);
+        header.setProperties(p.mapAttributes(source));
         if (source.getSidebarIcon() != null || source.getSidebarToggledIcon() != null) {
             Header.SidebarSwitcher sidebarSwitcher = new Header.SidebarSwitcher();
             sidebarSwitcher.setIcon(source.getSidebarIcon());
