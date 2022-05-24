@@ -2,6 +2,7 @@
 title: Валидации
 description: ""
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Валидации позволяют проверить корректность входных данных для выполнения операций над объектом и виджетом.
 
@@ -41,6 +42,7 @@ description: ""
                field-id="age">age >= 18</condition>
 </validations>
 ```
+<Sandbox height={300} projectId="documentation_validation_condition" showHeader />
 
 Атрибут `id` задаёт идентификатор валидации в объекте.
 В дальнейшем, через `id` на валидацию можно будет сослаться в тех местах,
@@ -50,7 +52,7 @@ description: ""
 Атрибутом `field-id` можно задать поле, под которым появится сообщение валидации.
 
 Если условие будет верным (вернёт `true`), то валидация пройдёт успешно.
-Если же будет не верным (вернёт `false`), то появится сообщение `message`.
+Если же будет неверным (вернёт `false`), то появится сообщение `message`.
 
 В сообщении можно использовать ссылки на поля входных данных.
 Ссылки записываются в фигурных скобках.
@@ -67,7 +69,8 @@ description: ""
 <validations>
   <constraint id="checkUniqueName"
               message="Пользователь с таким именем уже существует в системе"
-              result="[0].cnt == 0">
+              server-moment="before-operation" severity="danger"
+              result="[0].get('CNT') == 0">
         <invocation>
             <sql>
                   SELECT count(1) as cnt
@@ -77,11 +80,11 @@ description: ""
         </invocation>
         <in>
             <field id="username"/>
-            <field id="id"/>
         </in>
     </constraint>
 </validations>
 ```
+<Sandbox height={350} projectId="documentation_validation_constraint" showHeader />
 
 Обращение к провайдеру данных задаётся в элементе `<invocation>`.
 В элементе `<in>` задаются входные параметры провайдера.
@@ -94,7 +97,7 @@ description: ""
 Условие записывается на языке [SpEL](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html).
 
 Если условие будет верным (вернёт `true`), то валидация пройдёт успешно.
-Если же будет не верным (вернёт `false`), то появится сообщение `message`.
+Если же будет неверным (вернёт `false`), то появится сообщение `message`.
 
 ##### Проверка обязательности заполнения
 
@@ -108,6 +111,7 @@ description: ""
     </in>
 </operation>
 ```
+<Sandbox height={400} projectId="documentation_validation_required" showHeader />
 
 В этом случае для поля выполняется стандартная проверка заполненности и
 выводится сообщение.
@@ -121,6 +125,7 @@ description: ""
                message="Имя должно быть заполнено"/>
 </validations>
 ```
+<Sandbox height={400} projectId="documentation_validation_mandatory" showHeader />
 
 #### Серьезность валидации
 
@@ -190,6 +195,7 @@ __*Серверные моменты вызова валидации*__
                enabled="{gender == 'woman'}"/>
 </validations>
 ```
+<Sandbox height={450} projectId="documentation_validation_mandatoryenabled" showHeader />
 
 ### Валидация операций
 
@@ -279,6 +285,7 @@ __*Серверные моменты вызова валидации*__
     </validations>
 </operation>
 ```
+<Sandbox height={450} projectId="documentation_validation_dialog" showHeader />
 
 #### Использование диалога с вызовом провайдера данных и без
 
@@ -299,21 +306,23 @@ __*Серверные моменты вызова валидации*__
 
 Для прикрепления к полю используется атрибут `field-id`:
 
-```xml title="Валидация объекта прикрепленная к полю"
+```xml title="Валидация объекта, прикрепленная к полю"
 <validations>
     <condition id="checkAdult"
                field-id="age">...</condition>
 </validations>
 ```
+<Sandbox height={300} projectId="documentation_validation_condition" showHeader />
 
 В самих полях так же можно указать список валидаций, сообщения которых прикрепятся к полю.
 Это задаётся в элементе `<validations>`:
 
-```xml title="Список валидаций прикрепленных к полю"
+```xml title="Список валидаций, прикрепленных к полю"
 <input-text id="age">
     <validations white-list="checkAdult"/>
 </input-text>
 ```
+<Sandbox height={300} projectId="documentation_validation_whitelist" showHeader />
 
 #### Вложенная валидация поля
 
