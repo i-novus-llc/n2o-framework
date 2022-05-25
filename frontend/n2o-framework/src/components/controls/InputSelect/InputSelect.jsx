@@ -51,7 +51,6 @@ import { getValueArray } from './utils'
  * @reactProps {array} alerts
  * @reactProps {boolean} popupAutoSize - флаг включения автоматическиого расчета длины PopUp
  */
-
 class InputSelect extends React.Component {
     constructor(props) {
         super(props)
@@ -122,9 +121,9 @@ class InputSelect extends React.Component {
 
         const conditionForAddingAnObject = (resetOnBlur, input, options, value) => (
             !resetOnBlur &&
-        input.split(' ').every(char => char === '') !== true &&
-        options.some(person => person.id === input) !== true &&
-        value.some(person => person.id === input) !== true
+            input.split(' ').every(char => char === '') !== true &&
+            options.some(person => person.id === input) !== true &&
+            value.some(person => person.id === input) !== true
         )
 
         if (input && isEmpty(findValue) && resetOnBlur && !isPopupFocused) {
@@ -183,20 +182,17 @@ class InputSelect extends React.Component {
      * @returns {*}
      * @private
      */
-
     getValue = () => {
         const { multiSelect } = this.props
         const { value } = this.state
 
-        if (!value) {
-            return null
-        }
-
-        if (multiSelect) {
-            return value
-        }
-
-        return value[0]
+        /*
+         * Зануляем значение по умолчанию, иначе бывают проблемы с несколькими redux-form
+         * на одну модель при очистке поля по крестику:
+         * при первом нажатии на крестик в модель попадает пустой объект и поле ведёт себя так как будто что-то выбрано
+         * нормально очищалось только при повторном нажатии
+         */
+        return (multiSelect ? value : value?.[0]) || null
     }
 
     /**
@@ -204,7 +200,6 @@ class InputSelect extends React.Component {
      * @param item - элемент
      * @private
      */
-
     removeSelectedItem = (item) => {
         const { onChange } = this.props
         const { value: stateValue } = this.state
@@ -217,7 +212,6 @@ class InputSelect extends React.Component {
      * Скрывает popUp
      * @private
      */
-
     hidePopUp = () => {
         this.setInputFocus(false)
         this.setState({ isExpanded: false })
@@ -227,7 +221,6 @@ class InputSelect extends React.Component {
      * Очищает выбранный элемент
      * @private
      */
-
     clearSelected = () => {
         const { onChange, onBlur } = this.props
 
@@ -282,7 +275,6 @@ class InputSelect extends React.Component {
      * Выполняет поиск элементов для popUp, если установлен фильтр
      * @private
      */
-
     handleDataSearch = (input, delay = 400, callback) => {
         const { onSearch, filter, labelFieldId, options } = this.props
         const { value } = this.state
@@ -328,7 +320,6 @@ class InputSelect extends React.Component {
      * @param item - элемент массива options
      * @private
      */
-
     handleItemSelect = (item) => {
         const {
             multiSelect,
@@ -370,7 +361,6 @@ class InputSelect extends React.Component {
      * Очищает инпут и результаты поиска
      * @private
      */
-
     clearSearchField = () => {
         this.setState({ input: '' }, this.handleDataSearch)
     }
@@ -412,7 +402,6 @@ class InputSelect extends React.Component {
      * Добавлет объект к текущему value, при resetOnBlur = false
      * @private
      */
-
     addObjectToValue = () => {
         const { multiSelect, labelFieldId } = this.props
         const {
@@ -482,9 +471,6 @@ class InputSelect extends React.Component {
         this.setIsExpanded(!isExpanded)
     }
 
-    /**
-     * Рендер
-     */
     render() {
         const {
             loading,
@@ -643,9 +629,6 @@ class InputSelect extends React.Component {
 }
 
 InputSelect.propTypes = {
-    /**
-     * Стили
-     */
     style: PropTypes.object,
     /**
      * Флаг загрузки
