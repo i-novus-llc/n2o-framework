@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.header.Header;
-import net.n2oapp.framework.api.metadata.header.HeaderItem;
+import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -50,7 +50,7 @@ public class ApplicationAccessTransformer extends BaseAccessTransformer<Applicat
 
     private void mapSecurityItems(SimpleMenu simpleMenu, SimpleCompiledAccessSchema schema, CompileProcessor p) {
         if (simpleMenu == null || simpleMenu.getItems() == null) return;
-        for (HeaderItem item : simpleMenu.getItems()) {
+        for (MenuItem item : simpleMenu.getItems()) {
             if (item.getSubItems() == null) {
                 mapSecurityItem(schema, p, item);
             } else {
@@ -59,7 +59,7 @@ public class ApplicationAccessTransformer extends BaseAccessTransformer<Applicat
         }
     }
 
-    private void mapSecurityItem(SimpleCompiledAccessSchema schema, CompileProcessor p, HeaderItem si) {
+    private void mapSecurityItem(SimpleCompiledAccessSchema schema, CompileProcessor p, MenuItem si) {
         collectPageAccess(si, si.getPageId(), schema, p);
         if (si.getPageId() == null) {
             collectUrlAccess(si, si.getHref(), schema, p);

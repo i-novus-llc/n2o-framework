@@ -6,7 +6,7 @@ import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.header.Header;
-import net.n2oapp.framework.api.metadata.header.HeaderItem;
+import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -67,13 +67,13 @@ public class ApplicationAccessTransformerTest extends SourceCompileTestBase {
         checkAnchor(application.getSidebars().get(0).getExtraMenu().getItems().get(2));
     }
 
-    private void checkAnchor(HeaderItem headerItem) {
-        assertThat(((Security) headerItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions(), nullValue());
-        assertThat(((Security) headerItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles(), nullValue());
-        assertThat(((Security) headerItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getUsernames().contains("user"), is(true));
+    private void checkAnchor(MenuItem menuItem) {
+        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions(), nullValue());
+        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles(), nullValue());
+        assertThat(((Security) menuItem.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getUsernames().contains("user"), is(true));
     }
 
-    private void checkMenuItem(HeaderItem item) {
+    private void checkMenuItem(MenuItem item) {
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getUsernames().size(), is(1));
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getUsernames().contains("user"), is(true));
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getRoles().size(), is(2));

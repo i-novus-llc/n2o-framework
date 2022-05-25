@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class HeaderItem implements Compiled, PropertiesAware {
+public class MenuItem implements Compiled, PropertiesAware {
     @JsonProperty
     private String id;
     @JsonProperty
@@ -34,7 +33,7 @@ public class HeaderItem implements Compiled, PropertiesAware {
     @JsonProperty
     private String datasource;
     @JsonProperty("items")
-    private ArrayList<HeaderItem> subItems;
+    private ArrayList<MenuItem> subItems;
     @JsonProperty("type")
     private String type;
     @JsonProperty
@@ -44,7 +43,9 @@ public class HeaderItem implements Compiled, PropertiesAware {
     @JsonProperty
     private Target target;
     @JsonProperty
-    private Map<String, ModelLink> pathMapping = new StrictMap<>();
+    private Map<String, ModelLink> pathMapping;
+    @JsonProperty
+    private Map<String, ModelLink> queryMapping;
     @Deprecated
     private String pageId;
     private Map<String, Object> properties;
