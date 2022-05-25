@@ -156,7 +156,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
             }
         } catch (RestClientResponseException e) {
             log.error("Execution error with REST query: " + query);
-            throw new N2oQueryExecutionException(e.getMessage().replaceAll("[{}]", ""), query);
+            throw new N2oQueryExecutionException(e.getMessage().replaceAll("[{}]", ""), query, e);
         }
 
     }

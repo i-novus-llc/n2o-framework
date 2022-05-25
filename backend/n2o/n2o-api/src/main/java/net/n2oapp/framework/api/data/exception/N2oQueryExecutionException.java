@@ -14,6 +14,11 @@ public class N2oQueryExecutionException extends N2oException {
         this.query = query;
     }
 
+    public N2oQueryExecutionException(String message, String query, Throwable cause) {
+        super(message, cause);
+        this.query = query;
+    }
+
     public String getQuery() {
         return query;
     }
