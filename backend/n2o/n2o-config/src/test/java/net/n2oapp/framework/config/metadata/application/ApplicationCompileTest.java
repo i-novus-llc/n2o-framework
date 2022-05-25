@@ -64,7 +64,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     @Test
     public void stompDatasources() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/stompDatasources.application.xml")
-                .get(new ApplicationContext("datasources"));
+                .get(new ApplicationContext("stompDatasources"));
 
         assertThat(application.getDatasources().size(), is(2));
 
