@@ -47,7 +47,7 @@ public abstract class GetController implements ControllerTypeAware {
             executeSubModels(requestInfo, pageData, responseInfo);
         } catch (N2oSpelException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            e.addData(e.getMapping(), requestInfo.getQuery().getId(), e.getFieldId());
+            e.addData(e.getMapping(), requestInfo.getQuery().getId() + ".query.xml", e.getFieldId());
             throw e;
         } catch (N2oException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
