@@ -14,13 +14,17 @@ import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.query.GetController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpSession;
@@ -51,6 +55,17 @@ public class N2oSandboxConfiguration {
     @Bean
     public WebMvcConfigurer mvcConfigurer() {
         return new WebMvcConfigurer() {
+            @Value("${n2o.sandbox.url}")
+            private String sandboxUrl;
+
+            @Value("${n2o.engine.rest.url}")
+            private String standUrl;
+
+            @Override
+            public void addViewControllers(ViewControllerRegistry registry) {
+                registry.addRedirectViewController("/", sandboxUrl + "?stand=" + standUrl);
+            }
+
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/view/*/static/**")
