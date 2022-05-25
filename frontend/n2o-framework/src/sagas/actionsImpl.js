@@ -182,7 +182,6 @@ export function* handleInvoke(apiProvider, action) {
         const { submitForm } = dataProvider
 
         if (!optimistic && submitForm) {
-            // TODO узнать можно ли вообще отказаться от setModel в инвоке, если после него всё равно будет запрос на обновление данных
             const newModel = modelPrefix === MODEL_PREFIX.selected ? response.data?.$list : response.data
 
             if (!isEqual(model, newModel)) {
@@ -205,13 +204,13 @@ export function* handleInvoke(apiProvider, action) {
         )
 
         if (errorMeta.messages) {
-            const fieds = {}
+            const fields = {}
 
             for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
-                fieds[fieldName] = Array.isArray(error) ? error : [error]
+                fields[fieldName] = Array.isArray(error) ? error : [error]
             }
 
-            yield put(failValidate(datasource, fieds))
+            yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
         }
     } finally {
         if (pageId) {
