@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.application;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 
@@ -10,7 +11,7 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
  */
 @Getter
 @Setter
-public class N2oSidebar extends N2oComponent {
+public class N2oSidebar extends N2oComponent implements DatasourceIdAware {
 
     /**
      * Видимость
@@ -51,6 +52,11 @@ public class N2oSidebar extends N2oComponent {
      * css класс для области с логотипом и названием
      */
     private String logoClass;
+
+    /**
+     * Идентификатор источника данных боковой панели
+     */
+    private String datasourceId;
 
     /**
      * Состояние сайдбара по умолчанию
