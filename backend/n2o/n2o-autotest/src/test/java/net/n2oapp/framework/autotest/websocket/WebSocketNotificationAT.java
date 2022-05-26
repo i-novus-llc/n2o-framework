@@ -36,7 +36,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-        Configuration.timeout = 6000;
+        Configuration.timeout = 8000;
     }
 
     @BeforeEach
