@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.websocket;
 
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -35,6 +36,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
+        Configuration.timeout = 8000;
     }
 
     @BeforeEach
