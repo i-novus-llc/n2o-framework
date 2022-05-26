@@ -3,6 +3,8 @@ package net.n2oapp.framework.boot.sql;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.n2oapp.framework.api.JsonUtil;
 import net.n2oapp.framework.api.exception.N2oException;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 
 import java.sql.SQLException;
@@ -33,12 +35,14 @@ public class InvocationUtil {
         return findSqlSummary(e.getCause());
     }
 
-    public static String constructSqlMessage(BadSqlGrammarException e) {
+    public static String constructSqlMessage(DataAccessException e) {
         String defaultMessage = "Bad SQL grammar";
-        String sqlMessage = e.getSQLException().getMessage();
-        Matcher matcher = Pattern.compile("[A-Z].+;").matcher(sqlMessage);
+        String sqlMessage = e.getMessage();
+        if (e instanceof BadSqlGrammarException)
+            sqlMessage = ((BadSqlGrammarException) e).getSQLException().getMessage();
+        Matcher matcher = Pattern.compile("\n[A-Z][a-z](.|\n)+?; SQL statement:").matcher(sqlMessage);
         if (matcher.find())
-            return defaultMessage + ": " + matcher.group();
+            return defaultMessage + ": " + StringUtils.substringBefore(matcher.group(), "; SQL statement:");
         return defaultMessage;
     }
 
