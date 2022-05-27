@@ -36,13 +36,14 @@ public class InvocationUtil {
     }
 
     public static String constructSqlMessage(DataAccessException e) {
-        String defaultMessage = "Bad SQL grammar";
         String sqlMessage = e.getMessage();
         if (e instanceof BadSqlGrammarException)
             sqlMessage = ((BadSqlGrammarException) e).getSQLException().getMessage();
-        Matcher matcher = Pattern.compile("\n[A-Z][a-z](.|\n)+?; SQL statement:").matcher(sqlMessage);
+        Matcher matcher = Pattern.compile("(\\A|\n)[A-Z][a-z](.|\n)+?; SQL statement:").matcher(sqlMessage);
         if (matcher.find())
-            return defaultMessage + ": " + StringUtils.substringBetween(matcher.group(), "\n", "; SQL statement:");
+            return "Bad SQL grammar: " + (matcher.group().startsWith("\n")  ?
+                    StringUtils.substringBetween(matcher.group(), "\n", "; SQL statement:")
+                    : StringUtils.substringBefore(matcher.group(), "; SQL statement:"));
         return sqlMessage;
     }
 
