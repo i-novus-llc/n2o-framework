@@ -101,6 +101,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     public void sidebarWithDatasource() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/sidebarDatasource.application.xml")
                 .get(new ApplicationContext("sidebarDatasource"));
+        assertThat(application.getWsPrefix(), nullValue());
 
         Sidebar sidebar = application.getSidebars().get(0);
         assertThat(sidebar.getSrc(), is("Sidebar"));
