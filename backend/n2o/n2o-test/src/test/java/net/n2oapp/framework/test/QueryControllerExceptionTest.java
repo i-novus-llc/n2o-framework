@@ -99,10 +99,10 @@ public class QueryControllerExceptionTest {
         GetDataResponse response = queryController.execute(requestInfo, null);
 
         assertThat(response.getMeta().getAlert().getMessages().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("Bad SQL grammar: " +
-                "Syntax error in SQL statement \"SELECT * FROM[*]\"; expected \"identifier\""));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(),
+                is("Bad SQL grammar: Syntax error in SQL statement \"SELCT[*] * FROM TABLE\"; expected \"SET, SAVEPOINT, SCRIPT, SHUTDOWN, SHOW\""));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("Executed query: SELECT * FROM"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("Executed query: SELCT * FROM table"));
     }
 
     @Test
