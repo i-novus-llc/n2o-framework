@@ -43,7 +43,7 @@ public class InvocationUtil {
         Matcher matcher = Pattern.compile("\n[A-Z][a-z](.|\n)+?; SQL statement:").matcher(sqlMessage);
         if (matcher.find())
             return defaultMessage + ": " + StringUtils.substringBetween(matcher.group(), "\n", "; SQL statement:");
-        return defaultMessage;
+        return sqlMessage;
     }
 
     public static void mapAndListsToJson(Map<String, Object> args) {
