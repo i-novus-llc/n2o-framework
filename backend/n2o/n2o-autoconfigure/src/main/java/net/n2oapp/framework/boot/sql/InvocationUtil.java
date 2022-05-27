@@ -42,7 +42,7 @@ public class InvocationUtil {
             sqlMessage = ((BadSqlGrammarException) e).getSQLException().getMessage();
         Matcher matcher = Pattern.compile("\n[A-Z][a-z](.|\n)+?; SQL statement:").matcher(sqlMessage);
         if (matcher.find())
-            return defaultMessage + ": " + StringUtils.substringBefore(matcher.group(), "; SQL statement:");
+            return defaultMessage + ": " + StringUtils.substringBetween(matcher.group(), "\n", "; SQL statement:");
         return defaultMessage;
     }
 
