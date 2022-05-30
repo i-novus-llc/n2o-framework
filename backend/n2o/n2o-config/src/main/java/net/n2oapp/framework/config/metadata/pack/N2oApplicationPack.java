@@ -5,6 +5,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.AnchorElementIOV1;
 import net.n2oapp.framework.config.io.action.OpenPageElementIOV1;
 import net.n2oapp.framework.config.metadata.compile.application.*;
+import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarCompiler;
+import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarIOv3;
 import net.n2oapp.framework.config.metadata.compile.datasource.StompDatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.events.StompEventCompiler;
 import net.n2oapp.framework.config.metadata.compile.header.SearchBarCompiler;

@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.application;
+package net.n2oapp.framework.config.metadata.compile.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.application.*;

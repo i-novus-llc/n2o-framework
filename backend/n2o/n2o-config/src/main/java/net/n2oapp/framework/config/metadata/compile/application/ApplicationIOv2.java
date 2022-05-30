@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.datasource.DatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
 import net.n2oapp.framework.config.io.event.StompEventIO;
+import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarIOv2;
 import net.n2oapp.framework.config.metadata.compile.header.HeaderIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
