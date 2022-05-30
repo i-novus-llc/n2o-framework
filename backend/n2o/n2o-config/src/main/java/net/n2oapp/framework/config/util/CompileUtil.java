@@ -21,7 +21,7 @@ public class CompileUtil {
 
     public static String generateWidgetId(String pageId, String localWidgetId) {
         if ("_".equals(pageId))
-            return localWidgetId;
+            return pageId + localWidgetId;
         return pageId + "_" + localWidgetId;
     }
 

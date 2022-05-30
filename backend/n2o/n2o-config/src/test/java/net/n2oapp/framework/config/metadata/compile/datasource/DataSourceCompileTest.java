@@ -75,12 +75,12 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQuery.page.xml")
                         .get(new PageContext("testDSQuery", "/"));
 
-        Datasource ds = page.getDatasources().get("ds1");
+        Datasource ds = page.getDatasources().get("_ds1");
         assertThat(ds, notNullValue());
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.query));
         assertThat(ds.getProvider(), notNullValue());
-        assertThat(ds.getProvider().getUrl(), is("n2o/data/ds1"));
-        QueryContext queryCtx = ((QueryContext)route("/ds1", CompiledQuery.class));
+        assertThat(ds.getProvider().getUrl(), is("n2o/data/_ds1"));
+        QueryContext queryCtx = ((QueryContext)route("/_ds1", CompiledQuery.class));
         assertThat(queryCtx, notNullValue());
     }
 

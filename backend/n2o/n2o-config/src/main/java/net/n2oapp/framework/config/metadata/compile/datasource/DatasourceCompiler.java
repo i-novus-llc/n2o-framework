@@ -143,7 +143,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         if (source.getQueryId() == null)
             return null;
         ClientDataProvider dataProvider = new ClientDataProvider();
-        String url = getDatasourceRoute(source, p);
+        String url = getDatasourceRoute(source, compiled, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
         dataProvider.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
         List<Filter> filters = initFilters(compiled, source, p, query);
@@ -173,8 +173,8 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         }
     }
 
-    private String getDatasourceRoute(N2oDatasource source, CompileProcessor p) {
-        String datasource = source.getId();
+    private String getDatasourceRoute(N2oDatasource source, Datasource compiled, CompileProcessor p) {
+        String datasource = compiled.getId().startsWith("_") ? compiled.getId() : source.getId();
         String route = p.cast(source.getRoute(), normalize(datasource));
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         if (parentRouteScope != null) {

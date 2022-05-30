@@ -15,6 +15,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.headless;
+
 public class CopyFieldAT extends AutoTestBase {
 
     @BeforeAll
@@ -25,6 +27,7 @@ public class CopyFieldAT extends AutoTestBase {
     @BeforeEach
     @Override
     public void setUp() throws Exception {
+        headless = false;
         super.setUp();
     }
 

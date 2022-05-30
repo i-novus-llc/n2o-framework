@@ -42,7 +42,7 @@ public class FieldModelsCompileTest extends SourceCompileTestBase {
 
         PageContext modalContext = (PageContext) route("/modalPage", Page.class);
         assertThat(modalContext.getParentClientPageId(), is("_"));
-        assertThat(modalContext.getParentClientWidgetId(), is("form"));
+        assertThat(modalContext.getParentClientWidgetId(), is("_form"));
 
         Page page = read().compile().get(modalContext);
         Models models = page.getModels();
