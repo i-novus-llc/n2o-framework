@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.application;
+package net.n2oapp.framework.config.metadata.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.Side;
@@ -35,7 +35,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void defaultSidebar() {
-        Application application = compile("net/n2oapp/framework/config/metadata/application/defaultSidebar.application.xml")
+        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/defaultSidebar.application.xml")
                 .get(new ApplicationContext("defaultSidebar"));
         Sidebar sidebar = application.getSidebars().get(0);
         assertThat(sidebar.getSrc(), is("Sidebar"));
@@ -48,7 +48,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void defaultSidebarSwitchedInHeader() {
-        Application application = compile("net/n2oapp/framework/config/metadata/application/defaultSidebarSwitchedInHeader.application.xml")
+        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/defaultSidebarSwitchedInHeader.application.xml")
                 .get(new ApplicationContext("defaultSidebarSwitchedInHeader"));
         Sidebar sidebar = application.getSidebars().get(0);
         assertThat(sidebar.getSrc(), is("Sidebar"));
@@ -63,7 +63,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     public void sidebarMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/application/sidebarWithMenu.application.xml")
+                "net/n2oapp/framework/config/metadata/application/sidebar/sidebarWithMenu.application.xml")
                 .get(new ApplicationContext("sidebarWithMenu"));
 
         Sidebar sidebar = application.getSidebars().get(0);
@@ -88,7 +88,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     @Test
     public void externalMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/application/sidebarWithExternalMenu.application.xml",
+                "net/n2oapp/framework/config/metadata/application/sidebar/sidebarWithExternalMenu.application.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testMenu.menu.xml")
                 .get(new ApplicationContext("sidebarWithExternalMenu"));
@@ -108,7 +108,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
     public void testInvisibleSidebar() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/application/invisibleSidebar.application.xml")
+                "net/n2oapp/framework/config/metadata/application/sidebar/invisibleSidebar.application.xml")
                 .bind().get(new ApplicationContext("invisibleSidebar"), null);
 
         assertThat(application.getSidebars().get(0), nullValue());
@@ -116,7 +116,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void sidebars() {
-        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebars.application.xml")
+        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/sidebars.application.xml")
                 .get(new ApplicationContext("sidebars"));
 
         assertThat(application.getSidebars().size(), is(2));

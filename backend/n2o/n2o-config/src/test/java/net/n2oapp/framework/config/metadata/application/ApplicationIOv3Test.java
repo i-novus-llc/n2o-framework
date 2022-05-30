@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.application;
 
 import net.n2oapp.framework.config.io.action.v2.AlertActionElementIOV2;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationIOv3;
-import net.n2oapp.framework.config.metadata.compile.application.SidebarIOv3;
+import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarIOv3;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
