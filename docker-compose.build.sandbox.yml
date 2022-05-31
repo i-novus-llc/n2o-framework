@@ -1,0 +1,7 @@
+version: "3.6"
+
+services:
+  n2o-sandbox:
+    image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
+    build:
+      context: sandbox/server
