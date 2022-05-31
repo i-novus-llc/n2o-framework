@@ -1,6 +1,6 @@
 {
   "name": "n2o-simple-project",
-  "version": "7.23.4",
+  "version": "7.23.5",
   "private": true,
   "homepage": ".",
   "scripts": {
@@ -9,7 +9,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "n2o-framework": "^7.23.4"
+    "n2o-framework": "^7.23.5"
   },
   "devDependencies": {
     "@babel/runtime": "^7.9.2",
