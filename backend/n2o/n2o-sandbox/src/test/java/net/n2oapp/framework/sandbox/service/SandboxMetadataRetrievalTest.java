@@ -107,10 +107,10 @@ public class SandboxMetadataRetrievalTest {
 
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("Моя первая страница"));
 
-        assertThat(page.getDatasources().get("main").getDependencies().size(), is(0));
-        assertThat(page.getDatasources().get("main").getId(), is("main"));
-        assertThat(page.getDatasources().get("main").getSize(), is(1));
-        assertThat(page.getDatasources().get("main").getValidations().size(), is(0));
+        assertThat(page.getDatasources().get("_main").getDependencies().size(), is(0));
+        assertThat(page.getDatasources().get("_main").getId(), is("_main"));
+        assertThat(page.getDatasources().get("_main").getSize(), is(1));
+        assertThat(page.getDatasources().get("_main").getValidations().size(), is(0));
 
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));
 
@@ -120,8 +120,8 @@ public class SandboxMetadataRetrievalTest {
         assertThat(page.getRoutes().getList().get(0).getExact(), is(true));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/"));
 
-        assertThat(((SimplePage) page).getWidget().getId(), is("main"));
-        assertThat(((SimplePage) page).getWidget().getDatasource(), is("main"));
+        assertThat(((SimplePage) page).getWidget().getId(), is("_main"));
+        assertThat(((SimplePage) page).getWidget().getDatasource(), is("_main"));
         assertThat(((SimplePage) page).getWidget().getSrc(), is("FormWidget"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(false));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getModelPrefix(), is("resolve"));
