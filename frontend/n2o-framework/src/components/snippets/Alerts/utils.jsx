@@ -75,6 +75,7 @@ CloseButtonSegment.propTypes = {
     onClick: PropTypes.func,
     text: PropTypes.string,
     timestamp: PropTypes.string,
+    extended: PropTypes.bool,
 }
 
 export const StacktraceSegment = ({ stacktrace, onClick, stacktraceVisible, t }) => {
