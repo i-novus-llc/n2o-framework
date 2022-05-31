@@ -15,7 +15,7 @@ public class CompileUtil {
 
     public static String generateDatasourceId(String pageId, String localDatasourceId) {
         if ("_".equals(pageId))
-            return localDatasourceId;
+            return pageId + localDatasourceId;
         return pageId + "_" + localDatasourceId;
     }
 
