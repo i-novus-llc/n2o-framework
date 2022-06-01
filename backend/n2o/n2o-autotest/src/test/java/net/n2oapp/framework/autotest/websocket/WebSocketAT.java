@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.websocket;
 
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -27,6 +28,7 @@ public class WebSocketAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
+        Configuration.timeout = 8000;
     }
 
     @BeforeEach
