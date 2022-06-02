@@ -25,9 +25,14 @@ export function* alertEffect(action) {
     try {
         const { messages, stacked } = action.meta.alert
 
+        const mapMessage = message => ({
+            ...message,
+            id: messages.id || id(),
+            color: message.color || message.severity
+        })
         const alerts = isArray(messages)
-            ? messages.map(message => ({ ...message, id: message.id || id() }))
-            : [{ ...messages, id: messages.id || id() }]
+            ? messages.map(mapMessage)
+            : [mapMessage(messages)]
 
         const alertsKey = get(alerts[0], STORE_KEY_PATH) || GLOBAL_KEY
 
