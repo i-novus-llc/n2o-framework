@@ -20,8 +20,6 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  */
 @Component
 public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2oClearAction> {
-
-
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oClearAction.class;
