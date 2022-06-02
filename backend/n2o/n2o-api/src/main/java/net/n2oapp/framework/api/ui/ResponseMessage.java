@@ -33,7 +33,7 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private Integer timeout;
     @JsonProperty
-    private Boolean closeButton;
+    private Boolean closeButton = true;
     @JsonProperty
     private String href;
     @JsonProperty
