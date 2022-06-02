@@ -28,6 +28,7 @@ export const AlertSection = ({
     stacktraceVisible,
     textClassName,
     style,
+    isSimple,
     t,
 }) => (
     <div className="n2o-alert-segment w-100 d-flex flex-row flex-nowrap" style={style}>
@@ -38,6 +39,7 @@ export const AlertSection = ({
             onClick={onClick}
             text={text}
             timestamp={timestamp}
+            extended={isSimple}
         />
         <StacktraceSegment
             stacktrace={stacktrace}
