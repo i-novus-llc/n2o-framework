@@ -31,7 +31,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         ClearAction clearAction = new ClearAction();
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
-        clearAction.getPayload().setPrefixes(initPrefixes(source, p));
+        clearAction.getPayload().setPrefixes(initPayloadPrefixes(source, p));
         String widgetId = initClientWidgetId(context, p);
         PageScope pageScope = p.getScope(PageScope.class);
         clearAction.getPayload().setKey(
@@ -46,7 +46,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         return clearAction;
     }
 
-    private String[] initPrefixes(N2oClearAction source, CompileProcessor p) {
+    private String[] initPayloadPrefixes(N2oClearAction source, CompileProcessor p) {
         String[] prefixes;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
 
@@ -58,7 +58,8 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         }
         else {
             N2oButton button = p.getScope(ComponentScope.class).unwrap(N2oButton.class);
-            prefixes = button == null ? new String[]{button.getModel().getId()} : new String[]{ReduxModel.resolve.getId()};
+            String model = button != null ? button.getModel().getId() : ReduxModel.resolve.getId();
+            prefixes = new String[]{model};
         }
         return prefixes;
     }
