@@ -28,7 +28,7 @@ export function* alertEffect(action) {
         const mapMessage = message => ({
             ...message,
             id: messages.id || id(),
-            color: message.color || message.severity
+            color: message.color || message.severity,
         })
         const alerts = isArray(messages)
             ? messages.map(mapMessage)
