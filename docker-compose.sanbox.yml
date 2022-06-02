@@ -6,11 +6,23 @@ services:
     environment:
       - N2O_SANDBOX_URL=https://sandbox.n2oapp.net
     ports:
-      - "${PORT}:8080"
+      - "${PORT_SANDBOX}:8080"
     deploy:
       resources:
         limits:
           memory: 512M
+      placement:
+        constraints:
+          - node.role == worker
+
+  docusaurus:
+    image: "${DOCKER_REGISTRY}/n2o/docusaurus:${TAG}"
+    ports:
+      - "${PORT_DOCUSAURUS}:80"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
       placement:
         constraints:
           - node.role == worker
