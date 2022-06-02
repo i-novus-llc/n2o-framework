@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -20,7 +21,6 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 @Component
 public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2oClearAction> {
 
-    private static final String DEFAULT_MODEL = "resolve";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -33,20 +33,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         ClearAction clearAction = new ClearAction();
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String[] prefixes = null;
-
-        if (source.getModel() != null) {
-            prefixes = source.getModel();
-        }
-        else if (widgetScope != null) {
-            prefixes = new String[]{widgetScope.getModel().getId()};
-        }
-        else {
-            N2oButton button = p.getScope(ComponentScope.class).unwrap(N2oButton.class);
-            prefixes = button == null ? null : new String[]{button.getModel().getId()};
-        }
-        clearAction.getPayload().setPrefixes(p.cast(prefixes, new String[]{DEFAULT_MODEL}));
+        clearAction.getPayload().setPrefixes(initPrefixes(source, p));
         String widgetId = initClientWidgetId(context, p);
         PageScope pageScope = p.getScope(PageScope.class);
         clearAction.getPayload().setKey(
@@ -59,5 +46,22 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
             clearAction.getMeta().setModalsToClose(1);
         }
         return clearAction;
+    }
+
+    private String[] initPrefixes(N2oClearAction source, CompileProcessor p) {
+        String[] prefixes;
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+
+        if (source.getModel() != null) {
+            prefixes = source.getModel();
+        }
+        else if (widgetScope != null) {
+            prefixes = new String[]{widgetScope.getModel().getId()};
+        }
+        else {
+            N2oButton button = p.getScope(ComponentScope.class).unwrap(N2oButton.class);
+            prefixes = button == null ? new String[]{button.getModel().getId()} : new String[]{ReduxModel.resolve.getId()};
+        }
+        return prefixes;
     }
 }
