@@ -5,3 +5,8 @@ services:
     image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
     build:
       context: sandbox/server
+
+  docusaurus:
+    image: "${DOCKER_REGISTRY}/n2o/docusaurus:${TAG}"
+    build:
+      context: frontend/docs
