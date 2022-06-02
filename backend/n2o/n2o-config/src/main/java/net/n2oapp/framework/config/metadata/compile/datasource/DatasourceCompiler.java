@@ -174,9 +174,9 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
     }
 
     private String getDatasourceRoute(N2oDatasource source, Datasource compiled, CompileProcessor p) {
-        String datasource = compiled.getId().startsWith("_") ? compiled.getId() : source.getId();
-        String route = p.cast(source.getRoute(), normalize(datasource));
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
+        String datasource = parentRouteScope != null && "/".equals(parentRouteScope.getUrl()) ? compiled.getId() : source.getId();
+        String route = p.cast(source.getRoute(), normalize(datasource));
         if (parentRouteScope != null) {
             return RouteUtil.normalize(parentRouteScope.getUrl() + route);
         } else {
