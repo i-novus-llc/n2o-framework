@@ -241,6 +241,7 @@ public class ViewController {
             getMenu(builder);
             String path = getPath(request, "/n2o/data");
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+            dataController.setMessageBuilder(messageBuilder);
             SetDataResponse dataResponse = dataController.setData(path,
                     request.getParameterMap(),
                     getHeaders(request),

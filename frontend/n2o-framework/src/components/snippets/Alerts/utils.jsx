@@ -47,7 +47,7 @@ TimeStampSegment.propTypes = {
     text: PropTypes.string,
 }
 
-export const CloseButtonSegment = ({ closeButton, onClick, text, timestamp }) => {
+export const CloseButtonSegment = ({ closeButton, onClick, text, timestamp, extended }) => {
     if (!closeButton) {
         return null
     }
@@ -58,6 +58,7 @@ export const CloseButtonSegment = ({ closeButton, onClick, text, timestamp }) =>
             {
                 'text-empty': !text,
                 'w-100': !text && !timestamp,
+                extended,
             },
         )}
         >
@@ -74,6 +75,7 @@ CloseButtonSegment.propTypes = {
     onClick: PropTypes.func,
     text: PropTypes.string,
     timestamp: PropTypes.string,
+    extended: PropTypes.bool,
 }
 
 export const StacktraceSegment = ({ stacktrace, onClick, stacktraceVisible, t }) => {
