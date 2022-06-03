@@ -21,6 +21,11 @@ import java.util.regex.Pattern;
  */
 public class InvocationUtil {
 
+    private static final Pattern SQL_ERROR_PATTERN = Pattern.compile("(\\A|\n)[A-Z][a-z](.|\n)+?; SQL statement:");
+
+    private InvocationUtil() {
+    }
+
     /**
      * Прокапываем ошибку до конца
      */
@@ -39,7 +44,7 @@ public class InvocationUtil {
         String sqlMessage = e.getMessage();
         if (e instanceof BadSqlGrammarException)
             sqlMessage = ((BadSqlGrammarException) e).getSQLException().getMessage();
-        Matcher matcher = Pattern.compile("(\\A|\n)[A-Z][a-z](.|\n)+?; SQL statement:").matcher(sqlMessage);
+        Matcher matcher = SQL_ERROR_PATTERN.matcher(sqlMessage);
         if (matcher.find())
             return "Bad SQL grammar: " + (matcher.group().startsWith("\n")  ?
                     StringUtils.substringBetween(matcher.group(), "\n", "; SQL statement:")
