@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -41,6 +43,8 @@ public class HeaderItem implements Compiled, PropertiesAware {
     private LinkType linkType;
     @JsonProperty
     private Target target;
+    @JsonProperty
+    private Map<String, ModelLink> pathMapping = new StrictMap<>();
     @Deprecated
     private String pageId;
     private Map<String, Object> properties;

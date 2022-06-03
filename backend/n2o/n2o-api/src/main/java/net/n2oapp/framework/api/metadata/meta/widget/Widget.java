@@ -18,6 +18,7 @@ import java.util.Set;
 public abstract class Widget<T extends WidgetComponent> extends Component implements CompiledRegionItem {
     @JsonProperty
     private String id;
+    @JsonProperty
     private String name;
     @JsonProperty
     private String icon;

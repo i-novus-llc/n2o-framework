@@ -118,6 +118,10 @@
         }
     }
 
+    .n2o-alert-segment__icon-container.extended {
+        width: 100%;
+    }
+
     .n2o-alert-segment__icon-container.text-empty {
         width: 6%;
     }
@@ -138,6 +142,7 @@
             opacity: 0;
             transition: 0.2s;
             word-break: break-all;
+            white-space: pre-wrap;
         }
 
         .n2o-alert-segment__stacktrace-area.visible {

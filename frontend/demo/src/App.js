@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import N2O from "n2o-framework/lib/N2o";
-import { authProvider } from "n2o-auth";
+import authProvider from "n2o-framework/lib/core/auth/authProvider";
 import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 import functions from "n2o-framework/lib/utils/functions";
 import Route from "n2o-framework/lib/components/core/Route";
 import Page from "n2o-framework/lib/components/core/Page";
-import { EcpButton } from "n2o-ecp-plugin";
 
 import DashboardV2 from "./pages/DashboardV2";
 import Select from "./pages/Select";
@@ -13,9 +12,6 @@ import AvatarCell from "./components/cells/Avatar/AvatarCell";
 import CollapsedCardFieldset from "./components/fieldset/CollapsedCard/CollapsedCardFieldset";
 
 const config = {
-  buttons: {
-    EcpButton
-  },
   widgets: {
   },
   cells: {

@@ -33,6 +33,16 @@ public class N2oSidebar extends N2oComponent {
     private String title;
 
     /**
+     * Путь по которому будет отображаться Sidebar
+     */
+    private String path;
+
+    /**
+     * Подзаголовок боковой панели
+     */
+    private String subtitle;
+
+    /**
      * URL страницы, переход на которую происходит по клику на логотип или название
      */
     private String homePageUrl;

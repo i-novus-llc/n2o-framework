@@ -7,6 +7,7 @@ import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
+import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
@@ -15,11 +16,17 @@ import net.n2oapp.framework.ui.controller.query.GetController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -45,6 +52,20 @@ public class N2oSandboxConfiguration {
     @Bean
     public ObjectMapper objectMapper() {
         return ObjectMapperConstructor.metaObjectMapper();
+    }
+
+    @Bean
+    public WebMvcConfigurer mvcConfigurer() {
+        return new WebMvcConfigurer() {
+
+            @Override
+            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                registry.addResourceHandler("/view/*/static/**")
+                        .addResourceLocations("/static/")
+                        .resourceChain(true)
+                        .addResolver(new WebStaticResolver("META-INF/resources"));
+            }
+        };
     }
 
     @Bean
@@ -91,4 +112,9 @@ public class N2oSandboxConfiguration {
         return new SandboxRestClientImpl();
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public SandboxApplicationBuilderConfigurer sandboxApplicationBuilderConfigurer() {
+        return new SandboxApplicationBuilderConfigurer();
+    }
 }

@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarIO;
 import net.n2oapp.framework.config.metadata.compile.header.HeaderIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class ApplicationIO implements NamespaceIO<N2oApplication> {
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
         p.attributeBoolean(e, "navigation-layout-fixed", m::getNavigationLayoutFixed, m::setNavigationLayoutFixed);
         p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIO());
-        p.child(e, null, "sidebar", m::getSidebar, m::setSidebar, new SidebarIO());
+        p.children(e, null, "sidebar", m::getSidebars, m::setSidebars, new SidebarIO());
         p.child(e, null, "footer", m::getFooter, m::setFooter, new FooterIO());
     }
 }

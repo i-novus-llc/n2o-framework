@@ -4,8 +4,6 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
@@ -25,7 +23,10 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
     @Override
     public Application bind(Application compiled, BindProcessor p) {
         bindHeader(p, compiled.getHeader());
-        bindSidebar(p, compiled.getSidebar());
+        if (compiled.getSidebars() != null) {
+            for (Sidebar sidebar : compiled.getSidebars())
+                bindSidebar(p, sidebar);
+        }
         return compiled;
     }
 
@@ -40,6 +41,7 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
         if (sidebar != null) {
             bindMenu(sidebar.getMenu(), p);
             bindMenu(sidebar.getExtraMenu(), p);
+            sidebar.setSubtitle(p.resolveText(sidebar.getSubtitle()));
         }
     }
 

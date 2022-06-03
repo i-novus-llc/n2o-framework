@@ -63,6 +63,7 @@ const sideBarClasses = (isStaticView, defaultState, toggledState, currentVisible
 const LogoSection = ({
     isMiniView,
     logo,
+    subtitle,
     showContent,
 }) => (
     <div className={classNames(
@@ -73,7 +74,7 @@ const LogoSection = ({
     )}
     >
         <div className="d-flex align-items-center">
-            {logo && <Logo {...logo} showContent={showContent} isMiniView={isMiniView} />}
+            {logo && <Logo {...logo} subtitle={subtitle} showContent={showContent} isMiniView={isMiniView} />}
         </div>
     </div>
 )
@@ -86,6 +87,7 @@ export function SideBar({
     onToggle,
     className,
     logo,
+    subtitle,
     menu,
     extraMenu = [],
     defaultState = sidebarView.mini,
@@ -152,7 +154,7 @@ export function SideBar({
             onMouseLeave={onMouseLeave}
             ref={sidebarRef}
         >
-            <LogoSection isMiniView={isMiniView} logo={logo} showContent={showContent} />
+            <LogoSection isMiniView={isMiniView} logo={logo} subtitle={subtitle} showContent={showContent} />
             <nav className={classNames('n2o-sidebar__nav', { visible: showContent })}>
                 <ul className="n2o-sidebar__nav-list">{renderItems(items)}</ul>
             </nav>
@@ -208,6 +210,7 @@ SideBar.propTypes = {
     /**
      * Адрес ссылка бренда
      */
+    subtitle: PropTypes.string,
     side: PropTypes.string,
     className: PropTypes.string,
     menu: PropTypes.object,
@@ -228,6 +231,7 @@ SideBar.defaultProps = {
 LogoSection.propTypes = {
     isMiniView: PropTypes.bool,
     logo: PropTypes.object,
+    subtitle: PropTypes.string,
     showContent: PropTypes.bool,
 }
 

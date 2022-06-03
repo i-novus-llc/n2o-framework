@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.menu;
 
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.action.AnchorElementIOV1;
-import net.n2oapp.framework.config.io.action.OpenPageElementIOV1;
+import net.n2oapp.framework.config.io.action.v2.AnchorElementIOV2;
+import net.n2oapp.framework.config.io.action.v2.OpenPageElementIOV2;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
 import org.junit.Before;
@@ -21,7 +21,7 @@ public class SimpleMenuIOv3Test extends XmlIOTestBase {
 
     @Override
     protected void configure(XmlIOBuilder<?> b) {
-        b.ios(new SimpleMenuIOv3(), new OpenPageElementIOV1(), new AnchorElementIOV1());
+        b.ios(new SimpleMenuIOv3(), new OpenPageElementIOV2(), new AnchorElementIOV2());
     }
 
     @Test

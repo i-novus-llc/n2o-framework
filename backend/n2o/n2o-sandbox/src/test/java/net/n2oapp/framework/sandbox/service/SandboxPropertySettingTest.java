@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
+import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
@@ -36,7 +37,7 @@ import static org.hamcrest.Matchers.is;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
-                SandboxContext.class, XsdSchemaParser.class},
+                SandboxContext.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
         properties = {"n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
@@ -77,7 +78,7 @@ public class SandboxPropertySettingTest {
                 "n2o.api.widget.form.src=CustomForm")));
         wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
 
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
         assertThat(config.getJSONObject("menu").getJSONObject("header").getString("src"), is("CustomHeader"));
         assertThat(config.getJSONObject("menu").getJSONObject("footer").getString("src"), is("CustomFooter"));
 
@@ -96,7 +97,7 @@ public class SandboxPropertySettingTest {
                 "username=Joe\n" +
                 "roles=[USER,ADMIN]")));
 
-        JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
+        JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
         assertThat(config.getJSONObject("user").getString("email"), is("test@example.com"));
         assertThat(config.getJSONObject("user").getString("name"), is("null"));
         assertThat(config.getJSONObject("user").getString("permissions"), is("null"));

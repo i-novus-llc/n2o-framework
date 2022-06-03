@@ -54,7 +54,7 @@
 
    1. Перейти в директорию `~/frontend/n2o-framework`
    2. Запустить unit-тестов:
-      `yarn test:jest`
+      `yarn test`
 
 
 ## Настройка окружения для java-тестов и их запуск (selenide)

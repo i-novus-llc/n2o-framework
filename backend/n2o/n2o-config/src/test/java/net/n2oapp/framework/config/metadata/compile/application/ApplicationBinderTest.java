@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.application;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -44,14 +43,15 @@ public class ApplicationBinderTest extends SourceCompileTestBase {
         assertThat(app.getHeader().getMenu().getItems().get(1).getSubItems().get(0).getBadgeColor(), is("Test"));
         assertThat(app.getHeader().getMenu().getItems().get(1).getSubItems().get(0).getImageSrc(), is("Test"));
 
-        assertThat(app.getSidebar().getMenu().getItems().get(0).getTitle(), is("Test Test"));
-        assertThat(app.getSidebar().getMenu().getItems().get(0).getBadge(), is("Test"));
-        assertThat(app.getSidebar().getMenu().getItems().get(0).getBadgeColor(), is("Test"));
-        assertThat(app.getSidebar().getMenu().getItems().get(0).getImageSrc(), is("Test"));
+        assertThat(app.getSidebars().get(0).getSubtitle(), is("Test Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getTitle(), is("Test Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getBadge(), is("Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getBadgeColor(), is("Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(0).getImageSrc(), is("Test"));
 
-        assertThat(app.getSidebar().getMenu().getItems().get(1).getSubItems().get(0).getTitle(), is("Test Test"));
-        assertThat(app.getSidebar().getMenu().getItems().get(1).getSubItems().get(0).getBadge(), is("Test"));
-        assertThat(app.getSidebar().getMenu().getItems().get(1).getSubItems().get(0).getBadgeColor(), is("Test"));
-        assertThat(app.getSidebar().getMenu().getItems().get(1).getSubItems().get(0).getImageSrc(), is("Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getSubItems().get(0).getTitle(), is("Test Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getSubItems().get(0).getBadge(), is("Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getSubItems().get(0).getBadgeColor(), is("Test"));
+        assertThat(app.getSidebars().get(0).getMenu().getItems().get(1).getSubItems().get(0).getImageSrc(), is("Test"));
     }
 }

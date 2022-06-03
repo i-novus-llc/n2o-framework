@@ -5,12 +5,14 @@ import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +32,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     @Override
     public Application compile(N2oApplication source, ApplicationContext context, CompileProcessor p) {
         Application application = new Application();
+
         initWelcomePage(source, p);
 
         Application.Layout layout = new Application.Layout();
@@ -37,17 +40,43 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         layout.setFullSizeHeader(source.getNavigationLayout() == null || source.getNavigationLayout().equals(NavigationLayout.fullSizeHeader));
         application.setLayout(layout);
 
-        Header header = initHeader(source.getHeader(), context, p);
-        application.setHeader(header);
-        application.setSidebar(initSidebar(source.getSidebar(), header, context, p));
-        application.setFooter(initFooter(source.getFooter(), p));
+        DataSourcesScope dataSourcesScope = initDatasourcesScope(source.getDatasources());
         application.setDatasources(initDatasources(source.getDatasources(), context, p));
+
+        Header header = initHeader(source.getHeader(), context, dataSourcesScope, p);
+        application.setHeader(header);
+
+        application.setSidebars(collectSidebars(source.getSidebars(), header, context, dataSourcesScope, p));
+        application.setFooter(initFooter(source.getFooter(), p));
         application.setEvents(initEvents(source.getEvents(), context, p));
         application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
         return application;
     }
 
-    private Header initHeader(N2oHeader source, ApplicationContext context, CompileProcessor p) {
+    private List<Sidebar> collectSidebars(N2oSidebar[] sidebars, Header header, ApplicationContext context,
+                                          DataSourcesScope dataSourcesScope, CompileProcessor p) {
+        if (sidebars == null)
+            return null;
+        List<Sidebar> result = new ArrayList<>();
+        for (N2oSidebar n2oSidebar : sidebars) {
+            Sidebar sidebar = initSidebar(n2oSidebar, header, context, dataSourcesScope, p);
+            result.add(sidebar);
+        }
+        return result;
+    }
+
+    private DataSourcesScope initDatasourcesScope(N2oAbstractDatasource[] datasources) {
+        DataSourcesScope scope = new DataSourcesScope();
+        if (datasources == null)
+            return scope;
+        for (N2oAbstractDatasource datasource : datasources) {
+            if (datasource instanceof N2oDatasource)
+                scope.put(datasource.getId(), ((N2oDatasource) datasource));
+        }
+        return scope;
+    }
+
+    private Header initHeader(N2oHeader source, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
         if (source == null) return null;
         Header header = new Header();
         header.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.header.src"), String.class)));
@@ -58,9 +87,10 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         logo.setSrc(source.getLogoSrc());
         logo.setHref(source.getHomePageUrl());
         header.setLogo(logo);
-        header.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
-        header.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
+        header.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context, dataSourcesScope) : new SimpleMenu());
+        header.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context, dataSourcesScope) : new SimpleMenu());
         header.setSearch(source.getSearchBar() != null ? p.compile(source.getSearchBar(), context) : null);
+        header.setProperties(p.mapAttributes(source));
         if (source.getSidebarIcon() != null || source.getSidebarToggledIcon() != null) {
             Header.SidebarSwitcher sidebarSwitcher = new Header.SidebarSwitcher();
             sidebarSwitcher.setIcon(source.getSidebarIcon());
@@ -70,32 +100,13 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         return header;
     }
 
-    private Sidebar initSidebar(N2oSidebar source, Header header, ApplicationContext context, CompileProcessor p) {
+    private Sidebar initSidebar(N2oSidebar source, Header header, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
         if (source == null || source.getVisible() != null && !source.getVisible()) return null;
-        Sidebar sidebar = new Sidebar();
-        sidebar.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.sidebar.src"), String.class)));
-        sidebar.setClassName(source.getCssClass());
-        sidebar.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        Logo logo = new Logo();
-        logo.setTitle(source.getTitle());
-        logo.setSrc(source.getLogoSrc());
-        logo.setHref(source.getHomePageUrl());
-        logo.setClassName(source.getLogoClass());
-        sidebar.setLogo(logo);
-        sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
-        sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
-        sidebar.setSide(p.cast(source.getSide(), p.resolve(property("n2o.api.sidebar.side"), Side.class)));
+        Sidebar sidebar = p.compile(source, context, dataSourcesScope);
         if (header != null && header.getSidebarSwitcher() != null) {
             sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.none));
             sidebar.setToggledState(p.cast(source.getToggledState(), SidebarState.maxi));
         }
-        else {
-            sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.maxi));
-            sidebar.setToggledState(p.cast(source.getToggledState(),
-                    SidebarState.maxi.equals(sidebar.getDefaultState()) ? SidebarState.mini : SidebarState.maxi, SidebarState.class));
-        }
-        sidebar.setOverlay(p.cast(source.getOverlay(), p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
-        sidebar.setToggleOnHover(p.cast(source.getToggleOnHover(), p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
         return sidebar;
     }
 

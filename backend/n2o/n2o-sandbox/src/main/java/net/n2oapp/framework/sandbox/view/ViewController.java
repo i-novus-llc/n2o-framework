@@ -2,9 +2,6 @@ package net.n2oapp.framework.sandbox.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.access.data.SecurityProvider;
-import net.n2oapp.framework.access.metadata.SecurityPageBinder;
-import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -31,13 +28,8 @@ import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.query.MongodbEngineQueryTransformer;
-import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
-import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.register.scanner.DefaultXmlInfoScanner;
-import net.n2oapp.framework.config.register.scanner.JavaInfoScanner;
 import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
@@ -48,10 +40,8 @@ import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
-import net.n2oapp.framework.sandbox.loader.ProjectFileLoader;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
-import net.n2oapp.framework.sandbox.utils.FileNameUtil;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
@@ -85,6 +75,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.sandbox.utils.ProjectUtil.findFilesByUri;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
 public class ViewController {
     private Logger logger = LoggerFactory.getLogger(ViewController.class);
@@ -106,8 +97,7 @@ public class ViewController {
     private N2oOperationProcessor operationProcessor;
     @Autowired
     private Environment environment;
-    @Autowired
-    private SecurityProvider securityProvider;
+
     @Autowired
     private RouteRegister projectRouteRegister;
     @Autowired
@@ -119,17 +109,20 @@ public class ViewController {
     @Autowired
     private XsdSchemaParser schemaParser;
 
+    private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
+
     private MessageSourceAccessor messageSourceAccessor;
     private N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
     private ObjectMapper objectMapper;
     private DomainProcessor domainProcessor;
 
     public ViewController(Optional<Map<String, DynamicMetadataProvider>> providers, ObjectMapper objectMapper,
-                          @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
+                          @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor, List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers) {
         this.messageSourceAccessor = messageSourceAccessor;
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory(providers.orElse(Collections.emptyMap()));
         this.objectMapper = objectMapper;
         this.domainProcessor = new DomainProcessor(objectMapper);
+        this.applicationBuilderConfigurers = applicationBuilderConfigurers;
     }
 
     @CrossOrigin(origins = "*")
@@ -156,7 +149,7 @@ public class ViewController {
 
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/config"})
-    public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId) {
+    public Map<String, Object> getConfig(@PathVariable(value = "projectId") String projectId, HttpSession session) {
         Map<String, Object> addedValues = new HashMap<>();
         addedValues.put("project", projectId);
 
@@ -165,16 +158,12 @@ public class ViewController {
             ThreadLocalProjectId.setProjectId(projectId);
             builder = getBuilder(projectId, null);
             addedValues.put("menu", getMenu(builder));
-            addedValues.put("user", getUserInfo(projectId));
+            addedValues.put("user", getUserInfo());
 
-            AppConfigJsonWriter appConfigJsonWriter = new AppConfigJsonWriter();
-            String path = basePath + "/" + projectId + "/config.json";
-            if (new File(path).isFile()) {
-                appConfigJsonWriter.setOverridePath("file:" + path);
-            }
+            AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient, session);
             appConfigJsonWriter.setPropertyResolver(builder.getEnvironment().getSystemProperties());
             appConfigJsonWriter.setContextProcessor(builder.getEnvironment().getContextProcessor());
-            appConfigJsonWriter.loadValues();
+            appConfigJsonWriter.build();
 
             return appConfigJsonWriter.getValues(addedValues);
         } finally {
@@ -206,7 +195,7 @@ public class ViewController {
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<GetDataResponse> getData(@PathVariable(value = "projectId") String projectId,
-                                                   HttpServletRequest request, HttpSession session) {
+                                                   HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             N2oApplicationBuilder builder = getBuilder(projectId, null);
@@ -216,7 +205,7 @@ public class ViewController {
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
             GetDataResponse response = dataController.getData(path, request.getParameterMap(),
-                    getUserContext(projectId));
+                    getUserContext());
             return ResponseEntity.status(response.getStatus()).body(response);
         } finally {
             ThreadLocalProjectId.clear();
@@ -227,23 +216,23 @@ public class ViewController {
     @PutMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> putData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
-                                                   HttpServletRequest request, HttpSession session) {
-        return setData(projectId, body, request, session);
+                                                   HttpServletRequest request) {
+        return setData(projectId, body, request);
     }
 
     @CrossOrigin(origins = "*")
     @DeleteMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> deleteData(@PathVariable(value = "projectId") String projectId,
                                                       @RequestBody Object body,
-                                                      HttpServletRequest request, HttpSession session) {
-        return setData(projectId, body, request, session);
+                                                      HttpServletRequest request) {
+        return setData(projectId, body, request);
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping({"/view/{projectId}/n2o/data/**", "/view/{projectId}/n2o/data/", "/view/{projectId}/n2o/data"})
     public ResponseEntity<SetDataResponse> setData(@PathVariable(value = "projectId") String projectId,
                                                    @RequestBody Object body,
-                                                   HttpServletRequest request, HttpSession session) {
+                                                   HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
 
@@ -252,11 +241,12 @@ public class ViewController {
             getMenu(builder);
             String path = getPath(request, "/n2o/data");
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+            dataController.setMessageBuilder(messageBuilder);
             SetDataResponse dataResponse = dataController.setData(path,
                     request.getParameterMap(),
                     getHeaders(request),
                     getBody(body),
-                    getUserContext(projectId));
+                    getUserContext());
             return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
         } finally {
             ThreadLocalProjectId.clear();
@@ -324,19 +314,9 @@ public class ViewController {
 
     private N2oApplicationBuilder getBuilder(@PathVariable("projectId") String projectId, HttpSession session) {
         N2oEnvironment env = createEnvironment(projectId, session);
-
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
-        builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(), new N2oAllIOPack(), new N2oApplicationPack(),
-                new N2oLoadersPack(), new N2oOperationsPack(), new N2oSourceTypesPack(),
-                new AccessSchemaPack(), new N2oAllValidatorsPack());
-        builder.scanners(new DefaultXmlInfoScanner(),
-                new XmlInfoScanner("classpath:META-INF/conf/*.xml"),
-                new ProjectFileScanner(projectId, session, builder.getEnvironment().getSourceTypeRegister(), restClient),
-                new JavaInfoScanner((N2oDynamicMetadataProviderFactory) env.getDynamicMetadataProviderFactory()));
-        builder.binders(new SecurityPageBinder(securityProvider));
-        builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
-
-        builder.transformers(new TestEngineQueryTransformer(), new MongodbEngineQueryTransformer());
+        applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
+        builder.scanners(new ProjectFileScanner(projectId, session, builder.getEnvironment().getSourceTypeRegister(), restClient));
         return builder.scan();
     }
 
@@ -442,13 +422,13 @@ public class ViewController {
         return new MessageSourceAccessor(messageSource);
     }
 
-    private UserContext getUserContext(String projectId) {
+    private UserContext getUserContext() {
         sandboxContext.refresh();
         return new UserContext(sandboxContext);
     }
 
-    private Map<String, Object> getUserInfo(String projectId) {
-        UserContext userContext = getUserContext(projectId);
+    private Map<String, Object> getUserInfo() {
+        UserContext userContext = getUserContext();
         Map<String, Object> user = new HashMap<>();
         user.put("username", userContext.get("username"));
         user.put("roles", userContext.get("roles"));
@@ -464,10 +444,5 @@ public class ViewController {
             result.put(name, new String[]{req.getHeader(name)});
         }
         return result;
-    }
-
-    private FileModel findPropertyFile(ProjectModel project) {
-        return project.getFiles().stream()
-                .filter(f -> "application".equals(FileNameUtil.getNameFromFile(f.getFile()))).findFirst().orElse(null);
     }
 }

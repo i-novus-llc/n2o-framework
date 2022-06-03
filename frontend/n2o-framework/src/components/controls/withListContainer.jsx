@@ -78,7 +78,7 @@ function withListContainer(WrappedComponent) {
          * @private
          */
         const handleSearch = debounce((value) => {
-            const quickSearchParam = (dataProvider && dataProvider.quickSearchParam) || 'search'
+            const quickSearchParam = dataProvider?.quickSearchParam || 'search'
 
             callApiWithParams({ [quickSearchParam]: value, page: 1 })
         }, 300)

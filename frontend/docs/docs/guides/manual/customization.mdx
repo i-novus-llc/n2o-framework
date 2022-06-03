@@ -51,7 +51,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import N2O from 'n2o-framework';
 import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
-import { authProvider } from 'n2o-auth';
+import authProvider from "n2o-framework/lib/core/auth/authProvider";
 
 import 'n2o-framework/dist/n2o.css';
 import './index.css';
@@ -136,7 +136,7 @@ const config = {
 ```jsx title="frontend/src/index.js"
 import React from "react";
 import N2O from "n2o-framework";
-import {authProvider} from 'n2o-auth';
+import authProvider from "n2o-framework/lib/core/auth/authProvider";
 import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 
 const config = {
@@ -213,7 +213,7 @@ export function CustomSidebar(config) {
 Имена переданных в N2O компонентов `header` `footer` `sidebar` задаются с помощью атрибута src в application.xml
 
 ```xml {3-5} title="Пример application.xml"
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
              welcome-page-id="index">
     <header src="CustomHeader" />
     <sidebar src="CustomSidebar" />

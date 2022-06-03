@@ -33,7 +33,7 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private Integer timeout;
     @JsonProperty
-    private Boolean closeButton;
+    private Boolean closeButton = true;
     @JsonProperty
     private String href;
     @JsonProperty
@@ -44,6 +44,7 @@ public class ResponseMessage implements Serializable {
     private List<String> payload;
     @JsonProperty
     private LocalDateTime time;
+
     @JsonProperty
     public String getId() {
         return UUID.randomUUID().toString();

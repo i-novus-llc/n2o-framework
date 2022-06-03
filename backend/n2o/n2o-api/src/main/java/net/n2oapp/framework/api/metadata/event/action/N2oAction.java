@@ -6,10 +6,12 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.aware.SrcAware;
+import net.n2oapp.framework.api.metadata.jackson.ComponentType;
 
 /**
  * Сурс модель эвента
  */
+@ComponentType
 public interface N2oAction extends Source, SrcAware, IdAware, NamespaceUriAware, ExtensionAttributesAware {
 
     @Override

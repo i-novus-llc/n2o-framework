@@ -3,9 +3,6 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "packages": [
-    "n2o-auth",
-    "n2o-notifications",
-    "n2o-ecp-plugin",
     "n2o-framework",
     "n2o-simple-project",
     "demo"
