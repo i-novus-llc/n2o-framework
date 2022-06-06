@@ -27,7 +27,7 @@ services:
     image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
     environment:
       - N2O_SANDBOX_URL=https://sandbox.n2oapp.net
-      - MONGODB_CONNECTION_URL=${MONGODB_CONNECTION_URL}
+      - N2O_ENGINE_MONGODB_CONNECTION_URL=${MONGODB_CONNECTION_URL}
     ports:
       - "8080"
     deploy:

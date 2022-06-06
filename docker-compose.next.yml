@@ -15,4 +15,4 @@ services:
     environment:
       - SERVER_SERVLET_CONTEXT_PATH=/sandbox
       - N2O_SANDBOX_URL=https://sandbox.n2oapp.net
-      - MONGODB_CONNECTION_URL=${MONGODB_CONNECTION_URL}
+      - N2O_ENGINE_MONGODB_CONNECTION_URL=${MONGODB_CONNECTION_URL}
