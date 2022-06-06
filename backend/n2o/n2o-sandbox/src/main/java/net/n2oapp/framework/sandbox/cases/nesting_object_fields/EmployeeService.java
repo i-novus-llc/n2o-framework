@@ -33,7 +33,7 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
-        employee.setId(employees.size() + 1);
+        employee.setId(employees.lastKey() + 1);
         employees.put(employee.getId(), employee);
         return employee;
     }
