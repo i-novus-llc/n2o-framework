@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * Валидатор данных
@@ -71,7 +70,12 @@ public class Validator implements Iterable<Validation> {
                 && checkMoment(validation)
                 && checkUnique(validation)
                 && checkUsed(validation)
-                && checkRequiredConstraint(validation);
+                && checkRequiredConstraint(validation)
+                && checkSide(validation);
+    }
+
+    private boolean checkSide(Validation validation) {
+        return validation.getSide() == null || validation.getSide().contains("server");
     }
 
     private boolean checkAfterDanger(Validation validation) {
