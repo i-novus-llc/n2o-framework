@@ -36,12 +36,24 @@ public class MappingProcessor {
      * @param value   значение
      */
     public static void inMap(Object target, String mapping, Object value) {
+        inMap(target, mapping, value, mapping);
+    }
+
+    /**
+     * Входящее преобразование value согласно выражению mapping в объект target
+     *
+     * @param target      результирующий объект
+     * @param mapping     выражение преобразования
+     * @param value       значение
+     * @param userMapping выражение преобразования, используемое для формирования сообщения об ошибке
+     */
+    public static void inMap(Object target, String mapping, Object value, String userMapping) {
         try {
             Expression expression = writeParser.parseExpression(mapping);
             if (target != null)
                 expression.setValue(target, value);
         } catch (ExpressionException e) {
-            throw new N2oSpelException(mapping, e);
+            throw new N2oSpelException(userMapping, e);
         }
     }
 

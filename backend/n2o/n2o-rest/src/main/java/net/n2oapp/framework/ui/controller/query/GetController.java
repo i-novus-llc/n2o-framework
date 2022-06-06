@@ -19,6 +19,7 @@ import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
  */
 public abstract class GetController implements ControllerTypeAware {
 
+    private static final String METADATA_FILE_EXTENSION = ".query.xml";
     private DataProcessingStack dataProcessingStack;
     private QueryProcessor queryProcessor;
     private SubModelsProcessor subModelsProcessor;
@@ -47,7 +48,7 @@ public abstract class GetController implements ControllerTypeAware {
             executeSubModels(requestInfo, pageData, responseInfo);
         } catch (N2oSpelException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            e.addData(e.getMapping(), requestInfo.getQuery().getId() + ".query.xml", e.getFieldId());
+            e.addData(e.getMapping(), requestInfo.getQuery().getId() + METADATA_FILE_EXTENSION, e.getFieldId());
             throw e;
         } catch (N2oException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);

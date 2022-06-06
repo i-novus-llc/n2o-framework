@@ -17,6 +17,7 @@ import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
  */
 public abstract class SetController implements ControllerTypeAware {
 
+    private static final String METADATA_FILE_EXTENSION = ".object.xml";
     private DataProcessingStack dataProcessingStack;
     private DomainProcessor domainsProcessor;
     private N2oOperationProcessor actionProcessor;
@@ -44,7 +45,7 @@ public abstract class SetController implements ControllerTypeAware {
                     requestInfo.getOutParametersMap().values());
         } catch (N2oSpelException e) {
             dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet);
-            e.addData(e.getMapping(), requestInfo.getObject().getId() + ".object.xml", e.getFieldId());
+            e.addData(e.getMapping(), requestInfo.getObject().getId() + METADATA_FILE_EXTENSION, e.getFieldId());
             throw e;
         } catch (N2oException e) {
             dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet);
