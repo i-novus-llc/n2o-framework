@@ -14,12 +14,14 @@ import net.n2oapp.framework.engine.data.QueryUtil;
 import net.n2oapp.framework.engine.util.NamedParameterUtils;
 import net.n2oapp.framework.engine.util.QueryBlank;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -32,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
@@ -43,6 +47,8 @@ import static net.n2oapp.framework.engine.data.QueryUtil.*;
 @Slf4j
 public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProvider>,
         ApplicationContextAware, ResourceLoaderAware {
+
+    private static final Pattern SQL_ERROR_PATTERN = Pattern.compile("(\\A|\n)[A-Z][a-z](.|\n)+?; SQL statement:");
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private String defaultJdbcDriver;
@@ -73,9 +79,9 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
             NamedParameterJdbcTemplate jdbcTemplate = createJdbcTemplate(invocation);
             return executeQuery(args, query,
                     rowMapperFactory.produce(castDefault(invocation.getRowMapper(), "map")), jdbcTemplate);
-        } catch (BadSqlGrammarException e) {
+        } catch (DataAccessException e) {
             log.error("Execution error with SQL query: " + query);
-            throw new N2oQueryExecutionException("Bad SQL grammar", query);
+            throw new N2oQueryExecutionException(constructSqlMessage(e), query, e);
         }
     }
 
@@ -178,5 +184,17 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         config.setUsername(invocation.getUsername());
         config.setPassword(invocation.getPassword());
         return new NamedParameterJdbcTemplate(new HikariDataSource(config));
+    }
+
+    private String constructSqlMessage(DataAccessException e) {
+        String sqlMessage = e.getMessage();
+        if (e instanceof BadSqlGrammarException)
+            sqlMessage = ((BadSqlGrammarException) e).getSQLException().getMessage();
+        Matcher matcher = SQL_ERROR_PATTERN.matcher(sqlMessage);
+        if (matcher.find())
+            return "Bad SQL grammar: " + (matcher.group().startsWith("\n")  ?
+                    StringUtils.substringBetween(matcher.group(), "\n", "; SQL statement:")
+                    : StringUtils.substringBefore(matcher.group(), "; SQL statement:"));
+        return sqlMessage;
     }
 }

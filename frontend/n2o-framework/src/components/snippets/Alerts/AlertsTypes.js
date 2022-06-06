@@ -79,4 +79,8 @@ export const AlertTypes = {
      * флаг для AlertField
      */
     isField: PropTypes.bool,
+    /**
+     * флаг для схлопывания Alert
+     */
+    isSimple: PropTypes.bool,
 }

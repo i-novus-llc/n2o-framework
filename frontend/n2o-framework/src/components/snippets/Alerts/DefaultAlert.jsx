@@ -1,8 +1,8 @@
 import React from 'react'
 import omit from 'lodash/omit'
-import classNames from 'classnames'
 
 import { AlertTypes } from './AlertsTypes'
+import { AlertWrapper } from './AlertWrapper'
 import { AlertSection } from './AlertSection'
 
 export const DefaultAlert = ({
@@ -57,48 +57,63 @@ export const DefaultAlert = ({
         return omit(style, ['width', 'height', 'padding', 'margin', 'backgroundColor'])
     }
 
-    return (
-        <div
-            className={classNames(
-                'alert n2o-alert',
-                className, {
-                    [`alert-${severity}`]: severity,
-                    'n2o-alert--animated': animate,
-                    'with-details': stacktrace,
-                    'with-link': href,
-                },
-            )}
-            style={style}
-        >
-            <a
-                href={href}
-                className={classNames(
-                    {
-                        [`alert-${severity}`]: severity,
-                        'n2o-alert__with-link': href,
-                    },
-                )}
-            >
+    const checkSimpleAlert = () => {
+        if (closeButton && !stacktrace && !timestamp) {
+            return (!title && text) || (title && !text)
+        }
+
+        return false
+    }
+
+    const isSimple = checkSimpleAlert()
+
+    const wrapperProps = {
+        className,
+        severity,
+        animate,
+        stacktrace,
+        href,
+        style,
+    }
+
+    /* simple one section alert without extra features */
+    if (isSimple) {
+        return (
+            <AlertWrapper {...wrapperProps}>
                 <AlertSection
-                    text={currentTitle}
+                    text={currentTitle || currentText}
                     timestamp={timestamp}
                     closeButton={closeButton}
                     onClick={batchedActionToClose}
                     textClassName={titleSegmentClassName}
                     style={getSectionStyle(style)}
+                    isSimple
                 />
-                {
-                    needToDivide && <hr className="w-100 n2o-alert__divider" />
-                }
-                <AlertSection text={currentText} textClassName="n2o-alert-segment__text" />
-                <AlertSection
-                    onClick={batchedActionToToggling}
-                    stacktraceVisible={stacktraceVisible}
-                    stacktrace={stacktrace}
-                    t={t}
-                />
-            </a>
-        </div>
+            </AlertWrapper>
+        )
+    }
+
+    return (
+        <AlertWrapper {...wrapperProps}>
+            <AlertSection
+                text={currentTitle}
+                timestamp={timestamp}
+                closeButton={closeButton}
+                onClick={batchedActionToClose}
+                textClassName={titleSegmentClassName}
+                style={getSectionStyle(style)}
+            />
+            {
+                needToDivide && <hr className="w-100 n2o-alert__divider" />
+            }
+            <AlertSection text={currentText} textClassName="n2o-alert-segment__text" />
+            <AlertSection
+                onClick={batchedActionToToggling}
+                stacktraceVisible={stacktraceVisible}
+                stacktrace={stacktrace}
+                t={t}
+            />
+        </AlertWrapper>
     )
 }
 
