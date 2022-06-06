@@ -8,7 +8,7 @@ import { AlertSection } from './AlertSection'
 export const DefaultAlert = ({
     title,
     text,
-    color: propsColor,
+    severity: propsSeverity,
     href,
     timestamp,
     closeButton,
@@ -23,7 +23,7 @@ export const DefaultAlert = ({
     onClose = null,
     isField = false,
 }) => {
-    const color = propsColor || 'secondary'
+    const severity = propsSeverity || 'secondary'
 
     const batchedActionToClose = (e) => {
         e.preventDefault()
@@ -62,7 +62,7 @@ export const DefaultAlert = ({
             className={classNames(
                 'alert n2o-alert',
                 className, {
-                    [`alert-${color}`]: color,
+                    [`alert-${severity}`]: severity,
                     'n2o-alert--animated': animate,
                     'with-details': stacktrace,
                     'with-link': href,
@@ -74,7 +74,7 @@ export const DefaultAlert = ({
                 href={href}
                 className={classNames(
                     {
-                        [`alert-${color}`]: color,
+                        [`alert-${severity}`]: severity,
                         'n2o-alert__with-link': href,
                     },
                 )}

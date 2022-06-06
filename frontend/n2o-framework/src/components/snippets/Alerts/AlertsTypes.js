@@ -12,7 +12,7 @@ export const AlertTypes = {
     /**
      * Цвет алерта
      */
-    color: PropTypes.oneOf(['info', 'danger', 'warning', 'success']),
+    severity: PropTypes.oneOf(['info', 'danger', 'warning', 'success']),
     /**
      * Подробности алерта
      */

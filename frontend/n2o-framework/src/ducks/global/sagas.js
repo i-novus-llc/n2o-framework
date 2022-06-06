@@ -42,7 +42,7 @@ export function* getConfig(apiProvider, action) {
                     title: 'Ошибка',
                     text: 'Не удалось получить конфигурацию приложения',
                     stacktrace: err.stack,
-                    color: 'danger',
+                    severity: 'danger',
                     placement: 'top',
                 },
             }),

@@ -11,7 +11,7 @@ const setup = (propsOverride = {}) => {
                 {
                     'field': null,
                     'title': 'Заголовок',
-                    'color': 'success',
+                    'severity': 'success',
                     'className': null,
                     'text': 'Привет, мир!',
                     'timeout': 3000,
@@ -26,7 +26,7 @@ const setup = (propsOverride = {}) => {
                 {
                     'field': null,
                     'title': 'Заголовок',
-                    'color': 'success',
+                    'severity': 'success',
                     'className': null,
                     'text': 'Привет, мир!',
                     'timeout': 5000,

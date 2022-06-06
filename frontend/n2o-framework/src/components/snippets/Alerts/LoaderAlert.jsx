@@ -5,7 +5,7 @@ import InlineSpinner from '../Spinner/InlineSpinner'
 
 import { AlertTypes } from './AlertsTypes'
 
-export const LoaderAlert = ({ text, color, className, style, animate, t }) => (
+export const LoaderAlert = ({ text, severity, className, style, animate, t }) => (
     <div
         className={classNames(
             'n2o-alert',
@@ -14,7 +14,7 @@ export const LoaderAlert = ({ text, color, className, style, animate, t }) => (
             'n2o-snippet',
             className,
             {
-                [`alert-${color}`]: color,
+                [`alert-${severity}`]: severity,
                 'n2o-alert--animated': animate,
             },
         )}
