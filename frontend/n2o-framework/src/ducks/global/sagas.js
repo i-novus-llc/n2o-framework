@@ -36,15 +36,15 @@ export function* getConfig(apiProvider, action) {
         yield put(requestConfigSuccess(config))
         yield put(setReady())
     } catch ({ json, stack }) {
-        const stacktrace = get(json, 'meta.alert.messages[0].stacktrace', false)
+        const stacktrace = get(json, 'meta.alert.messages[0].stacktrace', stack)
 
         yield put(
             requestConfigFail({
                 messages: {
                     title: 'Ошибка',
                     text: 'Не удалось получить конфигурацию приложения',
-                    stacktrace: stacktrace || stack,
-                    color: 'danger',
+                    stacktrace,
+                    severity: 'danger',
                     placement: 'top',
                 },
             }),
