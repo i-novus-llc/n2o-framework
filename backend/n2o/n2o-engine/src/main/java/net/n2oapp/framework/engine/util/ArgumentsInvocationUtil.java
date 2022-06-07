@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
@@ -53,13 +52,7 @@ public class ArgumentsInvocationUtil {
             if (r.getValue() != null) {
                 N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
                 String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
-                try {
-                    MappingProcessor.inMap(argumentInstances, mapping, r.getValue());
-                } catch (N2oSpelException e) {
-                    e.setMapping(filter.getMapping());
-                    throw e;
-                }
-
+                MappingProcessor.inMap(argumentInstances, mapping, r.getValue(), filter.getMapping());
             }
             idx++;
         }
