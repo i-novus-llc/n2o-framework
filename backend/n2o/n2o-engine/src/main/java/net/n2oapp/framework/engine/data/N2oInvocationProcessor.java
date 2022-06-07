@@ -23,10 +23,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
+import static java.util.Objects.isNull;
 import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
 import static net.n2oapp.framework.engine.util.MapInvocationUtil.mapToMap;
 import static net.n2oapp.framework.engine.util.MappingProcessor.normalizeValue;
@@ -74,7 +73,6 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         return DataSetUtil.extract(result, outMapping);
     }
 
-
     /**
      * Преобразование исходящих данных вызова
      *
@@ -107,7 +105,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     protected DataSet resolveInValuesMapping(Map<String, FieldMapping> mappingMap,
                                              Collection<AbstractParameter> invocationParameters,
                                              DataSet inDataSet) {
-        if (invocationParameters == null)
+        if (invocationParameters == null || inDataSet == null)
             return inDataSet;
 
         for (AbstractParameter parameter : invocationParameters) {
@@ -120,7 +118,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                                 Arrays.asList(refParameter.getFields()),
                                 (DataSet) inDataSet.get(parameter.getId())));
                     } else {
-                        for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
+                        for (Object dataSet : Objects.requireNonNullElse((Collection) inDataSet.get(parameter.getId()), Collections.emptyList()))
                             ((DataSet) dataSet).putAll(resolveInValuesMapping(
                                     mappingMap.get(parameter.getId()).getChildMapping(),
                                     Arrays.asList(refParameter.getFields()),
@@ -144,7 +142,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
      * @param inDataSet  Входящие данные вызова
      */
     private void prepareInValues(Collection<AbstractParameter> parameters, DataSet inDataSet) {
-        for (AbstractParameter parameter : parameters)
+        if (isNull(inDataSet)) return;
+        for (AbstractParameter parameter : parameters) {
             if (parameter instanceof ObjectSimpleField) {
                 ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
                 Object value = inDataSet.get(simpleField.getId());
@@ -158,9 +157,10 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                     prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()),
                             (DataSet) inDataSet.get(parameter.getId()));
                 else
-                    for (Object dataSet : (Collection) inDataSet.get(parameter.getId()))
+                    for (Object dataSet : Objects.requireNonNullElse((Collection) inDataSet.get(parameter.getId()), Collections.emptyList()))
                         prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()), (DataSet) dataSet);
             }
+        }
     }
 
     /**
