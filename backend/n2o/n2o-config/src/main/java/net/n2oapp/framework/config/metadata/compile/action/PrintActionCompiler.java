@@ -36,7 +36,7 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         print.setType(p.resolve(property("n2o.api.action.print.type"), String.class));
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         String path = RouteUtil.absolute(source.getUrl(), routeScope != null ? routeScope.getUrl() : null);
-        print.getPayload().setUrl(path);
+        print.getPayload().setUrl(p.resolveJS(path));
 
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null) {
