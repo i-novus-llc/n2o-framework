@@ -8,9 +8,11 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionException;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -34,9 +36,25 @@ public class MappingProcessor {
      * @param value   значение
      */
     public static void inMap(Object target, String mapping, Object value) {
-        Expression expression = writeParser.parseExpression(mapping);
-        if (target != null)
-            expression.setValue(target, value);
+        inMap(target, mapping, value, mapping);
+    }
+
+    /**
+     * Входящее преобразование value согласно выражению mapping в объект target
+     *
+     * @param target      результирующий объект
+     * @param mapping     выражение преобразования
+     * @param value       значение
+     * @param userMapping выражение преобразования, используемое для формирования сообщения об ошибке
+     */
+    public static void inMap(Object target, String mapping, Object value, String userMapping) {
+        try {
+            Expression expression = writeParser.parseExpression(mapping);
+            if (target != null)
+                expression.setValue(target, value);
+        } catch (ExpressionException e) {
+            throw new N2oSpelException(userMapping, e);
+        }
     }
 
     /**
@@ -49,8 +67,12 @@ public class MappingProcessor {
     public static <T> T outMap(Object target, String mapping, Class<T> clazz) {
         T result;
         if (mapping != null) {
-            Expression expression = readParser.parseExpression(mapping);
-            result = expression.getValue(target, clazz);
+            try {
+                Expression expression = readParser.parseExpression(mapping);
+                result = expression.getValue(target, clazz);
+            } catch (ExpressionException e) {
+                throw new N2oSpelException(mapping, e);
+            }
         } else {
             result = (T) target;
         }
@@ -72,9 +94,13 @@ public class MappingProcessor {
      * @param defaultValue значение по умолчанию
      */
     public static void outMap(DataSet target, Object value, String fieldId, String mapping, Object defaultValue, ContextProcessor contextProcessor) {
-        Expression expression = readParser.parseExpression(mapping);
-        Object obj = expression.getValue(value);
-        target.put(fieldId, obj == null ? contextProcessor.resolve(defaultValue) : obj);
+        try {
+            Expression expression = readParser.parseExpression(mapping);
+            Object obj = expression.getValue(value);
+            target.put(fieldId, obj == null ? contextProcessor.resolve(defaultValue) : obj);
+        } catch (ExpressionException e) {
+            throw new N2oSpelException(fieldId, mapping, e);
+        }
     }
 
     /**
@@ -113,7 +139,11 @@ public class MappingProcessor {
 
         for (AbstractParameter childParam : (parameter).getFields()) {
             String target = childParam.getMapping() != null ? childParam.getMapping() : childParam.getId();
-            writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
+            try {
+                writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
+            } catch (ExpressionException e) {
+                throw new N2oSpelException(parameter.getId(), target, e);
+            }
         }
         return instance;
     }
