@@ -75,7 +75,7 @@ public class SandboxDataProviderTest {
     @SneakyThrows
     @Test
     public void testGetData() {
-        request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main");
+        request.setRequestURI("/sandbox/view/myProjectId/n2o/data/_main");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
         wireMockServer.stubFor(get(urlMatching("/api/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
