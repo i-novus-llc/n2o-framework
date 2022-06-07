@@ -25,7 +25,7 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private String title;
     @JsonProperty
-    private String color;
+    private String severity;
     @JsonProperty
     private String className;
     @JsonProperty
@@ -51,7 +51,7 @@ public class ResponseMessage implements Serializable {
     }
 
     public void setSeverityType(SeverityType severity) {
-        this.color = severity != null ? severity.getId() : null;
+        this.severity = severity != null ? severity.getId() : null;
     }
 
 }
