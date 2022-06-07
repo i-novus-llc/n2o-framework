@@ -10,11 +10,11 @@ import MenuContainer from '../../../plugins/Menu/MenuContainer'
 /**
  * Class representing an Application container with {@link SideBar}
  */
-function AppWithSideBar({ children }) {
+function AppWithSideBar({ children, ...props }) {
     return (
         <div className="application">
             <div className="body-container">
-                <MenuContainer render={config => <SideBar {...config} />} />
+                <MenuContainer render={config => <SideBar {...config} {...props} />} />
                 <div className="application-body application-body--aside container-fluid">
                     {children}
                 </div>

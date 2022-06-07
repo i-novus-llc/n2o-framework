@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -136,8 +135,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testChainWidgetFetching.page.xml")
                 .get(new PageContext("testChainWidgetFetching"));
 
-        assertThat(page.getDatasources().get("form").getProvider().getPathMapping().size(), is(1));
-        assertThat(page.getDatasources().get("form").getProvider().getPathMapping().get("param1").normalizeLink(), is("models.resolve['table'].id"));
+        assertThat(page.getDatasources().get("_form").getProvider().getPathMapping().size(), is(1));
+        assertThat(page.getDatasources().get("_form").getProvider().getPathMapping().get("param1").normalizeLink(), is("models.resolve['_table'].id"));
 
 //        deprecated
 //        assertThat(page.getDatasources().get("form2").getProvider().getPathMapping().size(), is(2));

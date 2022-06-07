@@ -192,8 +192,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 (source.getRefreshDatasources() != null || localDatasourceId != null)) {
             String[] refreshDatasources = source.getRefreshDatasources() == null ?
                     new String[] {localDatasourceId} : source.getRefreshDatasources();
-            pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasources)
-                    .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+            if (pageScope != null) {
+                pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasources)
+                        .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+            }
         }
         if (pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null && pageScope != null) {
             String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(parentWidgetId));

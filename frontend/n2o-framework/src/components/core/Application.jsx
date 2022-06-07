@@ -28,7 +28,7 @@ import { GlobalAlertsConnected } from './GlobalAlerts'
 
 function Application(props) {
     const { ready, loading, render, locale, menu, registerDatasorces, ...config } = props
-    const { datasources } = menu
+    const { datasources = {} } = menu
 
     useEffect(() => {
         if (isEmpty(datasources)) { return }

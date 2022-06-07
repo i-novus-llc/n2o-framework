@@ -15,13 +15,13 @@ public class CompileUtil {
 
     public static String generateDatasourceId(String pageId, String localDatasourceId) {
         if ("_".equals(pageId))
-            return localDatasourceId;
+            return pageId + localDatasourceId;
         return pageId + "_" + localDatasourceId;
     }
 
     public static String generateWidgetId(String pageId, String localWidgetId) {
         if ("_".equals(pageId))
-            return localWidgetId;
+            return pageId + localWidgetId;
         return pageId + "_" + localWidgetId;
     }
 
