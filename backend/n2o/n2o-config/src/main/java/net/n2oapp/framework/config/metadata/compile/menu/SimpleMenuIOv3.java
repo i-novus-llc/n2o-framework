@@ -25,7 +25,7 @@ public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
 
     @Override
     public String getElementName() {
-        return "menu";
+        return "nav";
     }
 
     @Override
