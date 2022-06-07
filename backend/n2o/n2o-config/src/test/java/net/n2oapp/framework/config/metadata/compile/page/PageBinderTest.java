@@ -7,8 +7,8 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -17,7 +17,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.*;
@@ -210,7 +209,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setParentClientWidgetId("table");
         context.setParentRoute("/table/:id");
         context.setParentModelLink(new ModelLink(ReduxModel.resolve, "table", "id"));
-        context.setPathRouteMapping(Map.of("id", new ModelLink(ReduxModel.resolve, "table", "id")));
+        context.setPathRouteMapping(Map.of("id", new ModelLink(ReduxModel.resolve, "_table", "id")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.query.xml")
                 .get(context, data);

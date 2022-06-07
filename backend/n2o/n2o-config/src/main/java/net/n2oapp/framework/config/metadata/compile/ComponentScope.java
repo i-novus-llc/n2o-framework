@@ -8,9 +8,15 @@ import java.io.Serializable;
  */
 public class ComponentScope implements Serializable {
     private Object component;
+    private ComponentScope parentScope;
 
     public ComponentScope(Object component) {
         this.component = component;
+    }
+
+    public ComponentScope(Object component, ComponentScope parentScope) {
+        this.component = component;
+        this.parentScope = parentScope;
     }
 
     public <T> T unwrap(Class<T> clazz) {
@@ -20,4 +26,7 @@ public class ComponentScope implements Serializable {
             return null;
     }
 
+    public ComponentScope getParentScope() {
+        return parentScope;
+    }
 }

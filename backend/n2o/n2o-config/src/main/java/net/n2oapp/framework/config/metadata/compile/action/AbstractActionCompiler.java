@@ -150,11 +150,12 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     protected String getLocalDatasource(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
+        while (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
             if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
                 return datasourceIdAware.getDatasourceId();
             }
+            componentScope = componentScope.getParentScope();
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)

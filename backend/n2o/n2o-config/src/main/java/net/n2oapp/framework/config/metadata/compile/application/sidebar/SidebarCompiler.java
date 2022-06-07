@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,7 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
         sidebar.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.sidebar.src"), String.class)));
         sidebar.setClassName(source.getCssClass());
         sidebar.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        sidebar.setDatasource(source.getDatasourceId());
         Logo logo = new Logo();
         logo.setTitle(source.getTitle());
         logo.setSrc(source.getLogoSrc());
@@ -37,7 +39,8 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
         sidebar.setLogo(logo);
         sidebar.setPath(source.getPath());
         sidebar.setSubtitle(source.getSubtitle());
-        sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
+        ComponentScope componentScope = new ComponentScope(source);
+        sidebar.setMenu(source.getMenu() != null ? p.compile(source.getMenu(), context, componentScope) : new SimpleMenu());
         sidebar.setExtraMenu(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
         sidebar.setSide(p.cast(source.getSide(), p.resolve(property("n2o.api.sidebar.side"), Side.class)));
         sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.maxi));

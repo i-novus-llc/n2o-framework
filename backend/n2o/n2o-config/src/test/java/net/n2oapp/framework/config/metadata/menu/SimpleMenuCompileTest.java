@@ -1,9 +1,8 @@
 package net.n2oapp.framework.config.metadata.menu;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.api.metadata.header.HeaderItem;
+import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,7 +41,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
     public void testMenuItem() {
         Application application = read().compile().get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
-        HeaderItem menuItem = menu.getItems().get(0);
+        MenuItem menuItem = menu.getItems().get(0);
 
         assertThat(menuItem.getId(), is("notif"));
         assertThat(menuItem.getTitle(), is("Уведомления"));
@@ -65,14 +64,14 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
     public void testDropdownMenu() {
         Application application = read().compile().get(new ApplicationContext("testApplication"));
         SimpleMenu menu = application.getHeader().getMenu();
-        HeaderItem dropdownMenu = menu.getItems().get(2);
+        MenuItem dropdownMenu = menu.getItems().get(2);
 
         assertThat(dropdownMenu.getId(), is("user"));
         assertThat(dropdownMenu.getTitle(), is("Виктория"));
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
         assertThat(dropdownMenu.getImageShape(), is(ImageShape.circle));
 
-        HeaderItem subMenuItem = menu.getItems().get(2).getSubItems().get(0);
+        MenuItem subMenuItem = menu.getItems().get(2).getSubItems().get(0);
         assertThat(subMenuItem.getId(), is("mi4"));
         assertThat(subMenuItem.getTitle(), is("Профиль"));
         assertThat(subMenuItem.getIcon(), is("fa fa-user"));
@@ -85,22 +84,5 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         dropdownMenu = menu.getItems().get(3);
         assertThat(dropdownMenu.getTitle(), is("Сообщения"));
         assertThat(dropdownMenu.getIcon(), is("fa fa-bell"));
-    }
-
-    @Test
-    public void testMenuItemWithPathParam() {
-        Application application = read().compile().get(new ApplicationContext("testApplication"));
-        HeaderItem item = application.getHeader().getMenu().getItems().get(4);
-
-        assertThat(item.getId(), is("messages"));
-        assertThat(item.getDatasource(), is("ds1"));
-        assertThat(item.getType(), is("link"));
-        assertThat(item.getHref(), is("/:id"));
-        assertThat(item.getLinkType(), is(HeaderItem.LinkType.inner));
-        assertThat(item.getPathMapping().size(), is(1));
-        assertThat(item.getPathMapping().get("id").getModel(), is(ReduxModel.resolve));
-        assertThat(item.getPathMapping().get("id").getDatasource(), is("ds1"));
-        assertThat(item.getPathMapping().get("id").getBindLink(), is("models.resolve['ds1']"));
-        assertThat(item.getPathMapping().get("id").getValue(), is("`id`"));
     }
 }
