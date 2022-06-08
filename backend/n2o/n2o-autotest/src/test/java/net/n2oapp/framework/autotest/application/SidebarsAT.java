@@ -1,18 +1,26 @@
 package net.n2oapp.framework.autotest.application;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.application.Sidebar;
+import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static com.codeborne.selenide.Configuration.headless;
 
 /**
  * Автотест множественных боковых панелей
@@ -27,6 +35,7 @@ public class SidebarsAT extends AutoTestBase {
     @BeforeEach
     @Override
     public void setUp() throws Exception {
+        headless = false;
         super.setUp();
     }
 
@@ -47,7 +56,7 @@ public class SidebarsAT extends AutoTestBase {
         header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().brandNameShouldBe("Лого");
+        page.sidebar().titleShouldBe("Лого");
         page.sidebar().brandLogoShouldBe("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
@@ -65,7 +74,7 @@ public class SidebarsAT extends AutoTestBase {
         header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().brandNameShouldBe("Лого");
+        page.sidebar().titleShouldBe("Лого");
         page.sidebar().brandLogoShouldBe("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
@@ -82,7 +91,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.switchSidebar();
         open.urlShouldMatches(getBaseUrl() + "/#/persons");
         open.sidebar().shouldExists();
-        open.sidebar().brandNameShouldBe("Боковая панель для страницы Persons");
+        open.sidebar().titleShouldBe("Боковая панель для страницы Persons");
         open.sidebar().brandLogoShouldBe("images/logoPersons.png");
     }
 
@@ -98,7 +107,7 @@ public class SidebarsAT extends AutoTestBase {
         header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().brandNameShouldBe("Лого");
+        page.sidebar().titleShouldBe("Лого");
         page.sidebar().brandLogoShouldBe("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
@@ -115,7 +124,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.switchSidebar();
         open.urlShouldMatches(getBaseUrl() + "/#/persons/1/list");
         open.sidebar().shouldExists();
-        open.sidebar().brandNameShouldBe("Лист");
+        open.sidebar().titleShouldBe("Лист");
         open.sidebar().brandLogoShouldBe("images/logoList.png");
     }
 
@@ -131,7 +140,7 @@ public class SidebarsAT extends AutoTestBase {
         header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().brandNameShouldBe("Лого");
+        page.sidebar().titleShouldBe("Лого");
         page.sidebar().brandLogoShouldBe("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
@@ -148,7 +157,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.switchSidebar();
         open.urlShouldMatches(getBaseUrl() + "/#/persons/user");
         open.sidebar().shouldExists();
-        open.sidebar().brandNameShouldBe("Пользователь");
+        open.sidebar().titleShouldBe("Пользователь");
         open.sidebar().brandLogoShouldBe("images/logoUser.png");
     }
 
@@ -165,7 +174,7 @@ public class SidebarsAT extends AutoTestBase {
         header.sidebarSwitcherShouldExists();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().brandNameShouldBe("Лого");
+        page.sidebar().titleShouldBe("Лого");
         page.sidebar().brandLogoShouldBe("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
@@ -182,7 +191,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.switchSidebar();
         list.urlShouldMatches(getBaseUrl() + "/#/persons/1/list");
         list.sidebar().shouldExists();
-        list.sidebar().brandNameShouldBe("Лист");
+        list.sidebar().titleShouldBe("Лист");
         list.sidebar().brandLogoShouldBe("images/logoList.png");
         openHeader.switchSidebar();
         list.sidebar().shouldHaveState(SidebarState.none);
@@ -199,7 +208,47 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.sidebarSwitcherShouldExists();
         openHeader.switchSidebar();
         open.sidebar().shouldExists();
-        open.sidebar().brandNameShouldBe("Профиль");
+        open.sidebar().titleShouldBe("Профиль");
         open.sidebar().brandLogoShouldBe("images/logoPerson.png");
+    }
+
+    @Test
+    public void testSidebarWithDatasource() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/app.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/docs.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/profile.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Тестирование источника данных в сайдбаре");
+        Sidebar sidebar = page.sidebar();
+        sidebar.shouldBeHidden();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
+        table.columns().rows().row(0).click();
+        table.toolbar().topLeft().button("Открыть").click();
+
+        page.shouldExists();
+        page.urlShouldMatches(getBaseUrl() + "/#/person/1/profile");
+        page.breadcrumb().titleShouldHaveText("Страница профиля");
+        sidebar.shouldExists();
+        sidebar.shouldHaveState(SidebarState.mini);
+//        sidebar.titleShouldBe("test1");FIXME after https://jira.i-novus.ru/browse/NNO-8039
+//        sidebar.subtitleShouldBe("1");
+        sidebar.clickToggleBtn();
+        AnchorMenuItem menuItem = sidebar.nav().anchor(0);
+        menuItem.shouldExists();
+        menuItem.labelShouldHave("Документы");
+        menuItem.click();
+
+        page.shouldExists();
+        page.urlShouldMatches(getBaseUrl() + "/#/person/1/docs\\?name=test1");
+        page.breadcrumb().titleShouldHaveText("Документы");
+//        sidebar.titleShouldBe("test1"); FIXME after https://jira.i-novus.ru/browse/NNO-8039
+//        sidebar.subtitleShouldBe("1");
     }
 }
