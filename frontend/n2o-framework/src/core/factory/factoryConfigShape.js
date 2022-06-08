@@ -12,6 +12,7 @@ const factoryConfigShape = PropTypes.shape({
     snippets: PropTypes.objectOf(PropTypes.func),
     templates: PropTypes.objectOf(PropTypes.func),
     buttons: PropTypes.objectOf(PropTypes.element),
+    overlays: PropTypes.objectOf(PropTypes.func),
 })
 
 export default factoryConfigShape
