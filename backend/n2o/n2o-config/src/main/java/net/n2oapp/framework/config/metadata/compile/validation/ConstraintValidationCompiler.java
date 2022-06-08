@@ -21,7 +21,7 @@ public class ConstraintValidationCompiler extends InvocationValidationCompiler<C
     @Override
     public ConstraintValidation compile(N2oConstraint source, CompileContext<?, ?> context, CompileProcessor p) {
         ConstraintValidation validation = new ConstraintValidation();
-        compileInvocationValidation(validation, source);
+        compileInvocationValidation(validation, source, p);
         validation.setSeverity(source.getSeverity());
 
         return validation;

@@ -146,6 +146,9 @@ public abstract class StringUtils {
         return jsonPlaceHoldersResolver.isPlaceHolder(value);
     }
 
+    public static String unwrapJs(String text) {
+        return isJs(text) ? text.substring(1, text.length() - 1) : text;
+    }
     /**
      * Проверка, что строка содержит ссылку.
      * Примеры:

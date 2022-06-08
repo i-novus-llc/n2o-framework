@@ -34,6 +34,7 @@ public abstract class Validation implements Compiled {
     private String side;
 
     private Boolean enabled;
+    @JsonProperty
     private List<String> enablingConditions;
 
     private String fieldId;
