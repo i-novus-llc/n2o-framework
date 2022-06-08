@@ -11,6 +11,7 @@ import fields from '../../components/widgets/Form/fields'
 import actions from '../../impl/actions'
 import buttons from '../../components/buttons'
 import snippets from '../../components/snippets'
+import overlays from '../../components/core/overlays'
 import * as templates from '../../components/core/templates/templates'
 
 export const factories = {
@@ -26,6 +27,7 @@ export const factories = {
     snippets,
     buttons,
     templates,
+    overlays,
 }
 
 export default function createFactoryConfig(customConfig = {}) {
