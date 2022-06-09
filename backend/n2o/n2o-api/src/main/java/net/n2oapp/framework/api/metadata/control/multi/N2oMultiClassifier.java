@@ -3,9 +3,6 @@ package net.n2oapp.framework.api.metadata.control.multi;
 import lombok.Getter;
 import lombok.Setter;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * Компонент ввода: выпадающий список с множественным выбором
  */

@@ -25,7 +25,6 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
-        p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
 
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
