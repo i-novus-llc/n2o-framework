@@ -1,15 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import omit from 'lodash/omit'
-import classNames from 'classnames'
 
 import { AlertTypes } from './AlertsTypes'
+import { AlertWrapper } from './AlertWrapper'
 import { AlertSection } from './AlertSection'
 
 export const DefaultAlert = ({
     title,
     text,
-    color: propsColor,
+    severity: propsSeverity,
     href,
     timestamp,
     closeButton,
@@ -24,7 +23,7 @@ export const DefaultAlert = ({
     onClose = null,
     isField = false,
 }) => {
-    const color = propsColor || 'secondary'
+    const severity = propsSeverity || 'secondary'
 
     const batchedActionToClose = (e) => {
         e.preventDefault()
@@ -68,43 +67,19 @@ export const DefaultAlert = ({
 
     const isSimple = checkSimpleAlert()
 
-    function Wrapper({ children }) {
-        return (
-            <div
-                className={classNames(
-                    'alert n2o-alert',
-                    className, {
-                        [`alert-${color}`]: color,
-                        'n2o-alert--animated': animate,
-                        'with-details': stacktrace,
-                        'with-link': href,
-                    },
-                )}
-                style={style}
-            >
-                <a
-                    href={href}
-                    className={classNames(
-                        {
-                            [`alert-${color}`]: color,
-                            'n2o-alert__with-link': href,
-                        },
-                    )}
-                >
-                    {children}
-                </a>
-            </div>
-        )
-    }
-
-    Wrapper.propTypes = {
-        children: PropTypes.node,
+    const wrapperProps = {
+        className,
+        severity,
+        animate,
+        stacktrace,
+        href,
+        style,
     }
 
     /* simple one section alert without extra features */
     if (isSimple) {
         return (
-            <Wrapper>
+            <AlertWrapper {...wrapperProps}>
                 <AlertSection
                     text={currentTitle || currentText}
                     timestamp={timestamp}
@@ -114,12 +89,12 @@ export const DefaultAlert = ({
                     style={getSectionStyle(style)}
                     isSimple
                 />
-            </Wrapper>
+            </AlertWrapper>
         )
     }
 
     return (
-        <Wrapper>
+        <AlertWrapper {...wrapperProps}>
             <AlertSection
                 text={currentTitle}
                 timestamp={timestamp}
@@ -138,7 +113,7 @@ export const DefaultAlert = ({
                 stacktrace={stacktrace}
                 t={t}
             />
-        </Wrapper>
+        </AlertWrapper>
     )
 }
 

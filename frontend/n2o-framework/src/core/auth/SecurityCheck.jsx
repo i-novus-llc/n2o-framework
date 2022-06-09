@@ -7,6 +7,7 @@ import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
 
 import { userSelector } from '../../ducks/user/selectors'
+import { resolveLinksRecursively } from '../../utils/linkResolver'
 
 import { SECURITY_CHECK } from './authTypes'
 
@@ -30,24 +31,29 @@ class SecurityCheck extends React.Component {
 
     // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps) {
-        const { user, config } = this.props
+        const { user, config, store } = this.props
+        const resolvedConfig = resolveLinksRecursively(config, store)
+        const nextResolvedConfig = resolveLinksRecursively(config, nextProps.store)
 
         if (
             !isEqual(nextProps.user, user) ||
-            !isEqual(nextProps.config, config)
+            !isEqual(nextProps.config, config) ||
+            !isEqual(nextResolvedConfig, resolvedConfig)
         ) {
-            this.checkPermissions(nextProps)
+            this.checkPermissions(nextProps, nextResolvedConfig)
         }
     }
 
-    async checkPermissions(params) {
-        const { authProvider, config, user } = params
+    async checkPermissions(params, resolvedConfig) {
+        const { authProvider, config, user, store } = params
         const { onPermissionsSet } = this.props
 
         try {
             const permissions = await authProvider(SECURITY_CHECK, {
-                config,
+                store,
                 user,
+                config,
+                resolvedConfig,
             })
 
             this.setState(
@@ -77,14 +83,17 @@ SecurityCheck.propTypes = {
     onPermissionsSet: PropTypes.func,
     config: PropTypes.object,
     user: PropTypes.object,
+    store: PropTypes.object,
     render: PropTypes.func,
 }
 
 SecurityCheck.defaultProps = {
+    store: {},
     onPermissionsSet: () => {},
 }
 
 const mapStateToProps = createStructuredSelector({
+    store: state => state,
     user: userSelector,
 })
 

@@ -37,6 +37,11 @@
                 <xs:documentation>Стиль боковой панели</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Источник данных боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Видимость боковой панели. По умолчанию true</xs:documentation>

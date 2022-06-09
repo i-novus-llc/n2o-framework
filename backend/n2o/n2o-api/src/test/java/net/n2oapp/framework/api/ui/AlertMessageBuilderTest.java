@@ -68,7 +68,7 @@ public class AlertMessageBuilderTest {
         when(propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class)).thenReturn(true);
         when(propertyResolver.getProperty("n2o.api.message.danger.timeout")).thenReturn("8000");
         AlertMessageBuilder builder = new AlertMessageBuilder(messageSource, propertyResolver);
-        N2oQueryExecutionException e = new N2oQueryExecutionException(message, query);
+        N2oQueryExecutionException e = new N2oQueryExecutionException(message, query, new Exception());
 
         ResponseMessage responseMessage = builder.build(e);
         assertThat(responseMessage.getText(), is(message));

@@ -3,10 +3,7 @@ package net.n2oapp.framework.engine.util;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
-import org.springframework.expression.Expression;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.SpelParserConfiguration;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +17,6 @@ import java.util.stream.Collectors;
  * Утилитный класс, служащий для преобразования данных вызова в Map
  */
 public class MapInvocationUtil {
-    private static final ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
     private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\[.+]").asPredicate();
     private static final String KEY_ERROR = "%s -> %s";
 
@@ -36,24 +32,21 @@ public class MapInvocationUtil {
         Map<String, Object> result = new DataSet();
 
         for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
-            Expression expression;
             Object data = dataSet.get(map.getKey());
             if (map.getValue() != null) {
-                expression = writeParser.parseExpression(
-                        map.getValue().getMapping() != null ? map.getValue().getMapping() : "['" + map.getKey() + "']");
+                String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
                 if (map.getValue().getChildMapping() != null) {
                     if (data instanceof Collection) {
                         List list = new ArrayList();
                         for (Object obj : (DataList) data)
                             list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
-                        expression.setValue(result, list);
+                        MappingProcessor.inMap(result, fieldMapping, list);
                     } else if (data instanceof DataSet)
-                        expression.setValue(result, mapToMap((DataSet) data, map.getValue().getChildMapping()));
+                        MappingProcessor.inMap(result, fieldMapping, mapToMap((DataSet) data, map.getValue().getChildMapping()));
                 } else
-                    expression.setValue(result, data);
+                    MappingProcessor.inMap(result, fieldMapping, data);
             } else {
-                expression = writeParser.parseExpression("['" + map.getKey() + "']");
-                expression.setValue(result, data);
+                MappingProcessor.inMap(result, Placeholders.spel(map.getKey()), data);
             }
         }
         return result;

@@ -6,8 +6,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 
-import java.util.Map;
-
 /**
  * Клиентская модель боковой панели
  */
@@ -24,6 +22,8 @@ public class Sidebar extends Component {
     private Side side;
     @JsonProperty
     private String path;
+    @JsonProperty
+    private String datasource;
     @JsonProperty
     private String subtitle;
     @JsonProperty

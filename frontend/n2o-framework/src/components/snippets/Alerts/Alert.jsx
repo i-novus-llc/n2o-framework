@@ -9,7 +9,7 @@ import { AlertTypes } from './AlertsTypes'
  * Компонент сообщения-алерта
  * @reactProps {string} title - лейбл алерта
  * @reactProps {string} text - текст алерта
- * @reactProps {string} color - тип алерта: 'info', 'danger', 'warning' или 'success'.
+ * @reactProps {string} severity - тип алерта: 'info', 'danger', 'warning' или 'success'.
  * @reactProps {string} stacktrace - подробности, находятся под текстом, показываются (скрываются) по клику на выделенный текст
  * @reactProps {boolean} closeButton - отображать кнопку скрытия алерта или нет
  * @reactProps {boolean} onDismiss - выполняется при скрытии алерта
@@ -25,7 +25,7 @@ function Alert(props) {
         loader,
         title,
         text,
-        color,
+        severity,
         href,
         timestamp,
         closeButton,
@@ -67,7 +67,7 @@ function Alert(props) {
         return (
             <LoaderAlert
                 text={text}
-                color={color}
+                severity={severity}
                 className={className}
                 style={style}
                 animate={animate}
@@ -80,7 +80,7 @@ function Alert(props) {
         <DefaultAlert
             title={title}
             text={text}
-            color={color}
+            severity={severity}
             href={href}
             timestamp={timestamp}
             closeButton={closeButton}
@@ -98,7 +98,7 @@ function Alert(props) {
 Alert.defaultProps = {
     text: '',
     title: '',
-    color: 'danger',
+    severity: 'danger',
     details: '',
     closeButton: false,
     visible: true,

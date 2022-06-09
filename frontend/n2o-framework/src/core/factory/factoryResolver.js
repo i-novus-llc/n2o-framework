@@ -14,6 +14,7 @@ import exportModal from '../../components/widgets/Table/ExportModal'
 import ToggleColumn from '../../components/buttons/ToggleColumn/ToggleColumn'
 import ChangeSize from '../../components/buttons/ChangeSize/ChangeSize'
 import controls from '../../components/controls'
+import overlays from '../../components/core/overlays'
 
 import { NotFoundFactory } from './NotFoundFactory'
 
@@ -24,6 +25,7 @@ const index = {
     ...fields,
     ...actions,
     ...controls,
+    ...overlays,
     exportModal,
     ToggleColumn,
     ChangeSize,

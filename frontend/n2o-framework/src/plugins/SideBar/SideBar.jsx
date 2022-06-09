@@ -11,8 +11,14 @@ import {
     setDisplayName,
 } from 'recompose'
 import { withTranslation } from 'react-i18next'
+import mapProps from 'recompose/mapProps'
+import { useSelector } from 'react-redux'
 
 import { Logo } from '../Header/SimpleHeader/Logo'
+import { withItemsResolver } from '../withItemsResolver/withItemResolver'
+import { resolveExpression } from '../withItemsResolver/utils'
+import { usePrevious } from '../../utils/usePrevious'
+import { dataSourceModelsSelector } from '../../ducks/datasource/selectors'
 
 // eslint-disable-next-line import/no-named-as-default
 import SidebarItemContainer from './SidebarItemContainer'
@@ -97,6 +103,7 @@ export function SideBar({
     side = 'left',
     isStaticView,
     datasources,
+    datasource,
 }) {
     const sidebarRef = useRef()
 
@@ -133,7 +140,7 @@ export function SideBar({
             isMiniView={isMiniView}
             isStaticView={isStaticView}
             datasources={datasources}
-            datasource={item.datasource}
+            datasource={(item || {}).datasource || datasource}
             visible
         />
     ))
@@ -216,6 +223,7 @@ SideBar.propTypes = {
     menu: PropTypes.object,
     extraMenu: PropTypes.array,
     datasources: PropTypes.object,
+    datasource: PropTypes.string,
     defaultState: PropTypes.string,
     toggledState: PropTypes.string,
     onMouseEnter: PropTypes.func,
@@ -252,4 +260,23 @@ export default compose(
             }
         },
     }),
+    mapProps((props) => {
+        const { datasource, location, path } = props
+
+        const { key, value } = resolveExpression(location, path)
+        const prevValue = usePrevious(value)
+
+        const models = useSelector(dataSourceModelsSelector(datasource))
+        const isEmptyData = !(models.datasource?.length)
+        const force = !!((isEmptyData || value !== prevValue))
+
+        return {
+            ...props,
+            id: datasource,
+            queryKey: key,
+            value,
+            force,
+        }
+    }),
+    withItemsResolver,
 )(SideBar)

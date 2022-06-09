@@ -51,10 +51,10 @@ export const WithDataSource = (Component) => {
                 switchRegistration: visible => (visible ? addComponentToSource() : removeComponentFromSource()),
                 fetchData(options, force) {
                     if (
-                        visible && (
+                        (visible && (
                             fetch === FETCH_TYPE.always ||
-                            (fetch === FETCH_TYPE.lazy && (isEmptyData || force))
-                        )
+                            (fetch === FETCH_TYPE.lazy && isEmptyData)
+                        )) || force
                     ) {
                         dispatch(dataRequest(datasource, options))
                     }

@@ -52,7 +52,7 @@ public class ArgumentsInvocationUtil {
             if (r.getValue() != null) {
                 N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
                 String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
-                MappingProcessor.inMap(argumentInstances, mapping, r.getValue());
+                MappingProcessor.inMap(argumentInstances, mapping, r.getValue(), filter.getMapping());
             }
             idx++;
         }
@@ -81,7 +81,7 @@ public class ArgumentsInvocationUtil {
         for (Map.Entry<String, FieldMapping> entry : inMapping.entrySet()) {
             if (dataSet.get(entry.getKey()) != null) {
                 String mapping = getMapping(invocation.getArguments(), idx, entry.getValue().getMapping(), entry.getKey());
-                MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()));
+                MappingProcessor.inMap(result, mapping, dataSet.get(entry.getKey()), entry.getValue().getMapping());
             }
             idx++;
         }

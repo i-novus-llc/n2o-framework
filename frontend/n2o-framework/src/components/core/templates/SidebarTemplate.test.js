@@ -1,18 +1,18 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
-import mockStore from 'redux-mock-store'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 
 import SidebarTemplate from './SidebarTemplate'
+import { makeStore } from '../../../plugins/Header/SimpleHeader/__test__/utils'
 
-const setup = (propsOverride) => {
-    const props = {}
+const { store } = makeStore()
 
+const setup = (props) => {
     return mount(
-        <Provider store={mockStore()({})}>
+        <Provider store={store}>
             <Router>
-                <SidebarTemplate {...props} {...propsOverride} />
+                <SidebarTemplate {...props} />
             </Router>
         </Provider>,
     )
