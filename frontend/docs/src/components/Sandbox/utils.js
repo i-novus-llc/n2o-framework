@@ -7,12 +7,13 @@ export function getFileLang(fileName) {
     return fileNameParts[fileNameParts.length - 1]
 }
 
-export const fetchProjectId = async (templateId) => {
+export const openProjectWithRedirect = async (templateId) => {
     try {
         const response = await fetch(`${CONFIG.sandboxUrl}${newPath}/${templateId}/`)
-        const projectId = await response.text()
 
-        return { projectId }
+        if (response.ok && response.redirected) {
+            return { redirectUrl: response.url }
+        }
     } catch (error) {
         console.warn(error)
     }
