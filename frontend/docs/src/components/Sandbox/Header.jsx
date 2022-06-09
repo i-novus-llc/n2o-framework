@@ -2,11 +2,8 @@ import React, { memo } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
-import CONFIG from '../../ci-config.json'
-import { projectPathPrefix } from '../../constants/constants'
-
 import style from './sandbox.module.scss'
-import { fetchProjectId } from './utils'
+import { openProjectWithRedirect } from './utils'
 
 function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, filesMap }) {
     const fileNames = Object.keys(filesMap)
@@ -24,9 +21,13 @@ function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, 
     }
 
     const onClick = async () => {
-        const { projectId } = await fetchProjectId(templateId)
+        try {
+            const { redirectUrl } = await openProjectWithRedirect(templateId)
 
-        window.open(`${CONFIG.sandboxUrl}${projectPathPrefix}${projectId}/`, '_blank')
+            window.open(redirectUrl, '_blank')
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
