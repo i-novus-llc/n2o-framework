@@ -12,7 +12,6 @@ import {
     List as Virtualizer,
 } from 'react-virtualized'
 
-import authProvider from '../../../core/auth/authProvider'
 import { getIndex } from '../Table/Table'
 import { SECURITY_CHECK } from '../../../core/auth/authTypes'
 
@@ -379,7 +378,6 @@ List.defaultProps = {
     fetchOnScroll: false,
     divider: true,
     rows: {},
-    authProvider,
 }
 
 export { List }
