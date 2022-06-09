@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { getContext, compose } from 'recompose'
-import { createStructuredSelector } from 'reselect'
 import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
 
-import { userSelector } from '../../ducks/user/selectors'
 import { resolveLinksRecursively } from '../../utils/linkResolver'
 
+import withSecurity from './withSecurity'
 import { SECURITY_CHECK } from './authTypes'
 
 /**
@@ -80,11 +77,11 @@ class SecurityCheck extends React.Component {
 }
 
 SecurityCheck.propTypes = {
-    onPermissionsSet: PropTypes.func,
-    config: PropTypes.object,
-    user: PropTypes.object,
     store: PropTypes.object,
+    user: PropTypes.object,
+    config: PropTypes.object,
     render: PropTypes.func,
+    onPermissionsSet: PropTypes.func,
 }
 
 SecurityCheck.defaultProps = {
@@ -92,14 +89,4 @@ SecurityCheck.defaultProps = {
     onPermissionsSet: () => {},
 }
 
-const mapStateToProps = createStructuredSelector({
-    store: state => state,
-    user: userSelector,
-})
-
-export default compose(
-    getContext({
-        authProvider: PropTypes.func,
-    }),
-    connect(mapStateToProps),
-)(SecurityCheck)
+export default withSecurity(SecurityCheck)
