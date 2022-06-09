@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
+import CONFIG from '../../ci-config.json'
 
 import style from './sandbox.module.scss'
-import { openProjectWithRedirect } from './utils'
 
 function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, filesMap }) {
     const fileNames = Object.keys(filesMap)
@@ -20,25 +20,16 @@ function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, 
         fileNames.splice(0, 1)
     }
 
-    const onClick = async () => {
-        try {
-            const { redirectUrl } = await openProjectWithRedirect(templateId)
-
-            window.open(redirectUrl, '_blank')
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
     return (
         <ul className={classnames('tabs', style.headerList)}>
-            <div
+            <a
+                href={`${CONFIG.sandboxUrl}/new/${templateId}/`}
+                target="_blank"
                 className={classnames('tabs__item', style.headerListItem)}
-                onClick={onClick}
                 role="button"
             >
                 Sandbox
-            </div>
+            </a>
 
             {
                 indexFileName
