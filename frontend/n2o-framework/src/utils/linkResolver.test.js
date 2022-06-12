@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-import linkResolver from './linkResolver'
+import linkResolver, { resolveLinksRecursively } from './linkResolver'
 
 const config = {
     link: '',
@@ -246,6 +246,65 @@ describe('Проверка linkResolver', () => {
         expect(res).toEqual({
             key: { key1: [{ key10: 3 }] },
             key3: { key4: { key5: 'hi', key6: ['test-n2o', 123] } },
+        })
+    })
+})
+
+describe('Проверка resolveLinksRecursively',  () => {
+    it('корректно разрезолвит примитивы', () => {
+        const object = {
+            a: 'a',
+            b: {
+                a: 'a',
+                b: 'b',
+                c: {
+                    a: null,
+                    b: undefined,
+                    c: 1,
+                    d: []
+                }
+            }
+        }
+
+        expect(resolveLinksRecursively(object, {})).toEqual(object)
+    })
+    it('корректно разрезолвит ссылки', () => {
+        const object = {
+            a: {
+                link: 'a.a'
+            },
+            b: {
+                a: {
+                    link: 'a.b.a'
+                },
+                b: {
+                    a: {
+                        link: 'a.b.c.a'
+                    }
+                }
+            }
+        }
+
+        const state = {
+            a: {
+                a: 1,
+                b: {
+                    a: 2,
+                    c: {
+                        a: 3
+                    }
+                }
+            }
+        }
+
+        expect(resolveLinksRecursively(object, state)).toEqual({
+            a: 1,
+            b: {
+                a: 2,
+                b: {
+                    a: 3
+                }
+            }
         })
     })
 })
