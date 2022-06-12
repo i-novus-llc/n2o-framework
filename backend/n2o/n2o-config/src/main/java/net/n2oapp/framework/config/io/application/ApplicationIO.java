@@ -1,11 +1,11 @@
-package net.n2oapp.framework.config.metadata.compile.application;
+package net.n2oapp.framework.config.io.application;
 
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarIO;
-import net.n2oapp.framework.config.metadata.compile.header.HeaderIO;
+import net.n2oapp.framework.config.io.application.sidebar.SidebarIO;
+import net.n2oapp.framework.config.io.application.header.HeaderIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 

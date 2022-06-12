@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.menu;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
+import net.n2oapp.framework.config.io.menu.NavMenuIOv2;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
@@ -21,7 +21,7 @@ public class SimpleMenuValidateTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.ios(new SimpleMenuIOv2());
+        builder.ios(new NavMenuIOv2());
         builder.validators(new SimpleMenuValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml"));
     }

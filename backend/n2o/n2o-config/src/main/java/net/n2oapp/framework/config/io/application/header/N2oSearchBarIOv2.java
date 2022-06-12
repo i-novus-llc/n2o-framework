@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.header;
+package net.n2oapp.framework.config.io.application.header;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.N2oSearchBar;
