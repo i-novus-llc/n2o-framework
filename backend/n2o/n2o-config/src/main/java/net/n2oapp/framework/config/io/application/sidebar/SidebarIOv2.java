@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.application.sidebar;
+package net.n2oapp.framework.config.io.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
 import net.n2oapp.framework.api.metadata.application.Side;
@@ -6,16 +6,16 @@ import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.io.control.ComponentIO;
-import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
+import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
+import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись боковой панели версии 3.0
+ * Чтение/запись боковой панели версии 2.0
  */
 @Component
-public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
-
+public class SidebarIOv2 extends ComponentIO<N2oSidebar> {
     @Override
     public String getElementName() {
         return "sidebar";
@@ -28,7 +28,7 @@ public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
 
     @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/sidebar-3.0";
+        return "http://n2oapp.net/framework/config/schema/application-2.0";
     }
 
     @Override
@@ -40,15 +40,11 @@ public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
         p.attribute(e, "title", m::getTitle, m::setTitle);
         p.attribute(e, "home-page-url", m::getHomePageUrl, m::setHomePageUrl);
         p.attribute(e, "logo-class", m::getLogoClass, m::setLogoClass);
-        p.attribute(e, "path", m::getPath, m::setPath);
-        p.attribute(e, "subtitle", m::getSubtitle, m::setSubtitle);
-        p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attributeEnum(e, "default-state", m::getDefaultState, m::setDefaultState, SidebarState.class);
         p.attributeEnum(e, "toggled-state", m::getToggledState, m::setToggledState, SidebarState.class);
         p.attributeBoolean(e, "toggle-on-hover", m::getToggleOnHover, m::setToggleOnHover);
         p.attributeBoolean(e, "overlay", m::getOverlay, m::setOverlay);
-        p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new SimpleMenuIOv3());
-        p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new SimpleMenuIOv3());
+        p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv3());
+        p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new ExtraMenuIOv3());
     }
-
 }

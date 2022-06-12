@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.application.sidebar;
+package net.n2oapp.framework.config.io.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
 import net.n2oapp.framework.api.metadata.application.Side;
@@ -6,7 +6,8 @@ import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.io.control.ComponentIO;
-import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
+import net.n2oapp.framework.config.io.menu.ExtraMenuIOv2;
+import net.n2oapp.framework.config.io.menu.NavMenuIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -44,8 +45,8 @@ public class SidebarIO extends ComponentIO<N2oSidebar> {
         p.attributeEnum(e, "toggled-state", m::getToggledState, m::setToggledState, SidebarState.class);
         p.attributeBoolean(e, "toggle-on-hover", m::getToggleOnHover, m::setToggleOnHover);
         p.attributeBoolean(e, "overlay", m::getOverlay, m::setOverlay);
-        p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
-        p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
+        p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv2());
+        p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new ExtraMenuIOv2());
     }
 
 

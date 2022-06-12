@@ -1,14 +1,14 @@
-package net.n2oapp.framework.config.metadata.compile.application;
+package net.n2oapp.framework.config.io.application;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.config.io.application.header.HeaderIOv3;
 import net.n2oapp.framework.config.io.datasource.DatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
 import net.n2oapp.framework.config.io.event.StompEventIO;
-import net.n2oapp.framework.config.metadata.compile.header.HeaderIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -41,7 +41,7 @@ public class ApplicationIOv3 implements NamespaceIO<N2oApplication> {
         p.attributeEnum(e, "navigation-layout", m::getNavigationLayout, m::setNavigationLayout, NavigationLayout.class);
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
         p.attributeBoolean(e, "navigation-layout-fixed", m::getNavigationLayoutFixed, m::setNavigationLayoutFixed);
-        p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIOv2());
+        p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIOv3());
         p.child(e, null, "footer", m::getFooter, m::setFooter, new FooterIO());
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.oneOf(N2oAbstractDatasource.class)
                 .add("datasource", N2oDatasource.class, new DatasourceIO())

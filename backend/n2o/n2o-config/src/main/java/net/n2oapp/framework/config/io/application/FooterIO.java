@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.application;
+package net.n2oapp.framework.config.io.application;
 
 import net.n2oapp.framework.api.metadata.application.N2oFooter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
