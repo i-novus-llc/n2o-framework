@@ -548,7 +548,9 @@ describe('Тесты widget reducer', () => {
                 },
                 {
                     type: removeWidget.type,
-                    payload: 'widget',
+                    payload: {
+                        widgetId: 'widget'
+                    },
                 },
             ),
         ).toEqual({})
