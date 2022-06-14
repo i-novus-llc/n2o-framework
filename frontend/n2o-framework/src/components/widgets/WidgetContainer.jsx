@@ -123,6 +123,8 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             componentDidUpdate(prevProps) {
                 const { visible, dataProviderFromState } = this.props
 
+                this.updateDataProviderIfNeeded()
+
                 if (
                     (!prevProps.visible && visible) ||
                     (!isEqual(prevProps.dataProviderFromState, dataProviderFromState) &&
@@ -145,6 +147,14 @@ const createWidgetContainer = (initialConfig, widgetType) => {
                 ]
 
                 dispatch(batchActions(actions))
+            }
+
+            updateDataProviderIfNeeded = () => {
+                const { dispatch, widgetId, dataProvider, dataProviderFromState } = this.props
+
+                if (!isEqual(dataProvider, dataProviderFromState)) {
+                    dispatch(registerWidget(widgetId, { dataProvider }))
+                }
             }
 
             isEqualRegisteredWidgetWithProps = () => {
