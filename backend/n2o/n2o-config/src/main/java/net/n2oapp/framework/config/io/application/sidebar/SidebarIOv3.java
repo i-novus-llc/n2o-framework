@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.io.control.ComponentIO;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
+
+    public static Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/sidebar-3.0");
 
     @Override
     public String getElementName() {
@@ -29,7 +32,7 @@ public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
 
     @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/sidebar-3.0";
+        return NAMESPACE.getURI();
     }
 
     @Override
