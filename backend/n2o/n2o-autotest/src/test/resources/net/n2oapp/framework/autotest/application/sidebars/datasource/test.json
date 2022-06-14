@@ -1,18 +1,22 @@
 [
   {
     "id": 1,
-    "name": "test1"
+    "name": "test1",
+    "type": "type11"
   },
   {
     "id": 2,
-    "name": "test2"
+    "name": "test2",
+    "type": "type22"
   },
   {
     "id": 3,
-    "name": "test3"
+    "name": "test3",
+    "type": "type33"
   },
   {
     "id": 4,
-    "name": "test4"
+    "name": "test4",
+    "type": "type44"
   }
 ]

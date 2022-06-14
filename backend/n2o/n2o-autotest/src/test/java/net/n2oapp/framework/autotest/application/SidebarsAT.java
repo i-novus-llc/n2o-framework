@@ -20,8 +20,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 /**
  * Автотест множественных боковых панелей
  */
@@ -35,7 +33,6 @@ public class SidebarsAT extends AutoTestBase {
     @BeforeEach
     @Override
     public void setUp() throws Exception {
-        headless = false;
         super.setUp();
     }
 
@@ -237,8 +234,8 @@ public class SidebarsAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Страница профиля");
         sidebar.shouldExists();
         sidebar.shouldHaveState(SidebarState.mini);
-//        sidebar.titleShouldBe("test1");FIXME after https://jira.i-novus.ru/browse/NNO-8039
-//        sidebar.subtitleShouldBe("1");
+        sidebar.titleShouldBe("test1");
+        sidebar.subtitleShouldBe("type11");
         sidebar.clickToggleBtn();
         AnchorMenuItem menuItem = sidebar.nav().anchor(0);
         menuItem.shouldExists();
@@ -248,7 +245,7 @@ public class SidebarsAT extends AutoTestBase {
         page.shouldExists();
         page.urlShouldMatches(getBaseUrl() + "/#/person/1/docs\\?name=test1");
         page.breadcrumb().titleShouldHaveText("Документы");
-//        sidebar.titleShouldBe("test1"); FIXME after https://jira.i-novus.ru/browse/NNO-8039
-//        sidebar.subtitleShouldBe("1");
+        sidebar.titleShouldBe("test1");
+        sidebar.subtitleShouldBe("type11");
     }
 }

@@ -9,7 +9,7 @@
     </datasources>
 
     <sidebars>
-        <sidebar path="/person/:id/**" title="{name}" subtitle="{id}"
+        <sidebar path="/person/:id/**" title="{name}" subtitle="{type}"
                  datasource="person" default-state="mini">
             <nav>
                 <menu-item name="Документы">

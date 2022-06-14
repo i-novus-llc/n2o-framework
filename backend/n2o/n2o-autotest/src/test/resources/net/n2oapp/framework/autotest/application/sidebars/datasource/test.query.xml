@@ -17,5 +17,8 @@
                 <eq filter-id="name"/>
             </filters>
         </field>
+        <field id="type">
+            <select/>
+        </field>
     </fields>
 </query>
