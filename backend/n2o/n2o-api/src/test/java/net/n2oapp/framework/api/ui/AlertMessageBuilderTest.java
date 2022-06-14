@@ -25,7 +25,7 @@ public class AlertMessageBuilderTest {
         Exception e = new IllegalStateException();
         ResponseMessage message = builder.build(e);
         assertThat(message.getText(), is("Internal error"));
-        assertThat(message.getColor(), is("danger"));
+        assertThat(message.getSeverity(), is("danger"));
         assertThat(message.getPayload(), hasItem(containsString("AlertMessageBuilderTest")));
         builder = new AlertMessageBuilder(messageSource, null, false);
         message = builder.build(e);

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 export function AlertWrapper({
     children,
     className,
-    color,
+    severity,
     animate,
     stacktrace,
     href,
@@ -16,7 +16,7 @@ export function AlertWrapper({
             className={classNames(
                 'alert n2o-alert',
                 className, {
-                    [`alert-${color}`]: color,
+                    [`alert-${severity}`]: severity,
                     'n2o-alert--animated': animate,
                     'with-details': stacktrace,
                     'with-link': href,
@@ -28,7 +28,7 @@ export function AlertWrapper({
                 href={href}
                 className={classNames(
                     {
-                        [`alert-${color}`]: color,
+                        [`alert-${severity}`]: severity,
                         'n2o-alert__with-link': href,
                     },
                 )}
@@ -42,7 +42,7 @@ export function AlertWrapper({
 AlertWrapper.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    color: PropTypes.string,
+    severity: PropTypes.string,
     animate: PropTypes.bool,
     stacktrace: PropTypes.bool,
     href: PropTypes.string,

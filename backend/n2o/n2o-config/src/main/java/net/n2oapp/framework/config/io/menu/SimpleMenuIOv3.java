@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.menu;
+package net.n2oapp.framework.config.io.menu;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
@@ -8,24 +8,17 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
-import org.springframework.stereotype.Component;
 
 /**
  * Чтение/запись меню 3.0
  */
-@Component
-public class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
+public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
 
     private final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
     @Override
     public Class<N2oSimpleMenu> getElementClass() {
         return N2oSimpleMenu.class;
-    }
-
-    @Override
-    public String getElementName() {
-        return "menu";
     }
 
     @Override

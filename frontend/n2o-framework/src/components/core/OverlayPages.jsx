@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
@@ -8,12 +8,8 @@ import defaultTo from 'lodash/defaultTo'
 
 import { closeOverlay, hidePrompt } from '../../ducks/overlays/store'
 import { overlaysSelector } from '../../ducks/overlays/selectors'
-
-// eslint-disable-next-line import/no-cycle
-import DrawerPage from './DrawerPage'
-import PageDialog from './PageDialog'
-// eslint-disable-next-line import/no-cycle
-import ModalPage from './ModalPage'
+import { FactoryContext } from '../../core/factory/context'
+import { OVERLAYS } from '../../core/factory/factoryLevels'
 
 const ModalMode = {
     MODAL: 'modal',
@@ -22,17 +18,23 @@ const ModalMode = {
 }
 
 const PageComponent = {
-    [ModalMode.MODAL]: ModalPage,
-    [ModalMode.DRAWER]: DrawerPage,
-    [ModalMode.DIALOG]: PageDialog,
+    [ModalMode.MODAL]: 'Modal',
+    [ModalMode.DRAWER]: 'Drawer',
+    [ModalMode.DIALOG]: 'Dialog',
 }
 
 const prepareProps = (props, overlay = {}) => ({ ...props, ...overlay, ...defaultTo(overlay.props, {}) })
 
 const renderOverlays = ({ overlays, ...rest }) => map(
     overlays,
-    ({ mode, ...overlay }) => has(PageComponent, mode) &&
-      React.createElement(PageComponent[mode], prepareProps(rest, overlay)),
+    ({ mode, ...overlay }) => {
+        if (!has(PageComponent, mode)) { return null }
+
+        const { getComponent } = useContext(FactoryContext)
+        const Overlay = getComponent(PageComponent[mode], OVERLAYS)
+
+        return React.createElement(Overlay, prepareProps(rest, overlay))
+    },
 )
 
 /**

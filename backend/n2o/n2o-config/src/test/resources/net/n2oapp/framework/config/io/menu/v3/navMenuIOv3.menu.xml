@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<menu xmlns="http://n2oapp.net/framework/config/schema/menu-3.0">
+<nav xmlns="http://n2oapp.net/framework/config/schema/menu-3.0">
     <menu-item id="notif"
                name="Уведомления"
                datasource="ds1"
@@ -22,7 +22,6 @@
                    icon="fa fa-user">
             <a href="/profile" target="application"/>
         </menu-item>
-<!--        <divider/>-->
         <menu-item name="Сообщения"
                    image="/static/users/ivan90.png"
                    image-shape="square"
@@ -30,7 +29,6 @@
                    badge-color="primary">
             <open-page page-id="page" route="/route"/>
         </menu-item>
-<!--        <divider/>-->
         <menu-item name="Выход"
                    icon="fa fa-door">
             <a href="/logout" target="self"/>
@@ -39,4 +37,4 @@
     <dropdown-menu id="messages"
                    name="Сообщения"
                    icon="fa fa-bell"/>
-</menu>
+</nav>

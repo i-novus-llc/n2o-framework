@@ -3,7 +3,8 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0">
 
-    <xs:element name="menu" type="menuDefinition"/>
+    <xs:element name="nav" type="menuDefinition"/>
+    <xs:element name="extra-menu" type="menuDefinition"/>
 
     <xs:complexType name="menuDefinition">
         <xs:sequence>

@@ -3,8 +3,31 @@ import isNumber from 'lodash/isNumber'
 import isUndefined from 'lodash/isUndefined'
 import isNil from 'lodash/isNil'
 import isBoolean from 'lodash/isBoolean'
+import forOwn from 'lodash/forOwn'
+import isObject from 'lodash/isObject'
+import isArray from 'lodash/isArray'
 
 import evalExpression, { parseExpression } from './evalExpression'
+
+/**
+ * Рекурсивно проходит по объекту и резолвит все link
+ * @param object
+ * @param state
+ * @returns {{}}
+ */
+export function resolveLinksRecursively(object = {}, state = {}) {
+    const resolvedObject = {}
+
+    forOwn(object, (v, k) => {
+        if (isObject(v) && !isArray(v)) {
+            resolvedObject[k] = !v.link ? resolveLinksRecursively(v, state) : linkResolver(state, v)
+        } else {
+            resolvedObject[k] = v
+        }
+    })
+
+    return resolvedObject
+}
 
 /**
  * Получение значения по ссылке и выражению.

@@ -1,24 +1,20 @@
-package net.n2oapp.framework.config.metadata.compile.header;
+package net.n2oapp.framework.config.io.application.header;
 
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.header.N2oSearchBar;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.io.control.ComponentIO;
-import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
+import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
+import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Запись/чтение заголовка приложения
+ * Запись/чтение заголовка приложения версии 3.0
  */
 @Component
-public class HeaderIO extends ComponentIO<N2oHeader> {
-
-    @Override
-    public String getElementName() {
-        return "header";
-    }
+public class HeaderIOv3 extends ComponentIO<N2oHeader> {
 
     @Override
     public Class<N2oHeader> getElementClass() {
@@ -26,8 +22,13 @@ public class HeaderIO extends ComponentIO<N2oHeader> {
     }
 
     @Override
+    public String getElementName() {
+        return "header";
+    }
+
+    @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/application-1.0";
+        return "http://n2oapp.net/framework/config/schema/application-3.0";
     }
 
     @Override
@@ -39,10 +40,8 @@ public class HeaderIO extends ComponentIO<N2oHeader> {
         p.attribute(e, "sidebar-icon", m::getSidebarIcon, m::setSidebarIcon);
         p.attribute(e, "sidebar-toggled-icon", m::getSidebarToggledIcon, m::setSidebarToggledIcon);
         p.attributeBoolean(e, "visible", m::getVisible, m::setVisible);
-        p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
-        p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
+        p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv3());
+        p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new ExtraMenuIOv3());
         p.child(e, null, "search", m::getSearchBar, m::setSearchBar, N2oSearchBar.class, new N2oSearchBarIOv2());
     }
-
-
 }
