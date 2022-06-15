@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.io.application.ApplicationIO;
 import net.n2oapp.framework.config.io.application.ApplicationIOv2;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
+import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv2;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
@@ -27,7 +28,7 @@ public class N2oApplicationPack implements MetadataPack<N2oApplicationBuilder> {
     public void build(N2oApplicationBuilder b) {
         b.ios(new ApplicationIO(), new ApplicationIOv2(), new NavMenuIOv2(), new ExtraMenuIOv3(),
                 new ApplicationIOv3(), new NavMenuIOv3(), new ExtraMenuIOv3(), new SidebarIOv3(),
-                new OpenPageElementIOV1(), new AnchorElementIOV1());
+                new OpenPageElementIOV1(), new AnchorElementIOV1(), new StompEventIO());
         b.compilers(new ApplicationCompiler(), new SimpleMenuCompiler(), new SearchBarCompiler(),
                 new StompDatasourceCompiler(), new StompEventCompiler(), new SidebarCompiler());
         b.binders(new ApplicationBinder());
