@@ -3,6 +3,7 @@ import { Spinner as BaseSpinner } from 'reactstrap'
 import classNames from 'classnames'
 import eq from 'lodash/eq'
 import values from 'lodash/values'
+import omit from 'lodash/omit'
 import PropTypes from 'prop-types'
 
 const TYPE = {
@@ -47,7 +48,6 @@ export class Spinner extends Component {
             text,
             transparent,
             color,
-            loading,
             ...rest
         } = this.props
         const { showSpinner } = this.state
@@ -61,7 +61,7 @@ export class Spinner extends Component {
                 {showSpinner && (
                     <>
                         <div className="n2o-spinner-container ">
-                            <BaseSpinner className="spinner-border" color={color} {...rest} />
+                            <BaseSpinner className="spinner-border" color={color} {...omit(rest, ['loading'])} />
                             <div className="loading_text">{text}</div>
                         </div>
                         {!transparent ? <div className="spinner-background" /> : null}
@@ -74,14 +74,13 @@ export class Spinner extends Component {
 
     renderLineSpinner() {
         const {
-            type,
             children,
             loading,
             ...rest
         } = this.props
 
         if (loading) {
-            return <BaseSpinner className="spinner" {...rest} />
+            return <BaseSpinner className="spinner" {...omit(rest, ['type'])} />
         }
         if (React.Children.count(children)) {
             return children

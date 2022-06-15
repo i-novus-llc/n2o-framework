@@ -15,7 +15,7 @@ import { dataSourcesSelector } from '../selectors'
  * @param {DataSourceDependency} dependency
  * @param model
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export function* resolveDependency(id, dependency, model) {
     switch (dependency.type) {
         case DEPENDENCY_TYPE.fetch: {

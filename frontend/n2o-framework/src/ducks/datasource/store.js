@@ -224,7 +224,7 @@ const datasource = createSlice({
                     payload: { id, model, prefix: MODEL_PREFIX.active },
                 })
             },
-            // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
             reducer(state, action) {
                 // nothing
             },
@@ -235,7 +235,7 @@ const datasource = createSlice({
                     payload: { id, model, prefix: MODEL_PREFIX.edit },
                 })
             },
-            // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
             reducer(state, action) {
                 // nothing
             },
@@ -246,7 +246,7 @@ const datasource = createSlice({
                     payload: { id, model, prefix: MODEL_PREFIX.filter },
                 })
             },
-            // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
             reducer(state, action) {
                 // nothing
             },
@@ -257,7 +257,7 @@ const datasource = createSlice({
                     payload: { id, model, prefix: MODEL_PREFIX.source },
                 })
             },
-            // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
             reducer(state, action) {
                 // nothing
             },
@@ -268,7 +268,7 @@ const datasource = createSlice({
                     payload: { id, model, prefix: MODEL_PREFIX.selected },
                 })
             },
-            // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
             reducer(state, action) {
                 // nothing
             },
