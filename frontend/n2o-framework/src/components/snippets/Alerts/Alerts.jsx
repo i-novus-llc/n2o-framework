@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 
-import Alert from './Alert'
+import { FactoryContext } from '../../../core/factory/context'
+import { SNIPPETS } from '../../../core/factory/factoryLevels'
 
 /**
  * Маппер для Alert
@@ -9,8 +10,14 @@ import Alert from './Alert'
  */
 
 function AlertsByPlacement({ alerts, placement }) {
+    const { getComponent } = useContext(FactoryContext)
+
     return alerts.filter(({ placement: alertPlacement }) => alertPlacement === placement)
-        .map(alert => <Alert {...alert} />)
+        .map((props) => {
+            const Alert = getComponent('Alert', SNIPPETS)
+
+            return <Alert {...props} />
+        })
 }
 
 AlertsByPlacement.propTYpes = {
