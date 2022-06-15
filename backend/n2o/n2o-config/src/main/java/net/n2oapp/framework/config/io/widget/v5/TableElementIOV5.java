@@ -54,14 +54,11 @@ public class TableElementIOV5 extends AbstractListWidgetElementIOv5<N2oTable> {
     }
 
     private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {
+        baseProperties(e, c, p);
         p.attribute(e, "id", c::getId, c::setId);
-        p.attribute(e, "src", c::getSrc, c::setSrc);
-        p.attribute(e, "class", c::getCssClass, c::setCssClass);
-        p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, "text-field-id", c::getTextFieldId, c::setTextFieldId);
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
         p.attribute(e, "visible", c::getVisible, c::setVisible);
-        p.attribute(e, "label", c::getLabelName, c::setLabelName);
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
         p.attributeEnum(e, "type", c::getLabelType, c::setLabelType, LabelType.class);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
@@ -100,10 +97,15 @@ public class TableElementIOV5 extends AbstractListWidgetElementIOv5<N2oTable> {
     }
 
     private void multiColumn(Element e, N2oMultiColumn c, IOProcessor p) {
+        baseProperties(e, c, p);
+        p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
+    }
+
+    private void baseProperties(Element e, AbstractColumn c, IOProcessor p) {
         p.attribute(e, "label", c::getLabelName, c::setLabelName);
         p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);
-        p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
+        p.attributeEnum(e, "alignment", c::getAlignment, c::setAlignment, Alignment.class);
     }
 }

@@ -29,18 +29,17 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
     private String textFieldId;
     private String tooltipFieldId;
     private String width;
-    private String format;
     private String labelName;
     private String labelIcon;
     private LabelType labelType;
     private String visible;
     private Boolean resizable;
-    private String visibilityCondition;
     private String sortingFieldId;
     private DirectionType sortingDirection;
     private ColumnFixedPosition fixed;
     private ColumnVisibility[] columnVisibilities;
     private Boolean hideOnBlur;
+    private Alignment alignment;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 
