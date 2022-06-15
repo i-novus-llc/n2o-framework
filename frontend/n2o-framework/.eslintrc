@@ -1,11 +1,14 @@
 {
   "extends": [
     "react-app",
+    "plugin:@typescript-eslint/recommended",
     "airbnb"
   ],
+  "parser": "@typescript-eslint/parser",
   "plugins": [
     "eslint-plugin-import",
     "optimize-regex",
+    "@typescript-eslint",
     "sonarjs"
   ],
   "ignorePatterns": ["*.test.js", "*.test.jsx"],
@@ -104,6 +107,8 @@
     "react/jsx-props-no-spreading": "off",
     // Убираем сортировку методов
     "react/sort-comp": "off",
+//
+    "@typescript-eslint/no-empty-function": "off",
 
 // Sonar
   // Bug Detection
