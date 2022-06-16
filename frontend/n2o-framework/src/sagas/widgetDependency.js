@@ -50,15 +50,17 @@ export function* registerDependency({ payload }) {
     )
 }
 
-export function* updateModel() {
+export function* updateModel({ type }) {
     const state = yield select()
 
-    yield call(
-        resolveWidgetDependency,
-        prevState,
-        state,
-        widgetsDependencies,
-    )
+    if (type !== removeAllModel.type) {
+        yield call(
+            resolveWidgetDependency,
+            prevState,
+            state,
+            widgetsDependencies,
+        )
+    }
 }
 
 export function* updateDependency({ payload }) {
