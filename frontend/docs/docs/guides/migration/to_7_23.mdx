@@ -48,6 +48,41 @@ description: ""
 </application>
 ```
 
+- Добавлен новый атрибут `datasource` для элемента `<sidebar>`. С помощью него можно ссылаться на источник данных `<datasource>`,
+заданный в файле *.application.xml. Указанный источник данных в `<sidebar>` позволяет разрешать по контексту страницы
+значения атрибутов `title` и `subtitle`, а также `value` для параметров запроса `<a>` и `<open-page>` в `<menu-item>`.
+Для использования этого функционала необходимо указать в `path` элемента `<sidebar>` некоторый параметр и также установить
+его в качестве `value` для фильтра `<datasource>`.
+
+*Пример использования источников данных в `<sidebar>`*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application>
+  <datasources>
+    <datasource id="person" query-id="person">
+      <filters>
+          <eq field-id="id" value=":person_id"/>
+      </filters>
+    </datasource>
+  </datasources>
+
+  <sidebars>
+    <sidebar path="/person/:person_id/**"
+             datasource="person"
+             title="{fio}">
+      <nav>
+        <menu-item name="Документы">
+          <open-page page-id="docs" route="/person/:person_id/docs">
+            <path-param name="person_id" value=":person_id"/>
+            <query-param name="fio" value="{fio}" datasource="person"/>
+          </open-page>
+        </menu-item>
+      </nav>
+    </sidebar>
+  </sidebars>
+</application>
+```
+
 ### Изменения в сборке Frontend {#changes-frontend-build}
 
 Удалены модули
