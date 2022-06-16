@@ -19,14 +19,12 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция простого заголовка таблицы
@@ -53,10 +51,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (cellsScope != null && cellsScope.getCells() != null)
             cellsScope.getCells().add(cell);
 
+        compileBaseProperties(source, header, p);
         header.setId(source.getId());
-        header.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.widget.column.src"), String.class)));
-        header.setCssClass(source.getCssClass());
-        header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         header.setIcon(source.getLabelIcon());
         header.setWidth(source.getWidth());
         header.setResizable(source.getResizable());

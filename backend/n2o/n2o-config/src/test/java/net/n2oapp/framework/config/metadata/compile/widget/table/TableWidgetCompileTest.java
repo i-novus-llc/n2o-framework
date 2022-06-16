@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -406,6 +407,33 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
+    }
+
+    @Test
+    public void testColumnAttributes() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5ColumnsAttributesCompile.widget.xml")
+                .get(new WidgetContext("testTable5ColumnsAttributesCompile"));
+
+        assertThat(table.getComponent().getHeaders().size(), is(3));
+
+        ColumnHeader header = table.getComponent().getHeaders().get(0);
+        assertThat(header.getSrc(), is("MyTableHeader"));
+        assertThat(header.getAlignment(), is(Alignment.right));
+        assertThat(header.getCssClass(), is("my-table-header"));
+        assertThat(header.getStyle().get("color"), is("red"));
+
+        header = table.getComponent().getHeaders().get(1);
+        assertThat(header.getSrc(), is("MyFilterHeader"));
+        assertThat(header.getAlignment(), is(Alignment.left));
+        assertThat(header.getCssClass(), is("my-filter-header"));
+        assertThat(header.getStyle().get("color"), is("green"));
+
+        header = table.getComponent().getHeaders().get(2);
+        assertThat(header.getSrc(), is("MyMultiHeader"));
+        assertThat(header.getAlignment(), is(Alignment.centered));
+        assertThat(header.getCssClass(), is("my-multi-header"));
+        assertThat(header.getStyle().get("color"), is("blue"));
+        assertThat(header.getLabel(), is("Multi"));
     }
 
 }

@@ -416,6 +416,11 @@
                 <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="alignment" type="alignmentType" default="left">
+            <xs:annotation>
+                <xs:documentation>Выравнивание контента в ячейках столбца таблицы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -487,6 +492,11 @@
             <xs:attribute name="style" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="alignment" type="alignmentType" default="left">
+                <xs:annotation>
+                    <xs:documentation>Выравнивание контента в ячейках столбца таблицы</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
         </xs:complexContent>
@@ -1376,6 +1386,17 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="one-model"/>
             <xs:enumeration value="two-models"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="alignmentType">
+        <xs:annotation>
+            <xs:documentation>Тип выравнивания контента.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="centered"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
