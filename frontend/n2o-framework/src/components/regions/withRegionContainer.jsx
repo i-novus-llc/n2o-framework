@@ -7,6 +7,7 @@ import get from 'lodash/get'
 
 import {
     registerRegion,
+    destroyRegion,
     setActiveRegion,
     mapUrl,
     makeRegionIsInitSelector,
@@ -62,6 +63,12 @@ const createRegionContainer = config => (WrappedComponent) => {
                 const { initIfNeeded } = this.props
 
                 initIfNeeded()
+            },
+
+            componentWillUnmount() {
+                const { dispatch, id } = this.props
+
+                dispatch(destroyRegion(id))
             },
         }),
     )

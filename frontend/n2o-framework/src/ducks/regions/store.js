@@ -44,6 +44,30 @@ const regionsSlice = createSlice({
             },
         },
 
+        DESTROY_REGION: {
+            /**
+             * @param {string} regionId
+             * @return {{payload: {regionId: string}}}
+             */
+            // eslint-disable-next-line sonarjs/no-identical-functions
+            prepare(regionId) {
+                return ({
+                    payload: { regionId },
+                })
+            },
+
+            /**
+             * Удалить регион
+             * @param {RegionResolver.state} state
+             * @param {Object} action
+             * @param {string} action.type
+             * @param {{regionId: string}} action.payload
+             */
+            reducer(state, { payload }) {
+                delete state[payload.regionId]
+            },
+        },
+
         SET_ACTIVE_REGION_ENTITY: {
 
             /**
@@ -104,6 +128,7 @@ export default regionsSlice.reducer
 // Actions
 export const {
     REGISTER_REGION: registerRegion,
+    DESTROY_REGION: destroyRegion,
     SET_ACTIVE_REGION_ENTITY: setActiveRegion,
     SET_TAB_INVALID: setTabInvalid,
 } = regionsSlice.actions
