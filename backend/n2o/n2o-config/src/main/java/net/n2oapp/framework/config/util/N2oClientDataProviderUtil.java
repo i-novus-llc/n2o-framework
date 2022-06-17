@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.util;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
@@ -15,8 +14,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.Arrays;
 
@@ -50,8 +49,15 @@ public class N2oClientDataProviderUtil {
             dataProvider.setTargetModel(widgetScope.getModel());
             dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
         }
-        dataProvider.setUrl(query.getRoute());
 
+//        dataProvider.setUrl(isDynamic(queryId) ?
+//                query.getRoute() + "?" + RouteUtil.parseQuery(queryId) : query.getRoute());
+        dataProvider.setUrl(query.getRoute());
+        N2oParam n2oParam = new N2oParam();
+        n2oParam.setName("table");
+        n2oParam.setValue(RouteUtil.parseQueryParams(queryId).get("table"));
+        n2oParam.setValueParam("table");
+        dataProvider.setQueryParams(new N2oParam[]{n2oParam});
         if (preFilters != null) {
             N2oParam[] queryParams = new N2oParam[preFilters.length];
             for (int i = 0; i < preFilters.length; i++) {
