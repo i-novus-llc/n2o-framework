@@ -8,9 +8,12 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -139,7 +142,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private CompiledObject initObject(CompileProcessor p, N2oButton button) {
         if (button.getDatasourceId() != null && p.getScope(DataSourcesScope.class) != null) {
-            N2oDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasourceId());
+            N2oQueryDatasource datasource = (N2oQueryDatasource) p.getScope(DataSourcesScope.class).get(button.getDatasourceId());
             if (datasource.getObjectId() != null) {
                 return p.getCompiled(new ObjectContext(datasource.getObjectId()));
             } else if (datasource.getQueryId() != null) {

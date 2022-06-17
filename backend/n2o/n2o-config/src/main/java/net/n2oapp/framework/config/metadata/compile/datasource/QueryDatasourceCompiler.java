@@ -19,7 +19,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -56,28 +56,26 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  * Компиляция источника данных
  */
 @Component
-public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Datasource>  {
+public class  QueryDatasourceCompiler extends BaseDatasourceCompiler<N2oQueryDatasource, Datasource>  {
     private static final String SPREAD_OPERATOR = "*.";
     public static final String SORTING = "sorting.";
 
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oDatasource.class;
+        return N2oQueryDatasource.class;
     }
 
     @Override
-    public Datasource compile(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
+    public Datasource compile(N2oQueryDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         Datasource compiled = new Datasource();
         initDatasource(compiled, source, context, p);
         initDefaults(source, context, p);
-        PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setId(pageScope != null ? pageScope.getClientDatasourceId(source.getId()) : source.getId());
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
-        compiled.setProvider(initDataProvider(compiled, source, context, p, query, source.getDefaultValuesMode()));
+        compiled.setProvider(initDataProvider(compiled, source, context, p, query, compiled.getDefaultValuesMode()));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setDependencies(initDependencies(source, p));
         compiled.setValidations(initValidations(source, p));
@@ -85,14 +83,14 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         return compiled;
     }
 
-    private CompiledQuery initQuery(N2oDatasource source, CompileProcessor p) {
+    private CompiledQuery initQuery(N2oQueryDatasource source, CompileProcessor p) {
         if (source.getQueryId() != null) {
             return p.getCompiled(new QueryContext(source.getQueryId()));
         }
         return null;
     }
 
-    private CompiledObject initObject(N2oDatasource source, CompileProcessor p) {
+    private CompiledObject initObject(N2oQueryDatasource source, CompileProcessor p) {
         if (source.getObjectId() != null) {
             return p.getCompiled(new ObjectContext(source.getObjectId()));
         } else if (source.getQueryId() != null) {
@@ -102,21 +100,21 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         return null;
     }
 
-    private void initDefaults(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
+    private void initDefaults(N2oQueryDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         source.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() != null ? DefaultValuesMode.query : DefaultValuesMode.defaults));
     }
 
-    private List<DependencyCondition> initDependencies(N2oDatasource source, CompileProcessor p) {
+    private List<DependencyCondition> initDependencies(N2oQueryDatasource source, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope == null)
             return null;
         List<DependencyCondition> fetch = new ArrayList<>();
         String pageId = pageScope.getPageId();
         if (source.getDependencies() != null) {
-            for (N2oDatasource.Dependency d : source.getDependencies()) {
-                if (d instanceof N2oDatasource.FetchDependency) {
-                    ModelLink bindLink = new ModelLink(p.cast(((N2oDatasource.FetchDependency) d).getModel(), ReduxModel.resolve),
-                            CompileUtil.generateWidgetId(pageId, ((N2oDatasource.FetchDependency) d).getOn()));
+            for (N2oQueryDatasource.Dependency d : source.getDependencies()) {
+                if (d instanceof N2oQueryDatasource.FetchDependency) {
+                    ModelLink bindLink = new ModelLink(p.cast(((N2oQueryDatasource.FetchDependency) d).getModel(), ReduxModel.resolve),
+                            CompileUtil.generateWidgetId(pageId, ((N2oQueryDatasource.FetchDependency) d).getOn()));
                     DependencyCondition condition = new DependencyCondition();
                     condition.setOn(bindLink.getBindLink());
                     condition.setType(DependencyConditionType.fetch);
@@ -127,7 +125,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         return fetch;
     }
 
-    private Map<String, List<Validation>> initValidations(N2oDatasource source, CompileProcessor p) {
+    private Map<String, List<Validation>> initValidations(N2oQueryDatasource source, CompileProcessor p) {
         ValidationList validationList = p.getScope(ValidationList.class);
         if (validationList != null) {
             //todo why RESOLVE ?
@@ -138,7 +136,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
             return Collections.emptyMap();
     }
 
-    private ClientDataProvider initDataProvider(Datasource compiled, N2oDatasource source, CompileContext<?, ?> context,
+    private ClientDataProvider initDataProvider(Datasource compiled, N2oQueryDatasource source, CompileContext<?, ?> context,
                                                 CompileProcessor p, CompiledQuery query, DefaultValuesMode defaultValuesMode) {
         if (source.getQueryId() == null)
             return null;
@@ -153,7 +151,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         return defaultValuesMode == DefaultValuesMode.defaults ? null : dataProvider;
     }
 
-    private void initSearchBar(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
+    private void initSearchBar(N2oQueryDatasource source, List<Filter> filters, CompileProcessor p) {
         SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
         if (searchBarScope != null && searchBarScope.getDatasource() != null &&
                 searchBarScope.getDatasource().equals(source.getId())) {
@@ -173,7 +171,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         }
     }
 
-    private String getDatasourceRoute(N2oDatasource source, Datasource compiled, CompileProcessor p) {
+    private String getDatasourceRoute(N2oQueryDatasource source, Datasource compiled, CompileProcessor p) {
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         String datasource = parentRouteScope != null && "/".equals(parentRouteScope.getUrl()) ? compiled.getId() : source.getId();
         String route = p.cast(source.getRoute(), normalize(datasource));
@@ -184,7 +182,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         }
     }
 
-    private void initDataProviderMappings(Datasource compiled, N2oDatasource source, ClientDataProvider dataProvider,
+    private void initDataProviderMappings(Datasource compiled, N2oQueryDatasource source, ClientDataProvider dataProvider,
                                           List<Filter> filters, CompileProcessor p) {
         dataProvider.setPathMapping(new StrictMap<>());
         dataProvider.setQueryMapping(new StrictMap<>());
@@ -202,7 +200,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         }
     }
 
-    private List<Filter> initFilters(Datasource compiled, N2oDatasource source, CompileProcessor p, CompiledQuery query) {
+    private List<Filter> initFilters(Datasource compiled, N2oQueryDatasource source, CompileProcessor p, CompiledQuery query) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (query == null)
             return null;
@@ -248,14 +246,14 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         return filters;
     }
 
-    private void initFiltersScope(N2oDatasource source, List<Filter> filters, CompileProcessor p) {
+    private void initFiltersScope(N2oQueryDatasource source, List<Filter> filters, CompileProcessor p) {
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         if (filtersScope == null) return;
         Map<String, Filter> filterMap = filters.stream().collect(Collectors.toMap(Filter::getFilterId, f -> f, (f1, f2) -> f2));
         filtersScope.getFilters(source.getId()).stream().filter(f -> !filterMap.containsKey(f.getFilterId())).forEach(filters::add);
     }
 
-    private void initMandatoryValidation(N2oDatasource source, CompileProcessor p,
+    private void initMandatoryValidation(N2oQueryDatasource source, CompileProcessor p,
                                          N2oPreFilter preFilter, N2oQuery.Filter queryFilter) {
         if (preFilter.getRequired() != null && preFilter.getRequired()) {
             if (p.getScope(ValidationList.class) != null) {
@@ -282,7 +280,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
     }
 
     private QueryContext getQueryContext(Datasource compiled,
-                                         N2oDatasource source,
+                                         N2oQueryDatasource source,
                                          CompileContext<?, ?> context,
                                          CompileProcessor p,
                                          String route,
@@ -316,7 +314,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         return sortingMap;
     }
 
-    private ClientDataProvider initSubmit(N2oDatasource source, Datasource compiled, CompiledObject compiledObject,
+    private ClientDataProvider initSubmit(N2oQueryDatasource source, Datasource compiled, CompiledObject compiledObject,
                                           CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getSubmit() == null)
             return null;
@@ -450,7 +448,7 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         return link;
     }
 
-    private void compileRoutes(Datasource compiled, N2oDatasource source, List<Filter> filters, CompileProcessor p, CompiledQuery query) {
+    private void compileRoutes(Datasource compiled, N2oQueryDatasource source, List<Filter> filters, CompileProcessor p, CompiledQuery query) {
         PageRoutes routes = p.getScope(PageRoutes.class);
         if (routes == null)
             return;

@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -236,11 +237,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (compiledObject == null && localDatasource != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {
-                String objectId = dataSourcesScope.get(localDatasource).getObjectId();
+                String objectId = ((N2oQueryDatasource)dataSourcesScope.get(localDatasource)).getObjectId();
                 if (objectId != null) {
                     compiledObject = p.getCompiled(new ObjectContext(objectId));
-                } else if (dataSourcesScope.get(localDatasource).getQueryId() != null) {
-                    CompiledQuery query = p.getCompiled(new QueryContext(dataSourcesScope.get(localDatasource).getQueryId()));
+                } else if (((N2oQueryDatasource)dataSourcesScope.get(localDatasource)).getQueryId() != null) {
+                    CompiledQuery query = p.getCompiled(new QueryContext(((N2oQueryDatasource)dataSourcesScope.get(localDatasource)).getQueryId()));
                     compiledObject = query.getObject();
                 }
             }

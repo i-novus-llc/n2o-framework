@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -70,14 +70,14 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oParam[] params;
-    private N2oDatasource[] datasources;
+    private N2oQueryDatasource[] datasources;
     @Deprecated
     private String width;
 
     @Deprecated
     public void adaptV1() {
         if (getUpload() != null || getDetailFieldId() != null || getPreFilters() != null) {
-            N2oDatasource datasource = new N2oDatasource();
+            N2oQueryDatasource datasource = new N2oQueryDatasource();
 
             if (getUpload() != null) {
                 switch (getUpload()) {
@@ -150,7 +150,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                 datasource.addFilters(Arrays.asList(preFilters));
             }
 
-            datasources = new N2oDatasource[]{datasource};
+            datasources = new N2oQueryDatasource[]{datasource};
 
         }
     }

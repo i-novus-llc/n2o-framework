@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget.list;
 
+import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
@@ -81,7 +82,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(listWidget.getPaging().getSize(), is(5));
         assertThat(listWidget.getPaging().getSrc(), is("pagingSrc"));
 
-        assertThat(page.getDatasources().get(listWidget.getDatasource()).getProvider().getSize(), is(5));
+        assertThat(((Datasource) page.getDatasources().get(listWidget.getDatasource())).getProvider().getSize(), is(5));
     }
 
     @Test

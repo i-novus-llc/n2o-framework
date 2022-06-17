@@ -2,10 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.application;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.application.*;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import net.n2oapp.framework.config.io.datasource.DatasourceIO;
+import net.n2oapp.framework.config.io.datasource.QueryDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
 import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.metadata.compile.header.HeaderIOv2;
@@ -44,7 +44,7 @@ public class ApplicationIOv3 implements NamespaceIO<N2oApplication> {
         p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIOv2());
         p.child(e, null, "footer", m::getFooter, m::setFooter, new FooterIO());
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.oneOf(N2oAbstractDatasource.class)
-                .add("datasource", N2oDatasource.class, new DatasourceIO())
+                .add("datasource", N2oQueryDatasource.class, new QueryDatasourceIO())
                 .add("stomp-datasource", N2oStompDatasource.class, new StompDatasourceIO()));
         p.anyChildren(e, "events", m::getEvents, m::setEvents, p.oneOf(N2oAbstractEvent.class)
                 .add("stomp-event", N2oStompEvent.class, new StompEventIO()));

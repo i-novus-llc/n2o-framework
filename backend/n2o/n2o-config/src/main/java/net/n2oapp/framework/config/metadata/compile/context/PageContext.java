@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -123,7 +123,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Список источников данных открываемой страницы
      */
-    private List<N2oDatasource> datasources;
+    private List<N2oQueryDatasource> datasources;
 
 
     /**
@@ -160,7 +160,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     public List<N2oPreFilter> getPreFilters() {
         List<N2oPreFilter> filters = new ArrayList<>();
         if (datasources != null)
-            for (N2oDatasource datasource : datasources) {
+            for (N2oQueryDatasource datasource : datasources) {
                 filters.addAll(Arrays.asList(datasource.getFilters()));
             }
         return filters;

@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -39,7 +39,7 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
     @Override
     public Tiles compile(N2oTiles source, CompileContext<?, ?> context, CompileProcessor p) {
         Tiles tiles = new Tiles();
-        N2oDatasource datasource = initInlineDatasource(tiles, source, p);
+        N2oQueryDatasource datasource = initInlineDatasource(tiles, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(tiles, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));

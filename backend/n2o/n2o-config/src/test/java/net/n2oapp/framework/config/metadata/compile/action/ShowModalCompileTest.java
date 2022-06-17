@@ -3,15 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
@@ -29,12 +26,9 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -109,7 +103,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         Widget modalWidget = modalPage.getWidget();
         assertThat(modalPage.getDatasources().get(modalWidget.getDatasource()).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
-        assertThat(modalPage.getDatasources().get(modalWidget.getDatasource()).getProvider(), nullValue());
+        assertThat(((Datasource) modalPage.getDatasources().get(modalWidget.getDatasource())).getProvider(), nullValue());
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
@@ -167,7 +161,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalPage.getId(), is("p_update"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidget();
-        Datasource ds = modalPage.getDatasources().get(modalWidget.getDatasource());
+        Datasource ds = (Datasource) modalPage.getDatasources().get(modalWidget.getDatasource());
         assertThat(ds.getProvider().getQueryMapping().size(), is(0));
         assertThat(ds.getProvider().getPathMapping().get("id").getParam(), is("id"));
         assertThat(ds.getProvider().getPathMapping().get("id").normalizeLink(), is("models.resolve['p_main'].id"));
@@ -177,7 +171,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
         ShowModal showModal = (ShowModal) modalPage.getWidget().getToolbar().getButton("mi0").getAction();
         assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/mi0"));
-        assertThat(modalPage.getDatasources().get(modalPage.getWidget().getDatasource()).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
+        assertThat(((Datasource) modalPage.getDatasources().get(modalPage.getWidget().getDatasource())).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
     }
 
     @Test
@@ -209,8 +203,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
         Widget modalWidget = (Widget) showModal.getRegions().get("single").get(0).getContent().get(0);
-        assertThat(showModal.getDatasources().get(modalWidget.getDatasource()).getProvider().getPathMapping().size(), is(0));
-        assertThat(showModal.getDatasources().get(modalWidget.getDatasource()).getProvider().getQueryMapping().size(), is(0));
+        assertThat(((Datasource) showModal.getDatasources().get(modalWidget.getDatasource())).getProvider().getPathMapping().size(), is(0));
+        assertThat(((Datasource) showModal.getDatasources().get(modalWidget.getDatasource())).getProvider().getQueryMapping().size(), is(0));
     }
 
     @Test
@@ -227,8 +221,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
         Widget modalWidget = (Widget) showModal.getRegions().get("single").get(0).getContent().get(0);
-        assertThat(showModal.getDatasources().get(modalWidget.getDatasource()).getProvider().getPathMapping().size(), is(1));
-        assertThat(showModal.getDatasources().get(modalWidget.getDatasource()).getProvider().getQueryMapping().size(), is(0));
+        assertThat(((Datasource) showModal.getDatasources().get(modalWidget.getDatasource())).getProvider().getPathMapping().size(), is(1));
+        assertThat(((Datasource) showModal.getDatasources().get(modalWidget.getDatasource())).getProvider().getQueryMapping().size(), is(0));
     }
 
     @Test
@@ -291,7 +285,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalPage.getId(), is("p_updateWithPrefilters"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidget();
-        Datasource ds = modalPage.getDatasources().get(modalWidget.getDatasource());
+        Datasource ds = (Datasource) modalPage.getDatasources().get(modalWidget.getDatasource());
         assertThat(ds.getProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
         assertThat(ds.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(ds.getProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
@@ -315,7 +309,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
-        assertThat(modalPage.getDatasources().get(modalPage.getWidget().getDatasource()).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
+        assertThat(((Datasource) modalPage.getDatasources().get(modalPage.getWidget().getDatasource())).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
         submit = (InvokeAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));
     }
@@ -434,14 +428,14 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalCtx.getDatasources().size(), is(1));
         assertThat(modalCtx.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         SimplePage modalPage = (SimplePage) routeAndGet("/p/update", Page.class);
-        Datasource datasource = modalPage.getDatasources().get("p_update_modal");
+        Datasource datasource = (Datasource) modalPage.getDatasources().get("p_update_modal");
         assertThat(datasource.getProvider(), nullValue());
 
         modalCtx = (PageContext) route("/p/update2", Page.class);
         assertThat(modalCtx.getDatasources().size(), is(1));
         assertThat(modalCtx.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         StandardPage modalPage2 = (StandardPage) routeAndGet("/p/update2", Page.class);
-        Datasource datasource1 = modalPage2.getDatasources().get("p_update2_main");
+        Datasource datasource1 = (Datasource) modalPage2.getDatasources().get("p_update2_main");
         assertThat(datasource1.getProvider(), nullValue());
     }
 
@@ -455,7 +449,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
 
         SimplePage page = (SimplePage) routeAndGet("/p/create", Page.class);
-        ClientDataProvider provider = page.getDatasources().get("p_create_modal").getProvider();
+        ClientDataProvider provider = ((Datasource) page.getDatasources().get("p_create_modal")).getProvider();
         assertThat(provider, notNullValue());
         assertThat(provider.getQueryMapping().get("modal_id").normalizeLink(), is("models.resolve['p_form'].id"));
         assertThat(provider.getQueryMapping().get("modal_name").getValue(), is(123));

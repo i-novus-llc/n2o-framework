@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
@@ -91,7 +91,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 copiedFieldScope, dataSourcesScope, metaActions, filtersScope, index));
 
         //datasources
-        Map<String, Datasource> compiledDataSources = compileDataSources(context, p,
+        Map<String, AbstractDatasource> compiledDataSources = compileDataSources(context, p,
                 dataSourcesScope, pageScope,
                 validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope,
                 searchBarScope, filtersScope);
@@ -120,10 +120,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private void addInlineDatasourcesToScope(List<N2oWidget> sourceWidgets, DataSourcesScope dataSourcesScope) {
         for (N2oWidget widget : sourceWidgets) {
             if (widget.getDatasourceId() == null && (widget.getRefId() == null || !DynamicUtil.isDynamic(widget.getRefId()))) {
-                N2oDatasource datasource;
+                N2oQueryDatasource datasource;
                 String datasourceId = CompileUtil.generateSourceDatasourceId(widget.getId());
                 if (widget.getDatasource() == null) {
-                    datasource = new N2oDatasource();
+                    datasource = new N2oQueryDatasource();
                     datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
                 } else {
                     datasource = widget.getDatasource();
@@ -163,15 +163,15 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
     }
 
-    private Map<String, Datasource> compileDataSources(PageContext context,
+    private Map<String, AbstractDatasource> compileDataSources(PageContext context,
                                                        CompileProcessor p,
                                                        DataSourcesScope dataSourcesScope,
                                                        PageScope pageScope,
                                                        Object... scopes) {
-        Map<String, Datasource> compiledDataSources = new HashMap<>();
+        Map<String, AbstractDatasource> compiledDataSources = new HashMap<>();
         initContextDatasource(context, p, dataSourcesScope, pageScope);
         for (N2oDatasource ds : dataSourcesScope.values()) {
-            Datasource compiled = p.compile(ds, context, pageScope, scopes);
+            AbstractDatasource compiled = p.compile(ds, context, pageScope, scopes);
             compiledDataSources.put(compiled.getId(), compiled);
         }
         return compiledDataSources;
@@ -179,7 +179,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
     private void initContextDatasource(PageContext context, CompileProcessor p, DataSourcesScope dataSourcesScope, PageScope pageScope) {
         if (context.getDatasources() != null) {
-            for (N2oDatasource ctxDs : context.getDatasources()) {
+            for (N2oQueryDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
                 if (dataSourcesScope.containsKey(dsId))
                     dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));

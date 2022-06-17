@@ -4,11 +4,10 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
@@ -154,7 +153,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
             );
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
         if (dataSourcesScope != null)
-            checkDatasourceObject(source, dataSourcesScope.get(widgetScope.getDatasourceId()), widgetScope);
+            checkDatasourceObject(source, (N2oQueryDatasource) dataSourcesScope.get(widgetScope.getDatasourceId()), widgetScope);
     }
 
     /**
@@ -163,7 +162,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param datasource  Источник данных
      * @param widgetScope Скоуп виджета, в котором находится поле
      */
-    private void checkDatasourceObject(N2oField source, N2oDatasource datasource, WidgetScope widgetScope) {
+    private void checkDatasourceObject(N2oField source, N2oQueryDatasource datasource, WidgetScope widgetScope) {
         if (datasource.getObjectId() == null)
             throw new N2oMetadataValidationException(
                     String.format("Для компиляции поля %s виджета %s необходимо указать объект источника данных %s",

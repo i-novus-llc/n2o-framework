@@ -4,6 +4,7 @@ import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -271,7 +272,7 @@ public class PageBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml");
         PageContext context = new PageContext("testDatasourceRouteBinder", "/p/w/:param0/form");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param0", "1"));
-        assertThat(page.getDatasources().get("p_w_form_main").getSubmit().getUrl(), containsString("/p/w/1/form"));
-        assertThat(page.getDatasources().get("p_w_form_main").getProvider().getUrl(), containsString("/p/w/1/form"));
+        assertThat(((Datasource) page.getDatasources().get("p_w_form_main")).getSubmit().getUrl(), containsString("/p/w/1/form"));
+        assertThat(((Datasource) page.getDatasources().get("p_w_form_main")).getProvider().getUrl(), containsString("/p/w/1/form"));
     }
 }
