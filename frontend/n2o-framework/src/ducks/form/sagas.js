@@ -1,4 +1,4 @@
-import { takeEvery, put, select } from 'redux-saga/effects'
+import { takeEvery, put, select, call } from 'redux-saga/effects'
 import { touch, change, actionTypes } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
@@ -152,6 +152,7 @@ export function* copyAction({ payload }) {
 
     yield put(change(target.key, target.field, typeof value === 'undefined' ? null : value))
     yield put(setModel(target.prefix, target.key, newModel))
+    yield call(checkFieldValidation, { meta: { form: target.key, field: target.field } })
 }
 
 export const formPluginSagas = [
