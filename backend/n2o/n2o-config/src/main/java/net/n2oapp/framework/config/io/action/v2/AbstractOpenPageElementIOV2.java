@@ -6,15 +6,19 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.datasource.QueryDatasourceIO;
+import net.n2oapp.framework.config.io.datasource.AbstractDatasourceIO;
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Абстрактная реализация чтения/записи действия открытия страницы или модального окна версии 2.0
  */
 public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageAction> extends AbstractActionElementIOV2<T> {
+
+    private Namespace datasourceDefaultNamespace = AbstractDatasourceIO.NAMESPACE;
+
     @Override
     public void io(Element e, T op, IOProcessor p) {
         super.io(e, op, p);
@@ -31,7 +35,7 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attributeBoolean(e, "refresh-on-close", op::getRefreshOnClose, op::setRefreshOnClose);
         p.attributeBoolean(e, "unsaved-data-prompt-on-close", op::getUnsavedDataPromptOnClose, op::setUnsavedDataPromptOnClose);
         p.attribute(e, "route", op::getRoute, op::setRoute);
-        p.children(e, "datasources", "datasource", op::getDatasources,op::setDatasources, N2oQueryDatasource::new, new QueryDatasourceIO());
+        p.anyChildren(e, "datasources", op::getDatasources, op::setDatasources, p.anyOf(N2oDatasource.class), datasourceDefaultNamespace);
         p.anyChildren(e, "params", op::getParams, op::setParams,
                 p.oneOf(N2oParam.class)
                         .add("path-param", N2oPathParam.class, this::param)
@@ -44,5 +48,4 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
         p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
     }
-
 }

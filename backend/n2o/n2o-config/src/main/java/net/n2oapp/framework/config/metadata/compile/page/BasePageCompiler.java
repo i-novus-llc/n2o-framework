@@ -179,7 +179,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
     private void initContextDatasource(PageContext context, CompileProcessor p, DataSourcesScope dataSourcesScope, PageScope pageScope) {
         if (context.getDatasources() != null) {
-            for (N2oQueryDatasource ctxDs : context.getDatasources()) {
+            for (N2oDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
                 if (dataSourcesScope.containsKey(dsId))
                     dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));

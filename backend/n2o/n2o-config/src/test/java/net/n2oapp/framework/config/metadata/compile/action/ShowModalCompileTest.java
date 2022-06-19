@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -93,7 +94,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         PageContext modalContext = (PageContext) route("/p/create", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(((N2oQueryDatasource) modalContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_create"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
@@ -148,8 +149,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         PageContext modalContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPageSecondFlow"));
-        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
-        N2oPreFilter[] filters = modalContext.getDatasources().get(0).getFilters();
+        assertThat(((N2oQueryDatasource) modalContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
+        N2oPreFilter[] filters = ((N2oQueryDatasource) modalContext.getDatasources().get(0)).getFilters();
         assertThat(filters.length, is(1));
         assertThat(filters[0].getDatasource(), is("main"));
         assertThat(filters[0].getRefPageId(), is("p"));
@@ -271,8 +272,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         PageContext modalContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
         assertThat(modalContext.getDatasources().size(), is(1));
-        assertThat(modalContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
-        N2oPreFilter[] filters = modalContext.getDatasources().get(0).getFilters();
+        assertThat(((N2oQueryDatasource) modalContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
+        N2oPreFilter[] filters = ((N2oQueryDatasource) modalContext.getDatasources().get(0)).getFilters();
         assertThat(filters.length, is(1));
         assertThat(filters[0].getDatasource(), is("main"));
         assertThat(filters[0].getRefPageId(), is("p"));
@@ -426,14 +427,14 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testShowModalDefaults", "/p"));
         PageContext modalCtx = (PageContext) route("/p/update", Page.class);
         assertThat(modalCtx.getDatasources().size(), is(1));
-        assertThat(modalCtx.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(((N2oQueryDatasource) modalCtx.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         SimplePage modalPage = (SimplePage) routeAndGet("/p/update", Page.class);
         Datasource datasource = (Datasource) modalPage.getDatasources().get("p_update_modal");
         assertThat(datasource.getProvider(), nullValue());
 
         modalCtx = (PageContext) route("/p/update2", Page.class);
         assertThat(modalCtx.getDatasources().size(), is(1));
-        assertThat(modalCtx.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(((N2oQueryDatasource) modalCtx.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         StandardPage modalPage2 = (StandardPage) routeAndGet("/p/update2", Page.class);
         Datasource datasource1 = (Datasource) modalPage2.getDatasources().get("p_update2_main");
         assertThat(datasource1.getProvider(), nullValue());

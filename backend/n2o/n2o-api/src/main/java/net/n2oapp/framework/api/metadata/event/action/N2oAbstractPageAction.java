@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import org.apache.commons.lang3.ArrayUtils;
@@ -70,7 +71,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oParam[] params;
-    private N2oQueryDatasource[] datasources;
+    private N2oDatasource[] datasources;
     @Deprecated
     private String width;
 

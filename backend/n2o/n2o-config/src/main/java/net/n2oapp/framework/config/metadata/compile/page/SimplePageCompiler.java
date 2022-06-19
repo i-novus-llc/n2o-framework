@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -124,7 +124,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
 
     private void initContextDatasource(DataSourcesScope dataSourcesScope, PageContext context, CompileProcessor p, String widgetId) {
         if (context.getDatasources() != null) {
-            for (N2oQueryDatasource ctxDs : context.getDatasources()) {
+            for (N2oDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : widgetId;
                 if (dataSourcesScope.containsKey(dsId)) {
                     ctxDs.setId(dsId);//todo нужно клонировать ctxDs
