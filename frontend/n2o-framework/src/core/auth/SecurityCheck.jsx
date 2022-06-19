@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { getContext, compose } from 'recompose'
-import { createStructuredSelector } from 'reselect'
 import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
 
-import { userSelector } from '../../ducks/user/selectors'
+import { resolveLinksRecursively } from '../../utils/linkResolver'
 
+import withSecurity from './withSecurity'
 import { SECURITY_CHECK } from './authTypes'
 
 /**
@@ -30,24 +28,29 @@ class SecurityCheck extends React.Component {
 
     // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps) {
-        const { user, config } = this.props
+        const { user, config, store } = this.props
+        const resolvedConfig = resolveLinksRecursively(config, store)
+        const nextResolvedConfig = resolveLinksRecursively(config, nextProps.store)
 
         if (
             !isEqual(nextProps.user, user) ||
-            !isEqual(nextProps.config, config)
+            !isEqual(nextProps.config, config) ||
+            !isEqual(nextResolvedConfig, resolvedConfig)
         ) {
-            this.checkPermissions(nextProps)
+            this.checkPermissions(nextProps, nextResolvedConfig)
         }
     }
 
-    async checkPermissions(params) {
-        const { authProvider, config, user } = params
+    async checkPermissions(params, resolvedConfig) {
+        const { authProvider, config, user, store } = params
         const { onPermissionsSet } = this.props
 
         try {
             const permissions = await authProvider(SECURITY_CHECK, {
-                config,
+                store,
                 user,
+                config,
+                resolvedConfig,
             })
 
             this.setState(
@@ -74,23 +77,16 @@ class SecurityCheck extends React.Component {
 }
 
 SecurityCheck.propTypes = {
-    onPermissionsSet: PropTypes.func,
-    config: PropTypes.object,
+    store: PropTypes.object,
     user: PropTypes.object,
+    config: PropTypes.object,
     render: PropTypes.func,
+    onPermissionsSet: PropTypes.func,
 }
 
 SecurityCheck.defaultProps = {
+    store: {},
     onPermissionsSet: () => {},
 }
 
-const mapStateToProps = createStructuredSelector({
-    user: userSelector,
-})
-
-export default compose(
-    getContext({
-        authProvider: PropTypes.func,
-    }),
-    connect(mapStateToProps),
-)(SecurityCheck)
+export default withSecurity(SecurityCheck)

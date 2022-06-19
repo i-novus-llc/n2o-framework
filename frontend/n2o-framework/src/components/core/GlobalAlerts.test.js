@@ -2,6 +2,9 @@ import React from 'react'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
+import FactoryProvider from '../../core/factory/FactoryProvider'
+import createFactoryConfig from '../../core/factory/createFactoryConfig'
+
 import { GlobalAlerts } from './GlobalAlerts'
 
 const setup = (propsOverride = {}) => {
@@ -42,7 +45,11 @@ const setup = (propsOverride = {}) => {
         ],
     }
 
-    return mount(<GlobalAlerts {...props} {...propsOverride} />)
+    return mount(
+        <FactoryProvider config={createFactoryConfig({})}>
+            <GlobalAlerts {...props} {...propsOverride} />
+        </FactoryProvider>
+    )
 }
 
 describe('<GlobalAlerts />', () => {

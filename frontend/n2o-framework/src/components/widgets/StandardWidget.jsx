@@ -12,6 +12,7 @@ const PLACES = {
     top: 'top',
     left: 'left',
     right: 'right',
+    center: 'center',
     topLeft: 'topLeft',
     topRight: 'topRight',
     topCenter: 'topCenter',
@@ -32,11 +33,7 @@ class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
         const { widgetId, toolbar, filter, setFilter, filterModel, fetchData } = this.props
-        const { [place]: propsPlace } = this.props
 
-        if (propsPlace && React.isValidElement(propsPlace)) {
-            return propsPlace
-        }
         const filterProps = {
             ...filter,
             fieldsets: filter.filterFieldsets,
@@ -62,7 +59,28 @@ class StandardWidget extends React.Component {
             case PLACES.bottomLeft:
             case PLACES.bottomRight:
             case PLACES.bottomCenter: {
-                return <Toolbar toolbar={toolbar[place]} entityKey={widgetId} />
+                const { [place]: propsPlace } = this.props
+                const hasPropsPlace = propsPlace && React.isValidElement(propsPlace)
+                const toolbarClassNames = classNames(
+                    'd-flex',
+                    {
+                        'flex-column': place.includes(PLACES.bottom),
+                        'flex-column-reverse': place.includes(PLACES.top),
+                        'align-items-center': place.toLowerCase().includes(PLACES.center),
+                        'align-items-end': place.toLowerCase().includes(PLACES.right),
+                    },
+                )
+
+                return (
+                    <div className={toolbarClassNames}>
+                        {hasPropsPlace && (
+                            <div className={`m${place.includes(PLACES.top) ? 't' : 'b'}-2`}>
+                                {propsPlace}
+                            </div>
+                        )}
+                        <Toolbar toolbar={toolbar[place]} entityKey={widgetId} />
+                    </div>
+                )
             }
             default:
                 break

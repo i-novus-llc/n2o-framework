@@ -14,11 +14,12 @@ import Buttons from '../../../../snippets/Filter/Buttons'
 // eslint-disable-next-line react/prefer-stateless-function
 class FilterButtonsField extends React.Component {
     render() {
-        const { visible, searchLabel, resetLabel } = this.props
+        const { visible, searchLabel, resetLabel, className } = this.props
         const { _widgetFilter } = this.context
 
         return visible ? (
             <Buttons
+                className={className}
                 searchLabel={searchLabel}
                 resetLabel={resetLabel}
                 onSearch={_widgetFilter.filter}
@@ -29,6 +30,7 @@ class FilterButtonsField extends React.Component {
 }
 
 FilterButtonsField.propTypes = {
+    className: PropTypes.string,
     searchLabel: PropTypes.string,
     resetLabel: PropTypes.string,
     visible: PropTypes.bool,

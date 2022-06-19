@@ -6,11 +6,11 @@ import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.io.application.ApplicationIOv2;
+import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationCompiler;
-import net.n2oapp.framework.config.metadata.compile.application.ApplicationIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
-import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -31,7 +31,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack());
-        builder.ios(new SimpleMenuIOv3(), new ApplicationIOv2());
+        builder.ios(new NavMenuIOv3(), new ApplicationIOv2());
         builder.compilers(new SimpleMenuCompiler(), new ApplicationCompiler());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/menu/testApplication.application.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/menu/testMenu.page.xml"));
@@ -78,8 +78,6 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(subMenuItem.getHref(), is("/profile"));
 
         assertThat(dropdownMenu.getSubItems().size(), is(1));
-//        assertThat(dropdownMenu.getSubItems().get(1).getType(), is("divider"));
-//        assertThat(dropdownMenu.getSubItems().get(3).getType(), is("divider"));
 
         dropdownMenu = menu.getItems().get(3);
         assertThat(dropdownMenu.getTitle(), is("Сообщения"));
