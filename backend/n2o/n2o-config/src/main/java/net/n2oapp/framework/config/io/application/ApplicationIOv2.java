@@ -3,13 +3,13 @@ package net.n2oapp.framework.config.io.application;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.application.header.HeaderIOv2;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv2;
 import net.n2oapp.framework.config.io.datasource.BrowserStorageDatasourceIO;
-import net.n2oapp.framework.config.io.datasource.QueryDatasourceIO;
+import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
 import net.n2oapp.framework.config.io.event.StompEventIO;
 import org.jdom2.Element;
@@ -45,7 +45,7 @@ public class ApplicationIOv2 implements NamespaceIO<N2oApplication> {
         p.children(e, null, "sidebar", m::getSidebars, m::setSidebars, new SidebarIOv2());
         p.child(e, null, "footer", m::getFooter, m::setFooter, new FooterIO());
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.oneOf(N2oAbstractDatasource.class)
-                .add("datasource", N2oQueryDatasource.class, new QueryDatasourceIO())
+                .add("datasource", N2oStandardDatasource.class, new StandardDatasourceIO())
                 .add("stomp-datasource", N2oStompDatasource.class, new StompDatasourceIO())
                 .add("browser-storage", N2oBrowserStorageDatasource.class, new BrowserStorageDatasourceIO()));
         p.anyChildren(e, "events", m::getEvents, m::setEvents, p.oneOf(N2oAbstractEvent.class)

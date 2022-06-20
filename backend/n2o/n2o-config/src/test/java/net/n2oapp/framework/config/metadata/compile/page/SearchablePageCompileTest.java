@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
@@ -56,7 +56,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.filter));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage_table"));
 
-        BindLink bindLink = ((Datasource) page.getDatasources().get("testSearchablePage_table")).getProvider().getQueryMapping().get("table_name");
+        BindLink bindLink = ((StandardDatasource) page.getDatasources().get("testSearchablePage_table")).getProvider().getQueryMapping().get("table_name");
         assertThat(bindLink.normalizeLink(), is("models.filter['testSearchablePage_table'].name"));
     }
 
@@ -77,7 +77,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.filter));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage2_table"));
 
-        BindLink bindLink = ((Datasource) page.getDatasources().get("testSearchablePage2_table")).getProvider().getQueryMapping().get("name");
+        BindLink bindLink = ((StandardDatasource) page.getDatasources().get("testSearchablePage2_table")).getProvider().getQueryMapping().get("name");
         assertThat(bindLink.normalizeLink(), is("models.filter['testSearchablePage2_table'].name"));
         assertThat(page.getClassName(), is("testClass"));
         assertThat(page.getStyle().size(), is(2));

@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
@@ -57,7 +57,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     public Table compile(N2oTable source, CompileContext<?, ?> context, CompileProcessor p) {
         Table table = new Table();
         TableWidgetComponent component = table.getComponent();
-        N2oQueryDatasource datasource = initInlineDatasource(table, source, p);
+        N2oStandardDatasource datasource = initInlineDatasource(table, source, p);
         CompiledQuery query = getQuery(source, datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(table, source, context, p, object);
@@ -183,7 +183,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         String datasourceId = source.getFiltersDatasourceId();
         if (source.getFiltersDatasourceId() == null) {
             datasourceId = CompileUtil.generateSourceDatasourceId(source.getId() + "_filter");
-            N2oQueryDatasource datasource = source.getFiltersDatasource();
+            N2oStandardDatasource datasource = source.getFiltersDatasource();
             source.setFiltersDatasource(null);
             datasource.setId(datasourceId);
             source.setFiltersDatasourceId(datasourceId);

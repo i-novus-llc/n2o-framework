@@ -7,6 +7,9 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
+/**
+ * Исходная модель базового источника данных
+ */
 @Getter
 @Setter
 public abstract class N2oDatasource extends N2oAbstractDatasource implements NamespaceUriAware{
@@ -28,6 +31,4 @@ public abstract class N2oDatasource extends N2oAbstractDatasource implements Nam
         private String on;
         private ReduxModel model;
     }
-
-
 }

@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
@@ -18,11 +18,11 @@ import org.jdom2.Element;
 /**
  * Чтение\запись источника данных
  */
-public class QueryDatasourceIO extends AbstractDatasourceIO<N2oQueryDatasource> implements NamespaceIO<N2oQueryDatasource> {
+public class StandardDatasourceIO extends AbstractDatasourceIO<N2oStandardDatasource> implements NamespaceIO<N2oStandardDatasource> {
 
     @Override
-    public Class<N2oQueryDatasource> getElementClass() {
-        return N2oQueryDatasource.class;
+    public Class<N2oStandardDatasource> getElementClass() {
+        return N2oStandardDatasource.class;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class QueryDatasourceIO extends AbstractDatasourceIO<N2oQueryDatasource> 
     }
 
     @Override
-    public void io(Element e, N2oQueryDatasource ds, IOProcessor p) {
+    public void io(Element e, N2oStandardDatasource ds, IOProcessor p) {
         super.io(e, ds, p);
         p.attribute(e, "query-id", ds::getQueryId, ds::setQueryId);
         p.attribute(e, "object-id", ds::getObjectId, ds::setObjectId);
@@ -40,8 +40,8 @@ public class QueryDatasourceIO extends AbstractDatasourceIO<N2oQueryDatasource> 
         p.attributeInteger(e, "size", ds::getSize, ds::setSize);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, Submit::new, this::submit);
         p.anyChildren(e, "dependencies", ds::getDependencies, ds::setDependencies,
-                p.oneOf(N2oQueryDatasource.Dependency.class)
-                        .add("fetch", N2oQueryDatasource.FetchDependency.class, this::fetch));
+                p.oneOf(N2oStandardDatasource.Dependency.class)
+                        .add("fetch", N2oStandardDatasource.FetchDependency.class, this::fetch));
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);
     }
@@ -58,7 +58,7 @@ public class QueryDatasourceIO extends AbstractDatasourceIO<N2oQueryDatasource> 
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
-    private void fetch(Element e, N2oQueryDatasource.FetchDependency t, IOProcessor p) {
+    private void fetch(Element e, N2oStandardDatasource.FetchDependency t, IOProcessor p) {
         p.attribute(e, "on", t::getOn, t::setOn);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
     }

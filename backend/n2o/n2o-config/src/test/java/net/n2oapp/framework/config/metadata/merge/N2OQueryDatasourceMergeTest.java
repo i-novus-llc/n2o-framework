@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.merge;
 
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -46,7 +46,7 @@ public class N2OQueryDatasourceMergeTest extends SourceMergerTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/merge/testDatasourceMerger.object.xml"));
         Page page = builder.read().compile().get(pageContext);
         Page modal1 = builder.read().compile().get(builder.route("/modal1", Page.class, null));
-        Datasource mainDs = (Datasource) modal1.getDatasources().get("modal1_main");
+        StandardDatasource mainDs = (StandardDatasource) modal1.getDatasources().get("modal1_main");
         assertThat(mainDs, notNullValue());
         assertThat(mainDs.getDefaultValuesMode(), is(DefaultValuesMode.query));
         assertThat(mainDs.getProvider(), notNullValue());
@@ -54,7 +54,7 @@ public class N2OQueryDatasourceMergeTest extends SourceMergerTestBase {
 
         Page modal2 = builder.read().compile().get(builder.route("/modal2", Page.class, null));
         assertThat(modal2.getDatasources().get("modal2_ds1"), notNullValue());
-        Datasource ds2 = (Datasource) modal2.getDatasources().get("modal2_ds2");
+        StandardDatasource ds2 = (StandardDatasource) modal2.getDatasources().get("modal2_ds2");
         assertThat(ds2, notNullValue());
         assertThat(ds2.getDefaultValuesMode(), is(DefaultValuesMode.query));
         assertThat(ds2.getProvider(), notNullValue());

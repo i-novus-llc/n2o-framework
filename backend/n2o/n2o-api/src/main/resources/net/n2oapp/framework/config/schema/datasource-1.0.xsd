@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
->
-    <xs:element name="datasource" type="queryDatasourceDefinition"/>
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="datasources">
+        <xs:sequence>
+            <xs:element name="datasource" type="standardDatasourceDefinition" minOccurs="0"/>
+            <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="datasource" type="standardDatasourceDefinition"/>
     <xs:element name="browser-storage" type="browserStorageDatasourceDefinition"/>
 
-    <xs:complexType name="queryDatasourceDefinition">
+    <xs:complexType name="standardDatasourceDefinition">
         <xs:complexContent>
             <xs:extension base="datasourceDefinition">
                 <xs:sequence>
@@ -46,14 +53,14 @@
                 <xs:sequence>
                     <xs:element name="submit" type="browserStorageDatasourceSubmit" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute type="storageType" name="storage-type">
+                <xs:attribute name="storage-type" type="storageType" default="sessionStorage">
                     <xs:annotation>
                         <xs:documentation>Тип хранилища в браузере</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute type="xs:string" name="key">
+                <xs:attribute name="key" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ключ под которым будут храниться данные</xs:documentation>
+                        <xs:documentation>Ключ, под которым будут хранится данные</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -71,9 +78,24 @@
     </xs:simpleType>
 
     <xs:complexType name="browserStorageDatasourceSubmit">
-        <xs:attribute type="xs:boolean" name="auto"/>
-        <xs:attribute type="storageType" name="storage-type"/>
-        <xs:attribute type="xs:string" name="key"/>
+        <xs:annotation>
+            <xs:documentation>Отправка полей формы на сервер при их изменении</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="auto" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Автоматически ли записывать в хранилище при изменении данных?</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="storage-type" type="storageType">
+            <xs:annotation>
+                <xs:documentation>Тип хранилища, в которое будут записываться данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="key" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ключ, под которым будут записываться данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="datasourceDefinition">

@@ -18,7 +18,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
@@ -48,7 +48,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     @Deprecated
     private String objectId;
     private String datasourceId;
-    private N2oQueryDatasource datasource;
+    private N2oStandardDatasource datasource;
     @Deprecated
     private Integer size;
     private String cssClass;
@@ -100,7 +100,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
         if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
                 getUpload() != null || getDependsOn() != null || getDependencyCondition() != null) {
-            N2oQueryDatasource datasource = new N2oQueryDatasource();
+            N2oStandardDatasource datasource = new N2oStandardDatasource();
             setDatasource(datasource);
             datasource.setQueryId(getQueryId());
             datasource.setObjectId(getObjectId());
@@ -125,10 +125,10 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
             }
 
             if (getDependsOn() != null) {
-                N2oQueryDatasource.FetchDependency fetchDependency = new N2oQueryDatasource.FetchDependency();
+                N2oStandardDatasource.FetchDependency fetchDependency = new N2oStandardDatasource.FetchDependency();
                 fetchDependency.setOn(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 fetchDependency.setModel(ReduxModel.resolve);
-                datasource.setDependencies(new N2oQueryDatasource.Dependency[]{fetchDependency});
+                datasource.setDependencies(new N2oStandardDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (getDetailFieldId() != null) {
                     List<N2oPreFilter> preFilters = datasource.getFilters() == null ?

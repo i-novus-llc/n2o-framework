@@ -10,11 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Источник данных
+ * Исходная модель стандартного источника данных
  */
 @Getter
 @Setter
-public class N2oQueryDatasource extends N2oDatasource {
+public class N2oStandardDatasource extends N2oDatasource {
     private String route;
     private String queryId;
     private String objectId;

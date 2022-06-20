@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget.tree;
 
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -47,7 +47,7 @@ public class TreeWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tree.getAjax(), is(true));
         assertThat(tree.getHasCheckboxes(), is(true));
         assertThat(tree.getMultiselect(), is(false));
-        assertThat(((Datasource) page.getDatasources().get(tree.getDatasource())).getProvider().getUrl(), is("n2o/data/testTreeCompile/main"));
-        assertThat(((Datasource) page.getDatasources().get(tree.getDatasource())).getSize(), is(200));
+        assertThat(((StandardDatasource) page.getDatasources().get(tree.getDatasource())).getProvider().getUrl(), is("n2o/data/testTreeCompile/main"));
+        assertThat(((StandardDatasource) page.getDatasources().get(tree.getDatasource())).getSize(), is(200));
     }
 }

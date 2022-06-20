@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Клиентская модель источника данных для localStorage в браузере
+ * Клиентская модель источника, хранящего данные в локальном или сессионном хранилище браузера
  */
 @Getter
 @Setter
@@ -46,9 +46,9 @@ public class BrowserStorageDatasource extends AbstractDatasource {
         @JsonProperty
         private String type = "browser";
         @JsonProperty
-        private Boolean auto;
-        @JsonProperty
         private String key;
+        @JsonProperty
+        private Boolean auto;
         @JsonProperty
         private N2oBrowserStorageDatasource.BrowserStorageType storage;
     }

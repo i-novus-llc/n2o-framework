@@ -10,6 +10,6 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 @Getter
 @Setter
 public abstract class N2oAbstractDatasource implements Source, IdAware {
-    private String namespaceUri;
     private String id;
+    private String namespaceUri;
 }

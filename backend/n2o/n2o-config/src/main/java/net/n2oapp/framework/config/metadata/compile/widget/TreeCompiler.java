@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
@@ -31,7 +31,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     @Override
     public Tree compile(N2oTree source, CompileContext<?, ?> context, CompileProcessor p) {
         Tree tree = new Tree();
-        N2oQueryDatasource datasource = initInlineDatasource(tree, source, p);
+        N2oStandardDatasource datasource = initInlineDatasource(tree, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(tree, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
@@ -53,8 +53,8 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     }
 
     @Override
-    protected N2oQueryDatasource initInlineDatasource(Tree compiled, N2oTree source, CompileProcessor p) {
-        N2oQueryDatasource datasource = super.initInlineDatasource(compiled, source, p);
+    protected N2oStandardDatasource initInlineDatasource(Tree compiled, N2oTree source, CompileProcessor p) {
+        N2oStandardDatasource datasource = super.initInlineDatasource(compiled, source, p);
         if (datasource.getSize() == null)
             datasource.setSize(p.resolve(property("n2o.api.widget.tree.size"), Integer.class));
         return datasource;

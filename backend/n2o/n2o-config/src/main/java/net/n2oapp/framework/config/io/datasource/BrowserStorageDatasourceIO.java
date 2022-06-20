@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatas
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserStorageDatasource> implements NamespaceIO<N2oBrowserStorageDatasource> {
-
-    public static Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/datasource-1.0");
 
     @Override
     public void io(Element e, N2oBrowserStorageDatasource ds, IOProcessor p) {

@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCustomWidget;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.CustomWidget;
@@ -26,7 +26,7 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
     @Override
     public CustomWidget compile(N2oCustomWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         CustomWidget widget = new CustomWidget();
-        N2oQueryDatasource datasource = initInlineDatasource(widget, source, p);
+        N2oStandardDatasource datasource = initInlineDatasource(widget, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(widget, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));

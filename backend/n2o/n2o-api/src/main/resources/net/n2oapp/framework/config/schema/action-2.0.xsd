@@ -142,12 +142,12 @@
             <xs:documentation>Переопределение источников данных в открываемой странице.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="datasource" type="inlineQueryDatasourceDefinition" minOccurs="0"/>
+            <xs:element name="datasource" type="inlineStandardDatasourceDefinition" minOccurs="0"/>
             <xs:element name="browser-storage" type="inlineBrowserStorageDatasourceDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="inlineDatasourceDefinition">
+    <xs:complexType name="inlineBrowserStorageDatasourceDefinition">
         <xs:annotation>
             <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
         </xs:annotation>
@@ -156,26 +156,16 @@
                 <xs:documentation>Идентификатор, у которого необходимо переопределить данные.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="inlineBrowserStorageDatasourceDefinition">
-        <xs:complexContent>
-            <xs:extension base="inlineDatasourceDefinition">
-                <xs:annotation>
-                    <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="key" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Ключ под которым будут храниться данные</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="storage-type" type="storageType">
-                    <xs:annotation>
-                        <xs:documentation>Тип хранилища в браузере</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
+        <xs:attribute name="key" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ключ под которым будут храниться данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="storage-type" type="storageType">
+            <xs:annotation>
+                <xs:documentation>Тип хранилища в браузере</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:simpleType name="storageType">
@@ -188,29 +178,30 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="inlineQueryDatasourceDefinition">
-        <xs:complexContent>
-            <xs:extension base="inlineDatasourceDefinition">
-                <xs:annotation>
-                    <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="query-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор запроса.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="object-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор объекта.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="default-values-mode" type="defaultValuesMode">
-                    <xs:annotation>
-                        <xs:documentation>Режим проставления значений по умолчанию.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
+    <xs:complexType name="inlineStandardDatasourceDefinition">
+        <xs:annotation>
+            <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор, у которого необходимо переопределить данные.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="query-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор запроса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="object-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор объекта.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="default-values-mode" type="defaultValuesMode">
+            <xs:annotation>
+                <xs:documentation>Режим проставления значений по умолчанию.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="openPageDefinition">

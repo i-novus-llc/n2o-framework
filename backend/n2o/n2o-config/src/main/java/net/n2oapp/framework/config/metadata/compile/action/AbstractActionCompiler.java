@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -175,7 +175,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         if (datasourceId != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null && dataSourcesScope.containsKey(datasourceId))
-                return ((N2oQueryDatasource) dataSourcesScope.get(datasourceId)).getObjectId();
+                return ((N2oStandardDatasource) dataSourcesScope.get(datasourceId)).getObjectId();
         }
         return null;
     }

@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -161,8 +161,8 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         List<N2oPreFilter> filters = new ArrayList<>();
         if (datasources != null)
             datasources.stream()
-                    .filter(ds -> ds instanceof N2oQueryDatasource)
-                    .forEach(ds -> filters.addAll(Arrays.asList(((N2oQueryDatasource) ds).getFilters())));
+                    .filter(ds -> ds instanceof N2oStandardDatasource)
+                    .forEach(ds -> filters.addAll(Arrays.asList(((N2oStandardDatasource) ds).getFilters())));
         return filters;
     }
 }

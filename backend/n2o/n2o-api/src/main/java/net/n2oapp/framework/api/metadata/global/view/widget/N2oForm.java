@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.control.SubmitOn;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 
 /**
  * Исходная модель виджета Форма
@@ -29,7 +29,7 @@ public class N2oForm extends N2oWidget {
         }
         if (getSubmit() != null) {
             if (getDatasource() == null)
-                setDatasource(new N2oQueryDatasource());
+                setDatasource(new N2oStandardDatasource());
             getDatasource().setSubmit(getSubmit());
             if (getDatasource().getSubmit().getRefreshWidgetId() != null) {
                 getDatasource().getSubmit().setRefreshDatasources(

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 
 
 @Getter
@@ -14,7 +14,7 @@ public class N2oTable extends N2oAbstractTable {
     private Boolean filterOpened;
     private SourceComponent[] filters;
     private String filtersDatasourceId;
-    private N2oQueryDatasource filtersDatasource;
+    private N2oStandardDatasource filtersDatasource;
     @Deprecated
     private String filtersDefaultValuesQueryId;
     private Boolean searchOnChange;
@@ -41,7 +41,7 @@ public class N2oTable extends N2oAbstractTable {
     public void adapterV4() {
         super.adapterV4();
         if (getFiltersDefaultValuesQueryId() != null) {
-            N2oQueryDatasource datasource = new N2oQueryDatasource();
+            N2oStandardDatasource datasource = new N2oStandardDatasource();
             setFiltersDatasource(datasource);
             datasource.setQueryId(getFiltersDefaultValuesQueryId());
             datasource.setDefaultValuesMode(DefaultValuesMode.merge);

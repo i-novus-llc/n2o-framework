@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -49,6 +49,6 @@ public class QueryDatasourceBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testFormBinderAutoSubmit", "/p/w/:param0/form");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param0", "1"));
         Form form = (Form) page.getWidget();
-        assertThat(((Datasource) page.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), containsString("/p/w/1/form"));
+        assertThat(((StandardDatasource) page.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), containsString("/p/w/1/form"));
     }
 }

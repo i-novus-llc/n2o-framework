@@ -4,7 +4,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -105,8 +105,8 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             for (Widget<?> w : widgets)
                 if (w.getFiltersDatasourceId() != null) {
                     AbstractDatasource filterDatasource = page.getDatasources().get(w.getFiltersDatasourceId());
-                    if (!Datasource.class.isInstance(filterDatasource)) continue;
-                    DataSet data = p.executeQuery(((Datasource)filterDatasource).getQueryId());
+                    if (!StandardDatasource.class.isInstance(filterDatasource)) continue;
+                    DataSet data = p.executeQuery(((StandardDatasource)filterDatasource).getQueryId());
                     if (data != null) {
                         data.forEach((k, v) -> {
                             //todo NNO-7523   && !p.canResolveParam(f.getParam())
@@ -135,9 +135,9 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
 
     private void bindDatasources(D page, BindProcessor p) {
         if (page.getDatasources() != null) {
-            List<Datasource> datasources = page.getDatasources().values().stream().
-                    filter(ds -> ds instanceof Datasource).
-                    map(ds -> ((Datasource) ds)).
+            List<StandardDatasource> datasources = page.getDatasources().values().stream().
+                    filter(ds -> ds instanceof StandardDatasource).
+                    map(ds -> ((StandardDatasource) ds)).
                     collect(Collectors.toList());
             datasources.stream().filter(ds -> ds.getProvider() != null)
                     .forEach(ds -> BindUtil.bindDataProvider(ds.getProvider(), p));

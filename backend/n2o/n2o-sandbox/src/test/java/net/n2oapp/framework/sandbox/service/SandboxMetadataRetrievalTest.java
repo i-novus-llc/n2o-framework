@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -108,10 +108,10 @@ public class SandboxMetadataRetrievalTest {
 
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("Моя первая страница"));
 
-        assertThat(((Datasource) page.getDatasources().get("_main")).getDependencies().size(), is(0));
+        assertThat(((StandardDatasource) page.getDatasources().get("_main")).getDependencies().size(), is(0));
         assertThat(page.getDatasources().get("_main").getId(), is("_main"));
-        assertThat(((Datasource) page.getDatasources().get("_main")).getSize(), is(1));
-        assertThat(((Datasource) page.getDatasources().get("_main")).getValidations().size(), is(0));
+        assertThat(((StandardDatasource) page.getDatasources().get("_main")).getSize(), is(1));
+        assertThat(((StandardDatasource) page.getDatasources().get("_main")).getValidations().size(), is(0));
 
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));
 

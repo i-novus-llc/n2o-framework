@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -72,17 +72,17 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(master, notNullValue());
         assertThat(detail, notNullValue());
         assertThat(panel, notNullValue());
-        ClientDataProvider masterProvider = ((Datasource) page.getDatasources().get(master.getDatasource())).getProvider();
+        ClientDataProvider masterProvider = ((StandardDatasource) page.getDatasources().get(master.getDatasource())).getProvider();
         assertThat(masterProvider.getUrl(), is("n2o/data/testStandardPageDependency/master"));
-        ClientDataProvider detailProvider = ((Datasource) page.getDatasources().get(detail.getDatasource())).getProvider();
+        ClientDataProvider detailProvider = ((StandardDatasource) page.getDatasources().get(detail.getDatasource())).getProvider();
         assertThat(detailProvider.getUrl(), is("n2o/data/testStandardPageDependency/detail"));
-        Map<String, ModelLink> detailQueryMapping = ((Datasource) page.getDatasources().get(detail.getDatasource())).getProvider().getQueryMapping();
+        Map<String, ModelLink> detailQueryMapping = ((StandardDatasource) page.getDatasources().get(detail.getDatasource())).getProvider().getQueryMapping();
         assertThat(detailQueryMapping.get("detail_parent_id").getParam(), is("detail_parent_id"));
         assertThat(detailQueryMapping.get("detail_parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(detailQueryMapping.get("detail_parent_id").getValue(), is("`id`"));
-        ClientDataProvider panelProvider = ((Datasource) page.getDatasources().get(panel.getDatasource())).getProvider();
+        ClientDataProvider panelProvider = ((StandardDatasource) page.getDatasources().get(panel.getDatasource())).getProvider();
         assertThat(panelProvider.getUrl(), is("n2o/data/testStandardPageDependency/panel1"));
-        Map<String, ModelLink> panelQueryMapping = ((Datasource) page.getDatasources().get(panel.getDatasource())).getProvider().getQueryMapping();
+        Map<String, ModelLink> panelQueryMapping = ((StandardDatasource) page.getDatasources().get(panel.getDatasource())).getProvider().getQueryMapping();
         assertThat(panelQueryMapping.get("panel1_parent_id").getParam(), is("panel1_parent_id"));
         assertThat(panelQueryMapping.get("panel1_parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail']"));
         assertThat(panelQueryMapping.get("panel1_parent_id").getValue(), is("`parent.id`"));
@@ -103,7 +103,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
 
-        ClientDataProvider detail1Ds = ((Datasource) page.getDatasources().get("testWidgetPrefilters_detail1")).getProvider();
+        ClientDataProvider detail1Ds = ((StandardDatasource) page.getDatasources().get("testWidgetPrefilters_detail1")).getProvider();
         assertThat(detail1Ds.getQueryMapping().get("detail1_parent_id").getBindLink(), is("models.resolve['testWidgetPrefilters_master1']"));
         assertThat(detail1Ds.getQueryMapping().get("detail1_parent_id").getValue(), is("`id`"));
         assertThat(detail1Ds.getQueryMapping().get("detail1_genders_id").getValue(), is(Arrays.asList(1, 2)));
@@ -114,7 +114,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detail1QueryCtx.getFilters().size(), is(3));
         assertThat(detail1QueryCtx.getFilters().stream().map(Filter::getParam).collect(Collectors.toList()), hasItems("nameParam", "detail1_parent_id", "detail1_genders_id"));
 
-        ClientDataProvider detail2Ds = ((Datasource) page.getDatasources().get("testWidgetPrefilters_detail2")).getProvider();
+        ClientDataProvider detail2Ds = ((StandardDatasource) page.getDatasources().get("testWidgetPrefilters_detail2")).getProvider();
         assertThat(detail2Ds.getQueryMapping().get("detail2_name").getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
         assertThat(detail2Ds.getQueryMapping().get("detail2_name").getValue(), is("`name`"));
         assertThat(detail2Ds.getQueryMapping().get("detail2_genders_id").getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
@@ -136,8 +136,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testChainWidgetFetching.page.xml")
                 .get(new PageContext("testChainWidgetFetching"));
 
-        assertThat(((Datasource) page.getDatasources().get("_form")).getProvider().getPathMapping().size(), is(1));
-        assertThat(((Datasource) page.getDatasources().get("_form")).getProvider().getPathMapping().get("param1").normalizeLink(), is("models.resolve['_table'].id"));
+        assertThat(((StandardDatasource) page.getDatasources().get("_form")).getProvider().getPathMapping().size(), is(1));
+        assertThat(((StandardDatasource) page.getDatasources().get("_form")).getProvider().getPathMapping().get("param1").normalizeLink(), is("models.resolve['_table'].id"));
 
 //        deprecated
 //        assertThat(page.getDatasources().get("form2").getProvider().getPathMapping().size(), is(2));
