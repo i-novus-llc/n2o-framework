@@ -19,6 +19,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.Arrays;
 
+import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
@@ -50,14 +51,9 @@ public class N2oClientDataProviderUtil {
             dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
         }
 
-//        dataProvider.setUrl(isDynamic(queryId) ?
-//                query.getRoute() + "?" + RouteUtil.parseQuery(queryId) : query.getRoute());
-        dataProvider.setUrl(query.getRoute());
-        N2oParam n2oParam = new N2oParam();
-        n2oParam.setName("table");
-        n2oParam.setValue(RouteUtil.parseQueryParams(queryId).get("table"));
-        n2oParam.setValueParam("table");
-        dataProvider.setQueryParams(new N2oParam[]{n2oParam});
+        dataProvider.setUrl(isDynamic(queryId) ?
+                query.getRoute() + "?" + RouteUtil.parseQuery(queryId) : query.getRoute());
+
         if (preFilters != null) {
             N2oParam[] queryParams = new N2oParam[preFilters.length];
             for (int i = 0; i < preFilters.length; i++) {

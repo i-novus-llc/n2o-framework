@@ -60,11 +60,11 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(table, instanceOf(Table.class));
         assertThat(table.getComponent().getCells().size(), is(1));
         assertThat(table.getComponent().getCells().get(0).getId(), is("id"));
-        CompiledQuery query = routeAndGet("/test/route/main", CompiledQuery.class);
+        CompiledQuery query = routeAndGet("/test/route/main?Dummy", CompiledQuery.class);
         assertThat(query.getId(), is("testDynamic?Dummy"));
         assertThat(((N2oSqlDataProvider) query.getLists()[0].getInvocation()).getQuery(), is("test select"));
         // динамическая страница в контекстно-независимой кнопке
-        SimplePage dynamicCreatePage = (SimplePage) routeAndGet("/test/route/create", Page.class);
+        SimplePage dynamicCreatePage = (SimplePage) routeAndGet("/test/route/create?Dummy", Page.class);
         assertThat(dynamicCreatePage.getId(), is("test_route_create"));
         assertThat(dynamicCreatePage.getWidget(), instanceOf(Form.class));
         assertThat((((Form) dynamicCreatePage.getWidget()).getComponent().getFieldsets().get(0)
@@ -72,7 +72,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(((StandardField) ((Form) dynamicCreatePage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
         // динамическая страница в контекстной кнопке
-        SimplePage dynamicPage = (SimplePage) routeAndGet("/test/route/123/update", Page.class);
+        SimplePage dynamicPage = (SimplePage) routeAndGet("/test/route/123/update?Dummy", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_update"));
         assertThat(dynamicPage.getWidget(), instanceOf(Form.class));
         assertThat(dynamicPage.getWidget().getName(), is("Dummy"));
@@ -82,7 +82,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
 
 
-        dynamicPage = (SimplePage) routeAndGet("/test/route/second/123/update", Page.class);
+        dynamicPage = (SimplePage) routeAndGet("/test/route/second/123/update?{id}", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_second_123_update"));
         assertThat(dynamicPage.getWidget(), instanceOf(Form.class));
         assertThat(dynamicPage.getWidget().getName(), is("123"));
