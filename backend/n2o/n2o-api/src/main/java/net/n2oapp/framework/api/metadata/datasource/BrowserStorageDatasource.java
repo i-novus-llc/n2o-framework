@@ -32,17 +32,24 @@ public class BrowserStorageDatasource extends AbstractDatasource {
     @Getter
     @Setter
     public static class Provider {
+        @JsonProperty
         private String type = "browser";
+        @JsonProperty
         private String key;
+        @JsonProperty
         private N2oBrowserStorageDatasource.BrowserStorageType storage;
     }
 
     @Getter
     @Setter
     public static class Submit {
+        @JsonProperty
         private String type = "browser";
+        @JsonProperty
         private Boolean auto;
+        @JsonProperty
         private String key;
+        @JsonProperty
         private N2oBrowserStorageDatasource.BrowserStorageType storage;
     }
 }

@@ -142,8 +142,8 @@
             <xs:documentation>Переопределение источников данных в открываемой странице.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="datasource" type="inlineQueryDatasourceDefinition"/>
-            <xs:element name="browser-storage" type="inlineBrowserStorageDatasourceDefinition"/>
+            <xs:element name="datasource" type="inlineQueryDatasourceDefinition" minOccurs="0"/>
+            <xs:element name="browser-storage" type="inlineBrowserStorageDatasourceDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 

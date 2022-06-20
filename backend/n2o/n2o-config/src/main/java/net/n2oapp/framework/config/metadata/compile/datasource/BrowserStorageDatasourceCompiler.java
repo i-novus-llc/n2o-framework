@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -40,7 +41,7 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
         initDatasource(compiled, source, context, p);
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         compiled.setProvider(initProvider(source, p));
-        compiled.setSubmit(initSubmit(source,p));
+        compiled.setSubmit(initSubmit(source, p));
         compiled.setDependencies(initDependencies(source, p));
         compiled.setValidations(initValidations(source, p));
         return compiled;
@@ -78,10 +79,11 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
     }
 
     private BrowserStorageDatasource.Submit initSubmit(N2oBrowserStorageDatasource source, CompileProcessor p) {
+        if (isNull(source.getSubmit())) source.setSubmit(new N2oBrowserStorageDatasource.Submit());
         BrowserStorageDatasource.Submit submit = new BrowserStorageDatasource.Submit();
         submit.setKey(p.cast(source.getSubmit().getKey(), source.getId()));
         submit.setAuto(source.getSubmit().getAuto());
-        submit.setStorage(p.cast(source.getSubmit().getStorageType(), N2oBrowserStorageDatasource.BrowserStorageType.sessionStorage));
+        submit.setStorage(p.cast(source.getSubmit().getStorageType(), source.getStorageType(), N2oBrowserStorageDatasource.BrowserStorageType.sessionStorage));
         return submit;
     }
 
