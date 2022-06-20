@@ -15,11 +15,9 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.Arrays;
 
-import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
@@ -51,8 +49,7 @@ public class N2oClientDataProviderUtil {
             dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
         }
 
-        dataProvider.setUrl(isDynamic(queryId) ?
-                query.getRoute() + "?" + RouteUtil.parseQuery(queryId) : query.getRoute());
+        dataProvider.setUrl(query.getRoute());
 
         if (preFilters != null) {
             N2oParam[] queryParams = new N2oParam[preFilters.length];

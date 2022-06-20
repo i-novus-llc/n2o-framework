@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
@@ -41,12 +42,16 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     @Override
     public CompiledQuery compile(N2oQuery source, QueryContext context, CompileProcessor p) {
         CompiledQuery query = new CompiledQuery();
-        query.setId(context.getSourceId((N2oCompileProcessor) p));
+        String queryId = context.getSourceId((N2oCompileProcessor) p);
+        query.setId(queryId);
         if (source.getObjectId() != null) {
             query.setObject(p.getCompiled(new ObjectContext(source.getObjectId())));
         }
         query.setName(p.cast(source.getName(), source.getId()));
-        query.setRoute(normalize(p.cast(source.getRoute(), source.getId())));
+
+        String route = normalize(p.cast(source.getRoute(), source.getId()));
+        query.setRoute(isDynamic(queryId) ? route + "?" + RouteUtil.parseQuery(queryId) : route);
+
         query.setLists(initSeparators(source.getLists(), p));
         query.setUniques(initSeparators(source.getUniques(), p));
         query.setCounts(initSeparators(source.getCounts(), p));
