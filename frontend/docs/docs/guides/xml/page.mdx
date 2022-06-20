@@ -2,7 +2,8 @@
 title: Страницы
 description: ""
 ---
-import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
+
+import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 **Тип метаданных**
 
@@ -264,7 +265,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 <datasources>
   <datasource id="ds1">...</datasource>
   <datasource id="ds2">...</datasource>
-  <datasource id="ds3">...</datasource>
+  <browser-storage id="ds3">...</browser-storage>
 </datasource>
 ```
 
@@ -305,6 +306,48 @@ http://n2oapp.net/framework/config/schema/page-4.0
     ...
   </dependencies>
 </datasource>
+```
+
+
+### &lt;browser-storage&gt; {#browser-storage}
+
+Источник данных
+
+**Атрибуты**
+
+|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию |
+|--------------------|-----------------------|----------------------------------------------------------------------|----------------------|
+|id                  |Строка                 |Идентификатор источника данных                                        |                      |
+|key                 |Строка                 |Ключ под которым будут храниться данные                               |                      |
+|storage-type        |Строка                 |Тип хранилища в браузере                                              |sessionStorage        |
+|size                |Число                  |Размер выборки                                                        |10                    |
+
+**Тело**
+
+#### &lt;submit&gt; {#submit}
+
+Сохранение данных
+
+**Атрибуты**
+
+|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию |
+|--------------------|-----------------------|----------------------------------------------------------------------|----------------------|
+|key                 |Строка                 |Ключ под которым будут храниться данные                               |sessionStorage        |
+|storage-type        |Строка                 |Тип хранилища в браузере                                              |                      |
+|auto                |true false             |
+
+[Зависимости источника данных](#ds_dependencies)
+
+**Пример**
+
+```xml
+<browser-storage id="ds1" key="some_key" storage-type="localStorage">
+    <submit storage-type="localStorage" auto="true" key="some_key_2"/>
+    <dependencies>
+        <fetch on="ds2"/>
+        ...
+    </dependencies>
+</browser-storage>
 ```
 
 #### Зависимости источника данных {#ds_dependencies}
