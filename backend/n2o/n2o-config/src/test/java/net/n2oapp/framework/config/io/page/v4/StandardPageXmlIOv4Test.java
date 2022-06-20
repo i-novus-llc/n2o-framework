@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.page.v4;
 
 import net.n2oapp.framework.config.io.action.v2.CloseActionElementIOV2;
 import net.n2oapp.framework.config.io.action.v2.ShowModalElementIOV2;
+import net.n2oapp.framework.config.io.datasource.BrowserStorageDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
@@ -17,7 +18,8 @@ public class StandardPageXmlIOv4Test {
     @Test
     public void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
-        tester.ios(new StandardDatasourceIO(),  new StandardPageElementIOv4(), new ShowModalElementIOV2(), new CloseActionElementIOV2(),
+        tester.ios(new StandardDatasourceIO(), new BrowserStorageDatasourceIO(),
+                new StandardPageElementIOv4(), new ShowModalElementIOV2(), new CloseActionElementIOV2(),
                 new ButtonIOv2(), new SubmenuIOv2())
                 .addPack(new N2oRegionsV3IOPack())
                 .addPack(new N2oWidgetsV5IOPack());

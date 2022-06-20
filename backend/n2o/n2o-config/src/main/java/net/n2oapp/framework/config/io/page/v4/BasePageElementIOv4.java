@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
-import net.n2oapp.framework.config.io.datasource.AbstractDatasourceIO;
+import net.n2oapp.framework.config.io.datasource.DatasourceIOv1;
 import net.n2oapp.framework.config.io.region.v3.RegionIOv3;
 import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
@@ -22,7 +22,6 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
     private Namespace regionDefaultNamespace = RegionIOv3.NAMESPACE;
     private Namespace pageDefaultNamespace = PageIOv4.NAMESPACE;
     private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
-    private Namespace datasourceDefaultNamespace = AbstractDatasourceIO.NAMESPACE;
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
@@ -39,7 +38,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionsBar::new, this::action);
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
-        p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oDatasource.class), datasourceDefaultNamespace);
+        p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oDatasource.class), DatasourceIOv1.NAMESPACE);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 

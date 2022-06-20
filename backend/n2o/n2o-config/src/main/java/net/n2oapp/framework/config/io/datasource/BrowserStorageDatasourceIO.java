@@ -3,15 +3,14 @@ package net.n2oapp.framework.config.io.datasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись источника данных BrowserStorage
+ * Чтение\запись источника, хранящего данные в браузере
  */
 @Component
-public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserStorageDatasource> implements NamespaceIO<N2oBrowserStorageDatasource> {
+public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserStorageDatasource> {
 
     @Override
     public void io(Element e, N2oBrowserStorageDatasource ds, IOProcessor p) {

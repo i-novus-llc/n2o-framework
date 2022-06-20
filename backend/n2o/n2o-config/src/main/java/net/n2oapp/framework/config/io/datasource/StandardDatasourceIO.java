@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import org.jdom2.Element;
@@ -18,7 +17,7 @@ import org.jdom2.Element;
 /**
  * Чтение\запись источника данных
  */
-public class StandardDatasourceIO extends AbstractDatasourceIO<N2oStandardDatasource> implements NamespaceIO<N2oStandardDatasource> {
+public class StandardDatasourceIO extends AbstractDatasourceIO<N2oStandardDatasource> {
 
     @Override
     public Class<N2oStandardDatasource> getElementClass() {
