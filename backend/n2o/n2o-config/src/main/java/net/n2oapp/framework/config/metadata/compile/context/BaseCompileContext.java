@@ -10,8 +10,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.*;
 
-import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
-
 public abstract class BaseCompileContext<D extends Compiled, S> implements CompileContext<D, S> {
     /**
      * Идентификатор исходной метаданной
@@ -58,7 +56,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         this(sourceId, sourceClass, compiledClass);
         if (route == null)
             throw new IllegalArgumentException("Route must not be null");
-        this.route = isDynamic(sourceId) ? route + "?" + RouteUtil.parseQuery(sourceId) : route;
+        this.route = route;
     }
 
     public BaseCompileContext(BaseCompileContext<D, S> context) {
