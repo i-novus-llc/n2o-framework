@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
+import net.n2oapp.framework.api.metadata.datasource.Datasource;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -137,7 +138,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
 
-        List<Validation> clientValidations = page.getDatasources().get("testStandardField_form").getValidations().get("test3");
+        List<Validation> clientValidations = ((Datasource) page.getDatasources().get("testStandardField_form")).getValidations().get("test3");
         assertThat(clientValidations.size(), is(2));
 
         ConstraintValidation validation = (ConstraintValidation) clientValidations.get(0);
@@ -184,7 +185,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
         pageContext.setSubmitOperationId("update");
-        List<Validation> clientValidations = page.getDatasources().get("testStandardFieldInlineValidations_form").getValidations().get("city");
+        List<Validation> clientValidations = ((Datasource) page.getDatasources().get("testStandardFieldInlineValidations_form")).getValidations().get("city");
         assertThat(clientValidations.size(), is(1));
         assertThat(clientValidations.get(0).getSeverity(), is(SeverityType.danger));
         assertThat(clientValidations.get(0).getMessage(), is("Только Казань"));
@@ -411,7 +412,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     public void testEnablingConditionValidations() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldEnablingConditionValidations.page.xml")
                 .get(new PageContext("testStandardFieldEnablingConditionValidations", "/p"));
-        List<Validation> validations = page.getDatasources().get("p_form").getValidations().get("joe");
+        List<Validation> validations = ((Datasource) page.getDatasources().get("p_form")).getValidations().get("joe");
         assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("foo==1"));
         assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("bar==2"));
         assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("buz==3"));

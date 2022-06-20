@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.list.N2oListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -36,7 +36,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
     @Override
     public ListWidget compile(N2oListWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         ListWidget listWidget = new ListWidget();
-        N2oDatasource datasource = initInlineDatasource(listWidget, source, p);
+        N2oQueryDatasource datasource = initInlineDatasource(listWidget, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(listWidget, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));

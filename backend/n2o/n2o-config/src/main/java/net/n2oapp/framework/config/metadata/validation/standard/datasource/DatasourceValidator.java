@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
@@ -18,17 +18,17 @@ import org.springframework.stereotype.Component;
  * Валидатор исходного источника данных
  */
 @Component
-public class DatasourceValidator implements SourceValidator<N2oDatasource>, SourceClassAware {
+public class DatasourceValidator implements SourceValidator<N2oQueryDatasource>, SourceClassAware {
 
     private String datasourceId;
 
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oDatasource.class;
+        return N2oQueryDatasource.class;
     }
 
     @Override
-    public void validate(N2oDatasource datasource, SourceProcessor p) {
+    public void validate(N2oQueryDatasource datasource, SourceProcessor p) {
         setDatasourceId(datasource, p);
         checkForExistsObject(datasource, p);
         N2oQuery query = checkQueryExists(datasource, p);
@@ -43,7 +43,7 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
      * @param datasource Источник данных
      * @param p          Процессор исходных метаданных
      */
-    private void checkForExistsObject(N2oDatasource datasource, SourceProcessor p) {
+    private void checkForExistsObject(N2oQueryDatasource datasource, SourceProcessor p) {
         p.checkForExists(datasource.getObjectId(), N2oObject.class,
                 String.format("Источник данных %s ссылается на несуществующий объект %s", datasourceId, datasource.getObjectId()));
     }
@@ -53,11 +53,11 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
      * @param datasource Источник данных, зависимости которого проверяются
      * @param scope      Скоуп источников данных
      */
-    private void checkDependencies(N2oDatasource datasource, DatasourceIdsScope scope) {
+    private void checkDependencies(N2oQueryDatasource datasource, DatasourceIdsScope scope) {
         if (datasource.getDependencies() != null) {
-            for (N2oDatasource.Dependency d : datasource.getDependencies()) {
-                if (d instanceof N2oDatasource.FetchDependency && ((N2oDatasource.FetchDependency) d).getOn() != null) {
-                    String on = ((N2oDatasource.FetchDependency) d).getOn();
+            for (N2oQueryDatasource.Dependency d : datasource.getDependencies()) {
+                if (d instanceof N2oQueryDatasource.FetchDependency && ((N2oQueryDatasource.FetchDependency) d).getOn() != null) {
+                    String on = ((N2oQueryDatasource.FetchDependency) d).getOn();
                     ValidationUtils.checkForExistsDatasource(on, scope,
                             String.format("Атрибут \"on\" в зависимости источника данных %s ссылается на несуществующий источник данных %s",
                                     datasourceId, on));
@@ -71,7 +71,7 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
      * @param datasource Источник данных, сабмит которого исследуется
      * @param scope      Скоуп источников данных
      */
-    private void checkSubmit(N2oDatasource datasource, DatasourceIdsScope scope) {
+    private void checkSubmit(N2oQueryDatasource datasource, DatasourceIdsScope scope) {
         if (datasource.getSubmit() != null && datasource.getSubmit().getRefreshDatasources() != null) {
             for (String refreshDs : datasource.getSubmit().getRefreshDatasources()) {
                 ValidationUtils.checkForExistsDatasource(refreshDs, scope,
@@ -88,7 +88,7 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
      * @param scope      Скоуп источников данных
      * @param p          Процессор исходных метаданных
      */
-    private void checkPrefilters(N2oDatasource datasource, N2oQuery query, DatasourceIdsScope scope, SourceProcessor p) {
+    private void checkPrefilters(N2oQueryDatasource datasource, N2oQuery query, DatasourceIdsScope scope, SourceProcessor p) {
         if (datasource.getFilters() != null) {
             if (query == null)
                 throw new N2oMetadataValidationException(
@@ -143,7 +143,7 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
      * @param p          Процессор исходных метаданных
      * @return           Метаданная выборки если она существует, иначе null
      */
-    private N2oQuery checkQueryExists(N2oDatasource datasource, SourceProcessor p) {
+    private N2oQuery checkQueryExists(N2oQueryDatasource datasource, SourceProcessor p) {
         if (datasource.getQueryId() != null) {
             p.checkForExists(datasource.getQueryId(), N2oQuery.class,
                     String.format("Источник данных %s ссылается на несуществующую выборку '%s'", datasourceId, datasource.getQueryId()));
@@ -157,7 +157,7 @@ public class DatasourceValidator implements SourceValidator<N2oDatasource>, Sour
      * @param datasource Источник даныых
      * @param p          Процессор исходных метаданных
      */
-    private void setDatasourceId(N2oDatasource datasource, SourceProcessor p) {
+    private void setDatasourceId(N2oQueryDatasource datasource, SourceProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
             datasourceId = ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId());

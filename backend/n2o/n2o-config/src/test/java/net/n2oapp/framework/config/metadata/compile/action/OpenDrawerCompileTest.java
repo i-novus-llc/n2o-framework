@@ -4,11 +4,10 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.Datasource;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
@@ -26,7 +25,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -81,7 +79,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
 
         PageContext drawerContext = (PageContext) route("/p/create", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(drawerContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(((N2oQueryDatasource) drawerContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_create"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
@@ -138,11 +136,11 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
-        assertThat(drawerContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
+        assertThat(((N2oQueryDatasource) drawerContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_update"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
-        Datasource datasource = drawerPage.getDatasources().get(drawerPage.getWidget().getId());
+        Datasource datasource = (Datasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId());
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/p/:id/update/main"));
         assertThat(datasource.getProvider().getQueryMapping().size(), is(0));
         assertThat(datasource.getProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
@@ -154,7 +152,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
         OpenDrawer openDrawer = (OpenDrawer) drawerPage.getWidget().getToolbar().getButton("mi0").getAction();
         assertThat(openDrawer.getPayload().getPageUrl(), is("/p/222/update/mi0"));
-        assertThat(drawerPage.getDatasources().get(drawerPage.getWidget().getId()).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
+        assertThat(((Datasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId())).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
     }
 
     @Test
@@ -186,8 +184,8 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
         Widget modalWidget = (Widget) openDrawer.getRegions().get("single").get(0).getContent().get(0);
-        assertThat(openDrawer.getDatasources().get(modalWidget.getDatasource()).getProvider().getPathMapping().size(), is(0));
-        assertThat(openDrawer.getDatasources().get(modalWidget.getDatasource()).getProvider().getQueryMapping().size(), is(0));
+        assertThat(((Datasource) openDrawer.getDatasources().get(modalWidget.getDatasource())).getProvider().getPathMapping().size(), is(0));
+        assertThat(((Datasource) openDrawer.getDatasources().get(modalWidget.getDatasource())).getProvider().getQueryMapping().size(), is(0));
     }
 
     @Test
@@ -242,12 +240,12 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{id}"));
-        assertThat(drawerContext.getDatasources().get(0).getDefaultValuesMode(), is(DefaultValuesMode.query));
+        assertThat(((N2oQueryDatasource) drawerContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
 
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_updateWithPrefilters"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
-        Datasource datasource = drawerPage.getDatasources().get(drawerPage.getWidget().getId());
+        Datasource datasource = (Datasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId());
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/modal"));
         assertThat(datasource.getProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
         assertThat(datasource.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
@@ -275,7 +273,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
-        assertThat(drawerPage.getDatasources().get(drawerPage.getWidget().getId()).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
+        assertThat(((Datasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId())).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
         submit = (InvokeAction) drawerPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("id")));
     }

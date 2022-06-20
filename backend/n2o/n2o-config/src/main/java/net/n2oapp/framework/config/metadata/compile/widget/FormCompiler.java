@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oQueryDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -40,7 +40,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     public Form compile(N2oForm source, CompileContext<?, ?> context, CompileProcessor p) {
         Form form = new Form();
         form.getComponent().setPrompt(initPrompt(source, p));
-        N2oDatasource datasource = initInlineDatasource(form, source, p);
+        N2oQueryDatasource datasource = initInlineDatasource(form, source, p);
         CompiledQuery query = getQuery(source, datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(form, source, context, p, object);
@@ -74,8 +74,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     }
 
     @Override
-    protected N2oDatasource initInlineDatasource(Form compiled, N2oForm source, CompileProcessor p) {
-        N2oDatasource datasource = super.initInlineDatasource(compiled, source, p);
+    protected N2oQueryDatasource initInlineDatasource(Form compiled, N2oForm source, CompileProcessor p) {
+        N2oQueryDatasource datasource = super.initInlineDatasource(compiled, source, p);
         if (datasource.getSize() == null)
             datasource.setSize(p.resolve(property("n2o.api.widget.form.size"), Integer.class));
         return datasource;
