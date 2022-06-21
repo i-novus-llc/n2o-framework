@@ -70,6 +70,11 @@
                     <xs:documentation>STOMP-источник данных</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="browser-storage" type="ds:browserStorageDatasourceDefinition" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Источник данных, использующий хранилище браузера</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 

@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.datasource;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -32,7 +32,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
 
-public class DataSourceCompileTest extends SourceCompileTestBase {
+public class QueryDataSourceCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -54,7 +54,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSStandardPage.page.xml")
                         .get(new PageContext("testDSStandardPage"));
 
-        Datasource ds = page.getDatasources().get("testDSStandardPage_ds1");
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("testDSStandardPage_ds1");
         assertThat(ds, notNullValue());
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         assertThat(ds.getProvider(), nullValue());
@@ -63,7 +63,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSSimplePage.page.xml")
                         .get(new PageContext("testDSSimplePage"));
 
-        ds = simplePage.getDatasources().get("testDSSimplePage_main");
+        ds = (StandardDatasource) simplePage.getDatasources().get("testDSSimplePage_main");
         assertThat(ds, notNullValue());
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
         assertThat(ds.getProvider(), nullValue());
@@ -75,7 +75,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQuery.page.xml")
                         .get(new PageContext("testDSQuery", "/"));
 
-        Datasource ds = page.getDatasources().get("_ds1");
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("_ds1");
         assertThat(ds, notNullValue());
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.query));
         assertThat(ds.getProvider(), notNullValue());
@@ -92,13 +92,13 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSQueryFilters.page.xml")
                         .get(context);
 
-        Datasource ds = page.getDatasources().get("p_w_a_ds1");
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds1");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds1"));
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("ds1_id", new ModelLink(1)));
         CompiledQuery query = routeAndGet("/p/w/a/ds1", CompiledQuery.class);
         assertThat(query.getParamToFilterIdMap(), hasEntry("ds1_id", "id"));
 
-        ds = page.getDatasources().get("p_w_a_ds2");
+        ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
         ModelLink link = new ModelLink(ReduxModel.resolve, "p_w_a_ds3");
         link.setValue("`id`");
@@ -114,7 +114,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSFetch.page.xml")
                         .get(new PageContext("testDSFetch", "/p/w/a"));
 
-        Datasource ds = page.getDatasources().get("p_w_a_detail");
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_detail");
         assertThat(ds.getDependencies().size(), is(1));
         assertThat(ds.getDependencies().get(0).getOn(), is("models.resolve['p_w_a_master']"));
         assertThat(ds.getDependencies().get(0).getType(), is(DependencyConditionType.fetch));
@@ -127,7 +127,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                         .get(new PageContext("testDSSubmit", "/p/w/a"));
 
         //        simple
-        Datasource ds = page.getDatasources().get("p_w_a_ds1");
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds1");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/ds1"));
         assertThat(ds.getSubmit().getSubmitForm(), is(true));
@@ -140,7 +140,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(opCtx.getMessagePlacement(), is(MessagePlacement.top));
 
         //        with form-param
-        ds = page.getDatasources().get("p_w_a_ds2");
+        ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getSubmitForm(), is(false));
         ModelLink link = new ModelLink(ReduxModel.resolve, "p_w_a_ds2");
@@ -148,7 +148,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getSubmit().getFormMapping(), hasEntry("id", link));
 
         //        with messages
-        ds = page.getDatasources().get("p_w_a_ds3");
+        ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds3");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         opCtx = ((ActionContext)route("/p/w/a/ds3", CompiledObject.class));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
@@ -157,7 +157,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
         assertThat(opCtx.getMessagePlacement(), is(MessagePlacement.bottom));
 
         //        with path-param
-        ds = page.getDatasources().get("p_w_a_ds4");
+        ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds4");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/:_id/update"));
         link = new ModelLink(ReduxModel.resolve, "p_w_a_ds4");
@@ -174,7 +174,7 @@ public class DataSourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSValidation.page.xml")
                         .get(new PageContext("testDSValidation", "/p/w/a"));
 
-        Datasource ds = page.getDatasources().get("p_w_a_ds1");
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds1");
 
         assertThat(ds.getValidations().get("id"), notNullValue());
         assertThat(ds.getValidations().get("id").size(), is(1));

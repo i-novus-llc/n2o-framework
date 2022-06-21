@@ -16,7 +16,7 @@ import java.util.Map;
  * Компиляция  STOMP-источника данных
  */
 @Component
-public class StompDatasourceCompiler extends BaseDatasourceCompiler<N2oStompDatasource, StompDatasource> {
+public class StompDatasourceCompiler extends AbstractDatasourceCompiler<N2oStompDatasource, StompDatasource> {
 
     @Override
     public Class<? extends Source> getSourceClass() {

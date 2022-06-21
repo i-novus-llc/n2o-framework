@@ -51,5 +51,12 @@
                     routable="true"/>
             </filters>
         </datasource>
+        <browser-storage id="ds2" key="test" storage-type="localStorage" size="1">
+            <submit key="test2" storage-type="sessionStorage" auto="false"/>
+            <dependencies>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
+            </dependencies>
+        </browser-storage>
     </datasources>
 </page>
