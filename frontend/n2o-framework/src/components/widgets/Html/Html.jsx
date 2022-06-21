@@ -35,6 +35,10 @@ export const replacePlaceholders = (html, data) => {
 export const Html = (props) => {
     const { html, data, loading = false, id, className } = props
 
+    if (!html) {
+        return null
+    }
+
     let finalHtml = html
 
     if (data) {
