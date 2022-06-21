@@ -18,6 +18,10 @@ import propsResolver from '../../../utils/propsResolver'
 export const Html = (props) => {
     const { html, data, loading = false, id, className } = props
 
+    if (!html) {
+        return null
+    }
+
     const finalHtml = isEmpty(data) ? html : propsResolver(html, data)
 
     /* устраняет мерцания с плейсхолдерами */
