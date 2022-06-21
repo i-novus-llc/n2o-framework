@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование слияния источников данных
  */
-public class N2OQueryDatasourceMergeTest extends SourceMergerTestBase {
+public class N2OStandardDatasourceMergeTest extends SourceMergerTestBase {
     @Override
     @Before
     public void setUp() throws Exception {

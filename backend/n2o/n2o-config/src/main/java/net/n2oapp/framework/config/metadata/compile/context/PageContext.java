@@ -161,7 +161,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         List<N2oPreFilter> filters = new ArrayList<>();
         if (datasources != null)
             datasources.stream()
-                    .filter(ds -> ds instanceof N2oStandardDatasource)
+                    .filter(N2oStandardDatasource.class::isInstance)
                     .forEach(ds -> filters.addAll(Arrays.asList(((N2oStandardDatasource) ds).getFilters())));
         return filters;
     }

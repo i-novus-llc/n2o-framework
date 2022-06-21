@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.datasource;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -16,7 +17,7 @@ public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserS
     public void io(Element e, N2oBrowserStorageDatasource ds, IOProcessor p) {
         super.io(e, ds, p);
         p.attribute(e, "key", ds::getKey, ds::setKey);
-        p.attributeEnum(e, "storage-type", ds::getStorageType, ds::setStorageType, N2oBrowserStorageDatasource.BrowserStorageType.class);
+        p.attributeEnum(e, "storage-type", ds::getStorageType, ds::setStorageType, BrowserStorageType.class);
         p.attributeInteger(e, "size", ds::getSize, ds::setSize);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, N2oBrowserStorageDatasource.Submit::new, this::submit);
         p.anyChildren(e, "dependencies", ds::getDependencies, ds::setDependencies,
@@ -32,7 +33,7 @@ public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserS
     private void submit(Element e, N2oBrowserStorageDatasource.Submit t, IOProcessor p) {
         p.attribute(e, "key", t::getKey, t::setKey);
         p.attributeBoolean(e, "auto", t::getAuto, t::setAuto);
-        p.attributeEnum(e, "storage-type", t::getStorageType, t::setStorageType, N2oBrowserStorageDatasource.BrowserStorageType.class);
+        p.attributeEnum(e, "storage-type", t::getStorageType, t::setStorageType, BrowserStorageType.class);
     }
 
     @Override

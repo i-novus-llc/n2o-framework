@@ -318,7 +318,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                             String datasource = param.getDatasource();
                             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
                             if (ReduxModel.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
-                                    && dataSourcesScope.get(datasource) != null)
+                                    && dataSourcesScope.get(datasource) != null && dataSourcesScope.get(datasource) instanceof N2oStandardDatasource)
                                 link.setSubModelQuery(new SubModelQuery(((N2oStandardDatasource) dataSourcesScope.get(datasource)).getQueryId()));
                             return link;
                         }));

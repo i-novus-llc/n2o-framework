@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Слияние двух источников данных
  */
 @Component
-public class N2oQueryDatasourceMerger implements BaseSourceMerger<N2oStandardDatasource> {
+public class N2oStandardDatasourceMerger implements BaseSourceMerger<N2oStandardDatasource> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oStandardDatasource.class;

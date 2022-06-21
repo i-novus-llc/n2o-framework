@@ -79,7 +79,7 @@
 
     <xs:complexType name="browserStorageDatasourceSubmit">
         <xs:annotation>
-            <xs:documentation>Отправка полей формы на сервер при их изменении</xs:documentation>
+            <xs:documentation>Сохранение полей формы при их изменении</xs:documentation>
         </xs:annotation>
         <xs:attribute name="auto" type="xs:boolean" default="true">
             <xs:annotation>

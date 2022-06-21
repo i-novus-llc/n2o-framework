@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
-import net.n2oapp.framework.config.metadata.validation.standard.datasource.DatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
@@ -20,7 +20,7 @@ import org.junit.rules.ExpectedException;
 /**
  * Тестирования валидации источника данных
  */
-public class DatasourceValidatorTest extends SourceValidationTestBase {
+public class StandardDatasourceValidatorTest extends SourceValidationTestBase {
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -35,7 +35,7 @@ public class DatasourceValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
-        builder.validators(new PageValidator(), new WidgetValidator(), new BasePageValidator(), new DatasourceValidator());
+        builder.validators(new PageValidator(), new WidgetValidator(), new BasePageValidator(), new StandardDatasourceValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/utDsBlank.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/utDs.query.xml"));
     }

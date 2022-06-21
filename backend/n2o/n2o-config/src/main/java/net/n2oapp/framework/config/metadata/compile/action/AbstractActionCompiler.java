@@ -9,14 +9,12 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -161,22 +159,6 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
             return widgetScope.getDatasourceId();
-        return null;
-    }
-
-    /**
-     * Инициализация идентификатора объекта
-     *
-     * @param p       Процессор сборки
-     * @return  идентификатор объекта
-     */
-    protected String getDefaultObjectId(CompileProcessor p) {
-        String datasourceId = getLocalDatasource(p);
-        if (datasourceId != null) {
-            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            if (dataSourcesScope != null && dataSourcesScope.containsKey(datasourceId))
-                return ((N2oStandardDatasource) dataSourcesScope.get(datasourceId)).getObjectId();
-        }
         return null;
     }
 

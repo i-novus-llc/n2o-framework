@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * Валидатор исходного источника данных
  */
 @Component
-public class DatasourceValidator implements SourceValidator<N2oStandardDatasource>, SourceClassAware {
+public class StandardDatasourceValidator implements SourceValidator<N2oStandardDatasource>, SourceClassAware {
 
     private String datasourceId;
 

@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
@@ -170,7 +171,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                        Object... scopes) {
         Map<String, AbstractDatasource> compiledDataSources = new HashMap<>();
         initContextDatasource(context, p, dataSourcesScope, pageScope);
-        for (N2oDatasource ds : dataSourcesScope.values()) {
+        for (N2oAbstractDatasource ds : dataSourcesScope.values()) {
             AbstractDatasource compiled = p.compile(ds, context, pageScope, scopes);
             compiledDataSources.put(compiled.getId(), compiled);
         }

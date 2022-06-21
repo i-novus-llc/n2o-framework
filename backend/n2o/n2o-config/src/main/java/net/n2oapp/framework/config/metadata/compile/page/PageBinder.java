@@ -96,17 +96,17 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     /**
      * Добавление значений фильтров таблицы из выборки в модели
      *
-     * @param page страница
+     * @param page    страница
      * @param widgets Виджеты
-     * @param p Процессор связывания
+     * @param p       Процессор связывания
      */
     private void collectFiltersToModels(D page, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
             for (Widget<?> w : widgets)
                 if (w.getFiltersDatasourceId() != null) {
                     AbstractDatasource filterDatasource = page.getDatasources().get(w.getFiltersDatasourceId());
-                    if (!StandardDatasource.class.isInstance(filterDatasource)) continue;
-                    DataSet data = p.executeQuery(((StandardDatasource)filterDatasource).getQueryId());
+                    if (!(filterDatasource instanceof StandardDatasource)) continue;
+                    DataSet data = p.executeQuery(((StandardDatasource) filterDatasource).getQueryId());
                     if (data != null) {
                         data.forEach((k, v) -> {
                             //todo NNO-7523   && !p.canResolveParam(f.getParam())
@@ -136,8 +136,8 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     private void bindDatasources(D page, BindProcessor p) {
         if (page.getDatasources() != null) {
             List<StandardDatasource> datasources = page.getDatasources().values().stream().
-                    filter(ds -> ds instanceof StandardDatasource).
-                    map(ds -> ((StandardDatasource) ds)).
+                    filter(StandardDatasource.class::isInstance).
+                    map(StandardDatasource.class::cast).
                     collect(Collectors.toList());
             datasources.stream().filter(ds -> ds.getProvider() != null)
                     .forEach(ds -> BindUtil.bindDataProvider(ds.getProvider(), p));

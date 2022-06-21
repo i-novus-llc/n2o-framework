@@ -76,7 +76,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         super.initDefaults(source, context, p);
         source.setDoubleCloseOnSuccess(p.cast(source.getDoubleCloseOnSuccess(), false));
         source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || p.cast(source.getCloseOnSuccess(), false));
-        source.setObjectId(p.cast(source.getObjectId(), () -> getDefaultObjectId(p)));
         source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
         source.setRefreshDatasources(initRefreshDatasources(source, p));
@@ -237,11 +236,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (compiledObject == null && localDatasource != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {
-                String objectId = ((N2oStandardDatasource)dataSourcesScope.get(localDatasource)).getObjectId();
+                String objectId = ((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getObjectId();
                 if (objectId != null) {
                     compiledObject = p.getCompiled(new ObjectContext(objectId));
-                } else if (((N2oStandardDatasource)dataSourcesScope.get(localDatasource)).getQueryId() != null) {
-                    CompiledQuery query = p.getCompiled(new QueryContext(((N2oStandardDatasource)dataSourcesScope.get(localDatasource)).getQueryId()));
+                } else if (((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getQueryId() != null) {
+                    CompiledQuery query = p.getCompiled(new QueryContext(((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getQueryId()));
                     compiledObject = query.getObject();
                 }
             }

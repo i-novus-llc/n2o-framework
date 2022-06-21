@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
+import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
@@ -41,14 +41,25 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getDependencies().size(),is(1) );
         assertThat(datasource.getDependencies().get(0).getOn(),is("models.resolve['testBrowserStorageDatasourceIOTest_123']") );
 
-        assertThat(datasource.getSubmit().getStorage(),is(N2oBrowserStorageDatasource.BrowserStorageType.localStorage));
+        assertThat(datasource.getSubmit().getStorage(),is(BrowserStorageType.localStorage));
         assertThat(datasource.getSubmit().getType(),is("browser"));
-        assertThat(datasource.getSubmit().getAuto(),is(Boolean.TRUE));
+        assertThat(datasource.getSubmit().getAuto(),is(false));
         assertThat(datasource.getSubmit().getKey(),is("submit_test_key"));
 
-        assertThat(datasource.getProvider().getStorage(),is(N2oBrowserStorageDatasource.BrowserStorageType.localStorage));
+        assertThat(datasource.getProvider().getStorage(),is(BrowserStorageType.localStorage));
         assertThat(datasource.getProvider().getType(),is("browser"));
         assertThat(datasource.getProvider().getKey(),is("test_key"));
 
+        // default
+        datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasourceIOTest_test_id2");
+        assertThat(datasource.getSize(),is(10));
+        assertThat(datasource.getSubmit().getStorage(),is(BrowserStorageType.sessionStorage));
+        assertThat(datasource.getSubmit().getType(),is("browser"));
+        assertThat(datasource.getSubmit().getAuto(),is(true));
+        assertThat(datasource.getSubmit().getKey(),is("test_id2"));
+
+        assertThat(datasource.getProvider().getStorage(),is(BrowserStorageType.sessionStorage));
+        assertThat(datasource.getProvider().getType(),is("browser"));
+        assertThat(datasource.getProvider().getKey(),is("test_id2"));
     }
 }

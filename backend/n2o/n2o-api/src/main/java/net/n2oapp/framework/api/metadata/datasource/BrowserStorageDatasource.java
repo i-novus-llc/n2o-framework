@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public class BrowserStorageDatasource extends AbstractDatasource {
         @JsonProperty
         private String key;
         @JsonProperty
-        private N2oBrowserStorageDatasource.BrowserStorageType storage;
+        private BrowserStorageType storage;
     }
 
     @Getter
@@ -50,6 +49,6 @@ public class BrowserStorageDatasource extends AbstractDatasource {
         @JsonProperty
         private Boolean auto;
         @JsonProperty
-        private N2oBrowserStorageDatasource.BrowserStorageType storage;
+        private BrowserStorageType storage;
     }
 }

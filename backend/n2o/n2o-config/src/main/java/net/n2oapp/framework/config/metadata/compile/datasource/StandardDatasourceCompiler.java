@@ -56,7 +56,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  * Компиляция источника данных
  */
 @Component
-public class  QueryDatasourceCompiler extends BaseDatasourceCompiler<N2oStandardDatasource, StandardDatasource>  {
+public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStandardDatasource, StandardDatasource> {
     private static final String SPREAD_OPERATOR = "*.";
     public static final String SORTING = "sorting.";
 
@@ -102,38 +102,6 @@ public class  QueryDatasourceCompiler extends BaseDatasourceCompiler<N2oStandard
 
     private void initDefaults(N2oStandardDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         source.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() != null ? DefaultValuesMode.query : DefaultValuesMode.defaults));
-    }
-
-    private List<DependencyCondition> initDependencies(N2oStandardDatasource source, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope == null)
-            return null;
-        List<DependencyCondition> fetch = new ArrayList<>();
-        String pageId = pageScope.getPageId();
-        if (source.getDependencies() != null) {
-            for (N2oStandardDatasource.Dependency d : source.getDependencies()) {
-                if (d instanceof N2oStandardDatasource.FetchDependency) {
-                    ModelLink bindLink = new ModelLink(p.cast(((N2oStandardDatasource.FetchDependency) d).getModel(), ReduxModel.resolve),
-                            CompileUtil.generateWidgetId(pageId, ((N2oStandardDatasource.FetchDependency) d).getOn()));
-                    DependencyCondition condition = new DependencyCondition();
-                    condition.setOn(bindLink.getBindLink());
-                    condition.setType(DependencyConditionType.fetch);
-                    fetch.add(condition);
-                }
-            }
-        }
-        return fetch;
-    }
-
-    private Map<String, List<Validation>> initValidations(N2oStandardDatasource source, CompileProcessor p) {
-        ValidationList validationList = p.getScope(ValidationList.class);
-        if (validationList != null) {
-            //todo why RESOLVE ?
-            return validationList.get(source.getId(), ReduxModel.resolve).stream()
-                    .filter(v -> v.getSide() == null || v.getSide().contains("client"))
-                    .collect(Collectors.groupingBy(Validation::getFieldId));
-        } else
-            return Collections.emptyMap();
     }
 
     private ClientDataProvider initDataProvider(StandardDatasource compiled, N2oStandardDatasource source, CompileContext<?, ?> context,

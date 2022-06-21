@@ -28,7 +28,7 @@ import net.n2oapp.framework.config.io.page.v4.SimplePageElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.datasource.QueryDatasourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.datasource.StandardDatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -60,7 +60,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack(),
                 new N2oWidgetsPack(), new N2oRegionsPack())
                 .ios(new SimplePageElementIOv4(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv3(), new StandardPageElementIOv3())
-                .compilers(new SimplePageCompiler(), new StandardPageCompiler(), new QueryDatasourceCompiler())
+                .compilers(new SimplePageCompiler(), new StandardPageCompiler(), new StandardDatasourceCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
     }
