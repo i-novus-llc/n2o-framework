@@ -80,6 +80,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         Form f = (Form) page.getWidget();
 
         assertThat(f.getToolbar().size(), is(2));
+        assertThat(f.getToolbar().getGroup(0).getClassName(), is("my-toolbar"));
 
         AbstractButton b1 = f.getToolbar().get("topLeft").get(0).getButtons().get(0);
         assertThat(b1.getId(), is("testId1"));

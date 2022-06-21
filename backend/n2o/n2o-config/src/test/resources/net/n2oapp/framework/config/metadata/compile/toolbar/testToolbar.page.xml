@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              xmlns:ext="http://example.com/n2o/ext-2.0">
-    <form object-id="utBlank">
+    <form>
+        <datasource object-id="utBlank"/>
         <actions>
             <action id="testActionId1" name="name" icon="icon">
                 <invoke operation-id="update"/>
             </action>
         </actions>
-        <toolbar place="topLeft">
+        <toolbar place="topLeft" class="my-toolbar">
             <button id="testId1" action-id="testActionId1" rounded="true"/>
             <button id="testId4" src="MyCustomButton">
                 <perform type="n2o/custom/ACTION" ext:prop2="value2"/>

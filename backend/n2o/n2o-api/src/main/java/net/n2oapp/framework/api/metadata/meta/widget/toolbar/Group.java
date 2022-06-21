@@ -16,6 +16,8 @@ public class Group implements Compiled, IdAware {
     @JsonProperty
     private String id;
     @JsonProperty
+    private String className;
+    @JsonProperty
     private List<AbstractButton> buttons;
 
     public Group(String id) {

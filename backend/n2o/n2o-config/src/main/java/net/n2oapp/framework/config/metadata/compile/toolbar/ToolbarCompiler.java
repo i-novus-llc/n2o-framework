@@ -58,6 +58,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
 
         while (i < source.getItems().length) {
             Group gr = new Group(place + gi++);
+            gr.setClassName(source.getCssClass());
             List<AbstractButton> buttons = new ArrayList<>();
             ToolbarItem item = source.getItems()[i];
             if (item instanceof N2oGroup) {
