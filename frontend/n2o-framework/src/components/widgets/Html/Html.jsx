@@ -1,8 +1,10 @@
 import React from 'react'
+import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 
 import { Html as HtmlSnippet } from '../../snippets/Html/Html'
 import { parseExpression } from '../../../utils/evalExpression'
+import propsResolver from '../../../utils/propsResolver'
 
 /**
  * Компонент встаквки html-кода производит резолв плейсхолдеров
@@ -13,41 +15,10 @@ import { parseExpression } from '../../../utils/evalExpression'
  * <Html id="HtmlWidget" url="/test.html"/>
  */
 
-// Принимает html и data
-// прим. html = <h1>User is +name+ +surname+</h1> ,data = [{"name" : "testUserName", "surname": "testUserSurname"}],
-// заменяет плейсхолдеры в html (прим. {name}, {surname}) на стоотвствующие значения по ключам в data.
-
-export const replacePlaceholders = (html, data) => {
-    if (!html) {
-        return null
-    }
-
-    const keys = Object.keys(data)
-
-    keys.forEach((key) => {
-    // заменяет плейсхолдеры на соответствующие ключи:значения в data
-        html = html.replace(new RegExp(`'\\+${key}\\+'`, 'gm'), data[key])
-    })
-
-    return html
-}
-
 export const Html = (props) => {
     const { html, data, loading = false, id, className } = props
 
-    let finalHtml = html
-
-    if (data) {
-        finalHtml = replacePlaceholders(html, data)
-
-        if (parseExpression(finalHtml)) {
-            finalHtml = parseExpression(finalHtml)
-        }
-
-        if (finalHtml.startsWith('\'') && finalHtml.endsWith('\'')) {
-            finalHtml = finalHtml.substring(1, finalHtml.length - 1)
-        }
-    }
+    const finalHtml = isEmpty(data) ? html : propsResolver(html, data)
 
     /* устраняет мерцания с плейсхолдерами */
     if (parseExpression(finalHtml) || !html) {
