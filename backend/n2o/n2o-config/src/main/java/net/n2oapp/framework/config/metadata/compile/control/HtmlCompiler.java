@@ -27,7 +27,7 @@ public class HtmlCompiler extends FieldCompiler<Html, N2oHtml> {
     @Override
     public Html compile(N2oHtml source, CompileContext<?, ?> context, CompileProcessor p) {
         Html html = new Html();
-        html.setHtml(p.resolveJS(source.getHtml().trim()));
+        html.setHtml(p.resolveJS(source.getHtml().trim().replace('\n', ' ')));
         initDefaults(source, context, p);
         compileField(html, source, context, p);
         return html;
