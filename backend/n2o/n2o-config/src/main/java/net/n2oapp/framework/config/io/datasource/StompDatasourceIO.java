@@ -25,6 +25,6 @@ public class StompDatasourceIO extends AbstractDatasourceIO<N2oStompDatasource> 
     public void io(Element e, N2oStompDatasource ds, IOProcessor p) {
         super.io(e, ds, p);
         p.attribute(e, "destination", ds::getDestination, ds::setDestination);
-        p.childrenToMap(e, "values", "value", ds::getValues, ds::setValues);
+        p.childrenAttributesToMap(e, "values", "value", ds::getValues, ds::setValues);
     }
 }
