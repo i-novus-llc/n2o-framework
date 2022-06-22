@@ -1,16 +1,13 @@
 package net.n2oapp.framework.config.metadata.validation.standard.datasource;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
-import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +15,7 @@ import org.springframework.stereotype.Component;
  * Валидатор исходного источника данных
  */
 @Component
-public class StandardDatasourceValidator implements SourceValidator<N2oStandardDatasource>, SourceClassAware {
-
-    private String datasourceId;
+public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2oStandardDatasource> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -152,16 +147,4 @@ public class StandardDatasourceValidator implements SourceValidator<N2oStandardD
         return null;
     }
 
-    /**
-     * Определение идентификатора источника данных для сообщений в исключениях
-     * @param datasource Источник даныых
-     * @param p          Процессор исходных метаданных
-     */
-    private void setDatasourceId(N2oStandardDatasource datasource, SourceProcessor p) {
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            datasourceId = ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId());
-        else
-            datasourceId = datasource.getId();
-    }
 }

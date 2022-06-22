@@ -57,11 +57,6 @@ public class StandardDatasourceIO extends AbstractDatasourceIO<N2oStandardDataso
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
-    private void fetch(Element e, N2oStandardDatasource.FetchDependency t, IOProcessor p) {
-        p.attribute(e, "on", t::getOn, t::setOn);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
-    }
-
     private void submit(Element e, Submit t, IOProcessor p) {
         p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
