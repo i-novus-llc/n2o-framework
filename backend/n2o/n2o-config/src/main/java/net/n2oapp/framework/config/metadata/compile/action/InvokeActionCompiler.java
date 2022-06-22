@@ -85,7 +85,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setMessagePosition(p.cast(source.getMessagePosition(), MessagePosition.fixed));
         source.setMessagePlacement(p.cast(source.getMessagePlacement(), MessagePlacement.top));
         source.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
-        source.setSubmitForm(p.cast(source.getSubmitForm(), true));
+        source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
     }
 
@@ -201,7 +201,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setHeaderParams(source.getHeaderParams());
         dataProvider.setMethod(source.getMethod());
         dataProvider.setUrl(source.getRoute());
-        dataProvider.setSubmitForm(source.getSubmitForm());
+        dataProvider.setSubmitForm(source.getSubmitAll());
 
         CompiledObject compiledObject = getObject(source, p);
         invokeAction.setObjectId(compiledObject.getId());
