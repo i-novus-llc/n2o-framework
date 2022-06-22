@@ -3,6 +3,7 @@ title: Страницы
 description: ""
 ---
 
+
 import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 **Тип метаданных**
@@ -264,7 +265,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 ```xml
 <datasources>
   <datasource id="ds1">...</datasource>
-  <datasource id="ds2">...</datasource>
+  <app-datasource id="ds2">...</app-datasource>
   <browser-storage id="ds3">...</browser-storage>
 </datasource>
 ```
@@ -308,6 +309,31 @@ http://n2oapp.net/framework/config/schema/page-4.0
 </datasource>
 ```
 
+
+### &lt;app-datasource&gt; {#app-datasource}
+
+Источник данных ссылающийся на источник из application.xml
+
+**Атрибуты**
+
+|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию |
+|--------------------|-----------------------|----------------------------------------------------------------------|----------------------|
+|id                  |Строка                 |Идентификатор источника данных из application.xml                     |                      |
+
+**Тело**
+
+[Зависимости источника данных](#ds_dependencies)
+
+**Пример**
+
+```xml
+<app-datasource id="ds1">
+  <dependencies>
+    <fetch on="ds2"/>
+    ...
+  </dependencies>
+</app-datasource>
+```
 
 ### &lt;browser-storage&gt; {#browser-storage}
 
