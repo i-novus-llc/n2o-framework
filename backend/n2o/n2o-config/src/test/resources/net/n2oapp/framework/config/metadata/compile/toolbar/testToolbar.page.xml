@@ -8,7 +8,7 @@
                 <invoke operation-id="update"/>
             </action>
         </actions>
-        <toolbar place="topLeft" class="my-toolbar">
+        <toolbar place="topLeft" class="my-toolbar" style="color:red">
             <button id="testId1" action-id="testActionId1" rounded="true"/>
             <button id="testId4" src="MyCustomButton">
                 <perform type="n2o/custom/ACTION" ext:prop2="value2"/>

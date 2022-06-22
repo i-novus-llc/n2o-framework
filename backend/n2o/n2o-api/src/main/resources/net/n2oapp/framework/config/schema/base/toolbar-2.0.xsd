@@ -17,6 +17,11 @@
                 <xs:documentation>CSS класс меню</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="place" type="placeType">
             <xs:annotation>
                 <xs:documentation>Место расположения меню.</xs:documentation>

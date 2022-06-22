@@ -81,6 +81,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         assertThat(f.getToolbar().size(), is(2));
         assertThat(f.getToolbar().getGroup(0).getClassName(), is("my-toolbar"));
+        assertThat(f.getToolbar().getGroup(0).getStyle().get("color"), is("red"));
 
         AbstractButton b1 = f.getToolbar().get("topLeft").get(0).getButtons().get(0);
         assertThat(b1.getId(), is("testId1"));

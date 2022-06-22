@@ -385,13 +385,14 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |Наименование|Тип                                                       |Описание                    |Значение по умолчанию|
 |------------|----------------------------------------------------------|----------------------------|---------------------|
 |class       |Строка                                                    |CSS класс меню              |                     |
+|style       |Строка                                                    |Стиль меню                  |                     |
 |place       |topLeft, topRight, bottomLeft, bottomRight, breadcrumbLeft|Место расположения меню     |topLeft              |
 |generate    |crud, submit, close                                       |Генерация стандартных кнопок|                     |
 
 **Пример**
 
 ```xml
-<toolbar class="my-toolbar" place="topLeft" generate="submit, close">
+<toolbar class="my-toolbar" style="color:red" place="topLeft" generate="submit, close">
   <group>...</group>
   <button>...</button>
   <sub-menu>...</sub-menu>
