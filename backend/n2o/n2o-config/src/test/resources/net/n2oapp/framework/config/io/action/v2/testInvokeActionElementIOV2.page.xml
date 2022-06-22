@@ -20,7 +20,7 @@
             />
         </action>
         <action>
-            <invoke operation-id="test2" submit-form="false" method="POST">
+            <invoke operation-id="test2" submit-all="false" method="POST">
                 <header-param name="c" value="3" datasource="1" model="filter"/>
             </invoke>
         </action>
