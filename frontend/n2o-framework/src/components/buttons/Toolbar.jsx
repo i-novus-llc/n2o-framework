@@ -12,7 +12,7 @@ import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
 
 function Toolbar({ className, toolbar, entityKey, onClick }) {
-    const { className: toolbarClassName } = toolbar[0] || {}
+    const { className: toolbarClassName, style } = toolbar[0] || {}
     const handleClick = (e) => {
         e.stopPropagation()
         onClick()
@@ -72,6 +72,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         <ButtonToolbar
             className={toolbarClass}
             onClick={handleClick}
+            style={style}
         >
             {map(toolbar, renderBtnGroup)}
         </ButtonToolbar>
