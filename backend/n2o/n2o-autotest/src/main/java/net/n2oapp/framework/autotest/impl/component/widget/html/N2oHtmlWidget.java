@@ -11,12 +11,12 @@ public class N2oHtmlWidget extends N2oStandardWidget implements HtmlWidget {
 
     @Override
     public void shouldHaveElement(String cssSelector) {
-        element().$("div").$(cssSelector).shouldBe(Condition.exist);
+        element().$(cssSelector).shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldHaveElementWithAttributes(String cssSelector, Map<String, String> attributes) {
-        SelenideElement element = element().$("div").$(cssSelector).shouldBe(Condition.exist);
+        SelenideElement element = element().$(cssSelector).shouldBe(Condition.exist);
         attributes.entrySet().stream().forEach(e -> element.shouldHave(Condition.attribute(e.getKey(), e.getValue())));
     }
 
