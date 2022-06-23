@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.event.action;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
@@ -34,7 +33,7 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private MessagePosition messagePosition;
     private MessagePlacement messagePlacement;
     private Boolean optimistic;
-    private Boolean submitForm;
+    private Boolean submitAll;
     private RequestMethod method;
 
     private N2oFormParam[] formParams;
