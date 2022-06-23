@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.io.datasource;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -25,10 +24,6 @@ public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserS
                         .add("fetch", N2oBrowserStorageDatasource.FetchDependency.class, this::fetch));
     }
 
-    private void fetch(Element e, N2oBrowserStorageDatasource.FetchDependency t, IOProcessor p) {
-        p.attribute(e, "on", t::getOn, t::setOn);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
-    }
 
     private void submit(Element e, N2oBrowserStorageDatasource.Submit t, IOProcessor p) {
         p.attribute(e, "key", t::getKey, t::setKey);
