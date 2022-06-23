@@ -96,6 +96,7 @@ public class StringUtilsTest {
         assertThat(StringUtils.hasLink("#{test} - #{test2}"), is(false));
         assertThat(StringUtils.hasLink("{test} - #{test2}"), is(true));
         assertThat(StringUtils.hasLink("#{test} - {test2}"), is(true));
+        assertThat(StringUtils.hasLink("<div>\n<span>\n Hello {firstName} \n</span>\n</div>"), is(true));
     }
 
     @Test

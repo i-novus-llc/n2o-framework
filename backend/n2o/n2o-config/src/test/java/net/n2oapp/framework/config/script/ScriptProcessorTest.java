@@ -40,6 +40,10 @@ public class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveLinks("`test`"), is("`test`"));
         assertThat(ScriptProcessor.resolveLinks("true"), is("true"));
         assertThat(ScriptProcessor.resolveLinks("false"), is("false"));
+        assertThat(ScriptProcessor.resolveLinks("<div>\n{firstName}</div>"),
+                is("`'<div>\n'+firstName+'</div>'`"));
+        assertThat(ScriptProcessor.resolveLinks("<div>\n<span>\r{firstName}\r</span>\n</div>"),
+                is("`'<div>\n<span>\r'+firstName+'\r</span>\n</div>'`"));
     }
 
     @Test

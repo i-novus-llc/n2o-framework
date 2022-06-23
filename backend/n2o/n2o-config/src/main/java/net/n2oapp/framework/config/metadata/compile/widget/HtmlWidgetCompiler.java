@@ -29,7 +29,7 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         MetaActions widgetActions = initMetaActions(source, p);
         String html = p.cast(source.getHtml(), getContentByUri(source.getUrl()));
         if (html != null)
-            widget.setHtml(p.resolveJS(html.trim().replace('\n', ' ')));
+            widget.setHtml(p.resolveJS(html.trim()));
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetActions, object, null);
         return widget;
     }
