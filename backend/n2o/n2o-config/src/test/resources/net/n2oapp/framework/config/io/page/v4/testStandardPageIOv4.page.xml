@@ -58,5 +58,10 @@
                 <fetch on="ds3" model="datasource"/>
             </dependencies>
         </browser-storage>
+        <app-datasource id="test">
+            <dependencies>
+                <fetch on="123"/>
+            </dependencies>
+        </app-datasource>
     </datasources>
 </page>

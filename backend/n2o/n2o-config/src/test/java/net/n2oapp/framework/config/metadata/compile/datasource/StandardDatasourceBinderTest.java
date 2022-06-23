@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тест {@link net.n2oapp.framework.config.metadata.compile.widget.FormBinder}
  */
-public class QueryDatasourceBinderTest extends SourceCompileTestBase {
+public class StandardDatasourceBinderTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
