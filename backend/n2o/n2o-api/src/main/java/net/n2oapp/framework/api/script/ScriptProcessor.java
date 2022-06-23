@@ -73,7 +73,6 @@ public class ScriptProcessor {
                 }
             }
             if (hasLink(expr)) {
-                expr = expr.replace("'", "\\\'");
                 expr = resolveToJsString(expr);
                 return toJsExpression(expr.replaceAll("#<", "#{").replaceAll("\\$<", "\\${").replaceAll(">>", "}"));
             } else {
