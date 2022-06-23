@@ -14,6 +14,9 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Тестирование компиляции источника данных, ссылающегося на источник из application.xml
+ */
 public class ApplicationDatasourceCompileTest extends SourceCompileTestBase {
 
     @Override

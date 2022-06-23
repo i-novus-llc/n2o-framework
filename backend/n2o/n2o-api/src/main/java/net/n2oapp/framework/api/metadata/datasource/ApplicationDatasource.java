@@ -8,11 +8,12 @@ import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
 import java.util.List;
 
 /**
- * Клиентская модель источника данных ссылающегося на источник из application.xml
+ * Клиентская модель источника данных, ссылающегося на источник из application.xml
  */
 @Getter
 @Setter
 public class ApplicationDatasource extends AbstractDatasource {
+
     @JsonProperty
     private List<DependencyCondition> dependencies;
     @JsonProperty

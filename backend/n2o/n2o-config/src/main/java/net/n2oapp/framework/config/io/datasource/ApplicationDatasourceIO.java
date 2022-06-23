@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись источника данных ссылающегося на источник из application.xml
+ * Чтение\запись источника данных, ссылающегося на источник из application.xml
  */
 @Component
 public class ApplicationDatasourceIO extends AbstractDatasourceIO<N2oApplicationDatasource> {

@@ -40,7 +40,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
      */
     private void checkForExistsObject(N2oStandardDatasource datasource, SourceProcessor p) {
         p.checkForExists(datasource.getObjectId(), N2oObject.class,
-                String.format("Источник данных %s ссылается на несуществующий объект %s", datasourceId, datasource.getObjectId()));
+                String.format("Источник данных '%s' ссылается на несуществующий объект '%s'", datasourceId, datasource.getObjectId()));
     }
 
     /**
@@ -54,7 +54,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                 if (d instanceof N2oStandardDatasource.FetchDependency && ((N2oStandardDatasource.FetchDependency) d).getOn() != null) {
                     String on = ((N2oStandardDatasource.FetchDependency) d).getOn();
                     ValidationUtils.checkForExistsDatasource(on, scope,
-                            String.format("Атрибут \"on\" в зависимости источника данных %s ссылается на несуществующий источник данных %s",
+                            String.format("Атрибут \"on\" в зависимости источника данных '%s' ссылается на несуществующий источник данных '%s'",
                                     datasourceId, on));
                 }
             }
@@ -70,7 +70,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
         if (datasource.getSubmit() != null && datasource.getSubmit().getRefreshDatasources() != null) {
             for (String refreshDs : datasource.getSubmit().getRefreshDatasources()) {
                 ValidationUtils.checkForExistsDatasource(refreshDs, scope,
-                        String.format("Тег <submit> источника данных %s содержит несуществующий источник данных '%s' в атрибуте \"refresh-datasources\"",
+                        String.format("Тег <submit> источника данных '%s' содержит несуществующий источник данных '%s' в атрибуте \"refresh-datasources\"",
                                 datasourceId, refreshDs));
             }
         }
@@ -87,10 +87,10 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
         if (datasource.getFilters() != null) {
             if (query == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но не задана выборка", datasourceId));
+                        String.format("Источник данных '%s' имеет префильтры, но не задана выборка", datasourceId));
             if (query.getFields() == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но в выборке '%s' нет fields!", datasourceId, query.getId()));
+                        String.format("Источник данных '%s' имеет префильтры, но в выборке '%s' нет fields!", datasourceId, query.getId()));
 
             for (N2oPreFilter preFilter : datasource.getFilters()) {
                 String fieldId = ValidationUtils.getIdOrEmptyString(preFilter.getFieldId());
@@ -98,7 +98,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
 
                 if (preFilter.getDatasource() != null)
                     ValidationUtils.checkForExistsDatasource(preFilter.getDatasource(), scope,
-                            String.format("В префильтре по полю %s указан несуществующий источник данных '%s'",
+                            String.format("В префильтре по полю '%s' указан несуществующий источник данных '%s'",
                                     fieldId, preFilter.getDatasource()));
                 N2oQuery.Field exField = null;
                 for (N2oQuery.Field field : query.getFields()) {
@@ -109,11 +109,11 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                 }
                 if (exField == null)
                     throw new N2oMetadataValidationException(
-                            String.format("В выборке %s нет field '%s'!", queryId, preFilter.getFieldId()));
+                            String.format("В выборке '%s' нет поля '%s'!", queryId, preFilter.getFieldId()));
 
                 if (exField.getFilterList() == null)
                     throw new N2oMetadataValidationException(
-                            String.format("В выборке %s field '%s' не содержит фильтров!", queryId, preFilter.getFieldId()));
+                            String.format("В выборке '%s' поле '%s' не содержит фильтров!", queryId, preFilter.getFieldId()));
 
                 N2oQuery.Filter exFilter = null;
                 for (N2oQuery.Filter filter : exField.getFilterList()) {
@@ -124,7 +124,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                 }
                 if (exFilter == null)
                     throw new N2oMetadataValidationException(
-                            String.format("В выборке %s field '%s' не содержит фильтр типа '%s'!",
+                            String.format("В выборке '%s' поле '%s' не содержит фильтр типа '%s'!",
                                     queryId,
                                     preFilter.getFieldId(),
                                     preFilter.getType()));
@@ -141,7 +141,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
     private N2oQuery checkQueryExists(N2oStandardDatasource datasource, SourceProcessor p) {
         if (datasource.getQueryId() != null) {
             p.checkForExists(datasource.getQueryId(), N2oQuery.class,
-                    String.format("Источник данных %s ссылается на несуществующую выборку '%s'", datasourceId, datasource.getQueryId()));
+                    String.format("Источник данных '%s' ссылается на несуществующую выборку '%s'", datasourceId, datasource.getQueryId()));
             return p.getOrThrow(datasource.getQueryId(), N2oQuery.class);
         }
         return null;

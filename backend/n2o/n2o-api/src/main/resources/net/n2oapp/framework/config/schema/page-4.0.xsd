@@ -367,13 +367,8 @@
         <xs:annotation>
             <xs:documentation>Источники данных.</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="datasource" type="ds:standardDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="browser-storage"
-                        type="ds:browserStorageDatasourceDefinition"
-                        minOccurs="0"
-                        maxOccurs="unbounded"/>
-            <xs:element name="app-datasource" type="ds:datasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="ds:datasources"/>
+        </xs:complexContent>
     </xs:complexType>
 </xs:schema>

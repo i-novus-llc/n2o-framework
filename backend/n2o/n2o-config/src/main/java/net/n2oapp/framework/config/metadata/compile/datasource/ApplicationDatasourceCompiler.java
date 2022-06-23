@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oApplicationDatasour
 import org.springframework.stereotype.Component;
 
 /**
- * Компиляция источника данных ссылающегося на источник из application.xml
+ * Компиляция источника данных, ссылающегося на источник из application.xml
  */
 @Component
 public class ApplicationDatasourceCompiler extends BaseDatasourceCompiler<N2oApplicationDatasource, ApplicationDatasource> {

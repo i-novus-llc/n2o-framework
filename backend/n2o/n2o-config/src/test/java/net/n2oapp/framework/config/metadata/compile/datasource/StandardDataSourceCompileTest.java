@@ -32,7 +32,10 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
 
-public class QueryDataSourceCompileTest extends SourceCompileTestBase {
+/**
+ * Тестирование компиляции стандартного источника данных
+ */
+public class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
