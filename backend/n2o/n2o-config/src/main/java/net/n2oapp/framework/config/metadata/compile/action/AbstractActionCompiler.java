@@ -144,7 +144,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
             if (pathParams != null)
                 for (N2oParam pathParam : pathParams)
                     pathMapping.put(pathParam.getName(), Redux.linkParam(pathParam, p));
-            if (queryMapping != null) {
+            if (queryParams != null) {
                 String localDatasource = getLocalDatasource(p);
                 for (N2oParam queryParam : queryParams)
                     queryMapping.put(queryParam.getName(), initParamModelLink(queryParam,
