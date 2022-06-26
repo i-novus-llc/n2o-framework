@@ -1,55 +1,82 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { MODEL_PREFIX, SORT_DIRECTION } from '../../core/datasource/const'
+import { ModelPrefix, SortDirection } from '../../core/datasource/const'
+import {
+    AddComponentAction,
+    ChangeCountAction,
+    ChangePageAction,
+    ChangeSizeAction,
+    DataRequestAction,
+    FailRequestAction,
+    FailValidateAction,
+    RegisterAction,
+    RemoveAction,
+    RemoveComponentAction,
+    ResolveRequestAction,
+    SetFieldSubmitAction,
+    SetModelAction,
+    SetSortDirectionAction,
+    StartValidateAction
+} from './Actions'
 
-import { DataSource } from './DataSource'
+import { DataSource, DataSourceState } from './DataSource'
+import { IProvider, ProviderType, QueryResult } from './Provider'
+
+const initialState: Record<string, DataSourceState> = {}
 
 const datasource = createSlice({
     name: 'n2o/datasource',
-    initialState: {},
+    initialState,
     reducers: {
         register: {
-            prepare(id, initProps) {
+            prepare(id: string, initProps: DataSourceState) {
                 return ({
+                    type: '',
                     payload: { id, initProps },
                 })
             },
-            reducer(state, action) {
+            reducer(state, action: RegisterAction) {
                 const { id, initProps } = action.payload
-
-                state[id] = {
+                const { provider } = initProps
+                const datasource = {
                     ...DataSource.defaultState,
                     ...initProps,
                 }
+
+                if (provider && !provider.type) {
+                    provider.type = ProviderType.service
+                }
+
+                state[id] = datasource
             },
         },
 
         remove: {
-            prepare(id) {
+            prepare(id: string) {
                 return ({
                     payload: { id },
                 })
             },
-            reducer(state, action) {
+            reducer(state, action: RemoveAction) {
                 delete state[action.payload.id]
             },
         },
 
         addComponent: {
-            prepare(dataSourceId, componentId) {
+            prepare(id: string, componentId: string) {
                 return ({
-                    payload: { dataSourceId, componentId },
+                    payload: { id, componentId },
                 })
             },
 
-            reducer(state, action) {
-                const { dataSourceId, componentId } = action.payload
+            reducer(state, action: AddComponentAction) {
+                const { id, componentId } = action.payload
 
-                const datasource = state[dataSourceId] || DataSource.defaultState // fixme добавление виджета не должно быть до его регистрации
+                const datasource = state[id] || DataSource.defaultState // fixme добавление виджета не должно быть до его регистрации
 
                 if (datasource.components.includes(componentId)) { return }
 
-                state[dataSourceId] = {
+                state[id] = {
                     ...datasource,
                     components: [...datasource.components, componentId],
                 }
@@ -58,67 +85,68 @@ const datasource = createSlice({
 
         removeComponent: {
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(dataSourceId, componentId) {
+            prepare(id: string, componentId: string) {
                 return ({
-                    payload: { dataSourceId, componentId },
+                    payload: { id, componentId },
                 })
             },
 
-            reducer(state, action) {
-                const { dataSourceId, componentId } = action.payload
+            reducer(state, action: RemoveComponentAction) {
+                const { id, componentId } = action.payload
 
-                const datasource = state[dataSourceId]
+                const datasource = state[id]
 
-                state[dataSourceId] = {
+                state[id] = {
                     ...datasource,
                     components: datasource.components.filter(idFromDataSource => idFromDataSource !== componentId),
                 }
             },
         },
 
-        DATA_REQUEST: {
-            prepare(datasource, options = {}) {
+        dataRequest: {
+            prepare(id: string, options = {}) {
                 return ({
-                    payload: { datasource, options },
+                    payload: { id, options },
                 })
             },
-            reducer(state, action) {
-                const { datasource } = action.payload
+            reducer(state, action: DataRequestAction) {
+                const { id } = action.payload
 
-                if (!state[datasource]) {
+                if (!state[id]) {
                     // eslint-disable-next-line no-console
-                    console.warn(`Attempt to request data from a non-existent source: ${datasource}`)
+                    console.warn(`Attempt to request data from a non-existent source: ${id}`)
 
                     return
                 }
 
-                state[datasource].loading = true
+                state[id].loading = true
             },
         },
 
         resolveRequest: {
-            prepare(id, json) {
+            prepare(id: string, json: QueryResult) {
                 return ({
                     payload: { id, query: json },
                     meta: json.meta,
                 })
             },
-            reducer(state, action) {
-                const { id } = action.payload
+            reducer(state, action: ResolveRequestAction) {
+                const { id, query } = action.payload
 
                 state[id].loading = false
+                state[id].page = query.page 
+                state[id].count = query.count 
             },
         },
 
         rejectRequest: {
-            prepare(id, err, meta) {
+            prepare(id: string, err?, meta?) {
                 return ({
                     payload: { id, err },
                     meta,
                 })
             },
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            reducer(state, action) {
+            reducer(state, action: FailRequestAction) {
                 const { id } = action.payload
 
                 if (!state[id]) { return }
@@ -128,15 +156,15 @@ const datasource = createSlice({
         },
 
         setSorting: {
-            prepare(id, field, direction) {
+            prepare(id: string, field: string, direction: SortDirection) {
                 return ({
                     payload: { id, field, direction },
                 })
             },
-            reducer(state, action) {
+            reducer(state, action: SetSortDirectionAction) {
                 const { id, field, direction } = action.payload
 
-                if (direction === SORT_DIRECTION.NONE) {
+                if (direction === SortDirection.NONE) {
                     state[id].sorting = {}
                 } else {
                     state[id].sorting = { [field]: direction }
@@ -145,12 +173,12 @@ const datasource = createSlice({
         },
 
         changePage: {
-            prepare(id, page) {
+            prepare(id: string, page: number) {
                 return ({
                     payload: { id, page },
                 })
             },
-            reducer(state, action) {
+            reducer(state, action: ChangePageAction) {
                 const { id, page } = action.payload
 
                 state[id].page = page
@@ -158,24 +186,24 @@ const datasource = createSlice({
         },
 
         changeCount: {
-            prepare(id, count) {
+            prepare(id: string, count: number) {
                 return ({
                     payload: { id, count },
                 })
             },
-            reducer(state, action) {
+            reducer(state, action: ChangeCountAction) {
                 const { id, count } = action.payload
 
                 state[id].count = count
             },
         },
         changeSize: {
-            prepare(id, size) {
+            prepare(id: string, size: number) {
                 return ({
                     payload: { id, size },
                 })
             },
-            reducer(state, action) {
+            reducer(state, action: ChangeSizeAction) {
                 const { id, size } = action.payload
 
                 state[id].size = size
@@ -183,112 +211,110 @@ const datasource = createSlice({
         },
 
         startValidate: {
-            prepare(id, fields, prefix = MODEL_PREFIX.active, meta = {}) {
+            prepare(id: string, fields?: string[], prefix = ModelPrefix.active, meta = {}) {
                 return ({
                     payload: { id, prefix, fields },
                     meta,
                 })
             },
-            reducer(state, action) {
+            reducer(state, action: StartValidateAction) {
                 const { id, fields, prefix } = action.payload
-                const datasource = state[id]
-                const fieldList = fields?.length ? fields : Object.keys(datasource.validation || {})
+                const { errors, validation } = state[id]
+                const fieldList = fields?.length ? fields : Object.keys(validation || {})
 
-                datasource.errors[prefix] = datasource.errors[prefix] || {}
-
-                fieldList.forEach((field) => { datasource.errors[prefix][field] = undefined })
+                fieldList.forEach((field) => { errors[prefix][field] = undefined })
             },
         },
 
         failValidate: {
-            prepare(id, fields, prefix = MODEL_PREFIX.active, meta) {
+            prepare(id, fields, prefix = ModelPrefix.active, meta) {
                 return ({
                     payload: { id, fields, prefix },
                     meta,
                 })
             },
-            // eslint-disable-next-line no-unused-vars
-            reducer(state, action) {
+            reducer(state, action: FailValidateAction) {
                 const { id, fields, prefix } = action.payload
                 const datasource = state[id]
 
                 datasource.errors[prefix] = {
-                    ...(datasource.errors[prefix] || {}),
+                    ...datasource.errors[prefix],
                     ...fields,
                 }
             },
         },
         setActiveModel: {
-            prepare(id, model) {
+            prepare(id: string, model: object) {
                 return ({
-                    payload: { id, model, prefix: MODEL_PREFIX.active },
+                    payload: { id, model, prefix: ModelPrefix.active },
                 })
             },
             // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action) {
+            reducer(state, action: SetModelAction) {
                 // nothing
             },
         },
         setEditModel: {
-            prepare(id, model) {
+            prepare(id: string, model: object) {
                 return ({
-                    payload: { id, model, prefix: MODEL_PREFIX.edit },
+                    payload: { id, model, prefix: ModelPrefix.edit },
                 })
             },
             // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action) {
+            reducer(state, action: SetModelAction) {
                 // nothing
             },
         },
         setFilter: {
-            prepare(id, model) {
+            prepare(id: string, model: object) {
                 return ({
-                    payload: { id, model, prefix: MODEL_PREFIX.filter },
+                    payload: { id, model, prefix: ModelPrefix.filter },
                 })
             },
             // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action) {
+            reducer(state, action: SetModelAction) {
                 // nothing
             },
         },
         setSourceModel: {
-            prepare(id, model) {
+            prepare(id: string, model: object[]) {
                 return ({
-                    payload: { id, model, prefix: MODEL_PREFIX.source },
+                    payload: { id, model, prefix: ModelPrefix.source },
                 })
             },
             // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action) {
+            reducer(state, action: SetModelAction<object[]>) {
                 // nothing
             },
         },
         setMultiModel: {
-            prepare(id, model) {
+            prepare(id: string, model: object[]) {
                 return ({
-                    payload: { id, model, prefix: MODEL_PREFIX.selected },
+                    payload: { id, model, prefix: ModelPrefix.selected },
                 })
             },
             // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action) {
+            reducer(state, action: SetModelAction<object[]>) {
                 // nothing
             },
         },
 
         setFieldSubmit: {
-            prepare(id, field, dataProvider) {
+            prepare(id: string, field: string, provider: IProvider) {
                 return ({
-                    payload: { id, field, dataProvider },
+                    payload: { id, field, provider },
                 })
             },
-            reducer(state, action) {
-                const { id, field, dataProvider } = action.payload
+            reducer(state, action: SetFieldSubmitAction) {
+                const { id, field, provider } = action.payload
                 const datasource = state[id]
 
                 if (!datasource.fieldsSubmit) {
                     datasource.fieldsSubmit = {}
                 }
+                if (!provider.type) { provider.type = ProviderType.service }
 
-                datasource.fieldsSubmit[field] = dataProvider
+                datasource.fieldsSubmit[field] = provider
             },
         },
     },
@@ -300,7 +326,7 @@ export default datasource.reducer
 export const {
     register,
     remove,
-    DATA_REQUEST: dataRequest,
+    dataRequest,
     resolveRequest,
     rejectRequest,
     setActiveModel,

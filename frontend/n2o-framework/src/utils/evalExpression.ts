@@ -1,9 +1,10 @@
-import isObject from 'lodash/isObject'
 import isPlainObject from 'lodash/isPlainObject'
 import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 
+// @ts-ignore
 import functions from './functions'
+// @ts-ignore
 import warning from './warning'
 
 /**
@@ -11,7 +12,7 @@ import warning from './warning'
  * @param value {String} - Проверяемая строка
  * @returns {String|Boolean} - Найденное JS выражение, или false
  */
-export function parseExpression(value) {
+export function parseExpression(value: string): false | string {
     if (typeof value !== 'string') { return false }
 
     if (value.startsWith('`') && value.endsWith('`')) {
@@ -30,8 +31,10 @@ export function getGlobal() {
     // eslint-disable-next-line no-restricted-globals
     if (typeof self !== 'undefined') { return self }
     if (typeof window !== 'undefined') { return window }
+    // @ts-ignore
     if (typeof global !== 'undefined') { return global }
 
+    // @ts-ignore
     return (function getThis() { return this }())
 }
 
@@ -39,12 +42,13 @@ export function getGlobal() {
  * Получение обёртки над глобальым контекстом для контроля доступа к пропертям
  */
 export const createGlobalContext = (() => {
-    let context
-    const allowList = ['undefined', 'null', 'NaN', 'Infinity',
+    let context: object
+    const allowList: Array<string | symbol> = [
+        'undefined', 'null', 'NaN', 'Infinity', 'console', 'JSON',
         // тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
-        'location', 'history', 'navigator', 'console',
+        'location', 'history', 'navigator',
     ]
-    const selfKeys = ['window', 'self', 'global', 'globalThis']
+    const selfKeys: Array<string | symbol> = ['window', 'self', 'global', 'globalThis']
 
     return function createGlobalContext() {
         if (context) { return context }
@@ -70,13 +74,15 @@ export const createGlobalContext = (() => {
     }
 })()
 
+const fooCache: Record<string, Function> = {}
+
 /**
  * Создает функцию из текста
  * @param args {String[]} - массив имен переменных
  * @param code {String} - код для выполнения
  * @returns {Function} - Функция, созданная из текста code
  */
-export function createContextFn(args, code) {
+export function createContextFn(args: string[], code: string) {
     const joinedArgs = args.join(',')
     const key = `${joinedArgs}|||${code}`
 
@@ -93,10 +99,8 @@ export function createContextFn(args, code) {
     return fooCache[key]
 }
 
-const fooCache = {}
-
 // eslint-disable-next-line consistent-return
-function evalExpressionSingle(expression, context, args = context) {
+function evalExpressionSingle(expression: string, context: object, args = context) {
     if (expression === 'false') {
         return false
     }
@@ -107,6 +111,7 @@ function evalExpressionSingle(expression, context, args = context) {
     args = isPlainObject(args) ? args : {}
 
     try {
+        // @ts-ignore
         // eslint-disable-next-line no-underscore-dangle
         const argsExtended = { ...functions, ...window._n2oEvalContext, ...args }
 
@@ -117,22 +122,18 @@ function evalExpressionSingle(expression, context, args = context) {
         const fn = createContextFn(keys, expression)
 
         return fn.apply(context || {}, values)
-    } catch (e) {
+    } catch (error) {
         warning(
-            e,
-            `Ошибка при выполнение evalExpression! ${e.message}.
+            true,
+            `Ошибка при выполнение evalExpression! ${error instanceof Error ? error.message : error}.
       \nВыражение: ${expression}
       \nКонтекст: ${JSON.stringify(context)}`,
         )
     }
 }
 
-function evalExpressionMulti(expression, context) {
-    let multiContext = context
-
-    if (isObject(multiContext)) {
-        multiContext = values(context)
-    }
+function evalExpressionMulti(expression: string, context: object | object[]) {
+    const multiContext = Array.isArray(context) ? context : values(context)
 
     if (isEmpty(multiContext)) {
         return evalExpressionSingle(expression, multiContext, {})
@@ -141,16 +142,18 @@ function evalExpressionMulti(expression, context) {
     return multiContext.every(item => evalExpressionSingle(expression, multiContext, item))
 }
 
+
+// TODO вынести отсюда мульти в отдельный файл. Вообще не понятно зачем он тут, нужен для конкретного кейса
 /**
  * Выполняет JS выражение
  * @param expression {String} - Выражение, которое нужно выполнить
- * @param context - {Object} - Аргемент вызова (будет обогощен либами, типа lodash, moment и пр.)
+ * @param context - {Object} - Аргумент вызова (будет обогощен либами, типа lodash, moment и пр.)
  * @param type - {Object} - настройка evalExpression (mode = multi || mode = single default)
  * @returns {*} - результат вычисления
  */
 export default function evalExpression(
-    expression,
-    context,
+    expression: string,
+    context: object,
     type = { mode: 'single' },
 ) {
     const { mode } = type

@@ -7,11 +7,16 @@ import pick from 'lodash/pick'
 import merge from 'lodash/merge'
 import omit from 'lodash/omit'
 
+// @ts-ignore
 import { setIn } from '../../tools/helpers'
+import { ModelPrefix } from '../../core/datasource/const'
 
-import { COPY } from './constants'
 
-const initialState = {
+import { ALL_PREFIXES, COPY } from './constants'
+import { State } from './Models'
+import { ClearModelAction, MergeModelAction, RemoveAllModelAction, RemoveModelAction, SetModelAction, SyncModelAction, UpdateMapModelAction, UpdateModelAction } from './Actions'
+
+const initialState: State = {
     datasource: {},
     filter: {},
     multi: {}, // selected
@@ -24,13 +29,7 @@ const modelsSlice = createSlice({
     initialState,
     reducers: {
         SET: {
-            /**
-             * @param {string} prefix
-             * @param {string} key
-             * @param {object} model
-             * @return {{payload: ModelsStore.setModelPayload}}
-             */
-            prepare(prefix, key, model) {
+            prepare(prefix: ModelPrefix, key: string, model: object) {
                 return ({
                     payload: { prefix, key, model },
                 })
@@ -43,7 +42,7 @@ const modelsSlice = createSlice({
              * @param {string} action.type
              * @param {ModelsStore.setModelPayload} action.payload
              */
-            reducer(state, action) {
+            reducer(state, action: SetModelAction) {
                 const { key, model, prefix } = action.payload
 
                 if (!state[prefix]) {
@@ -55,12 +54,7 @@ const modelsSlice = createSlice({
         },
 
         REMOVE: {
-            /**
-             * @param {string} prefix
-             * @param {string | number} key
-             * @return {{payload: ModelsStore.removeModelPayload}}
-             */
-            prepare(prefix, key) {
+            prepare(prefix: ModelPrefix, key: string) {
                 return ({
                     payload: { prefix, key },
                 })
@@ -73,7 +67,7 @@ const modelsSlice = createSlice({
              * @param {string} action.type
              * @param {ModelsStore.removeModelPayload} action.payload
              */
-            reducer(state, action) {
+            reducer(state, action: RemoveModelAction) {
                 const { key, prefix } = action.payload
 
                 state[prefix] = omit(state[prefix], key)
@@ -81,13 +75,7 @@ const modelsSlice = createSlice({
         },
 
         SYNC: {
-            /**
-             * @param {string} prefix
-             * @param {string[]} keys
-             * @param {object} model
-             * @return {{payload: ModelsStore.syncModelPayload}}
-             */
-            prepare(prefix, keys, model) {
+            prepare(prefix: ModelPrefix, keys: string[], model: object) {
                 return ({
                     payload: { prefix, keys, model },
                 })
@@ -95,43 +83,27 @@ const modelsSlice = createSlice({
 
             /**
              * Установка значений в несколько моделей
-             * @param {ModelsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {ModelsStore.syncModelPayload} action.payload
              */
-            reducer(state, action) {
+            reducer(state, action: SyncModelAction) {
                 const { prefix, keys, model } = action.payload
-
-                state[prefix] = {
-                    ...state[prefix],
-                    ...keys.map(key => ({ [key]: model })),
-                }
+                const models = state[prefix]
+    
+                keys.forEach((key) => {
+                    models[key] = model
+                })
             },
         },
 
         UPDATE: {
-            /**
-             * @param {string} prefix
-             * @param {string} key
-             * @param {string} field
-             * @param {any} value
-             * @return {{payload: ModelsStore.updateModelPayload}}
-             */
-            prepare(prefix, key, field, value) {
+            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown) {
                 return ({
                     payload: { prefix, key, field, value },
                 })
             },
-
             /**
              * Обновление значения в модели
-             * @param {ModelsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {ModelsStore.updateModelPayload} action.payload
              */
-            reducer(state, action) {
+            reducer(state, action: UpdateModelAction) {
                 const { prefix, key, field, value } = action.payload
 
                 if (field) {
@@ -147,15 +119,7 @@ const modelsSlice = createSlice({
         },
 
         UPDATE_MAP: {
-            /**
-             * @param {string} prefix
-             * @param {string} key
-             * @param {string} field
-             * @param {any} value
-             * @param {string} map
-             * @return {{payload: ModelsStore.updateMapModelPayload}}
-             */
-            prepare(prefix, key, field, value, map) {
+            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, map) {
                 return ({
                     payload: { prefix, key, field, value, map },
                 })
@@ -163,27 +127,24 @@ const modelsSlice = createSlice({
 
             /**
              * Обновление массива с маппингом
-             * @param {ModelsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {ModelsStore.updateMapModelPayload} action.payload
              */
-            reducer(state, action) {
+            reducer(state, action: UpdateMapModelAction) {
                 const { prefix, value, key, field, map } = action.payload
                 const newValue = isString(value) ? [value] : value
 
-                state[prefix] = setIn(state[prefix], [key, field], mapFn(newValue, v => ({ [map]: v })))
+                state[prefix] = setIn(
+                    state[prefix],
+                    [key, field],
+                    // @ts-ignore
+                    mapFn(newValue, v => ({ [map]: v }))
+                )
             },
         },
 
         /**
          * Очистка моделий. которая учивает список исключений (поля которые не нужно очищать)
-         * @param {ModelsStore.state} state
-         * @param {Object} action
-         * @param {string} action.type
-         * @param {ModelsStore.clearModelPayload} action.payload
          */
-        CLEAR(state, action) {
+        CLEAR(state, action: ClearModelAction) {
             const { prefixes, key, exclude } = action.payload
 
             prefixes.forEach((prefix) => {
@@ -209,7 +170,7 @@ const modelsSlice = createSlice({
              * @param {string} action.type
              * @param {ModelsStore.combineModelsPayload} action.payload
              */
-            reducer(state, action) {
+            reducer(state, action: MergeModelAction) {
                 const { combine } = action.payload
 
                 return merge(state, combine)
@@ -217,11 +178,7 @@ const modelsSlice = createSlice({
         },
 
         REMOVE_ALL: {
-            /**
-             * @param {string} key
-             * @return {{payload: ModelsStore.removeAllModelPayload}}
-             */
-            prepare(key) {
+            prepare(key: string) {
                 return ({
                     payload: { key },
                 })
@@ -229,15 +186,11 @@ const modelsSlice = createSlice({
 
             /**
              * Удаление всех моделей из хранилища
-             * @param {ModelsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {ModelsStore.removeAllModelPayload} action.payload
              */
-            reducer(state, action) {
+            reducer(state, action: RemoveAllModelAction) {
                 const { key } = action.payload
 
-                Object.keys(state).forEach((prefix) => {
+                ALL_PREFIXES.forEach((prefix) => {
                     delete state[prefix][key]
                 })
             },

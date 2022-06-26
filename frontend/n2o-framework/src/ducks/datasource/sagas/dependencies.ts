@@ -6,9 +6,11 @@ import {
 import { get } from 'lodash'
 import isEqual from 'lodash/isEqual'
 
-import { DEPENDENCY_TYPE } from '../../../core/datasource/const'
-import { dataRequest, startValidate } from '../store'
+import { DataSourceDependency, DEPENDENCY_TYPE } from '../../../core/datasource/const'
+import { dataRequest, startValidate } from '../store.js'
 import { dataSourcesSelector } from '../selectors'
+import { State as GlobalState } from '../../State'
+import { State as DatasourceState } from '../DataSource'
 
 /**
  * @param {String} id
@@ -16,7 +18,7 @@ import { dataSourcesSelector } from '../selectors'
  * @param model
  */
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-export function* resolveDependency(id, dependency, model) {
+export function* resolveDependency(id: string, dependency: DataSourceDependency, model: unknown) {
     switch (dependency.type) {
         case DEPENDENCY_TYPE.fetch: {
             yield put(dataRequest(id))
@@ -40,14 +42,12 @@ export function* resolveDependency(id, dependency, model) {
  * @param action
  * @param {object} prevState
  */
-export function* watchDependencies(action, prevState) {
-    const state = yield select()
-    const dataSources = yield select(dataSourcesSelector)
+export function* watchDependencies(action: unknown, prevState: GlobalState) {
+    const state: GlobalState = yield select()
+    const dataSources: DatasourceState = yield select(dataSourcesSelector)
     const entries = Object.entries(dataSources)
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const [id, { dependencies }] of entries) {
-        // eslint-disable-next-line no-restricted-syntax
         for (const dependency of dependencies) {
             const { on } = dependency
             const model = get(state, on)
