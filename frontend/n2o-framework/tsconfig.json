@@ -19,6 +19,8 @@
         "strict": true,
         "pretty": true,
         "types": ["tslib"],
+        "moduleResolution": "Node",
+        "allowSyntheticDefaultImports": true,
         "jsx": "react",
         // Ensure that .d.ts files are created by tsc, but not .js files
         "declaration": true,
