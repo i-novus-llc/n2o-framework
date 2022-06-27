@@ -9,7 +9,7 @@ import identity from 'lodash/identity'
 import omit from 'lodash/omit'
 import { replace } from 'connected-react-router'
 
-import { getParams } from '../../../core/dataProviderResolver'
+import { getParams } from '../../../../core/dataProviderResolver'
 
 export function* routesQueryMapping(state, routes, location) {
     const queryObject = yield call(

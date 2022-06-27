@@ -5,10 +5,12 @@ import {
     fork,
     cancel,
 } from 'redux-saga/effects'
+import type { Task } from 'redux-saga'
 
 import { clearModel, copyModel, removeAllModel, removeModel, setModel } from '../models/store'
+import type { State } from '../State'
 
-import { dataRequest as dataRequestSaga } from './sagas/dataRequest'
+import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
 import {
     changePage,
@@ -24,26 +26,27 @@ import {
     startValidate,
 } from './store'
 import { watchDependencies } from './sagas/dependencies'
+import type { ChangePageAction, DataRequestAction, RemoveAction, SetModelAction } from './Actions'
 
 // Мапинг изменения моделей
-export function* resolveModelsSaga({ payload }) {
+export function* resolveModelsSaga({ payload }: SetModelAction) {
     const { id, model, prefix } = payload
 
     yield put(setModel(prefix, id, model))
 }
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
-export function* runDataRequest({ payload }) {
+export function* runDataRequest({ payload }: ChangePageAction) {
     const { id, page } = payload
 
     yield put(dataRequest(id, { page: page || 1 }))
 }
 
-/** @type {Record<string, Array<string>>} Список активных задач dataRequest, которые надо отменить при дестрое */
-const activeTasks = {}
+/** Список активных задач dataRequest, которые надо отменить при дестрое */
+const activeTasks: Record<string, Task[]> = {}
 
 // Очистка данных и отмена активных задач при дестрое ds
-export function* removeSaga({ payload }) {
+export function* removeSaga({ payload }: RemoveAction) {
     const { id } = payload
     const tasks = activeTasks[id] || []
 
@@ -55,20 +58,20 @@ export function* removeSaga({ payload }) {
 }
 
 // Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
-export function* dataRequestWrapper(action) {
-    const { datasource } = action.payload
-    const task = yield fork(dataRequestSaga, action)
+export function* dataRequestWrapper(action: DataRequestAction) {
+    const { id } = action.payload
+    const task: Task = yield fork(query, action)
 
-    activeTasks[datasource] = activeTasks[datasource] || []
-    activeTasks[datasource].push(task)
+    activeTasks[id] = activeTasks[id] || []
+    activeTasks[id].push(task)
     // фильтр завершенных задач, чтобы память не текла
     task.toPromise().finally(() => {
-        activeTasks[datasource] = activeTasks[datasource].filter(activeTask => activeTask !== task)
+        activeTasks[id] = activeTasks[id].filter(activeTask => activeTask !== task)
     })
 }
 
 // Кеш предыдущего состояния для наблюдения за изменениями зависимостей
-let prevState = {}
+let prevState: State = {} as State
 
 export default () => [
     takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel, setEditModel], resolveModelsSaga),
@@ -80,6 +83,7 @@ export default () => [
         yield watchDependencies(action, prevState)
         prevState = yield select()
     }),
+    // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.refresh?.datasources, function* refreshSage({ meta }) {
         const { refresh } = meta
         const { datasources } = refresh

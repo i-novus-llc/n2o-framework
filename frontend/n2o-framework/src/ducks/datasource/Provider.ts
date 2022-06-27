@@ -5,7 +5,7 @@ export enum ProviderType {
     application = 'application'
 }
 
-export interface IProviderBase {
+export interface IProvider {
     type: ProviderType
 }
 interface IMappingParam {
@@ -15,15 +15,13 @@ interface IMappingParam {
     value: string
 }
 
-export interface ServiceProvider extends IProviderBase {
+export interface ServiceProvider extends IProvider {
     type: ProviderType.service
     url: string
     pathMappeng: Record<string, IMappingParam>
     queryMapping: Record<string, IMappingParam>
     size: number
 }
-
-export type IProvider = IProviderBase & (ServiceProvider)
 
 export interface QueryResult<TModel extends object = object> {
     list: TModel[]
