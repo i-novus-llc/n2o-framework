@@ -2,7 +2,8 @@
 title: Действия
 description: ""
 ---
-import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
+
+import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 **Библиотека компонентов**
 ```
@@ -79,6 +80,25 @@ http://n2oapp.net/framework/config/schema/action-1.0
 ```xml
 <datasources>
     <datasource id="ds1" query-id="other_query" default-values-mode="defaults"/>
+</datasources>
+```
+
+#### Переопределение источников данных &lt;browser-storage&gt; {#browser-storage}
+
+**Атрибуты**
+
+|Наименование        |Тип                         |Описание                                                              |Значение по умолчанию |
+|--------------------|----------------------------|----------------------------------------------------------------------|----------------------|
+|id                  |Строка                      |Идентификатор источника данных                                        |                      |
+|storage-type        |localStorage,sessionStorage |Тип хранилища в браузере                                              |sessionStorage        |
+|key                 |Строка                      |Ключ под которым будут храниться данные                               |                      |
+
+
+**Пример**
+
+```xml
+<datasources>
+    <browser-storage id="ds2" storage-type="localStorage" key="ds2"/>
 </datasources>
 ```
 

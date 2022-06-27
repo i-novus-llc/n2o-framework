@@ -2,15 +2,19 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -139,12 +143,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private CompiledObject initObject(CompileProcessor p, N2oButton button) {
         if (button.getDatasourceId() != null && p.getScope(DataSourcesScope.class) != null) {
-            N2oDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasourceId());
-            if (datasource.getObjectId() != null) {
-                return p.getCompiled(new ObjectContext(datasource.getObjectId()));
-            } else if (datasource.getQueryId() != null) {
-                CompiledQuery query = p.getCompiled(new QueryContext(datasource.getQueryId()));
-                return query.getObject();
+            N2oAbstractDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasourceId());
+            if (datasource instanceof N2oStandardDatasource) {
+                N2oStandardDatasource standardDatasource = (N2oStandardDatasource) datasource;
+                if (standardDatasource.getObjectId() != null) {
+                    return p.getCompiled(new ObjectContext(standardDatasource.getObjectId()));
+                } else if (standardDatasource.getQueryId() != null) {
+                    CompiledQuery query = p.getCompiled(new QueryContext(standardDatasource.getQueryId()));
+                    return query.getObject();
+                }
             }
         }
         return p.getScope(CompiledObject.class);

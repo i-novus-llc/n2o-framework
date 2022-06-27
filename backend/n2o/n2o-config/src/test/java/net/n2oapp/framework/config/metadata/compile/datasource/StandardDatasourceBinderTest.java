@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тест {@link net.n2oapp.framework.config.metadata.compile.widget.FormBinder}
  */
-public class DatasourceBinderTest extends SourceCompileTestBase {
+public class StandardDatasourceBinderTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -49,6 +49,6 @@ public class DatasourceBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testFormBinderAutoSubmit", "/p/w/:param0/form");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param0", "1"));
         Form form = (Form) page.getWidget();
-        assertThat(page.getDatasources().get(form.getDatasource()).getSubmit().getUrl(), containsString("/p/w/1/form"));
+        assertThat(((StandardDatasource) page.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), containsString("/p/w/1/form"));
     }
 }

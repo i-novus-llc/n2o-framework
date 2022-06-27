@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
@@ -50,7 +51,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         super.initDefaults(source, context, p);
         if (source.getDatasources() != null) {
             for (N2oDatasource datasource : source.getDatasources()) {
-                initDefaultsDatasource(datasource, context, p);
+                if (datasource instanceof N2oStandardDatasource)
+                    initDefaultsDatasource((N2oStandardDatasource) datasource, context, p);
             }
         }
         if (source.getParams() != null) {
@@ -86,7 +88,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param context    Контекст сборки
      * @param p          Процессор сборки
      */
-    protected void initDefaultsDatasource(N2oDatasource datasource, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void initDefaultsDatasource(N2oStandardDatasource datasource, CompileContext<?, ?> context, CompileProcessor p) {
         if (datasource.getFilters() != null) {
             for (N2oPreFilter filter : datasource.getFilters()) {
                 filter.setModel(p.cast(filter.getModel(), () -> getModelFromComponentScope(p)));
@@ -191,7 +193,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if ((pageContext.getRefreshOnSuccessSubmit() || pageContext.getRefreshOnClose()) &&
                 (source.getRefreshDatasources() != null || localDatasourceId != null)) {
             String[] refreshDatasources = source.getRefreshDatasources() == null ?
-                    new String[] {localDatasourceId} : source.getRefreshDatasources();
+                    new String[]{localDatasourceId} : source.getRefreshDatasources();
             if (pageScope != null) {
                 pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasources)
                         .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
@@ -316,8 +318,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                             String datasource = param.getDatasource();
                             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
                             if (ReduxModel.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
-                                    && dataSourcesScope.get(datasource) != null)
-                                link.setSubModelQuery(new SubModelQuery(dataSourcesScope.get(datasource).getQueryId()));
+                                    && dataSourcesScope.get(datasource) != null && dataSourcesScope.get(datasource) instanceof N2oStandardDatasource)
+                                link.setSubModelQuery(new SubModelQuery(((N2oStandardDatasource) dataSourcesScope.get(datasource)).getQueryId()));
                             return link;
                         }));
     }

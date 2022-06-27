@@ -15,15 +15,15 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +48,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     @Deprecated
     private String objectId;
     private String datasourceId;
-    private N2oDatasource datasource;
+    private N2oStandardDatasource datasource;
     @Deprecated
     private Integer size;
     private String cssClass;
@@ -100,7 +100,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
         if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
                 getUpload() != null || getDependsOn() != null || getDependencyCondition() != null) {
-            N2oDatasource datasource = new N2oDatasource();
+            N2oStandardDatasource datasource = new N2oStandardDatasource();
             setDatasource(datasource);
             datasource.setQueryId(getQueryId());
             datasource.setObjectId(getObjectId());
@@ -125,10 +125,10 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
             }
 
             if (getDependsOn() != null) {
-                N2oDatasource.FetchDependency fetchDependency = new N2oDatasource.FetchDependency();
+                N2oStandardDatasource.FetchDependency fetchDependency = new N2oStandardDatasource.FetchDependency();
                 fetchDependency.setOn(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 fetchDependency.setModel(ReduxModel.resolve);
-                datasource.setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
+                datasource.setDependencies(new N2oStandardDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (getDetailFieldId() != null) {
                     List<N2oPreFilter> preFilters = datasource.getFilters() == null ?

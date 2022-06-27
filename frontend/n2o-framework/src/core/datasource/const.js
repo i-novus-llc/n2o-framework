@@ -53,10 +53,12 @@ export const VALIDATION_SEVERITY_PRIORITY = {
  * @enum DEPENDENCY_TYPE Типы зависимостей
  * @property {string} fetch
  * @property {string} validate
+ * @property {string} copy
  */
 export const DEPENDENCY_TYPE = {
     fetch: 'fetch',
     validate: 'validate',
+    copy: 'copy',
 }
 
 /**

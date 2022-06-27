@@ -63,5 +63,6 @@ link:#_Кодекс_поведения[Кодексу поведения].
 - соблюдать https://www.oracle.com/technetwork/java/codeconventions-150003.pdf[Java Code Conventions]
 - максимально покрывать все тестами
 - при добавлении новых компонентов или атрибутов в `xml api` писать документацию
-в Руководство разработчика N~2~O(docs\src\manual), в Справочник по XML API (docs\src\xml)
-и Migration Guide(docs\src\migration).
+в Руководство разработчика N~2~O(frontend/docs/docs/guides/manual), в Справочник по XML API (frontend/docs/docs/guides/xml)
+и Migration Guide(frontend/docs/docs/guides/migration).
+
