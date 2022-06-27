@@ -16,6 +16,7 @@
     <xs:element name="print" type="printDefinition"/>
     <xs:element name="refresh" type="refreshDefinition"/>
     <xs:element name="alert" type="alertDefinition"/>
+    <xs:element name="submit" type="submitDatasourceDefinition"/>
 
     <xs:complexType name="actions">
         <xs:sequence>
@@ -33,6 +34,7 @@
             <xs:element name="print" type="printDefinition" minOccurs="0"/>
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
             <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -870,6 +872,21 @@
                 <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Источник данных, по умолчанию текущего виджета</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="submitDatasourceDefinition">
+        <xs:annotation>
+            <xs:documentation>Действие сохранения источника данных.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="actionDefinition">
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
