@@ -57,8 +57,8 @@ const dropdownItem = {
 describe('Проверка MenuContainer', () => {
     it('проверка  items', async () => {
         const wrapper = setup({
-            authProvider: (type, config) => {
-                if (!config.config.page.permissions.includes('test')) {
+            checkSecurity: (config) => {
+                if (!config.page.permissions.includes('test')) {
                     throw new Error()
                 }
             },
@@ -115,8 +115,8 @@ describe('Проверка MenuContainer', () => {
 
     it('проверка  extraItems', async () => {
         const wrapper = setup({
-            authProvider: (type, config) => {
-                if (!config.config.page.permissions.includes('test')) {
+            checkSecurity: (config) => {
+                if (!config.page.permissions.includes('test')) {
                     throw new Error()
                 }
             },
@@ -173,8 +173,8 @@ describe('Проверка MenuContainer', () => {
 
     it('проверка вложенных items, доступен с ролью admin', async () => {
         const wrapper = setup({
-            authProvider: (type, config) => {
-                if (!config.config.custom.roles.includes('admin')) {
+            checkSecurity: (config) => {
+                if (!config.custom.roles.includes('admin')) {
                     throw new Error()
                 }
             },

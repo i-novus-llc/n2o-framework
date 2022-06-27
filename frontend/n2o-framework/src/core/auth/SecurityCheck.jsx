@@ -1,12 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
+import PropTypes from 'prop-types'
 
 import { resolveLinksRecursively } from '../../utils/linkResolver'
 
 import withSecurity from './withSecurity'
-import { SECURITY_CHECK } from './authTypes'
+
+const excludedKeys = ['checkSecurity', 'config']
 
 /**
  * <SecurityCheck config={{roles: ['admin'], context: ['ivanov']]}}
@@ -42,21 +45,16 @@ class SecurityCheck extends React.Component {
     }
 
     async checkPermissions(params, resolvedConfig) {
-        const { authProvider, config, user, store } = params
+        const { checkSecurity } = params
         const { onPermissionsSet } = this.props
 
         try {
-            const permissions = await authProvider(SECURITY_CHECK, {
-                store,
-                user,
-                config,
-                resolvedConfig,
-            })
+            const hasAccess = await checkSecurity(resolvedConfig)
 
             this.setState(
                 // eslint-disable-next-line react/no-unused-state
-                { permissions, error: null },
-                () => onPermissionsSet && onPermissionsSet(permissions),
+                { permissions: hasAccess, error: null },
+                () => onPermissionsSet && onPermissionsSet(hasAccess),
             )
         } catch (error) {
             this.setState(
@@ -70,7 +68,7 @@ class SecurityCheck extends React.Component {
     render() {
         const { permissions } = this.state
         const { render } = this.props
-        const props = omit(this.props, ['authProvider', 'config'])
+        const props = omit(this.props, excludedKeys)
 
         return render({ permissions, ...props })
     }
@@ -80,6 +78,8 @@ SecurityCheck.propTypes = {
     store: PropTypes.object,
     user: PropTypes.object,
     config: PropTypes.object,
+    // eslint-disable-next-line react/no-unused-prop-types
+    checkSecurity: PropTypes.func,
     render: PropTypes.func,
     onPermissionsSet: PropTypes.func,
 }
@@ -89,4 +89,8 @@ SecurityCheck.defaultProps = {
     onPermissionsSet: () => {},
 }
 
-export default withSecurity(SecurityCheck)
+const mapStateToProps = state => ({
+    store: state,
+})
+
+export default compose(withSecurity, connect(mapStateToProps, null))(SecurityCheck)

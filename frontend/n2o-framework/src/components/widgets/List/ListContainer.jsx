@@ -148,7 +148,7 @@ class ListContainer extends React.Component {
             models,
             rows,
             t,
-            authProvider,
+            checkSecurity,
         } = this.props
 
         return {
@@ -165,7 +165,7 @@ class ListContainer extends React.Component {
             selectedId: models.resolve?.id,
             rows,
             t,
-            authProvider,
+            checkSecurity,
         }
     }
 
@@ -199,7 +199,7 @@ ListContainer.propTypes = {
     divider: PropTypes.bool,
     rows: PropTypes.object,
     t: PropTypes.func,
-    authProvider: PropTypes.func,
+    checkSecurity: PropTypes.func,
 }
 
 ListContainer.defaultProps = {

@@ -18,7 +18,7 @@ import eq from 'lodash/eq'
 import get from 'lodash/get'
 
 import propsResolver from '../../../utils/propsResolver'
-import SecurityCheck from '../../../core/auth/SecurityCheck'
+import SecurityController from '../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
 import { InputRadio } from '../../controls/Radio/Input'
@@ -246,14 +246,11 @@ class AdvancedTable extends Component {
             }
 
             return (
-                <SecurityCheck
-                    config={rows.security}
-                    render={({ permissions }) => (permissions ? (
-                        <AdvancedTableRowWithAction {...props} />
-                    ) : (
-                        <AdvancedTableRow {...props} />
-                    ))}
-                />
+                <SecurityController config={rows.security}>
+                    {({ hasAccess }) => (hasAccess
+                        ? <AdvancedTableRowWithAction {...props} />
+                        : <AdvancedTableRow {...props} />)}
+                </SecurityController>
             )
         }
     }

@@ -5,7 +5,6 @@ import { compose } from 'recompose'
 import isArray from 'lodash/isArray'
 
 import withSecurity from '../../core/auth/withSecurity'
-import { SECURITY_CHECK } from '../../core/auth/authTypes'
 
 // eslint-disable-next-line import/no-named-as-default
 import SideBar from './SideBar'
@@ -34,14 +33,11 @@ class SidebarContainer extends React.Component {
         const { items } = this.state
 
         if (item.security) {
-            const { user, authProvider } = this.props
+            const { checkSecurity } = this.props
             const config = item.security
 
             try {
-                await authProvider(SECURITY_CHECK, {
-                    config,
-                    user,
-                })
+                await checkSecurity(config)
 
                 this.setState({ items: items.concat(item) })
             } catch (error) {
@@ -116,8 +112,7 @@ class SidebarContainer extends React.Component {
 
 SidebarContainer.propTypes = {
     items: PropTypes.array,
-    user: PropTypes.any,
-    authProvider: PropTypes.any,
+    checkSecurity: PropTypes.func,
     defaultState: PropTypes.string,
     toggledState: PropTypes.string,
     onMouseEnter: PropTypes.func,
