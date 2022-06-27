@@ -4,6 +4,14 @@
         <html>
             <content>
                 <![CDATA[
+                    <div class='test'><p>{name}</p></div>
+                ]]>
+            </content>
+        </html>
+
+        <html>
+            <content>
+                <![CDATA[
                     <div class='test'><p>Hello</p></div>
                 ]]>
             </content>
