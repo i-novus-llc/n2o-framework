@@ -2,10 +2,12 @@ import isPlainObject from 'lodash/isPlainObject'
 import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 
-// @ts-ignore
+// @ts-ignore ignore import error from js file
 import functions from './functions'
-// @ts-ignore
+// @ts-ignore ignore import error from js file
 import warning from './warning'
+
+type ExpressionFunction = <TReturn = unknown>(...context: unknown[]) => TReturn
 
 /**
  * Проверяет, является ли строка JS выражением
@@ -25,16 +27,16 @@ export function parseExpression(value: string): false | string {
 /**
  * Получение глобального контекста
  */
-export function getGlobal() {
+export function getGlobal(): typeof globalThis {
     // eslint-disable-next-line no-undef
     if (typeof globalThis !== 'undefined') { return globalThis }
     // eslint-disable-next-line no-restricted-globals
     if (typeof self !== 'undefined') { return self }
     if (typeof window !== 'undefined') { return window }
-    // @ts-ignore
+    // @ts-ignore FIXME: скорее всего уже можно обойтись одним globalThis
     if (typeof global !== 'undefined') { return global }
 
-    // @ts-ignore
+    // @ts-ignore FIXME: скорее всего уже можно обойтись одним globalThis
     return (function getThis() { return this }())
 }
 
@@ -42,7 +44,7 @@ export function getGlobal() {
  * Получение обёртки над глобальым контекстом для контроля доступа к пропертям
  */
 export const createGlobalContext = (() => {
-    let context: object
+    let context: object | undefined
     const allowList: Array<string | symbol> = [
         'undefined', 'null', 'NaN', 'Infinity', 'console', 'JSON',
         // тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
@@ -50,7 +52,7 @@ export const createGlobalContext = (() => {
     ]
     const selfKeys: Array<string | symbol> = ['window', 'self', 'global', 'globalThis']
 
-    return function createGlobalContext() {
+    return function createGlobalContext(): object {
         if (context) { return context }
 
         const self = getGlobal()
@@ -59,8 +61,11 @@ export const createGlobalContext = (() => {
             has() { return true },
             set() { return false },
             get(target, key) {
-                if (typeof self[key] === 'function' || allowList.includes(key)) {
-                    return self[key]
+                // @ts-ignore FIXME проставить нормальный тип для контекста
+                const value = target[key]
+
+                if (typeof value === 'function' || allowList.includes(key)) {
+                    return value
                 }
                 if (selfKeys.includes(key)) {
                     return context
@@ -74,7 +79,7 @@ export const createGlobalContext = (() => {
     }
 })()
 
-const fooCache: Record<string, Function> = {}
+const expressionCache = new Map<string, ExpressionFunction>()
 
 /**
  * Создает функцию из текста
@@ -82,25 +87,30 @@ const fooCache: Record<string, Function> = {}
  * @param code {String} - код для выполнения
  * @returns {Function} - Функция, созданная из текста code
  */
-export function createContextFn(args: string[], code: string) {
+export function createContextFn(args: string[], code: string): ExpressionFunction {
     const joinedArgs = args.join(',')
     const key = `${joinedArgs}|||${code}`
 
-    if (!fooCache[key]) {
-        // eslint-disable-next-line no-new-func
-        fooCache[key] = new Function(
-            'globalContext',
-            `with(globalContext) {
-                return function (${joinedArgs}) { return (${code}) }
-            }`,
-        )(createGlobalContext())
-    }
+    const expressionFunction = expressionCache.get(key)
 
-    return fooCache[key]
+    if (expressionFunction) { return expressionFunction }
+
+    // eslint-disable-next-line no-new-func
+    const creator = new Function(
+        'globalContext',
+        `with(globalContext) {
+            return function (${joinedArgs}) { return (${code}) }
+        }`,
+    ) as (global: object) => ExpressionFunction
+    const func: ExpressionFunction = creator(createGlobalContext())
+
+    expressionCache.set(key, func)
+
+    return func
 }
 
 // eslint-disable-next-line consistent-return
-function evalExpressionSingle(expression: string, context: object, args = context) {
+function evalExpressionSingle(expression: string, context: object = {}, args = context) {
     if (expression === 'false') {
         return false
     }
@@ -111,7 +121,7 @@ function evalExpressionSingle(expression: string, context: object, args = contex
     args = isPlainObject(args) ? args : {}
 
     try {
-        // @ts-ignore
+        // @ts-ignore _n2oEvalContext задаётся где-то в App. FIXME: переделать на явную передачу контекста
         // eslint-disable-next-line no-underscore-dangle
         const argsExtended = { ...functions, ...window._n2oEvalContext, ...args }
 
@@ -121,7 +131,7 @@ function evalExpressionSingle(expression: string, context: object, args = contex
 
         const fn = createContextFn(keys, expression)
 
-        return fn.apply(context || {}, values)
+        return fn.apply(context, values)
     } catch (error) {
         warning(
             true,
@@ -141,7 +151,6 @@ function evalExpressionMulti(expression: string, context: object | object[]) {
 
     return multiContext.every(item => evalExpressionSingle(expression, multiContext, item))
 }
-
 
 // TODO вынести отсюда мульти в отдельный файл. Вообще не понятно зачем он тут, нужен для конкретного кейса
 /**

@@ -2,7 +2,7 @@ export enum ProviderType {
     storage = 'browser',
     service = 'service',
     inherited = 'inherited',
-    application = 'application',
+    application = 'application'
 }
 
 export interface IProviderBase {

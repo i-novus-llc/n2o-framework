@@ -1,4 +1,4 @@
-import { ModelPrefix } from "../../core/datasource/const";
+import type { ModelPrefix } from '../../core/datasource/const'
 
 export interface ModelsPayload {
     prefix: ModelPrefix

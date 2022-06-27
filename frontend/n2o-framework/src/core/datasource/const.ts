@@ -2,9 +2,9 @@
  * @enum SortDirection Направление сортировки
  */
 export enum SortDirection {
-    NONE = 'NONE',
-    ASC = 'ASC',
-    DESC = 'DESC',
+    none = 'NONE',
+    asc = 'ASC',
+    desc = 'DESC'
 }
 
 /**
@@ -15,18 +15,18 @@ export enum ModelPrefix {
     selected = 'multi',
     source = 'datasource',
     filter = 'filter',
-    edit = 'edit',
+    edit = 'edit'
 }
 
 /**
- * @enum DEPENDENCY_TYPE Типы зависимостей
+ * @enum DependencyTypes Типы зависимостей
  */
-export enum DEPENDENCY_TYPE {
+export enum DependencyTypes {
     fetch = 'fetch',
-    validate = 'validate',
+    validate = 'validate'
 }
 
 export type DataSourceDependency = {
-    type: DEPENDENCY_TYPE,
+    type: DependencyTypes,
     on: string
 }

@@ -1,15 +1,14 @@
 {
   "extends": [
     "react-app",
-    "plugin:@typescript-eslint/recommended",
     "airbnb"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "eslint-plugin-import",
     "optimize-regex",
-    "@typescript-eslint",
-    "sonarjs"
+    "sonarjs",
+    "import"
   ],
   "ignorePatterns": ["*.test.js", "*.test.jsx"],
   "rules": {
@@ -49,6 +48,12 @@
     ],
     // Дефолтного экспорта быть не должно
     "import/prefer-default-export": "off",
+    "import/extensions": ["error", "always", {
+        "ts": "never",
+        "tsx": "never",
+        "js": "never",
+        "jsx": "never"
+      }],
     // Отступы внутри объектов и массивов
     "object-curly-spacing": ["error", "always"],
     // Не выносить контент объектов на отдельную строку
@@ -107,9 +112,6 @@
     "react/jsx-props-no-spreading": "off",
     // Убираем сортировку методов
     "react/sort-comp": "off",
-//
-    "@typescript-eslint/no-empty-function": "off",
-
 // Sonar
   // Bug Detection
     // Дублировние кода в if-else, switch ветках
@@ -152,9 +154,103 @@
     // if(true) { return true } else { return false }
     "sonarjs/prefer-single-boolean-return": "error"
   },
+  "overrides": [
+    // Typescript
+    {
+      "files": ["*.ts", "*.tsx"], // Your TypeScript files extension
+
+      // As mentioned in the comments, you should extend TypeScript plugins here,
+      // instead of extending them outside the `overrides`.
+      // If you don't want to extend any rules, you don't need an `extends` attribute.
+      "extends": [
+        "plugin:@typescript-eslint/recommended"
+        // "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      ],
+      "plugins": [
+        "@typescript-eslint"
+      ],
+
+      "parserOptions": {
+        "project": ["./tsconfig.json", "./frontend/n2o-framework/tsconfig.json"]
+      },
+      "rules": {
+        "@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
+        "@typescript-eslint/await-thenable": "error",
+        "@typescript-eslint/ban-ts-comment": ["error", {
+          "ts-expect-error": "allow-with-description",
+          "ts-ignore": "allow-with-description",
+          "ts-nocheck": "allow-with-description",
+          "ts-check": "allow-with-description",
+          "minimumDescriptionLength": 10
+        }],
+        "@typescript-eslint/consistent-type-exports": "error",
+        "@typescript-eslint/consistent-type-imports": "error",
+        "@typescript-eslint/method-signature-style": ["error", "method"],
+        "@typescript-eslint/naming-convention": "error",
+        "@typescript-eslint/no-confusing-non-null-assertion": "warn",
+        "@typescript-eslint/no-duplicate-enum-values": "warn",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-empty-interface": "warn",
+        "@typescript-eslint/no-explicit-any": "error",
+        // Запрет повторных Required модификаторов поля через "!." 
+        "@typescript-eslint/no-extra-non-null-assertion": "error",
+        // Запрет чисто статических классов
+        "@typescript-eslint/no-extraneous-class": "error",
+        "@typescript-eslint/no-floating-promises": "error",
+        "@typescript-eslint/no-for-in-array": "error",
+        "@typescript-eslint/no-inferrable-types": ["error", {
+          "ignoreParameters": false,
+          "ignoreProperties": true
+        }],
+        "@typescript-eslint/no-misused-new": "error",
+        "@typescript-eslint/no-non-null-assertion": "error",
+        "@typescript-eslint/no-redundant-type-constituents": "warn",
+        "@typescript-eslint/no-require-imports": "warn",
+        "@typescript-eslint/no-var-requires": "warn",
+        "@typescript-eslint/no-unnecessary-boolean-literal-compare": "warn",
+        "@typescript-eslint/no-unnecessary-type-constraint": "warn",
+        "@typescript-eslint/no-useless-empty-export": "warn",
+        "@typescript-eslint/prefer-enum-initializers": "warn",
+        "@typescript-eslint/prefer-includes": "warn",
+        "@typescript-eslint/prefer-optional-chain": "warn",
+        "@typescript-eslint/prefer-readonly": "warn",
+        "@typescript-eslint/prefer-return-this-type": "warn",
+        "@typescript-eslint/prefer-string-starts-ends-with": "warn",
+        "@typescript-eslint/require-array-sort-compare": "warn",
+        "@typescript-eslint/restrict-plus-operands": "error",
+        "@typescript-eslint/type-annotation-spacing": ["error", {
+          "before": false,
+          "after": true,
+          "overrides": {
+            "arrow": {"before": true, "after": true }
+          }
+        }],
+        "@typescript-eslint/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+        "@typescript-eslint/comma-spacing": ["error"],
+        "@typescript-eslint/default-param-last": ["error"],
+        "@typescript-eslint/indent": ["error", 4, {"SwitchCase": 1}],
+        "@typescript-eslint/no-dupe-class-members": ["error"],
+        "@typescript-eslint/no-throw-literal": ["error"],
+        "@typescript-eslint/no-unused-expressions": ["error"],
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/no-useless-constructor": ["error"],
+        "@typescript-eslint/require-await": "error",
+        "@typescript-eslint/return-await": "error",
+        "@typescript-eslint/quotes": ["error", "single"],
+        "@typescript-eslint/semi": ["error", "never"]
+      }
+    }
+  ],
   "globals": {
     // Для тестов
     "mount": true,
     "shallow": true
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        // this loads <rootdir>/tsconfig.json to eslint   
+      }
+    }
   }
 }

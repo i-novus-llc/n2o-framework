@@ -1,7 +1,8 @@
-import { ModelPrefix, SortDirection } from "../../core/datasource/const";
-import { IValidationResult } from "../../core/validation/IValidation";
-import { DataSourceState } from "./DataSource";
-import { IProvider, QueryResult } from "./Provider";
+import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
+import type { IValidationResult } from '../../core/validation/IValidation'
+
+import type { DataSourceState } from './DataSource'
+import type { IProvider, QueryResult } from './Provider'
 
 export interface DatasourcePayload {
     id: string
@@ -35,7 +36,9 @@ export type RemoveComponentAction = DatasourceAction<{
 
 export type DataRequestAction = DatasourceAction<{
     id: string
-    options: {}
+    options: {
+        // FIXME
+    }
 }>
 
 export type ResolveRequestAction = DatasourceAction<{

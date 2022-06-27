@@ -6,11 +6,12 @@ import isNaN from 'lodash/isNaN'
 import isString from 'lodash/isString'
 import isObject from 'lodash/isObject'
 
-//@ts-ignore
 import evalExpression from '../../utils/evalExpression'
-//@ts-ignore
+// @ts-ignore ignore import error from js file
 import { defaultApiProvider, FETCH_VALIDATE } from '../api'
-import { IValidateFunction, IValidation, ValidationTypes } from './IValidation'
+
+import type { IValidateFunction } from './IValidation'
+import { ValidationTypes } from './IValidation'
 
 /**
  * Валидация того, что email
@@ -21,6 +22,7 @@ export function email<
     TKey extends keyof TData
 >(fieldId: TKey, values: TData) {
     const value = values[fieldId]
+
     return (
         typeof value === 'string' &&
         /^[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,4}$/i.test(value)
@@ -63,7 +65,7 @@ export function condition<
     TKey extends keyof TData,
     TOptions extends { expression: string }
 >(fieldId: TKey, values: TData, options: TOptions): boolean {
-    return evalExpression(options.expression, values)
+    return !!evalExpression(options.expression, values)
 }
 
 /**
@@ -72,7 +74,7 @@ export function condition<
 export function constraint<
     TData extends object,
     TKey extends keyof TData,
-    TOptions extends any
+    TOptions
 >(fieldId: TKey, values: TData, options: TOptions): Promise<boolean> {
     if (!isEmpty(values[fieldId])) {
         return defaultApiProvider[FETCH_VALIDATE](options)
@@ -86,7 +88,7 @@ export function constraint<
  */
 export function integer<
     TData extends object,
-    TKey extends keyof TData,
+    TKey extends keyof TData
 >(fieldId: TKey, values: TData) {
     const value = values[fieldId]
 

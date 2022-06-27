@@ -1,12 +1,14 @@
-import { DataSourceDependency, ModelPrefix, SortDirection } from "../../core/datasource/const"
-import { IValidation, IValidationResult } from "../../core/validation/IValidation"
-import { IProvider } from "./Provider"
+/* eslint-disable @typescript-eslint/no-extraneous-class */
+import type { DataSourceDependency, SortDirection } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/datasource/const'
+import type { IValidation, IValidationResult } from '../../core/validation/IValidation'
 
+import type { IProvider } from './Provider'
 
 export type State = Record<string, DataSourceState>
 
 export interface DataSourceState<
-    TModel extends object = object,
+    // TModel extends object = object,
     TKey extends string = string // TKey = keyof TModel
 > {
     provider?: IProvider
@@ -21,8 +23,8 @@ export interface DataSourceState<
     submit?: IProvider // FIXME
     fieldsSubmit?: Record<TKey, IProvider>
     errors: Record<
-        ModelPrefix.active | ModelPrefix.edit,
-        Partial<Record<TKey, IValidationResult[]>>
+    ModelPrefix.active | ModelPrefix.edit,
+    Partial<Record<TKey, IValidationResult[]>>
     >
 }
 

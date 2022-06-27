@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
 import { ModelPrefix } from '../../core/datasource/const'
-import { State as GlobalState } from '../State'
+import type { State as GlobalState } from '../State'
 
 /**
  * Базовый селектор всех моделей
@@ -16,8 +16,7 @@ const modelsSelector = (state: GlobalState) => state.models || {}
  */
 const getModelSelector = (modelLink: string) => (state: GlobalState) => get(state, modelLink)
 
-const getModelsByDependency = (dependency: { on: string }[]) => (state: GlobalState) => (
-    dependency &&
+const getModelsByDependency = (dependency: Array<{ on: string }>) => (state: GlobalState) => (
     dependency.map(config => ({
         model: getModelSelector(config.on)(state),
         config,
@@ -38,7 +37,7 @@ const makeModelsByPrefixSelector = (prefix: ModelPrefix) => createSelector(
  * @param state
  * @deprecated
  */
- const resolveSelector = makeModelsByPrefixSelector(ModelPrefix.active)
+const resolveSelector = makeModelsByPrefixSelector(ModelPrefix.active)
 
 /**
  * Селектор-генератор для получения конкретной модели

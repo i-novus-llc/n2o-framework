@@ -17,7 +17,7 @@ import {
     widgetsSelector,
 } from '../ducks/widgets/selectors'
 import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
-import { validate as validateDatasource } from '../core/datasource/validate'
+import { validate as validateDatasource } from '../core/validation/validate'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'

@@ -2,8 +2,7 @@ import { isEmpty } from 'lodash'
 
 import { dataSourceModelsSelector, dataSourceValidationSelector } from '../../ducks/datasource/selectors'
 import { failValidate } from '../../ducks/datasource/store.js'
-import { State as GlobalState } from '../../ducks/State'
-
+import type { State as GlobalState } from '../../ducks/State'
 import { ModelPrefix } from '../datasource/const'
 
 import { hasError, validateModel } from './validateModel'
@@ -16,10 +15,10 @@ import { hasError, validateModel } from './validateModel'
  * @returns {boolean}
  * TODO переместить из ядра. Получается ядро завсит от редакса, а редакс от ядра
  */
- export const validate = async (
+export const validate = async (
     state: GlobalState,
     datasourceId: string,
-    dispatch: Function,
+    dispatch: (arg: unknown) => void,
     touched: boolean,
 ) => {
     const validation = dataSourceValidationSelector(datasourceId)(state)

@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
-import {
+
+import type {
     AddComponentAction,
     ChangeCountAction,
     ChangePageAction,
@@ -16,11 +17,12 @@ import {
     SetFieldSubmitAction,
     SetModelAction,
     SetSortDirectionAction,
-    StartValidateAction
+    StartValidateAction,
 } from './Actions'
-
-import { DataSource, DataSourceState } from './DataSource'
-import { IProvider, ProviderType, QueryResult } from './Provider'
+import type { DataSourceState } from './DataSource'
+import { DataSource } from './DataSource'
+import type { IProvider, QueryResult } from './Provider'
+import { ProviderType } from './Provider'
 
 const initialState: Record<string, DataSourceState> = {}
 
@@ -134,8 +136,8 @@ const datasource = createSlice({
                 const { id, query } = action.payload
 
                 state[id].loading = false
-                state[id].page = query.page 
-                state[id].count = query.count 
+                state[id].page = query.page
+                state[id].count = query.count
             },
         },
 
@@ -164,7 +166,7 @@ const datasource = createSlice({
             reducer(state, action: SetSortDirectionAction) {
                 const { id, field, direction } = action.payload
 
-                if (direction === SortDirection.NONE) {
+                if (direction === SortDirection.none) {
                     state[id].sorting = {}
                 } else {
                     state[id].sorting = { [field]: direction }
@@ -227,7 +229,7 @@ const datasource = createSlice({
         },
 
         failValidate: {
-            prepare(id, fields, prefix = ModelPrefix.active, meta) {
+            prepare(id, fields, prefix = ModelPrefix.active, meta = {}) {
                 return ({
                     payload: { id, fields, prefix },
                     meta,

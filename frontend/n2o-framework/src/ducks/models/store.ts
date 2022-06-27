@@ -7,14 +7,13 @@ import pick from 'lodash/pick'
 import merge from 'lodash/merge'
 import omit from 'lodash/omit'
 
-// @ts-ignore
+// @ts-ignore ignore import error from js file
 import { setIn } from '../../tools/helpers'
-import { ModelPrefix } from '../../core/datasource/const'
-
+import type { ModelPrefix } from '../../core/datasource/const'
 
 import { ALL_PREFIXES, COPY } from './constants'
-import { State } from './Models'
-import { ClearModelAction, MergeModelAction, RemoveAllModelAction, RemoveModelAction, SetModelAction, SyncModelAction, UpdateMapModelAction, UpdateModelAction } from './Actions'
+import type { State } from './Models'
+import type { ClearModelAction, MergeModelAction, RemoveAllModelAction, RemoveModelAction, SetModelAction, SyncModelAction, UpdateMapModelAction, UpdateModelAction } from './Actions'
 
 const initialState: State = {
     datasource: {},
@@ -28,6 +27,7 @@ const modelsSlice = createSlice({
     name: 'n2o/models',
     initialState,
     reducers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         SET: {
             prepare(prefix: ModelPrefix, key: string, model: object) {
                 return ({
@@ -45,14 +45,11 @@ const modelsSlice = createSlice({
             reducer(state, action: SetModelAction) {
                 const { key, model, prefix } = action.payload
 
-                if (!state[prefix]) {
-                    state[prefix] = {}
-                }
-
                 state[prefix][key] = model
             },
         },
 
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         REMOVE: {
             prepare(prefix: ModelPrefix, key: string) {
                 return ({
@@ -74,6 +71,7 @@ const modelsSlice = createSlice({
             },
         },
 
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         SYNC: {
             prepare(prefix: ModelPrefix, keys: string[], model: object) {
                 return ({
@@ -87,13 +85,14 @@ const modelsSlice = createSlice({
             reducer(state, action: SyncModelAction) {
                 const { prefix, keys, model } = action.payload
                 const models = state[prefix]
-    
+
                 keys.forEach((key) => {
                     models[key] = model
                 })
             },
         },
 
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         UPDATE: {
             prepare(prefix: ModelPrefix, key: string, field: string, value: unknown) {
                 return ({
@@ -118,8 +117,9 @@ const modelsSlice = createSlice({
             },
         },
 
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         UPDATE_MAP: {
-            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, map) {
+            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, map: string) {
                 return ({
                     payload: { prefix, key, field, value, map },
                 })
@@ -135,8 +135,8 @@ const modelsSlice = createSlice({
                 state[prefix] = setIn(
                     state[prefix],
                     [key, field],
-                    // @ts-ignore
-                    mapFn(newValue, v => ({ [map]: v }))
+                    // @ts-ignore FIXME: выяснить что за тип приходит в value
+                    mapFn(newValue, v => ({ [map]: v })),
                 )
             },
         },
@@ -144,21 +144,24 @@ const modelsSlice = createSlice({
         /**
          * Очистка моделий. которая учивает список исключений (поля которые не нужно очищать)
          */
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         CLEAR(state, action: ClearModelAction) {
             const { prefixes, key, exclude } = action.payload
 
             prefixes.forEach((prefix) => {
-                if (state[prefix]?.[key]) {
+                if (state[prefix][key]) {
                     state[prefix][key] = pick(state[prefix][key], [exclude])
                 }
             })
         },
+
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         MERGE: {
             /**
              * @param {any} combine
              * @return {{payload: ModelsStore.combineModelsPayload}}
              */
-            prepare(combine) {
+            prepare(combine: unknown) {
                 return ({
                     payload: { combine },
                 })
@@ -177,6 +180,7 @@ const modelsSlice = createSlice({
             },
         },
 
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         REMOVE_ALL: {
             prepare(key: string) {
                 return ({
@@ -224,11 +228,18 @@ export const {
  * @param {string} settings.mode
  * @param {any} settings.sourceMapper
  */
-export const copyModel = createAction(COPY, (source, target, { mode, sourceMapper }) => ({
-    payload: {
-        sourceMapper,
-        source,
-        target,
-        mode,
-    },
-}))
+export const copyModel = createAction(
+    COPY,
+    (
+        source: { prefix: ModelPrefix, key: string },
+        target: { prefix: ModelPrefix, key: string },
+        { mode, sourceMapper }: { mode: string, sourceMapper: unknown },
+    ) => ({
+        payload: {
+            sourceMapper,
+            source,
+            target,
+            mode,
+        },
+    }),
+)

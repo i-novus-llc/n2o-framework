@@ -1,9 +1,9 @@
-import { IValidation, IValidationResult } from './IValidation'
+import type { IValidation, IValidationResult } from './IValidation'
 import { validateField, hasError as checkErrors } from './validateField'
 
 export const validateModel = async (
     model: object,
-    validations: Record<string, IValidation[]>
+    validations: Record<string, IValidation[]>,
 ): Promise<Record<string, IValidationResult[]>> => {
     const entries = Object.entries(validations)
     const allMessages: Record<string, IValidationResult[]> = {}
@@ -12,10 +12,10 @@ export const validateModel = async (
         const messages = await validateField(
             field as keyof (typeof model),
             model,
-            validationList || []
+            validationList || [],
         )
 
-        if (messages?.length) {
+        if (messages.length) {
             allMessages[field] = messages
         }
     }
@@ -23,6 +23,6 @@ export const validateModel = async (
     return allMessages
 }
 
-export const hasError = (messages: Record<string, IValidationResult[]>): boolean => {
-    return Object.values(messages).some(checkErrors)
-}
+export const hasError = (
+    messages: Record<string, IValidationResult[]>,
+): boolean => Object.values(messages).some(checkErrors)

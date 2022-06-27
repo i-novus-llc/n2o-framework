@@ -6,11 +6,12 @@ import {
 import { get } from 'lodash'
 import isEqual from 'lodash/isEqual'
 
-import { DataSourceDependency, DEPENDENCY_TYPE } from '../../../core/datasource/const'
+import type { DataSourceDependency } from '../../../core/datasource/const'
+import { DependencyTypes } from '../../../core/datasource/const'
 import { dataRequest, startValidate } from '../store.js'
 import { dataSourcesSelector } from '../selectors'
-import { State as GlobalState } from '../../State'
-import { State as DatasourceState } from '../DataSource'
+import type { State as GlobalState } from '../../State'
+import type { State as DatasourceState } from '../DataSource'
 
 /**
  * @param {String} id
@@ -20,12 +21,12 @@ import { State as DatasourceState } from '../DataSource'
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export function* resolveDependency(id: string, dependency: DataSourceDependency, model: unknown) {
     switch (dependency.type) {
-        case DEPENDENCY_TYPE.fetch: {
+        case DependencyTypes.fetch: {
             yield put(dataRequest(id))
 
             return
         }
-        case DEPENDENCY_TYPE.validate: {
+        case DependencyTypes.validate: {
             yield put(startValidate(id))
 
             return

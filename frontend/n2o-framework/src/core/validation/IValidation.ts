@@ -1,7 +1,7 @@
-export enum Severity  {
+export enum Severity {
     danger = 'danger',
     warning = 'warning',
-    success = 'success',
+    success = 'success'
 }
 
 export enum ValidationTypes {
@@ -11,7 +11,7 @@ export enum ValidationTypes {
     constraint = 'constraint',
     integer = 'integer',
     minLength = 'minLength',
-    maxLength = 'maxLength',
+    maxLength = 'maxLength'
 }
 
 export interface IExtraValidationConfig {
@@ -34,5 +34,5 @@ export interface IValidationResult {
 
 export type IValidateFunction = <
     TData extends object = object,
-    TKey extends keyof TData = keyof TData, 
+    TKey extends keyof TData = keyof TData
 > (key: TKey, values: TData, config: IExtraValidationConfig) => boolean | Promise<boolean>

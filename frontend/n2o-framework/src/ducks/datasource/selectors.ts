@@ -1,9 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit'
-// @ts-ignore
+
 import { modelsSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
-import { State as GlobalState } from '../State'
-import { State as ModelsState } from '../models/Models'
+import type { State as GlobalState } from '../State'
+import type { State as ModelsState } from '../models/Models'
 
 export const dataSourcesSelector = (state: GlobalState) => state.datasource
 
@@ -12,12 +12,12 @@ export const dataSourceByIdSelector = (sourceId: string) => createSelector(
     sources => (sources[sourceId] || {}),
 )
 
-//
+/* eslint-disable indent */
 export const dataSourceModelsSelector = <
     TModel extends object = object,
     TFilter extends object = object
 >(sourceId: string) => createSelector(
-    //@ts-ignore
+    // @ts-ignore Не понятно почему ругается, заглушил для быстрого фикса
     modelsSelector,
     (modelsList: ModelsState<TModel, TFilter>) => ({
         [ModelPrefix.active]: modelsList[ModelPrefix.active][sourceId],
@@ -27,6 +27,7 @@ export const dataSourceModelsSelector = <
         [ModelPrefix.filter]: modelsList[ModelPrefix.filter][sourceId] || {},
     }),
 )
+/* eslint-enable indent */
 
 export const dataSourceLoadingSelector = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
@@ -49,7 +50,6 @@ export const dataSourceSortingSelector = (sourceId: string) => createSelector(
 )
 export const dataSourceCountSelector = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
-    // @ts-ignore
     state => state.count,
 )
 
@@ -70,7 +70,7 @@ export const dataSourceProviderSelector = (sourceId: string) => createSelector(
 
 export const dataSourceErrors = (
     sourceId: string,
-    prefix: ModelPrefix.active | ModelPrefix.edit = ModelPrefix.active
+    prefix: ModelPrefix.active | ModelPrefix.edit = ModelPrefix.active,
 ) => createSelector(
     dataSourceByIdSelector(sourceId),
     state => (state.errors[prefix] || {}),
@@ -79,9 +79,8 @@ export const dataSourceErrors = (
 export const dataSourceFieldError = (
     sourceId: string,
     prefix: ModelPrefix.active | ModelPrefix.edit,
-    field: string
+    field: string,
 ) => createSelector(
     dataSourceErrors(sourceId, prefix),
-    // @ts-ignore
     errors => errors[field],
 )
