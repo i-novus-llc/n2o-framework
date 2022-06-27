@@ -8,7 +8,7 @@ import isString from 'lodash/isString'
 import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 
-import SecurityCheck from '../auth/SecurityCheck'
+import SecurityController from '../auth/SecurityController'
 
 import factoryConfigShape from './factoryConfigShape'
 import { NotFoundFactory } from './NotFoundFactory'
@@ -47,16 +47,9 @@ export class FactoryProvider extends Component {
 
         if (!this.componentCache.has(component, config)) {
             this.componentCache.set(component, config, props => (
-                <SecurityCheck
-                    config={config}
-                    render={({ permissions }) => {
-                        if (permissions) {
-                            return React.createElement(component, props)
-                        }
-
-                        return null
-                    }}
-                />
+                <SecurityController config={config}>
+                    {React.createElement(component, props)}
+                </SecurityController>
             ))
         }
 

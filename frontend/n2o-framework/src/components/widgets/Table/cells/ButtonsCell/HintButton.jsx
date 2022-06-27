@@ -6,7 +6,7 @@ import { Button, UncontrolledTooltip } from 'reactstrap'
 
 // eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
-import SecurityCheck from '../../../../../core/auth/SecurityCheck'
+import SecurityController from '../../../../../core/auth/SecurityController'
 
 import { MODIFIERS, initUid } from './until'
 
@@ -66,10 +66,9 @@ function HintButton({
     return isEmpty(security) ? (
         render()
     ) : (
-        <SecurityCheck
-            config={security}
-            render={({ permissions }) => (permissions ? render() : null)}
-        />
+        <SecurityController config={security}>
+            {render()}
+        </SecurityController>
     )
 }
 
