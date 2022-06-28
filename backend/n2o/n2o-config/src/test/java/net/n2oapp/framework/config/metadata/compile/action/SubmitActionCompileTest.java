@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.meta.action.submit.SubmitAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
@@ -42,9 +43,13 @@ public class SubmitActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testSubmitAction.page.xml")
                 .get(new PageContext("testSubmitAction"));
 
-        List<AbstractButton> buttons = ((Form) page.getRegions().get("single").get(0).getContent().get(1))
+        List<AbstractButton> buttons = ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons();
+        SubmitAction submitAction = (SubmitAction) buttons.get(0).getAction();
 
         assertThat(buttons.size(), is(1));
+        assertThat(buttons.get(0).getId(), is("btn2"));
+        assertThat(submitAction.getPayload().getDatasource(), is("ds1"));
+        assertThat(submitAction.getType(), is("n2o/actionImpl/SUBMIT"));
     }
 }

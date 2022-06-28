@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <datasources>
-        <datasource id="ds1">
-            <submit operation-id=""
-        </datasource>
+        <browser-storage id="ds1">
+            <submit storage-type="localStorage"/>
+        </browser-storage>
     </datasources>
     <regions>
         <form id="testForm">
