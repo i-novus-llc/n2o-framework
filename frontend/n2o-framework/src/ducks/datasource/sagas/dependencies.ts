@@ -19,9 +19,10 @@ import type { State as DatasourceState } from '../DataSource'
  * @param {DataSourceDependency} dependency
  * @param model
  */
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export function* resolveDependency(id: string, dependency: DataSourceDependency, model: unknown) {
-    switch (dependency.type) {
+    const { type } = dependency
+
+    switch (type) {
         case DependencyTypes.fetch: {
             yield put(dataRequest(id))
 
@@ -38,7 +39,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
             if (targetField) {
                 yield put(updateModel(targetPrefix, id, targetField, model))
             } else {
-                yield put(setModel(targetPrefix, id, model))
+                yield put(setModel(targetPrefix, id, model as object))
             }
 
             break
@@ -46,7 +47,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
 
         default: {
             // eslint-disable-next-line no-console
-            console.warn(`unknown dependency type "${dependency.type}" for datasource "${id}"`)
+            console.warn(`unknown dependency type "${type}" for datasource "${id}"`)
         }
     }
 }
