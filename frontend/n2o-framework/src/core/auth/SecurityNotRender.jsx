@@ -2,7 +2,7 @@ import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 
-import SecurityCheck from './SecurityCheck'
+import SecurityController from './SecurityController'
 
 /**
  * Вспомогательная функция для SecurityCheck
@@ -16,11 +16,12 @@ function SecurityNotRender({ component, config, ...rest }) {
     return isEmpty(config) ? (
         component
     ) : (
-        <SecurityCheck
+        <SecurityController
             config={config}
             {...rest}
-            render={({ permissions }) => (permissions ? component : null)}
-        />
+        >
+            {component}
+        </SecurityController>
     )
 }
 

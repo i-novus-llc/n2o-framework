@@ -1,6 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -10,11 +13,9 @@ import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
@@ -33,8 +34,10 @@ public class AnchorCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction2.page.xml"));
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
+                new N2oActionsPack(), new N2oApplicationPack(), new N2oAllDataPack())
+                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction2.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testAnchorMenuItem.query.xml"));
     }
 
     @Test
@@ -103,5 +106,35 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(link3.getTarget(), is(Target.application));
         assertThat(link3.getPathMapping().size(), is(0));
         assertThat(link3.getQueryMapping().size(), is(0));
+    }
+
+    @Test
+    public void testAnchorInMenuItem() {
+        Application application = compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorMenuItem.application.xml")
+                .get(new ApplicationContext("testAnchorMenuItem"));
+
+        MenuItem menuItem = application.getSidebars().get(0).getMenu().getItems().get(0);
+        assertThat(menuItem.getType(), is("link"));
+        assertThat(menuItem.getHref(), is("/person/:id/docs"));
+        assertThat(menuItem.getLinkType(), is(MenuItem.LinkType.inner));
+        assertThat(menuItem.getPathMapping().size(), is(1));
+        assertThat(menuItem.getPathMapping().get("id").getValue(), is(":id"));
+        assertThat(menuItem.getQueryMapping().size(), is(1));
+        assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModel.resolve));
+        assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("doc"));
+        assertThat(menuItem.getQueryMapping().get("name").getBindLink(), is("models.resolve['doc']"));
+        assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));
+
+        menuItem = application.getSidebars().get(0).getMenu().getItems().get(1);
+        assertThat(menuItem.getType(), is("link"));
+        assertThat(menuItem.getHref(), is("/person/:id/profile"));
+        assertThat(menuItem.getLinkType(), is(MenuItem.LinkType.inner));
+        assertThat(menuItem.getPathMapping().size(), is(1));
+        assertThat(menuItem.getPathMapping().get("id").getValue(), is(":id"));
+        assertThat(menuItem.getQueryMapping().size(), is(1));
+        assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModel.resolve));
+        assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("person"));
+        assertThat(menuItem.getQueryMapping().get("name").getBindLink(), is("models.resolve['person']"));
+        assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));
     }
 }

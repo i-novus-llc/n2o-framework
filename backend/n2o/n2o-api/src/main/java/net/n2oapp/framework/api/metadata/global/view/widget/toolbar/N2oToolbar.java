@@ -15,6 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceIdAware {
+    private String cssClass;
+    private String style;
     private String place;
     private String[] generate;
     private ToolbarItem[] items;

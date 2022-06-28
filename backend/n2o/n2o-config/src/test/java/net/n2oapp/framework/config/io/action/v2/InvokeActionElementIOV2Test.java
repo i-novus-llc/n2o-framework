@@ -11,7 +11,7 @@ import org.junit.Test;
 public class InvokeActionElementIOV2Test {
 
     @Test
-    public void testInvokeActionElementIOV1Test(){
+    public void testInvokeActionElementIOV2Test(){
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new StandardPageElementIOv4(), new InvokeActionElementIOV2());
 

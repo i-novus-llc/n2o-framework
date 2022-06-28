@@ -38,7 +38,7 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePosition.class);
         p.attributeEnum(e, "message-placement", ia::getMessagePlacement, ia::setMessagePlacement, MessagePlacement.class);
         p.attributeBoolean(e, "optimistic", ia::getOptimistic, ia::setOptimistic);
-        p.attributeBoolean(e, "submit-form", ia::getSubmitForm, ia::setSubmitForm);
+        p.attributeBoolean(e, "submit-form", ia::getSubmitAll, ia::setSubmitAll);
         p.attributeEnum(e, "method", ia::getMethod, ia::setMethod, RequestMethod.class);
 
         p.children(e, null, "form-param", ia::getFormParams, ia::setFormParams, N2oFormParam::new, this::formParam);
