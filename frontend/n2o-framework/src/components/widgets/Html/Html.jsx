@@ -3,8 +3,7 @@ import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 
 import { Html as HtmlSnippet } from '../../snippets/Html/Html'
-import { parseExpression } from '../../../utils/evalExpression'
-import propsResolver from '../../../utils/propsResolver'
+import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 
 /**
  * Компонент встаквки html-кода производит резолв плейсхолдеров
@@ -22,10 +21,24 @@ export const Html = (props) => {
         return null
     }
 
-    const finalHtml = isEmpty(data) ? html : propsResolver(html, data)
+    const htmlResolver = (html, data) => {
+        if (isEmpty(data)) {
+            return html
+        }
+
+        const parsedExpression = parseExpression(html)
+
+        if (parsedExpression) {
+            return evalExpression(parsedExpression.replace(/\n/g, ''), data)
+        }
+
+        return html
+    }
+
+    const finalHtml = htmlResolver(html, data)
 
     /* устраняет мерцания с плейсхолдерами */
-    if (parseExpression(finalHtml) || !html) {
+    if (parseExpression(finalHtml)) {
         return null
     }
 
