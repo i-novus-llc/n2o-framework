@@ -2,7 +2,9 @@
 title: Страницы
 description: ""
 ---
-import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
+
+
+import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 **Тип метаданных**
 
@@ -263,14 +265,14 @@ http://n2oapp.net/framework/config/schema/page-4.0
 ```xml
 <datasources>
   <datasource id="ds1">...</datasource>
-  <datasource id="ds2">...</datasource>
-  <datasource id="ds3">...</datasource>
+  <app-datasource id="ds2">...</app-datasource>
+  <browser-storage id="ds3">...</browser-storage>
 </datasource>
 ```
 
 ### &lt;datasource&gt; {#datasource}
 
-Источник данных
+Стандартный источник данных
 
 **Атрибуты**
 
@@ -305,6 +307,73 @@ http://n2oapp.net/framework/config/schema/page-4.0
     ...
   </dependencies>
 </datasource>
+```
+
+
+### &lt;app-datasource&gt; {#app-datasource}
+
+Источник данных, ссылающийся на источник из application.xml
+
+**Атрибуты**
+
+|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию |
+|--------------------|-----------------------|----------------------------------------------------------------------|----------------------|
+|id                  |Строка                 |Идентификатор источника данных из application.xml                     |                      |
+
+**Тело**
+
+[Зависимости источника данных](#ds_dependencies)
+
+**Пример**
+
+```xml
+<app-datasource id="ds1">
+  <dependencies>
+    <fetch on="ds2"/>
+    ...
+  </dependencies>
+</app-datasource>
+```
+
+### &lt;browser-storage&gt; {#browser-storage}
+
+Источник, хранящий данные в браузере
+
+**Атрибуты**
+
+|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию              |
+|--------------------|-----------------------|----------------------------------------------------------------------|-----------------------------------|
+|id                  |Строка                 |Идентификатор источника данных                                        |                                   |
+|key                 |Строка                 |Ключ, под которым будут хранится данные                               |Глобальный идентификатор источника |
+|storage-type        |Строка                 |Тип хранилища в браузере                                              |sessionStorage                     |
+|size                |Число                  |Размер выборки                                                        |10                                 |
+
+**Тело**
+[Сохранение данных](#submit)
+[Зависимости источника данных](#ds_dependencies)
+
+#### &lt;submit&gt; {#submit}
+
+Сохранение данных
+
+**Атрибуты**
+
+|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию   |
+|--------------------|-----------------------|----------------------------------------------------------------------|------------------------|
+|key                 |Строка                 |Ключ, под которым будут записываться данные                           |Ключ в источнике данных |
+|storage-type        |Строка                 |Тип хранилища браузера, в которое будут записываться данные           |Хранилище источника     |
+|auto                |true false             |Автоматически ли записывать в хранилище при изменении данных?         |true                    |
+
+**Пример**
+
+```xml
+<browser-storage id="ds1" key="some_key" storage-type="localStorage">
+    <submit storage-type="localStorage" auto="false" key="some_key_2"/>
+    <dependencies>
+        <fetch on="ds2"/>
+        ...
+    </dependencies>
+</browser-storage>
 ```
 
 #### Зависимости источника данных {#ds_dependencies}
@@ -384,6 +453,8 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 |Наименование|Тип                                                       |Описание                    |Значение по умолчанию|
 |------------|----------------------------------------------------------|----------------------------|---------------------|
+|class       |Строка                                                    |CSS класс меню              |                     |
+|style       |Строка                                                    |Стиль меню                  |                     |
 |place       |topLeft, topRight, bottomLeft, bottomRight, breadcrumbLeft|Место расположения меню     |topLeft              |
 |generate    |crud, submit, close                                       |Генерация стандартных кнопок|                     |
 

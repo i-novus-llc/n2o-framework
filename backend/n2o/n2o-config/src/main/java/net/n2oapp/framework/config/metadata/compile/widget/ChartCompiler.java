@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oChart;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
@@ -22,7 +22,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
     @Override
     public Chart compile(N2oChart source, CompileContext<?, ?> context, CompileProcessor p) {
         Chart chart = new Chart();
-        N2oDatasource datasource = initInlineDatasource(chart, source, p);
+        N2oStandardDatasource datasource = initInlineDatasource(chart, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(chart, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));

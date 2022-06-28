@@ -1,47 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
->
-    <xs:element name="datasource" type="datasourceDefinition"/>
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:complexType name="datasources">
+        <xs:sequence>
+            <xs:element name="datasource" type="standardDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="app-datasource" type="datasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="datasource" type="standardDatasourceDefinition"/>
+    <xs:element name="browser-storage" type="browserStorageDatasourceDefinition"/>
+    <xs:element name="app-datasource" type="datasourceDefinition"/>
+
+    <xs:complexType name="standardDatasourceDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Стандартный источник данных</xs:documentation>
+            </xs:annotation>
+            <xs:extension base="datasourceDefinition">
+                <xs:sequence>
+                    <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
+                    <xs:element name="filters" type="datasourceFiltersDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="size" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Размер выборки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-values-mode" type="act:defaultValuesMode" default="query">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Подстановка значений по умолчанию, режим по умолчанию query
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="object-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="query-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор выборки, на основе которой происходит получение данных.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="route" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>URL получения данных</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="applicationDatasourceDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Источник данных, ссылающийся на источник из application.xml</xs:documentation>
+            </xs:annotation>
+            <xs:extension base="datasourceDefinition">
+                <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных из application.xml</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="browserStorageDatasourceDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Источник, хранящий данные в браузере</xs:documentation>
+            </xs:annotation>
+            <xs:extension base="datasourceDefinition">
+                <xs:sequence>
+                    <xs:element name="submit" type="browserStorageDatasourceSubmit" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="size" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Размер выборки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="storage-type" type="storageType" default="sessionStorage">
+                    <xs:annotation>
+                        <xs:documentation>Тип хранилища в браузере</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ключ, под которым будут хранится данные</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="storageType">
+        <xs:annotation>
+            <xs:documentation>Тип хранилища</xs:documentation>
+        </xs:annotation>
+        <xs:restriction>
+            <xs:enumeration value="sessionStorage"/>
+            <xs:enumeration value="localStorage"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="browserStorageDatasourceSubmit">
+        <xs:annotation>
+            <xs:documentation>Сохранение полей формы при их изменении</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="auto" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Автоматически ли записывать в хранилище при изменении данных?</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="storage-type" type="storageType">
+            <xs:annotation>
+                <xs:documentation>Тип хранилища, в которое будут записываться данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="key" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ключ, под которым будут записываться данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
     <xs:complexType name="datasourceDefinition">
-        <xs:annotation>
-            <xs:documentation>Источник данных.</xs:documentation>
-        </xs:annotation>
         <xs:sequence>
-            <xs:element name="filters" type="datasourceFiltersDefinition" minOccurs="0"/>
-            <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
             <xs:element name="dependencies" type="dependenciesDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="query-id" type="xs:string">
+        <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор выборки, на основе которой происходит получение данных.
-                </xs:documentation>
+                <xs:documentation>Идентификатор источника данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="object-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор объекта.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="default-values-mode" type="act:defaultValuesMode" default="query">
-            <xs:annotation>
-                <xs:documentation>
-                    Подстановка значений по умолчанию, режим по умолчанию query
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="size" type="xs:integer" default="10">
-            <xs:annotation>
-                <xs:documentation>Размер выборки</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="route" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>URL получения данных</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
+
     </xs:complexType>
 
     <xs:complexType name="dependenciesDefinition">
@@ -196,5 +295,4 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-
 </xs:schema>

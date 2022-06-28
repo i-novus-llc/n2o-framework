@@ -3,7 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Базовое связывание данных на странице
@@ -94,16 +96,17 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     /**
      * Добавление значений фильтров таблицы из выборки в модели
      *
-     * @param page страница
+     * @param page    страница
      * @param widgets Виджеты
-     * @param p Процессор связывания
+     * @param p       Процессор связывания
      */
     private void collectFiltersToModels(D page, List<Widget<?>> widgets, BindProcessor p) {
         if (widgets != null)
             for (Widget<?> w : widgets)
                 if (w.getFiltersDatasourceId() != null) {
-                    Datasource filterDatasource = page.getDatasources().get(w.getFiltersDatasourceId());
-                    DataSet data = p.executeQuery(filterDatasource.getQueryId());
+                    AbstractDatasource filterDatasource = page.getDatasources().get(w.getFiltersDatasourceId());
+                    if (!(filterDatasource instanceof StandardDatasource)) continue;
+                    DataSet data = p.executeQuery(((StandardDatasource) filterDatasource).getQueryId());
                     if (data != null) {
                         data.forEach((k, v) -> {
                             //todo NNO-7523   && !p.canResolveParam(f.getParam())
@@ -132,9 +135,13 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
 
     private void bindDatasources(D page, BindProcessor p) {
         if (page.getDatasources() != null) {
-            page.getDatasources().values().stream().filter(ds -> ds.getProvider() != null)
+            List<StandardDatasource> datasources = page.getDatasources().values().stream().
+                    filter(StandardDatasource.class::isInstance).
+                    map(StandardDatasource.class::cast).
+                    collect(Collectors.toList());
+            datasources.stream().filter(ds -> ds.getProvider() != null)
                     .forEach(ds -> BindUtil.bindDataProvider(ds.getProvider(), p));
-            page.getDatasources().values().stream().filter(ds -> ds.getSubmit() != null)
+            datasources.stream().filter(ds -> ds.getSubmit() != null)
                     .forEach(ds -> BindUtil.bindDataProvider(ds.getSubmit(), p));
         }
     }

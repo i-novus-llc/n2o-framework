@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import { omit } from 'lodash'
+import { omit, defaultTo } from 'lodash'
 
 import { N2OPagination } from '../Table/N2OPagination'
 import WidgetLayout from '../StandardWidget'
@@ -77,5 +77,5 @@ const OmitProps = Component => (props) => {
 
 export const AdvancedTableWidget = OmitProps(WidgetHOC(WithActiveModel(
     AdvancedTable,
-    props => props.table?.hasSelect,
+    props => props.table?.hasSelect && defaultTo(props.table?.autoSelect, true),
 )))

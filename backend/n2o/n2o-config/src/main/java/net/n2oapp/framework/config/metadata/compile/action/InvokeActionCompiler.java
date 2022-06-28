@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -75,7 +76,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         super.initDefaults(source, context, p);
         source.setDoubleCloseOnSuccess(p.cast(source.getDoubleCloseOnSuccess(), false));
         source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || p.cast(source.getCloseOnSuccess(), false));
-        source.setObjectId(p.cast(source.getObjectId(), () -> getDefaultObjectId(p)));
         source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
         source.setRefreshDatasources(initRefreshDatasources(source, p));
@@ -85,7 +85,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setMessagePosition(p.cast(source.getMessagePosition(), MessagePosition.fixed));
         source.setMessagePlacement(p.cast(source.getMessagePlacement(), MessagePlacement.top));
         source.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
-        source.setSubmitForm(p.cast(source.getSubmitForm(), true));
+        source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
     }
 
@@ -201,7 +201,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setHeaderParams(source.getHeaderParams());
         dataProvider.setMethod(source.getMethod());
         dataProvider.setUrl(source.getRoute());
-        dataProvider.setSubmitForm(source.getSubmitForm());
+        dataProvider.setSubmitForm(source.getSubmitAll());
 
         CompiledObject compiledObject = getObject(source, p);
         invokeAction.setObjectId(compiledObject.getId());
@@ -236,11 +236,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (compiledObject == null && localDatasource != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {
-                String objectId = dataSourcesScope.get(localDatasource).getObjectId();
+                String objectId = ((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getObjectId();
                 if (objectId != null) {
                     compiledObject = p.getCompiled(new ObjectContext(objectId));
-                } else if (dataSourcesScope.get(localDatasource).getQueryId() != null) {
-                    CompiledQuery query = p.getCompiled(new QueryContext(dataSourcesScope.get(localDatasource).getQueryId()));
+                } else if (((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getQueryId() != null) {
+                    CompiledQuery query = p.getCompiled(new QueryContext(((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getQueryId()));
                     compiledObject = query.getObject();
                 }
             }

@@ -56,6 +56,7 @@ function PanelContainer({
     fullScreenState,
     openState,
     activeTabState,
+    disabled,
     children,
     handleFullScreen,
     changeActiveTab,
@@ -75,6 +76,7 @@ function PanelContainer({
             })}
             open={openState}
             isFullScreen={fullScreenState}
+            disabled={disabled}
             onKeyPress={handleKeyPress}
             innerRef={innerRef}
             t={t}
@@ -171,6 +173,7 @@ PanelContainer.propTypes = {
     fullScreen: PropTypes.bool,
     children: PropTypes.node,
     header: PropTypes.bool,
+    disabled: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
     isFullScreen: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types

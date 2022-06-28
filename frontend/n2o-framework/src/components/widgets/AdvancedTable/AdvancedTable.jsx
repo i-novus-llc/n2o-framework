@@ -18,7 +18,7 @@ import eq from 'lodash/eq'
 import get from 'lodash/get'
 
 import propsResolver from '../../../utils/propsResolver'
-import SecurityCheck from '../../../core/auth/SecurityCheck'
+import SecurityController from '../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
 import { InputRadio } from '../../controls/Radio/Input'
@@ -141,6 +141,7 @@ class AdvancedTable extends Component {
             isActive,
             selectedId,
             autoFocus,
+            autoSelect,
             columns,
             multi,
             rowSelection,
@@ -227,7 +228,7 @@ class AdvancedTable extends Component {
             resolveModel &&
             rowSelection === rowSelectionType.RADIO &&
             !isEqual(resolveModel, prevProps.resolveModel) &&
-            autoFocus
+            (autoFocus || autoSelect)
         ) {
             this.setState({ checked: { [resolveModel.id]: resolveModel } })
         }
@@ -246,14 +247,11 @@ class AdvancedTable extends Component {
             }
 
             return (
-                <SecurityCheck
-                    config={rows.security}
-                    render={({ permissions }) => (permissions ? (
-                        <AdvancedTableRowWithAction {...props} />
-                    ) : (
-                        <AdvancedTableRow {...props} />
-                    ))}
-                />
+                <SecurityController config={rows.security}>
+                    {({ hasAccess }) => (hasAccess
+                        ? <AdvancedTableRowWithAction {...props} />
+                        : <AdvancedTableRow {...props} />)}
+                </SecurityController>
             )
         }
     }
@@ -821,6 +819,10 @@ AdvancedTable.propTypes = {
      */
     autoFocus: PropTypes.bool,
     /**
+     * Автовыбор строки
+     */
+    autoSelect: PropTypes.bool,
+    /**
      * Конфиг для SecurityCheck
      */
     rows: PropTypes.object,
@@ -842,6 +844,7 @@ AdvancedTable.defaultProps = {
     onFocus: () => {},
     t: () => {},
     autoFocus: false,
+    autoSelect: true,
     rows: {},
 }
 

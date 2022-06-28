@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <datasources>
+        <datasource id="person" query-id="testAnchorMenuItem">
+            <filters>
+                <eq field-id="id"/>
+            </filters>
+        </datasource>
+        <datasource id="doc" query-id="testAnchorMenuItem">
+            <filters>
+                <eq field-id="id"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <sidebars>
+        <sidebar path="/person/:id/**" datasource="person">
+            <nav>
+                <menu-item name="Documents">
+                    <a href="/person/:id/docs" target="application">
+                        <path-param name="id" value=":id" datasource="doc"/>
+                        <query-param name="name" value="{name}" datasource="doc"/>
+                    </a>
+                </menu-item>
+                <menu-item name="Profile">
+                    <a href="/person/:id/profile" target="application">
+                        <path-param name="id" value=":id"/>
+                        <query-param name="name" value="{name}"/>
+                    </a>
+                </menu-item>
+            </nav>
+        </sidebar>
+    </sidebars>
+</application>

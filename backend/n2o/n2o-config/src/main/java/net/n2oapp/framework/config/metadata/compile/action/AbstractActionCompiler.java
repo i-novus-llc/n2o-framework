@@ -15,8 +15,8 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -130,15 +130,27 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                                 Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
                                 CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        ReduxModel defaultModel = getModelFromComponentScope(p);
         if (widgetScope != null) {
             String defaultClientWidgetId = getDefaultClientWidgetId(widgetScope, p);
-            ReduxModel defaultModel = getModelFromComponentScope(p);
             if (pathParams != null)
                 for (N2oParam pathParam : pathParams)
                     pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, defaultClientWidgetId, defaultModel, p));
             if (queryParams != null)
                 for (N2oParam queryParam : queryParams)
                     queryMapping.put(queryParam.getName(), initParamModelLink(queryParam, defaultClientWidgetId, defaultModel, p));
+        } else {
+            if (pathParams != null)
+                for (N2oParam pathParam : pathParams)
+                    pathMapping.put(pathParam.getName(), Redux.linkParam(pathParam, p));
+            if (queryParams != null) {
+                String localDatasource = getLocalDatasource(p);
+                for (N2oParam queryParam : queryParams)
+                    queryMapping.put(queryParam.getName(), initParamModelLink(queryParam,
+                            p.cast(queryParam.getDatasource(), localDatasource),
+                            p.cast(queryParam.getModel(), defaultModel),
+                            p));
+            }
         }
     }
 
@@ -164,22 +176,6 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     }
 
     /**
-     * Инициализация идентификатора объекта
-     *
-     * @param p       Процессор сборки
-     * @return  идентификатор объекта
-     */
-    protected String getDefaultObjectId(CompileProcessor p) {
-        String datasourceId = getLocalDatasource(p);
-        if (datasourceId != null) {
-            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            if (dataSourcesScope != null && dataSourcesScope.containsKey(datasourceId))
-                return dataSourcesScope.get(datasourceId).getObjectId();
-        }
-        return null;
-    }
-
-    /**
      * Инициализация модели ссылки параметра
      *
      * @param param                 Исходная модель параметра
@@ -189,7 +185,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * @return Модель ссылки параметра
      */
     private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModel defaultModel, CompileProcessor p) {
-        String widgetId = param.getRefWidgetId() != null ?
+        String widgetId = param.getRefWidgetId() != null && p.getScope(PageScope.class) != null ?
                 CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), param.getRefWidgetId()) :
                 defaultClientWidgetId;
         PageScope pageScope = p.getScope(PageScope.class);

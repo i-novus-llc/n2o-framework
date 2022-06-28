@@ -40,7 +40,7 @@ class ListRegion extends React.Component {
     };
 
     render() {
-        const { collapsible, content, getWidgetProps, className, style } = this.props
+        const { collapsible, content, getWidgetProps, className, style, disabled } = this.props
 
         const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion')
         const panelProps = pick(this.props, [
@@ -52,10 +52,11 @@ class ListRegion extends React.Component {
 
         const isVisible = every(content, meta => get(getWidgetProps(meta.id), 'datasource') === undefined) ||
                 some(content, meta => get(getWidgetProps(meta.id), 'visible'))
+        const classnames = classNames('n2o-list-region', className, { 'n2o-disabled': disabled })
 
         return (
             <div
-                className={classNames('n2o-list-region', className)}
+                className={classnames}
                 style={{ display: !isVisible && 'none', ...style }}
             >
                 <Collapse
@@ -91,6 +92,7 @@ ListRegion.propTypes = {
     resolveVisibleDependency: PropTypes.func,
     collapsible: PropTypes.bool,
     isVisible: PropTypes.bool,
+    disabled: PropTypes.bool,
     hasSeparator: PropTypes.bool,
     getWidgetProps: PropTypes.func,
     label: PropTypes.string,

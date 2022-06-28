@@ -10,6 +10,7 @@ import type { DataSourceDependency } from '../../../core/datasource/const'
 import { DependencyTypes } from '../../../core/datasource/const'
 import { dataRequest, startValidate } from '../store'
 import { dataSourcesSelector } from '../selectors'
+import { updateModel, setModel } from '../../models/store'
 import type { State as GlobalState } from '../../State'
 import type { State as DatasourceState } from '../DataSource'
 
@@ -24,13 +25,25 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
         case DependencyTypes.fetch: {
             yield put(dataRequest(id))
 
-            return
+            break
         }
         case DependencyTypes.validate: {
             yield put(startValidate(id))
 
-            return
+            break
         }
+        case DependencyTypes.copy: {
+            const { model: targetPrefix, field: targetField } = dependency
+
+            if (targetField) {
+                yield put(updateModel(targetPrefix, id, targetField, model))
+            } else {
+                yield put(setModel(targetPrefix, id, model))
+            }
+
+            break
+        }
+
         default: {
             // eslint-disable-next-line no-console
             console.warn(`unknown dependency type "${dependency.type}" for datasource "${id}"`)

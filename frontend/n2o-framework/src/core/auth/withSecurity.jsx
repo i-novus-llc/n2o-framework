@@ -4,12 +4,6 @@ import set from 'lodash/set'
 import isEqual from 'lodash/isEqual'
 import PropTypes from 'prop-types'
 import { compose, getContext } from 'recompose'
-import { createStructuredSelector } from 'reselect'
-import { connect } from 'react-redux'
-
-import { userSelector } from '../../ducks/user/selectors'
-
-import { SECURITY_CHECK } from './authTypes'
 
 const withSecurity = (WrappedComponent) => {
     function Security(props) {
@@ -19,15 +13,11 @@ const withSecurity = (WrappedComponent) => {
     Security.propTypes = {}
     Security.defaultProps = {}
 
-    const mapStateToProps = createStructuredSelector({
-        user: userSelector,
-    })
-
     return compose(
         getContext({
-            authProvider: PropTypes.func,
+            user: PropTypes.object,
+            checkSecurity: PropTypes.func,
         }),
-        connect(mapStateToProps),
     )(Security)
 }
 
@@ -58,7 +48,7 @@ export function withSecurityList(WrappedComponent, path) {
         }
 
         checkSecurity = async () => {
-            const { authProvider, user } = this.props
+            const { checkSecurity: checkSecurityFn } = this.props
 
             const securityList = get(this.props, path)
 
@@ -68,10 +58,7 @@ export function withSecurityList(WrappedComponent, path) {
                 const { security } = item
 
                 try {
-                    await authProvider(SECURITY_CHECK, {
-                        config: security,
-                        user,
-                    }).then(() => {
+                    await checkSecurityFn(security).then(() => {
                         itemsWithSuccessfulSecurity.push(item)
                     })
                 } catch (e) {
@@ -102,7 +89,7 @@ export function withSecurityList(WrappedComponent, path) {
     }
 
     Security.propTypes = {
-        authProvider: PropTypes.func,
+        checkSecurity: PropTypes.func,
         user: PropTypes.object,
     }
 

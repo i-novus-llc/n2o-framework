@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
@@ -108,13 +108,13 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         return pageScope;
     }
 
-    private Map<String, Datasource> initDatasources(DataSourcesScope dataSourcesScope, PageContext context,
-                                                    CompileProcessor p, String widgetId, Object ... scopes) {
-        Map<String, Datasource> compiledDatasources = new StrictMap<>();
+    private Map<String, AbstractDatasource> initDatasources(DataSourcesScope dataSourcesScope, PageContext context,
+                                                                       CompileProcessor p, String widgetId, Object ... scopes) {
+        Map<String, AbstractDatasource> compiledDatasources = new StrictMap<>();
         initContextDatasource(dataSourcesScope, context, p, widgetId);
         if (!dataSourcesScope.isEmpty()) {
             dataSourcesScope.values().forEach(ds -> {
-                Datasource compiled = p.compile(ds, context, scopes);
+                AbstractDatasource compiled = p.compile(ds, context, scopes);
                 compiledDatasources.put(compiled.getId(), compiled);
             });
         }

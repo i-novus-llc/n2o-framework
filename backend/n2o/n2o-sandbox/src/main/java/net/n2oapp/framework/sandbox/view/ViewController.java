@@ -177,6 +177,7 @@ public class ViewController {
                         HttpServletRequest request, HttpSession session) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
+            projectRouteRegister.clearAll();
             N2oApplicationBuilder builder = getBuilder(projectId, session);
             getIndex(builder);
             getMenu(builder);

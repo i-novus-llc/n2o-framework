@@ -23,7 +23,7 @@ function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, 
     return (
         <ul className={classnames('tabs', style.headerList)}>
             <a
-                href={`${CONFIG.sandboxUrl}/new/${templateId}/`}
+                href={`${CONFIG.sandboxUrl}/new/${templateId}/?stand=${CONFIG.n2oSandboxUrl}/`}
                 target="_blank"
                 className={classnames('tabs__item', style.headerListItem)}
                 role="button"

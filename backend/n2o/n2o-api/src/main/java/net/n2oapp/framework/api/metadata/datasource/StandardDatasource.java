@@ -6,7 +6,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
-import net.n2oapp.framework.api.metadata.meta.Filter;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class Datasource extends AbstractDatasource {
+public class StandardDatasource extends AbstractDatasource {
 
     @JsonProperty
     private ClientDataProvider provider;

@@ -17,6 +17,7 @@ export const ScrollSpyTypes = {
     placement: PropTypes.string,
     title: PropTypes.string,
     active: PropTypes.bool,
+    disabled: PropTypes.bool,
     className: PropTypes.string,
     headlines: PropTypes.bool,
     style: PropTypes.object,

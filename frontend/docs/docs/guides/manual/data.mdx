@@ -1654,6 +1654,53 @@ class MyService {
 
 [Подробнее о стандартных источниках данных](../xml/page#datasources)
 
+### Источники данных в сайдбарах
+
+Источники данных также можно задавать и в *.application.xml файлах. На заданные таким образом
+стандартные источники данных можно ссылаться с помощью атрибута `datasource` элемента `<sidebar>`.
+Указанный источник данных в `<sidebar>` позволяет разрешать значения атрибутов сайдбара, а также
+`value` для параметров запроса действий. Для использования этого функционала необходимо указать в `path`
+элемента `<sidebar>` некоторый параметр и также установить его в качестве `value` для фильтра `<datasource>`.
+
+:::note
+
+В данном случае использование записи типа `value=":some_value"` в фильтре источника данных
+(где `:some_value` параметр пути сайдбара) эквивалентно использованию атрибута `param` в виде `param="some_value"`,
+то есть значения для фильтра будет браться из значения параметра пути открытой страницы
+
+:::
+
+```xml title="Пример использования источника данных в сайдбаре"
+<application>
+  <datasources>
+    <datasource id="person" query-id="person">
+      <filters>
+          <!-- Установленный в качестве значения фильтра параметр пути сайдбара -->
+          <eq field-id="id" value=":person_id"/>
+      </filters>
+    </datasource>
+  </datasources>
+
+  <sidebars>
+    <!-- Сайдбар, использующий ссылку на источник данных "person", а также параметр :person_id в path -->
+    <!-- Значение {fio} в title будет разрешено с помощью данных пользователя из источника данных  "person" -->
+    <sidebar path="/person/:person_id/**"
+             datasource="person"
+             title="{fio}">
+      <nav>
+        <menu-item name="Документы">
+          <open-page page-id="docs" route="/person/:person_id/docs">
+            <path-param name="person_id" value=":person_id"/>
+            <!-- Значение {fio} также будет разрешено с помощью данных пользователя из источника данных  "person" -->
+            <query-param name="fio" value="{fio}"/>
+          </open-page>
+        </menu-item>
+      </nav>
+    </sidebar>
+  </sidebars>
+</application>
+```
+
 #### Stomp источник данных
 
 Stomp источник данных получает данные с помощью [STOMP](http://stomp.github.io/) протокола и
