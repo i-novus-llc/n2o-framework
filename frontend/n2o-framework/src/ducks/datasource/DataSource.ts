@@ -21,7 +21,7 @@ export interface DataSourceState<
     loading: boolean
     sorting: Partial<Record<TKey, SortDirection>>
     submit?: IProvider // FIXME
-    fieldsSubmit?: Record<TKey, IProvider>
+    fieldsSubmit: Record<TKey, IProvider>
     errors: Record<
     ModelPrefix.active | ModelPrefix.edit,
     Partial<Record<TKey, IValidationResult[]>>
@@ -43,6 +43,7 @@ export class DataSource {
                 [ModelPrefix.active]: {},
                 [ModelPrefix.edit]: {},
             },
+            fieldsSubmit: {},
         })
     }
 }

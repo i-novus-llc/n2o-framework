@@ -66,6 +66,8 @@ export function* fetch<TData = unknown>(datasource: string, provider: DataProvid
 
     request.then(() => {
         if (worker.isCancelled()) {
+            delete requestMap[datasource]
+
             return /* Promise.reject(new Error('Abort')) */
         }
         requestInfo.timer = setTimeout(() => {

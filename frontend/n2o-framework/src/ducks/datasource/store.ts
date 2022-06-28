@@ -39,14 +39,20 @@ const datasource = createSlice({
             },
             reducer(state, action: RegisterAction) {
                 const { id, initProps } = action.payload
-                const { provider } = initProps
+                const { provider: propsProvider } = initProps
+                let provider
+
+                if (propsProvider) {
+                    provider = {
+                        ...propsProvider,
+                        type: propsProvider.type || ProviderType.service,
+                    }
+                }
+
                 const datasource = {
                     ...DataSource.defaultState,
                     ...initProps,
-                }
-
-                if (provider && !provider.type) {
-                    provider.type = ProviderType.service
+                    provider,
                 }
 
                 state[id] = datasource
@@ -308,15 +314,13 @@ const datasource = createSlice({
                 })
             },
             reducer(state, action: SetFieldSubmitAction) {
-                const { id, field, provider } = action.payload
+                const { id, field, provider: propsProvider } = action.payload
                 const datasource = state[id]
 
-                if (!datasource.fieldsSubmit) {
-                    datasource.fieldsSubmit = {}
+                datasource.fieldsSubmit[field] = {
+                    ...propsProvider,
+                    type: propsProvider.type || ProviderType.service,
                 }
-                if (!provider.type) { provider.type = ProviderType.service }
-
-                datasource.fieldsSubmit[field] = provider
             },
         },
     },
