@@ -7,7 +7,7 @@ import { usePrevious } from '../../../utils/usePrevious'
 /**
  * Обётка для списковых виджетов, отвечающая за проставление активной модели из datasource[0]
  */
-export function WithActiveModel(Widget, shoudUpdate = () => true) {
+export function WithActiveModel(Widget, shouldUpdate = () => true) {
     const WithActiveModel = (props) => {
         const { models, setResolve } = props
         const { datasource, resolve } = models
@@ -15,7 +15,7 @@ export function WithActiveModel(Widget, shoudUpdate = () => true) {
 
         useEffect(() => {
             if (
-                shoudUpdate(props) &&
+                shouldUpdate(props) &&
                 !isEqual(datasource, prevSource) && (
                     !resolve ||
                     (resolve && !datasource.some(model => isEqual(model, resolve)))
