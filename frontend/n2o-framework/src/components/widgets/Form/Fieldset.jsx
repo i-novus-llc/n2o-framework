@@ -18,7 +18,7 @@ import { parseExpression } from '../../../utils/evalExpression'
 
 // eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
-import { resolveExpression } from './utils'
+import { getModifiedExpression, resolveExpression } from './utils'
 
 /**
  * Компонент - филдсет формы
@@ -126,14 +126,20 @@ class Fieldset extends React.Component {
     }
 
     resolveProperties() {
-        const { visible, enabled, activeModel } = this.props
+        const { visible, enabled, activeModel, parentIndex } = this.props
         const {
             enabled: enabledFromState,
             visible: visibleFromState,
         } = this.state
 
-        const newEnabled = resolveExpression(enabled, activeModel)
-        const newVisible = resolveExpression(visible, activeModel)
+        const newEnabled = resolveExpression(
+            getModifiedExpression(enabled, parentIndex),
+            activeModel,
+        )
+        const newVisible = resolveExpression(
+            getModifiedExpression(visible, parentIndex),
+            activeModel,
+        )
 
         if (!isEqual(newEnabled, enabledFromState)) {
             this.setEnabled(newEnabled)
