@@ -227,8 +227,8 @@ const datasource = createSlice({
             },
             reducer(state, action: StartValidateAction) {
                 const { id, fields, prefix } = action.payload
-                const { errors, validation } = state[id]
-                const fieldList = fields?.length ? fields : Object.keys(validation || {})
+                const { errors, validations } = state[id]
+                const fieldList = fields?.length ? fields : Object.keys(validations || {})
 
                 fieldList.forEach((field) => { errors[prefix][field] = undefined })
             },
