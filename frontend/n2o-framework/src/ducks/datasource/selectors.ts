@@ -55,7 +55,7 @@ export const dataSourceCountSelector = (sourceId: string) => createSelector(
 
 export const dataSourceValidationSelector = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
-    state => state.validation,
+    state => state.validations,
 )
 
 export const getDataSourceFieldValidation = (sourceId: string, fieldId: string) => createSelector(

@@ -12,7 +12,7 @@ export interface DataSourceState<
     TKey extends string = string // TKey = keyof TModel
 > {
     provider?: IProvider
-    validation: Record<string, IValidation[]>
+    validations: Record<string, IValidation[]>
     components: string[]
     dependencies: DataSourceDependency[]
     size: number
@@ -31,7 +31,7 @@ export interface DataSourceState<
 export class DataSource {
     static get defaultState(): DataSourceState {
         return ({
-            validation: {},
+            validations: {},
             components: [],
             dependencies: [],
             size: 0,
