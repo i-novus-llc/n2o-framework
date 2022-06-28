@@ -39,6 +39,7 @@ public class TableElementIOV5 extends AbstractListWidgetElementIOv5<N2oTable> {
     public void io(Element e, N2oTable t, IOProcessor p) {
         super.io(e, t, p);
         p.attributeEnum(e, "selection", t::getSelection, t::setSelection, RowSelectionEnum.class);
+        p.attributeBoolean(e, "auto-select", t::getAutoSelect, t::setAutoSelect);
         p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
         p.attribute(e, "width", t::getWidth, t::setWidth);
         p.attribute(e, "height", t::getHeight, t::setHeight);
