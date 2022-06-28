@@ -141,6 +141,7 @@ class AdvancedTable extends Component {
             isActive,
             selectedId,
             autoFocus,
+            autoSelect,
             columns,
             multi,
             rowSelection,
@@ -227,7 +228,7 @@ class AdvancedTable extends Component {
             resolveModel &&
             rowSelection === rowSelectionType.RADIO &&
             !isEqual(resolveModel, prevProps.resolveModel) &&
-            autoFocus
+            (autoFocus || autoSelect)
         ) {
             this.setState({ checked: { [resolveModel.id]: resolveModel } })
         }
@@ -818,6 +819,10 @@ AdvancedTable.propTypes = {
      */
     autoFocus: PropTypes.bool,
     /**
+     * Автовыбор строки
+     */
+    autoSelect: PropTypes.bool,
+    /**
      * Конфиг для SecurityCheck
      */
     rows: PropTypes.object,
@@ -839,6 +844,7 @@ AdvancedTable.defaultProps = {
     onFocus: () => {},
     t: () => {},
     autoFocus: false,
+    autoSelect: true,
     rows: {},
 }
 
