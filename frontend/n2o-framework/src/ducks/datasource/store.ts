@@ -323,6 +323,17 @@ const datasource = createSlice({
                 }
             },
         },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        DATA_REQUEST: {
+            prepare(datasource: string, options = {}) {
+                return ({
+                    payload: { datasource, options },
+                })
+            },
+            reducer(state, action: { payload: { datasource: string, options: unknown } }) {
+                // экшн приходит с сервера. в сагах надо сделать просто ремап
+            },
+        },
     },
 })
 
@@ -349,4 +360,5 @@ export const {
     addComponent,
     removeComponent,
     setFieldSubmit,
+    DATA_REQUEST,
 } = datasource.actions

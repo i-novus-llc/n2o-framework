@@ -16,6 +16,7 @@ import {
     changePage,
     changeSize,
     dataRequest,
+    DATA_REQUEST,
     remove,
     setActiveModel,
     setEditModel,
@@ -77,6 +78,11 @@ export default () => [
     takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel, setEditModel], resolveModelsSaga),
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequestWrapper),
+    takeEvery(DATA_REQUEST, function* remapRequest({ payload }) {
+        const { datasource, options } = payload
+
+        yield put(dataRequest(datasource, options))
+    }),
     takeEvery(startValidate, validateSaga),
     takeEvery(remove, removeSaga),
     takeEvery([setModel, removeModel, removeAllModel, copyModel, clearModel], function* watcher(action) {
