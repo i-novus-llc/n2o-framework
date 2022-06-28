@@ -18,7 +18,7 @@ import { makeGetModelByPrefixSelector } from '../../models/selectors'
 import type { IProvider, QueryResult } from '../Provider'
 import { ProviderType } from '../Provider'
 import { query as serviceQuery } from '../Providers/Service'
-import { query as storageQuery } from '../Providers/Storage'
+// import { query as storageQuery } from '../Providers/Storage'
 import type { DataRequestAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
 
@@ -30,7 +30,7 @@ function getQuery<
 >(provider: TProviderType): Query<TProvider> {
     switch (provider) {
         case ProviderType.service: { return serviceQuery as Query<IProvider> }
-        case ProviderType.storage: { return storageQuery as Query<IProvider> }
+        case ProviderType.storage: /* { return storageQuery as Query<IProvider> } */
         case ProviderType.inherited:
         case ProviderType.application:
         default: { return () => { throw new Error(`hasn't implementation for provider type: "${provider}`) } }
