@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import get from 'lodash/get'
+import { get } from 'lodash'
 
 import { ModelPrefix } from '../../core/datasource/const'
 import type { State as GlobalState } from '../State'

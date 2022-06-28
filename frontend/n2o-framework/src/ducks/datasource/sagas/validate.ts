@@ -5,7 +5,7 @@ import {
 import { isEmpty } from 'lodash'
 
 import { dataSourceModelsSelector, dataSourceValidationSelector } from '../selectors'
-import { failValidate } from '../store.js'
+import { failValidate } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { hasError, validateModel } from '../../../core/validation/validateModel'
 
@@ -23,7 +23,7 @@ export function* validate({ payload, meta }: StartValidateAction) {
         )
     }
 
-    const messages = (yield validateModel(model, validation)) as Awaited<ReturnType<typeof validateModel>>
+    const messages: Awaited<ReturnType<typeof validateModel>> = yield validateModel(model, validation)
 
     if (!isEmpty(messages)) {
         yield put(failValidate(id, messages, prefix, meta))

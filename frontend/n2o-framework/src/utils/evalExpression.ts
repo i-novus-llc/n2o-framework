@@ -1,6 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject'
-import values from 'lodash/values'
-import isEmpty from 'lodash/isEmpty'
+import { isPlainObject, values, isEmpty } from 'lodash'
 
 // @ts-ignore ignore import error from js file
 import functions from './functions'
@@ -14,7 +12,7 @@ type ExpressionFunction = <TReturn = unknown>(...context: unknown[]) => TReturn
  * @param value {String} - Проверяемая строка
  * @returns {String|Boolean} - Найденное JS выражение, или false
  */
-export function parseExpression(value: string): false | string {
+export function parseExpression(value: unknown): false | string {
     if (typeof value !== 'string') { return false }
 
     if (value.startsWith('`') && value.endsWith('`')) {

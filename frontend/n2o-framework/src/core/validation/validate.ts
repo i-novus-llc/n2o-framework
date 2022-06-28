@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash'
 
 import { dataSourceModelsSelector, dataSourceValidationSelector } from '../../ducks/datasource/selectors'
-import { failValidate } from '../../ducks/datasource/store.js'
+import { failValidate } from '../../ducks/datasource/store'
 import type { State as GlobalState } from '../../ducks/State'
 import { ModelPrefix } from '../datasource/const'
 

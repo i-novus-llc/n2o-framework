@@ -1,10 +1,13 @@
-import isEmpty from 'lodash/isEmpty'
-import isNumber from 'lodash/isNumber'
-import isUndefined from 'lodash/isUndefined'
-import isNull from 'lodash/isNull'
-import isNaN from 'lodash/isNaN'
-import isString from 'lodash/isString'
-import isObject from 'lodash/isObject'
+import {
+    isEmpty,
+    isNumber,
+    isUndefined,
+    isNull,
+    isNaN,
+    isString,
+    isObject,
+    get,
+} from 'lodash'
 
 import evalExpression from '../../utils/evalExpression'
 // @ts-ignore ignore import error from js file
@@ -37,7 +40,7 @@ export function required<
     TKey extends keyof TData,
     TOptions extends { expression: string }
 >(fieldId: TKey, values: TData, options: TOptions): boolean {
-    const value = values[fieldId]
+    const value = get(values, fieldId) // get, т.к. в качестве field может прийти путь
 
     if (options.expression && !evalExpression(options.expression, values)) {
         return true

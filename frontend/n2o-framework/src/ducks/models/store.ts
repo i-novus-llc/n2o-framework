@@ -1,11 +1,13 @@
 import { createSlice, createAction } from '@reduxjs/toolkit'
-import isArray from 'lodash/isArray'
-import isObject from 'lodash/isObject'
-import isString from 'lodash/isString'
-import mapFn from 'lodash/map'
-import pick from 'lodash/pick'
-import merge from 'lodash/merge'
-import omit from 'lodash/omit'
+import {
+    isArray,
+    isObject,
+    isString,
+    map as mapFn,
+    pick,
+    merge,
+    omit,
+} from 'lodash'
 
 // @ts-ignore ignore import error from js file
 import { setIn } from '../../tools/helpers'

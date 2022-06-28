@@ -27,7 +27,6 @@ import Input from '../Input/Input'
 class InputText extends React.Component {
     constructor(props) {
         super(props)
-        test(props)
         this.state = {
             focused: false,
         }

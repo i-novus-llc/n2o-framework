@@ -8,7 +8,7 @@ import isEqual from 'lodash/isEqual'
 
 import type { DataSourceDependency } from '../../../core/datasource/const'
 import { DependencyTypes } from '../../../core/datasource/const'
-import { dataRequest, startValidate } from '../store.js'
+import { dataRequest, startValidate } from '../store'
 import { dataSourcesSelector } from '../selectors'
 import type { State as GlobalState } from '../../State'
 import type { State as DatasourceState } from '../DataSource'
