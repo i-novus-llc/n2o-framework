@@ -32,9 +32,9 @@ export function* query(id: string, provider: ServiceProvider, options: unknown) 
     }
 
     const currentPageId: string = pageId || (yield select(rootPageSelector))
-    const routes: { queryMapping: object | void } = yield select(makePageRoutesByIdSelector(currentPageId))
+    const routes: { queryMapping: object } | void = yield select(makePageRoutesByIdSelector(currentPageId))
 
-    if (routes.queryMapping) {
+    if (routes?.queryMapping) {
         const location: unknown = yield select(getLocation)
 
         yield* routesQueryMapping(state, routes, location)
