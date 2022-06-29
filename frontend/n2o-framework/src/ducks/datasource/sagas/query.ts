@@ -1,4 +1,5 @@
 import {
+    delay,
     put,
     select,
 } from 'redux-saga/effects'
@@ -56,9 +57,13 @@ export function* dataRequest({ payload }: DataRequestAction) {
 
         const oldData = (yield select(makeGetModelByPrefixSelector(ModelPrefix.source, id))) as object[]
 
-        // фикс, чтобы компонентам долетало, что данные обновились
+        /*
+         * фикс, чтобы компонентам долетало, что данные обновились
+         * сбрасываем модель, делаем небольшую задержку для промежуточного рендера и только потом путим реальные данные
+         */
         if (isEqual(oldData, response.list)) {
             yield put(setModel(ModelPrefix.source, id, []))
+            yield delay(16)
         }
 
         yield put(setModel(ModelPrefix.source, id, response.list))
