@@ -88,7 +88,14 @@ class Container extends React.Component {
             !isEqual(activeModel, reduxFormValues) &&
             isEqual(reduxFormValues, prevProps.reduxFormValues)
         ) {
-            initial = mergeInitial(datasource, isEmpty(activeModel) ? resolveModel : activeModel)
+            if (!isEmpty(activeModel)) {
+                initial = activeModel
+            } else if (!isEmpty(resolveModel)) {
+                initial = resolveModel
+            } else {
+                initial = mergeInitial(datasource, isEmpty(activeModel) ? resolveModel : activeModel)
+            }
+
             changed = true
         }
         if (changed && !isEqual(initialValues, initial)) {
