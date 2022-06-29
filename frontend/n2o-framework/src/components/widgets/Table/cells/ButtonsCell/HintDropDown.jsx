@@ -9,7 +9,7 @@ import { Manager, Reference } from 'react-popper'
 
 // eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
-import SecurityCheck from '../../../../../core/auth/SecurityCheck'
+import SecurityController from '../../../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/DropdownCustomItem'
 
@@ -87,10 +87,9 @@ function HintDropDown({
         return isEmpty(security) ? (
             renderItem()
         ) : (
-            <SecurityCheck
-                config={security}
-                render={({ permissions }) => (permissions ? renderItem() : null)}
-            />
+            <SecurityController config={security}>
+                {renderItem()}
+            </SecurityController>
         )
     }
 
@@ -143,10 +142,9 @@ function HintDropDown({
     return isEmpty(security) ? (
         renderDropdown()
     ) : (
-        <SecurityCheck
-            config={security}
-            render={({ permissions }) => (permissions ? renderDropdown() : null)}
-        />
+        <SecurityController config={security}>
+            {renderDropdown()}
+        </SecurityController>
     )
 }
 
