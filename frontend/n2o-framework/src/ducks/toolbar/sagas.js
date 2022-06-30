@@ -18,11 +18,7 @@ import {
     PRINT_BUTTON,
     PrintType,
 } from './constants'
-import {
-    changeButtonDisabled,
-    changeButtonVisibility,
-    changeButtonMessage,
-} from './store'
+import { changeButtonDisabled, changeButtonMessage, changeButtonVisibility } from './store'
 
 /**
  * Resolve buttons conditions
@@ -118,7 +114,7 @@ function* print(action) {
     const {
         dataProvider,
         printable = null,
-        type = PrintType.HTML,
+        type = PrintType.PDF,
         documentTitle,
         loader = false,
         loaderText,
@@ -144,8 +140,10 @@ function* print(action) {
     if (dataProvider) {
         const { url } = yield dataProviderResolver(state, dataProvider)
 
-        if (type === PrintType.PDF || type === PrintType.IMAGE) {
+        if ((type === PrintType.PDF && !base64) || type === PrintType.IMAGE) {
             printConfig.printable = url
+        } else if (type === PrintType.PDF && base64) {
+            printConfig.printable = yield request(url)
         } else if (type === PrintType.HTML) {
             const html = yield request(url)
 
