@@ -395,6 +395,26 @@ http://n2oapp.net/framework/config/schema/page-4.0
 </dependencies>
 ```
 
+##### Копирование части модели из другого источника &lt;copy&gt;
+
+**Атрибуты**
+
+|Наименование       |Тип                             |Описание                                   |Значение по умолчанию|
+|-------------------|--------------------------------|-------------------------------------------|---------------------|
+|on                 |Строка                          |Иденитификатор источника данных            |                     |
+|source-model       |filter,resolve,edit,datasource  |Модель источника данных откуда копируется  |resolve              |
+|target-model       |filter,resolve,edit,datasource  |Модель источника данных куда копируется    |resolve              |
+|source-field-id    |Строка                          |Поле, откуда скопировать данные            |                     |
+|target-field-id    |Строка                          |Поле, в которое копируется данные          |                     |
+
+**Пример**
+
+```xml
+<dependencies>
+    <copy on="ds2" source-model="datasource" target-model="filter" source-field-id="name" target-field-id="name"/>
+</dependencies>
+```
+
 ## Действия на странице {#actions}
 
 **Атрибуты**

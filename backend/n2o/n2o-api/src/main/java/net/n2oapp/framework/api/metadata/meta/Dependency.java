@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DependencyCondition implements Compiled {
+public class Dependency implements Compiled {
     @JsonProperty
     private String on;
     @JsonProperty

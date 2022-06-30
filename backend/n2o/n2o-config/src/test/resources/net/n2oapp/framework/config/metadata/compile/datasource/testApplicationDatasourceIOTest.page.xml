@@ -4,6 +4,7 @@
         <app-datasource id="appDatasource">
             <dependencies>
                 <fetch on="test_id"/>
+                <copy on="test_id" target-field-id="form"/>
             </dependencies>
         </app-datasource>
     </datasources>

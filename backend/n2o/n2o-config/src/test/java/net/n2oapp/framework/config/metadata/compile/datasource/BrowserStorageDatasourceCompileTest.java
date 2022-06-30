@@ -1,7 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
+import net.n2oapp.framework.api.metadata.meta.CopyDependency;
+import net.n2oapp.framework.api.metadata.meta.DependencyConditionType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
@@ -38,8 +41,13 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         BrowserStorageDatasource datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasourceIOTest_test_id");
         assertThat(datasource.getSize(),is(13));
 
-        assertThat(datasource.getDependencies().size(),is(1) );
+        assertThat(datasource.getDependencies().size(),is(2) );
         assertThat(datasource.getDependencies().get(0).getOn(),is("models.resolve['testBrowserStorageDatasourceIOTest_123']") );
+        CopyDependency copyDependency = (CopyDependency) datasource.getDependencies().get(1);
+        assertThat(copyDependency.getOn(), is("models.resolve['form_ds'].field_1"));
+        assertThat(copyDependency.getField(), is("form"));
+        assertThat(copyDependency.getType(), is(DependencyConditionType.copy));
+        assertThat(copyDependency.getModel(), is(ReduxModel.resolve));
 
         assertThat(datasource.getSubmit().getStorage(),is(BrowserStorageType.localStorage));
         assertThat(datasource.getSubmit().getType(),is("browser"));

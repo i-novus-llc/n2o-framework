@@ -51,8 +51,8 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
     private void checkDependencies(N2oStandardDatasource datasource, DatasourceIdsScope scope) {
         if (datasource.getDependencies() != null) {
             for (N2oStandardDatasource.Dependency d : datasource.getDependencies()) {
-                if (d instanceof N2oStandardDatasource.FetchDependency && ((N2oStandardDatasource.FetchDependency) d).getOn() != null) {
-                    String on = ((N2oStandardDatasource.FetchDependency) d).getOn();
+                if (d.getOn() != null) {
+                    String on = d.getOn();
                     ValidationUtils.checkForExistsDatasource(on, scope,
                             String.format("Атрибут \"on\" в зависимости источника данных '%s' ссылается на несуществующий источник данных '%s'",
                                     datasourceId, on));

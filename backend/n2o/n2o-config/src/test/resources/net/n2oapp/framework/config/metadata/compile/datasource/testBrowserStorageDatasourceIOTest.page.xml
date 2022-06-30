@@ -5,6 +5,7 @@
             <submit storage-type="localStorage" auto="false" key="submit_test_key"/>
             <dependencies>
                 <fetch on="123"/>
+                <copy on="form_ds" target-field-id="form" target-model="resolve" source-model="resolve" source-field-id="field_1"/>
             </dependencies>
         </browser-storage>
 

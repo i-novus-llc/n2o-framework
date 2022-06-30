@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
-import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 
 import java.util.List;
 import java.util.Map;
@@ -27,5 +27,5 @@ public class StandardDatasource extends AbstractDatasource {
     @JsonProperty
     private ClientDataProvider submit;
     @JsonProperty
-    private List<DependencyCondition> dependencies;
+    private List<Dependency> dependencies;
 }

@@ -149,7 +149,39 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="fetch" type="fetchDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="copy" type="copyDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="copyDefinition">
+        <xs:annotation>
+            <xs:documentation>Зависимость в источниках данных, позволяющая копировать часть модели из другого источника.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="on" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>При изменении какого источника данных копировать.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="target-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля, в которое будут скопированы данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="target-model" type="act:clientModel">
+            <xs:annotation>
+                <xs:documentation>Модель, в которую будут скопированы данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="source-model" type="act:clientModel">
+            <xs:annotation>
+                <xs:documentation>Модель, с который будут скопированы данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="source-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля, с которого будут скопированы данные.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="fetchDefinition">
