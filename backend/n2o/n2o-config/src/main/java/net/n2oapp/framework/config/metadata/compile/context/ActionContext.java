@@ -28,7 +28,7 @@ public class ActionContext extends ObjectContext {
      * Форма, в которой находятся валидации
      */
     private String messagesForm;
-    private String result;
+    private String pollingEndCondition;
     private PollingSaga polling;
     private RedirectSaga redirect;
     private RefreshSaga refresh;

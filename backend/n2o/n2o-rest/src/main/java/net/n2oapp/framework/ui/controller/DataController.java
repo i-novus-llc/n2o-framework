@@ -59,7 +59,7 @@ public class DataController extends AbstractController {
     }
 
     private void resolveMeta(ActionRequestInfo requestInfo, SetDataResponse response) {
-        if (requestInfo.getResult() != null && !resolveCondition(requestInfo.getResult(), response.getData())) {
+        if (requestInfo.getPollingEndCondition() != null && !resolveCondition(requestInfo.getPollingEndCondition(), response.getData())) {
             resolvePolling(requestInfo, response);
         } else {
             resolveRedirect(requestInfo, response);

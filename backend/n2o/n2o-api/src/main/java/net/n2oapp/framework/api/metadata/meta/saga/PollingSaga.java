@@ -16,6 +16,8 @@ public class PollingSaga implements Compiled {
     @JsonProperty
     private String delay;
     @JsonProperty
+    private String result;
+    @JsonProperty
     private String datasource;
     @JsonProperty
     private ReduxModel model;
