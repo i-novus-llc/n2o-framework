@@ -8,7 +8,7 @@ import { dataSourceByIdSelector } from '../selectors'
 import { getLocation, rootPageSelector } from '../../global/store'
 // @ts-ignore ignore import error from js file
 import { makePageRoutesByIdSelector } from '../../pages/selectors'
-import type { QueryResult, ServiceProvider } from '../Provider'
+import type { QueryOptions, QueryResult, ServiceProvider } from '../Provider'
 import type { State as GlobalState } from '../../State'
 
 // @ts-ignore ignore import error from js file
@@ -23,7 +23,7 @@ export function* invoke() {
     // TODO Перенести сюда инвок из actionsImpl
 }
 
-export function* query(id: string, provider: ServiceProvider, options: unknown) {
+export function* query(id: string, provider: ServiceProvider, options: QueryOptions) {
     const state: GlobalState = yield select()
     const { size, sorting, page, pageId } = yield select(dataSourceByIdSelector(id))
 

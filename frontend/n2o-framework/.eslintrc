@@ -171,7 +171,7 @@
       ],
 
       "parserOptions": {
-        "project": ["./tsconfig.json", "./frontend/n2o-framework/tsconfig.json"]
+        "project": ["./tsconfig.json"]
       },
       "rules": {
         "@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
