@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.control.SubmitOn;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
@@ -45,6 +46,7 @@ public class N2oClientDataProvider implements Serializable {
         private String objectId;
         private String operationId;
         private String route;
+        private PollingSaga polling;
         private RedirectSaga redirect;
         private RefreshSaga refresh;
         @Deprecated
