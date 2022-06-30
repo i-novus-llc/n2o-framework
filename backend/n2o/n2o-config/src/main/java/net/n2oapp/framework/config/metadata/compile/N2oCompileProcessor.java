@@ -183,7 +183,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         ExtensionAttributeMapperFactory extensionAttributeMapperFactory = env.getExtensionAttributeMapperFactory();
         HashMap<String, Object> extAttributes = new HashMap<>();
         source.getExtAttributes().forEach((k, v) -> {
-            Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri());
+            Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri(), this);
             res = CompileUtil.resolveNestedAttributes(res, env.getDomainProcessor()::deserialize);
             if (!res.isEmpty()) {
                 extAttributes.putAll(res);
