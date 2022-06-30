@@ -3,18 +3,24 @@ package net.n2oapp.framework.ui.controller;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
-import net.n2oapp.framework.api.ui.*;
+import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.ActionResponseInfo;
+import net.n2oapp.framework.api.ui.QueryRequestInfo;
+import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.Map;
 import java.util.Set;
+
+import static net.n2oapp.framework.engine.util.MappingProcessor.resolveCondition;
 
 /**
  * Контроллер данных
@@ -48,9 +54,29 @@ public class DataController extends AbstractController {
         ActionResponseInfo responseInfo = new ActionResponseInfo();
         responseInfo.setAlertMessageBuilder(getMessageBuilder());
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
-        resolveRedirect(requestInfo, result);
-        resolveRefresh(requestInfo, result);
+        resolveMeta(requestInfo, result);
         return result;
+    }
+
+    private void resolveMeta(ActionRequestInfo requestInfo, SetDataResponse response) {
+        if (requestInfo.getResult() != null && !resolveCondition(requestInfo.getResult(), response.getData())) {
+            resolvePolling(requestInfo, response);
+        } else {
+            resolveRedirect(requestInfo, response);
+            resolveRefresh(requestInfo, response);
+        }
+    }
+
+    private void resolvePolling(ActionRequestInfo requestInfo, SetDataResponse response) {
+        PollingSaga polling = new PollingSaga();
+        polling.setDelay(requestInfo.getPolling().getDelay());
+        polling.setDataProvider(requestInfo.getPolling().getDataProvider());
+        polling.setDatasource(requestInfo.getPolling().getDatasource());
+        polling.setModel(requestInfo.getPolling().getModel());
+
+        if (response.getMeta() == null)
+            response.setMeta(new MetaSaga());
+        response.getMeta().setPolling(polling);
     }
 
     private void resolveRedirect(ActionRequestInfo requestInfo, SetDataResponse response) {

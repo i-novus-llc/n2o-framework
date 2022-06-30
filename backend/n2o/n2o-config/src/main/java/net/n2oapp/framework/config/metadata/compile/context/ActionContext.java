@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
@@ -27,6 +28,8 @@ public class ActionContext extends ObjectContext {
      * Форма, в которой находятся валидации
      */
     private String messagesForm;
+    private String result;
+    private PollingSaga polling;
     private RedirectSaga redirect;
     private RefreshSaga refresh;
     private boolean messageOnSuccess = true;

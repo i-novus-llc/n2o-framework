@@ -87,6 +87,8 @@ public abstract class AbstractController {
         requestInfo.setUser(user);
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
+        requestInfo.setResult(actionCtx.getResult());
+        requestInfo.setPolling(actionCtx.getPolling());
         requestInfo.setRedirect(actionCtx.getRedirect());
         requestInfo.setRefresh(actionCtx.getRefresh());
         requestInfo.setMessageOnSuccess(actionCtx.isMessageOnSuccess());
