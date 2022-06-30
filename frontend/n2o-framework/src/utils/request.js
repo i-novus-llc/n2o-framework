@@ -10,7 +10,7 @@ function parseResponse(response) {
 }
 
 function checkStatus({ status, statusText, body }) {
-    let json
+    let json = body
 
     try {
         json = JSON.parse(body)

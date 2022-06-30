@@ -3,14 +3,21 @@ import get from 'lodash/get'
 import filter from 'lodash/filter'
 import every from 'lodash/every'
 import some from 'lodash/some'
+import trim from 'lodash/trim'
 import printJS from 'print-js'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 // eslint-disable-next-line import/no-cycle
 import { resolveConditions } from '../../sagas/conditions'
+import request from '../../utils/request'
 
 import { getContainerButtons } from './selectors'
-import { PRINT_BUTTON } from './constants'
+import {
+    DEFAULT_PRINT_ERROR_MESSAGE,
+    DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE,
+    PRINT_BUTTON,
+    PrintType,
+} from './constants'
 import {
     changeButtonDisabled,
     changeButtonVisibility,
@@ -88,28 +95,68 @@ export function* setParentVisibleIfAllChildChangeVisible({ key, buttonId }) {
     }
 }
 
+function prepareHTMLToPrint(html) {
+    const uniqID = 'n2o-print-block-53a6bb'
+    const printBlockStyles = 'position: absolute; left: -1000000px; top: -1000000px; width: 100%; height: auto; z-index: -1000'
+
+    const printBlock = document.createElement('div')
+
+    printBlock.id = uniqID
+    printBlock.style = printBlockStyles
+    printBlock.innerHTML = trim(html)
+
+    document.body.appendChild(printBlock)
+
+    return {
+        elementId: uniqID,
+        cleanUp: () => printBlock.remove(),
+    }
+}
+
 function* print(action) {
     const state = yield select()
     const {
-        url,
-        pathMapping,
-        queryMapping,
-        fileType = 'pdf',
+        dataProvider,
+        printable = null,
+        type = PrintType.HTML,
+        documentTitle,
         loader = false,
+        loaderText,
         base64 = false,
     } = action.payload
-    const { url: printUrl } = yield dataProviderResolver(state, {
-        url,
-        pathMapping,
-        queryMapping,
-    })
 
-    printJS({
-        printable: printUrl,
-        fileType,
+    const onError = text => (err) => {
+        alert(text)
+        console.error(err)
+    }
+
+    const printConfig = {
+        printable,
+        type,
+        documentTitle,
         showModal: loader,
+        modalMessage: loaderText,
         base64,
-    })
+        onError: onError(DEFAULT_PRINT_ERROR_MESSAGE),
+        onIncompatibleBrowser: onError(DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE),
+    }
+
+    if (dataProvider) {
+        const { url } = yield dataProviderResolver(state, dataProvider)
+
+        if (type === PrintType.PDF || type === PrintType.IMAGE) {
+            printConfig.printable = url
+        } else if (type === PrintType.HTML) {
+            const html = yield request(url)
+
+            const { elementId, cleanUp } = prepareHTMLToPrint(html)
+
+            printConfig.printable = elementId
+            printConfig.onPrintDialogClose = cleanUp
+        }
+    }
+
+    printJS(printConfig)
 }
 
 // export function* handleAction(action) {
