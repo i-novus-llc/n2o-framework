@@ -17,7 +17,7 @@ import {
     widgetsSelector,
 } from '../ducks/widgets/selectors'
 import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
-import { validate as validateDatasource } from '../core/datasource/validate'
+import { validate as validateDatasource } from '../core/validation/validate'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
@@ -26,7 +26,7 @@ import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
-import { MODEL_PREFIX } from '../core/datasource/const'
+import { ModelPrefix } from '../core/datasource/const'
 import { failValidate } from '../ducks/datasource/store'
 
 import fetchSaga from './fetch'
@@ -182,7 +182,7 @@ export function* handleInvoke(apiProvider, action) {
         const { submitForm } = dataProvider
 
         if (!optimistic && submitForm) {
-            const newModel = modelPrefix === MODEL_PREFIX.selected ? response.data?.$list : response.data
+            const newModel = modelPrefix === ModelPrefix.selected ? response.data?.$list : response.data
 
             if (!isEqual(model, newModel)) {
                 yield put(

@@ -18,7 +18,7 @@ import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate } from '../datasource/store'
 import { startInvoke } from '../../actions/actionImpl'
-import { MODEL_PREFIX } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import { formsSelector } from './selectors'
 import {
@@ -121,7 +121,7 @@ export function* autoSubmit({ meta }) {
     const submit = datasource.submit || datasource.fieldsSubmit?.[field]
 
     if (!isEmpty(submit)) {
-        yield put(startInvoke(datasourceId, submit, MODEL_PREFIX.active, datasource.pageId))
+        yield put(startInvoke(datasourceId, submit, ModelPrefix.active, datasource.pageId))
     }
 }
 

@@ -1,13 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
+import omit from 'lodash/omit'
 
-export function DropdownCustomItem({ color, ...rest }) {
-    return <Button {...rest} className="dropdown-item-btn" />
-}
-
-DropdownCustomItem.propTypes = {
-    color: PropTypes.any,
+export function DropdownCustomItem(props) {
+    return <Button {...omit(props, ['color'])} className="dropdown-item-btn" />
 }
 
 export default DropdownCustomItem

@@ -1,34 +1,22 @@
-/**
- * Created by emamoshin on 03.11.2017.
- */
 import { createSelector } from '@reduxjs/toolkit'
-import get from 'lodash/get'
+import { get } from 'lodash'
 
-import { PREFIXES } from './constants'
+import { ModelPrefix } from '../../core/datasource/const'
+import type { State as GlobalState } from '../State'
 
 /**
  * Базовый селектор всех моделей
  * @param state
  */
-const modelsSelector = state => state.models || {}
-
-/**
- * Селектор получения resolve моделей
- * @param state
- */
-const resolveSelector = state => state.models[PREFIXES.resolve] || {}
+const modelsSelector = (state: GlobalState) => state.models || {}
 
 /**
  * Селектор получения модели по линку
  * @param modelLink
  */
-const getModelSelector = modelLink => state => get(state, modelLink)
-/*
-  Селекторы генераторы
-*/
+const getModelSelector = (modelLink: string) => (state: GlobalState) => get(state, modelLink)
 
-const getModelsByDependency = dependency => state => (
-    dependency &&
+const getModelsByDependency = (dependency: Array<{ on: string }>) => (state: GlobalState) => (
     dependency.map(config => ({
         model: getModelSelector(config.on)(state),
         config,
@@ -39,17 +27,24 @@ const getModelsByDependency = dependency => state => (
  * Селектор-генератор для получения списка моделей по префиксу
  * @param prefix
  */
-const makeModelsByPrefixSelector = prefix => createSelector(
+const makeModelsByPrefixSelector = (prefix: ModelPrefix) => createSelector(
     modelsSelector,
     modelsState => modelsState[prefix] || {},
 )
+
+/**
+ * Селектор получения resolve моделей
+ * @param state
+ * @deprecated
+ */
+const resolveSelector = makeModelsByPrefixSelector(ModelPrefix.active)
 
 /**
  * Селектор-генератор для получения конкретной модели
  * @param prefix
  * @param key
  */
-const makeGetModelByPrefixSelector = (prefix, key) => createSelector(
+const makeGetModelByPrefixSelector = (prefix: ModelPrefix, key: string) => createSelector(
     makeModelsByPrefixSelector(prefix),
     prefixModelsState => prefixModelsState[key],
 )
@@ -57,15 +52,12 @@ const makeGetModelByPrefixSelector = (prefix, key) => createSelector(
 /**
  * Селектор-генератор для получения resolve модели
  * @param key
+ * @deprecated
  */
-const makeGetResolveModelSelector = key => createSelector(
+const makeGetResolveModelSelector = (key: string) => createSelector(
     resolveSelector,
     modelsState => modelsState[key],
 )
-
-/*
-  Остальные селекторы
-*/
 
 export {
     modelsSelector,

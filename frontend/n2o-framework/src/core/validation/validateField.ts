@@ -1,43 +1,27 @@
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
-import * as presets from '../validation/presets'
 
+import { presets } from './presets'
 import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
+import type { IValidation, IValidationResult } from './IValidation'
+import { Severity } from './IValidation'
 
-/**
- * @typedef {Object} Validation
- * @property {VALIDATION_SEVERITY} severity
- * @property {string} text
- * @property {string} validationKey
- * @property {string} type
- * @property {string | boolean} [enabled]
- * @property {string} [expression] only for type='condition'
- */
-/**
- * @typedef {Object} ValidationResult
- * @property {VALIDATION_SEVERITY} severity
- * @property {string} text
- */
-
-/**
- * @param {string} field
- * @param {object} model
- * @param {Validation[]} validationList
- * @return {ValidationResult[]}
- */
-export async function validateField(field, model, validationList) {
-    const errors = []
+export async function validateField<
+    TData extends object = object,
+    TKey extends keyof TData = keyof TData
+>(field: TKey, model: TData, validationList: IValidation[]): Promise<IValidationResult[]> {
+    const errors: IValidationResult[] = []
 
     const validations = validationList.filter((validation) => {
         if (typeof presets[validation.type] !== 'function') {
             // eslint-disable-next-line no-console
-            console.warn(`Validation error: not found preset for type="${validation.type}", field="${field}"`)
+            console.warn(`Validation error: not found preset for type="${validation.type}", field="${String(field)}"`)
 
             return false
         }
 
         const conditions = validation.enablingConditions
 
-        if (conditions?.length) {
+        if (conditions.length) {
             return conditions.every(conditions => evalExpression(conditions, model))
         }
 
@@ -52,7 +36,9 @@ export async function validateField(field, model, validationList) {
 
             if (!valid) {
                 const expression = parseExpression(validation.text)
-                const text = expression ? evalExpression(expression, model) : validation.text
+                const text = expression
+                    ? evalExpression(expression, model) as string
+                    : validation.text
 
                 errors.push({
                     text,
@@ -61,9 +47,13 @@ export async function validateField(field, model, validationList) {
             }
         } catch (error) {
             // eslint-disable-next-line no-console
-            console.warn(`validate error: ${error.message}`)
+            console.warn(`validate error: ${error instanceof Error ? error.message : error}`)
         }
     }
 
     return errors.sort((first, second) => SEVERITY_PRIORITY[first.severity] - SEVERITY_PRIORITY[second.severity])
 }
+
+export const hasError = (messages: IValidationResult[]): boolean => messages.some(message => (
+    message.severity === Severity.danger || message.severity === Severity.warning
+))

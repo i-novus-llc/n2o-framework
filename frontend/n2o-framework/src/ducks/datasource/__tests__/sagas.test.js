@@ -2,7 +2,7 @@ import { runSaga } from 'redux-saga'
 
 import {
     routesQueryMapping,
-} from '../sagas/routesQueryMapping'
+} from '../Providers/service/routesQueryMapping'
 
 describe('Проверка саги datasource', () => {
     describe('тесты routesQueryMapping', () => {

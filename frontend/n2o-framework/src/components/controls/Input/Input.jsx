@@ -4,6 +4,7 @@ import { pure } from 'recompose'
 import classNames from 'classnames'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
+import omit from 'lodash/omit'
 
 /**
  * Контрол Input
@@ -78,7 +79,6 @@ class Input extends React.Component {
     render() {
         const {
             placeholder,
-            length,
             className,
             style,
             id,
@@ -86,7 +86,6 @@ class Input extends React.Component {
             type,
             disabled,
             inputRef,
-            onChange,
             autoFocus,
             readOnly,
             value,
@@ -117,7 +116,7 @@ class Input extends React.Component {
                 onKeyDown={onKeyDown}
                 placeholder={placeholder}
                 readOnly={readOnly}
-                {...restProps}
+                {...omit(restProps, ['length', 'onChange'])}
                 onChange={this.handleChange}
                 title={value}
             />

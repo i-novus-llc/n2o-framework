@@ -15,13 +15,10 @@ import { LinkCellType } from './linkCellTypes'
 function LinkCell(props) {
     const {
         widgetId,
-        dispatch,
-        columnId,
         model,
         className,
         fieldKey,
         id,
-        resolveWidget,
         icon,
         type,
         url,
@@ -57,7 +54,7 @@ function LinkCell(props) {
                 model={model}
                 entityKey={widgetId}
                 {...submitType}
-                {...omit(rest, ['icon', 'label'])}
+                {...omit(rest, ['icon', 'label', 'resolveWidget', 'columnId', 'dispatch'])}
                 url={url}
                 href={url}
             />
