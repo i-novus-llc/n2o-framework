@@ -25,6 +25,8 @@ public class MetaSaga implements Compiled {
     @JsonProperty
     private CloseSaga onClose;
     @JsonProperty
+    private PollingSaga polling;
+    @JsonProperty
     private Dialog dialog;
     private String messageWidgetId;
 }
