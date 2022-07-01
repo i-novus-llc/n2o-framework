@@ -9,6 +9,7 @@ import classNames from 'classnames'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
 import StandardButton from '../../../../buttons/StandardButton/StandardButton'
+import DefaultCell from '../DefaultCell'
 
 import { LinkCellType } from './linkCellTypes'
 
@@ -25,6 +26,7 @@ function LinkCell(props) {
         icon,
         type,
         url,
+        disabled,
         onResolve,
         ...rest
     } = props
@@ -47,7 +49,9 @@ function LinkCell(props) {
     }, [type, model, fieldKey, id, icon])
 
     return (
-        <span
+        <DefaultCell
+            tag="span"
+            disabled={disabled}
             onClick={onResolve}
         >
             <StandardButton
@@ -61,7 +65,7 @@ function LinkCell(props) {
                 url={url}
                 href={url}
             />
-        </span>
+        </DefaultCell>
     )
 }
 
@@ -77,6 +81,7 @@ LinkCell.propTypes = {
     icon: PropTypes.string,
     type: PropTypes.any,
     url: PropTypes.string,
+    disabled: PropTypes.bool,
     onResolve: PropTypes.func,
 }
 
