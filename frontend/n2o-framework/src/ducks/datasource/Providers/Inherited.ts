@@ -1,9 +1,10 @@
 import { select } from 'redux-saga/effects'
+import { get, cloneDeep } from 'lodash'
 
 import { dataSourceByIdSelector } from '../selectors'
-import type { QueryOptions, StorageProvider } from '../Provider'
-import { StorageType } from '../Provider'
+import type { QueryOptions, InheritedProvider } from '../Provider'
 import type { DataSourceState } from '../DataSource'
+import { makeGetModelByPrefixSelector } from '../../models/selectors'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
@@ -13,19 +14,18 @@ export function* submit() {
     // TODO NNO-8034
 }
 
-export function* query(id: string, { storage, key }: StorageProvider, options: QueryOptions) {
+export function* query(id: string, {
+    sourceDs: datasourceId,
+    sourceModel: prefix,
+    sourceField,
+}: InheritedProvider, options: QueryOptions) {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
     const { size, sorting, page } = datasource
 
-    if (!key) {
-        throw new Error('Parametr "key" is required for query data')
-    }
+    const model: object | void = yield select(makeGetModelByPrefixSelector(prefix, datasourceId))
+    const data = cloneDeep(sourceField ? get(model, sourceField) : model)
 
-    const storageData = storage === StorageType.local
-        ? localStorage.getItem(key)
-        : sessionStorage.getItem(key)
-
-    if (!storageData) {
+    if (!data) {
         return {
             list: [],
             page: 1,
@@ -33,13 +33,7 @@ export function* query(id: string, { storage, key }: StorageProvider, options: Q
         }
     }
 
-    const json = JSON.parse(storageData)
-
-    if (!Array.isArray(json)) {
-        throw new Error('invalid data format')
-    }
-
-    const filtered = applyFilter(json)
+    const filtered = applyFilter(Array.isArray(data) ? data : [data])
     const sortered = applySorting(filtered, sorting)
     const { list, page: newPage } = applyPaging(
         sortered,
