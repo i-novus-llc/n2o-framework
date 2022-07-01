@@ -30,6 +30,7 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
     public void io(Element e, N2oSimpleMenu m, IOProcessor p) {
         p.attribute(e, "ref-id", m::getRefId, m::setRefId);
         p.attribute(e, "src", m::getSrc, m::setSrc);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getMenuItems, m::setMenuItems, p.oneOf(N2oSimpleMenu.AbstractMenuItem.class)
                 .add("menu-item", N2oSimpleMenu.MenuItem.class, this::menuItem)
                 .add("dropdown-menu", N2oSimpleMenu.DropdownMenuItem.class, this::dropDownMenu));
