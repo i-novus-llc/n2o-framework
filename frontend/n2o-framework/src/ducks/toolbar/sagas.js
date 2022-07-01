@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import filter from 'lodash/filter'
 import every from 'lodash/every'
 import some from 'lodash/some'
-import trim from 'lodash/trim'
+import uniqueId from 'lodash/uniqueId'
 import printJS from 'print-js'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
@@ -91,30 +91,35 @@ export function* setParentVisibleIfAllChildChangeVisible({ key, buttonId }) {
     }
 }
 
-function prepareHTMLToPrint(html) {
-    const uniqID = 'n2o-print-block-53a6bb'
-    const printBlockStyles = 'position: absolute; left: -1000000px; top: -1000000px; width: 100%; height: auto; z-index: -1000'
+function printText(text, keepIndent) {
+    const uniqID = uniqueId('n2o-print-block-')
+    const printFrameStyles = 'position: absolute; left: -1000000px; top: -1000000px; width: 100%; height: auto; z-index: -1000'
 
-    const printBlock = document.createElement('div')
+    const printFrame = document.createElement('iframe')
 
-    printBlock.id = uniqID
-    printBlock.style = printBlockStyles
-    printBlock.innerHTML = trim(html)
+    printFrame.id = uniqID
+    printFrame.name = uniqID
+    printFrame.style = printFrameStyles
 
-    document.body.appendChild(printBlock)
+    document.body.appendChild(printFrame)
 
-    return {
-        elementId: uniqID,
-        cleanUp: () => printBlock.remove(),
-    }
+    const iFrame = window.frames[uniqID]
+
+    iFrame.document.write(keepIndent ? `<pre>${text}</pre>` : text)
+
+    iFrame.addEventListener('afterprint', () => printFrame.remove())
+    iFrame.print()
 }
 
 function* print(action) {
     const state = yield select()
     const {
-        dataProvider,
+        url,
+        pathMapping,
+        queryMapping,
         printable = null,
-        type = PrintType.PDF,
+        type = PrintType.TEXT,
+        keepIndent,
         documentTitle,
         loader = false,
         loaderText,
@@ -137,20 +142,29 @@ function* print(action) {
         onIncompatibleBrowser: onError(DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE),
     }
 
-    if (dataProvider) {
-        const { url } = yield dataProviderResolver(state, dataProvider)
+    if (url) {
+        const { url: printUrl } = yield dataProviderResolver(state, {
+            url,
+            pathMapping,
+            queryMapping,
+        })
 
-        if ((type === PrintType.PDF && !base64) || type === PrintType.IMAGE) {
-            printConfig.printable = url
-        } else if (type === PrintType.PDF && base64) {
-            printConfig.printable = yield request(url)
-        } else if (type === PrintType.HTML) {
-            const html = yield request(url)
+        if (type === PrintType.TEXT) {
+            const text = yield request(printUrl, {}, { parseJson: false })
 
-            const { elementId, cleanUp } = prepareHTMLToPrint(html)
+            printText(text, keepIndent)
 
-            printConfig.printable = elementId
-            printConfig.onPrintDialogClose = cleanUp
+            return
+        }
+
+        if (type === PrintType.PDF) {
+            if (base64) {
+                printConfig.printable = yield request(printUrl, {}, { parseJson: false })
+            } else {
+                printConfig.printable = printUrl
+            }
+        } else if (type === PrintType.IMAGE) {
+            printConfig.printable = printUrl
         }
     }
 
