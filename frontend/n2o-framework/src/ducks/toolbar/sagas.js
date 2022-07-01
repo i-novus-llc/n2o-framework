@@ -3,19 +3,22 @@ import get from 'lodash/get'
 import filter from 'lodash/filter'
 import every from 'lodash/every'
 import some from 'lodash/some'
+import uniqueId from 'lodash/uniqueId'
 import printJS from 'print-js'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 // eslint-disable-next-line import/no-cycle
 import { resolveConditions } from '../../sagas/conditions'
+import request from '../../utils/request'
 
 import { getContainerButtons } from './selectors'
-import { PRINT_BUTTON } from './constants'
 import {
-    changeButtonDisabled,
-    changeButtonVisibility,
-    changeButtonMessage,
-} from './store'
+    DEFAULT_PRINT_ERROR_MESSAGE,
+    DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE,
+    PRINT_BUTTON,
+    PrintType,
+} from './constants'
+import { changeButtonDisabled, changeButtonMessage, changeButtonVisibility } from './store'
 
 /**
  * Resolve buttons conditions
@@ -88,28 +91,84 @@ export function* setParentVisibleIfAllChildChangeVisible({ key, buttonId }) {
     }
 }
 
+function printText(text, keepIndent) {
+    const uniqID = uniqueId('n2o-print-block-')
+    const printFrameStyles = 'position: absolute; left: -1000000px; top: -1000000px; width: 100%; height: auto; z-index: -1000'
+
+    const printFrame = document.createElement('iframe')
+
+    printFrame.id = uniqID
+    printFrame.name = uniqID
+    printFrame.style = printFrameStyles
+
+    document.body.appendChild(printFrame)
+
+    const iFrame = window.frames[uniqID]
+
+    iFrame.document.write(keepIndent ? `<pre>${text}</pre>` : text)
+
+    iFrame.addEventListener('afterprint', () => printFrame.remove())
+    iFrame.print()
+}
+
 function* print(action) {
     const state = yield select()
     const {
         url,
         pathMapping,
         queryMapping,
-        fileType = 'pdf',
+        printable = null,
+        type = PrintType.TEXT,
+        keepIndent,
+        documentTitle,
         loader = false,
+        loaderText,
         base64 = false,
     } = action.payload
-    const { url: printUrl } = yield dataProviderResolver(state, {
-        url,
-        pathMapping,
-        queryMapping,
-    })
 
-    printJS({
-        printable: printUrl,
-        fileType,
+    const onError = text => (err) => {
+        alert(text)
+        console.error(err)
+    }
+
+    const printConfig = {
+        printable,
+        type,
+        documentTitle,
         showModal: loader,
+        modalMessage: loaderText,
         base64,
-    })
+        onError: onError(DEFAULT_PRINT_ERROR_MESSAGE),
+        onIncompatibleBrowser: onError(DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE),
+    }
+
+    if (url) {
+        const { url: printUrl } = yield dataProviderResolver(state, {
+            url,
+            pathMapping,
+            queryMapping,
+        })
+
+        if (type === PrintType.TEXT) {
+            const text = yield request(printUrl, {}, { parseJson: false })
+
+            printText(text, keepIndent)
+
+            return
+        }
+
+        if (type === PrintType.PDF) {
+            if (base64) {
+                printConfig.printable = yield request(printUrl, {}, { parseJson: false })
+            } else {
+                printConfig.printable = printUrl
+            }
+        } else if (type === PrintType.IMAGE) {
+            printConfig.printable = printUrl
+        }
+    }
+
+    printJS(printConfig)
 }
 
 // export function* handleAction(action) {
