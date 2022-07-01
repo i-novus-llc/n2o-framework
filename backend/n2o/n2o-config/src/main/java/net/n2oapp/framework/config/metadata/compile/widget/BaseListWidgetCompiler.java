@@ -78,6 +78,7 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
                 if (action != null) {
                     Action compiledAction = p.compile(action, context, widgetScope, new ComponentScope(rowClick), object);
                     rc = new RowClick(compiledAction);
+                    rc.setProperties(p.mapAttributes(source.getRows().getRowClick()));
                     if (compiledAction != null && StringUtils.isJs(enabledCondition)) {
                         rc.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
                     }
