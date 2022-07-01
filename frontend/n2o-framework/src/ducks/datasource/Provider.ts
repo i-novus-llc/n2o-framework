@@ -1,3 +1,5 @@
+import type { ModelPrefix } from '../../core/datasource/const'
+
 export enum ProviderType {
     storage = 'browser',
     service = 'service',
@@ -31,6 +33,13 @@ export interface StorageProvider extends IProvider {
     type: ProviderType.storage
     key: string,
     storage: StorageType
+}
+
+export interface InheritedProvider extends IProvider {
+    type: ProviderType.inherited
+    sourceDs: string
+    sourceModel: ModelPrefix
+    sourceField?: string
 }
 
 export interface QueryResult<TModel extends object = object> {

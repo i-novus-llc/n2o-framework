@@ -20,6 +20,7 @@ import type { IProvider, QueryResult, Query } from '../Provider'
 import { ProviderType } from '../Provider'
 import { query as serviceQuery } from '../Providers/Service'
 import { query as storageQuery } from '../Providers/Storage'
+import { query as inheritedQuery } from '../Providers/Inherited'
 import type { DataRequestAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
 
@@ -30,13 +31,13 @@ function getQuery<
     switch (provider) {
         case ProviderType.service: { return serviceQuery as Query<IProvider> }
         case ProviderType.storage: { return storageQuery as Query<IProvider> }
-        case ProviderType.inherited:
+        case ProviderType.inherited: { return inheritedQuery as Query<IProvider> }
         default: { return () => { throw new Error(`hasn't implementation for provider type: "${provider}`) } }
     }
 }
 
 export function* dataRequest({ payload }: DataRequestAction) {
-    const { id, options } = payload
+    const { id, options = {} } = payload
 
     try {
         const { provider, components }: DataSourceState = yield select(dataSourceByIdSelector(id))
