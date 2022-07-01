@@ -189,7 +189,7 @@ public class ClientDataProviderUtil {
             actionContext.setRedirect(actionContextData.getRedirect());
             actionContext.setRefresh(actionContextData.getRefresh());
             if (actionContextData.getPolling() != null) {
-                actionContext.setPolling(actionContext.getPolling());
+                actionContext.setPolling(actionContextData.getPolling());
                 actionContext.setPollingEndCondition(actionContextData.getPolling().getResult());
             }
 
