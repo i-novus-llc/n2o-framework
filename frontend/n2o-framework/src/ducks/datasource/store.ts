@@ -4,7 +4,6 @@ import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 
 import type {
     AddComponentAction,
-    ChangeCountAction,
     ChangePageAction,
     ChangeSizeAction,
     DataRequestAction,
@@ -15,7 +14,6 @@ import type {
     RemoveComponentAction,
     ResolveRequestAction,
     SetFieldSubmitAction,
-    SetModelAction,
     SetSortDirectionAction,
     StartValidateAction,
 } from './Actions'
@@ -193,18 +191,6 @@ const datasource = createSlice({
             },
         },
 
-        changeCount: {
-            prepare(id: string, count: number) {
-                return ({
-                    payload: { id, count },
-                })
-            },
-            reducer(state, action: ChangeCountAction) {
-                const { id, count } = action.payload
-
-                state[id].count = count
-            },
-        },
         changeSize: {
             prepare(id: string, size: number) {
                 return ({
@@ -251,61 +237,6 @@ const datasource = createSlice({
                 }
             },
         },
-        setActiveModel: {
-            prepare(id: string, model: object) {
-                return ({
-                    payload: { id, model, prefix: ModelPrefix.active },
-                })
-            },
-            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action: SetModelAction) {
-                // nothing
-            },
-        },
-        setEditModel: {
-            prepare(id: string, model: object) {
-                return ({
-                    payload: { id, model, prefix: ModelPrefix.edit },
-                })
-            },
-            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action: SetModelAction) {
-                // nothing
-            },
-        },
-        setFilter: {
-            prepare(id: string, model: object) {
-                return ({
-                    payload: { id, model, prefix: ModelPrefix.filter },
-                })
-            },
-            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action: SetModelAction) {
-                // nothing
-            },
-        },
-        setSourceModel: {
-            prepare(id: string, model: object[]) {
-                return ({
-                    payload: { id, model, prefix: ModelPrefix.source },
-                })
-            },
-            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action: SetModelAction<object[]>) {
-                // nothing
-            },
-        },
-        setMultiModel: {
-            prepare(id: string, model: object[]) {
-                return ({
-                    payload: { id, model, prefix: ModelPrefix.selected },
-                })
-            },
-            // eslint-disable-next-line no-unused-vars,  @typescript-eslint/no-unused-vars
-            reducer(state, action: SetModelAction<object[]>) {
-                // nothing
-            },
-        },
 
         setFieldSubmit: {
             prepare(id: string, field: string, provider: IProvider) {
@@ -346,16 +277,10 @@ export const {
     dataRequest,
     resolveRequest,
     rejectRequest,
-    setActiveModel,
-    setEditModel,
-    setFilter,
-    setSourceModel,
-    setMultiModel,
     setSorting,
     startValidate,
     failValidate,
     changePage,
-    changeCount,
     changeSize,
     addComponent,
     removeComponent,

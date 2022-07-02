@@ -18,23 +18,11 @@ import {
     dataRequest,
     DATA_REQUEST,
     remove,
-    setActiveModel,
-    setEditModel,
-    setFilter,
-    setMultiModel,
     setSorting,
-    setSourceModel,
     startValidate,
 } from './store'
 import { watchDependencies } from './sagas/dependencies'
-import type { ChangePageAction, DataRequestAction, RemoveAction, SetModelAction } from './Actions'
-
-// Мапинг изменения моделей
-export function* resolveModelsSaga({ payload }: SetModelAction) {
-    const { id, model, prefix } = payload
-
-    yield put(setModel(prefix, id, model))
-}
+import type { ChangePageAction, DataRequestAction, RemoveAction } from './Actions'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
@@ -75,7 +63,6 @@ export function* dataRequestWrapper(action: DataRequestAction) {
 let prevState: State = {} as State
 
 export default () => [
-    takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel, setEditModel], resolveModelsSaga),
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequestWrapper),
     takeEvery(DATA_REQUEST, function* remapRequest({ payload }) {

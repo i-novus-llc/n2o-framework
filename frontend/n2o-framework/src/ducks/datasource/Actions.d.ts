@@ -61,11 +61,6 @@ export type ChangePageAction = DatasourceAction<{
     page: number
 }>
 
-export type ChangeCountAction = DatasourceAction<{
-    id: string
-    count: number
-}>
-
 export type ChangeSizeAction = DatasourceAction<{
     id: string
     size: number
@@ -82,14 +77,6 @@ export type FailValidateAction = DatasourceAction<{
     prefix: ModelPrefix.active | ModelPrefix.edit
     fields: Record<string, IValidationResult[]>
 }, { touched: boolean }>
-
-export type SetModelAction<
-    TModel extends object | object[] = object
-> = DatasourceAction<{
-    id: string
-    prefix: ModelPrefix
-    model: TModel
-}>
 
 export type SetFieldSubmitAction = DatasourceAction<{
     id: string
