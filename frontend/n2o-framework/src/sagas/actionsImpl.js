@@ -3,6 +3,7 @@ import {
     fork,
     put,
     select,
+    takeEvery,
     throttle,
 } from 'redux-saga/effects'
 import isFunction from 'lodash/isFunction'
@@ -229,8 +230,8 @@ export function* handleInvoke(apiProvider, action) {
 
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
-    throttle(500, START_INVOKE, handleInvoke, apiProvider),
-    throttle(500, SUBMIT, function* submitSaga({ payload }) {
+    takeEvery(START_INVOKE, handleInvoke, apiProvider),
+    takeEvery(SUBMIT, function* submitSaga({ payload }) {
         const { datasource } = payload
 
         yield put(submit(datasource))
