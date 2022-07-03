@@ -2,6 +2,7 @@ import {
     put,
     select,
     takeEvery,
+    cancel,
 } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
@@ -14,6 +15,7 @@ import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
+import { clearModel } from '../ducks/models/store'
 
 /* TODO избавиться от alertEffect
     для этого бэку нужно присылать
@@ -45,6 +47,20 @@ export function* alertEffect(action) {
     }
 }
 
+export function* clearOnSuccessEffect(action) {
+    const { payload, meta } = action
+    const key = get(meta, 'success.clear', null)
+
+    if (key) {
+        const state = yield select()
+        const { model: prefix } = payload
+
+        const clearAction = { payload: { prefixes: [prefix], key } }
+
+        yield put(clearModel(state, clearAction))
+    }
+}
+
 export function* redirectEffect(action) {
     try {
         const { path, pathMapping, queryMapping, target } = action.meta.redirect
@@ -60,6 +76,7 @@ export function* redirectEffect(action) {
         if (target === 'application') {
             yield put(push(newUrl))
             yield put(destroyOverlays())
+            yield clearOnSuccessEffect(action)
         } else if (target === 'self') {
             window.location = newUrl
         } else {
@@ -88,6 +105,19 @@ export function* userDialogEffect({ meta }) {
     )
 }
 
+export function* clearEffect(action) {
+    const { meta } = action
+
+    const redirect = get(meta, 'redirect', null)
+    const refresh = get(meta, 'refresh', null)
+
+    if (redirect || refresh) {
+        yield cancel()
+    }
+
+    yield clearOnSuccessEffect(action)
+}
+
 export const metaSagas = [
     takeEvery(
         [action => action.meta && action.meta.alert, CALL_ALERT_META],
@@ -96,4 +126,5 @@ export const metaSagas = [
     takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
     takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
     takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),
+    takeEvery(action => action.meta && action.meta.success, clearEffect),
 ]
