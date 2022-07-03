@@ -12,7 +12,7 @@ import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import merge from 'deepmerge'
 
-import { START_INVOKE } from '../constants/actionImpls'
+import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
 import {
     widgetsSelector,
 } from '../ducks/widgets/selectors'
@@ -27,7 +27,7 @@ import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
-import { failValidate } from '../ducks/datasource/store'
+import { failValidate, submit } from '../ducks/datasource/store'
 
 import fetchSaga from './fetch'
 
@@ -230,4 +230,9 @@ export function* handleInvoke(apiProvider, action) {
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
+    throttle(500, SUBMIT, function* submitSaga({ payload }) {
+        const { datasource } = payload
+
+        yield put(submit(datasource))
+    }),
 ]

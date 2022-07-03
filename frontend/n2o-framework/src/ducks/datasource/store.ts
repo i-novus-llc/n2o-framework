@@ -16,6 +16,7 @@ import type {
     SetFieldSubmitAction,
     SetSortDirectionAction,
     StartValidateAction,
+    SubmitAction,
 } from './Actions'
 import type { DataSourceState } from './DataSource'
 import { DataSource } from './DataSource'
@@ -265,6 +266,18 @@ const datasource = createSlice({
                 // экшн приходит с сервера. в сагах надо сделать просто ремап
             },
         },
+
+        submit: {
+            prepare(id: string, provider, meta = {}) {
+                return ({
+                    payload: { id, provider },
+                    meta,
+                })
+            },
+            reducer(state, action: SubmitAction) {
+                // empty reducer, action for saga
+            },
+        },
     },
 })
 
@@ -286,4 +299,5 @@ export const {
     removeComponent,
     setFieldSubmit,
     DATA_REQUEST,
+    submit,
 } = datasource.actions

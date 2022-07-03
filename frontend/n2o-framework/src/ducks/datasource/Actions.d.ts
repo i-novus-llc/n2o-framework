@@ -2,7 +2,7 @@ import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import type { IValidationResult } from '../../core/validation/IValidation'
 
 import type { DataSourceState } from './DataSource'
-import type { IProvider, QueryResult } from './Provider'
+import type { IProvider, ISubmit, QueryResult } from './Provider'
 
 export interface DatasourcePayload {
     id: string
@@ -82,4 +82,9 @@ export type SetFieldSubmitAction = DatasourceAction<{
     id: string
     field: string
     provider: IProvider
+}>
+
+export type SubmitAction = DatasourceAction<{
+    id: string
+    provider?: ISubmit
 }>

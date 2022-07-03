@@ -20,9 +20,11 @@ import {
     remove,
     setSorting,
     startValidate,
+    submit,
 } from './store'
 import { watchDependencies } from './sagas/dependencies'
 import type { ChangePageAction, DataRequestAction, RemoveAction } from './Actions'
+import { submitSaga } from './sagas/submit'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
@@ -71,6 +73,7 @@ export default () => [
         yield put(dataRequest(datasource, options))
     }),
     takeEvery(startValidate, validateSaga),
+    takeEvery(submit, submitSaga),
     takeEvery(remove, removeSaga),
     takeEvery([setModel, removeModel, removeAllModel, copyModel, clearModel], function* watcher(action) {
         yield watchDependencies(action, prevState)

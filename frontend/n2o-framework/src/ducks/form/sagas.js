@@ -16,9 +16,7 @@ import { makeDatasourceIdSelector, makeWidgetByIdSelector, makeFormModelPrefixSe
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { setTabInvalid } from '../regions/store'
-import { failValidate, startValidate } from '../datasource/store'
-import { startInvoke } from '../../actions/actionImpl'
-import { ModelPrefix } from '../../core/datasource/const'
+import { failValidate, startValidate, submit } from '../datasource/store'
 
 import { formsSelector } from './selectors'
 import {
@@ -118,10 +116,12 @@ export function* autoSubmit({ meta }) {
 
     if (!datasource) { return }
 
-    const submit = datasource.submit || datasource.fieldsSubmit?.[field]
+    const provider = (datasource.submit?.auto || datasource.submit?.autoSubmitOn)
+        ? datasource.submit
+        : datasource.fieldsSubmit[field]
 
-    if (!isEmpty(submit)) {
-        yield put(startInvoke(datasourceId, submit, ModelPrefix.active, datasource.pageId))
+    if (!isEmpty(provider)) {
+        yield put(submit(datasourceId, provider))
     }
 }
 
