@@ -15,6 +15,8 @@ describe('Проверка parseFormatter', () => {
 
     it('преобразует число', () => {
         expect(parseFormatter(12.12, 'number 0,0')).toEqual('12')
+        expect(parseFormatter(12345678910, 'number +0 (000) 000-00-00')).toEqual('+1 (234) 567-89-10')
+        expect(parseFormatter(12345678910, 'number 000-000-000 00')).toEqual('123-456-789 10')
     })
 
     it('преобразует дату текущего момента', () => {
