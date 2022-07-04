@@ -92,6 +92,12 @@
     <xs:complexType name="sidebarsDefinition">
         <xs:sequence>
             <xs:element name="sidebar" type="sb:sidebarDefinition"/>
+
+            <xs:any namespace="##other">
+                <xs:annotation>
+                    <xs:documentation>Подключаемый через библиотеку сайдбар.</xs:documentation>
+                </xs:annotation>
+            </xs:any>
         </xs:sequence>
     </xs:complexType>
 

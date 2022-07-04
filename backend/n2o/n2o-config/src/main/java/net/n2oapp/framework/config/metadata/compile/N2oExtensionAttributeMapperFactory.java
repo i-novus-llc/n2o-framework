@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.engine.factory.EngineNotUniqueException;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapper;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
@@ -19,7 +20,7 @@ public class N2oExtensionAttributeMapperFactory extends BaseMetadataFactory<Exte
     }
 
     @Override
-    public Map<String, Object> mapAttributes(Map<String, String> attributes, String namespaceUri) {
+    public Map<String, Object> mapAttributes(Map<String, String> attributes, String namespaceUri, CompileProcessor p) {
         List<ExtensionAttributeMapper> mappers = produceList((g, d) -> g.getNamespaceUri().equals(namespaceUri), namespaceUri);
         if (mappers == null || mappers.isEmpty()) {
             return new HashMap<>(attributes);
@@ -27,6 +28,6 @@ public class N2oExtensionAttributeMapperFactory extends BaseMetadataFactory<Exte
         if (mappers.size() > 1) {
             throw new EngineNotUniqueException(namespaceUri);
         }
-        return mappers.get(0).mapAttributes(attributes);
+        return mappers.get(0).mapAttributes(attributes, p);
     }
 }

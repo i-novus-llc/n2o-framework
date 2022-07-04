@@ -156,6 +156,7 @@ public class ViewController {
         N2oApplicationBuilder builder;
         try {
             ThreadLocalProjectId.setProjectId(projectId);
+            projectRouteRegister.clearAll();
             builder = getBuilder(projectId, null);
             addedValues.put("menu", getMenu(builder));
             addedValues.put("user", getUserInfo());

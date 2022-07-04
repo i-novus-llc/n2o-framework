@@ -8,6 +8,7 @@ import propsResolver from '../../../../../utils/propsResolver'
 import Toolbar from '../../../../buttons/Toolbar'
 import withTooltip from '../../withTooltip'
 import withCell from '../../withCell'
+import DefaultCell from '../DefaultCell'
 
 /**
  *
@@ -25,6 +26,7 @@ function ButtonsCell({
     id,
     className,
     visible,
+    disabled,
     model,
     toolbar,
     onResolve,
@@ -36,14 +38,14 @@ function ButtonsCell({
     }
 
     return (
-        <div className={classNames('d-inline-flex', className)}>
+        <DefaultCell disabled={disabled} className={classNames('d-inline-flex', className)}>
             <Toolbar
                 className="n2o-buttons-cell"
                 entityKey={key}
                 toolbar={propsResolver(toolbar, model)}
                 onClick={onResolve}
             />
-        </div>
+        </DefaultCell>
     )
 }
 
@@ -60,6 +62,7 @@ ButtonsCell.propTypes = {
      * Флаг видимости
      */
     visible: PropTypes.bool,
+    disabled: PropTypes.bool,
     model: PropTypes.any,
     toolbar: PropTypes.any,
     onResolve: PropTypes.func,
@@ -67,6 +70,7 @@ ButtonsCell.propTypes = {
 
 ButtonsCell.defaultProps = {
     visible: true,
+    disabled: false,
 }
 
 const enhance = compose(
