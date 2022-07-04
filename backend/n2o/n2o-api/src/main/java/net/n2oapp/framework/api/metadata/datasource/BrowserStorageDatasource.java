@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class BrowserStorageDatasource extends AbstractDatasource {
     @JsonProperty
     private Submit submit;
     @JsonProperty
-    private List<DependencyCondition> dependencies;
+    private List<Dependency> dependencies;
 
 
     @Getter

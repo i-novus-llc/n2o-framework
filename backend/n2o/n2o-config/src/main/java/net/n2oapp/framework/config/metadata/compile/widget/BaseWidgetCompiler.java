@@ -19,7 +19,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibi
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
@@ -254,12 +254,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
-        List<DependencyCondition> visibleConditions = new ArrayList<>();
+        List<Dependency> visibleConditions = new ArrayList<>();
         PageScope pageScope = p.getScope(PageScope.class);
         if (source.getVisible() != null) {
             Object condition = p.resolveJS(source.getVisible(), Boolean.class);
             if (StringUtils.isJs(condition)) {
-                DependencyCondition visibilityCondition = new DependencyCondition();
+                Dependency visibilityCondition = new Dependency();
                 visibilityCondition.setCondition(StringUtils.unwrapJs(((String) condition)));
                 visibleConditions.add(visibilityCondition);
             } else if (condition instanceof Boolean) {
@@ -267,9 +267,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
         }
         if (source.getDependencies() != null) {
-            List<DependencyCondition> enableConditions = new ArrayList<>();
+            List<Dependency> enableConditions = new ArrayList<>();
             for (N2oDependency dep : source.getDependencies()) {
-                DependencyCondition condition = new DependencyCondition();
+                Dependency condition = new Dependency();
                 String unwrapped = StringUtils.unwrapJs(dep.getValue());
                 condition.setCondition(unwrapped);
                 ModelLink link = new ModelLink(dep.getModel(), pageScope == null ? dep.getDatasource() :
@@ -358,7 +358,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return fieldSets;
     }
 
-    private Optional<DependencyCondition> findByCondition(List<DependencyCondition> dependencies, String condition) {
+    private Optional<Dependency> findByCondition(List<Dependency> dependencies, String condition) {
         if (dependencies == null)
             return Optional.empty();
         return dependencies.stream()

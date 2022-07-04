@@ -17,7 +17,8 @@ public class ApplicationDatasourceIO extends AbstractDatasourceIO<N2oApplication
         super.io(e, ds, p);
         p.anyChildren(e, "dependencies", ds::getDependencies, ds::setDependencies,
                 p.oneOf(N2oApplicationDatasource.Dependency.class)
-                        .add("fetch", N2oDatasource.FetchDependency.class, this::fetch));
+                        .add("fetch", N2oDatasource.FetchDependency.class, this::fetch)
+                        .add("copy", N2oDatasource.CopyDependency.class, this::copy));
     }
 
     @Override
