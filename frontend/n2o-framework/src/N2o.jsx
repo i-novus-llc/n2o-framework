@@ -5,7 +5,6 @@ import pick from 'lodash/pick'
 import { compose, withContext, defaultProps, withProps } from 'recompose'
 import { withTranslation } from 'react-i18next'
 import './i18n'
-import './numeralSettings'
 
 import packageJson from '../package.json'
 
