@@ -170,22 +170,6 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     }
 
     /**
-     * Инициализация идентификатора объекта
-     *
-     * @param p Процессор сборки
-     * @return идентификатор объекта
-     */
-    protected String getDefaultObjectId(CompileProcessor p) {
-        String datasourceId = getLocalDatasource(p);
-        if (datasourceId != null) {
-            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            if (dataSourcesScope != null && dataSourcesScope.containsKey(datasourceId))
-                return dataSourcesScope.get(datasourceId).getObjectId();
-        }
-        return null;
-    }
-
-    /**
      * Инициализация модели ссылки параметра
      *
      * @param param                 Исходная модель параметра

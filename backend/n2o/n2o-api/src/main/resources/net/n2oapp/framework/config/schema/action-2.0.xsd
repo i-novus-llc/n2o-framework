@@ -617,6 +617,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="clear-on-success" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Необходимо ли очистить источник данных после успешно выполненной операции
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="message-on-fail" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>

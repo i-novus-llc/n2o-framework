@@ -29,6 +29,7 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
             }
         });
         p.attributeBoolean(e, "close-on-success", ia::getCloseOnSuccess, ia::setCloseOnSuccess);
+        p.attributeBoolean(e, "clear-on-success", ia::getClearOnSuccess, ia::setClearOnSuccess);
         p.attributeArray(e, "refresh-datasources", ",", ia::getRefreshDatasources, ia::setRefreshDatasources);
         p.attributeBoolean(e, "refresh-on-success", ia::getRefreshOnSuccess, ia::setRefreshOnSuccess);
         p.attribute(e, "redirect-url", ia::getRedirectUrl, ia::setRedirectUrl);
