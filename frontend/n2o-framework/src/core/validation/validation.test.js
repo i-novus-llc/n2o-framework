@@ -149,6 +149,9 @@ describe('Проверка валидатора', () => {
             'field8',
         ]),
         'testForm',
+        {
+            models: {}
+        }
     )
     let dispatched = []
     const dispatch = (action) => {
