@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReference
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.saga.LoadingSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 
@@ -24,6 +26,9 @@ public class ActionRequestInfo<D> extends RequestInfo {
     //immutable
     private CompiledObject object;
     private CompiledObject.Operation operation;
+    private String pollingEndCondition;
+    private PollingSaga polling;
+    private LoadingSaga loading;
     private RedirectSaga redirect;
     private RefreshSaga refresh;
     private boolean messageOnSuccess = true;

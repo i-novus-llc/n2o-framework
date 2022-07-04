@@ -6,36 +6,40 @@ import {
 import { get } from 'lodash'
 import isEqual from 'lodash/isEqual'
 
-import { DEPENDENCY_TYPE } from '../../../core/datasource/const'
+import type { DataSourceDependency } from '../../../core/datasource/const'
+import { DependencyTypes } from '../../../core/datasource/const'
 import { dataRequest, startValidate } from '../store'
 import { dataSourcesSelector } from '../selectors'
 import { updateModel, setModel } from '../../models/store'
+import type { State as GlobalState } from '../../State'
+import type { State as DatasourceState } from '../DataSource'
 
 /**
  * @param {String} id
  * @param {DataSourceDependency} dependency
  * @param model
  */
+export function* resolveDependency(id: string, dependency: DataSourceDependency, model: unknown) {
+    const { type } = dependency
 
-export function* resolveDependency(id, dependency, model) {
-    switch (dependency.type) {
-        case DEPENDENCY_TYPE.fetch: {
+    switch (type) {
+        case DependencyTypes.fetch: {
             yield put(dataRequest(id))
 
             break
         }
-        case DEPENDENCY_TYPE.validate: {
+        case DependencyTypes.validate: {
             yield put(startValidate(id))
 
             break
         }
-        case DEPENDENCY_TYPE.copy: {
+        case DependencyTypes.copy: {
             const { model: targetPrefix, field: targetField } = dependency
 
             if (targetField) {
                 yield put(updateModel(targetPrefix, id, targetField, model))
             } else {
-                yield put(setModel(targetPrefix, id, model))
+                yield put(setModel(targetPrefix, id, model as object))
             }
 
             break
@@ -43,7 +47,7 @@ export function* resolveDependency(id, dependency, model) {
 
         default: {
             // eslint-disable-next-line no-console
-            console.warn(`unknown dependency type "${dependency.type}" for datasource "${id}"`)
+            console.warn(`unknown dependency type "${type}" for datasource "${id}"`)
         }
     }
 }
@@ -53,9 +57,9 @@ export function* resolveDependency(id, dependency, model) {
  * @param action
  * @param {object} prevState
  */
-export function* watchDependencies(action, prevState) {
-    const state = yield select()
-    const dataSources = yield select(dataSourcesSelector)
+export function* watchDependencies(action: unknown, prevState: GlobalState) {
+    const state: GlobalState = yield select()
+    const dataSources: DatasourceState = yield select(dataSourcesSelector)
     const entries = Object.entries(dataSources)
 
     for (const [id, { dependencies }] of entries) {

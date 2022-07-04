@@ -15,7 +15,7 @@
 //     var privateName = ID();
 //     var o = { 'public': 'foo' };
 //     o[privateName] = 'bar';
-export function id() {
+export function id(): string {
     // Math.random should be unique because of its seeding algorithm.
     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
     // after the decimal.
@@ -27,11 +27,11 @@ export function id() {
     )
 }
 
-export function generateKey(containerKey, columnId) {
+export function generateKey(containerKey: string, columnId: string) {
     return `${containerKey}.${columnId}`
 }
 
-export function guid() {
+export function guid(): string {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)

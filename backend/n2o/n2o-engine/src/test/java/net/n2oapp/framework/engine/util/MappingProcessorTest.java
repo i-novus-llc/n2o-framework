@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.BeanFactory;
@@ -19,6 +20,7 @@ import java.util.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -177,6 +179,18 @@ public class MappingProcessorTest {
         mapping = MappingProcessor.extractInFieldMapping(parameters.values());
         assertThat(mapping.containsKey("a"), is(true));
         assertThat(mapping.get("a").getMapping(), is(nullValue()));
+    }
+
+    @Test
+    public void testResolveCondition() {
+        Map<String, Object> data = Map.of("request", Map.of("status", "CREATED"));
+        String falseCondition = "request.status == 'PROCESSING'";
+        String trueCondition = "request.status == 'CREATED'";
+        String errorCondition = "request.status == CREATED";
+
+        assertThat(MappingProcessor.resolveCondition(falseCondition, data), is(false));
+        assertThat(MappingProcessor.resolveCondition(trueCondition, data), is(true));
+        assertThrows(N2oSpelException.class, () -> MappingProcessor.resolveCondition(errorCondition, data));
     }
 
     @Test

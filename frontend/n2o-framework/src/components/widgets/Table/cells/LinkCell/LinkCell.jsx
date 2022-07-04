@@ -9,22 +9,21 @@ import classNames from 'classnames'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
 import StandardButton from '../../../../buttons/StandardButton/StandardButton'
+import DefaultCell from '../DefaultCell'
 
 import { LinkCellType } from './linkCellTypes'
 
 function LinkCell(props) {
     const {
         widgetId,
-        dispatch,
-        columnId,
         model,
         className,
         fieldKey,
         id,
-        resolveWidget,
         icon,
         type,
         url,
+        disabled,
         onResolve,
         ...rest
     } = props
@@ -47,7 +46,9 @@ function LinkCell(props) {
     }, [type, model, fieldKey, id, icon])
 
     return (
-        <span
+        <DefaultCell
+            tag="span"
+            disabled={disabled}
             onClick={onResolve}
         >
             <StandardButton
@@ -57,11 +58,11 @@ function LinkCell(props) {
                 model={model}
                 entityKey={widgetId}
                 {...submitType}
-                {...omit(rest, ['icon', 'label'])}
+                {...omit(rest, ['icon', 'label', 'resolveWidget', 'columnId', 'dispatch'])}
                 url={url}
                 href={url}
             />
-        </span>
+        </DefaultCell>
     )
 }
 
@@ -77,6 +78,7 @@ LinkCell.propTypes = {
     icon: PropTypes.string,
     type: PropTypes.any,
     url: PropTypes.string,
+    disabled: PropTypes.bool,
     onResolve: PropTypes.func,
 }
 

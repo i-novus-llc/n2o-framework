@@ -12,6 +12,7 @@ import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
 import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
+import DefaultCell from '../DefaultCell'
 
 import ImageStatuses from './ImageStatuses'
 import imageShapes from './imageShapes'
@@ -42,6 +43,7 @@ function ImageCell(props) {
         action,
         shape,
         visible,
+        disabled,
         description,
         textPosition,
         width,
@@ -81,7 +83,9 @@ function ImageCell(props) {
     }
 
     return (
-        <span
+        <DefaultCell
+            tag="span"
+            disabled={disabled}
             className={classNames(
                 'n2o-image-cell-container',
                 {
@@ -128,7 +132,7 @@ function ImageCell(props) {
                     />
                 </ActionWrapper>
             )}
-        </span>
+        </DefaultCell>
     )
 }
 
@@ -165,6 +169,7 @@ ImageCell.propTypes = {
      * Флаг видимости
      */
     visible: PropTypes.bool,
+    disabled: PropTypes.bool,
     /**
      * Позиция текста
      */
