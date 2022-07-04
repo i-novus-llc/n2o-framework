@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <browser-storage id="ds1">
+            <submit storage-type="localStorage"/>
+        </browser-storage>
+    </datasources>
+    <regions>
+        <form id="testForm">
+            <toolbar>
+                <button id="btn2" datasource="ds1">
+                    <submit datasource="ds1"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>
