@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.page;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.Submit;
+import net.n2oapp.framework.api.metadata.datasource.Submittable;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oStandardDatasource extends N2oDatasource {
+public class N2oStandardDatasource extends N2oDatasource implements Submittable {
     private String route;
     private String queryId;
     private String objectId;

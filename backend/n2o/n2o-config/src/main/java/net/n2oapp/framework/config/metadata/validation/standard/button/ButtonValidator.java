@@ -27,7 +27,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
         checkValidateDatasource(source, datasourceIdsScope);
 
         if (source.getAction() != null)
-            p.validate(source.getAction(), datasourceIdsScope);
+            p.validate(source.getAction());
     }
 
     /**

@@ -18,12 +18,9 @@ import org.springframework.stereotype.Component;
 public class InvokeActionValidator implements SourceValidator<N2oInvokeAction>, SourceClassAware {
     @Override
     public void validate(N2oInvokeAction source, SourceProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        if (source.getRefreshDatasources() != null) {
+        if (source.getRefreshDatasources() != null)
             checkRefreshDatasources(source, datasourceIdsScope);
-        }
-        checkRefreshDatasources(source, datasourceIdsScope);
     }
 
     /**
