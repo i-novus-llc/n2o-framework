@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
@@ -53,7 +52,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         if (n2oWidget.getDatasourceId() != null) {
             checkDatasource(n2oWidget, datasourceIdsScope);
         }
-        p.safeStreamOf(n2oWidget.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction(), p.getScope(DataSourcesScope.class)));
+        p.safeStreamOf(n2oWidget.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction()));
     }
 
     /**

@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 
 /**
- * Клиентская модель компонента submit
+ * Клиентская модель действия сохранения источника данных
  */
 @Getter
 @Setter

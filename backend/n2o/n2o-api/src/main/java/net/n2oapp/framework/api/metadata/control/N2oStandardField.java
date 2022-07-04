@@ -2,8 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
+import net.n2oapp.framework.api.metadata.datasource.Submittable;
 
 
 /**
@@ -11,8 +10,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class N2oStandardField extends N2oField {
+public abstract class N2oStandardField extends N2oField implements Submittable {
     private String placeholder;
     private Submit submit;
-
 }

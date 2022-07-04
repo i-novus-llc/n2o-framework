@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения/записи действия submit
+ * Тестирование чтения/записи действия сохранения источника данных
  */
 public class SubmitActionElementIOV2Test {
 

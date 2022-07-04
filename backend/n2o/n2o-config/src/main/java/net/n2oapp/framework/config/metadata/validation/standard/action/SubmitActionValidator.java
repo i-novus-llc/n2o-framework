@@ -5,9 +5,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.datasource.Submittable;
 import net.n2oapp.framework.api.metadata.event.action.N2oSubmitAction;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -15,7 +14,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import org.springframework.stereotype.Component;
 
 /**
- * Валидатор SubmitAction
+ * Валидатор для действия <submit>
  */
 @Component
 public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, SourceClassAware {
@@ -25,7 +24,7 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
         DataSourcesScope datasources = p.getScope(DataSourcesScope.class);
         String datasourceId = getDatasourceId(source, p);
         if (datasourceId == null)
-            throw new N2oMetadataValidationException("Submit action does not specify 'datasource'");
+            throw new N2oMetadataValidationException("В действии <submit> не задан 'datasource'");
         checkDatasources(datasourceId, datasources);
     }
 
@@ -34,34 +33,29 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
             return source.getDatasource();
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            DatasourceIdAware idAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (idAware != null)
-                return idAware.getDatasourceId();
+        while (componentScope != null) {
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
+                return datasourceIdAware.getDatasourceId();
+            }
+            componentScope = componentScope.getParentScope();
         }
         return null;
     }
 
     private void checkDatasources(String datasourceId, DataSourcesScope datasources) {
         if (!datasources.containsKey(datasourceId))
-            throw new N2oMetadataValidationException("The attribute 'datasource' refers to a non-existent datasource");
+            throw new N2oMetadataValidationException("Атрибут 'datasource' действия <submit> ссылается на несуществующий источник данных");
 
-        N2oAbstractDatasource abstractDatasource = datasources.get(datasourceId);
-        boolean isNotSupportSubmit = true;
+        N2oAbstractDatasource datasource = datasources.get(datasourceId);
 
-        if (abstractDatasource instanceof N2oBrowserStorageDatasource) {
-            if (((N2oBrowserStorageDatasource) abstractDatasource).getSubmit() == null)
-                throw new N2oMetadataValidationException("Submit tag is not specified in 'datasource'");
-            isNotSupportSubmit = false;
-        }
-        if (abstractDatasource instanceof N2oStandardDatasource) {
-            if (((N2oStandardDatasource) abstractDatasource).getSubmit() == null)
-                throw new N2oMetadataValidationException("Submit tag is not specified in 'datasource'");
-            isNotSupportSubmit = false;
-        }
-
-        if (isNotSupportSubmit)
-            throw new N2oMetadataValidationException("The datasource doesn't support submit action");
+        if (datasource instanceof Submittable) {
+            if (((Submittable) datasource).getSubmit() == null)
+                throw new N2oMetadataValidationException(String.format(
+                        "Действие <submit> ссылается на источник данных '%s', в котором не определен submit", datasource.getId()));
+        } else
+            throw new N2oMetadataValidationException(String.format(
+                    "Действие <submit> ссылается на источник данных '%s', который не поддерживает submit", datasource.getId()));
     }
 
     @Override

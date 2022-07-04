@@ -10,7 +10,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Тестирование компиляции действия submit
+ * Тестирование компиляции действия сохранения источника данных
  */
 public class SubmitActionCompileTest extends SourceCompileTestBase {
 
@@ -34,8 +33,7 @@ public class SubmitActionCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testGreeting.query.xml"));
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack());
     }
 
     @Test
@@ -45,11 +43,13 @@ public class SubmitActionCompileTest extends SourceCompileTestBase {
 
         List<AbstractButton> buttons = ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons();
-        SubmitAction submitAction = (SubmitAction) buttons.get(0).getAction();
 
-        assertThat(buttons.size(), is(1));
-        assertThat(buttons.get(0).getId(), is("btn2"));
-        assertThat(submitAction.getPayload().getDatasource(), is("ds1"));
+        assertThat(buttons.size(), is(2));
+        SubmitAction submitAction = (SubmitAction) buttons.get(0).getAction();
+        assertThat(submitAction.getPayload().getDatasource(), is("testSubmitAction_ds1"));
         assertThat(submitAction.getType(), is("n2o/actionImpl/SUBMIT"));
+
+        submitAction = (SubmitAction) buttons.get(1).getAction();
+        assertThat(submitAction.getPayload().getDatasource(), is("testSubmitAction_ds2"));
     }
 }

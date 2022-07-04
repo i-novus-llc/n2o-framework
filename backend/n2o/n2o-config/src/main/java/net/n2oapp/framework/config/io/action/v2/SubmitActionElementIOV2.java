@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись действия submit
+ * Чтение/запись действия сохранения источника данных
  */
 @Component
 public class SubmitActionElementIOV2 extends AbstractActionElementIOV2<N2oSubmitAction> {

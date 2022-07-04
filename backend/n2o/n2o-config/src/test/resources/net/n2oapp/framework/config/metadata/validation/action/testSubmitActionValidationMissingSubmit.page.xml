@@ -7,7 +7,7 @@
     <regions>
         <form id="testForm">
             <toolbar>
-                <button id="btn2" datasource="ds1">
+                <button id="btn2">
                     <submit datasource="ds1"/>
                 </button>
             </toolbar>

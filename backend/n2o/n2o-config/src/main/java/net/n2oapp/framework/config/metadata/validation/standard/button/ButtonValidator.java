@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
         checkValidateDatasource(source, datasourceIdsScope);
 
         if (source.getAction() != null)
-            p.validate(source.getAction(), datasourceIdsScope, p.getScope(DataSourcesScope.class));
+            p.validate(source.getAction());
     }
 
     /**

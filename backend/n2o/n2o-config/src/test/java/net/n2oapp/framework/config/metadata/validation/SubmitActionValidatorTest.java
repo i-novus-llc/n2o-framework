@@ -9,7 +9,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class SubmitActionValidateTest extends SourceValidationTestBase {
+/**
+ * Тестирование валидатора для действия <submit>
+ */
+public class SubmitActionValidatorTest extends SourceValidationTestBase {
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -28,35 +31,30 @@ public class SubmitActionValidateTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testValidSubmitDatasource() {
-        validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationDatasourceExistAndSupportSubmit.page.xml");
-    }
-
-    @Test
     public void testMissingDatasource() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("The attribute 'datasource' refers to a non-existent datasource");
+        exception.expectMessage("Атрибут 'datasource' действия <submit> ссылается на несуществующий источник данных");
         validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationNoDatasource.page.xml");
     }
 
     @Test
     public void testMissingSubmitInDatasource() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Submit tag is not specified in 'datasource'");
+        exception.expectMessage("Действие <submit> ссылается на источник данных 'ds1', в котором не определен submit");
         validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingSubmit.page.xml");
     }
 
     @Test
     public void testMissingDatasourceAttribute() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Submit action does not specify 'datasource'");
-        validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingAttribute.page.xml");
+        exception.expectMessage("В действии <submit> не задан 'datasource'");
+        validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingDatasource.page.xml");
     }
 
     @Test
     public void testUnsupportedDatasource() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("The datasource doesn't support submit action");
+        exception.expectMessage("Действие <submit> ссылается на источник данных 'ds1', который не поддерживает submit");
         validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationUnsupport.page.xml");
     }
 
