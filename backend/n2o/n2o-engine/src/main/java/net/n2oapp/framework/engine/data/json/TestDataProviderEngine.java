@@ -239,7 +239,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         updateRepository(invocation.getFile(), modifiableData);
         updateFile(invocation.getFile());
 
-        return modifiableData;
+        return element;
     }
 
     private Object updateMany(N2oTestDataProvider invocation,
@@ -343,15 +343,12 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         }
     }
 
-    private Map updateElement(Map element, Set<Map.Entry<String, Object>> fields) {
-        for (Map.Entry field : fields) {
-            if (field.getValue() instanceof Date) {
+    private void updateElement(Map element, Set<Map.Entry<String, Object>> fields) {
+        for (Map.Entry field : fields)
+            if (field.getValue() instanceof Date)
                 element.put(field.getKey(), new SimpleDateFormat("dd.MM.yyy HH:mm:ss").format(field.getValue()));
-            } else {
+            else
                 element.put(field.getKey(), field.getValue());
-            }
-        }
-        return element;
     }
 
     private List<DataSet> paginate(Integer limit, Integer offset, Integer count, List<DataSet> data) {

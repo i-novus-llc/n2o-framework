@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -142,22 +141,17 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         } else {
             if (pathParams != null)
                 for (N2oParam pathParam : pathParams)
-                    pathMapping.put(pathParam.getName(), Redux.linkParam(pathParam, p));
-            if (queryParams != null) {
-                String localDatasource = getLocalDatasource(p);
+                    pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, null, defaultModel, p));
+            if (queryParams != null)
                 for (N2oParam queryParam : queryParams)
-                    queryMapping.put(queryParam.getName(), initParamModelLink(queryParam,
-                            p.cast(queryParam.getDatasource(), localDatasource),
-                            p.cast(queryParam.getModel(), defaultModel),
-                            p));
-            }
+                    queryMapping.put(queryParam.getName(), initParamModelLink(queryParam, null, defaultModel, p));
         }
     }
 
     /**
      * Инициализация локального источника данных действия
      *
-     * @param p       Процессор сборки
+     * @param p Процессор сборки
      * @return Локальный источник данных действия
      */
     protected String getLocalDatasource(CompileProcessor p) {
@@ -176,6 +170,22 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     }
 
     /**
+     * Инициализация идентификатора объекта
+     *
+     * @param p Процессор сборки
+     * @return идентификатор объекта
+     */
+    protected String getDefaultObjectId(CompileProcessor p) {
+        String datasourceId = getLocalDatasource(p);
+        if (datasourceId != null) {
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            if (dataSourcesScope != null && dataSourcesScope.containsKey(datasourceId))
+                return dataSourcesScope.get(datasourceId).getObjectId();
+        }
+        return null;
+    }
+
+    /**
      * Инициализация модели ссылки параметра
      *
      * @param param                 Исходная модель параметра
@@ -185,16 +195,22 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * @return Модель ссылки параметра
      */
     private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModel defaultModel, CompileProcessor p) {
-        String widgetId = param.getRefWidgetId() != null && p.getScope(PageScope.class) != null ?
+        PageScope pageScope = p.getScope(PageScope.class);
+
+        String widgetId = pageScope != null && param.getRefWidgetId() != null ?
                 CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), param.getRefWidgetId()) :
                 defaultClientWidgetId;
-        PageScope pageScope = p.getScope(PageScope.class);
+
         String datasource;
-        if (pageScope == null)
+        if (pageScope == null) {
             datasource = param.getDatasource() != null ? param.getDatasource() : widgetId;
-        else
+            if (datasource == null)
+                datasource = getLocalDatasource(p);
+        } else {
             datasource = param.getDatasource() != null ? CompileUtil.generateDatasourceId(pageScope.getPageId(), param.getDatasource()) :
                     pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+        }
+
         ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), datasource);
         link.setValue(p.resolveJS(param.getValue()));
         return link;

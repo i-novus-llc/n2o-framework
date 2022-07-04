@@ -4,10 +4,11 @@ import classNames from 'classnames'
 
 import HelpPopover from '../../fields/StandardField/HelpPopover'
 import { withFieldsetHeader } from '../withFieldsetHeader'
+import DefaultFieldset from '../DefaultFieldset'
 
-function TitleFieldset({ render, rows, title, showLine, className, subTitle, help }) {
+function TitleFieldset({ render, rows, title, showLine, className, subTitle, help, disabled }) {
     return (
-        <div className="title-fieldset">
+        <DefaultFieldset disabled={disabled} className="title-fieldset">
             <div className={classNames('title-fieldset-header', { [className]: className })}>
                 {title && <span className="title-fieldset-text">{title}</span>}
                 {help && <HelpPopover help={help} />}
@@ -19,7 +20,7 @@ function TitleFieldset({ render, rows, title, showLine, className, subTitle, hel
                 {showLine && <div className="title-fieldset-line" />}
             </div>
             {render(rows)}
-        </div>
+        </DefaultFieldset>
     )
 }
 
@@ -52,10 +53,12 @@ TitleFieldset.propTypes = {
      * Подсказка около title
      */
     help: PropTypes.string,
+    disabled: PropTypes.bool,
 }
 
 TitleFieldset.defaultProps = {
     showLine: true,
+    disabled: false,
 }
 
 export default withFieldsetHeader(TitleFieldset)

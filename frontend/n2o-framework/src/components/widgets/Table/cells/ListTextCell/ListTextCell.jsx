@@ -5,18 +5,19 @@ import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
 
 import withCell from '../../withCell'
+import DefaultCell from '../DefaultCell'
 
 import Tooltip from './Tooltip'
 
 function ListTextCell(props) {
-    const { model, fieldKey } = props
+    const { model, fieldKey, disabled } = props
 
     const tooltipList = get(model, fieldKey)
     const singleElement = tooltipList.length === 1
     const nullElements = tooltipList.length === 0
 
     return (
-        <div className="list-text-cell">
+        <DefaultCell disabled={disabled} className="list-text-cell">
             {/* eslint-disable-next-line no-nested-ternary */}
             {singleElement
                 ? (first(tooltipList))
@@ -24,7 +25,7 @@ function ListTextCell(props) {
                     ? null
                     : (<Tooltip {...props} />)
             }
-        </div>
+        </DefaultCell>
     )
 }
 
@@ -80,6 +81,7 @@ ListTextCell.propTypes = {
    */
     theme: PropTypes.string,
     model: PropTypes.object,
+    disabled: PropTypes.bool,
 }
 
 ListTextCell.defaultProps = {
@@ -88,4 +90,5 @@ ListTextCell.defaultProps = {
     fieldKey: [],
     labelDashed: false,
     theme: 'dark',
+    disabled: false,
 }
