@@ -1,5 +1,4 @@
 // eslint-disable-next-line spaced-comment
-/// <reference path="./typedefs.js"
 // TODO: дописать @return в jsDoc для функций prepare()
 import { createSlice, createSelector, current } from '@reduxjs/toolkit'
 

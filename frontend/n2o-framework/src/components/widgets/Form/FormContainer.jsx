@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { MODEL_PREFIX } from '../../../core/datasource/const'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'
@@ -53,7 +53,7 @@ class Container extends React.Component {
 
             this.updateActiveModel(model)
             // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
-            if (modelPrefix === MODEL_PREFIX.edit) {
+            if (modelPrefix === ModelPrefix.edit) {
                 setResolve(model)
             }
         } else if (
@@ -89,13 +89,13 @@ class Container extends React.Component {
         const { resolve, edit } = models
         const { modelPrefix } = form
 
-        return modelPrefix === MODEL_PREFIX.edit ? edit : resolve
+        return modelPrefix === ModelPrefix.edit ? edit : resolve
     }
 
     updateActiveModel(model) {
         const { setResolve, setEdit, form } = this.props
         const { modelPrefix } = form
-        const updateModel = modelPrefix === MODEL_PREFIX.edit ? setEdit : setResolve
+        const updateModel = modelPrefix === ModelPrefix.edit ? setEdit : setResolve
 
         return updateModel(model)
     }
@@ -122,7 +122,7 @@ Container.propTypes = {
     form: PropTypes.shape({
         fieldsets: PropTypes.array,
         prompt: PropTypes.bool,
-        modelPrefix: PropTypes.oneOf([MODEL_PREFIX.active, MODEL_PREFIX.edit]),
+        modelPrefix: PropTypes.oneOf([ModelPrefix.active, ModelPrefix.edit]),
     }),
     id: PropTypes.string.isRequired,
     setActive: PropTypes.func,

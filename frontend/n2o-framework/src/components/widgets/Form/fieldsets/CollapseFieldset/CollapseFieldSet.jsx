@@ -1,4 +1,5 @@
 import React from 'react'
+import cn from 'classnames'
 import PropTypes from 'prop-types'
 
 import { Panel, Collapse } from '../../../../snippets/Collapse/Collapse'
@@ -14,11 +15,12 @@ function CollapseFieldSet({
     hasSeparator,
     description,
     help,
+    disabled,
 }) {
     const currentType = hasSeparator ? type : 'divider'
 
     return (
-        <Collapse defaultActiveKey={expand ? '0' : null}>
+        <Collapse className={cn({ 'n2o-disabled': disabled })} defaultActiveKey={expand ? '0' : null}>
             <Panel
                 header={label}
                 description={description}
@@ -43,12 +45,14 @@ CollapseFieldSet.propTypes = {
     render: PropTypes.func,
     description: PropTypes.string,
     help: PropTypes.string,
+    disabled: PropTypes.bool,
 }
 
 CollapseFieldSet.defaultProps = {
     rows: [],
     hasArrow: true,
     hasSeparator: true,
+    disabled: false,
 }
 
 export default withFieldsetHeader(CollapseFieldSet)

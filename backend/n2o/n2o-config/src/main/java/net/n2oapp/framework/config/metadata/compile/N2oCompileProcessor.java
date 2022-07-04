@@ -109,11 +109,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     /**
-     *
-     * @param env Окружение сборки метаданных
+     * @param env     Окружение сборки метаданных
      * @param context Входной контекст сборки(не используется для компиляции метаданных)
-     * @param params Параметры запроса
-     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов.
+     * @param params  Параметры запроса
+     * @param scopes  Метаданные, влияющие на сборку. Должны быть разных классов.
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params, Object... scopes) {
         this(env, context, params);
@@ -130,9 +129,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
      * @param params             Параметры запроса
      * @param context            Входной контекст сборки(не используется для компиляции метаданных)
      * @param subModelsProcessor Процессор вложенных моделей
+     * @param scopes             Метаданные, влияющие на сборку. Должны быть разных классов.
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params,
-                               SubModelsProcessor subModelsProcessor) {
+                               SubModelsProcessor subModelsProcessor, Object... scopes) {
         this(env);
         this.mode = CompileMode.BIND;
         this.context = context;
@@ -141,6 +141,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         model = new DataModel();
         model.addAll(context.getQueryRouteMapping(), params);
         model.addAll(context.getPathRouteMapping(), params);
+
+        Object[] flattedScopes = flatScopes(scopes);
+        this.scope = new HashMap<>();
+        Stream.of(Optional.ofNullable(flattedScopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
+                .forEach(s -> this.scope.put(s.getClass(), s));
     }
 
     /**
@@ -170,9 +175,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
-    public <D extends Compiled> void bind(D compiled) {
+    public <D extends Compiled> void bind(D compiled, Object... scopes) {
+        Object[] flattedScopes = flatScopes(scopes);
         if (compiled != null)
-            bindPipeline.get(compiled, context, params, subModelsProcessor);
+            bindPipeline.get(compiled, context, params, subModelsProcessor, flattedScopes);
     }
 
 
@@ -183,7 +189,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         ExtensionAttributeMapperFactory extensionAttributeMapperFactory = env.getExtensionAttributeMapperFactory();
         HashMap<String, Object> extAttributes = new HashMap<>();
         source.getExtAttributes().forEach((k, v) -> {
-            Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri());
+            Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri(), this);
             res = CompileUtil.resolveNestedAttributes(res, env.getDomainProcessor()::deserialize);
             if (!res.isEmpty()) {
                 extAttributes.putAll(res);
