@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
+import org.springframework.context.expression.MapAccessor;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionException;
 import org.springframework.expression.ExpressionParser;
@@ -192,5 +193,23 @@ public class MappingProcessor {
             context.setBeanResolver(new BeanFactoryResolver(beanFactory));
         Expression exp = parser.parseExpression(normalizer);
         return exp.getValue(context);
+    }
+
+    /**
+     * Вычисление значения условия SpEl выражения
+     *
+     * @param condition Условное SpEl выражение
+     * @param data      Исходные данные
+     * @return true/false
+     */
+    public static Boolean resolveCondition(String condition, Map<String, Object> data) {
+        StandardEvaluationContext context = new StandardEvaluationContext(data);
+        context.addPropertyAccessor(new MapAccessor());
+        try {
+            Expression expression = readParser.parseExpression(condition);
+            return expression.getValue(context, Boolean.class);
+        } catch (ExpressionException e) {
+            throw new N2oSpelException(condition, e);
+        }
     }
 }

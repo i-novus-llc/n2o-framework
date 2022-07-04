@@ -7,14 +7,15 @@ import classNames from 'classnames'
 
 import FileUploader from '../../../../controls/FileUploader/FileUploader'
 import withFileUploader from '../../../../controls/FileUploader/withFileUploader'
+import DefaultCell from '../DefaultCell'
 
 function FileUploadCellComponent(props) {
-    const { multi, files, t, showSize, label, uploadIcon, deleteIcon, className } = props
+    const { multi, files, t, showSize, label, uploadIcon, deleteIcon, className, disabled } = props
 
     const isButtonVisible = !!(multi || files.length === 0)
 
     return (
-        <div className={classNames('file-upload-cell-wrapper', { showSize }, className)}>
+        <DefaultCell disabled={disabled} className={classNames('file-upload-cell-wrapper', { showSize }, className)}>
             <FileUploader
                 componentClass="file-upload-cell"
                 {...props}
@@ -28,7 +29,7 @@ function FileUploadCellComponent(props) {
                 )
                 }
             </FileUploader>
-        </div>
+        </DefaultCell>
 
     )
 }
@@ -50,6 +51,7 @@ FileUploadCellComponent.propTypes = {
     uploadIcon: PropTypes.string,
     deleteIcon: PropTypes.string,
     files: PropTypes.array,
+    disabled: PropTypes.bool,
     t: PropTypes.func,
 }
 

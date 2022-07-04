@@ -5,12 +5,14 @@ import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.widget.MomentScope;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.jdom2.Namespace;
@@ -96,6 +98,12 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         assertThat(types.get(0).getValues().get("name"), is("test1"));
         assertThat(types.get(1).getValues().get("id"), is(2));
         assertThat(types.get(1).getValues().get("name"), is("test2"));
+
+        // check forwarding scopes
+        processor = new N2oCompileProcessor(builder.getEnvironment(), context, data, subModelsProcessor,
+                new IndexScope(5), new MomentScope(N2oValidation.ServerMoment.afterFailQuery));
+        assertThat(processor.getScope(IndexScope.class).get(), is(5));
+        assertThat(processor.getScope(MomentScope.class).getMoment(), is(N2oValidation.ServerMoment.afterFailQuery));
     }
 
     @Test

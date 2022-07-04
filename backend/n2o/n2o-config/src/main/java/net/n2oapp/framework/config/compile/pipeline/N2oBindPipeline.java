@@ -2,10 +2,10 @@ package net.n2oapp.framework.config.compile.pipeline;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.metadata.pipeline.BindPipeline;
+import net.n2oapp.framework.api.metadata.pipeline.BindTerminalPipeline;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 
 import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
@@ -26,8 +26,9 @@ public class N2oBindPipeline extends N2oPipeline implements BindPipeline {
             }
 
             @Override
-            public <D extends Compiled> D get(D input, CompileContext<?, ?> context, DataSet data, SubModelsProcessor subModelsProcessor) {
-                return execute(context, data, input, subModelsProcessor);
+            public <D extends Compiled> D get(D input, CompileContext<?, ?> context, DataSet data,
+                                              SubModelsProcessor subModelsProcessor, Object... scopes) {
+                return execute(context, data, input, subModelsProcessor, scopes);
             }
 
             @Override
