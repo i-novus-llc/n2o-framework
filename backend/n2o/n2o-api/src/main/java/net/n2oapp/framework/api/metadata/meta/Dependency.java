@@ -18,5 +18,5 @@ public class Dependency implements Compiled {
     @JsonProperty
     private Object condition;
     @JsonProperty
-    private DependencyConditionType type;
+    private DependencyType type;
 }

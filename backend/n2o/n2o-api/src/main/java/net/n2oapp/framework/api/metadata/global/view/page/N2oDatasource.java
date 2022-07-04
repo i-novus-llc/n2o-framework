@@ -22,7 +22,7 @@ public abstract class N2oDatasource extends N2oAbstractDatasource implements Nam
      */
     @Getter
     @Setter
-    public static class Dependency implements Source {
+    public static abstract class Dependency implements Source {
         private String on;
     }
 

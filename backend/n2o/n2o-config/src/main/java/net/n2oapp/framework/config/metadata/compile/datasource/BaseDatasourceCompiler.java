@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
-import net.n2oapp.framework.api.metadata.meta.DependencyConditionType;
+import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -38,29 +38,27 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
 
     protected List<Dependency> initDependencies(N2oDatasource source, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope == null)
-            return null;
         List<Dependency> dependencies = new ArrayList<>();
-        String pageId = pageScope.getPageId();
+        String pageId = pageScope != null ? pageScope.getPageId() : "";
         if (source.getDependencies() != null) {
             for (N2oStandardDatasource.Dependency d : source.getDependencies()) {
                 if (d instanceof N2oStandardDatasource.FetchDependency) {
                     N2oStandardDatasource.FetchDependency dependency = (N2oStandardDatasource.FetchDependency) d;
-                    ModelLink bindLink = new ModelLink(p.cast(dependency.getModel(), ReduxModel.resolve),
-                            CompileUtil.generateWidgetId(pageId, dependency.getOn()));
                     Dependency fetchDependency = new Dependency();
-                    fetchDependency.setOn(bindLink.getBindLink());
-                    fetchDependency.setType(DependencyConditionType.fetch);
+                    ModelLink link = new ModelLink(p.cast(dependency.getModel(), ReduxModel.resolve),
+                            CompileUtil.generateWidgetId(pageId, dependency.getOn()));
+                    fetchDependency.setOn(link.getBindLink());
+                    fetchDependency.setType(DependencyType.fetch);
                     dependencies.add(fetchDependency);
                 } else if (d instanceof N2oStandardDatasource.CopyDependency) {
                     N2oStandardDatasource.CopyDependency dependency = (N2oStandardDatasource.CopyDependency) d;
                     CopyDependency copyDependency = new CopyDependency();
-                    ModelLink modelLink = new ModelLink(p.cast(dependency.getSourceModel(), ReduxModel.resolve),
-                            dependency.getOn(), dependency.getSourceFieldId());
+                    ModelLink link = new ModelLink(p.cast(dependency.getSourceModel(), ReduxModel.resolve),
+                            CompileUtil.generateDatasourceId(pageId, dependency.getOn()), dependency.getSourceFieldId());
+                    copyDependency.setOn(link.getBindLink());
                     copyDependency.setModel(p.cast(dependency.getTargetModel(), ReduxModel.resolve));
-                    copyDependency.setType(DependencyConditionType.copy);
                     copyDependency.setField(dependency.getTargetFieldId());
-                    copyDependency.setOn(modelLink.getBindLink());
+                    copyDependency.setType(DependencyType.copy);
                     dependencies.add(copyDependency);
                 }
             }

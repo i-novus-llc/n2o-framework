@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
-import net.n2oapp.framework.api.metadata.meta.DependencyConditionType;
+import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -113,20 +113,20 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void fetchAndCopy() {
+    public void dependencies() {
         StandardPage page = (StandardPage)
-                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSFetch.page.xml")
-                        .get(new PageContext("testDSFetch", "/p/w/a"));
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDatasourceDependencies.page.xml")
+                        .get(new PageContext("testDatasourceDependencies", "/p/w/a"));
 
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_detail");
         assertThat(ds.getDependencies().size(), is(2));
         assertThat(ds.getDependencies().get(0).getOn(), is("models.resolve['p_w_a_master']"));
-        assertThat(ds.getDependencies().get(0).getType(), is(DependencyConditionType.fetch));
-        CopyDependency copyDependency = (CopyDependency) ds.getDependencies().get(1);
+        assertThat(ds.getDependencies().get(0).getType(), is(DependencyType.fetch));
 
-        assertThat(copyDependency.getType(), is(DependencyConditionType.copy));
+        CopyDependency copyDependency = (CopyDependency) ds.getDependencies().get(1);
+        assertThat(copyDependency.getType(), is(DependencyType.copy));
         assertThat(copyDependency.getModel(), is(ReduxModel.datasource));
-        assertThat(copyDependency.getOn(), is("models.resolve['detail']"));
+        assertThat(copyDependency.getOn(), is("models.resolve['p_w_a_detail']"));
     }
 
     @Test

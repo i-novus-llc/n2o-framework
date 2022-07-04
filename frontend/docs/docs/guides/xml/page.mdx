@@ -309,6 +309,62 @@ http://n2oapp.net/framework/config/schema/page-4.0
 </datasource>
 ```
 
+### STOMP-источник данных (&lt;stomp-datasource&gt;) {#stomp-datasource}
+
+**Атрибуты**
+
+|Наименование |Тип            |Описание                                                 |Значение по умолчанию|
+|-------------|---------------|---------------------------------------------------------|---------------------|
+|id           |Строка         |Идентификатор источника данных                           |                     |
+|destination  |Строка         |Место назначения                                         |                     |
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <datasources>
+        <stomp-datasource id="notifCount" destination="/notif/count">
+            <values>
+                ...
+            </values>
+        </stomp-datasource>
+    </datasources>
+</application>
+
+```
+
+**Тело**
+
+[Значения на момент инициализации](../xml/application#values)
+
+### Значения на момент инициализации (&lt;values&gt;) {#values}
+
+**Пример**
+
+```xml
+<stomp-datasource id="notifCount" destination="/notif/count">
+    <values>
+        ...
+    </values>
+</stomp-datasource>
+```
+
+**Тело**
+
+[Инициализирующее значение](../xml/application#value)
+
+### Инициализирующее значение(имя атрибута задается пользователем) (&lt;value&gt;) {#value}
+
+**Пример**
+
+```xml
+<stomp-datasource id="notifCount" destination="/notif/count">
+    <values>
+        <value count="0"/>
+    </values>
+</stomp-datasource>
+```
 
 ### &lt;app-datasource&gt; {#app-datasource}
 
@@ -384,7 +440,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 |Наименование|Тип                             |Описание                          |Значение по умолчанию|
 |------------|--------------------------------|----------------------------------|---------------------|
-|on          |Строка                          |Иденитификатор источника данных   |                     |
+|on          |Строка                          |Идентификатор источника данных    |                     |
 |model       |filter,resolve,edit,datasource  |Модель источника данных           |resolve              |
 
 **Пример**
@@ -399,19 +455,19 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 **Атрибуты**
 
-|Наименование       |Тип                             |Описание                                   |Значение по умолчанию|
-|-------------------|--------------------------------|-------------------------------------------|---------------------|
-|on                 |Строка                          |Иденитификатор источника данных            |                     |
-|source-model       |filter,resolve,edit,datasource  |Модель источника данных откуда копируется  |resolve              |
-|target-model       |filter,resolve,edit,datasource  |Модель источника данных куда копируется    |resolve              |
-|source-field-id    |Строка                          |Поле, откуда скопировать данные            |                     |
-|target-field-id    |Строка                          |Поле, в которое копируется данные          |                     |
+|Наименование       |Тип                             |Описание                                                                  |Значение по умолчанию|
+|-------------------|--------------------------------|--------------------------------------------------------------------------|---------------------|
+|on                 |Строка                          |Идентификатор источника данных, из которого копируются данные             |                     |
+|source-model       |filter,resolve,edit,datasource  |Модель источника данных, из которой будут скопированы данные              |resolve              |
+|target-model       |filter,resolve,edit,datasource  |Модель текущего источника, в которую будут скопированы данные             |resolve              |
+|source-field-id    |Строка                          |Идентификатор поля, из которого будут скопированы данные                  |Вся модель           |
+|target-field-id    |Строка                          |Идентификатор поля текущего источника, в которое будут скопированы данные |Вся модель           |
 
 **Пример**
 
 ```xml
 <dependencies>
-    <copy on="ds2" source-model="datasource" target-model="filter" source-field-id="name" target-field-id="name"/>
+    <copy on="ds" source-model="resolve" target-model="filter" source-field-id="name" target-field-id="name"/>
 </dependencies>
 ```
 

@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.datasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.ApplicationDatasource;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
-import net.n2oapp.framework.api.metadata.meta.DependencyConditionType;
+import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
@@ -37,21 +37,21 @@ public class ApplicationDatasourceCompileTest extends SourceCompileTestBase {
     @Test
     public void simple() {
         StandardPage page = (StandardPage)
-                compile("net/n2oapp/framework/config/metadata/compile/datasource/testApplicationDatasourceIOTest.page.xml")
-                        .get(new PageContext("testApplicationDatasourceIOTest"));
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testApplicationDatasource.page.xml")
+                        .get(new PageContext("testApplicationDatasource"));
 
-        ApplicationDatasource datasource = (ApplicationDatasource) page.getDatasources().get("testApplicationDatasourceIOTest_appDatasource");
+        ApplicationDatasource datasource = (ApplicationDatasource) page.getDatasources().get("testApplicationDatasource_appDatasource");
 
         assertThat(datasource.getDependencies().size(), is(2));
-        assertThat(datasource.getDependencies().get(0).getOn(), is("models.resolve['testApplicationDatasourceIOTest_test_id']"));
+        assertThat(datasource.getDependencies().get(0).getOn(), is("models.resolve['testApplicationDatasource_test_id']"));
         CopyDependency copyDependency = (CopyDependency) datasource.getDependencies().get(1);
-        assertThat(copyDependency.getOn(), is("models.resolve['test_id']"));
-        assertThat(copyDependency.getType(), is(DependencyConditionType.copy));
+        assertThat(copyDependency.getOn(), is("models.resolve['testApplicationDatasource_test_id']"));
+        assertThat(copyDependency.getType(), is(DependencyType.copy));
         assertThat(copyDependency.getField(), is("form"));
         assertThat(copyDependency.getModel(), is(ReduxModel.resolve));
 
         assertThat(datasource.getProvider().getType(), is("application"));
         assertThat(datasource.getProvider().getDatasource(), is("appDatasource"));
-        assertThat(datasource.getId(), is("testApplicationDatasourceIOTest_appDatasource"));
+        assertThat(datasource.getId(), is("testApplicationDatasource_appDatasource"));
     }
 }
