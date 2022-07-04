@@ -24,9 +24,9 @@ export function Group({
     if (visible === false) { return <></> }
 
     const children = options.map((radio) => {
-        const isDisabled = !isNil(radio[enabledFieldId])
+        const isDisabled = radio.disabled || (!isNil(radio[enabledFieldId])
             ? !radio[enabledFieldId]
-            : disabled
+            : disabled)
 
         return (
             <InputRadio

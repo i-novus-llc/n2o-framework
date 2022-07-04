@@ -14,8 +14,6 @@ import java.util.Map;
 @Setter
 public abstract class N2oListField extends N2oStandardField implements PreFiltersAware {
     protected Boolean search;
-    protected Boolean autoselectAlone;
-    protected Boolean autoselectFirst;
     protected Map<String, String>[] options;
     protected Boolean cache;
     private PopupScaling popupScaling;

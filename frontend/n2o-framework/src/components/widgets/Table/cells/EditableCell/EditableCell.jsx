@@ -12,6 +12,7 @@ import set from 'lodash/set'
 import Text from '../../../../snippets/Text/Text'
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
+import DefaultCell from '../DefaultCell'
 
 import withActionsEditableCell from './withActionsEditableCell'
 /**
@@ -136,6 +137,7 @@ export class EditableCell extends React.Component {
             visible,
             control,
             editable,
+            disabled,
             format,
             fieldKey,
             editFieldId,
@@ -148,7 +150,8 @@ export class EditableCell extends React.Component {
 
         return (
             visible && (
-                <div
+                <DefaultCell
+                    disabled={disabled}
                     className={classNames({ 'n2o-editable-cell': editable })}
                     onClick={this.stopPropagation}
                 >
@@ -180,7 +183,7 @@ export class EditableCell extends React.Component {
                             </div>
                         </HotKeys>
                     )}
-                </div>
+                </DefaultCell>
             )
         )
     }
@@ -190,6 +193,7 @@ EditableCell.propTypes = {
     visible: PropTypes.bool,
     control: PropTypes.object,
     editable: PropTypes.bool,
+    disabled: PropTypes.bool,
     editFieldId: PropTypes.string,
     model: PropTypes.object,
     prevResolveModel: PropTypes.object,
@@ -204,6 +208,7 @@ EditableCell.propTypes = {
 
 EditableCell.defaultProps = {
     visible: true,
+    disabled: false,
     model: {},
     editFieldId: null,
 }

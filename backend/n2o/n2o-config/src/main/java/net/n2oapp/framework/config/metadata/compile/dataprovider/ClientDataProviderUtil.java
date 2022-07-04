@@ -185,8 +185,15 @@ public class ClientDataProviderUtil {
                 if (validationList != null)
                     actionContext.setValidations(validationList.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));
             }
+
             actionContext.setRedirect(actionContextData.getRedirect());
             actionContext.setRefresh(actionContextData.getRefresh());
+            actionContext.setLoading(actionContextData.getLoading());
+            if (actionContextData.getPolling() != null) {
+                actionContext.setPolling(actionContextData.getPolling());
+                actionContext.setPollingEndCondition(actionContextData.getPolling().getResult());
+            }
+
             PageScope pageScope = p.getScope(PageScope.class);
             if (pageScope != null)
                 actionContext.setParentPageId(pageScope.getPageId());

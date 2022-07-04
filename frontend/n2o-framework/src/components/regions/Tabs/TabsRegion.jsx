@@ -9,7 +9,7 @@ import { compose, setDisplayName } from 'recompose'
 import classNames from 'classnames'
 
 import { makeRegionTabsSelector } from '../../../ducks/regions/store'
-import SecurityController from '../../../core/auth/SecurityController'
+import SecurityController, { Behavior } from '../../../core/auth/SecurityController'
 import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
@@ -40,6 +40,15 @@ class TabRegion extends React.Component {
         const { changeActiveEntity } = this.props
 
         changeActiveEntity(null)
+    }
+
+    onPermissionsSet = (tabId, hasAccess) => {
+        this.setState(prevState => ({
+            permissionsVisibleTabs: {
+                ...prevState.permissionsVisibleTabs,
+                [tabId]: hasAccess,
+            },
+        }))
     }
 
     handleChangeActive(event, id) {
@@ -123,8 +132,10 @@ class TabRegion extends React.Component {
                 >
                     {map(tabs, (tab) => {
                         const { security, content } = tab
-                        const permissionVisible = get(permissionsVisibleTabs, tab.id, true)
-                        const visible = permissionVisible && this.tabVisible(tab)
+                        const behaviorDisable = security?.behavior === Behavior.DISABLE
+                        const tabHasAccess = get(permissionsVisibleTabs, tab.id, true)
+                        const visible = behaviorDisable || (tabHasAccess && this.tabVisible(tab))
+
                         const tabProps = {
                             key: tab.id,
                             id: tab.id,
@@ -133,7 +144,9 @@ class TabRegion extends React.Component {
                             active: tab.opened,
                             invalid: tab.invalid,
                             visible,
+                            disabled: behaviorDisable && !tabHasAccess,
                         }
+
                         const tabElement = (
                             <Tab {...tabProps}>
                                 <RegionContent
@@ -143,14 +156,6 @@ class TabRegion extends React.Component {
                                 />
                             </Tab>
                         )
-                        const onPermissionsSet = (hasAccess) => {
-                            this.setState(prevState => ({
-                                visibleTabs: {
-                                    ...prevState.visibleTabs,
-                                    [tab.id]: hasAccess,
-                                },
-                            }))
-                        }
 
                         return isEmpty(security) ? (
                             tabElement
@@ -158,9 +163,9 @@ class TabRegion extends React.Component {
                             <SecurityController
                                 {...tabProps}
                                 config={security}
-                                onPermissionsSet={onPermissionsSet}
+                                onPermissionsSet={hasAccess => this.onPermissionsSet(tab.id, hasAccess)}
                             >
-                                {React.cloneElement(tabElement, { active: tabProps.active, visible: tabProps.visible })}
+                                {tabElement}
                             </SecurityController>
                         )
                     })}
