@@ -2,10 +2,7 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.*;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -64,7 +61,21 @@ public class DataController extends AbstractController {
         } else {
             resolveRedirect(requestInfo, response);
             resolveRefresh(requestInfo, response);
+            resolveLoading(requestInfo, response);
         }
+    }
+
+    private void resolveLoading(ActionRequestInfo requestInfo, SetDataResponse response) {
+        if (requestInfo.getLoading() == null)
+            return;
+        LoadingSaga loading = new LoadingSaga();
+        loading.setPageId(requestInfo.getLoading().getPageId());
+        loading.setPosition(requestInfo.getLoading().getPosition());
+        loading.setActive(requestInfo.getLoading().getActive());
+
+        if (response.getMeta() == null)
+            response.setMeta(new MetaSaga());
+        response.getMeta().setLoading(loading);
     }
 
     private void resolvePolling(ActionRequestInfo requestInfo, SetDataResponse response) {
