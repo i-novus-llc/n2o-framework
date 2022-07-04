@@ -8,12 +8,14 @@
             <xs:element name="datasource" type="standardDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="app-datasource" type="datasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:element name="datasource" type="standardDatasourceDefinition"/>
     <xs:element name="browser-storage" type="browserStorageDatasourceDefinition"/>
     <xs:element name="app-datasource" type="datasourceDefinition"/>
+    <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition"/>
 
     <xs:complexType name="standardDatasourceDefinition">
         <xs:complexContent>
@@ -100,6 +102,34 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="inheritedDatasourceDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Источник данных, получающий данные из другого источника данных</xs:documentation>
+            </xs:annotation>
+            <xs:extension base="datasourceDefinition">
+                <xs:sequence>
+                    <xs:element name="submit" type="inheritedDatasourceSubmit" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="source-datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных, откуда данные буду скопированы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-model" type="act:clientModel">
+                    <xs:annotation>
+                        <xs:documentation>Модель из которой будут скопированы данные</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор поля, откуда буду скопированы данные</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:simpleType name="storageType">
         <xs:annotation>
             <xs:documentation>Тип хранилища</xs:documentation>
@@ -127,6 +157,37 @@
         <xs:attribute name="key" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ключ, под которым будут записываться данные</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="inheritedDatasourceSubmit">
+        <xs:annotation>
+            <xs:documentation>Сохранение полей формы при их изменении</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="auto" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Автоматически ли записывать в хранилище при изменении данных?</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="act:clientModel">
+            <xs:annotation>
+                <xs:documentation>Модель источника данных</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="target-datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных, в которое производится сохранение</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="target-model" type="act:clientModel">
+            <xs:annotation>
+                <xs:documentation>Модель, в которую производится сохранение</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="target-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля, в которое производится сохранение</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.datasource;
 
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oBrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.config.N2oApplicationBuilder;

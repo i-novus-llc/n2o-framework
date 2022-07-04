@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;

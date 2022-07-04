@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.datasource;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.TypedElementIO;

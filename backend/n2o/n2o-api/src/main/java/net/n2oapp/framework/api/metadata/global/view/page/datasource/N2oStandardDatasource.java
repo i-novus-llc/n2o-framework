@@ -1,9 +1,11 @@
-package net.n2oapp.framework.api.metadata.global.view.page;
+package net.n2oapp.framework.api.metadata.global.view.page.datasource;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 
 import java.util.ArrayList;
 import java.util.Arrays;

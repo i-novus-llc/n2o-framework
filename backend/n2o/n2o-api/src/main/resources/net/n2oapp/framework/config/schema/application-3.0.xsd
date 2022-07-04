@@ -75,6 +75,11 @@
                     <xs:documentation>Источник данных, использующий хранилище браузера</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="inherited-datasource" type="ds:inheritedDatasourceDefinition" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Источник данных, получающий данные из другого источника данных</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
