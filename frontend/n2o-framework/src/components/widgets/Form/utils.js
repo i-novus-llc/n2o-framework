@@ -9,7 +9,6 @@ import each from 'lodash/each'
 import isObjectLike from 'lodash/isObjectLike'
 import isNil from 'lodash/isNil'
 import isBoolean from 'lodash/isBoolean'
-import replace from 'lodash/replace'
 
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 
@@ -121,14 +120,6 @@ export const setWatchDependency = (state, props, dependencyType) => {
     }
 
     return reduce(dependency, pickByReRender, {})
-}
-
-export const getModifiedExpression = (expression, value, placeholder = 'index') => {
-    if (expression && expression.includes(placeholder) && !isNil(value)) {
-        return replace(expression, placeholder, value)
-    }
-
-    return expression
 }
 
 /**
