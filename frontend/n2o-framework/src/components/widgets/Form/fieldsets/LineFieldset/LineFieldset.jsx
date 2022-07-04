@@ -24,6 +24,7 @@ class LineFieldset extends React.Component {
             hasSeparator,
             description,
             help,
+            disabled,
         } = this.props
 
         return {
@@ -36,6 +37,7 @@ class LineFieldset extends React.Component {
             hasSeparator,
             description,
             help,
+            disabled,
         }
     }
 
@@ -48,6 +50,7 @@ class LineFieldset extends React.Component {
             hasSeparator,
             description,
             help,
+            disabled,
         } = this.props
 
         return {
@@ -58,6 +61,7 @@ class LineFieldset extends React.Component {
             hasSeparator,
             description,
             help,
+            disabled,
         }
     }
 
@@ -75,6 +79,7 @@ class LineFieldset extends React.Component {
 LineFieldset.defaultProps = {
     visible: true,
     hasSeparator: true,
+    disabled: false,
 }
 
 LineFieldset.propTypes = {
@@ -88,6 +93,7 @@ LineFieldset.propTypes = {
     help: PropTypes.string,
     hasSeparator: PropTypes.bool,
     visible: PropTypes.string,
+    disabled: PropTypes.bool,
     description: PropTypes.string,
     activeModel: PropTypes.object,
 }
