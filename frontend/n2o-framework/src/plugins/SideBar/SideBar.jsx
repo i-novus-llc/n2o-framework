@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux'
 
 import { Logo } from '../Header/SimpleHeader/Logo'
 import { withItemsResolver } from '../withItemsResolver/withItemResolver'
+import { withTitlesResolver } from '../withTitlesResolver/withTitlesResolver'
 import { resolveExpression } from '../withItemsResolver/utils'
 import { usePrevious } from '../../utils/usePrevious'
 import { dataSourceModelsSelector } from '../../ducks/datasource/selectors'
@@ -279,4 +280,5 @@ export default compose(
         }
     }),
     withItemsResolver,
+    withTitlesResolver,
 )(SideBar)

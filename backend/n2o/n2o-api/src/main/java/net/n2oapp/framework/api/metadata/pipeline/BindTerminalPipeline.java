@@ -13,5 +13,6 @@ public interface BindTerminalPipeline extends Pipeline,
 
     <D extends Compiled> D get(D input, CompileContext<?, ?> context, DataSet data);
 
-    <D extends Compiled> D get(D input, CompileContext<?, ?> context, DataSet data, SubModelsProcessor subModelsProcessor);
+    <D extends Compiled> D get(D input, CompileContext<?, ?> context, DataSet data,
+                               SubModelsProcessor subModelsProcessor, Object... scopes);
 }

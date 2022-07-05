@@ -3,8 +3,8 @@
            xmlns:menu="http://n2oapp.net/framework/config/schema/menu-3.0"
            xmlns:search="http://n2oapp.net/framework/config/schema/search-1.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
-           xmlns:ac="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:sb="http://n2oapp.net/framework/config/schema/sidebar-3.0"
+           xmlns:ev="http://n2oapp.net/framework/config/schema/event-3.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="application" type="applicationDefinition"/>
@@ -26,9 +26,9 @@
                     <xs:documentation>Шапка(header)</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="sidebars" type="sb:sidebars" minOccurs="0">
+            <xs:element name="sidebars" type="sidebarsDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Боковая панель приложения</xs:documentation>
+                    <xs:documentation>Боковые панели приложения</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="footer" type="footerDefinition" minOccurs="0">
@@ -75,11 +75,19 @@
 
     <xs:complexType name="eventsDefinition">
         <xs:sequence>
-            <xs:element name="stomp-event" type="stompEventDefinition" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="stomp-event" type="ev:stompEventDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sidebarsDefinition">
+        <xs:sequence>
+            <xs:element name="sidebar" type="sb:sidebarDefinition"/>
+
+            <xs:any namespace="##other">
                 <xs:annotation>
-                    <xs:documentation>Событие, приходящее через STOMP протокол</xs:documentation>
+                    <xs:documentation>Подключаемый через библиотеку сайдбар.</xs:documentation>
                 </xs:annotation>
-            </xs:element>
+            </xs:any>
         </xs:sequence>
     </xs:complexType>
 
@@ -263,32 +271,6 @@
         </xs:anyAttribute>
     </xs:complexType>
 
-    <xs:complexType name="stompEventDefinition">
-        <xs:complexContent>
-            <xs:extension base="baseEventDefinition">
-                <xs:sequence>
-                    <xs:element name="alert" type="ac:alertDefinition" minOccurs="0"/>
-                </xs:sequence>
-                <xs:attribute name="destination" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Место назначения</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="baseEventDefinition">
-        <xs:annotation>
-            <xs:documentation>Базовый тип события</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Идентификатор события.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
     <xs:complexType name="baseDatasourceDefinition">
         <xs:annotation>
             <xs:documentation>Базовый тип источников данных</xs:documentation>
@@ -299,4 +281,5 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
 </xs:schema>

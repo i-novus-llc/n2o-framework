@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись STOMP-события
  */
 @Component
-public class StompEventIO extends AbstractEventIO<N2oStompEvent>{
+public class StompEventIO extends AbstractEventIO<N2oStompEvent> {
 
     @Override
     public Class<N2oStompEvent> getElementClass() {

@@ -11,7 +11,7 @@ import { hideField } from '../../../../../ducks/form/store'
  * @reactProps {string} text - текст алерта
  * @reactProps {object} style - стили алерта
  * @reactProps {string} className - css-класс для поля
- * @reactProps {string} color - цвет поля
+ * @reactProps {string} severity - цвет поля
  * @reactProps {boolean} closeButton - отобразить кнопку закрытия
  * @reactProps {string} href - href onClick по Alert
  * @reactProps {string} form - form id
@@ -27,6 +27,7 @@ export function AlertField({
     style,
     className,
     color = 'secondary',
+    severity,
     closeButton,
     href,
     form,
@@ -46,7 +47,7 @@ export function AlertField({
             text={text}
             style={style}
             className={classNames('n2o-snippet n2o-alert-field', className)}
-            color={color}
+            severity={severity || color}
             onClose={closeButton && onClose}
             closeButton={closeButton}
             href={href}

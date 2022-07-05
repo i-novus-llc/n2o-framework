@@ -8,7 +8,7 @@ import { AlertSection } from './AlertSection'
 export const DefaultAlert = ({
     title,
     text,
-    color: propsColor,
+    severity: propsSeverity,
     href,
     timestamp,
     closeButton,
@@ -23,7 +23,7 @@ export const DefaultAlert = ({
     onClose = null,
     isField = false,
 }) => {
-    const color = propsColor || 'secondary'
+    const severity = propsSeverity || 'secondary'
 
     const batchedActionToClose = (e) => {
         e.preventDefault()
@@ -69,7 +69,7 @@ export const DefaultAlert = ({
 
     const wrapperProps = {
         className,
-        color,
+        severity,
         animate,
         stacktrace,
         href,

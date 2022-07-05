@@ -50,12 +50,10 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         String[] prefixes;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
 
-        if (source.getModel() != null) {
+        if (source.getModel() != null)
             prefixes = source.getModel();
-        }
-        else if (widgetScope != null) {
+        else if (widgetScope != null)
             prefixes = new String[]{widgetScope.getModel().getId()};
-        }
         else {
             N2oButton button = p.getScope(ComponentScope.class).unwrap(N2oButton.class);
             String model = button != null ? button.getModel().getId() : ReduxModel.resolve.getId();

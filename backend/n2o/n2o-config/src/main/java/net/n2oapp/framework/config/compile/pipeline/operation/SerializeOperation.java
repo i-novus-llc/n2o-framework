@@ -34,8 +34,10 @@ public class SerializeOperation<S extends SourceMetadata> implements PipelineOpe
     }
 
     @Override
-    public InputStream execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
-                     BindProcessor bindProcessor, SourceProcessor sourceProcessor) {
+    public InputStream execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier,
+                               CompileProcessor compileProcessor,
+                                BindProcessor bindProcessor,
+                               SourceProcessor sourceProcessor) {
         S value = supplier.get();
         byte[] buf;
         try {

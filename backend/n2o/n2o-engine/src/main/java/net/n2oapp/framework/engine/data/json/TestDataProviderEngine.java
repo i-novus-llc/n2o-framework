@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -58,7 +59,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private ObjectMapper objectMapper;
 
     public TestDataProviderEngine() {
-        objectMapper = new ObjectMapper();
+        objectMapper = new ObjectMapper()
+                .registerModule(new JavaTimeModule());
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
@@ -239,7 +241,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         updateRepository(invocation.getFile(), modifiableData);
         updateFile(invocation.getFile());
 
-        return modifiableData;
+        return element;
     }
 
     private Object updateMany(N2oTestDataProvider invocation,
@@ -343,15 +345,12 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         }
     }
 
-    private Map updateElement(Map element, Set<Map.Entry<String, Object>> fields) {
-        for (Map.Entry field : fields) {
-            if (field.getValue() instanceof Date) {
+    private void updateElement(Map element, Set<Map.Entry<String, Object>> fields) {
+        for (Map.Entry field : fields)
+            if (field.getValue() instanceof Date)
                 element.put(field.getKey(), new SimpleDateFormat("dd.MM.yyy HH:mm:ss").format(field.getValue()));
-            } else {
+            else
                 element.put(field.getKey(), field.getValue());
-            }
-        }
-        return element;
     }
 
     private List<DataSet> paginate(Integer limit, Integer offset, Integer count, List<DataSet> data) {
@@ -694,8 +693,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Переводит строковое представление даты в LocalDate
+     *
      * @param strDate Строковое представление даты в формате ISO_LOCAL_DATE
-     * @return        Переменную типа LocalDate, соответствующую строковому представлению даты, при неверном формате
+     * @return Переменную типа LocalDate, соответствующую строковому представлению даты, при неверном формате
      * строкового представления выбрасывается N2oException
      */
     private LocalDate parseToLocalDate(String strDate) {
@@ -708,8 +708,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Переводит строковое представление даты и времени в LocalDateTime
+     *
      * @param strDateTime Строковое представление даты и времени в формате ISO_LOCAL_DATE_TIME
-     * @return            Переменную типа LocalDateTime, соответствующую строковому представлению даты и времени, при неверном формате
+     * @return Переменную типа LocalDateTime, соответствующую строковому представлению даты и времени, при неверном формате
      * строкового представления выбрасывается N2oException
      */
     private LocalDateTime parseToLocalDateTime(String strDateTime) {

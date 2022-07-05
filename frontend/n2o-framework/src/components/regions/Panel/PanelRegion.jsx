@@ -10,7 +10,6 @@ import PanelShortHand from '../../snippets/Panel/PanelShortHand'
 import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
 import withSecurity from '../../../core/auth/withSecurity'
-import { SECURITY_CHECK } from '../../../core/auth/authTypes'
 import { RegionContent } from '../RegionContent'
 
 /**
@@ -76,14 +75,11 @@ class PanelRegion extends React.Component {
         const { tabs } = this.state
 
         if (panel.security) {
-            const { user, authProvider } = this.props
+            const { checkSecurity } = this.props
             const config = panel.security
 
             try {
-                await authProvider(SECURITY_CHECK, {
-                    config,
-                    user,
-                })
+                await checkSecurity(config)
 
                 this.setState({ tabs: tabs.concat(this.getTab(panel)) })
             } catch (error) {
@@ -175,6 +171,7 @@ PanelRegion.propTypes = {
      * Флаг открытия панели
      */
     open: PropTypes.bool,
+    disabled: PropTypes.bool,
     /**
      * Флаг возможности скрывать содержимое панели
      */
@@ -192,7 +189,7 @@ PanelRegion.propTypes = {
     dependency: PropTypes.object,
     getWidgetProps: PropTypes.func,
     changeActiveEntity: PropTypes.func,
-    authProvider: PropTypes.func,
+    checkSecurity: PropTypes.func,
     activeEntity: PropTypes.any,
     user: PropTypes.any,
 }

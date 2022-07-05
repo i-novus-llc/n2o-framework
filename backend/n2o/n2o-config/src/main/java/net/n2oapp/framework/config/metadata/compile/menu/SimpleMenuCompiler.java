@@ -37,6 +37,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     public SimpleMenu compile(N2oSimpleMenu source, ApplicationContext context, CompileProcessor p) {
         SimpleMenu simpleMenu = new SimpleMenu();
         List<MenuItem> items = new ArrayList<>();
+        simpleMenu.setProperties(p.mapAttributes(source));
         IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope(1);
         if (source.getMenuItems() != null)
             for (N2oSimpleMenu.AbstractMenuItem mi : source.getMenuItems())
