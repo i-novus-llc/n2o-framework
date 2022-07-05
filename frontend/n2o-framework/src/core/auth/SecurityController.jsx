@@ -11,7 +11,7 @@ import { SecurityContext } from './SecurityProvider'
 
 const excludedKeys = ['checkSecurity', 'config']
 
-const Behavior = {
+export const Behavior = {
     HIDE: 'hide',
     DISABLE: 'disable',
 }

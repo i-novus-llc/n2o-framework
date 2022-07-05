@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.datasource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class ApplicationDatasource extends AbstractDatasource {
 
     @JsonProperty
-    private List<DependencyCondition> dependencies;
+    private List<Dependency> dependencies;
     @JsonProperty
     private Provider provider;
 

@@ -67,7 +67,7 @@ public class StandardDatasourceValidatorTest extends SourceValidationTestBase {
     public void testFetchOnNonExistentDatasource() {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("Атрибут \"on\" в зависимости источника данных 'ds1' ссылается на несуществующий источник данных 'ds2'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testFetchOnNonExistentDatasource.page.xml");
+        validate("net/n2oapp/framework/config/metadata/validation/datasource/testDependencyOnNonExistentDatasource.page.xml");
     }
 
     /**

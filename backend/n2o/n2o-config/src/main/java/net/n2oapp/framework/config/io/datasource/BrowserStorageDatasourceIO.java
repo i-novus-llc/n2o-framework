@@ -21,7 +21,8 @@ public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserS
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, N2oBrowserStorageDatasource.Submit::new, this::submit);
         p.anyChildren(e, "dependencies", ds::getDependencies, ds::setDependencies,
                 p.oneOf(N2oBrowserStorageDatasource.Dependency.class)
-                        .add("fetch", N2oBrowserStorageDatasource.FetchDependency.class, this::fetch));
+                        .add("fetch", N2oBrowserStorageDatasource.FetchDependency.class, this::fetch)
+                        .add("copy",  N2oBrowserStorageDatasource.CopyDependency.class, this::copy));
     }
 
 

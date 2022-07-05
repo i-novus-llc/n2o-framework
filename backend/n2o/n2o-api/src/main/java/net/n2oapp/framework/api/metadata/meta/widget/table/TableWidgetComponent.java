@@ -47,4 +47,6 @@ public class TableWidgetComponent extends WidgetComponent {
     private Boolean autoCheckboxOnSelect;
     @JsonProperty
     private RowSelectionEnum rowSelection;
+    @JsonProperty
+    private Boolean autoSelect;
 }

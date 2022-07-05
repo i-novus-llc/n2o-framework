@@ -126,14 +126,16 @@ class Fieldset extends React.Component {
     }
 
     resolveProperties() {
-        const { visible, enabled, activeModel } = this.props
+        const { visible, enabled, activeModel, parentIndex } = this.props
         const {
             enabled: enabledFromState,
             visible: visibleFromState,
         } = this.state
 
-        const newEnabled = resolveExpression(enabled, activeModel)
-        const newVisible = resolveExpression(visible, activeModel)
+        const extendedActiveModel = { index: parentIndex, ...activeModel }
+
+        const newEnabled = resolveExpression(enabled, extendedActiveModel)
+        const newVisible = resolveExpression(visible, extendedActiveModel)
 
         if (!isEqual(newEnabled, enabledFromState)) {
             this.setEnabled(newEnabled)

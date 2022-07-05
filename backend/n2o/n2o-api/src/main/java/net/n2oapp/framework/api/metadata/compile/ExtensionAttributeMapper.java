@@ -11,9 +11,10 @@ public interface ExtensionAttributeMapper extends NamespaceUriAware {
 
     /**
      * Из дополнительных атрибутов сформировать список объектов
-     * @param attributes    список дополнительных атрибутов
-     * @return              список объектов, построенных на основе дополнительных атрибутов
+     *
+     * @param attributes список дополнительных атрибутов
+     * @return список объектов, построенных на основе дополнительных атрибутов
      */
-    Map<String, Object> mapAttributes(Map<String, String> attributes);
+    Map<String, Object> mapAttributes(Map<String, String> attributes, CompileProcessor p);
 
 }

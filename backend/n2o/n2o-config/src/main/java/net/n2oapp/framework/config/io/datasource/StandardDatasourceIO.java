@@ -40,7 +40,8 @@ public class StandardDatasourceIO extends AbstractDatasourceIO<N2oStandardDataso
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, Submit::new, this::submit);
         p.anyChildren(e, "dependencies", ds::getDependencies, ds::setDependencies,
                 p.oneOf(N2oStandardDatasource.Dependency.class)
-                        .add("fetch", N2oStandardDatasource.FetchDependency.class, this::fetch));
+                        .add("fetch", N2oStandardDatasource.FetchDependency.class, this::fetch)
+                        .add("copy", N2oStandardDatasource.CopyDependency.class, this::copy));
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);
     }

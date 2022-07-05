@@ -45,7 +45,7 @@ describe('<ListTextCell />', () => {
     it('Отрисовываются верные тэги, классы и контент', () => {
         const { wrapper } = setupImageCell({ label: 'объектов {size}' })
         expect(wrapper.html()).toEqual(
-            '<div class="list-text-cell"><span class="list-text-cell__trigger">объектов 3</span></div>',
+            '<div class="default-cell list-text-cell"><span class="list-text-cell__trigger">объектов 3</span></div>',
         )
     })
     it('Отрисовываются labelDashed', () => {
@@ -56,7 +56,7 @@ describe('<ListTextCell />', () => {
             labelDashed: true,
         })
         expect(wrapper.html()).toEqual(
-            '<div class="list-text-cell"><span class="list-text-cell__trigger_dashed">3 объекта</span></div>',
+            '<div class="default-cell list-text-cell"><span class="list-text-cell__trigger_dashed">3 объекта</span></div>',
         )
     })
 

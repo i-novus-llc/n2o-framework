@@ -17,9 +17,10 @@ public interface BindProcessor {
      * Связать метаданные с данными
      *
      * @param compiled Метаданная
+     * @param scopes   Объекты, влияющие на последующее связывание
      * @param <D>      Тип метаданной
      */
-    <D extends Compiled> void bind(D compiled);
+    <D extends Compiled> void bind(D compiled, Object... scopes);
 
     /**
      * Получить собранный объект по идентификатору

@@ -2,6 +2,7 @@
 title: Значения по умолчанию
 description: ""
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Виджеты можно загрузить со значениями по умолчанию.
 Для этого [источник данных](../manual/data#Datasources) виджета не должен иметь ссылку на выборку:
@@ -41,6 +42,7 @@ description: ""
 <input-text id="name"
             default-value="Ваше имя"/>
 ```
+<Sandbox height={300} projectId="documentation_defaultvalue_field" showHeader />
 
 Для списковых полей через элемент `default-value`:
 
@@ -50,6 +52,7 @@ description: ""
                  name="Мужской"/>
 </select>
 ```
+<Sandbox height={300} projectId="documentation_defaultvalue_list" showHeader />
 
 ### Значения по умолчанию из выборки
 
@@ -65,7 +68,8 @@ description: ""
     </filters>
 </datasource>
 ```
-Поля выборки, которые вернут null будут заменены значениями по умолчанию, заданными в полях.
+Поля выборки, которые вернут null, будут заменены значениями по умолчанию, заданными в полях.
+<Sandbox height={500} projectId="documentation_defaultvalue_query" showHeader />
 
 ### Вычисляемые значения
 
@@ -74,6 +78,8 @@ description: ""
 ```xml title="Значение по умолчанию в виде JavaScript выражения"
 <output-text id="randomNum" default-value="`Math.random()`"/>
 ```
+<Sandbox height={300} projectId="documentation_defaultvalue_js" showHeader />
+
 #### Функции работы с данными
 В контексте JavaScript выражения доступны функции и переменные для удобной работы с датами, числами, списками.
 
@@ -105,6 +111,7 @@ description: ""
 ```xml title="Значение по умолчанию в виде функции даты и времени"
 <date-time id="dt" default-value="`$.now()`"/>
 ```
+<Sandbox height={300} projectId="documentation_defaultvalue_datetime" showHeader />
 
 ### Ссылки на данные
 
@@ -118,5 +125,6 @@ description: ""
              ref-model="resolve"
              ref-page="parent"/>
 ```
+<Sandbox height={400} projectId="documentation_defaultvalue_ref" showHeader />
 
 Данные на которые ведет ссылка задается атрибутами `ref-datasource`, `ref-model` и `ref-page`.

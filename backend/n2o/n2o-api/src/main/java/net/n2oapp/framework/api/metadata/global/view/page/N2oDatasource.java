@@ -22,13 +22,22 @@ public abstract class N2oDatasource extends N2oAbstractDatasource implements Nam
      */
     @Getter
     @Setter
-    public static class Dependency implements Source {
+    public static abstract class Dependency implements Source {
+        private String on;
     }
 
     @Getter
     @Setter
     public static class FetchDependency extends Dependency {
-        private String on;
         private ReduxModel model;
+    }
+
+    @Getter
+    @Setter
+    public static class CopyDependency extends Dependency {
+        private String targetFieldId;
+        private ReduxModel targetModel;
+        private ReduxModel sourceModel;
+        private String sourceFieldId;
     }
 }

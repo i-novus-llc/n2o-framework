@@ -7,6 +7,7 @@
         <datasource id="ds1" query-id="test" size="5" route="/:id/data">
             <dependencies>
                 <fetch on="ds1"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
             </dependencies>
             <filters>
                 <eq field-id="id" value="3"/>
@@ -24,6 +25,7 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
             </dependencies>
         </browser-storage>
     </datasources>

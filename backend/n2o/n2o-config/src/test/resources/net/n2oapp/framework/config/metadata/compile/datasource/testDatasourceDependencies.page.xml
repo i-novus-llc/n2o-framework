@@ -5,6 +5,7 @@
         <datasource id="detail">
             <dependencies>
                 <fetch on="master"/>
+                <copy on="detail" target-model="datasource"/>
             </dependencies>
         </datasource>
     </datasources>

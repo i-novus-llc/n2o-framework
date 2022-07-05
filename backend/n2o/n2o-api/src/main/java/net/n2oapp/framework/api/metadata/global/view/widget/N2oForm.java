@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.control.SubmitOn;
+import net.n2oapp.framework.api.metadata.datasource.Submittable;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
 
 /**
@@ -12,7 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
  */
 @Getter
 @Setter
-public class N2oForm extends N2oWidget {
+public class N2oForm extends N2oWidget implements Submittable {
     private String modalWidth;
     private String layout;
     private SourceComponent[] items;
