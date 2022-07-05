@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.ApplicationDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oApplicationDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import org.springframework.stereotype.Component;
 
 /**

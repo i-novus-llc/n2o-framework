@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import lombok.Getter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.io.Serializable;

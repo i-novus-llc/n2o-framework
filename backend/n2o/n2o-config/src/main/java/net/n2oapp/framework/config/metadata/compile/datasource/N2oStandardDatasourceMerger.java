@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceMerger;
 import org.springframework.stereotype.Component;
 

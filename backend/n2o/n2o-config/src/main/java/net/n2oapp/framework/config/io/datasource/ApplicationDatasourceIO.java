@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.datasource;
 
-import net.n2oapp.framework.api.metadata.global.view.page.N2oApplicationDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
