@@ -30,7 +30,12 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     const queryParams = getParams(queryMapping, state)
     const headersParams = getParams(headersMapping, state)
     const formParams = getParams(formMapping, state)
-    const baseQuery = { ...query, ...options, ...queryParams }
+    const baseQuery = {
+        ...query,
+        ...options,
+        ...queryParams,
+        ...queryString.parse(queryFromUrl),
+    }
     let path = pathname
 
     // если хеш является частью роутинга, то приклеиваем его обратно
@@ -55,10 +60,8 @@ export function dataProviderResolver(state, dataProvider, query, options) {
         basePath = origin + basePath
     }
 
-    const isEmptyMappings = isEmpty(pathMapping) && isEmpty(queryMapping)
-
     return {
-        basePath: isEmptyMappings ? compiledUrl : basePath,
+        basePath,
         baseQuery,
         headersParams,
         formParams,
