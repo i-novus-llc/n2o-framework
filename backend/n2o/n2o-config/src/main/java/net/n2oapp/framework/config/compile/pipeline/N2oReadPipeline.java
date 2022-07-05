@@ -83,7 +83,7 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
 
                     @Override
                     public <D extends Compiled> D get(CompileContext<D, ?> ctx, CompileProcessor p) {
-                        return execute(ctx, null, null, (N2oCompileProcessor) p);
+                        return execute(ctx, null, null, p, (N2oCompileProcessor) p, (N2oCompileProcessor) p);
                     }
 
                     @Override
