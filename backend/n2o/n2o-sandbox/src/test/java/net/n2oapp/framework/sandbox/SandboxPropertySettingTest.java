@@ -107,7 +107,6 @@ public class SandboxPropertySettingTest {
 
         Page page = viewController.getPage("myProjectId", request, null);
         assertThat(page.getModels().get("resolve['main'].email").getValue(), is("test@example.com"));
-        assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(0), is("USER"));
-        assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(1), is("ADMIN"));
+        assertThat((page.getModels().get("resolve['main'].roles").getValue()), is("[USER, ADMIN]"));
     }
 }
