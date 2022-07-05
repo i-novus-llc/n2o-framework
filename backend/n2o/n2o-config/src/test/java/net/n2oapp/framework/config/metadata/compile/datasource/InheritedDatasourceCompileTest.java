@@ -51,6 +51,7 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(inh2.getProvider().getSourceField(), is("name"));
         assertThat(inh2.getSubmit().getType(), is("inherited"));
         assertThat(inh2.getSubmit().getAuto(), is(false));
+        assertThat(inh2.getSubmit().getModel(), is(ReduxModel.resolve));
         assertThat(inh2.getSubmit().getTargetDs(), is("testInheritedDatasource_ds2"));
         assertThat(inh2.getSubmit().getTargetModel(), is(ReduxModel.datasource));
         assertThat(inh2.getSubmit().getTargetField(), is("name"));
@@ -63,6 +64,7 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(inh3.getProvider().getSourceField(), is("name"));
         assertThat(inh3.getSubmit().getType(), is("inherited"));
         assertThat(inh3.getSubmit().getAuto(), is(true));
+        assertThat(inh3.getSubmit().getModel(), is(ReduxModel.filter));
         assertThat(inh3.getSubmit().getTargetDs(), is("testInheritedDatasource_ds1"));
         assertThat(inh3.getSubmit().getTargetModel(), is(ReduxModel.filter));
         assertThat(inh3.getSubmit().getTargetField(), is("name2"));
