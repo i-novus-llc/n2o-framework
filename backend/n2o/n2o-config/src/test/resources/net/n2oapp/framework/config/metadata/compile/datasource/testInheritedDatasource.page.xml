@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <inherited-datasource id="inh1" source-datasource="ds1" source-field-id="name" source-model="selected"/>
+        <inherited-datasource id="inh2" source-datasource="ds2" source-model="datasource" source-field-id="name">
+            <submit auto="false"/>
+        </inherited-datasource>
+        <inherited-datasource id="inh3" source-datasource="ds2" source-model="datasource" source-field-id="name">
+            <submit target-datasource="ds1" model="filter" target-model="filter" target-field-id="name2"/>
+        </inherited-datasource>
+    </datasources>
+
+</page>

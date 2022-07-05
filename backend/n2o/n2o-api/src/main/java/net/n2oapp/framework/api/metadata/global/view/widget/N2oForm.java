@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.control.SubmitOn;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 
 /**
  * Исходная модель виджета Форма

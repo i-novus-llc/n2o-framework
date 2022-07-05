@@ -66,5 +66,8 @@
                 <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
             </dependencies>
         </app-datasource>
+        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter">
+            <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2"/>
+        </inherited-datasource>
     </datasources>
 </page>
