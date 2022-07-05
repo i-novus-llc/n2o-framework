@@ -39,18 +39,17 @@ public abstract class N2oPipeline implements Pipeline {
     }
 
     protected <O, I> O execute(CompileContext<?, ?> context,
-                                DataSet data,
-                                I input) {
-        N2oCompileProcessor processor = new N2oCompileProcessor(env, context, data);
-        return execute(context, data, input, processor);
+                               DataSet data,
+                               I input) {
+        return execute(context, data, input, null);
     }
-
     protected <O, I> O execute(CompileContext<?, ?> context,
                                DataSet data,
                                I input,
-                               Object... scopes) {
+                               Object[] scopes) {
+        BindProcessor bindProcessor = new N2oCompileProcessor(env, context, data, null, scopes);
         N2oCompileProcessor processor = new N2oCompileProcessor(env, context, data, scopes);
-        return execute(context, data, input, processor);
+        return execute(ops(), context, data, input, processor, bindProcessor, processor);
     }
 
 
@@ -58,24 +57,19 @@ public abstract class N2oPipeline implements Pipeline {
                                DataSet data,
                                I input,
                                SubModelsProcessor subModelsProcessor,
-                               Object... scopes) {
-        N2oCompileProcessor processor = new N2oCompileProcessor(env, context, data, subModelsProcessor, scopes);
-        return execute(context, data, input, processor);
+                               Object[] scopes) {
+        BindProcessor bindProcessor = new N2oCompileProcessor(env, context, data, subModelsProcessor, scopes);
+        N2oCompileProcessor processor = new N2oCompileProcessor(env, context, data, scopes);
+        return execute(ops(), context, data, input, processor, bindProcessor, processor);
     }
 
     protected <O, I> O execute(CompileContext<?, ?> context,
                                DataSet data,
                                I input,
-                               N2oCompileProcessor processor) {
-        return execute(ops(), context, data, input, processor);
-    }
-
-    protected <O, I> O execute(Iterator<PipelineOperation<?, ?>> iterator,
-                               CompileContext<?, ?> context,
-                               DataSet data,
-                               I input,
-                               N2oCompileProcessor processor) {
-        return execute(iterator, context, data, input, processor, processor, processor);
+                               CompileProcessor compileProcessor,
+                               BindProcessor bindProcessor,
+                               SourceProcessor sourceProcessor) {
+        return execute(ops(), context, data, input, compileProcessor, bindProcessor, sourceProcessor);
     }
 
     protected <O, I> O execute(Iterator<PipelineOperation<?, ?>> iterator,

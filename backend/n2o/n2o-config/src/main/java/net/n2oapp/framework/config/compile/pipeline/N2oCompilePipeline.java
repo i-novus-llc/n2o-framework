@@ -37,7 +37,7 @@ public class N2oCompilePipeline extends N2oPipeline implements CompilePipeline {
 
             @Override
             public <D extends Compiled, S> D get(S input, CompileContext<?, ?> ctx, CompileProcessor p) {
-                return execute(ctx, null, input, (N2oCompileProcessor) p);
+                return execute(ctx, null, input, p, (N2oCompileProcessor) p, (N2oCompileProcessor) p);
             }
 
             @Override
@@ -52,7 +52,7 @@ public class N2oCompilePipeline extends N2oPipeline implements CompilePipeline {
                     @Override
                     public <D extends Compiled, S> D get(S input, CompileContext<?, ?> context, DataSet data,
                                                          SubModelsProcessor subModelsProcessor) {
-                        return execute(context, data, input, subModelsProcessor);
+                        return execute(context, data, input, subModelsProcessor, null);
                     }
 
                     @Override
