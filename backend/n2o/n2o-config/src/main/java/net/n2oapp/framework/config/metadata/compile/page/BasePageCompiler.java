@@ -9,7 +9,10 @@ import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
-import net.n2oapp.framework.api.metadata.global.view.page.*;
+import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
@@ -33,7 +36,6 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
@@ -45,7 +47,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.generateSourceDatasourceId;
 
 /**
  * Базовая компиляция страницы с регионами
@@ -124,7 +125,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         for (N2oWidget widget : sourceWidgets) {
             if (widget.getDatasourceId() == null && (widget.getRefId() == null || !DynamicUtil.isDynamic(widget.getRefId()))) {
                 N2oStandardDatasource datasource;
-                String datasourceId = CompileUtil.generateSourceDatasourceId(widget.getId());
+                String datasourceId = widget.getId();
                 if (widget.getDatasource() == null) {
                     datasource = new N2oStandardDatasource();
                     datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
@@ -153,10 +154,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(N2oMetadata::getId,
-                        w -> w.getDatasourceId() == null ? generateSourceDatasourceId(w.getId()) : w.getDatasourceId())));
+                        w -> w.getDatasourceId() == null ? w.getId() : w.getDatasourceId())));
         pageScope.getWidgetIdClientDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(w -> pageScope.getGlobalWidgetId(w.getId()),
-                        w -> pageScope.getGlobalWidgetId(w.getDatasourceId() == null ? generateSourceDatasourceId(w.getId()) : w.getDatasourceId()))));
+                        w -> pageScope.getGlobalWidgetId(w.getDatasourceId() == null ? w.getId() : w.getDatasourceId()))));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;
@@ -337,7 +338,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             if (item.getModel() == null)
                 item.setModel(actionsBar.getModel());
             if (item.getDatasourceId() == null)
-                item.setDatasourceId(actionsBar.getDatasource());
+                item.setDatasourceId(actionsBar.getDatasourceId());
             if (item.getLabel() == null)
                 item.setLabel(actionsBar.getLabel());
             if (item.getIcon() == null)

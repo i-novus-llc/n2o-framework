@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -36,7 +36,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.generateSourceDatasourceId;
 
 /**
  * Компиляция страницы с единственным виджетом
@@ -100,9 +99,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
         pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdSourceDatasourceMap().putAll(Map.of(widget.getId(),
-                widget.getDatasourceId() == null ? generateSourceDatasourceId(widget.getId()) : widget.getDatasourceId()));
+                widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId()));
         pageScope.getWidgetIdClientDatasourceMap().putAll(Map.of(pageScope.getGlobalWidgetId(widget.getId()),
-                pageScope.getGlobalWidgetId(widget.getDatasourceId() == null ? generateSourceDatasourceId(widget.getId()) : widget.getDatasourceId())));
+                pageScope.getGlobalWidgetId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId())));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;

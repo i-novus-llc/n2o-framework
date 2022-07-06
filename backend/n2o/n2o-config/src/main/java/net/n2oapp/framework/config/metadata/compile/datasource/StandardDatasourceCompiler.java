@@ -112,7 +112,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         String url = getDatasourceRoute(source, compiled, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
         dataProvider.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
-        List<Filter> filters = initFilters(compiled, source, p, query);
+        List<Filter> filters = initFilters(source, p, query);
         compileRoutes(compiled, source, filters, p, query);
         initDataProviderMappings(compiled, source, dataProvider, filters, p);
         p.addRoute(getQueryContext(compiled, source, context, p, url, filters, query));
@@ -168,7 +168,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         }
     }
 
-    private List<Filter> initFilters(StandardDatasource compiled, N2oStandardDatasource source, CompileProcessor p, CompiledQuery query) {
+    private List<Filter> initFilters(N2oStandardDatasource source, CompileProcessor p, CompiledQuery query) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (query == null)
             return null;

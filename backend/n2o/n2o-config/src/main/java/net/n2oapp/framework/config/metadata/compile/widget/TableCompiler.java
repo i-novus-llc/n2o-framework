@@ -27,7 +27,6 @@ import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -183,8 +182,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (source.getFiltersDatasourceId() == null && source.getFiltersDatasource() == null)
             return;
         String datasourceId = source.getFiltersDatasourceId();
-        if (source.getFiltersDatasourceId() == null) {
-            datasourceId = CompileUtil.generateSourceDatasourceId(source.getId() + "_filter");
+        if (datasourceId == null) {
+            datasourceId = source.getId() + "_filter";
             N2oStandardDatasource datasource = source.getFiltersDatasource();
             source.setFiltersDatasource(null);
             datasource.setId(datasourceId);

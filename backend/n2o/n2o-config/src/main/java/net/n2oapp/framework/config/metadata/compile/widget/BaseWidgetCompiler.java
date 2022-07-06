@@ -35,7 +35,6 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
-import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
@@ -93,7 +92,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         String datasourceId = source.getDatasourceId();
         N2oStandardDatasource datasource;
         if (source.getDatasourceId() == null) {
-            datasourceId = CompileUtil.generateSourceDatasourceId(source.getId());
+            datasourceId = source.getId();
             if (source.getDatasource() == null) {
                 datasource = new N2oStandardDatasource();
                 datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
@@ -209,7 +208,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             if (mi.getModel() == null)
                 mi.setModel(action.getModel());
             if (mi.getDatasourceId() == null)
-                mi.setDatasourceId(action.getDatasource());
+                mi.setDatasourceId(action.getDatasourceId());
             if (mi.getLabel() == null)
                 mi.setLabel(action.getLabel());
             if (mi.getIcon() == null)

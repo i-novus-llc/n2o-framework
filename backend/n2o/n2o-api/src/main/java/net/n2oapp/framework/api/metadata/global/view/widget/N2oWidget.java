@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -19,7 +20,6 @@ import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -35,7 +35,8 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oWidget extends N2oMetadata implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem {
+public abstract class N2oWidget extends N2oMetadata
+        implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem, DatasourceIdAware {
     private String src;
     private String customize;
     private String name;
@@ -53,7 +54,6 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private Integer size;
     private String cssClass;
     private String style;
-    private Boolean border;
     private String refId;
     @Deprecated
     private String masterParam;
@@ -67,17 +67,14 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String dependsOn;
     @Deprecated
     private String dependencyCondition;
-    private String result;
     private String icon;
     @Deprecated
     private String masterFieldId;
     @Deprecated
     private String detailFieldId;
     private String visible;
-    private Boolean refreshDependentContainer;
     @Deprecated
     private N2oPreFilter[] preFilters;
-    private N2oCounter counter;
     private ActionsBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
@@ -159,7 +156,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                     visibilityDependency.setValue(StringUtils.unwrapLink(getVisible()));
                 else
                     visibilityDependency.setValue(getDependencyCondition());
-                if (getDependsOn() != null ) {
+                if (getDependsOn() != null) {
                     visibilityDependency.setDatasource(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 }
                 visibilityDependency.setModel(ReduxModel.resolve);

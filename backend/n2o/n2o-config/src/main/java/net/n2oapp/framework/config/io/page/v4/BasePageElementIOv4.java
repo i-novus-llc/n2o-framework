@@ -45,7 +45,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
     private void action(Element e, ActionsBar a, IOProcessor p) {
         p.attribute(e, "id", a::getId, a::setId);
         p.attribute(e, "name", a::getLabel, a::setLabel);
-        p.attribute(e, "datasource", a::getDatasource, a::setDatasource);
+        p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
         p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
         p.attribute(e, "icon", a::getIcon, a::setIcon);
         p.attribute(e, "visible", a::getVisible, a::setVisible);
