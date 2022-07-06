@@ -13,6 +13,7 @@ export default function mappingProps(props) {
         onClick: props.onClick,
         rounded: props.rounded,
         className: props.className,
+        style: props.style,
         showToggleIcon: props.showToggleIcon,
         toolbar: props.toolbar,
         children: props.children,
