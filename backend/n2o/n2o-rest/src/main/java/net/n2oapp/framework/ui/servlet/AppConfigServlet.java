@@ -29,6 +29,8 @@ public class AppConfigServlet extends HttpServlet {
     private MetadataEnvironment environment;
     private String applicationSourceId;
 
+    private ObjectMapper objectMapper;
+
     @Override
     public void init() {
 
@@ -55,7 +57,7 @@ public class AppConfigServlet extends HttpServlet {
     }
 
     private Map<String, Object> getMenu() {
-        return new ObjectMapper().convertValue(getApplication(), Map.class);
+        return objectMapper.convertValue(getApplication(), Map.class);
     }
 
     private Application getApplication() {
@@ -104,5 +106,9 @@ public class AppConfigServlet extends HttpServlet {
 
     public void setEnvironment(MetadataEnvironment environment) {
         this.environment = environment;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 }
