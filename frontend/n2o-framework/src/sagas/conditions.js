@@ -2,6 +2,7 @@ import {
     all,
     fork,
     takeEvery,
+    call,
 } from 'redux-saga/effects'
 import map from 'lodash/map'
 import reduce from 'lodash/reduce'
@@ -13,7 +14,7 @@ import find from 'lodash/find'
 import forOwn from 'lodash/forOwn'
 
 import evalExpression from '../utils/evalExpression'
-import { setModel } from '../ducks/models/store'
+import { setModel, clearModel } from '../ducks/models/store'
 import { registerButton, removeButton } from '../ducks/toolbar/store'
 // eslint-disable-next-line import/no-cycle
 import { resolveColumn } from '../ducks/columns/sagas'
@@ -62,22 +63,36 @@ export const resolveConditions = (conditions = [], state) => {
     return { resolve: isEmpty(falsyExpressions), message }
 }
 
+function* callConditionHandlers(entities, prefix, key, type) {
+    const modelLink = `models.${prefix}['${key}']`
+    const entity = get(entities, [type, modelLink], null)
+
+    if (entity) {
+        yield all(map(entity, entity => fork(ConditionHandlers[type], entity)))
+    }
+}
+
 /**
  * резолв всех условий
  * @param entities
  * @param action
  */
 function* watchModel(entities, { payload }) {
-    const { prefix, key } = payload
+    const { prefix, prefixes, key } = payload
     const groupTypes = keys(entities)
-    const modelLink = `models.${prefix}['${key}']`
 
     for (let i = 0; i < groupTypes.length; i++) {
         const type = groupTypes[i]
-        const entity = get(entities, [type, modelLink], null)
 
-        if (entity) {
-            yield all(map(entity, entity => fork(ConditionHandlers[type], entity)))
+        // setModel пришлет prefix
+        if (prefix) {
+            yield call(callConditionHandlers, entities, prefix, key, type)
+
+            // clearModel пришлет prefixes
+        } else if (prefixes) {
+            for (const prefix of prefixes) {
+                yield call(callConditionHandlers, entities, prefix, key, type)
+            }
         }
     }
 }
@@ -104,7 +119,7 @@ function* conditionWatchers() {
     const entities = {}
 
     yield takeEvery([registerButton.type, registerColumn.type], watchRegister, entities)
-    yield takeEvery(setModel, watchModel, entities)
+    yield takeEvery([setModel, clearModel], watchModel, entities)
     yield takeEvery(removeButton.type, watchRemove, entities)
 }
 
