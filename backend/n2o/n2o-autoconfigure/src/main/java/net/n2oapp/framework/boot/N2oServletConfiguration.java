@@ -1,5 +1,6 @@
 package net.n2oapp.framework.boot;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -90,12 +91,14 @@ public class N2oServletConfiguration {
         AppConfigJsonWriter writer = new AppConfigJsonWriter();
         writer.setContextProcessor(contextProcessor);
         writer.setPropertyResolver(configurableEnvironment);
-        writer.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
+        ObjectMapper objectMapper = ObjectMapperConstructor.metaObjectMapper();
+        writer.setObjectMapper(objectMapper);
         writer.setPath("classpath*:META-INF/config.json");
         writer.setOverridePath("classpath*:META-INF/config-build.json");
 
         AppConfigServlet appConfigServlet = new AppConfigServlet();
         appConfigServlet.setAppConfigJsonWriter(writer);
+        appConfigServlet.setObjectMapper(objectMapper);
         appConfigServlet.setMessageSource(clientMessageSource);
         appConfigServlet.setEnvironment(env);
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
