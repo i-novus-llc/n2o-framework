@@ -26,6 +26,7 @@ import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
 
@@ -54,7 +55,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         }
         listControl.setValueFieldId(p.cast(p.resolveJS(listControl.getValueFieldId()), "id"));
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
-        listControl.setCaching(source.getCache());
+        listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
         listControl.setEnabledFieldId(source.getEnabledFieldId());
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
