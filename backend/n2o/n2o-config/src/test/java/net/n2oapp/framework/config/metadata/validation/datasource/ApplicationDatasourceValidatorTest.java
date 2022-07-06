@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.validation;
+package net.n2oapp.framework.config.metadata.validation.datasource;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -48,7 +48,7 @@ public class ApplicationDatasourceValidatorTest extends SourceValidationTestBase
     @Test
     public void testNonExistentObject() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Источник данных 'nonEXIST' ссылается на несуществующий в empty.application.xml источник данных 'nonEXIST'");
+        exception.expectMessage("Источник данных <app-datasource> ссылается на несуществующий в empty.application.xml источник данных 'nonEXIST'");
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testApplicationDatasourceNonExistentId.page.xml");
     }
 }
