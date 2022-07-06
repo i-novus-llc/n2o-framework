@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.metadata.global.view.page;
+package net.n2oapp.framework.api.metadata.global.view.page.datasource;
 
 import lombok.Getter;
 import lombok.Setter;

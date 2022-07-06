@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBrowserStorageDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oBrowserStorageDatasource;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.isNull;

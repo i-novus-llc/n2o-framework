@@ -12,6 +12,7 @@
                     <option id="type2" name="B"/>
                 </options>
             </select>
+            <select id="select4" query-id="test"/>
         </fields>
     </form>
 </simple-page>
