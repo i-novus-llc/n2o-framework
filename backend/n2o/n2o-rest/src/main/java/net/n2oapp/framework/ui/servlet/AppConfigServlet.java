@@ -29,7 +29,7 @@ public class AppConfigServlet extends HttpServlet {
     private MetadataEnvironment environment;
     private String applicationSourceId;
 
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void init() {
