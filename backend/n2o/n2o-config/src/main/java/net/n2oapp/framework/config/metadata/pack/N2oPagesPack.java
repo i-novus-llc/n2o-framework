@@ -25,7 +25,6 @@ public class N2oPagesPack implements MetadataPack<N2oApplicationBuilder> {
                 new TopLeftRightPageCompiler(),
                 new SearchablePageCompiler(),
                 new StandardDatasourceCompiler(),
-                new ApplicationDatasourceCompiler(),
                 new BrowserStorageDatasourceCompiler(),
                 new StompDatasourceCompiler(),
                 new InheritedDatasourceCompiler());
