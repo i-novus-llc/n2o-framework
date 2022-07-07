@@ -28,7 +28,6 @@ public class ImageCellElementIOv2 extends AbstractCellElementIOv2<N2oImageCell> 
         p.attribute(e, "title", c::getTitle, c::setTitle);
         p.attribute(e, "description", c::getDescription, c::setDescription);
         p.attribute(e, "data", c::getData, c::setData);
-        p.attribute(e, "url", c::getUrl, c::setUrl);
         p.attributeEnum(e, "text-position", c::getTextPosition, c::setTextPosition, N2oImageCell.Position.class);
     }
 

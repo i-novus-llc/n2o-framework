@@ -23,9 +23,6 @@
             <column text-field-id="test">
                 <image/>
             </column>
-            <column text-field-id="imgTest">
-                <image url="testUrl"/>
-            </column>
         </columns>
     </table>
 </simple-page>
