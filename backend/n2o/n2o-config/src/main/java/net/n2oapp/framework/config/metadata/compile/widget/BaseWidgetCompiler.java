@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -87,16 +88,16 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     /**
-     * Инициализация встроенного источника данных
+     * Инициализация источника данных виджета
      */
-    protected N2oStandardDatasource initInlineDatasource(D compiled, S source, CompileProcessor p) {
+    protected N2oAbstractDatasource initDatasource(D compiled, S source, CompileProcessor p) {
         String datasourceId = source.getDatasourceId();
-        N2oStandardDatasource datasource;
+        N2oAbstractDatasource datasource;
         if (source.getDatasourceId() == null) {
             datasourceId = CompileUtil.generateSourceDatasourceId(source.getId());
             if (source.getDatasource() == null) {
                 datasource = new N2oStandardDatasource();
-                datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                ((N2oStandardDatasource) datasource).setDefaultValuesMode(DefaultValuesMode.defaults);
             } else {
                 datasource = source.getDatasource();
                 source.setDatasource(null);
@@ -109,15 +110,17 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
         } else {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            datasource = (N2oStandardDatasource) dataSourcesScope.get(datasourceId);
+            datasource = dataSourcesScope.get(datasourceId);
         }
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null) {
             pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasourceId);
             pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), pageScope.getGlobalWidgetId(datasourceId));
         }
+
+        if (datasource instanceof N2oStandardDatasource)
+            compiled.setObjectId(((N2oStandardDatasource) datasource).getObjectId());
         compiled.setDatasource(pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId);
-        compiled.setObjectId(datasource.getObjectId());
         return datasource;
     }
 
@@ -156,7 +159,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
     }
 
-    private void compileActions(S source, CompileContext<?,?> context, CompileProcessor p, MetaActions widgetActions,
+    private void compileActions(S source, CompileContext<?, ?> context, CompileProcessor p, MetaActions widgetActions,
                                 WidgetScope widgetScope, CompiledObject object, ValidationList validationList) {
         if (source.getActions() != null) {
             for (ActionsBar a : source.getActions()) {
@@ -234,18 +237,21 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     /**
      * Получить собранный объект виджета
      */
-    protected CompiledObject getObject(S source, N2oStandardDatasource datasource, CompileProcessor p) {
-        if (datasource != null) {
-            if (datasource.getObjectId() != null) {
-                return p.getCompiled(new ObjectContext(datasource.getObjectId()));
-            } else if (datasource.getQueryId() != null) {
-                CompiledQuery query = p.getCompiled(new QueryContext(datasource.getQueryId()));
-                return query.getObject();
-            } else {
-                PageScope pageScope = p.getScope(PageScope.class);
-                if (pageScope != null && pageScope.getObjectId() != null && source.getId().equals(pageScope.getResultWidgetId())) {
-                    return p.getCompiled(new ObjectContext(pageScope.getObjectId()));
-                }
+    protected CompiledObject getObject(S source, N2oAbstractDatasource datasource, CompileProcessor p) {
+        if (datasource == null || !(datasource instanceof N2oStandardDatasource))
+            return null;
+
+        N2oStandardDatasource standardDatasource = ((N2oStandardDatasource) datasource);
+
+        if (standardDatasource.getObjectId() != null) {
+            return p.getCompiled(new ObjectContext(standardDatasource.getObjectId()));
+        } else if (standardDatasource.getQueryId() != null) {
+            CompiledQuery query = p.getCompiled(new QueryContext(standardDatasource.getQueryId()));
+            return query.getObject();
+        } else {
+            PageScope pageScope = p.getScope(PageScope.class);
+            if (pageScope != null && pageScope.getObjectId() != null && source.getId().equals(pageScope.getResultWidgetId())) {
+                return p.getCompiled(new ObjectContext(pageScope.getObjectId()));
             }
         }
         return null;
@@ -297,11 +303,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     /**
      * Получить собранную выборку виджета
      */
-    protected CompiledQuery getQuery(S source, N2oStandardDatasource datasource, CompileProcessor p) {
-        if (datasource != null) {
-            return datasource.getQueryId() != null ? p.getCompiled(new QueryContext(datasource.getQueryId())) : null;
-        }
-        return null;
+    protected CompiledQuery getQuery(N2oAbstractDatasource datasource, CompileProcessor p) {
+        if (datasource == null || !(datasource instanceof N2oStandardDatasource))
+            return null;
+
+        N2oStandardDatasource standardDatasource = ((N2oStandardDatasource) datasource);
+        return standardDatasource.getQueryId() != null ? p.getCompiled(new QueryContext(standardDatasource.getQueryId())) : null;
     }
 
     protected FieldSetScope initFieldSetScope(CompiledQuery query) {
