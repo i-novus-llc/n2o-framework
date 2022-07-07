@@ -31,7 +31,7 @@ public class SidebarValidator extends TypedMetadataValidator<N2oSidebar> {
 
     private void checkPath(N2oSidebar sidebar, SidebarPathsScope scope) {
         String sidebarPath = sidebar.getPath();
-        if (scope.contains(sidebarPath)) {
+        if (scope != null && scope.contains(sidebarPath)) {
             String errorMessage = sidebarPath == null
                     ? "More than one sidebar does not contain a path"
                     : String.format("The %s path is already taken by one of the sidebars", sidebarPath);
