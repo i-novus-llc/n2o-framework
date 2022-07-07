@@ -328,6 +328,24 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
+    public String resolveUrl(String url, List<ModelLink> links) {
+        List<String> paramNames = getParams(url);
+        if (paramNames.isEmpty() || params == null)
+            return url;
+        Map<String, String> valueParamMap = new HashMap<>();
+        for (ModelLink link : links) {
+            collectModelLinks(context.getPathRouteMapping(), link.getWidgetLink(), valueParamMap);
+            collectModelLinks(context.getQueryRouteMapping(), link.getWidgetLink(), valueParamMap);
+        }
+        for (String param : paramNames) {
+            if (valueParamMap.containsKey(param) && params.containsKey(valueParamMap.get(param))) {
+                url = url.replace(":" + param, params.get(valueParamMap.get(param)).toString());
+            }
+        }
+        return url;
+    }
+
+    @Override
     public BindLink resolveLink(BindLink link, boolean observable) {
         if (link == null)
             return null;
@@ -443,6 +461,16 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             return LINK_RESOLVER.resolve(resolved, model.getDataIfAbsent(link, subModelsProcessor));
         else
             return resolved;
+    }
+
+    @Override
+    public String resolveText(String text, List<ModelLink> links) {
+        String resolved = resolveText(text);
+        if (links != null && !links.isEmpty()) {
+            for (ModelLink link : links)
+                resolved = LINK_RESOLVER.resolve(resolved, model.getDataIfAbsent(link, subModelsProcessor));
+        }
+        return resolved;
     }
 
     @Override

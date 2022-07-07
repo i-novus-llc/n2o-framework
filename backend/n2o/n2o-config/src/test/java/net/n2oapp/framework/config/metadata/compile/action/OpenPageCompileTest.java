@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.action.SelectedWidgetPayload;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
@@ -131,9 +130,13 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(context.getPreFilters().get(0).getParam(), is("page_test_id"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(context.getParentModelLink().getFieldId(), is("id"));
-        assertThat(context.getParentModelLink().getDatasource(), is("page_test"));
-        assertThat(context.getParentModelLink().getSubModelQuery(), nullValue());
+        assertThat(context.getParentModelLinks().get(0).getFieldId(), is("id"));
+        assertThat(context.getParentModelLinks().get(0).getDatasource(), is("page_test"));
+        assertThat(context.getParentModelLinks().get(0).getSubModelQuery(), notNullValue());
+        assertThat(context.getParentModelLinks().get(0).getSubModelQuery().getQueryId(), is("testShowModal"));
+        assertThat(context.getParentModelLinks().get(1).getFieldId(), is("id"));
+        assertThat(context.getParentModelLinks().get(1).getDatasource(), is("page_test"));
+        assertThat(context.getParentModelLinks().get(1).getSubModelQuery(), nullValue());
 
         SimplePage openPage = (SimplePage) read().compile().get(context);
         assertThat(openPage.getId(), is("page_action2"));
