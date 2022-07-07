@@ -33,7 +33,7 @@ public class ImageCellCompiler extends AbstractCellCompiler<N2oImageCell, N2oIma
 
         cell.setTitle(p.resolveJS(source.getTitle()));
         cell.setDescription(p.resolveJS(source.getDescription()));
-        cell.setData(p.resolveJS(source.getData()));
+        cell.setData(p.cast(p.resolveJS(source.getData()), p.resolveJS(source.getUrl())));
         cell.setTextPosition(p.cast(source.getTextPosition(),
                 p.resolve(property("n2o.api.cell.image.text_position"), N2oImageCell.Position.class)));
         cell.setStatuses(compileStatuses(source.getStatuses(), p));
