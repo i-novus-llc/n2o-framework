@@ -9,6 +9,28 @@
     .btn-group > div {
         margin-right: 0;
     }
+
+    .n2o-file-uploader-files-item {
+        width: inherit;
+        white-space: pre-wrap;
+    }
+
+    .list-text-cell__trigger {
+        max-width: -webkit-fill-available;
+    }
+
+    .n2o-file-uploader-files-item-info {
+        display: flex;
+        flex-wrap: wrap;
+
+        .n2o-file-uploader-item-size {
+            margin-left: 0;
+
+            span {
+                margin-left: 0 !important;
+            }
+        }
+    }
 }
 
 .simple-modal-dialog {
