@@ -73,5 +73,11 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getSrc(), is("ImageField"));
         assertThat(field.getTextPosition(), is(TextPosition.right));
         assertThat(field.getShape(), is(ImageShape.rounded));
+
+        field = (ImageField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
+        assertThat(field.getId(), is("testId3"));
+        assertThat(field.getSrc(), is("ImageField"));
+        assertThat(field.getData(), is("testImage"));
+        assertThat(field.getWidth(), is("135px"));
     }
 }
