@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 
 import java.util.List;
@@ -26,11 +24,5 @@ public class SetDataResponse extends N2oResponse {
 
     public SetDataResponse(List<ResponseMessage> messages, String widgetId) {
         super(messages, widgetId);
-    }
-
-    public void addRedirect(RedirectSaga redirect) {
-        if (getMeta() == null)
-            setMeta(new MetaSaga());
-        getMeta().setRedirect(redirect);
     }
 }

@@ -47,6 +47,7 @@ public class N2oClientDataProvider implements Serializable {
         private String objectId;
         private String operationId;
         private String route;
+        private String clearDatasource;
         private LoadingSaga loading;
         private PollingSaga polling;
         private RedirectSaga redirect;

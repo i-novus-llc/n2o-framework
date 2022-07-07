@@ -608,7 +608,7 @@
                 <xs:attribute name="refresh-on-success" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>
-                            Необходимо ли обновлять данные (по умолчанию true)
+                            Обновить данные после успешного выполнения действия
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -616,6 +616,13 @@
                     <xs:annotation>
                         <xs:documentation>
                             Показать сообщение об успешном выполнении действия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="clear-on-success" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Очистить источник данных после успешно выполненной операции
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
