@@ -17,6 +17,8 @@ import { batchActions } from 'redux-batched-actions'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { isPromise } from '../../tools/helpers'
 import { addFieldMessage, removeFieldMessage } from '../../ducks/form/store'
+import { makeFormModelPrefixSelector, makeModelIdSelector } from '../../ducks/widgets/selectors'
+import { makeGetModelByPrefixSelector } from '../../ducks/models/selectors'
 
 import * as presets from './presets'
 
@@ -149,10 +151,30 @@ export function validate(
     const errors = {}
     const promiseList = [Promise.resolve()]
     const asyncValidating = get(state, `form.${formName}.asyncValidating`, '')
+    const modelPrefix = makeFormModelPrefixSelector(formName)(state)
+    const modelId = makeModelIdSelector(formName)(state)
+    const model = makeGetModelByPrefixSelector(modelPrefix, modelId)(state)
 
     each(validation, (validationList, fieldId) => {
-        if (isArray(validationList)) {
-            each(validationList, (options) => {
+        const validations = validationList.filter((validation) => {
+            if (typeof presets[validation.type] !== 'function') {
+                // eslint-disable-next-line no-console
+                console.warn(`Validation error: not found preset for type="${validation.type}", field="${fieldId}"`)
+
+                return false
+            }
+
+            const conditions = validation.enablingConditions
+
+            if (conditions?.length) {
+                return conditions.every(conditions => evalExpression(conditions, model))
+            }
+
+            return true
+        })
+
+        if (isArray(validations)) {
+            each(validations, (options) => {
                 const resolveValidationResult = (isValid, fieldId) => {
                     if (isPromise(isValid)) {
                         promiseList.push(
