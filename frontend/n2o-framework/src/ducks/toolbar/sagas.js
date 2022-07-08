@@ -34,9 +34,7 @@ export function* resolveButton(button) {
         if (visible) {
             const nextVisible = resolveConditions(visible, state).resolve
 
-            yield put(
-                changeButtonVisibility(button.key, button.buttonId, nextVisible),
-            )
+            yield put(changeButtonVisibility(button.key, button.buttonId, nextVisible))
             yield call(setParentVisibleIfAllChildChangeVisible, button)
         }
 
@@ -45,13 +43,7 @@ export function* resolveButton(button) {
 
             yield put(changeButtonDisabled(button.key, button.buttonId, !resolvedEnabled?.resolve))
             if (!resolvedEnabled?.resolve) {
-                yield put(
-                    changeButtonMessage(
-                        button.key,
-                        button.buttonId,
-                        resolvedEnabled?.message,
-                    ),
-                )
+                yield put(changeButtonMessage(button.key, button.buttonId, resolvedEnabled?.message))
             }
         }
     }
@@ -93,7 +85,8 @@ export function* setParentVisibleIfAllChildChangeVisible({ key, buttonId }) {
 
 function printText(text, keepIndent) {
     const uniqID = uniqueId('n2o-print-block-')
-    const printFrameStyles = 'position: absolute; left: -1000000px; top: -1000000px; width: 100%; height: auto; z-index: -1000'
+    const printFrameStyles =
+        'position: absolute; left: -1000000px; top: -1000000px; width: 100%; height: auto; z-index: -1000'
 
     const printFrame = document.createElement('iframe')
 
@@ -127,7 +120,9 @@ function* print(action) {
     } = action.payload
 
     const onError = text => (err) => {
+        // eslint-disable-next-line no-alert
         alert(text)
+        // eslint-disable-next-line no-console
         console.error(err)
     }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import isFunction from 'lodash/isFunction'
 import set from 'lodash/set'
@@ -22,7 +22,8 @@ const useSecurityController = ({ config = {}, onPermissionsSet, ...rest }) => {
     const [hasAccess, setHasAccess] = useState(null)
     const { user, checkSecurity, params } = useContext(SecurityContext)
 
-    const checkPermissions = async (config) => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const checkPermissions = useCallback(async (config) => {
         const setPermissionsCallback = (hasAccess) => {
             if (isFunction(onPermissionsSet)) {
                 onPermissionsSet(hasAccess)
@@ -38,11 +39,11 @@ const useSecurityController = ({ config = {}, onPermissionsSet, ...rest }) => {
             setHasAccess(false)
             setPermissionsCallback(false)
         }
-    }
+    })
 
     useEffect(() => {
         checkPermissions(config)
-    }, [user, params, config])
+    }, [user, params, config, checkPermissions])
 
     useEffect(() => {
         const resolvedConfig = resolveLinksRecursively(config, store)
@@ -52,7 +53,7 @@ const useSecurityController = ({ config = {}, onPermissionsSet, ...rest }) => {
 
             prevResolvedConfig.current = resolvedConfig
         }
-    }, [store])
+    }, [checkPermissions, config, store])
 
     const behaviorDisable = config.behavior === Behavior.DISABLE
 

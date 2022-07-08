@@ -20,20 +20,14 @@ const initialItems = {
 export class MenuContainer extends React.Component {
     state = {
         ...initialItems,
-    }
+    };
 
     async componentDidMount() {
         await this.getItemsWithAccess()
     }
 
     async componentDidUpdate(prevProps) {
-        const {
-            user,
-            headerItems,
-            headerExtraItems,
-            sidebarItems,
-            sidebarExtraItems,
-        } = this.props
+        const { user, headerItems, headerExtraItems, sidebarItems, sidebarExtraItems } = this.props
 
         const {
             headerItems: prevHeaderItems,
@@ -85,114 +79,98 @@ export class MenuContainer extends React.Component {
         }
 
         /* init state items, this is necessary for deep verification */
-        const finalItem = newItem.type === 'dropdown'
-            ? { ...newItem, items: [] }
-            : newItem
+        const finalItem = newItem.type === 'dropdown' ? { ...newItem, items: [] } : newItem
 
         this.setState(prevState => ({
             ...prevState,
             [type]: prevState[type].concat(finalItem),
         }))
+    };
+
+    checkItem = async (item, type, parentId, isChildren = false) => {
+        const { id, items } = item
+
+        /* if the item is the parent, take its id (item.id)  */
+        const currentId = parentId || id
+
+        if (item.security) {
+            const { checkSecurity } = this.props
+            const config = item.security
+
+            try {
+                await checkSecurity(config)
+
+                this.giveAccess(item, type, currentId, isChildren)
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.error(error)
+                /* nothing to do */
+            }
+        } else {
+            this.giveAccess(item, type, currentId, isChildren)
+        }
+
+        if (items) {
+            for (const subItem of items) {
+                await this.checkItem(subItem, type, currentId, true)
+            }
+        }
+    };
+
+    makeSecure = async (headerItems, headerExtraItems, sidebarItems, sidebarExtraItems) => {
+        const makeSecure = async (items, type) => {
+            if (Array.isArray(items) && !isEmpty(items)) {
+                for (const item of items) {
+                    await this.checkItem(item, type)
+                }
+            }
+        }
+
+        await makeSecure(headerItems, 'headerItems')
+        await makeSecure(headerExtraItems, 'headerExtraItems')
+        await makeSecure(sidebarItems, 'sidebarItems')
+        await makeSecure(sidebarExtraItems, 'sidebarExtraItems')
+    };
+
+    getItemsWithAccess = async () => {
+        const { headerItems, headerExtraItems, sidebarItems, sidebarExtraItems } = this.props
+
+        await this.setState({ ...initialItems })
+        await this.makeSecure(headerItems, headerExtraItems, sidebarItems, sidebarExtraItems)
+    };
+
+    mapRenderProps = () => {
+        const { headerItems, headerExtraItems, sidebarItems, sidebarExtraItems } = this.state
+        const { header, sidebar, location, datasources = {} } = this.props
+
+        if (!header && !sidebar) {
+            return this.props
+        }
+
+        const withSecurityProps = (props, items, extraItems, type) => ({
+            [type]: {
+                ...props,
+                datasources,
+                location,
+                menu: {
+                    items,
+                },
+                extraMenu: extraItems,
+            },
+        })
+
+        return {
+            ...this.props,
+            ...withSecurityProps(header, headerItems, headerExtraItems, 'header'),
+            ...withSecurityProps(sidebar, sidebarItems, sidebarExtraItems, 'sidebar'),
+        }
+    };
+
+    render() {
+        const { render } = this.props
+
+        return render(this.mapRenderProps())
     }
-
-     checkItem = async (item, type, parentId, isChildren = false) => {
-         const { id, items } = item
-
-         /* if the item is the parent, take its id (item.id)  */
-         const currentId = parentId || id
-
-         if (item.security) {
-             const { checkSecurity } = this.props
-             const config = item.security
-
-             try {
-                 await checkSecurity(config)
-
-                 this.giveAccess(item, type, currentId, isChildren)
-             } catch (error) {
-                 console.error(error)
-                 /* nothing to do */
-             }
-         } else {
-             this.giveAccess(item, type, currentId, isChildren)
-         }
-
-         if (items) {
-             for (const subItem of items) {
-                 await this.checkItem(subItem, type, currentId, true)
-             }
-         }
-     }
-
-     makeSecure = async (headerItems, headerExtraItems, sidebarItems, sidebarExtraItems) => {
-         const makeSecure = async (items, type) => {
-             if (Array.isArray(items) && !isEmpty(items)) {
-                 for (const item of items) {
-                     await this.checkItem(item, type)
-                 }
-             }
-         }
-
-         await makeSecure(headerItems, 'headerItems')
-         await makeSecure(headerExtraItems, 'headerExtraItems')
-         await makeSecure(sidebarItems, 'sidebarItems')
-         await makeSecure(sidebarExtraItems, 'sidebarExtraItems')
-     }
-
-      getItemsWithAccess = async () => {
-          const {
-              headerItems,
-              headerExtraItems,
-              sidebarItems,
-              sidebarExtraItems,
-          } = this.props
-
-          await this.setState({ ...initialItems })
-          await this.makeSecure(headerItems, headerExtraItems, sidebarItems, sidebarExtraItems)
-      }
-
-      mapRenderProps = () => {
-          const { headerItems, headerExtraItems, sidebarItems, sidebarExtraItems } = this.state
-          const { header, sidebar, location, datasources = {} } = this.props
-
-          if (!header && !sidebar) {
-              return this.props
-          }
-
-          const withSecurityProps = (props, items, extraItems, type) => ({
-              [type]: {
-                  ...props,
-                  datasources,
-                  location,
-                  menu: {
-                      items,
-                  },
-                  extraMenu: extraItems,
-              },
-          })
-
-          return {
-              ...this.props,
-              ...withSecurityProps(
-                  header,
-                  headerItems,
-                  headerExtraItems,
-                  'header',
-              ),
-              ...withSecurityProps(
-                  sidebar,
-                  sidebarItems,
-                  sidebarExtraItems,
-                  'sidebar',
-              ),
-          }
-      }
-
-      render() {
-          const { render } = this.props
-
-          return render(this.mapRenderProps())
-      }
 }
 
 MenuContainer.propTypes = {
@@ -227,7 +205,9 @@ export const ConfigContainer = compose(
         }
 
         const { header, sidebars = [] } = configProps
-        const { location: { pathname } } = rest
+        const {
+            location: { pathname },
+        } = rest
 
         const sidebar = getMatchingSidebar(sidebars, pathname)
 

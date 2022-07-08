@@ -64,16 +64,17 @@ class SecurityProvider extends Component {
                 this.setParamsToContext(initializeParams)
             }
         } catch (err) {
+            // eslint-disable-next-line no-console
             console.error(err)
         }
-    }
+    };
 
     setParamsToContext = (params) => {
         this.setState(prevState => ({
             ...prevState,
             params,
         }))
-    }
+    };
 
     checkSecurity = (securityConfig) => {
         const { authProvider, ...rest } = this.props
@@ -83,16 +84,12 @@ class SecurityProvider extends Component {
             ...this.state,
             config: securityConfig,
         })
-    }
+    };
 
     render() {
         const { children } = this.props
 
-        return (
-            <SecurityContext.Provider value={this.state}>
-                {Children.only(children)}
-            </SecurityContext.Provider>
-        )
+        return <SecurityContext.Provider value={this.state}>{Children.only(children)}</SecurityContext.Provider>
     }
 }
 
