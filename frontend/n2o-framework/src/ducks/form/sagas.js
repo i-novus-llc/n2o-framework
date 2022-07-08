@@ -114,7 +114,7 @@ export function* autoSubmit({ meta }) {
     const datasourceId = yield select(makeDatasourceIdSelector(form))
     const datasource = yield select(dataSourceByIdSelector(datasourceId))
 
-    if (!datasource) { return }
+    if (isEmpty(datasource)) { return }
 
     const provider = (datasource.submit?.auto || datasource.submit?.autoSubmitOn)
         ? datasource.submit
