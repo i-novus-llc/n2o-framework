@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * Клиентская модель группы кнопок в меню
@@ -15,6 +17,10 @@ import java.util.List;
 public class Group implements Compiled, IdAware {
     @JsonProperty
     private String id;
+    @JsonProperty
+    private String className;
+    @JsonProperty
+    private Map<String, String> style;
     @JsonProperty
     private List<AbstractButton> buttons;
 

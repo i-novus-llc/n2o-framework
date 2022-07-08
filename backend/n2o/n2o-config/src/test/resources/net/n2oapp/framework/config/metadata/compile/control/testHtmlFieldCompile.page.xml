@@ -3,6 +3,10 @@
     <form>
         <fields>
             <html>
+                <![CDATA[<h3 class='class1' style='color:red;'>{name}</h3>]]>
+            </html>
+
+            <html>
                 <![CDATA[<h3 class='class1' style='color:red;'>Hello, World!</h3>]]>
             </html>
         </fields>

@@ -13,7 +13,6 @@ import {
 } from 'react-virtualized'
 
 import { getIndex } from '../Table/Table'
-import { SECURITY_CHECK } from '../../../core/auth/authTypes'
 
 import ListItem from './ListItem'
 import ListMoreButton from './ListMoreButton'
@@ -56,16 +55,14 @@ class List extends Component {
     }
 
     componentDidMount() {
-        const { fetchOnScroll, authProvider, rows } = this.props
+        const { fetchOnScroll, checkSecurity, rows } = this.props
 
         if (fetchOnScroll) {
             this.listContainer.addEventListener('scroll', this.onScroll, true)
         }
 
         if (!isEmpty(rows)) {
-            authProvider(SECURITY_CHECK, {
-                config: rows.security,
-            }).then((permissions) => {
+            checkSecurity(rows.security).then((permissions) => {
                 this.setState({ permissions })
             })
         }
@@ -79,7 +76,7 @@ class List extends Component {
             maxHeight,
             selectedId,
             rows,
-            authProvider,
+            checkSecurity,
         } = this.props
 
         if (!isEqual(prevProps, this.props)) {
@@ -123,9 +120,7 @@ class List extends Component {
         }
 
         if (!isEqual(rows, prevProps.rows)) {
-            authProvider(SECURITY_CHECK, {
-                config: rows.security,
-            }).then((permissions) => {
+            checkSecurity(rows.security).then((permissions) => {
                 this.setState({ permissions })
             })
         }
@@ -364,7 +359,7 @@ List.propTypes = {
     /**
    * Функция проверки security
    */
-    authProvider: PropTypes.func,
+    checkSecurity: PropTypes.func,
     t: PropTypes.func,
 }
 List.defaultProps = {

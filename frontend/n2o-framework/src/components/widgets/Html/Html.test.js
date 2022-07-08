@@ -9,13 +9,15 @@ it('correct class in html', () => {
             html={'<h1 class="some">name is {name} , surname id {surname}</h1>'}
         />,
     )
+
     expect(wrapper.find('.some')).toHaveLength(1)
+    expect(wrapper.text()).toBe('name is {name} , surname id {surname}')
 })
 
 it('correct string in html (with placeholders)', () => {
     const wrapper = render(
         <Html
-            html="`'<div class='test'><h3 class='class3' style='color:green;'>'+name+' : '+second+'</h3></div>'`"
+            html="`'<div class=\'test\'>'+name+' : '+second+'</div>'`"
             data={{ name: 'Tom', second: 'Sower' }}
         />,
     )
@@ -25,10 +27,24 @@ it('correct string in html (with placeholders)', () => {
 it('right html with placeholders', () => {
     const wrapper = render(
         <Html
-            html="`'<div class='test'><h3 class='class3' style='color:green;'>'+name+' : '+second+'</h3></div>'`"
-            data={{ name: 'Tom', second: 'Sower' }}
+            html="`'<div class=\'test\'><h1 class=\'test\'>'+name+' : '+second+'</h1></div>'`"
+            data={{ name: 'Tom', second: 'Sower', test: 'test' }}
+        />,
+    )
+    console.log('Point!', wrapper.html())
+    expect(wrapper.html()).toEqual("<div class=\"test\"><h1 class=\"test\">Tom : Sower</h1></div>")
+})
+
+it('right html with placeholders and lines break', () => {
+    const wrapper = render(
+        <Html
+            html="`'<span>\n<span>what is my name</span>\n<span>'+full+'</span>\n</span>'`"
+            data={{ name: 'Tom', second: 'Sower', full: 'Tom Sower' }}
         />,
     )
 
-    expect(wrapper.html()).toEqual("<div><div class=\"test\"><h3 class=\"class3\" style=\"color:green;\">Tom : Sower</h3></div></div>")
+    expect(wrapper.html()).toEqual("<span>\n" +
+        "<span>what is my name</span>\n" +
+        "<span>Tom Sower</span>\n" +
+        "</span>")
 })

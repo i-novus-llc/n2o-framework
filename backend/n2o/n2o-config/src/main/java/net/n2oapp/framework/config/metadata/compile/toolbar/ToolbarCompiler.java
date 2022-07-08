@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
 
         while (i < source.getItems().length) {
             Group gr = new Group(place + gi++);
+            gr.setClassName(source.getCssClass());
+            gr.setStyle(StylesResolver.resolveStyles(source.getStyle()));
             List<AbstractButton> buttons = new ArrayList<>();
             ToolbarItem item = source.getItems()[i];
             if (item instanceof N2oGroup) {

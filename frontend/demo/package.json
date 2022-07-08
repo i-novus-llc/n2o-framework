@@ -1,11 +1,12 @@
 {
   "name": "n2o-demo-client",
-  "version": "7.23.7",
+  "version": "7.23.13",
   "private": true,
   "homepage": ".",
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "server": "node server/dev.js"
   },
   "dependencies": {
     "@atlaskit/select": "^1.2.0",
@@ -30,7 +31,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.9.0",
-    "n2o-framework": "^7.23.7",
+    "n2o-framework": "^7.23.13",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.1.0",

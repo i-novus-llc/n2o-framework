@@ -206,6 +206,6 @@ describe("Тесты провайдера по типу SECURITY_CHECK", () => {
       }
     };
     const res = await authProvider(SECURITY_CHECK, { config, user });
-    expect(res).toEqual(config);
+    expect(res).toEqual(true);
   });
 });

@@ -9,7 +9,7 @@ import { compose, setDisplayName } from 'recompose'
 import classNames from 'classnames'
 
 import { makeRegionTabsSelector } from '../../../ducks/regions/store'
-import SecurityCheck from '../../../core/auth/SecurityCheck'
+import SecurityController, { Behavior } from '../../../core/auth/SecurityController'
 import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
@@ -40,6 +40,15 @@ class TabRegion extends React.Component {
         const { changeActiveEntity } = this.props
 
         changeActiveEntity(null)
+    }
+
+    onPermissionsSet = (tabId, hasAccess) => {
+        this.setState(prevState => ({
+            permissionsVisibleTabs: {
+                ...prevState.permissionsVisibleTabs,
+                [tabId]: hasAccess,
+            },
+        }))
     }
 
     handleChangeActive(event, id) {
@@ -96,6 +105,7 @@ class TabRegion extends React.Component {
             title,
             style,
             pageId,
+            disabled,
         } = this.props
 
         const { permissionsVisibleTabs } = this.state
@@ -106,6 +116,7 @@ class TabRegion extends React.Component {
                     'n2o-tabs-region',
                     className, {
                         visible: this.regionVisible(tabs),
+                        'n2o-disabled': disabled,
                     },
                 )}
                 style={style}
@@ -121,8 +132,10 @@ class TabRegion extends React.Component {
                 >
                     {map(tabs, (tab) => {
                         const { security, content } = tab
-                        const permissionVisible = get(permissionsVisibleTabs, tab.id, true)
-                        const visible = permissionVisible && this.tabVisible(tab)
+                        const behaviorDisable = security?.behavior === Behavior.DISABLE
+                        const tabHasAccess = get(permissionsVisibleTabs, tab.id, true)
+                        const visible = behaviorDisable || (tabHasAccess && this.tabVisible(tab))
+
                         const tabProps = {
                             key: tab.id,
                             id: tab.id,
@@ -131,7 +144,9 @@ class TabRegion extends React.Component {
                             active: tab.opened,
                             invalid: tab.invalid,
                             visible,
+                            disabled: behaviorDisable && !tabHasAccess,
                         }
+
                         const tabElement = (
                             <Tab {...tabProps}>
                                 <RegionContent
@@ -141,26 +156,17 @@ class TabRegion extends React.Component {
                                 />
                             </Tab>
                         )
-                        const onPermissionsSet = (permissions) => {
-                            this.setState(prevState => ({
-                                visibleTabs: {
-                                    ...prevState.visibleTabs,
-                                    [tab.id]: !!permissions,
-                                },
-                            }))
-                        }
 
                         return isEmpty(security) ? (
                             tabElement
                         ) : (
-                            <SecurityCheck
+                            <SecurityController
                                 {...tabProps}
                                 config={security}
-                                onPermissionsSet={onPermissionsSet}
-                                render={({ permissions, active, visible }) => (permissions
-                                    ? React.cloneElement(tabElement, { active, visible })
-                                    : null)}
-                            />
+                                onPermissionsSet={hasAccess => this.onPermissionsSet(tab.id, hasAccess)}
+                            >
+                                {tabElement}
+                            </SecurityController>
                         )
                     })}
                 </Tabs>
@@ -195,6 +201,7 @@ TabRegion.propTypes = {
     getWidgetProps: PropTypes.func,
     hideSingleTab: PropTypes.bool,
     activeEntity: PropTypes.any,
+    disabled: PropTypes.bool,
     className: PropTypes.string,
     title: PropTypes.string,
     maxHeight: PropTypes.number,

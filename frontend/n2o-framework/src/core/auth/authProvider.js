@@ -9,12 +9,13 @@ import {
     SECURITY_LOGOUT,
     SECURITY_ERROR,
     SECURITY_CHECK,
+    SECURITY_INITIALIZE,
 } from './authTypes'
 
 export function checkPermission(cfg = {}, user = {}) {
     if (cfg.denied) { return false }
     if (cfg.permitAll) { return true }
-    if (cfg.anonymous) { return isEmpty(user.username) }
+    if (cfg.anonymous) { return !user || isEmpty(user.username) }
     if (!isEmpty(cfg.permissions) && isEmpty(user.permissions)) { return false }
     if (!isEmpty(user.username)) {
         if (cfg.authenticated) { return true }
@@ -29,6 +30,9 @@ export function checkPermission(cfg = {}, user = {}) {
 
 export default (type, params) => {
     switch (type) {
+        case SECURITY_INITIALIZE: {
+            return Promise.resolve(null)
+        }
         case SECURITY_LOGIN: {
             return Promise.resolve(params)
         }
@@ -46,7 +50,7 @@ export default (type, params) => {
             const { config, user } = params
             const res = indexOf(map(values(config), cfg => checkPermission(cfg, user)), false)
 
-            return res === -1 ? Promise.resolve(config) : Promise.reject(new Error('Нет доступа.'))
+            return res === -1 ? Promise.resolve(true) : Promise.reject(new Error('Нет доступа.'))
         }
         default: {
             return Promise.reject(new Error('Неверно задан тип для authProvider!'))

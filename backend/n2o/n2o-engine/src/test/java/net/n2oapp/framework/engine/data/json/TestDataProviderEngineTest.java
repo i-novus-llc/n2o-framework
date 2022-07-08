@@ -831,7 +831,11 @@ public class TestDataProviderEngineTest {
         inParamsForUpdate.put("birthday", c.getTime());
         inParamsForUpdate.put("vip", false);
 
-        engine.invoke(provider, inParamsForUpdate);
+        Map updatedResult = (Map) engine.invoke(provider, inParamsForUpdate);
+        assertThat(updatedResult.get("name"), is("test"));
+        assertThat(updatedResult.get("gender.id"), is(1));
+        assertThat(updatedResult.get("gender.name"), is("Мужской"));
+        assertThat(updatedResult.get("vip"), is(false));
 
         provider.setOperation(findAll);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
@@ -985,7 +989,11 @@ public class TestDataProviderEngineTest {
         inParamsForUpdate.put("birthday", c.getTime());
         inParamsForUpdate.put("vip", false);
 
-        engine.invoke(provider, inParamsForUpdate);
+        Map updatedResult = (Map) engine.invoke(provider, inParamsForUpdate);
+        assertThat(updatedResult.get("name"), is("test"));
+        assertThat(updatedResult.get("gender.id"), is(1));
+        assertThat(updatedResult.get("gender.name"), is("Мужской"));
+        assertThat(updatedResult.get("vip"), is(false));
 
         provider.setOperation(findAll);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
