@@ -33,7 +33,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
@@ -215,13 +214,29 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setPathRouteMapping(pathMapping);
         initQueryMapping(source.getQueryParams(), pathMapping, queryMapping, p);
         pageContext.setQueryRouteMapping(queryMapping);
-        pageContext.setParentModelLinks(Stream.of(pathMapping.values(), queryMapping.values(), Set.of(actionModelLink))
-                .flatMap(Collection::stream).collect(Collectors.toList()));
+        pageContext.setParentModelLinks(collectParentLinks(actionModelLink, pathMapping.values(), queryMapping.values()));
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
+    }
+
+    /**
+     * Сбор родительских ссылок на модели в список в порядке приоритета их использования для разрешения
+     * параметров открываемой страницы
+     *
+     * @param actionModelLink Ссылка на модель действия
+     * @param pathLinks       Ссылки на модели параметров пути
+     * @param queryLinks      Ссылки на модели параметров запроса
+     * @return список родительских ссылок
+     */
+    protected List<ModelLink> collectParentLinks(ModelLink actionModelLink, Collection<ModelLink> pathLinks, Collection<ModelLink> queryLinks) {
+        List<ModelLink> links = new ArrayList<>();
+        links.add(actionModelLink);
+        links.addAll(pathLinks);//TODO возможно стоит добавить сортировку по использованию в route
+        links.addAll(queryLinks);
+        return links;
     }
 
     /**
