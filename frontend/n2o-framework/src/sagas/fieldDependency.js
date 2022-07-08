@@ -208,12 +208,14 @@ export function* checkAndModify(
                             ((actionType === registerFieldExtra.type) && (fieldName === fieldId))
                         )
                     ) ||
-                    some(
-                        dep.on,
-                        field => (
-                            field === fieldName ||
-                            (includes(field, '.') && includes(field, fieldName))
-                        ),
+                    (
+                        some(
+                            dep.on,
+                            field => (
+                                field === fieldName ||
+                                (includes(field, '.') && includes(field, fieldName))
+                            ),
+                        ) && actionType === actionTypes.CHANGE
                     )
 
                 ) {
