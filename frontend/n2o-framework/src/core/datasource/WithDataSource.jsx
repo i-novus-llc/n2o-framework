@@ -8,17 +8,15 @@ import {
     changeSize,
     dataRequest,
     removeComponent,
-    setActiveModel,
-    setFilter as setDataSourceFilter,
-    setMultiModel,
     setSorting as setDataSourceSorting,
-    setEditModel,
 } from '../../ducks/datasource/store'
+import { setModel } from '../../ducks/models/store'
 import { FETCH_TYPE } from '../widget/const'
 import { DataSourceContext } from '../widget/context'
 import { dataSourceModelsSelector } from '../../ducks/datasource/selectors'
 
 import { WithDataSourceTypes } from './propTypes'
+import { ModelPrefix } from './const'
 
 /**
  * ХОК для подключения Component: any к datasource
@@ -43,6 +41,7 @@ export const WithDataSource = (Component) => {
         const methods = useMemo(() => {
             const addComponentToSource = () => dispatch(addComponent(datasource, id))
             const removeComponentFromSource = () => dispatch(removeComponent(datasource, id))
+            const set = (prefix, model) => dispatch(setModel(prefix, datasource, model))
 
             /**
              * Методы взаимодействия с DataSource
@@ -60,16 +59,16 @@ export const WithDataSource = (Component) => {
                     }
                 },
                 setFilter(filterModel) {
-                    dispatch(setDataSourceFilter(datasource, filterModel))
+                    set(ModelPrefix.filter, filterModel)
                 },
                 setResolve(model) {
-                    dispatch(setActiveModel(datasource, model))
+                    set(ModelPrefix.active, model)
                 },
                 setEdit(model) {
-                    dispatch(setEditModel(datasource, model))
+                    set(ModelPrefix.edit, model)
                 },
                 setSelected(models) {
-                    dispatch(setMultiModel(datasource, models))
+                    set(ModelPrefix.selected, models)
                 },
                 setSorting(field, sorting) {
                     dispatch(setDataSourceSorting(datasource, field, sorting))

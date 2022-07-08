@@ -2,7 +2,7 @@ import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import type { IValidationResult } from '../../core/validation/IValidation'
 
 import type { DataSourceState } from './DataSource'
-import type { IProvider, QueryResult } from './Provider'
+import type { IProvider, ISubmit, QueryResult } from './Provider'
 
 export interface DatasourcePayload {
     id: string
@@ -61,11 +61,6 @@ export type ChangePageAction = DatasourceAction<{
     page: number
 }>
 
-export type ChangeCountAction = DatasourceAction<{
-    id: string
-    count: number
-}>
-
 export type ChangeSizeAction = DatasourceAction<{
     id: string
     size: number
@@ -83,16 +78,13 @@ export type FailValidateAction = DatasourceAction<{
     fields: Record<string, IValidationResult[]>
 }, { touched: boolean }>
 
-export type SetModelAction<
-    TModel extends object | object[] = object
-> = DatasourceAction<{
-    id: string
-    prefix: ModelPrefix
-    model: TModel
-}>
-
 export type SetFieldSubmitAction = DatasourceAction<{
     id: string
     field: string
     provider: IProvider
+}>
+
+export type SubmitAction = DatasourceAction<{
+    id: string
+    provider?: ISubmit
 }>

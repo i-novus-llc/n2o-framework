@@ -3,6 +3,7 @@ import {
     fork,
     put,
     select,
+    takeEvery,
     throttle,
 } from 'redux-saga/effects'
 import isFunction from 'lodash/isFunction'
@@ -12,7 +13,7 @@ import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import merge from 'deepmerge'
 
-import { START_INVOKE } from '../constants/actionImpls'
+import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
 import {
     widgetsSelector,
 } from '../ducks/widgets/selectors'
@@ -28,7 +29,7 @@ import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { resolveButton } from '../ducks/toolbar/sagas'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
-import { failValidate } from '../ducks/datasource/store'
+import { failValidate, submit } from '../ducks/datasource/store'
 
 import fetchSaga from './fetch'
 
@@ -238,5 +239,10 @@ export function* handleInvoke(apiProvider, action) {
 
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
-    throttle(500, START_INVOKE, handleInvoke, apiProvider),
+    takeEvery(START_INVOKE, handleInvoke, apiProvider),
+    takeEvery(SUBMIT, function* submitSaga({ payload }) {
+        const { datasource } = payload
+
+        yield put(submit(datasource))
+    }),
 ]

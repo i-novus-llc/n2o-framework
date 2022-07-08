@@ -1,17 +1,35 @@
-import { select } from 'redux-saga/effects'
-import { get, cloneDeep } from 'lodash'
+import { put, select } from 'redux-saga/effects'
+import { get, cloneDeep, set } from 'lodash'
 
 import { dataSourceByIdSelector } from '../selectors'
-import type { QueryOptions, InheritedProvider } from '../Provider'
+import type { QueryOptions, InheritedProvider, InheritedSubmit } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { makeGetModelByPrefixSelector } from '../../models/selectors'
+import { setModel } from '../../models/store'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
 import { applyPaging } from './storage/applyPaging'
 
-export function* submit() {
-    // TODO NNO-8034
+export function* submit(id: string, {
+    model: prefix,
+    tagetDs: tagetId,
+    targetModel: targetPrefix,
+    targetField,
+}: InheritedSubmit) {
+    const model: object = yield select(makeGetModelByPrefixSelector(prefix, id))
+    let data
+
+    if (targetField) {
+        const targetModel: object | void = yield select(makeGetModelByPrefixSelector(targetPrefix, tagetId))
+
+        data = cloneDeep(targetModel) || {}
+        set(data, targetField, cloneDeep(model))
+    } else {
+        data = cloneDeep(model)
+    }
+
+    yield put(setModel(targetPrefix, tagetId, data))
 }
 
 export function* query(id: string, {
