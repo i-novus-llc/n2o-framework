@@ -8,6 +8,7 @@ import includes from 'lodash/includes'
 import merge from 'lodash/merge'
 import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
+import keys from 'lodash/keys'
 
 import { tabTraversal } from '../regions/sagas'
 import { setModel, copyModel } from '../models/store'
@@ -188,7 +189,7 @@ function* setFocus({ payload }) {
                 .find(({ id }) => {
                     const { registeredFields } = forms[id]
 
-                    return Object.keys(registeredFields).some((currentFieldName) => {
+                    return keys(registeredFields).some((currentFieldName) => {
                         const { message } = registeredFields[currentFieldName]
 
                         if (message) {
