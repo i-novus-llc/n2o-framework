@@ -20,6 +20,7 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private String objectId;
     private Boolean closeOnSuccess;
     private Boolean doubleCloseOnSuccess;
+    private Boolean clearOnSuccess;
     private Boolean closeOnFail;
     private Boolean refreshOnSuccess;
     private String confirmationText;

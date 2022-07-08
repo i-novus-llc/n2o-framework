@@ -28,7 +28,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -315,4 +314,16 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test"));
     }
 
+    @Test
+    public void clearOnSuccess() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionClearOnSuccess.page.xml")
+                .get(new PageContext("testInvokeActionClearOnSuccess"));
+
+        assertThat(((InvokeAction) page.getToolbar().getButton("b1").getAction()).getMeta().getSuccess().getClear(), nullValue());
+        assertThat(((ActionContext) route("/testInvokeActionClearOnSuccess/b1", CompiledObject.class)).getClearDatasource(), nullValue());
+        assertThat(((InvokeAction) page.getToolbar().getButton("b2").getAction()).getMeta().getSuccess().getClear(),
+                is("testInvokeActionClearOnSuccess_ds1"));
+        assertThat(((ActionContext) route("/testInvokeActionClearOnSuccess/b2", CompiledObject.class)).getClearDatasource(),
+                is("testInvokeActionClearOnSuccess_ds1"));
+    }
 }

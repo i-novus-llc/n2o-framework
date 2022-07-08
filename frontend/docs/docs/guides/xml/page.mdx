@@ -267,7 +267,8 @@ http://n2oapp.net/framework/config/schema/page-4.0
   <datasource id="ds1">...</datasource>
   <app-datasource id="ds2">...</app-datasource>
   <browser-storage id="ds3">...</browser-storage>
-</datasource>
+  <inherited-datasource id="ds4">...</inherited-datasource>
+</datasources>
 ```
 
 ### &lt;datasource&gt; {#datasource}
@@ -405,10 +406,10 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |size                |Число                  |Размер выборки                                                        |10                                 |
 
 **Тело**
-[Сохранение данных](#submit)
+[Сохранение данных](#browser_storage_submit)
 [Зависимости источника данных](#ds_dependencies)
 
-#### &lt;submit&gt; {#submit}
+#### &lt;submit&gt; {#browser_storage_submit}
 
 Сохранение данных
 
@@ -430,6 +431,56 @@ http://n2oapp.net/framework/config/schema/page-4.0
         ...
     </dependencies>
 </browser-storage>
+```
+
+### &lt;inherited-datasource&gt; {#inherited-datasource}
+
+Источник, получающий данные из другого источника
+
+**Атрибуты**
+
+|Наименование        |Тип                           |Описание                                                              |Значение по умолчанию              |
+|--------------------|------------------------------|----------------------------------------------------------------------|-----------------------------------|
+|id                  |Строка                        |Идентификатор источника данных                                        |                                   |
+|source-datasource   |Строка                        |Идентификатор источника данных, из которого будут скопированы данные  |                                   |
+|source-model        |filter,resolve,edit,datasource|Модель источника данных, из которой будут скопированы данные          |resolve                            |
+|target-field-id     |Строка                        |Идентификатор поля, из которого будут скопированы данные              |Вся модель                         |
+
+**Тело**
+[Сохранение данных](#inherited_datasource_submit)
+
+#### &lt;submit&gt; {#inherited_datasource_submit}
+
+Сохранение данных
+
+**Атрибуты**
+
+|Наименование        |Тип                           |Описание                                                              |Значение по умолчанию   |
+|--------------------|------------------------------|----------------------------------------------------------------------|------------------------|
+|model               |filter,resolve,edit,datasource|Модель текущего источника данных, которая будет сохранена             |resolve                 |
+|auto                |true false                    |Автоматически ли записывать при изменении данных?                     |true                    |
+|target-datasource   |Строка                        |Идентификатор источника данных, в который производится сохранение     |                        |
+|target-model        |filter,resolve,edit,datasource|Модель источника данных, в которую производится сохранение            |resolve                 |
+|target-field-id     |Строка                        |Идентификатор поля, в которое производится сохранение                 |Вся модель              |
+
+**Пример**
+
+```xml
+<datasources>
+  <inherited-datasource
+    id="from"
+    source-datasource="app-ds"
+    source-model="resolve"
+    source-field-id="form">
+    <submit
+      auto="true"
+      model="resolve"
+      target-datasource="app-ds"
+      target-model="resolve"
+      target-field-id="form"
+    />
+  </inherited-datasource>
+</datasources>
 ```
 
 #### Зависимости источника данных {#ds_dependencies}

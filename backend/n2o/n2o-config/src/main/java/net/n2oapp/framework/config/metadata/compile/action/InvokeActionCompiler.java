@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -87,6 +87,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
+        source.setClearOnSuccess(p.cast(source.getClearOnSuccess(), false));
     }
 
     private String[] initRefreshDatasources(N2oInvokeAction source, CompileProcessor p) {
@@ -121,7 +122,16 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         initCloseOnSuccess(context, meta, redirect, doubleCloseOnSuccess, closeOnSuccess);
         initRefreshOnClose(source, context, p, meta, closeOnSuccess);
         initRedirect(source, context, p, meta, redirect, doubleCloseOnSuccess);
+        initClear(source, p, meta);
         return meta;
+    }
+
+    private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
+        if (source.getClearOnSuccess()) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            if (pageScope != null)
+                meta.setClear(pageScope.getClientDatasourceId(getLocalDatasource(p)));
+        }
     }
 
     private void initRedirect(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess) {
@@ -210,6 +220,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
         actionContextData.setObjectId(compiledObject.getId());
         actionContextData.setOperationId(source.getOperationId());
+        actionContextData.setClearDatasource(metaSaga.getSuccess().getClear());
         actionContextData.setRedirect(initServerRedirect(metaSaga));
         actionContextData.setRefresh(metaSaga.getSuccess().getRefresh());
         actionContextData.setParentWidgetId(metaSaga.getSuccess().getMessageWidgetId());

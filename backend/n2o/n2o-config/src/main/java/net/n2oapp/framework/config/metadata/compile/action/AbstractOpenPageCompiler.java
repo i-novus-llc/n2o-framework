@@ -11,8 +11,8 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
@@ -37,6 +37,8 @@ import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
+import static net.n2oapp.framework.api.StringUtils.isLink;
+import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -135,7 +137,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId, pageScope, componentScope);
+        ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId, pageScope,
+                componentScope, source.getPageId());
 
         String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
 
@@ -229,10 +232,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param clientWidgetId  Идентификатор клиентского виджета
      * @param pageScope       Информация о странице
      * @param componentScope  Информация о родительском компоненте
+     * @param pageId          Идентификатор открываемой страницы
      * @return Ссылка на модель действия
      */
     private ModelLink createActionModelLink(ReduxModel actionDataModel, String clientWidgetId,
-                                            PageScope pageScope, ComponentScope componentScope) {
+                                            PageScope pageScope, ComponentScope componentScope, String pageId) {
         if (componentScope != null) {
             String datasource;
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
@@ -244,7 +248,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         ? clientWidgetId
                         : pageScope.getWidgetIdClientDatasourceMap().get(clientWidgetId);
             }
-            return new ModelLink(actionDataModel, datasource, N2oQuery.Field.PK);
+            return new ModelLink(actionDataModel, datasource, isLink(pageId) ? unwrapLink(pageId) : N2oQuery.Field.PK);
         }
         return null;
     }

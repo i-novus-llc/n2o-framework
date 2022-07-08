@@ -14,7 +14,7 @@ public abstract class AbstractDataSourceValidator<T extends N2oAbstractDatasourc
     /**
      * Определение идентификатора источника данных для сообщений в исключениях
      *
-     * @param datasource Источник даныых
+     * @param datasource Источник данных
      * @param p          Процессор исходных метаданных
      */
     protected void setDatasourceId(T datasource, SourceProcessor p) {

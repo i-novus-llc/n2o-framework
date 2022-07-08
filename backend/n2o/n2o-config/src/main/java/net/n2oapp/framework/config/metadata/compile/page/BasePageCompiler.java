@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.*;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -58,7 +60,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
 
         List<N2oWidget> sourceWidgets = collectWidgets(source, p);
-        N2oWidget resultWidget = initResultWidget(context, sourceWidgets);
+        N2oWidget resultWidget = initResultWidget(sourceWidgets);
 
         String pageName = p.cast(context.getPageName(), source.getName());
         page.setPageProperty(initPageName(source, pageName, context, p));
@@ -279,7 +281,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         }
     }
 
-    private N2oWidget initResultWidget(PageContext context, List<N2oWidget> sourceWidgets) {
+    private N2oWidget initResultWidget(List<N2oWidget> sourceWidgets) {
         return !sourceWidgets.isEmpty() ? sourceWidgets.get(0) : null;
     }
 

@@ -1,12 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
@@ -57,8 +58,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     public Table compile(N2oTable source, CompileContext<?, ?> context, CompileProcessor p) {
         Table table = new Table();
         TableWidgetComponent component = table.getComponent();
-        N2oStandardDatasource datasource = initInlineDatasource(table, source, p);
-        CompiledQuery query = getQuery(source, datasource, p);
+        N2oAbstractDatasource datasource = initDatasource(table, source, p);
+        CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(table, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p.getScope(PageScope.class));

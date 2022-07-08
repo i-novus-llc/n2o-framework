@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.validation.standard.datasource;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oApplicationDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
