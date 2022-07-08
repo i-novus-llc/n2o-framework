@@ -130,13 +130,13 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(context.getPreFilters().get(0).getParam(), is("page_test_id"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(context.getParentModelLinks().get(0).getFieldId(), is("id"));
-        assertThat(context.getParentModelLinks().get(0).getDatasource(), is("page_test"));
-        assertThat(context.getParentModelLinks().get(0).getSubModelQuery(), notNullValue());
-        assertThat(context.getParentModelLinks().get(0).getSubModelQuery().getQueryId(), is("testShowModal"));
         assertThat(context.getParentModelLinks().get(1).getFieldId(), is("id"));
         assertThat(context.getParentModelLinks().get(1).getDatasource(), is("page_test"));
-        assertThat(context.getParentModelLinks().get(1).getSubModelQuery(), nullValue());
+        assertThat(context.getParentModelLinks().get(1).getSubModelQuery(), notNullValue());
+        assertThat(context.getParentModelLinks().get(1).getSubModelQuery().getQueryId(), is("testShowModal"));
+        assertThat(context.getParentModelLinks().get(0).getFieldId(), is("id"));
+        assertThat(context.getParentModelLinks().get(0).getDatasource(), is("page_test"));
+        assertThat(context.getParentModelLinks().get(0).getSubModelQuery(), nullValue());
 
         SimplePage openPage = (SimplePage) read().compile().get(context);
         assertThat(openPage.getId(), is("page_action2"));
