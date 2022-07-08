@@ -16,7 +16,11 @@
                     <xs:documentation>Основное меню</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="datasource" type="app:datasourceDefinition" minOccurs="0"/>
+            <xs:element name="datasource" type="app:datasourceDefinition" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Внутренний источник данных боковой панели</xs:documentation>
+                    </xs:annotation>
+            </xs:element>
             <xs:element name="extra-menu" type="menu:menuDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Дополнительное меню</xs:documentation>
