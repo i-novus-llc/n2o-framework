@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
-import { getFormValues } from 'redux-form'
+import { getFormValues, initialize } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -38,7 +38,7 @@ class Container extends React.Component {
     }
 
     componentDidUpdate({ models: prevModels, reduxFormValues: prevValues }) {
-        const { models, reduxFormValues, form, setResolve } = this.props
+        const { models, reduxFormValues, form, setResolve, dispatch, id } = this.props
         const { initialValues } = this.state
         const { datasource } = models
         const { modelPrefix } = form
@@ -71,6 +71,7 @@ class Container extends React.Component {
             this.setState({ initialValues: fakeInitial })
         } else if (initialValues === fakeInitial) {
             this.setState({ initialValues: cloneDeep(activeModel) })
+            dispatch(initialize(id, initialValues))
         }
     }
 
@@ -128,6 +129,7 @@ Container.propTypes = {
     setActive: PropTypes.func,
     setResolve: PropTypes.func,
     setEdit: PropTypes.func,
+    dispatch: PropTypes.func,
     isActive: PropTypes.bool,
     models: PropTypes.object,
     reduxFormValues: PropTypes.object,
