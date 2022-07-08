@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:menu="http://n2oapp.net/framework/config/schema/menu-3.0"
+           xmlns:app="http://n2oapp.net/framework/config/schema/application-3.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/sidebar-3.0">
 
     <xs:element name="sidebar" type="sidebarDefinition"/>
@@ -15,6 +16,7 @@
                     <xs:documentation>Основное меню</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="datasource" type="app:datasourceDefinition" minOccurs="0"/>
             <xs:element name="extra-menu" type="menu:menuDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Дополнительное меню</xs:documentation>
