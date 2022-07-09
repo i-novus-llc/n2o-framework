@@ -47,6 +47,7 @@ public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
         p.attribute(e, "path", m::getPath, m::setPath);
         p.attribute(e, "subtitle", m::getSubtitle, m::setSubtitle);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
+        p.attribute(e, "ref-id", m::getRefId, m::setRefId);
         p.attributeEnum(e, "default-state", m::getDefaultState, m::setDefaultState, SidebarState.class);
         p.attributeEnum(e, "toggled-state", m::getToggledState, m::setToggledState, SidebarState.class);
         p.attributeBoolean(e, "toggle-on-hover", m::getToggleOnHover, m::setToggleOnHover);
