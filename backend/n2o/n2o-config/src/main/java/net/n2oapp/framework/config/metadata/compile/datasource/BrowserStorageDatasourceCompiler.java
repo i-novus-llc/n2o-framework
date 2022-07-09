@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -9,7 +10,6 @@ import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oBrowserStorageDatasource;
 import org.springframework.stereotype.Component;
 
-import static java.util.Objects.isNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -43,10 +43,12 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
     }
 
     private BrowserStorageDatasource.Submit initSubmit(N2oBrowserStorageDatasource source, CompileProcessor p) {
-        if (isNull(source.getSubmit())) source.setSubmit(new N2oBrowserStorageDatasource.Submit());
+        if (source.getSubmit() == null)
+            return null;
         BrowserStorageDatasource.Submit submit = new BrowserStorageDatasource.Submit();
-        submit.setKey(p.cast(source.getSubmit().getKey(), source.getId()));
+        submit.setKey(p.cast(source.getSubmit().getKey(), source.getKey(), source.getId()));
         submit.setAuto(p.cast(source.getSubmit().getAuto(), p.resolve(property("n2o.api.datasource.browser.submit.auto"), Boolean.class)));
+        submit.setModel(p.cast(source.getSubmit().getModel(), ReduxModel.resolve));
         submit.setStorage(p.cast(source.getSubmit().getStorageType(), source.getStorageType(), BrowserStorageType.sessionStorage));
         return submit;
     }

@@ -163,7 +163,7 @@
                 <xs:documentation>Ключ под которым будут храниться данные</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="storage-type" type="storageType">
+        <xs:attribute name="type" type="storageType">
             <xs:annotation>
                 <xs:documentation>Тип хранилища в браузере</xs:documentation>
             </xs:annotation>

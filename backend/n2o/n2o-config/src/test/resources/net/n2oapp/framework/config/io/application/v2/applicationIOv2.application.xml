@@ -19,8 +19,8 @@
                 <value notifCount="1"/>
             </values>
         </stomp-datasource>
-        <browser-storage id="ds2" key="test" storage-type="localStorage" size="1">
-            <submit key="test2" storage-type="sessionStorage" auto="false"/>
+        <browser-storage id="ds2" key="test" type="localStorage" size="1">
+            <submit key="test2" type="sessionStorage" auto="false" model="filter"/>
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
