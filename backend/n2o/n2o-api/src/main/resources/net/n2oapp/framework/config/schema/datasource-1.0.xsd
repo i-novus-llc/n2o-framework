@@ -124,7 +124,7 @@
                 <xs:sequence>
                     <xs:element name="submit" type="inheritedDatasourceSubmit" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="source-datasource" type="xs:string">
+                <xs:attribute name="source-datasource" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Идентификатор источника данных, из которого будут скопированы данные</xs:documentation>
                     </xs:annotation>

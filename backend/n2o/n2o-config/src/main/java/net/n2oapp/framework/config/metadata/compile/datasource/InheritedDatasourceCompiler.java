@@ -27,6 +27,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         initDatasource(compiled, source, context, p);
         compiled.setProvider(initProvider(source, p));
         compiled.setSubmit(initSubmit(source, p));
+        compiled.setDependencies(initDependencies(source, p));
         return compiled;
     }
 

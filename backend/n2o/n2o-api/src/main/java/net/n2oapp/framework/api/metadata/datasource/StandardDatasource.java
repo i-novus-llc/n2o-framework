@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
-import net.n2oapp.framework.api.metadata.meta.Dependency;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +25,4 @@ public class StandardDatasource extends AbstractDatasource {
     private Integer size;
     @JsonProperty
     private ClientDataProvider submit;
-    @JsonProperty
-    private List<Dependency> dependencies;
 }

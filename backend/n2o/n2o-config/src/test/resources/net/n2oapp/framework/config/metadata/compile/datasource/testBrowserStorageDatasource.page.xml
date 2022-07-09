@@ -4,9 +4,9 @@
         <browser-storage id="ds1" key="test_key" type="localStorage" size="13">
             <submit type="localStorage" auto="false" key="submit_test_key" model="filter"/>
             <dependencies>
-                <fetch on="form_ds"/>
-                <copy on="form_ds" target-field-id="form" target-model="filter" source-model="filter"
-                      source-field-id="field_1"/>
+                <fetch on="ds"/>
+                <copy on="ds" target-field-id="target" target-model="filter" source-model="filter"
+                      source-field-id="source"/>
             </dependencies>
         </browser-storage>
 

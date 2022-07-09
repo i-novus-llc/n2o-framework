@@ -13,11 +13,13 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import org.jdom2.Element;
+import org.springframework.stereotype.Component;
 
 /**
  * Чтение\запись источника данных
  */
-public class StandardDatasourceIO extends AbstractDatasourceIO<N2oStandardDatasource> {
+@Component
+public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource> {
 
     @Override
     public Class<N2oStandardDatasource> getElementClass() {
@@ -38,10 +40,6 @@ public class StandardDatasourceIO extends AbstractDatasourceIO<N2oStandardDataso
         p.attribute(e, "route", ds::getRoute, ds::setRoute);
         p.attributeInteger(e, "size", ds::getSize, ds::setSize);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, Submit::new, this::submit);
-        p.anyChildren(e, "dependencies", ds::getDependencies, ds::setDependencies,
-                p.oneOf(N2oStandardDatasource.Dependency.class)
-                        .add("fetch", N2oStandardDatasource.FetchDependency.class, this::fetch)
-                        .add("copy", N2oStandardDatasource.CopyDependency.class, this::copy));
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);
     }

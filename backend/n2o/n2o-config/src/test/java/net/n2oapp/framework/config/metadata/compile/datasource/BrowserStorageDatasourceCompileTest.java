@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,14 +43,6 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         BrowserStorageDatasource datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds1");
         assertThat(datasource.getSize(), is(13));
 
-        assertThat(datasource.getDependencies().size(), is(2));
-        assertThat(datasource.getDependencies().get(0).getOn(), is("models.resolve['testBrowserStorageDatasource_form_ds']"));
-        CopyDependency copyDependency = (CopyDependency) datasource.getDependencies().get(1);
-        assertThat(copyDependency.getOn(), is("models.filter['testBrowserStorageDatasource_form_ds'].field_1"));
-        assertThat(copyDependency.getField(), is("form"));
-        assertThat(copyDependency.getType(), is(DependencyType.copy));
-        assertThat(copyDependency.getModel(), is(ReduxModel.filter));
-
         assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageType.localStorage));
         assertThat(datasource.getSubmit().getType(), is("browser"));
         assertThat(datasource.getSubmit().getAuto(), is(false));
@@ -59,6 +52,17 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getProvider().getStorage(), is(BrowserStorageType.localStorage));
         assertThat(datasource.getProvider().getType(), is("browser"));
         assertThat(datasource.getProvider().getKey(), is("test_key"));
+
+        assertThat(datasource.getDependencies().size(), is(2));
+        Dependency dependency = datasource.getDependencies().get(0);
+        assertThat(dependency.getOn(), is("models.resolve['testBrowserStorageDatasource_ds']"));
+        assertThat(dependency.getType(), is(DependencyType.fetch));
+
+        dependency = datasource.getDependencies().get(1);
+        assertThat(dependency.getType(), is(DependencyType.copy));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
+        assertThat(dependency.getOn(), is("models.filter['testBrowserStorageDatasource_ds'].source"));
+
 
         // default
         datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds2");
@@ -72,6 +76,7 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getProvider().getStorage(), is(BrowserStorageType.sessionStorage));
         assertThat(datasource.getProvider().getType(), is("browser"));
         assertThat(datasource.getProvider().getKey(), is("test_key"));
+
 
         // default without submit
         datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds3");
