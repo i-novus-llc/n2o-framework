@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.page.datasource;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
@@ -24,5 +25,6 @@ public class N2oBrowserStorageDatasource extends N2oDatasource implements Submit
         private String key;
         private BrowserStorageType storageType;
         private Boolean auto;
+        private ReduxModel model;
     }
 }

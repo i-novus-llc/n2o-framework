@@ -101,14 +101,14 @@
                         <xs:documentation>Размер выборки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="storage-type" type="storageType" default="sessionStorage">
+                <xs:attribute name="type" type="storageType" default="sessionStorage">
                     <xs:annotation>
                         <xs:documentation>Тип хранилища в браузере</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="key" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ключ, под которым будут хранится данные</xs:documentation>
+                        <xs:documentation>Ключ, под которым будут хранится данные. По умолчанию глобальный идентификатор источника</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -162,14 +162,19 @@
                 <xs:documentation>Автоматически ли записывать в хранилище при изменении данных?</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="storage-type" type="storageType">
+        <xs:attribute name="type" type="storageType">
             <xs:annotation>
                 <xs:documentation>Тип хранилища, в которое будут записываться данные</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="key" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ключ, под которым будут записываться данные</xs:documentation>
+                <xs:documentation>Ключ, под которым будут записываться данные. По умолчанию ключ источника данных</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="act:clientModel" default="resolve">
+            <xs:annotation>
+                <xs:documentation>Модель текущего источника данных, которая будет сохранена</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
