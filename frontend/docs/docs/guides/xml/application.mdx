@@ -256,10 +256,6 @@ http://n2oapp.net/framework/config/schema/application-3.0
 
 ### Боковая панель (&lt;sidebar&gt;) {#sidebar}
 
-**Тело**
-
-[Стандартный источник данных](../xml/application#datasource), [Навигационная панель](../xml/application#navigation)
-
 **Атрибуты**
 
 |Наименование    |Тип            |Описание                                        |Значение по умолчанию|
@@ -281,6 +277,10 @@ http://n2oapp.net/framework/config/schema/application-3.0
 |toggled-state   |Строка         |Состояние боковой панели принимаемое<br/>при нажатии на кнопку toggle-sidebar, которую можно<br/>добавить в меню заголовка приложения. Возможные значения:<br/>none - скрыт полностью<br/>micro - отображается тонкая полоска<br/>mini - отображаются только иконки<br/>maxi - широкая боковая панель|maxi                |
 |toggle-on-hover |Boolean        |Открывается ли панель по hover                   |false               |
 |overlay         |Boolean        |Перекрывает ли боковая панель контент страницы   |true                |
+
+**Тело**
+
+[Стандартный источник данных](../xml/page#datasource), [Навигационная панель](../xml/application#navigation)
 
 **Пример**
 
