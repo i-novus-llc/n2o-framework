@@ -3,9 +3,11 @@ package net.n2oapp.framework.config.io.application.sidebar;
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
 import net.n2oapp.framework.api.metadata.application.Side;
 import net.n2oapp.framework.api.metadata.application.SidebarState;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.io.control.ComponentIO;
+import net.n2oapp.framework.config.io.datasource.DatasourceIO;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import org.jdom2.Element;
@@ -53,6 +55,7 @@ public class SidebarIOv3 extends ComponentIO<N2oSidebar> {
         p.attributeBoolean(e, "overlay", m::getOverlay, m::setOverlay);
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv3());
         p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new ExtraMenuIOv3());
+        p.child(e, null, "datasource", m::getDatasource, m::setDatasource, N2oDatasource.class, new DatasourceIO());
     }
 
 }
