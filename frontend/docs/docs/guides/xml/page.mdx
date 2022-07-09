@@ -297,7 +297,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 ```xml
 <datasource id="ds1">
   <filters>
-    <eq field-id="id" value={id}/>
+    <eq field-id="id" value="{id}"/>
     ...
   </filters>
   <submit>
@@ -449,6 +449,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 **Тело**
 [Сохранение данных](#inherited_datasource_submit)
+[Зависимости источника данных](#ds_dependencies)
 
 #### &lt;submit&gt; {#inherited_datasource_submit}
 
@@ -468,18 +469,12 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 ```xml
 <datasources>
-  <inherited-datasource
-    id="from"
-    source-datasource="app-ds"
-    source-model="resolve"
-    source-field-id="form">
-    <submit
-      auto="true"
-      model="resolve"
-      target-datasource="app-ds"
-      target-model="resolve"
-      target-field-id="form"
-    />
+  <inherited-datasource id="ds" source-datasource="app-ds">
+    <submit target-model="false" target-field-id="name"/>
+    <dependencies>
+      <fetch on="ds2"/>
+      ...
+    </dependencies>
   </inherited-datasource>
 </datasources>
 ```

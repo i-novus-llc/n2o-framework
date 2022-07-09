@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.datasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.ApplicationDatasource;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -43,12 +44,16 @@ public class ApplicationDatasourceCompileTest extends SourceCompileTestBase {
         ApplicationDatasource datasource = (ApplicationDatasource) page.getDatasources().get("testApplicationDatasource_appDatasource");
 
         assertThat(datasource.getDependencies().size(), is(2));
-        assertThat(datasource.getDependencies().get(0).getOn(), is("models.resolve['testApplicationDatasource_test_id']"));
-        CopyDependency copyDependency = (CopyDependency) datasource.getDependencies().get(1);
-        assertThat(copyDependency.getOn(), is("models.resolve['testApplicationDatasource_test_id']"));
-        assertThat(copyDependency.getType(), is(DependencyType.copy));
-        assertThat(copyDependency.getField(), is("form"));
-        assertThat(copyDependency.getModel(), is(ReduxModel.resolve));
+
+        Dependency dependency = datasource.getDependencies().get(0);
+        assertThat(dependency.getOn(), is("models.resolve['testApplicationDatasource_ds']"));
+        assertThat(dependency.getType(), is(DependencyType.fetch));
+
+        dependency = datasource.getDependencies().get(1);
+        assertThat(dependency.getOn(), is("models.resolve['testApplicationDatasource_ds']"));
+        assertThat(dependency.getType(), is(DependencyType.copy));
+        assertThat(((CopyDependency) dependency).getField(), is("target"));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.resolve));
 
         assertThat(datasource.getProvider().getType(), is("application"));
         assertThat(datasource.getProvider().getDatasource(), is("appDatasource"));

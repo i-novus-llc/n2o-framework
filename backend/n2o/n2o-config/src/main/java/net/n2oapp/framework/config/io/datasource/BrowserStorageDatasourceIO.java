@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись источника, хранящего данные в браузере
  */
 @Component
-public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserStorageDatasource> {
+public class BrowserStorageDatasourceIO extends BaseDatasourceIO<N2oBrowserStorageDatasource> {
 
     @Override
     public void io(Element e, N2oBrowserStorageDatasource ds, IOProcessor p) {
@@ -20,10 +20,6 @@ public class BrowserStorageDatasourceIO extends AbstractDatasourceIO<N2oBrowserS
         p.attributeEnum(e, "type", ds::getStorageType, ds::setStorageType, BrowserStorageType.class);
         p.attributeInteger(e, "size", ds::getSize, ds::setSize);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, N2oBrowserStorageDatasource.Submit::new, this::submit);
-        p.anyChildren(e, "dependencies", ds::getDependencies, ds::setDependencies,
-                p.oneOf(N2oBrowserStorageDatasource.Dependency.class)
-                        .add("fetch", N2oBrowserStorageDatasource.FetchDependency.class, this::fetch)
-                        .add("copy",  N2oBrowserStorageDatasource.CopyDependency.class, this::copy));
     }
 
 

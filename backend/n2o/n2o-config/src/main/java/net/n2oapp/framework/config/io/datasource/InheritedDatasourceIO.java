@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись источника данных, получающего данные из другого источника данных
  */
 @Component
-public class InheritedDatasourceIO  extends AbstractDatasourceIO<N2oInheritedDatasource> {
+public class InheritedDatasourceIO  extends BaseDatasourceIO<N2oInheritedDatasource> {
 
     @Override
     public void io(Element e, N2oInheritedDatasource ds, IOProcessor p) {

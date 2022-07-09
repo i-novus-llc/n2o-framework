@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -120,13 +121,15 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_detail");
         assertThat(ds.getDependencies().size(), is(2));
-        assertThat(ds.getDependencies().get(0).getOn(), is("models.resolve['p_w_a_master']"));
-        assertThat(ds.getDependencies().get(0).getType(), is(DependencyType.fetch));
+        Dependency dependency = ds.getDependencies().get(0);
+        assertThat(dependency.getOn(), is("models.filter['p_w_a_master']"));
+        assertThat(dependency.getType(), is(DependencyType.fetch));
 
-        CopyDependency copyDependency = (CopyDependency) ds.getDependencies().get(1);
-        assertThat(copyDependency.getType(), is(DependencyType.copy));
-        assertThat(copyDependency.getModel(), is(ReduxModel.datasource));
-        assertThat(copyDependency.getOn(), is("models.resolve['p_w_a_detail']"));
+        dependency = ds.getDependencies().get(1);
+        assertThat(dependency.getType(), is(DependencyType.copy));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.datasource));
+        assertThat(dependency.getOn(), is("models.filter['p_w_a_detail'].source"));
+        assertThat(((CopyDependency) dependency).getField(), is("target"));
     }
 
     @Test
