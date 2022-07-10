@@ -64,7 +64,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
         }
         searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
-        searchBar.setDatasource(CompileUtil.generateDatasourceId(page.getId(), source.getSearchBar().getDatasourceId()));
+        searchBar.setDatasource(CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId()));
         return searchBar;
     }
 

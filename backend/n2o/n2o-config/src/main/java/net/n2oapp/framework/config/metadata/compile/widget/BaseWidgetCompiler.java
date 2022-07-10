@@ -42,6 +42,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Компиляция абстрактного виджета
@@ -114,12 +115,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null) {
             pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasourceId);
-            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), pageScope.getGlobalWidgetId(datasourceId));
+            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), getClientDatasourceId(datasourceId, pageScope));
         }
 
         if (datasource instanceof N2oStandardDatasource)
             compiled.setObjectId(((N2oStandardDatasource) datasource).getObjectId());
-        compiled.setDatasource(pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId);
+        compiled.setDatasource(getClientDatasourceId(datasourceId, pageScope));
         return datasource;
     }
 
@@ -237,7 +238,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * Получить собранный объект виджета
      */
     protected CompiledObject getObject(S source, N2oAbstractDatasource datasource, CompileProcessor p) {
-        if (datasource == null || !(datasource instanceof N2oStandardDatasource))
+        if (!(datasource instanceof N2oStandardDatasource))
             return null;
 
         N2oStandardDatasource standardDatasource = ((N2oStandardDatasource) datasource);
@@ -277,8 +278,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 Dependency condition = new Dependency();
                 String unwrapped = StringUtils.unwrapJs(dep.getValue());
                 condition.setCondition(unwrapped);
-                ModelLink link = new ModelLink(dep.getModel(), pageScope == null ? dep.getDatasource() :
-                        pageScope.getClientDatasourceId(dep.getDatasource()));
+                ModelLink link = new ModelLink(dep.getModel(), getClientDatasourceId(dep.getDatasource(), pageScope));
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);
@@ -303,7 +303,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * Получить собранную выборку виджета
      */
     protected CompiledQuery getQuery(N2oAbstractDatasource datasource, CompileProcessor p) {
-        if (datasource == null || !(datasource instanceof N2oStandardDatasource))
+        if (!(datasource instanceof N2oStandardDatasource))
             return null;
 
         N2oStandardDatasource standardDatasource = ((N2oStandardDatasource) datasource);

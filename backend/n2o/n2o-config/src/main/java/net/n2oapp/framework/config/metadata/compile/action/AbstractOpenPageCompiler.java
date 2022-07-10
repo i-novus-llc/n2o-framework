@@ -41,6 +41,7 @@ import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляция open-page, show-modal
@@ -162,7 +163,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
-        String targetDS = source.getTargetDatasource();
+        String targetDS = source.getTargetDatasourceId();
         if (pageScope != null && targetDS == null && currentWidgetId != null) {
             targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
         }
@@ -173,7 +174,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitModel(source.getSubmitModel());
         pageContext.setSubmitActionType(source.getSubmitActionType());
         pageContext.setCopyModel(source.getCopyModel());
-        pageContext.setCopyDatasource(source.getCopyDatasource());
+        pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetDatasourceId(targetDS);
@@ -186,7 +187,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentClientWidgetId(currentClientWidgetId);
         String localDatasourceId = getLocalDatasource(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
-        pageContext.setParentGlobalDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(localDatasourceId) : localDatasourceId);
+        pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, pageScope));
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
@@ -194,12 +195,12 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         if ((pageContext.getRefreshOnSuccessSubmit() || pageContext.getRefreshOnClose()) &&
-                (source.getRefreshDatasources() != null || localDatasourceId != null)) {
-            String[] refreshDatasources = source.getRefreshDatasources() == null ?
-                    new String[]{localDatasourceId} : source.getRefreshDatasources();
+                (source.getRefreshDatasourceIds() != null || localDatasourceId != null)) {
+            String[] refreshDatasourceIds = source.getRefreshDatasourceIds() == null ?
+                    new String[]{localDatasourceId} : source.getRefreshDatasourceIds();
             if (pageScope != null) {
-                pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasources)
-                        .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+                pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasourceIds)
+                        .map(d -> getClientDatasourceId(d, pageScope)).collect(Collectors.toList()));
             }
         }
         if (pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null && pageScope != null) {

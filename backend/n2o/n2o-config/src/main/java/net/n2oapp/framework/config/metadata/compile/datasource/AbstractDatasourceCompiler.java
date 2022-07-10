@@ -7,16 +7,16 @@ import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+
 /**
  * Абстрактная компиляция источника данных
  */
-public abstract class AbstractDatasourceCompiler<S extends N2oAbstractDatasource, D extends AbstractDatasource> implements
-        BaseSourceCompiler<D, S, CompileContext<?, ?>> {
+public abstract class AbstractDatasourceCompiler<S extends N2oAbstractDatasource, D extends AbstractDatasource>
+        implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    protected void initDatasource(AbstractDatasource datasource, N2oAbstractDatasource source,
-                                  CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        String id = pageScope == null ? source.getId() : pageScope.getClientDatasourceId(source.getId());
+    protected void initDatasource(AbstractDatasource datasource, N2oAbstractDatasource source, CompileProcessor p) {
+        String id = getClientDatasourceId(source.getId(), p.getScope(PageScope.class));
         datasource.setId(id);
     }
 }

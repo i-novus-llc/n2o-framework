@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -14,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 public class RefreshSaga implements Compiled {
+//    FIXME - похоже здесь будут исходные, а не клиентские датасорсы. Проверить!
     @JsonProperty
     private List<String> datasources;
 }

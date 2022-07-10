@@ -30,7 +30,7 @@ public class N2oClientDataProvider implements Serializable {
     private N2oParam[] headerParams;
     private N2oParam[] queryParams;
     private ReduxModel targetModel;
-    private String globalDatasourceId;
+    private String clientDatasourceId;
     private String datasourceId;
     private RequestMethod method;
     private String quickSearchParam;

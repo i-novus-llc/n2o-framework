@@ -43,7 +43,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Идентификатор источника данных из которого будут копироваться данные
      */
-    private String copyDatasource;
+    private String copyDatasourceId;
     /**
      * Идентификатор копируемого поля источника
      */
@@ -80,7 +80,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Родительский глобальный источник данных, в котором находилось действие
      */
-    private String parentGlobalDatasourceId;
+    private String parentClientDatasourceId;
     /**
      * Родительский локальный источник данных, в котором находилось действие
      */

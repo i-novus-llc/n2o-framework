@@ -36,6 +36,7 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Компиляция таблицы
@@ -70,7 +71,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (filtersScope != null)
             tableFiltersScope = new TableFiltersScope(datasource.getId(), filtersScope);
         initFilter(table, source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.filter, widgetScope.getGlobalDatasourceId(), p.getScope(Models.class)), subModelsScope,
+                new ModelsScope(ReduxModel.filter, widgetScope.getClientDatasourceId(), p.getScope(Models.class)), subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope, tableFiltersScope);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
@@ -195,7 +196,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             }
         }
         PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setFiltersDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId);
+        compiled.setFiltersDatasourceId(getClientDatasourceId(datasourceId, pageScope));
     }
 }
 

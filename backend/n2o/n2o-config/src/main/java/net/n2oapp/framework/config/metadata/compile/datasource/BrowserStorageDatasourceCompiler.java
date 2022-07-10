@@ -26,7 +26,7 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
     @Override
     public BrowserStorageDatasource compile(N2oBrowserStorageDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         BrowserStorageDatasource compiled = new BrowserStorageDatasource();
-        initDatasource(compiled, source, context, p);
+        initDatasource(compiled, source, p);
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         compiled.setProvider(initProvider(source, p));
         compiled.setSubmit(initSubmit(source, p));

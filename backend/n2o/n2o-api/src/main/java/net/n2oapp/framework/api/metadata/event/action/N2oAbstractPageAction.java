@@ -32,7 +32,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String pageId;
     private String pageName;
     private String route;
-    private String datasource;
     @Deprecated
     private Target target;
     @Deprecated
@@ -53,17 +52,17 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private ReduxModel submitModel;
     private SubmitActionType submitActionType;
     private ReduxModel copyModel;
-    private String copyDatasource;
+    private String copyDatasourceId;
     private String copyFieldId;
     private ReduxModel targetModel;
-    private String targetDatasource;
+    private String targetDatasourceId;
     private CopyMode copyMode;
     private Boolean createMore;
     private Boolean closeAfterSubmit;
     private String redirectUrlAfterSubmit;
     private Target redirectTargetAfterSubmit;
     private Boolean refreshAfterSubmit;
-    private String[] refreshDatasources;
+    private String[] refreshDatasourceIds;
     //on resolve
     private String labelFieldId;
     private String targetFieldId;
@@ -189,31 +188,31 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
 
     @Deprecated
     public String getRefreshWidgetId() {
-        return refreshDatasources == null ? null : refreshDatasources[0];
+        return refreshDatasourceIds == null ? null : refreshDatasourceIds[0];
     }
 
     @Deprecated
     public void setRefreshWidgetId(String refreshWidgetId) {
-        this.refreshDatasources = new String[]{refreshWidgetId};
+        this.refreshDatasourceIds = new String[]{refreshWidgetId};
     }
 
     @Deprecated
     public String getTargetWidgetId() {
-        return targetDatasource;
+        return targetDatasourceId;
     }
 
     @Deprecated
     public void setTargetWidgetId(String targetWidgetId) {
-        this.targetDatasource = targetWidgetId;
+        this.targetDatasourceId = targetWidgetId;
     }
 
     @Deprecated
     public String getCopyWidgetId() {
-        return copyDatasource;
+        return copyDatasourceId;
     }
 
     @Deprecated
     public void setCopyWidgetId(String copyWidgetId) {
-        this.copyDatasource = copyWidgetId;
+        this.copyDatasourceId = copyWidgetId;
     }
 }
