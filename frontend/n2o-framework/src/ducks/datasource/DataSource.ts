@@ -3,7 +3,7 @@ import type { DataSourceDependency, SortDirection } from '../../core/datasource/
 import { ModelPrefix } from '../../core/datasource/const'
 import type { IValidation, IValidationResult } from '../../core/validation/IValidation'
 
-import type { IProvider } from './Provider'
+import type { IProvider, ISubmit } from './Provider'
 
 export type State = Record<string, DataSourceState>
 
@@ -20,8 +20,9 @@ export interface DataSourceState<
     count: number
     loading: boolean
     sorting: Partial<Record<TKey, SortDirection>>
-    submit?: IProvider // FIXME
+    submit?: ISubmit
     fieldsSubmit: Record<TKey, IProvider>
+    pageId?: string
     errors: Record<
     ModelPrefix.active | ModelPrefix.edit,
     Partial<Record<TKey, IValidationResult[]>>

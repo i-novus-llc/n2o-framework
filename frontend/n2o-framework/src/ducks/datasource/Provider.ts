@@ -21,6 +21,7 @@ export interface ServiceProvider extends IProvider {
     url: string
     pathMappeng: Record<string, IMappingParam>
     queryMapping: Record<string, IMappingParam>
+    headerMapping: Record<string, IMappingParam>
     size: number
 }
 
@@ -52,3 +53,36 @@ export interface QueryResult<TModel extends object = object> {
 export type QueryOptions = { page?: number }
 
 export type Query<TProvider extends IProvider> = (id: string, provider: TProvider, options: QueryOptions) => unknown
+
+export interface ISubmitBase extends IProvider {
+    auto: boolean
+}
+
+export interface ServiceSubmit {
+    type: ProviderType.service
+    autoSubmitOn?: 'change' | 'blur'
+    url: string
+    pathMappeng: Record<string, IMappingParam>
+    queryMapping: Record<string, IMappingParam>
+    headerMapping: Record<string, IMappingParam>
+    formMapping: Record<string, IMappingParam>
+    submitForm: boolean
+    method: string
+}
+
+export interface StorageSubmit extends ISubmitBase {
+    type: ProviderType.storage
+    key: string,
+    storage: StorageType
+    model: ModelPrefix
+}
+
+export interface InheritedSubmit extends ISubmitBase {
+    type: ProviderType.inherited
+    model: ModelPrefix
+    tagetDs: string,
+    targetModel: ModelPrefix
+    targetField?: string
+}
+
+export type ISubmit = StorageSubmit | InheritedSubmit | ServiceSubmit

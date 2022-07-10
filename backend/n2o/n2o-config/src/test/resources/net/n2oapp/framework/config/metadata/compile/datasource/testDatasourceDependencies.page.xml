@@ -4,8 +4,9 @@
         <datasource id="master"/>
         <datasource id="detail">
             <dependencies>
-                <fetch on="master"/>
-                <copy on="detail" target-model="datasource"/>
+                <fetch on="master" model="filter"/>
+                <copy on="detail" target-model="datasource" source-model="filter"
+                      target-field-id="target" source-field-id="source"/>
             </dependencies>
         </datasource>
     </datasources>

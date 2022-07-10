@@ -1,4 +1,4 @@
-import { select } from 'redux-saga/effects'
+import { put, select } from 'redux-saga/effects'
 import get from 'lodash/get'
 
 // @ts-ignore ignore import error from js file
@@ -8,15 +8,21 @@ import { dataSourceByIdSelector } from '../selectors'
 import { getLocation, rootPageSelector } from '../../global/store'
 // @ts-ignore ignore import error from js file
 import { makePageRoutesByIdSelector } from '../../pages/selectors'
-import type { QueryOptions, QueryResult, ServiceProvider } from '../Provider'
+import type { QueryOptions, QueryResult, ServiceProvider, ServiceSubmit } from '../Provider'
 import type { State as GlobalState } from '../../State'
+import type { DataSourceState } from '../DataSource'
+// @ts-ignore ignore import error from js file
+import { startInvoke } from '../../../actions/actionImpl'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 // @ts-ignore ignore import error from js file
 import { routesQueryMapping } from './service/routesQueryMapping'
 import { fetch } from './service/fetch'
 
-export function* submit() {
-    // TODO NNO-8034
+export function* submit(id: string, provider: ServiceSubmit) {
+    const { pageId }: DataSourceState = yield select(dataSourceByIdSelector(id))
+
+    yield put(startInvoke(id, provider, ModelPrefix.active, pageId))
 }
 
 export function* invoke() {

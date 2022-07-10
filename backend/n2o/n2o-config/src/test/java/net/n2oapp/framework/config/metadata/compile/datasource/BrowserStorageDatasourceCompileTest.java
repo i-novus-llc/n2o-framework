@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageDatasource;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -16,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
@@ -38,36 +40,47 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
                 compile("net/n2oapp/framework/config/metadata/compile/datasource/testBrowserStorageDatasource.page.xml")
                         .get(new PageContext("testBrowserStorageDatasource"));
 
-        BrowserStorageDatasource datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_test_id");
-        assertThat(datasource.getSize(),is(13));
+        BrowserStorageDatasource datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds1");
+        assertThat(datasource.getSize(), is(13));
 
-        assertThat(datasource.getDependencies().size(),is(2) );
-        assertThat(datasource.getDependencies().get(0).getOn(),is("models.resolve['testBrowserStorageDatasource_123']") );
-        CopyDependency copyDependency = (CopyDependency) datasource.getDependencies().get(1);
-        assertThat(copyDependency.getOn(), is("models.filter['testBrowserStorageDatasource_form_ds'].field_1"));
-        assertThat(copyDependency.getField(), is("form"));
-        assertThat(copyDependency.getType(), is(DependencyType.copy));
-        assertThat(copyDependency.getModel(), is(ReduxModel.filter));
+        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageType.localStorage));
+        assertThat(datasource.getSubmit().getType(), is("browser"));
+        assertThat(datasource.getSubmit().getAuto(), is(false));
+        assertThat(datasource.getSubmit().getModel(), is(ReduxModel.filter));
+        assertThat(datasource.getSubmit().getKey(), is("submit_test_key"));
 
-        assertThat(datasource.getSubmit().getStorage(),is(BrowserStorageType.localStorage));
-        assertThat(datasource.getSubmit().getType(),is("browser"));
-        assertThat(datasource.getSubmit().getAuto(),is(false));
-        assertThat(datasource.getSubmit().getKey(),is("submit_test_key"));
+        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageType.localStorage));
+        assertThat(datasource.getProvider().getType(), is("browser"));
+        assertThat(datasource.getProvider().getKey(), is("test_key"));
 
-        assertThat(datasource.getProvider().getStorage(),is(BrowserStorageType.localStorage));
-        assertThat(datasource.getProvider().getType(),is("browser"));
-        assertThat(datasource.getProvider().getKey(),is("test_key"));
+        assertThat(datasource.getDependencies().size(), is(2));
+        Dependency dependency = datasource.getDependencies().get(0);
+        assertThat(dependency.getOn(), is("models.resolve['testBrowserStorageDatasource_ds']"));
+        assertThat(dependency.getType(), is(DependencyType.fetch));
+
+        dependency = datasource.getDependencies().get(1);
+        assertThat(dependency.getType(), is(DependencyType.copy));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
+        assertThat(dependency.getOn(), is("models.filter['testBrowserStorageDatasource_ds'].source"));
+
 
         // default
-        datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_test_id2");
-        assertThat(datasource.getSize(),is(10));
-        assertThat(datasource.getSubmit().getStorage(),is(BrowserStorageType.sessionStorage));
-        assertThat(datasource.getSubmit().getType(),is("browser"));
-        assertThat(datasource.getSubmit().getAuto(),is(true));
-        assertThat(datasource.getSubmit().getKey(),is("test_id2"));
+        datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds2");
+        assertThat(datasource.getSize(), is(10));
+        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageType.sessionStorage));
+        assertThat(datasource.getSubmit().getType(), is("browser"));
+        assertThat(datasource.getSubmit().getAuto(), is(true));
+        assertThat(datasource.getSubmit().getModel(), is(ReduxModel.resolve));
+        assertThat(datasource.getSubmit().getKey(), is("test_key"));
 
-        assertThat(datasource.getProvider().getStorage(),is(BrowserStorageType.sessionStorage));
-        assertThat(datasource.getProvider().getType(),is("browser"));
-        assertThat(datasource.getProvider().getKey(),is("test_id2"));
+        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageType.sessionStorage));
+        assertThat(datasource.getProvider().getType(), is("browser"));
+        assertThat(datasource.getProvider().getKey(), is("test_key"));
+
+
+        // default without submit
+        datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds3");
+        assertThat(datasource.getSubmit(), nullValue());
+        assertThat(datasource.getProvider().getKey(), is("ds3"));
     }
 }

@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 @Setter
 public abstract class N2oDatasource extends N2oAbstractDatasource implements NamespaceUriAware{
 
-    private Integer size;
     private Dependency[] dependencies;
 
     /**

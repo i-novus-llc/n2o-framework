@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.meta.Dependency;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 
 import java.util.List;
 import java.util.Map;
@@ -24,9 +24,6 @@ public class BrowserStorageDatasource extends AbstractDatasource {
     private Integer size;
     @JsonProperty
     private Submit submit;
-    @JsonProperty
-    private List<Dependency> dependencies;
-
 
     @Getter
     @Setter
@@ -48,6 +45,8 @@ public class BrowserStorageDatasource extends AbstractDatasource {
         private String key;
         @JsonProperty
         private Boolean auto;
+        @JsonProperty
+        private ReduxModel model;
         @JsonProperty
         private BrowserStorageType storage;
     }

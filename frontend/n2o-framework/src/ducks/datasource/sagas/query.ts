@@ -29,6 +29,7 @@ function getQuery<
     TProviderType extends ProviderType = TProvider['type']
 >(provider: TProviderType): Query<TProvider> {
     switch (provider) {
+        case undefined:
         case ProviderType.service: { return serviceQuery as Query<IProvider> }
         case ProviderType.storage: { return storageQuery as Query<IProvider> }
         case ProviderType.inherited: { return inheritedQuery as Query<IProvider> }

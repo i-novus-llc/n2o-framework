@@ -1,16 +1,32 @@
 import { select } from 'redux-saga/effects'
 
 import { dataSourceByIdSelector } from '../selectors'
-import type { QueryOptions, StorageProvider } from '../Provider'
+import type { QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
 import { StorageType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
+import { makeGetModelByPrefixSelector } from '../../models/selectors'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
 import { applyPaging } from './storage/applyPaging'
 
-export function* submit() {
-    // TODO NNO-8034
+export function* submit(id: string, { key, model: prefix, storage }: StorageSubmit) {
+    const model: unknown = yield select(makeGetModelByPrefixSelector(prefix, id))
+    let data
+
+    if (Array.isArray(model)) {
+        data = model
+    } else if (model) {
+        data = [model]
+    }
+
+    const stringData = JSON.stringify(data)
+
+    if (storage === StorageType.local) {
+        localStorage.setItem(key, stringData)
+    } else {
+        sessionStorage.setItem(key, stringData)
+    }
 }
 
 export function* query(id: string, { storage, key }: StorageProvider, options: QueryOptions) {
