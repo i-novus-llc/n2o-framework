@@ -279,6 +279,10 @@ http://n2oapp.net/framework/config/schema/application-3.0
 |toggle-on-hover |Boolean        |Открывается ли панель по hover                   |false               |
 |overlay         |Boolean        |Перекрывает ли боковая панель контент страницы   |true                |
 
+**Тело**
+
+[Стандартный источник данных](../xml/page#datasource), [Навигационная панель](../xml/application#navigation)
+
 **Пример**
 
 ```xml
@@ -286,6 +290,7 @@ http://n2oapp.net/framework/config/schema/application-3.0
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
         <sidebar title="N2O">
+            <datasource id="ds1"/>
             <nav>...</nav>
             <extra-menu>...</extra-menu>
         </sidebar>
@@ -318,7 +323,7 @@ http://n2oapp.net/framework/config/schema/application-3.0
 ```
 
 
-## Навигационная панель
+## Навигационная панель {#navigation}
 
 ### &lt;nav&gt;
 

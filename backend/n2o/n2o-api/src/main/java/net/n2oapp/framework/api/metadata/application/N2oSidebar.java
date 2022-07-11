@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 
 /**
@@ -69,6 +70,11 @@ public class N2oSidebar extends N2oComponent implements DatasourceIdAware, Sourc
      * Идентификатор источника данных боковой панели
      */
     private String datasourceId;
+
+    /**
+     * Внутренний источник данных
+     */
+    private N2oDatasource datasource;
 
     /**
      * Состояние сайдбара по умолчанию
