@@ -4,10 +4,13 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -27,10 +30,10 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
     @Override
     public Sidebar compile(N2oSidebar source, ApplicationContext context, CompileProcessor p) {
         Sidebar sidebar = new Sidebar();
+        initInlineDatasource(sidebar, source, p);
         sidebar.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.sidebar.src"), String.class)));
         sidebar.setClassName(source.getCssClass());
         sidebar.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        sidebar.setDatasource(source.getDatasourceId());
         Logo logo = new Logo();
         logo.setTitle(p.resolveJS(source.getTitle()));
         logo.setSrc(source.getLogoSrc());
@@ -50,5 +53,18 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
         sidebar.setToggleOnHover(p.cast(source.getToggleOnHover(), p.resolve(property("n2o.api.sidebar.toggle_on_hover"), Boolean.class)));
         sidebar.setProperties(p.mapAttributes(source));
         return sidebar;
+    }
+
+    private void initInlineDatasource(Sidebar compiled, N2oSidebar source, CompileProcessor p) {
+        String datasourceId = source.getDatasourceId();
+        if (source.getDatasourceId() == null && source.getDatasource() != null) {
+            N2oDatasource datasource = source.getDatasource();
+            datasourceId = datasource.getId();
+            source.setDatasourceId(datasourceId);
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            if (dataSourcesScope != null)
+                dataSourcesScope.put(datasourceId, datasource);
+        }
+        compiled.setDatasource(datasourceId);
     }
 }

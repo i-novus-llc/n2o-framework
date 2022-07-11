@@ -59,4 +59,11 @@ public class SidebarValidatorTest extends SourceValidationTestBase {
         exception.expectMessage("The /persons path is already taken by one of the sidebars");
         validate("net/n2oapp/framework/config/metadata/application/sidebar/equalPathsValidationFail.application.xml");
     }
+
+    @Test
+    public void testExisingSidebarInlineDatasource() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Datasource 'person' is already exist");
+        validate("net/n2oapp/framework/config/metadata/application/sidebarDatasourceDuplicate.application.xml");
+    }
 }
