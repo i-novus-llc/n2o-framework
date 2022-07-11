@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.object;
+package net.n2oapp.framework.config.metadata.merge.object;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;

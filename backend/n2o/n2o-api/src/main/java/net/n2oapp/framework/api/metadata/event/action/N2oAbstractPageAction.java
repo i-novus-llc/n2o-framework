@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -13,7 +14,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import org.apache.commons.lang3.ArrayUtils;
@@ -70,7 +70,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oParam[] params;
-    private N2oDatasource[] datasources;
+    private N2oAbstractDatasource[] datasources;
     @Deprecated
     private String width;
 

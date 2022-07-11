@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
@@ -183,7 +182,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
     private void initContextDatasource(PageContext context, CompileProcessor p, DataSourcesScope dataSourcesScope, PageScope pageScope) {
         if (context.getDatasources() != null) {
-            for (N2oDatasource ctxDs : context.getDatasources()) {
+            for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
                 if (dataSourcesScope.containsKey(dsId))
                     dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));

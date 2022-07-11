@@ -2,8 +2,8 @@ package net.n2oapp.framework.api.metadata.global.view.page;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
 /**
@@ -15,5 +15,5 @@ public abstract class N2oBasePage extends N2oPage {
     private ActionsBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
-    private N2oDatasource[] datasources;
+    private N2oAbstractDatasource[] datasources;
 }

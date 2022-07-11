@@ -1,12 +1,12 @@
 package net.n2oapp.framework.config.io.action.v2;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.datasource.AbstractDatasourceIO;
 import org.jdom2.Element;
@@ -35,7 +35,7 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attributeBoolean(e, "refresh-on-close", op::getRefreshOnClose, op::setRefreshOnClose);
         p.attributeBoolean(e, "unsaved-data-prompt-on-close", op::getUnsavedDataPromptOnClose, op::setUnsavedDataPromptOnClose);
         p.attribute(e, "route", op::getRoute, op::setRoute);
-        p.anyChildren(e, "datasources", op::getDatasources, op::setDatasources, p.anyOf(N2oDatasource.class), datasourceDefaultNamespace);
+        p.anyChildren(e, "datasources", op::getDatasources, op::setDatasources, p.anyOf(N2oAbstractDatasource.class), datasourceDefaultNamespace);
         p.anyChildren(e, "params", op::getParams, op::setParams,
                 p.oneOf(N2oParam.class)
                         .add("path-param", N2oPathParam.class, this::param)

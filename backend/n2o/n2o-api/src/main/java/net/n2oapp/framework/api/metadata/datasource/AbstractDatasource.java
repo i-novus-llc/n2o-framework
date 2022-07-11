@@ -6,7 +6,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public abstract class AbstractDatasource implements Compiled, IdAware {
 
     @JsonProperty
     private String id;
-    private DefaultValuesMode defaultValuesMode;
     @JsonProperty
     private List<Dependency> dependencies;
     @JsonProperty

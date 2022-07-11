@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.merge;
+package net.n2oapp.framework.config.metadata.merge.widget;
 
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.SourceComponent;
@@ -48,8 +48,8 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Test
     public void testMergeWidget() {
-        N2oForm widget = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentWidgetForm.widget.xml",
-                "net/n2oapp/framework/config/metadata/local/merger/widget/childWidgetForm.widget.xml")
+        N2oForm widget = merge("net/n2oapp/framework/config/metadata/merge/widget/parentWidgetForm.widget.xml",
+                "net/n2oapp/framework/config/metadata/merge/widget/childWidgetForm.widget.xml")
                 .get("parentWidgetForm", N2oForm.class);
         assertThat(widget, notNullValue());
         assertThat(widget.getDependsOn(), is("child"));
@@ -69,8 +69,8 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Test
     public void testMergeForm() {
-        N2oForm form = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentFormMerger.widget.xml",
-                "net/n2oapp/framework/config/metadata/local/merger/widget/childFormMerger.widget.xml")
+        N2oForm form = merge("net/n2oapp/framework/config/metadata/merge/widget/parentFormMerger.widget.xml",
+                "net/n2oapp/framework/config/metadata/merge/widget/childFormMerger.widget.xml")
                 .get("parentFormMerger", N2oForm.class);
         assertThat(form.getMode(), is(FormMode.TWO_MODELS));
         assertThat(form.getPrompt(), is(true));
@@ -84,8 +84,8 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Test
     public void testMergeTable() {
-        N2oTable table = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentTableMerger.widget.xml",
-                "net/n2oapp/framework/config/metadata/local/merger/widget/childTableMerger.widget.xml")
+        N2oTable table = merge("net/n2oapp/framework/config/metadata/merge/widget/parentTableMerger.widget.xml",
+                "net/n2oapp/framework/config/metadata/merge/widget/childTableMerger.widget.xml")
                 .get("parentTableMerger", N2oTable.class);
         assertThat(table.getSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getHeight(), is("100px"));
@@ -121,8 +121,8 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Test
     public void testMergeTableV5() {
-        N2oTable table = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentTableV5Merger.widget.xml",
-                "net/n2oapp/framework/config/metadata/local/merger/widget/childTableV5Merger.widget.xml")
+        N2oTable table = merge("net/n2oapp/framework/config/metadata/merge/widget/parentTableV5Merger.widget.xml",
+                "net/n2oapp/framework/config/metadata/merge/widget/childTableV5Merger.widget.xml")
                 .get("parentTableV5Merger", N2oTable.class);
         assertThat(table.getSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getHeight(), is("100px"));

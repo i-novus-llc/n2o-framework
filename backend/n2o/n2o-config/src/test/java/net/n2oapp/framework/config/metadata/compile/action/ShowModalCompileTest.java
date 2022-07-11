@@ -103,7 +103,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalPage.getToolbar().getButton("close"), notNullValue());
 
         Widget modalWidget = modalPage.getWidget();
-        assertThat(modalPage.getDatasources().get(modalWidget.getDatasource()).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(((StandardDatasource) modalPage.getDatasources().get(modalWidget.getDatasource())).getDefaultValuesMode(),
+                is(DefaultValuesMode.defaults));
         assertThat(((StandardDatasource) modalPage.getDatasources().get(modalWidget.getDatasource())).getProvider(), nullValue());
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();

@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.merge;
+package net.n2oapp.framework.config.metadata.merge.datasource;
 
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
@@ -18,9 +18,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тестирование слияния источников данных
+ * Тестирование слияния стандартных источников данных
  */
-public class N2OStandardDatasourceMergeTest extends SourceMergerTestBase {
+public class N2oStandardDatasourceMergerTest extends SourceMergerTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -33,18 +33,15 @@ public class N2OStandardDatasourceMergeTest extends SourceMergerTestBase {
         builder.packs(new N2oAllPagesPack(), new N2oQueriesPack(), new N2oObjectsPack());
     }
 
-    /**
-     * Тестирование слияния источника данных, переданного из родительской страницы, с текущими источниками
-     */
     @Test
-    public void mergePageContextDatasource() {
-        PageContext pageContext = new PageContext("testDatasourceMerger", "/");
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/merge/testDatasourceMerger.page.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/merge/testDatasourceMergerModal1.page.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/merge/testDatasourceMergerModal2.page.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/merge/testDatasourceMerger.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/merge/testDatasourceMerger.object.xml"));
-        Page page = builder.read().compile().get(pageContext);
+    public void mergeStandardDatasource() {
+        PageContext pageContext = new PageContext("testStandardDatasourceMerger", "/");
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/merge/datasource/standard/testStandardDatasourceMerger.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/merge/datasource/standard/testStandardDatasourceMergerModal1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/merge/datasource/standard/testStandardDatasourceMergerModal2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/merge/datasource/standard/testStandardDatasourceMerger.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/merge/datasource/standard/testStandardDatasourceMerger.object.xml"));
+        builder.read().compile().get(pageContext);
         Page modal1 = builder.read().compile().get(builder.route("/modal1", Page.class, null));
         StandardDatasource mainDs = (StandardDatasource) modal1.getDatasources().get("modal1_main");
         assertThat(mainDs, notNullValue());

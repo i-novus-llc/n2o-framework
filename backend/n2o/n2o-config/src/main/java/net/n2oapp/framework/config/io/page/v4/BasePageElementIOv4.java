@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.io.page.v4;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
@@ -38,7 +38,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> implements Name
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionsBar::new, this::action);
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
-        p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oDatasource.class), DatasourceIOv1.NAMESPACE);
+        p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oAbstractDatasource.class), DatasourceIOv1.NAMESPACE);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 

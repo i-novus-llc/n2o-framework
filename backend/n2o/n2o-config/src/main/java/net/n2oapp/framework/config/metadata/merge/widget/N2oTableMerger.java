@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.widget;
+package net.n2oapp.framework.config.metadata.merge.widget;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;

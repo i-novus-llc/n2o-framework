@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="open-page" type="openPageDefinition"/>
@@ -67,7 +68,13 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
-                    <xs:element name="datasources" type="inlineDatasourcesDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Переопределение источников данных в открываемой странице
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                 </xs:sequence>
                 <xs:attribute name="page-name" type="xs:string">
                     <xs:annotation>
@@ -137,73 +144,6 @@
                 <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="query-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="inlineDatasourcesDefinition">
-        <xs:annotation>
-            <xs:documentation>Переопределение источников данных в открываемой странице.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="datasource" type="inlineStandardDatasourceDefinition" minOccurs="0"/>
-            <xs:element name="browser-storage" type="inlineBrowserStorageDatasourceDefinition" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="inlineBrowserStorageDatasourceDefinition">
-        <xs:annotation>
-            <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор, у которого необходимо переопределить данные.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="key" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Ключ под которым будут храниться данные</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="type" type="storageType">
-            <xs:annotation>
-                <xs:documentation>Тип хранилища в браузере</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:simpleType name="storageType">
-        <xs:annotation>
-            <xs:documentation>Тип хранилища</xs:documentation>
-        </xs:annotation>
-        <xs:restriction>
-            <xs:enumeration value="sessionStorage"/>
-            <xs:enumeration value="localStorage"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:complexType name="inlineStandardDatasourceDefinition">
-        <xs:annotation>
-            <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор, у которого необходимо переопределить данные.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="query-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор запроса.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="object-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор объекта.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="default-values-mode" type="defaultValuesMode">
-            <xs:annotation>
-                <xs:documentation>Режим проставления значений по умолчанию.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="openPageDefinition">
@@ -1140,30 +1080,6 @@
             <xs:enumeration value="selected"/>
             <xs:enumeration value="datasource"/>
             <xs:enumeration value="multi"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="defaultValuesMode">
-        <xs:annotation>
-            <xs:documentation>Режим подстановки значений по умолчанию</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="defaults">
-                <xs:annotation>
-                    <xs:documentation>значения по умолчанию заполняются данными прописанными в полях</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="query">
-                <xs:annotation>
-                    <xs:documentation>значения по умолчанию заполняются данными из запроса</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="merge">
-                <xs:annotation>
-                    <xs:documentation>значения по умолчанию заполняются путем мержа данных прописанных в полях и
-                        полученных из запроса(полученные из запроса в приоритете)</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
 

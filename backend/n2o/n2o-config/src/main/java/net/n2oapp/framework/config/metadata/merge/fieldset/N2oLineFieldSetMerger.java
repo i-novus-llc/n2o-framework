@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.fieldset;
+package net.n2oapp.framework.config.metadata.merge.fieldset;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oLineFieldSet;
@@ -16,9 +16,10 @@ public class N2oLineFieldSetMerger extends N2oFieldSetMerger<N2oLineFieldSet> {
 
     @Override
     public N2oLineFieldSet merge(N2oLineFieldSet source, N2oLineFieldSet override) {
+        super.merge(source, override);
         setIfNotNull(source::setLabel, override::getLabel);
         setIfNotNull(source::setExpand, override::getExpand);
         setIfNotNull(source::setCollapsible, override::getCollapsible);
-        return super.merge(source, override);
+        return source;
     }
 }

@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.fieldset;
+package net.n2oapp.framework.config.metadata.merge.fieldset;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
