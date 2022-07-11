@@ -15,7 +15,7 @@ import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId
 public abstract class AbstractDatasourceCompiler<S extends N2oAbstractDatasource, D extends AbstractDatasource>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    protected void initDatasource(AbstractDatasource datasource, N2oAbstractDatasource source, CompileProcessor p) {
+    protected void initDatasource(N2oAbstractDatasource source, AbstractDatasource datasource, CompileProcessor p) {
         String id = getClientDatasourceId(source.getId(), p.getScope(PageScope.class));
         datasource.setId(id);
     }

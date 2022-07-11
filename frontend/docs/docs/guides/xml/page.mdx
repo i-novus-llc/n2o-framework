@@ -377,19 +377,10 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |--------------------|-----------------------|----------------------------------------------------------------------|----------------------|
 |id                  |Строка                 |Идентификатор источника данных из application.xml                     |                      |
 
-**Тело**
-
-[Зависимости источника данных](#ds_dependencies)
-
 **Пример**
 
 ```xml
-<app-datasource id="ds1">
-  <dependencies>
-    <fetch on="ds2"/>
-    ...
-  </dependencies>
-</app-datasource>
+<app-datasource id="ds1"/>
 ```
 
 ### &lt;browser-storage&gt; {#browser-storage}
@@ -446,6 +437,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |source-datasource   |Строка                        |Идентификатор источника данных, из которого будут скопированы данные  |                                   |
 |source-model        |filter,resolve,edit,datasource|Модель источника данных, из которой будут скопированы данные          |resolve                            |
 |target-field-id     |Строка                        |Идентификатор поля, из которого будут скопированы данные              |Вся модель                         |
+|size                |Число                  |Размер выборки                                                               |10                                 |
 
 **Тело**
 [Сохранение данных](#inherited_datasource_submit)

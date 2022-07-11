@@ -3,11 +3,7 @@ package net.n2oapp.framework.api.metadata.datasource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Клиентская модель источника, хранящего данные в браузере
@@ -18,10 +14,6 @@ public class BrowserStorageDatasource extends AbstractDatasource {
 
     @JsonProperty
     private Provider provider;
-    @JsonProperty
-    private Map<String, List<Validation>> validations;
-    @JsonProperty
-    private Integer size;
     @JsonProperty
     private Submit submit;
 

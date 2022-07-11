@@ -69,17 +69,14 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     @Override
     public StandardDatasource compile(N2oStandardDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StandardDatasource compiled = new StandardDatasource();
-        initDatasource(compiled, source, p);
+        compileDatasource(source, compiled, p);
         initDefaults(source, p);
-        compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
         compiled.setProvider(initDataProvider(compiled, source, context, p, query, compiled.getDefaultValuesMode()));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
-        compiled.setDependencies(initDependencies(source, p));
-        compiled.setValidations(initValidations(source, p));
         compiled.setQueryId(source.getQueryId());
         return compiled;
     }

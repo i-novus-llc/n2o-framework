@@ -38,7 +38,6 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         p.attribute(e, "object-id", ds::getObjectId, ds::setObjectId);
         p.attributeEnum(e, "default-values-mode", ds::getDefaultValuesMode, ds::setDefaultValuesMode, DefaultValuesMode.class);
         p.attribute(e, "route", ds::getRoute, ds::setRoute);
-        p.attributeInteger(e, "size", ds::getSize, ds::setSize);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, Submit::new, this::submit);
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);

@@ -12,6 +12,7 @@ public abstract class BaseDatasourceIO<T extends N2oDatasource> extends Abstract
     @Override
     public void io(Element e, T ds, IOProcessor p) {
         super.io(e, ds, p);
+        p.attributeInteger(e, "size", ds::getSize, ds::setSize);
         p.anyChildren(e, "dependencies", ds::getDependencies, ds::setDependencies,
                 p.oneOf(N2oDatasource.Dependency.class)
                         .add("fetch", N2oDatasource.FetchDependency.class, this::fetch)

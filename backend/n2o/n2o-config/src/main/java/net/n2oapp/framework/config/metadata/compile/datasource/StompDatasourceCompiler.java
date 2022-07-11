@@ -26,7 +26,7 @@ public class StompDatasourceCompiler extends AbstractDatasourceCompiler<N2oStomp
     @Override
     public StompDatasource compile(N2oStompDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StompDatasource compiled = new StompDatasource();
-        initDatasource(compiled, source, p);
+        initDatasource(source, compiled, p);
         compiled.setProvider(initProvider(source));
         compiled.setValues(initValues(source));
         return compiled;

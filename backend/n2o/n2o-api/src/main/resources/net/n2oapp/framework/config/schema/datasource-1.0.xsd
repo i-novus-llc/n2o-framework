@@ -28,6 +28,11 @@
                 <xs:documentation>Идентификатор источника данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="size" type="xs:integer" default="10">
+            <xs:annotation>
+                <xs:documentation>Размер выборки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="standardDatasourceDefinition">
@@ -40,11 +45,6 @@
                     <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
                     <xs:element name="filters" type="datasourceFiltersDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="size" type="xs:integer" default="10">
-                    <xs:annotation>
-                        <xs:documentation>Размер выборки</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="default-values-mode" type="act:defaultValuesMode" default="query">
                     <xs:annotation>
                         <xs:documentation>
@@ -96,11 +96,6 @@
                 <xs:sequence>
                     <xs:element name="submit" type="browserStorageDatasourceSubmit" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="size" type="xs:integer" default="10">
-                    <xs:annotation>
-                        <xs:documentation>Размер выборки</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="type" type="storageType" default="sessionStorage">
                     <xs:annotation>
                         <xs:documentation>Тип хранилища в браузере</xs:documentation>

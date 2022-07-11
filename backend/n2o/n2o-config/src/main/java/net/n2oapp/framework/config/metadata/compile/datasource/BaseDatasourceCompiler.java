@@ -20,10 +20,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Базовая компиляция источника данных
  */
 public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends AbstractDatasource> extends AbstractDatasourceCompiler<S, D> {
+
+    public void compileDatasource(S source, D compiled, CompileProcessor p) {
+        initDatasource(source, compiled, p);
+        compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
+        compiled.setDependencies(initDependencies(source, p));
+        compiled.setValidations(initValidations(source, p));
+    }
 
     protected Map<String, List<Validation>> initValidations(N2oDatasource source, CompileProcessor p) {
         ValidationList validationList = p.getScope(ValidationList.class);

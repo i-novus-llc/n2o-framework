@@ -33,6 +33,8 @@ public class CompileUtil {
      * @return Идентификатор клиентского источника данных
      */
     public static String getClientDatasourceId(String datasourceId, String pageId) {
+        if (datasourceId == null)
+            return null;
         String separator = "_".equals(pageId) ? "" : "_";
         return pageId.concat(separator).concat(datasourceId);
     }
