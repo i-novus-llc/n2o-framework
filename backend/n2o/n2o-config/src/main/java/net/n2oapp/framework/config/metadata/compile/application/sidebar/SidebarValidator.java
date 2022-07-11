@@ -37,6 +37,9 @@ public class SidebarValidator extends TypedMetadataValidator<N2oSidebar> {
     }
 
     private void checkPath(N2oSidebar sidebar, SidebarPathsScope scope) {
+        if (scope == null)
+            return;
+
         String sidebarPath = sidebar.getPath();
         if (scope.contains(sidebarPath)) {
             String errorMessage = sidebarPath == null

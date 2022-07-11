@@ -57,15 +57,15 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
         if (source.getParams() != null) {
             for (N2oParam param : source.getParams()) {
-                initDefaultsParam(param, context, p, source);
+                initDefaultsParam(param, p, source);
             }
         }
     }
 
-    private void initDefaultsParam(N2oParam param, CompileContext<?, ?> context, CompileProcessor p, S source) {
+    private void initDefaultsParam(N2oParam param, CompileProcessor p, S source) {
         param.setModel(p.cast(param.getModel(), () -> getModelFromComponentScope(p)));
         param.setDatasource(p.cast(param.getDatasource(), () -> getLocalDatasource(p)));
-        if (param.getDatasource() == null)
+        if (param.getDatasource() == null && param.getValue() == null)
             throw new N2oException(String.format("datasource is not undefined for param %s of action %s", param.getName(), source.getId()));
         param.setRefPageId(p.cast(param.getRefPageId(), () -> {
             PageScope pageScope = p.getScope(PageScope.class);
@@ -186,7 +186,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentLocalDatasourceId(localDatasourceId);
         pageContext.setParentGlobalDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(localDatasourceId) : localDatasourceId);
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
-        pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
@@ -213,14 +212,31 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                     RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));
         }
         pageContext.setPathRouteMapping(pathMapping);
-        initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope,
-                actionModelWidgetId, widgetIdQueryIdMap, p);
+        initQueryMapping(source.getQueryParams(), pathMapping, queryMapping, p);
         pageContext.setQueryRouteMapping(queryMapping);
+        pageContext.setParentModelLinks(collectParentLinks(actionModelLink, pathMapping.values(), queryMapping.values()));
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
+    }
+
+    /**
+     * Сбор родительских ссылок на модели в список в порядке приоритета их использования для разрешения
+     * параметров открываемой страницы
+     *
+     * @param actionModelLink Ссылка на модель действия
+     * @param pathLinks       Ссылки на модели параметров пути
+     * @param queryLinks      Ссылки на модели параметров запроса
+     * @return список родительских ссылок
+     */
+    protected List<ModelLink> collectParentLinks(ModelLink actionModelLink, Collection<ModelLink> pathLinks, Collection<ModelLink> queryLinks) {
+        List<ModelLink> links = new ArrayList<>();
+        links.add(actionModelLink);
+        links.addAll(pathLinks);//TODO возможно стоит добавить сортировку по использованию в route
+        links.addAll(queryLinks);
+        return links;
     }
 
     /**
@@ -270,19 +286,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * Добавление параметров запроса в queryMapping
      *
      * @param params                  Список входящих параметров запроса
-     * @param actionDataModel         Модель действия
      * @param pathMapping             Map моделей параметров пути
      * @param queryMapping            Map моделей параметров запроса.
      *                                В нее будут добавлены модели построенных параметров запроса
-     * @param pageScope               Информация о странице
-     * @param defaultParamRefWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
-     *                                в случае, если в параметре не задан виджет
-     * @param widgetIdQueryIdMap      Map идентификатора выборки по идентификатору виджета
      * @param p                       Процессор сборки метаданных
      */
-    private void initQueryMapping(N2oParam[] params, ReduxModel actionDataModel, Map<String, ModelLink> pathMapping,
-                                  Map<String, ModelLink> queryMapping, PageScope pageScope,
-                                  String defaultParamRefWidgetId, Map<String, String> widgetIdQueryIdMap, CompileProcessor p) {
+    private void initQueryMapping(N2oParam[] params, Map<String, ModelLink> pathMapping,
+                                  Map<String, ModelLink> queryMapping, CompileProcessor p) {
         if (params == null || params.length == 0) return;
         List<N2oParam> resultParams = prepareParams(params);
         queryMapping.putAll(initParams(resultParams, pathMapping, p));

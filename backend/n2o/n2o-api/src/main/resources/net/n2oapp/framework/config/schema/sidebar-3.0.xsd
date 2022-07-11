@@ -27,6 +27,11 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ref-id">
+            <xs:annotation>
+                <xs:documentation>Ссылка на родительский файл боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация боковой панели. По умолчанию Sidebar</xs:documentation>

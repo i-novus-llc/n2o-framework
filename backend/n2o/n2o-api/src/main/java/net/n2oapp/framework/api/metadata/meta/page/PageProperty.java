@@ -6,6 +6,8 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
+import java.util.List;
+
 /**
  * Свойства страницы
  */
@@ -18,5 +20,5 @@ public class PageProperty implements Compiled {
     private String modalHeaderTitle;
     @JsonProperty
     private String htmlTitle;
-    private ModelLink modelLink;
+    private List<ModelLink> modelLinks;
 }
