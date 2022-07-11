@@ -29,16 +29,4 @@ public class N2oUserException extends N2oException {
         setUserMessage(userMessage);
         setHttpStatus(400);
     }
-
-    public N2oUserException(String userMessage, Throwable cause) {
-        super(cause);
-        setUserMessage(userMessage);
-        setHttpStatus(400);
-    }
-
-    public N2oUserException(String userMessage, String techMessage, Throwable cause) {
-        super(techMessage, cause);
-        setUserMessage(userMessage);
-        setHttpStatus(400);
-    }
 }
