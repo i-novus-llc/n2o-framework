@@ -10,6 +10,7 @@ import get from 'lodash/get'
 import has from 'lodash/has'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 import merge from 'deepmerge'
 
 import { START_INVOKE } from '../constants/actionImpls'
@@ -25,6 +26,7 @@ import { setModel } from '../ducks/models/store'
 import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
+import { resolveButton } from '../ducks/toolbar/sagas'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 import { MODEL_PREFIX } from '../core/datasource/const'
 import { failValidate } from '../ducks/datasource/store'
@@ -153,7 +155,8 @@ export function* handleInvoke(apiProvider, action) {
 
     const state = yield select()
     const optimistic = get(dataProvider, 'optimistic', false)
-    const buttonIds = !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : []
+    const buttons = get(state, ['toolbar', pageId], [])
+    const buttonIds = !optimistic && has(state, 'toolbar') ? keys(buttons) : []
     const model = yield select(makeGetModelByPrefixSelector(modelPrefix, datasource))
     const widgets = Object.entries(yield select(widgetsSelector))
         .filter(([, widget]) => (widget.datasource === datasource))
@@ -215,8 +218,15 @@ export function* handleInvoke(apiProvider, action) {
     } finally {
         if (pageId) {
             yield put(enablePage(pageId))
+
             for (const buttonId of buttonIds) {
-                yield put(changeButtonDisabled(pageId, buttonId, false))
+                const button = buttons[buttonId]
+
+                if (!isEmpty(button.conditions)) {
+                    yield call(resolveButton, buttons[buttonId])
+                } else {
+                    yield put(changeButtonDisabled(pageId, buttonId, false))
+                }
             }
         }
         if (widgets.length) {
