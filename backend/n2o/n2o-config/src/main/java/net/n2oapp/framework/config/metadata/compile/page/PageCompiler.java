@@ -69,8 +69,8 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         }
         Breadcrumb current = new Breadcrumb();
         current.setLabel(pageName);
-        if (context.getParentModelLink() != null) {
-            current.setModelLink(context.getParentModelLink());
+        if (context.getParentModelLinks() != null) {
+            current.setModelLinks(context.getParentModelLinks());
         }
         breadcrumbs.add(current);
         return breadcrumbs;
@@ -95,8 +95,8 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         else if (showTitle)
             pageProperty.setTitle(p.cast(source.getTitle(), pageName));
 
-        if (context.getParentModelLink() != null)
-            pageProperty.setModelLink(context.getParentModelLink());
+        if (context.getParentModelLinks() != null)
+            pageProperty.setModelLinks(context.getParentModelLinks());
         return pageProperty;
     }
 }
