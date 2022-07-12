@@ -113,7 +113,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'setValue': {
-            if (evalResult === undefined || isEqual(evalResult, values[fieldName])) {
+            if (evalResult === undefined || isEqual(evalResult, get(values, fieldName))) {
                 break
             }
 
