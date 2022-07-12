@@ -48,6 +48,7 @@ export type ResolveRequestAction = DatasourceAction<{
 
 export type FailRequestAction = DatasourceAction<{
     id: string
+    error?: Error | object
 }>
 
 export type SetSortDirectionAction = DatasourceAction<{

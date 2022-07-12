@@ -84,3 +84,8 @@ export const dataSourceFieldError = (
     dataSourceErrors(sourceId, prefix),
     errors => errors[field],
 )
+
+export const dataSourceError = (sourceId: string) => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => (state.error || {}),
+)

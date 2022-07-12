@@ -23,10 +23,12 @@ export interface DataSourceState<
     submit?: ISubmit
     fieldsSubmit: Record<TKey, IProvider>
     pageId?: string
+    // TODO: rename to "messages"
     errors: Record<
     ModelPrefix.active | ModelPrefix.edit,
     Partial<Record<TKey, IValidationResult[]>>
     >
+    error?: Error | object
 }
 
 export class DataSource {
