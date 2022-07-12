@@ -1,10 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { pure } from 'recompose'
+import { pure, compose, getContext } from 'recompose'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import get from 'lodash/get'
 
 import Toolbar from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
+import { dataSourceError } from '../../ducks/datasource/selectors'
+import { errorController } from '../errors/errorController'
 
 import WidgetFilters from './WidgetFilters'
 
@@ -88,13 +93,33 @@ class StandardWidget extends React.Component {
     }
 
     render() {
-        const { disabled, filter, className, style, children, loading } = this.props
+        const {
+            disabled,
+            filter,
+            className,
+            style,
+            children,
+            loading,
+            error,
+            defaultErrorPages,
+        } = this.props
 
         const classes = classNames([
             className,
             'n2o-standard-widget-layout',
             { 'n2o-disabled': disabled },
         ])
+
+        const status = get(error, 'status', null)
+        const errorComponent = errorController(status, defaultErrorPages)
+
+        const childrenWithProps = React.Children.map(children, (child) => {
+            if (React.isValidElement(child)) {
+                return React.cloneElement(child, { errorComponent })
+            }
+
+            return child
+        })
 
         return (
             <div className={classes} style={style}>
@@ -116,7 +141,7 @@ class StandardWidget extends React.Component {
                     </div>
                     <div>
                         <Spinner loading={loading} type="cover">
-                            {children}
+                            {childrenWithProps}
                         </Spinner>
 
                     </div>
@@ -155,6 +180,7 @@ StandardWidget.propTypes = {
     toolbar: PropTypes.object,
     filter: PropTypes.object,
     filterModel: PropTypes.object,
+    error: PropTypes.object,
     setFilter: PropTypes.func,
     fetchData: PropTypes.func,
     disabled: PropTypes.bool,
@@ -180,6 +206,25 @@ StandardWidget.propTypes = {
     ]),
     children: PropTypes.node,
     loading: PropTypes.bool,
+    defaultErrorPages: PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
 }
 
-export default pure(StandardWidget)
+const mapStateToProps = createStructuredSelector({
+    error: (state, { datasource }) => {
+        if (state.datasource[datasource]) {
+            return dataSourceError(datasource)(state)
+        }
+
+        return null
+    },
+})
+
+export default compose(
+    pure,
+    getContext({
+        defaultErrorPages: PropTypes.arrayOf(
+            PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
+        ),
+    }),
+    connect(mapStateToProps),
+)(StandardWidget)

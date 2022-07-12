@@ -126,6 +126,8 @@ const datasource = createSlice({
                     return
                 }
 
+                delete state[id].error
+
                 state[id].loading = true
             },
         },
@@ -147,18 +149,19 @@ const datasource = createSlice({
         },
 
         rejectRequest: {
-            prepare(id: string, err?, meta?) {
+            prepare(id: string, error?, meta?) {
                 return ({
-                    payload: { id, err },
+                    payload: { id, error },
                     meta,
                 })
             },
             reducer(state, action: FailRequestAction) {
-                const { id } = action.payload
+                const { id, error } = action.payload
 
                 if (!state[id]) { return }
 
                 state[id].loading = false
+                state[id].error = error
             },
         },
 
