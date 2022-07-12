@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.PrintType;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -37,6 +38,12 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         String path = RouteUtil.absolute(source.getUrl(), routeScope != null ? routeScope.getUrl() : null);
         print.getPayload().setUrl(path);
+        print.getPayload().setType(p.cast(source.getType(), PrintType.pdf));
+        print.getPayload().setKeepIndent(p.cast(source.getKeepIndent(), Boolean.FALSE));
+        print.getPayload().setDocumentTitle(source.getDocumentTitle());
+        print.getPayload().setLoader(p.cast(source.getLoader(), Boolean.FALSE));
+        print.getPayload().setLoaderText(source.getLoaderText());
+        print.getPayload().setBase64(p.cast(source.getBase64(), Boolean.FALSE));
 
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null) {
