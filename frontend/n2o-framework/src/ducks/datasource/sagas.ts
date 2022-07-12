@@ -25,6 +25,7 @@ import {
 import { watchDependencies } from './sagas/dependencies'
 import type { ChangePageAction, DataRequestAction, RemoveAction } from './Actions'
 import { submitSaga } from './sagas/submit'
+import { clear } from './Providers/Storage'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
@@ -88,4 +89,6 @@ export default () => [
             yield put(dataRequest(datasource))
         }
     }),
+    // @ts-ignore FIXME: проставить тип action
+    takeEvery(action => action.meta?.clear, clear),
 ]

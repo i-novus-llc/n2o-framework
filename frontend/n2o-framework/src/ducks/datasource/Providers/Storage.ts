@@ -1,8 +1,8 @@
 import { select } from 'redux-saga/effects'
 
-import { dataSourceByIdSelector } from '../selectors'
-import type { QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
-import { StorageType } from '../Provider'
+import { dataSourceByIdSelector, dataSourceProviderSelector } from '../selectors'
+import type { IProvider, QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
+import { ProviderType, StorageType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { makeGetModelByPrefixSelector } from '../../models/selectors'
 
@@ -69,5 +69,29 @@ export function* query(id: string, { storage, key }: StorageProvider, options: Q
         list,
         page: newPage,
         count: filtered.length,
+    }
+}
+
+export function* clear({ meta }: {
+    meta: {
+        clear?: string
+    }
+}) {
+    const { clear: id } = meta
+
+    if (!id) { return }
+
+    const provider: IProvider | void = yield select(dataSourceProviderSelector(id))
+
+    if (!provider || provider.type !== ProviderType.storage) {
+        return
+    }
+
+    const { storage, key } = provider as StorageProvider
+
+    if (storage === StorageType.local) {
+        localStorage.removeItem(key)
+    } else {
+        sessionStorage.removeItem(key)
     }
 }
