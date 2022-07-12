@@ -2,7 +2,6 @@ import {
     put,
     select,
     takeEvery,
-    cancel,
 } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
@@ -15,7 +14,7 @@ import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
-import { clearModel } from '../ducks/models/store'
+import { removeAllModel } from '../ducks/models/store'
 
 /* TODO избавиться от alertEffect
     для этого бэку нужно присылать
@@ -48,17 +47,12 @@ export function* alertEffect(action) {
 }
 
 export function* clearOnSuccessEffect(action) {
-    const { payload, meta } = action
-    const key = get(meta, 'success.clear', null)
+    const { meta } = action
+    const datasourceId = get(meta, 'clear', null)
 
-    if (key) {
-        const state = yield select()
-        const { model: prefix } = payload
+    if (!datasourceId) { return }
 
-        const clearAction = { payload: { prefixes: [prefix], key } }
-
-        yield put(clearModel(state, clearAction))
-    }
+    yield put(removeAllModel(datasourceId))
 }
 
 export function* redirectEffect(action) {
@@ -74,9 +68,9 @@ export function* redirectEffect(action) {
         })
 
         if (target === 'application') {
+            yield clearOnSuccessEffect(action)
             yield put(push(newUrl))
             yield put(destroyOverlays())
-            yield clearOnSuccessEffect(action)
         } else if (target === 'self') {
             window.location = newUrl
         } else {
@@ -109,10 +103,9 @@ export function* clearEffect(action) {
     const { meta } = action
 
     const redirect = get(meta, 'redirect', null)
-    const refresh = get(meta, 'refresh', null)
 
-    if (redirect || refresh) {
-        yield cancel()
+    if (redirect) {
+        return
     }
 
     yield clearOnSuccessEffect(action)
@@ -126,5 +119,5 @@ export const metaSagas = [
     takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
     takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
     takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),
-    takeEvery(action => action.meta && action.meta.success, clearEffect),
+    takeEvery(action => action.meta?.clear, clearEffect),
 ]
