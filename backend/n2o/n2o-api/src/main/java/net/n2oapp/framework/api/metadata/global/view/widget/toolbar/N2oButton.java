@@ -24,7 +24,7 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     private Boolean validate;
     private String datasourceId;
     private ReduxModel model;
-    private String[] validateDatasources;
+    private String[] validateDatasourceIds;
     private N2oAction action;
 
     private String confirm;

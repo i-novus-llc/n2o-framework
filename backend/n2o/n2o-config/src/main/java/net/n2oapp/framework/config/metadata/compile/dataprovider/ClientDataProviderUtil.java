@@ -25,12 +25,12 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Утилита для компиляции провайдера данных клиента
@@ -97,12 +97,7 @@ public class ClientDataProviderUtil {
     }
 
     public static String getClientWidgetIdByComponentScope(CompileProcessor p) {
-        String widgetId = getWidgetIdByComponentScope(p);
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null && widgetId != null) {
-            return pageScope.getGlobalWidgetId(widgetId);
-        }
-        return null;
+        return getClientDatasourceId(getWidgetIdByComponentScope(p), p.getScope(PageScope.class));
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
@@ -129,13 +124,13 @@ public class ClientDataProviderUtil {
         if (value == null || StringUtils.isJs(value)) {
             PageScope pageScope = p.getScope(PageScope.class);
             String datasourceId;
-            if (param.getDatasource() == null) {
+            if (param.getDatasourceId() == null) {
                 datasourceId = targetDatasourceId;
             } else {
                 String pageId = param.getRefPageId();
                 if (param.getRefPageId() == null && pageScope != null)
                     pageId = pageScope.getPageId();
-                datasourceId = CompileUtil.generateDatasourceId(pageId, param.getDatasource());
+                datasourceId = getClientDatasourceId(param.getDatasourceId(), pageId);
             }
             link = new ModelLink(p.cast(param.getModel(), model), datasourceId);
             link.setValue(value);
@@ -236,12 +231,5 @@ public class ClientDataProviderUtil {
             }
         }
         return defaultModel;
-    }
-
-    public static String initClientDatasource(String datasourceId, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null && datasourceId != null)
-            return pageScope.getClientDatasourceId(datasourceId);
-        return null;
     }
 }

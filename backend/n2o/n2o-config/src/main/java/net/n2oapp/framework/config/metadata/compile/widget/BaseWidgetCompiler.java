@@ -43,6 +43,7 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientWidgetId;
 
 /**
  * Компиляция абстрактного виджета
@@ -56,7 +57,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      */
     protected void compileBaseWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                      CompiledObject object) {
-        compiled.setId(initGlobalWidgetId(source, context, p));
+        compiled.setId(initClientWidgetId(source, context, p));
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
@@ -124,13 +125,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return datasource;
     }
 
-    private String initGlobalWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
+    private String initClientWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null) {
-            return pageScope.getGlobalWidgetId(source.getId());
-        } else {
-            return context.getCompiledId((N2oCompileProcessor) p);
-        }
+        return pageScope != null ?
+                getClientWidgetId(source.getId(), pageScope) :
+                context.getCompiledId((N2oCompileProcessor) p);
     }
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,

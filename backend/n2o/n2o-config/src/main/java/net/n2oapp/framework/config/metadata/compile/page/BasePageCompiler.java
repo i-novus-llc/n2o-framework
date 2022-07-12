@@ -46,6 +46,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientWidgetId;
 
 /**
  * Базовая компиляция страницы с регионами
@@ -155,8 +157,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 .collect(Collectors.toMap(N2oMetadata::getId,
                         w -> w.getDatasourceId() == null ? w.getId() : w.getDatasourceId())));
         pageScope.getWidgetIdClientDatasourceMap().putAll(sourceWidgets.stream()
-                .collect(Collectors.toMap(w -> pageScope.getGlobalWidgetId(w.getId()),
-                        w -> pageScope.getGlobalWidgetId(w.getDatasourceId() == null ? w.getId() : w.getDatasourceId()))));
+                .collect(Collectors.toMap(w -> getClientWidgetId(w.getId(), pageScope),
+                        w -> getClientDatasourceId(w.getDatasourceId() == null ? w.getId() : w.getDatasourceId(), pageScope))));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;

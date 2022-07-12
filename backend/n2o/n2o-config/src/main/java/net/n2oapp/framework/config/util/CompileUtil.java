@@ -21,8 +21,18 @@ public class CompileUtil {
     public static String getClientDatasourceId(String datasourceId, PageScope pageScope) {
         if (pageScope == null)
             return datasourceId;
-
         return getClientDatasourceId(datasourceId, pageScope.getPageId());
+    }
+
+    /**
+     * Получение идентификатора клиентского источника данных
+     *
+     * @param widgetId  Идентификатор источника данных
+     * @param pageScope Информация о странице
+     * @return Идентификатор клиентского источника данных
+     */
+    public static String getClientWidgetId(String widgetId, PageScope pageScope) {
+        return getClientDatasourceId(widgetId, pageScope);
     }
 
     /**
@@ -38,19 +48,6 @@ public class CompileUtil {
         String separator = "_".equals(pageId) ? "" : "_";
         return pageId.concat(separator).concat(datasourceId);
     }
-
-    public static String generateDatasourceId(String pageId, String localDatasourceId) {
-        if ("_".equals(pageId))
-            return pageId + localDatasourceId;
-        return pageId + "_" + localDatasourceId;
-    }
-
-    public static String generateWidgetId(String pageId, String localWidgetId) {
-        if ("_".equals(pageId))
-            return pageId + localWidgetId;
-        return pageId + "_" + localWidgetId;
-    }
-
 
     /**
      * Преобразовывает плоскую мапу в объемную по знаку "-" в ключе

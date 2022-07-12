@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.datasource.Submittable;
 
 
 /**
- * Абстратная реализация контрола
+ * Абстрактная реализация контрола
  */
 @Getter
 @Setter

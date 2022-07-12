@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Компиляция действия обновления данных виджета
@@ -27,9 +28,8 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
         RefreshAction refreshAction = new RefreshAction();
         compileAction(refreshAction, source, p);
         refreshAction.setType(p.resolve(property("n2o.api.action.refresh.type"), String.class));
-        PageScope pageScope = p.getScope(PageScope.class);
-        String datasource = pageScope != null ? pageScope.getClientDatasourceId(source.getDatasourceId()) : source.getDatasourceId();
-        ((RefreshPayload) refreshAction.getPayload()).setDatasource(datasource);
+        String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p.getScope(PageScope.class));
+        ((RefreshPayload) refreshAction.getPayload()).setDatasource(clientDatasource);
         return refreshAction;
     }
 

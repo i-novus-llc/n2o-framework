@@ -12,11 +12,11 @@ import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getDatasourceByComponentScope;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Сборка действия вызова операции
@@ -37,10 +37,10 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
 
         PageScope pageScope = p.getScope(PageScope.class);
         CopyActionPayload.ClientModel sourceModel = new CopyActionPayload.ClientModel(
-                pageScope != null ? pageScope.getClientDatasourceId(source.getSourceDatasource()) : source.getSourceDatasource(),
+                getClientDatasourceId(source.getSourceDatasourceId(), pageScope),
                 source.getSourceModel().getId(), source.getSourceFieldId());
         CopyActionPayload.ClientModel targetModel = new CopyActionPayload.ClientModel(
-                getDatasourceId(source, p),
+                getTargetDatasourceId(source, p),
                 source.getTargetModel().getId(),
                 source.getTargetFieldId());
 
@@ -57,9 +57,9 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         super.initDefaults(source, context, p);
         source.setMode(p.cast(source.getMode(), CopyMode.merge));
         source.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
-        source.setSourceDatasource(initSourceDatasource(source, p));
+        source.setSourceDatasourceId(initSourceDatasource(source, p));
         source.setTargetModel(p.cast(source.getTargetModel(), ReduxModel.resolve));
-        source.setTargetDatasource(initTargetDatasource(source, p));
+        source.setTargetDatasourceId(initTargetDatasource(source, p));
     }
 
     private MetaSaga compileMeta(CompileProcessor p) {
@@ -70,8 +70,8 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String initSourceDatasource(N2oCopyAction source, CompileProcessor p) {
-        if (source.getSourceDatasource() != null)
-            return source.getSourceDatasource();
+        if (source.getSourceDatasourceId() != null)
+            return source.getSourceDatasourceId();
         String datasource = getDatasourceByComponentScope(p);
         if (datasource != null)
             return datasource;
@@ -82,18 +82,15 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String initTargetDatasource(N2oCopyAction source, CompileProcessor p) {
-        if (source.getTargetDatasource() != null)
-            return source.getTargetDatasource();
+        if (source.getTargetDatasourceId() != null)
+            return source.getTargetDatasourceId();
         return initSourceDatasource(source, p);
     }
 
-    private String getDatasourceId(N2oCopyAction source, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getTargetClientPageId() != null) {
-            return CompileUtil.generateDatasourceId(source.getTargetClientPageId(), source.getTargetDatasource());
-        } else {
-            return pageScope == null ? source.getTargetDatasource() :
-                    CompileUtil.generateDatasourceId(pageScope.getPageId(), source.getTargetDatasource());
-        }
+    private String getTargetDatasourceId(N2oCopyAction source, CompileProcessor p) {
+        if (source.getTargetClientPageId() != null)
+            return getClientDatasourceId(source.getTargetDatasourceId(), source.getTargetClientPageId());
+        else
+            return getClientDatasourceId(source.getTargetDatasourceId(), p.getScope(PageScope.class));
     }
 }

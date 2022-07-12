@@ -110,7 +110,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                 if (getRoute() != null && getRoute().contains(":" + param)) {
                     N2oPathParam pathParam = new N2oPathParam();
                     pathParam.setName(param);
-                    pathParam.setDatasource(filter.getDatasource());
+                    pathParam.setDatasourceId(filter.getDatasourceId());
                     pathParam.setModel(filter.getModel());
                     pathParam.setValue(filter.getValueAttr());
                     boolean exists = false;
@@ -127,7 +127,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                 } else if (!ReduxModel.filter.equals(filter.getModel())) {
                     N2oQueryParam queryParam = new N2oQueryParam();
                     queryParam.setName(param);
-                    queryParam.setDatasource(filter.getDatasource());
+                    queryParam.setDatasourceId(filter.getDatasourceId());
                     queryParam.setModel(filter.getModel());
                     queryParam.setValue(filter.getValueAttr());
                     boolean exists = false;

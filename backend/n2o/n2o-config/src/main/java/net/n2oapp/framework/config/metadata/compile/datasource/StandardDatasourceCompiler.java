@@ -42,7 +42,6 @@ import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -182,9 +181,9 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
                         String pageId = p.cast(preFilter.getRefPageId(), pageScope.getPageId());
-                        String globalDsId = CompileUtil.generateWidgetId(pageId, preFilter.getDatasource());
+                        String clientDatasourceId = getClientDatasourceId(preFilter.getDatasourceId(), pageId);
                         ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.resolve);
-                        ModelLink link = new ModelLink(model, globalDsId);
+                        ModelLink link = new ModelLink(model, clientDatasourceId);
                         link.setValue(prefilterValue);
                         link.setParam(filter.getParam());
                         filter.setLink(link);
@@ -313,8 +312,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         actionContextData.setOperation(object.getOperations().get(submit.getOperationId()));
         if (submit.getRefreshOnSuccess() != null) {
             actionContextData.setRefresh(new RefreshSaga());
-            if (submit.getRefreshDatasources() != null)
-                actionContextData.getRefresh().setDatasources(Arrays.asList(submit.getRefreshDatasources()));
+            if (submit.getRefreshDatasourceIds() != null)
+                actionContextData.getRefresh().setDatasources(Arrays.asList(submit.getRefreshDatasourceIds()));
         }
         dataProvider.setActionContextData(actionContextData);
 

@@ -51,7 +51,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param source Поле
      */
     private void checkDefaultValues(N2oField source) {
-        if ((source.getRefPage() != null || source.getRefDatasource() != null || source.getRefModel() != null)
+        if ((source.getRefPage() != null || source.getRefDatasourceId() != null || source.getRefModel() != null)
                 && source.getRefFieldId() == null)
             if (source instanceof N2oListField) {
                 N2oListField list = (N2oListField) source;
@@ -106,10 +106,10 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param datasourceIdsScope Скоуп источников данных
      */
     private void checkRefDatasource(N2oField source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getRefDatasource() != null && N2oField.Page.THIS.equals(source.getRefPage())) {
-            ValidationUtils.checkForExistsDatasource(source.getRefDatasource(), datasourceIdsScope,
+        if (source.getRefDatasourceId() != null && N2oField.Page.THIS.equals(source.getRefPage())) {
+            ValidationUtils.checkForExistsDatasource(source.getRefDatasourceId(), datasourceIdsScope,
                     String.format("В ссылке на источник данных поля %s содержится несуществующий источник данных '%s'",
-                            source.getId(), source.getRefDatasource()));
+                            source.getId(), source.getRefDatasourceId()));
         }
     }
 

@@ -18,12 +18,12 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляции действия
@@ -60,7 +60,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Инициализация целевого виджета действия
      */
-    protected String initClientWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initClientWidgetId(CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String targetWidgetId = getClientWidgetIdByComponentScope(p); //widget in component's link
         if (targetWidgetId == null) {
@@ -180,18 +180,15 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModel defaultModel, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-
-        String widgetId = pageScope != null && param.getRefWidgetId() != null ?
-                CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), param.getRefWidgetId()) :
-                defaultClientWidgetId;
+        String widgetId = p.cast(getClientDatasourceId(param.getRefWidgetId(), pageScope), defaultClientWidgetId);
 
         String datasource;
         if (pageScope == null) {
-            datasource = param.getDatasource() != null ? param.getDatasource() : widgetId;
+            datasource = param.getDatasourceId() != null ? param.getDatasourceId() : widgetId;
             if (datasource == null)
                 datasource = getLocalDatasource(p);
         } else {
-            datasource = param.getDatasource() != null ? CompileUtil.generateDatasourceId(pageScope.getPageId(), param.getDatasource()) :
+            datasource = param.getDatasourceId() != null ? getClientDatasourceId(param.getDatasourceId(), pageScope.getPageId()) :
                     pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
         }
 

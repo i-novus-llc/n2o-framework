@@ -153,7 +153,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(((N2oStandardDatasource) modalContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
         N2oPreFilter[] filters = ((N2oStandardDatasource) modalContext.getDatasources().get(0)).getFilters();
         assertThat(filters.length, is(1));
-        assertThat(filters[0].getDatasource(), is("main"));
+        assertThat(filters[0].getDatasourceId(), is("main"));
         assertThat(filters[0].getRefPageId(), is("p"));
         assertThat(filters[0].getFieldId(), is(N2oQuery.Field.PK));
         assertThat(filters[0].getType(), is(FilterType.eq));
@@ -276,7 +276,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(((N2oStandardDatasource) modalContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
         N2oPreFilter[] filters = ((N2oStandardDatasource) modalContext.getDatasources().get(0)).getFilters();
         assertThat(filters.length, is(1));
-        assertThat(filters[0].getDatasource(), is("main"));
+        assertThat(filters[0].getDatasourceId(), is("main"));
         assertThat(filters[0].getRefPageId(), is("p"));
         assertThat(filters[0].getFieldId(), is(N2oQuery.Field.PK));
         assertThat(filters[0].getType(), is(FilterType.eq));

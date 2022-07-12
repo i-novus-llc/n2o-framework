@@ -31,7 +31,7 @@ public class WidgetScope implements Serializable {
         this.widgetId = widgetId;
         this.datasourceId = datasourceId;
         this.model = model;
-        this.clientWidgetId = CompileUtil.getClientDatasourceId(widgetId, pageScope);
+        this.clientWidgetId = CompileUtil.getClientWidgetId(widgetId, pageScope);
         this.clientDatasourceId = CompileUtil.getClientDatasourceId(datasourceId, pageScope);
     }
 }

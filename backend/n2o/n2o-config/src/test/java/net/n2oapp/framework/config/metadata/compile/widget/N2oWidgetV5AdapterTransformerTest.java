@@ -40,7 +40,7 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(table.getDatasource().getObjectId(), is("test"));
         assertThat(table.getDatasource().getDefaultValuesMode(), is(query));
         assertThat(table.getDatasource().getFilters().length, is(3));
-        assertThat(table.getDatasource().getFilters()[2].getDatasource(), is("f1"));
+        assertThat(table.getDatasource().getFilters()[2].getDatasourceId(), is("f1"));
         assertThat(table.getDatasource().getFilters()[2].getFieldId(), is("id"));
         assertThat(table.getDatasource().getFilters()[2].getModel(), is(ReduxModel.resolve));
         assertThat(table.getDatasource().getRoute(), is("/test"));
@@ -60,8 +60,8 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(form.getDatasource().getQueryId(), is("test"));
         assertThat(form.getDatasource().getSubmit().getOperationId(), is("save"));
         assertThat(form.getDatasource().getSubmit().getRoute(), is("/test"));
-        assertThat(form.getDatasource().getSubmit().getRefreshDatasources().length, is(1));
-        assertThat(form.getDatasource().getSubmit().getRefreshDatasources()[0], is("f1"));
+        assertThat(form.getDatasource().getSubmit().getRefreshDatasourceIds().length, is(1));
+        assertThat(form.getDatasource().getSubmit().getRefreshDatasourceIds()[0], is("f1"));
     }
 
     @Test

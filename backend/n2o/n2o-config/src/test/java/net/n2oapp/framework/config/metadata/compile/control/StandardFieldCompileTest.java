@@ -216,7 +216,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.isMessageOnSuccess(), is(false));
         assertThat(context.getParentClientWidgetId(), is("testStandardFieldSubmit_form"));
         assertThat(context.getMessagesForm(), is("testStandardFieldSubmit_form"));
-        assertThat(context.getRefresh().getDatasources(), hasItem("form"));
+        assertThat(context.getRefresh().getDatasources(), hasItem("testStandardFieldSubmit_form"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
@@ -285,7 +285,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.isMessageOnFail(), is(true));
         assertThat(context.isMessageOnSuccess(), is(false));
         assertThat(context.getMessagesForm(), is("testStandardFieldSubmitWithoutRoute_form"));
-        assertThat(context.getRefresh().getDatasources(), Matchers.hasItem("test"));
+        assertThat(context.getRefresh().getDatasources(), Matchers.hasItem("testStandardFieldSubmitWithoutRoute_test"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
