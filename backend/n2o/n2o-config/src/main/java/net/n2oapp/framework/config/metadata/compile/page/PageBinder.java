@@ -54,7 +54,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             page.getBreadcrumb().stream().filter(b -> b.getPath() != null)
                     .forEach(b -> {
                         b.setPath(p.resolveUrl(b.getPath()));
-                        b.setLabel(p.resolveText(b.getLabel(), b.getModelLink()));
+                        b.setLabel(p.resolveText(b.getLabel(), b.getModelLinks()));
                     });
         }
 
@@ -78,16 +78,16 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         }
         if (page.getPageProperty() != null) {
             page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
-                    page.getPageProperty().getModelLink()));
+                    page.getPageProperty().getModelLinks()));
             page.getPageProperty().setHtmlTitle(p.resolveText(page.getPageProperty().getHtmlTitle(),
-                    page.getPageProperty().getModelLink()));
+                    page.getPageProperty().getModelLinks()));
             page.getPageProperty().setModalHeaderTitle(p.resolveText(page.getPageProperty().getModalHeaderTitle(),
-                    page.getPageProperty().getModelLink()));
+                    page.getPageProperty().getModelLinks()));
 
         }
         if (page.getBreadcrumb() != null) {
             for (Breadcrumb crumb : page.getBreadcrumb()) {
-                crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLink()));
+                crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLinks()));
             }
         }
         return page;

@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import pathToRegexp from 'path-to-regexp'
 
-const libAsterisk = '(.*)' // this string is used by pathToRegexp library instead of common asterisk
+export const libAsterisk = '(.*)' // this string is used by pathToRegexp library instead of common asterisk
 const asteriskLength = str => (str.split(libAsterisk).length - 1) * libAsterisk.length
 
 export const getMatchingSidebar = (sidebars, pathname) => [...sidebars]

@@ -44,7 +44,7 @@ export function getGlobal(): typeof globalThis {
 export const createGlobalContext = (() => {
     let context: object | undefined
     const allowList: Array<string | symbol> = [
-        'undefined', 'null', 'NaN', 'Infinity', 'console', 'JSON',
+        'undefined', 'null', 'NaN', 'Infinity', 'console', 'JSON', 'crypto', 'Math',
         // тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
         'location', 'history', 'navigator',
     ]

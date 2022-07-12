@@ -38,9 +38,9 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     private Map<String, ModelLink> pathRouteMapping;
 
     /**
-     * Ссылка на модель данных родителя
+     * Список ссылок на модели данных родителей
      */
-    private ModelLink parentModelLink;
+    private List<ModelLink> parentModelLinks;
 
     public BaseCompileContext(String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
         if (sourceId == null)
@@ -64,7 +64,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         this.route = context.route;
         this.setPathRouteMapping(context.pathRouteMapping);
         this.setQueryRouteMapping(context.queryRouteMapping);
-        this.setParentModelLink(context.parentModelLink);
+        this.setParentModelLinks(context.parentModelLinks);
     }
 
     public BaseCompileContext(String route, BaseCompileContext<D, S> context) {
@@ -72,7 +72,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         this.route = route;
         this.setPathRouteMapping(context.pathRouteMapping);
         this.setQueryRouteMapping(context.queryRouteMapping);
-        this.setParentModelLink(context.parentModelLink);
+        this.setParentModelLinks(context.parentModelLinks);
     }
 
     @Override
@@ -85,7 +85,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
             return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
-            return "$" + p.resolveText(sourceId, parentModelLink);
+            return "$" + p.resolveText(sourceId, parentModelLinks);
         }
         return "$" + sourceId;
     }
@@ -94,7 +94,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getSourceId(BindProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveText(sourceId, parentModelLink);
+            return p.resolveText(sourceId, parentModelLinks);
         }
         return sourceId;
     }
@@ -102,7 +102,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getRoute(BindProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveUrl(route, parentModelLink);
+            return p.resolveUrl(route, parentModelLinks);
         }
         return route;
     }
@@ -144,12 +144,12 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
             this.pathRouteMapping = null;
     }
 
-    public ModelLink getParentModelLink() {
-        return parentModelLink;
+    public List<ModelLink> getParentModelLinks() {
+        return parentModelLinks;
     }
 
-    public void setParentModelLink(ModelLink parentModelLink) {
-        this.parentModelLink = parentModelLink;
+    public void setParentModelLinks(List<ModelLink> parentModelLinks) {
+        this.parentModelLinks = parentModelLinks;
     }
 
     @Override

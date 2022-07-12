@@ -28,14 +28,14 @@ public class DataModelTest {
     @Test
     public void add() {
         DataModel model = new DataModel();
-        assertThat(model.add(new ModelLink(ReduxModel.resolve, "w1", "f1"), 1), nullValue());
+        assertThat(model.add("key", new ModelLink(ReduxModel.resolve, "w1", "f1"), 1), nullValue());
         assertThat(model.getValue(new ModelLink(ReduxModel.resolve, "w1", "f1")), is(1));
         assertThat(model.getValue(new ModelLink(ReduxModel.resolve, "w1"), "f1"), is(1));
         assertThat(model.getData(new ModelLink(ReduxModel.resolve, "w1")), hasEntry("f1", 1));
 
         ModelLink link = new ModelLink(ReduxModel.resolve, "w1");
         link.setValue("`f1`");
-        assertThat(model.add(link, 2), is(1));
+        assertThat(model.add("key", link, 2), is(1));
         assertThat(model.getValue(link), is(2));
         assertThat(model.getData(link), hasEntry("f1", 2));
     }
@@ -68,7 +68,7 @@ public class DataModelTest {
         DataModel model = new DataModel();
         ModelLink link = new ModelLink(ReduxModel.resolve, "widget", "id");
         link.setSubModelQuery(new SubModelQuery("query"));
-        model.add(link, 123);
+        model.add("key", link, 123);
         Function<String, Object> dataFunc = model.getDataIfAbsent(new ModelLink(ReduxModel.resolve, "widget"), p);
         assertThat(dataFunc.apply("name"), is("Joe"));
     }

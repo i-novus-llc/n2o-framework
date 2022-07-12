@@ -43,7 +43,7 @@
         </operation>
         <operation id="sleep">
             <invocation>
-                <java method="sleep" class="net.n2oapp.framework.sandbox.server.cases.Sleeper"/>
+                <java method="sleep" class="net.n2oapp.framework.sandbox.cases.Sleeper"/>
             </invocation>
             <out>
                 <field id="id" mapping="#this"/>
