@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
@@ -15,19 +14,12 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
  */
 @Getter
 @Setter
-public class N2oInvokeAction extends N2oAbstractAction {
+public class N2oInvokeAction extends N2oAbstractMetaAction {
     private String operationId;
     private String objectId;
-    private Boolean closeOnSuccess;
-    private Boolean doubleCloseOnSuccess;
-    private Boolean closeOnFail;
-    private Boolean refreshOnSuccess;
     private String confirmationText;
     private String bulkConfirmationText;
     private String route;
-    private String redirectUrl;
-    private Target redirectTarget;
-    private String[] refreshDatasources;
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
     private MessagePosition messagePosition;
@@ -45,15 +37,5 @@ public class N2oInvokeAction extends N2oAbstractAction {
 
     public N2oInvokeAction(String actionId) {
         this.operationId = actionId;
-    }
-
-    @Deprecated
-    public String getRefreshWidgetId() {
-        return refreshDatasources != null && refreshDatasources.length > 0 ? refreshDatasources[0] : null;
-    }
-
-    @Deprecated
-    public void setRefreshWidgetId(String refreshWidgetId) {
-        this.refreshDatasources = new String[] {refreshWidgetId};
     }
 }

@@ -16,7 +16,7 @@
     <xs:element name="print" type="printDefinition"/>
     <xs:element name="refresh" type="refreshDefinition"/>
     <xs:element name="alert" type="alertDefinition"/>
-    <xs:element name="action" type="customActionDef"/>
+    <xs:element name="action" type="customActionDefinition"/>
 
     <xs:complexType name="actions">
         <xs:sequence>
@@ -34,7 +34,7 @@
             <xs:element name="print" type="printDefinition" minOccurs="0"/>
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
             <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="action" type="customActionDef" minOccurs="0"/>
+            <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -524,7 +524,7 @@
 
     <xs:complexType name="invokeActionDefinition">
         <xs:complexContent>
-            <xs:extension base="actionDefinition">
+            <xs:extension base="metaActionDefinition">
                 <xs:annotation>
                     <xs:documentation>Выполнить действие объекта.</xs:documentation>
                 </xs:annotation>
@@ -545,44 +545,9 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL для обращения к действию.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-url" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            URL адрес, на который произойдет переход сразу после успешного выполнения действия.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-target" type="redirectTargetType">
-                    <xs:annotation>
-                        <xs:documentation>Сценарий открытия ссылки сразу после успешного выполнения операции. По
-                            умолчанию self.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="refresh-datasources" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификаторы источников данных(перечисленные через запятую),
-                            которые необходимо обновить после успешного выполнения операции
-                            (по умолчанию datasource у button, а если нет, datasource текущего виджета).
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="refresh-on-success" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Необходимо ли обновлять данные (по умолчанию true)
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="message-on-success" type="xs:boolean" default="true">
@@ -1198,18 +1163,58 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="customActionDef">
+    <xs:complexType name="customActionDefinition">
         <xs:annotation>
             <xs:documentation>Кастомное действие</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="actionDefinition">
+            <xs:extension base="metaActionDefinition">
                 <xs:sequence>
                     <xs:element name="payload" type="payloadDef" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="type" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Тип кастомного действия</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-fail" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Закрыть окно после неудачного выполнения действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="payloadDef">
+        <xs:annotation>
+            <xs:documentation>Полезная нагрузка кастомного действия</xs:documentation>
+        </xs:annotation>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Любые атрибуты</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="metaActionDefinition">
+        <xs:annotation>
+            <xs:documentation>Действие, содержащее стандартные саги</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="actionDefinition">
+                <xs:attribute name="redirect-url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            URL адрес, на который произойдет переход сразу после успешного выполнения действия.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="redirect-target" type="redirectTargetType">
+                    <xs:annotation>
+                        <xs:documentation>Сценарий открытия ссылки сразу после успешного выполнения операции. По
+                            умолчанию self.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="close-on-success" type="xs:boolean" default="false">
@@ -1229,32 +1234,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="redirect-url" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            URL адрес, на который произойдет переход сразу после успешного выполнения действия.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-target" type="redirectTargetType">
-                    <xs:annotation>
-                        <xs:documentation>Сценарий открытия ссылки сразу после успешного выполнения операции. По
-                            умолчанию self.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="payloadDef">
-        <xs:annotation>
-            <xs:documentation>Полезная нагрузка кастомного действия</xs:documentation>
-        </xs:annotation>
-        <xs:anyAttribute>
-            <xs:annotation>
-                <xs:documentation>Любые атрибуты</xs:documentation>
-            </xs:annotation>
-        </xs:anyAttribute>
     </xs:complexType>
 </xs:schema>
