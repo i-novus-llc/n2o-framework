@@ -24,7 +24,7 @@ public class SearchablePageElementIOv4 extends BasePageElementIOv4<N2oSearchable
     public void searchBar(Element e, N2oSearchablePage.N2oSearchBar sb, IOProcessor p) {
         p.attribute(e, "class", sb::getClassName, sb::setClassName);
         p.attribute(e, "placeholder", sb::getPlaceholder, sb::setPlaceholder);
-        p.attribute(e, "datasource", sb::getDatasource, sb::setDatasource);
+        p.attribute(e, "datasource", sb::getDatasourceId, sb::setDatasourceId);
         p.attribute(e, "search-filter-id", sb::getSearchFilterId, sb::setSearchFilterId);
         p.attribute(e, "search-param", sb::getSearchParam, sb::setSearchParam);
     }

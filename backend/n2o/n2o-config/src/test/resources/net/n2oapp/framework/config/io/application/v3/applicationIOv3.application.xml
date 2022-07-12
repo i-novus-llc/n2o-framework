@@ -28,8 +28,13 @@
                 <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
             </dependencies>
         </browser-storage>
-        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter">
+        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
             <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2"/>
+            <dependencies>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+            </dependencies>
         </inherited-datasource>
     </datasources>
 

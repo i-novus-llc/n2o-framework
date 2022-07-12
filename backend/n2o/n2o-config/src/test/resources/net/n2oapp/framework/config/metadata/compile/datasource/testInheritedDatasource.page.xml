@@ -5,8 +5,13 @@
         <inherited-datasource id="inh2" source-datasource="ds2" source-model="datasource" source-field-id="name">
             <submit auto="false"/>
         </inherited-datasource>
-        <inherited-datasource id="inh3" source-datasource="ds2" source-model="datasource" source-field-id="name">
+        <inherited-datasource id="inh3" source-datasource="ds2" source-model="datasource" source-field-id="name" size="13">
             <submit target-datasource="ds1" model="filter" target-model="filter" target-field-id="name2"/>
+            <dependencies>
+                <fetch on="ds"/>
+                <copy on="ds" target-field-id="target" target-model="filter" source-model="filter"
+                      source-field-id="source"/>
+            </dependencies>
         </inherited-datasource>
     </datasources>
 

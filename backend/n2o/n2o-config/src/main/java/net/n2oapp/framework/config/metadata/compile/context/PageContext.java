@@ -2,11 +2,11 @@ package net.n2oapp.framework.config.metadata.compile.context;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
@@ -43,7 +43,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Идентификатор источника данных из которого будут копироваться данные
      */
-    private String copyDatasource;
+    private String copyDatasourceId;
     /**
      * Идентификатор копируемого поля источника
      */
@@ -80,7 +80,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Родительский глобальный источник данных, в котором находилось действие
      */
-    private String parentGlobalDatasourceId;
+    private String parentClientDatasourceId;
     /**
      * Родительский локальный источник данных, в котором находилось действие
      */
@@ -124,7 +124,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Список источников данных открываемой страницы
      */
-    private List<N2oDatasource> datasources;
+    private List<N2oAbstractDatasource> datasources;
 
     /**
      * Клиентский идентификатор страницы

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -9,8 +11,32 @@ import java.util.function.Function;
  */
 public class CompileUtil {
 
-    public static String generateSourceDatasourceId(String datasourceId) {
-        return datasourceId;
+    /**
+     * Получение идентификатора клиентского источника данных
+     *
+     * @param datasourceId Идентификатор источника данных
+     * @param pageScope    Информация о странице
+     * @return Идентификатор клиентского источника данных
+     */
+    public static String getClientDatasourceId(String datasourceId, PageScope pageScope) {
+        if (pageScope == null)
+            return datasourceId;
+
+        return getClientDatasourceId(datasourceId, pageScope.getPageId());
+    }
+
+    /**
+     * Получение идентификатора клиентского источника данных
+     *
+     * @param datasourceId Идентификатор источника данных
+     * @param pageId       Идентификатор страницы
+     * @return Идентификатор клиентского источника данных
+     */
+    public static String getClientDatasourceId(String datasourceId, String pageId) {
+        if (datasourceId == null)
+            return null;
+        String separator = "_".equals(pageId) ? "" : "_";
+        return pageId.concat(separator).concat(datasourceId);
     }
 
     public static String generateDatasourceId(String pageId, String localDatasourceId) {

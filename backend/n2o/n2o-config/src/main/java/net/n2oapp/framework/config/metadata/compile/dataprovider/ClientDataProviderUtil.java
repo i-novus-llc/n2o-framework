@@ -50,9 +50,9 @@ public class ClientDataProviderUtil {
                 RequestMethod.PUT == source.getMethod() ||
                 RequestMethod.DELETE == source.getMethod()) {
             Map<String, ModelLink> pathMapping = new StrictMap<>();
-            pathMapping.putAll(compileParams(source.getPathParams(), context, p, targetModel, source.getGlobalDatasourceId()));
-            dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, source.getGlobalDatasourceId()));
-            dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), context, p, targetModel, source.getGlobalDatasourceId()));
+            pathMapping.putAll(compileParams(source.getPathParams(), context, p, targetModel, source.getClientDatasourceId()));
+            dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, source.getClientDatasourceId()));
+            dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), context, p, targetModel, source.getClientDatasourceId()));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
             if (context.getPathRouteMapping() != null)
@@ -67,7 +67,7 @@ public class ClientDataProviderUtil {
         }
 
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, source.getUrl()));
-        dataProvider.setQueryMapping(compileParams(source.getQueryParams(), context, p, targetModel, source.getGlobalDatasourceId()));
+        dataProvider.setQueryMapping(compileParams(source.getQueryParams(), context, p, targetModel, source.getClientDatasourceId()));
         dataProvider.setQuickSearchParam(source.getQuickSearchParam());
         dataProvider.setSize(source.getSize());
 

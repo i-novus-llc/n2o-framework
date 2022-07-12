@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -13,7 +14,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import org.apache.commons.lang3.ArrayUtils;
@@ -32,7 +32,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String pageId;
     private String pageName;
     private String route;
-    private String datasource;
     @Deprecated
     private Target target;
     @Deprecated
@@ -53,17 +52,17 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private ReduxModel submitModel;
     private SubmitActionType submitActionType;
     private ReduxModel copyModel;
-    private String copyDatasource;
+    private String copyDatasourceId;
     private String copyFieldId;
     private ReduxModel targetModel;
-    private String targetDatasource;
+    private String targetDatasourceId;
     private CopyMode copyMode;
     private Boolean createMore;
     private Boolean closeAfterSubmit;
     private String redirectUrlAfterSubmit;
     private Target redirectTargetAfterSubmit;
     private Boolean refreshAfterSubmit;
-    private String[] refreshDatasources;
+    private String[] refreshDatasourceIds;
     //on resolve
     private String labelFieldId;
     private String targetFieldId;
@@ -71,7 +70,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oParam[] params;
-    private N2oDatasource[] datasources;
+    private N2oAbstractDatasource[] datasources;
     @Deprecated
     private String width;
 
@@ -189,31 +188,31 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
 
     @Deprecated
     public String getRefreshWidgetId() {
-        return refreshDatasources == null ? null : refreshDatasources[0];
+        return refreshDatasourceIds == null ? null : refreshDatasourceIds[0];
     }
 
     @Deprecated
     public void setRefreshWidgetId(String refreshWidgetId) {
-        this.refreshDatasources = new String[]{refreshWidgetId};
+        this.refreshDatasourceIds = new String[]{refreshWidgetId};
     }
 
     @Deprecated
     public String getTargetWidgetId() {
-        return targetDatasource;
+        return targetDatasourceId;
     }
 
     @Deprecated
     public void setTargetWidgetId(String targetWidgetId) {
-        this.targetDatasource = targetWidgetId;
+        this.targetDatasourceId = targetWidgetId;
     }
 
     @Deprecated
     public String getCopyWidgetId() {
-        return copyDatasource;
+        return copyDatasourceId;
     }
 
     @Deprecated
     public void setCopyWidgetId(String copyWidgetId) {
-        this.copyDatasource = copyWidgetId;
+        this.copyDatasourceId = copyWidgetId;
     }
 }

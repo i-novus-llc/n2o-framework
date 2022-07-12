@@ -204,7 +204,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setOptimistic(source.getOptimistic());
         dataProvider.setTargetModel(targetWidgetModel);
         dataProvider.setDatasourceId(getLocalDatasource(p));
-        dataProvider.setGlobalDatasourceId(initClientDatasource(dataProvider.getDatasourceId(), p));
+        dataProvider.setClientDatasourceId(initClientDatasource(dataProvider.getDatasourceId(), p));
         validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
@@ -11,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -41,6 +41,7 @@ import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляция open-page, show-modal
@@ -52,9 +53,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
         if (source.getDatasources() != null) {
-            for (N2oDatasource datasource : source.getDatasources()) {
+            for (N2oAbstractDatasource datasource : source.getDatasources()) {
                 if (datasource instanceof N2oStandardDatasource)
-                    initDefaultsDatasource((N2oStandardDatasource) datasource, context, p);
+                    initDefaultsDatasource((N2oStandardDatasource) datasource, p);
             }
         }
         if (source.getParams() != null) {
@@ -87,10 +88,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * Приведение поле источника данных к значениям по умолчанию
      *
      * @param datasource Источник данных
-     * @param context    Контекст сборки
      * @param p          Процессор сборки
      */
-    protected void initDefaultsDatasource(N2oStandardDatasource datasource, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void initDefaultsDatasource(N2oStandardDatasource datasource, CompileProcessor p) {
         if (datasource.getFilters() != null) {
             for (N2oPreFilter filter : datasource.getFilters()) {
                 filter.setModel(p.cast(filter.getModel(), () -> getModelFromComponentScope(p)));
@@ -162,7 +162,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
-        String targetDS = source.getTargetDatasource();
+        String targetDS = source.getTargetDatasourceId();
         if (pageScope != null && targetDS == null && currentWidgetId != null) {
             targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
         }
@@ -173,7 +173,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitModel(source.getSubmitModel());
         pageContext.setSubmitActionType(source.getSubmitActionType());
         pageContext.setCopyModel(source.getCopyModel());
-        pageContext.setCopyDatasource(source.getCopyDatasource());
+        pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetDatasourceId(targetDS);
@@ -186,7 +186,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentClientWidgetId(currentClientWidgetId);
         String localDatasourceId = getLocalDatasource(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
-        pageContext.setParentGlobalDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(localDatasourceId) : localDatasourceId);
+        pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, pageScope));
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
@@ -194,12 +194,12 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         if ((pageContext.getRefreshOnSuccessSubmit() || pageContext.getRefreshOnClose()) &&
-                (source.getRefreshDatasources() != null || localDatasourceId != null)) {
-            String[] refreshDatasources = source.getRefreshDatasources() == null ?
-                    new String[]{localDatasourceId} : source.getRefreshDatasources();
+                (source.getRefreshDatasourceIds() != null || localDatasourceId != null)) {
+            String[] refreshDatasourceIds = source.getRefreshDatasourceIds() == null ?
+                    new String[]{localDatasourceId} : source.getRefreshDatasourceIds();
             if (pageScope != null) {
-                pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasources)
-                        .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+                pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasourceIds)
+                        .map(d -> getClientDatasourceId(d, pageScope)).collect(Collectors.toList()));
             }
         }
         if (pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null && pageScope != null) {

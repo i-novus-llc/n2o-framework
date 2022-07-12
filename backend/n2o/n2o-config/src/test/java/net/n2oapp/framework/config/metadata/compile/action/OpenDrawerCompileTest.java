@@ -87,7 +87,8 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerPage.getToolbar().getButton("submit"), notNullValue());
         assertThat(drawerPage.getToolbar().getButton("close"), notNullValue());
 
-        assertThat(drawerPage.getDatasources().get(drawerPage.getWidget().getId()).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(((StandardDatasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId())).getDefaultValuesMode(),
+                is(DefaultValuesMode.defaults));
 
         List<AbstractButton> buttons = drawerPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));

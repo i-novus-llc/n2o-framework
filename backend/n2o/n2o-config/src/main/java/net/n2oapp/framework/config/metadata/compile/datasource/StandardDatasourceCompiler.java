@@ -51,6 +51,7 @@ import java.util.stream.Collectors;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Компиляция источника данных
@@ -68,26 +69,20 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     @Override
     public StandardDatasource compile(N2oStandardDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StandardDatasource compiled = new StandardDatasource();
-        initDatasource(compiled, source, context, p);
-        initDefaults(source, context, p);
-        compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
+        compileDatasource(source, compiled, p);
+        initDefaults(source, p);
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
         CompiledQuery query = initQuery(source, p);
         CompiledObject object = initObject(source, p);
         compiled.setProvider(initDataProvider(compiled, source, context, p, query, compiled.getDefaultValuesMode()));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
-        compiled.setDependencies(initDependencies(source, p));
-        compiled.setValidations(initValidations(source, p));
         compiled.setQueryId(source.getQueryId());
         return compiled;
     }
 
     private CompiledQuery initQuery(N2oStandardDatasource source, CompileProcessor p) {
-        if (source.getQueryId() != null) {
-            return p.getCompiled(new QueryContext(source.getQueryId()));
-        }
-        return null;
+        return source.getQueryId() != null ? p.getCompiled(new QueryContext(source.getQueryId())) : null;
     }
 
     private CompiledObject initObject(N2oStandardDatasource source, CompileProcessor p) {
@@ -100,7 +95,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         return null;
     }
 
-    private void initDefaults(N2oStandardDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
+    private void initDefaults(N2oStandardDatasource source, CompileProcessor p) {
         source.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() != null ? DefaultValuesMode.query : DefaultValuesMode.defaults));
     }
 
@@ -112,9 +107,9 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         String url = getDatasourceRoute(source, compiled, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
         dataProvider.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
-        List<Filter> filters = initFilters(compiled, source, p, query);
+        List<Filter> filters = initFilters(source, p, query);
         compileRoutes(compiled, source, filters, p, query);
-        initDataProviderMappings(compiled, source, dataProvider, filters, p);
+        initDataProviderMappings(dataProvider, filters, p);
         p.addRoute(getQueryContext(compiled, source, context, p, url, filters, query));
         return defaultValuesMode == DefaultValuesMode.defaults ? null : dataProvider;
     }
@@ -131,7 +126,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                 searchBarFilter.setRoutable(true);
                 PageScope pageScope = p.getScope(PageScope.class);
                 ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(),
-                        pageScope != null ? pageScope.getClientDatasourceId(source.getId()) : source.getId(),
+                        pageScope != null ? getClientDatasourceId(source.getId(), pageScope) : source.getId(),
                         searchBarScope.getFilterId());
                 searchBarFilter.setLink(modelLink);
                 filters.add(searchBarFilter);
@@ -143,15 +138,13 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         String datasource = parentRouteScope != null && "/".equals(parentRouteScope.getUrl()) ? compiled.getId() : source.getId();
         String route = p.cast(source.getRoute(), normalize(datasource));
-        if (parentRouteScope != null) {
-            return RouteUtil.normalize(parentRouteScope.getUrl() + route);
-        } else {
-            return route;
-        }
+
+        return parentRouteScope != null ?
+                RouteUtil.normalize(parentRouteScope.getUrl() + route) :
+                route;
     }
 
-    private void initDataProviderMappings(StandardDatasource compiled, N2oStandardDatasource source, ClientDataProvider dataProvider,
-                                          List<Filter> filters, CompileProcessor p) {
+    private void initDataProviderMappings(ClientDataProvider dataProvider, List<Filter> filters, CompileProcessor p) {
         dataProvider.setPathMapping(new StrictMap<>());
         dataProvider.setQueryMapping(new StrictMap<>());
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
@@ -168,7 +161,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         }
     }
 
-    private List<Filter> initFilters(StandardDatasource compiled, N2oStandardDatasource source, CompileProcessor p, CompiledQuery query) {
+    private List<Filter> initFilters(N2oStandardDatasource source, CompileProcessor p, CompiledQuery query) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (query == null)
             return null;
@@ -270,11 +263,11 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         CopiedFieldScope copiedFieldScope = p.getScope(CopiedFieldScope.class);
         if (copiedFieldScope != null)
             queryContext.setCopiedFields(copiedFieldScope.getCopiedFields(source.getId()));
-        queryContext.setSortingMap(initSortingMap(query, p));
+        queryContext.setSortingMap(initSortingMap(query));
         return queryContext;
     }
 
-    private Map<String, String> initSortingMap(CompiledQuery query, CompileProcessor p) {
+    private Map<String, String> initSortingMap(CompiledQuery query) {
         Map<String, String> sortingMap = new HashMap<>();
         for (N2oQuery.Field sortingField : query.getSortingFields()) {
             sortingMap.put(SORTING + RouteUtil.normalizeParam(sortingField.getId()), sortingField.getId());
@@ -289,7 +282,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         N2oClientDataProvider submitProvider = initSubmit(source.getSubmit(), source.getId(), compiledObject, p);
 
         submitProvider.setSubmitForm(p.cast(source.getSubmit().getSubmitAll(), true));
-        submitProvider.setGlobalDatasourceId(compiled.getId());
+        submitProvider.setClientDatasourceId(compiled.getId());
         submitProvider.setDatasourceId(source.getId());
         submitProvider.getActionContextData().setMessagesForm(source.getSubmit().getMessageWidgetId());
         return compileSubmit(submitProvider, context, p);
@@ -330,16 +323,15 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
 
     private ClientDataProvider compileSubmit(N2oClientDataProvider source, CompileContext<?, ?> context, CompileProcessor p) {
         ClientDataProvider dataProvider = new ClientDataProvider();
-        String path;
-        String globalDatasourceId = source.getGlobalDatasourceId();
+        String clientDatasourceId = source.getClientDatasourceId();
         ReduxModel targetModel = initTargetWidgetModel(p, source.getTargetModel());
 
         Map<String, ModelLink> pathMapping = new StrictMap<>();
-        pathMapping.putAll(compileParams(source.getPathParams(), context, p, targetModel, globalDatasourceId));
-        dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, globalDatasourceId));
-        dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), context, p, targetModel, globalDatasourceId));
+        pathMapping.putAll(compileParams(source.getPathParams(), context, p, targetModel, clientDatasourceId));
+        dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, clientDatasourceId));
+        dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), context, p, targetModel, clientDatasourceId));
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
+        String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
         if (context.getPathRouteMapping() != null)
             pathMapping.putAll(context.getPathRouteMapping());
         path = normalize(path + normalize(p.cast(source.getUrl(), source.getDatasourceId())));
@@ -351,7 +343,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
 
         ClientDataProviderUtil.initActionContext(source, pathMapping, path, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, ""));
-        dataProvider.setQueryMapping(compileParams(source.getQueryParams(), context, p, targetModel, globalDatasourceId));
+        dataProvider.setQueryMapping(compileParams(source.getQueryParams(), context, p, targetModel, clientDatasourceId));
         dataProvider.setQuickSearchParam(source.getQuickSearchParam());
         dataProvider.setSize(source.getSize());
         dataProvider.setAutoSubmitOn(source.getAutoSubmitOn());
@@ -363,37 +355,35 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            if (modelAware != null && modelAware.getModel() != null) {
+            if (modelAware != null && modelAware.getModel() != null)
                 return modelAware.getModel();
-            }
         }
         return defaultModel;
     }
 
     private Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                 CompileProcessor p, ReduxModel model, String datasourceId) {
+                                                 CompileProcessor p, ReduxModel model, String clientDatasourceId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
         for (N2oParam param : params) {
             ModelLink link;
             if (param.getValueParam() == null) {
-                link = getModelLink(p, model, datasourceId, param);
+                link = getModelLink(p, model, clientDatasourceId, param);
             } else {
                 link = getModelLinkByParam(context, param);
             }
-            if (link != null)
-                result.put(param.getName(), link);
+            result.put(param.getName(), link);
         }
         return result;
     }
 
-    private ModelLink getModelLink(CompileProcessor p, ReduxModel model, String datasourceId, N2oParam param) {
+    private ModelLink getModelLink(CompileProcessor p, ReduxModel model, String clientDatasourceId, N2oParam param) {
         ModelLink link;
         Object value = param.getValueList() != null ? param.getValueList() :
                 ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
-            link = new ModelLink(p.cast(param.getModel(), model), datasourceId);
+            link = new ModelLink(p.cast(param.getModel(), model), clientDatasourceId);
             link.setValue(value);
         } else {
             link = new ModelLink(value);
@@ -402,7 +392,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     }
 
     private ModelLink getModelLinkByParam(CompileContext<?, ?> context, N2oParam param) {
-        ModelLink link = null;
+        ModelLink link;
         if (context.getPathRouteMapping() != null && context.getPathRouteMapping().containsKey(param.getValueParam())) {
             link = context.getPathRouteMapping().get(param.getValueParam());
             link.setParam(param.getValueParam());
@@ -416,7 +406,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         return link;
     }
 
-    private void compileRoutes(StandardDatasource compiled, N2oStandardDatasource source, List<Filter> filters, CompileProcessor p, CompiledQuery query) {
+    private void compileRoutes(StandardDatasource compiled, N2oStandardDatasource source, List<Filter> filters,
+                               CompileProcessor p, CompiledQuery query) {
         PageRoutes routes = p.getScope(PageRoutes.class);
         if (routes == null)
             return;

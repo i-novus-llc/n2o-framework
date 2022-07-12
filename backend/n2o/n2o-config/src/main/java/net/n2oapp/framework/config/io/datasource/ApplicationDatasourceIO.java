@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись источника данных, ссылающегося на источник из application.xml
  */
 @Component
-public class ApplicationDatasourceIO extends BaseDatasourceIO<N2oApplicationDatasource> {
+public class ApplicationDatasourceIO extends AbstractDatasourceIO<N2oApplicationDatasource> {
 
     @Override
     public void io(Element e, N2oApplicationDatasource ds, IOProcessor p) {

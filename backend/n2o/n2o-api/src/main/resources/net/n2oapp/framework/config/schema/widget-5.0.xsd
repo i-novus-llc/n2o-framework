@@ -60,7 +60,7 @@
                 </xs:complexType>
             </xs:element>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
-            <xs:element name="datasource" type="ds:datasourceDefinition" minOccurs="0"/>
+            <xs:element name="datasource" type="ds:standardDatasourceDefinition" minOccurs="0"/>
             <xs:element name="dependencies" minOccurs="0">
                 <xs:complexType>
                     <xs:sequence>

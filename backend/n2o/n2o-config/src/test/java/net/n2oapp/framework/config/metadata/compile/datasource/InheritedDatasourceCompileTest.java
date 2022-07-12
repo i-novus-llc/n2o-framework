@@ -2,6 +2,9 @@ package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
+import net.n2oapp.framework.api.metadata.meta.CopyDependency;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
+import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -58,6 +61,7 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
 
         InheritedDatasource inh3 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh3");
         assertThat(inh3.getId(), is("testInheritedDatasource_inh3"));
+        assertThat(inh3.getSize(), is(13));
         assertThat(inh3.getProvider().getType(), is("inherited"));
         assertThat(inh3.getProvider().getSourceDs(), is("testInheritedDatasource_ds2"));
         assertThat(inh3.getProvider().getSourceModel(), is(ReduxModel.datasource));
@@ -68,6 +72,15 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(inh3.getSubmit().getTargetDs(), is("testInheritedDatasource_ds1"));
         assertThat(inh3.getSubmit().getTargetModel(), is(ReduxModel.filter));
         assertThat(inh3.getSubmit().getTargetField(), is("name2"));
+
+        assertThat(inh3.getDependencies().size(), is(2));
+        Dependency dependency = inh3.getDependencies().get(0);
+        assertThat(dependency.getOn(), is("models.resolve['testInheritedDatasource_ds']"));
+        assertThat(dependency.getType(), is(DependencyType.fetch));
+        dependency = inh3.getDependencies().get(1);
+        assertThat(dependency.getType(), is(DependencyType.copy));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
+        assertThat(dependency.getOn(), is("models.filter['testInheritedDatasource_ds'].source"));
     }
 
 }

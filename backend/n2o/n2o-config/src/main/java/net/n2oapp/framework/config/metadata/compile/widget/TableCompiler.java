@@ -28,7 +28,6 @@ import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -37,6 +36,7 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Компиляция таблицы
@@ -71,7 +71,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (filtersScope != null)
             tableFiltersScope = new TableFiltersScope(datasource.getId(), filtersScope);
         initFilter(table, source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.filter, widgetScope.getGlobalDatasourceId(), p.getScope(Models.class)), subModelsScope,
+                new ModelsScope(ReduxModel.filter, widgetScope.getClientDatasourceId(), p.getScope(Models.class)), subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope, tableFiltersScope);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
@@ -184,8 +184,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (source.getFiltersDatasourceId() == null && source.getFiltersDatasource() == null)
             return;
         String datasourceId = source.getFiltersDatasourceId();
-        if (source.getFiltersDatasourceId() == null) {
-            datasourceId = CompileUtil.generateSourceDatasourceId(source.getId() + "_filter");
+        if (datasourceId == null) {
+            datasourceId = source.getId() + "_filter";
             N2oStandardDatasource datasource = source.getFiltersDatasource();
             source.setFiltersDatasource(null);
             datasource.setId(datasourceId);
@@ -196,7 +196,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             }
         }
         PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setFiltersDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId);
+        compiled.setFiltersDatasourceId(getClientDatasourceId(datasourceId, pageScope));
     }
 }
 

@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.util;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
@@ -15,7 +14,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.Arrays;
@@ -48,7 +46,7 @@ public class N2oClientDataProviderUtil {
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         if (widgetScope != null) {
             dataProvider.setTargetModel(widgetScope.getModel());
-            dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
+            dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         }
         dataProvider.setUrl(query.getRoute());
 
@@ -98,7 +96,7 @@ public class N2oClientDataProviderUtil {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         dataProvider.setUrl(p.cast(submit.getRoute(), widgetScope.getDatasourceId()));
         dataProvider.setTargetModel(widgetScope.getModel());
-        dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
+        dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
         dataProvider.setFormParams(submit.getFormParams());

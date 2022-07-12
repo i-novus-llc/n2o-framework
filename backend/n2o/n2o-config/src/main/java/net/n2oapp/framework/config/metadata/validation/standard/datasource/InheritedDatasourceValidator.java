@@ -20,7 +20,6 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
 
     @Override
     public void validate(N2oInheritedDatasource source, SourceProcessor p) {
-        setDatasourceId(source, p);
         DatasourceIdsScope ids = p.getScope(DatasourceIdsScope.class);
         checkSourceDatasource(source, ids);
         checkSubmitTargetDatasource(source, ids);
@@ -28,7 +27,7 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
 
     private void checkSourceDatasource(N2oInheritedDatasource source, DatasourceIdsScope ids) {
         String msg = String.format("Атрибут 'source-datasource' источника данных '%s' ссылается на несуществующий источник '%s'",
-                datasourceId, source.getSourceDatasource());
+                source.getId(), source.getSourceDatasource());
         ValidationUtils.checkForExistsDatasource(source.getSourceDatasource(), ids, msg);
     }
 
@@ -36,7 +35,7 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
         if (source.getSubmit() != null) {
             String targetDatasource = source.getSubmit().getTargetDatasource();
             String msg = String.format("Атрибут 'target-datasource' элемента 'submit' источника данных '%s' ссылается на несуществующий источник '%s'",
-                    datasourceId, targetDatasource);
+                    source.getId(), targetDatasource);
             ValidationUtils.checkForExistsDatasource(targetDatasource, ids, msg);
         }
     }

@@ -54,7 +54,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.resolve, validationList);
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p,
                 widgetScope, query, object, widgetActions,
-                new ModelsScope(ReduxModel.resolve, widgetScope.getGlobalDatasourceId(), models),
+                new ModelsScope(ReduxModel.resolve, widgetScope.getClientDatasourceId(), models),
                 subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeOperation),
                 copiedFieldScope,

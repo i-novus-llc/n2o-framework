@@ -60,14 +60,14 @@
                 <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
             </dependencies>
         </browser-storage>
-        <app-datasource id="test">
+        <app-datasource id="test"/>
+        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
+            <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2"/>
             <dependencies>
-                <fetch on="123"/>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
                 <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
             </dependencies>
-        </app-datasource>
-        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter">
-            <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2"/>
         </inherited-datasource>
     </datasources>
 </page>
