@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.PrintType;
 import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
@@ -98,5 +99,21 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
         assertThat(linkSecond.getPayload().getPathMapping().size(), is(1));
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_ds1']"));
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
+    }
+
+    @Test
+    public void testPrintAttributes() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testPrintAction3.page.xml")
+                .get(new PageContext("testPrintAction3"));
+        Toolbar toolbar = page.getWidget().getToolbar();
+        PrintAction print = (PrintAction) toolbar.getButton("id1").getAction();
+
+        assertThat(print.getPayload().getUrl(), is("/page2/widget2/test"));
+        assertThat(print.getPayload().getDocumentTitle(), is("Document 1"));
+        assertThat(print.getPayload().getLoader(), is(true));
+        assertThat(print.getPayload().getLoaderText(), is("Loading..."));
+        assertThat(print.getPayload().getKeepIndent(), is(false));
+        assertThat(print.getPayload().getType(), is(PrintType.pdf));
+        assertThat(print.getPayload().getBase64(), is(false));
     }
 }

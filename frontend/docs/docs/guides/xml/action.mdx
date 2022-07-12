@@ -235,9 +235,15 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 **Атрибуты**
 
-|Наименование|Тип   |Описание                  |Значение по умолчанию|
-|------------|------|--------------------------|---------------------|
-|url         |Строка|Адрес документа для печати|                     |
+|Наименование  |Тип             |Описание                                                   |Значение по умолчанию|
+|--------------|----------------|-----------------------------------------------------------|---------------------|
+|url           |Строка          |Адрес документа для печати                                 |                     |
+|type          |text, pdf, image|Тип документа для печати                                   |pdf                  |
+|keep-indent   |true false      |Сохранение отступов в документах. Актуально для типа text  |false                |
+|document-title|Строка          |Заголовок документа                                        |                     |
+|loader        |true false      |Нужно ли показывать модальное окно с лоадером при загрузке |false                |
+|loader-text   |Строка          |Текст внутри модального окна с лоадером                    |                     |
+|base64        |true false      |Нужно ли печатать из base64                                |false                |
 
 #### &lt;path-param&gt;,  &lt;query-param&gt; {#path-param_query-param}
 
@@ -249,7 +255,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 ```xml
 <print url="/files/:doc_id">
-      <path-param name="doc_id" value="{doc_id}"/>
+      <path-param name="doc_id" value="{doc_id}" type="text" keep-indent="true" document-title="Document 1"/>
 </print>
 
 ```
