@@ -2,12 +2,13 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -33,36 +34,51 @@ public class DataModel {
         if (links == null || data == null)
             return;
         for (Map.Entry<String, ModelLink> entry : links.entrySet()) {
-            add(entry.getValue(), data.get(entry.getKey()));
+            add(entry.getKey(), entry.getValue(), data.get(entry.getKey()));
         }
     }
 
     /**
      * Добавить ссылку на данные в модель данных
      *
+     *
+     * @param key   Ключ, по которому хранится ссылка
      * @param link  Ссылка
      * @param value Значение
      * @return Предыдущее значение по ссылке
      */
-    public Object add(ModelLink link, Object value) {
+    public Object add(String key, ModelLink link, Object value) {
         ModelLink widgetLink = link.getWidgetLink();
-        if (widgetLink == null)
-            return null;
         String fieldId = link.getFieldId();
         if (fieldId != null) {
-            if (widgetLink.getSubModelQuery() != null)
+            if (widgetLink != null && widgetLink.getSubModelQuery() != null)
                 addSubModelToStoreKey(widgetLink);
-            DataSet data = store.get(widgetLink);
-            if (data == null)
-                data = new DataSet();
-            Object old = data.put(fieldId, value);
-            store.put(widgetLink, data);
-            return old;
+            return storeData(widgetLink, fieldId, value);
         } else {
-            if (value != null && !(link.getValue() instanceof DataSet))
-                throw new IllegalArgumentException("Value " + value + " is not a DataSet");
+            widgetLink = widgetLink != null ? widgetLink : new ModelLink();
+            if (value != null && !(link.getValue() instanceof DataSet)) {
+                widgetLink.setValue(ScriptProcessor.resolveExpression(value.toString()));
+                return storeData(widgetLink, key, value);
+            }
             return store.put(widgetLink, (DataSet) value);
         }
+    }
+
+    /**
+     * Добавить данные в store
+     *
+     * @param widgetLink Ссылка на модель
+     * @param key        Ключ, по которому будут храниться данные
+     * @param value      Данные
+     * @return Предыдущее значение по ссылке
+     */
+    private Object storeData(ModelLink widgetLink, String key, Object value) {
+        DataSet data = store.get(widgetLink);
+        if (data == null)
+            data = new DataSet();
+        Object old = data.put(key, value);
+        store.put(widgetLink, data);
+        return old;
     }
 
     /**
@@ -158,9 +174,11 @@ public class DataModel {
         if (link == null)
             return null;
         ModelLink widgetLink = link.getWidgetLink();
-        Optional<Map.Entry<ModelLink, DataSet>> first = store.entrySet().stream()
-                .filter(e -> e.getKey().equals(widgetLink)).findFirst();
-        return first.orElse(null);
+        return findEntryByLink(Objects.requireNonNullElse(widgetLink, link));
+    }
+
+    private Map.Entry<ModelLink, DataSet> findEntryByLink(ModelLink link) {
+        return store.entrySet().stream().filter(e -> e.getKey().equals(link)).findFirst().orElse(null);
     }
 
 }

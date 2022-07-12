@@ -1,0 +1,9 @@
+<sidebar xmlns="http://n2oapp.net/framework/config/schema/sidebar-3.0"
+         subtitle="Simple subtitle"
+         path="/hello"
+         toggle-on-hover="true"
+         home-page-url="/home">
+    <nav>
+        <menu-item name="test"/>
+    </nav>
+</sidebar>
