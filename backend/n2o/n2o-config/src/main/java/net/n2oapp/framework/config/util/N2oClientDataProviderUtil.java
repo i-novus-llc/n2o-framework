@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.util;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
@@ -11,15 +10,17 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.Arrays;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
@@ -109,8 +110,10 @@ public class N2oClientDataProviderUtil {
         actionContextData.setRoute(submit.getRoute());
         actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
-        actionContextData.setMessagePosition(submit.getMessagePosition());
-        actionContextData.setMessagePlacement(submit.getMessagePlacement());
+        actionContextData.setMessagePosition(p.cast(submit.getMessagePosition(),
+                p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+        actionContextData.setMessagePlacement(p.cast(submit.getMessagePlacement(),
+                p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
         actionContextData.setMessagesForm(submit.getMessageWidgetId());
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
