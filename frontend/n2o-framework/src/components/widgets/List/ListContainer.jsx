@@ -101,10 +101,11 @@ class ListContainer extends React.Component {
     handleItemClick(index) {
         const { setResolve, models, rowClick, onRowClickAction } = this.props
         const { datasource } = models
+        const model = datasource[index]
 
-        setResolve(datasource[index])
+        setResolve(model)
         if (rowClick) {
-            onRowClickAction()
+            onRowClickAction(model)
         }
     }
 

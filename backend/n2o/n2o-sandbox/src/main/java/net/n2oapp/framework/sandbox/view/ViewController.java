@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -256,17 +257,29 @@ public class ViewController {
     }
 
     /**
+     * Обработчик исключений N2O
+     */
+    @ExceptionHandler(N2oException.class)
+    public ResponseEntity<N2oResponse> sendErrorMessage(N2oException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(initErrorDataResponse(e));
+    }
+
+    /**
      * Обработчик исключений
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<N2oResponse> sendErrorMessage(Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(initErrorDataResponse(e));
+    }
+
+    private N2oResponse initErrorDataResponse(Exception e) {
         logger.error(e.getMessage(), e);
         MetaSaga meta = new MetaSaga();
         meta.setAlert(new AlertSaga());
         meta.getAlert().setMessages(Collections.singletonList(messageBuilder.build(e)));
         N2oResponse dataResponse = new N2oResponse();
         dataResponse.setMeta(meta);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(dataResponse);
+        return dataResponse;
     }
 
     private String getTemplate(String fileName) {
