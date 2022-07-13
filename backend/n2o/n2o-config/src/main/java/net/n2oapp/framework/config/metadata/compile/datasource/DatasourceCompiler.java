@@ -26,8 +26,6 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -351,10 +349,8 @@ public class DatasourceCompiler extends BaseDatasourceCompiler<N2oDatasource, Da
         actionContextData.setRoute(submit.getRoute());
         actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), true));
-        actionContextData.setMessagePosition(p.cast(submit.getMessagePosition(),
-                p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
-        actionContextData.setMessagePlacement(p.cast(submit.getMessagePlacement(),
-                p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
+        actionContextData.setMessagePosition(submit.getMessagePosition());
+        actionContextData.setMessagePlacement(submit.getMessagePlacement());
         actionContextData.setOperation(object.getOperations().get(submit.getOperationId()));
         if (submit.getRefreshOnSuccess() != null) {
             actionContextData.setRefresh(new RefreshSaga());
