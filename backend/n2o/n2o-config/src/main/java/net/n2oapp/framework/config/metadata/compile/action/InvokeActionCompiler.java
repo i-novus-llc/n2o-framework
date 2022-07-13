@@ -82,8 +82,10 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
         source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
         source.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
-        source.setMessagePosition(p.cast(source.getMessagePosition(), MessagePosition.fixed));
-        source.setMessagePlacement(p.cast(source.getMessagePlacement(), MessagePlacement.top));
+        source.setMessagePosition(p.cast(source.getMessagePosition(),
+                p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+        source.setMessagePlacement(p.cast(source.getMessagePlacement(),
+                p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
         source.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
