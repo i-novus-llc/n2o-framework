@@ -45,6 +45,8 @@ public interface Page extends Component {
 
     void shouldHaveLayout(NavigationLayout layout);
 
+    void shouldHaveError(int statusCode);
+
     interface PageToolbar {
         Toolbar topLeft();
 
