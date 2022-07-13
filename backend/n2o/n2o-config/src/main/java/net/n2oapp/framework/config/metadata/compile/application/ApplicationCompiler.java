@@ -49,7 +49,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setFooter(initFooter(source.getFooter(), p));
         application.setEvents(initEvents(source.getEvents(), context, p));
         application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
-        application.setDatasources(initDatasources(dataSourcesScope, context, p));
+        application.setDatasources(initDatasources(dataSourcesScope, source, context, p));
         return application;
     }
 
@@ -131,16 +131,26 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         p.addRoute(context);
     }
 
-    private Map<String, AbstractDatasource> initDatasources(DataSourcesScope dataSourcesScope, ApplicationContext context,
+    private Map<String, AbstractDatasource> initDatasources(DataSourcesScope dataSourcesScope, N2oApplication source, ApplicationContext context,
                                                             CompileProcessor p) {
         if (dataSourcesScope == null)
             return null;
+        N2oAbstractDatasource[] datasources = source.getDatasources();
         Map<String, AbstractDatasource> result = new HashMap<>();
         if (!dataSourcesScope.isEmpty()) {
             dataSourcesScope.values().forEach(ds -> {
                 AbstractDatasource compiled = p.compile(ds, context);
                 result.put(compiled.getId(), compiled);
             });
+        }
+        //TODO: Исправить после слития ветки с LocalStorage
+        if (datasources == null)
+            return result;
+        for (N2oAbstractDatasource datasource : datasources) {
+            if (!result.containsKey(datasource.getId())) {
+                AbstractDatasource abstractDatasource = p.compile(datasource, context);
+                result.put(abstractDatasource.getId(), abstractDatasource);
+            }
         }
         return result;
     }
