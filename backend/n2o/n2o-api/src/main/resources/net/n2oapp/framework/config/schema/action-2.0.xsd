@@ -862,14 +862,14 @@
                         <xs:documentation>Адрес документа для печати.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="printType">
+                <xs:attribute name="type" type="printType" default="pdf">
                     <xs:annotation>
-                        <xs:documentation>Тип для печати</xs:documentation>
+                        <xs:documentation>Тип документа для печати</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="keep-indent" type="xs:boolean">
+                <xs:attribute name="keep-indent" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Сохранять отступы?</xs:documentation>
+                        <xs:documentation>Сохранение отступов в документах. Актуально для типа text</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="document-title" type="xs:string">
@@ -877,17 +877,17 @@
                         <xs:documentation>Заголовок документа</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="loader" type="xs:boolean">
+                <xs:attribute name="loader" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Показывать модальное окно с лоадером?</xs:documentation>
+                        <xs:documentation>Показывать модальное окно с лоадером при загрузке?</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="loader-text" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Текст внутри лоадера</xs:documentation>
+                        <xs:documentation>Текст внутри модального окна с лоадером</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="base64" type="xs:boolean">
+                <xs:attribute name="base64" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Напечать в base64?</xs:documentation>
                     </xs:annotation>
