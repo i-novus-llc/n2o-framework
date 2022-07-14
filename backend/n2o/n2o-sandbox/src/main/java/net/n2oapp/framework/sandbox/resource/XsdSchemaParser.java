@@ -57,7 +57,7 @@ public class XsdSchemaParser {
      * @throws IOException
      */
     public Resource getSchema(String schemaNamespace) throws IOException {
-        return prepareSchema(schemaNamespace);
+        return prepareSchema(schemaNamespace, new ArrayList<>());
     }
 
     /**
@@ -67,7 +67,7 @@ public class XsdSchemaParser {
      * @return XSD схема
      * @throws IOException
      */
-    private Resource prepareSchema(String schemaNamespace) throws IOException {
+    private Resource prepareSchema(String schemaNamespace, List<String> preparedResources) throws IOException {
         String schemaName = getSchemaNameByNamespace(schemaNamespace);
 
         if (resourceBySchemaName.containsKey(schemaName))
@@ -85,10 +85,13 @@ public class XsdSchemaParser {
                 resourceBySchemaName.put(schemaName, resource);
             else {
                 Map<String, List<String>> definitionRowsByName = new HashMap<>();
-                for (String namespace : schemaNamespacesByAlias.values()) {
-                    Resource subSchema = prepareSchema(namespace);
+                List<String> nameSpaces = schemaNamespacesByAlias.values().stream()
+                        .filter(value -> !preparedResources.contains(value))
+                        .collect(Collectors.toList());
+                for (String namespace : nameSpaces) {
+                    preparedResources.add(namespace);
+                    Resource subSchema = prepareSchema(namespace, preparedResources);
                     fillSchemaDefinitions(subSchema, definitionRowsByName);
-                    continue;
                 }
 
                 Resource mergedSchema = mergeSchemas(linesList, definitionRowsByName, schemaName, schemaNamespacesByAlias);
