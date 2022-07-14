@@ -106,7 +106,6 @@ const NavItemContainer = ({
                     className={cx('nav-link', className, { active })}
                     to={item.href}
                     activeClassName="active"
-                    target={item.target}
                 >
                     {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
                     <NavItemImage
