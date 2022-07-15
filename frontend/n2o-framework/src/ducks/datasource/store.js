@@ -92,6 +92,10 @@ const datasource = createSlice({
                     return
                 }
 
+                if (state[datasource].error) {
+                    delete state[datasource].error
+                }
+
                 state[datasource].loading = true
             },
         },
@@ -119,11 +123,12 @@ const datasource = createSlice({
             },
             // eslint-disable-next-line sonarjs/no-identical-functions
             reducer(state, action) {
-                const { id } = action.payload
+                const { id, err } = action.payload
 
                 if (!state[id]) { return }
 
                 state[id].loading = false
+                state[id].error = err
             },
         },
 

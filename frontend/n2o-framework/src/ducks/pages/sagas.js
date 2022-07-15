@@ -223,6 +223,7 @@ export function* getMetadata(apiProvider, action) {
                 pageId,
                 {
                     title: err.status ? err.status : 'Ошибка',
+                    status: err.status,
                     text: err.message,
                     closeButton: false,
                     severity: 'danger',

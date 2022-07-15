@@ -40,7 +40,7 @@ export function getGlobal() {
  */
 export const createGlobalContext = (() => {
     let context
-    const allowList = ['undefined', 'null', 'NaN', 'Infinity',
+    const allowList = ['undefined', 'null', 'NaN', 'Infinity', 'crypto', 'Math',
         // тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
         'location', 'history', 'navigator', 'console',
     ]
