@@ -1088,6 +1088,32 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="defaultValuesMode">
+        <xs:annotation>
+            <xs:documentation>Режим подстановки значений по умолчанию</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="defaults">
+                <xs:annotation>
+                    <xs:documentation>Значения по умолчанию заполняются данными прописанными в полях</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="query">
+                <xs:annotation>
+                    <xs:documentation>Значения по умолчанию заполняются данными из запроса</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="merge">
+                <xs:annotation>
+                    <xs:documentation>
+                        Значения по умолчанию заполняются путем слияния данных, прописанных в полях и
+                        полученных из запроса (полученные из запроса в приоритете)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="submitOn">
         <xs:annotation>
             <xs:documentation>Отправка по событию.</xs:documentation>

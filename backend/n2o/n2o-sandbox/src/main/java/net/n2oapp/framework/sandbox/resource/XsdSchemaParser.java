@@ -57,17 +57,18 @@ public class XsdSchemaParser {
      * @throws IOException
      */
     public Resource getSchema(String schemaNamespace) throws IOException {
-        return prepareSchema(schemaNamespace, new ArrayList<>());
+        return prepareSchema(schemaNamespace, new HashSet<>());
     }
 
     /**
      * Получение ресурса схемы и ее преобразование в случае, если она содержит зависимости на другие схемы
      *
-     * @param schemaNamespace Неймспейс схемы
+     * @param schemaNamespace            Неймспейс схемы
+     * @param preparedResourceNamespaces Неймспейсы преобразованных схем
      * @return XSD схема
      * @throws IOException
      */
-    private Resource prepareSchema(String schemaNamespace, List<String> preparedResources) throws IOException {
+    private Resource prepareSchema(String schemaNamespace, Set<String> preparedResourceNamespaces) throws IOException {
         String schemaName = getSchemaNameByNamespace(schemaNamespace);
 
         if (resourceBySchemaName.containsKey(schemaName))
@@ -85,12 +86,11 @@ public class XsdSchemaParser {
                 resourceBySchemaName.put(schemaName, resource);
             else {
                 Map<String, List<String>> definitionRowsByName = new HashMap<>();
-                List<String> nameSpaces = schemaNamespacesByAlias.values().stream()
-                        .filter(value -> !preparedResources.contains(value))
-                        .collect(Collectors.toList());
-                for (String namespace : nameSpaces) {
-                    preparedResources.add(namespace);
-                    Resource subSchema = prepareSchema(namespace, preparedResources);
+                for (String namespace : schemaNamespacesByAlias.values()) {
+                    if (preparedResourceNamespaces.contains(namespace))
+                        continue;
+                    preparedResourceNamespaces.add(namespace);
+                    Resource subSchema = prepareSchema(namespace, preparedResourceNamespaces);
                     fillSchemaDefinitions(subSchema, definitionRowsByName);
                 }
 
