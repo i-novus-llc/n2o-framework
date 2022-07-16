@@ -2,7 +2,9 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <actions>
         <action>
-            <print src="test" url="/:pathParam1/test">
+            <print src="test" url="/:pathParam1/test" type="text"
+                   keep-indent="false" loader="true" loader-text="loading" document-title="Test document"
+                   base64="false">
                 <path-param name="pathParam1" value="pathParam1Value" ref-widget-id="widget1" ref-model="filter"/>
                 <query-param name="queryParam1" value="queryParam1Value"/>
             </print>
