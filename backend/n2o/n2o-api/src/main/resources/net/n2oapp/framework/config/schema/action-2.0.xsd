@@ -857,9 +857,50 @@
                         <xs:documentation>Адрес документа для печати.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="type" type="printType" default="pdf">
+                    <xs:annotation>
+                        <xs:documentation>Тип документа для печати</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="keep-indent" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Сохранение отступов в документах. Актуально для типа text</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="document-title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок документа</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="loader" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Показывать модальное окно с лоадером при загрузке?</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="loader-text" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст внутри модального окна с лоадером</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="base64" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Напечать в base64?</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    
+    <xs:simpleType name="printType">
+        <xs:annotation>
+            <xs:documentation>Тип для печати</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="pdf"/>
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="image"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:complexType name="refreshDefinition">
         <xs:annotation>

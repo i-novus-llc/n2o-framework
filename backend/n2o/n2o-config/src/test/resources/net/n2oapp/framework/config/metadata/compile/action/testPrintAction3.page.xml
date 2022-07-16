@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             route="/page2" name="first">
+    <table id="test" route="/widget2">
+        <toolbar>
+            <button id="id1">
+                <print url="test" loader-text="Loading..." loader="true" document-title="Document 1"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>
+
+
+
