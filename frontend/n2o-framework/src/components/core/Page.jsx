@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import find from 'lodash/find'
 import get from 'lodash/get'
 import { createStructuredSelector } from 'reselect'
 import {
@@ -22,6 +21,7 @@ import {
 } from '../../ducks/pages/selectors'
 import { rootPageSelector } from '../../ducks/global/store'
 import { Spinner } from '../snippets/Spinner/Spinner'
+import { errorController } from '../errors/errorController'
 
 import withMetadata from './withMetadata'
 import withActions from './withActions'
@@ -33,20 +33,17 @@ function Page(props, context) {
     const {
         metadata,
         loading,
-        status,
+        status: pageStatus,
         defaultTemplate: Template = React.Fragment,
         defaultErrorPages,
         page,
         rootPage,
+        error,
     } = props
 
-    const getErrorPage = () => get(
-        find(defaultErrorPages, page => page.status === status),
-        'component',
-        null,
-    )
+    const status = pageStatus || get(error, 'status', null)
 
-    const errorPage = getErrorPage()
+    const errorPage = errorController(status, defaultErrorPages)
 
     const renderDefaultBody = () => {
         const { defaultPage: contextDefaultPage } = context
@@ -87,6 +84,7 @@ Page.contextTypes = {
 
 Page.propTypes = {
     metadata: PropTypes.object,
+    error: PropTypes.object,
     loading: PropTypes.bool,
     status: PropTypes.number,
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -99,7 +97,11 @@ export { Page }
 
 const mapStateToProps = createStructuredSelector({
     disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
-    status: (state, { pageId }) => makePageStatusByIdSelected(pageId)(state),
+    status: (state, { pageId, location }) => {
+        const id = pageId || location.pathname
+
+        return makePageStatusByIdSelected(id)(state)
+    },
     rootPageId: rootPageSelector,
 })
 
