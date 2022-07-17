@@ -22,6 +22,7 @@
                 </statuses>
             </image>
             <image id="testId2"/>
+            <image id="testId3" url="testImage" width="135px"/>
         </fields>
     </form>
 </simple-page>
