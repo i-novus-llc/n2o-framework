@@ -131,7 +131,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ReduxModel defaultModel = getModelFromComponentScope(p);
         if (widgetScope != null) {
-            String defaultClientWidgetId = getDefaultClientWidgetId(widgetScope, p);
+            String defaultClientWidgetId = getDefaultClientWidgetId(p);
             if (pathParams != null)
                 for (N2oParam pathParam : pathParams)
                     pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, defaultClientWidgetId, defaultModel, p));
@@ -200,11 +200,11 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Получение идентификатора клиентского виджета по умолчанию
      *
-     * @param widgetScope Информация о виджете
      * @param p           Процессор сборки метаданных
      * @return Идентификатор клиентского виджета по умолчанию
      */
-    private String getDefaultClientWidgetId(WidgetScope widgetScope, CompileProcessor p) {
+    private String getDefaultClientWidgetId(CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String widgetIdByComponentScope = getClientWidgetIdByComponentScope(p);
         return widgetIdByComponentScope != null ? widgetIdByComponentScope : widgetScope.getClientWidgetId();
     }

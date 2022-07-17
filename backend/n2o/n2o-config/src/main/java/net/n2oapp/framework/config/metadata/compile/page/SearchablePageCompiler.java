@@ -29,7 +29,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getDatasourceId(), source.getSearchBar().getSearchFilterId());
         searchBarScope.setParam(source.getSearchBar().getSearchParam());
         page = compilePage(source, page, context, p, searchBarScope);
-        page.setSearchBar(compileSearchBar(source, p));
+        page.setSearchBar(compileSearchBar(source, page, p));
         return page;
     }
 
@@ -46,14 +46,14 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     }
 
     @Override
-    protected Map<String, List<Region>>  initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p,
-                                                     PageContext context, Object... scopes) {
+    protected Map<String, List<Region>> initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p,
+                                                    PageContext context, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
         initRegions(source.getItems(), regions, "single", context, p, scopes);
         return regions;
     }
 
-    protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, CompileProcessor p) {
+    protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, SearchablePage page, CompileProcessor p) {
         SearchablePage.SearchBar searchBar = new SearchablePage.SearchBar();
         searchBar.setClassName(source.getSearchBar().getClassName());
         searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(p.resolve(property("n2o.api.page.searchable.trigger"), String.class)));
@@ -64,7 +64,10 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
         }
         searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
-        searchBar.setDatasource(CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), p));
+        String clientDatasourceId = CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId());
+        if (!page.getDatasources().keySet().contains(clientDatasourceId))
+            clientDatasourceId = source.getSearchBar().getDatasourceId();
+        searchBar.setDatasource(clientDatasourceId);
         return searchBar;
     }
 

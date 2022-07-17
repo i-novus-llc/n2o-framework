@@ -128,7 +128,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private String initClientWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         return pageScope != null ?
-                getClientWidgetId(source.getId(), p) :
+                getClientWidgetId(source.getId(), pageScope.getPageId()) :
                 context.getCompiledId((N2oCompileProcessor) p);
     }
 

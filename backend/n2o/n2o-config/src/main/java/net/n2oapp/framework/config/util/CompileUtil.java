@@ -14,6 +14,17 @@ import java.util.function.Function;
 public class CompileUtil {
 
     /**
+     * Получение идентификатора клиентского виджета
+     *
+     * @param widgetId Идентификатор виджета
+     * @param pageId   Идентификатор страницы
+     * @return Идентификатор клиентского виджета
+     */
+    public static String getClientWidgetId(String widgetId, String pageId) {
+        return getClientDatasourceId(widgetId, pageId);
+    }
+
+    /**
      * Получение идентификатора клиентского источника данных
      *
      * @param datasourceId Идентификатор источника данных
@@ -34,24 +45,13 @@ public class CompileUtil {
     /**
      * Получение идентификатора клиентского источника данных
      *
-     * @param widgetId  Идентификатор источника данных
-     * @param p            Процессор сборки метаданных
-     * @return Идентификатор клиентского источника данных
-     */
-    public static String getClientWidgetId(String widgetId, CompileProcessor p) {
-        return getClientDatasourceId(widgetId, p);
-    }
-
-    /**
-     * Получение идентификатора клиентского источника данных
-     *
      * @param datasourceId Идентификатор источника данных
      * @param pageId       Идентификатор страницы
      * @return Идентификатор клиентского источника данных
      */
     public static String getClientDatasourceId(String datasourceId, String pageId) {
-        if (datasourceId == null)
-            return null;
+        if (datasourceId == null || pageId == null)
+            return datasourceId;
         String separator = "_".equals(pageId) ? "" : "_";
         return pageId.concat(separator).concat(datasourceId);
     }

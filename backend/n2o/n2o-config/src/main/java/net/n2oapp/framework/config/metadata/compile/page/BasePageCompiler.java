@@ -79,7 +79,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         Models models = new Models();
         page.setModels(models);
 
-        PageScope pageScope = initPageScope(source, page, context, sourceWidgets, resultWidget, p);
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
@@ -89,6 +88,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
         ApplicationDatasourceIdsScope appDatasourcesIdScope = new ApplicationDatasourceIdsScope();
         DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, appDatasourcesIdScope);
+        PageScope pageScope = initPageScope(source, page.getId(), sourceWidgets, resultWidget, datasourcesScope, context);
         MetaActions metaActions = initMetaActions(source);
         FiltersScope filtersScope = new FiltersScope();
 
@@ -149,10 +149,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         }
     }
 
-    private PageScope initPageScope(S source, D page, PageContext context, List<N2oWidget> sourceWidgets,
-                                    N2oWidget resultWidget, CompileProcessor p) {
+    private PageScope initPageScope(S source, String pageId, List<N2oWidget> sourceWidgets, N2oWidget resultWidget,
+                                    DataSourcesScope datasourcesScope, PageContext context) {
         PageScope pageScope = new PageScope();
-        pageScope.setPageId(page.getId());
+        pageScope.setPageId(pageId);
         if (context.getParentTabIds() != null) {
             pageScope.setTabIds(context.getParentTabIds());
         }
@@ -166,8 +166,13 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                         w -> w.getDatasourceId() == null ? w.getId() : w.getDatasourceId())));
         pageScope.setWidgetIdClientDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdClientDatasourceMap().putAll(sourceWidgets.stream()
-                .collect(Collectors.toMap(w -> getClientWidgetId(w.getId(), p),
-                        w -> getClientDatasourceId(w.getDatasourceId() == null ? w.getId() : w.getDatasourceId(), p))));
+                .collect(Collectors.toMap(w -> getClientWidgetId(w.getId(), pageId),
+                        w -> {
+                            String datasourceId = w.getDatasourceId() == null ? w.getId() : w.getDatasourceId();
+                            return datasourcesScope.containsKey(datasourceId) &&
+                                    datasourcesScope.get(datasourceId) instanceof N2oApplicationDatasource ?
+                                    datasourceId : getClientDatasourceId(datasourceId, pageId);
+                        })));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;
@@ -178,31 +183,17 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private Map<String, AbstractDatasource> compileDataSources(PageContext context,
-                                                       CompileProcessor p,
-                                                       DataSourcesScope dataSourcesScope,
-                                                       PageScope pageScope,
-                                                       Object... scopes) {
+                                                               CompileProcessor p,
+                                                               DataSourcesScope dataSourcesScope,
+                                                               PageScope pageScope,
+                                                               Object... scopes) {
         Map<String, AbstractDatasource> compiledDataSources = new HashMap<>();
-        initContextDatasource(context, p, dataSourcesScope, pageScope);
+        initContextDatasources(dataSourcesScope, pageScope, context, p);
         for (N2oAbstractDatasource ds : dataSourcesScope.values()) {
             AbstractDatasource compiled = p.compile(ds, context, pageScope, scopes);
             compiledDataSources.put(compiled.getId(), compiled);
         }
         return compiledDataSources;
-    }
-
-    private void initContextDatasource(PageContext context, CompileProcessor p, DataSourcesScope dataSourcesScope, PageScope pageScope) {
-        if (context.getDatasources() != null) {
-            for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
-                String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
-                if (dataSourcesScope.containsKey(dsId))
-                    dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
-                else {
-                    ctxDs.setId(dsId);//todo нужно клонировать ctxDs
-                    dataSourcesScope.put(dsId, ctxDs);
-                }
-            }
-        }
     }
 
     protected List<N2oWidget> collectWidgets(S source, CompileProcessor p) {
@@ -297,7 +288,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void compileToolbarAndAction(StandardPage compiled, S source, PageContext context, CompileProcessor p,
-                                        Object... scopes) {
+                                         Object... scopes) {
         actionsToToolbar(source);
         compiled.setToolbar(compileToolbar(source, context, p, scopes));
     }

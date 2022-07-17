@@ -190,7 +190,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             }
         }
         if (pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSourceIds() == null && pageScope != null) {
-            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(getClientWidgetId(parentWidgetId, p));
+            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(getClientWidgetId(parentWidgetId, pageId));
             if (datasourceId != null)
                 pageContext.setRefreshClientDataSourceIds(Arrays.asList(datasourceId));
         }
