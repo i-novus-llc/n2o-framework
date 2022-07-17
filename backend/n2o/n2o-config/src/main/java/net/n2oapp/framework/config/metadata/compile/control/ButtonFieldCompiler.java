@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -109,13 +108,12 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
     private List<String> compileValidate(N2oButtonField source, CompileProcessor p, String datasource) {
         if (!p.cast(source.getValidate(), datasource != null || source.getValidateDatasourceIds() != null))
             return null;
-        PageScope pageScope = p.getScope(PageScope.class);
         if (source.getValidateDatasourceIds() != null)
             return Stream.of(source.getValidateDatasourceIds())
-                    .map(ds -> getClientDatasourceId(ds, pageScope))
+                    .map(ds -> getClientDatasourceId(ds, p))
                     .collect(Collectors.toList());
         if (datasource != null)
-            return Collections.singletonList(getClientDatasourceId(datasource, pageScope));
+            return Collections.singletonList(getClientDatasourceId(datasource, p));
         throw new N2oException(String.format("validate-datasources is not defined in button [%s]", source.getId()));
     }
 
@@ -157,13 +155,12 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
     }
 
     protected String initClientDatasourceId(N2oButtonField source, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
         if (source.getDatasourceId() != null)
-            return getClientDatasourceId(source.getDatasourceId(), pageScope);
+            return getClientDatasourceId(source.getDatasourceId(), p);
 
         String datasourceId = initLocalDatasourceId(p);
         if (datasourceId != null)
-            return getClientDatasourceId(datasourceId, pageScope);
+            return getClientDatasourceId(datasourceId, p);
         else
             throw new N2oException(String.format("Unknown datasource for submit in field %s!", source.getId()));
     }

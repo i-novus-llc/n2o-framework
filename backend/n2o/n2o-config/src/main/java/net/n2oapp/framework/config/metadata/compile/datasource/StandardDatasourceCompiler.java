@@ -123,9 +123,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                 searchBarFilter.setFilterId(searchBarScope.getFilterId());
                 searchBarFilter.setParam(searchBarScope.getParam());
                 searchBarFilter.setRoutable(true);
-                PageScope pageScope = p.getScope(PageScope.class);
                 ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(),
-                        pageScope != null ? getClientDatasourceId(source.getId(), pageScope) : source.getId(),
+                        getClientDatasourceId(source.getId(), p),
                         searchBarScope.getFilterId());
                 searchBarFilter.setLink(modelLink);
                 filters.add(searchBarFilter);
@@ -180,8 +179,9 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                         //фильтр из родительского маршрута
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
-                        String pageId = p.cast(preFilter.getRefPageId(), pageScope.getPageId());
-                        String clientDatasourceId = getClientDatasourceId(preFilter.getDatasourceId(), pageId);
+                        String clientDatasourceId = preFilter.getRefPageId() != null ?
+                                getClientDatasourceId(preFilter.getDatasourceId(), preFilter.getRefPageId()) :
+                                getClientDatasourceId(preFilter.getDatasourceId(), p);
                         ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.resolve);
                         ModelLink link = new ModelLink(model, clientDatasourceId);
                         link.setValue(prefilterValue);

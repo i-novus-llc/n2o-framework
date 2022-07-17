@@ -30,7 +30,6 @@ import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -139,23 +138,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId, pageScope,
-                componentScope, source.getPageId());
+                componentScope, source.getPageId(), p);
 
-        String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
-
-        String parentComponentWidgetId = null;
-        WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-        if (widgetIdAware != null && widgetIdAware.getWidgetId() != null)
-            parentComponentWidgetId = widgetIdAware.getWidgetId();
-
-        // виджет для текущей модели берется либо из родителя, либо текущий
-        String actionModelWidgetId = p.cast(parentComponentWidgetId, currentWidgetId);
-
-        Map<String, String> widgetIdQueryIdMap = null;
-        if (pageScope != null && !CollectionUtils.isEmpty(pageScope.getWidgetIdQueryIdMap()))
-            widgetIdQueryIdMap = pageScope.getWidgetIdQueryIdMap();
         initPathMapping(source.getPathParams(), pathMapping, p);
 
+        String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
         String parentRoute = normalize(route);
         route = normalize(route + actionRoute);
         PageContext pageContext = constructContext(pageId, route);
@@ -187,7 +174,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentClientWidgetId(currentClientWidgetId);
         String localDatasourceId = getLocalDatasource(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
-        pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, pageScope));
+        pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, p));
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
@@ -199,11 +186,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                     new String[]{localDatasourceId} : source.getRefreshDatasourceIds();
             if (pageScope != null) {
                 pageContext.setRefreshClientDataSourceIds(Arrays.stream(refreshDatasourceIds)
-                        .map(d -> getClientDatasourceId(d, pageScope)).collect(Collectors.toList()));
+                        .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
             }
         }
         if (pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSourceIds() == null && pageScope != null) {
-            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(getClientWidgetId(parentWidgetId, pageScope));
+            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(getClientWidgetId(parentWidgetId, p));
             if (datasourceId != null)
                 pageContext.setRefreshClientDataSourceIds(Arrays.asList(datasourceId));
         }
@@ -252,13 +239,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param pageId          Идентификатор открываемой страницы
      * @return Ссылка на модель действия
      */
-    private ModelLink createActionModelLink(ReduxModel actionDataModel, String clientWidgetId,
-                                            PageScope pageScope, ComponentScope componentScope, String pageId) {
+    private ModelLink createActionModelLink(ReduxModel actionDataModel, String clientWidgetId, PageScope pageScope,
+                                            ComponentScope componentScope, String pageId, CompileProcessor p) {
         if (componentScope != null) {
             String datasource;
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
             if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
-                datasource = getClientDatasourceId(datasourceIdAware.getDatasourceId(), pageScope);
+                datasource = getClientDatasourceId(datasourceIdAware.getDatasourceId(), p);
             } else {
                 datasource = (pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null)
                         ? clientWidgetId
@@ -287,11 +274,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     /**
      * Добавление параметров запроса в queryMapping
      *
-     * @param params                  Список входящих параметров запроса
-     * @param pathMapping             Map моделей параметров пути
-     * @param queryMapping            Map моделей параметров запроса.
-     *                                В нее будут добавлены модели построенных параметров запроса
-     * @param p                       Процессор сборки метаданных
+     * @param params       Список входящих параметров запроса
+     * @param pathMapping  Map моделей параметров пути
+     * @param queryMapping Map моделей параметров запроса.
+     *                     В нее будут добавлены модели построенных параметров запроса
+     * @param p            Процессор сборки метаданных
      */
     private void initQueryMapping(N2oParam[] params, Map<String, ModelLink> pathMapping,
                                   Map<String, ModelLink> queryMapping, CompileProcessor p) {

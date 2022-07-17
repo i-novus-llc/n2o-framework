@@ -31,7 +31,6 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
@@ -126,9 +125,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             return null;
         if (source.getValidateDatasourceIds() == null || source.getValidateDatasourceIds().length == 0)
             throw new N2oException(String.format("validate-datasources is not defined in button [%s]", source.getId()));
-        PageScope pageScope = p.getScope(PageScope.class);
         return Stream.of(source.getValidateDatasourceIds())
-                .map(ds -> getClientDatasourceId(ds, pageScope))
+                .map(ds -> getClientDatasourceId(ds, p))
                 .collect(Collectors.toList());
     }
 
@@ -203,7 +201,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         confirm.setCloseButton(p.resolve(property("n2o.api.confirm.close_button"), Boolean.class));
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
-            String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p.getScope(PageScope.class));
+            String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
             ReduxModel reduxModel = source.getModel();
             confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, clientDatasource).getBindLink());
         }
@@ -257,8 +255,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      */
     protected void compileDependencies(N2oButton source, PerformButton button,
                                        CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        String clientDatasource = getClientDatasourceId(source.getDatasourceId(), pageScope);
+        String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
         List<Condition> enabledConditions = new ArrayList<>();
 
         if (source.getVisibilityCondition() != null)
@@ -364,7 +361,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
         String datasource = (dependency.getDatasource() != null) ?
-                getClientDatasourceId(dependency.getDatasource(), p.getScope(PageScope.class)) :
+                getClientDatasourceId(dependency.getDatasource(), p) :
                 buttonDatasource;
         condition.setModelLink(new ModelLink(refModel, datasource, null).getBindLink());
         if (dependency instanceof N2oButton.EnablingDependency)

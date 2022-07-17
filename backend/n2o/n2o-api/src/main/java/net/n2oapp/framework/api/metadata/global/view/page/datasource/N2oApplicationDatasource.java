@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 
 /**
- * Исходная модель источника, хранящего данные в браузере
+ * Исходная модель источника, ссылающегося на источник из application.xml
  */
 @Getter
 @Setter

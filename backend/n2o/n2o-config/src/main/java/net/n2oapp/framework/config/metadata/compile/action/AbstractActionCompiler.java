@@ -180,7 +180,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModel defaultModel, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        String widgetId = p.cast(getClientDatasourceId(param.getRefWidgetId(), pageScope), defaultClientWidgetId);
+        String widgetId = p.cast(getClientDatasourceId(param.getRefWidgetId(), p), defaultClientWidgetId);
 
         String datasource;
         if (pageScope == null) {
@@ -188,7 +188,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
             if (datasource == null)
                 datasource = getLocalDatasource(p);
         } else {
-            datasource = param.getDatasourceId() != null ? getClientDatasourceId(param.getDatasourceId(), pageScope.getPageId()) :
+            datasource = param.getDatasourceId() != null ? getClientDatasourceId(param.getDatasourceId(), p) :
                     pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
         }
 

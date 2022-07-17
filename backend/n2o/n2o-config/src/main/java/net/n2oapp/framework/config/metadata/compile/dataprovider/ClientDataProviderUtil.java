@@ -97,18 +97,18 @@ public class ClientDataProviderUtil {
     }
 
     public static String getClientWidgetIdByComponentScope(CompileProcessor p) {
-        return getClientDatasourceId(getWidgetIdByComponentScope(p), p.getScope(PageScope.class));
+        return getClientDatasourceId(getWidgetIdByComponentScope(p), p);
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                        CompileProcessor p, ReduxModel model, String globalDatasourceId) {
+                                                        CompileProcessor p, ReduxModel model, String clientDatasourceId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
         for (N2oParam param : params) {
             ModelLink link;
             if (param.getValueParam() == null) {
-                link = getModelLink(p, model, globalDatasourceId, param);
+                link = getModelLink(p, model, clientDatasourceId, param);
             } else {
                 link = getModelLinkByParam(context, param);
             }
@@ -117,22 +117,20 @@ public class ClientDataProviderUtil {
         return result;
     }
 
-    private static ModelLink getModelLink(CompileProcessor p, ReduxModel model, String targetDatasourceId, N2oParam param) {
+    private static ModelLink getModelLink(CompileProcessor p, ReduxModel model, String defaultClientDatasourceId, N2oParam param) {
         ModelLink link;
         Object value = param.getValueList() != null ? param.getValueList() :
                 ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            String datasourceId;
+            String clientDatasourceId;
             if (param.getDatasourceId() == null) {
-                datasourceId = targetDatasourceId;
+                clientDatasourceId = defaultClientDatasourceId;
             } else {
-                String pageId = param.getRefPageId();
-                if (param.getRefPageId() == null && pageScope != null)
-                    pageId = pageScope.getPageId();
-                datasourceId = getClientDatasourceId(param.getDatasourceId(), pageId);
+                clientDatasourceId = param.getRefPageId() != null ?
+                        getClientDatasourceId(param.getDatasourceId(), param.getRefPageId()) :
+                        getClientDatasourceId(param.getDatasourceId(), p);
             }
-            link = new ModelLink(p.cast(param.getModel(), model), datasourceId);
+            link = new ModelLink(p.cast(param.getModel(), model), clientDatasourceId);
             link.setValue(value);
         } else {
             link = new ModelLink(value);

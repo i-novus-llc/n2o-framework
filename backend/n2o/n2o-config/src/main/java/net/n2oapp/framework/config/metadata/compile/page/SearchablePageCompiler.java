@@ -29,7 +29,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getDatasourceId(), source.getSearchBar().getSearchFilterId());
         searchBarScope.setParam(source.getSearchBar().getSearchParam());
         page = compilePage(source, page, context, p, searchBarScope);
-        page.setSearchBar(compileSearchBar(source, page, p));
+        page.setSearchBar(compileSearchBar(source, p));
         return page;
     }
 
@@ -53,7 +53,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         return regions;
     }
 
-    protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, SearchablePage page, CompileProcessor p) {
+    protected SearchablePage.SearchBar compileSearchBar(N2oSearchablePage source, CompileProcessor p) {
         SearchablePage.SearchBar searchBar = new SearchablePage.SearchBar();
         searchBar.setClassName(source.getSearchBar().getClassName());
         searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(p.resolve(property("n2o.api.page.searchable.trigger"), String.class)));
@@ -64,7 +64,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
         }
         searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
-        searchBar.setDatasource(CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId()));
+        searchBar.setDatasource(CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), p));
         return searchBar;
     }
 

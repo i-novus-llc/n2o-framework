@@ -63,7 +63,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         N2oWidget widget = source.getWidget();
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
-        PageScope pageScope = initPageScope(context, page, widget);
+        PageScope pageScope = initPageScope(context, page, widget, p);
         PageRoutes routes = initRoute(pageRoute);
         Models models = new Models();
         page.setModels(models);
@@ -90,7 +90,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         return page;
     }
 
-    private PageScope initPageScope(PageContext context, SimplePage page, N2oWidget widget) {
+    private PageScope initPageScope(PageContext context, SimplePage page, N2oWidget widget, CompileProcessor p) {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
         pageScope.setResultWidgetId(widget.getId());
@@ -102,8 +102,8 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         pageScope.setWidgetIdSourceDatasourceMap(new HashMap<>());
         pageScope.getWidgetIdSourceDatasourceMap().putAll(Map.of(widget.getId(),
                 widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId()));
-        pageScope.getWidgetIdClientDatasourceMap().putAll(Map.of(getClientWidgetId(widget.getId(), pageScope),
-                getClientDatasourceId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId(), pageScope)));
+        pageScope.getWidgetIdClientDatasourceMap().putAll(Map.of(getClientWidgetId(widget.getId(), p),
+                getClientDatasourceId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId(), p)));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;

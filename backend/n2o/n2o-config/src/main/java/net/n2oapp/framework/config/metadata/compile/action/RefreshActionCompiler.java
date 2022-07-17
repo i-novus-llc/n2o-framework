@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oRefreshAction;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshAction;
 import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshPayload;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -28,7 +27,7 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
         RefreshAction refreshAction = new RefreshAction();
         compileAction(refreshAction, source, p);
         refreshAction.setType(p.resolve(property("n2o.api.action.refresh.type"), String.class));
-        String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p.getScope(PageScope.class));
+        String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
         ((RefreshPayload) refreshAction.getPayload()).setDatasource(clientDatasource);
         return refreshAction;
     }

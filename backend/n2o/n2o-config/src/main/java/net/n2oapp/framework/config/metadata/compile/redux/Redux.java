@@ -156,8 +156,7 @@ public abstract class Redux {
     public static ModelLink linkParam(N2oParam param, CompileProcessor p) {
         Object value = ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            ModelLink link = new ModelLink(param.getModel(), getClientDatasourceId(param.getDatasourceId(), pageScope));
+            ModelLink link = new ModelLink(param.getModel(), getClientDatasourceId(param.getDatasourceId(), p));
             link.setValue(value);
             return link;
         } else {

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.HashMap;
@@ -15,10 +17,15 @@ public class CompileUtil {
      * Получение идентификатора клиентского источника данных
      *
      * @param datasourceId Идентификатор источника данных
-     * @param pageScope    Информация о странице
+     * @param p            Процессор сборки метаданных
      * @return Идентификатор клиентского источника данных
      */
-    public static String getClientDatasourceId(String datasourceId, PageScope pageScope) {
+    public static String getClientDatasourceId(String datasourceId, CompileProcessor p) {
+        ApplicationDatasourceIdsScope appDatasourceIds = p.getScope(ApplicationDatasourceIdsScope.class);
+        if (appDatasourceIds != null && appDatasourceIds.contains(datasourceId))
+            return datasourceId;
+
+        PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope == null)
             return datasourceId;
         return getClientDatasourceId(datasourceId, pageScope.getPageId());
@@ -28,11 +35,11 @@ public class CompileUtil {
      * Получение идентификатора клиентского источника данных
      *
      * @param widgetId  Идентификатор источника данных
-     * @param pageScope Информация о странице
+     * @param p            Процессор сборки метаданных
      * @return Идентификатор клиентского источника данных
      */
-    public static String getClientWidgetId(String widgetId, PageScope pageScope) {
-        return getClientDatasourceId(widgetId, pageScope);
+    public static String getClientWidgetId(String widgetId, CompileProcessor p) {
+        return getClientDatasourceId(widgetId, p);
     }
 
     /**

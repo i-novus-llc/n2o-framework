@@ -117,9 +117,8 @@ public class N2oClientDataProviderUtil {
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());
             if (submit.getRefreshDatasourceIds() != null) {
-                PageScope pageScope = p.getScope(PageScope.class);
                 actionContextData.getRefresh().setDatasources(Arrays.stream(submit.getRefreshDatasourceIds())
-                        .map(d -> getClientDatasourceId(d, pageScope)).collect(Collectors.toList()));
+                        .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
             } else {
                 if (widgetScope.getClientDatasourceId() != null)
                     actionContextData.getRefresh().setDatasources(Collections.singletonList(widgetScope.getClientDatasourceId()));

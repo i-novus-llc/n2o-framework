@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
@@ -16,7 +15,7 @@ public abstract class AbstractDatasourceCompiler<S extends N2oAbstractDatasource
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     protected void initDatasource(N2oAbstractDatasource source, AbstractDatasource datasource, CompileProcessor p) {
-        String id = getClientDatasourceId(source.getId(), p.getScope(PageScope.class));
+        String id = getClientDatasourceId(source.getId(), p);
         datasource.setId(id);
     }
 }

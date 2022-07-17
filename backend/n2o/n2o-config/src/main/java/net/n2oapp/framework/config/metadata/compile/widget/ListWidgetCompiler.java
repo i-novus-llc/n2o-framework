@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -39,7 +38,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
         N2oAbstractDatasource datasource = initDatasource(listWidget, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(listWidget, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(listWidget, source, context, p, widgetScope, widgetActions, object, null);
         compileList(source, listWidget, context, widgetActions, p, widgetScope, widgetActions, object);

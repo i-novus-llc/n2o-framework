@@ -58,7 +58,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setType(getType(p));
 
         invokeAction.getPayload().setModel(getModelFromComponentScope(p));
-        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasource(p), p.getScope(PageScope.class)));
+        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasource(p), p));
         invokeAction.getPayload().setWidgetId(getClientWidgetIdByComponentScope(p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
@@ -128,7 +128,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
 
     private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
         if (source.getClearOnSuccess())
-            meta.setClear(getClientDatasourceId(getLocalDatasource(p), p.getScope(PageScope.class)));
+            meta.setClear(getClientDatasourceId(getLocalDatasource(p), p));
     }
 
     private void initRedirect(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess) {
@@ -157,7 +157,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
                         meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasourceIds())
-                                .map(d -> getClientDatasourceId(d, pageScope)).collect(Collectors.toList()));
+                                .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
                 } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
                     meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
             }
@@ -201,7 +201,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setOptimistic(source.getOptimistic());
         dataProvider.setTargetModel(targetWidgetModel);
         dataProvider.setDatasourceId(getLocalDatasource(p));
-        dataProvider.setClientDatasourceId(getClientDatasourceId(dataProvider.getDatasourceId(), p.getScope(PageScope.class)));
+        dataProvider.setClientDatasourceId(getClientDatasourceId(dataProvider.getDatasourceId(), p));
         validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());

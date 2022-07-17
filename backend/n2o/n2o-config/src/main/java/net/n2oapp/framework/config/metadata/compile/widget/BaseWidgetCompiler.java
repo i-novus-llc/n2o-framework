@@ -116,19 +116,19 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null) {
             pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasourceId);
-            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), getClientDatasourceId(datasourceId, pageScope));
+            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), getClientDatasourceId(datasourceId, p));
         }
 
         if (datasource instanceof N2oStandardDatasource)
             compiled.setObjectId(((N2oStandardDatasource) datasource).getObjectId());
-        compiled.setDatasource(getClientDatasourceId(datasourceId, pageScope));
+        compiled.setDatasource(getClientDatasourceId(datasourceId, p));
         return datasource;
     }
 
     private String initClientWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         return pageScope != null ?
-                getClientWidgetId(source.getId(), pageScope) :
+                getClientWidgetId(source.getId(), p) :
                 context.getCompiledId((N2oCompileProcessor) p);
     }
 
@@ -260,7 +260,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
         List<Dependency> visibleConditions = new ArrayList<>();
-        PageScope pageScope = p.getScope(PageScope.class);
         if (source.getVisible() != null) {
             Object condition = p.resolveJS(source.getVisible(), Boolean.class);
             if (StringUtils.isJs(condition)) {
@@ -277,7 +276,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 Dependency condition = new Dependency();
                 String unwrapped = StringUtils.unwrapJs(dep.getValue());
                 condition.setCondition(unwrapped);
-                ModelLink link = new ModelLink(dep.getModel(), getClientDatasourceId(dep.getDatasource(), pageScope));
+                ModelLink link = new ModelLink(dep.getModel(), getClientDatasourceId(dep.getDatasource(), p));
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);

@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import lombok.Getter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.io.Serializable;
@@ -27,11 +27,11 @@ public class WidgetScope implements Serializable {
         this.inLineDatasource = inLineDatasource;
     }
 
-    public WidgetScope(String widgetId, String datasourceId, ReduxModel model, PageScope pageScope) {
+    public WidgetScope(String widgetId, String datasourceId, ReduxModel model, CompileProcessor p) {
         this.widgetId = widgetId;
         this.datasourceId = datasourceId;
         this.model = model;
-        this.clientWidgetId = CompileUtil.getClientWidgetId(widgetId, pageScope);
-        this.clientDatasourceId = CompileUtil.getClientDatasourceId(datasourceId, pageScope);
+        this.clientWidgetId = CompileUtil.getClientWidgetId(widgetId, p);
+        this.clientDatasourceId = CompileUtil.getClientDatasourceId(datasourceId, p);
     }
 }

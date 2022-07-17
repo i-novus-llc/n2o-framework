@@ -27,7 +27,6 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -62,7 +61,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(table, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p.getScope(PageScope.class));
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p);
         SubModelsScope subModelsScope = new SubModelsScope();
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.filter, validationList);
@@ -195,8 +194,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
                 dataSourcesScope.put(datasourceId, datasource);
             }
         }
-        PageScope pageScope = p.getScope(PageScope.class);
-        compiled.setFiltersDatasourceId(getClientDatasourceId(datasourceId, pageScope));
+        compiled.setFiltersDatasourceId(getClientDatasourceId(datasourceId, p));
     }
 }
 

@@ -35,7 +35,6 @@ import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
@@ -508,11 +507,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @return Модель для дефолтного значения поля
      */
     private ModelLink getDefaultValueModelLink(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
         String clientDatasourceId = null;
         switch (source.getRefPage()) {
             case THIS:
-                clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), pageScope);
+                clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), p);
                 break;
             case PARENT:
                 if (context instanceof PageContext) {

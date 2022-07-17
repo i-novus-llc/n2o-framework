@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oSubmitAction;
 import net.n2oapp.framework.api.metadata.meta.action.submit.SubmitAction;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -32,7 +31,7 @@ public class SubmitActionCompiler extends AbstractActionCompiler<SubmitAction, N
         String datasourceId = source.getDatasourceId();
         if (datasourceId == null)
             datasourceId = getLocalDatasource(p);
-        submit.getPayload().setDatasource(getClientDatasourceId(datasourceId, p.getScope(PageScope.class)));
+        submit.getPayload().setDatasource(getClientDatasourceId(datasourceId, p));
 
         return submit;
     }

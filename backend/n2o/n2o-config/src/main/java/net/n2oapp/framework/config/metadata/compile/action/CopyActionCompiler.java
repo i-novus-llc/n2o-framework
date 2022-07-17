@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -35,9 +34,8 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         compileAction(copyAction, source, p);
         copyAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
 
-        PageScope pageScope = p.getScope(PageScope.class);
         CopyActionPayload.ClientModel sourceModel = new CopyActionPayload.ClientModel(
-                getClientDatasourceId(source.getSourceDatasourceId(), pageScope),
+                getClientDatasourceId(source.getSourceDatasourceId(), p),
                 source.getSourceModel().getId(), source.getSourceFieldId());
         CopyActionPayload.ClientModel targetModel = new CopyActionPayload.ClientModel(
                 getTargetDatasourceId(source, p),
@@ -91,6 +89,6 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         if (source.getTargetClientPageId() != null)
             return getClientDatasourceId(source.getTargetDatasourceId(), source.getTargetClientPageId());
         else
-            return getClientDatasourceId(source.getTargetDatasourceId(), p.getScope(PageScope.class));
+            return getClientDatasourceId(source.getTargetDatasourceId(), p);
     }
 }
