@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -31,12 +30,4 @@ public class PageScope implements Serializable {
      */
     @Deprecated
     private Set<String> tabIds;
-
-    public String getGlobalWidgetId(String localWidgetId) {
-        return CompileUtil.generateWidgetId(pageId, localWidgetId);
-    }
-
-    public String getClientDatasourceId(String localDatasourceId) {
-        return  CompileUtil.generateWidgetId(pageId, localDatasourceId);
-    }
 }

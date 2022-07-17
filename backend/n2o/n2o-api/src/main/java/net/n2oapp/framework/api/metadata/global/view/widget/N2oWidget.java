@@ -139,14 +139,14 @@ public abstract class N2oWidget extends N2oMetadata
                     }
                     masterFilter.setParam(param);
                     masterFilter.setModel(ReduxModel.resolve);
-                    masterFilter.setDatasource(getDependsOn());
+                    masterFilter.setDatasourceId(getDependsOn());
                     masterFilter.setRequired(true);
                     preFilters.add(masterFilter);
                     datasource.setFilters(preFilters.toArray(new N2oPreFilter[0]));
                 }
                 if (datasource.getFilters() != null) {
                     for (N2oPreFilter filter : datasource.getFilters())
-                        filter.setDatasource(getDependsOn());
+                        filter.setDatasourceId(getDependsOn());
                 }
             }
             datasource.setSize(getSize());

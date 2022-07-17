@@ -126,7 +126,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         PageContext context = (PageContext) route("/page/123/action2", Page.class);
         assertThat(context.getPreFilters().size(), is(1));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
-        assertThat(context.getPreFilters().get(0).getDatasource(), is("test"));
+        assertThat(context.getPreFilters().get(0).getDatasourceId(), is("test"));
         assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(context.getPreFilters().get(0).getParam(), is("page_test_id"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
@@ -326,7 +326,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         PageContext context = (PageContext) route("/page/gender/masterDetail", Page.class);
         assertThat(context.getPreFilters().size(), is(1));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
-        assertThat(context.getPreFilters().get(0).getDatasource(), is("test"));
+        assertThat(context.getPreFilters().get(0).getDatasourceId(), is("test"));
         assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(context.getPreFilters().get(0).getValue(), is("{masterId}"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));

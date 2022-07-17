@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -34,7 +33,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         N2oAbstractDatasource datasource = initDatasource(tree, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(tree, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(tree, source, context, p, widgetScope, widgetActions, object, null);
 

@@ -66,8 +66,8 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
      * @param scope      Скоуп источников данных
      */
     private void checkSubmit(N2oStandardDatasource datasource, DatasourceIdsScope scope) {
-        if (datasource.getSubmit() != null && datasource.getSubmit().getRefreshDatasources() != null) {
-            for (String refreshDs : datasource.getSubmit().getRefreshDatasources()) {
+        if (datasource.getSubmit() != null && datasource.getSubmit().getRefreshDatasourceIds() != null) {
+            for (String refreshDs : datasource.getSubmit().getRefreshDatasourceIds()) {
                 ValidationUtils.checkForExistsDatasource(refreshDs, scope,
                         String.format("Тег <submit> источника данных '%s' содержит несуществующий источник данных '%s' в атрибуте \"refresh-datasources\"",
                                 datasource.getId(), refreshDs));
@@ -95,10 +95,10 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                 String fieldId = ValidationUtils.getIdOrEmptyString(preFilter.getFieldId());
                 String queryId = ValidationUtils.getIdOrEmptyString(query.getId());
 
-                if (preFilter.getDatasource() != null)
-                    ValidationUtils.checkForExistsDatasource(preFilter.getDatasource(), scope,
+                if (preFilter.getDatasourceId() != null)
+                    ValidationUtils.checkForExistsDatasource(preFilter.getDatasourceId(), scope,
                             String.format("В префильтре по полю '%s' указан несуществующий источник данных '%s'",
-                                    fieldId, preFilter.getDatasource()));
+                                    fieldId, preFilter.getDatasourceId()));
                 N2oQuery.Field exField = null;
                 for (N2oQuery.Field field : query.getFields()) {
                     if (preFilter.getFieldId().equals(field.getId())) {

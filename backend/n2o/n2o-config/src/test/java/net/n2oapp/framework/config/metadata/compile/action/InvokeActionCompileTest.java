@@ -130,7 +130,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     public void refreshOnSucces() {
         ModalPageContext context = new ModalPageContext("testRegisterActionContext", "/");
         List<String> dataSources = Arrays.asList("ds1");
-        context.setRefreshClientDataSources(dataSources);
+        context.setRefreshClientDataSourceIds(dataSources);
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
                 .get(context);
         InvokeAction testAction = (InvokeAction) page.getWidget().getToolbar().getButton("save").getAction();

@@ -9,5 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oSubmitAction extends N2oAbstractAction implements N2oAction {
-    private String datasource;
+    private String datasourceId;
 }

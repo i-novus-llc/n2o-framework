@@ -98,7 +98,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     }
 
     private Sidebar initSidebar(N2oSidebar source, Header header, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
-        if (source == null || source.getVisible() != null && !source.getVisible()) return null;
+        if (source == null || Boolean.FALSE.equals(source.getVisible()))
+            return null;
         Sidebar sidebar = p.compile(source, context, dataSourcesScope);
         if (header != null && header.getSidebarSwitcher() != null) {
             sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.none));

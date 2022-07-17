@@ -49,7 +49,7 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         p.attributeBoolean(e, "routable", pf::getRoutable, pf::setRoutable);
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
-        p.attribute(e, "datasource", pf::getDatasource, pf::setDatasource);
+        p.attribute(e, "datasource", pf::getDatasourceId, pf::setDatasourceId);
         p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModel.class);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
@@ -63,7 +63,7 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacement.class);
         p.attribute(e, "message-widget-id", t::getMessageWidgetId, t::setMessageWidgetId);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
-        p.attributeArray(e, "refresh-datasources", ",", t::getRefreshDatasources, t::setRefreshDatasources);
+        p.attributeArray(e, "refresh-datasources", ",", t::getRefreshDatasourceIds, t::setRefreshDatasourceIds);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.attributeBoolean(e, "submit-all", t::getSubmitAll, t::setSubmitAll);
         p.attributeEnum(e, "auto-submit-on", t::getSubmitOn, t::setSubmitOn, SubmitOn.class);
@@ -75,7 +75,7 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
     private void submitParam(Element e, N2oParam t, IOProcessor p) {
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
+        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
     }
 
@@ -84,7 +84,7 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         if (t.getId() == null)
             p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
+        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
     }
 

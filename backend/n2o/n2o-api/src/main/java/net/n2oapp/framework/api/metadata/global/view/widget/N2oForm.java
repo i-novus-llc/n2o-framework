@@ -33,10 +33,10 @@ public class N2oForm extends N2oWidget implements Submittable {
                 setDatasource(new N2oStandardDatasource());
             getDatasource().setSubmit(getSubmit());
             if (getDatasource().getSubmit().getRefreshWidgetId() != null) {
-                getDatasource().getSubmit().setRefreshDatasources(
+                getDatasource().getSubmit().setRefreshDatasourceIds(
                         new String[]{getDatasource().getSubmit().getRefreshWidgetId()});//не учитываются datasource у виджета в 7.19
             } else {
-                getDatasource().getSubmit().setRefreshDatasources(
+                getDatasource().getSubmit().setRefreshDatasourceIds(
                         new String[]{getId()});//не учитываются datasource у виджета в 7.19
             }
             getDatasource().getSubmit().setMessageWidgetId(getId());

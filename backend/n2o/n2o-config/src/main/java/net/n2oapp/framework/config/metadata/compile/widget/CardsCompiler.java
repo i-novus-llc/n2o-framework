@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -42,7 +41,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         N2oAbstractDatasource datasource = initDatasource(cards, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(cards, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetActions, object, null);
 

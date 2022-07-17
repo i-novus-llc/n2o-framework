@@ -46,8 +46,8 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     }
 
     @Override
-    protected Map<String, List<Region>>  initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p,
-                                                     PageContext context, Object... scopes) {
+    protected Map<String, List<Region>> initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p,
+                                                    PageContext context, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
         initRegions(source.getItems(), regions, "single", context, p, scopes);
         return regions;
@@ -64,7 +64,10 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
         }
         searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
-        searchBar.setDatasource(CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId()));
+        String clientDatasourceId = CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId());
+        if (!page.getDatasources().keySet().contains(clientDatasourceId))
+            clientDatasourceId = source.getSearchBar().getDatasourceId();
+        searchBar.setDatasource(clientDatasourceId);
         return searchBar;
     }
 

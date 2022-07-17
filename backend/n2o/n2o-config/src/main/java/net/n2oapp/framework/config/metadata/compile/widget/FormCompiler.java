@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -44,7 +43,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(form, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());

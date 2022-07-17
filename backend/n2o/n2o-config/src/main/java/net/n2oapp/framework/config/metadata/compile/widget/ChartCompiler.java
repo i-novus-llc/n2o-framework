@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oChart;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -25,7 +24,7 @@ public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
         N2oAbstractDatasource datasource = initDatasource(chart, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(chart, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
 
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(chart, source, context, p, widgetScope, widgetActions, object, null);

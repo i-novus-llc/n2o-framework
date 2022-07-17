@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.HashMap;
@@ -12,16 +14,31 @@ import java.util.function.Function;
 public class CompileUtil {
 
     /**
+     * Получение идентификатора клиентского виджета
+     *
+     * @param widgetId Идентификатор виджета
+     * @param pageId   Идентификатор страницы
+     * @return Идентификатор клиентского виджета
+     */
+    public static String getClientWidgetId(String widgetId, String pageId) {
+        return getClientDatasourceId(widgetId, pageId);
+    }
+
+    /**
      * Получение идентификатора клиентского источника данных
      *
      * @param datasourceId Идентификатор источника данных
-     * @param pageScope    Информация о странице
+     * @param p            Процессор сборки метаданных
      * @return Идентификатор клиентского источника данных
      */
-    public static String getClientDatasourceId(String datasourceId, PageScope pageScope) {
-        if (pageScope == null)
+    public static String getClientDatasourceId(String datasourceId, CompileProcessor p) {
+        ApplicationDatasourceIdsScope appDatasourceIds = p.getScope(ApplicationDatasourceIdsScope.class);
+        if (appDatasourceIds != null && appDatasourceIds.contains(datasourceId))
             return datasourceId;
 
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope == null)
+            return datasourceId;
         return getClientDatasourceId(datasourceId, pageScope.getPageId());
     }
 
@@ -33,24 +50,11 @@ public class CompileUtil {
      * @return Идентификатор клиентского источника данных
      */
     public static String getClientDatasourceId(String datasourceId, String pageId) {
-        if (datasourceId == null)
-            return null;
+        if (datasourceId == null || pageId == null)
+            return datasourceId;
         String separator = "_".equals(pageId) ? "" : "_";
         return pageId.concat(separator).concat(datasourceId);
     }
-
-    public static String generateDatasourceId(String pageId, String localDatasourceId) {
-        if ("_".equals(pageId))
-            return pageId + localDatasourceId;
-        return pageId + "_" + localDatasourceId;
-    }
-
-    public static String generateWidgetId(String pageId, String localWidgetId) {
-        if ("_".equals(pageId))
-            return pageId + localWidgetId;
-        return pageId + "_" + localWidgetId;
-    }
-
 
     /**
      * Преобразовывает плоскую мапу в объемную по знаку "-" в ключе

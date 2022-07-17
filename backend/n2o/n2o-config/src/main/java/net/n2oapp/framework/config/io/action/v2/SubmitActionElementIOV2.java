@@ -14,7 +14,7 @@ public class SubmitActionElementIOV2 extends AbstractActionElementIOV2<N2oSubmit
     @Override
     public void io(Element e, N2oSubmitAction a, IOProcessor p) {
         super.io(e, a, p);
-        p.attribute(e, "datasource", a::getDatasource, a::setDatasource);
+        p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
     }
 
     @Override

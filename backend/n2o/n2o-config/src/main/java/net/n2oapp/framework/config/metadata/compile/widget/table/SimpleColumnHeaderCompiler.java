@@ -65,7 +65,6 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
 
-        PageScope pageScope = p.getScope(PageScope.class);
         if (isLink(source.getVisible())) {
             Condition condition = new Condition();
             condition.setExpression(unwrapLink(source.getVisible()));
@@ -80,7 +79,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
         if (source.getColumnVisibilities() != null) {
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
-                String datasourceId = getClientDatasourceId(p.cast(visibility.getDatasourceId(), widgetScope.getDatasourceId()), pageScope);
+                String datasourceId = getClientDatasourceId(p.cast(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);
                 ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));

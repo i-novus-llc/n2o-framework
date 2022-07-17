@@ -43,6 +43,7 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientWidgetId;
 
 /**
  * Компиляция абстрактного виджета
@@ -56,7 +57,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      */
     protected void compileBaseWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                      CompiledObject object) {
-        compiled.setId(initGlobalWidgetId(source, context, p));
+        compiled.setId(initClientWidgetId(source, context, p));
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
@@ -115,22 +116,20 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null) {
             pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasourceId);
-            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), getClientDatasourceId(datasourceId, pageScope));
+            pageScope.getWidgetIdClientDatasourceMap().put(compiled.getId(), getClientDatasourceId(datasourceId, p));
         }
 
         if (datasource instanceof N2oStandardDatasource)
             compiled.setObjectId(((N2oStandardDatasource) datasource).getObjectId());
-        compiled.setDatasource(getClientDatasourceId(datasourceId, pageScope));
+        compiled.setDatasource(getClientDatasourceId(datasourceId, p));
         return datasource;
     }
 
-    private String initGlobalWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
+    private String initClientWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null) {
-            return pageScope.getGlobalWidgetId(source.getId());
-        } else {
-            return context.getCompiledId((N2oCompileProcessor) p);
-        }
+        return pageScope != null ?
+                getClientWidgetId(source.getId(), pageScope.getPageId()) :
+                context.getCompiledId((N2oCompileProcessor) p);
     }
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
@@ -261,7 +260,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
         List<Dependency> visibleConditions = new ArrayList<>();
-        PageScope pageScope = p.getScope(PageScope.class);
         if (source.getVisible() != null) {
             Object condition = p.resolveJS(source.getVisible(), Boolean.class);
             if (StringUtils.isJs(condition)) {
@@ -278,7 +276,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 Dependency condition = new Dependency();
                 String unwrapped = StringUtils.unwrapJs(dep.getValue());
                 condition.setCondition(unwrapped);
-                ModelLink link = new ModelLink(dep.getModel(), getClientDatasourceId(dep.getDatasource(), pageScope));
+                ModelLink link = new ModelLink(dep.getModel(), getClientDatasourceId(dep.getDatasource(), p));
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);

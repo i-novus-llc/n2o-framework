@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 public class RefreshSaga implements Compiled {
-//    FIXME - похоже здесь будут исходные, а не клиентские датасорсы. Проверить!
     @JsonProperty
     private List<String> datasources;
 }

@@ -29,8 +29,8 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
     }
 
     private String getDatasourceId(N2oSubmitAction source, SourceProcessor p) {
-        if (source.getDatasource() != null)
-            return source.getDatasource();
+        if (source.getDatasourceId() != null)
+            return source.getDatasourceId();
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         while (componentScope != null) {

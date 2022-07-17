@@ -36,8 +36,8 @@ import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.initClientDatasource;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Сборка действия вызова операции
@@ -58,7 +58,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setType(getType(p));
 
         invokeAction.getPayload().setModel(getModelFromComponentScope(p));
-        invokeAction.getPayload().setDatasource(initClientDatasource(getLocalDatasource(p), p));
+        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasource(p), p));
         invokeAction.getPayload().setWidgetId(getClientWidgetIdByComponentScope(p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
@@ -78,7 +78,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || p.cast(source.getCloseOnSuccess(), false));
         source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
-        source.setRefreshDatasources(initRefreshDatasources(source, p));
+        source.setRefreshDatasourceIds(initRefreshDatasources(source, p));
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
         source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
         source.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
@@ -91,8 +91,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     }
 
     private String[] initRefreshDatasources(N2oInvokeAction source, CompileProcessor p) {
-        if (source.getRefreshDatasources() != null)
-            return source.getRefreshDatasources();
+        if (source.getRefreshDatasourceIds() != null)
+            return source.getRefreshDatasourceIds();
         String localDatasource = getLocalDatasource(p);
         if (localDatasource != null)
             return new String[]{localDatasource};
@@ -127,11 +127,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     }
 
     private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
-        if (source.getClearOnSuccess()) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            if (pageScope != null)
-                meta.setClear(pageScope.getClientDatasourceId(getLocalDatasource(p)));
-        }
+        if (source.getClearOnSuccess())
+            meta.setClear(getClientDatasourceId(getLocalDatasource(p), p));
     }
 
     private void initRedirect(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess) {
@@ -156,13 +153,13 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 meta.setRefresh(((DialogContext) context).getParentRefresh());
             } else {
                 meta.setRefresh(new RefreshSaga());
-                if (!closeOnSuccess && source.getRefreshDatasources() != null) {
+                if (!closeOnSuccess && source.getRefreshDatasourceIds() != null) {
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
-                        meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
-                                .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
-                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSources() != null)
-                    meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
+                        meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasourceIds())
+                                .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
+                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
+                    meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
             }
         }
     }
@@ -204,7 +201,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setOptimistic(source.getOptimistic());
         dataProvider.setTargetModel(targetWidgetModel);
         dataProvider.setDatasourceId(getLocalDatasource(p));
-        dataProvider.setClientDatasourceId(initClientDatasource(dataProvider.getDatasourceId(), p));
+        dataProvider.setClientDatasourceId(getClientDatasourceId(dataProvider.getDatasourceId(), p));
         validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());
