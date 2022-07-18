@@ -32,7 +32,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String pageName;
     private String route;
     private String datasource;
-    @Deprecated
     private Target target;
     @Deprecated
     private UploadType upload;

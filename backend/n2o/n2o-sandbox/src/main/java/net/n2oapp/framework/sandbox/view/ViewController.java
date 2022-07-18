@@ -336,7 +336,7 @@ public class ViewController {
     }
 
     private void getIndex(N2oApplicationBuilder builder) {
-        PageContext index = new PageContext("index", "/");
+        PageContext index = new PageContext(propertyResolver.getProperty("n2o.homepage.id"), "/");
         builder.routes(new RouteInfo("/", index));
         builder.scan().read().transform().validate().compile().transform().get(index);
     }

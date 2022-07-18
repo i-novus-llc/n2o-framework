@@ -18,6 +18,7 @@ import { PAGES } from '../../core/factory/factoryLevels'
 import {
     makePageDisabledByIdSelector,
     makePageStatusByIdSelected,
+    pagesSelector,
 } from '../../ducks/pages/selectors'
 import { rootPageSelector } from '../../ducks/global/store'
 import { Spinner } from '../snippets/Spinner/Spinner'
@@ -37,11 +38,14 @@ function Page(props, context) {
         defaultTemplate: Template = React.Fragment,
         defaultErrorPages,
         page,
+        pages,
+        pageId,
         rootPage,
         error,
     } = props
 
     const status = pageStatus || get(error, 'status', null)
+    const spinner = get(pages, `${pageId}.spinner`, {})
 
     const errorPage = errorController(status, defaultErrorPages)
 
@@ -66,13 +70,13 @@ function Page(props, context) {
     return rootPage ? (
         <Root>
             <Template>
-                <Spinner type="cover" loading={loading}>
+                <Spinner type="cover" loading={loading} {...spinner}>
                     {page ? React.createElement(page, props) : renderDefaultBody()}
                 </Spinner>
             </Template>
         </Root>
     ) : (
-        <Spinner type="cover" loading={loading}>
+        <Spinner type="cover" loading={loading} {...spinner}>
             {page ? React.createElement(page, props) : renderDefaultBody()}
         </Spinner>
     )
@@ -84,6 +88,7 @@ Page.contextTypes = {
 
 Page.propTypes = {
     metadata: PropTypes.object,
+    spinner: PropTypes.object,
     error: PropTypes.object,
     loading: PropTypes.bool,
     status: PropTypes.number,
@@ -91,6 +96,8 @@ Page.propTypes = {
     defaultTemplate: PropTypes.any,
     defaultErrorPages: PropTypes.any,
     rootPage: PropTypes.bool,
+    pages: PropTypes.object,
+    pageId: PropTypes.string,
 }
 
 export { Page }
@@ -102,6 +109,7 @@ const mapStateToProps = createStructuredSelector({
 
         return makePageStatusByIdSelected(id)(state)
     },
+    pages: state => pagesSelector(state),
     rootPageId: rootPageSelector,
 })
 
@@ -139,6 +147,7 @@ export default compose(
     defaultProps({
         defaultTemplate: SimpleTemplate,
         metadata: {},
+        spinner: {},
         loading: false,
         disabled: false,
     }),

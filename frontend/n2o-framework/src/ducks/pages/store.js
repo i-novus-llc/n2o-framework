@@ -187,6 +187,43 @@ const pageSlice = createSlice({
                 state[pageId].status = status
             },
         },
+
+        SET_PAGE_LOADING: {
+            /**
+             * @param { string } pageId
+             * @param { boolean } loading
+             * @param {object} spinner
+             * @return {{payload: PagesStore.setStatusPayload}}
+             */
+            prepare(pageId, loading, spinner) {
+                return ({
+                    payload: { pageId, loading, spinner },
+                })
+            },
+
+            /**
+             * Присвоить loading
+             * @param {PagesStore.state} state
+             * @param {Object} action
+             * @param {string} action.type
+             * @param {PagesStore.setStatusPayload} action.payload
+             */
+            reducer(state, action) {
+                const { pageId, loading, spinner } = action.payload
+
+                if (!state[pageId]) {
+                    state[pageId] = PageResolver.defaultState
+                }
+
+                state[pageId].loading = loading
+
+                if (loading) {
+                    state[pageId].spinner = spinner
+                } else {
+                    delete state[pageId].spinner
+                }
+            },
+        },
     },
 
     extraReducers: {
@@ -217,4 +254,5 @@ export const {
     METADATA_REQUEST: metadataRequest,
     METADATA_SUCCESS: metadataSuccess,
     SET_STATUS: setStatus,
+    SET_PAGE_LOADING: setPageLoading,
 } = pageSlice.actions
