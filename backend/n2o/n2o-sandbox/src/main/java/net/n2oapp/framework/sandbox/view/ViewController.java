@@ -192,8 +192,8 @@ public class ViewController {
 
             return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
         } finally {
-            ThreadLocalProjectId.clear();
             sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
         }
     }
 
@@ -213,8 +213,8 @@ public class ViewController {
                     new UserContext(sandboxContext));
             return ResponseEntity.status(response.getStatus()).body(response);
         } finally {
-            ThreadLocalProjectId.clear();
             sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
         }
     }
 
@@ -255,8 +255,8 @@ public class ViewController {
                     new UserContext(sandboxContext));
             return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
         } finally {
-            ThreadLocalProjectId.clear();
             sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
         }
     }
 
