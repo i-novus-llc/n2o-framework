@@ -99,12 +99,12 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
                 return new ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>() {
                     @Override
                     public <D extends Compiled> D get(CompileContext<D, ?> ctx) {
-                        return execute(ctx, null, null);
+                        return execute(ctx, null, null, null);
                     }
 
                     @Override
                     public <D extends Compiled> D get(CompileContext<D, ?> ctx, CompileProcessor p) {
-                        return execute(ctx, null, null, (N2oCompileProcessor) p);
+                        return execute(ctx, null, null, p, (N2oCompileProcessor) p, (N2oCompileProcessor) p);
                     }
 
                     @Override
@@ -118,7 +118,7 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
 
                             @Override
                             public <D extends Compiled> D get(CompileContext<D, ?> context, DataSet data, SubModelsProcessor subModelsProcessor) {
-                                return execute(context, data, null, subModelsProcessor);
+                                return execute(context, data, null, subModelsProcessor, null);
                             }
 
                             @Override

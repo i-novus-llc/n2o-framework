@@ -24,11 +24,9 @@ import {
 } from '../../ducks/global/store'
 import { register } from '../../ducks/datasource/store'
 
-import { GlobalAlertsConnected } from './GlobalAlerts'
-
 function Application(props) {
     const { ready, loading, render, locale, menu, registerDatasorces, ...config } = props
-    const { datasources } = menu
+    const { datasources = {} } = menu
 
     useEffect(() => {
         if (isEmpty(datasources)) { return }
@@ -41,12 +39,9 @@ function Application(props) {
     numeral.locale(locale)
 
     return (
-        <>
-            <GlobalAlertsConnected />
-            <Spinner type="cover" loading={loading}>
-                {ready && render(config)}
-            </Spinner>
-        </>
+        <Spinner type="cover" loading={loading}>
+            {ready && render(config)}
+        </Spinner>
     )
 }
 

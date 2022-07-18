@@ -485,7 +485,7 @@
                 <xs:documentation>Включение валидации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="side" type="validationSideDefinition">
+        <xs:attribute name="side" type="validationSideDefinition" default="client,server">
             <xs:annotation>
                 <xs:documentation>Выполнение на клиенте и/или сервере.</xs:documentation>
             </xs:annotation>

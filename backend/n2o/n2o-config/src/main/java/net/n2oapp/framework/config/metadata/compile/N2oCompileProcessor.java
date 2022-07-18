@@ -109,11 +109,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     /**
-     *
-     * @param env Окружение сборки метаданных
+     * @param env     Окружение сборки метаданных
      * @param context Входной контекст сборки(не используется для компиляции метаданных)
-     * @param params Параметры запроса
-     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов.
+     * @param params  Параметры запроса
+     * @param scopes  Метаданные, влияющие на сборку. Должны быть разных классов.
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params, Object... scopes) {
         this(env, context, params);
@@ -130,9 +129,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
      * @param params             Параметры запроса
      * @param context            Входной контекст сборки(не используется для компиляции метаданных)
      * @param subModelsProcessor Процессор вложенных моделей
+     * @param scopes             Метаданные, влияющие на сборку. Должны быть разных классов.
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params,
-                               SubModelsProcessor subModelsProcessor) {
+                               SubModelsProcessor subModelsProcessor, Object... scopes) {
         this(env);
         this.mode = CompileMode.BIND;
         this.context = context;
@@ -141,6 +141,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         model = new DataModel();
         model.addAll(context.getQueryRouteMapping(), params);
         model.addAll(context.getPathRouteMapping(), params);
+
+        Object[] flattedScopes = flatScopes(scopes);
+        this.scope = new HashMap<>();
+        Stream.of(Optional.ofNullable(flattedScopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
+                .forEach(s -> this.scope.put(s.getClass(), s));
     }
 
     /**
@@ -170,9 +175,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
-    public <D extends Compiled> void bind(D compiled) {
+    public <D extends Compiled> void bind(D compiled, Object... scopes) {
+        Object[] flattedScopes = flatScopes(scopes);
         if (compiled != null)
-            bindPipeline.get(compiled, context, params, subModelsProcessor);
+            bindPipeline.get(compiled, context, params, subModelsProcessor, flattedScopes);
     }
 
 
@@ -183,7 +189,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         ExtensionAttributeMapperFactory extensionAttributeMapperFactory = env.getExtensionAttributeMapperFactory();
         HashMap<String, Object> extAttributes = new HashMap<>();
         source.getExtAttributes().forEach((k, v) -> {
-            Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri());
+            Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri(), this);
             res = CompileUtil.resolveNestedAttributes(res, env.getDomainProcessor()::deserialize);
             if (!res.isEmpty()) {
                 extAttributes.putAll(res);
@@ -322,6 +328,24 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
+    public String resolveUrl(String url, List<ModelLink> links) {
+        List<String> paramNames = getParams(url);
+        if (paramNames.isEmpty() || params == null)
+            return url;
+        Map<String, String> valueParamMap = new HashMap<>();
+        for (ModelLink link : links) {
+            collectModelLinks(context.getPathRouteMapping(), link.getWidgetLink(), valueParamMap);
+            collectModelLinks(context.getQueryRouteMapping(), link.getWidgetLink(), valueParamMap);
+        }
+        for (String param : paramNames) {
+            if (valueParamMap.containsKey(param) && params.containsKey(valueParamMap.get(param))) {
+                url = url.replace(":" + param, params.get(valueParamMap.get(param)).toString());
+            }
+        }
+        return url;
+    }
+
+    @Override
     public BindLink resolveLink(BindLink link, boolean observable) {
         if (link == null)
             return null;
@@ -440,6 +464,16 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
+    public String resolveText(String text, List<ModelLink> links) {
+        String resolved = resolveText(text);
+        if (links != null && !links.isEmpty()) {
+            for (ModelLink link : links)
+                resolved = LINK_RESOLVER.resolve(resolved, model.getDataIfAbsent(link, subModelsProcessor));
+        }
+        return resolved;
+    }
+
+    @Override
     public <T extends Source> void validate(T metadata, Object... scope) {
         if (metadata == null)
             return;
@@ -537,7 +571,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
 
     private Object[] flatScopes(Object[] scopes) {
-        if (Stream.of(scopes).filter(Objects::nonNull).anyMatch(o -> o.getClass().isArray()))
+        if (scopes != null && Stream.of(scopes).filter(Objects::nonNull).anyMatch(o -> o.getClass().isArray()))
             return flatScopes(Stream.of(scopes)
                     .filter(Objects::nonNull)
                     .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o))

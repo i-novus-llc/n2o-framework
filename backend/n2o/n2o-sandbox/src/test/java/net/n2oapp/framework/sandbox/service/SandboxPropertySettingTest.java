@@ -93,7 +93,8 @@ public class SandboxPropertySettingTest {
         wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testPropertySetting.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("email=test@example.com\n" +
+        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody(
+                "email=test@example.com\n" +
                 "username=Joe\n" +
                 "roles=[USER,ADMIN]")));
 
@@ -107,8 +108,7 @@ public class SandboxPropertySettingTest {
         assertThat(config.getJSONObject("user").getString("username"), is("Joe"));
 
         Page page = viewController.getPage("myProjectId", request, null);
-        assertThat(page.getModels().get("resolve['main'].email").getValue(), is("test@example.com"));
-        assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(0), is("USER"));
-        assertThat(((List) page.getModels().get("resolve['main'].roles").getValue()).get(1), is("ADMIN"));
+        assertThat(page.getModels().get("resolve['_main'].email").getValue(), is("test@example.com"));
+        assertThat((page.getModels().get("resolve['_main'].roles").getValue()), is("[USER, ADMIN]"));
     }
 }

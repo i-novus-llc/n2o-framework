@@ -36,9 +36,12 @@ public class HtmlCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testHtmlFieldCompile.page.xml")
                 .get(new PageContext("testHtmlFieldCompile"));
         Form form = (Form) page.getWidget();
-        Html field = (Html)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
+        Html field = (Html)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getSrc(), is("Html"));
+        assertThat(field.getHtml(), is("`'<h3 class=\\'class1\\' style=\\'color:red;\\'>'+name+'</h3>'`"));
+
+        field = (Html)form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getHtml(), is("<h3 class='class1' style='color:red;'>Hello, World!</h3>"));
     }
 

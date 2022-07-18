@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.websocket;
 
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -8,6 +9,7 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,6 +29,7 @@ public class WebSocketAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
+        Configuration.timeout = 8000;
     }
 
     @BeforeEach
@@ -49,6 +52,7 @@ public class WebSocketAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testWebSocketCount() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveBadge();
@@ -66,6 +70,7 @@ public class WebSocketAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testWebSocketColor() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveBadge();

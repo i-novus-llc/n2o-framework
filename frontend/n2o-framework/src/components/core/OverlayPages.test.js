@@ -1,15 +1,20 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import mockStore from 'redux-mock-store'
 
 import { OverlayPages } from './OverlayPages'
+
+import FactoryProvider from '../../core/factory/FactoryProvider'
+import createFactoryConfig from '../../core/factory/createFactoryConfig'
 
 const setup = propsOverride => mount(
     <Provider
         store={mockStore()({ pages: { test: {} }, overlays: [{ name: 'test' }] })}
     >
-        <OverlayPages {...propsOverride} />
+        <FactoryProvider config={createFactoryConfig({})}>
+            <OverlayPages {...propsOverride} />
+        </FactoryProvider>
     </Provider>,
 )
 

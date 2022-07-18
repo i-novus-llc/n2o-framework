@@ -57,6 +57,7 @@ public class N2oSandboxConfiguration {
     @Bean
     public WebMvcConfigurer mvcConfigurer() {
         return new WebMvcConfigurer() {
+
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/view/*/static/**")

@@ -2,13 +2,18 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.io.application.ApplicationIO;
+import net.n2oapp.framework.config.io.application.ApplicationIOv2;
+import net.n2oapp.framework.config.io.application.ApplicationIOv3;
+import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
+import net.n2oapp.framework.config.io.event.StompEventIO;
+import net.n2oapp.framework.config.io.menu.ExtraMenuIOv2;
+import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
+import net.n2oapp.framework.config.io.menu.NavMenuIOv2;
+import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv4;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
-import net.n2oapp.framework.config.metadata.compile.application.ApplicationIO;
-import net.n2oapp.framework.config.metadata.compile.application.ApplicationIOv2;
-import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
-import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
 
 /**
  * Набор всех считывателей метаданных
@@ -16,7 +21,9 @@ import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv3;
 public class N2oAllIOPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.ios(new ApplicationIO(), new SimpleMenuIOv2(), new ApplicationIOv2(), new SimpleMenuIOv3());
+        b.ios(new ApplicationIO(), new ApplicationIOv2(), new NavMenuIOv2(), new ExtraMenuIOv2(),
+                new ApplicationIOv3(), new SidebarIOv3(), new NavMenuIOv3(), new ExtraMenuIOv3(),
+                new StompEventIO());
 
         b.ios(new ObjectElementIOv3(), new ObjectElementIOv4());
 

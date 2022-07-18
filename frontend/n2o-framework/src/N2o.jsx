@@ -20,8 +20,9 @@ import Application from './components/core/Application'
 import { Template } from './components/core/templates'
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb'
 import globalFnDate from './utils/globalFnDate'
-import configureErrorPages from './components/errors'
+import { errorTemplates } from './components/errors/errorTemplates'
 import locales from './locales'
+import { GlobalAlertsConnected } from './components/core/GlobalAlerts'
 
 const { version } = packageJson
 
@@ -70,7 +71,10 @@ class N2o extends Component {
                         realTimeConfig={realTimeConfig}
                         render={() => (
                             <FactoryProvider config={config} securityBlackList={['actions']}>
-                                <Router embeddedRouting={embeddedRouting}>{children}</Router>
+                                <>
+                                    <GlobalAlertsConnected />
+                                    <Router embeddedRouting={embeddedRouting}>{children}</Router>
+                                </>
                             </FactoryProvider>
                         )}
                     />
@@ -134,7 +138,7 @@ const EnhancedN2O = compose(
         defaultTemplate: Template,
         defaultBreadcrumb: DefaultBreadcrumb,
         defaultPage: 'StandardPage',
-        defaultErrorPages: configureErrorPages(),
+        defaultErrorPages: errorTemplates(),
         formats: {
             dateFormat: 'YYYY-MM-DD',
             timeFormat: 'HH:mm:ss',

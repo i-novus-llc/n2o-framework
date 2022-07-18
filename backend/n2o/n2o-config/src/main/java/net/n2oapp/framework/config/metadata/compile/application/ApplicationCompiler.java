@@ -154,7 +154,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     }
 
     private String initWsPrefix(Map<String, AbstractDatasource> datasources, List<Event> events, CompileProcessor p) {
-        if (datasources == null && events == null) //TODO если будем отправлять не только stomp-datasources нужно изменить проверку
+        boolean containsStompDs = datasources != null && datasources.values().stream().anyMatch(StompDatasource.class::isInstance);
+        if (!containsStompDs && events == null)
             return null;
         return p.resolve(property("n2o.config.ws.endpoint"), String.class);
     }

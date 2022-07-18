@@ -185,8 +185,15 @@ public class ClientDataProviderUtil {
                 if (validationList != null)
                     actionContext.setValidations(validationList.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));
             }
+
             actionContext.setRedirect(actionContextData.getRedirect());
             actionContext.setRefresh(actionContextData.getRefresh());
+            actionContext.setLoading(actionContextData.getLoading());
+            if (actionContextData.getPolling() != null) {
+                actionContext.setPolling(actionContextData.getPolling());
+                actionContext.setPollingEndCondition(actionContextData.getPolling().getResult());
+            }
+
             PageScope pageScope = p.getScope(PageScope.class);
             if (pageScope != null)
                 actionContext.setParentPageId(pageScope.getPageId());
@@ -195,8 +202,10 @@ public class ClientDataProviderUtil {
             actionContext.setMessagesForm(actionContextData.getMessagesForm());
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(p.cast(actionContextData.isMessageOnFail(), true));
-            actionContext.setMessagePosition(p.cast(actionContextData.getMessagePosition(), MessagePosition.fixed));//todo initDefaults
-            actionContext.setMessagePlacement(p.cast(actionContextData.getMessagePlacement(), MessagePlacement.top));//todo initDefaults
+            actionContext.setMessagePosition(p.cast(actionContextData.getMessagePosition(),
+                    p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+            actionContext.setMessagePlacement(p.cast(actionContextData.getMessagePlacement(),
+                    p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)

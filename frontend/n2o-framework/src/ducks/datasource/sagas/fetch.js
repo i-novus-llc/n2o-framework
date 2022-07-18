@@ -51,6 +51,8 @@ export function* fetch(datasource, provider) {
 
     request.then(() => {
         if (worker.isCancelled()) {
+            delete requestMap[datasource]
+
             return /* Promise.reject(new Error('Abort')) */
         }
         timer = setTimeout(() => {

@@ -3,13 +3,12 @@
            xmlns:menu="http://n2oapp.net/framework/config/schema/menu-3.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/sidebar-3.0">
 
-    <xs:complexType name="sidebars">
-        <xs:sequence>
-            <xs:element name="sidebar" type="sidebarDefinition"/>
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="sidebar" type="sidebarDefinition"/>
 
     <xs:complexType name="sidebarDefinition">
+        <xs:annotation>
+            <xs:documentation>Боковая панель приложения</xs:documentation>
+        </xs:annotation>
         <xs:sequence>
             <xs:element name="nav" type="menu:menuDefinition" minOccurs="0">
                 <xs:annotation>
@@ -22,6 +21,11 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
+        <xs:attribute name="ref-id">
+            <xs:annotation>
+                <xs:documentation>Ссылка на родительский файл боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация боковой панели. По умолчанию Sidebar</xs:documentation>
@@ -35,6 +39,11 @@
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Стиль боковой панели</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Источник данных боковой панели</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" default="true">

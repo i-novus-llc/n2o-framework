@@ -25,7 +25,7 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private String title;
     @JsonProperty
-    private String color;
+    private String severity;
     @JsonProperty
     private String className;
     @JsonProperty
@@ -33,7 +33,7 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private Integer timeout;
     @JsonProperty
-    private Boolean closeButton;
+    private Boolean closeButton = true;
     @JsonProperty
     private String href;
     @JsonProperty
@@ -44,13 +44,14 @@ public class ResponseMessage implements Serializable {
     private List<String> payload;
     @JsonProperty
     private LocalDateTime time;
+
     @JsonProperty
     public String getId() {
         return UUID.randomUUID().toString();
     }
 
     public void setSeverityType(SeverityType severity) {
-        this.color = severity != null ? severity.getId() : null;
+        this.severity = severity != null ? severity.getId() : null;
     }
 
 }

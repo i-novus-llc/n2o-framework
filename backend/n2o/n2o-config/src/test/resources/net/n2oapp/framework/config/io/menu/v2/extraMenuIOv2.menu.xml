@@ -1,0 +1,10 @@
+<extra-menu xmlns="http://n2oapp.net/framework/config/schema/menu-2.0"
+      src="Test"
+      ref-id="testRef">
+    <a label="test" href="http://example.com" icon="icon"/>
+    <page page-id="testPage" label="test" icon="test" route="/test"/>
+    <sub-menu label="sub" icon="sub-icon">
+        <page page-id="test2" label="test2" icon="pageIcon" route="pageRoute"/>
+        <a label="test3" href="/test3" icon="icon" target="newWindow"/>
+    </sub-menu>
+</extra-menu>

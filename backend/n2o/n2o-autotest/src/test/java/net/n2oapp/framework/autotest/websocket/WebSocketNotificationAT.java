@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.websocket;
 
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -12,6 +13,7 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,6 +37,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
+        Configuration.timeout = 8000;
     }
 
     @BeforeEach
@@ -57,6 +60,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testAlertNotification() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

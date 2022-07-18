@@ -24,7 +24,10 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -126,7 +129,7 @@ public class GraphQlDataProviderEngineTest {
 
         SetDataResponse response = restTemplate.postForObject(url, request, SetDataResponse.class);
         verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
-        assertEquals("success", response.getMeta().getAlert().getMessages().get(0).getColor());
+        assertEquals("success", response.getMeta().getAlert().getMessages().get(0).getSeverity());
         Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
@@ -328,7 +331,7 @@ public class GraphQlDataProviderEngineTest {
 
         SetDataResponse response = restTemplate.postForObject(url, request, SetDataResponse.class);
         verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
-        assertEquals("success", response.getMeta().getAlert().getMessages().get(0).getColor());
+        assertEquals("success", response.getMeta().getAlert().getMessages().get(0).getSeverity());
         Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload

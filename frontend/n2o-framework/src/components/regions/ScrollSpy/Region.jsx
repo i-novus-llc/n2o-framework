@@ -21,6 +21,7 @@ export function Region(
         pageId,
         changeActiveEntity,
         activeEntity: active,
+        disabled,
     },
 ) {
     const [isInit, setInit] = useState(false)
@@ -47,6 +48,7 @@ export function Region(
                 className,
                 {
                     'flex-row-reverse position-right': placement === 'right',
+                    'n2o-disabled': disabled,
                 },
             )}
             id={id}

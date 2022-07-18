@@ -9,7 +9,7 @@ import { createStructuredSelector } from 'reselect'
 
 import propsResolver from '../../../utils/propsResolver'
 import { registerColumn } from '../../../ducks/columns/store'
-import SecurityCheck from '../../../core/auth/SecurityCheck'
+import SecurityController from '../../../core/auth/SecurityController'
 import {
     isInitSelector,
     isVisibleSelector,
@@ -76,13 +76,16 @@ const withColumn = (WrappedComponent) => {
                 />
             )
 
-            return (columnVisible || null) && isEmpty(security) ? (
+            if (!columnVisible) {
+                return null
+            }
+
+            return isEmpty(security) ? (
                 cellEl
             ) : (
-                <SecurityCheck
-                    config={security}
-                    render={({ permissions }) => (permissions ? cellEl : null)}
-                />
+                <SecurityController config={security}>
+                    {cellEl}
+                </SecurityController>
             )
         }
     }

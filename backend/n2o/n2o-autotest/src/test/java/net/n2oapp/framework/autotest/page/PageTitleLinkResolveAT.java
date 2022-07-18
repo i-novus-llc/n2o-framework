@@ -156,4 +156,19 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         modal.close();
         modal.shouldNotExists();
     }
+
+    @Test
+    public void testConstantParams() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/open.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Разрешение заголовка страницы по константному параметру");
+        page.toolbar().topLeft().button("Открыть").click();
+
+        page.shouldExists();
+        page.titleShouldHaveText("Версия:201 №202");
+        page.urlShouldMatches(getBaseUrl() + "/#/201/open\\?number=202");
+    }
 }

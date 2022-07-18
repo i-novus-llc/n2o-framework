@@ -9,6 +9,7 @@ import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 
 import { modelsType } from '../../../core/widget/propTypes'
+import withSecurity from '../../../core/auth/withSecurity'
 import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer'
@@ -100,10 +101,11 @@ class ListContainer extends React.Component {
     handleItemClick(index) {
         const { setResolve, models, rowClick, onRowClickAction } = this.props
         const { datasource } = models
+        const model = datasource[index]
 
-        setResolve(datasource[index])
+        setResolve(model)
         if (rowClick) {
-            onRowClickAction()
+            onRowClickAction(model)
         }
     }
 
@@ -147,6 +149,7 @@ class ListContainer extends React.Component {
             models,
             rows,
             t,
+            checkSecurity,
         } = this.props
 
         return {
@@ -163,6 +166,7 @@ class ListContainer extends React.Component {
             selectedId: models.resolve?.id,
             rows,
             t,
+            checkSecurity,
         }
     }
 
@@ -196,6 +200,7 @@ ListContainer.propTypes = {
     divider: PropTypes.bool,
     rows: PropTypes.object,
     t: PropTypes.func,
+    checkSecurity: PropTypes.func,
 }
 
 ListContainer.defaultProps = {
@@ -212,6 +217,7 @@ ListContainer.defaultProps = {
 }
 
 export default compose(
+    withSecurity,
     withTranslation(),
     withWidgetHandlers,
 )(ListContainer)

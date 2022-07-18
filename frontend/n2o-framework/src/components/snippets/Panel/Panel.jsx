@@ -30,6 +30,7 @@ export function Panel({
     style,
     onToggle,
     color,
+    disabled,
     onKeyPress,
     children,
     innerRef,
@@ -37,6 +38,7 @@ export function Panel({
 }) {
     const panelClass = classNames('n2o-panel-region', className, 'text-dark', {
         'panel-fullscreen': isFullScreen,
+        'n2o-disabled': disabled,
     })
 
     return (
@@ -64,6 +66,7 @@ Panel.propTypes = {
     style: PropTypes.object,
     color: PropTypes.string,
     isFullScreen: PropTypes.bool,
+    disabled: PropTypes.bool,
     onToggle: PropTypes.func,
     onKeyPress: PropTypes.func,
     children: PropTypes.node,

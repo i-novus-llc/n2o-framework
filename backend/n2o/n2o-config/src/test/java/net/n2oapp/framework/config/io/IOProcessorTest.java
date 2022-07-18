@@ -463,14 +463,23 @@ public class IOProcessorTest {
         Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
         pW.childrenToMap(out, "children", "el2", "attr", null, map::getEntityMap, map::setEntityMap);
         assertThat(in, isSimilarTo(out));
+    }
 
-        map.entityMap.clear();
-        in = dom("net/n2oapp/framework/config/io/ioprocessor24.xml");
-        pR.childrenToMap(in, "children", "el", map::getEntityMap, map::setEntityMap);
+    @Test
+    public void testChildrenAttributesToMap() throws Exception {
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        IOProcessor pR = new IOProcessorImpl(readerFactory);
+        Element in = dom("net/n2oapp/framework/config/io/ioprocessor24.xml");
+        MapNamespaceEntity map = new MapNamespaceEntity();
+        pR.childrenAttributesToMap(in, "children", "el", map::getEntityMap, map::setEntityMap);
         assertThat(map.getEntityMap().get("attr"), equalTo(1));
         assertThat(map.getEntityMap().get("attr1"), equalTo("test1"));
-        out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
-        pW.childrenToMap(out, "children", "el", map::getEntityMap, map::setEntityMap);
+
+        PersisterFactoryByMap persisterFactory = new PersisterFactoryByMap();
+        persisterFactory.register(new BodyNamespaceEntityIO());
+        IOProcessor pW = new IOProcessorImpl(persisterFactory);
+        Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
+        pW.childrenAttributesToMap(out, "children", "el", map::getEntityMap, map::setEntityMap);
         assertThat(in, isSimilarTo(out));
     }
 

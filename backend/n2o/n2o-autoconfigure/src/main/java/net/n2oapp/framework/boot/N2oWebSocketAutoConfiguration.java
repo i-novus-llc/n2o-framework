@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.security.auth.UserPrincipal;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.jackson.SingletonTypeIdHandlerInstantiator;
 import net.n2oapp.framework.boot.stomp.N2oWebSocketController;
 import net.n2oapp.framework.boot.stomp.WebSocketController;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -56,13 +57,14 @@ public class N2oWebSocketAutoConfiguration implements WebSocketMessageBrokerConf
     }
 
     @Bean
-    public WebSocketController wsController(MetadataEnvironment environment) {
+    public WebSocketController wsController(MetadataEnvironment environment, SingletonTypeIdHandlerInstantiator instantiator) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
                 .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        mapper.setHandlerInstantiator(instantiator);
         return new N2oWebSocketController(N2oPipelineSupport.readPipeline(environment), environment, mapper);
     }
 }

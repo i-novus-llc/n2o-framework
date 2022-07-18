@@ -10,7 +10,7 @@ public class N2oHtml extends N2oSnippet implements Html {
 
     @Override
     public void shouldHaveElement(String cssSelector) {
-        element().$("div").$(cssSelector).shouldBe(Condition.exist);
+        element().$(cssSelector).shouldBe(Condition.exist);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class N2oHtml extends N2oSnippet implements Html {
 
     @Override
     public void shouldHaveElementWithAttributes(String cssSelector, Map<String, String> attributes) {
-        SelenideElement element = element().$("div").$(cssSelector).shouldBe(Condition.exist);
+        SelenideElement element = element().$(cssSelector).shouldBe(Condition.exist);
         attributes.entrySet().stream().forEach(e -> element.shouldHave(Condition.attribute(e.getKey(), e.getValue())));
     }
 }

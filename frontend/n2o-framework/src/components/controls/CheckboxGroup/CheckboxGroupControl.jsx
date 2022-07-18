@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { isNil } from 'lodash'
 
 import withFetchData from '../withFetchData'
 import { CheckboxN2OWrapped } from '../Checkbox/CheckboxN2O'
@@ -13,6 +14,7 @@ import CheckboxGroup from './CheckboxGroup'
  * @reactProps {array} data - данные для чекбоксов
  * @reactProps {string} valueFieldId - ключ для value в data
  * @reactProps {string} labelFieldId - ключ для label в дата
+ * @reactProps {string} enabledFieldId - ключ для enabled в data
  * @reactProps {array} value - выбранное значение
  * @reactProps {function} onChange - вызывается при изменении значения
  * @reactProps {boolean} disabled - только для чтения
@@ -38,7 +40,7 @@ export class CheckboxGroupControl extends React.Component {
     }
 
     render() {
-        const { data, labelFieldId, valueFieldId, type, isLoading } = this.props
+        const { data, labelFieldId, valueFieldId, enabledFieldId, type, isLoading } = this.props
 
         const checkboxTypes = {
             default: CheckboxN2OWrapped,
@@ -53,15 +55,21 @@ export class CheckboxGroupControl extends React.Component {
                 {!isLoading && (
                     <CheckboxGroup {...this.props}>
                         {data &&
-              data.map(checkbox => (
-                  <CheckboxElement
-                      key={checkbox[valueFieldId]}
-                      value={checkbox}
-                      label={checkbox[labelFieldId]}
-                      disabled={checkbox.disabled}
-                      checked={checkbox.checked}
-                  />
-              ))}
+                            data.map((checkbox) => {
+                                const isDisabled = isNil(checkbox[enabledFieldId])
+                                    ? checkbox.disabled
+                                    : !checkbox[enabledFieldId]
+
+                                return (
+                                    <CheckboxElement
+                                        key={checkbox[valueFieldId]}
+                                        value={checkbox}
+                                        label={checkbox[labelFieldId]}
+                                        disabled={isDisabled}
+                                        checked={checkbox.checked}
+                                    />
+                                )
+                            })}
                     </CheckboxGroup>
                 )}
                 {isLoading && <Spinner />}
@@ -74,6 +82,7 @@ CheckboxGroupControl.propTypes = {
     data: PropTypes.array,
     valueFieldId: PropTypes.string,
     labelFieldId: PropTypes.string,
+    enabledFieldId: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     onChange: PropTypes.func,
     onFocus: PropTypes.func,

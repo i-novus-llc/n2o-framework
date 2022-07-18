@@ -12,7 +12,7 @@ export const AlertTypes = {
     /**
      * Цвет алерта
      */
-    color: PropTypes.oneOf(['info', 'danger', 'warning', 'success']),
+    severity: PropTypes.oneOf(['info', 'danger', 'warning', 'success']),
     /**
      * Подробности алерта
      */
@@ -79,4 +79,8 @@ export const AlertTypes = {
      * флаг для AlertField
      */
     isField: PropTypes.bool,
+    /**
+     * флаг для схлопывания Alert
+     */
+    isSimple: PropTypes.bool,
 }

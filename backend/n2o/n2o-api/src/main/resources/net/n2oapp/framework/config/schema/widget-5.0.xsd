@@ -276,6 +276,11 @@
                         <xs:documentation>Вариант выбора строки таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="auto-select" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Автоматическое выделение первой строки таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="table-size" type="sizeEnum">
                     <xs:annotation>
                         <xs:documentation>Размер строк таблицы.</xs:documentation>
@@ -416,6 +421,11 @@
                 <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="columnDefinition">

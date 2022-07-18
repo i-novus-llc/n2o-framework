@@ -2,6 +2,9 @@ package net.n2oapp.framework.api.metadata.application;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.SourceMetadata;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 
@@ -10,7 +13,17 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
  */
 @Getter
 @Setter
-public class N2oSidebar extends N2oComponent {
+public class N2oSidebar extends N2oComponent implements DatasourceIdAware, SourceMetadata, RefIdAware {
+
+    /**
+     * Идентификатор
+     */
+    private String id;
+
+    /**
+     * Ссылка на внешнюю боковую панель
+     */
+    private String refId;
 
     /**
      * Видимость
@@ -53,6 +66,11 @@ public class N2oSidebar extends N2oComponent {
     private String logoClass;
 
     /**
+     * Идентификатор источника данных боковой панели
+     */
+    private String datasourceId;
+
+    /**
      * Состояние сайдбара по умолчанию
      */
     private SidebarState defaultState;
@@ -81,4 +99,14 @@ public class N2oSidebar extends N2oComponent {
      * Дополнительное меню
      */
     private N2oSimpleMenu extraMenu;
+
+    @Override
+    public String getPostfix() {
+        return "sidebar";
+    }
+
+    @Override
+    public Class<? extends SourceMetadata> getSourceBaseClass() {
+        return N2oSidebar.class;
+    }
 }

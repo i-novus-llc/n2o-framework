@@ -55,7 +55,7 @@ export function* removeSaga({ payload }) {
 }
 
 // Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
-export function* dataRequesWrapper(action) {
+export function* dataRequestWrapper(action) {
     const { datasource } = action.payload
     const task = yield fork(dataRequestSaga, action)
 
@@ -73,14 +73,14 @@ let prevState = {}
 export default () => [
     takeEvery([setActiveModel, setFilter, setSourceModel, setMultiModel, setEditModel], resolveModelsSaga),
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
-    takeEvery(dataRequest, dataRequesWrapper),
+    takeEvery(dataRequest, dataRequestWrapper),
     takeEvery(startValidate, validateSaga),
     takeEvery(remove, removeSaga),
     takeEvery([setModel, removeModel, removeAllModel, copyModel, clearModel], function* watcher(action) {
         yield watchDependencies(action, prevState)
         prevState = yield select()
     }),
-    takeEvery(action => action.meta?.refresh?.datasources, function* refrashSage({ meta }) {
+    takeEvery(action => action.meta?.refresh?.datasources, function* refreshSage({ meta }) {
         const { refresh } = meta
         const { datasources } = refresh
 

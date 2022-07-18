@@ -107,6 +107,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
+        assertThat(table.getComponent().getAutoSelect(), is(true));
         assertThat(table.getComponent().getHeight(), is("200px"));
         assertThat(table.getComponent().getWidth(), is("400px"));
         assertThat(table.getComponent().getTextWrap(), is(false));
@@ -359,26 +360,15 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationDefault.widget.xml")
                 .get(new WidgetContext("testTable4PaginationDefault"));
         Pagination pagination = table.getPaging();
+        checkDefaultPagingParams(pagination);
+    }
 
-        assertThat(pagination.getFirst(), is(true));
-        assertThat(pagination.getLast(), is(false));
-        assertThat(pagination.getPrev(), is(false));
-        assertThat(pagination.getNext(), is(false));
-        assertThat(pagination.getShowSinglePage(), is(false));
-        assertThat(pagination.getShowCount(), is(true));
-        assertThat(pagination.getLayout(), is(Layout.separated));
-        assertThat(pagination.getPrevLabel(), is(nullValue()));
-        assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
-        assertThat(pagination.getNextLabel(), is(nullValue()));
-        assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
-        assertThat(pagination.getFirstLabel(), is(nullValue()));
-        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
-        assertThat(pagination.getLastLabel(), is(nullValue()));
-        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
-        assertThat(pagination.getMaxPages(), is(5));
-        assertThat(pagination.getClassName(), is(nullValue()));
-        assertThat(pagination.getStyle(), is(nullValue()));
-        assertThat(pagination.getPlace(), is(Place.bottomLeft));
+    @Test
+    public void testPaginationMissing() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationMissing.widget.xml")
+                .get(new WidgetContext("testTable4PaginationMissing"));
+        Pagination pagination = table.getPaging();
+        checkDefaultPagingParams(pagination);
     }
 
     @Test
@@ -406,6 +396,28 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
+    }
+
+    private void checkDefaultPagingParams(Pagination pagination) {
+        assertThat(pagination.getFirst(), is(true));
+        assertThat(pagination.getLast(), is(false));
+        assertThat(pagination.getPrev(), is(false));
+        assertThat(pagination.getNext(), is(false));
+        assertThat(pagination.getShowSinglePage(), is(false));
+        assertThat(pagination.getShowCount(), is(true));
+        assertThat(pagination.getLayout(), is(Layout.separated));
+        assertThat(pagination.getPrevLabel(), is(nullValue()));
+        assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
+        assertThat(pagination.getNextLabel(), is(nullValue()));
+        assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
+        assertThat(pagination.getFirstLabel(), is(nullValue()));
+        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
+        assertThat(pagination.getLastLabel(), is(nullValue()));
+        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
+        assertThat(pagination.getMaxPages(), is(5));
+        assertThat(pagination.getClassName(), is(nullValue()));
+        assertThat(pagination.getStyle(), is(nullValue()));
+        assertThat(pagination.getPlace(), is(Place.bottomLeft));
     }
 
 }

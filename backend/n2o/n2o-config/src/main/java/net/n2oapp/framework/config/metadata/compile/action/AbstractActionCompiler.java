@@ -130,31 +130,39 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                                 Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
                                 CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        ReduxModel defaultModel = getModelFromComponentScope(p);
         if (widgetScope != null) {
             String defaultClientWidgetId = getDefaultClientWidgetId(widgetScope, p);
-            ReduxModel defaultModel = getModelFromComponentScope(p);
             if (pathParams != null)
                 for (N2oParam pathParam : pathParams)
                     pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, defaultClientWidgetId, defaultModel, p));
             if (queryParams != null)
                 for (N2oParam queryParam : queryParams)
                     queryMapping.put(queryParam.getName(), initParamModelLink(queryParam, defaultClientWidgetId, defaultModel, p));
+        } else {
+            if (pathParams != null)
+                for (N2oParam pathParam : pathParams)
+                    pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, null, defaultModel, p));
+            if (queryParams != null)
+                for (N2oParam queryParam : queryParams)
+                    queryMapping.put(queryParam.getName(), initParamModelLink(queryParam, null, defaultModel, p));
         }
     }
 
     /**
      * Инициализация локального источника данных действия
      *
-     * @param p       Процессор сборки
+     * @param p Процессор сборки
      * @return Локальный источник данных действия
      */
     protected String getLocalDatasource(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
+        while (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
             if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
                 return datasourceIdAware.getDatasourceId();
             }
+            componentScope = componentScope.getParentScope();
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
@@ -165,8 +173,8 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Инициализация идентификатора объекта
      *
-     * @param p       Процессор сборки
-     * @return  идентификатор объекта
+     * @param p Процессор сборки
+     * @return идентификатор объекта
      */
     protected String getDefaultObjectId(CompileProcessor p) {
         String datasourceId = getLocalDatasource(p);
@@ -188,11 +196,22 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * @return Модель ссылки параметра
      */
     private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModel defaultModel, CompileProcessor p) {
-        String widgetId = param.getRefWidgetId() != null ?
+        PageScope pageScope = p.getScope(PageScope.class);
+
+        String widgetId = pageScope != null && param.getRefWidgetId() != null ?
                 CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), param.getRefWidgetId()) :
                 defaultClientWidgetId;
-        PageScope pageScope = p.getScope(PageScope.class);
-        String datasource = pageScope == null ? widgetId : pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+
+        String datasource;
+        if (pageScope == null) {
+            datasource = param.getDatasource() != null ? param.getDatasource() : widgetId;
+            if (datasource == null)
+                datasource = getLocalDatasource(p);
+        } else {
+            datasource = param.getDatasource() != null ? CompileUtil.generateDatasourceId(pageScope.getPageId(), param.getDatasource()) :
+                    pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+        }
+
         ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), datasource);
         link.setValue(p.resolveJS(param.getValue()));
         return link;

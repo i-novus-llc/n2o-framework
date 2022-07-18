@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -156,6 +157,7 @@ public class ViewController {
         N2oApplicationBuilder builder;
         try {
             ThreadLocalProjectId.setProjectId(projectId);
+            projectRouteRegister.clearAll();
             builder = getBuilder(projectId, null);
             addedValues.put("menu", getMenu(builder));
             addedValues.put("user", getUserInfo());
@@ -177,6 +179,7 @@ public class ViewController {
                         HttpServletRequest request, HttpSession session) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
+            projectRouteRegister.clearAll();
             N2oApplicationBuilder builder = getBuilder(projectId, session);
             getIndex(builder);
             getMenu(builder);
@@ -241,6 +244,7 @@ public class ViewController {
             getMenu(builder);
             String path = getPath(request, "/n2o/data");
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+            dataController.setMessageBuilder(messageBuilder);
             SetDataResponse dataResponse = dataController.setData(path,
                     request.getParameterMap(),
                     getHeaders(request),
@@ -253,17 +257,29 @@ public class ViewController {
     }
 
     /**
+     * Обработчик исключений N2O
+     */
+    @ExceptionHandler(N2oException.class)
+    public ResponseEntity<N2oResponse> sendErrorMessage(N2oException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(initErrorDataResponse(e));
+    }
+
+    /**
      * Обработчик исключений
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<N2oResponse> sendErrorMessage(Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(initErrorDataResponse(e));
+    }
+
+    private N2oResponse initErrorDataResponse(Exception e) {
         logger.error(e.getMessage(), e);
         MetaSaga meta = new MetaSaga();
         meta.setAlert(new AlertSaga());
         meta.getAlert().setMessages(Collections.singletonList(messageBuilder.build(e)));
         N2oResponse dataResponse = new N2oResponse();
         dataResponse.setMeta(meta);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(dataResponse);
+        return dataResponse;
     }
 
     private String getTemplate(String fileName) {
@@ -320,7 +336,7 @@ public class ViewController {
     }
 
     private void getIndex(N2oApplicationBuilder builder) {
-        PageContext index = new PageContext("index", "/");
+        PageContext index = new PageContext(propertyResolver.getProperty("n2o.homepage.id"), "/");
         builder.routes(new RouteInfo("/", index));
         builder.scan().read().transform().validate().compile().transform().get(index);
     }

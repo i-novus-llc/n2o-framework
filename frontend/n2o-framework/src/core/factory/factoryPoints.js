@@ -11,4 +11,5 @@ export default [
     'snippets',
     'buttons',
     'templates',
+    'overlays',
 ]

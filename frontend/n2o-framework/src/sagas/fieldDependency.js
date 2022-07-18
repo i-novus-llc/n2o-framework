@@ -113,7 +113,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'setValue': {
-            if (evalResult === undefined || isEqual(evalResult, values[fieldName])) {
+            if (evalResult === undefined || isEqual(evalResult, get(values, fieldName))) {
                 break
             }
 
@@ -208,12 +208,14 @@ export function* checkAndModify(
                             ((actionType === registerFieldExtra.type) && (fieldName === fieldId))
                         )
                     ) ||
-                    some(
-                        dep.on,
-                        field => (
-                            field === fieldName ||
-                            (includes(field, '.') && includes(field, fieldName))
-                        ),
+                    (
+                        some(
+                            dep.on,
+                            field => (
+                                field === fieldName ||
+                                (includes(field, '.') && includes(field, fieldName))
+                            ),
+                        ) && actionType === actionTypes.CHANGE
                     )
 
                 ) {

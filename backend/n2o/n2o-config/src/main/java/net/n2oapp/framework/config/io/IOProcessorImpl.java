@@ -318,7 +318,8 @@ public final class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public void childrenToMap(Element element, String sequences, String childrenName, Supplier<Map<String, Object>> getter, Consumer<Map<String, Object>> setter) {
+    public void childrenAttributesToMap(Element element, String sequences, String childrenName,
+                                        Supplier<Map<String, Object>> getter, Consumer<Map<String, Object>> setter) {
         if (r) {
             Map<String, Object> result = new HashMap<>();
             Element seqE;
@@ -333,12 +334,20 @@ public final class IOProcessorImpl implements IOProcessor {
                 Attribute attribute = childE.getAttributes().get(0);
                 String key = attribute.getName();
                 String value = attribute.getValue();
-                Object objValue = DomainProcessor.getInstance().doDomainConversion(null, value);
+                Object objValue = DomainProcessor.getInstance().deserialize(value);
                 result.put(key, objValue);
             }
             setter.accept(result);
         } else {
-            persistChildrenMap(element, sequences, childrenName, getter);
+            Map<String, Object> values = getter.get();
+            if (values == null) return;
+            Element seqE;
+            seqE = persistSequences(element, sequences);
+            for (String k : values.keySet()) {
+                Element childE = new Element(childrenName, element.getNamespace());
+                childE.setAttribute(k, values.get(k).toString());
+                seqE.addContent(childE);
+            }
         }
     }
 
@@ -436,19 +445,6 @@ public final class IOProcessorImpl implements IOProcessor {
                     childE.setAttribute(valueName, values.get(k).toString());
                 }
             }
-            seqE.addContent(childE);
-        }
-    }
-
-    private <T> void persistChildrenMap(Element element, String sequences, String childrenName,
-                                        Supplier<Map<String, T>> getter) {
-        Map<String, T> values = getter.get();
-        if (values == null) return;
-        Element seqE;
-        seqE = persistSequences(element, sequences);
-        for (String k : values.keySet()) {
-            Element childE = new Element(childrenName, element.getNamespace());
-            childE.setAttribute(k, values.get(k).toString());
             seqE.addContent(childE);
         }
     }

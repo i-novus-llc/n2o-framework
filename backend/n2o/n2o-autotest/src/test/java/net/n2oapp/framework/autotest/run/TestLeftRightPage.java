@@ -102,4 +102,9 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     public void shouldHaveLayout(NavigationLayout layout) {
 
     }
+
+    @Override
+    public void shouldHaveError(int statusCode) {
+
+    }
 }

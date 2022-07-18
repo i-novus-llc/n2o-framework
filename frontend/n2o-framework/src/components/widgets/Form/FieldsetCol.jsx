@@ -59,19 +59,22 @@ function FieldsetColComponent({
         })}
             {col.fieldsets &&
         col.fieldsets.map((fieldset, i) => {
+            const { name: fieldsetName, ...rest } = fieldset
             const key = `set${i}`
+            const name = parentName ? `${parentName}.${fieldsetName}` : fieldsetName
 
             return (
                 <FieldsetContainer
                     modelPrefix={modelPrefix}
                     key={key}
+                    name={name}
                     form={form}
                     parentName={parentName}
                     parentIndex={parentIndex}
                     disabled={disabled}
                     autoSubmit={autoSubmit}
                     activeModel={activeModel}
-                    {...fieldset}
+                    {...rest}
                 />
             )
         })}

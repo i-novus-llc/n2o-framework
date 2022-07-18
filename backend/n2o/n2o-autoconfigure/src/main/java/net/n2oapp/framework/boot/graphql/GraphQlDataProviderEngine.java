@@ -33,6 +33,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
     private static final String RESPONSE_ERROR_KEY = "errors";
     private static final String RESPONSE_ERROR_MESSAGE_KEY = "message";
+    private static final String RESPONSE_DATA_KEY = "data";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
 
@@ -52,6 +53,9 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private String defaultSortingPrefix;
     @Value("${n2o.engine.graphql.sorting-suffix:}")
     private String defaultSortingSuffix;
+
+    @Value("${n2o.engine.graphql.data-over-errors:false}")
+    private boolean dataOverErrors;
 
     @Setter
     private RestTemplate restTemplate;
@@ -110,6 +114,10 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private void checkErrors(DataSet response, String query) {
         if (response.containsKey(RESPONSE_ERROR_KEY)) {
+            Object data = response.get(RESPONSE_DATA_KEY);
+            if (data != null && !((DataSet) data).isEmpty() && dataOverErrors)
+                return;
+
             log.error("Execution error with GraphQL query: " + query);
             throw new N2oGraphQlException(((DataSet) response.getList(RESPONSE_ERROR_KEY).get(0)).getString(RESPONSE_ERROR_MESSAGE_KEY),
                     query, response);
@@ -196,7 +204,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             String value = placeholderKeys.contains(placeholder) ?
                     (String) entry.getValue() :
                     toGraphQlString(entry.getValue());
-            query = replacePlaceholder(query, placeholder, value, "");
+            query = replacePlaceholder(query, placeholder, value, "null");
         }
 
         log.debug("Execute GraphQL query: " + query);
