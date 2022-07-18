@@ -52,6 +52,8 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private ReduxModel submitModel;
     private SubmitActionType submitActionType;
     private ReduxModel copyModel;
+    private Boolean submitMessageOnSuccess;
+    private Boolean submitMessageOnFail;
     private String copyDatasource;
     private String copyFieldId;
     private ReduxModel targetModel;

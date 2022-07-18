@@ -78,11 +78,21 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
         source.setRefreshDatasources(initRefreshDatasources(source, p));
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
-        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
-        source.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
+        initSubmitMessageDefaults(source, p, context);
         source.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
+    }
+
+    private void initSubmitMessageDefaults(N2oInvokeAction source, CompileProcessor p, CompileContext<?, ?> context) {
+        Boolean submitOnSuccess = null;
+        Boolean submitOnFail = null;
+        if (source.getOperationId() != null) {
+            submitOnSuccess = ((PageContext) context).getSubmitMessageOnSuccess();
+            submitOnFail = ((PageContext) context).getSubmitMessageOnFail();
+        }
+        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), submitOnSuccess, true));
+        source.setMessageOnFail(p.cast(source.getMessageOnFail(), submitOnFail, true));
     }
 
     private String[] initRefreshDatasources(N2oInvokeAction source, CompileProcessor p) {

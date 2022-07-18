@@ -97,6 +97,14 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Boolean closeOnSuccessSubmit;
     /**
+     * Показать сообщение об успешном выполнении действия
+     */
+    private Boolean submitMessageOnSuccess;
+    /**
+     * Показать сообщение о неудачном выполнении действия
+     */
+    private Boolean submitMessageOnFail;
+    /**
      * Обновить данные виджета после успешной отправки формы
      */
     private Boolean refreshOnSuccessSubmit;
@@ -148,6 +156,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     public PageContext(String sourcePageId, String route) {
         super(route, sourcePageId, N2oPage.class, Page.class);
     }
+
 
     public void setBreadcrumbs(List<Breadcrumb> breadcrumbs) {
         if (breadcrumbs != null)
