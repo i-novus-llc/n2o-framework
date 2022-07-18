@@ -14,8 +14,6 @@ import org.jdom2.Namespace;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Фабрика, генерирующая сервис для чтения xml файлов в объекты n2o
@@ -45,11 +43,8 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
         Map<String, NamespaceReader> innerEngines = new HashMap<>();
         for (Namespace namespace : namespaces) {
             if (map.containsKey(namespace.getURI()))
-                innerEngines.putAll(map.get(namespace.getURI())
-                        .keySet()
-                        .stream()
-                        .filter(e -> !innerEngines.containsKey(e))
-                        .collect(Collectors.toMap(Function.identity(), e -> (map.get(namespace.getURI()).get(e)))));
+                for (Map.Entry<String, NamespaceReader> readerEntry : map.get(namespace.getURI()).entrySet())
+                    innerEngines.putIfAbsent(readerEntry.getKey(), readerEntry.getValue());
         }
         if (innerEngines.isEmpty())
             throw new EngineNotFoundException(elementName);

@@ -223,7 +223,7 @@ public final class IOProcessorImpl implements IOProcessor {
             }
             for (Object child : seqE.getChildren()) {
                 Element childE = (Element) child;
-                T childT = read(factory, childE, seqE.getNamespace(), defaultNamespace, childE.getNamespace());
+                T childT = read(factory, childE, seqE.getNamespace(), defaultNamespace);
                 if (childT != null) {
                     setter.accept(childT);
                     return;
@@ -1146,7 +1146,7 @@ public final class IOProcessorImpl implements IOProcessor {
                                                             Namespace parentNamespace, Namespace... defaultNamespaces) {
         R reader;
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && (hasText(getParentNameSpacePrefix(element)) || parentNamespace.getURI().equals(element.getNamespaceURI()))) {
-            reader = factory.produce(element, parentNamespace, defaultNamespaces);
+            reader = factory.produce(element, parentNamespace, ArrayUtils.add(defaultNamespaces, element.getNamespace()));
         } else {
             reader = factory.produce(element, parentNamespace, null);
         }
