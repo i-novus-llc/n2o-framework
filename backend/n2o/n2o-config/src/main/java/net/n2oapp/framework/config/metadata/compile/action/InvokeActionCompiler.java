@@ -87,7 +87,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     private void initSubmitMessageDefaults(N2oInvokeAction source, CompileProcessor p, CompileContext<?, ?> context) {
         Boolean submitOnSuccess = null;
         Boolean submitOnFail = null;
-        if (source.getOperationId() != null) {
+        if (source.getOperationId() != null && context instanceof PageContext) {
             submitOnSuccess = ((PageContext) context).getSubmitMessageOnSuccess();
             submitOnFail = ((PageContext) context).getSubmitMessageOnFail();
         }
