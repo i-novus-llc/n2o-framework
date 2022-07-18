@@ -32,7 +32,7 @@ export class Spinner extends Component {
                 if (!this.unmounted) {
                     this.setState({ showSpinner: loading })
                 }
-            }, 1000)
+            }, 2000)
         }
     }
 
@@ -45,6 +45,7 @@ export class Spinner extends Component {
             children,
             className,
             text,
+            title,
             transparent,
             color,
             loading,
@@ -62,6 +63,7 @@ export class Spinner extends Component {
                     <>
                         <div className="n2o-spinner-container ">
                             <BaseSpinner className="spinner-border" color={color} {...rest} />
+                            <div className="loading_title loading_text">{title}</div>
                             <div className="loading_text">{text}</div>
                         </div>
                         {!transparent ? <div className="spinner-background" /> : null}
@@ -102,6 +104,7 @@ export class Spinner extends Component {
 Spinner.propTypes = {
     loading: PropTypes.bool,
     type: PropTypes.oneOf(values(TYPE)),
+    title: PropTypes.string,
     text: PropTypes.string,
     transparent: PropTypes.bool,
     color: PropTypes.string,
