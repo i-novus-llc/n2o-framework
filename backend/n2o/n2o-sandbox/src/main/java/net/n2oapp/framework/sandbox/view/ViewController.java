@@ -169,6 +169,7 @@ public class ViewController {
 
             return appConfigJsonWriter.getValues(addedValues);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -191,6 +192,7 @@ public class ViewController {
 
             return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -208,9 +210,10 @@ public class ViewController {
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
             GetDataResponse response = dataController.getData(path, request.getParameterMap(),
-                    getUserContext());
+                    new UserContext(sandboxContext));
             return ResponseEntity.status(response.getStatus()).body(response);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -249,9 +252,10 @@ public class ViewController {
                     request.getParameterMap(),
                     getHeaders(request),
                     getBody(body),
-                    getUserContext());
+                    new UserContext(sandboxContext));
             return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -437,13 +441,8 @@ public class ViewController {
         return new MessageSourceAccessor(messageSource);
     }
 
-    private UserContext getUserContext() {
-        sandboxContext.refresh();
-        return new UserContext(sandboxContext);
-    }
-
     private Map<String, Object> getUserInfo() {
-        UserContext userContext = getUserContext();
+        UserContext userContext = new UserContext(sandboxContext);
         Map<String, Object> user = new HashMap<>();
         user.put("username", userContext.get("username"));
         user.put("roles", userContext.get("roles"));
