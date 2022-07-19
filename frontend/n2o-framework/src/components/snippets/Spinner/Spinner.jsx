@@ -57,6 +57,7 @@ export class Spinner extends Component {
             <div
                 className={classNames('n2o-spinner-wrapper', {
                     [className]: className,
+                    'n2o-disabled-page': loading,
                 })}
             >
                 {showSpinner && (
