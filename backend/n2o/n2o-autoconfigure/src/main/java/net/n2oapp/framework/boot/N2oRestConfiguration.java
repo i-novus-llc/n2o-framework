@@ -57,8 +57,8 @@ public class N2oRestConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AlertMessagesConstructor messagesConstructor(MetadataEnvironment environment) {
-        return new N2oAlertMessagesConstructor(messageBuilder(environment));
+    public AlertMessagesConstructor messagesConstructor(AlertMessageBuilder messageBuilder) {
+        return new N2oAlertMessagesConstructor(messageBuilder);
     }
 
 }

@@ -92,9 +92,8 @@ public class N2oSandboxConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AlertMessagesConstructor alertMessagesConstructor(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
-                                                             PropertyResolver propertyResolver) {
-        return new N2oAlertMessagesConstructor(alertMessageBuilder(messageSourceAccessor, propertyResolver));
+    public AlertMessagesConstructor alertMessagesConstructor(AlertMessageBuilder messageBuilder) {
+        return new N2oAlertMessagesConstructor(messageBuilder);
     }
 
     @Bean
