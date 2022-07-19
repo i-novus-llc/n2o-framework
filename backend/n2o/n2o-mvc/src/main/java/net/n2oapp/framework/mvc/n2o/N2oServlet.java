@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
-import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.api.user.StaticUserContext;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteNotFoundException;
@@ -43,8 +42,6 @@ public abstract class N2oServlet extends HttpServlet {
         super.init();
         if (messageBuilder == null)
             messageBuilder = new AlertMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource()), propertyResolver);
-        if (messagesConstructor == null)
-            messagesConstructor = new N2oAlertMessagesConstructor(messageBuilder);
     }
 
     public UserContext getUser(HttpServletRequest req) {
@@ -147,6 +144,10 @@ public abstract class N2oServlet extends HttpServlet {
 
     public void setMessageBuilder(AlertMessageBuilder messageBuilder) {
         this.messageBuilder = messageBuilder;
+    }
+
+    public void setMessagesConstructor(AlertMessagesConstructor messagesConstructor) {
+        this.messagesConstructor = messagesConstructor;
     }
 
     public void setClientCacheTemplate(ClientCacheTemplate clientCacheTemplate) {
