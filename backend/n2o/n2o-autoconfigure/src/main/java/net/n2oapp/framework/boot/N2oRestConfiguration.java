@@ -4,11 +4,14 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
+import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.query.GetController;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -50,6 +53,12 @@ public class N2oRestConfiguration {
     @Bean
     public AlertMessageBuilder messageBuilder(MetadataEnvironment environment) {
         return new AlertMessageBuilder(environment.getMessageSource(), environment.getSystemProperties(), showStacktrace);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AlertMessagesConstructor messagesConstructor(MetadataEnvironment environment) {
+        return new N2oAlertMessagesConstructor(messageBuilder(environment));
     }
 
 }

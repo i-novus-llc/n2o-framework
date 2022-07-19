@@ -5,6 +5,8 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
+import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.api.user.StaticUserContext;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteNotFoundException;
@@ -33,6 +35,7 @@ public abstract class N2oServlet extends HttpServlet {
     private AlertMessageBuilder messageBuilder;
     private ClientCacheTemplate clientCacheTemplate;
     private PropertyResolver propertyResolver;
+    private AlertMessagesConstructor messagesConstructor;
 
 
     @Override
@@ -40,6 +43,8 @@ public abstract class N2oServlet extends HttpServlet {
         super.init();
         if (messageBuilder == null)
             messageBuilder = new AlertMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource()), propertyResolver);
+        if (messagesConstructor == null)
+            messagesConstructor = new N2oAlertMessagesConstructor(messageBuilder);
     }
 
     public UserContext getUser(HttpServletRequest req) {
@@ -132,7 +137,7 @@ public abstract class N2oServlet extends HttpServlet {
     private MetaSaga buildMeta(Exception exception) {
         MetaSaga meta = new MetaSaga();
         meta.setAlert(new AlertSaga());
-        meta.getAlert().setMessages(Collections.singletonList(messageBuilder.build(exception)));
+        meta.getAlert().setMessages(messagesConstructor.constructMessages(exception));
         return meta;
     }
 
