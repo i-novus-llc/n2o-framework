@@ -12,8 +12,6 @@ public class MaskedInput extends Control {
     @JsonProperty
     private String mask;
     @JsonProperty
-    private String placeholder;
-    @JsonProperty
     private String measure;
     @JsonProperty
     private Boolean clearOnBlur;
