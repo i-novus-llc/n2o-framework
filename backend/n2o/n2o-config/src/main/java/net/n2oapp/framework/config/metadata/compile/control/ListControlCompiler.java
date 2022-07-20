@@ -12,12 +12,14 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
+import net.n2oapp.framework.api.metadata.meta.badge.Badge;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.Shape;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.FieldCompileUtil;
@@ -32,12 +34,12 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
 
     protected StandardField<T> compileListControl(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
         listControl.setFormat(p.resolveJS(source.getFormat()));
+        initDefaults(source, context, p);
         listControl.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
         listControl.setSortFieldId(p.cast(source.getSortFieldId(), listControl.getLabelFieldId()));
         listControl.setValueFieldId(p.cast(p.resolveJS(source.getValueFieldId()), "id"));
         listControl.setIconFieldId(p.resolveJS(source.getIconFieldId()));
-        listControl.setBadgeFieldId(p.resolveJS(source.getBadgeFieldId()));
-        listControl.setBadgeColorFieldId(p.resolveJS(source.getBadgeColorFieldId()));
+        listControl.setBadge(initBadge(source));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
         listControl.setHasSearch(source.getSearch());
@@ -59,6 +61,32 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setEnabledFieldId(source.getEnabledFieldId());
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
+    }
+
+    private Badge initBadge(S source) {
+        if (source.getBadgeFieldId() == null && source.getBadgeColorFieldId() == null && source.getBadgeImageFieldId() == null)
+            return null;
+        return Badge.builder()
+                .fieldId(source.getBadgeFieldId())
+                .colorFieldId(source.getBadgeColorFieldId())
+                .imageFieldId(source.getBadgeImageFieldId())
+                .imagePosition(source.getBadgeImagePosition())
+                .imageShape(source.getBadgeImageShape())
+                .position(source.getBadgePosition())
+                .shape(source.getBadgeShape())
+                .build();
+    }
+
+    @Override
+    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        source.setBadgePosition(p.cast(source.getBadgePosition(),
+                p.resolve(property("n2o.api.control.list.badge.position"), Position.class)));
+        source.setBadgeShape(p.cast(source.getBadgeShape(),
+                p.resolve(property("n2o.api.control.list.badge.shape"), Shape.class)));
+        source.setBadgeImagePosition(p.cast(source.getBadgeImagePosition(),
+                p.resolve(property("n2o.api.control.list.badge.image_position"), Position.class)));
+        source.setBadgeImageShape(p.cast(source.getBadgeImageShape(),
+                p.resolve(property("n2o.api.control.list.badge.image_shape"), Shape.class)));
     }
 
     @Override

@@ -2,7 +2,9 @@
     <fields>
         <select id="select1" type="checkboxes" cleanable="false" description-field-id="descFieldId"
                 select-format="Объектов {size} шт" select-format-one="{size} объект"
-                select-format-few="{size} объекта" select-format-many="{size} объектов"/>
+                select-format-few="{size} объекта" select-format-many="{size} объектов"
+                badge-shape="rounded" badge-position="right" badge-image-field-id="image"
+                badge-image-position="right" badge-image-shape="square"/>
         <select id="select2">
             <options>
                 <option id="type1" name="A"/>
