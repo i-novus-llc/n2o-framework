@@ -204,7 +204,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             String value = placeholderKeys.contains(placeholder) ?
                     (String) entry.getValue() :
                     toGraphQlString(entry.getValue());
-            query = replacePlaceholder(query, placeholder, value, "");
+            query = replacePlaceholder(query, placeholder, value, "null");
         }
 
         log.debug("Execute GraphQL query: " + query);

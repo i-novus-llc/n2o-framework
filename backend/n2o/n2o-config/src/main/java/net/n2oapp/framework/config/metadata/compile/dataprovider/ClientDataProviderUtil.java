@@ -196,8 +196,10 @@ public class ClientDataProviderUtil {
             actionContext.setMessagesForm(actionContextData.getMessagesForm());
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(p.cast(actionContextData.isMessageOnFail(), true));
-            actionContext.setMessagePosition(p.cast(actionContextData.getMessagePosition(), MessagePosition.fixed));//todo initDefaults
-            actionContext.setMessagePlacement(p.cast(actionContextData.getMessagePlacement(), MessagePlacement.top));//todo initDefaults
+            actionContext.setMessagePosition(p.cast(actionContextData.getMessagePosition(),
+                    p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+            actionContext.setMessagePlacement(p.cast(actionContextData.getMessagePlacement(),
+                    p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)

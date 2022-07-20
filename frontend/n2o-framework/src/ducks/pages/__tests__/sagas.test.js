@@ -27,7 +27,7 @@ import {
 } from '../../models/store'
 import { FETCH_PAGE_METADATA } from '../../../core/api'
 import { FETCH_END, FETCH_START } from '../../../constants/fetch'
-import { changeRootPage } from '../../global/store'
+import { changeRootPage, setGlobalLoading } from '../../global/store'
 import { destroyOverlay } from '../../overlays/store'
 
 import {
@@ -375,12 +375,13 @@ describe('Сага для для наблюдения за изменением 
 
             await runSaga(fakeStore, getMetadata, undefined, action)
             await delay(200)
-            expect(dispatched[0].type).toBe(FETCH_START)
-            expect(dispatched[0].payload.options.pageUrl).toBe(
+            expect(dispatched[0].type).toBe(setGlobalLoading.type)
+            expect(dispatched[1].type).toBe(FETCH_START)
+            expect(dispatched[1].payload.options.pageUrl).toBe(
                 '/testPage?name=Sergey',
             )
-            expect(dispatched[1].type).toBe(FETCH_END)
-            expect(dispatched[1].payload).toEqual({
+            expect(dispatched[2].type).toBe(FETCH_END)
+            expect(dispatched[2].payload).toEqual({
                 fetchType: FETCH_PAGE_METADATA,
                 options: {
                     pageUrl: '/testPage?name=Sergey',
@@ -390,16 +391,16 @@ describe('Сага для для наблюдения за изменением 
                     widgets: {},
                 },
             })
-            expect(dispatched[2].type).toBe(changeRootPage.type)
-            expect(dispatched[2].payload).toEqual('testPage')
-            expect(dispatched[3].type).toBe(destroyOverlay.type)
-            expect(dispatched[4].type).toBe(setStatus.type)
-            expect(dispatched[4].payload).toEqual({
+            expect(dispatched[3].type).toBe(changeRootPage.type)
+            expect(dispatched[3].payload).toEqual('testPage')
+            expect(dispatched[4].type).toBe(destroyOverlay.type)
+            expect(dispatched[5].type).toBe(setStatus.type)
+            expect(dispatched[5].payload).toEqual({
                 pageId: 'testPage',
                 status: 200,
             })
-            expect(dispatched[5].type).toBe(metadataSuccess.type)
-            expect(dispatched[5].payload).toEqual({
+            expect(dispatched[6].type).toBe(metadataSuccess.type)
+            expect(dispatched[6].payload).toEqual({
                 pageId: 'testPage',
                 json: {
                     id: 'testPage',
@@ -447,12 +448,12 @@ describe('Сага для для наблюдения за изменением 
 
             await runSaga(fakeStore, getMetadata, undefined, action)
             await delay(200)
-            expect(dispatched[0].payload.options.pageUrl).toBe('/order/123?q=test')
-            expect(dispatched[1].payload.response).toEqual({
+            expect(dispatched[1].payload.options.pageUrl).toBe('/order/123?q=test')
+            expect(dispatched[2].payload.response).toEqual({
                 id: 'test',
                 regions: {},
             })
-            expect(dispatched[2].payload).toEqual({
+            expect(dispatched[3].payload).toEqual({
                 pageId: 'test',
                 status: 200,
             })

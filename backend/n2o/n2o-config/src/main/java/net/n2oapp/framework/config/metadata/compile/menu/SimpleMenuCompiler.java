@@ -80,7 +80,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                 compiled.setHref(linkAction.getUrl());
                 compiled.setPathMapping(linkAction.getPathMapping());
                 compiled.setQueryMapping(linkAction.getQueryMapping());
-//                compiled.setTarget(linkAction.getTarget());
+                compiled.setTarget(linkAction.getTarget());
                 if (linkAction.getTarget().equals(Target.application))
                     compiled.setLinkType(MenuItem.LinkType.inner);
                 else
