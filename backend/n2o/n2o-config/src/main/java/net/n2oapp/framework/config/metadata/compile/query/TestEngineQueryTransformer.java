@@ -33,10 +33,10 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
                 }
                 if (field.getFilterList() != null) {
                     for (N2oQuery.Filter filter : field.getFilterList()) {
-                        if (filter.getFilterField() == null)
-                            filter.setFilterField(RouteUtil.normalizeParam(field.getId()) + "_" + filter.getType());
+                        if (filter.getFilterId() == null)
+                            filter.setFilterId(RouteUtil.normalizeParam(field.getId()) + "_" + filter.getType());
                         if (filter.getText() == null)
-                            filter.setText(colon("expression") + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterField()));
+                            filter.setText(colon("expression") + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterId()));
                     }
                 }
             }

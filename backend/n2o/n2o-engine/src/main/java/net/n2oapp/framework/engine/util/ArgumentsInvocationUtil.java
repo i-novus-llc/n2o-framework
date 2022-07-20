@@ -51,7 +51,7 @@ public class ArgumentsInvocationUtil {
         for (Restriction r : criteria.getRestrictions()) {
             if (r.getValue() != null) {
                 N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
-                String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterField());
+                String mapping = getMapping(invocation.getArguments(), idx, filter.getMapping(), filter.getFilterId());
                 MappingProcessor.inMap(argumentInstances, mapping, r.getValue(), filter.getMapping());
             }
             idx++;

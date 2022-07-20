@@ -10,12 +10,11 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
-
 /**
- * Чтение\запись запроса версии 4.0
+ * Чтение\запись запроса версии 5.0
  */
 @Component
-public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
+public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
     private Namespace dataProviderDefaultNamespace = DataProviderIOv1.NAMESPACE;
 
     @Override
@@ -27,8 +26,9 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.children(e, null, "list", t::getLists, t::setLists, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::selection);
         p.children(e, null, "count", t::getCounts, t::setCounts, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::selection);
         p.children(e, null, "unique", t::getUniques, t::setUniques, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::selection);
+        p.childrenByEnum(e, "filters", t::getFilters, t::setFilters, N2oQuery.Filter::getType,
+                N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
         p.children(e, "fields", "field", t::getFields, t::setFields, N2oQuery.Field::new, this::field);
-        t.adapterV4();
     }
 
     private void selection(Element e, N2oQuery.Selection t, IOProcessor p) {
@@ -63,6 +63,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "filter-id", t::getFilterId, t::setFilterId);
+        p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
         p.text(e, t::getText, t::setText);
     }
@@ -84,7 +85,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
 
     @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/query-4.0";
+        return "http://n2oapp.net/framework/config/schema/query-5.0";
     }
 
     public void setDataProviderDefaultNamespace(String dataProviderDefaultNamespace) {

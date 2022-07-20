@@ -67,8 +67,8 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
         for (N2oQuery.Field field : fields) {
             if (!field.isSearchUnavailable()) {
                 for (N2oQuery.Filter filter : field.getFilterList()) {
-                    if (filter.getFilterField() != null && !filterFields.add(filter.getFilterField())) {
-                        throw new N2oMetadataValidationException(String.format("Фильтр %s в выборке %s повторяется", filter.getFilterField(), queryId));
+                    if (filter.getFilterId() != null && !filterFields.add(filter.getFilterId())) {
+                        throw new N2oMetadataValidationException(String.format("Фильтр %s в выборке %s повторяется", filter.getFilterId(), queryId));
                     }
                 }
             }
@@ -84,7 +84,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
         Set<String> filterFields = Arrays.stream(query.getFields())
                 .filter(f -> f.getFilterList() != null)
                 .flatMap(f -> Arrays.stream(f.getFilterList()))
-                .map(N2oQuery.Filter::getFilterField)
+                .map(N2oQuery.Filter::getFilterId)
                 .collect(Collectors.toSet());
         checkFiltersExistInSelectionType(query.getLists(), filterFields, "list");
         checkFiltersExistInSelectionType(query.getUniques(), filterFields, "unique");

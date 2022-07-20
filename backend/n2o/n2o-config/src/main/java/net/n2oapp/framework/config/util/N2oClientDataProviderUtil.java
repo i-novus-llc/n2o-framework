@@ -59,7 +59,7 @@ public class N2oClientDataProviderUtil {
                 N2oPreFilter preFilter = preFilters[i];
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 N2oParam queryParam = new N2oParam();
-                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
+                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterId()));
                 if (preFilter.getParam() == null) {
                     queryParam.setValueList(getPrefilterValue(preFilter));
                     queryParam.setModel(preFilter.getModel());

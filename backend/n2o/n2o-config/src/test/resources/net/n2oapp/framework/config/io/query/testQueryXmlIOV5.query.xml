@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
+       name="query 5" object-id="blank">
+    <list>
+        <rest>/api/find/all</rest>
+    </list>
+    <list>
+        <java method="test" class="test"/>
+    </list>
+    <list filters="filter1,filter2" count-mapping="count" result-mapping="result">
+        <rest>/api/find/1</rest>
+    </list>
+
+    <count>
+        <rest>/api/count</rest>
+    </count>
+    <count filters="fil1,fil2" count-mapping="count">
+        <rest>/api/find12</rest>
+    </count>
+
+    <unique>
+        <rest>/api/findOne</rest>
+    </unique>
+    <unique filters="filter1" result-mapping="count">
+        <rest>/api/find1</rest>
+    </unique>
+
+    <filters>
+        <eq normalize="m;kl;k;" mapping="mapping"  default-value="defaultValue" domain="integer" filter-id="id"
+            field-id="id">
+            id = :id
+        </eq>
+        <eq filter-id="individualId" required="true" field-id="individualId">ic.indiv_id = :individualId</eq>
+        <eqOrIsNull filter-id="surname" field-id="individualId"/>
+    </filters>
+
+    <fields>
+        <field id="id" domain="integer" name="nameId">
+            <expression>expression</expression>
+            <sorting>sorting</sorting>
+            <select default-value="defaultValue" mapping="mapping" normalize="T(java.time.LocalDate).parse(this)">id</select>
+        </field>
+        <field id="individualId" domain="integer"/>
+    </fields>
+</query>

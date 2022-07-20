@@ -30,6 +30,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
     private Selection[] lists;
     private Selection[] uniques;
     private Selection[] counts;
+    private Filter[] filters;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     @Override
@@ -49,7 +50,8 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String defaultValue;
         private Object compiledDefaultValue;
         private FilterType type;
-        private String filterField; //todo rename to filterId
+        private String filterId;
+        private String fieldId;
         private String domain;
         private String normalize;
         private String mapping;
@@ -61,27 +63,27 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String param;
         private boolean generated = false;
 
-        public Filter(String filterField, FilterType type) {
-            this.filterField = filterField;
+        public Filter(String filterId, FilterType type) {
+            this.filterId = filterId;
             this.type = type;
         }
 
-        public Filter(String filterField, FilterType type, String filterBody) {
+        public Filter(String filterId, FilterType type, String filterBody) {
             this.text = filterBody;
-            this.filterField = filterField;
+            this.filterId = filterId;
             this.type = type;
         }
 
-        public Filter(String filterField, FilterType type, String filterBody, String domain) {
-            this.filterField = filterField;
+        public Filter(String filterId, FilterType type, String filterBody, String domain) {
+            this.filterId = filterId;
             this.type = type;
             this.text = filterBody;
             this.domain = domain;
         }
 
-        public Filter(String filterField, FilterType type, String filterBody, String domain, String normalize) {
+        public Filter(String filterId, FilterType type, String filterBody, String domain, String normalize) {
             this.type = type;
-            this.filterField = filterField;
+            this.filterId = filterId;
             this.domain = domain;
             this.normalize = normalize;
             this.text = filterBody;
@@ -119,6 +121,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String selectDefaultValue; // = default value in select
         private String selectMapping; // = selectMapping in select
         private String normalize;
+        @Deprecated
         private Filter[] filterList;
 
         private String joinBody;
@@ -247,4 +250,18 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         }
     }
 
+    public void adapterV4() {
+        if (fields != null) {
+            List<Filter> filters = new ArrayList<>();
+            for (Field field : fields) {
+                if (field.getFilterList() != null) {
+                    for (Filter filter : field.getFilterList()) {
+                        filter.setFieldId(field.getId());
+                        filters.add(filter);
+                    }
+                }
+            }
+            setFilters(filters.toArray(new Filter[0]));
+        }
+    }
 }
