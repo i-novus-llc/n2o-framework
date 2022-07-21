@@ -19,7 +19,7 @@ export class Spinner extends Component {
             showSpinner: false,
         }
 
-        this.renderCoverSpiner = this.renderCoverSpiner.bind(this)
+        this.renderCoverSpinner = this.renderCoverSpinner.bind(this)
         this.renderLineSpinner = this.renderLineSpinner.bind(this)
     }
 
@@ -41,7 +41,7 @@ export class Spinner extends Component {
         this.unmounted = true
     }
 
-    renderCoverSpiner() {
+    renderCoverSpinner() {
         const {
             children,
             className,
@@ -49,6 +49,7 @@ export class Spinner extends Component {
             title,
             transparent,
             color,
+            loading,
             ...rest
         } = this.props
         const { showSpinner } = this.state
@@ -96,7 +97,7 @@ export class Spinner extends Component {
         const { type } = this.props
 
         return eq(type, TYPE.COVER)
-            ? this.renderCoverSpiner()
+            ? this.renderCoverSpinner()
             : this.renderLineSpinner()
     }
 }
