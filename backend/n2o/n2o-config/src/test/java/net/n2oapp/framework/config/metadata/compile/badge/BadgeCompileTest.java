@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.badge;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
-import net.n2oapp.framework.api.metadata.meta.badge.Shape;
 import net.n2oapp.framework.api.metadata.meta.control.ListControl;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
@@ -49,20 +49,20 @@ public class BadgeCompileTest extends SourceCompileTestBase {
 
         assertThat(badge.getFieldId(), is("bfi1"));
         assertThat(badge.getPosition(), is(Position.left));
-        assertThat(badge.getShape(), is(Shape.rounded));
+        assertThat(badge.getShape(), is(ShapeType.rounded));
         assertThat(badge.getColorFieldId(), is("bcfi1"));
         assertThat(badge.getImageFieldId(), is("bifi1"));
         assertThat(badge.getImagePosition(), is(Position.right));
-        assertThat(badge.getImageShape(), is(Shape.square));
+        assertThat(badge.getImageShape(), is(ShapeType.square));
 
         badge = ((ListControl) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl()).getBadge();
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getPosition(), is(Position.right));
-        assertThat(badge.getShape(), is(Shape.square));
+        assertThat(badge.getShape(), is(ShapeType.square));
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), is("bifi2"));
         assertThat(badge.getImagePosition(), is(Position.left));
-        assertThat(badge.getImageShape(), is(Shape.circle));
+        assertThat(badge.getImageShape(), is(ShapeType.circle));
 
         badge = ((ListControl) ((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl()).getBadge();
         assertThat(badge, nullValue());

@@ -7,7 +7,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class MenuItem implements Compiled, PropertiesAware {
     @JsonProperty
     private String imageSrc;
     @JsonProperty
-    private ImageShape imageShape;
+    private ShapeType imageShape;
     @JsonProperty
     private String datasource;
     @JsonProperty("items")

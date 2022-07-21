@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
-import net.n2oapp.framework.api.metadata.meta.badge.Shape;
 
 import java.util.Map;
 
@@ -28,10 +28,10 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     private String badgeFieldId;
     private String badgeColorFieldId;
     private Position badgePosition;
-    private Shape badgeShape;
+    private ShapeType badgeShape;
     private String badgeImageFieldId;
     private Position badgeImagePosition;
-    private Shape badgeImageShape;
+    private ShapeType badgeImageShape;
     private String groupFieldId;
     private String searchFilterId;
     private String labelFieldId;

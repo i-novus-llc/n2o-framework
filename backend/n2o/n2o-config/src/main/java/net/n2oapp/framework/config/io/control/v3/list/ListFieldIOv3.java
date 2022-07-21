@@ -3,9 +3,9 @@ package net.n2oapp.framework.config.io.control.v3.list;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
-import net.n2oapp.framework.api.metadata.meta.badge.Shape;
 import net.n2oapp.framework.config.io.control.v3.StandardFieldIOv3;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -39,8 +39,8 @@ public abstract class ListFieldIOv3<T extends N2oListField> extends StandardFiel
         p.attributeInteger(e, "size", m::getSize, m::setSize);
         p.attributeEnum(e, "badge-position", m::getBadgePosition, m::setBadgePosition, Position.class);
         p.attributeEnum(e, "badge-image-position", m::getBadgeImagePosition, m::setBadgeImagePosition, Position.class);
-        p.attributeEnum(e, "badge-shape", m::getBadgeShape, m::setBadgeShape, Shape.class);
-        p.attributeEnum(e, "badge-image-shape", m::getBadgeImageShape, m::setBadgeImageShape, Shape.class);
+        p.attributeEnum(e, "badge-shape", m::getBadgeShape, m::setBadgeShape, ShapeType.class);
+        p.attributeEnum(e, "badge-image-shape", m::getBadgeImageShape, m::setBadgeImageShape, ShapeType.class);
         p.child(e, null, "default-value", m::getDefValue, m::setDefValue, HashMap::new, this::defaultValue);
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
         p.childrenByEnum(e, "filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
