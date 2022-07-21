@@ -3,6 +3,7 @@
     <datasources>
         <datasource id="ds1"/>
         <datasource id="ds2"/>
+        <app-datasource id="ds3"/>
     </datasources>
     <regions>
         <form id="testForm" datasource="ds1"/>
@@ -14,15 +15,21 @@
                 <button id="btn2">
                     <refresh datasource="ds1"/>
                 </button>
+                <button id="btn3">
+                    <refresh datasource="ds3"/>
+                </button>
             </toolbar>
         </form>
     </regions>
     <toolbar>
-        <button id="btn3" datasource="ds1">
+        <button id="btn4" datasource="ds1">
             <refresh/>
         </button>
-        <button id="btn4" datasource="ds1">
+        <button id="btn5" datasource="ds1">
             <refresh datasource="ds2"/>
+        </button>
+        <button id="btn6" datasource="ds3">
+            <refresh/>
         </button>
     </toolbar>
 </page>

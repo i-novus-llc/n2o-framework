@@ -110,8 +110,8 @@ export class MenuContainer extends React.Component {
 
                  this.giveAccess(item, type, currentId, isChildren)
              } catch (error) {
+                 // eslint-disable-next-line no-console
                  console.error(error)
-                 /* nothing to do */
              }
          } else {
              this.giveAccess(item, type, currentId, isChildren)

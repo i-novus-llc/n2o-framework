@@ -3,7 +3,7 @@ import {
     takeEvery,
 } from 'redux-saga/effects'
 
-import { PREFIXES } from '../models/constants'
+import { ModelPrefix } from '../../core/datasource/const'
 import { setModel } from '../models/store'
 
 import {
@@ -14,7 +14,7 @@ export function* runResolve(action) {
     const { modelId, model } = action.payload
 
     try {
-        yield put(setModel(PREFIXES.resolve, modelId, model))
+        yield put(setModel(ModelPrefix.active, modelId, model))
         // eslint-disable-next-line no-empty
     } catch (err) {}
 }
@@ -22,7 +22,7 @@ export function* runResolve(action) {
 export function* clearOnDisable(action) {
     const { modelId } = action.payload
 
-    yield put(setModel(PREFIXES.datasource, modelId, null))
+    yield put(setModel(ModelPrefix.source, modelId, null))
 }
 
 /**

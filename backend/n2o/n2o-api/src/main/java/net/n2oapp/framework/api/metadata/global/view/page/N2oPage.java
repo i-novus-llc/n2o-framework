@@ -8,8 +8,8 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.List;
 import java.util.Map;

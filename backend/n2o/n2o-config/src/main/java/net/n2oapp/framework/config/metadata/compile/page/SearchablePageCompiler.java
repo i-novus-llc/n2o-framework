@@ -25,15 +25,15 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     @Override
     public SearchablePage compile(N2oSearchablePage source, PageContext context, CompileProcessor p) {
         SearchablePage page = new SearchablePage();
-        initDefaults(source, context, p);
-        SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getDatasource(), source.getSearchBar().getSearchFilterId());
+        initDefaults(source, p);
+        SearchBarScope searchBarScope = new SearchBarScope(source.getSearchBar().getDatasourceId(), source.getSearchBar().getSearchFilterId());
         searchBarScope.setParam(source.getSearchBar().getSearchParam());
         page = compilePage(source, page, context, p, searchBarScope);
         page.setSearchBar(compileSearchBar(source, page, p));
         return page;
     }
 
-    private void initDefaults(N2oSearchablePage source, PageContext context, CompileProcessor p) {
+    private void initDefaults(N2oSearchablePage source, CompileProcessor p) {
         source.setSearchBar(initSearchBar(source.getSearchBar(), p));
     }
 
@@ -41,13 +41,13 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         N2oSearchablePage.N2oSearchBar result = source;
         if (result == null)
             result = new N2oSearchablePage.N2oSearchBar();
-        result.setSearchParam(p.cast(result.getSearchParam(), result.getDatasource() + "_" + result.getSearchFilterId()));
+        result.setSearchParam(p.cast(result.getSearchParam(), result.getDatasourceId() + "_" + result.getSearchFilterId()));
         return result;
     }
 
     @Override
-    protected Map<String, List<Region>>  initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p,
-                                                     PageContext context, Object... scopes) {
+    protected Map<String, List<Region>> initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p,
+                                                    PageContext context, Object... scopes) {
         Map<String, List<Region>> regions = new HashMap<>();
         initRegions(source.getItems(), regions, "single", context, p, scopes);
         return regions;
@@ -64,7 +64,10 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
         }
         searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
-        searchBar.setDatasource(CompileUtil.generateWidgetId(page.getId(), source.getSearchBar().getDatasource()));
+        String clientDatasourceId = CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId());
+        if (!page.getDatasources().keySet().contains(clientDatasourceId))
+            clientDatasourceId = source.getSearchBar().getDatasourceId();
+        searchBar.setDatasource(clientDatasourceId);
         return searchBar;
     }
 

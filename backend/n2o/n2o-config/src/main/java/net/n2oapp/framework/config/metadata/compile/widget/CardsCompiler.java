@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -39,10 +38,10 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
     @Override
     public Cards compile(N2oCards source, CompileContext<?, ?> context, CompileProcessor p) {
         Cards cards = new Cards();
-        N2oDatasource datasource = initInlineDatasource(cards, source, p);
+        N2oAbstractDatasource datasource = initDatasource(cards, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(cards, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetActions, object, null);
 

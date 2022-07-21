@@ -38,6 +38,7 @@ export const Content = forwardRef(({
         },
     }), [sections, setIgnoreScroll])
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const onScroll = useCallback(debounce((scrollSate) => {
         const content = contentRef.current
 

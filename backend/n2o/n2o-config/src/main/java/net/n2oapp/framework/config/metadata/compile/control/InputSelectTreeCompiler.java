@@ -28,7 +28,6 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
     @Override
     public StandardField<InputSelectTree> compile(N2oInputSelectTree source, CompileContext<?, ?> context, CompileProcessor p) {
         InputSelectTree control = new InputSelectTree();
-        control.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         control.setParentFieldId(p.resolveJS(source.getParentFieldId()));
         control.setHasChildrenFieldId(p.resolveJS(source.getHasChildrenFieldId()));
         control.setHasCheckboxes(p.cast(source.getCheckboxes(), false));

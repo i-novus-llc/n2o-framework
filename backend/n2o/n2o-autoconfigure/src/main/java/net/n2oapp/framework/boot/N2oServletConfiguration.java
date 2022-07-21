@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
@@ -58,7 +59,8 @@ public class N2oServletConfiguration {
     public ServletRegistrationBean pageServlet(MetadataEnvironment env, MetadataRouter router,
                                                AlertMessageBuilder messageBuilder,
                                                SubModelsProcessor subModelsProcessor,
-                                               Optional<ClientCacheTemplate> pageClientCacheTemplate) {
+                                               Optional<ClientCacheTemplate> pageClientCacheTemplate,
+                                               AlertMessagesConstructor messagesConstructor) {
         PageServlet pageServlet = new PageServlet();
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy()
@@ -68,6 +70,7 @@ public class N2oServletConfiguration {
         pageServlet.setRouter(router);
         pageServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
         pageServlet.setMessageBuilder(messageBuilder);
+        pageServlet.setMessagesConstructor(messagesConstructor);
         pageServlet.setSubModelsProcessor(subModelsProcessor);
         pageServlet.setPropertyResolver(env.getSystemProperties());
         pageClientCacheTemplate.ifPresent(pageServlet::setClientCacheTemplate);

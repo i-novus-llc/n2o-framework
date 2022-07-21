@@ -62,32 +62,32 @@ public class DataController extends AbstractController {
             resolveRedirect(requestInfo, response);
             resolveRefresh(requestInfo, response);
             resolveLoading(requestInfo, response);
+            resolveClear(requestInfo, response);
         }
+    }
+
+    private void resolveClear(ActionRequestInfo requestInfo, SetDataResponse response) {
+        if (requestInfo.getClearDatasource() != null)
+            response.addClear(requestInfo.getClearDatasource());
     }
 
     private void resolveLoading(ActionRequestInfo requestInfo, SetDataResponse response) {
         if (requestInfo.getLoading() == null)
             return;
-        LoadingSaga loading = new LoadingSaga();
-        loading.setPageId(requestInfo.getLoading().getPageId());
-        loading.setPosition(requestInfo.getLoading().getPosition());
-        loading.setActive(requestInfo.getLoading().getActive());
-
-        if (response.getMeta() == null)
-            response.setMeta(new MetaSaga());
-        response.getMeta().setLoading(loading);
+        LoadingSaga resolvedLoading = new LoadingSaga();
+        resolvedLoading.setPageId(requestInfo.getLoading().getPageId());
+        resolvedLoading.setPosition(requestInfo.getLoading().getPosition());
+        resolvedLoading.setActive(requestInfo.getLoading().getActive());
+        response.addLoading(resolvedLoading);
     }
 
     private void resolvePolling(ActionRequestInfo requestInfo, SetDataResponse response) {
-        PollingSaga polling = new PollingSaga();
-        polling.setDelay(requestInfo.getPolling().getDelay());
-        polling.setDataProvider(requestInfo.getPolling().getDataProvider());
-        polling.setDatasource(requestInfo.getPolling().getDatasource());
-        polling.setModel(requestInfo.getPolling().getModel());
-
-        if (response.getMeta() == null)
-            response.setMeta(new MetaSaga());
-        response.getMeta().setPolling(polling);
+        PollingSaga resolvedPolling = new PollingSaga();
+        resolvedPolling.setDelay(requestInfo.getPolling().getDelay());
+        resolvedPolling.setDataProvider(requestInfo.getPolling().getDataProvider());
+        resolvedPolling.setDatasource(requestInfo.getPolling().getDatasource());
+        resolvedPolling.setModel(requestInfo.getPolling().getModel());
+        response.addPolling(resolvedPolling);
     }
 
     private void resolveRedirect(ActionRequestInfo requestInfo, SetDataResponse response) {
@@ -114,9 +114,7 @@ public class DataController extends AbstractController {
         if (requestInfo.getRefresh() != null) {
             RefreshSaga resolvedRefresh = new RefreshSaga();
             resolvedRefresh.setDatasources(requestInfo.getRefresh().getDatasources());
-
-            if (response.getMeta() == null) response.setMeta(new MetaSaga());
-            response.getMeta().setRefresh(resolvedRefresh);
+            response.addRefresh(resolvedRefresh);
         }
     }
 }
