@@ -135,12 +135,13 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String id;
         private String name;
         private String domain;
+        @Deprecated
         private String expression;
-        private String sortingBody;
+        private String sortingExpression;
         private String sortingMapping;
-        private String selectBody; //= select body
-        private String selectDefaultValue; // = default value in select
-        private String selectMapping; // = selectMapping in select
+        private String selectExpression;
+        private String defaultValue;
+        private String mapping;
         private String normalize;
         @Deprecated
         private Filter[] filterList;

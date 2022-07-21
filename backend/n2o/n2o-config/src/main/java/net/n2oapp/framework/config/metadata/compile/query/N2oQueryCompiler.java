@@ -146,8 +146,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         List<String> select = new ArrayList<>();
         List<String> join = new ArrayList<>();
         query.getDisplayFields().forEach(f -> {
-            if (f.getSelectBody() != null)
-                select.add(f.getSelectBody());
+            if (f.getSelectExpression() != null)
+                select.add(f.getSelectExpression());
             if ((f.getNoJoin() == null || !f.getNoJoin()) && f.getJoinBody() != null) {
                 join.add(f.getJoinBody());
             }
@@ -221,8 +221,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     private List<N2oQuery.Field> replaceExpression(List<N2oQuery.Field> fields, N2oQuery source) {
         for (N2oQuery.Field field : fields) {
             if ((field.getExpression() == null)) continue;
-            field.setSelectBody(replace(field.getSelectBody(), field.getExpression()));
-            field.setSortingBody(replace(field.getSortingBody(), field.getExpression()));
+            field.setSelectExpression(replace(field.getSelectExpression(), field.getExpression()));
+            field.setSortingExpression(replace(field.getSortingExpression(), field.getExpression()));
             if (source.getFiltersList(field.getId()) != null)
                 for (N2oQuery.Filter filter : source.getFiltersList(field.getId())) {
                     filter.setText(replace(filter.getText(), field.getExpression()));
@@ -248,8 +248,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
 
     private List<N2oQuery.Field> initDefaultMapping(List<N2oQuery.Field> fields) {
         for (N2oQuery.Field field : fields) {
-            if (!field.getNoDisplay() && field.getSelectMapping() == null)
-                field.setSelectMapping(spel(field.getId()));
+            if (!field.getNoDisplay() && field.getMapping() == null)
+                field.setMapping(spel(field.getId()));
             if (!field.getNoSorting() && field.getSortingMapping() == null)
                 field.setSortingMapping(spel(field.getId() + "Direction"));
         }
@@ -268,8 +268,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     public static Map<String, String> initDisplayValues(List<N2oQuery.Field> displayFields) {
         Map<String, String> displayValues = new HashMap<>();
         for (N2oQuery.Field field : displayFields) {
-            if (field.getSelectDefaultValue() != null) {
-                displayValues.put(field.getId(), checkForNull(field.getSelectDefaultValue()));
+            if (field.getDefaultValue() != null) {
+                displayValues.put(field.getId(), checkForNull(field.getDefaultValue()));
             }
         }
         return displayValues;

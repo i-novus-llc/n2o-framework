@@ -266,7 +266,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 N2oQuery.Field field = query.getFieldsMap().get(sorting.getField());
                 if (field.getNoSorting())
                     continue;
-                sortingExp.add(field.getSortingBody());
+                sortingExp.add(field.getSortingExpression());
                 inMap(map, field.getSortingMapping(), sorting.getDirection().getExpression());
                 if (!field.getNoJoin())
                     joins.add(field.getJoinBody());
@@ -400,7 +400,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private DataSet mapFields(Object entry, List<N2oQuery.Field> fields) {
         DataSet resultDataSet = new DataSet();
-        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getSelectMapping(), f.getSelectDefaultValue(), contextProcessor));
+        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getMapping(), f.getDefaultValue(), contextProcessor));
         return normalizeDataSet(resultDataSet, fields);
     }
 

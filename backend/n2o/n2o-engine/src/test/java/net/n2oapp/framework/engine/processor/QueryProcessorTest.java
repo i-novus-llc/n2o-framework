@@ -209,6 +209,6 @@ public class QueryProcessorTest {
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         DataSet first = result.getCollection().iterator().next();
         assertThat(first.get("normTest"), is(Integer.MAX_VALUE));
-        assertThat(query.getFieldsMap().get("normTest").getSelectDefaultValue(), is("defaultValue"));
+        assertThat(query.getFieldsMap().get("normTest").getDefaultValue(), is("defaultValue"));
     }
 }
