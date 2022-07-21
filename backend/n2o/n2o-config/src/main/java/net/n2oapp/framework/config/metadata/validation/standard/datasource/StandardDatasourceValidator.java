@@ -86,10 +86,10 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
         if (datasource.getFilters() != null) {
             if (query == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но не задана выборка", datasourceId));
+                        String.format("Источник данных '%s' имеет префильтры, но не задана выборка", datasource.getId()));
             if (query.getFilters() == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных %s имеет префильтры, но в выборке '%s' нет filters!", datasourceId, query.getId()));
+                        String.format("Источник данных '%s' имеет префильтры, но в выборке '%s' нет filters!", datasource.getId(), query.getId()));
 
             for (N2oPreFilter preFilter : datasource.getFilters()) {
                 String fieldId = ValidationUtils.getIdOrEmptyString(preFilter.getFieldId());
