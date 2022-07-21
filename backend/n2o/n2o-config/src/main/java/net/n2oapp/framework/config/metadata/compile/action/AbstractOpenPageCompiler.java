@@ -157,6 +157,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(p.getScope(BreadcrumbList.class));
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
+        pageContext.setSubmitMessageOnSuccess(source.getSubmitMessageOnSuccess());
+        pageContext.setSubmitMessageOnFail(source.getSubmitMessageOnFail());
         pageContext.setSubmitLabel(source.getSubmitLabel());
         pageContext.setSubmitModel(source.getSubmitModel());
         pageContext.setSubmitActionType(source.getSubmitActionType());

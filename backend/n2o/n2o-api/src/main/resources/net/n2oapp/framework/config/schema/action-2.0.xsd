@@ -76,6 +76,11 @@
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
+                <xs:attribute name="page-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="page-name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Кастомное имя открываемой страницы</xs:documentation>
@@ -87,6 +92,18 @@
                             На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена". Кнопка
                             "Сохранить" будет выполнять заданную операцию объекта.
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="submit-message-on-success" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Показать сообщение после успешного выполнения операции объекта.
+                            Актуально только, если указан атрибут submit-operation-id.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="submit-message-on-fail" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Показать сообщение после неудачного выполнения операции объекта.
+                            Актуально только, если указан атрибут submit-operation-id.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="object-id" type="xs:string" use="optional">
@@ -157,11 +174,6 @@
                 <xs:annotation>
                     <xs:documentation>Открыть страницу поверх текущей.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="page-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -172,11 +184,6 @@
                 <xs:annotation>
                     <xs:documentation>Действие открытия модального окна.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="page-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="modal-size" type="modalSize" default="lg">
                     <xs:annotation>
                         <xs:documentation>Размер модального окна.</xs:documentation>
@@ -323,11 +330,6 @@
                 <xs:annotation>
                     <xs:documentation>Открыть страницу в drawer окне.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="page-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="refresh-datasources" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
