@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -77,7 +78,7 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getPaging().getSize(), is(5));
         assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
 
-        assertThat(page.getDatasources().get(tiles.getDatasource()).getProvider().getSize(), is(5));
+        assertThat(((StandardDatasource) page.getDatasources().get(tiles.getDatasource())).getProvider().getSize(), is(5));
 
         tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(tiles.getSrc(), is("TilesWidget"));

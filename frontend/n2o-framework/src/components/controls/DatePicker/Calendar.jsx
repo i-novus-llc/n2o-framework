@@ -281,7 +281,7 @@ class Calendar extends React.Component {
             const disabledDaysBeyondTheScopeBeginMax = disableDaysBefore(begin) || disableDaysAfter(max)
 
             // default range (min or max)
-            // eslint-disable-next-line no-unused-vars,no-return-assign
+            // eslint-disable-next-line no-unused-vars,no-return-assign, @typescript-eslint/no-unused-vars
             const rangeMinMax = disabledDays => (disabledDays = disabledDaysBeyondTheScopeMinMax)
 
             // если не выбрана дата(begin) ||  min or max

@@ -356,7 +356,7 @@ describe('FileUploader Тесты', () => {
             },
         })
         button.update()
-        setImmediate(() => {
+        setTimeout(() => {
             expect(button.state().files).toEqual([
                 {
                     id: 2,

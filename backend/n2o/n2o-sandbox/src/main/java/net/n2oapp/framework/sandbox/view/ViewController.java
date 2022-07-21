@@ -23,6 +23,7 @@ import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -98,7 +99,8 @@ public class ViewController {
     private N2oOperationProcessor operationProcessor;
     @Autowired
     private Environment environment;
-
+    @Autowired
+    private AlertMessagesConstructor messagesConstructor;
     @Autowired
     private RouteRegister projectRouteRegister;
     @Autowired
@@ -169,6 +171,7 @@ public class ViewController {
 
             return appConfigJsonWriter.getValues(addedValues);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -191,6 +194,7 @@ public class ViewController {
 
             return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -208,9 +212,10 @@ public class ViewController {
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
             GetDataResponse response = dataController.getData(path, request.getParameterMap(),
-                    getUserContext());
+                    new UserContext(sandboxContext));
             return ResponseEntity.status(response.getStatus()).body(response);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -249,9 +254,10 @@ public class ViewController {
                     request.getParameterMap(),
                     getHeaders(request),
                     getBody(body),
-                    getUserContext());
+                    new UserContext(sandboxContext));
             return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -276,7 +282,7 @@ public class ViewController {
         logger.error(e.getMessage(), e);
         MetaSaga meta = new MetaSaga();
         meta.setAlert(new AlertSaga());
-        meta.getAlert().setMessages(Collections.singletonList(messageBuilder.build(e)));
+        meta.getAlert().setMessages(messagesConstructor.constructMessages(e));
         N2oResponse dataResponse = new N2oResponse();
         dataResponse.setMeta(meta);
         return dataResponse;
@@ -437,13 +443,8 @@ public class ViewController {
         return new MessageSourceAccessor(messageSource);
     }
 
-    private UserContext getUserContext() {
-        sandboxContext.refresh();
-        return new UserContext(sandboxContext);
-    }
-
     private Map<String, Object> getUserInfo() {
-        UserContext userContext = getUserContext();
+        UserContext userContext = new UserContext(sandboxContext);
         Map<String, Object> user = new HashMap<>();
         user.put("username", userContext.get("username"));
         user.put("roles", userContext.get("roles"));

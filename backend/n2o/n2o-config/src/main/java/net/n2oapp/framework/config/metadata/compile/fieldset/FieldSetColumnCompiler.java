@@ -32,6 +32,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
         column.setClassName(source.getCssClass());
         column.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         column.setSize(source.getSize());
+        column.setProperties(p.mapAttributes(source));
         column.setVisible(ScriptProcessor.resolveExpression(source.getVisible()));
         FieldSetVisibilityScope scope = initVisibilityScope(source, p);
         if (source.getItems() != null && source.getItems().length > 0) {

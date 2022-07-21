@@ -12,8 +12,6 @@ import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
 @Setter
 public class InputSelectTree extends ListControl {
     @JsonProperty
-    private String placeholder;
-    @JsonProperty
     private String parentFieldId;
     @JsonProperty
     private String hasChildrenFieldId;

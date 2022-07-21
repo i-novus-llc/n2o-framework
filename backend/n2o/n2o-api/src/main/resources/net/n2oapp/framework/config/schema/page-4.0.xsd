@@ -367,24 +367,8 @@
         <xs:annotation>
             <xs:documentation>Источники данных.</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="datasource" type="datasourceDefinition" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="datasourceDefinition">
-        <xs:annotation>
-            <xs:documentation>Источник данных.</xs:documentation>
-        </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="ds:datasourceDefinition">
-                <xs:attribute name="id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор источника данных.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
+            <xs:extension base="ds:datasources"/>
         </xs:complexContent>
     </xs:complexType>
-
 </xs:schema>

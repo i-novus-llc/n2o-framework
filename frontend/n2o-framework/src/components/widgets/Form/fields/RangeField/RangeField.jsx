@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers, mapProps } from 'recompose'
 import get from 'lodash/get'
-import cx from 'classnames'
+import classNames from 'classnames'
+import { omit } from 'lodash'
 
 import Control from '../StandardField/Control'
 import Measure from '../StandardField/Measure'
@@ -53,7 +54,6 @@ export function RangeFieldComponent({
     id,
     visible,
     label,
-    control,
     description,
     measure,
     required,
@@ -66,18 +66,14 @@ export function RangeFieldComponent({
     loading,
     autoFocus,
     labelStyle,
-    controlStyle,
     labelClass,
     validationClass,
-    controlClass,
     onFocus,
     onBlur,
     placeholder,
     touched,
     message,
     help,
-    value,
-    onChange,
     onBeginValueChange,
     onEndValueChange,
     begin,
@@ -85,6 +81,7 @@ export function RangeFieldComponent({
     divider,
     ...props
 }) {
+    const omited = omit(props, ['control', 'controlClass', 'value', 'onChange', 'controlStyle'])
     const validationMap = {
         'is-valid': 'text-success',
         'is-invalid': 'text-danger',
@@ -112,7 +109,7 @@ export function RangeFieldComponent({
 
     return visible ? (
         <div
-            className={cx(
+            className={classNames(
                 'n2o-range-field',
                 'n2o-form-group',
                 'form-group',
@@ -127,7 +124,7 @@ export function RangeFieldComponent({
                 id={id}
                 value={label}
                 style={extendedLabelStyle}
-                className={cx(
+                className={classNames(
                     labelClass,
                     { [`label-alignment-${labelAlignment}`]: labelAlignment },
                     'n2o-label',
@@ -137,7 +134,7 @@ export function RangeFieldComponent({
             />
             <div className="n2o-range-field-body">
                 <div
-                    className={cx(
+                    className={classNames(
                         'n2o-range-field-controls-container',
                         'd-flex',
                         'align-items-center',
@@ -157,8 +154,8 @@ export function RangeFieldComponent({
                                 onFocus={onFocus}
                                 onChange={onBeginValueChange}
                                 {...beginControl}
-                                {...props}
-                                className={cx(beginControl && beginControl.className, {
+                                {...omited}
+                                className={classNames(beginControl && beginControl.className, {
                                     [validationClass]: touched,
                                 })}
                             />
@@ -177,8 +174,8 @@ export function RangeFieldComponent({
                                 onFocus={onFocus}
                                 onChange={onEndValueChange}
                                 {...endControl}
-                                {...props}
-                                className={cx(endControl && endControl.className, {
+                                {...omited}
+                                className={classNames(endControl && endControl.className, {
                                     [validationClass]: touched,
                                 })}
                             />
@@ -191,7 +188,7 @@ export function RangeFieldComponent({
             </div>
             <Description value={description} />
             <div
-                className={cx('n2o-validation-message', validationMap[validationClass])}
+                className={classNames('n2o-validation-message', validationMap[validationClass])}
             >
                 {touched && message && message.text}
             </div>
