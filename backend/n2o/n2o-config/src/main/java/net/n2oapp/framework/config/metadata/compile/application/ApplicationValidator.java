@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarPathsScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,14 +25,14 @@ public class ApplicationValidator extends TypedMetadataValidator<N2oApplication>
     public void validate(N2oApplication application, SourceProcessor p) {
         if (application.getHeader() != null)
             checkHeader(application.getHeader(), p);
+
+        DataSourcesScope dataSourcesScope = new DataSourcesScope();
+        p.safeStreamOf(application.getDatasources()).forEach(d -> dataSourcesScope.put(d.getId(), d));
+
         if (application.getSidebars() != null) {
-
-            DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope();
-            p.safeStreamOf(application.getDatasources()).forEach(datasource -> datasourceIdsScope.add(datasource.getId()));
-
             SidebarPathsScope sidebarsPaths = new SidebarPathsScope();
             for (N2oSidebar sidebar : application.getSidebars())
-                p.validate(sidebar, sidebarsPaths, datasourceIdsScope);
+                p.validate(sidebar, sidebarsPaths, dataSourcesScope);
         }
     }
 

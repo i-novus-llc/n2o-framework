@@ -131,15 +131,11 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
 
     private Map<String, AbstractDatasource> initDatasources(DataSourcesScope dataSourcesScope, ApplicationContext context,
                                                             CompileProcessor p) {
-        if (dataSourcesScope == null)
-            return null;
         Map<String, AbstractDatasource> result = new HashMap<>();
-        if (!dataSourcesScope.isEmpty()) {
-            dataSourcesScope.values().forEach(ds -> {
-                AbstractDatasource compiled = p.compile(ds, context);
-                result.put(compiled.getId(), compiled);
-            });
-        }
+        dataSourcesScope.values().forEach(ds -> {
+            AbstractDatasource compiled = p.compile(ds, context);
+            result.put(compiled.getId(), compiled);
+        });
         return result;
     }
 

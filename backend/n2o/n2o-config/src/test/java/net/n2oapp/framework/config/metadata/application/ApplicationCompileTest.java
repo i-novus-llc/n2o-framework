@@ -130,12 +130,12 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
                 .get(new ApplicationContext("inlineSidebarDatasource"));
         assertThat(application.getWsPrefix(), nullValue());
 
-        Datasource datasource = (Datasource) application.getDatasources().get("person");
+        StandardDatasource datasource = (StandardDatasource) application.getDatasources().get("person");
         assertThat(datasource.getId(), is("person"));
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/person"));
         assertThat(datasource.getProvider().getQueryMapping().get("person_id").getValue(), is(":person_id"));
 
-        datasource = (Datasource) application.getDatasources().get("home");
+        datasource = (StandardDatasource) application.getDatasources().get("home");
         assertThat(datasource.getId(), is("home"));
     }
 }

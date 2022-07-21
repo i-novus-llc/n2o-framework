@@ -4,11 +4,10 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -58,9 +57,10 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
     private void initInlineDatasource(Sidebar compiled, N2oSidebar source, CompileProcessor p) {
         String datasourceId = source.getDatasourceId();
         if (source.getDatasourceId() == null && source.getDatasource() != null) {
-            N2oDatasource datasource = source.getDatasource();
+            N2oStandardDatasource datasource = source.getDatasource();
             datasourceId = datasource.getId();
             source.setDatasourceId(datasourceId);
+            source.setDatasource(null);
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null)
                 dataSourcesScope.put(datasourceId, datasource);
