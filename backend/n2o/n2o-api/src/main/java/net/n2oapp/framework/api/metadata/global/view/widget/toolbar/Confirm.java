@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
@@ -34,11 +33,19 @@ public class Confirm implements Compiled {
     private Button cancel;
 
     @Getter
-    @AllArgsConstructor
+    @Setter
     public static class Button implements Compiled {
         @JsonProperty
-        private final String label;
+        private String label;
         @JsonProperty
-        private final String color;
+        private String color;
+
+        public Button() {
+        }
+
+        public Button(String label, String color) {
+            this.label = label;
+            this.color = color;
+        }
     }
 }
