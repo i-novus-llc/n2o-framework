@@ -19,12 +19,12 @@ describe('<ModalDialog />', () => {
         expect(wrapper.find('Modal').exists()).toBeTruthy()
     })
 
-    it('должны проставится title, text, okLabel, cancelLabel', () => {
+    it('должны подставиться title, text, okLabel, cancelLabel', () => {
         const wrapper = setup({
             title: 'Title',
             text: 'Text',
-            okLabel: 'OK',
-            cancelLabel: 'CANCEL',
+            ok: { label: 'OK' },
+            cancel: { label: 'CANCEL' },
         })
 
         expect(wrapper.find('ModalHeader').text()).toBe('Title')
@@ -41,6 +41,38 @@ describe('<ModalDialog />', () => {
                 .last()
                 .text(),
         ).toBe('CANCEL')
+    })
+
+    it('должны подставиться okColor, cancelColor', () => {
+        const wrapper = setup({
+            ok: { color: 'info' },
+            cancel: { color: 'tertiary' },
+        })
+
+        expect(
+            wrapper
+                .find('Button')
+                .first()
+                .hasClass('btn-info')
+        )
+        expect(
+            wrapper
+                .find('Button')
+                .last()
+                .hasClass('btn-tertiary')
+        )
+    })
+
+    it('должны отрендериться кнопки в ином порядке', () => {
+        const wrapper = setup({
+            reverseButtons: true
+        })
+
+        expect(
+            wrapper
+                .find('ButtonGroup')
+                .hasClass('flex-row-reverse')
+        )
     })
 
     it('должен вызываться onConfirm', () => {
