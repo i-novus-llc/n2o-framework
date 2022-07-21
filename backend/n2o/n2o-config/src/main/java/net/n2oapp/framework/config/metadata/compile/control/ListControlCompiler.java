@@ -34,12 +34,11 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
 
     protected StandardField<T> compileListControl(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
         listControl.setFormat(p.resolveJS(source.getFormat()));
-        initDefaults(source, context, p);
         listControl.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
         listControl.setSortFieldId(p.cast(source.getSortFieldId(), listControl.getLabelFieldId()));
         listControl.setValueFieldId(p.cast(p.resolveJS(source.getValueFieldId()), "id"));
         listControl.setIconFieldId(p.resolveJS(source.getIconFieldId()));
-        listControl.setBadge(initBadge(source));
+        listControl.setBadge(initBadge(source, p));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
         listControl.setHasSearch(source.getSearch());
@@ -63,30 +62,18 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         return compileStandardField(listControl, source, context, p);
     }
 
-    private Badge initBadge(S source) {
+    private Badge initBadge(S source, CompileProcessor p) {
         if (source.getBadgeFieldId() == null && source.getBadgeColorFieldId() == null && source.getBadgeImageFieldId() == null)
             return null;
         return Badge.builder()
                 .fieldId(source.getBadgeFieldId())
                 .colorFieldId(source.getBadgeColorFieldId())
                 .imageFieldId(source.getBadgeImageFieldId())
-                .imagePosition(source.getBadgeImagePosition())
-                .imageShape(source.getBadgeImageShape())
-                .position(source.getBadgePosition())
-                .shape(source.getBadgeShape())
+                .imagePosition(p.cast(source.getBadgeImagePosition(), p.resolve(property("n2o.api.control.list.badge.image_position"), Position.class)))
+                .imageShape(p.cast(source.getBadgeImageShape(), p.resolve(property("n2o.api.control.list.badge.image_shape"), Shape.class)))
+                .position(p.cast(source.getBadgePosition(), p.resolve(property("n2o.api.control.list.badge.position"), Position.class)))
+                .shape(p.cast(source.getBadgeShape(), p.resolve(property("n2o.api.control.list.badge.shape"), Shape.class)))
                 .build();
-    }
-
-    @Override
-    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setBadgePosition(p.cast(source.getBadgePosition(),
-                p.resolve(property("n2o.api.control.list.badge.position"), Position.class)));
-        source.setBadgeShape(p.cast(source.getBadgeShape(),
-                p.resolve(property("n2o.api.control.list.badge.shape"), Shape.class)));
-        source.setBadgeImagePosition(p.cast(source.getBadgeImagePosition(),
-                p.resolve(property("n2o.api.control.list.badge.image_position"), Position.class)));
-        source.setBadgeImageShape(p.cast(source.getBadgeImageShape(),
-                p.resolve(property("n2o.api.control.list.badge.image_shape"), Shape.class)));
     }
 
     @Override
