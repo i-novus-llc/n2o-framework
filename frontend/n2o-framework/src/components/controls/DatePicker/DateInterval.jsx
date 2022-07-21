@@ -29,7 +29,6 @@ function DateInterval({
     defaultValue,
     onChange,
     onBlur,
-    config,
     ...rest
 }) {
     const newValue = defaults(value, defaultValue)

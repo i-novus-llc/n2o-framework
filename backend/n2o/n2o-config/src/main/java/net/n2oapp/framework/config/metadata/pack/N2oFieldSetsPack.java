@@ -5,6 +5,8 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.fieldset.*;
 import net.n2oapp.framework.config.metadata.compile.widget.FieldSetBinder;
 import net.n2oapp.framework.config.metadata.compile.widget.StandardFieldBinder;
+import net.n2oapp.framework.config.metadata.merge.fieldset.N2oFieldSetMerger;
+import net.n2oapp.framework.config.metadata.merge.fieldset.N2oLineFieldSetMerger;
 
 public class N2oFieldSetsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override

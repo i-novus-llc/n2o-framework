@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,  @typescript-eslint/no-unused-vars */
 const METHODS = {
     fetchData() {},
     setFilter(filterModel) {},
