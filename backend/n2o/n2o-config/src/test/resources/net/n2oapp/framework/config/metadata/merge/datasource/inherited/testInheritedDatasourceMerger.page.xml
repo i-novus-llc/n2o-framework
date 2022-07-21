@@ -1,0 +1,16 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button id="btn1">
+            <show-modal page-id="testInheritedDatasourceMergerModal" route="/modal">
+                <datasources>
+                    <inherited-datasource id="ids" size="15" source-datasource="ids" source-field-id="field1" source-model="filter">
+                        <submit model="edit" auto="false" target-datasource="ids" target-field-id="field2" target-model="filter"/>
+                        <dependencies>
+                            <fetch model="filter" on="ids"/>
+                        </dependencies>
+                    </inherited-datasource>
+                </datasources>
+            </show-modal>
+        </button>
+    </toolbar>
+</page>

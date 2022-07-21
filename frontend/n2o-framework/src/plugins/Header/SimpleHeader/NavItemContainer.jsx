@@ -13,6 +13,12 @@ import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemI
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { resolveItem } from '../../../utils/propsResolver'
 
+const LinkTarget = {
+    Application: 'application',
+    Blank: '_blank',
+    Self: '_self',
+}
+
 export const getFromSource = (props, datasources, datasource, models) => {
     if (!datasource) {
         return props
@@ -78,13 +84,15 @@ const NavItemContainer = ({
     )
 
     const handleLink = (item, className) => {
+        const target = item.target === LinkTarget.Application ? LinkTarget.Self : item.target
+
         if (item.linkType === 'outer') {
             return (
                 <NavItem>
                     <a
                         className={cx('nav-link', className)}
                         href={item.href}
-                        target={item.target}
+                        target={target}
                     >
                         {!item.imageSrc && item.icon && <i className={cx('mr-1', item.icon)} />}
                         <NavItemImage
@@ -106,7 +114,7 @@ const NavItemContainer = ({
                     className={cx('nav-link', className, { active })}
                     to={item.href}
                     activeClassName="active"
-                    target={item.target}
+                    target={target}
                 >
                     {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
                     <NavItemImage

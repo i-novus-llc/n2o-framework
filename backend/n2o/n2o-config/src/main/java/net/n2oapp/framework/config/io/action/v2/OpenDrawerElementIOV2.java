@@ -16,7 +16,7 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
     @Override
     public void io(Element e, N2oOpenDrawer od, IOProcessor p) {
         super.io(e, od, p);
-        p.attributeArray(e,"refresh-datasources", ",", od::getRefreshDatasources, od::setRefreshDatasources);
+        p.attributeArray(e,"refresh-datasources", ",", od::getRefreshDatasourceIds, od::setRefreshDatasourceIds);
         p.attributeBoolean(e, "closable", od::getClosable, od::setClosable);
         p.attributeBoolean(e, "backdrop", od::getBackdrop, od::setBackdrop);
         p.attributeBoolean(e, "close-on-backdrop", od::getCloseOnBackdrop, od::setCloseOnBackdrop);
@@ -27,10 +27,10 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
         p.attributeBoolean(e,"fixed-footer", od::getFixedFooter, od::setFixedFooter);
         p.attributeEnum(e, "submit-action-type", od::getSubmitActionType, od::setSubmitActionType, SubmitActionType.class);
         p.attributeEnum(e, "copy-model", od::getCopyModel, od::setCopyModel, ReduxModel.class);
-        p.attribute(e, "copy-datasource", od::getCopyDatasource, od::setCopyDatasource);
+        p.attribute(e, "copy-datasource", od::getCopyDatasourceId, od::setCopyDatasourceId);
         p.attribute(e, "copy-field-id", od::getCopyFieldId, od::setCopyFieldId);
         p.attributeEnum(e, "target-model", od::getTargetModel, od::setTargetModel, ReduxModel.class);
-        p.attribute(e, "target-datasource", od::getTargetDatasource, od::setTargetDatasource);
+        p.attribute(e, "target-datasource", od::getTargetDatasourceId, od::setTargetDatasourceId);
         p.attribute(e, "target-field-id", od::getTargetFieldId, od::setTargetFieldId);
         p.attributeEnum(e, "copy-mode", od::getCopyMode, od::setCopyMode, CopyMode.class);
         p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);

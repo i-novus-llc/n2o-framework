@@ -37,7 +37,7 @@ public class N2oParam implements Serializable {
     /**
      * Идентификатор источника данных на странице, на который ссылается параметр
      */
-    private String datasource;
+    private String datasourceId;
 
     /**
      * Модель виджета, на который ссылается параметр
@@ -55,16 +55,16 @@ public class N2oParam implements Serializable {
         this.value = param.value;
         this.model = param.model;
         this.refPageId = param.refPageId;
-        this.datasource = param.datasource;
+        this.datasourceId = param.datasourceId;
     }
 
     @Deprecated
     public String getRefWidgetId() {
-        return datasource;
+        return datasourceId;
     }
 
     @Deprecated
     public void setRefWidgetId(String refWidgetId) {
-        this.datasource = refWidgetId;
+        this.datasourceId = refWidgetId;
     }
 }
