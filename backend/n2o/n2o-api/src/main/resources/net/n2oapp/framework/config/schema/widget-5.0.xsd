@@ -60,7 +60,7 @@
                 </xs:complexType>
             </xs:element>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
-            <xs:element name="datasource" type="ds:datasourceDefinition" minOccurs="0"/>
+            <xs:element name="datasource" type="inlineDatasourceDefinition" minOccurs="0"/>
             <xs:element name="dependencies" minOccurs="0">
                 <xs:complexType>
                     <xs:sequence>
@@ -130,6 +130,17 @@
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="inlineDatasourceDefinition">
+        <xs:annotation>
+            <xs:documentation>Встроенный источник данных виджета.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ds:standardDatasourceDefinition">
+                <xs:attribute name="id" use="prohibited"/>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="actionDefinition">
@@ -466,34 +477,36 @@
             <xs:documentation>Многоуровневый столбец таблицы.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:sequence>
-                <xs:annotation>
-                    <xs:documentation>Внутренние столбцы.</xs:documentation>
-                </xs:annotation>
-                <xs:element name="column" type="columnDefinition" minOccurs="0"/>
-                <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
-                <xs:element name="multi-column" type="multiColumnDefinition" minOccurs="0"/>
-            </xs:sequence>
-            <xs:attribute name="label">
-                <xs:annotation>
-                    <xs:documentation>Наименование заголовка столбца.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="src" type="xs:string" default="TextTableHeader">
-                <xs:annotation>
-                    <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="class" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="style" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
+            <xs:extension base="baseColumnDefinition">
+                <xs:sequence>
+                    <xs:annotation>
+                        <xs:documentation>Внутренние столбцы.</xs:documentation>
+                    </xs:annotation>
+                    <xs:element name="column" type="columnDefinition" minOccurs="0"/>
+                    <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
+                    <xs:element name="multi-column" type="multiColumnDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="label">
+                    <xs:annotation>
+                        <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="src" type="xs:string" default="TextTableHeader">
+                    <xs:annotation>
+                        <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
@@ -801,17 +814,17 @@
                 <xs:annotation>
                     <xs:documentation>Html виджет.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="content" type="htmlContentDefinition">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Контент для отображения html.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
-        <xs:sequence>
-            <xs:element name="content" type="htmlContentDefinition">
-                <xs:annotation>
-                    <xs:documentation>
-                        Контент для отображения html.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
     </xs:complexType>
 
 
@@ -887,23 +900,23 @@
                 <xs:annotation>
                     <xs:documentation>Ячейка с содержимым блока.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор блока.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отображаемое в блоке в виде текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tooltip-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
-        <xs:attribute name="id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор блока.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="text-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Поле выборки, отображаемое в блоке в виде текста.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="tooltip-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="tilesBlockDefinition">
@@ -1192,7 +1205,9 @@
                 </xs:attribute>
                 <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор источника данных значений по умолчанию для фильтров.</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор источника данных значений по умолчанию для фильтров.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

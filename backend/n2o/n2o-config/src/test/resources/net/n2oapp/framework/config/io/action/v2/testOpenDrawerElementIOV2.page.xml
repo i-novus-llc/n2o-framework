@@ -11,7 +11,8 @@
                          level="all" close-on-backdrop="true"
                          copy-model="edit" copy-datasource="table" copy-field-id="test"
                          submit-action-type="copy" target-model="resolve" target-datasource="table"
-                         target-field-id="test" copy-mode="replace" close-on-escape="false">
+                         target-field-id="test" copy-mode="replace" close-on-escape="false"
+                         submit-message-on-success="true" submit-message-on-fail="false">
             </open-drawer>
         </action>
     </actions>

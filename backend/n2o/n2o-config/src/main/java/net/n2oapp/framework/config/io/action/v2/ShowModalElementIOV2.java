@@ -18,13 +18,13 @@ public class ShowModalElementIOV2 extends AbstractOpenPageElementIOV2<N2oShowMod
         super.io(e, sm, p);
         p.attribute(e, "modal-size", sm::getModalSize, sm::setModalSize);
         p.attributeBoolean(e, "scrollable", sm::getScrollable, sm::setScrollable);
-        p.attributeArray(e, "refresh-datasources", ",", sm::getRefreshDatasources, sm::setRefreshDatasources);
+        p.attributeArray(e, "refresh-datasources", ",", sm::getRefreshDatasourceIds, sm::setRefreshDatasourceIds);
         p.attributeEnum(e, "submit-action-type", sm::getSubmitActionType, sm::setSubmitActionType, SubmitActionType.class);
         p.attributeEnum(e, "copy-model", sm::getCopyModel, sm::setCopyModel, ReduxModel.class);
-        p.attribute(e, "copy-datasource", sm::getCopyDatasource, sm::setCopyDatasource);
+        p.attribute(e, "copy-datasource", sm::getCopyDatasourceId, sm::setCopyDatasourceId);
         p.attribute(e, "copy-field-id", sm::getCopyFieldId, sm::setCopyFieldId);
         p.attributeEnum(e, "target-model", sm::getTargetModel, sm::setTargetModel, ReduxModel.class);
-        p.attribute(e, "target-datasource", sm::getTargetDatasource, sm::setTargetDatasource);
+        p.attribute(e, "target-datasource", sm::getTargetDatasourceId, sm::setTargetDatasourceId);
         p.attribute(e, "target-field-id", sm::getTargetFieldId, sm::setTargetFieldId);
         p.attributeEnum(e, "copy-mode", sm::getCopyMode, sm::setCopyMode, CopyMode.class);
         p.attributeBoolean(e, "has-header", sm::getHasHeader, sm::setHasHeader);

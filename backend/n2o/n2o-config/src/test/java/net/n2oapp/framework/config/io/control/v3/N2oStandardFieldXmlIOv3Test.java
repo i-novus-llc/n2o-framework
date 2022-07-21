@@ -5,14 +5,13 @@ import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
 import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
-import net.n2oapp.framework.config.reader.control.N2oStandardControlReaderTestBase;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
  * Тестирование чтения/записи стандартного поля
  */
-public class N2oStandardFieldXmlIOv3Test extends N2oStandardControlReaderTestBase {
+public class N2oStandardFieldXmlIOv3Test {
     @Test
     public void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();

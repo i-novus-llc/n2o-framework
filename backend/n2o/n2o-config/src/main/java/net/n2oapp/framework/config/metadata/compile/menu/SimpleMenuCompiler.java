@@ -55,7 +55,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         compiled.setIcon(source.getIcon());
         compiled.setImageSrc(p.resolveJS(source.getImage()));
         compiled.setImageShape(source.getImageShape());
-        compiled.setDatasource(source.getDatasource());
+        compiled.setDatasource(source.getDatasourceId());
         if (source instanceof N2oSimpleMenu.MenuItem) {
             menuItem((N2oSimpleMenu.MenuItem) source, compiled, p, context);
         }

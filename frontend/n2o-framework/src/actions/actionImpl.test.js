@@ -1,5 +1,5 @@
 import { START_INVOKE } from '../constants/actionImpls'
-import { MODEL_PREFIX } from '../core/datasource/const'
+import { ModelPrefix } from '../core/datasource/const'
 
 import { startInvoke } from './actionImpl'
 
@@ -10,7 +10,7 @@ const dataProvider = {
     queryMapping: {},
 }
 const page_id = 'page_id'
-const model = MODEL_PREFIX.active
+const model = ModelPrefix.active
 
 describe('Тесты для экшена actionImpl', () => {
     it('Генирирует правильное событие', () => {

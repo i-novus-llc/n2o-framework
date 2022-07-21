@@ -1,5 +1,7 @@
 package net.n2oapp.framework.access.metadata.accesspoint.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 
 import java.util.Arrays;
@@ -8,35 +10,13 @@ import java.util.Objects;
 /**
  * Точка доступа к объекту
  */
+@Getter
+@Setter
 public class N2oObjectAccessPoint extends AccessPoint {
 
     private String objectId;
     private String action;
     private String[] removeFilters;
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public String[] getRemoveFilters() {
-        return removeFilters;
-    }
-
-    public void setRemoveFilters(String[] removeFilters) {
-        this.removeFilters = removeFilters;
-    }
 
     @Override
     public boolean equals(Object o) {

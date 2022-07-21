@@ -1,20 +1,24 @@
 package net.n2oapp.framework.config.io.action.v2;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.datasource.DatasourceIO;
+import net.n2oapp.framework.config.io.datasource.AbstractDatasourceIO;
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Абстрактная реализация чтения/записи действия открытия страницы или модального окна версии 2.0
  */
 public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageAction> extends AbstractActionElementIOV2<T> {
+
+    private Namespace datasourceDefaultNamespace = AbstractDatasourceIO.NAMESPACE;
+
     @Override
     public void io(Element e, T op, IOProcessor p) {
         super.io(e, op, p);
@@ -31,8 +35,10 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attributeBoolean(e, "refresh-after-submit", op::getRefreshAfterSubmit, op::setRefreshAfterSubmit);
         p.attributeBoolean(e, "refresh-on-close", op::getRefreshOnClose, op::setRefreshOnClose);
         p.attributeBoolean(e, "unsaved-data-prompt-on-close", op::getUnsavedDataPromptOnClose, op::setUnsavedDataPromptOnClose);
+        p.attributeBoolean(e, "submit-message-on-success", op::getSubmitMessageOnSuccess, op::setSubmitMessageOnSuccess);
+        p.attributeBoolean(e, "submit-message-on-fail", op::getSubmitMessageOnFail, op::setSubmitMessageOnFail);
         p.attribute(e, "route", op::getRoute, op::setRoute);
-        p.children(e, "datasources", "datasource", op::getDatasources,op::setDatasources, N2oDatasource::new, new DatasourceIO());
+        p.anyChildren(e, "datasources", op::getDatasources, op::setDatasources, p.anyOf(N2oAbstractDatasource.class), datasourceDefaultNamespace);
         p.anyChildren(e, "params", op::getParams, op::setParams,
                 p.oneOf(N2oParam.class)
                         .add("path-param", N2oPathParam.class, this::param)
@@ -42,8 +48,7 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
     private void param(Element e, N2oParam param, IOProcessor p) {
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
-        p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
+        p.attribute(e, "datasource", param::getDatasourceId, param::setDatasourceId);
         p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
     }
-
 }

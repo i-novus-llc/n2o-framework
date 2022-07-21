@@ -21,10 +21,10 @@ describe('Проверка presets', () => {
     })
 
     it('required вернет true для required', () => {
-        expect(required('test', { test: 'value' })).toEqual(true)
-        expect(required('test', { test: { value: 'value' } })).toEqual(true)
-        expect(required('test', { test: 23 })).toEqual(true)
-        expect(required('test', { test: ['test'] })).toEqual(true)
+        expect(required('test', { test: 'value' }, {})).toEqual(true)
+        expect(required('test', { test: { value: 'value' } }, {})).toEqual(true)
+        expect(required('test', { test: 23 }, {})).toEqual(true)
+        expect(required('test', { test: ['test'] }, {})).toEqual(true)
         expect(
             required(
                 'test',
@@ -37,12 +37,12 @@ describe('Проверка presets', () => {
     })
 
     it('required вернет false для не required', () => {
-        expect(required('test', { test: '' })).toEqual(false)
-        expect(required('test', { test: {} })).toEqual(false)
-        expect(required('test', { test: [] })).toEqual(false)
-        expect(required('test', { test: undefined })).toEqual(false)
-        expect(required('test', { test: null })).toEqual(false)
-        expect(required('test', { test: NaN })).toEqual(false)
+        expect(required('test', { test: '' }, {})).toEqual(false)
+        expect(required('test', { test: {} }, {})).toEqual(false)
+        expect(required('test', { test: [] }, {})).toEqual(false)
+        expect(required('test', { test: undefined }, {})).toEqual(false)
+        expect(required('test', { test: null }, {})).toEqual(false)
+        expect(required('test', { test: NaN }, {})).toEqual(false)
     })
 
     it('integer вернет true', () => {
