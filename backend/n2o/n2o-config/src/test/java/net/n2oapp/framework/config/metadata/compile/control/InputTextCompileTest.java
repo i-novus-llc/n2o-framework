@@ -54,6 +54,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         InputText inputText = (InputText) ((StandardField) field).getControl();
         assertThat(inputText.getSrc(), is("InputText"));
         assertThat(inputText.getMeasure(), is("cm"));
+        assertThat(inputText.getPlaceholder(), is("Введите текст"));
         InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputText1.getSrc(), is("InputNumber"));
         assertThat(inputText1.getMax(), is("99999999999999"));

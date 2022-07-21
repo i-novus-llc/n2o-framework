@@ -20,8 +20,10 @@ import PageRegions from '../PageRegions'
 import SearchBar from '../../snippets/SearchBar/SearchBar'
 import { FILTER_DELAY } from '../../../constants/time'
 import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
-import { setFilter, dataRequest } from '../../../ducks/datasource/store'
+import { dataRequest } from '../../../ducks/datasource/store'
+import { setModel } from '../../../ducks/models/store'
 import { usePageRegister } from '../usePageRegister'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 function SearchablePage({
     id,
@@ -140,7 +142,7 @@ const enhance = compose(
             const newModel = { ...filterModel }
 
             set(newModel, fieldId, value)
-            dispatch(setFilter(datasource, newModel))
+            dispatch(setModel(ModelPrefix.filter, datasource, newModel))
             dispatch(dataRequest(datasource))
         },
     }),

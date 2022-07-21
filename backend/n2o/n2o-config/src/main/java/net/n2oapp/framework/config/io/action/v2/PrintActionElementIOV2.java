@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.action.v2;
 
+import net.n2oapp.framework.api.metadata.PrintType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
@@ -16,6 +17,12 @@ public class PrintActionElementIOV2 extends AbstractActionElementIOV2<N2oPrintAc
     public void io(Element e, N2oPrintAction a, IOProcessor p) {
         super.io(e, a, p);
         p.attribute(e,"url", a::getUrl,a::setUrl);
+        p.attributeEnum(e, "type", a::getType, a::setType, PrintType.class);
+        p.attributeBoolean(e, "keep-indent", a::getKeepIndent, a::setKeepIndent);
+        p.attribute(e, "document-title", a::getDocumentTitle, a::setDocumentTitle);
+        p.attributeBoolean(e, "loader", a::getLoader, a::setLoader);
+        p.attribute(e, "loader-text", a::getLoaderText, a::setLoaderText);
+        p.attributeBoolean(e, "base64", a::getBase64, a::setBase64);
         p.children(e, null, "path-param", a::getPathParams, a::setPathParams, N2oParam::new, this::param);
         p.children(e, null, "query-param", a::getQueryParams, a::setQueryParams, N2oParam::new, this::param);
     }
@@ -24,7 +31,7 @@ public class PrintActionElementIOV2 extends AbstractActionElementIOV2<N2oPrintAc
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
-        p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
+        p.attribute(e, "datasource", param::getDatasourceId, param::setDatasourceId);
     }
 
     @Override

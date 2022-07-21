@@ -14,6 +14,7 @@ import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
+import { removeAllModel } from '../ducks/models/store'
 
 /* TODO избавиться от alertEffect
     для этого бэку нужно присылать
@@ -45,6 +46,15 @@ export function* alertEffect(action) {
     }
 }
 
+export function* clearOnSuccessEffect(action) {
+    const { meta } = action
+    const datasourceId = get(meta, 'clear', null)
+
+    if (!datasourceId) { return }
+
+    yield put(removeAllModel(datasourceId))
+}
+
 export function* redirectEffect(action) {
     try {
         const { path, pathMapping, queryMapping, target } = action.meta.redirect
@@ -58,6 +68,7 @@ export function* redirectEffect(action) {
         })
 
         if (target === 'application') {
+            yield clearOnSuccessEffect(action)
             yield put(push(newUrl))
             yield put(destroyOverlays())
         } else if (target === 'self') {
@@ -88,6 +99,18 @@ export function* userDialogEffect({ meta }) {
     )
 }
 
+export function* clearEffect(action) {
+    const { meta } = action
+
+    const redirect = get(meta, 'redirect', null)
+
+    if (redirect) {
+        return
+    }
+
+    yield clearOnSuccessEffect(action)
+}
+
 export const metaSagas = [
     takeEvery(
         [action => action.meta && action.meta.alert, CALL_ALERT_META],
@@ -96,4 +119,5 @@ export const metaSagas = [
     takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
     takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
     takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),
+    takeEvery(action => action.meta?.clear, clearEffect),
 ]

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
@@ -14,7 +15,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAction;
  */
 @Getter
 @Setter
-public abstract class ActionComponent implements Source, IdAware, ModelAware, WidgetIdAware {
+public abstract class ActionComponent implements Source, IdAware, ModelAware, WidgetIdAware, DatasourceIdAware {
     private String id;
     private String label;
     private String icon;
@@ -22,13 +23,13 @@ public abstract class ActionComponent implements Source, IdAware, ModelAware, Wi
     private String enabled;
     private N2oAction action;
     private ReduxModel model;
-    private String datasource;
+    private String datasourceId;
 
     public String getWidgetId() {
-        return datasource;
+        return datasourceId;
     }
 
     public void setWidgetId(String widgetId) {
-        this.datasource = widgetId;
+        this.datasourceId = widgetId;
     }
 }

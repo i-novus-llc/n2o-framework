@@ -7,7 +7,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.metadata.validation.standard.control.FieldValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.datasource.DatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
@@ -37,7 +37,7 @@ public class FieldValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
         builder.validators(new PageValidator(), new WidgetValidator(), new BasePageValidator(),
-                new DatasourceValidator(), new FormValidator(), new FieldValidator());
+                new StandardDatasourceValidator(), new FormValidator(), new FieldValidator());
     }
 
     @Test

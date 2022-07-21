@@ -2,25 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { SORT_DIRECTION } from '../../../core/datasource/const'
+import { SortDirection } from '../../../core/datasource/const'
 
 /**
- * @param {SORT_DIRECTION} direction
- * @return {SORT_DIRECTION}
+ * @param {SortDirection} direction
+ * @return {SortDirection}
  */
 function getNextDirection(direction) {
     switch (direction) {
-        case SORT_DIRECTION.ASC: {
-            return SORT_DIRECTION.DESC
+        case SortDirection.asc: {
+            return SortDirection.desc
         }
-        case SORT_DIRECTION.DESC: {
-            return SORT_DIRECTION.NONE
+        case SortDirection.desc: {
+            return SortDirection.none
         }
-        case SORT_DIRECTION.NONE: {
-            return SORT_DIRECTION.ASC
+        case SortDirection.none: {
+            return SortDirection.asc
         }
         default: {
-            return SORT_DIRECTION.NONE
+            return SortDirection.none
         }
     }
 }
@@ -60,8 +60,8 @@ export class Sorter extends React.Component {
     render() {
         const { title, children, sorting } = this.props
         const iconClass = classNames({
-            'fa fa-sort-amount-asc': sorting === SORT_DIRECTION.ASC,
-            'fa fa-sort-amount-desc': sorting === SORT_DIRECTION.DESC,
+            'fa fa-sort-amount-asc': sorting === SortDirection.asc,
+            'fa fa-sort-amount-desc': sorting === SortDirection.desc,
         })
 
         return (
@@ -80,13 +80,13 @@ export class Sorter extends React.Component {
 Sorter.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
-    sorting: PropTypes.oneOf(Object.values(SORT_DIRECTION)),
+    sorting: PropTypes.oneOf(Object.values(SortDirection)),
     sortingParam: PropTypes.string,
     onSort: PropTypes.func,
 }
 
 Sorter.defaultProps = {
-    sorting: SORT_DIRECTION.NONE,
+    sorting: SortDirection.none,
 }
 
 export default Sorter

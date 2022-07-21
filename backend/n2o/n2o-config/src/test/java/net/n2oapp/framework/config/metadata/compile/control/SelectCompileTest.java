@@ -50,6 +50,7 @@ public class SelectCompileTest extends SourceCompileTestBase {
         assertThat(select.getSelectFormatFew(), is("{size} объекта"));
         assertThat(select.getSelectFormatMany(), is("{size} объектов"));
         assertThat(select.getDescriptionFieldId(), is("descFieldId"));
+        assertThat(select.getPlaceholder(), is("Введите"));
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();

@@ -17,8 +17,6 @@ public class InputSelect extends ListControl {
     @JsonProperty
     private Boolean multiSelect;
     @JsonProperty
-    private String placeholder;
-    @JsonProperty
     private Boolean hasCheckboxes;
     @JsonProperty
     private Boolean resetOnBlur;

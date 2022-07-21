@@ -73,7 +73,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         if (refresh) {
             meta.setRefresh(new RefreshSaga());
             if (context instanceof PageContext)
-                meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
+                meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
         }
         if (redirect) {
             meta.setRedirect(new RedirectSaga());

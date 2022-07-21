@@ -2,14 +2,13 @@ package net.n2oapp.framework.config.io.control.v2;
 
 import net.n2oapp.framework.config.io.control.v2.plain.ProgressIOv2;
 import net.n2oapp.framework.config.io.widget.v4.FormElementIOV4;
-import net.n2oapp.framework.config.reader.control.N2oStandardControlReaderTestBase;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
  * Тестирование чтения/записи компонента отображения прогресса
  */
-public class N2oProgressXmlIOv2Test extends N2oStandardControlReaderTestBase {
+public class N2oProgressXmlIOv2Test {
 
     @Test
     public void test() {

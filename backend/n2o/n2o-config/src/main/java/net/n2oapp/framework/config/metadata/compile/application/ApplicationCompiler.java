@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
@@ -69,10 +68,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         DataSourcesScope scope = new DataSourcesScope();
         if (datasources == null)
             return scope;
-        for (N2oAbstractDatasource datasource : datasources) {
-            if (datasource instanceof N2oDatasource)
-                scope.put(datasource.getId(), ((N2oDatasource) datasource));
-        }
+        for (N2oAbstractDatasource datasource : datasources)
+            scope.put(datasource.getId(), datasource);
         return scope;
     }
 
@@ -101,7 +98,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     }
 
     private Sidebar initSidebar(N2oSidebar source, Header header, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
-        if (source == null || source.getVisible() != null && !source.getVisible()) return null;
+        if (source == null || Boolean.FALSE.equals(source.getVisible()))
+            return null;
         Sidebar sidebar = p.compile(source, context, dataSourcesScope);
         if (header != null && header.getSidebarSwitcher() != null) {
             sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.none));
