@@ -38,5 +38,17 @@
         <field id="id" domain="integer" name="nameId" default-value="0" mapping="['id']" sorting-mapping="mapping"
             normalize="T(java.time.LocalDate).parse(this)" select-expression="id" sorting-expression="sorting"/>
         <field id="individualId" domain="integer"/>
+        <reference id="ref" mapping="ref2" normalize="normalize">
+            <field id="id"/>
+            <field id="individualId" domain="integer"/>
+            <reference id="subRef" mapping="ref3"/>
+            <list id="addresses" mapping="['addresses']" normalize="normalize"/>
+        </reference>
+        <list id="testSet2" mapping="birth_date">
+            <field id="id" mapping="id"/>
+            <field id="name" mapping="name" default-value="null"/>
+            <reference id="subRef" mapping="ref3"/>
+            <list id="addresses" mapping="['addresses']"/>
+        </list>
     </fields>
 </query>

@@ -118,7 +118,9 @@
             <xs:documentation>Список полей выборки.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="field" type="fieldDefinition" maxOccurs="unbounded" minOccurs="1"/>
+            <xs:element name="field" type="fieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="reference" type="referenceFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="list" type="listFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -126,51 +128,40 @@
         <xs:annotation>
             <xs:documentation>Поле выборки.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Идентификатор поля</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="name" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Наименование поля. По умолчанию наименование аналогичного поля в объекте.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="domain" type="dmn:domainType" use="optional">
-            <xs:annotation>
-                <xs:documentation>Тип данных</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="select-expression" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="mapping" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Маппинг данных поля из провайдера. По умолчанию совпадает с id.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="default-value" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="normalize" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Нормализация данных поля из провайдера.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="sorting-expression" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
+        <xs:complexContent>
+            <xs:extension base="baseFieldDefinition">
+                <xs:attribute name="name" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Наименование поля. По умолчанию наименование аналогичного поля в объекте.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="domain" type="dmn:domainType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Тип данных</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-expression" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-value" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="sorting-expression" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="filtersElementDefinition">
@@ -238,5 +229,56 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="baseFieldDefinition" abstract="true">
+        <xs:annotation>
+            <xs:documentation>Базовое определение поля</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор поля</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="mapping" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Маппинг данных поля из провайдера. По умолчанию совпадает с id.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="normalize" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Нормализация данных поля из провайдера.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="listFieldDefinition">
+        <xs:annotation>
+            <xs:documentation>Списковое поле</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="field" type="fieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="reference" type="referenceFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="list" type="listFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="referenceFieldDefinition">
+        <xs:annotation>
+            <xs:documentation>Составное поле</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="field" type="fieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="reference" type="referenceFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="list" type="listFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 </xs:schema>
