@@ -12,7 +12,9 @@
                        redirect-url-after-submit="/test"
                        route="/test"
                        close-after-submit="true"
-                       redirect-target-after-submit="application">
+                       redirect-target-after-submit="application"
+                       submit-message-on-fail="true"
+                       submit-message-on-success="true">
                 <params>
                     <path-param name="test2" model="filter" datasource="main" value="{id}"/>
                     <query-param name="test3" value="{name}"/>
