@@ -2,7 +2,12 @@ import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
 import { FORM, TABLE } from '../../components/widgets/widgetTypes'
-import { dataSourceCountSelector, dataSourcePageSelector, dataSourceSizeSelector } from '../datasource/selectors'
+import {
+    dataSourceCountSelector,
+    dataSourcePageSelector,
+    dataSourceSizeSelector,
+    dataSourceSortingSelector,
+} from '../datasource/selectors'
 
 /*
   Базовые селекторы
@@ -62,9 +67,9 @@ export const makeWidgetDisabledSelector = widgetId => createSelector(
 // region from datasource
 
 const makeDatasourceSelector = (widgetId, makeSelector) => (state) => {
-    const soueceId = makeDatasourceIdSelector(widgetId)(state)
+    const sourceId = makeDatasourceIdSelector(widgetId)(state)
 
-    return makeSelector(soueceId)(state)
+    return makeSelector(sourceId)(state)
 }
 
 /**
@@ -96,10 +101,7 @@ export const makeWidgetPageIdSelector = widgetId => createSelector(
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
  */
-export const makeWidgetSortingSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.sorting,
-)
+export const makeWidgetSortingSelector = widgetId => makeDatasourceSelector(widgetId, dataSourceSortingSelector)
 
 /**
  * Селектор-генератор для получения свойства виджета - isFilterVisible

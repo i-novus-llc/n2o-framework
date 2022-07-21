@@ -41,13 +41,13 @@ describe('Проверка пресетов', () => {
     })
     describe('Проверка required пресета', () => {
         it('валидное значение', () => {
-            expect(required('test', { test: 'test' })).toBe(true)
+            expect(required('test', { test: 'test' }, {})).toBe(true)
         })
         it('не валидное значение', () => {
-            expect(required('test', { test2: 'test' })).toBe(false)
+            expect(required('test', { test2: 'test' }, {})).toBe(false)
         })
         it('Проверка dot нотации в пути во вложенных обьектах', () => {
-            expect(required('test2.test', { test2: { test: 'test' } })).toBe(true)
+            expect(required('test2.test', { test2: { test: 'test' } }, {})).toBe(true)
         })
     })
     describe('Проверка condition пресета', () => {

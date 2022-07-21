@@ -44,11 +44,11 @@ public class SearchablePageValidator implements SourceValidator<N2oSearchablePag
      */
     private void checkDatasource(N2oSearchablePage page, DatasourceIdsScope datasourceIdsScope) {
         if (page.getSearchBar() != null) {
-            if (page.getSearchBar().getDatasource() == null)
+            if (page.getSearchBar().getDatasourceId() == null)
                 throw new N2oMetadataValidationException(
                     "Для компиляции страницы с поисковой строкой необходимо указать источник данных в <search-bar>");
-            checkDatasourceLink(page.getSearchBar().getDatasource(), datasourceIdsScope,
-                    String.format("<search-bar> страницы с поисковой строкой ссылается на несуществующий источник данных %s", page.getSearchBar().getDatasource()));
+            checkDatasourceLink(page.getSearchBar().getDatasourceId(), datasourceIdsScope,
+                    String.format("<search-bar> страницы с поисковой строкой ссылается на несуществующий источник данных %s", page.getSearchBar().getDatasourceId()));
         }
     }
 

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
@@ -12,6 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
@@ -98,5 +100,19 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         if (context.getParentModelLinks() != null)
             pageProperty.setModelLinks(context.getParentModelLinks());
         return pageProperty;
+    }
+
+    protected void initContextDatasources(DataSourcesScope dataSourcesScope, PageScope pageScope, PageContext context, CompileProcessor p) {
+        if (context.getDatasources() != null) {
+            for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
+                String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
+                if (dataSourcesScope.containsKey(dsId))
+                    dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
+                else {
+                    ctxDs.setId(dsId);//todo нужно клонировать ctxDs
+                    dataSourcesScope.put(dsId, ctxDs);
+                }
+            }
+        }
     }
 }

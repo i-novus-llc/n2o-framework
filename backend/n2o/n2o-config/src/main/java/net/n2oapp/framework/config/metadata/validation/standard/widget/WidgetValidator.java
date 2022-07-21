@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
@@ -28,7 +29,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
     public void validate(N2oWidget n2oWidget, SourceProcessor p) {
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         if (n2oWidget.getDatasource() != null) {
-            WidgetScope widgetScope = new WidgetScope(n2oWidget.getId(), null, null, null);
+            WidgetScope widgetScope = new WidgetScope(n2oWidget.getId(), null, null, (N2oCompileProcessor) p);
             p.validate(n2oWidget.getDatasource(), widgetScope, datasourceIdsScope);
         }
 
@@ -57,6 +58,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
     /**
      * Проверка существования источника данных, на который ссылается виджет
+     *
      * @param n2oWidget Виджет
      * @param scope     Скоуп источников данных
      */

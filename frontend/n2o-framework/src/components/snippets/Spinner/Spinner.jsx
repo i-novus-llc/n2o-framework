@@ -3,6 +3,7 @@ import { Spinner as BaseSpinner } from 'reactstrap'
 import classNames from 'classnames'
 import eq from 'lodash/eq'
 import values from 'lodash/values'
+import omit from 'lodash/omit'
 import PropTypes from 'prop-types'
 
 const TYPE = {
@@ -18,7 +19,7 @@ export class Spinner extends Component {
             showSpinner: false,
         }
 
-        this.renderCoverSpiner = this.renderCoverSpiner.bind(this)
+        this.renderCoverSpinner = this.renderCoverSpinner.bind(this)
         this.renderLineSpinner = this.renderLineSpinner.bind(this)
     }
 
@@ -40,7 +41,7 @@ export class Spinner extends Component {
         this.unmounted = true
     }
 
-    renderCoverSpiner() {
+    renderCoverSpinner() {
         const {
             children,
             className,
@@ -63,7 +64,7 @@ export class Spinner extends Component {
                 {showSpinner && (
                     <>
                         <div className="n2o-spinner-container ">
-                            <BaseSpinner className="spinner-border" color={color} {...rest} />
+                            <BaseSpinner className="spinner-border" color={color} {...omit(rest, ['loading'])} />
                             <div className="loading_title loading_text">{title}</div>
                             <div className="loading_text">{text}</div>
                         </div>
@@ -77,14 +78,13 @@ export class Spinner extends Component {
 
     renderLineSpinner() {
         const {
-            type,
             children,
             loading,
             ...rest
         } = this.props
 
         if (loading) {
-            return <BaseSpinner className="spinner" {...rest} />
+            return <BaseSpinner className="spinner" {...omit(rest, ['type'])} />
         }
         if (React.Children.count(children)) {
             return children
@@ -97,7 +97,7 @@ export class Spinner extends Component {
         const { type } = this.props
 
         return eq(type, TYPE.COVER)
-            ? this.renderCoverSpiner()
+            ? this.renderCoverSpinner()
             : this.renderLineSpinner()
     }
 }

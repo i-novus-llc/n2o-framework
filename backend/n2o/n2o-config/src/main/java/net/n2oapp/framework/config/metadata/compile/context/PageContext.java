@@ -2,12 +2,13 @@ package net.n2oapp.framework.config.metadata.compile.context;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -42,7 +43,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Идентификатор источника данных из которого будут копироваться данные
      */
-    private String copyDatasource;
+    private String copyDatasourceId;
     /**
      * Идентификатор копируемого поля источника
      */
@@ -79,7 +80,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Родительский глобальный источник данных, в котором находилось действие
      */
-    private String parentGlobalDatasourceId;
+    private String parentClientDatasourceId;
     /**
      * Родительский локальный источник данных, в котором находилось действие
      */
@@ -111,7 +112,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Идентификаторы источников данных, которые необходимо обновить после успешной отправки формы
      */
-    private List<String> refreshClientDataSources;
+    private List<String> refreshClientDataSourceIds;
     /**
      * Обновить данные родительского виджета после закрытия страницы
      */
@@ -131,8 +132,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Список источников данных открываемой страницы
      */
-    private List<N2oDatasource> datasources;
-
+    private List<N2oAbstractDatasource> datasources;
 
     /**
      * Клиентский идентификатор страницы
@@ -169,9 +169,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     public List<N2oPreFilter> getPreFilters() {
         List<N2oPreFilter> filters = new ArrayList<>();
         if (datasources != null)
-            for (N2oDatasource datasource : datasources) {
-                filters.addAll(Arrays.asList(datasource.getFilters()));
-            }
+            datasources.stream()
+                    .filter(N2oStandardDatasource.class::isInstance)
+                    .forEach(ds -> filters.addAll(Arrays.asList(((N2oStandardDatasource) ds).getFilters())));
         return filters;
     }
 }

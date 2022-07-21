@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -13,7 +14,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -31,7 +32,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String pageId;
     private String pageName;
     private String route;
-    private String datasource;
     private Target target;
     @Deprecated
     private UploadType upload;
@@ -53,17 +53,17 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private ReduxModel copyModel;
     private Boolean submitMessageOnSuccess;
     private Boolean submitMessageOnFail;
-    private String copyDatasource;
+    private String copyDatasourceId;
     private String copyFieldId;
     private ReduxModel targetModel;
-    private String targetDatasource;
+    private String targetDatasourceId;
     private CopyMode copyMode;
     private Boolean createMore;
     private Boolean closeAfterSubmit;
     private String redirectUrlAfterSubmit;
     private Target redirectTargetAfterSubmit;
     private Boolean refreshAfterSubmit;
-    private String[] refreshDatasources;
+    private String[] refreshDatasourceIds;
     //on resolve
     private String labelFieldId;
     private String targetFieldId;
@@ -71,14 +71,14 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oParam[] params;
-    private N2oDatasource[] datasources;
+    private N2oAbstractDatasource[] datasources;
     @Deprecated
     private String width;
 
     @Deprecated
     public void adaptV1() {
         if (getUpload() != null || getDetailFieldId() != null || getPreFilters() != null) {
-            N2oDatasource datasource = new N2oDatasource();
+            N2oStandardDatasource datasource = new N2oStandardDatasource();
 
             if (getUpload() != null) {
                 switch (getUpload()) {
@@ -111,7 +111,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                 if (getRoute() != null && getRoute().contains(":" + param)) {
                     N2oPathParam pathParam = new N2oPathParam();
                     pathParam.setName(param);
-                    pathParam.setDatasource(filter.getDatasource());
+                    pathParam.setDatasourceId(filter.getDatasourceId());
                     pathParam.setModel(filter.getModel());
                     pathParam.setValue(filter.getValueAttr());
                     boolean exists = false;
@@ -128,7 +128,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                 } else if (!ReduxModel.filter.equals(filter.getModel())) {
                     N2oQueryParam queryParam = new N2oQueryParam();
                     queryParam.setName(param);
-                    queryParam.setDatasource(filter.getDatasource());
+                    queryParam.setDatasourceId(filter.getDatasourceId());
                     queryParam.setModel(filter.getModel());
                     queryParam.setValue(filter.getValueAttr());
                     boolean exists = false;
@@ -151,7 +151,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                 datasource.addFilters(Arrays.asList(preFilters));
             }
 
-            datasources = new N2oDatasource[]{datasource};
+            datasources = new N2oStandardDatasource[]{datasource};
 
         }
     }
@@ -189,31 +189,31 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
 
     @Deprecated
     public String getRefreshWidgetId() {
-        return refreshDatasources == null ? null : refreshDatasources[0];
+        return refreshDatasourceIds == null ? null : refreshDatasourceIds[0];
     }
 
     @Deprecated
     public void setRefreshWidgetId(String refreshWidgetId) {
-        this.refreshDatasources = new String[]{refreshWidgetId};
+        this.refreshDatasourceIds = new String[]{refreshWidgetId};
     }
 
     @Deprecated
     public String getTargetWidgetId() {
-        return targetDatasource;
+        return targetDatasourceId;
     }
 
     @Deprecated
     public void setTargetWidgetId(String targetWidgetId) {
-        this.targetDatasource = targetWidgetId;
+        this.targetDatasourceId = targetWidgetId;
     }
 
     @Deprecated
     public String getCopyWidgetId() {
-        return copyDatasource;
+        return copyDatasourceId;
     }
 
     @Deprecated
     public void setCopyWidgetId(String copyWidgetId) {
-        this.copyDatasource = copyWidgetId;
+        this.copyDatasourceId = copyWidgetId;
     }
 }
