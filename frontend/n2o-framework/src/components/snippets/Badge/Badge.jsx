@@ -1,35 +1,55 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { Badge } from 'reactstrap'
 
-export const renderBadge = ({
-    badge,
-    badgeColor = 'light',
-    icon,
-}) => ((badge || typeof badge === 'number') ? (
-    <span
-        className={
-            classNames(
-                `ml-1 rounded-pill badge badge-${badgeColor}`,
-            )}
-    >
-        {badge}
-    </span>
-)
-    : icon && (
-        <span
-            className={
-                classNames(
-                    `n2o-counter badge badge-${badgeColor}`,
-                    badge !== ' ' ? 'n2o-badge-counter' : 'n2o-badge-dot',
-                )}
+import { BadgePropTypes } from './propTypes'
+
+export const renderBadge = (options) => {
+    const {
+        badge,
+        badgeColor = 'light',
+        badgePosition = 'right',
+        badgeShape = 'circle',
+        image,
+        imagePosition = 'left',
+        imageShape = 'circle',
+        hasMargin = true,
+        className,
+    } = options
+
+    const badgeClassNames = classNames('n2o-badge', className, {
+        [badgePosition === 'right' ? 'ml-1' : 'mr-1']: hasMargin,
+        'rounded-pill': badgeShape === 'rounded',
+        'n2o-badge_circle rounded-pill': badgeShape === 'circle',
+    })
+
+    const badgeImageClassNames = classNames('n2o-badge-image', {
+        'n2o-badge-image_right': imagePosition === 'right',
+        'rounded-pill': imageShape === 'circle' || imageShape === 'rounded',
+    })
+
+    return (
+        <Badge
+            color={badgeColor}
+            className={badgeClassNames}
         >
+            {image && (
+                <img
+                    src={image}
+                    alt="not found"
+                    className={badgeImageClassNames}
+                />
+            )}
             {badge}
-        </span>
-    ))
-
-renderBadge.propTypes = {
-    badge: PropTypes.oneOf(['number', 'string']),
-    badgeColor: PropTypes.string,
-    icon: PropTypes.string,
+        </Badge>
+    )
 }
+
+export const renderSquareBadge = options => renderBadge({
+    ...options,
+    badgeShape: options.badgeShape || 'square',
+    hasMargin: false,
+})
+
+renderBadge.propTypes = BadgePropTypes
+renderSquareBadge.propTypes = BadgePropTypes
