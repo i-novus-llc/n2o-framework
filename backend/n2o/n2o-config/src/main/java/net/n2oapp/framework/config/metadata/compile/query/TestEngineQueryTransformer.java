@@ -2,10 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.query;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -31,14 +31,14 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
                 if (!field.getNoSorting() && field.getSortingBody() == null) {
                     field.setSortingBody(colon("expression") + " " + colon(field.getId() + "Direction"));
                 }
-                if (field.getFilterList() != null) {
-                    for (N2oQuery.Filter filter : field.getFilterList()) {
-                        if (filter.getFilterId() == null)
-                            filter.setFilterId(RouteUtil.normalizeParam(field.getId()) + "_" + filter.getType());
-                        if (filter.getText() == null)
-                            filter.setText(colon("expression") + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterId()));
-                    }
-                }
+            }
+        }
+        if (source.getFilters() != null) {
+            for (N2oQuery.Filter filter : source.getFilters()) {
+                if (filter.getFilterId() == null)
+                    filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
+                if (filter.getText() == null)
+                    filter.setText(colon("expression") + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterId()));
             }
         }
         return source;

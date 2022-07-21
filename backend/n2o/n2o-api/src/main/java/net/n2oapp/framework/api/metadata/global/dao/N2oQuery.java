@@ -12,10 +12,9 @@ import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Source модель запроса за данными
@@ -31,6 +30,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
     private Selection[] uniques;
     private Selection[] counts;
     private Filter[] filters;
+    private Map<String, Filter[]> filtersMap;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     @Override
@@ -41,6 +41,27 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
     @Override
     public final Class<? extends N2oMetadata> getSourceBaseClass() {
         return N2oQuery.class;
+    }
+
+    public boolean isSearchAvailable(String fieldId) {
+        if (filters == null)
+            return false;
+        return Arrays.stream(filters).anyMatch(filter -> fieldId.equals(filter.getFieldId()));
+    }
+
+    public Filter[] getFiltersList(String fieldId) {
+        if (filters == null)
+            return null;
+        if (filtersMap == null) {
+            Map<String, List<Filter>> filtersListMap = new HashMap<>();
+            for (Filter filter : filters) {
+                filtersListMap.putIfAbsent(filter.getFieldId(), new ArrayList<>());
+                filtersListMap.get(filter.getFieldId()).add(filter);
+            }
+            setFiltersMap(filtersListMap.keySet().stream()
+                    .collect(Collectors.toMap(Function.identity(), k -> filtersListMap.get(k).toArray(new Filter[0]))));
+        }
+        return filtersMap.get(fieldId);
     }
 
     @Getter
@@ -206,11 +227,6 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
 
         public void setHasJoin(Boolean hasJoin) {
             this.noJoin = !hasJoin;
-        }
-
-
-        public boolean isSearchUnavailable() {
-            return getFilterList() == null;
         }
 
         @Override

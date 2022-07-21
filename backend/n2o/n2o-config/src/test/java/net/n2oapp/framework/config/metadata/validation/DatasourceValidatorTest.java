@@ -96,7 +96,7 @@ public class DatasourceValidatorTest extends SourceValidationTestBase {
     @Test
     public void testReferenceQueryFieldExistence() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Источник данных ds1 имеет префильтры, но в выборке 'utDsBlank' нет fields");
+        exception.expectMessage("Источник данных ds1 имеет префильтры, но в выборке 'utDsBlank' нет filters!");
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testReferenceQueryFieldExistence.page.xml");
     }
 

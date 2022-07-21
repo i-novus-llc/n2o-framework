@@ -51,8 +51,6 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.childAttribute(e, "select", "default-value", t::getSelectDefaultValue, t::setSelectDefaultValue);
         p.childAttribute(e, "select", "mapping", t::getSelectMapping, t::setSelectMapping);
         p.childAttribute(e, "select", "normalize", t::getNormalize, t::setNormalize);
-        p.childrenByEnum(e, "filters", t::getFilterList, t::setFilterList, N2oQuery.Filter::getType,
-                N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
         p.hasElement(e, "join", t::getHasJoin, t::setHasJoin);
         p.element(e, "join", t::getJoinBody, t::setJoinBody);
     }

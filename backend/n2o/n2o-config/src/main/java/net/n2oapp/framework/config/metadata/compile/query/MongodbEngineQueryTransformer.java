@@ -36,10 +36,10 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
                 if (Boolean.FALSE.equals(field.getNoSorting()) && field.getSortingBody() == null) {
                     transformSortings(field);
                 }
-                if (field.getFilterList() != null) {
-                    transformFilters(field);
-                }
             }
+        }
+        if (source.getFilters() != null) {
+            transformFilters(source.getFilters());
         }
         return source;
     }
@@ -61,13 +61,13 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         }
     }
 
-    private void transformFilters(N2oQuery.Field field) {
-        for (N2oQuery.Filter filter : field.getFilterList()) {
+    private void transformFilters(N2oQuery.Filter[] filters) {
+        for (N2oQuery.Filter filter : filters) {
             String domain = getDomain(filter);
             if (filter.getFilterId() == null)
-                filter.setFilterId(RouteUtil.normalizeParam(field.getId()) + "_" + filter.getType());
+                filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
             if (filter.getText() == null) {
-                if (field.getId().equals("id")) {
+                if ("id".equals(filter.getFieldId())) {
                     if (filter.getType().equals(FilterType.eq))
                         filter.setText("{ _id: new ObjectId('#" + filter.getFilterId() + "') }");
                 } else {
