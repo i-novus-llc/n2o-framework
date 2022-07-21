@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.Map;
@@ -45,7 +45,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String datasourceId;
         private String icon;
         private String image;
-        private ImageShape imageShape;
+        private ShapeType imageShape;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }

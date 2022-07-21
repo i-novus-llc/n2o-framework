@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 
@@ -15,7 +15,7 @@ public interface ImageCell extends Cell {
 
     void widthShouldBe(int width);
 
-    void shapeShouldBe(ImageShape shape);
+    void shapeShouldBe(ShapeType shape);
 
     void shouldHaveTitle(String title);
 

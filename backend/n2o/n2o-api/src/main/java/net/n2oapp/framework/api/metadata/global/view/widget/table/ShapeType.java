@@ -1,8 +1,8 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 /**
- * Тип формы изображения
+ * Форма square/circle/rounded
  */
-public enum ImageShape {
+public enum ShapeType {
     square, circle, rounded;
 }
