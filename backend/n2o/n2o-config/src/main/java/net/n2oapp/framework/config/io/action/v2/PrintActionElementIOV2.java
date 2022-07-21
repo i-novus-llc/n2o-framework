@@ -31,7 +31,7 @@ public class PrintActionElementIOV2 extends AbstractActionElementIOV2<N2oPrintAc
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
-        p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
+        p.attribute(e, "datasource", param::getDatasourceId, param::setDatasourceId);
     }
 
     @Override

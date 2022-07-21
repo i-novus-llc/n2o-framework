@@ -20,7 +20,7 @@ import {
     disableWidget,
     enableWidget,
 } from '../../ducks/widgets/store'
-import { PREFIXES } from '../../ducks/models/constants'
+import { ModelPrefix } from '../../core/datasource/const'
 import { reduceFunction } from '../../sagas/widgetDependency/resolve'
 
 /**
@@ -105,7 +105,7 @@ function withGetWidget(WrappedComponent) {
     const mapStateToProps = (state, props) => ({
         pages: pagesSelector(state),
         widgets: widgetsSelector(state),
-        widgetsDatasource: makeModelsByPrefixSelector(PREFIXES.datasource)(state),
+        widgetsDatasource: makeModelsByPrefixSelector(ModelPrefix.source)(state),
         models: modelsSelector(state),
         modelId: makeModelIdSelector(props.widgetId)(state),
     })

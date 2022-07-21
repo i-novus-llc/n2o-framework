@@ -2,7 +2,7 @@ import React from 'react'
 
 import Input from '../Input/Input'
 
-function InputHidden({ id, ...props }) {
+function InputHidden(props) {
     return <Input {...props} type="hidden" />
 }
 

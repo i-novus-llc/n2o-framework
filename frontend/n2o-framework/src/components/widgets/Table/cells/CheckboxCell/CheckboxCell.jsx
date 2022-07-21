@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import isEqual from 'lodash/isEqual'
+import omit from 'lodash/omit'
 import {
     compose,
     withState,
@@ -17,9 +18,6 @@ import withTooltip from '../../withTooltip'
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O'
 
 function CheckboxCell({
-    model,
-    fieldKey,
-    id,
     visible,
     disabled,
     checked,
@@ -36,7 +34,7 @@ function CheckboxCell({
                 onChange={handleChange}
                 disabled={disabled}
                 checked={checked}
-                {...rest}
+                {...omit(rest, ['id', 'fieldKey', 'model'])}
             />
         )
     )
@@ -44,24 +42,24 @@ function CheckboxCell({
 
 CheckboxCell.propTypes = {
     /**
-   * ID чейки
-   */
+     * ID чейки
+     */
     id: PropTypes.string,
     /**
-   * Модель данных
-   */
+     * Модель данных
+     */
     model: PropTypes.object,
     /**
-   * Ключ значения из модели
-   */
+     * Ключ значения из модели
+     */
     fieldKey: PropTypes.string,
     /**
-   * Класс
-   */
+     * Класс
+     */
     className: PropTypes.string,
     /**
-   * Флаг видимости
-   */
+     * Флаг видимости
+     */
     visible: PropTypes.bool,
 }
 

@@ -24,7 +24,7 @@ import { getContainerColumns } from '../../../ducks/columns/selectors'
 import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
-import { PREFIXES } from '../../../ducks/models/constants'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell'
 // eslint-disable-next-line import/no-named-as-default
@@ -289,8 +289,8 @@ export const withWidgetHandlers = (WrappedComponent) => {
             } = rowClick
             const updatedState = !isEmpty(model) ? merge(state, {
                 models: {
-                    [PREFIXES.resolve]: {
-                        [props.datasource]: model,
+                    [ModelPrefix.active]: {
+                        [datasource]: model,
                     },
                 },
             }) : state

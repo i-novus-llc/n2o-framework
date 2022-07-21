@@ -22,7 +22,7 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
     private ReduxModel model;
     private String color;
     private Boolean validate;
-    private String[] validateDatasources;
+    private String[] validateDatasourceIds;
     private String tooltipPosition;
     private Boolean rounded;
 

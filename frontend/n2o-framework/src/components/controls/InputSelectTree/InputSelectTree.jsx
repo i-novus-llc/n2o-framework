@@ -34,9 +34,7 @@ import { visiblePartPopup, getCheckedStrategy } from './until'
  * @reactProps {string} placeholder
  * @reactProps {function} setTreeExpandedKeys
  * @reactProps {array} treeExpandedKeys
- * @reactProps {function} closePopupOnSelect
  * @reactProps {node} children
- * @reactProps {function} closePopupOnSelect
  * @param loading -  флаг анимации загрузки
  * @param parentFieldId - значение ключа parent в данных
  * @param valueFieldId - значение ключа value в данных
@@ -72,9 +70,7 @@ function InputSelectTree({
     searchPlaceholder,
     placeholder,
     notFoundContent = t('noData'),
-    closePopupOnSelect,
     loading,
-    isLoading,
     parentFieldId,
     valueFieldId,
     labelFieldId,
@@ -391,7 +387,6 @@ InputSelectTree.defaultProps = {
     filter: 'startsWith',
     hasCheckboxes: false,
     multiSelect: false,
-    closePopupOnSelect: false,
     data: [],
     searchPlaceholder: '',
     // eslint-disable-next-line react/default-props-match-prop-types
@@ -428,7 +423,6 @@ InputSelectTree.propTypes = {
     onToggle: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
-    isLoading: PropTypes.bool,
     className: PropTypes.string,
     searchPlaceholder: PropTypes.string,
     setControlRef: PropTypes.func,
@@ -522,10 +516,6 @@ InputSelectTree.propTypes = {
      * Мульти выбор значений
      */
     multiSelect: PropTypes.bool,
-    /**
-     * Флаг закрытия попапа при выборе элемента
-     */
-    closePopupOnSelect: PropTypes.bool,
     /**
      * Флаг для показа чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим
      */

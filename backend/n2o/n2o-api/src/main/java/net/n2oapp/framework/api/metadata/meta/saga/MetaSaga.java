@@ -30,5 +30,7 @@ public class MetaSaga implements Compiled {
     private LoadingSaga loading;
     @JsonProperty
     private Dialog dialog;
+    @JsonProperty
+    private String clear;
     private String messageWidgetId;
 }
