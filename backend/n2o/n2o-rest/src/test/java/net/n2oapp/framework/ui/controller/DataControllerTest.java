@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
@@ -338,8 +339,9 @@ public class DataControllerTest extends DataControllerTestBase {
 
         Map<String, Object> map = new HashMap<>();
         AlertMessageBuilder messageBuilder = new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null);
+        N2oAlertMessagesConstructor messagesConstructor = new N2oAlertMessagesConstructor(messageBuilder);
         OperationController operationController = new OperationController(dataProcessingStack, operationProcessor,
-                messageBuilder, builder.getEnvironment());
+                messageBuilder, builder.getEnvironment(), messagesConstructor);
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
