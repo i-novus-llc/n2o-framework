@@ -7,9 +7,11 @@ import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarV
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.InvokeActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.PageActionValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.action.SubmitActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.control.FieldValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.datasource.DatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.ApplicationDatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.StandardDatasourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.*;
 import net.n2oapp.framework.config.metadata.validation.standard.invocation.JavaDataProviderValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
@@ -35,7 +37,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new FieldSetColumnValidator(), new FieldSetRowValidator(), new FormValidator(),
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(),
                 new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
-                new DatasourceValidator(), new FieldValidator(), new LineFieldSetValidator(),
-                new MultiFieldSetValidator(), new JavaDataProviderValidator(), new ButtonValidator());
+                new StandardDatasourceValidator(), new ApplicationDatasourceValidator(), new FieldValidator(), new LineFieldSetValidator(),
+                new MultiFieldSetValidator(), new JavaDataProviderValidator(), new ButtonValidator(), new SubmitActionValidator());
     }
 }

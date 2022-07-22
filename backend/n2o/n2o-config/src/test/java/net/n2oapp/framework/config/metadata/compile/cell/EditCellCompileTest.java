@@ -18,6 +18,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileEditCell() {
         PageContext context = new PageContext("testEditCell", "main/:id/open");
-        context.setParentModelLink(new ModelLink(ReduxModel.resolve, "main"));
+        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "main")));
         Map<String, ModelLink> mapping = new HashMap<>();
         mapping.put("id", new ModelLink(ReduxModel.resolve, "main", "id"));
         context.setPathRouteMapping(mapping);

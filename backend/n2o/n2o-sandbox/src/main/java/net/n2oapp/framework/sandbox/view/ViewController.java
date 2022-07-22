@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -22,6 +23,7 @@ import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -97,7 +99,8 @@ public class ViewController {
     private N2oOperationProcessor operationProcessor;
     @Autowired
     private Environment environment;
-
+    @Autowired
+    private AlertMessagesConstructor messagesConstructor;
     @Autowired
     private RouteRegister projectRouteRegister;
     @Autowired
@@ -156,6 +159,7 @@ public class ViewController {
         N2oApplicationBuilder builder;
         try {
             ThreadLocalProjectId.setProjectId(projectId);
+            projectRouteRegister.clearAll();
             builder = getBuilder(projectId, null);
             addedValues.put("menu", getMenu(builder));
             addedValues.put("user", getUserInfo());
@@ -167,6 +171,7 @@ public class ViewController {
 
             return appConfigJsonWriter.getValues(addedValues);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -189,6 +194,7 @@ public class ViewController {
 
             return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -206,9 +212,10 @@ public class ViewController {
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
             GetDataResponse response = dataController.getData(path, request.getParameterMap(),
-                    getUserContext());
+                    new UserContext(sandboxContext));
             return ResponseEntity.status(response.getStatus()).body(response);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
     }
@@ -247,11 +254,20 @@ public class ViewController {
                     request.getParameterMap(),
                     getHeaders(request),
                     getBody(body),
-                    getUserContext());
+                    new UserContext(sandboxContext));
             return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
         } finally {
+            sandboxContext.refresh();
             ThreadLocalProjectId.clear();
         }
+    }
+
+    /**
+     * Обработчик исключений N2O
+     */
+    @ExceptionHandler(N2oException.class)
+    public ResponseEntity<N2oResponse> sendErrorMessage(N2oException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(initErrorDataResponse(e));
     }
 
     /**
@@ -259,13 +275,17 @@ public class ViewController {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<N2oResponse> sendErrorMessage(Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(initErrorDataResponse(e));
+    }
+
+    private N2oResponse initErrorDataResponse(Exception e) {
         logger.error(e.getMessage(), e);
         MetaSaga meta = new MetaSaga();
         meta.setAlert(new AlertSaga());
-        meta.getAlert().setMessages(Collections.singletonList(messageBuilder.build(e)));
+        meta.getAlert().setMessages(messagesConstructor.constructMessages(e));
         N2oResponse dataResponse = new N2oResponse();
         dataResponse.setMeta(meta);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(dataResponse);
+        return dataResponse;
     }
 
     private String getTemplate(String fileName) {
@@ -322,7 +342,7 @@ public class ViewController {
     }
 
     private void getIndex(N2oApplicationBuilder builder) {
-        PageContext index = new PageContext("index", "/");
+        PageContext index = new PageContext(propertyResolver.getProperty("n2o.homepage.id"), "/");
         builder.routes(new RouteInfo("/", index));
         builder.scan().read().transform().validate().compile().transform().get(index);
     }
@@ -423,13 +443,8 @@ public class ViewController {
         return new MessageSourceAccessor(messageSource);
     }
 
-    private UserContext getUserContext() {
-        sandboxContext.refresh();
-        return new UserContext(sandboxContext);
-    }
-
     private Map<String, Object> getUserInfo() {
-        UserContext userContext = getUserContext();
+        UserContext userContext = new UserContext(sandboxContext);
         Map<String, Object> user = new HashMap<>();
         user.put("username", userContext.get("username"));
         user.put("roles", userContext.get("roles"));

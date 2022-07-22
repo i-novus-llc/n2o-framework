@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { WithDataSource } from '../../core/datasource/WithDataSource'
@@ -8,11 +9,14 @@ import { resolveItems } from './utils'
 
 export const withItemsResolver = (Component) => {
     const WithItemsResolver = WithDataSource((props) => {
-        const { menu, extraMenu, datasources, datasource, models, dispatch, fetchData, queryKey, value, force } = props
+        const dispatch = useDispatch()
+        const { menu, extraMenu, datasources, datasource, models, fetchData, queryKey, value, force } = props
         const datasourceIsEmpty = !datasources || !datasource
 
         useEffect(() => {
-            if (datasourceIsEmpty) {
+            // FIXME Удалить костыль. Не понятно зачем тут мутация мапингов с последующей доперерегистрацией датасурса
+            // NNO-8219
+            if (!datasources?.[datasource]?.provider?.queryMapping) {
                 return
             }
 

@@ -16,17 +16,17 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 
 /**
@@ -106,17 +106,14 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
     }
 
     private List<String> compileValidate(N2oButtonField source, CompileProcessor p, String datasource) {
-        if (!p.cast(source.getValidate(), datasource != null || source.getValidateDatasources() != null))
+        if (!p.cast(source.getValidate(), datasource != null || source.getValidateDatasourceIds() != null))
             return null;
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getValidateDatasources() != null)
-            return Stream.of(source.getValidateDatasources())
-                    .map(ds -> pageScope != null ? pageScope.getClientDatasourceId(ds) : ds)
+        if (source.getValidateDatasourceIds() != null)
+            return Stream.of(source.getValidateDatasourceIds())
+                    .map(ds -> getClientDatasourceId(ds, p))
                     .collect(Collectors.toList());
-        if (datasource != null) {
-            String ds = pageScope == null ? datasource : pageScope.getClientDatasourceId(datasource);
-            return Arrays.asList(ds);
-        }
+        if (datasource != null)
+            return Collections.singletonList(getClientDatasourceId(datasource, p));
         throw new N2oException(String.format("validate-datasources is not defined in button [%s]", source.getId()));
     }
 
@@ -150,21 +147,20 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             confirm.setText(text);
         }
         if (StringUtils.isJs(confirm.getText())) {
-            String datasource = initGlobalDatasourceId(source, context, p);
+            String datasource = initClientDatasourceId(source, p);
             ReduxModel reduxModel = source.getModel();
             confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, datasource).getBindLink());
         }
         button.setConfirm(confirm);
     }
 
-    protected String initGlobalDatasourceId(N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getDatasourceId() != null) {
-            return pageScope != null ? pageScope.getClientDatasourceId(source.getDatasourceId()) : source.getDatasourceId();
-        }
+    protected String initClientDatasourceId(N2oButtonField source, CompileProcessor p) {
+        if (source.getDatasourceId() != null)
+            return getClientDatasourceId(source.getDatasourceId(), p);
+
         String datasourceId = initLocalDatasourceId(p);
         if (datasourceId != null)
-            return pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId;
+            return getClientDatasourceId(datasourceId, p);
         else
             throw new N2oException(String.format("Unknown datasource for submit in field %s!", source.getId()));
     }

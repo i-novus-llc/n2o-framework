@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.metadata.compile;
 
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapper;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class SecurityExtensionAttributeMapper implements ExtensionAttributeMappe
     }
 
     @Override
-    public Map<String, Object> mapAttributes(Map<String, String> attributes) {
+    public Map<String, Object> mapAttributes(Map<String, String> attributes, CompileProcessor p) {
         Map<String, Object> result = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(attributes.containsKey("denied") ? Boolean.valueOf(attributes.get("denied")) : null);

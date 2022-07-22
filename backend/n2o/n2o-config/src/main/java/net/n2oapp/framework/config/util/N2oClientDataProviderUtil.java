@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -17,7 +19,11 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
@@ -46,7 +52,7 @@ public class N2oClientDataProviderUtil {
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         if (widgetScope != null) {
             dataProvider.setTargetModel(widgetScope.getModel());
-            dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
+            dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         }
 
         dataProvider.setUrl(query.getRoute());
@@ -61,10 +67,10 @@ public class N2oClientDataProviderUtil {
                 if (preFilter.getParam() == null) {
                     queryParam.setValueList(getPrefilterValue(preFilter));
                     queryParam.setModel(preFilter.getModel());
-                    queryParam.setDatasource(preFilter.getDatasource());
-                    if (queryParam.getDatasource() == null && preFilter.getRefWidgetId() != null) {
+                    queryParam.setDatasourceId(preFilter.getDatasourceId());
+                    if (queryParam.getDatasourceId() == null && preFilter.getRefWidgetId() != null) {
                         PageScope pageScope = p.getScope(PageScope.class);
-                        queryParam.setDatasource(pageScope.getWidgetIdSourceDatasourceMap().get(preFilter.getRefWidgetId()));
+                        queryParam.setDatasourceId(pageScope.getWidgetIdSourceDatasourceMap().get(preFilter.getRefWidgetId()));
                     }
                 } else {
                     queryParam.setValueParam(preFilter.getParam());
@@ -97,7 +103,7 @@ public class N2oClientDataProviderUtil {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         dataProvider.setUrl(p.cast(submit.getRoute(), widgetScope.getDatasourceId()));
         dataProvider.setTargetModel(widgetScope.getModel());
-        dataProvider.setGlobalDatasourceId(widgetScope.getGlobalDatasourceId());
+        dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
         dataProvider.setFormParams(submit.getFormParams());
@@ -108,17 +114,20 @@ public class N2oClientDataProviderUtil {
         actionContextData.setRoute(submit.getRoute());
         actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
-        actionContextData.setMessagePosition(submit.getMessagePosition());
-        actionContextData.setMessagePlacement(submit.getMessagePlacement());
+        actionContextData.setMessagePosition(p.cast(submit.getMessagePosition(),
+                p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+        actionContextData.setMessagePlacement(p.cast(submit.getMessagePlacement(),
+                p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
         actionContextData.setMessagesForm(submit.getMessageWidgetId());
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());
-            if (submit.getRefreshDatasources() != null) {
-                actionContextData.getRefresh().setDatasources(Arrays.asList(submit.getRefreshDatasources()));
+            if (submit.getRefreshDatasourceIds() != null) {
+                actionContextData.getRefresh().setDatasources(Arrays.stream(submit.getRefreshDatasourceIds())
+                        .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
             } else {
-                if (widgetScope.getDatasourceId() != null)
-                    actionContextData.getRefresh().setDatasources(Arrays.asList(widgetScope.getDatasourceId()));
+                if (widgetScope.getClientDatasourceId() != null)
+                    actionContextData.getRefresh().setDatasources(Collections.singletonList(widgetScope.getClientDatasourceId()));
             }
         }
         dataProvider.setActionContextData(actionContextData);

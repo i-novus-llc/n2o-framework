@@ -12,9 +12,10 @@ public interface ExtensionAttributeMapperFactory extends MetadataFactory<Extensi
     /**
      * Собрать дополнительные атрибуты
      * Если по namespace нашли mapper, то возвращается результат его работы, иначе возвращаются исходные аттрибуты
-     * @param attributes    исходные атрибуты
-     * @param namespaceUri  путь к namespace, по которому определяется как надо собирать атрибуты
-     * @return      собранные атрибуты
+     *
+     * @param attributes   исходные атрибуты
+     * @param namespaceUri путь к namespace, по которому определяется как надо собирать атрибуты
+     * @return собранные атрибуты
      */
-    Map<String, Object> mapAttributes(Map<String, String> attributes, String namespaceUri);
+    Map<String, Object> mapAttributes(Map<String, String> attributes, String namespaceUri, CompileProcessor p);
 }

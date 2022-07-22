@@ -29,7 +29,8 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
             }
         });
         p.attributeBoolean(e, "close-on-success", ia::getCloseOnSuccess, ia::setCloseOnSuccess);
-        p.attributeArray(e, "refresh-datasources", ",", ia::getRefreshDatasources, ia::setRefreshDatasources);
+        p.attributeBoolean(e, "clear-on-success", ia::getClearOnSuccess, ia::setClearOnSuccess);
+        p.attributeArray(e, "refresh-datasources", ",", ia::getRefreshDatasourceIds, ia::setRefreshDatasourceIds);
         p.attributeBoolean(e, "refresh-on-success", ia::getRefreshOnSuccess, ia::setRefreshOnSuccess);
         p.attribute(e, "redirect-url", ia::getRedirectUrl, ia::setRedirectUrl);
         p.attributeEnum(e, "redirect-target", ia::getRedirectTarget, ia::setRedirectTarget, Target.class);
@@ -38,7 +39,7 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePosition.class);
         p.attributeEnum(e, "message-placement", ia::getMessagePlacement, ia::setMessagePlacement, MessagePlacement.class);
         p.attributeBoolean(e, "optimistic", ia::getOptimistic, ia::setOptimistic);
-        p.attributeBoolean(e, "submit-form", ia::getSubmitForm, ia::setSubmitForm);
+        p.attributeBoolean(e, "submit-all", ia::getSubmitAll, ia::setSubmitAll);
         p.attributeEnum(e, "method", ia::getMethod, ia::setMethod, RequestMethod.class);
 
         p.children(e, null, "form-param", ia::getFormParams, ia::setFormParams, N2oFormParam::new, this::formParam);
@@ -59,7 +60,7 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
     private void param(Element e, N2oParam param, IOProcessor p) {
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
-        p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
+        p.attribute(e, "datasource", param::getDatasourceId, param::setDatasourceId);
         p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
     }
 
@@ -68,7 +69,7 @@ public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvoke
         if (fp.getId() == null)
             p.attribute(e, "name", fp::getName, fp::setName);
         p.attribute(e, "value", fp::getValue, fp::setValue);
-        p.attribute(e, "datasource", fp::getDatasource, fp::setDatasource);
+        p.attribute(e, "datasource", fp::getDatasourceId, fp::setDatasourceId);
         p.attributeEnum(e, "model", fp::getModel, fp::setModel, ReduxModel.class);
     }
 }

@@ -29,7 +29,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
         super.io(e, b, p);
         p.attribute(e, "action-id", b::getActionId, b::setActionId);
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
-        p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasources, b::setValidateDatasources);
+        p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasourceIds, b::setValidateDatasourceIds);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
 

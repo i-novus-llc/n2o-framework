@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 import { userLogin, userLogout as userLogoutAction } from '../../ducks/user/store'
 
-import SecurityCheck from './SecurityCheck'
+import SecurityController from './SecurityController'
 
 class Login extends React.Component {
     constructor(props) {
@@ -56,22 +56,12 @@ const LoginContainer = connect(
 
 const AuthButton = ({ userLogout }) => (
     /* eslint-disable react/jsx-one-expression-per-line */
-    <SecurityCheck
-        render={({ permissions, user }) => (permissions ? (
-            <p>
-
-          Привет,
-                {user.username}
-
-!
-                {/* eslint-disable-next-line react/button-has-type */}
-                <button onClick={userLogout}>Выйти</button>
-            </p>
-        ) : (
-            <LoginContainer />
-        ))
-        }
-    />
+    <SecurityController>
+        {({ hasAccess, user }) => (hasAccess
+            // eslint-disable-next-line react/button-has-type
+            ? <p>Привет, {user.username}! <button onClick={userLogout}>Выйти</button></p>
+            : <LoginContainer />)}
+    </SecurityController>
 )
 
 Login.defaultProps = {

@@ -28,6 +28,8 @@ public class ToolbarIOv2 implements TypedElementIO<N2oToolbar> {
 
     @Override
     public void io(Element e, N2oToolbar m, IOProcessor p) {
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "place", m::getPlace, m::setPlace);
         p.attributeArray(e, "generate", ",", m::getGenerate, m::setGenerate);
         p.anyChildren(e, null, m::getItems, m::setItems,

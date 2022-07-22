@@ -10,9 +10,9 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.Map;
 
@@ -21,11 +21,13 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class N2oSimpleMenu extends N2oMenu {
+public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
 
     private String src;
     private String refId;
     private AbstractMenuItem[] menuItems;
+    @ExtAttributesSerializer
+    private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     @Override
     public final Class<? extends N2oMetadata> getSourceBaseClass() {
@@ -40,7 +42,7 @@ public class N2oSimpleMenu extends N2oMenu {
     public static abstract class AbstractMenuItem implements Source, IdAware, ExtensionAttributesAware {
         private String id;
         private String name;
-        private String datasource;
+        private String datasourceId;
         private String icon;
         private String image;
         private ImageShape imageShape;

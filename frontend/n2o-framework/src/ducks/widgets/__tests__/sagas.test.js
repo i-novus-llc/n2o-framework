@@ -1,7 +1,7 @@
 import { put } from 'redux-saga/effects'
 
 import { setModel } from '../../models/store'
-import { PREFIXES } from '../../models/constants'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import {
     runResolve,
@@ -18,7 +18,7 @@ describe('Проверка саги widgets', () => {
         }
         const gen = clearOnDisable(action)
         expect(gen.next().value.payload).toEqual(
-            put(setModel(PREFIXES.datasource, action.payload.widgetId, null)).payload,
+            put(setModel(ModelPrefix.source, action.payload.widgetId, null)).payload,
         )
     })
 
@@ -35,7 +35,7 @@ describe('Проверка саги widgets', () => {
         expect(gen.next().value.payload).toEqual(
             put(
                 setModel(
-                    PREFIXES.resolve,
+                    ModelPrefix.active,
                     action.payload.modelId,
                     action.payload.model,
                 ),

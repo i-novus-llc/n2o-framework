@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -111,6 +112,7 @@ public class ModelLink extends BindLink {
         return null;
     }
 
+    @JsonIgnore
     public ModelLink getWidgetLink() {
         if (getModel() == null || getDatasource() == null)
             return null;
@@ -121,6 +123,7 @@ public class ModelLink extends BindLink {
         return widgetLink;
     }
 
+    @JsonIgnore
     public ModelLink getSubModelLink() {
         if (subModelQuery == null) return null;
         return new ModelLink(getModel(), getDatasource(), subModelQuery.getSubModel());

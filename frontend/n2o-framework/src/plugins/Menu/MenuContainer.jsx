@@ -7,7 +7,6 @@ import get from 'lodash/get'
 import { withRouter } from 'react-router-dom'
 
 import withSecurity from '../../core/auth/withSecurity'
-import { SECURITY_CHECK } from '../../core/auth/authTypes'
 
 import { getMatchingSidebar } from './helpers'
 
@@ -103,18 +102,16 @@ export class MenuContainer extends React.Component {
          const currentId = parentId || id
 
          if (item.security) {
-             const { user, authProvider } = this.props
+             const { checkSecurity } = this.props
              const config = item.security
 
              try {
-                 await authProvider(SECURITY_CHECK, {
-                     config,
-                     user,
-                 })
+                 await checkSecurity(config)
 
                  this.giveAccess(item, type, currentId, isChildren)
              } catch (error) {
-                 /* nothing to do */
+                 // eslint-disable-next-line no-console
+                 console.error(error)
              }
          } else {
              this.giveAccess(item, type, currentId, isChildren)
@@ -201,7 +198,7 @@ export class MenuContainer extends React.Component {
 MenuContainer.propTypes = {
     render: PropTypes.func,
     user: PropTypes.any,
-    authProvider: PropTypes.any,
+    checkSecurity: PropTypes.func,
     header: PropTypes.object,
     location: PropTypes.object,
     sidebar: PropTypes.object,

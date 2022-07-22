@@ -37,6 +37,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     public SimpleMenu compile(N2oSimpleMenu source, ApplicationContext context, CompileProcessor p) {
         SimpleMenu simpleMenu = new SimpleMenu();
         List<MenuItem> items = new ArrayList<>();
+        simpleMenu.setProperties(p.mapAttributes(source));
         IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope(1);
         if (source.getMenuItems() != null)
             for (N2oSimpleMenu.AbstractMenuItem mi : source.getMenuItems())
@@ -54,7 +55,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         compiled.setIcon(source.getIcon());
         compiled.setImageSrc(p.resolveJS(source.getImage()));
         compiled.setImageShape(source.getImageShape());
-        compiled.setDatasource(source.getDatasource());
+        compiled.setDatasource(source.getDatasourceId());
         if (source instanceof N2oSimpleMenu.MenuItem) {
             menuItem((N2oSimpleMenu.MenuItem) source, compiled, p, context);
         }
@@ -79,7 +80,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                 compiled.setHref(linkAction.getUrl());
                 compiled.setPathMapping(linkAction.getPathMapping());
                 compiled.setQueryMapping(linkAction.getQueryMapping());
-//                compiled.setTarget(linkAction.getTarget());
+                compiled.setTarget(linkAction.getTarget());
                 if (linkAction.getTarget().equals(Target.application))
                     compiled.setLinkType(MenuItem.LinkType.inner);
                 else

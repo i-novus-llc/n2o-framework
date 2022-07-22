@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
-import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -40,7 +39,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
     public void closeModal() throws Exception {
         ModalPageContext context = new ModalPageContext("testCloseAction", "/p/w/a");
         context.setClientPageId("p_w_a");
-        context.setRefreshClientDataSources(Arrays.asList("p_w"));
+        context.setRefreshClientDataSourceIds(Arrays.asList("p_w"));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
         CloseAction testAction = (CloseAction) page.getWidget().getToolbar().getButton("test").getAction();

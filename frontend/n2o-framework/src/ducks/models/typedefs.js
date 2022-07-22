@@ -1,8 +1,4 @@
 /**
- * @namespace ModelsStore
- */
-
-/**
  * ModelsStore item
  * @typedef {Object.<string, any>} ModelsStore.item
  */

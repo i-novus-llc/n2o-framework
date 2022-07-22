@@ -17,7 +17,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.FieldCompileUtil;
@@ -26,6 +25,7 @@ import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
 
@@ -54,7 +54,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         }
         listControl.setValueFieldId(p.cast(p.resolveJS(listControl.getValueFieldId()), "id"));
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
-        listControl.setCaching(source.getCache());
+        listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
         listControl.setEnabledFieldId(source.getEnabledFieldId());
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
@@ -78,14 +78,14 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         WidgetScope modelsScope = p.getScope(WidgetScope.class);
         if (modelsScope != null) {
             ModelLink onSet = compileLinkOnSet(control, source, modelsScope);
-            ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getGlobalDatasourceId(), modelsScope.getModel(), id,
+            ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getClientDatasourceId(), modelsScope.getModel(), id,
                     colon(source.getParam()));
             paramScope.addQueryMapping(source.getParam(), onGet, onSet);
         }
     }
 
     protected ModelLink compileLinkOnSet(StandardField<T> control, S source, WidgetScope widgetScope) {
-        ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId(), control.getId());
+        ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getClientDatasourceId(), control.getId());
         onSet.setParam(source.getParam());
         onSet.setSubModelQuery(createSubModel(source, control.getControl().getData()));
         onSet.setValue("`id`");

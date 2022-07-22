@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,9 +18,10 @@ public interface BindProcessor {
      * Связать метаданные с данными
      *
      * @param compiled Метаданная
+     * @param scopes   Объекты, влияющие на последующее связывание
      * @param <D>      Тип метаданной
      */
-    <D extends Compiled> void bind(D compiled);
+    <D extends Compiled> void bind(D compiled, Object... scopes);
 
     /**
      * Получить собранный объект по идентификатору
@@ -102,6 +104,15 @@ public interface BindProcessor {
     String resolveText(String text, ModelLink link);
 
     /**
+     * Заменить в тексте плейсхолдеры на значения, используя список моделей
+     *
+     * @param text Текст с плейсхолдерами
+     * @param links Список ссылок на модели
+     * @return Текст со значениями вместо плейсхолдеров
+     */
+    String resolveText(String text, List<ModelLink> links);
+
+    /**
      * Заменить в строке плейсхолдеры {...} на значения, кроме исключений
      *
      * @param url Строка с плейсхолдерами
@@ -129,6 +140,15 @@ public interface BindProcessor {
      * @return Измененный адрес
      */
     String resolveUrl(String url, ModelLink link);
+
+    /**
+     * Заменить в адресе параметры, которые ссылаются на переданный список моделей
+     *
+     * @param url  Адрес
+     * @param links Список ссылок на модели, по которым определяем какие параметры необходимо заменить
+     * @return Измененный адрес
+     */
+    String resolveUrl(String url, List<ModelLink> links);
 
     /**
      * Пытается превратить ссылку в константное значение.

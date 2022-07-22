@@ -56,7 +56,24 @@ N2O - компонентно-ориентированный фреймворк.
 
 Боковая панель - содержит меню навигации, может содержать логотип и название.
 
-Боковые панели перечисляются в приложении в элементе `<sidebars>`.
+Боковая панель задается в файлах вида `*.sidebar.xml`:
+
+```xml title="Боковая панель в отдельном файле"
+<?xml version='1.0' encoding='UTF-8'?>
+<sidebar xmlns="http://n2oapp.net/framework/config/schema/sidebar-3.0"
+         subtitle="Simple subtitle"
+         path="/hello"
+         toggle-on-hover="true"
+         home-page-url="/home">
+    ...
+    <nav>
+        <menu-item name="test"/>
+    </nav>
+    ...
+</sidebar>
+```
+
+Либо перечисляются в элементе `<sidebars>`.
 
 ```xml title="Структура боковой панели"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -70,6 +87,26 @@ N2O - компонентно-ориентированный фреймворк.
             ...
           </extra-menu>
         </sidebar>
+    </sidebars>
+</application>
+```
+
+На боковую панель, заданной в отдельном файле, можно ссылаться
+через атрибут `ref-id` в элементах `<sidebar>`:
+
+```xml title="Ссылка на боковую панель"
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/home" ref-id="homeSidebar">
+          <nav>
+            ...
+          </nav>
+          <extra-menu>
+            ...
+          </extra-menu>
+        </sidebar>
+        <sidebar ref-id="profileSidebar"/>
     </sidebars>
 </application>
 ```
@@ -561,6 +598,7 @@ __*Виды действий*__
 |&lt;clear&gt;       |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                       |
 |&lt;copy&gt;        |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)           |
 |&lt;print&gt;       |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
+|&lt;submit&gt;      |n2o/actionImpl/SUBMIT      |[Сохранить источник данных](../xml/action#submit)                                             |
 
 Действие можно задать внутри кнопки:
 

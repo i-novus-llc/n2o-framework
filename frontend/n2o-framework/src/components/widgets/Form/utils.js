@@ -9,7 +9,6 @@ import each from 'lodash/each'
 import isObjectLike from 'lodash/isObjectLike'
 import isNil from 'lodash/isNil'
 import isBoolean from 'lodash/isBoolean'
-import isEmpty from 'lodash/isEmpty'
 
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 
@@ -134,9 +133,6 @@ export const resolveExpression = (value, model) => {
     }
     if (isBoolean(value)) {
         return value
-    }
-    if (isEmpty(model)) {
-        return false
     }
 
     return evalExpression(parseExpression(value), model)

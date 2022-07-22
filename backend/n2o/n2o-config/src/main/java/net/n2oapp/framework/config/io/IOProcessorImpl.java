@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -318,7 +319,8 @@ public final class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public void childrenToMap(Element element, String sequences, String childrenName, Supplier<Map<String, Object>> getter, Consumer<Map<String, Object>> setter) {
+    public void childrenAttributesToMap(Element element, String sequences, String childrenName,
+                                        Supplier<Map<String, Object>> getter, Consumer<Map<String, Object>> setter) {
         if (r) {
             Map<String, Object> result = new HashMap<>();
             Element seqE;
@@ -333,12 +335,20 @@ public final class IOProcessorImpl implements IOProcessor {
                 Attribute attribute = childE.getAttributes().get(0);
                 String key = attribute.getName();
                 String value = attribute.getValue();
-                Object objValue = DomainProcessor.getInstance().doDomainConversion(null, value);
+                Object objValue = DomainProcessor.getInstance().deserialize(value);
                 result.put(key, objValue);
             }
             setter.accept(result);
         } else {
-            persistChildrenMap(element, sequences, childrenName, getter);
+            Map<String, Object> values = getter.get();
+            if (values == null) return;
+            Element seqE;
+            seqE = persistSequences(element, sequences);
+            for (String k : values.keySet()) {
+                Element childE = new Element(childrenName, element.getNamespace());
+                childE.setAttribute(k, values.get(k).toString());
+                seqE.addContent(childE);
+            }
         }
     }
 
@@ -436,19 +446,6 @@ public final class IOProcessorImpl implements IOProcessor {
                     childE.setAttribute(valueName, values.get(k).toString());
                 }
             }
-            seqE.addContent(childE);
-        }
-    }
-
-    private <T> void persistChildrenMap(Element element, String sequences, String childrenName,
-                                        Supplier<Map<String, T>> getter) {
-        Map<String, T> values = getter.get();
-        if (values == null) return;
-        Element seqE;
-        seqE = persistSequences(element, sequences);
-        for (String k : values.keySet()) {
-            Element childE = new Element(childrenName, element.getNamespace());
-            childE.setAttribute(k, values.get(k).toString());
             seqE.addContent(childE);
         }
     }
@@ -1149,7 +1146,7 @@ public final class IOProcessorImpl implements IOProcessor {
                                                             Namespace parentNamespace, Namespace... defaultNamespaces) {
         R reader;
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && (hasText(getParentNameSpacePrefix(element)) || parentNamespace.getURI().equals(element.getNamespaceURI()))) {
-            reader = factory.produce(element, parentNamespace, defaultNamespaces);
+            reader = factory.produce(element, parentNamespace, ArrayUtils.add(defaultNamespaces, element.getNamespace()));
         } else {
             reader = factory.produce(element, parentNamespace, null);
         }
@@ -1171,7 +1168,7 @@ public final class IOProcessorImpl implements IOProcessor {
         P persister;
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null
                 && (isEmpty(entity.getNamespacePrefix()) || entity.getNamespaceUri().equals(parentNamespace.getURI())))
-            persister = factory.produce((Class<T>) entity.getClass(), defaultNamespaces);
+            persister = factory.produce((Class<T>) entity.getClass(), ArrayUtils.add(defaultNamespaces, entity.getNamespace()));
         else
             persister = factory.produce(entity);
 

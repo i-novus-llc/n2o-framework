@@ -1,16 +1,16 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oHtmlWidget;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.StringUtils.hasLink;
 import static net.n2oapp.framework.config.util.FileSystemUtil.getContentByUri;
 
 /**
@@ -22,21 +22,24 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
     @Override
     public HtmlWidget compile(N2oHtmlWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         HtmlWidget widget = new HtmlWidget();
-        N2oDatasource datasource = initInlineDatasource(widget, source, p);
+        N2oAbstractDatasource datasource = initDatasource(widget, source, p);
         CompiledObject object = getObject(source, datasource, p);
         compileBaseWidget(widget, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p.getScope(PageScope.class));
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         String html = p.cast(source.getHtml(), getContentByUri(source.getUrl()));
-        if (html != null)
+        if (html != null) {
+            if (hasLink(html))
+                html = html.replace("'", "\\\'");
             widget.setHtml(p.resolveJS(html.trim()));
+        }
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetActions, object, null);
         return widget;
     }
 
     @Override
-    protected N2oDatasource initInlineDatasource(HtmlWidget compiled, N2oHtmlWidget source, CompileProcessor p) {
-        N2oDatasource datasource = super.initInlineDatasource(compiled, source, p);
+    protected N2oAbstractDatasource initDatasource(HtmlWidget compiled, N2oHtmlWidget source, CompileProcessor p) {
+        N2oAbstractDatasource datasource = super.initDatasource(compiled, source, p);
         if (datasource.getSize() == null)
             datasource.setSize(1);
         return datasource;

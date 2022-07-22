@@ -11,7 +11,7 @@ import { findDeep } from '../../utils/findDeep'
 /**
  * Базовый селектор всех страниц
  * @param {Object.<any, any>} state
- * @return {Pages.store}
+ * @return {pages.store}
  */
 export const pagesSelector = state => state.pages || {}
 
@@ -22,7 +22,7 @@ export const pagesSelector = state => state.pages || {}
 /**
  * Селектор-генератор для получения страницы по ID
  * @param {string} pageId
- * @return {Pages.item | undefined}
+ * @return {pages.item | undefined}
  */
 export const makePageByIdSelector = pageId => createSelector(
     pagesSelector,
@@ -121,4 +121,14 @@ export const makePageDisabledByIdSelector = pageId => createSelector(
 export const makePageStatusByIdSelected = pageId => createSelector(
     makePageByIdSelector(pageId),
     pageState => pageState && pageState.status,
+)
+
+/**
+ * Получение свойсва spinner страницы по ee d
+ * @param {string} pageId
+ * @return {number | undefined}
+ */
+export const makePageSpinnerByIdSelected = pageId => createSelector(
+    makePageByIdSelector(pageId),
+    pageState => pageState && pageState.spinner,
 )

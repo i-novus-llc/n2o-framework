@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ import java.util.List;
 public class WidgetDependency implements Compiled {
 
     @JsonProperty
-    private List<DependencyCondition> enable;
+    private List<Dependency> enable;
 
     @JsonProperty
-    private List<DependencyCondition> visible;
+    private List<Dependency> visible;
 
     public boolean isEmpty() {
         return visible == null && enable == null;

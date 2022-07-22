@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import find from 'lodash/find'
 import get from 'lodash/get'
 import { createStructuredSelector } from 'reselect'
 import {
@@ -19,9 +18,11 @@ import { PAGES } from '../../core/factory/factoryLevels'
 import {
     makePageDisabledByIdSelector,
     makePageStatusByIdSelected,
+    pagesSelector,
 } from '../../ducks/pages/selectors'
 import { rootPageSelector } from '../../ducks/global/store'
 import { Spinner } from '../snippets/Spinner/Spinner'
+import { errorController } from '../errors/errorController'
 
 import withMetadata from './withMetadata'
 import withActions from './withActions'
@@ -33,20 +34,20 @@ function Page(props, context) {
     const {
         metadata,
         loading,
-        status,
+        status: pageStatus,
         defaultTemplate: Template = React.Fragment,
         defaultErrorPages,
         page,
+        pages,
+        pageId,
         rootPage,
+        error,
     } = props
 
-    const getErrorPage = () => get(
-        find(defaultErrorPages, page => page.status === status),
-        'component',
-        null,
-    )
+    const status = pageStatus || get(error, 'status', null)
+    const spinner = get(pages, `${pageId}.spinner`, {})
 
-    const errorPage = getErrorPage()
+    const errorPage = errorController(status, defaultErrorPages)
 
     const renderDefaultBody = () => {
         const { defaultPage: contextDefaultPage } = context
@@ -69,13 +70,13 @@ function Page(props, context) {
     return rootPage ? (
         <Root>
             <Template>
-                <Spinner type="cover" loading={loading}>
+                <Spinner type="cover" loading={loading} {...spinner}>
                     {page ? React.createElement(page, props) : renderDefaultBody()}
                 </Spinner>
             </Template>
         </Root>
     ) : (
-        <Spinner type="cover" loading={loading}>
+        <Spinner type="cover" loading={loading} {...spinner}>
             {page ? React.createElement(page, props) : renderDefaultBody()}
         </Spinner>
     )
@@ -87,19 +88,28 @@ Page.contextTypes = {
 
 Page.propTypes = {
     metadata: PropTypes.object,
+    spinner: PropTypes.object,
+    error: PropTypes.object,
     loading: PropTypes.bool,
     status: PropTypes.number,
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     defaultTemplate: PropTypes.any,
     defaultErrorPages: PropTypes.any,
     rootPage: PropTypes.bool,
+    pages: PropTypes.object,
+    pageId: PropTypes.string,
 }
 
 export { Page }
 
 const mapStateToProps = createStructuredSelector({
     disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
-    status: (state, { pageId }) => makePageStatusByIdSelected(pageId)(state),
+    status: (state, { pageId, location }) => {
+        const id = pageId || location.pathname
+
+        return makePageStatusByIdSelected(id)(state)
+    },
+    pages: state => pagesSelector(state),
     rootPageId: rootPageSelector,
 })
 
@@ -137,6 +147,7 @@ export default compose(
     defaultProps({
         defaultTemplate: SimpleTemplate,
         metadata: {},
+        spinner: {},
         loading: false,
         disabled: false,
     }),

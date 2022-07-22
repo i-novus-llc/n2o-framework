@@ -5,9 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +16,9 @@ import org.springframework.stereotype.Component;
 public class InvokeActionValidator implements SourceValidator<N2oInvokeAction>, SourceClassAware {
     @Override
     public void validate(N2oInvokeAction source, SourceProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        if (source.getRefreshDatasources() != null) {
+        if (source.getRefreshDatasourceIds() != null)
             checkRefreshDatasources(source, datasourceIdsScope);
-        }
-        checkRefreshDatasources(source, datasourceIdsScope);
     }
 
     /**
@@ -33,8 +28,8 @@ public class InvokeActionValidator implements SourceValidator<N2oInvokeAction>, 
      * @param datasourceIdsScope Скоуп источников данных
      */
     private void checkRefreshDatasources(N2oInvokeAction source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getRefreshDatasources() != null)
-            for (String refreshDs : source.getRefreshDatasources()) {
+        if (source.getRefreshDatasourceIds() != null)
+            for (String refreshDs : source.getRefreshDatasourceIds()) {
                 String operation = ValidationUtils.getIdOrEmptyString(source.getOperationId());
                 ValidationUtils.checkForExistsDatasource(refreshDs, datasourceIdsScope,
                         String.format("Атрибут \"refresh-datasources\" действия %s ссылается на несуществующий источник данных '%s'",

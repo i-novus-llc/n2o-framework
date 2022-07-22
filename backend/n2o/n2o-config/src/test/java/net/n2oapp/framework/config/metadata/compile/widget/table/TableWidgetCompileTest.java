@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
@@ -107,6 +108,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
+        assertThat(table.getComponent().getAutoSelect(), is(true));
         assertThat(table.getComponent().getHeight(), is("200px"));
         assertThat(table.getComponent().getWidth(), is("400px"));
         assertThat(table.getComponent().getTextWrap(), is(false));
@@ -183,14 +185,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         QueryContext queryCtx = (QueryContext) route("/page/main", CompiledQuery.class);
 
         //pre-filter name
-        ModelLink nameLink = page.getDatasources().get("page_main").getProvider().getQueryMapping().get("nameParam");
+        ModelLink nameLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("nameParam");
         assertThat(nameLink.normalizeLink(), is("models.filter['page_main'].name"));
         assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnSet(), is(nameLink));
         assertThat(queryCtx.getFilters().stream().anyMatch(f -> f.getFilterId().equals("name")), is(true));
 
         //table filter birthday
-        ModelLink birthdayBeginLink = page.getDatasources().get("page_main").getProvider().getQueryMapping().get("main_birthday_begin");
-        ModelLink birthdayEndLink = page.getDatasources().get("page_main").getProvider().getQueryMapping().get("main_birthday_end");
+        ModelLink birthdayBeginLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("main_birthday_begin");
+        ModelLink birthdayEndLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("main_birthday_end");
         assertThat(birthdayBeginLink.normalizeLink(), is("models.filter['page_main'].birthday.begin"));
         assertThat(birthdayEndLink.normalizeLink(), is("models.filter['page_main'].birthday.end"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnSet(), is(birthdayBeginLink));
@@ -199,7 +201,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryCtx.getFilters().stream().anyMatch(f -> f.getFilterId().equals("birthday.end")), is(true));
 
         //table filter gendersLink
-        ModelLink gendersLink = page.getDatasources().get("page_main").getProvider().getQueryMapping().get("main_genders_id");
+        ModelLink gendersLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("main_genders_id");
         assertThat(gendersLink.getBindLink(), is("models.filter['page_main']"));
         assertThat(gendersLink.getValue(), is("`genders.map(function(t){return t.id})`"));
         assertThat(page.getRoutes().getQueryMapping().get("main_genders_id").getOnSet(), is(gendersLink));
@@ -291,7 +293,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
-        BindLink link = page.getDatasources().get("testFilterColumns_main").getProvider().getQueryMapping().get("main_name");
+        BindLink link = ((StandardDatasource) page.getDatasources().get("testFilterColumns_main")).getProvider().getQueryMapping().get("main_name");
         assertThat(link.getValue(), is("`name`"));
         assertThat(link.getBindLink(), is("models.filter['testFilterColumns_main']"));
 
@@ -340,7 +342,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testMultiColumn_table']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
-        BindLink link = page.getDatasources().get("testMultiColumn_table").getProvider().getQueryMapping().get("table_name");
+        BindLink link = ((StandardDatasource) page.getDatasources().get("testMultiColumn_table")).getProvider().getQueryMapping().get("table_name");
         assertThat(link.getValue(), is("`name`"));
         assertThat(link.getBindLink(), is("models.filter['testMultiColumn_table']"));
 
@@ -359,26 +361,15 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationDefault.widget.xml")
                 .get(new WidgetContext("testTable4PaginationDefault"));
         Pagination pagination = table.getPaging();
+        checkDefaultPagingParams(pagination);
+    }
 
-        assertThat(pagination.getFirst(), is(true));
-        assertThat(pagination.getLast(), is(false));
-        assertThat(pagination.getPrev(), is(false));
-        assertThat(pagination.getNext(), is(false));
-        assertThat(pagination.getShowSinglePage(), is(false));
-        assertThat(pagination.getShowCount(), is(true));
-        assertThat(pagination.getLayout(), is(Layout.separated));
-        assertThat(pagination.getPrevLabel(), is(nullValue()));
-        assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
-        assertThat(pagination.getNextLabel(), is(nullValue()));
-        assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
-        assertThat(pagination.getFirstLabel(), is(nullValue()));
-        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
-        assertThat(pagination.getLastLabel(), is(nullValue()));
-        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
-        assertThat(pagination.getMaxPages(), is(5));
-        assertThat(pagination.getClassName(), is(nullValue()));
-        assertThat(pagination.getStyle(), is(nullValue()));
-        assertThat(pagination.getPlace(), is(Place.bottomLeft));
+    @Test
+    public void testPaginationMissing() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4PaginationMissing.widget.xml")
+                .get(new WidgetContext("testTable4PaginationMissing"));
+        Pagination pagination = table.getPaging();
+        checkDefaultPagingParams(pagination);
     }
 
     @Test
@@ -406,6 +397,28 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
+    }
+
+    private void checkDefaultPagingParams(Pagination pagination) {
+        assertThat(pagination.getFirst(), is(true));
+        assertThat(pagination.getLast(), is(false));
+        assertThat(pagination.getPrev(), is(false));
+        assertThat(pagination.getNext(), is(false));
+        assertThat(pagination.getShowSinglePage(), is(false));
+        assertThat(pagination.getShowCount(), is(true));
+        assertThat(pagination.getLayout(), is(Layout.separated));
+        assertThat(pagination.getPrevLabel(), is(nullValue()));
+        assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
+        assertThat(pagination.getNextLabel(), is(nullValue()));
+        assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
+        assertThat(pagination.getFirstLabel(), is(nullValue()));
+        assertThat(pagination.getFirstIcon(), is("fa fa-angle-double-left"));
+        assertThat(pagination.getLastLabel(), is(nullValue()));
+        assertThat(pagination.getLastIcon(), is("fa fa-angle-double-right"));
+        assertThat(pagination.getMaxPages(), is(5));
+        assertThat(pagination.getClassName(), is(nullValue()));
+        assertThat(pagination.getStyle(), is(nullValue()));
+        assertThat(pagination.getPlace(), is(Place.bottomLeft));
     }
 
 }

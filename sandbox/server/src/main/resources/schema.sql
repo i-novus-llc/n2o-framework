@@ -24,6 +24,11 @@ CREATE TABLE IF NOT EXISTS roles (
   actor_id int REFERENCES actors (id) on delete CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS user (
+  id int auto_increment PRIMARY KEY,
+  username CHAR(50)
+);
+
 INSERT INTO cars (name, price, year) SELECT 'Audi', 60000, '2007-01-01' WHERE not exists (SELECT name FROM cars WHERE name = 'Audi');
 INSERT INTO cars (name, price, year) SELECT 'BMW', 64000, '2008-01-01'  WHERE not exists (SELECT name FROM cars WHERE name = 'BMW');
 INSERT INTO cars (name, price, year) SELECT 'Mercedes Benz', 53000, '2013-01-01'  WHERE not exists (SELECT name FROM cars WHERE name = 'Mercedes Benz');
@@ -43,3 +48,6 @@ INSERT INTO persons VALUES (null, 'Mike', 'Rodgers');
 INSERT INTO persons VALUES (null, 'Stan', 'Marks');
 INSERT INTO persons VALUES (null, 'Rob', 'George');
 INSERT INTO persons VALUES (null, 'Ben', 'Smith');
+
+
+INSERT INTO user VALUES (null, 'Anna');

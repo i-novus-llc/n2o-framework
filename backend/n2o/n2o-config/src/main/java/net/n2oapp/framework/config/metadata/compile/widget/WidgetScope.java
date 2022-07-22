@@ -2,8 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import lombok.Getter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.io.Serializable;
 
@@ -12,25 +14,26 @@ import java.io.Serializable;
  */
 @Getter
 public class WidgetScope implements Serializable {
-    private String clientWidgetId;
     private String widgetId;
     private String datasourceId;
-    private String globalDatasourceId;
+    private String clientWidgetId;
+    private String clientDatasourceId;
     private ReduxModel model;
-    private N2oDatasource inLineDatasource;
+    private N2oStandardDatasource inLineDatasource;
 
 
-    public WidgetScope(String widgetId, String datasourceId, N2oDatasource inLineDatasource) {
+    public WidgetScope(String widgetId, String datasourceId, N2oStandardDatasource inLineDatasource) {
         this.widgetId = widgetId;
         this.datasourceId = datasourceId;
         this.inLineDatasource = inLineDatasource;
     }
 
-    public WidgetScope(String widgetId, String datasourceId, ReduxModel model, PageScope pageScope) {
+    public WidgetScope(String widgetId, String datasourceId, ReduxModel model, CompileProcessor p) {
         this.widgetId = widgetId;
         this.datasourceId = datasourceId;
         this.model = model;
-        this.clientWidgetId = pageScope != null ? pageScope.getGlobalWidgetId(widgetId) : widgetId;
-        this.globalDatasourceId = pageScope != null ? pageScope.getClientDatasourceId(datasourceId) : datasourceId;
+        PageScope pageScope = p.getScope(PageScope.class);
+        this.clientWidgetId = pageScope != null ? CompileUtil.getClientWidgetId(widgetId, pageScope.getPageId()) : widgetId;
+        this.clientDatasourceId = CompileUtil.getClientDatasourceId(datasourceId, p);
     }
 }

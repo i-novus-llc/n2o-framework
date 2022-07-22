@@ -30,7 +30,6 @@ public class TextAreaCompiler extends StandardFieldCompiler<TextArea, N2oTextAre
         TextArea textArea = new TextArea();
         textArea.setMinRows(source.getMinRows());
         textArea.setMaxRows(source.getMaxRows());
-        textArea.setPlaceholder(source.getPlaceholder());
         return compileStandardField(textArea, source, context, p);
     }
 }
