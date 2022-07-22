@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
@@ -91,7 +90,6 @@ public class SandboxAutotestApplication {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     AlertMessagesConstructor messagesConstructor(AlertMessageBuilder messageBuilder) {
         return new N2oAlertMessagesConstructor(messageBuilder);
     }
