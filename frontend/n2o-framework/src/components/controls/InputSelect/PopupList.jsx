@@ -15,8 +15,7 @@ import { isBottom } from './utils'
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {string} groupFieldId - поле для группировки
- * @reactProps {string} badgeFieldId - поле для баджей
- * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {object} badge - данные для баджа
  * @reactProps {string} enabledFieldId - поле для активности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {string} format - формат
@@ -61,8 +60,7 @@ PopupList.propTypes = {
     iconFieldId: PropTypes.string,
     imageFieldId: PropTypes.string,
     groupFieldId: PropTypes.string,
-    badgeFieldId: PropTypes.string,
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.object,
     enabledFieldId: PropTypes.string,
     disabledValues: PropTypes.array,
     onSelect: PropTypes.func,

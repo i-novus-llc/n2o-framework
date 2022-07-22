@@ -24,8 +24,7 @@ import { getValueArray } from './utils'
  * @reactProps {string} labelFieldId - значение ключа label в данных
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
- * @reactProps {string} badgeFieldId - поле для баджей
- * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {object} badge - данные для баджа
  * @reactProps {string} statusFieldId - поле для статуса
  * @reactProps {string} descriptionFieldId - поле для описания
  * @reactProps {boolean} disabled - флаг неактивности
@@ -488,9 +487,8 @@ class InputSelect extends React.Component {
             enabledFieldId,
             hasCheckboxes,
             format,
-            badgeFieldId,
+            badge,
             statusFieldId,
-            badgeColorFieldId,
             onScrollEnd,
             style,
             alerts,
@@ -595,10 +593,9 @@ class InputSelect extends React.Component {
                             labelFieldId={labelFieldId}
                             iconFieldId={iconFieldId}
                             imageFieldId={imageFieldId}
-                            badgeFieldId={badgeFieldId}
+                            badge={badge}
                             statusFieldId={statusFieldId}
                             descriptionFieldId={descriptionFieldId}
-                            badgeColorFieldId={badgeColorFieldId}
                             onSelect={(item) => {
                                 this.handleItemSelect(item)
                             }}
@@ -655,13 +652,9 @@ InputSelect.propTypes = {
      */
     imageFieldId: PropTypes.string,
     /**
-     * Ключ badge в данных
+     * Данные для badge
      */
-    badgeFieldId: PropTypes.string,
-    /**
-     * Ключ цвета badgeColor в данных
-     */
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.object,
     /**
      * Ключ сортировки в данных
      */
@@ -768,7 +761,9 @@ InputSelect.defaultProps = {
     labelFieldId: 'name',
     iconFieldId: 'icon',
     imageFieldId: 'image',
-    badgeFieldId: 'badge',
+    badge: {
+        fieldId: 'badge',
+    },
     loading: false,
     disabled: false,
     disabledValues: [],
