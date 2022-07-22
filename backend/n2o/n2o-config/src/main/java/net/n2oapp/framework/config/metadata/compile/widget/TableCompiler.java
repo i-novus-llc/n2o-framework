@@ -41,7 +41,7 @@ import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId
  * Компиляция таблицы
  */
 @Component
-public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
+public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseListWidgetCompiler<D, S> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -54,8 +54,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     }
 
     @Override
-    public Table compile(N2oTable source, CompileContext<?, ?> context, CompileProcessor p) {
-        Table table = new Table();
+    public D compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        D table = constructTable();
         TableWidgetComponent component = table.getComponent();
         N2oAbstractDatasource datasource = initDatasource(table, source, p);
         CompiledQuery query = getQuery(datasource, p);
@@ -109,6 +109,13 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         return table;
     }
 
+    /**
+     * Метод для создания экземпляра клиентской модели таблицы, должен быть переопределен в подклассах
+     */
+    protected D constructTable() {
+        return (D) new Table(new TableWidgetComponent());
+    }
+
     private void compileColumns(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                 TableWidgetComponent component, CompiledQuery query, CompiledObject object,
                                 Object... scopes) {
@@ -146,8 +153,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     }
 
     private void initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
-                                              WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
-                                              Object... scopes) {
+                            WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
+                            Object... scopes) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
                 widgetQuery, object, scopes);
         if (fieldSets.isEmpty())

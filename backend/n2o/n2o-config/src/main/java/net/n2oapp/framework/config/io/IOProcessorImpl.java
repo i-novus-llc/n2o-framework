@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -1145,7 +1146,7 @@ public final class IOProcessorImpl implements IOProcessor {
                                                             Namespace parentNamespace, Namespace... defaultNamespaces) {
         R reader;
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && (hasText(getParentNameSpacePrefix(element)) || parentNamespace.getURI().equals(element.getNamespaceURI()))) {
-            reader = factory.produce(element, parentNamespace, defaultNamespaces);
+            reader = factory.produce(element, parentNamespace, ArrayUtils.add(defaultNamespaces, element.getNamespace()));
         } else {
             reader = factory.produce(element, parentNamespace, null);
         }
@@ -1167,7 +1168,7 @@ public final class IOProcessorImpl implements IOProcessor {
         P persister;
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null
                 && (isEmpty(entity.getNamespacePrefix()) || entity.getNamespaceUri().equals(parentNamespace.getURI())))
-            persister = factory.produce((Class<T>) entity.getClass(), defaultNamespaces);
+            persister = factory.produce((Class<T>) entity.getClass(), ArrayUtils.add(defaultNamespaces, entity.getNamespace()));
         else
             persister = factory.produce(entity);
 
