@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.UrlAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.Map;
@@ -21,7 +21,7 @@ public class N2oImageCell extends N2oActionCell implements UrlAware {
     @JsonProperty
     private String url;
     @JsonProperty
-    private ImageShape shape;
+    private ShapeType shape;
     @JsonProperty
     private String title;
     @JsonProperty

@@ -3,7 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
@@ -101,7 +101,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void uploadAreaShapeShouldBe(ImageShape shape) {
+    public void uploadAreaShapeShouldBe(ShapeType shape) {
         // TODO дополнить после полной реализации shape у картинок
         switch (shape) {
             case circle:
