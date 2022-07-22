@@ -160,7 +160,6 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     }
 
     private List<Filter> initFilters(N2oStandardDatasource source, CompileProcessor p, CompiledQuery query) {
-        PageScope pageScope = p.getScope(PageScope.class);
         if (query == null)
             return null;
         List<Filter> filters = new ArrayList<>();
