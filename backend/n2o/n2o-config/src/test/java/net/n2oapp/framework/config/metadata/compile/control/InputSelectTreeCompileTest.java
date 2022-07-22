@@ -50,5 +50,6 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getSize(), is(35));
         assertThat(ist.isHasCheckboxes(), is(true));
         assertThat(ist.getMaxTagTextLength(), is(20));
+        assertThat(ist.getPlaceholder(), is("`select`"));
     }
 }

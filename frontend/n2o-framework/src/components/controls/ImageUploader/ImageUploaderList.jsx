@@ -9,7 +9,6 @@ function ImageUploaderList(props) {
         files,
         onRemove,
         uploading,
-        imgFiles,
         showTooltip,
         canDelete,
         ...rest

@@ -8,10 +8,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Table extends AbstractTable<TableWidgetComponent> {
+public class Table<C extends TableWidgetComponent> extends AbstractTable<C> {
 
-    public Table() {
-        super(new TableWidgetComponent());
+    public Table(C component) {
+        super(component);
     }
 }
 

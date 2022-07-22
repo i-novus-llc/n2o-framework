@@ -8,11 +8,10 @@ import net.n2oapp.framework.api.metadata.event.action.MergeMode;
 import net.n2oapp.framework.api.metadata.event.action.N2oSetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueActionPayload;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.initClientDatasource;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Сборка действия set-value
@@ -31,16 +30,15 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         compileAction(setValueAction, source, p);
         setValueAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
 
-        String defaultDatasource = initClientDatasource(getLocalDatasource(p), p);
+        String defaultDatasource = getClientDatasourceId(getLocalDatasource(p), p);
         ReduxModel model = getModelFromComponentScope(p);
-        PageScope pageScope = p.getScope(PageScope.class);
-        String sourceDatasource = source.getSourceDatasource() == null ? defaultDatasource :
-                pageScope.getClientDatasourceId(source.getSourceDatasource());
-        SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(sourceDatasource,
+        String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
+                getClientDatasourceId(source.getSourceDatasourceId(), p);
+        SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(sourceDatasourceId,
                 p.cast(source.getSourceModel(), model.getId()));
-        String targetDatasource = source.getTargetDatasource() == null ? defaultDatasource :
-                pageScope.getClientDatasourceId(source.getTargetDatasource());
-        SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(targetDatasource,
+        String targetDatasourceId = source.getTargetDatasourceId() == null ? defaultDatasource :
+                getClientDatasourceId(source.getTargetDatasourceId(), p);
+        SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(targetDatasourceId,
                 p.cast(source.getTargetModel(), model.getId()));
         targetModel.setField(source.getTo());
         setValueAction.getPayload().setSource(sourceModel);

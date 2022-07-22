@@ -3,6 +3,7 @@ import { Spinner as BaseSpinner } from 'reactstrap'
 import classNames from 'classnames'
 import eq from 'lodash/eq'
 import values from 'lodash/values'
+import omit from 'lodash/omit'
 import PropTypes from 'prop-types'
 
 const TYPE = {
@@ -18,7 +19,7 @@ export class Spinner extends Component {
             showSpinner: false,
         }
 
-        this.renderCoverSpiner = this.renderCoverSpiner.bind(this)
+        this.renderCoverSpinner = this.renderCoverSpinner.bind(this)
         this.renderLineSpinner = this.renderLineSpinner.bind(this)
     }
 
@@ -32,7 +33,7 @@ export class Spinner extends Component {
                 if (!this.unmounted) {
                     this.setState({ showSpinner: loading })
                 }
-            }, 1000)
+            }, 2000)
         }
     }
 
@@ -40,11 +41,12 @@ export class Spinner extends Component {
         this.unmounted = true
     }
 
-    renderCoverSpiner() {
+    renderCoverSpinner() {
         const {
             children,
             className,
             text,
+            title,
             transparent,
             color,
             loading,
@@ -56,12 +58,14 @@ export class Spinner extends Component {
             <div
                 className={classNames('n2o-spinner-wrapper', {
                     [className]: className,
+                    'n2o-disabled-page': loading,
                 })}
             >
                 {showSpinner && (
                     <>
                         <div className="n2o-spinner-container ">
-                            <BaseSpinner className="spinner-border" color={color} {...rest} />
+                            <BaseSpinner className="spinner-border" color={color} {...omit(rest, ['loading'])} />
+                            <div className="loading_title loading_text">{title}</div>
                             <div className="loading_text">{text}</div>
                         </div>
                         {!transparent ? <div className="spinner-background" /> : null}
@@ -74,14 +78,13 @@ export class Spinner extends Component {
 
     renderLineSpinner() {
         const {
-            type,
             children,
             loading,
             ...rest
         } = this.props
 
         if (loading) {
-            return <BaseSpinner className="spinner" {...rest} />
+            return <BaseSpinner className="spinner" {...omit(rest, ['type'])} />
         }
         if (React.Children.count(children)) {
             return children
@@ -94,7 +97,7 @@ export class Spinner extends Component {
         const { type } = this.props
 
         return eq(type, TYPE.COVER)
-            ? this.renderCoverSpiner()
+            ? this.renderCoverSpinner()
             : this.renderLineSpinner()
     }
 }
@@ -102,6 +105,7 @@ export class Spinner extends Component {
 Spinner.propTypes = {
     loading: PropTypes.bool,
     type: PropTypes.oneOf(values(TYPE)),
+    title: PropTypes.string,
     text: PropTypes.string,
     transparent: PropTypes.bool,
     color: PropTypes.string,

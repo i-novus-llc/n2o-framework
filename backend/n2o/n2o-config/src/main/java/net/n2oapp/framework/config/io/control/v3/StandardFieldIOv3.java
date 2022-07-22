@@ -92,7 +92,7 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePosition.class);
         p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacement.class);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
-        p.attributeArray(e, "refresh-datasource", ",", t::getRefreshDatasources, t::setRefreshDatasources);
+        p.attributeArray(e, "refresh-datasource", ",", t::getRefreshDatasourceIds, t::setRefreshDatasourceIds);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
         p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);
@@ -102,7 +102,7 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
     private void submitParam(Element e, N2oParam t, IOProcessor p) {
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
+        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
     }
 
@@ -111,7 +111,7 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         if (t.getId() == null)
             p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
+        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
     }
 

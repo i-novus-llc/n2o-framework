@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
@@ -11,7 +12,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
@@ -29,7 +30,6 @@ import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,6 +40,8 @@ import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientWidgetId;
 
 /**
  * Абстрактная реализация компиляция open-page, show-modal
@@ -51,21 +53,22 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
         if (source.getDatasources() != null) {
-            for (N2oDatasource datasource : source.getDatasources()) {
-                initDefaultsDatasource(datasource, context, p);
+            for (N2oAbstractDatasource datasource : source.getDatasources()) {
+                if (datasource instanceof N2oStandardDatasource)
+                    initDefaultsDatasource((N2oStandardDatasource) datasource, p);
             }
         }
         if (source.getParams() != null) {
             for (N2oParam param : source.getParams()) {
-                initDefaultsParam(param, context, p, source);
+                initDefaultsParam(param, p, source);
             }
         }
     }
 
-    private void initDefaultsParam(N2oParam param, CompileContext<?, ?> context, CompileProcessor p, S source) {
+    private void initDefaultsParam(N2oParam param, CompileProcessor p, S source) {
         param.setModel(p.cast(param.getModel(), () -> getModelFromComponentScope(p)));
-        param.setDatasource(p.cast(param.getDatasource(), () -> getLocalDatasource(p)));
-        if (param.getDatasource() == null)
+        param.setDatasourceId(p.cast(param.getDatasourceId(), () -> getLocalDatasource(p)));
+        if (param.getDatasourceId() == null && param.getValue() == null)
             throw new N2oException(String.format("datasource is not undefined for param %s of action %s", param.getName(), source.getId()));
         param.setRefPageId(p.cast(param.getRefPageId(), () -> {
             PageScope pageScope = p.getScope(PageScope.class);
@@ -85,14 +88,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * Приведение поле источника данных к значениям по умолчанию
      *
      * @param datasource Источник данных
-     * @param context    Контекст сборки
      * @param p          Процессор сборки
      */
-    protected void initDefaultsDatasource(N2oDatasource datasource, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void initDefaultsDatasource(N2oStandardDatasource datasource, CompileProcessor p) {
         if (datasource.getFilters() != null) {
             for (N2oPreFilter filter : datasource.getFilters()) {
                 filter.setModel(p.cast(filter.getModel(), () -> getModelFromComponentScope(p)));
-                filter.setDatasource(p.cast(filter.getRefWidgetId(), () -> getLocalDatasource(p)));
+                filter.setDatasourceId(p.cast(filter.getRefWidgetId(), () -> getLocalDatasource(p)));
                 filter.setRefPageId(p.cast(filter.getRefPageId(), () -> {
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
@@ -136,23 +138,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId, pageScope,
-                componentScope, source.getPageId());
+                componentScope, source.getPageId(), p);
 
-        String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
-
-        String parentComponentWidgetId = null;
-        WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-        if (widgetIdAware != null && widgetIdAware.getWidgetId() != null)
-            parentComponentWidgetId = widgetIdAware.getWidgetId();
-
-        // виджет для текущей модели берется либо из родителя, либо текущий
-        String actionModelWidgetId = p.cast(parentComponentWidgetId, currentWidgetId);
-
-        Map<String, String> widgetIdQueryIdMap = null;
-        if (pageScope != null && !CollectionUtils.isEmpty(pageScope.getWidgetIdQueryIdMap()))
-            widgetIdQueryIdMap = pageScope.getWidgetIdQueryIdMap();
         initPathMapping(source.getPathParams(), pathMapping, p);
 
+        String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
         String parentRoute = normalize(route);
         route = normalize(route + actionRoute);
         PageContext pageContext = constructContext(pageId, route);
@@ -160,18 +150,20 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
-        String targetDS = source.getTargetDatasource();
+        String targetDS = source.getTargetDatasourceId();
         if (pageScope != null && targetDS == null && currentWidgetId != null) {
             targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
         }
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(p.getScope(BreadcrumbList.class));
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
+        pageContext.setSubmitMessageOnSuccess(source.getSubmitMessageOnSuccess());
+        pageContext.setSubmitMessageOnFail(source.getSubmitMessageOnFail());
         pageContext.setSubmitLabel(source.getSubmitLabel());
         pageContext.setSubmitModel(source.getSubmitModel());
         pageContext.setSubmitActionType(source.getSubmitActionType());
         pageContext.setCopyModel(source.getCopyModel());
-        pageContext.setCopyDatasource(source.getCopyDatasource());
+        pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetDatasourceId(targetDS);
@@ -184,26 +176,25 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentClientWidgetId(currentClientWidgetId);
         String localDatasourceId = getLocalDatasource(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
-        pageContext.setParentGlobalDatasourceId(pageScope != null ? pageScope.getClientDatasourceId(localDatasourceId) : localDatasourceId);
+        pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, p));
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
-        pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         if ((pageContext.getRefreshOnSuccessSubmit() || pageContext.getRefreshOnClose()) &&
-                (source.getRefreshDatasources() != null || localDatasourceId != null)) {
-            String[] refreshDatasources = source.getRefreshDatasources() == null ?
-                    new String[] {localDatasourceId} : source.getRefreshDatasources();
+                (source.getRefreshDatasourceIds() != null || localDatasourceId != null)) {
+            String[] refreshDatasourceIds = source.getRefreshDatasourceIds() == null ?
+                    new String[]{localDatasourceId} : source.getRefreshDatasourceIds();
             if (pageScope != null) {
-                pageContext.setRefreshClientDataSources(Arrays.stream(refreshDatasources)
-                        .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
+                pageContext.setRefreshClientDataSourceIds(Arrays.stream(refreshDatasourceIds)
+                        .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
             }
         }
-        if (pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSources() == null && pageScope != null) {
-            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(pageScope.getGlobalWidgetId(parentWidgetId));
+        if (pageContext.getCloseOnSuccessSubmit() && pageContext.getRefreshClientDataSourceIds() == null && pageScope != null) {
+            String datasourceId = pageScope.getWidgetIdClientDatasourceMap().get(getClientWidgetId(parentWidgetId, pageId));
             if (datasourceId != null)
-                pageContext.setRefreshClientDataSources(Arrays.asList(datasourceId));
+                pageContext.setRefreshClientDataSourceIds(Arrays.asList(datasourceId));
         }
 
         pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(), true));
@@ -213,14 +204,31 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                     RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));
         }
         pageContext.setPathRouteMapping(pathMapping);
-        initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope,
-                actionModelWidgetId, widgetIdQueryIdMap, p);
+        initQueryMapping(source.getQueryParams(), pathMapping, queryMapping, p);
         pageContext.setQueryRouteMapping(queryMapping);
+        pageContext.setParentModelLinks(collectParentLinks(actionModelLink, pathMapping.values(), queryMapping.values()));
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
+    }
+
+    /**
+     * Сбор родительских ссылок на модели в список в порядке приоритета их использования для разрешения
+     * параметров открываемой страницы
+     *
+     * @param actionModelLink Ссылка на модель действия
+     * @param pathLinks       Ссылки на модели параметров пути
+     * @param queryLinks      Ссылки на модели параметров запроса
+     * @return список родительских ссылок
+     */
+    protected List<ModelLink> collectParentLinks(ModelLink actionModelLink, Collection<ModelLink> pathLinks, Collection<ModelLink> queryLinks) {
+        List<ModelLink> links = new ArrayList<>();
+        links.add(actionModelLink);
+        links.addAll(pathLinks);//TODO возможно стоит добавить сортировку по использованию в route
+        links.addAll(queryLinks);
+        return links;
     }
 
     /**
@@ -233,14 +241,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param pageId          Идентификатор открываемой страницы
      * @return Ссылка на модель действия
      */
-    private ModelLink createActionModelLink(ReduxModel actionDataModel, String clientWidgetId,
-                                            PageScope pageScope, ComponentScope componentScope, String pageId) {
+    private ModelLink createActionModelLink(ReduxModel actionDataModel, String clientWidgetId, PageScope pageScope,
+                                            ComponentScope componentScope, String pageId, CompileProcessor p) {
         if (componentScope != null) {
             String datasource;
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
             if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
-                datasource = pageScope == null ? datasourceIdAware.getDatasourceId()
-                        : pageScope.getClientDatasourceId(datasourceIdAware.getDatasourceId());
+                datasource = getClientDatasourceId(datasourceIdAware.getDatasourceId(), p);
             } else {
                 datasource = (pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null)
                         ? clientWidgetId
@@ -269,20 +276,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     /**
      * Добавление параметров запроса в queryMapping
      *
-     * @param params                  Список входящих параметров запроса
-     * @param actionDataModel         Модель действия
-     * @param pathMapping             Map моделей параметров пути
-     * @param queryMapping            Map моделей параметров запроса.
-     *                                В нее будут добавлены модели построенных параметров запроса
-     * @param pageScope               Информация о странице
-     * @param defaultParamRefWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
-     *                                в случае, если в параметре не задан виджет
-     * @param widgetIdQueryIdMap      Map идентификатора выборки по идентификатору виджета
-     * @param p                       Процессор сборки метаданных
+     * @param params       Список входящих параметров запроса
+     * @param pathMapping  Map моделей параметров пути
+     * @param queryMapping Map моделей параметров запроса.
+     *                     В нее будут добавлены модели построенных параметров запроса
+     * @param p            Процессор сборки метаданных
      */
-    private void initQueryMapping(N2oParam[] params, ReduxModel actionDataModel, Map<String, ModelLink> pathMapping,
-                                  Map<String, ModelLink> queryMapping, PageScope pageScope,
-                                  String defaultParamRefWidgetId, Map<String, String> widgetIdQueryIdMap, CompileProcessor p) {
+    private void initQueryMapping(N2oParam[] params, Map<String, ModelLink> pathMapping,
+                                  Map<String, ModelLink> queryMapping, CompileProcessor p) {
         if (params == null || params.length == 0) return;
         List<N2oParam> resultParams = prepareParams(params);
         queryMapping.putAll(initParams(resultParams, pathMapping, p));
@@ -317,11 +318,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 params.stream().filter(f -> f.getName() != null && !pathParams.containsKey(f.getName()))
                         .collect(Collectors.toMap(N2oParam::getName, param -> {
                             ModelLink link = Redux.linkParam(param, p);
-                            String datasource = param.getDatasource();
+                            String datasource = param.getDatasourceId();
                             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
                             if (ReduxModel.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
-                                    && dataSourcesScope.get(datasource) != null)
-                                link.setSubModelQuery(new SubModelQuery(dataSourcesScope.get(datasource).getQueryId()));
+                                    && dataSourcesScope.get(datasource) != null && dataSourcesScope.get(datasource) instanceof N2oStandardDatasource)
+                                link.setSubModelQuery(new SubModelQuery(((N2oStandardDatasource) dataSourcesScope.get(datasource)).getQueryId()));
                             return link;
                         }));
     }

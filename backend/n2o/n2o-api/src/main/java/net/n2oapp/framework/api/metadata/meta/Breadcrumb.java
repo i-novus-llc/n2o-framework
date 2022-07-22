@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
+import java.util.List;
+
 /**
  * Клиентская модель навигационной цепочки
  */
@@ -16,7 +18,7 @@ public class Breadcrumb implements Compiled {
     private String label;
     @JsonProperty
     private String path;
-    private ModelLink modelLink;
+    private List<ModelLink> modelLinks;
 
     public Breadcrumb() {
     }
@@ -29,6 +31,6 @@ public class Breadcrumb implements Compiled {
     public Breadcrumb(Breadcrumb parent) {
         this.label = parent.getLabel();
         this.path = parent.getPath();
-        this.modelLink = parent.modelLink;
+        this.modelLinks = parent.modelLinks;
     }
 }

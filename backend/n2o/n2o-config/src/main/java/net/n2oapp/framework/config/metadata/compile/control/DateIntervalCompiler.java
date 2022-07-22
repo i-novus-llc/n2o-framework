@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -67,17 +66,17 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
             return;
         if (source.getBeginParam() != null) {
             String fieldId = control.getId() + ".begin";
-            ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId(), fieldId);
+            ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getClientDatasourceId(), fieldId);
             onSet.setParam(source.getBeginParam());
-            ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getGlobalDatasourceId(), widgetScope.getModel(), fieldId,
+            ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getClientDatasourceId(), widgetScope.getModel(), fieldId,
                     colon(source.getBeginParam()));
             paramScope.addQueryMapping(source.getBeginParam(), onGet, onSet);
         }
         if (source.getEndParam() != null) {
             String fieldId = control.getId() + ".end";
-            ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId(), fieldId);
+            ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getClientDatasourceId(), fieldId);
             onSet.setParam(source.getEndParam());
-            ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getGlobalDatasourceId(), widgetScope.getModel(), fieldId,
+            ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getClientDatasourceId(), widgetScope.getModel(), fieldId,
                     colon(source.getEndParam()));
             paramScope.addQueryMapping(source.getEndParam(), onGet, onSet);
         }

@@ -32,7 +32,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
         clearAction.getPayload().setPrefixes(initPayloadPrefixes(source, p));
-        String widgetId = initClientWidgetId(context, p);
+        String widgetId = initClientWidgetId(p);
         PageScope pageScope = p.getScope(PageScope.class);
         clearAction.getPayload().setKey(
                 pageScope == null || pageScope.getWidgetIdClientDatasourceMap() == null ||

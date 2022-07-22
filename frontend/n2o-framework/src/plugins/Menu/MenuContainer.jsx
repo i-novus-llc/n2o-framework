@@ -100,15 +100,14 @@ export class MenuContainer extends React.Component {
             try {
                 await checkSecurity(config)
 
-                this.giveAccess(item, type, currentId, isChildren)
-            } catch (error) {
-                // eslint-disable-next-line no-console
-                console.error(error)
-                /* nothing to do */
-            }
-        } else {
-            this.giveAccess(item, type, currentId, isChildren)
-        }
+                 this.giveAccess(item, type, currentId, isChildren)
+             } catch (error) {
+                 // eslint-disable-next-line no-console
+                 console.error(error)
+             }
+         } else {
+             this.giveAccess(item, type, currentId, isChildren)
+         }
 
         if (items) {
             for (const subItem of items) {

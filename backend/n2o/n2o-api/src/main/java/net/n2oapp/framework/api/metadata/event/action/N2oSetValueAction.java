@@ -13,29 +13,29 @@ public class N2oSetValueAction extends N2oAbstractAction {
     private String targetFieldId;
 
     private String to;
-    private String sourceDatasource;
+    private String sourceDatasourceId;
     private String sourceModel;
-    private String targetDatasource;
+    private String targetDatasourceId;
     private String targetModel;
     private MergeMode mergeMode;
 
     @Deprecated
     public String getSourceWidget() {
-        return sourceDatasource;
+        return sourceDatasourceId;
     }
 
     @Deprecated
     public void setSourceWidget(String sourceWidget) {
-        this.sourceDatasource = sourceWidget;
+        this.sourceDatasourceId = sourceWidget;
     }
 
     @Deprecated
     public String getTargetWidget() {
-        return targetDatasource;
+        return targetDatasourceId;
     }
 
     @Deprecated
     public void setTargetWidget(String targetWidget) {
-        this.targetDatasource = targetWidget;
+        this.targetDatasourceId = targetWidget;
     }
 }

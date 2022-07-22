@@ -13,6 +13,7 @@ import map from 'lodash/map'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
+import merge from 'deepmerge'
 import { push } from 'connected-react-router'
 import { withTranslation } from 'react-i18next'
 
@@ -23,6 +24,7 @@ import { getContainerColumns } from '../../../ducks/columns/selectors'
 import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell'
 // eslint-disable-next-line import/no-named-as-default
@@ -272,11 +274,11 @@ const mapStateToProps = (state, props) => ({
 
 export const withWidgetHandlers = (WrappedComponent) => {
     const WithHandlers = (props) => {
-        const { rowClick } = props
+        const { rowClick, datasource } = props
         const store = useStore()
         const dispatch = useDispatch()
+        const state = store.getState()
         const onRowClickAction = useCallback((model) => {
-            const state = store.getState()
             const {
                 enablingCondition,
                 action,
@@ -285,8 +287,16 @@ export const withWidgetHandlers = (WrappedComponent) => {
                 queryMapping,
                 target,
             } = rowClick
+            const updatedState = !isEmpty(model) ? merge(state, {
+                models: {
+                    [ModelPrefix.active]: {
+                        [datasource]: model,
+                    },
+                },
+            }) : state
+
             const allowRowClick = evalExpression(enablingCondition, model)
-            const { url: compiledUrl } = dataProviderResolver(state, {
+            const { url: compiledUrl } = dataProviderResolver(updatedState, {
                 url,
                 pathMapping,
                 queryMapping,
@@ -303,7 +313,7 @@ export const withWidgetHandlers = (WrappedComponent) => {
                     window.location = compiledUrl
                 }
             }
-        }, [dispatch, rowClick, store])
+        }, [dispatch, datasource, rowClick, state])
 
         return (
             <WrappedComponent {...props} onRowClickAction={onRowClickAction} />
@@ -312,6 +322,7 @@ export const withWidgetHandlers = (WrappedComponent) => {
 
     WithHandlers.propTypes = {
         rowClick: PropTypes.object,
+        datasource: PropTypes.string,
     }
 
     return WithHandlers
