@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
@@ -23,13 +24,16 @@ import org.springframework.stereotype.Controller;
 public class QueryController extends GetController {
 
     private static final Logger logger = LoggerFactory.getLogger(QueryController.class);
+    private AlertMessagesConstructor messagesConstructor;
 
     public QueryController(DataProcessingStack dataProcessingStack,
                            QueryProcessor queryProcessor,
                            SubModelsProcessor subModelsProcessor,
                            AlertMessageBuilder messageBuilder,
-                           MetadataEnvironment environment) {
+                           MetadataEnvironment environment,
+                           AlertMessagesConstructor messagesConstructor) {
         super(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder, environment);
+        this.messagesConstructor = messagesConstructor;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class QueryController extends GetController {
             CollectionPage<DataSet> collectionPage = executeQuery(requestInfo, responseInfo);
             return new GetDataResponse(collectionPage, responseInfo, requestInfo.getMessagesForm());
         } catch (N2oException e) {
-            GetDataResponse response = new GetDataResponse(getMessageBuilder().buildMessages(e, requestInfo), requestInfo.getMessagesForm());
+            GetDataResponse response = new GetDataResponse(messagesConstructor.constructMessages(e, requestInfo), requestInfo.getMessagesForm());
             response.setStatus(e.getHttpStatus());
             logger.error("Error response " + response.getStatus() + " " + e.getSeverity(), e);
             return response;
