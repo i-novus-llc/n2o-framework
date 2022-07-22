@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
@@ -311,8 +311,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected FieldSetScope initFieldSetScope(CompiledQuery query) {
         FieldSetScope scope = new FieldSetScope();
         if (query != null) {
-            Map<String, N2oQuery.Field> fieldsMap = query.getFieldsMap();
-            for (Map.Entry<String, N2oQuery.Field> entry : fieldsMap.entrySet()) {
+            Map<String, SimpleField> fieldsMap = query.getFieldsMap();
+            for (Map.Entry<String, SimpleField> entry : fieldsMap.entrySet()) {
                 if (entry.getValue() != null) {
                     scope.put(entry.getKey(), entry.getValue().getName());
                 }

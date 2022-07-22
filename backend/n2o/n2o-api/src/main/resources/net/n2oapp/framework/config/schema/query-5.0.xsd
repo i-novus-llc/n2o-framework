@@ -257,13 +257,7 @@
             <xs:documentation>Списковое поле</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="baseFieldDefinition">
-                <xs:sequence>
-                    <xs:element name="field" type="fieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="reference" type="referenceFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="list" type="listFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                </xs:sequence>
-            </xs:extension>
+            <xs:extension base="referenceFieldDefinition"/>
         </xs:complexContent>
     </xs:complexType>
 

@@ -14,7 +14,8 @@ import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
@@ -254,7 +255,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             if (filter.getText() != null)
                 where.add(filter.getText());
             inMap(map, filter.getMapping(), r.getValue());
-            N2oQuery.Field field = query.getFieldsMap().get(r.getFieldId());
+            SimpleField field = query.getFieldsMap().get(r.getFieldId());
             if (!field.getNoJoin())
                 joins.add(field.getJoinBody());
         }
@@ -263,7 +264,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         List<String> sortingExp = new ArrayList<>();
         if (criteria.getSorting() != null)
             for (Sorting sorting : criteria.getSortings()) {
-                N2oQuery.Field field = query.getFieldsMap().get(sorting.getField());
+                SimpleField field = query.getFieldsMap().get(sorting.getField());
                 if (field.getNoSorting())
                     continue;
                 sortingExp.add(field.getSortingExpression());
@@ -388,24 +389,24 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private void addIdIfNotPresent(CompiledQuery query, CollectionPage<DataSet> collectionPage) {
-        if (!query.getFieldsMap().containsKey(N2oQuery.Field.PK))
+        if (!query.getFieldsMap().containsKey(SimpleField.PK))
             return;
-        if (!query.getFieldsMap().get(N2oQuery.Field.PK).getNoDisplay())
+        if (!query.getFieldsMap().get(SimpleField.PK).getNoDisplay())
             return;
         int i = 1;
         for (DataSet dataSet : collectionPage.getCollection()) {
-            dataSet.put(N2oQuery.Field.PK, i++);
+            dataSet.put(SimpleField.PK, i++);
         }
     }
 
-    private DataSet mapFields(Object entry, List<N2oQuery.Field> fields) {
+    private DataSet mapFields(Object entry, List<SimpleField> fields) {
         DataSet resultDataSet = new DataSet();
         fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getMapping(), f.getDefaultValue(), contextProcessor));
         return normalizeDataSet(resultDataSet, fields);
     }
 
-    private DataSet normalizeDataSet(DataSet dataSet, List<N2oQuery.Field> fields) {
-        for (N2oQuery.Field f : fields) {
+    private DataSet normalizeDataSet(DataSet dataSet, List<SimpleField> fields) {
+        for (SimpleField f : fields) {
             if (f.getNormalize() != null) {
                 Object obj = dataSet.get(f.getId());
                 obj = contextProcessor.resolve(obj);

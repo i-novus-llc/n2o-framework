@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
@@ -131,7 +131,7 @@ public abstract class N2oWidget extends N2oMetadata
                     List<N2oPreFilter> preFilters = datasource.getFilters() == null ?
                             new ArrayList<>() :
                             new ArrayList<>(Arrays.asList(datasource.getFilters()));
-                    String value = Placeholders.ref(getMasterFieldId() == null ? N2oQuery.Field.PK : getMasterFieldId());
+                    String value = Placeholders.ref(getMasterFieldId() == null ? SimpleField.PK : getMasterFieldId());
                     N2oPreFilter masterFilter = new N2oPreFilter(getDetailFieldId(), value, FilterType.eq);
                     String param = getMasterParam();
                     if (param == null && getRoute() != null && getRoute().contains(":")) {

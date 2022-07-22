@@ -1,7 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
@@ -37,7 +38,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     @Test
     public void defaultsBodyAndMapping() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
-        N2oQuery.Field field = query.getFieldsMap().get("gender.id");
+        SimpleField field = query.getFieldsMap().get("gender.id");
         assertThat(field.getSelectExpression(), nullValue());
         assertThat(field.getMapping(), is("['gender.id']"));
         assertThat(field.getSortingExpression(), nullValue());
@@ -48,7 +49,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     @Test
     public void defaultsBodyAndMappingWithExpression() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
-        N2oQuery.Field name = query.getFieldsMap().get("name");
+        SimpleField name = query.getFieldsMap().get("name");
         assertThat(name.getSelectExpression(), nullValue());
         assertThat(name.getMapping(), is("['name']"));
         assertThat(name.getSortingExpression(), nullValue());

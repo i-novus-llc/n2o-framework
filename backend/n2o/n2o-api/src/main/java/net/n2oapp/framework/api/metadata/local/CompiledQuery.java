@@ -8,7 +8,8 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
@@ -28,14 +29,14 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     private String name;
     private String route;
     private CompiledObject object;
-    protected List<N2oQuery.Field> displayFields;
-    private List<N2oQuery.Field> sortingFields;
+    protected List<SimpleField> displayFields;
+    private List<SimpleField> sortingFields;
     private Set<String> sortingSet;
     private Map<String, Object> properties;
     private List<Validation> validations;
     private List<SubModelQuery> subModelQueries;
 
-    protected Map<String, N2oQuery.Field> fieldsMap;
+    protected Map<String, SimpleField> fieldsMap;
     private Map<String, String> fieldNamesMap;
     private Map<String, String> displayValues;
     private List<String> selectExpressions; // fieldId - select body
