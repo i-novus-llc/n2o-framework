@@ -3,6 +3,8 @@ package net.n2oapp.framework.sandbox.autotest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
+import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FileStorageController;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
@@ -85,6 +88,12 @@ public class SandboxAutotestApplication {
     AlertMessageBuilder messageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
                                        PropertyResolver propertyResolver) {
         return new AlertMessageBuilder(messageSourceAccessor, propertyResolver);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    AlertMessagesConstructor messagesConstructor(AlertMessageBuilder messageBuilder) {
+        return new N2oAlertMessagesConstructor(messageBuilder);
     }
 
     @Bean
