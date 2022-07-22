@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись абстрактного действия версии 2.0
  */
 @Component
-public abstract class AbstractActionElementIOV2<T extends N2oAbstractAction>  implements NamespaceIO<T>, ActionIOv2 {
+public abstract class AbstractActionElementIOV2<T extends N2oAbstractAction> implements NamespaceIO<T>, ActionIOv2 {
 
     @Override
     public void io(Element e, T a, IOProcessor p) {

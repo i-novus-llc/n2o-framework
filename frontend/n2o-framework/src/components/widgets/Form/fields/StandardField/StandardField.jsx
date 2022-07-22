@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import omit from 'lodash/omit'
 
 import Toolbar from '../../../../buttons/Toolbar'
 import { Spinner } from '../../../../snippets/Spinner/Spinner'
@@ -65,10 +66,8 @@ class StandardField extends React.Component {
             loading,
             autoFocus,
             labelStyle,
-            controlStyle,
             labelClass,
             validationClass,
-            controlClass,
             onChange,
             onFocus,
             onBlur,
@@ -78,8 +77,6 @@ class StandardField extends React.Component {
             colLength,
             help,
             toolbar,
-            containerKey,
-            dataProvider,
             form,
             noLabelBlock,
             ...props
@@ -157,7 +154,7 @@ class StandardField extends React.Component {
                                 onFocus={onFocus}
                                 onChange={onChange}
                                 help={help}
-                                {...props}
+                                {...omit(props, ['dataProvider', 'containerKey', 'controlClass', 'controlStyle'])}
                                 {...control}
                                 className={classNames(control.className, {
                                     [validationClass]: validationClass && touched,

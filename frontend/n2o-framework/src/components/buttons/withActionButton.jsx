@@ -17,7 +17,7 @@ import {
     isVisibleSelector,
     countSelector,
 } from '../../ducks/toolbar/selectors'
-import { validate as validateDatasource } from '../../core/datasource/validate'
+import { validate as validateDatasource } from '../../core/validation/validate'
 import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { id as getID } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'

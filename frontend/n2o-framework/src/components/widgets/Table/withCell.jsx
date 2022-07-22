@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 
-import { setSourceModel } from '../../../ducks/datasource/store'
 import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
+import { ModelPrefix } from '../../../core/datasource/const'
+import { setModel } from '../../../ducks/models/store'
 
 /**
  * HOC для оборачивания Cell
@@ -33,7 +34,7 @@ export default function WithCell(WrappedComponent) {
                 return model
             })
 
-            return setSourceModel(datasource, newList)
+            return setModel(ModelPrefix.source, datasource, newList)
         }, [datasource, list])
         const callAction = useCallback((newModel) => {
             setResolve(newModel)

@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.CheckboxGroup;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +36,7 @@ public class CheckboxGroupCompiler extends ListControlCompiler<CheckboxGroup, N2
 
     @Override
     protected ModelLink compileLinkOnSet(StandardField<CheckboxGroup> control, N2oCheckboxGroup source, WidgetScope widgetScope) {
-        ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId());
+        ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getClientDatasourceId());
         onSet.setParam(source.getParam());
         onSet.setSubModelQuery(createSubModel(source, control.getControl().getData()));
         onSet.setValue(ScriptProcessor.resolveExpression(String.format("{%s*.id}", source.getId())));

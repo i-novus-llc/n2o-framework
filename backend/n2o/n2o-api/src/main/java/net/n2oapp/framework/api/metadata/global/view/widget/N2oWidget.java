@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -15,15 +16,14 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
-import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,8 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oWidget extends N2oMetadata implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem {
+public abstract class N2oWidget extends N2oMetadata
+        implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem, DatasourceIdAware {
     private String src;
     private String customize;
     private String name;
@@ -48,12 +49,11 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     @Deprecated
     private String objectId;
     private String datasourceId;
-    private N2oDatasource datasource;
+    private N2oStandardDatasource datasource;
     @Deprecated
     private Integer size;
     private String cssClass;
     private String style;
-    private Boolean border;
     private String refId;
     @Deprecated
     private String masterParam;
@@ -67,17 +67,14 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
     private String dependsOn;
     @Deprecated
     private String dependencyCondition;
-    private String result;
     private String icon;
     @Deprecated
     private String masterFieldId;
     @Deprecated
     private String detailFieldId;
     private String visible;
-    private Boolean refreshDependentContainer;
     @Deprecated
     private N2oPreFilter[] preFilters;
-    private N2oCounter counter;
     private ActionsBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
@@ -100,7 +97,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
         if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
                 getUpload() != null || getDependsOn() != null || getDependencyCondition() != null) {
-            N2oDatasource datasource = new N2oDatasource();
+            N2oStandardDatasource datasource = new N2oStandardDatasource();
             setDatasource(datasource);
             datasource.setQueryId(getQueryId());
             datasource.setObjectId(getObjectId());
@@ -125,10 +122,10 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
             }
 
             if (getDependsOn() != null) {
-                N2oDatasource.FetchDependency fetchDependency = new N2oDatasource.FetchDependency();
+                N2oStandardDatasource.FetchDependency fetchDependency = new N2oStandardDatasource.FetchDependency();
                 fetchDependency.setOn(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 fetchDependency.setModel(ReduxModel.resolve);
-                datasource.setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
+                datasource.setDependencies(new N2oStandardDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (getDetailFieldId() != null) {
                     List<N2oPreFilter> preFilters = datasource.getFilters() == null ?
@@ -142,14 +139,14 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                     }
                     masterFilter.setParam(param);
                     masterFilter.setModel(ReduxModel.resolve);
-                    masterFilter.setDatasource(getDependsOn());
+                    masterFilter.setDatasourceId(getDependsOn());
                     masterFilter.setRequired(true);
                     preFilters.add(masterFilter);
                     datasource.setFilters(preFilters.toArray(new N2oPreFilter[0]));
                 }
                 if (datasource.getFilters() != null) {
                     for (N2oPreFilter filter : datasource.getFilters())
-                        filter.setDatasource(getDependsOn());
+                        filter.setDatasourceId(getDependsOn());
                 }
             }
             datasource.setSize(getSize());
@@ -159,7 +156,7 @@ public abstract class N2oWidget extends N2oMetadata implements SourceComponent, 
                     visibilityDependency.setValue(StringUtils.unwrapLink(getVisible()));
                 else
                     visibilityDependency.setValue(getDependencyCondition());
-                if (getDependsOn() != null ) {
+                if (getDependsOn() != null) {
                     visibilityDependency.setDatasource(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 }
                 visibilityDependency.setModel(ReduxModel.resolve);

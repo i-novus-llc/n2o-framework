@@ -18,7 +18,7 @@ import {
 } from '../selectors'
 
 const state = {
-    datasorce: {
+    datasource: {
         ds1: {
             loading: true,
             size: 10,
@@ -39,7 +39,7 @@ const state = {
     },
     widgets: {
         widget1: {
-            datasorce: 'ds1',
+            datasource: 'ds1',
             isInit: true,
             visible: true,
             disabled: false,
@@ -78,17 +78,17 @@ describe('Проверка селекторов widgets', () => {
     })
     it('makeWidgetSizeSelector должен вернуть size по id', () => {
         expect(makeWidgetSizeSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.size,
+            state.datasource.ds1.size,
         )
     })
     it('makeWidgetCountSelector должен вернуть count по id', () => {
         expect(makeWidgetCountSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.count,
+            state.datasource.ds1.count,
         )
     })
     it('makeWidgetSortingSelector должен вернуть count по id', () => {
         expect(makeWidgetSortingSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.sorting,
+            state.datasource.ds1.sorting,
         )
     })
     it('makeWidgetFilterVisibilitySelector должен вернуть isFilterVisible по id', () => {
@@ -108,7 +108,7 @@ describe('Проверка селекторов widgets', () => {
     })
     it('makeWidgetPageSelector должен вернуть page по id', () => {
         expect(makeWidgetPageSelector('widget1')(state)).toEqual(
-            state.widgets.widget1.page,
+            state.datasource.ds1.page,
         )
     })
     it('makeWidgetPageIdSelector должен вернуть pageId по id', () => {
