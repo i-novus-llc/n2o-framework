@@ -460,7 +460,7 @@ AutoComplete.propTypes = {
     /**
      * Данные для badge
      */
-     badge: PropTypes.object,
+    badge: PropTypes.object,
     /**
      * Флаг активности
      */

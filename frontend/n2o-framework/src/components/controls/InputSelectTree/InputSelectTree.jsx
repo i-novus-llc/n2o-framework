@@ -468,7 +468,7 @@ InputSelectTree.propTypes = {
     /**
      * Данные для badge
      */
-     badge: PropTypes.object,
+    badge: PropTypes.object,
     /**
      * Значение ключа сортировки в данных
      */
