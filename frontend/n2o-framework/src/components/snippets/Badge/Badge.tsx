@@ -1,4 +1,5 @@
 import React from 'react'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import classNames from 'classnames'
 import { Badge } from 'reactstrap'

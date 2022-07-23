@@ -112,6 +112,8 @@
     "react/jsx-props-no-spreading": "off",
     // Убираем сортировку методов
     "react/sort-comp": "off",
+    // Расширения файлов, которые могут содержать jsx
+    "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }],
 // Sonar
   // Bug Detection
     // Дублировние кода в if-else, switch ветках
@@ -157,7 +159,7 @@
   "overrides": [
     // Typescript
     {
-      "files": ["*.ts", "*.tsx"], 
+      "files": ["*.ts", "*.tsx"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
         // "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -182,13 +184,16 @@
         "@typescript-eslint/consistent-type-exports": "error",
         "@typescript-eslint/consistent-type-imports": "error",
         "@typescript-eslint/method-signature-style": ["error", "method"],
-        "@typescript-eslint/naming-convention": "error",
+        "@typescript-eslint/naming-convention": ["error", {
+          "selector": "objectLiteralProperty",
+          "format": null
+        }],
         "@typescript-eslint/no-confusing-non-null-assertion": "warn",
         "@typescript-eslint/no-duplicate-enum-values": "warn",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-empty-interface": "warn",
         "@typescript-eslint/no-explicit-any": "error",
-        // Запрет повторных Required модификаторов поля через "!." 
+        // Запрет повторных Required модификаторов поля через "!."
         "@typescript-eslint/no-extra-non-null-assertion": "error",
         // Запрет чисто статических классов
         "@typescript-eslint/no-extraneous-class": "error",
@@ -245,7 +250,7 @@
   "settings": {
     "import/resolver": {
       "typescript": {
-        // this loads <rootdir>/tsconfig.json to eslint   
+        // this loads <rootdir>/tsconfig.json to eslint
       }
     }
   }
