@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.run;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.security.auth.UserPrincipal;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
+import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.autotest.websocket.WebSocketMessageController;
 import net.n2oapp.framework.boot.*;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -48,6 +50,11 @@ public class AutoTestApplication {
     @Primary
     ObjectMapper objectMapper() {
         return ObjectMapperConstructor.metaObjectMapper();
+    }
+
+    @Bean
+    AlertMessagesConstructor alertMessagesConstructor(AlertMessageBuilder messageBuilder) {
+        return new N2oAlertMessagesConstructor(messageBuilder);
     }
 
     @Configuration
