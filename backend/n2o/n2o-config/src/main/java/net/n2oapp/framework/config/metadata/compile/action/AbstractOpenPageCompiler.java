@@ -67,7 +67,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
     private void initDefaultsParam(N2oParam param, CompileProcessor p, S source) {
         param.setModel(p.cast(param.getModel(), () -> getModelFromComponentScope(p)));
-        param.setDatasourceId(p.cast(param.getDatasourceId(), () -> getLocalDatasource(p)));
+        param.setDatasourceId(p.cast(param.getDatasourceId(), () -> getLocalDatasourceId(p)));
         if (param.getDatasourceId() == null && param.getValue() == null)
             throw new N2oException(String.format("datasource is not undefined for param %s of action %s", param.getName(), source.getId()));
         param.setRefPageId(p.cast(param.getRefPageId(), () -> {
@@ -94,7 +94,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (datasource.getFilters() != null) {
             for (N2oPreFilter filter : datasource.getFilters()) {
                 filter.setModel(p.cast(filter.getModel(), () -> getModelFromComponentScope(p)));
-                filter.setDatasourceId(p.cast(filter.getRefWidgetId(), () -> getLocalDatasource(p)));
+                filter.setDatasourceId(p.cast(filter.getRefWidgetId(), () -> getLocalDatasourceId(p)));
                 filter.setRefPageId(p.cast(filter.getRefPageId(), () -> {
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
@@ -174,7 +174,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
-        String localDatasourceId = getLocalDatasource(p);
+        String localDatasourceId = getLocalDatasourceId(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
         pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, p));
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());

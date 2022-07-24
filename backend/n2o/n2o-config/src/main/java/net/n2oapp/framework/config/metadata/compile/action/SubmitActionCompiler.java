@@ -30,7 +30,7 @@ public class SubmitActionCompiler extends AbstractActionCompiler<SubmitAction, N
 
         String datasourceId = source.getDatasourceId();
         if (datasourceId == null)
-            datasourceId = getLocalDatasource(p);
+            datasourceId = getLocalDatasourceId(p);
         submit.getPayload().setDatasource(getClientDatasourceId(datasourceId, p));
 
         return submit;

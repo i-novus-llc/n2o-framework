@@ -56,7 +56,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setType(getType(p));
 
         invokeAction.getPayload().setModel(getModelFromComponentScope(p));
-        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasource(p), p));
+        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
         invokeAction.getPayload().setWidgetId(getClientWidgetIdByComponentScope(p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
@@ -99,7 +99,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     private String[] initRefreshDatasources(N2oInvokeAction source, CompileProcessor p) {
         if (source.getRefreshDatasourceIds() != null)
             return source.getRefreshDatasourceIds();
-        String localDatasource = getLocalDatasource(p);
+        String localDatasource = getLocalDatasourceId(p);
         if (localDatasource != null)
             return new String[]{localDatasource};
         return null;
@@ -134,7 +134,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
 
     private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
         if (source.getClearOnSuccess())
-            meta.setClear(getClientDatasourceId(getLocalDatasource(p), p));
+            meta.setClear(getClientDatasourceId(getLocalDatasourceId(p), p));
     }
 
     private void initRedirect(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess) {
@@ -206,7 +206,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setId(source.getId());
         dataProvider.setOptimistic(source.getOptimistic());
         dataProvider.setTargetModel(targetWidgetModel);
-        dataProvider.setDatasourceId(getLocalDatasource(p));
+        dataProvider.setDatasourceId(getLocalDatasourceId(p));
         dataProvider.setClientDatasourceId(getClientDatasourceId(dataProvider.getDatasourceId(), p));
         validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
@@ -246,7 +246,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (source.getObjectId() != null) {
             compiledObject = p.getCompiled(new ObjectContext(source.getObjectId()));
         }
-        String localDatasource = getLocalDatasource(p);
+        String localDatasource = getLocalDatasourceId(p);
         if (compiledObject == null && localDatasource != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {

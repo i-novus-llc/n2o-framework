@@ -234,7 +234,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
         if (butAction == null) return null;
         butAction.setId(p.cast(butAction.getId(), source.getId()));
-        return p.compile(butAction, context, object, new ComponentScope(source));
+        return p.compile(butAction, context, object, new ComponentScope(source, p.getScope(ComponentScope.class)));
     }
 
     private String initDatasource(N2oButton source, CompileProcessor p) {
