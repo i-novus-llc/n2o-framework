@@ -30,9 +30,9 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     @Override
     public Tree compile(N2oTree source, CompileContext<?, ?> context, CompileProcessor p) {
         Tree tree = new Tree();
+        compileBaseWidget(tree, source, context, p);
         N2oAbstractDatasource datasource = initDatasource(tree, source, p);
         CompiledObject object = getObject(source, datasource, p);
-        compileBaseWidget(tree, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(tree, source, context, p, widgetScope, widgetActions, object, null);

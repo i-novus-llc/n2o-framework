@@ -56,11 +56,10 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     @Override
     public D compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
         D table = constructTable();
-        TableWidgetComponent component = table.getComponent();
+        compileBaseWidget(table, source, context, p);
         N2oAbstractDatasource datasource = initDatasource(table, source, p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
-        compileBaseWidget(table, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p);
         SubModelsScope subModelsScope = new SubModelsScope();
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
@@ -73,6 +72,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 new ModelsScope(ReduxModel.filter, widgetScope.getClientDatasourceId(), p.getScope(Models.class)), subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope, tableFiltersScope);
         MetaActions widgetActions = initMetaActions(source, p);
+        TableWidgetComponent component = table.getComponent();
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
                 subModelsScope, tableFiltersScope);
