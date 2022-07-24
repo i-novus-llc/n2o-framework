@@ -38,11 +38,10 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     @Override
     public Form compile(N2oForm source, CompileContext<?, ?> context, CompileProcessor p) {
         Form form = new Form();
-        form.getComponent().setPrompt(initPrompt(source, p));
+        compileBaseWidget(form, source, context, p);
         N2oAbstractDatasource datasource = initDatasource(form, source, p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
-        compileBaseWidget(form, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         Models models = p.getScope(Models.class);
@@ -51,6 +50,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         WidgetParamScope paramScope = new WidgetParamScope();
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.resolve, validationList);
+        form.getComponent().setPrompt(initPrompt(source, p));
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p,
                 widgetScope, query, object, widgetActions,
                 new ModelsScope(ReduxModel.resolve, widgetScope.getClientDatasourceId(), models),

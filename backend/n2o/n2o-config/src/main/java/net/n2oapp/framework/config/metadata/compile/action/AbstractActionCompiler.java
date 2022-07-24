@@ -182,17 +182,21 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         PageScope pageScope = p.getScope(PageScope.class);
         String widgetId = p.cast(getClientDatasourceId(param.getRefWidgetId(), p), defaultClientWidgetId);
 
-        String datasource;
+        String clientDatasourceId;
         if (pageScope == null) {
-            datasource = param.getDatasourceId() != null ? param.getDatasourceId() : widgetId;
-            if (datasource == null)
-                datasource = getLocalDatasource(p);
+            clientDatasourceId = param.getDatasourceId() != null ? param.getDatasourceId() : widgetId;
+            if (clientDatasourceId == null)
+                clientDatasourceId = getLocalDatasource(p);
         } else {
-            datasource = param.getDatasourceId() != null ? getClientDatasourceId(param.getDatasourceId(), p) :
-                    pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+            if (param.getDatasourceId() != null)
+                clientDatasourceId = getClientDatasourceId(param.getDatasourceId(), p);
+            else if (widgetId != null)
+                clientDatasourceId = pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+            else
+                clientDatasourceId = getClientDatasourceId(getLocalDatasource(p), p);
         }
 
-        ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), datasource);
+        ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), clientDatasourceId);
         link.setValue(p.resolveJS(param.getValue()));
         return link;
     }
