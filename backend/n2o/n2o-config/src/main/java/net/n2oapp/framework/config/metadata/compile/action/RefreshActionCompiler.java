@@ -35,6 +35,6 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
     @Override
     protected void initDefaults(N2oRefreshAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setDatasourceId(p.cast(source.getDatasourceId(), getLocalDatasource(p)));
+        source.setDatasourceId(p.cast(source.getDatasourceId(), getLocalDatasourceId(p)));
     }
 }

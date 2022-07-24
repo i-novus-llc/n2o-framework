@@ -149,12 +149,12 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     }
 
     /**
-     * Инициализация локального источника данных действия
+     * Получение идентификатора локального источника данных действия (из компонента или из его родителей)
      *
-     * @param p Процессор сборки
-     * @return Локальный источник данных действия
+     * @param p Процессор сборки метаданных
+     * @return Идентификатор локального источника данных действия
      */
-    protected String getLocalDatasource(CompileProcessor p) {
+    protected String getLocalDatasourceId(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         while (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
@@ -186,14 +186,14 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         if (pageScope == null) {
             clientDatasourceId = param.getDatasourceId() != null ? param.getDatasourceId() : widgetId;
             if (clientDatasourceId == null)
-                clientDatasourceId = getLocalDatasource(p);
+                clientDatasourceId = getLocalDatasourceId(p);
         } else {
             if (param.getDatasourceId() != null)
                 clientDatasourceId = getClientDatasourceId(param.getDatasourceId(), p);
             else if (widgetId != null)
                 clientDatasourceId = pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
             else
-                clientDatasourceId = getClientDatasourceId(getLocalDatasource(p), p);
+                clientDatasourceId = getClientDatasourceId(getLocalDatasourceId(p), p);
         }
 
         ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), clientDatasourceId);
