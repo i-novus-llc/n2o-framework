@@ -27,7 +27,7 @@ public class BadgeUtil {
      * @param p              Процессор сборки метаданных
      * @return Клиентская модель значка
      */
-    public static Badge compileBadge(BadgePresence source, String propertyPrefix, CompileProcessor p) {
+    public static Badge compileBadge(BadgeAware source, String propertyPrefix, CompileProcessor p) {
         if (source.getBadgeFieldId() == null && source.getBadgeColorFieldId() == null && source.getBadgeImageFieldId() == null)
             return null;
         return Badge.builder()

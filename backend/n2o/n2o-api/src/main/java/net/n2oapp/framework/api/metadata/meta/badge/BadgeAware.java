@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 /**
  * Наличие значка у компонента
  */
-public interface BadgePresence {
+public interface BadgeAware {
 
     Position getBadgePosition();
 
