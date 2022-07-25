@@ -29,6 +29,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.co
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
+    private static final String PROPERTY_PREFIX = "n2o.api.control.list";
 
     protected StandardField<T> compileListControl(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
         listControl.setFormat(p.resolveJS(source.getFormat()));
@@ -55,7 +56,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
         listControl.setEnabledFieldId(source.getEnabledFieldId());
-        listControl.setBadge(BadgeUtil.compileBadge(source, "n2o.api.control.list", p));
+        listControl.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
     }

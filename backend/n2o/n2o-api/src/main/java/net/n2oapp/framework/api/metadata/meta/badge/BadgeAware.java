@@ -15,9 +15,27 @@ public interface BadgeAware {
 
     ShapeType getBadgeImageShape();
 
-    String getBadgeImageFieldId();
+    default String getBadgeImageFieldId() {
+        return null;
+    }
 
-    String getBadgeFieldId();
+    default String getBadgeFieldId() {
+        return null;
+    }
 
-    String getBadgeColorFieldId();
+    default String getBadgeColorFieldId() {
+        return null;
+    }
+
+    default String getBadgeImage() {
+        return null;
+    }
+
+    default String getBadge() {
+        return null;
+    }
+
+    default String getBadgeColor() {
+        return null;
+    }
 }

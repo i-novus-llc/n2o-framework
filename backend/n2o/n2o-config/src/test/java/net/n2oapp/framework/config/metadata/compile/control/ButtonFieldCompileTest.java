@@ -43,8 +43,6 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getLabel(), is("delete"));
         assertThat(field.getIcon(), nullValue());
         assertThat(field.getColor(), is("danger"));
-        assertThat(field.getBadge(), is("`badge`"));
-        assertThat(field.getBadgeColor(), is("`color`"));
         assertThat(field.getValidate().get(0), is("testButtonFieldCompile_main"));
 
         assertThat(field.getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));

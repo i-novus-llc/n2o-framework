@@ -26,9 +26,9 @@ public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> {
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
         p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
-        p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
-        p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
-        p.attribute(e, "badge-image-field-id", m::getBadgeImageFieldId, m::setBadgeImageFieldId);
+        p.attribute(e, "badge-field-id", m::getBadge, m::setBadgeFieldId);
+        p.attribute(e, "badge-color-field-id", m::getBadgeColor, m::setBadgeColorFieldId);
+        p.attribute(e, "badge-image-field-id", m::getBadgeImage, m::setBadgeImageFieldId);
         p.attributeEnum(e, "badge-position", m::getBadgePosition, m::setBadgePosition, Position.class);
         p.attributeEnum(e, "badge-shape", m::getBadgeShape, m::setBadgeShape, ShapeType.class);
         p.attributeEnum(e, "badge-image-position", m::getBadgeImagePosition, m::setBadgeImagePosition, Position.class);

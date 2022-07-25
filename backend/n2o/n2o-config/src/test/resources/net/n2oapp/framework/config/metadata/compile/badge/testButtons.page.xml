@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <fields>
+            <button id="bf1" badge="{bfi1}" badge-color="danger" badge-position="left"
+                    badge-shape="rounded" badge-image="/static/candidate.png" badge-image-position="right" badge-image-shape="square"/>
+        </fields>
+        <toolbar>
+            <button id="b2" badge-image="{img}"/>
+            <button id="b3"/>
+        </toolbar>
+    </form>
+</simple-page>
