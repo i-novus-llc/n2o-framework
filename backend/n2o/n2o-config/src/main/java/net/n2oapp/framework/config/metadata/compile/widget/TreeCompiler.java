@@ -6,10 +6,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.badge.BadgePresence;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import org.springframework.stereotype.Component;
 
@@ -49,12 +47,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setMultiselect(source.getMultiselect());
         tree.setHasCheckboxes(source.getCheckboxes());
         tree.setAjax(source.getAjax());
-        tree.setBadge(BadgePresence.compileBadge(source,
-                p.resolve(property("n2o.api.widget.tree.badge.position"), Position.class),
-                p.resolve(property("n2o.api.widget.tree.badge.shape"), ShapeType.class),
-                p.resolve(property("n2o.api.widget.tree.badge.image_position"), Position.class),
-                p.resolve(property("n2o.api.widget.tree.badge.image_shape"), ShapeType.class),
-                p));
+        tree.setBadge(BadgeUtil.compileBadge(source, "n2o.api.widget.tree", p));
         return tree;
     }
 

@@ -8,13 +8,11 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
-import net.n2oapp.framework.api.metadata.meta.badge.BadgePresence;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -57,12 +55,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
         listControl.setEnabledFieldId(source.getEnabledFieldId());
-        listControl.setBadge(BadgePresence.compileBadge(source,
-                p.resolve(property("n2o.api.control.list.badge.position"), Position.class),
-                p.resolve(property("n2o.api.control.list.badge.shape"), ShapeType.class),
-                p.resolve(property("n2o.api.control.list.badge.image_position"), Position.class),
-                p.resolve(property("n2o.api.control.list.badge.image_shape"), ShapeType.class),
-                p));
+        listControl.setBadge(BadgeUtil.compileBadge(source, "n2o.api.control.list", p));
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
     }
