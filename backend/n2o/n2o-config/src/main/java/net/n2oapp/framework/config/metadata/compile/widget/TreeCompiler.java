@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import org.springframework.stereotype.Component;
 
@@ -43,11 +44,10 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setLabelFieldId(p.resolveJS(source.getLabelFieldId()));
         tree.setIconFieldId(p.resolveJS(source.getIconFieldId()));
         tree.setImageFieldId(p.resolveJS(source.getImageFieldId()));
-        tree.setBadgeFieldId(p.resolveJS(source.getBadgeFieldId()));
-        tree.setBadgeColorFieldId(p.resolveJS(source.getBadgeColorFieldId()));
         tree.setMultiselect(source.getMultiselect());
         tree.setHasCheckboxes(source.getCheckboxes());
         tree.setAjax(source.getAjax());
+        tree.setBadge(BadgeUtil.compileBadge(source, "n2o.api.widget.tree", p));
         return tree;
     }
 

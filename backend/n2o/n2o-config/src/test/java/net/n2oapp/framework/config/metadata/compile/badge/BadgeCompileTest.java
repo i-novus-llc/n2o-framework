@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.meta.control.ListControl;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -66,6 +68,30 @@ public class BadgeCompileTest extends SourceCompileTestBase {
 
         badge = ((ListControl) ((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl()).getBadge();
         assertThat(badge, nullValue());
+    }
+
+    @Test
+    public void testWidgets() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/badge/testWidgets.page.xml")
+                .get(new PageContext("testWidgets"));
+
+        Badge badge = ((Tree) page.getRegions().get("single").get(0).getContent().get(0)).getBadge();
+        assertThat(badge.getFieldId(), is("bfi1"));
+        assertThat(badge.getPosition(), is(Position.left));
+        assertThat(badge.getShape(), is(ShapeType.rounded));
+        assertThat(badge.getColorFieldId(), is("bcfi1"));
+        assertThat(badge.getImageFieldId(), is("bifi1"));
+        assertThat(badge.getImagePosition(), is(Position.right));
+        assertThat(badge.getImageShape(), is(ShapeType.square));
+
+        badge = ((Tree) page.getRegions().get("single").get(0).getContent().get(1)).getBadge();
+        assertThat(badge.getFieldId(), nullValue());
+        assertThat(badge.getPosition(), is(Position.right));
+        assertThat(badge.getShape(), is(ShapeType.square));
+        assertThat(badge.getColorFieldId(), nullValue());
+        assertThat(badge.getImageFieldId(), is("bifi2"));
+        assertThat(badge.getImagePosition(), is(Position.left));
+        assertThat(badge.getImageShape(), is(ShapeType.circle));
     }
 
 }
