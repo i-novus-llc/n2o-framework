@@ -1,13 +1,12 @@
 import React from 'react'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import type { CSSProperties, ReactNode } from 'react'
 import classNames from 'classnames'
 import { Badge } from 'reactstrap'
 
 import { Position, Shape } from './enums'
 
 type Options = {
-    badge: string | number;
+    badge: string | number | ReactNode;
     badgeColor: string;
     badgePosition: Position;
     badgeShape: Shape;
@@ -16,6 +15,7 @@ type Options = {
     imageShape: Shape;
     hasMargin: boolean;
     className: string;
+    style: CSSProperties;
 }
 
 export const renderBadge = (options: Options) => {
@@ -29,6 +29,7 @@ export const renderBadge = (options: Options) => {
         imageShape = Shape.Circle,
         hasMargin = true,
         className,
+        style,
     } = options
 
     const badgeClassNames = classNames('n2o-badge', className, {
@@ -46,6 +47,7 @@ export const renderBadge = (options: Options) => {
         <Badge
             color={badgeColor}
             className={badgeClassNames}
+            style={style}
         >
             {image && (
                 <img
