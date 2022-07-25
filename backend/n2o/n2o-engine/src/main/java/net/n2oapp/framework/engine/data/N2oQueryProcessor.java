@@ -14,6 +14,8 @@ import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.ReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
@@ -399,21 +401,28 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
     }
 
-    private DataSet mapFields(Object entry, List<SimpleField> fields) {
+    private DataSet mapFields(Object entry, List<AbstractField> fields) {
         DataSet resultDataSet = new DataSet();
-        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getMapping(), f.getDefaultValue(), contextProcessor));
-        return normalizeDataSet(resultDataSet, fields);
-    }
-
-    private DataSet normalizeDataSet(DataSet dataSet, List<SimpleField> fields) {
-        for (SimpleField f : fields) {
-            if (f.getNormalize() != null) {
-                Object obj = dataSet.get(f.getId());
-                obj = contextProcessor.resolve(obj);
-                dataSet.put(f.getId(), normalizeValue(obj, f.getNormalize(), dataSet, parser, applicationContext));
+        for (AbstractField field : fields) {
+            if (field instanceof ReferenceField) {
+                outMap(resultDataSet, entry, field.getId(), field.getMapping(), null, contextProcessor);
+                normalizeField(field, resultDataSet);
+                mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()));
+            }
+            else {
+                outMap(resultDataSet, entry, field.getId(), field.getMapping(), ((SimpleField) field).getDefaultValue(), contextProcessor);
+                normalizeField(field, resultDataSet);
             }
         }
-        return dataSet;
+        return resultDataSet;
+    }
+
+    private void normalizeField(AbstractField field, DataSet resultDataSet) {
+        if (field.getNormalize() != null) {
+            Object obj = resultDataSet.get(field.getId());
+            obj = contextProcessor.resolve(obj);
+            resultDataSet.put(field.getId(), normalizeValue(obj, field.getNormalize(), resultDataSet, parser, applicationContext));
+        }
     }
 
     private CollectionPage<DataSet> getPage(Collection<DataSet> content, N2oPreparedCriteria criteria,

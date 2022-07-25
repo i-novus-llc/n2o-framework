@@ -59,10 +59,10 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         initDefaultExpression(fields);
         replaceExpression(fields, source);
 
-        List<SimpleField> simpleFields = source.getSimpleFields();
         compilePreFilters(source, p, context.getFilters());
+        query.setDisplayFields(List.copyOf(fields));
+        List<SimpleField> simpleFields = source.getSimpleFields();
         query.setDisplayValues(Collections.unmodifiableMap(initDisplayValues(simpleFields)));
-        query.setDisplayFields(Collections.unmodifiableList(initDisplayFields(simpleFields)));
         query.setSortingFields(Collections.unmodifiableList(initSortingFields(simpleFields)));
         query.setFieldsMap(Collections.unmodifiableMap(initFieldsMap(simpleFields, query.getId())));
         query.setFieldNamesMap(Collections.unmodifiableMap(initFieldNamesMap(query.getFieldsMap())));
@@ -147,7 +147,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     private void initExpressions(CompiledQuery query) {
         List<String> select = new ArrayList<>();
         List<String> join = new ArrayList<>();
-        query.getDisplayFields().forEach(f -> {
+        query.getDisplayFields().stream().filter(SimpleField.class::isInstance).map(SimpleField.class::cast).forEach(f -> {
             if (f.getSelectExpression() != null)
                 select.add(f.getSelectExpression());
             if ((f.getNoJoin() == null || !f.getNoJoin()) && f.getJoinBody() != null) {
@@ -302,16 +302,6 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         List<SimpleField> result = new ArrayList<>();
         for (SimpleField field : fields) {
             if (!field.getNoSorting()) {
-                result.add(field);
-            }
-        }
-        return result;
-    }
-
-    private static List<SimpleField> initDisplayFields(List<SimpleField> fields) {
-        List<SimpleField> result = new ArrayList<>();
-        for (SimpleField field : fields) {
-            if (!field.getNoDisplay()) {
                 result.add(field);
             }
         }

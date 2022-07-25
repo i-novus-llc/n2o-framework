@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -89,7 +90,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
             CollectionPage<DataSet> subData = queryProcessor.executeOneSizeQuery(subQuery, criteria);
 
             DataSet first = subData.getCollection().iterator().next();
-            for (SimpleField queryField : subQuery.getDisplayFields()) {
+            for (AbstractField queryField : subQuery.getDisplayFields()) {
                 subModel.put(queryField.getId(), first.get(queryField.getId()));
             }
         }
