@@ -4,26 +4,29 @@ import classNames from 'classnames'
 import { Badge } from 'reactstrap'
 
 import { Position, Shape } from './enums'
+import { isBadgeLeftPosition, isBadgeRightPosition } from './utils'
 
-type Options = {
-    badge: string | number | ReactNode;
-    badgeColor: string;
-    badgePosition: Position;
-    badgeShape: Shape;
-    image?: string | null;
+export type BadgeOptions = Partial<{
+    children: ReactNode;
+    text: string | number | ReactNode;
+    color: string;
+    position: Position;
+    shape: Shape;
+    image: string;
     imagePosition: Position;
     imageShape: Shape;
     hasMargin: boolean;
     className: string;
     style: CSSProperties;
-}
+}>
 
-export const renderBadge = (options: Options) => {
+export const renderBadge = (options: BadgeOptions) => {
     const {
-        badge,
-        badgeColor = 'light',
-        badgePosition = Position.Right,
-        badgeShape = Shape.Circle,
+        children,
+        text,
+        color = 'light',
+        position = Position.Right,
+        shape = Shape.Circle,
         image,
         imagePosition = Position.Left,
         imageShape = Shape.Circle,
@@ -32,10 +35,14 @@ export const renderBadge = (options: Options) => {
         style,
     } = options
 
+    const badgeContainerClassNames = classNames('d-inline-flex align-items-baseline', {
+        'flex-row-reverse': isBadgeLeftPosition(position),
+    })
+
     const badgeClassNames = classNames('n2o-badge', className, {
-        [badgePosition === Position.Right ? 'ml-1' : 'mr-1']: hasMargin,
-        'rounded-pill': badgeShape === Shape.Rounded,
-        'n2o-badge_circle rounded-pill': badgeShape === Shape.Circle,
+        [isBadgeRightPosition(position) ? 'ml-1' : 'mr-1']: hasMargin,
+        'rounded-pill': shape === Shape.Rounded,
+        'n2o-badge_circle rounded-pill': shape === Shape.Circle,
     })
 
     const badgeImageClassNames = classNames('n2o-badge-image', {
@@ -43,9 +50,9 @@ export const renderBadge = (options: Options) => {
         'rounded-pill': imageShape === Shape.Circle || imageShape === Shape.Rounded,
     })
 
-    return (
+    const BadgeComponent = () => (
         <Badge
-            color={badgeColor}
+            color={color}
             className={badgeClassNames}
             style={style}
         >
@@ -56,13 +63,24 @@ export const renderBadge = (options: Options) => {
                     className={badgeImageClassNames}
                 />
             )}
-            {badge}
+            {text}
         </Badge>
+    )
+
+    if (!children) {
+        return <BadgeComponent />
+    }
+
+    return (
+        <div className={badgeContainerClassNames}>
+            <div>{children}</div>
+            <BadgeComponent />
+        </div>
     )
 }
 
-export const renderSquareBadge = (options: Options) => renderBadge({
+export const renderSquareBadge = (options: BadgeOptions) => renderBadge({
     ...options,
-    badgeShape: options.badgeShape || Shape.Square,
+    shape: options.shape || Shape.Square,
     hasMargin: false,
 })

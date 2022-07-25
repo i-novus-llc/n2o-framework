@@ -1,5 +1,5 @@
 .n2o-badge {
-    .n2o-badge_circle {
+    &.n2o-badge_circle {
         min-width: 1.375rem;
         min-height: 1.375rem;
         justify-content: center;
@@ -11,7 +11,7 @@
         margin-right: 4px;
         object-fit: cover;
 
-        .n2o-badge-image_right {
+        &.n2o-badge-image_right {
             order: 1;
             margin-left: 0;
             margin-right: 0.25rem;
