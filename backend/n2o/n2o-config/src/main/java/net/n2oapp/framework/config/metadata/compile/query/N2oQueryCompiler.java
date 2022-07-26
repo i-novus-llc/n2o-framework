@@ -271,7 +271,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
     private String concatMappings(String child, String parent) {
-        return spel(parent != null ? StringUtils.unwrapSpel(parent) + "." + StringUtils.unwrapSpel(parent) : StringUtils.unwrapSpel(child));
+        return spel(parent != null ? StringUtils.unwrapSpel(parent) + "." + StringUtils.unwrapSpel(child) : StringUtils.unwrapSpel(child));
     }
 
     private void initDefaultExpression(List<AbstractField> fields) {

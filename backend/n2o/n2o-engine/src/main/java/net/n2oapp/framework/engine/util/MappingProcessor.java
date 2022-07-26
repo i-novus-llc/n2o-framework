@@ -104,6 +104,16 @@ public class MappingProcessor {
         }
     }
 
+    public static void outList(List target, Object value, String fieldId, String mapping, Object defaultValue, ContextProcessor contextProcessor) {
+        try {
+            Expression expression = readParser.parseExpression(mapping);
+            Object obj = expression.getValue(value);
+            target.add(obj == null ? contextProcessor.resolve(defaultValue) : obj);
+        } catch (ExpressionException e) {
+            throw new N2oSpelException(fieldId, mapping, e);
+        }
+    }
+
     /**
      * Заменяет в inDataSet значение созданным объектом
      *

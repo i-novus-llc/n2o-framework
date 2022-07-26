@@ -14,11 +14,8 @@ import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
-import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
-import net.n2oapp.framework.api.metadata.global.dao.query.ReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.query.*;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
@@ -403,19 +400,45 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private DataSet mapFields(Object entry, List<AbstractField> fields) {
         DataSet resultDataSet = new DataSet();
+        mapFields(entry, fields, resultDataSet);
+        return resultDataSet;
+    }
+
+    private void mapFields(Object entry, List<AbstractField> fields, DataSet resultDataSet) {
         for (AbstractField field : fields) {
             if (field instanceof ReferenceField) {
                 outMap(resultDataSet, entry, field.getId(), field.getMapping(), null, contextProcessor);
-                normalizeField(field, resultDataSet);
-                mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()));
+                if (field instanceof ListField && resultDataSet.getList(field.getId()) != null) {
+                    List<DataSet> list = (List<DataSet>) resultDataSet.getList(field.getId());
+                    for (DataSet dataSet : list) {
+                        mapFields(entry, Arrays.asList(((ListField) field).getFields()), dataSet);
+                    }
+//                    List<AbstractField> innerFields = Arrays.asList(((ListField) field).getFields());
+//                    DataSet dataSet = mapFields(entry, innerFields);
+                }
+                else if (resultDataSet.get(field.getId()) != null)
+                    mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()), resultDataSet.getDataSet(field.getId()));
             }
             else {
                 outMap(resultDataSet, entry, field.getId(), field.getMapping(), ((SimpleField) field).getDefaultValue(), contextProcessor);
-                normalizeField(field, resultDataSet);
             }
+            normalizeField(field, resultDataSet);
         }
-        return resultDataSet;
     }
+
+//    private void mapFields(Object entry, List<AbstractField> fields, List<?> resultDataList) {
+//        for (AbstractField field : fields) {
+//            if (field instanceof ReferenceField) {
+//                outList(resultDataList, entry, field.getId(), field.getMapping(), null, contextProcessor);
+//                if (resultDataList.getDataSet(field.getId()) != null)
+//                    mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()), resultDataList.getDataSet(field.getId()));
+//            }
+//            else {
+//                outList(resultDataList, entry, field.getId(), field.getMapping(), ((SimpleField) field).getDefaultValue(), contextProcessor);
+//            }
+//            //normalizeField(field, resultDataList);
+//        }
+//    }
 
     private void normalizeField(AbstractField field, DataSet resultDataSet) {
         if (field.getNormalize() != null) {
