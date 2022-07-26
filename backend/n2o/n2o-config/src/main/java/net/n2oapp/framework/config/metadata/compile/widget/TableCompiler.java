@@ -35,7 +35,7 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция таблицы

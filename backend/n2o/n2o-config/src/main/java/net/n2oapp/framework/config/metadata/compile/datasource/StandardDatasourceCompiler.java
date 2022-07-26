@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция источника данных
