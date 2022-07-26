@@ -16,4 +16,8 @@ public class N2oAlertMessagesConstructor implements AlertMessagesConstructor {
         return Collections.singletonList(alertMessageBuilder.build(exception));
     }
 
+    @Override
+    public List<ResponseMessage> constructMessages(Exception exception, RequestInfo requestInfo) {
+        return alertMessageBuilder.buildMessages(exception, requestInfo);
+    }
 }

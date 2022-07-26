@@ -15,16 +15,15 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
+import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляции действия
@@ -61,7 +60,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Инициализация целевого виджета действия
      */
-    protected String initClientWidgetId(CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initClientWidgetId(CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String targetWidgetId = getClientWidgetIdByComponentScope(p); //widget in component's link
         if (targetWidgetId == null) {
@@ -132,7 +131,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ReduxModel defaultModel = getModelFromComponentScope(p);
         if (widgetScope != null) {
-            String defaultClientWidgetId = getDefaultClientWidgetId(widgetScope, p);
+            String defaultClientWidgetId = getDefaultClientWidgetId(p);
             if (pathParams != null)
                 for (N2oParam pathParam : pathParams)
                     pathMapping.put(pathParam.getName(), initParamModelLink(pathParam, defaultClientWidgetId, defaultModel, p));
@@ -150,12 +149,12 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     }
 
     /**
-     * Инициализация локального источника данных действия
+     * Получение идентификатора локального источника данных действия (из компонента или из его родителей)
      *
-     * @param p Процессор сборки
-     * @return Локальный источник данных действия
+     * @param p Процессор сборки метаданных
+     * @return Идентификатор локального источника данных действия
      */
-    protected String getLocalDatasource(CompileProcessor p) {
+    protected String getLocalDatasourceId(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         while (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
@@ -171,22 +170,6 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     }
 
     /**
-     * Инициализация идентификатора объекта
-     *
-     * @param p Процессор сборки
-     * @return идентификатор объекта
-     */
-    protected String getDefaultObjectId(CompileProcessor p) {
-        String datasourceId = getLocalDatasource(p);
-        if (datasourceId != null) {
-            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            if (dataSourcesScope != null && dataSourcesScope.containsKey(datasourceId))
-                return dataSourcesScope.get(datasourceId).getObjectId();
-        }
-        return null;
-    }
-
-    /**
      * Инициализация модели ссылки параметра
      *
      * @param param                 Исходная модель параметра
@@ -197,22 +180,23 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModel defaultModel, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
+        String widgetId = p.cast(getClientDatasourceId(param.getRefWidgetId(), p), defaultClientWidgetId);
 
-        String widgetId = pageScope != null && param.getRefWidgetId() != null ?
-                CompileUtil.generateWidgetId(p.getScope(PageScope.class).getPageId(), param.getRefWidgetId()) :
-                defaultClientWidgetId;
-
-        String datasource;
+        String clientDatasourceId;
         if (pageScope == null) {
-            datasource = param.getDatasource() != null ? param.getDatasource() : widgetId;
-            if (datasource == null)
-                datasource = getLocalDatasource(p);
+            clientDatasourceId = param.getDatasourceId() != null ? param.getDatasourceId() : widgetId;
+            if (clientDatasourceId == null)
+                clientDatasourceId = getLocalDatasourceId(p);
         } else {
-            datasource = param.getDatasource() != null ? CompileUtil.generateDatasourceId(pageScope.getPageId(), param.getDatasource()) :
-                    pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+            if (param.getDatasourceId() != null)
+                clientDatasourceId = getClientDatasourceId(param.getDatasourceId(), p);
+            else if (widgetId != null)
+                clientDatasourceId = pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+            else
+                clientDatasourceId = getClientDatasourceId(getLocalDatasourceId(p), p);
         }
 
-        ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), datasource);
+        ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), clientDatasourceId);
         link.setValue(p.resolveJS(param.getValue()));
         return link;
     }
@@ -220,11 +204,11 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     /**
      * Получение идентификатора клиентского виджета по умолчанию
      *
-     * @param widgetScope Информация о виджете
      * @param p           Процессор сборки метаданных
      * @return Идентификатор клиентского виджета по умолчанию
      */
-    private String getDefaultClientWidgetId(WidgetScope widgetScope, CompileProcessor p) {
+    private String getDefaultClientWidgetId(CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String widgetIdByComponentScope = getClientWidgetIdByComponentScope(p);
         return widgetIdByComponentScope != null ? widgetIdByComponentScope : widgetScope.getClientWidgetId();
     }

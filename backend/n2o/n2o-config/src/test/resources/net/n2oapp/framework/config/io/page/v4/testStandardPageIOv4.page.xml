@@ -42,6 +42,7 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
             </dependencies>
             <submit operation-id="create" route="/test" message-position="fixed"
                     message-placement="top" message-on-fail="true" message-on-success="true"
@@ -51,5 +52,22 @@
                     routable="true"/>
             </filters>
         </datasource>
+        <browser-storage id="ds2" key="test" type="localStorage" size="1">
+            <submit key="test2" type="sessionStorage" auto="false" model="filter"/>
+            <dependencies>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+            </dependencies>
+        </browser-storage>
+        <app-datasource id="test"/>
+        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
+            <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2"/>
+            <dependencies>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+            </dependencies>
+        </inherited-datasource>
     </datasources>
 </page>

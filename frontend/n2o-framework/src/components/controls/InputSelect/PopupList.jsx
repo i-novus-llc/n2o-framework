@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withHandlers, withState } from 'recompose'
 import classNames from 'classnames'
-import { isEqual, invoke } from 'lodash'
+import { isEqual, invoke, omit } from 'lodash'
 
 import PopupItems from './PopupItems'
 import { isBottom } from './utils'
@@ -22,11 +22,9 @@ import { isBottom } from './utils'
  * @reactProps {string} format - формат
  * @reactProps {boolean} hasCheckboxes - флаг наличия чекбоксов
  * @reactProps {array} selected - выбранные элементы
- * @reactProps {boolean} isExpanded - флаг видимости попапа
  * @reactProps {function} onSelect - callback при выборе элемента
  * @reactProps {function} onScrollEnd - callback при достижения конца прокрутки попапа
  * @reactProps {function} onRemoveItem - callback при удаление элемента
- * @reactProps {any} expandPopUp
  * @reactProps {boolean} needAddFilter
  * @reactProps {node} children - элемент потомок компонента PopupList
  * @reactProps {function} handleMouseEnter - обработчик для события onMouseEnter
@@ -35,11 +33,6 @@ import { isBottom } from './utils'
 
 function PopupList({
     children,
-    isExpanded,
-    onScrollEnd,
-    expandPopUp,
-    filterValue,
-    needAddFilter,
     setMenuElement,
     handleMouseEnter,
     handleMouseLeave,
@@ -54,14 +47,13 @@ function PopupList({
                 onMouseLeave={handleMouseLeave}
             >
                 {children}
-                <PopupItems {...rest} />
+                <PopupItems {...omit(rest, ['needAddFilter', 'filterValue', 'expandPopUp', 'onScrollEnd', 'isExpanded'])} />
             </div>
         </div>
     )
 }
 
 PopupList.propTypes = {
-    isExpanded: PropTypes.bool.isRequired,
     onScrollEnd: PropTypes.func,
     options: PropTypes.array.isRequired,
     valueFieldId: PropTypes.string.isRequired,
@@ -78,7 +70,6 @@ PopupList.propTypes = {
     hasCheckboxes: PropTypes.bool,
     onRemoveItem: PropTypes.func,
     format: PropTypes.string,
-    expandPopUp: PropTypes.any,
     children: PropTypes.node,
     needAddFilter: PropTypes.bool,
     filterValue: PropTypes.any,

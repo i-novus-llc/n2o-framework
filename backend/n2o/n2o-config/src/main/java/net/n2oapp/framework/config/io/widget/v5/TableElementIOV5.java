@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись таблицы версии 5.0
  */
 @Component
-public class TableElementIOV5 extends AbstractListWidgetElementIOv5<N2oTable> {
+public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElementIOv5<T> {
 
     @Override
     public String getElementName() {
@@ -31,12 +31,12 @@ public class TableElementIOV5 extends AbstractListWidgetElementIOv5<N2oTable> {
     }
 
     @Override
-    public Class<N2oTable> getElementClass() {
+    public Class getElementClass() {
         return N2oTable.class;
     }
 
     @Override
-    public void io(Element e, N2oTable t, IOProcessor p) {
+    public void io(Element e, T t, IOProcessor p) {
         super.io(e, t, p);
         p.attributeEnum(e, "selection", t::getSelection, t::setSelection, RowSelectionEnum.class);
         p.attributeBoolean(e, "auto-select", t::getAutoSelect, t::setAutoSelect);

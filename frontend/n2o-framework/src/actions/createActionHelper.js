@@ -5,7 +5,7 @@ import { createAction } from 'redux-actions'
  * @param payload
  * @param meta
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 function defaultPayload(payload = {}, meta = {}) {
     return payload
 }
@@ -15,7 +15,7 @@ function defaultPayload(payload = {}, meta = {}) {
  * @param payload
  * @param meta
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 function defaultMeta(payload = {}, meta = {}) {
     return meta
 }

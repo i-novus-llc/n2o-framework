@@ -14,7 +14,9 @@ export const withItemsResolver = (Component) => {
         const datasourceIsEmpty = !datasources || !datasource
 
         useEffect(() => {
-            if (datasourceIsEmpty) {
+            // FIXME Удалить костыль. Не понятно зачем тут мутация мапингов с последующей доперерегистрацией датасурса
+            // NNO-8219
+            if (!datasources?.[datasource]?.provider?.queryMapping) {
                 return
             }
 

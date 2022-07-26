@@ -4,7 +4,7 @@
         <fields>
             <select id="select1" type="checkboxes" cleanable="false"
                     description-field-id="descFieldId" select-format-one="{size} объект"
-                    select-format-few="{size} объекта" select-format-many="{size} объектов"/>
+                    select-format-few="{size} объекта" select-format-many="{size} объектов" placeholder="Введите"/>
             <select id="select2" type="checkboxes" select-format="Логичных примеров {size} шт"/>
             <select id="select3">
                 <options>

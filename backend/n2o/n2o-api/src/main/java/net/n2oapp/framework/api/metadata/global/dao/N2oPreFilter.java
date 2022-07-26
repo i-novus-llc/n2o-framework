@@ -50,7 +50,7 @@ public class N2oPreFilter implements Source {
     /**
      * Идентификатор источника данных на странице, на который ссылается фильтр
      */
-    private String datasource;
+    private String datasourceId;
     /**
      * Модель виджета, на который ссылается фильтр
      */
@@ -105,12 +105,12 @@ public class N2oPreFilter implements Source {
 
     @Deprecated
     public String getRefWidgetId() {
-        return datasource;
+        return datasourceId;
     }
 
     @Deprecated
     public void setRefWidgetId(String refWidgetId) {
-        this.datasource = refWidgetId;
+        this.datasourceId = refWidgetId;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class N2oPreFilter implements Source {
         if (!(o instanceof N2oPreFilter)) return false;
         N2oPreFilter that = (N2oPreFilter) o;
         return Objects.equals(fieldId, that.fieldId) &&
-                Objects.equals(datasource, that.datasource) &&
+                Objects.equals(datasourceId, that.datasourceId) &&
                 model == that.model &&
                 type == that.type;
     }
@@ -135,7 +135,7 @@ public class N2oPreFilter implements Source {
 
     @Override
     public int hashCode() {
-        return Objects.hash(fieldId, datasource, model, type);
+        return Objects.hash(fieldId, datasourceId, model, type);
     }
 
     public String[] getValues() {

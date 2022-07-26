@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.application;
 
 import net.n2oapp.framework.api.metadata.application.*;
-import net.n2oapp.framework.api.metadata.datasource.Datasource;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -118,9 +118,24 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getQueryMapping().get("fio").getBindLink(), is("models.resolve['person']"));
         assertThat(menuItem.getQueryMapping().get("fio").getValue(), is("`fio`"));
 
-        Datasource datasource = (Datasource) application.getDatasources().get("person");
+        StandardDatasource datasource = (StandardDatasource) application.getDatasources().get("person");
         assertThat(datasource.getId(), is("person"));
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/person"));
         assertThat(datasource.getProvider().getQueryMapping().get("person_id").getValue(), is(":person_id"));
+    }
+
+    @Test
+    public void inlineSidebarDatasource() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/inlineSidebarDatasource.application.xml")
+                .get(new ApplicationContext("inlineSidebarDatasource"));
+        assertThat(application.getWsPrefix(), nullValue());
+
+        StandardDatasource datasource = (StandardDatasource) application.getDatasources().get("person");
+        assertThat(datasource.getId(), is("person"));
+        assertThat(datasource.getProvider().getUrl(), is("n2o/data/person"));
+        assertThat(datasource.getProvider().getQueryMapping().get("person_id").getValue(), is(":person_id"));
+
+        datasource = (StandardDatasource) application.getDatasources().get("home");
+        assertThat(datasource.getId(), is("home"));
     }
 }
