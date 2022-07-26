@@ -18,6 +18,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  */
 @Component
 public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
+    private static final String PROPERTY_PREFIX = "n2o.api.widget.tree";
     @Override
     protected String getPropertyWidgetSrc() {
         return "n2o.api.widget.tree.src";
@@ -47,7 +48,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setMultiselect(source.getMultiselect());
         tree.setHasCheckboxes(source.getCheckboxes());
         tree.setAjax(source.getAjax());
-        tree.setBadge(BadgeUtil.compileBadge(source, "n2o.api.widget.tree", p));
+        tree.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
         return tree;
     }
 

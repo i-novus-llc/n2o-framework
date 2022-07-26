@@ -20,24 +20,58 @@ public class BadgeUtil {
     }
 
     /**
-     * Компиляция значка по модели BadgePresence
+     * Компиляция значка, не использующего ссылки на поля
      *
      * @param source         Модель реализующая BadgePresence
      * @param propertyPrefix Префикс свойств значений по умолчанию
      * @param p              Процессор сборки метаданных
      * @return Клиентская модель значка
      */
-    public static Badge compileBadge(BadgeAware source, String propertyPrefix, CompileProcessor p) {
+    public static Badge compileSimpleBadge(BadgeAware source, String propertyPrefix, CompileProcessor p) {
+        if (source.getBadge() == null && source.getBadgeColor() == null && source.getBadgeImage() == null)
+            return null;
+        Badge badge = new Badge();
+        badge.setText(p.resolveJS(source.getBadge()));
+        badge.setImage(p.resolveJS(source.getBadgeImage()));
+        badge.setColor(source.getBadgeColor());
+        setDefaults(badge, source, propertyPrefix, p);
+        return badge;
+    }
+
+    /**
+     * Компиляция значка, ссылающегося на поля
+     *
+     * @param source         Модель реализующая BadgePresence
+     * @param propertyPrefix Префикс свойств значений по умолчанию
+     * @param p              Процессор сборки метаданных
+     * @return Клиентская модель значка
+     */
+    public static Badge compileReferringBadge(BadgeAware source, String propertyPrefix, CompileProcessor p) {
         if (source.getBadgeFieldId() == null && source.getBadgeColorFieldId() == null && source.getBadgeImageFieldId() == null)
             return null;
-        return Badge.builder()
-                .fieldId(source.getBadgeFieldId())
-                .colorFieldId(source.getBadgeColorFieldId())
-                .imageFieldId(source.getBadgeImageFieldId())
-                .imagePosition(p.cast(source.getBadgeImagePosition(), p.resolve(property(propertyPrefix + IMAGE_POSITION), Position.class)))
-                .imageShape(p.cast(source.getBadgeImageShape(), p.resolve(property(propertyPrefix + IMAGE_SHAPE), ShapeType.class)))
-                .position(p.cast(source.getBadgePosition(), p.resolve(property(propertyPrefix + POSITION), Position.class)))
-                .shape(p.cast(source.getBadgeShape(), p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)))
-                .build();
+        Badge badge = new Badge();
+        badge.setFieldId(source.getBadgeFieldId());
+        badge.setColorFieldId(source.getBadgeColorFieldId());
+        badge.setImageFieldId(source.getBadgeImageFieldId());
+        setDefaults(badge, source, propertyPrefix, p);
+        return badge;
+    }
+
+    /**
+     * Компиляция дефолтных свойств значка
+     *
+     * @param compiled       Клиентская модель значка
+     * @param source         Модель реализующая BadgePresence
+     * @param propertyPrefix Префикс свойств значений по умолчанию
+     * @param p              Процессор сборки метаданных
+     */
+    private static void setDefaults(Badge compiled, BadgeAware source, String propertyPrefix, CompileProcessor p) {
+        compiled.setShape(p.cast(source.getBadgeShape(), p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)));
+        compiled.setPosition(p.cast(source.getBadgePosition(),
+                p.resolve(property(propertyPrefix + POSITION), Position.class)));
+        compiled.setImagePosition(p.cast(source.getBadgeImagePosition(),
+                p.resolve(property(propertyPrefix + IMAGE_POSITION), Position.class)));
+        compiled.setImageShape(p.cast(source.getBadgeImageShape(),
+                p.resolve(property(propertyPrefix + IMAGE_SHAPE), ShapeType.class)));
     }
 }

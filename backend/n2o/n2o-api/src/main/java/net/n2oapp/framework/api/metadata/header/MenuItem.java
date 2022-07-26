@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,10 +23,6 @@ public class MenuItem implements Compiled, PropertiesAware {
     private String title;
     @JsonProperty
     private String icon;
-    @JsonProperty
-    private String badgeColor;
-    @JsonProperty
-    private Object badge;
     @JsonProperty
     private String imageSrc;
     @JsonProperty
@@ -42,6 +39,8 @@ public class MenuItem implements Compiled, PropertiesAware {
     private LinkType linkType;
     @JsonProperty
     private Target target;
+    @JsonProperty
+    private Badge badge;
     @JsonProperty
     private Map<String, ModelLink> pathMapping;
     @JsonProperty
