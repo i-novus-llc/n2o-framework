@@ -12,11 +12,9 @@ import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getDatasourceByComponentScope;
 import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
 
 /**
@@ -71,21 +69,11 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String initSourceDatasourceId(N2oCopyAction source, CompileProcessor p) {
-        if (source.getSourceDatasourceId() != null)
-            return source.getSourceDatasourceId();
-        String datasource = getDatasourceByComponentScope(p);
-        if (datasource != null)
-            return datasource;
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            return widgetScope.getDatasourceId();
-        throw new N2oException(String.format("source-datasource is not undefined in copy action [%s]", source.getId()));
+        return p.cast(source.getSourceDatasourceId(), getLocalDatasourceId(p));
     }
 
     private String initTargetDatasourceId(N2oCopyAction source, CompileProcessor p) {
-        if (source.getTargetDatasourceId() != null)
-            return source.getTargetDatasourceId();
-        return initSourceDatasourceId(source, p);
+        return p.cast(source.getTargetDatasourceId(), source.getSourceWidgetId(), source.getSourceDatasourceId());
     }
 
     private String getClientTargetDatasourceId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
