@@ -86,6 +86,11 @@ const NavItemContainer = ({
     const handleLink = (item, className) => {
         const target = item.target === LinkTarget.Application ? LinkTarget.Self : item.target
 
+        const Badge = renderBadge({
+            ...item.badge,
+            children: item.title,
+        })
+
         if (item.linkType === 'outer') {
             return (
                 <NavItem>
@@ -100,8 +105,7 @@ const NavItemContainer = ({
                             title={item.title}
                             imageShape={item.imageShape}
                         />
-                        {item.title}
-                        {renderBadge(item)}
+                        {Badge}
                     </a>
                 </NavItem>
             )
@@ -122,8 +126,7 @@ const NavItemContainer = ({
                         title={item.title}
                         imageShape={item.imageShape}
                     />
-                    {item.title}
-                    {renderBadge(item)}
+                    {Badge}
                 </NavLink>
             </NavItem>
         )

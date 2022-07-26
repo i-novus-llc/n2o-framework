@@ -35,7 +35,7 @@ export const renderBadge = (options: BadgeOptions) => {
         style,
     } = options
 
-    const badgeContainerClassNames = classNames('d-inline-flex align-items-baseline', {
+    const badgeContainerClassNames = classNames('n2o-badge-container', {
         'flex-row-reverse': isBadgeLeftPosition(position),
     })
 
@@ -73,7 +73,7 @@ export const renderBadge = (options: BadgeOptions) => {
 
     return (
         <div className={badgeContainerClassNames}>
-            <div>{children}</div>
+            {children}
             <BadgeComponent />
         </div>
     )
