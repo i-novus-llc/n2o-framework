@@ -53,9 +53,12 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
 
     private void resolveItem(MenuItem item, BindProcessor p) {
         item.setTitle(p.resolveText(item.getTitle()));
-        item.setBadge(p.resolve(item.getBadge()));
-        item.setBadgeColor(p.resolve(item.getBadgeColor(), String.class));
         item.setImageSrc(p.resolve(item.getImageSrc(), String.class));
+        if (item.getBadge() != null) {
+            item.getBadge().setText(p.resolve(item.getBadge().getText(), String.class));
+            item.getBadge().setColor(p.resolve(item.getBadge().getColor(), String.class));
+            item.getBadge().setImage(p.resolve(item.getBadge().getImage(), String.class));
+        }
         if (item.getSubItems() != null)
             item.getSubItems().forEach(i -> resolveItem(i, p));
     }

@@ -5,7 +5,12 @@
                datasource="ds1"
                icon="fa fa-bell"
                badge="2"
-               badge-color="warning">
+               badge-color="warning"
+               badge-position="left"
+               badge-shape="square"
+               badge-image="/static/candidate.png"
+               badge-image-position="right"
+               badge-image-shape="square">
         <open-page page-id="index" route="/login"/>
     </menu-item>
     <menu-item image="/static/users/ivan90.png"
