@@ -73,7 +73,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String initTargetDatasourceId(N2oCopyAction source, CompileProcessor p) {
-        return p.cast(source.getTargetDatasourceId(), source.getSourceWidgetId(), source.getSourceDatasourceId());
+        return p.cast(source.getTargetDatasourceId(), source.getTargetWidgetId(), source.getSourceDatasourceId());
     }
 
     private String getClientTargetDatasourceId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
