@@ -74,6 +74,11 @@
                  toggle-on-hover="true" toggled-state="maxi" path="/person/:person_id" datasource="ds1">
             <extra-menu ref-id="MenuRef"/>
             <nav ref-id="MenuRef"/>
+            <datasource id="ds1">
+                <dependencies>
+                    <fetch/>
+                </dependencies>
+            </datasource>
         </sidebar>
         <sidebar visible="true" path="/home" subtitle="Home description">
 
