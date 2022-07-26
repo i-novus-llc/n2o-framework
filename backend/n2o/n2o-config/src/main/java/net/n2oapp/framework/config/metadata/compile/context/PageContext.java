@@ -133,6 +133,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Список источников данных открываемой страницы
      */
     private List<N2oAbstractDatasource> datasources;
+    /**
+     * Множество источников данных родительской страницы
+     */
+    private Map<String, N2oAbstractDatasource> parentDatasources;
 
     /**
      * Клиентский идентификатор страницы
