@@ -1,24 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import has from 'lodash/has'
-import { Badge } from 'reactstrap'
-// components
 
 // fns
+import { renderSquareBadge } from '../../../../snippets/Badge/Badge'
+import { isBadgeRightPosition, resolveBadgeProps } from '../../../../snippets/Badge/utils'
 import { splitSearchText } from '../../until'
 
 function BaseNode({
     prefixCls,
     imageFieldId,
     labelFieldId,
-    badgeFieldId,
+    badge,
     valueFieldId,
-    badgeColorFieldId,
     searchValue,
     searchKeys,
     data,
     filter,
 }) {
+    const {
+        fieldId: badgeFieldId,
+        position: badgePosition,
+    } = badge || {}
+
+    const labelStyle = {
+        order: isBadgeRightPosition(badgePosition) ? 0 : 1,
+    }
+
     return (
         <span
             data-id={data[valueFieldId]}
@@ -39,20 +47,14 @@ function BaseNode({
                     <span
                         key={`tree_label_${data[valueFieldId]}`}
                         className={`${prefixCls}-label`}
+                        style={labelStyle}
                     >
                         {searchKeys.includes(data[valueFieldId]) && searchValue
                             ? splitSearchText(data[labelFieldId], searchValue, filter)
                             : data[labelFieldId]}
                     </span>
                 ),
-                has(data, badgeFieldId) && (
-                    <Badge
-                        key={`tree_badge_${data[valueFieldId]}`}
-                        color={data[badgeColorFieldId]}
-                    >
-                        {data[badgeFieldId]}
-                    </Badge>
-                ),
+                has(data, badgeFieldId) && renderSquareBadge(resolveBadgeProps(badge, data)),
             ]}
         </span>
     )
@@ -62,9 +64,8 @@ BaseNode.propTypes = {
     prefixCls: PropTypes.string,
     imageFieldId: PropTypes.string,
     labelFieldId: PropTypes.string,
-    badgeFieldId: PropTypes.string,
+    badge: PropTypes.object,
     valueFieldId: PropTypes.string,
-    badgeColorFieldId: PropTypes.string,
     searchValue: PropTypes.string,
     searchKeys: PropTypes.string,
     data: PropTypes.object,

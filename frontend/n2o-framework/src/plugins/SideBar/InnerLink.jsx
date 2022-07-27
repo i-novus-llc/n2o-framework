@@ -45,16 +45,20 @@ export function InnerLink({
             >
                 <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} />
                 <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
-                <Title
-                    title={currentTitle}
-                    className={
-                        classNames(
-                            'n2o-sidebar__item-title',
-                            { visible: isStaticView ? true : showContent },
-                        )
-                    }
-                />
-                {renderBadge(item)}
+                {renderBadge({
+                    ...item.badge,
+                    children: (
+                        <Title
+                            title={currentTitle}
+                            className={
+                                classNames(
+                                    'n2o-sidebar__item-title',
+                                    { visible: isStaticView ? true : showContent },
+                                )
+                            }
+                        />
+                    ),
+                })}
             </NavLink>
         </>
     )

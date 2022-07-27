@@ -18,7 +18,7 @@ import propsResolver from '../../../utils/propsResolver'
 import { Icon } from '../../snippets/Icon/Icon'
 import { StatusText } from '../../snippets/StatusText/StatusText'
 import { renderSquareBadge } from '../../snippets/Badge/Badge'
-import { isBadgeLeftPosition, isBadgeRightPosition } from '../../snippets/Badge/utils'
+import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../snippets/Badge/utils'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../Checkbox/CheckboxN2O'
 
@@ -39,8 +39,7 @@ import {
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {string} groupFieldId - поле для группировки
- * @reactProps {string} badgeFieldId - поле для баджей
- * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {string} badge - поле баджа
  * @reactProps {string} enabledFieldId - поле для активности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {function} onSelect - callback при выборе элемента
@@ -164,25 +163,12 @@ function PopupItems({
     const renderSingleItem = (item, index) => {
         const {
             fieldId: badgeFieldId,
-            colorFieldId: badgeColorFieldid,
-            shape: badgeShape,
             position: badgePosition,
-            imageFieldId: badgeImageFieldId,
-            imagePosition: badgeImagePosition,
-            imageShape: badgeImageShape,
         } = badge || {}
 
         const disabled = getDisabled(item)
 
-        const Badge = renderSquareBadge({
-            badge: item[badgeFieldId],
-            badgeColor: item[badgeColorFieldid],
-            badgeShape,
-            badgePosition,
-            image: item[badgeImageFieldId],
-            imagePosition: badgeImagePosition,
-            imageShape: badgeImageShape,
-        })
+        const Badge = renderSquareBadge(resolveBadgeProps(badge, item))
 
         return (
             <DropdownItem

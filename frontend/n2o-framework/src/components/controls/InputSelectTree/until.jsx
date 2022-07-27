@@ -7,7 +7,7 @@ import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select'
 
 import { Icon } from '../../snippets/Icon/Icon'
 import { renderSquareBadge } from '../../snippets/Badge/Badge'
-import { isBadgeLeftPosition, isBadgeRightPosition } from '../../snippets/Badge/utils'
+import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../snippets/Badge/utils'
 
 export const visiblePartPopup = (
     item,
@@ -21,25 +21,12 @@ export const visiblePartPopup = (
 ) => {
     const {
         fieldId: badgeFieldId,
-        colorFieldId: badgeColorFieldid,
-        shape: badgeShape,
         position: badgePosition,
-        imageFieldId: badgeImageFieldId,
-        imagePosition: badgeImagePosition,
-        imageShape: badgeImageShape,
     } = badge || {}
 
     const hasBadge = has(item, badgeFieldId)
 
-    const Badge = renderSquareBadge({
-        badge: item[badgeFieldId],
-        badgeColor: item[badgeColorFieldid],
-        badgeShape,
-        badgePosition,
-        image: item[badgeImageFieldId],
-        imagePosition: badgeImagePosition,
-        imageShape: badgeImageShape,
-    })
+    const Badge = renderSquareBadge(resolveBadgeProps(badge, item))
 
     return (
         <span className={`${prefixCls}-content-wrapper`}>

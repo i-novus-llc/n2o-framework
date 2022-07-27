@@ -17,17 +17,21 @@ export function OuterLink({ href, title, icon, imageSrc, imageShape, type, sideb
         <a id={id} className="n2o-sidebar__item" href={href}>
             {!imageSrc && <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} />}
             <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
-            <Title
-                title={currentTitle}
-                className={
-                    classNames(
-                        'n2o-sidebar__item__title',
-                        { none: isMiniView && icon },
-                    )
-                }
-            />
             {isMiniView && <SimpleTooltip id={id} message={title} placement="right" />}
-            {renderBadge(item)}
+            {renderBadge({
+                ...item.badge,
+                children: (
+                    <Title
+                        title={currentTitle}
+                        className={
+                            classNames(
+                                'n2o-sidebar__item__title',
+                                { none: isMiniView && icon },
+                            )
+                        }
+                    />
+                ),
+            })}
         </a>
     )
 }
