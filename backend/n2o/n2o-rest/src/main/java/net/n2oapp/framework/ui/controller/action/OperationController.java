@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
@@ -28,16 +29,19 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 public class OperationController extends SetController {
 
     private AlertMessageBuilder messageBuilder;
+    private AlertMessagesConstructor messagesConstructor;
     private static final Logger logger = LoggerFactory.getLogger(OperationController.class);
     private MetadataEnvironment environment;
 
     public OperationController(DataProcessingStack dataProcessingStack,
                                N2oOperationProcessor operationProcessor,
                                AlertMessageBuilder messageBuilder,
-                               MetadataEnvironment environment) {
+                               MetadataEnvironment environment,
+                               AlertMessagesConstructor messagesConstructor) {
         super(dataProcessingStack, operationProcessor, environment);
         this.messageBuilder = messageBuilder;
         this.environment = environment;
+        this.messagesConstructor = messagesConstructor;
     }
 
 
@@ -66,7 +70,7 @@ public class OperationController extends SetController {
             response.setDialog(compileDialog(e.getDialog(), requestInfo));
         } else {
             if (requestInfo.isMessageOnFail()) {
-                response.addResponseMessages(messageBuilder.buildMessages(e, requestInfo), requestInfo.getMessagesForm());
+                response.addResponseMessages(messagesConstructor.constructMessages(e, requestInfo), requestInfo.getMessagesForm());
             }
         }
         response.setStatus(e.getHttpStatus());

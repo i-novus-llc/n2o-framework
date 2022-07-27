@@ -80,7 +80,7 @@ export interface StorageSubmit extends ISubmitBase {
 export interface InheritedSubmit extends ISubmitBase {
     type: ProviderType.inherited
     model: ModelPrefix
-    tagetDs: string,
+    targetDs: string,
     targetModel: ModelPrefix
     targetField?: string
 }

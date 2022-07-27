@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueActionPay
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Сборка действия set-value
@@ -30,7 +30,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         compileAction(setValueAction, source, p);
         setValueAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
 
-        String defaultDatasource = getClientDatasourceId(getLocalDatasource(p), p);
+        String defaultDatasource = getClientDatasourceId(getLocalDatasourceId(p), p);
         ReduxModel model = getModelFromComponentScope(p);
         String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getSourceDatasourceId(), p);

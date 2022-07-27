@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
-import net.n2oapp.framework.config.util.CompileUtil;
+import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -64,7 +64,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
         }
         searchBar.setFieldId(source.getSearchBar().getSearchFilterId());
-        String clientDatasourceId = CompileUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId());
+        String clientDatasourceId = DatasourceUtil.getClientDatasourceId(source.getSearchBar().getDatasourceId(), page.getId());
         if (!page.getDatasources().keySet().contains(clientDatasourceId))
             clientDatasourceId = source.getSearchBar().getDatasourceId();
         searchBar.setDatasource(clientDatasourceId);

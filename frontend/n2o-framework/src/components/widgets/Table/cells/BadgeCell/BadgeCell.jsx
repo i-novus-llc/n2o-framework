@@ -49,7 +49,12 @@ class BadgeCell extends React.Component {
                     <Text text={text} format={format} />
                     {!isNil(badgeText) && (
                         <Badge style={badgeStyle} color={color}>
-                            <Text text={get(model, fieldKey || id)} className={className} format={badgeFormat} />
+                            <Text
+                                title={badgeText}
+                                text={get(model, fieldKey || id)}
+                                className={className}
+                                format={badgeFormat}
+                            />
                         </Badge>
                     )}
                 </span>

@@ -44,7 +44,7 @@ import java.util.stream.Stream;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция кнопки
@@ -234,7 +234,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
         if (butAction == null) return null;
         butAction.setId(p.cast(butAction.getId(), source.getId()));
-        return p.compile(butAction, context, object, new ComponentScope(source));
+        return p.compile(butAction, context, object, new ComponentScope(source, p.getScope(ComponentScope.class)));
     }
 
     private String initDatasource(N2oButton source, CompileProcessor p) {

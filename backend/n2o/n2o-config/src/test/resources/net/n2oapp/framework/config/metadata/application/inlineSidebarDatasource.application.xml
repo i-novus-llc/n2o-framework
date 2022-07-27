@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/person/:person_id/**">
+            <datasource id="person" query-id="person">
+                <filters>
+                    <eq field-id="id" value=":person_id"/>
+                </filters>
+            </datasource>
+        </sidebar>
+        <sidebar path="/home">
+            <datasource id="home"/>
+        </sidebar>
+    </sidebars>
+</application>
