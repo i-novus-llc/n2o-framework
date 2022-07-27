@@ -55,9 +55,9 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         super.initDefaults(source, context, p);
         source.setMode(p.cast(source.getMode(), CopyMode.merge));
         source.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
-        source.setSourceDatasourceId(p.cast(source.getSourceDatasourceId(), source.getSourceWidgetId(), getLocalDatasourceId(p)));
+        source.setSourceDatasourceId(p.cast(source.getSourceDatasourceId(), getLocalDatasourceId(p)));
         source.setTargetModel(p.cast(source.getTargetModel(), ReduxModel.resolve));
-        source.setTargetDatasourceId(p.cast(source.getTargetDatasourceId(), source.getTargetWidgetId(), source.getSourceDatasourceId()));
+        source.setTargetDatasourceId(p.cast(source.getTargetDatasourceId(), source.getSourceDatasourceId()));
     }
 
     private MetaSaga compileMeta(N2oCopyAction source, CompileProcessor p) {
