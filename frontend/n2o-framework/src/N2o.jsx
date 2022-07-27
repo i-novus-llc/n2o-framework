@@ -102,11 +102,7 @@ N2o.propTypes = {
     }),
     security: PropTypes.shape({
         authProvider: PropTypes.func,
-        redirectPath: PropTypes.string,
-        externalLoginUrl: PropTypes.string,
-        loginComponent: PropTypes.element,
-        userMenuComponent: PropTypes.element,
-        forbiddenComponent: PropTypes.element,
+        authUrl: PropTypes.string,
     }),
     messages: PropTypes.shape({
         timeout: PropTypes.shape({
