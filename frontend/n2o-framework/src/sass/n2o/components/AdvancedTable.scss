@@ -1,6 +1,5 @@
 $alignments_map: ("left": "left", "centered": "center", "right": "right");
 
-
 .n2o-advanced-table-content {
     position: relative;
 }
@@ -55,8 +54,8 @@ $alignments_map: ("left": "left", "centered": "center", "right": "right");
             align-self: center;
         }
     }
-    
-    @each $alignment_name, $alignment_value in $alignments_map{
+
+    @each $alignment_name, $alignment_value in $alignments_map {
         &.#{$alignment_name} > div {
             justify-content: #{$alignment_value};
         }
@@ -117,7 +116,7 @@ $alignments_map: ("left": "left", "centered": "center", "right": "right");
         }
     }
 
-    @each $alignment_name, $alignment_value in $alignments_map{
+    @each $alignment_name, $alignment_value in $alignments_map {
         .n2o-advanced-table-header-cel.#{$alignment_name} > .n2o-advanced-table-header-cell-content {
             justify-content: #{$alignment_value};
         }
