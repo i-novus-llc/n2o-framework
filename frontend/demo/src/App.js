@@ -30,7 +30,7 @@ const config = {
   },
   security: {
     authProvider,
-    externalLoginUrl: "/"
+    authUrl: "/test"
   },
   evalContext: functions,
   realTimeConfig: true,
