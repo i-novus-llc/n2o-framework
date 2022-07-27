@@ -9,7 +9,7 @@ import {
     compose,
     withContext,
     lifecycle,
-    withHandlers,
+    withHandlers, getContext,
 } from 'recompose'
 import numeral from 'numeral'
 import 'numeral/locales/ru'
@@ -23,9 +23,20 @@ import {
     globalSelector,
 } from '../../ducks/global/store'
 import { register } from '../../ducks/datasource/store'
+import { errorController } from '../errors/errorController'
 
 function Application(props) {
-    const { ready, loading, render, locale, menu, registerDatasorces, ...config } = props
+    const {
+        ready,
+        loading,
+        render,
+        locale,
+        menu,
+        registerDatasorces,
+        error,
+        defaultErrorPages,
+        ...config
+    } = props
     const { datasources = {} } = menu
 
     useEffect(() => {
@@ -37,6 +48,13 @@ function Application(props) {
     }, [datasources, registerDatasorces])
 
     numeral.locale(locale)
+
+    if (error) {
+        const { status } = error
+        const errorPage = errorController(status, defaultErrorPages)
+
+        return React.createElement(errorPage)
+    }
 
     return (
         <Spinner type="cover" loading={loading}>
@@ -54,6 +72,8 @@ Application.propTypes = {
     datasources: PropTypes.object,
     menu: PropTypes.object,
     registerDatasorces: PropTypes.func,
+    error: PropTypes.object,
+    defaultErrorPages: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
@@ -82,6 +102,11 @@ export default compose(
             configLocale: props.locale,
         }),
     ),
+    getContext({
+        defaultErrorPages: PropTypes.arrayOf(
+            PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
+        ),
+    }),
     withHandlers({
         addCustomLocales: ({ i18n, customLocales }) => () => {
             map(keys(customLocales), (locale) => {
