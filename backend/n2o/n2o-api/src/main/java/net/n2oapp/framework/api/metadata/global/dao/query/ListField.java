@@ -9,4 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ListField extends ReferenceField {
+
+    public ListField(ReferenceField field) {
+        super(field);
+    }
+
+    public ListField() {
+    }
 }

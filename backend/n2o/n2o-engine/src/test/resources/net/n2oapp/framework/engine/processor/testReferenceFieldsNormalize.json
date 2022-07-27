@@ -1,0 +1,28 @@
+[
+  {
+    "contactInfos": [
+      {
+        "contactInfo": {
+          "value": "kotVkamishash@mail.com"
+        },
+        "isMainChannel": {
+          "value": null
+        },
+        "dicContactTypeId": {
+          "value": 2
+        }
+      },
+      {
+        "contactInfo": {
+          "value": "5542-1234-4124"
+        },
+        "isMainChannel": {
+          "value": null
+        },
+        "dicContactTypeId": {
+          "value": 1
+        }
+      }
+    ]
+  }
+]

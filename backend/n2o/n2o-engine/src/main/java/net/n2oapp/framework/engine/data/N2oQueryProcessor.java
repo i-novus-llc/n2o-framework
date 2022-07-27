@@ -8,6 +8,7 @@ import net.n2oapp.criteria.filters.FilterReducer;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.criteria.filters.Result;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
@@ -408,13 +409,15 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         for (AbstractField field : fields) {
             if (field instanceof ReferenceField) {
                 outMap(resultDataSet, entry, field.getId(), field.getMapping(), null, contextProcessor);
+                clearRedundantData(resultDataSet, field.getId(), field.getMapping());
                 if (field instanceof ListField && resultDataSet.getList(field.getId()) != null) {
                     List<DataSet> list = (List<DataSet>) resultDataSet.getList(field.getId());
-                    for (DataSet dataSet : list) {
-                        mapFields(entry, Arrays.asList(((ListField) field).getFields()), dataSet);
+                    for (int i = 0; i < list.size(); i++) {
+                        int finalI = i;
+                        List<AbstractField> indexedFields = Arrays.stream(((ListField) field).getFields())
+                                .map(AbstractField::of).peek(f -> resolveIndex(f, finalI)).collect(Collectors.toList());
+                        mapFields(entry, indexedFields, list.get(i));
                     }
-//                    List<AbstractField> innerFields = Arrays.asList(((ListField) field).getFields());
-//                    DataSet dataSet = mapFields(entry, innerFields);
                 }
                 else if (resultDataSet.get(field.getId()) != null)
                     mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()), resultDataSet.getDataSet(field.getId()));
@@ -422,23 +425,19 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             else {
                 outMap(resultDataSet, entry, field.getId(), field.getMapping(), ((SimpleField) field).getDefaultValue(), contextProcessor);
             }
-            normalizeField(field, resultDataSet);
         }
     }
 
-//    private void mapFields(Object entry, List<AbstractField> fields, List<?> resultDataList) {
-//        for (AbstractField field : fields) {
-//            if (field instanceof ReferenceField) {
-//                outList(resultDataList, entry, field.getId(), field.getMapping(), null, contextProcessor);
-//                if (resultDataList.getDataSet(field.getId()) != null)
-//                    mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()), resultDataList.getDataSet(field.getId()));
-//            }
-//            else {
-//                outList(resultDataList, entry, field.getId(), field.getMapping(), ((SimpleField) field).getDefaultValue(), contextProcessor);
-//            }
-//            //normalizeField(field, resultDataList);
-//        }
-//    }
+    private void clearRedundantData(DataSet resultDataSet, String id, String mapping) {
+        if (!id.equals(StringUtils.unwrapSpel(mapping)))
+            resultDataSet.remove(id);
+    }
+
+    private void resolveIndex(AbstractField field, int index) {
+        if (field instanceof ReferenceField && ((ReferenceField) field).getFields() != null)
+            Arrays.stream(((ReferenceField) field).getFields()).forEach(inner -> resolveIndex(inner, index));
+        field.setMapping(field.getMapping().replaceFirst("\\[i\\]", "[" + index + "]"));//FIXME
+    }
 
     private void normalizeField(AbstractField field, DataSet resultDataSet) {
         if (field.getNormalize() != null) {

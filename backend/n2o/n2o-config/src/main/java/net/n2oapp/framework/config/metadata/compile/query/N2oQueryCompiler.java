@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -55,6 +56,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             query.setValidations(context.getValidations());
         List<AbstractField> fields = source.getFields() != null ? Arrays.asList(source.getFields()) : List.of();
         initDefaultFilters(source.getFilters(), p);
+        IndexScope indexScope = new IndexScope();
         initDefaultFields(fields, null);
         initDefaultExpression(fields);
         replaceExpression(fields, source);
@@ -245,11 +247,15 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             if (field instanceof ReferenceField) {
                 field.setMapping(concatMappings(castDefault(field.getMapping(), spel(field.getId())), parentMapping));
                 initDefaultFields(Arrays.asList(((ReferenceField) field).getFields()),
-                        field instanceof ListField ? null : field.getMapping());
+                        field instanceof ListField ? withIndex(field.getMapping()) : field.getMapping());//FIXME
             }
             else
                 initDefaultSimpleField(((SimpleField) field), parentMapping);
         }
+    }
+
+    private String withIndex(String listMapping) {
+        return spel(StringUtils.unwrapSpel(listMapping) + "[i]");//FIXME
     }
 
     private void initDefaultSimpleField(SimpleField field, String parentMapping) {
@@ -270,7 +276,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         }
     }
 
-    private String concatMappings(String child, String parent) {
+    private String concatMappings(String child, String parent) {//FIXME
         return spel(parent != null ? StringUtils.unwrapSpel(parent) + "." + StringUtils.unwrapSpel(child) : StringUtils.unwrapSpel(child));
     }
 

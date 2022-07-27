@@ -10,10 +10,22 @@
         <reference id="organization">
             <field id="code"/>
             <field id="title"/>
+            <list id="employees">
+                <field id="id"/>
+                <field id="name"/>
+            </list>
         </reference>
         <list id="departments">
             <field id="id"/>
             <field id="name"/>
+            <list id="groups">
+                <field id="id"/>
+                <field id="name"/>
+            </list>
+            <reference id="manager">
+                <field id="id"/>
+                <field id="name"/>
+            </reference>
         </list>
     </fields>
 </query>

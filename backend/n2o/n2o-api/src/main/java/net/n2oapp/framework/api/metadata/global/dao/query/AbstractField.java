@@ -16,6 +16,23 @@ public abstract class AbstractField implements Source, Compiled, IdAware {
     private String mapping;
     private String normalize;
 
+    public AbstractField(AbstractField field) {
+        this.id = field.getId();
+        this.mapping = field.getMapping();
+        this.normalize = field.getNormalize();
+    }
+
+    public AbstractField() {
+    }
+
+    public static AbstractField of(AbstractField field) {
+        if (field instanceof ListField)
+            return new ListField(((ListField) field));
+        if (field instanceof ReferenceField)
+            return new ReferenceField(((ReferenceField) field));
+        return new SimpleField(((SimpleField) field));
+    }
+
     @Override
     public String toString() {
         return id;

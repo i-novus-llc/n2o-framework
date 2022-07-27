@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="net/n2oapp/framework/engine/processor/testReferenceFieldsNormalize.json"/>
+    </list>
+
+    <fields>
+        <list id="phones" mapping="['contactInfos']" normalize="#this.get('dicContactTypeId').get('value') == 1">
+            <field id="phone" mapping="['contactInfo.value']"
+                   normalize="['contactInfos'].get('dicContactTypeId').get('value') == 1 ? #this : null"/>
+        </list>
+        <list id="emails" mapping="['contactInfos']">
+            <field id="email" mapping="['contactInfo.value']"
+                   normalize="['contactInfos'].get('dicContactTypeId').get('value') == 2 ? #this : null"/>
+        </list>
+
+        <field id="phone" mapping="['contactInfos.contactInfo.value']"
+               normalize="['contactInfos'].get('isMainChannel').get('value') != null ? #this : null"/>
+        <field id="email" mapping="['contactInfos.contactInfo.value']"
+               normalize="['contactInfos'].get('isMainChannel').get('value') != null ? #this : null"/>
+    </fields>
+</query>

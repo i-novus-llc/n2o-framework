@@ -10,10 +10,22 @@
         <reference id="myOrganization" mapping="['organization']">
             <field id="myCode" mapping="['code']"/>
             <field id="myTitle" mapping="['title']"/>
+            <list id="myEmployees" mapping="['employees']">
+                <field id="myId" mapping="['id']"/>
+                <field id="myName" mapping="['name']"/>
+            </list>
         </reference>
         <list id="myDepartments" mapping="['departments']">
             <field id="myId" mapping="['id']"/>
             <field id="myName" mapping="['name']"/>
+            <list id="myGroups" mapping="['groups']">
+                <field id="myId" mapping="['id']"/>
+                <field id="myName" mapping="['name']"/>
+            </list>
+            <reference id="myManager" mapping="['manager']">
+                <field id="myId" mapping="['id']"/>
+                <field id="myName" mapping="['name']"/>
+            </reference>
         </list>
     </fields>
 </query>

@@ -29,6 +29,22 @@ public class SimpleField extends AbstractField implements NameAware {
 
     private Boolean noJoin;
 
+    public SimpleField(SimpleField field) {
+        super(field);
+        this.name = field.getName();
+        this.domain = field.getDomain();
+        this.sortingExpression = field.getSortingExpression();
+        this.sortingMapping = field.getSortingMapping();
+        this.selectExpression = field.getSelectExpression();
+        this.defaultValue = field.getDefaultValue();
+        this.joinBody = field.getJoinBody();
+        this.noSorting = field.getNoSorting();
+        this.noDisplay = field.getNoDisplay();
+        this.noJoin = field.getNoJoin();
+        this.expression= field.getExpression();
+        this.filterList = field.getFilterList();
+    }
+
     public SimpleField(String id) {
         setId(id);
     }
