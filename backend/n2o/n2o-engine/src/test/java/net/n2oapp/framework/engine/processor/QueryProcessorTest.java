@@ -271,10 +271,9 @@ public class QueryProcessorTest {
         assertThat(first.getString("myName"), is("TEST1"));
 
         DataSet organization = first.getDataSet("myOrganization");
+        assertThat(organization.size(), is(3));
         assertThat(organization.getInteger("myCode"), is(2));
-        //assertThat(organization.getInteger("code"), nullValue());
         assertThat(organization.getString("myTitle"), is("org2"));
-        //assertThat(organization.getString("title"), nullValue());
 
         List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
         assertThat(organizationEmployees.size(), is(2));
@@ -292,12 +291,14 @@ public class QueryProcessorTest {
         assertThat(departments.get(1).getString("myName"), is("department4"));
 
         List<DataSet> departments0Groups = (List<DataSet>) departments.get(0).getList("myGroups");
+        assertThat(departments0Groups.size(), is(2));
         assertThat(departments0Groups.get(0).getInteger("myId"), is(9));
         assertThat(departments0Groups.get(0).getString("myName"), is("group9"));
         assertThat(departments0Groups.get(1).getInteger("myId"), is(10));
         assertThat(departments0Groups.get(1).getString("myName"), is("group10"));
 
         DataSet departments0Manager = departments.get(0).getDataSet("myManager");
+        assertThat(departments0Manager.size(), is(2));
         assertThat(departments0Manager.getInteger("myId"), is(322));
         assertThat(departments0Manager.getString("myName"), is("manager322"));
     }
@@ -309,6 +310,42 @@ public class QueryProcessorTest {
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
-       // assertThat(result.getCount(), is(4));
+        assertThat(result.getCount(), is(1));
+
+        DataSet first = result.getCollection().iterator().next();
+        assertThat(first.getLong("myId"), is(1001L));
+        assertThat(first.getString("myName"), is("TEST1"));
+
+        DataSet organization = first.getDataSet("myOrganization");
+        assertThat(organization.size(), is(3));
+        assertThat(organization.getInteger("myCode"), is("100refNormalize"));
+        assertThat(organization.getInteger("myTitle"), is("refNormalize fieldNormalize"));
+//
+//        List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
+//        assertThat(organizationEmployees.size(), is(2));
+//        assertThat(organizationEmployees.get(0).getInteger("myId"), is(73));
+//        assertThat(organizationEmployees.get(0).getString("myName"), is("employee73"));
+//        assertThat(organizationEmployees.get(1).getInteger("myId"), is(75));
+//        assertThat(organizationEmployees.get(1).getString("myName"), is("employee75"));
+//
+//
+//        List<DataSet> departments = (List<DataSet>) first.getList("myDepartments");
+//        assertThat(departments.size(), is(2));
+//        assertThat(departments.get(0).getInteger("myId"), is(3));
+//        assertThat(departments.get(0).getString("myName"), is("department3"));
+//        assertThat(departments.get(1).getInteger("myId"), is(4));
+//        assertThat(departments.get(1).getString("myName"), is("department4"));
+//
+//        List<DataSet> departments0Groups = (List<DataSet>) departments.get(0).getList("myGroups");
+//        assertThat(departments0Groups.size(), is(2));
+//        assertThat(departments0Groups.get(0).getInteger("myId"), is(9));
+//        assertThat(departments0Groups.get(0).getString("myName"), is("group9"));
+//        assertThat(departments0Groups.get(1).getInteger("myId"), is(10));
+//        assertThat(departments0Groups.get(1).getString("myName"), is("group10"));
+//
+//        DataSet departments0Manager = departments.get(0).getDataSet("myManager");
+//        assertThat(departments0Manager.size(), is(2));
+//        assertThat(departments0Manager.getInteger("myId"), is(322));
+//        assertThat(departments0Manager.getString("myName"), is("manager322"));
     }
 }

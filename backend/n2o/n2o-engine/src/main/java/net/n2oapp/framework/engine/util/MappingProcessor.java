@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
@@ -20,6 +21,8 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.util.*;
+
+import static net.n2oapp.framework.api.MappingUtils.getLastChild;
 
 /**
  * Утилитный класс для маппинга данных.
@@ -99,16 +102,8 @@ public class MappingProcessor {
             Expression expression = readParser.parseExpression(mapping);
             Object obj = expression.getValue(value);
             target.put(fieldId, obj == null ? contextProcessor.resolve(defaultValue) : obj);
-        } catch (ExpressionException e) {
-            throw new N2oSpelException(fieldId, mapping, e);
-        }
-    }
-
-    public static void outList(List target, Object value, String fieldId, String mapping, Object defaultValue, ContextProcessor contextProcessor) {
-        try {
-            Expression expression = readParser.parseExpression(mapping);
-            Object obj = expression.getValue(value);
-            target.add(obj == null ? contextProcessor.resolve(defaultValue) : obj);
+            if (!fieldId.equals(StringUtils.unwrapSpel(getLastChild(mapping))))
+                target.remove(StringUtils.unwrapSpel(getLastChild(mapping)));
         } catch (ExpressionException e) {
             throw new N2oSpelException(fieldId, mapping, e);
         }

@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.query;
 
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
@@ -24,6 +23,8 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.MappingUtils.concatMappings;
+import static net.n2oapp.framework.api.MappingUtils.addIndex;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -247,15 +248,11 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             if (field instanceof ReferenceField) {
                 field.setMapping(concatMappings(castDefault(field.getMapping(), spel(field.getId())), parentMapping));
                 initDefaultFields(Arrays.asList(((ReferenceField) field).getFields()),
-                        field instanceof ListField ? withIndex(field.getMapping()) : field.getMapping());//FIXME
+                        field instanceof ListField ? addIndex(field.getMapping()) : field.getMapping());
             }
             else
                 initDefaultSimpleField(((SimpleField) field), parentMapping);
         }
-    }
-
-    private String withIndex(String listMapping) {
-        return spel(StringUtils.unwrapSpel(listMapping) + "[i]");//FIXME
     }
 
     private void initDefaultSimpleField(SimpleField field, String parentMapping) {
@@ -274,10 +271,6 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 field.setSortingMapping(spel(field.getId() + "Direction"));
             field.setSortingMapping(concatMappings(field.getSortingMapping(), parentMapping));
         }
-    }
-
-    private String concatMappings(String child, String parent) {//FIXME
-        return spel(parent != null ? StringUtils.unwrapSpel(parent) + "." + StringUtils.unwrapSpel(child) : StringUtils.unwrapSpel(child));
     }
 
     private void initDefaultExpression(List<AbstractField> fields) {

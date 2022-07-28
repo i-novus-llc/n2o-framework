@@ -1,7 +1,8 @@
 [
   {
     "id": 1,
-    "name": "TEST1",
+    "name": "test1",
+    "code": 1000,
     "organization": {
       "code": 2,
       "title": "org2",
@@ -40,31 +41,5 @@
         "name": "department4"
       }
     ]
-  },
-  {
-    "id": 2,
-    "name": "TEST2",
-    "organization": {
-      "code": 1,
-      "title": "org1"
-    },
-    "departments": [
-      {
-        "id": 1,
-        "name": "department1"
-      },
-      {
-        "id": 2,
-        "name": "department2"
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "name": "TEST3"
-  },
-  {
-    "id": 4,
-    "name": "TEST4"
   }
 ]
