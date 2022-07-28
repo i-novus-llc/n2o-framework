@@ -2,18 +2,10 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Таблица">
     <datasources>
-        <datasource id="ds1" query-id="utBlank"/>
-        <inherited-datasource id="ds2"
-                              source-datasource="ds1"
-                              source-model="resolve"
-                              source-field-id="clients">
-            <dependencies>
-                <fetch on="ds1"/>
-            </dependencies>
-        </inherited-datasource>
+        <datasource id="ds1"/>
     </datasources>
     <regions>
-        <table datasource="ds2">
+        <table datasource="ds1">
             <columns>
                 <column text-field-id="id"/>
                 <column text-field-id="name"/>
