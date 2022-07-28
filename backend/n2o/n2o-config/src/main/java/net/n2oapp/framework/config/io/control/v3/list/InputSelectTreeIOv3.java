@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись компонента ввода с выбором в выпадающем списке в виде дерева версии 3.0
  */
 @Component
-public class InputSelectTreeIOv3 extends ListFieldIOv3<N2oInputSelectTree> {
+public class InputSelectTreeIOv3 extends BadgeListFieldIOv3<N2oInputSelectTree> {
 
     @Override
     public void io(Element e, N2oInputSelectTree m, IOProcessor p) {

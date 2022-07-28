@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись компонента выбора из выпадающего списка версии 3.0
  */
 @Component
-public class SelectIOv3 extends ListFieldIOv3<N2oSelect> {
+public class SelectIOv3 extends BadgeListFieldIOv3<N2oSelect> {
 
     @Override
     public void io(Element e, N2oSelect m, IOProcessor p) {
