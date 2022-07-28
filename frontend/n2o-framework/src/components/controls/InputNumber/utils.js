@@ -4,7 +4,7 @@ import isNaN from 'lodash/isNaN'
 
 export function formatToFloat(val, stepPrecision) {
     if (isNil(val) || val === '') { return null }
-    const str = val
+    const str = Number(val)
         .toString()
         .trim()
         .replace(',', '.')
