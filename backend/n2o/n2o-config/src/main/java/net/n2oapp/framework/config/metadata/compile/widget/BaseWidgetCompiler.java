@@ -62,6 +62,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setSrc(initSrc(source, p));
         compiled.setIcon(source.getIcon());
+        compiled.setFetchOnInit(p.cast(source.getFetchOnInit(), true));
         compileComponent(compiled, source, p);
         compileDependencies(compiled, source, p);
     }
@@ -69,7 +70,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private void compileComponent(D compiled, S source, CompileProcessor p) {
         if (compiled.getComponent() == null)
             return;
-        compiled.getComponent().setFetchOnInit(p.cast(source.getFetchOnInit(), true));
         compileAutoFocus(source, compiled, p);
     }
 

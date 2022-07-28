@@ -11,8 +11,6 @@ import net.n2oapp.framework.api.metadata.Compiled;
 @Getter
 @Setter
 public abstract class WidgetComponent implements Compiled {
-    @JsonProperty("fetchOnInit")
-    private Boolean fetchOnInit;
     @JsonProperty("autoFocus")
     private Boolean autoFocus = false;
 }
