@@ -55,7 +55,7 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
 
         assertThat(validations.get(0).getId(), is("dialog1"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.afterFailOperation));
-        assertThat(validations.get(0).getMessage(), is("`'message '+age`"));
+        assertThat(validations.get(0).getMessage(), is("message {age}"));
 
         N2oTestDataProvider invocation = (N2oTestDataProvider) ((ValidationDialog) validations.get(0)).getInvocation();
         assertThat(invocation.getOperation(), is(N2oTestDataProvider.Operation.create));
