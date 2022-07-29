@@ -7,6 +7,7 @@ import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterReducer;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.criteria.filters.Result;
+import net.n2oapp.framework.api.MappingUtils;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
@@ -399,70 +400,52 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private DataSet mapFields(Object entry, List<AbstractField> fields) {
-        ///DataSet resultDataSet = new DataSet(); //mapFields(((DataSet) entry), fields);
-        //mapFields(((DataSet) entry), fields, resultDataSet);
         return mapFields(entry, fields, new DataSet());
     }
 
-//    private DataSet mapFields(DataSet entry, List<AbstractField> fields) {
-//        for (AbstractField field : fields) {
-//
-//        }
-//    }
-
     private DataSet mapFields(Object entry, List<AbstractField> fields, DataSet resultDataSet) {
         DataSet target = new DataSet(resultDataSet);
-        for (AbstractField field : fields) {
-            if (field instanceof ReferenceField) {
-                outMap(target, entry, field.getId(), field.getMapping(), null, contextProcessor);
-                //                if (field instanceof ListField && target.getList(field.getId()) != null) {
-//                    List<DataSet> list = (List<DataSet>) target.getList(field.getId());
-//                    for (int i = 0; i < list.size(); i++) {
-//                        int finalI = i;
-//                        List<AbstractField> indexedFields = Arrays.stream(((ListField) field).getFields())
-//                                .map(AbstractField::of).peek(f -> resolveIndex(f, finalI)).collect(Collectors.toList());
-//                        list.set(i, mapFields(entry, indexedFields, list.get(i)));
-//                    }
-//                }
-//                else if (target.get(field.getId()) != null)
-//                    target.put(field.getId(), mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()), target.getDataSet(field.getId())));
-            }
-            else {
-                outMap(target, entry, field.getId(), field.getMapping(), ((SimpleField) field).getDefaultValue(), contextProcessor);
-            }
-        }
-        for (AbstractField field : fields) {
-            normalizeField(field, target);
-        }
-        for (AbstractField field : fields) {
-            if (field instanceof ReferenceField) {
-                if (field instanceof ListField && target.getList(field.getId()) != null) {
-                    List<DataSet> list = (List<DataSet>) target.getList(field.getId());
-                    for (int i = 0; i < list.size(); i++) {
-                        int finalI = i;
-                        List<AbstractField> indexedFields = Arrays.stream(((ListField) field).getFields())
-                                .map(AbstractField::of).peek(f -> resolveIndex(f, finalI)).collect(Collectors.toList());
-                        list.set(i, mapFields(entry, indexedFields, list.get(i)));
-                    }
-                }
-                else if (target.get(field.getId()) != null)
-                    target.put(field.getId(), mapFields(target.getDataSet(field.getId()), Arrays.asList(((ReferenceField) field).getFields()), target.getDataSet(field.getId())));
-            }
-        }
+        fields.forEach(field -> mapField(field, target, entry));
+        fields.forEach(field ->  normalizeField(field, target, entry));
+        fields.forEach(field -> processInnerFields(field, target, entry));
         return target;
+    }
+
+    private void mapField(AbstractField field, DataSet target, Object entry) {
+        if (field instanceof ReferenceField)
+            outMap(target, entry, field.getId(), field.getMapping(), null, contextProcessor);
+        else
+            outMap(target, entry, field.getId(), field.getMapping(), ((SimpleField) field).getDefaultValue(), contextProcessor);
+    }
+
+    private void processInnerFields(AbstractField field, DataSet target, Object entry) {
+        if (field instanceof ReferenceField) {
+            if (field instanceof ListField && target.getList(field.getId()) != null) {
+                List<DataSet> list = (List<DataSet>) target.getList(field.getId());
+                for (int i = 0; i < list.size(); i++) {
+                    int finalI = i;
+                    List<AbstractField> indexedFields = Arrays.stream(((ListField) field).getFields())
+                            .map(AbstractField::of).peek(f -> resolveIndex(f, finalI)).collect(Collectors.toList());
+                    list.set(i, mapFields(entry, indexedFields, list.get(i)));
+                }
+            }
+            else if (target.get(field.getId()) != null)
+                target.put(field.getId(), mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()), target.getDataSet(field.getId())));
+        }
     }
 
     private void resolveIndex(AbstractField field, int index) {
         if (field instanceof ReferenceField && ((ReferenceField) field).getFields() != null)
             Arrays.stream(((ReferenceField) field).getFields()).forEach(inner -> resolveIndex(inner, index));
-        field.setMapping(field.getMapping().replaceFirst("\\[i\\]", "[" + index + "]"));//FIXME
+        field.setMapping(MappingUtils.resolveFirstIndex(field.getMapping(), index));
     }
 
-    private void normalizeField(AbstractField field, DataSet resultDataSet) {
+    private void normalizeField(AbstractField field, DataSet resultDataSet, Object entry) {
         if (field.getNormalize() != null) {
             Object obj = resultDataSet.get(field.getId());
             obj = contextProcessor.resolve(obj);
-            resultDataSet.put(field.getId(), normalizeValue(obj, field.getNormalize(), resultDataSet, parser, applicationContext));
+            resultDataSet.put(field.getId(),
+                    cachedNormalizeValue(obj, field.getNormalize(), resultDataSet, parser, applicationContext, field.getMapping(), entry));
         }
     }
 

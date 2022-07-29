@@ -52,9 +52,6 @@ public class QueryProcessorTest {
     public void setUp() throws Exception {
         ContextProcessor contextProcessor = new ContextProcessor(new TestContextEngine());
         factory = mock(N2oInvocationFactory.class);
-//        when(contextProcessor.resolve(anyString())).then((Answer) invocation -> invocation.getArguments()[0]);FIXME
-//        when(contextProcessor.resolve(anyInt())).then((Answer) invocation -> invocation.getArguments()[0]);
-//        when(contextProcessor.resolve(anyBoolean())).then((Answer) invocation -> invocation.getArguments()[0]);
         queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
@@ -76,9 +73,11 @@ public class QueryProcessorTest {
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorRequiredFilter.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testReferenceFields.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testReferenceFieldsMapping.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testReferenceFieldNormalize.query.xml"));
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testNestedFields.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testNestedFieldsMapping.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testNestedNormalize.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testListFieldNormalize.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testNestedFieldsDefaultValues.query.xml"));
     }
 
     @Test
@@ -215,9 +214,9 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testReferenceFields() {
+    public void testNestedFields() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testReferenceFields"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFields"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
@@ -258,9 +257,9 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testReferenceFieldMapping() {
+    public void testNestedFieldsMapping() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testReferenceFieldsMapping"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFieldsMapping"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
@@ -304,9 +303,61 @@ public class QueryProcessorTest {
     }
 
     @Test
-    public void testReferenceFieldNormalize() {
+    public void testNestedFieldsDefaultValues() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testReferenceFieldNormalize"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFieldsDefaultValues"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCount(), is(1));
+        DataSet first = result.getCollection().iterator().next();
+
+        assertThat(first.getString("myName"), is("defaultName fieldNormalize"));
+
+        DataSet organization = first.getDataSet("myOrganization");
+        assertThat(organization.size(), is(2));
+        assertThat(organization.getString("myTitle"), is("defaultTitle fieldNormalize"));
+
+        List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
+        assertThat(organizationEmployees.size(), is(2));
+        assertThat(organizationEmployees.get(0).getString("myName"), is("defaultName fieldNormalize"));
+        assertThat(organizationEmployees.get(1).getString("myName"), is("nameFromReferenceNormalize fieldNormalize"));
+    }
+
+    @Test
+    public void testListFieldNormalize() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testListFieldNormalize"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCount(), is(1));
+        DataSet first = result.getCollection().iterator().next();
+
+        List<DataSet> departments = (List<DataSet>) first.getList("myDepartments");
+        assertThat(departments.size(), is(2));
+        assertThat(departments.get(0).getInteger("myId"), is(103));
+        assertThat(departments.get(0).getString("myName"), is("department103"));
+        assertThat(departments.get(1).getInteger("myId"), is(104));
+        assertThat(departments.get(1).getString("myName"), is("department104"));
+
+        List<DataSet> departments0Groups = (List<DataSet>) departments.get(0).getList("myGroups");
+        assertThat(departments0Groups.size(), is(2));
+        assertThat(departments0Groups.get(0).getInteger("myId"), is(109));
+        assertThat(departments0Groups.get(0).getString("myName"), is("group109"));
+        assertThat(departments0Groups.get(1).getInteger("myId"), is(110));
+        assertThat(departments0Groups.get(1).getString("myName"), is("group110"));
+
+        DataSet departments0Manager = departments.get(0).getDataSet("myManager");
+        assertThat(departments0Manager.size(), is(2));
+        assertThat(departments0Manager.getInteger("myId"), is(422));
+        assertThat(departments0Manager.getString("myName"), is("manager422"));
+    }
+
+    @Test
+    public void testNestedNormalize() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedNormalize"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
@@ -318,34 +369,12 @@ public class QueryProcessorTest {
 
         DataSet organization = first.getDataSet("myOrganization");
         assertThat(organization.size(), is(3));
-        assertThat(organization.getInteger("myCode"), is("100refNormalize"));
-        assertThat(organization.getInteger("myTitle"), is("refNormalize fieldNormalize"));
-//
-//        List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
-//        assertThat(organizationEmployees.size(), is(2));
-//        assertThat(organizationEmployees.get(0).getInteger("myId"), is(73));
-//        assertThat(organizationEmployees.get(0).getString("myName"), is("employee73"));
-//        assertThat(organizationEmployees.get(1).getInteger("myId"), is(75));
-//        assertThat(organizationEmployees.get(1).getString("myName"), is("employee75"));
-//
-//
-//        List<DataSet> departments = (List<DataSet>) first.getList("myDepartments");
-//        assertThat(departments.size(), is(2));
-//        assertThat(departments.get(0).getInteger("myId"), is(3));
-//        assertThat(departments.get(0).getString("myName"), is("department3"));
-//        assertThat(departments.get(1).getInteger("myId"), is(4));
-//        assertThat(departments.get(1).getString("myName"), is("department4"));
-//
-//        List<DataSet> departments0Groups = (List<DataSet>) departments.get(0).getList("myGroups");
-//        assertThat(departments0Groups.size(), is(2));
-//        assertThat(departments0Groups.get(0).getInteger("myId"), is(9));
-//        assertThat(departments0Groups.get(0).getString("myName"), is("group9"));
-//        assertThat(departments0Groups.get(1).getInteger("myId"), is(10));
-//        assertThat(departments0Groups.get(1).getString("myName"), is("group10"));
-//
-//        DataSet departments0Manager = departments.get(0).getDataSet("myManager");
-//        assertThat(departments0Manager.size(), is(2));
-//        assertThat(departments0Manager.getInteger("myId"), is(322));
-//        assertThat(departments0Manager.getString("myName"), is("manager322"));
+        assertThat(organization.getString("myCode"), is("102refNormalize"));
+        assertThat(organization.getString("myTitle"), is("refNormalize fieldNormalize"));
+
+        List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
+        assertThat(organizationEmployees.size(), is(1));
+        assertThat(organizationEmployees.get(0).getString("myId"), is("273employee273"));
+        assertThat(organizationEmployees.get(0).getString("myName"), is("employee273 fieldNormalize"));
     }
 }

@@ -18,7 +18,7 @@ public class MappingUtils {
      * @param parent Родительский маппинг
      * @return сконкатенированный маппинг
      * Пример:
-     * ['organization'] + ['id'] = ['organization.id']
+     * ['organization'], ['id'] -> ['organization.id']
      */
     public static String concatMappings(String child, String parent) {
         return spel(parent != null ? StringUtils.unwrapSpel(parent) + "." + StringUtils.unwrapSpel(child) : StringUtils.unwrapSpel(child));
@@ -33,6 +33,21 @@ public class MappingUtils {
      */
     public static String addIndex(String mapping) {
         return spel(StringUtils.unwrapSpel(mapping) + "[i]");
+    }
+
+    /**
+     * Резолв первого индекса вида [i] в маппинге
+     *
+     * Примеры:
+     * ['departments.employees[i]'], 3 -> ['departments.employees[3]']
+     * ['departments.employees[i].emails[i]'], 0 -> ['departments.employees[0].emails[i]']
+     *
+     * @param mapping Маппинг
+     * @param index   Индекс для посдтановки
+     * @return Разрезолвленный маппинг
+     */
+    public static String resolveFirstIndex(String mapping, int index) {
+        return mapping.replaceFirst("\\[i\\]", "[" + index + "]");
     }
 
     /**

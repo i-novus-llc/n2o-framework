@@ -186,9 +186,37 @@ public class MappingProcessor {
         return mappingMap;
     }
 
+    /**
+     * Нормализация значения по SpEL выражению
+     *
+     * @param value       Значение для нормализации
+     * @param normalizer  Нормализируещее выражение
+     * @param allData     Данные, используемые для нормализации
+     * @param parser      Парсер SpEL выражений
+     * @param beanFactory Фабрика бинов спринга
+     * @return Нормализированное значение
+     */
     public static Object normalizeValue(Object value, String normalizer, DataSet allData,
                                         ExpressionParser parser,
                                         BeanFactory beanFactory) {
+        return cachedNormalizeValue(value, normalizer, allData, parser, beanFactory, null, null);
+    }
+
+    /**
+     * Нормализация значения по SpEL выражению с кешированием
+     *
+     * @param value       Значение для нормализации
+     * @param normalizer  Нормализируещее выражение
+     * @param allData     Данные, используемые для нормализации
+     * @param parser      Парсер SpEL выражений
+     * @param beanFactory Фабрика бинов спринга
+     * @param mapping     Маппинг для сохранения в кэш
+     * @param cache       Кэш для сохранения нормализованного значения
+     * @return Нормализированное значение
+     */
+    public static Object cachedNormalizeValue(Object value, String normalizer, DataSet allData,
+                                              ExpressionParser parser,
+                                              BeanFactory beanFactory, String mapping, Object cache) {
         if (normalizer == null)
             return value;
         StandardEvaluationContext context = new StandardEvaluationContext(value);
@@ -197,7 +225,12 @@ public class MappingProcessor {
         if (beanFactory != null)
             context.setBeanResolver(new BeanFactoryResolver(beanFactory));
         Expression exp = parser.parseExpression(normalizer);
-        return exp.getValue(context);
+        Object expValue = exp.getValue(context);
+        if (mapping != null) {
+            StandardEvaluationContext entryContext = new StandardEvaluationContext(cache);
+            parser.parseExpression(mapping).setValue(entryContext, expValue);
+        }
+        return expValue;
     }
 
     /**

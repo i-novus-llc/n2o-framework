@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="net/n2oapp/framework/engine/processor/testNestedFieldsNormalize.json"/>
+    </list>
+
+    <fields>
+        <field id="myId" mapping="['id']" normalize="#this + #data[myCode]"/>
+        <field id="myCode" mapping="['code']" normalize="#this + 100"/>
+        <field id="myName" mapping="['name']" normalize="#this.toUpperCase()"/>
+        <reference id="myOrganization" mapping="['organization']"
+                   normalize="T(net.n2oapp.framework.engine.processor.StaticInvocationTestClass).normalizeOrganization()">
+            <field id="myCode" mapping="['normalizedCode']" normalize="#this + #data[myTitle]"/>
+            <field id="myTitle" mapping="['normalizedTitle']" normalize="#this + ' fieldNormalize'"/>
+            <list id="myEmployees" mapping="['normalizedEmployees']"
+                  normalize="T(net.n2oapp.framework.engine.processor.StaticInvocationTestClass).normalizeEmployees()">
+                <field id="myId" mapping="['normalizedId']" normalize="#this + #data[myName]"/>
+                <field id="myName" mapping="['normalizedName']" normalize="#this + ' fieldNormalize'"/>
+            </list>
+        </reference>
+    </fields>
+</query>
