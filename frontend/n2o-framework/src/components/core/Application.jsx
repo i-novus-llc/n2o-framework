@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import get from 'lodash/get'
@@ -9,11 +9,11 @@ import {
     compose,
     withContext,
     lifecycle,
-    withHandlers, getContext,
+    withHandlers,
+    getContext,
 } from 'recompose'
 import numeral from 'numeral'
 import 'numeral/locales/ru'
-import isEmpty from 'lodash/isEmpty'
 
 import { Spinner } from '../snippets/Spinner/Spinner'
 import {
@@ -22,9 +22,9 @@ import {
     registerLocales,
     globalSelector,
 } from '../../ducks/global/store'
-import { register } from '../../ducks/datasource/store'
 import { errorController } from '../errors/errorController'
 
+/* data sources register on the app layer are executing in the meta.js sagas */
 function Application(props) {
     const {
         ready,
@@ -32,20 +32,10 @@ function Application(props) {
         render,
         locale,
         menu,
-        registerDatasorces,
         error,
         defaultErrorPages,
         ...config
     } = props
-    const { datasources = {} } = menu
-
-    useEffect(() => {
-        if (isEmpty(datasources)) { return }
-
-        Object.entries(datasources).forEach(([id, config]) => {
-            registerDatasorces(id, config)
-        })
-    }, [datasources, registerDatasorces])
 
     numeral.locale(locale)
 
@@ -71,7 +61,6 @@ Application.propTypes = {
     locale: PropTypes.string,
     datasources: PropTypes.object,
     menu: PropTypes.object,
-    registerDatasorces: PropTypes.func,
     error: PropTypes.object,
     defaultErrorPages: PropTypes.object,
 }
@@ -84,7 +73,6 @@ const mapDispatchToProps = dispatch => ({
     setReady: bindActionCreators(setReadyAction, dispatch),
     requestConfig: bindActionCreators(requestConfigAction, dispatch),
     registerLocales: locales => dispatch(registerLocales(locales)),
-    registerDatasorces: (id, config) => dispatch(register(id, config)),
 })
 
 export default compose(
