@@ -55,7 +55,7 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
 
         assertThat(validations.get(0).getId(), is("dialog1"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.afterFailOperation));
-        assertThat(validations.get(0).getMessage(), is("message"));
+        assertThat(validations.get(0).getMessage(), is("`'message '+age`"));
 
         N2oTestDataProvider invocation = (N2oTestDataProvider) ((ValidationDialog) validations.get(0)).getInvocation();
         assertThat(invocation.getOperation(), is(N2oTestDataProvider.Operation.create));
@@ -72,7 +72,7 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
         N2oDialog dialog = ((ValidationDialog) validations.get(0)).getDialog();
         assertThat(dialog.getId(), is("dialog1"));
         assertThat(dialog.getTitle(), is("title"));
-        assertThat(dialog.getDescription(), is("message"));
+        assertThat(dialog.getDescription(), is("`'message '+age`"));
         assertThat(dialog.getSize(), is("sm"));
         N2oToolbar toolbar = dialog.getToolbar();
         assertThat(toolbar.getItems().length, is(2));
