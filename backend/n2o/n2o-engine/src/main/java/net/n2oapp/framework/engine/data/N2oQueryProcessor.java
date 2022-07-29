@@ -400,15 +400,11 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private DataSet mapFields(Object entry, List<AbstractField> fields) {
-        return mapFields(entry, fields, new DataSet());
-    }
-
-    private DataSet mapFields(Object entry, List<AbstractField> fields, DataSet resultDataSet) {
-        DataSet target = new DataSet(resultDataSet);
-        fields.forEach(field -> mapField(field, target, entry));
-        fields.forEach(field ->  normalizeField(field, target, entry));
-        fields.forEach(field -> processInnerFields(field, target, entry));
-        return target;
+        DataSet resultDataSet = new DataSet();
+        fields.forEach(field -> mapField(field, resultDataSet, entry));
+        fields.forEach(field ->  normalizeField(field, resultDataSet, entry));
+        fields.forEach(field -> processInnerFields(field, resultDataSet, entry));
+        return resultDataSet;
     }
 
     private void mapField(AbstractField field, DataSet target, Object entry) {
@@ -426,11 +422,11 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                     int finalI = i;
                     List<AbstractField> indexedFields = Arrays.stream(((ListField) field).getFields())
                             .map(AbstractField::of).peek(f -> resolveIndex(f, finalI)).collect(Collectors.toList());
-                    list.set(i, mapFields(entry, indexedFields, list.get(i)));
+                    list.set(i, mapFields(entry, indexedFields));
                 }
             }
             else if (target.get(field.getId()) != null)
-                target.put(field.getId(), mapFields(entry, Arrays.asList(((ReferenceField) field).getFields()), target.getDataSet(field.getId())));
+                target.put(field.getId(), mapFields(entry, Arrays.asList(((ReferenceField) field).getFields())));
         }
     }
 
