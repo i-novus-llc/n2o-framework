@@ -306,8 +306,10 @@ public class DomainProcessor {
         if (value instanceof Collection) {
             if (((Collection) value).isEmpty())
                 return "integer[]";//не важно какой тип элементов списка, если он пустой
-            Object firstElement = ((Collection) value).iterator().next();
-            String elementsDomain = (findDomain(firstElement));
+            Optional<Object> firstElement = ((Collection<Object>) value).stream().filter(Objects::nonNull).findFirst();
+            if (firstElement.isEmpty())
+                return null;
+            String elementsDomain = (findDomain(firstElement.get()));
             if (elementsDomain == null) return null;
             return elementsDomain + "[]";
         }
