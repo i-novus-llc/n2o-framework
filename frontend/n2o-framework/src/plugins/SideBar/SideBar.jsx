@@ -12,14 +12,12 @@ import {
 } from 'recompose'
 import { withTranslation } from 'react-i18next'
 import mapProps from 'recompose/mapProps'
-import { useSelector } from 'react-redux'
 
 import { Logo } from '../Header/SimpleHeader/Logo'
 import { withItemsResolver } from '../withItemsResolver/withItemResolver'
 import { withTitlesResolver } from '../withTitlesResolver/withTitlesResolver'
-import { resolveExpression } from '../withItemsResolver/utils'
-import { usePrevious } from '../../utils/usePrevious'
-import { dataSourceModelsSelector } from '../../ducks/datasource/selectors'
+import { WithDataSource } from '../../core/datasource/WithDataSource'
+import { WithContextDataSource } from '../WithContextDataSource/WithContextDataSource'
 
 // eslint-disable-next-line import/no-named-as-default
 import SidebarItemContainer from './SidebarItemContainer'
@@ -107,7 +105,6 @@ export function SideBar({
     datasource,
 }) {
     const sidebarRef = useRef()
-
     const currentVisible = controlled ? sidebarOpen : visible
 
     const { items = [] } = menu
@@ -249,10 +246,7 @@ export default compose(
     setDisplayName('Sidebar'),
     withState('visible', 'setVisible', ({ visible }) => visible),
     withHandlers({
-        onToggle: ({
-            visible,
-            setVisible,
-        }) => () => setVisible(!visible),
+        onToggle: ({ visible, setVisible }) => () => setVisible(!visible),
     }),
     lifecycle({
         componentDidUpdate(prevProps) {
@@ -261,24 +255,13 @@ export default compose(
             }
         },
     }),
-    mapProps((props) => {
-        const { datasource, location, path } = props
-
-        const { key, value } = resolveExpression(location, path)
-        const prevValue = usePrevious(value)
-
-        const models = useSelector(dataSourceModelsSelector(datasource))
-        const isEmptyData = !(models.datasource?.length)
-        const force = !!((isEmptyData || value !== prevValue))
-
-        return {
-            ...props,
-            id: datasource,
-            queryKey: key,
-            value,
-            force,
-        }
-    }),
+    mapProps(props => ({
+        ...props,
+        force: true,
+        fetch: 'lazy',
+    })),
+    WithDataSource,
+    WithContextDataSource,
     withItemsResolver,
     withTitlesResolver,
 )(SideBar)

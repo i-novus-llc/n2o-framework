@@ -199,7 +199,7 @@ export function* handleInvoke(apiProvider, action) {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        const errorMeta = err?.json?.meta
+        const errorMeta = err?.json?.meta || {}
 
         yield* handleFailInvoke(
             action.meta.fail || {},

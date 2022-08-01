@@ -184,12 +184,14 @@ export const ConfigContainer = compose(
         const { header, sidebars = [] } = configProps
         const { location: { pathname } } = rest
 
-        const sidebar = getMatchingSidebar(sidebars, pathname)
+        const sidebar = getMatchingSidebar(sidebars, pathname) || {}
+
+        const { path } = sidebar
 
         return {
             ...rest,
             ...configProps,
-            sidebar,
+            sidebar: { ...sidebar, id: `Sidebar:${path}` },
             headerItems: get(header, 'menu.items') || [],
             headerExtraItems: get(header, 'extraMenu.items') || [],
             sidebarItems: get(sidebar, 'menu.items') || [],

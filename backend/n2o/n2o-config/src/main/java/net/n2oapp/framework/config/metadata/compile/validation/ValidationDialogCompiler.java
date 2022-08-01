@@ -25,7 +25,7 @@ public class ValidationDialogCompiler extends InvocationValidationCompiler<Valid
         compileInvocationValidation(validation, source, p);
 
         N2oDialog n2oDialog = new N2oDialog(source.getId());
-        n2oDialog.setDescription(source.getMessage());
+        n2oDialog.setDescription(p.resolveJS(source.getMessage()));
         n2oDialog.setTitle(source.getTitle());
         n2oDialog.setToolbar(source.getToolbar());
         n2oDialog.setSize(source.getSize());

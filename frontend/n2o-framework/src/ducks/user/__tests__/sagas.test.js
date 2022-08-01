@@ -35,13 +35,14 @@ describe('Проверка саги auth', () => {
         const dispatched = []
         const fakeStore = {
             dispatch: action => dispatched.push(action),
+            getState: () => ({ global: {} })
         }
         await runSaga(
             fakeStore,
             resolveAuth,
             {
                 authProvider: () => ({ logout: true }),
-                redirectPath: '/n2o/saga/test',
+                authUrl: '/n2o/saga/test',
             },
             { type: USER_LOGOUT, payload: undefined },
         )
@@ -73,6 +74,7 @@ describe('Проверка саги auth', () => {
             { type: FETCH_ERROR },
         )
         gen.next()
-        expect(gen.next().value.payload.action).toEqual(push('/login'))
+        gen.next()
+        expect(gen.next().value.type).toEqual('CALL')
     })
 })
