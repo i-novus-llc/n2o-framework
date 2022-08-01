@@ -11,5 +11,7 @@ public class N2oRecordNotFoundException extends N2oUserException {
         super("n2o.summary.nothingFound");
     }
 
-
+    public N2oRecordNotFoundException(Throwable e) {
+        super("n2o.summary.nothingFound", e);
+    }
 }
