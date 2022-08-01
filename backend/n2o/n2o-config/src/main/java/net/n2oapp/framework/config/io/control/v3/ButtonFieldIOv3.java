@@ -4,10 +4,9 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeIO;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements ControlIOv3 {
+public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements ControlIOv3, BadgeIO<N2oButtonField> {
 
     private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
@@ -29,13 +28,6 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModel.class);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
-        p.attribute(e, "badge", m::getBadge, m::setBadge);
-        p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);
-        p.attributeEnum(e, "badge-position", m::getBadgePosition, m::setBadgePosition, Position.class);
-        p.attributeEnum(e, "badge-shape", m::getBadgeShape, m::setBadgeShape, ShapeType.class);
-        p.attribute(e, "badge-image", m::getBadgeImage, m::setBadgeImage);
-        p.attributeEnum(e, "badge-image-position", m::getBadgeImagePosition, m::setBadgeImagePosition, Position.class);
-        p.attributeEnum(e, "badge-image-shape", m::getBadgeImageShape, m::setBadgeImageShape, ShapeType.class);
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attributeBoolean(e, "validate", m::getValidate, m::setValidate);
         p.attributeArray(e, "validate-datasources", ",", m::getValidateDatasourceIds, m::setValidateDatasourceIds);
@@ -51,6 +43,7 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attribute(e, "confirm-cancel-label", m::getConfirmCancelLabel, m::setConfirmCancelLabel);
 
         p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
+        badge(e, m, p);
         p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
     }
 

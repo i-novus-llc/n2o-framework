@@ -12,7 +12,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,8 +38,7 @@ public class MenuAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/testMenu.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/menu/index.page.xml"));
     }
-    //FIXME включить тесты после https://jira.i-novus.ru/browse/NNO-7951
-    @Disabled
+
     @Test
     public void headerMenuItemWithIconAndBadgeTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon/app.application.xml"));
@@ -63,7 +61,6 @@ public class MenuAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Тест");
     }
 
-    @Disabled
     @Test
     public void headerMenuItemWithIconTextAndBadge() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/icon/with_text/app.application.xml"));
@@ -87,7 +84,6 @@ public class MenuAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Тест");
     }
 
-    @Disabled
     @Test
     public void headerMenuItemWithImageAndBadge() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image/app.application.xml"));
@@ -111,7 +107,6 @@ public class MenuAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Тест");
     }
 
-    @Disabled
     @Test
     public void headerMenuItemWithImageTextAndBadge() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/image/with_text/app.application.xml"));
@@ -136,7 +131,6 @@ public class MenuAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Тест");
     }
 
-    @Disabled
     @Test
     public void headerDropdownMenuItemWithImage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/dropdown/app.application.xml"));
@@ -166,7 +160,6 @@ public class MenuAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Тест");
     }
 
-    @Disabled
     @Test
     public void sidebarMenuItemWithIconTextAndBadge() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/icon/app.application.xml"));
@@ -227,7 +220,6 @@ public class MenuAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Тест");
     }
 
-    @Disabled
     @Test
     public void sidebarMenuItemWithImageTextAndBadge() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/image/with_badge/app.application.xml"));

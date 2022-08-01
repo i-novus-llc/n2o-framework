@@ -1,9 +1,8 @@
 package net.n2oapp.framework.config.io.widget.v5;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись виджета дерево
  */
 @Component
-public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> {
+public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> implements BadgeIO<N2oTree> {
 
     @Override
     public void io(Element e, N2oTree m, IOProcessor p) {
@@ -26,13 +25,7 @@ public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> {
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
         p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
-        p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
-        p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
-        p.attribute(e, "badge-image-field-id", m::getBadgeImageFieldId, m::setBadgeImageFieldId);
-        p.attributeEnum(e, "badge-position", m::getBadgePosition, m::setBadgePosition, Position.class);
-        p.attributeEnum(e, "badge-shape", m::getBadgeShape, m::setBadgeShape, ShapeType.class);
-        p.attributeEnum(e, "badge-image-position", m::getBadgeImagePosition, m::setBadgeImagePosition, Position.class);
-        p.attributeEnum(e, "badge-image-shape", m::getBadgeImageShape, m::setBadgeImageShape, ShapeType.class);
+        refBadge(e, m, p);
     }
 
     @Override
