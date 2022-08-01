@@ -10,6 +10,8 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -39,10 +41,16 @@ public class CustomActionCompileTest extends SourceCompileTestBase {
         CustomAction action = (CustomAction) page.getToolbar().getButton("b1").getAction();
 
         assertThat(action.getType(), is("n2o/CUSTOM"));
-
-        assertThat(action.getPayload().getAttributes().size(), is(2));
-        assertThat(action.getPayload().getAttributes().get("formId"), is("`formId`"));
-        assertThat(action.getPayload().getAttributes().get("docId"), is("`s3guid`"));
+        Map<String, Object> attributes = action.getPayload().getAttributes();
+        assertThat(attributes.size(), is(4));
+        assertThat(attributes.get("formId"), is("`formGuid`"));
+        assertThat(attributes.get("docId"), is("`s3Guid`"));
+        assertThat(((Map) attributes.get("redirect")).get("url"), is("/print"));
+        assertThat(((Map) attributes.get("redirect")).get("target"), is("application"));
+        assertThat(((Map) attributes.get("update")).get("datasource"), is("ds"));
+        assertThat(((Map) attributes.get("update")).get("model"), is("resolve"));
+        assertThat(((Map) attributes.get("update")).get("fieldId"), is("pdfId"));
+        assertThat(((Map) attributes.get("update")).get("value"), is("`value`"));
 
         assertThat(action.getMeta().getSuccess().getRefresh().getDatasources().size(), is(2));
         assertThat(action.getMeta().getSuccess().getRefresh().getDatasources().get(0), is("testCustomAction_ds1"));

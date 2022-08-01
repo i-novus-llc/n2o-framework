@@ -9,7 +9,13 @@
         <button id="b1">
             <action type="n2o/CUSTOM" src="test" redirect-target="application" redirect-url="/main"
                      refresh-datasources="ds1,ds2">
-                <payload docId="{s3guid}" formId="{formId}"/>
+                <payload docId="{s3Guid}" formId="{formGuid}"
+                         update-value="{value}"
+                         update-datasource="ds"
+                         update-fieldId="pdfId"
+                         update-model="resolve"
+                         redirect-url="/print"
+                         redirect-target="application"/>
             </action>
         </button>
     </toolbar>

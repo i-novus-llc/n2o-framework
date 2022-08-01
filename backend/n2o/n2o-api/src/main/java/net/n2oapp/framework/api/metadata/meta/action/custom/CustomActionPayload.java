@@ -14,5 +14,5 @@ import java.util.Map;
 @Setter
 public class CustomActionPayload implements ActionPayload {
     @JsonValue
-    private Map<String, String> attributes;
+    private Map<String, Object> attributes;
 }
