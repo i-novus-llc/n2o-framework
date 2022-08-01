@@ -7,13 +7,15 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.query.*;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.ReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -23,8 +25,6 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.api.MappingUtils.concatMappings;
-import static net.n2oapp.framework.api.MappingUtils.addIndex;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -57,8 +57,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             query.setValidations(context.getValidations());
         List<AbstractField> fields = source.getFields() != null ? Arrays.asList(source.getFields()) : List.of();
         initDefaultFilters(source.getFilters(), p);
-        IndexScope indexScope = new IndexScope();
-        initDefaultFields(fields, null);
+        initDefaultFields(fields);
         initDefaultExpression(fields);
         replaceExpression(fields, source);
 
@@ -243,33 +242,28 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         return text.replace(":expression", expression);
     }
 
-    private void initDefaultFields(List<AbstractField> fields, String parentMapping) {
+    private void initDefaultFields(List<AbstractField> fields) {
         for (AbstractField field : fields) {
             if (field instanceof ReferenceField) {
-                field.setMapping(concatMappings(castDefault(field.getMapping(), spel(field.getId())), parentMapping));
-                initDefaultFields(Arrays.asList(((ReferenceField) field).getFields()),
-                        field instanceof ListField ? addIndex(field.getMapping()) : field.getMapping());
+                field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
+                initDefaultFields(Arrays.asList(((ReferenceField) field).getFields()));
             }
             else
-                initDefaultSimpleField(((SimpleField) field), parentMapping);
+                initDefaultSimpleField(((SimpleField) field));
         }
     }
 
-    private void initDefaultSimpleField(SimpleField field, String parentMapping) {
+    private void initDefaultSimpleField(SimpleField field) {
         field.setName(castDefault(field.getName(), field.getId()));
         field.setNoDisplay(castDefault(field.getNoDisplay(), false));
         field.setNoSorting(castDefault(field.getNoSorting(), false));
         field.setNoJoin(castDefault(field.getNoJoin(), false));
 
         if (!field.getNoDisplay()) {
-            if (field.getMapping() == null)
-                field.setMapping(spel(field.getId()));
-            field.setMapping(concatMappings(field.getMapping(), parentMapping));
+            field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
         }
         if (!field.getNoSorting()) {
-            if (field.getSortingMapping() == null)
-                field.setSortingMapping(spel(field.getId() + "Direction"));
-            field.setSortingMapping(concatMappings(field.getSortingMapping(), parentMapping));
+            field.setSortingMapping(castDefault(field.getSortingMapping(), spel(field.getId() + "Direction")));
         }
     }
 
