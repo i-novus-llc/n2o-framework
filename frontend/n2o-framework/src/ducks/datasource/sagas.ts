@@ -1,14 +1,12 @@
 import {
     put,
     takeEvery,
-    select,
     fork,
     cancel,
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
-import { clearModel, copyModel, removeAllModel, removeModel, setModel } from '../models/store'
-import type { State } from '../State'
+import { clearModel, removeAllModel, removeModel, setModel } from '../models/store'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -62,9 +60,6 @@ export function* dataRequestWrapper(action: DataRequestAction) {
     })
 }
 
-// Кеш предыдущего состояния для наблюдения за изменениями зависимостей
-let prevState: State = {} as State
-
 export default () => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequestWrapper),
@@ -76,10 +71,7 @@ export default () => [
     takeEvery(startValidate, validateSaga),
     takeEvery(submit, submitSaga),
     takeEvery(remove, removeSaga),
-    takeEvery([setModel, removeModel, removeAllModel, copyModel, clearModel], function* watcher(action) {
-        yield watchDependencies(action, prevState)
-        prevState = yield select()
-    }),
+    takeEvery([setModel, removeModel, removeAllModel, clearModel], watchDependencies),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.refresh?.datasources, function* refreshSage({ meta }) {
         const { refresh } = meta
