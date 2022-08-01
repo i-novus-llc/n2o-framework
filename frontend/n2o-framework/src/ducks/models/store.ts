@@ -15,7 +15,11 @@ import type { ModelPrefix } from '../../core/datasource/const'
 
 import { ALL_PREFIXES, COPY } from './constants'
 import type { State } from './Models'
-import type { ClearModelAction, MergeModelAction, RemoveAllModelAction, RemoveModelAction, SetModelAction, SyncModelAction, UpdateMapModelAction, UpdateModelAction } from './Actions'
+import type {
+    ClearModelAction, CopyAction, MergeModelAction,
+    RemoveAllModelAction, RemoveModelAction, SetModelAction,
+    UpdateMapModelAction, UpdateModelAction,
+} from './Actions'
 
 const initialState: State = {
     datasource: {},
@@ -233,9 +237,9 @@ export const {
 export const copyModel = createAction(
     COPY,
     (
-        source: { prefix: ModelPrefix, key: string },
-        target: { prefix: ModelPrefix, key: string },
-        { mode, sourceMapper }: { mode: string, sourceMapper: unknown },
+        source: CopyAction['payload']['source'],
+        target: CopyAction['payload']['target'],
+        { mode, sourceMapper }: Pick<CopyAction['payload'], 'mode' | 'sourceMapper'>,
     ) => ({
         payload: {
             sourceMapper,
