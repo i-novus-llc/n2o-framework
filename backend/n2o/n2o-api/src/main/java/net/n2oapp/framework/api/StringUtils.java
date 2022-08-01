@@ -183,25 +183,6 @@ public abstract class StringUtils {
     }
 
     /**
-     * Проверка, что значение - SpEL выражение
-     * Примеры:
-     * {@code
-     *      isSpel("['id']");     //true
-     *      isSpel("[id]");       //false
-     *      isSpel("id");         //false
-     *      }
-     * @param value - значение
-     * @return true - SpEL выражение, false - не SpEL выражение
-     */
-    public static boolean isSpel(String value) {
-        return spelPlaceHoldersResolver.isPlaceHolder(value);
-    }
-
-    public static String unwrapSpel(String value) {
-        return isSpel(value) ? value.substring(2, value.length() - 2) : value;
-    }
-
-    /**
      * Проверка, что строка - javaScript функция
      * Примеры:
      * {@code
