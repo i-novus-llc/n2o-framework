@@ -36,10 +36,10 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
                 if (Boolean.FALSE.equals(field.getNoSorting()) && field.getSortingBody() == null) {
                     transformSortings(field);
                 }
-                if (field.getFilterList() != null) {
-                    transformFilters(field);
-                }
             }
+        }
+        if (source.getFilters() != null) {
+            transformFilters(source.getFilters());
         }
         return source;
     }
@@ -61,15 +61,15 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         }
     }
 
-    private void transformFilters(N2oQuery.Field field) {
-        for (N2oQuery.Filter filter : field.getFilterList()) {
+    private void transformFilters(N2oQuery.Filter[] filters) {
+        for (N2oQuery.Filter filter : filters) {
             String domain = getDomain(filter);
-            if (filter.getFilterField() == null)
-                filter.setFilterField(RouteUtil.normalizeParam(field.getId()) + "_" + filter.getType());
+            if (filter.getFilterId() == null)
+                filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
             if (filter.getText() == null) {
-                if (field.getId().equals("id")) {
+                if ("id".equals(filter.getFieldId())) {
                     if (filter.getType().equals(FilterType.eq))
-                        filter.setText("{ _id: new ObjectId('#" + filter.getFilterField() + "') }");
+                        filter.setText("{ _id: new ObjectId('#" + filter.getFilterId() + "') }");
                 } else {
                     switch (filter.getType()) {
                         case eq:
@@ -79,10 +79,10 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
                             filter.setText("{ '" + colon(EXPRESSION) + "': {$ne: " + getFilterField(filter, domain) + " }}");
                             break;
                         case like:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '.*" + hash(filter.getFilterField()) + ".*'}}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '.*" + hash(filter.getFilterId()) + ".*'}}");
                             break;
                         case likeStart:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '" + hash(filter.getFilterField()) + ".*'}}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '" + hash(filter.getFilterId()) + ".*'}}");
                             break;
                         case more:
                             filter.setText("{ '" + colon(EXPRESSION) + "': {$gte: " + getFilterField(filter, domain) + "}}");
@@ -106,8 +106,8 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
 
     private String getFilterField(N2oQuery.Filter filter, String domain) {
         if (domain.equals("string") || domain.equals("date") || domain.equals("localdate") || domain.equals("localdatetime"))
-            return "'" + hash(filter.getFilterField()) + "'";
-        return hash(filter.getFilterField());
+            return "'" + hash(filter.getFilterId()) + "'";
+        return hash(filter.getFilterId());
     }
 
     @Override

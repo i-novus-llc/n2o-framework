@@ -172,7 +172,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                     initMandatoryValidation(source, p, preFilter, queryFilter);
                     filter.setParam(p.cast(preFilter.getParam(), source.getId() + "_" + queryFilter.getParam()));
                     filter.setRoutable(p.cast(preFilter.getRoutable(), false));
-                    filter.setFilterId(queryFilter.getFilterField());
+                    filter.setFilterId(queryFilter.getFilterId());
                     Object prefilterValue = getPrefilterValue(preFilter);
                     ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
                     if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
@@ -218,9 +218,9 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         if (preFilter.getRequired() != null && preFilter.getRequired()) {
             if (p.getScope(ValidationList.class) != null) {
                 MandatoryValidation v = new MandatoryValidation(
-                        queryFilter.getFilterField(),
+                        queryFilter.getFilterId(),
                         p.getMessage("n2o.required.filter"),
-                        queryFilter.getFilterField()
+                        queryFilter.getFilterId()
                 );
                 v.setMoment(N2oValidation.ServerMoment.beforeQuery);
                 v.setSeverity(SeverityType.danger);

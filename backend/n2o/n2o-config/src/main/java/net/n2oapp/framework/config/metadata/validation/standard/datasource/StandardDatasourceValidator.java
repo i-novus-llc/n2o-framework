@@ -87,9 +87,9 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
             if (query == null)
                 throw new N2oMetadataValidationException(
                         String.format("Источник данных '%s' имеет префильтры, но не задана выборка", datasource.getId()));
-            if (query.getFields() == null)
+            if (query.getFilters() == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных '%s' имеет префильтры, но в выборке '%s' нет fields!", datasource.getId(), query.getId()));
+                        String.format("Источник данных '%s' имеет префильтры, но в выборке '%s' нет filters!", datasource.getId(), query.getId()));
 
             for (N2oPreFilter preFilter : datasource.getFilters()) {
                 String fieldId = ValidationUtils.getIdOrEmptyString(preFilter.getFieldId());
@@ -110,12 +110,12 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                     throw new N2oMetadataValidationException(
                             String.format("В выборке '%s' нет поля '%s'!", queryId, preFilter.getFieldId()));
 
-                if (exField.getFilterList() == null)
+                if (query.getFiltersList(exField.getId()) == null)
                     throw new N2oMetadataValidationException(
                             String.format("В выборке '%s' поле '%s' не содержит фильтров!", queryId, preFilter.getFieldId()));
 
                 N2oQuery.Filter exFilter = null;
-                for (N2oQuery.Filter filter : exField.getFilterList()) {
+                for (N2oQuery.Filter filter : query.getFiltersList(exField.getId())) {
                     if (preFilter.getType() == filter.getType()) {
                         exFilter = filter;
                         break;

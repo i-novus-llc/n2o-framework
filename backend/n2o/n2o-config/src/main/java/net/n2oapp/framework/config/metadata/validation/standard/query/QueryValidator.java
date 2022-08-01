@@ -25,9 +25,10 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     public void validate(N2oQuery n2oQuery, SourceProcessor p) {
         if (n2oQuery.getObjectId() != null)
             checkForExistsObject(n2oQuery.getId(), n2oQuery.getObjectId(), p);
-        if (n2oQuery.getFields() != null) {
+        if (n2oQuery.getFields() != null)
             checkForUniqueFields(n2oQuery.getFields(), n2oQuery.getId(), p);
-            checkForUniqueFilterFields(n2oQuery.getFields(), n2oQuery.getId());
+        if (n2oQuery.getFilters() != null) {
+            checkForUniqueFilterFields(n2oQuery.getFilters(), n2oQuery.getId());
             checkForExistsFiltersInSelections(n2oQuery);
         }
         checkInvocations(n2oQuery, p);
@@ -59,18 +60,14 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     /**
      * Проверка, что фильтруемые поля в выборке не повторяются
      *
-     * @param fields  Поля выборки
-     * @param queryId Идентификатор выборки
+     * @param filters  Фильтры выборки
+     * @param queryId  Идентификатор выборки
      */
-    private void checkForUniqueFilterFields(N2oQuery.Field[] fields, String queryId) {
+    private void checkForUniqueFilterFields(N2oQuery.Filter[] filters, String queryId) {
         Set<String> filterFields = new HashSet<>();
-        for (N2oQuery.Field field : fields) {
-            if (!field.isSearchUnavailable()) {
-                for (N2oQuery.Filter filter : field.getFilterList()) {
-                    if (filter.getFilterField() != null && !filterFields.add(filter.getFilterField())) {
-                        throw new N2oMetadataValidationException(String.format("Фильтр %s в выборке %s повторяется", filter.getFilterField(), queryId));
-                    }
-                }
+        for (N2oQuery.Filter filter : filters) {
+            if (filter.getFilterId() != null && !filterFields.add(filter.getFilterId())) {
+                throw new N2oMetadataValidationException(String.format("Фильтр %s в выборке %s повторяется", filter.getFilterId(), queryId));
             }
         }
     }
@@ -81,11 +78,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * @param query Выборка
      */
     private void checkForExistsFiltersInSelections(N2oQuery query) {
-        Set<String> filterFields = Arrays.stream(query.getFields())
-                .filter(f -> f.getFilterList() != null)
-                .flatMap(f -> Arrays.stream(f.getFilterList()))
-                .map(N2oQuery.Filter::getFilterField)
-                .collect(Collectors.toSet());
+        Set<String> filterFields = Arrays.stream(query.getFilters()).map(N2oQuery.Filter::getFilterId).collect(Collectors.toSet());
         checkFiltersExistInSelectionType(query.getLists(), filterFields, "list");
         checkFiltersExistInSelectionType(query.getUniques(), filterFields, "unique");
         checkFiltersExistInSelectionType(query.getCounts(), filterFields, "count");
