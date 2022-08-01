@@ -78,27 +78,6 @@ const modelsSlice = createSlice({
         },
 
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        SYNC: {
-            prepare(prefix: ModelPrefix, keys: string[], model: object) {
-                return ({
-                    payload: { prefix, keys, model },
-                })
-            },
-
-            /**
-             * Установка значений в несколько моделей
-             */
-            reducer(state, action: SyncModelAction) {
-                const { prefix, keys, model } = action.payload
-                const models = state[prefix]
-
-                keys.forEach((key) => {
-                    models[key] = model
-                })
-            },
-        },
-
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         UPDATE: {
             prepare(prefix: ModelPrefix, key: string, field: string, value: unknown) {
                 return ({
@@ -214,7 +193,6 @@ export default modelsSlice.reducer
 export const {
     SET: setModel,
     REMOVE: removeModel,
-    SYNC: syncModel,
     UPDATE: updateModel,
     UPDATE_MAP: updateMapModel,
     CLEAR: clearModel,
