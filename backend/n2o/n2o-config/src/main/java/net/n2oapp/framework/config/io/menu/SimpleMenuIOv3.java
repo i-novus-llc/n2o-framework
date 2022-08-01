@@ -46,7 +46,7 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeType.class);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
-        simpleIO(e, m, p);
+        badge(e, m, p);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 

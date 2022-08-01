@@ -24,7 +24,7 @@ public class InputSelectTreeIOv3 extends ListFieldIOv3<N2oInputSelectTree> imple
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
-        referringIO(e, m, p);
+        refBadge(e, m, p);
     }
 
     @Override

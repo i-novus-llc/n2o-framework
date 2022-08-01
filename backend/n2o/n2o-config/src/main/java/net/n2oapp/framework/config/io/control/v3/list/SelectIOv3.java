@@ -23,7 +23,7 @@ public class SelectIOv3 extends ListFieldIOv3<N2oSelect> implements BadgeIO<N2oS
         p.attribute(e, "select-format-few", m::getSelectFormatFew, m::setSelectFormatFew);
         p.attribute(e, "select-format-many", m::getSelectFormatMany, m::setSelectFormatMany);
         p.attribute(e, "description-field-id", m::getDescriptionFieldId, m::setDescriptionFieldId);
-        referringIO(e, m, p);
+        refBadge(e, m, p);
     }
 
     @Override

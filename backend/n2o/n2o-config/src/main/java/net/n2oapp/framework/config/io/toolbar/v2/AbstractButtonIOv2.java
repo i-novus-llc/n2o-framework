@@ -28,7 +28,7 @@ public abstract class AbstractButtonIOv2<T extends N2oAbstractButton> extends Co
         p.attribute(e, "color", mi::getColor, mi::setColor);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);
         p.attribute(e, "tooltip-position", mi::getTooltipPosition, mi::setTooltipPosition);
-        simpleIO(e, mi, p);
+        badge(e, mi, p);
     }
 
     @Override

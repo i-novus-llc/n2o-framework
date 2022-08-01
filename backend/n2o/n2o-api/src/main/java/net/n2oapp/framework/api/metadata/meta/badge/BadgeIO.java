@@ -12,7 +12,7 @@ public interface BadgeIO<T extends BadgeAware> {
     /**
      * Чтение/запись элемента, не использующего ссылки на поля
      */
-    default void simpleIO(Element e, T m, IOProcessor p) {
+    default void badge(Element e, T m, IOProcessor p) {
         p.attribute(e, "badge", m::getBadge, m::setBadge);
         p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);
         p.attribute(e, "badge-image", m::getBadgeImage, m::setBadgeImage);
@@ -22,7 +22,7 @@ public interface BadgeIO<T extends BadgeAware> {
     /**
      * Чтение/запись элемента, ссылающегося на поля
      */
-    default void referringIO(Element e, T m, IOProcessor p) {
+    default void refBadge(Element e, T m, IOProcessor p) {
         p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
         p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
         p.attribute(e, "badge-image-field-id", m::getBadgeImageFieldId, m::setBadgeImageFieldId);
