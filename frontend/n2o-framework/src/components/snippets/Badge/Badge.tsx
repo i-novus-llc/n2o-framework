@@ -1,12 +1,11 @@
-import React from 'react'
-import type { CSSProperties, ReactNode } from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 import classNames from 'classnames'
-import { Badge } from 'reactstrap'
+import { Badge as ReactstrapBadge } from 'reactstrap'
 
 import { Position, Shape } from './enums'
 import { isBadgeLeftPosition, isBadgeRightPosition } from './utils'
 
-export type BadgeOptions = Partial<{
+export type IBadgeProps = Partial<{
     children: ReactNode;
     text: string | number | ReactNode;
     color: string;
@@ -20,7 +19,7 @@ export type BadgeOptions = Partial<{
     style: CSSProperties;
 }>
 
-export const renderBadge = (options: BadgeOptions) => {
+export const Badge = React.memo((props: IBadgeProps) => {
     const {
         children,
         text,
@@ -33,14 +32,16 @@ export const renderBadge = (options: BadgeOptions) => {
         hasMargin = true,
         className,
         style,
-    } = options
+    } = props
+
+    const isBadgeSquare = shape === Shape.Square
 
     const badgeContainerClassNames = classNames('n2o-badge-container', {
         'flex-row-reverse': isBadgeLeftPosition(position),
     })
 
     const badgeClassNames = classNames('n2o-badge', className, {
-        [isBadgeRightPosition(position) ? 'ml-1' : 'mr-1']: hasMargin,
+        [isBadgeRightPosition(position) ? 'ml-1' : 'mr-1']: !isBadgeSquare && hasMargin,
         'rounded-pill': shape === Shape.Rounded,
         'n2o-badge_circle rounded-pill': shape === Shape.Circle,
     })
@@ -51,7 +52,7 @@ export const renderBadge = (options: BadgeOptions) => {
     })
 
     const BadgeComponent = () => (
-        <Badge
+        <ReactstrapBadge
             color={color}
             className={badgeClassNames}
             style={style}
@@ -64,7 +65,7 @@ export const renderBadge = (options: BadgeOptions) => {
                 />
             )}
             {text}
-        </Badge>
+        </ReactstrapBadge>
     )
 
     if (!children) {
@@ -77,10 +78,4 @@ export const renderBadge = (options: BadgeOptions) => {
             <BadgeComponent />
         </div>
     )
-}
-
-export const renderSquareBadge = (options: BadgeOptions) => renderBadge({
-    ...options,
-    shape: options.shape || Shape.Square,
-    hasMargin: false,
 })

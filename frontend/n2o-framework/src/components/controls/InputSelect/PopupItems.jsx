@@ -17,10 +17,11 @@ import scrollIntoView from 'scroll-into-view-if-needed'
 import propsResolver from '../../../utils/propsResolver'
 import { Icon } from '../../snippets/Icon/Icon'
 import { StatusText } from '../../snippets/StatusText/StatusText'
-import { renderSquareBadge } from '../../snippets/Badge/Badge'
+import { Badge } from '../../snippets/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../snippets/Badge/utils'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../Checkbox/CheckboxN2O'
+import { Shape } from '../../snippets/Badge/enums'
 
 import {
     groupData,
@@ -168,8 +169,6 @@ function PopupItems({
 
         const disabled = getDisabled(item)
 
-        const Badge = renderSquareBadge(resolveBadgeProps(badge, item))
-
         return (
             <DropdownItem
                 className={cx('n2o-eclipse-content', {
@@ -187,18 +186,18 @@ function PopupItems({
             >
                 {iconFieldId && renderIcon(item, iconFieldId)}
                 {imageFieldId && renderImage(item, imageFieldId)}
-                {badgeFieldId && isBadgeLeftPosition(badgePosition) && Badge}
+                {badgeFieldId && isBadgeLeftPosition(badgePosition) && <Badge key="badge-left" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
                 {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
-                {badgeFieldId && isBadgeRightPosition(badgePosition) && Badge}
+                {badgeFieldId && isBadgeRightPosition(badgePosition) && <Badge key="badge-right" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
                 {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
                     <DropdownItem
                         className={cx('n2o-eclipse-content__description', {
                             'n2o-eclipse-content__description-with-icon':
-                                                !hasCheckboxes && item[iconFieldId],
+                                !hasCheckboxes && item[iconFieldId],
                             'n2o-eclipse-content__description-with-checkbox':
-                                                hasCheckboxes && !item[iconFieldId],
+                                hasCheckboxes && !item[iconFieldId],
                             'n2o-eclipse-content__description-with-icon-checkbox':
-                                                hasCheckboxes && item[iconFieldId],
+                                hasCheckboxes && item[iconFieldId],
                         })}
                         header
                     >
