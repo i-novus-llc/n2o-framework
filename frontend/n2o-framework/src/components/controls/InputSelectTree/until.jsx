@@ -6,8 +6,9 @@ import isNil from 'lodash/isNil'
 import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select'
 
 import { Icon } from '../../snippets/Icon/Icon'
-import { renderSquareBadge } from '../../snippets/Badge/Badge'
+import { Badge } from '../../snippets/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../snippets/Badge/utils'
+import { Shape } from '../../snippets/Badge/enums'
 
 export const visiblePartPopup = (
     item,
@@ -26,8 +27,6 @@ export const visiblePartPopup = (
 
     const hasBadge = has(item, badgeFieldId)
 
-    const Badge = renderSquareBadge(resolveBadgeProps(badge, item))
-
     return (
         <span className={`${prefixCls}-content-wrapper`}>
             {[
@@ -43,13 +42,15 @@ export const visiblePartPopup = (
                         />
                     </div>
                 ),
-                hasBadge && isBadgeLeftPosition(badgePosition) && Badge,
+                hasBadge && isBadgeLeftPosition(badgePosition) &&
+                    <Badge {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />,
                 has(item, labelFieldId) && (
                     <span key={uniqueId('tree_label_')} className={`${prefixCls}-label`}>
                         {item[labelFieldId]}
                     </span>
                 ),
-                hasBadge && isBadgeRightPosition(badgePosition) && Badge,
+                hasBadge && isBadgeRightPosition(badgePosition) &&
+                    <Badge {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />,
             ]}
         </span>
     )

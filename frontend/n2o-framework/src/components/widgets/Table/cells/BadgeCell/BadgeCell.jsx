@@ -5,9 +5,10 @@ import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 
 import Text from '../../../../snippets/Text/Text'
-import { renderSquareBadge } from '../../../../snippets/Badge/Badge'
+import { Badge } from '../../../../snippets/Badge/Badge'
 import { resolveBadgeProps } from '../../../../snippets/Badge/utils'
 import withTooltip from '../../withTooltip'
+import { Shape } from '../../../../snippets/Badge/enums'
 
 /**
  * Ячейка таблицы типа бейдж
@@ -39,6 +40,7 @@ class BadgeCell extends React.Component {
             badgeFormat,
             visible,
             className,
+            shape,
         } = this.props
 
         const badgeStyle = {
@@ -52,23 +54,26 @@ class BadgeCell extends React.Component {
             visible && (
                 <span className="d-inline-flex">
                     <Text text={text} format={format} />
-                    {!isNil(badgeText) && renderSquareBadge({
-                        ...resolveBadgeProps(
-                            {
-                                ...this.props,
-                                fieldId: fieldKey || id,
-                            },
-                            model,
-                        ),
-                        text: (
-                            <Text
-                                text={badgeText}
-                                className={className}
-                                format={badgeFormat}
-                            />
-                        ),
-                        style: badgeStyle,
-                    })}
+                    {!isNil(badgeText) && (
+                        <Badge
+                            {...resolveBadgeProps(
+                                {
+                                    ...this.props,
+                                    fieldId: fieldKey || id,
+                                },
+                                model,
+                            )}
+                            text={(
+                                <Text
+                                    text={badgeText}
+                                    className={className}
+                                    format={badgeFormat}
+                                />
+                            )}
+                            style={badgeStyle}
+                            shape={shape || Shape.Square}
+                        />
+                    )}
                 </span>
             )
         )

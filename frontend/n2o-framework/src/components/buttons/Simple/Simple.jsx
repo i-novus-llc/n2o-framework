@@ -4,7 +4,7 @@ import { Button } from 'reactstrap'
 import cn from 'classnames'
 
 import { Icon } from '../../snippets/Icon/Icon'
-import { renderBadge } from '../../snippets/Badge/Badge'
+import { Badge } from '../../snippets/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition } from '../../snippets/Badge/utils'
 
 const convertCounter = count => (count > 100 ? '99+' : count)
@@ -52,15 +52,16 @@ const SimpleButton = ({
             {...rest}
         >
             {icon && <Icon name={icon} />}
-            {renderBadge({
-                ...badge,
-                children: (
+            {badge && (
+                <Badge
+                    {...badge}
+                    text={text || convertCounter(count)}
+                    hasMargin={false}
+                    style={badgeStyle}
+                >
                     <span>{children || label}</span>
-                ),
-                text: text || convertCounter(count),
-                hasMargin: false,
-                style: badgeStyle,
-            })}
+                </Badge>
+            )}
         </Button>
     ) : null
 }
