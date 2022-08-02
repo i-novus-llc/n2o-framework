@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "TEST1",
+    "organization": {
+      "code": 11,
+      "title": "org11",
+      "employees": [
+        {
+          "id": 111,
+          "name": "employee111"
+        },
+        {
+          "id": 112,
+          "name": "employee112"
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "name": "TEST2",
+    "organization": {
+      "code": 21,
+      "title": "org21",
+      "employees": [
+        {
+          "id": 211,
+          "name": "employee211"
+        },
+        {
+          "id": 212,
+          "name": "employee212"
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "name": "TEST3",
+    "organization": {
+      "code": 31,
+      "title": "org31",
+      "employees": [
+        {
+          "id": 311,
+          "name": "employee311"
+        },
+        {
+          "id": 312,
+          "name": "employee312"
+        }
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "name": "TEST4",
+    "organization": {
+      "code": 41,
+      "title": "org41",
+      "employees": [
+        {
+          "id": 411,
+          "name": "employee411"
+        },
+        {
+          "id": 412,
+          "name": "employee412"
+        }
+      ]
+    }
+  }
+]
