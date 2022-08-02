@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -37,7 +38,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/field/testSelect.query.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/field/testSelectFetch.query.xml"));
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack(), new N2oCellsPack());
+                new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV3IOPack(), new N2oControlsV2IOPack(), new N2oCellsPack());
         builder.compilers(new InputSelectCompiler());
     }
 
@@ -106,5 +107,16 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(cdp.getQueryMapping().get("noRef").getBindLink(), is("models.filter['testInputSelect_main']"));
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
+    }
+
+    @Test
+    public void testInputSelectControlV3() {
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelectCompile.widget.xml")
+                .get(new WidgetContext("testInputSelectCompile"));
+        StandardField field = (StandardField) form.getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0);
+        InputSelect inputSelect = (InputSelect) field.getControl();
+        assertThat(inputSelect.getSearchMinLength(), is(2));
+        assertThat(inputSelect.getThrottleDelay(), is(500));
     }
 }
