@@ -63,5 +63,13 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
         InputSelectTree inputSelect = (InputSelectTree) field.getControl();
         assertThat(inputSelect.getSearchMinLength(), is(2));
         assertThat(inputSelect.getThrottleDelay(), is(100));
+
+        field = (StandardField) form.getComponent().getFieldsets().get(0)
+                .getRows().get(1).getCols().get(0).getFields().get(0);
+        inputSelect = (InputSelectTree) field.getControl();
+        assertThat(inputSelect.getId(), is("defaults"));
+        assertThat(inputSelect.getParentFieldId(), is("testId"));
+        assertThat(inputSelect.getSearchMinLength(), is(0));
+        assertThat(inputSelect.getThrottleDelay(), is(500));
     }
 }
