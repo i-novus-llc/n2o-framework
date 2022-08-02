@@ -1,6 +1,6 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
-        <input-select-tree id="testId" label-field-id="testId" checking-strategy="child" query-id="queryId"
+        <input-select-tree id="testId" label-field-id="testId" checking-strategy="child"
                            parent-field-id="testId" value-field-id="testId" icon-field-id="testId"
                            has-children-field-id="testId" max-tag-text-length="20"
                            enabled-field-id="testId" search-filter-id="testId" search-min-length="2" throttle-delay="100">
