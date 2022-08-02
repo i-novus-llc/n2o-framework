@@ -42,16 +42,12 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "name", t::getName, t::setName);
-        p.element(e, "expression", t::getExpression, t::setExpression);
-        p.hasElement(e, "sorting", t::getHasSorting, t::setHasSorting);
-        p.element(e, "sorting", t::getSortingBody, t::setSortingBody);
-        p.childAttribute(e, "sorting", "mapping", t::getSortingMapping, t::setSortingMapping);
-        p.hasElement(e, "select", t::getHasSelect, t::setHasSelect);
-        p.element(e, "select", t::getSelectBody, t::setSelectBody);
-        p.childAttribute(e, "select", "default-value", t::getSelectDefaultValue, t::setSelectDefaultValue);
-        p.childAttribute(e, "select", "mapping", t::getSelectMapping, t::setSelectMapping);
-        p.childAttribute(e, "select", "normalize", t::getNormalize, t::setNormalize);
-        p.hasElement(e, "join", t::getHasJoin, t::setHasJoin);
+        p.attribute(e, "sorting-expression", t::getSortingExpression, t::setSortingExpression);
+        p.attribute(e, "sorting-mapping", t::getSortingMapping, t::setSortingMapping);
+        p.attribute(e, "select-expression", t::getSelectExpression, t::setSelectExpression);
+        p.attribute(e, "mapping", t::getMapping, t::setMapping);
+        p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
+        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.element(e, "join", t::getJoinBody, t::setJoinBody);
     }
 

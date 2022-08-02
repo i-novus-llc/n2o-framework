@@ -30,10 +30,10 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
             return source;
         if (source.getFields() != null) {
             for (N2oQuery.Field field : source.getFields()) {
-                if (Boolean.FALSE.equals(field.getNoDisplay()) && field.getSelectBody() == null) {
+                if (Boolean.FALSE.equals(field.getNoDisplay()) && field.getSelectExpression() == null) {
                     transformSelect(field);
                 }
-                if (Boolean.FALSE.equals(field.getNoSorting()) && field.getSortingBody() == null) {
+                if (Boolean.FALSE.equals(field.getNoSorting()) && field.getSortingExpression() == null) {
                     transformSortings(field);
                 }
             }
@@ -46,18 +46,18 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
 
     private void transformSelect(N2oQuery.Field field) {
         if (field.getId().equals("id")) {
-            field.setSelectBody("_id");
-            field.setSelectMapping("['_id'].toString()");
+            field.setSelectExpression("_id");
+            field.setMapping("['_id'].toString()");
         } else {
-            field.setSelectBody(colon(EXPRESSION));
+            field.setSelectExpression(colon(EXPRESSION));
         }
     }
 
     private void transformSortings(N2oQuery.Field field) {
         if (field.getId().equals("id")) {
-            field.setSortingBody("_id :idDirection");
+            field.setSortingExpression("_id :idDirection");
         } else {
-            field.setSortingBody(colon(EXPRESSION) + " " + colon(field.getId() + "Direction"));
+            field.setSortingExpression(colon(EXPRESSION) + " " + colon(field.getId() + "Direction"));
         }
     }
 

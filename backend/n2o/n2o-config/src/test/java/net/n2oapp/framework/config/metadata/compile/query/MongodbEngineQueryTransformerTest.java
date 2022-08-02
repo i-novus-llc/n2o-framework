@@ -37,16 +37,16 @@ public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
 
         N2oQuery query = (N2oQuery) pipeline.get("testMongodbQueryTransformer", N2oQuery.class);
         assertThat(query.getFields()[0].getId(), is("id"));
-        assertThat(query.getFields()[0].getSelectBody(), is("_id"));
-        assertThat(query.getFields()[0].getSelectMapping(), is("['_id'].toString()"));
-        assertThat(query.getFields()[0].getSortingBody(), is("_id :idDirection"));
+        assertThat(query.getFields()[0].getSelectExpression(), is("_id"));
+        assertThat(query.getFields()[0].getMapping(), is("['_id'].toString()"));
+        assertThat(query.getFields()[0].getSortingExpression(), is("_id :idDirection"));
         assertThat(query.getFilters()[0].getFieldId(), is("id"));
         assertThat(query.getFilters()[0].getText(), is("{ _id: new ObjectId('#id') }"));
 
         assertThat(query.getFields()[1].getId(), is("name"));
-        assertThat(query.getFields()[1].getSelectBody(), is(":expression"));
-        assertThat(query.getFields()[1].getSelectMapping(), nullValue());
-        assertThat(query.getFields()[1].getSortingBody(), is(":expression :nameDirection"));
+        assertThat(query.getFields()[1].getSelectExpression(), is(":expression"));
+        assertThat(query.getFields()[1].getMapping(), nullValue());
+        assertThat(query.getFields()[1].getSortingExpression(), is(":expression :nameDirection"));
         assertThat(query.getFilters()[1].getFieldId(), is("name"));
         assertThat(query.getFilters()[1].getText(), is("{ ':expression': '#name' }"));
         assertThat(query.getFilters()[2].getFieldId(), is("name"));
@@ -54,7 +54,7 @@ public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
         assertThat(query.getFilters()[3].getFieldId(), is("name"));
         assertThat(query.getFilters()[3].getText(), is("{ ':expression': {$in: #userNameIn}}"));
 
-        assertThat(query.getFields()[2].getSortingBody(), is("age :sortUserAge"));
+        assertThat(query.getFields()[2].getSortingExpression(), is("age :sortUserAge"));
         assertThat(query.getFields()[2].getSortingMapping(), is("['sortUserAge']"));
 
     }

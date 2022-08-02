@@ -126,15 +126,6 @@
         <xs:annotation>
             <xs:documentation>Поле выборки.</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <!-- Eсли отсутствует :select в запросе выборки, select является SpEL выражением, применяемым к первому возвращаемому объекту, каждой записи выборки
-                Eсли присутствует :select в запросе выборки, select является SQL/JPQL выражением, вставляемым в selectClause. По умолчанию равен ':expression'.-->
-            <xs:element name="select" type="selectElementDefinition" maxOccurs="1" minOccurs="0"/>
-            <!-- Выражение, которое можно использовать в display/search/sorting свойствах, с помощью place-holder :expression
-                По умолчанию равен значению alias + "." + значению атрибута id.-->
-            <xs:element name="expression" type="xs:string" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="sorting" type="sortingElementDefinition" maxOccurs="1" minOccurs="0"/>
-        </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля</xs:documentation>
@@ -150,12 +141,11 @@
                 <xs:documentation>Тип данных</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="selectElementDefinition">
-        <xs:annotation>
-            <xs:documentation>Способ получения данных из поля выборки.</xs:documentation>
-        </xs:annotation>
+        <xs:attribute name="select-expression" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="mapping" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Маппинг данных поля из провайдера. По умолчанию совпадает с id.</xs:documentation>
@@ -169,6 +159,16 @@
         <xs:attribute name="normalize" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Нормализация данных поля из провайдера.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-expression" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -236,18 +236,6 @@
                 <xs:documentation>
                     Флаг обязательности фильтра выборки. По умолчанию false.
                 </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-
-    <xs:complexType name="sortingElementDefinition">
-        <xs:annotation>
-            <xs:documentation>Способ сортировки поля выборки. В теле выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="mapping" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

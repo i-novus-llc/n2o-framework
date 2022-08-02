@@ -38,9 +38,9 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     public void defaultsBodyAndMapping() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
         N2oQuery.Field field = query.getFieldsMap().get("gender.id");
-        assertThat(field.getSelectBody(), nullValue());
-        assertThat(field.getSelectMapping(), is("['gender.id']"));
-        assertThat(field.getSortingBody(), nullValue());
+        assertThat(field.getSelectExpression(), nullValue());
+        assertThat(field.getMapping(), is("['gender.id']"));
+        assertThat(field.getSortingExpression(), nullValue());
         assertThat(query.getFiltersMap().get("gender.id").get(FilterType.eq).getMapping(), is("['gender.id']"));
         assertThat(query.getFiltersMap().get("gender.id").get(FilterType.eq).getText(), nullValue());
     }
@@ -49,9 +49,9 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     public void defaultsBodyAndMappingWithExpression() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
         N2oQuery.Field name = query.getFieldsMap().get("name");
-        assertThat(name.getSelectBody(), nullValue());
-        assertThat(name.getSelectMapping(), is("['name']"));
-        assertThat(name.getSortingBody(), nullValue());
+        assertThat(name.getSelectExpression(), nullValue());
+        assertThat(name.getMapping(), is("['name']"));
+        assertThat(name.getSortingExpression(), nullValue());
         assertThat(name.getSortingMapping(), is("['nameDirection']"));
         N2oQuery.Filter filter = query.getFiltersMap().get("name").get(FilterType.eq);
         assertThat(filter.getText(), nullValue());

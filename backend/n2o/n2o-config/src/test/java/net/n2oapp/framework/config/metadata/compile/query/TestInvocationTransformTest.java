@@ -34,8 +34,8 @@ public class TestInvocationTransformTest extends SourceTransformTestBase {
         N2oQuery query = transform("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml")
                 .get("testTestInvocationTransformer", N2oQuery.class);
         assertThat(query.getFields()[0].getId(), is("id"));
-        assertThat(query.getFields()[0].getSelectBody(), is(":expression"));
-        assertThat(query.getFields()[0].getSortingBody(), is(":expression :idDirection"));
+        assertThat(query.getFields()[0].getSelectExpression(), is(":expression"));
+        assertThat(query.getFields()[0].getSortingExpression(), is(":expression :idDirection"));
         assertThat(query.getFilters()[0].getFieldId(), is("id"));
         assertThat(query.getFilters()[0].getText(), is(":expression :eq :id"));
     }

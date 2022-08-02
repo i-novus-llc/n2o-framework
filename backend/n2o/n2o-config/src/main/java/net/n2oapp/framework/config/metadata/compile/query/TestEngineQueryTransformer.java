@@ -25,11 +25,11 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
             return source;
         if (source.getFields() != null) {
             for (N2oQuery.Field field : source.getFields()) {
-                if (!field.getNoDisplay() && field.getSelectBody() == null) {
-                    field.setSelectBody(colon("expression"));
+                if (!field.getNoDisplay() && field.getSelectExpression() == null) {
+                    field.setSelectExpression(colon("expression"));
                 }
-                if (!field.getNoSorting() && field.getSortingBody() == null) {
-                    field.setSortingBody(colon("expression") + " " + colon(field.getId() + "Direction"));
+                if (!field.getNoSorting() && field.getSortingExpression() == null) {
+                    field.setSortingExpression(colon("expression") + " " + colon(field.getId() + "Direction"));
                 }
             }
         }

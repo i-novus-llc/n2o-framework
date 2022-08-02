@@ -35,11 +35,8 @@
     </filters>
 
     <fields>
-        <field id="id" domain="integer" name="nameId">
-            <expression>expression</expression>
-            <sorting>sorting</sorting>
-            <select default-value="defaultValue" mapping="mapping" normalize="T(java.time.LocalDate).parse(this)">id</select>
-        </field>
+        <field id="id" domain="integer" name="nameId" default-value="0" mapping="['id']" sorting-mapping="mapping"
+            normalize="T(java.time.LocalDate).parse(this)" select-expression="id" sorting-expression="sorting"/>
         <field id="individualId" domain="integer"/>
     </fields>
 </query>
