@@ -8,5 +8,6 @@
                 <contains field-id="testId" value="value"/>
             </filters>
         </input-select-tree>
+        <input-select-tree id="defaults" parent-field-id="testId"/>
     </fields>
 </form>

@@ -8,5 +8,6 @@
                 <option id="4" name="showroom4"/>
             </options>
         </input-select>
+        <input-select id="defaults" label="Defaults"/>
     </fields>
 </form>
