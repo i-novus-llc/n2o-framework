@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.meta.control.InputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция компонента ввода с выбором в выпадающем списке в виде дерева
  */
@@ -32,6 +34,10 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         control.setHasChildrenFieldId(p.resolveJS(source.getHasChildrenFieldId()));
         control.setHasCheckboxes(p.cast(source.getCheckboxes(), false));
         control.setMultiSelect(control.isHasCheckboxes());
+        control.setThrottleDelay(p.cast(source.getThrottleDelay(),
+                p.resolve(property("n2o.api.control.input.select.throttle_delay"), Integer.class)));
+        control.setSearchMinLength(p.cast(source.getSearchMinLength(),
+                p.resolve(property("n2o.api.control.input.select.search_min_length"), Integer.class)));
         control.setClosePopupOnSelect(!control.isHasCheckboxes());
         control.setAjax(p.cast(source.getAjax(), false));
         control.setSize(p.cast(source.getSize(), p.resolve(Placeholders.property("n2o.api.control.input.select.tree.size"), Integer.class)));
