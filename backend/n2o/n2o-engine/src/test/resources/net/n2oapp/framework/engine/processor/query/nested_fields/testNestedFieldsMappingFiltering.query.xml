@@ -6,8 +6,8 @@
     </list>
 
     <filters>
-        <eq field-id="myOrganization.myCode" mapping="['orgCode']">organization.code :eq :orgCode</eq>
-        <isNull field-id="myOrganization" mapping="['org']">organization :isNull :org</isNull>
+        <like field-id="myOrganization.myTitle" mapping="['orgTitle']">organization.title :like :orgTitle</like>
+        <isNotNull field-id="myOrganization" mapping="['org']">organization :isNotNull :org</isNotNull>
     </filters>
 
     <fields>

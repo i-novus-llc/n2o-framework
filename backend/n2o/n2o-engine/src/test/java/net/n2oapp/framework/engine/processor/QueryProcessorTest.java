@@ -37,8 +37,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -394,16 +393,14 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("organization.code", filter));
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCollection().size(), is(1));
-        DataSet dataSet = result.getCollection().iterator().next();
-        assertThat(dataSet.getDataSet("organization").getInteger("code"), is(31));
+        assertThat(result.getCollection().iterator().next().getDataSet("organization").getInteger("code"), is(31));
 
         criteria = new N2oPreparedCriteria();
         filter = new Filter(null, FilterType.isNull);
         criteria.addRestriction(new Restriction("organization", filter));
         result = queryProcessor.execute(query, criteria);
         assertThat(result.getCollection().size(), is(1));
-        dataSet = result.getCollection().iterator().next();
-        assertThat(dataSet.getDataSet("organization"), nullValue());
+        assertThat(result.getCollection().iterator().next().getDataSet("organization"), nullValue());
     }
 
     @Test
@@ -414,19 +411,22 @@ public class QueryProcessorTest {
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testNestedFieldsMappingFiltering"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        Filter filter = new Filter(31, FilterType.eq);
-        criteria.addRestriction(new Restriction("myOrganization.myCode", filter));
+        Filter filter = new Filter("org", FilterType.like);
+        criteria.addRestriction(new Restriction("myOrganization.myTitle", filter));
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
-        assertThat(result.getCollection().size(), is(1));
-        DataSet dataSet = result.getCollection().iterator().next();
-        assertThat(dataSet.getDataSet("myOrganization").getInteger("myCode"), is(31));
+        List<DataSet> collection = (List<DataSet>) result.getCollection();
+        assertThat(collection.size(), is(2));
+        assertThat(collection.get(0).getDataSet("myOrganization").getString("myTitle"), is("org21"));
+        assertThat(collection.get(1).getDataSet("myOrganization").getString("myTitle"), is("4orgTitle"));
 
         criteria = new N2oPreparedCriteria();
-        filter = new Filter(null, FilterType.isNull);
+        filter = new Filter(null, FilterType.isNotNull);
         criteria.addRestriction(new Restriction("myOrganization", filter));
         result = queryProcessor.execute(query, criteria);
-        assertThat(result.getCollection().size(), is(1));
-        dataSet = result.getCollection().iterator().next();
-        assertThat(dataSet.getDataSet("myOrganization"), nullValue());
+        collection = (List<DataSet>) result.getCollection();
+        assertThat(collection.size(), is(3));
+        assertThat(collection.get(0).getDataSet("myOrganization"), notNullValue());
+        assertThat(collection.get(1).getDataSet("myOrganization"), notNullValue());
+        assertThat(collection.get(2).getDataSet("myOrganization"), notNullValue());
     }
 }
