@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+
 /**
  * Исходная модель диалога подтверждения действия
  */
