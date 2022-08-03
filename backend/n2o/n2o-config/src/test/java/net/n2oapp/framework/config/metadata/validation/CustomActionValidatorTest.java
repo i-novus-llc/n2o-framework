@@ -10,6 +10,9 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+
 /**
  * Тестирование валидации действия вызова операции
  */
@@ -29,8 +32,10 @@ public class CustomActionValidatorTest extends SourceValidationTestBase {
     }
 
 
-    @Test(expected = N2oMetadataValidationException.class)
+    @Test
     public void testRefreshNonExistentDatasource() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/custom/testRefreshNonExistentDatasource.page.xml");
+        N2oMetadataValidationException e = assertThrows(N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/custom/testRefreshNonExistentDatasource.page.xml"));
+        assertEquals("Атрибут \"refresh-datasources\" действия  ссылается на несуществующий источник данных 'ds1'", e.getMessage());
     }
 }

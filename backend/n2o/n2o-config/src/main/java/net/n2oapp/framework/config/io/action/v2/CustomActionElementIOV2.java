@@ -28,7 +28,6 @@ public class CustomActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oCu
     public void io(Element e, N2oCustomAction a, IOProcessor p) {
         super.io(e, a, p);
         p.attribute(e, "type", a::getType, a::setType);
-        p.attributeBoolean(e, "close-on-fail", a::getCloseOnFail, a::setCloseOnFail);
         p.child(e, null, "payload", a::getPayload, a::setPayload, HashMap::new, this::payload);
     }
 

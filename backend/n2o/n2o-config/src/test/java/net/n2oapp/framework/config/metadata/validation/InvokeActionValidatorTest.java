@@ -13,6 +13,9 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+
 /**
  * Тестирование валидации действия вызова операции
  */
@@ -33,18 +36,21 @@ public class InvokeActionValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testRefreshRefreshExistentWidget() {
+    public void testRefreshExistentWidget() {
         validate("/net/n2oapp/framework/config/metadata/validation/action/invoke/testInvokeActionValidationRefreshExistentWidget.page.xml");
     }
 
-    @Test(expected = N2oMetadataValidationException.class)
-    public void testRefreshRefreshNonexistentWidget() {
-        validate("/net/n2oapp/framework/config/metadata/validation/action/invoke/testInvokeActionValidationRefreshNonexistentWidget.page.xml");
-
+    @Test
+    public void testRefreshNonexistentWidget() {
+        N2oMetadataValidationException e = assertThrows(N2oMetadataValidationException.class,
+                () -> validate("/net/n2oapp/framework/config/metadata/validation/action/invoke/testInvokeActionValidationRefreshNonexistentWidget.page.xml"));
+        assertEquals("Атрибут \"refresh-datasources\" действия referesh ссылается на несуществующий источник данных 'nonexistentWidget'", e.getMessage());
     }
 
-    @Test(expected = N2oMetadataValidationException.class)
+    @Test
     public void testRefreshNonExistentDatasource() {
-        validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testRefreshNonExistentDatasource.page.xml");
+        N2oMetadataValidationException e = assertThrows(N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/invoke/testRefreshNonExistentDatasource.page.xml"));
+        assertEquals("Атрибут \"refresh-datasources\" действия refresh ссылается на несуществующий источник данных 'ds1'", e.getMessage());
     }
 }
