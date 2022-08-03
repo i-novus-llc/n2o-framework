@@ -182,7 +182,7 @@
           "minimumDescriptionLength": 10
         }],
         "@typescript-eslint/consistent-type-exports": "error",
-        "@typescript-eslint/consistent-type-imports": "error",
+        "@typescript-eslint/consistent-type-imports": "off",
         "@typescript-eslint/method-signature-style": ["error", "method"],
         "@typescript-eslint/naming-convention": ["error", {
           "selector": "objectLiteralProperty",

@@ -87,6 +87,10 @@
         &.n2o-pop-up {
             user-select: none;
         }
+
+        .badge > img {
+            width: $image-width;
+        }
     }
 
     .n2o-dropdown-control.btn-sm {

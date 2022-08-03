@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import has from 'lodash/has'
 
 // fns
-import { renderSquareBadge } from '../../../../snippets/Badge/Badge'
+import { Badge } from '../../../../snippets/Badge/Badge'
 import { isBadgeRightPosition, resolveBadgeProps } from '../../../../snippets/Badge/utils'
 import { splitSearchText } from '../../until'
+import { Shape } from '../../../../snippets/Badge/enums'
 
 function BaseNode({
     prefixCls,
@@ -54,7 +55,13 @@ function BaseNode({
                             : data[labelFieldId]}
                     </span>
                 ),
-                has(data, badgeFieldId) && renderSquareBadge(resolveBadgeProps(badge, data)),
+                (badge && has(data, badgeFieldId)) && (
+                    <Badge
+                        {...badge}
+                        {...resolveBadgeProps(badge, data)}
+                        shape={badge?.shape || Shape.Square}
+                    />
+                ),
             ]}
         </span>
     )

@@ -8,7 +8,7 @@ import merge from 'lodash/merge'
 import { NavItem, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import colors from '../../../constants/colors'
-import { renderBadge } from '../../../components/snippets/Badge/Badge'
+import { Badge } from '../../../components/snippets/Badge/Badge'
 import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { resolveItem } from '../../../utils/propsResolver'
@@ -86,11 +86,6 @@ const NavItemContainer = ({
     const handleLink = (item, className) => {
         const target = item.target === LinkTarget.Application ? LinkTarget.Self : item.target
 
-        const Badge = renderBadge({
-            ...item.badge,
-            children: item.title,
-        })
-
         if (item.linkType === 'outer') {
             return (
                 <NavItem>
@@ -105,7 +100,7 @@ const NavItemContainer = ({
                             title={item.title}
                             imageShape={item.imageShape}
                         />
-                        {Badge}
+                        <Badge {...item.badge}>{item.title}</Badge>
                     </a>
                 </NavItem>
             )
@@ -126,7 +121,7 @@ const NavItemContainer = ({
                         title={item.title}
                         imageShape={item.imageShape}
                     />
-                    {Badge}
+                    <Badge {...item.badge}>{item.title}</Badge>
                 </NavLink>
             </NavItem>
         )
