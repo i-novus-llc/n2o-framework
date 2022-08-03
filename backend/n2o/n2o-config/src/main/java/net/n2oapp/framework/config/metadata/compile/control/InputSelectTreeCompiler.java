@@ -19,7 +19,7 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.input.select.tree.src";
+        return "n2o.api.control.input_select_tree.src";
     }
 
     @Override
@@ -35,16 +35,16 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         control.setHasCheckboxes(p.cast(source.getCheckboxes(), false));
         control.setMultiSelect(control.isHasCheckboxes());
         control.setThrottleDelay(p.cast(source.getThrottleDelay(),
-                p.resolve(property("n2o.api.control.input.select.tree.throttle_delay"), Integer.class)));
+                p.resolve(property("n2o.api.control.input_select_tree.throttle_delay"), Integer.class)));
         control.setSearchMinLength(p.cast(source.getSearchMinLength(),
-                p.resolve(property("n2o.api.control.input.select.tree.search_min_length"), Integer.class)));
+                p.resolve(property("n2o.api.control.input_select_tree.search_min_length"), Integer.class)));
         control.setClosePopupOnSelect(!control.isHasCheckboxes());
         control.setAjax(p.cast(source.getAjax(), false));
-        control.setSize(p.cast(source.getSize(), p.resolve(Placeholders.property("n2o.api.control.input.select.tree.size"), Integer.class)));
+        control.setSize(p.cast(source.getSize(), p.resolve(Placeholders.property("n2o.api.control.input_select_tree.size"), Integer.class)));
         control.setCheckingStrategy(source.getCheckingStrategy());
         control.setMaxTagCount(source.getMaxTagCount());
         if (control.isHasCheckboxes())
-            control.setMaxTagTextLength(p.cast(source.getMaxTagTextLength(), p.resolve(property("n2o.api.control.input.select.tree.max_tag_text_length"), Integer.class)));
+            control.setMaxTagTextLength(p.cast(source.getMaxTagTextLength(), p.resolve(property("n2o.api.control.input_select_tree.max_tag_text_length"), Integer.class)));
         source.setQueryId(p.resolveJS(source.getQueryId()));
         source.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
         source.setIconFieldId(p.resolveJS(source.getIconFieldId()));
