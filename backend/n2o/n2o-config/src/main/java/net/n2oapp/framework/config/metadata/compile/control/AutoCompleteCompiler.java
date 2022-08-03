@@ -44,7 +44,7 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
         autoComplete.setTags(p.cast(source.getTags(),
                 p.resolve(property("n2o.api.control.auto_complete.tags"), Boolean.class)));
         autoComplete.setMaxTagTextLength(p.cast(source.getMaxTagTextLength(),
-                p.resolve(property("n2o.api.control.input.select.max_tag_text_length"), Integer.class)));
+                p.resolve(property("n2o.api.control.input_select.max_tag_text_length"), Integer.class)));
         if (source.getQueryId() != null)
             autoComplete.setDataProvider(compileDataProvider(source, context, p));
         else if (source.getOptions() != null) {
