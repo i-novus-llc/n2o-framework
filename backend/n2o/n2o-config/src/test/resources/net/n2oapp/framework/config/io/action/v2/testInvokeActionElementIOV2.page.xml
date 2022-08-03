@@ -17,6 +17,7 @@
                     redirect-target="newWindow"
                     refresh-datasources="testWidget,ds2"
                     optimistic="true"
+                    close-on-fail="true"
             />
         </action>
         <action>
