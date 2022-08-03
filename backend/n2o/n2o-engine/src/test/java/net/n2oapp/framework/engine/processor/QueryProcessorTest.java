@@ -38,6 +38,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -71,11 +72,11 @@ public class QueryProcessorTest {
                         .add(new JavaDataProviderIOv1()))
                 .operations(new ReadOperation(), new CompileOperation(), new BindOperation(), new SourceTransformOperation())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
-                .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4JavaMapping.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorRequiredFilter.query.xml"));
+                .sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorV4Java.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorV4JavaMapping.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorUnique.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorNorm.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorRequiredFilter.query.xml"));
     }
 
     @Test
@@ -208,13 +209,13 @@ public class QueryProcessorTest {
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         DataSet first = result.getCollection().iterator().next();
         assertThat(first.get("normTest"), is(Integer.MAX_VALUE));
-        assertThat(query.getFieldsMap().get("normTest").getDefaultValue(), is("defaultValue"));
+        assertThat(query.getSimpleFieldsMap().get("normTest").getDefaultValue(), is("defaultValue"));
     }
 
     @Test
     public void testNestedFields() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/testNestedFields.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFields.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFields"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -258,7 +259,7 @@ public class QueryProcessorTest {
     @Test
     public void testNestedFieldsMapping() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/testNestedFieldsMapping.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsMapping.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFieldsMapping"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -305,7 +306,7 @@ public class QueryProcessorTest {
     @Test
     public void testNestedFieldsDefaultValues() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/testNestedFieldsDefaultValues.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsDefaultValues.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFieldsDefaultValues"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -328,7 +329,7 @@ public class QueryProcessorTest {
     @Test
     public void testListFieldNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/testListFieldNormalize.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testListFieldNormalize.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testListFieldNormalize"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -359,7 +360,7 @@ public class QueryProcessorTest {
     @Test
     public void testNestedNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/testNestedNormalize.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedNormalize.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedNormalize"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -385,7 +386,7 @@ public class QueryProcessorTest {
     public void testNestedFieldsFiltering() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.transformers(new TestEngineQueryTransformer());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/testNestedFieldsFiltering.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsFiltering.query.xml"));
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testNestedFieldsFiltering"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -393,5 +394,39 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("organization.code", filter));
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCollection().size(), is(1));
+        DataSet dataSet = result.getCollection().iterator().next();
+        assertThat(dataSet.getDataSet("organization").getInteger("code"), is(31));
+
+        criteria = new N2oPreparedCriteria();
+        filter = new Filter(null, FilterType.isNull);
+        criteria.addRestriction(new Restriction("organization", filter));
+        result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCollection().size(), is(1));
+        dataSet = result.getCollection().iterator().next();
+        assertThat(dataSet.getDataSet("organization"), nullValue());
+    }
+
+    @Test
+    public void testNestedFieldsMappingFiltering() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.transformers(new TestEngineQueryTransformer());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsMappingFiltering.query.xml"));
+        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testNestedFieldsMappingFiltering"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        Filter filter = new Filter(31, FilterType.eq);
+        criteria.addRestriction(new Restriction("myOrganization.myCode", filter));
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCollection().size(), is(1));
+        DataSet dataSet = result.getCollection().iterator().next();
+        assertThat(dataSet.getDataSet("myOrganization").getInteger("myCode"), is(31));
+
+        criteria = new N2oPreparedCriteria();
+        filter = new Filter(null, FilterType.isNull);
+        criteria.addRestriction(new Restriction("myOrganization", filter));
+        result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCollection().size(), is(1));
+        dataSet = result.getCollection().iterator().next();
+        assertThat(dataSet.getDataSet("myOrganization"), nullValue());
     }
 }

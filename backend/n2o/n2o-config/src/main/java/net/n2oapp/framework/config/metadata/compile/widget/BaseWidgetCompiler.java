@@ -311,7 +311,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected FieldSetScope initFieldSetScope(CompiledQuery query) {
         FieldSetScope scope = new FieldSetScope();
         if (query != null) {
-            Map<String, SimpleField> fieldsMap = query.getFieldsMap();
+            Map<String, SimpleField> fieldsMap = query.getSimpleFieldsMap();
             for (Map.Entry<String, SimpleField> entry : fieldsMap.entrySet()) {
                 if (entry.getValue() != null) {
                     scope.put(entry.getKey(), entry.getValue().getName());

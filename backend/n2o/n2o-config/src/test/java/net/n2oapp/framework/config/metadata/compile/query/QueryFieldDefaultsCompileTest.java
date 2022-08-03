@@ -38,7 +38,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     @Test
     public void defaultsBodyAndMapping() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
-        SimpleField field = query.getFieldsMap().get("gender.id");
+        SimpleField field = query.getSimpleFieldsMap().get("gender.id");
         assertThat(field.getSelectExpression(), nullValue());
         assertThat(field.getMapping(), is("['gender.id']"));
         assertThat(field.getSortingExpression(), nullValue());
@@ -49,7 +49,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     @Test
     public void defaultsBodyAndMappingWithExpression() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
-        SimpleField name = query.getFieldsMap().get("name");
+        SimpleField name = query.getSimpleFieldsMap().get("name");
         assertThat(name.getSelectExpression(), nullValue());
         assertThat(name.getMapping(), is("['name']"));
         assertThat(name.getSortingExpression(), nullValue());

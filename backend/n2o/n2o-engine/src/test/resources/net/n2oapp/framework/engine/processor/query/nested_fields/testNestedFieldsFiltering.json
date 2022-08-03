@@ -2,20 +2,7 @@
   {
     "id": 1,
     "name": "TEST1",
-    "organization": {
-      "code": 11,
-      "title": "org11",
-      "employees": [
-        {
-          "id": 111,
-          "name": "employee111"
-        },
-        {
-          "id": 112,
-          "name": "employee112"
-        }
-      ]
-    }
+    "organization": null
   },
   {
     "id": 2,

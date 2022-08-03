@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 @Setter
 public abstract class AbstractField implements Source, Compiled, IdAware {
     private String id;
+    private String absoluteId;
     private String mapping;
     private String normalize;
 

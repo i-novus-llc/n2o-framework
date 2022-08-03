@@ -39,7 +39,7 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
                 if (filter.getFilterId() == null)
                     filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
                 if (filter.getText() == null)
-                    filter.setText(colon("expression") + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterId()));
+                    filter.setText(filter.getFieldId() + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterId()));
             }
         }
         return source;

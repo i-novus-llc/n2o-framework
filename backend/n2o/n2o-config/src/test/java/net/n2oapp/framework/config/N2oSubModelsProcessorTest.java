@@ -146,10 +146,10 @@ public class N2oSubModelsProcessorTest {
     private static class TestCompiledQuery extends CompiledQuery {
         public TestCompiledQuery(String queryId) {
             this.id = queryId;
-            this.fieldsMap = new HashMap<>();
+            this.simpleFieldsMap = new HashMap<>();
             SimpleField idField = new SimpleField("id");
             idField.setDomain("integer");
-            this.fieldsMap.put("id", idField);
+            this.simpleFieldsMap.put("id", idField);
             this.displayFields = Arrays.asList(idField, new SimpleField("label"), new SimpleField("someField"));
             N2oQuery.Filter filter = new N2oQuery.Filter();
             Map<FilterType, N2oQuery.Filter> filterMap = new HashMap<>();

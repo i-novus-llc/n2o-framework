@@ -38,6 +38,6 @@ public class TestInvocationTransformTest extends SourceTransformTestBase {
         assertThat(((SimpleField) query.getFields()[0]).getSelectExpression(), is(":expression"));
         assertThat(((SimpleField) query.getFields()[0]).getSortingExpression(), is(":expression :idDirection"));
         assertThat(query.getFilters()[0].getFieldId(), is("id"));
-        assertThat(query.getFilters()[0].getText(), is(":expression :eq :id"));
+        assertThat(query.getFilters()[0].getText(), is("id :eq :id"));
     }
 }
