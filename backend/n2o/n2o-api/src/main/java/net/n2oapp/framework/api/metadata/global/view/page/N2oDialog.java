@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
-
 /**
  * Исходная модель диалога подтверждения действия
  */
@@ -46,10 +44,5 @@ public class N2oDialog extends N2oComponent {
      * Кнопки диалога
      */
     private N2oToolbar toolbar;
-
-    /**
-     * Ссылка на модель
-     */
-    private ModelLink modelLink;
 
 }

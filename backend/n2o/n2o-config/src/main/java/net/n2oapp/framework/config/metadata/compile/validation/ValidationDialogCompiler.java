@@ -1,13 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.validation;
 
 import net.n2oapp.framework.api.data.validation.ValidationDialog;
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationDialog;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,8 +29,6 @@ public class ValidationDialogCompiler extends InvocationValidationCompiler<Valid
         n2oDialog.setTitle(source.getTitle());
         n2oDialog.setToolbar(source.getToolbar());
         n2oDialog.setSize(source.getSize());
-        ModelLink modelLink = new ModelLink(ReduxModel.resolve, "mi0");
-        n2oDialog.setModelLink(modelLink);
         validation.setDialog(n2oDialog);
 
         return validation;
