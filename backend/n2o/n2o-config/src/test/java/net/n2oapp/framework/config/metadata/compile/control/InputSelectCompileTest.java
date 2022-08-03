@@ -119,7 +119,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(field.getLabel(), is("Автосалоны"));
         assertThat(inputSelect.getId(), is("showrooms"));
         assertThat(inputSelect.getSearchMinLength(), is(2));
-        assertThat(inputSelect.getThrottleDelay(), is(500));
+        assertThat(inputSelect.getThrottleDelay(), is(200));
 
         field = (StandardField) form.getComponent().getFieldsets().get(0)
                 .getRows().get(1).getCols().get(0).getFields().get(0);
