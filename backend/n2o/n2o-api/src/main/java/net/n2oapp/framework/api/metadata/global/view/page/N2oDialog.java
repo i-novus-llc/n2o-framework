@@ -48,7 +48,7 @@ public class N2oDialog extends N2oComponent {
     private N2oToolbar toolbar;
 
     /**
-     * Модель
+     * Ссылка на модель
      */
     private ModelLink modelLink;
 
