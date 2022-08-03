@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.object.validation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
@@ -73,6 +74,8 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
         assertThat(dialog.getId(), is("dialog1"));
         assertThat(dialog.getTitle(), is("title"));
         assertThat(dialog.getDescription(), is("`'message '+age`"));
+        assertThat(dialog.getModelLink().getModel(), is(ReduxModel.resolve));
+        assertThat(dialog.getModelLink().getDatasource(), is("mi0"));
         assertThat(dialog.getSize(), is("sm"));
         N2oToolbar toolbar = dialog.getToolbar();
         assertThat(toolbar.getItems().length, is(2));
