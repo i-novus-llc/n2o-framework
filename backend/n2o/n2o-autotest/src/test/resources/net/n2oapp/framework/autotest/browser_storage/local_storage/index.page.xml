@@ -4,7 +4,7 @@
         <browser-storage
                 id="ds1"
                 key="n2o.form"
-                type="sessionStorage"
+                type="localStorage"
         >
             <submit auto="true" />
         </browser-storage>
