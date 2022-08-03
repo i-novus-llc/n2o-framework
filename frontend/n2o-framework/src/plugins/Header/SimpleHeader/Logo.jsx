@@ -3,9 +3,13 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { NavbarBrand } from 'reactstrap'
 
+import { parseExpression } from '../../../utils/evalExpression'
+
 import { NavbarBrandContent } from './NavbarBrandContent'
 
 export function Logo({ title, subtitle, className, style, href, src, showContent, isMiniView }) {
+    const needRender = text => text && !parseExpression(text)
+
     return (
         <section
             className={classNames(
@@ -23,12 +27,12 @@ export function Logo({ title, subtitle, className, style, href, src, showContent
                     <NavbarBrandContent brandImage={src} />
                 </NavbarBrand>
             )}
-            {title && (
+            {needRender(title) && (
                 <a href={href} className="navbar-brand logo-title">
                     {title}
                 </a>
             )}
-            {subtitle && (
+            {needRender(subtitle) && (
                 <small className="navbar-brand logo-subtitle">
                     {subtitle}
                 </small>
