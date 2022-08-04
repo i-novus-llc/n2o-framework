@@ -6,6 +6,9 @@ import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import org.springframework.stereotype.Component;
 
+/**
+ * Связывание полей ButtonField с данными
+ */
 @Component
 public class ButtonFieldBinder extends ActionComponentBinder<ButtonField> {
     @Override
