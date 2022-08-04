@@ -2,7 +2,7 @@
 title: Действия
 description: ""
 ---
-import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
+import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 **Библиотека компонентов**
 ```
@@ -60,7 +60,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </open-page>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_actions_open_page" showHeader />
+<Sandbox height={200} projectId="uxcomponents_actions_open_page" showHeader/>
 
 #### Переопределение источников данных &lt;datasource&gt; {#datasource}
 
@@ -143,7 +143,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </show-modal>
 ```
 
-<Sandbox height={350} projectId="uxcomponents_modal_modal" />
+<Sandbox height={350} projectId="uxcomponents_modal_modal"/>
 
 ### &lt;open-drawer&gt; {#open-drawer}
 
@@ -202,7 +202,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </open-drawer>
 ```
 
-<Sandbox height={400} projectId="uxcomponents_modal_drawer" />
+<Sandbox height={400} projectId="uxcomponents_modal_drawer"/>
 
 ### &lt;a&gt; {#a}
 
@@ -225,7 +225,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <a href="https://google.com"/>
 ```
 
-<Sandbox height={100} projectId="uxcomponents_actions_link" />
+<Sandbox height={100} projectId="uxcomponents_actions_link"/>
 
 ### &lt;print&gt; {#print}
 
@@ -250,7 +250,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 ```
 
-<Sandbox height={250} projectId="uxcomponents_actions_print" />
+<Sandbox height={250} projectId="uxcomponents_actions_print"/>
 
 ### &lt;refresh&gt; {#refresh}
 
@@ -268,7 +268,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <refresh datasource="reports"/>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_actions_refresh" />
+<Sandbox height={200} projectId="uxcomponents_actions_refresh"/>
 
 ### &lt;invoke&gt; {#invoke}
 
@@ -309,7 +309,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </invoke>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_actions_submit" />
+<Sandbox height={200} projectId="uxcomponents_actions_submit"/>
 
 ### &lt;close&gt; {#close}
 
@@ -328,7 +328,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <close unsaved-data-prompt="false"/>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_actions_close" showHeader />
+<Sandbox height={200} projectId="uxcomponents_actions_close" showHeader/>
 
 ### &lt;copy&gt; {#copy}
 
@@ -534,4 +534,45 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <alert title="title" text="text" style="width:90%" class="css-on-action"
                close-button="true" placement="top" color="info"
                timeout="5000" time="2022-02-02T12:15:23" href="http://example.org"/>
+```
+
+### &lt;action&gt; {#custom-action}
+
+Кастомное действие.
+
+**Атрибуты**
+
+|Наименование       |Тип                                                         |Описание                                                                                                                                                               |Значение по умолчанию                                       |
+|-------------------|------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+|type               |Строка                                                      |Тип кастомного действия                                                                                                                                                |                                                            |
+|close-on-success   |true false                                                  |Закрыть окно после успешного выполнения действия. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках.                                      |false                                                       |
+|close-on-fail      |true false                                                  |Закрыть окно после неудачного выполнения действия. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках.                                     |false                                                       |
+|refresh-on-success |true false                                                  |Необходимо ли обновлять данные после успешного выполнения действия                                                                                                     |true                                                        |
+|redirect-url       |Строка                                                      |URL адрес, на который произойдет переход сразу после успешного выполнения действия. Можно задавать относительный путь и плейсхолдеры, например, `redirect-url="../:id"`|                                                            |
+|redirect-target    |self, newWindow, application                                |Сценарий открытия ссылки сразу после успешного выполнения операции (См. [target](#a) в `<a>`).                                                                         |self                                                        |
+|refresh-datasources|Список ссылок на [источники данных](../xml/page#datasource) |Идентификаторы источника данных, который необходимо обновить после успешного выполнения операции                                                                       |datasource у button, а если нет, datasource текущего виджета|
+
+**Тело**
+
+[Полезная нагрузка](../xml/action/#custom-payload)
+
+**Пример**
+
+```xml
+<action type="n2o/CUSTOM_ACTION" redirect-target="application" redirect-url="/main"
+        close-on-success="true" refresh-datasources="ds1,ds2"/>
+```
+
+### &lt;payload&gt; {#custom-payload}
+
+Полезная нагрузка кастомного действия.
+
+**Атрибуты**
+
+Может содержать любые атрибуты без неймспейса
+
+**Пример**
+
+```xml
+    <payload docId="{s3guid}" formId="{formId}"/>
 ```
