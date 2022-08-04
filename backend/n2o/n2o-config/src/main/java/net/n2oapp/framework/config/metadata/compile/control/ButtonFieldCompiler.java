@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 
 /**
@@ -135,9 +135,14 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
         confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
         confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
-        confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
-        confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
-        confirm.setCloseButton(p.resolve(property("n2o.api.confirm.close_button"), Boolean.class));
+        confirm.setOk(new Confirm.Button(
+                p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")),
+                p.cast(source.getConfirmOkColor(), p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
+        confirm.setCancel(new Confirm.Button(
+                p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")),
+                p.cast(source.getConfirmCancelColor(), p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
+        confirm.setCloseButton(p.resolve(property("n2o.api.button.confirm.close_button"), Boolean.class));
+        confirm.setReverseButtons(p.resolve(property("n2o.api.button.confirm.reverse_buttons"), Boolean.class));
 
         if (StringUtils.hasLink(confirm.getText())) {
             Set<String> links = StringUtils.collectLinks(confirm.getText());

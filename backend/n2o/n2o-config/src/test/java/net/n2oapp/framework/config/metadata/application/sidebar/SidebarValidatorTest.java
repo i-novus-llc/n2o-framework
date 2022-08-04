@@ -4,8 +4,9 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.application.ApplicationIO;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
-import net.n2oapp.framework.config.metadata.compile.application.ApplicationValidator;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
+import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
+import net.n2oapp.framework.config.metadata.compile.application.ApplicationValidator;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.Before;
@@ -30,7 +31,7 @@ public class SidebarValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.ios(new ApplicationIO(), new ApplicationIOv3(), new SidebarIOv3());
+        builder.ios(new ApplicationIO(), new ApplicationIOv3(), new SidebarIOv3(), new StandardDatasourceIO());
         builder.validators(new ApplicationValidator(), new SidebarValidator());
     }
 
@@ -58,5 +59,12 @@ public class SidebarValidatorTest extends SourceValidationTestBase {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("The /persons path is already taken by one of the sidebars");
         validate("net/n2oapp/framework/config/metadata/application/sidebar/equalPathsValidationFail.application.xml");
+    }
+
+    @Test
+    public void testExisingSidebarInlineDatasource() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Datasource 'person' is already exists");
+        validate("net/n2oapp/framework/config/metadata/application/sidebarDatasourceDuplicate.application.xml");
     }
 }

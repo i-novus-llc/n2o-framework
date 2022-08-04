@@ -43,3 +43,11 @@
         width: max-content;
     }
 }
+
+.n2o-modal-dialog {
+    .modal-footer {
+        .btn {
+            margin: 0;
+        }
+    }
+}

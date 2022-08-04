@@ -4942,6 +4942,11 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
+"@types/numeral@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@types/numeral/-/numeral-2.0.2.tgz#8ea2c4f4e64c0cc948ad7da375f6f827778a7912"
+  integrity sha512-A8F30k2gYJ/6e07spSCPpkuZu79LCnkPTvqmIWQzNGcrzwFKpVOydG41lNt5wZXjSI149qjyzC2L1+F2PD/NUA==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -5000,6 +5005,13 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
+
+"@types/recompose@^0.30.10":
+  version "0.30.10"
+  resolved "https://registry.npmjs.org/@types/recompose/-/recompose-0.30.10.tgz#b6ab1743c279f463f2b62ccb90b82433dcea63c5"
+  integrity sha512-oF1ulwi5Tz7L9jZE870CCyD6n/nvCLNaGMp/oMEnm4gd7doc67rSHtypM6MFDiI6BKjTXoR87CwhET5JJInDFQ==
+  dependencies:
+    "@types/react" "*"
 
 "@types/scheduler@*":
   version "0.16.2"

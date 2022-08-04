@@ -39,7 +39,9 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
     private String confirmText;
     private String confirmTitle;
     private String confirmOkLabel;
+    private String confirmOkColor;
     private String confirmCancelLabel;
+    private String confirmCancelColor;
 
     @Deprecated
     public String getWidgetId() {

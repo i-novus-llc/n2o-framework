@@ -43,7 +43,8 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
         Map<String, NamespaceReader> innerEngines = new HashMap<>();
         for (Namespace namespace : namespaces) {
             if (map.containsKey(namespace.getURI()))
-                innerEngines.putAll(map.get(namespace.getURI()));
+                for (Map.Entry<String, NamespaceReader> readerEntry : map.get(namespace.getURI()).entrySet())
+                    innerEngines.putIfAbsent(readerEntry.getKey(), readerEntry.getValue());
         }
         if (innerEngines.isEmpty())
             throw new EngineNotFoundException(elementName);

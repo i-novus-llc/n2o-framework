@@ -224,6 +224,6 @@ describe('fetchData HOC test', () => {
 
         await delay(400)
 
-        expect(store.getActions()[2]).toEqual(removeAllAlerts('form.labelFieldId'))
+        expect(store.getActions()[3]).toEqual(removeAllAlerts('form.labelFieldId'))
     })
 })

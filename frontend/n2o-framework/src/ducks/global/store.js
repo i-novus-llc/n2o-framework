@@ -1,4 +1,5 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
+import get from 'lodash/get'
 
 const initialState = {
     ready: false,
@@ -124,7 +125,7 @@ export const {
 /**
  * Селектор глоабльных настроек
  */
-export const globalSelector = state => state.global || {}
+export const globalSelector = state => get(state, 'global', {})
 
 /**
  * Селектор текущей локализации
@@ -217,4 +218,12 @@ export const getLocation = createSelector(
 export const getLocales = createSelector(
     globalSelector,
     global => global.locales || {},
+)
+
+/**
+ * Селектор url для редиректа по 401
+ */
+export const getAuthUrl = createSelector(
+    globalSelector,
+    global => global.redirectPath,
 )

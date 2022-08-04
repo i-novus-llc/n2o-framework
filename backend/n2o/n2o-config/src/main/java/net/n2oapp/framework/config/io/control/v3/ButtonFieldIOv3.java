@@ -40,7 +40,9 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attributeEnum(e, "confirm-type", m::getConfirmType, m::setConfirmType, ConfirmType.class);
         p.attribute(e, "confirm-title", m::getConfirmTitle, m::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", m::getConfirmOkLabel, m::setConfirmOkLabel);
+        p.attribute(e, "confirm-ok-color", m::getConfirmOkColor, m::setConfirmOkColor);
         p.attribute(e, "confirm-cancel-label", m::getConfirmCancelLabel, m::setConfirmCancelLabel);
+        p.attribute(e, "confirm-cancel-color", m::getConfirmCancelColor, m::setConfirmCancelColor);
 
         p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
         badge(e, m, p);

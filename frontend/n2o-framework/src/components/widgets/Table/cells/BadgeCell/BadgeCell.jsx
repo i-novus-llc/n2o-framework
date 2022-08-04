@@ -65,6 +65,7 @@ class BadgeCell extends React.Component {
                             )}
                             text={(
                                 <Text
+                                    title={badgeText}
                                     text={badgeText}
                                     className={className}
                                     format={badgeFormat}

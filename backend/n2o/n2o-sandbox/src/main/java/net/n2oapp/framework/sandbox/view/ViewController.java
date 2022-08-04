@@ -412,10 +412,10 @@ public class ViewController {
         N2oSubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor, domainProcessor);
         subModelsProcessor.setEnvironment(environment);
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, messageBuilder, environment));
+                subModelsProcessor, messageBuilder, environment, messagesConstructor));
         //N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor, operationExceptionHandler);
         beans.put("operationController", new OperationController(dataProcessingStack,
-                operationProcessor, messageBuilder, environment));
+                operationProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder, environment));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,

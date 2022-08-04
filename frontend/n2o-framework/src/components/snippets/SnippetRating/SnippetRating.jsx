@@ -45,7 +45,7 @@ export class SnippetRating extends Component {
         const { value } = props
         const rating = props.rating || value
 
-        if (rating !== state.rating) {
+        if (rating && (rating !== state.rating)) {
             return {
                 rating,
                 value: prepareValue(rating, props.half),
