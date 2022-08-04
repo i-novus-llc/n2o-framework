@@ -226,25 +226,21 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         for (AbstractField field : fields) {
             String computedId = isNull(parentFieldId) ? field.getId() : parentFieldId + "." + field.getId();
             field.setAbsoluteId(computedId);
+            field.setIsSelected(castDefault(field.getIsSelected(), defaultSelected));
+            field.setIsSorted(castDefault(field.getIsSorted(), defaultSorted));
+
+            if (field.getIsSelected()) {
+                field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
+            }
+            if (field.getIsSorted()) {
+                field.setSortingMapping(castDefault(field.getSortingMapping(), spel(field.getId() + "Direction")));
+            }
             if (field instanceof ReferenceField) {
                 field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
                 initDefaultFields(Arrays.asList(((ReferenceField) field).getFields()), computedId, defaultSelected, defaultSorted);
             }
             else
-                initDefaultSimpleField(((SimpleField) field), defaultSelected, defaultSorted);
-        }
-    }
-
-    private void initDefaultSimpleField(SimpleField field, Boolean defaultSelected, Boolean defaultSorted) {
-        field.setName(castDefault(field.getName(), field.getId()));
-        field.setIsSelected(castDefault(field.getIsSelected(), defaultSelected));
-        field.setIsSorted(castDefault(field.getIsSorted(), defaultSorted));
-
-        if (field.getIsSelected()) {
-            field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
-        }
-        if (field.getIsSorted()) {
-            field.setSortingMapping(castDefault(field.getSortingMapping(), spel(field.getId() + "Direction")));
+                ((SimpleField) field).setName(castDefault(((SimpleField) field).getName(), field.getId()));
         }
     }
 

@@ -16,11 +16,22 @@ public abstract class AbstractField implements Source, Compiled, IdAware {
     private String absoluteId;
     private String mapping;
     private String normalize;
+    private String selectExpression;
+    private String sortingExpression;
+    private String sortingMapping;
+
+    private Boolean isSelected;
+    private Boolean isSorted;
 
     public AbstractField(AbstractField field) {
         this.id = field.getId();
         this.mapping = field.getMapping();
         this.normalize = field.getNormalize();
+        this.selectExpression = field.getSelectExpression();
+        this.isSelected = field.getIsSelected();
+        this.sortingExpression = field.getSortingExpression();
+        this.sortingMapping = field.getSortingMapping();
+        this.isSorted = field.getIsSorted();
     }
 
     public AbstractField() {

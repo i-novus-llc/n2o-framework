@@ -382,7 +382,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private void addIdIfNotPresent(CompiledQuery query, CollectionPage<DataSet> collectionPage) {
         if (!query.getSimpleFieldsMap().containsKey(SimpleField.PK))
             return;
-        if (query.getSimpleFieldsMap().get(SimpleField.PK).getIsSelected())
+        if (query.getFieldsMap().get(SimpleField.PK).getIsSelected())
             return;
         int i = 1;
         for (DataSet dataSet : collectionPage.getCollection()) {

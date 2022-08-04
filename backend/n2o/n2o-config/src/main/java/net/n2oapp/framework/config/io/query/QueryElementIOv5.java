@@ -50,6 +50,11 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "id", f::getId, f::setId);
         p.attribute(e, "mapping", f::getMapping, f::setMapping);
         p.attribute(e, "normalize", f::getNormalize, f::setNormalize);
+        p.attribute(e, "select-expression", f::getSelectExpression, f::setSelectExpression);
+        p.attribute(e, "sorting-expression", f::getSortingExpression, f::setSortingExpression);
+        p.attribute(e, "sorting-mapping", f::getSortingMapping, f::setSortingMapping);
+        p.attributeBoolean(e, "select", f::getIsSelected, f::setIsSelected);
+        p.attributeBoolean(e, "sorting", f::getIsSorted, f::setIsSorted);
     }
 
     private void selection(Element e, N2oQuery.Selection t, IOProcessor p) {
@@ -59,16 +64,11 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), dataProviderDefaultNamespace);
     }
 
-    private void field(Element e, SimpleField t, IOProcessor p) {
-        abstractField(e, t, p);
-        p.attribute(e, "domain", t::getDomain, t::setDomain);
-        p.attribute(e, "name", t::getName, t::setName);
-        p.attribute(e, "sorting-expression", t::getSortingExpression, t::setSortingExpression);
-        p.attribute(e, "sorting-mapping", t::getSortingMapping, t::setSortingMapping);
-        p.attribute(e, "select-expression", t::getSelectExpression, t::setSelectExpression);
-        p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
-        p.attributeBoolean(e, "select", t::getIsSelected, t::setIsSelected);
-        p.attributeBoolean(e, "sorting", t::getIsSorted, t::setIsSorted);
+    private void field(Element e, SimpleField f, IOProcessor p) {
+        abstractField(e, f, p);
+        p.attribute(e, "domain", f::getDomain, f::setDomain);
+        p.attribute(e, "name", f::getName, f::setName);
+        p.attribute(e, "default-value", f::getDefaultValue, f::setDefaultValue);
     }
 
     private void filter(Element e, N2oQuery.Filter t, IOProcessor p) {

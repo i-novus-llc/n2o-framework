@@ -140,34 +140,9 @@
                         <xs:documentation>Тип данных</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="select" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Участвует ли поле в резолве плейсхолдера select</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="select-expression" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="default-value" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="sorting" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Участвует ли поле в резолве плейсхолдера sorting</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="sorting-expression" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -258,6 +233,31 @@
         <xs:attribute name="normalize" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Нормализация данных поля из провайдера.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="select" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Участвует ли поле в резолве плейсхолдера select</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="select-expression" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Участвует ли поле в резолве плейсхолдера sorting</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-expression" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
