@@ -52,8 +52,8 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testFormAsFilter() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasource/formAsFilter/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasource/formAsFilter/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -121,8 +121,8 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testOneDSManyWidgets() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasource/testOneDSManyWidgets/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasource/testOneDSManyWidgets/testOneDSManyWidgets.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
@@ -141,10 +141,10 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testSaveManyFormOneButton(){
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasource/saveManyFormOneButton/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasource/saveManyFormOneButton/saveForm.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasource/saveManyFormOneButton/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasource/saveManyFormOneButton/test.object.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/saveForm.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.object.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -198,9 +198,9 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testValidationManyForm(){
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasource/validationManyForm/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasource/validationManyForm/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasource/validationManyForm/test.object.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.object.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -236,5 +236,37 @@ public class DatasourceAT extends AutoTestBase {
         createButton.click();
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(2);
+    }
+
+    /**
+     * Тестирование copy зависимости
+     */
+    @Test
+    public void testCopyDepend() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        InputText id = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).fields().field("id").control(InputText.class);
+        InputText name = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).fields().field("name").control(InputText.class);
+
+        id.shouldHaveValue("1");
+        name.shouldHaveValue("test1");
+        table.columns().rows().row(2).click();
+        id.shouldHaveValue("3");
+        name.shouldHaveValue("test3");
+        table.columns().rows().row(1).click();
+        id.shouldHaveValue("2");
+        name.shouldHaveValue("test2");
+        table.columns().rows().row(3).click();
+        id.shouldHaveValue("4");
+        name.shouldHaveValue("test4");
+        table.columns().rows().row(0).click();
+        id.shouldHaveValue("1");
+        name.shouldHaveValue("test1");
     }
 }

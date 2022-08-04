@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="test">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
     <list>
-        <test file="net/n2oapp/framework/autotest/datasource/saveManyFormOneButton/test.json" />
+        <test file="net/n2oapp/framework/autotest/datasources/app_datasource/datasource/test.json"/>
     </list>
-
     <fields>
         <field id="id">
             <select/>
@@ -14,13 +13,7 @@
         <field id="name">
             <select/>
         </field>
-        <field id="surname">
-            <select/>
-        </field>
-        <field id="address">
-            <select/>
-        </field>
-        <field id="org">
+        <field id="step2">
             <select/>
         </field>
     </fields>

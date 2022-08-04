@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Очистка модели после выполнения invoke">
+    <datasources>
+        <datasource id="ds" query-id="test">
+            <dependencies>
+                <fetch on="ds1" model="datasource"/>
+            </dependencies>
+        </datasource>
+        <browser-storage
+                id="ds1"
+                key="n2o.form"
+                type="localStorage"
+        >
+            <submit auto="true" />
+        </browser-storage>
+    </datasources>
+    <regions>
+        <table datasource="ds" id="table">
+            <columns>
+                <column id="id"/>
+                <column id="input"/>
+            </columns>
+        </table>
+        <form id="form"  datasource="ds1">
+            <fields>
+                <input-text id="input" label="Инпут"/>
+            </fields>
+            <toolbar place="bottomLeft">
+                <button label="Отправить" confirm-text="Зарегистрировать обращение?" datasource="ds1">
+                    <invoke operation-id="insureCreate" object-id="test"
+                            clear-on-success="true"
+                            redirect-url="/" redirect-target="application"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

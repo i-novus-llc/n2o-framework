@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Один datasource на несколько виджетов">
     <datasources>
-        <datasource id="data" query-id="testOneDSManyWidgets"/>
+        <datasource id="data" query-id="test"/>
     </datasources>
     <regions>
         <table datasource="data">

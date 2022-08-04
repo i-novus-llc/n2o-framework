@@ -41,9 +41,12 @@ public class BrowserStorageAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
+    /**
+     * Тестирование sessionStorage
+     */
     @Test
     public void testSessionStorage() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/browser_storage/session_storage/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -106,10 +109,14 @@ public class BrowserStorageAT extends AutoTestBase {
         checkboxGroup.shouldBeChecked("Алексей Иванов");
     }
 
+
+    /**
+     * Тестирование localStorage
+     */
     @Test
     public void testLocalStorage() {
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/browser_storage/local_storage/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

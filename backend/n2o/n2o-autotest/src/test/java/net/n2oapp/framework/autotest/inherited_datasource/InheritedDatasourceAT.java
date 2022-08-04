@@ -15,9 +15,7 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 
 public class InheritedDatasourceAT extends AutoTestBase {
 
@@ -39,10 +37,37 @@ public class InheritedDatasourceAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
+    /**
+     * Тестирование fetch зависимотси
+     */
+    @Test
+    public void testFetchData() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText source = page.regions().region(0, SimpleRegion.class).content()
+                .widget(0, FormWidget.class).fields().field("test").control(InputText.class);
+        InputText inher = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).fields().field("test").control(InputText.class);
+
+        source.val("test");
+        inher.shouldHaveValue("test");
+        source.clear();
+        inher.shouldBeEmpty();
+
+        inher.val("test");
+        source.shouldBeEmpty();
+        inher.shouldHaveValue("test");
+    }
+
+    /**
+     * Тестирование модели Resolve
+     */
     @Test
     public void testModelResolve() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/inherited_datasource/resolve/index.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/inherited_datasource/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve/index.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -68,10 +93,13 @@ public class InheritedDatasourceAT extends AutoTestBase {
         name.shouldHaveValue("test1");
     }
 
+    /**
+     * Тестирование модели Multi
+     */
     @Test
     public void testModelMulti() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/inherited_datasource/multi/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/inherited_datasource/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -95,10 +123,13 @@ public class InheritedDatasourceAT extends AutoTestBase {
         childTable.columns().rows().row(0).cell(1).textShouldHave("test3");
     }
 
+    /**
+     * Тестирование модели Datasource
+     */
     @Test
     public void testModelDatasource() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/inherited_datasource/datasource/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/inherited_datasource/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -111,10 +142,14 @@ public class InheritedDatasourceAT extends AutoTestBase {
         childTable.columns().rows().columnShouldHaveTexts(1, List.of("test1", "test2", "test3", "test4"));
     }
 
+    /**
+     * Тестирование при котором данные
+     * беруться из определенного поля
+     */
     @Test
     public void testSourceFieldId() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/inherited_datasource/source_field/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/inherited_datasource/source_field/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
