@@ -4,7 +4,9 @@
                       badge-field-id="testBadge" param="test"
                       enabled-field-id="isEnabled"
                       description-field-id="descFieldId"
-                      max-tag-text-length="5">
+                      max-tag-text-length="5"
+                      throttle-delay="600"
+                      search-min-length="1">
             <dependencies>
                 <fetch-value query-id="testQuery" on="test" value-field-id="name" size="5">
                     <filters>

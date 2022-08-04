@@ -1662,6 +1662,16 @@
                         <xs:documentation>Максимальная длина текста элемента</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="throttle-delay" type="xs:integer" default="500">
+                    <xs:annotation>
+                        <xs:documentation>Задержка перед поиском в мс</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-min-length" type="xs:integer" default="0">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное число символов для начала поиска</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1713,6 +1723,16 @@
                 <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
                     <xs:annotation>
                         <xs:documentation>Максимальная длина текста элемента (в режиме чекбоксов).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="throttle-delay" type="xs:integer" default="500">
+                    <xs:annotation>
+                        <xs:documentation>Задержка перед поиском в мс</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-min-length" type="xs:integer" default="0">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное число символов для начала поиска</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
