@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta.badge;
 
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 
@@ -33,9 +34,23 @@ public class BadgeUtil {
         Badge badge = new Badge();
         badge.setText(p.resolveJS(source.getBadge()));
         badge.setImage(p.resolveJS(source.getBadgeImage()));
-        badge.setColor(source.getBadgeColor());
+        badge.setColor(p.resolveJS(source.getBadgeColor()));
         setDefaults(badge, source, propertyPrefix, p);
         return badge;
+    }
+
+    /**
+     * Связывание данных значка, не использующего ссылки на поля
+     *
+     * @param badge Значок
+     * @param p Процессор связывания метаданных с данными
+     */
+    public static void bindSimpleBadge(Badge badge, BindProcessor p) {
+        if (badge != null) {
+            badge.setText(p.resolve(badge.getText(), String.class));
+            badge.setColor(p.resolve(badge.getColor(), String.class));
+            badge.setImage(p.resolve(badge.getImage(), String.class));
+        }
     }
 
     /**

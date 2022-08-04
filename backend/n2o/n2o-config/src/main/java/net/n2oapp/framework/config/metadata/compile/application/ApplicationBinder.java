@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import org.springframework.stereotype.Component;
 
@@ -54,11 +55,7 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
     private void resolveItem(MenuItem item, BindProcessor p) {
         item.setTitle(p.resolveText(item.getTitle()));
         item.setImageSrc(p.resolve(item.getImageSrc(), String.class));
-        if (item.getBadge() != null) {
-            item.getBadge().setText(p.resolve(item.getBadge().getText(), String.class));
-            item.getBadge().setColor(p.resolve(item.getBadge().getColor(), String.class));
-            item.getBadge().setImage(p.resolve(item.getBadge().getImage(), String.class));
-        }
+        BadgeUtil.bindSimpleBadge(item.getBadge(), p);
         if (item.getSubItems() != null)
             item.getSubItems().forEach(i -> resolveItem(i, p));
     }
