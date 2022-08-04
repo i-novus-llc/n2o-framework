@@ -22,17 +22,17 @@ public class Submit implements Source {
     private N2oParam[] headerParams;
     private N2oFormParam[] formParams;
     private Boolean refreshOnSuccess;
-    private String[] refreshDatasources;
+    private String[] refreshDatasourceIds;
     private SubmitOn submitOn;
     private Boolean submitAll;
 
     @Deprecated
     public String getRefreshWidgetId() {
-        return refreshDatasources == null ? null : refreshDatasources[0];
+        return refreshDatasourceIds == null ? null : refreshDatasourceIds[0];
     }
 
     @Deprecated
     public void setRefreshWidgetId(String refreshWidgetId) {
-        this.refreshDatasources = new String[]{refreshWidgetId};
+        this.refreshDatasourceIds = new String[]{refreshWidgetId};
     }
 }

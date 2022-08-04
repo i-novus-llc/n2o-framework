@@ -19,7 +19,7 @@ public abstract class AbstractMetaActionElementIOV2<T extends N2oAbstractMetaAct
         });
         p.attributeBoolean(e, "close-on-success", a::getCloseOnSuccess, a::setCloseOnSuccess);
         p.attributeBoolean(e, "close-on-fail", a::getCloseOnFail, a::setCloseOnFail);
-        p.attributeArray(e, "refresh-datasources", ",", a::getRefreshDatasources, a::setRefreshDatasources);
+        p.attributeArray(e, "refresh-datasources", ",", a::getRefreshDatasourceIds, a::setRefreshDatasourceIds);
         p.attributeBoolean(e, "refresh-on-success", a::getRefreshOnSuccess, a::setRefreshOnSuccess);
         p.attribute(e, "redirect-url", a::getRedirectUrl, a::setRedirectUrl);
         p.attributeEnum(e, "redirect-target", a::getRedirectTarget, a::setRedirectTarget, Target.class);

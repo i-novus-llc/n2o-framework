@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
@@ -184,14 +185,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         QueryContext queryCtx = (QueryContext) route("/page/main", CompiledQuery.class);
 
         //pre-filter name
-        ModelLink nameLink = page.getDatasources().get("page_main").getProvider().getQueryMapping().get("nameParam");
+        ModelLink nameLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("nameParam");
         assertThat(nameLink.normalizeLink(), is("models.filter['page_main'].name"));
         assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnSet(), is(nameLink));
         assertThat(queryCtx.getFilters().stream().anyMatch(f -> f.getFilterId().equals("name")), is(true));
 
         //table filter birthday
-        ModelLink birthdayBeginLink = page.getDatasources().get("page_main").getProvider().getQueryMapping().get("main_birthday_begin");
-        ModelLink birthdayEndLink = page.getDatasources().get("page_main").getProvider().getQueryMapping().get("main_birthday_end");
+        ModelLink birthdayBeginLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("main_birthday_begin");
+        ModelLink birthdayEndLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("main_birthday_end");
         assertThat(birthdayBeginLink.normalizeLink(), is("models.filter['page_main'].birthday.begin"));
         assertThat(birthdayEndLink.normalizeLink(), is("models.filter['page_main'].birthday.end"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnSet(), is(birthdayBeginLink));
@@ -200,7 +201,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryCtx.getFilters().stream().anyMatch(f -> f.getFilterId().equals("birthday.end")), is(true));
 
         //table filter gendersLink
-        ModelLink gendersLink = page.getDatasources().get("page_main").getProvider().getQueryMapping().get("main_genders_id");
+        ModelLink gendersLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("main_genders_id");
         assertThat(gendersLink.getBindLink(), is("models.filter['page_main']"));
         assertThat(gendersLink.getValue(), is("`genders.map(function(t){return t.id})`"));
         assertThat(page.getRoutes().getQueryMapping().get("main_genders_id").getOnSet(), is(gendersLink));
@@ -292,7 +293,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
-        BindLink link = page.getDatasources().get("testFilterColumns_main").getProvider().getQueryMapping().get("main_name");
+        BindLink link = ((StandardDatasource) page.getDatasources().get("testFilterColumns_main")).getProvider().getQueryMapping().get("main_name");
         assertThat(link.getValue(), is("`name`"));
         assertThat(link.getBindLink(), is("models.filter['testFilterColumns_main']"));
 
@@ -341,7 +342,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testMultiColumn_table']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
-        BindLink link = page.getDatasources().get("testMultiColumn_table").getProvider().getQueryMapping().get("table_name");
+        BindLink link = ((StandardDatasource) page.getDatasources().get("testMultiColumn_table")).getProvider().getQueryMapping().get("table_name");
         assertThat(link.getValue(), is("`name`"));
         assertThat(link.getBindLink(), is("models.filter['testMultiColumn_table']"));
 
@@ -396,6 +397,17 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(Place.topLeft));
+    }
+
+    @Test
+    public void testHeaderLabelInitialization() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4HeaderLabels.page.xml")
+                .get(new PageContext("testTable4HeaderLabels"));
+
+        List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0))
+                .getComponent().getHeaders();
+        assertThat(columnHeaders.get(0).getLabel(), is("id"));
+        assertThat(columnHeaders.get(1).getLabel(), is("name"));
     }
 
     private void checkDefaultPagingParams(Pagination pagination) {

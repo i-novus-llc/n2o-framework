@@ -26,6 +26,7 @@ public class ActionRequestInfo<D> extends RequestInfo {
     //immutable
     private CompiledObject object;
     private CompiledObject.Operation operation;
+    private String clearDatasource;
     private String pollingEndCondition;
     private PollingSaga polling;
     private LoadingSaga loading;

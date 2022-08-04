@@ -1,6 +1,3 @@
-/**
- * Created by emamoshin on 25.09.2017.
- */
 // Глобал enzyme
 import Enzyme, { shallow, render, mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';

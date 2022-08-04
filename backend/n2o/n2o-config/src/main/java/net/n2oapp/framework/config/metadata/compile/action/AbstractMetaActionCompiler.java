@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляции действия, содержащего стандартные саги
@@ -31,11 +32,11 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
         source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || p.cast(source.getCloseOnSuccess(), false));
         source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
-        source.setRefreshDatasources(initRefreshDatasources(source, p));
+        source.setRefreshDatasourceIds(initRefreshDatasources(source, p));
     }
 
     protected MetaSaga initSuccessMeta(D compiled, S source,
-                                     CompileContext<?, ?> context, CompileProcessor p) {
+                                       CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
         boolean redirect = source.getRedirectUrl() != null;
         boolean doubleCloseOnSuccess = source.getDoubleCloseOnSuccess();
@@ -47,13 +48,10 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
     }
 
     protected MetaSaga initFailMeta(D compiled, S source,
-                                  CompileContext<?, ?> context) {
+                                    CompileContext<?, ?> context) {
         MetaSaga metaSaga = new MetaSaga();
-        boolean closeOnFail = source.getCloseOnFail();
-        if (closeOnFail) {
-            if (context instanceof ModalPageContext || context instanceof DialogContext)
-                metaSaga.setModalsToClose(1);
-        }
+        if (source.getCloseOnFail() && (context instanceof ModalPageContext || context instanceof DialogContext))
+            metaSaga.setModalsToClose(1);
         return metaSaga;
     }
 
@@ -81,13 +79,13 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
                 meta.setRefresh(((DialogContext) context).getParentRefresh());
             } else {
                 meta.setRefresh(new RefreshSaga());
-                if (!closeOnSuccess && source.getRefreshDatasources() != null) {
+                if (!closeOnSuccess && source.getRefreshDatasourceIds() != null) {
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
-                        meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasources())
-                                .map(pageScope::getClientDatasourceId).collect(Collectors.toList()));
-                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSources() != null)
-                    meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSources());
+                        meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasourceIds())
+                                .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
+                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
+                    meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
             }
         }
     }
@@ -109,9 +107,9 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
     }
 
     private String[] initRefreshDatasources(N2oAbstractMetaAction source, CompileProcessor p) {
-        if (source.getRefreshDatasources() != null)
-            return source.getRefreshDatasources();
-        String localDatasource = getLocalDatasource(p);
+        if (source.getRefreshDatasourceIds() != null)
+            return source.getRefreshDatasourceIds();
+        String localDatasource = getLocalDatasourceId(p);
         if (localDatasource != null)
             return new String[]{localDatasource};
         return null;

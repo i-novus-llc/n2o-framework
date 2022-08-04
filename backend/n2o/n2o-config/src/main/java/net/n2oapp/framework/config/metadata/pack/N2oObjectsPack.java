@@ -9,6 +9,10 @@ import net.n2oapp.framework.config.metadata.compile.validation.ConditionValidati
 import net.n2oapp.framework.config.metadata.compile.validation.ConstraintValidationCompiler;
 import net.n2oapp.framework.config.metadata.compile.validation.MandatoryValidationCompiler;
 import net.n2oapp.framework.config.metadata.compile.validation.ValidationDialogCompiler;
+import net.n2oapp.framework.config.metadata.merge.object.N2oObjectListFieldMerger;
+import net.n2oapp.framework.config.metadata.merge.object.N2oObjectReferenceFieldMerger;
+import net.n2oapp.framework.config.metadata.merge.object.N2oObjectSetFieldMerger;
+import net.n2oapp.framework.config.metadata.merge.object.N2oObjectSimpleFieldMerger;
 
 /**
  * Набор для сборки стандартных объектов

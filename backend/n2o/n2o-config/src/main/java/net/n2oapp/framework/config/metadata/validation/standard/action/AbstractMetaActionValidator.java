@@ -14,7 +14,7 @@ public abstract class AbstractMetaActionValidator<S extends N2oAbstractMetaActio
     @Override
     public void validate(S source, SourceProcessor p) {
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        if (source.getRefreshDatasources() != null) {
+        if (source.getRefreshDatasourceIds() != null) {
             checkRefreshDatasources(source, datasourceIdsScope);
         }
         checkRefreshDatasources(source, datasourceIdsScope);
@@ -27,8 +27,8 @@ public abstract class AbstractMetaActionValidator<S extends N2oAbstractMetaActio
      * @param datasourceIdsScope Скоуп источников данных
      */
     private void checkRefreshDatasources(S source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getRefreshDatasources() != null)
-            for (String refreshDs : source.getRefreshDatasources()) {
+        if (source.getRefreshDatasourceIds() != null)
+            for (String refreshDs : source.getRefreshDatasourceIds()) {
                 String operation = ValidationUtils.getIdOrEmptyString(source.getOperationId());
                 ValidationUtils.checkForExistsDatasource(refreshDs, datasourceIdsScope,
                         String.format("Атрибут \"refresh-datasources\" действия %s ссылается на несуществующий источник данных '%s'",

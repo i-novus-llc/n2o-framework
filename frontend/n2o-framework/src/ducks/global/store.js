@@ -1,4 +1,5 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
+import get from 'lodash/get'
 
 const initialState = {
     ready: false,
@@ -40,8 +41,11 @@ const globalSlice = createSlice({
          * @param {Object.<string, any>} action.payload
          */
         REQUEST_CONFIG_SUCCESS(state, action) {
-            state.loading = false
             state = Object.assign(state, action.payload)
+        },
+
+        SET_GLOBAL_LOADING(state, { payload }) {
+            state.loading = payload
         },
 
         REQUEST_CONFIG_FAIL: {
@@ -114,13 +118,14 @@ export const {
     REQUEST_CONFIG_FAIL: requestConfigFail,
     REQUEST_CONFIG_SUCCESS: requestConfigSuccess,
     SET_READY: setReady,
+    SET_GLOBAL_LOADING: setGlobalLoading,
 } = globalSlice.actions
 
 // Selectors
 /**
  * Селектор глоабльных настроек
  */
-export const globalSelector = state => state.global || {}
+export const globalSelector = state => get(state, 'global', {})
 
 /**
  * Селектор текущей локализации
@@ -213,4 +218,12 @@ export const getLocation = createSelector(
 export const getLocales = createSelector(
     globalSelector,
     global => global.locales || {},
+)
+
+/**
+ * Селектор url для редиректа по 401
+ */
+export const getAuthUrl = createSelector(
+    globalSelector,
+    global => global.redirectPath,
 )

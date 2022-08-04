@@ -40,124 +40,11 @@ http://n2oapp.net/framework/config/schema/application-3.0
 
 **Тело**
 
-[Источники данных](../xml/application#datasources), [События](../xml/application#events), [Шапка(header)](../xml/application#header), [Боковые панели](../xml/application#sidebars), [Подвал(footer)](../xml/application#footer)
-
-### Источники данных (&lt;datasources&gt;) {#datasources}
-
-**Пример**
-
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
-    <datasources>
-        ...
-    </datasources>
-</application>
-```
-
-**Тело**
-
-[Стандартный источник данных](../xml/application#datasource), [STOMP-источник данных](../xml/application#stomp-datasource)
-
-### Стандартный источник данных (&lt;datasource&gt;) {#datasource}
-
-**Атрибуты**
-
-|Наименование |Тип            |Описание                                                             |Значение по умолчанию|
-|-------------|---------------|---------------------------------------------------------------------|---------------------|
-|id           |Строка         |Идентификатор источника данных                                       |                     |
-|query-id     |Строка         |Идентификатор выборки, на основе которой происходит получение данных |                     |
-|size         |Строка         |Размер выборки                                                       |10                   |
-|route        |Строка         |URL получения данных                                                 |                     |
-
-**Пример**
-
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
-    <datasources>
-        <datasource id="ds1"/>
-    </datasources>
-</application>
-```
-
-**Тело**
-
-[Предустановленная фильтрация](../manual/filters#pre-filters), [Зависимости источника данных](../xml/application#dependencies)
-
-### Зависимости источника данных (&lt;dependencies&gt;)
-
-**Пример**
-
-```xml
-<datasource id="ds1">
-  <dependencies>
-    ...
-  </dependencies>
-</datasource>
-
-```
-
-**Тело**
-
-[Обновление модели компонента при изменении зависимых полей](../xml/field#fetch)
-
-### STOMP-источник данных (&lt;stomp-datasource&gt;) {#stomp-datasource}
-
-**Атрибуты**
-
-|Наименование |Тип            |Описание                                                 |Значение по умолчанию|
-|-------------|---------------|---------------------------------------------------------|---------------------|
-|id           |Строка         |Идентификатор источника данных                           |                     |
-|destination  |Строка         |Место назначения                                         |                     |
-
-**Пример**
-
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
-    <datasources>
-        <stomp-datasource id="notifCount" destination="/notif/count">
-            <values>
-                ...
-            </values>
-        </stomp-datasource>
-    </datasources>
-</application>
-
-```
-
-**Тело**
-
-[Значения на момент инициализации](../xml/application#values)
-
-### Значения на момент инициализации (&lt;values&gt;) {#values}
-
-**Пример**
-
-```xml
-<stomp-datasource id="notifCount" destination="/notif/count">
-    <values>
-        ...
-    </values>
-</stomp-datasource>
-```
-
-**Тело**
-
-[Инициализирующее значение](../xml/application#value)
-
-### Инициализирующее значение(имя атрибута задается пользователем) (&lt;value&gt;) {#value}
-
-**Пример**
-
-```xml
-<stomp-datasource id="notifCount" destination="/notif/count">
-    <values>
-        <value count="0"/>
-    </values>
-</stomp-datasource>
-```
+[Источники данных](../xml/page#datasources),
+[События](../xml/application#events),
+[Шапка(header)](../xml/application#header),
+[Боковые панели](../xml/application#sidebars),
+[Подвал(footer)](../xml/application#footer)
 
 ### События (&lt;events&gt;) {#events}
 
@@ -279,6 +166,10 @@ http://n2oapp.net/framework/config/schema/application-3.0
 |toggle-on-hover |Boolean        |Открывается ли панель по hover                   |false               |
 |overlay         |Boolean        |Перекрывает ли боковая панель контент страницы   |true                |
 
+**Тело**
+
+[Стандартный источник данных](../xml/page#datasource), [Навигационная панель](../xml/application#navigation)
+
 **Пример**
 
 ```xml
@@ -286,6 +177,7 @@ http://n2oapp.net/framework/config/schema/application-3.0
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
         <sidebar title="N2O">
+            <datasource id="ds1"/>
             <nav>...</nav>
             <extra-menu>...</extra-menu>
         </sidebar>
@@ -318,7 +210,7 @@ http://n2oapp.net/framework/config/schema/application-3.0
 ```
 
 
-## Навигационная панель
+## Навигационная панель {#navigation}
 
 ### &lt;nav&gt;
 

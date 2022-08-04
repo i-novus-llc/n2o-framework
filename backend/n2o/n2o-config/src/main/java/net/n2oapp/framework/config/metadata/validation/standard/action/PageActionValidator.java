@@ -66,11 +66,11 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
      * @param datasourceIdsScope Скоуп источников данных
      */
     private void checkTargetDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getTargetDatasource() != null) {
+        if (source.getTargetDatasourceId() != null) {
             String openPage = getIdOrEmptyString(source.getPageId());
-            ValidationUtils.checkForExistsDatasource(source.getTargetDatasource(), datasourceIdsScope,
+            ValidationUtils.checkForExistsDatasource(source.getTargetDatasourceId(), datasourceIdsScope,
                     String.format("Атрибут \"target-datasource\" действия открытия страницы %s ссылается на несуществующий источник данных '%s'",
-                            openPage, source.getTargetDatasource()));
+                            openPage, source.getTargetDatasourceId()));
         }
     }
 

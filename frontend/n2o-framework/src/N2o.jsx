@@ -20,7 +20,7 @@ import Application from './components/core/Application'
 import { Template } from './components/core/templates'
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb'
 import globalFnDate from './utils/globalFnDate'
-import configureErrorPages from './components/errors'
+import { errorTemplates } from './components/errors/errorTemplates'
 import locales from './locales'
 import { GlobalAlertsConnected } from './components/core/GlobalAlerts'
 
@@ -102,11 +102,7 @@ N2o.propTypes = {
     }),
     security: PropTypes.shape({
         authProvider: PropTypes.func,
-        redirectPath: PropTypes.string,
-        externalLoginUrl: PropTypes.string,
-        loginComponent: PropTypes.element,
-        userMenuComponent: PropTypes.element,
-        forbiddenComponent: PropTypes.element,
+        authUrl: PropTypes.string,
     }),
     messages: PropTypes.shape({
         timeout: PropTypes.shape({
@@ -138,7 +134,7 @@ const EnhancedN2O = compose(
         defaultTemplate: Template,
         defaultBreadcrumb: DefaultBreadcrumb,
         defaultPage: 'StandardPage',
-        defaultErrorPages: configureErrorPages(),
+        defaultErrorPages: errorTemplates(),
         formats: {
             dateFormat: 'YYYY-MM-DD',
             timeFormat: 'HH:mm:ss',

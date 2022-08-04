@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
@@ -41,7 +40,6 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setLayout(layout);
 
         DataSourcesScope dataSourcesScope = initDatasourcesScope(source.getDatasources());
-        application.setDatasources(initDatasources(source.getDatasources(), context, p));
 
         Header header = initHeader(source.getHeader(), context, dataSourcesScope, p);
         application.setHeader(header);
@@ -50,6 +48,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setFooter(initFooter(source.getFooter(), p));
         application.setEvents(initEvents(source.getEvents(), context, p));
         application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
+        application.setDatasources(initDatasources(dataSourcesScope, context, p));
         return application;
     }
 
@@ -69,10 +68,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         DataSourcesScope scope = new DataSourcesScope();
         if (datasources == null)
             return scope;
-        for (N2oAbstractDatasource datasource : datasources) {
-            if (datasource instanceof N2oDatasource)
-                scope.put(datasource.getId(), ((N2oDatasource) datasource));
-        }
+        for (N2oAbstractDatasource datasource : datasources)
+            scope.put(datasource.getId(), datasource);
         return scope;
     }
 
@@ -101,7 +98,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
     }
 
     private Sidebar initSidebar(N2oSidebar source, Header header, ApplicationContext context, DataSourcesScope dataSourcesScope, CompileProcessor p) {
-        if (source == null || source.getVisible() != null && !source.getVisible()) return null;
+        if (source == null || Boolean.FALSE.equals(source.getVisible()))
+            return null;
         Sidebar sidebar = p.compile(source, context, dataSourcesScope);
         if (header != null && header.getSidebarSwitcher() != null) {
             sidebar.setDefaultState(p.cast(source.getDefaultState(), SidebarState.none));
@@ -131,15 +129,13 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         p.addRoute(context);
     }
 
-    private Map<String, AbstractDatasource> initDatasources(N2oAbstractDatasource[] datasources, ApplicationContext context,
+    private Map<String, AbstractDatasource> initDatasources(DataSourcesScope dataSourcesScope, ApplicationContext context,
                                                             CompileProcessor p) {
-        if (datasources == null)
-            return null;
         Map<String, AbstractDatasource> result = new HashMap<>();
-        for (N2oAbstractDatasource source : datasources) {
-            AbstractDatasource datasource = p.compile(source, context);
-            result.put(datasource.getId(), datasource);
-        }
+        dataSourcesScope.values().forEach(ds -> {
+            AbstractDatasource compiled = p.compile(ds, context);
+            result.put(compiled.getId(), compiled);
+        });
         return result;
     }
 

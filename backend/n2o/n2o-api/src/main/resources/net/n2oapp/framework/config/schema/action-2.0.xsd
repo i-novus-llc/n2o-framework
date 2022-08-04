@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="open-page" type="openPageDefinition"/>
@@ -16,6 +17,7 @@
     <xs:element name="print" type="printDefinition"/>
     <xs:element name="refresh" type="refreshDefinition"/>
     <xs:element name="alert" type="alertDefinition"/>
+    <xs:element name="submit" type="submitDatasourceDefinition"/>
     <xs:element name="action" type="customActionDefinition"/>
 
     <xs:complexType name="actions">
@@ -34,6 +36,7 @@
             <xs:element name="print" type="printDefinition" minOccurs="0"/>
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
             <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
             <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
@@ -67,8 +70,19 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
-                    <xs:element name="datasources" type="inlineDatasourcesDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Переопределение источников данных в открываемой странице
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                 </xs:sequence>
+                <xs:attribute name="page-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="page-name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Кастомное имя открываемой страницы</xs:documentation>
@@ -80,6 +94,18 @@
                             На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена". Кнопка
                             "Сохранить" будет выполнять заданную операцию объекта.
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="submit-message-on-success" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Показать сообщение после успешного выполнения операции объекта.
+                            Актуально только, если указан атрибут submit-operation-id.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="submit-message-on-fail" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Показать сообщение после неудачного выполнения операции объекта.
+                            Актуально только, если указан атрибут submit-operation-id.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="object-id" type="xs:string" use="optional">
@@ -144,52 +170,12 @@
             </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="inlineDatasourcesDefinition">
-            <xs:annotation>
-                <xs:documentation>Переопределение источников данных в открываемой странице.</xs:documentation>
-            </xs:annotation>
-            <xs:sequence>
-                <xs:element name="datasource" type="inlineDatasourceDefinition"/>
-            </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="inlineDatasourceDefinition">
-            <xs:annotation>
-                <xs:documentation>Переопределение источника данных в открываемой странице.</xs:documentation>
-            </xs:annotation>
-            <xs:attribute name="id" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>Идентификатор, у которого необходимо переопределить данные.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="query-id" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>Идентификатор запроса.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="object-id" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>Идентификатор объекта.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="default-values-mode" type="defaultValuesMode">
-                <xs:annotation>
-                    <xs:documentation>Режим проставления значений по умолчанию.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-    </xs:complexType>
-
     <xs:complexType name="openPageDefinition">
         <xs:complexContent>
             <xs:extension base="pageDefinition">
                 <xs:annotation>
                     <xs:documentation>Открыть страницу поверх текущей.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="page-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -200,11 +186,6 @@
                 <xs:annotation>
                     <xs:documentation>Действие открытия модального окна.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="page-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="modal-size" type="modalSize" default="lg">
                     <xs:annotation>
                         <xs:documentation>Размер модального окна.</xs:documentation>
@@ -351,11 +332,6 @@
                 <xs:annotation>
                     <xs:documentation>Открыть страницу в drawer окне.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="page-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="refresh-datasources" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -554,6 +530,13 @@
                     <xs:annotation>
                         <xs:documentation>
                             Показать сообщение об успешном выполнении действия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="clear-on-success" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Очистить источник данных после успешно выполненной операции
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -829,9 +812,50 @@
                         <xs:documentation>Адрес документа для печати.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="type" type="printType" default="pdf">
+                    <xs:annotation>
+                        <xs:documentation>Тип документа для печати</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="keep-indent" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Сохранение отступов в документах. Актуально для типа text</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="document-title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок документа</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="loader" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Показывать модальное окно с лоадером при загрузке?</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="loader-text" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст внутри модального окна с лоадером</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="base64" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Напечать в base64?</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="printType">
+        <xs:annotation>
+            <xs:documentation>Тип для печати</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="pdf"/>
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="image"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:complexType name="refreshDefinition">
         <xs:annotation>
@@ -842,6 +866,21 @@
                 <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Источник данных, по умолчанию текущего виджета</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="submitDatasourceDefinition">
+        <xs:annotation>
+            <xs:documentation>Действие сохранения источника данных.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="actionDefinition">
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1066,18 +1105,20 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="defaults">
                 <xs:annotation>
-                    <xs:documentation>значения по умолчанию заполняются данными прописанными в полях</xs:documentation>
+                    <xs:documentation>Значения по умолчанию заполняются данными прописанными в полях</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="query">
                 <xs:annotation>
-                    <xs:documentation>значения по умолчанию заполняются данными из запроса</xs:documentation>
+                    <xs:documentation>Значения по умолчанию заполняются данными из запроса</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="merge">
                 <xs:annotation>
-                    <xs:documentation>значения по умолчанию заполняются путем мержа данных прописанных в полях и
-                        полученных из запроса(полученные из запроса в приоритете)</xs:documentation>
+                    <xs:documentation>
+                        Значения по умолчанию заполняются путем слияния данных, прописанных в полях и
+                        полученных из запроса (полученные из запроса в приоритете)
+                    </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
         </xs:restriction>

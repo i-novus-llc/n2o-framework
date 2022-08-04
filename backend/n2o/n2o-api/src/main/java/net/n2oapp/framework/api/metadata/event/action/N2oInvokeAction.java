@@ -20,6 +20,7 @@ public class N2oInvokeAction extends N2oAbstractMetaAction {
     private String confirmationText;
     private String bulkConfirmationText;
     private String route;
+    private Boolean clearOnSuccess;
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
     private MessagePosition messagePosition;

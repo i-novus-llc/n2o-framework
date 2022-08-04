@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 
 /**
@@ -45,6 +46,8 @@ public interface Page extends Component {
 
     void shouldHaveLayout(NavigationLayout layout);
 
+    void shouldHaveError(int statusCode);
+
     interface PageToolbar {
         Toolbar topLeft();
 
@@ -71,7 +74,10 @@ public interface Page extends Component {
 
         void shouldHaveText(String text);
 
+        @Deprecated
         void click(String label);
+
+        <T extends Button> T button(String label);
 
         void shouldBeClosed(long timeOut);
     }

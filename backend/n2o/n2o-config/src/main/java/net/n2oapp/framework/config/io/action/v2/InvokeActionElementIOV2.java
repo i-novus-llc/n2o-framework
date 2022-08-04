@@ -22,6 +22,7 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
         p.attribute(e, "operation-id", ia::getOperationId, ia::setOperationId);
         p.attribute(e, "object-id", ia::getObjectId, ia::setObjectId);
         p.attribute(e, "route", ia::getRoute, ia::setRoute);
+        p.attributeBoolean(e, "clear-on-success", ia::getClearOnSuccess, ia::setClearOnSuccess);
         p.attributeBoolean(e, "message-on-success", ia::getMessageOnSuccess, ia::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", ia::getMessageOnFail, ia::setMessageOnFail);
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePosition.class);
@@ -48,7 +49,7 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
     private void param(Element e, N2oParam param, IOProcessor p) {
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
-        p.attribute(e, "datasource", param::getDatasource, param::setDatasource);
+        p.attribute(e, "datasource", param::getDatasourceId, param::setDatasourceId);
         p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
     }
 
@@ -57,7 +58,7 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
         if (fp.getId() == null)
             p.attribute(e, "name", fp::getName, fp::setName);
         p.attribute(e, "value", fp::getValue, fp::setValue);
-        p.attribute(e, "datasource", fp::getDatasource, fp::setDatasource);
+        p.attribute(e, "datasource", fp::getDatasourceId, fp::setDatasourceId);
         p.attributeEnum(e, "model", fp::getModel, fp::setModel, ReduxModel.class);
     }
 }

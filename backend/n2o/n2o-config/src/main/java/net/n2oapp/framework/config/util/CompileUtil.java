@@ -8,24 +8,6 @@ import java.util.function.Function;
  * Утилита для генерации различных свойств во время компиляции
  */
 public class CompileUtil {
-
-    public static String generateSourceDatasourceId(String datasourceId) {
-        return datasourceId;
-    }
-
-    public static String generateDatasourceId(String pageId, String localDatasourceId) {
-        if ("_".equals(pageId))
-            return pageId + localDatasourceId;
-        return pageId + "_" + localDatasourceId;
-    }
-
-    public static String generateWidgetId(String pageId, String localWidgetId) {
-        if ("_".equals(pageId))
-            return pageId + localWidgetId;
-        return pageId + "_" + localWidgetId;
-    }
-
-
     /**
      * Преобразовывает плоскую мапу в объемную по знаку "-" в ключе
      * a-b : 123 -> a : {b : 123}

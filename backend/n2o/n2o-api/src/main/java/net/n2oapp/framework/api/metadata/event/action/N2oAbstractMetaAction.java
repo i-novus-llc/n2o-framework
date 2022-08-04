@@ -16,15 +16,15 @@ public abstract class N2oAbstractMetaAction extends N2oAbstractAction {
     private String redirectUrl;
     private Target redirectTarget;
     private Boolean refreshOnSuccess;
-    private String[] refreshDatasources;
+    private String[] refreshDatasourceIds;
 
     @Deprecated
     public String getRefreshWidgetId() {
-        return refreshDatasources != null && refreshDatasources.length > 0 ? refreshDatasources[0] : null;
+        return refreshDatasourceIds != null && refreshDatasourceIds.length > 0 ? refreshDatasourceIds[0] : null;
     }
 
     @Deprecated
     public void setRefreshWidgetId(String refreshWidgetId) {
-        this.refreshDatasources = new String[] {refreshWidgetId};
+        this.refreshDatasourceIds = new String[] {refreshWidgetId};
     }
 }

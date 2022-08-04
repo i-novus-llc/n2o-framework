@@ -7,14 +7,17 @@ import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
+import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -32,10 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -53,6 +53,7 @@ public class N2oController {
 
     private DataProcessingStack dataProcessingStack;
     private AlertMessageBuilder messageBuilder;
+    private AlertMessagesConstructor messagesConstructor;
     private QueryProcessor queryProcessor;
     private N2oOperationProcessor operationProcessor;
     private ConfigBuilder<AppConfig> configBuilder;
@@ -64,12 +65,13 @@ public class N2oController {
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, AlertMessageBuilder messageBuilder,
                          QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor,
-                         DomainProcessor domainProcessor) {
+                         DomainProcessor domainProcessor, AlertMessagesConstructor messagesConstructor) {
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
         this.messageBuilder = messageBuilder;
         this.operationProcessor = operationProcessor;
         this.domainProcessor = domainProcessor;
+        this.messagesConstructor = messagesConstructor;
     }
 
     @GetMapping("/n2o/config")
@@ -107,6 +109,11 @@ public class N2oController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
+    @ExceptionHandler(N2oException.class)
+    public ResponseEntity<N2oResponse> sendErrorMessage(N2oException e) {
+        return ResponseEntity.status(e.getHttpStatus()).body(new N2oResponse());
+    }
+
     private DataSet getBody(Object body) {
         if (body instanceof Map)
             return new DataSet((Map<? extends String, ?>) body);
@@ -133,9 +140,9 @@ public class N2oController {
         subModelsProcessor.setEnvironment(environment);
         Map<String, Object> beans = new HashMap<>();
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, messageBuilder, environment));
+                subModelsProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
-                operationProcessor, messageBuilder, environment));
+                operationProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder, environment));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Тип сценария открытия ссылки
  */
 public enum Target {
-    self("self"),
+    self("_self"),
     newWindow("_blank"),
     application("application");
 

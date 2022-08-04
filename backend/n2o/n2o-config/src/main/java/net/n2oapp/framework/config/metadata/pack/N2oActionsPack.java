@@ -37,6 +37,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new PrintActionElementIOV2(),
                 new RefreshActionElementIOV2(),
                 new AlertActionElementIOV2(),
+                new SubmitActionElementIOV2(),
                 new CustomActionElementIOV2());
         b.compilers(new PerformCompiler(),
                 new ShowModalCompiler(),
@@ -51,6 +52,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new SetValueActionCompiler(),
                 new PrintActionCompiler(),
                 new AlertActionCompiler(),
+                new SubmitActionCompiler(),
                 new CustomActionCompiler());
         b.binders(new InvokeActionBinder(),
                 new ReduxActionBinder(),

@@ -8,8 +8,12 @@ import classNames from 'classnames'
  * PopoverConfirm
  * @reactProps {string} className - className компонента
  * @reactProps {string} title - заголовок PopoverConfirm
- * @reactProps {string} okLabel - текст кнопки положительного ответа
- * @reactProps {string} cancelLabel - текст кнопки отрицательного ответа
+ * @reactProps {object} ok - конфиг кнопки подтверждения
+ * @reactProps {string} ok.label - текст кнопки подтверждения
+ * @reactProps {string} ok.color - цвет кнопки подтверждения
+ * @reactProps {object} cancel - конфиг кнопки отмены
+ * @reactProps {string} cancel.label - текст кнопки отмены
+ * @reactProps {string} cancel.color - цвет кнопки отмены
  * @reactProps {string} text - текст сообщения
  * @reactProps {string} target - target element id popover
  * @example
@@ -22,14 +26,18 @@ export function PopoverConfirm(props) {
         className,
         title,
         text,
-        okLabel = t('confirm'),
-        cancelLabel = t('deny'),
+        ok,
+        cancel,
         target,
         onDeny,
         onConfirm,
         isOpen,
+        reverseButtons = false,
         ...rest
     } = props
+
+    const { label: okLabel = t('confirm'), color: okColor = 'primary' } = ok || {}
+    const { label: cancelLabel = t('deny'), color: cancelColor } = cancel || {}
 
     return (
         <div className={classNames('n2o-popover', className)}>
@@ -42,11 +50,11 @@ export function PopoverConfirm(props) {
                         </PopoverHeader>
                         <PopoverBody>
                             <div className="mb-1">{text}</div>
-                            <ButtonGroup className="d-flex justify-content-between">
-                                <Button className="btn-sm" onClick={onDeny}>
+                            <ButtonGroup className={classNames('d-flex justify-content-between', { 'flex-row-reverse': reverseButtons })}>
+                                <Button color={cancelColor} className="btn-sm" onClick={onDeny}>
                                     {cancelLabel}
                                 </Button>
-                                <Button className="btn-sm" onClick={onConfirm}>
+                                <Button color={okColor} className="btn-sm" onClick={onConfirm}>
                                     {okLabel}
                                 </Button>
                             </ButtonGroup>
@@ -62,8 +70,15 @@ PopoverConfirm.propTypes = {
     className: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.string, Element]),
     children: PropTypes.oneOfType([PropTypes.string, Element]),
-    okLabel: PropTypes.string,
-    cancelLabel: PropTypes.string,
+    ok: PropTypes.shape({
+        label: PropTypes.string,
+        color: PropTypes.string,
+    }),
+    cancel: PropTypes.shape({
+        label: PropTypes.string,
+        color: PropTypes.string,
+    }),
+    reverseButtons: PropTypes.bool,
     onDeny: PropTypes.func,
     onConfirm: PropTypes.func,
     isOpen: PropTypes.bool,

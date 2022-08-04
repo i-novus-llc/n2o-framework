@@ -35,10 +35,8 @@ import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
-import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 
@@ -48,6 +46,7 @@ import java.util.function.Supplier;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -61,7 +60,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
         source.setRefPage(p.cast(source.getRefPage(), N2oField.Page.THIS));
-        source.setRefDatasource(p.cast(source.getRefDatasource(), () -> {
+        source.setRefDatasourceId(p.cast(source.getRefDatasourceId(), () -> {
             if (source.getRefPage().equals(N2oField.Page.THIS)) {
                 return initLocalDatasourceId(p);
             } else if (source.getRefPage().equals(N2oField.Page.PARENT)) {
@@ -225,7 +224,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
-                ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getGlobalDatasourceId());
+                ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientDatasourceId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 link.setParam(filter.getParam());
@@ -299,9 +298,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     private List<Validation> initInlineValidations(Field field,
-                                       S source,
-                                       CompileContext<?, ?> context, CompileProcessor p,
-                                       Set<String> visibilityConditions) {
+                                                   S source,
+                                                   CompileContext<?, ?> context, CompileProcessor p,
+                                                   Set<String> visibilityConditions) {
 
         List<Validation> result = new ArrayList<>();
         N2oField.Validations validations = source.getValidations();
@@ -341,10 +340,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     private Validation initWhiteListValidation(String fieldId,
-                                         String refId,
-                                         S source,
-                                         CompileProcessor p,
-                                         Set<String> visibilityConditions) {
+                                               String refId,
+                                               S source,
+                                               CompileProcessor p,
+                                               Set<String> visibilityConditions) {
         CompiledObject object = p.getScope(CompiledObject.class);
         if (object == null)
             return null;
@@ -491,9 +490,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (source.getParam() != null) {
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null) {
-                ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getGlobalDatasourceId(), control.getId());
+                ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getClientDatasourceId(), control.getId());
                 onSet.setParam(source.getParam());
-                ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getGlobalDatasourceId(), widgetScope.getModel(), control.getId(),
+                ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getClientDatasourceId(), widgetScope.getModel(), control.getId(),
                         colon(source.getParam()));
                 paramScope.addQueryMapping(source.getParam(), onGet, onSet);
             }
@@ -508,23 +507,22 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @return Модель для дефолтного значения поля
      */
     private ModelLink getDefaultValueModelLink(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        String globalDatasourceId = null;
+        String clientDatasourceId = null;
         switch (source.getRefPage()) {
             case THIS:
-                globalDatasourceId = pageScope != null ? pageScope.getClientDatasourceId(source.getRefDatasource()) : source.getRefDatasource();
+                clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), p);
                 break;
             case PARENT:
                 if (context instanceof PageContext) {
-                    globalDatasourceId = CompileUtil.generateDatasourceId(((PageContext)context).getParentClientPageId(), source.getRefDatasource());
+                    clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), ((PageContext) context).getParentClientPageId());
                 } else
                     throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
         }
         ModelLink defaultValue;
         if (source.getRefFieldId() != null) {
-            defaultValue = new ModelLink(source.getRefModel(), globalDatasourceId, source.getRefFieldId());
+            defaultValue = new ModelLink(source.getRefModel(), clientDatasourceId, source.getRefFieldId());
         } else {
-            defaultValue = new ModelLink(source.getRefModel(), globalDatasourceId);
+            defaultValue = new ModelLink(source.getRefModel(), clientDatasourceId);
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 

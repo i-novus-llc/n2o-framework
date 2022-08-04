@@ -6,15 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.page.Dialog;
-import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.MessageSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.*;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -86,8 +83,32 @@ public class N2oResponse {
     }
 
     public void setDialog(Dialog dialog) {
+        safeGetMeta().setDialog(dialog);
+    }
+
+    public void addRedirect(RedirectSaga redirect) {
+        safeGetMeta().setRedirect(redirect);
+    }
+
+    public void addPolling(PollingSaga polling) {
+        safeGetMeta().setPolling(polling);
+    }
+
+    public void addRefresh(RefreshSaga refresh) {
+        safeGetMeta().setRefresh(refresh);
+    }
+
+    public void addLoading(LoadingSaga loading) {
+        safeGetMeta().setLoading(loading);
+    }
+
+    public void addClear(String clearDatasource) {
+        safeGetMeta().setClear(clearDatasource);
+    }
+
+    private MetaSaga safeGetMeta() {
         if (getMeta() == null)
             setMeta(new MetaSaga());
-        getMeta().setDialog(dialog);
+        return getMeta();
     }
 }

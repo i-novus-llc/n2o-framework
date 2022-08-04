@@ -9,6 +9,9 @@ import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnHeaderCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.table.MultiColumnHeaderCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnHeaderCompiler;
+import net.n2oapp.framework.config.metadata.merge.widget.N2oFormMerger;
+import net.n2oapp.framework.config.metadata.merge.widget.N2oTableMerger;
+import net.n2oapp.framework.config.metadata.merge.widget.N2oWidgetMerger;
 
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override

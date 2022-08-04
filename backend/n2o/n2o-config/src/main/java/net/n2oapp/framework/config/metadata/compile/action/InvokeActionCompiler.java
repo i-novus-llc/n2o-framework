@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -16,11 +17,11 @@ import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.context.*;
+import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -30,7 +31,7 @@ import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.initClientDatasource;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Сборка действия вызова операции
@@ -51,7 +52,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         invokeAction.setType(getType(p));
 
         invokeAction.getPayload().setModel(getModelFromComponentScope(p));
-        invokeAction.getPayload().setDatasource(initClientDatasource(getLocalDatasource(p), p));
+        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
         invokeAction.getPayload().setWidgetId(getClientWidgetIdByComponentScope(p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
@@ -65,6 +66,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
     protected MetaSaga initSuccessMeta(InvokeAction compiled, N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga metaSaga = super.initSuccessMeta(compiled, source, context, p);
         metaSaga.setMessageWidgetId(getMessageWidgetId(compiled, context, source.getCloseOnSuccess() || source.getDoubleCloseOnSuccess()));
+        initClear(source, p, metaSaga);
         return metaSaga;
     }
 
@@ -81,15 +83,23 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
 
     protected void initDefaults(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setObjectId(p.cast(source.getObjectId(), () -> getDefaultObjectId(p)));
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
-        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
-        source.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
-        source.setMessagePosition(p.cast(source.getMessagePosition(), MessagePosition.fixed));
-        source.setMessagePlacement(p.cast(source.getMessagePlacement(), MessagePlacement.top));
+        initSubmitMessageDefaults(source, p, context);
         source.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
+        source.setClearOnSuccess(p.cast(source.getClearOnSuccess(), false));
+    }
+
+    private void initSubmitMessageDefaults(N2oInvokeAction source, CompileProcessor p, CompileContext<?, ?> context) {
+        Boolean submitOnSuccess = null;
+        Boolean submitOnFail = null;
+        if (source.getOperationId() != null && context instanceof PageContext) {
+            submitOnSuccess = ((PageContext) context).getSubmitMessageOnSuccess();
+            submitOnFail = ((PageContext) context).getSubmitMessageOnFail();
+        }
+        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), submitOnSuccess, true));
+        source.setMessageOnFail(p.cast(source.getMessageOnFail(), submitOnFail, true));
     }
 
     private String getMessageWidgetId(InvokeAction compiled, CompileContext<?, ?> context, boolean closeOnSuccess) {
@@ -110,8 +120,8 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         dataProvider.setId(source.getId());
         dataProvider.setOptimistic(source.getOptimistic());
         dataProvider.setTargetModel(targetWidgetModel);
-        dataProvider.setDatasourceId(getLocalDatasource(p));
-        dataProvider.setGlobalDatasourceId(initClientDatasource(dataProvider.getDatasourceId(), p));
+        dataProvider.setDatasourceId(getLocalDatasourceId(p));
+        dataProvider.setClientDatasourceId(getClientDatasourceId(dataProvider.getDatasourceId(), p));
         validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());
@@ -127,6 +137,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
         actionContextData.setObjectId(compiledObject.getId());
         actionContextData.setOperationId(source.getOperationId());
+        actionContextData.setClearDatasource(metaSaga.getSuccess().getClear());
         actionContextData.setRedirect(initServerRedirect(metaSaga));
         actionContextData.setRefresh(metaSaga.getSuccess().getRefresh());
         actionContextData.setParentWidgetId(metaSaga.getSuccess().getMessageWidgetId());
@@ -149,15 +160,15 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         if (source.getObjectId() != null) {
             compiledObject = p.getCompiled(new ObjectContext(source.getObjectId()));
         }
-        String localDatasource = getLocalDatasource(p);
+        String localDatasource = getLocalDatasourceId(p);
         if (compiledObject == null && localDatasource != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {
-                String objectId = dataSourcesScope.get(localDatasource).getObjectId();
+                String objectId = ((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getObjectId();
                 if (objectId != null) {
                     compiledObject = p.getCompiled(new ObjectContext(objectId));
-                } else if (dataSourcesScope.get(localDatasource).getQueryId() != null) {
-                    CompiledQuery query = p.getCompiled(new QueryContext(dataSourcesScope.get(localDatasource).getQueryId()));
+                } else if (((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getQueryId() != null) {
+                    CompiledQuery query = p.getCompiled(new QueryContext(((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getQueryId()));
                     compiledObject = query.getObject();
                 }
             }
@@ -186,6 +197,11 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
             if (routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
                 throw new N2oException(String.format("param \"%s\" duplicate in parent url ", pathParam.getName()));
         }
+    }
+
+    private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
+        if (source.getClearOnSuccess())
+            meta.setClear(getClientDatasourceId(getLocalDatasourceId(p), p));
     }
 
     private RedirectSaga initServerRedirect(AsyncMetaSaga meta) {

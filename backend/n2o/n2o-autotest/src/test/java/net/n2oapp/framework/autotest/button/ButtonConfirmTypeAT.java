@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -84,6 +85,7 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         page.alerts().alert(0).shouldHaveText("success");
     }
 
+    @Disabled//FIXME включить после реализации фронтенда https://jira.i-novus.ru/browse/NNO-8228
     @Test
     public void testCustomPopover() {
         StandardButton button = toolbar.bottomLeft().button("CustomPopover");
