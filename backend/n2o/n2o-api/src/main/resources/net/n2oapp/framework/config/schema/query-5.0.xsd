@@ -140,6 +140,11 @@
                         <xs:documentation>Тип данных</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="select" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Участвует ли поле в резолве плейсхолдера select</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="select-expression" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
@@ -148,6 +153,11 @@
                 <xs:attribute name="default-value" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="sorting" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Участвует ли поле в резолве плейсхолдера sorting</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="sorting-mapping" type="xs:string" use="optional">

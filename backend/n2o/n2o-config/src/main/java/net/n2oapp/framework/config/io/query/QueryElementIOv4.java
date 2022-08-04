@@ -45,19 +45,16 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "name", t::getName, t::setName);
-        p.element(e, "expression", t::getExpression, t::setExpression);
-        p.hasElement(e, "sorting", t::getHasSorting, t::setHasSorting);
+        p.hasElement(e, "sorting", t::getIsSorted, t::setIsSorted);
         p.element(e, "sorting", t::getSortingExpression, t::setSortingExpression);
         p.childAttribute(e, "sorting", "mapping", t::getSortingMapping, t::setSortingMapping);
-        p.hasElement(e, "select", t::getHasSelect, t::setHasSelect);
+        p.hasElement(e, "select", t::getIsSelected, t::setIsSelected);
         p.element(e, "select", t::getSelectExpression, t::setSelectExpression);
         p.childAttribute(e, "select", "default-value", t::getDefaultValue, t::setDefaultValue);
         p.childAttribute(e, "select", "mapping", t::getMapping, t::setMapping);
         p.childAttribute(e, "select", "normalize", t::getNormalize, t::setNormalize);
         p.childrenByEnum(e, "filters", t::getFilterList, t::setFilterList, N2oQuery.Filter::getType,
                 N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
-        p.hasElement(e, "join", t::getHasJoin, t::setHasJoin);
-        p.element(e, "join", t::getJoinBody, t::setJoinBody);
     }
 
     private void filter(Element e, N2oQuery.Filter t, IOProcessor p) {

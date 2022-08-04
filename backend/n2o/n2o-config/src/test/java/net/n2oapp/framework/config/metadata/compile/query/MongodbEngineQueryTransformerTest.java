@@ -45,15 +45,15 @@ public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
         assertThat(query.getFilters()[0].getText(), is("{ _id: new ObjectId('#id') }"));
 
         assertThat(query.getFields()[1].getId(), is("name"));
-        assertThat(((SimpleField) query.getFields()[1]).getSelectExpression(), is(":expression"));
+        assertThat(((SimpleField) query.getFields()[1]).getSelectExpression(), is("name"));
         assertThat(query.getFields()[1].getMapping(), nullValue());
-        assertThat(((SimpleField) query.getFields()[1]).getSortingExpression(), is(":expression :nameDirection"));
+        assertThat(((SimpleField) query.getFields()[1]).getSortingExpression(), is("name :nameDirection"));
         assertThat(query.getFilters()[1].getFieldId(), is("name"));
-        assertThat(query.getFilters()[1].getText(), is("{ ':expression': '#name' }"));
+        assertThat(query.getFilters()[1].getText(), is("{ 'name': '#name' }"));
         assertThat(query.getFilters()[2].getFieldId(), is("name"));
-        assertThat(query.getFilters()[2].getText(), is("{ ':expression': {$ne: '#notName' }}"));
+        assertThat(query.getFilters()[2].getText(), is("{ 'name': {$ne: '#notName' }}"));
         assertThat(query.getFilters()[3].getFieldId(), is("name"));
-        assertThat(query.getFilters()[3].getText(), is("{ ':expression': {$in: #userNameIn}}"));
+        assertThat(query.getFilters()[3].getText(), is("{ 'name': {$in: #userNameIn}}"));
 
         assertThat(((SimpleField) query.getFields()[2]).getSortingExpression(), is("age :sortUserAge"));
         assertThat(((SimpleField) query.getFields()[2]).getSortingMapping(), is("['sortUserAge']"));

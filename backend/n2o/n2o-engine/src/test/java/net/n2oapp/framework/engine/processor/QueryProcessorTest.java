@@ -27,6 +27,7 @@ import net.n2oapp.framework.config.metadata.compile.query.N2oQueryCompiler;
 import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.selective.SelectiveMetadataLoader;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
@@ -36,6 +37,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -58,6 +60,7 @@ public class QueryProcessorTest {
         queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
+        environment.setSystemProperties(new SimplePropertyResolver(new Properties()));
         environment.setReadPipelineFunction(p -> p.read());
         environment.setReadCompilePipelineFunction(p -> p.read().compile());
         environment.setCompilePipelineFunction(p -> p.compile());
@@ -71,6 +74,7 @@ public class QueryProcessorTest {
                         .add(new JavaDataProviderIOv1()))
                 .operations(new ReadOperation(), new CompileOperation(), new BindOperation(), new SourceTransformOperation())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
+                .properties("n2o.api.query.field.is_selected=true", "n2o.api.query.field.is_sorted=false")
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorV4Java.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorV4JavaMapping.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorUnique.query.xml"),

@@ -14,8 +14,6 @@ public class SimpleField extends AbstractField implements NameAware {
 
     private String name;
     private String domain;
-    @Deprecated
-    private String expression;
     private String sortingExpression;
     private String sortingMapping;
     private String selectExpression;
@@ -23,11 +21,8 @@ public class SimpleField extends AbstractField implements NameAware {
     @Deprecated
     private N2oQuery.Filter[] filterList;
 
-    private String joinBody;
-    private Boolean noSorting;
-    private Boolean noDisplay;
-
-    private Boolean noJoin;
+    private Boolean isSorted;
+    private Boolean isSelected;
 
     public SimpleField(SimpleField field) {
         super(field);
@@ -37,11 +32,8 @@ public class SimpleField extends AbstractField implements NameAware {
         this.sortingMapping = field.getSortingMapping();
         this.selectExpression = field.getSelectExpression();
         this.defaultValue = field.getDefaultValue();
-        this.joinBody = field.getJoinBody();
-        this.noSorting = field.getNoSorting();
-        this.noDisplay = field.getNoDisplay();
-        this.noJoin = field.getNoJoin();
-        this.expression= field.getExpression();
+        this.isSorted = field.getIsSorted();
+        this.isSelected = field.getIsSelected();
         this.filterList = field.getFilterList();
     }
 
@@ -50,29 +42,5 @@ public class SimpleField extends AbstractField implements NameAware {
     }
 
     public SimpleField() {
-    }
-
-    public Boolean getHasSorting() {
-        return noSorting == null ? null : !noSorting;
-    }
-
-    public void setHasSorting(Boolean hasSorting) {
-        this.noSorting = !hasSorting;
-    }
-
-    public Boolean getHasSelect() {
-        return noDisplay == null ? null : !noDisplay;
-    }
-
-    public void setHasSelect(Boolean hasDisplay) {
-        this.noDisplay = !hasDisplay;
-    }
-
-    public Boolean getHasJoin() {
-        return noJoin == null ? null : !noJoin;
-    }
-
-    public void setHasJoin(Boolean hasJoin) {
-        this.noJoin = !hasJoin;
     }
 }

@@ -67,7 +67,8 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "sorting-mapping", t::getSortingMapping, t::setSortingMapping);
         p.attribute(e, "select-expression", t::getSelectExpression, t::setSelectExpression);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
-        p.element(e, "join", t::getJoinBody, t::setJoinBody);
+        p.attributeBoolean(e, "select", t::getIsSelected, t::setIsSelected);
+        p.attributeBoolean(e, "sorting", t::getIsSorted, t::setIsSorted);
     }
 
     private void filter(Element e, N2oQuery.Filter t, IOProcessor p) {
