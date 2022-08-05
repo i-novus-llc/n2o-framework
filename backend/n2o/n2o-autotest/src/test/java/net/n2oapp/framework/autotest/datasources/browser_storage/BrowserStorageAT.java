@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.datasources.browser_storage;
 
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -17,8 +16,6 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 
 
 public class BrowserStorageAT extends AutoTestBase {
@@ -110,14 +107,5 @@ public class BrowserStorageAT extends AutoTestBase {
         button.click();
         Selenide.refresh();
         input.shouldHaveValue("test submit");
-    }
-
-    private void openNewWindow() {
-        WebDriver driver = WebDriverRunner.getWebDriver();
-        String currentUrl = driver.getCurrentUrl();
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.open()");
-        Selenide.switchTo().window(1);
-        Selenide.open(currentUrl);
     }
 }
