@@ -3,22 +3,21 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
+import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import org.springframework.stereotype.Component;
 
 /**
- * Связывание действия ссылки в PerformButton с данными
+ * Связывание полей ButtonField с данными
  */
 @Component
-public class PerformButtonBinder extends ActionComponentBinder<PerformButton> {
-
+public class ButtonFieldBinder extends ActionComponentBinder<ButtonField> {
     @Override
     public Class<? extends Compiled> getCompiledClass() {
-        return PerformButton.class;
+        return ButtonField.class;
     }
 
     @Override
-    public PerformButton bind(PerformButton compiled, BindProcessor p) {
+    public ButtonField bind(ButtonField compiled, BindProcessor p) {
         BadgeUtil.bindSimpleBadge(compiled.getBadge(), p);
         return super.bind(compiled, p);
     }
