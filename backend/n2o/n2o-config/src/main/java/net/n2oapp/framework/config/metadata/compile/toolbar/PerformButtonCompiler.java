@@ -100,10 +100,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
         source.setValidateDatasourceIds(initValidateDatasources(source, validate, datasource));
         source.setAction(initAction(source, p));
-
-        source.setConfirmType(p.cast(source.getConfirmType(), ConfirmType.modal));
-        source.setConfirmOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
-        source.setConfirmCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
     }
 
     private Boolean initValidate(N2oButton source, CompileProcessor p, String datasource) {
@@ -191,14 +187,19 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private Confirm initConfirm(N2oButton source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
-        confirm.setMode(source.getConfirmType());
+        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
         confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
-        confirm.setOkLabel(source.getConfirmOkLabel());
-        confirm.setCancelLabel(source.getConfirmCancelLabel());
+        confirm.setOk(new Confirm.Button(
+                p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")),
+                p.cast(source.getConfirmOkColor(), p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
+        confirm.setCancel(new Confirm.Button(
+                p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")),
+                p.cast(source.getConfirmCancelColor(), p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
         confirm.setText(initExpression(
                 p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
         confirm.setCondition(initConfirmCondition(condition));
-        confirm.setCloseButton(p.resolve(property("n2o.api.confirm.close_button"), Boolean.class));
+        confirm.setCloseButton(p.resolve(property("n2o.api.button.confirm.close_button"), Boolean.class));
+        confirm.setReverseButtons(p.resolve(property("n2o.api.button.confirm.reverse_buttons"), Boolean.class));
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);

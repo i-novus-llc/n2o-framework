@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -11,8 +12,10 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Тестирование компиляции ButtonField компонента
@@ -75,5 +78,27 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getId(), is("btn5"));
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getUrl(), is("`url`"));
+
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(6).getCols().get(0).getFields().get(0);
+        assertThat(field.getConfirm().getText(), is("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие."));
+        assertThat(field.getConfirm().getTitle(), is("Предупреждение"));
+        assertThat(field.getConfirm().getOk().getLabel(), is("Да"));
+        assertThat(field.getConfirm().getOk().getColor(), is("primary"));
+        assertThat(field.getConfirm().getCancel().getLabel(), is("Нет"));
+        assertThat(field.getConfirm().getCancel().getColor(), is("secondary"));
+        assertThat(field.getConfirm().getReverseButtons(), is(false));
+        assertThat(field.getConfirm().getCloseButton(), is(false));
+        assertThat(field.getConfirm().getMode(), is(ConfirmType.modal));
+
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
+        assertThat(field.getConfirm().getText(), is("Зарегистрировать заявление?"));
+        assertThat(field.getConfirm().getTitle(), is("Предупреждение"));
+        assertThat(field.getConfirm().getOk().getLabel(), is("Зарегистрировать"));
+        assertThat(field.getConfirm().getOk().getColor(), is("dark"));
+        assertThat(field.getConfirm().getCancel().getLabel(), is("Отмена"));
+        assertThat(field.getConfirm().getCancel().getColor(), is("light"));
+        assertThat(field.getConfirm().getReverseButtons(), is(false));
+        assertThat(field.getConfirm().getCloseButton(), is(false));
+        assertThat(field.getConfirm().getMode(), is(ConfirmType.modal));
     }
 }
