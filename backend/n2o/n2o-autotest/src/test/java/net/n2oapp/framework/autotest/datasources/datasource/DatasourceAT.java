@@ -279,7 +279,7 @@ public class DatasourceAT extends AutoTestBase {
     public void testSubmit() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
