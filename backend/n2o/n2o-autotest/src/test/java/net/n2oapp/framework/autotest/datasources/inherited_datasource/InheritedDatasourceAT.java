@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.inherited_datasource;
+package net.n2oapp.framework.autotest.datasources.inherited_datasource;
 
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;

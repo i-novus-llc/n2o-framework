@@ -1,13 +1,15 @@
-package net.n2oapp.framework.autotest.browser_storage;
+package net.n2oapp.framework.autotest.datasources.browser_storage;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -107,6 +109,7 @@ public class BrowserStorageAT extends AutoTestBase {
         select.shouldSelected("Иван Алексеев");
         checkboxGroup.shouldBeChecked("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
+        Selenide.closeWindow();
     }
 
 
@@ -177,6 +180,78 @@ public class BrowserStorageAT extends AutoTestBase {
         select.shouldSelected("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Иван Алексеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
+        Selenide.closeWindow();
+    }
+
+    /**
+     * Тестирование invoke и
+     * clear-after-invoke у localStorage
+     */
+    @Test
+    public void testInvokeLocal() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        InputText input = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).fields().field("Инпут").control(InputText.class);
+        Button button = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
+                .toolbar().bottomLeft().button("Отправить");
+
+        input.val("test");
+        button.click();
+        input.shouldBeEmpty();
+        table.columns().rows().row(0).cell(0).textShouldHave("1");
+        table.columns().rows().row(0).cell(1).textShouldHave("test");
+    }
+
+    /**
+     * Тестирование invoke и
+     * clear-after-invoke у sessionStorage
+     */
+    @Test
+    public void testInvokeSession() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        InputText input = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).fields().field("Инпут").control(InputText.class);
+        Button button = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
+                .toolbar().bottomLeft().button("Отправить");
+
+        input.val("test");
+        button.click();
+        input.shouldBeEmpty();
+        table.columns().rows().row(0).cell(0).textShouldHave("1");
+        table.columns().rows().row(0).cell(1).textShouldHave("test");
+    }
+
+    @Test
+    public void testSubmit() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/submit/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText input = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Инпут").control(InputText.class);
+        Button button = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .toolbar().bottomLeft().button("Submit");
+
+        input.shouldBeEmpty();
+        input.val("test submit");
+        Selenide.refresh();
+        input.shouldBeEmpty();
+        input.val("test submit");
+        button.click();
+        Selenide.refresh();
+        input.shouldHaveValue("test submit");
     }
 
     private void openNewWindow() {

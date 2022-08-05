@@ -1,5 +1,6 @@
-package net.n2oapp.framework.autotest.datasource;
+package net.n2oapp.framework.autotest.datasources.datasource;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
@@ -268,5 +269,29 @@ public class DatasourceAT extends AutoTestBase {
         table.columns().rows().row(0).click();
         id.shouldHaveValue("1");
         name.shouldHaveValue("test1");
+    }
+
+    /**
+     * Тестирование действия Submit
+     */
+    // TODO: дополнить после реализации  refresh у submit
+    @Test
+    public void testSubmit() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        InputText name   = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).fields().field("name").control(InputText.class);
+        Button button = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).toolbar().bottomLeft().button("Создать");
+
+        name.val("submit-test");
+        button.click();
+        Selenide.refresh();
+        table.columns().rows().row(0).cell(1).textShouldHave("submit-test");
     }
 }

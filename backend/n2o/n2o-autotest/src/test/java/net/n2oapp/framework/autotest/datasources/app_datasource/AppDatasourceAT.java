@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.app_datasource;
+package net.n2oapp.framework.autotest.datasources.app_datasource;
 
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
