@@ -9,7 +9,7 @@ import { compose, setDisplayName } from 'recompose'
 import classNames from 'classnames'
 
 import { makeRegionTabsSelector } from '../../../ducks/regions/store'
-import SecurityController, { Behavior } from '../../../core/auth/SecurityController'
+import { SecurityController, Behavior } from '../../../core/auth/SecurityController'
 import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
