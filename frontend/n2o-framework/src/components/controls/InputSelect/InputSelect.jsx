@@ -760,7 +760,6 @@ InputSelect.defaultProps = {
     valueFieldId: 'id',
     labelFieldId: 'name',
     iconFieldId: 'icon',
-    imageFieldId: 'image',
     badge: {
         fieldId: 'badge',
     },
