@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 
+import java.io.Serializable;
+
 /**
  * Клиентская модель источника, хранящего данные в браузере
  */
@@ -19,7 +21,7 @@ public class BrowserStorageDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Provider {
+    public static class Provider implements Serializable {
         @JsonProperty
         private String type = "browser";
         @JsonProperty
@@ -30,7 +32,7 @@ public class BrowserStorageDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Submit {
+    public static class Submit implements Serializable {
         @JsonProperty
         private String type = "browser";
         @JsonProperty

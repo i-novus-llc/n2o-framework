@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class StompDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Provider {
+    public static class Provider implements Serializable {
         @JsonProperty
         private String type;
         @JsonProperty

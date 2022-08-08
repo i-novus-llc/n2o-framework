@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 
+import java.io.Serializable;
+
 /**
  * Клиентская модель источника данных, получающего данные из другого источника данных
  */
@@ -21,7 +23,7 @@ public class InheritedDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Provider {
+    public static class Provider implements Serializable {
         @JsonProperty
         private String type = "inherited";
         @JsonProperty
@@ -34,7 +36,7 @@ public class InheritedDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Submit {
+    public static class Submit implements Serializable {
         @JsonProperty
         private String type = "inherited";
         @JsonProperty
