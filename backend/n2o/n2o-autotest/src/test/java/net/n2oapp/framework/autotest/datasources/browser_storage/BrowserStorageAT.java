@@ -82,13 +82,7 @@ public class BrowserStorageAT extends AutoTestBase {
         checkboxGroup.shouldBeChecked("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
 
-        WebDriver driver = WebDriverRunner.getWebDriver();
-        String currentUrl = driver.getCurrentUrl();
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.open()");
-        Selenide.switchTo().window(1);
-        Selenide.open(currentUrl);
-
+        openPage();
         input.shouldHaveValue("test browser-storage");
         inputDef.shouldBeEmpty();
         select.shouldSelected("Иван Алексеев");
@@ -111,6 +105,7 @@ public class BrowserStorageAT extends AutoTestBase {
 
         Selenide.switchTo().window(0);
         Selenide.refresh();
+        page.shouldExists();
         input.shouldHaveValue("test local-storage");
         inputDef.shouldHaveValue("test local-storage");
         select.shouldSelected("Петр Сергеев");
@@ -158,13 +153,7 @@ public class BrowserStorageAT extends AutoTestBase {
         checkboxGroup.shouldBeChecked("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
 
-        WebDriver driver = WebDriverRunner.getWebDriver();
-        String currentUrl = driver.getCurrentUrl();
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.open()");
-        Selenide.switchTo().window(1);
-        Selenide.open(currentUrl);
-
+        openPage();
         input.shouldHaveValue("test browser-storage");
         inputDef.shouldBeEmpty();
         select.shouldSelected("Иван Алексеев");
@@ -268,5 +257,14 @@ public class BrowserStorageAT extends AutoTestBase {
         Selenide.refresh();
         input.shouldHaveValue("test submit");
         Selenide.clearBrowserLocalStorage();
+    }
+
+    private void openPage() {
+        WebDriver driver = WebDriverRunner.getWebDriver();
+        String currentUrl = driver.getCurrentUrl();
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.open()");
+        Selenide.switchTo().window(1);
+        Selenide.open(currentUrl);
     }
 }
