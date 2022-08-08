@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 import { userLogin, userLogout as userLogoutAction } from '../../ducks/user/store'
 
-import SecurityController from './SecurityController'
+import { SecurityController } from './SecurityController'
 
 class Login extends React.Component {
     constructor(props) {
@@ -57,7 +57,7 @@ const LoginContainer = connect(
 const AuthButton = ({ userLogout }) => (
     /* eslint-disable react/jsx-one-expression-per-line */
     <SecurityController>
-        {({ hasAccess, user }) => (hasAccess
+        {({ hasAccess, user }) => (hasAccess && user
             // eslint-disable-next-line react/button-has-type
             ? <p>Привет, {user.username}! <button onClick={userLogout}>Выйти</button></p>
             : <LoginContainer />)}
