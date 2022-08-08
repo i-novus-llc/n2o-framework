@@ -4,6 +4,7 @@ import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
@@ -243,8 +244,30 @@ public class DatasourceAT extends AutoTestBase {
      * Тестирование copy зависимости
      */
     @Test
-    public void testCopyDepend() {
+    public void testSimpleCopyDepend() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText source = page.regions().region(0, SimpleRegion.class).content()
+                .widget(0, FormWidget.class).fields().field("text1").control(InputText.class);
+        OutputText copy = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).fields().field("text2").control(OutputText.class);
+
+        source.val("test");
+        copy.shouldHaveValue("test");
+        source.clear();
+        copy.shouldBeEmpty();
+    }
+
+    /**
+     * Тестирование copy зависимости
+     * форма берет данные выбранной записи в таблице
+     */
+    @Test
+    public void testCopyDepend() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/resolve/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

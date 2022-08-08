@@ -106,6 +106,7 @@ public class BrowserStorageAT extends AutoTestBase {
         Selenide.switchTo().window(0);
         Selenide.refresh();
         page.shouldExists();
+        page.titleShouldHaveText("test");
         input.shouldHaveValue("test local-storage");
         inputDef.shouldHaveValue("test local-storage");
         select.shouldSelected("Петр Сергеев");
