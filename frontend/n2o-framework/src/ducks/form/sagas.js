@@ -5,6 +5,7 @@ import set from 'lodash/set'
 import values from 'lodash/values'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
+import first from 'lodash/first'
 import { isEmpty } from 'lodash'
 
 import { setModel, copyModel, clearModel } from '../models/store'
@@ -12,13 +13,14 @@ import {
     makeGetModelByPrefixSelector,
     modelsSelector,
 } from '../models/selectors'
-import { makeDatasourceIdSelector, makeWidgetByIdSelector, makeFormModelPrefixSelector } from '../widgets/selectors'
+import { makeDatasourceIdSelector } from '../widgets/selectors'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
+import { ModelPrefix } from '../../core/datasource/const'
 
-import { formsSelector } from './selectors'
+import { makeFormsByDatasourceSelector } from './selectors'
 import {
     setRequired,
     unsetRequired,
@@ -95,14 +97,24 @@ function* setFocus({ payload }) {
     }
 }
 
-export function* clearForm(action) {
+export function* clearForm({ payload }) {
     /*
     * FIXME: ХАК для быстрого фикса. Разобраться
     * если дёргать ресет формы разу после очистки модели, то форма сетает первый введёный в ней символ
     * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
     */
+    const { prefixes, key } = payload
+    const formWidgets = yield select(makeFormsByDatasourceSelector(payload.key))
+
     yield delay(50)
-    yield put(reset(action.payload.key))
+
+    for (const formWidget of formWidgets) {
+        const modelPrefix = get(formWidget, ['form', 'modelPrefix'], ModelPrefix.active)
+
+        if (includes(prefixes, modelPrefix)) {
+            yield put(reset(key))
+        }
+    }
 }
 
 /* TODO перенести в саги datasource
@@ -134,15 +146,8 @@ export const formPluginSagas = [
 
         const { id: datasource, fields } = payload
         const keys = Object.keys(fields)
-        const forms = yield select(formsSelector)
 
-        for (const formName of Object.keys(forms)) {
-            const widget = yield select(makeWidgetByIdSelector(formName))
-
-            if (datasource === widget?.datasource) {
-                yield put(touch(formName, ...keys))
-            }
-        }
+        yield put(touch(datasource, ...keys))
     }),
     debounce(100, [
         actionTypes.CHANGE,
@@ -150,11 +155,11 @@ export const formPluginSagas = [
         setRequired.type,
         unsetRequired.type,
     ], function* validateSaga({ meta }) {
-        const { form, field } = meta
-        const datasource = yield select(makeDatasourceIdSelector(form))
-        const currentFormPrefix = yield select(makeFormModelPrefixSelector(form))
+        const { form: datasource, field } = meta
+        const form = first(yield select(makeFormsByDatasourceSelector(datasource)))
+        const currentFormPrefix = get(form, ['form', 'modelPrefix'], ModelPrefix.active)
 
-        if (datasource) {
+        if (form) {
             /* blurValidation is used in the setFocus saga,
              this is needed to observing the field validation type */
             yield put(startValidate(datasource, [field], currentFormPrefix, { blurValidation: true }))
