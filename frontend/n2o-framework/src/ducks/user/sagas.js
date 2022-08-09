@@ -1,5 +1,5 @@
-import { push, replace } from 'connected-react-router'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { replace } from 'connected-react-router'
+import { call, put, takeEvery, select } from 'redux-saga/effects'
 
 import {
     SECURITY_LOGIN,
@@ -8,14 +8,29 @@ import {
 } from '../../core/auth/authTypes'
 import { FETCH_ERROR } from '../../constants/fetch'
 import { fetchErrorContinue } from '../../actions/fetch'
+import { getAuthUrl } from '../global/store'
 
 import { userLoginSuccess, userLogoutSuccess } from './store'
 import { USER_LOGIN, USER_LOGOUT } from './constants'
 
+const DEFAULT_AUTH_URL = '/login'
+
+function* redirectOnUnauthorized(authUrl) {
+    const isUrlExternal = /(https?:\/\/\S+)/g.test(authUrl)
+
+    if (isUrlExternal) {
+        window.location = authUrl
+    } else {
+        yield put(replace(authUrl))
+    }
+}
+
 export function* resolveAuth(
-    { authProvider, redirectPath, externalLoginUrl },
+    { authProvider, authUrl = DEFAULT_AUTH_URL },
     { type, payload },
 ) {
+    const configAuthUrl = yield select(getAuthUrl)
+
     switch (type) {
         case USER_LOGIN:
             try {
@@ -30,11 +45,7 @@ export function* resolveAuth(
         case USER_LOGOUT:
             yield call(authProvider, SECURITY_LOGOUT)
             yield put(userLogoutSuccess())
-            if (externalLoginUrl) {
-                window.location = externalLoginUrl
-            } else {
-                yield put(replace(redirectPath || '/login'))
-            }
+            yield call(redirectOnUnauthorized, configAuthUrl || authUrl)
 
             break
         case FETCH_ERROR:
@@ -43,11 +54,7 @@ export function* resolveAuth(
                 yield put(fetchErrorContinue())
             } catch (e) {
                 yield call(authProvider, SECURITY_LOGOUT)
-                if (externalLoginUrl) {
-                    window.location = externalLoginUrl
-                } else {
-                    yield put(push(redirectPath || '/login'))
-                }
+                yield call(redirectOnUnauthorized, configAuthUrl || authUrl)
             }
 
             break

@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.io.control.v3;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.ComponentIO;
@@ -41,8 +42,8 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
                 .add("fetch-value", N2oField.FetchValueDependency.class, this::fetchValueDependency));
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
         p.attributeEnum(e, "ref-model", m::getRefModel, m::setRefModel, ReduxModel.class);
-        p.attributeEnum(e, "ref-page", m::getRefPage, m::setRefPage, N2oField.Page.class);
-        p.attribute(e, "ref-datasource", m::getRefDatasource, m::setRefDatasource);
+        p.attributeEnum(e, "ref-page", m::getRefPage, m::setRefPage, PageRef.class);
+        p.attribute(e, "ref-datasource", m::getRefDatasourceId, m::setRefDatasourceId);
         p.attribute(e, "ref-field-id", m::getRefFieldId, m::setRefFieldId);
     }
 
@@ -72,7 +73,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.attributeBoolean(e, "reset-on-change", pf::getResetOnChange, pf::setResetOnChange);
-        p.attribute(e, "datasource", pf::getDatasource, pf::setDatasource);
+        p.attribute(e, "datasource", pf::getDatasourceId, pf::setDatasourceId);
         p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModel.class);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
         p.attribute(e, "param", pf::getParam, pf::setParam);

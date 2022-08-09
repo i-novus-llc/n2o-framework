@@ -36,8 +36,8 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private String defaultValue;
     private String param;
     private ReduxModel refModel;
-    private Page refPage;
-    private String refDatasource;
+    private PageRef refPage;
+    private String refDatasourceId;
     private String refFieldId;
 
     private N2oToolbar toolbar;
@@ -45,12 +45,12 @@ public abstract class N2oField extends N2oComponent implements IdAware {
 
     @Deprecated
     public String getRefWidgetId() {
-        return refDatasource;
+        return refDatasourceId;
     }
 
     @Deprecated
     public void setRefWidgetId(String refWidgetId) {
-        this.refDatasource = refWidgetId;
+        this.refDatasourceId = refWidgetId;
     }
 
     /**
@@ -107,24 +107,6 @@ public abstract class N2oField extends N2oComponent implements IdAware {
         private N2oValidation[] inlineValidations;
         private String[] whiteList;
 
-    }
-
-    public enum Page implements IdAware {
-        THIS {
-            @Override
-            public String getId() {
-                return "this";
-            }
-        }, PARENT() {
-            @Override
-            public String getId() {
-                return "parent";
-            }
-        };
-
-        @Override
-        public void setId(String id) {
-        }
     }
 
     @Getter

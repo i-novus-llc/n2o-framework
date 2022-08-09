@@ -36,6 +36,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private static final String RESPONSE_DATA_KEY = "data";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
+    private final Pattern placeholderStringEscapePattern = Pattern.compile("\\$\\$\\$\\w+");
+    private static final String ESCAPE_SYMBOLS = "\\\"";
 
     @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
@@ -199,12 +201,19 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         }
 
         Set<String> placeholderKeys = extractPlaceholderKeys(query);
+        Set<String> escapeStringPlaceholders = extractEscapeStringPlaceholder(query);
         for (Map.Entry<String, Object> entry : args.entrySet()) {
-            String placeholder = "$$" + entry.getKey();
-            String value = placeholderKeys.contains(placeholder) ?
-                    (String) entry.getValue() :
-                    toGraphQlString(entry.getValue());
-            query = replacePlaceholder(query, placeholder, value, "");
+            String placeholder = "$$".concat(entry.getKey());
+            String value;
+            if (escapeStringPlaceholders.contains(entry.getKey())) {
+                placeholder = "$".concat(placeholder);
+                value = ESCAPE_SYMBOLS + entry.getValue() + ESCAPE_SYMBOLS;
+            } else {
+                value = placeholderKeys.contains(entry.getKey()) ?
+                        (String) entry.getValue() :
+                        toGraphQlString(entry.getValue());
+            }
+            query = replacePlaceholder(query, placeholder, value, "null");
         }
 
         log.debug("Execute GraphQL query: " + query);
@@ -253,7 +262,17 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      * @return Множество ключей-плейсхолдеров
      */
     private Set<String> extractPlaceholderKeys(String query) {
-        return extract(query, placeholderKeyPattern, (s, m) -> s.substring(m.start(), m.end() - 1).trim());
+        return extract(query, placeholderKeyPattern, (s, m) -> s.substring(m.start() + 2, m.end() - 1).trim());
+    }
+
+    /**
+     * Получение множества экранированных строковых плейсхолдеров
+     *
+     * @param query Строка GraphQl запроса
+     * @return Множество экранированных строковых плейсхолдеров
+     */
+    private Set<String> extractEscapeStringPlaceholder(String query) {
+        return extract(query, placeholderStringEscapePattern, (s, m) -> s.substring(m.start() + 3, m.end()));
     }
 
     /**

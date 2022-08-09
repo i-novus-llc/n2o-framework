@@ -19,6 +19,7 @@ describe('exportTable', () => {
             dispatch,
             widgetId: 'testWidget',
             state: {
+                datasource: {},
                 form: {
                     exportTableForm: {
                         values: {},

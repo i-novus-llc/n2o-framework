@@ -31,7 +31,6 @@ import {
     combineModels,
     setModel,
     copyModel,
-    syncModel,
     removeModel,
     updateModel,
     updateMapModel,
@@ -40,7 +39,7 @@ import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import linkResolver from '../../utils/linkResolver'
-import { changeRootPage, rootPageSelector } from '../global/store'
+import { setGlobalLoading, changeRootPage, rootPageSelector } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
 
 import { makePageRoutesByIdSelector } from './selectors'
@@ -177,6 +176,8 @@ export function* getMetadata(apiProvider, action) {
     let url = pageUrl
 
     try {
+        yield put(setGlobalLoading(true))
+
         const { search } = yield select(getLocation)
         let resolveProvider = {}
 
@@ -223,6 +224,7 @@ export function* getMetadata(apiProvider, action) {
                 pageId,
                 {
                     title: err.status ? err.status : 'Ошибка',
+                    status: err.status,
                     text: err.message,
                     closeButton: false,
                     severity: 'danger',
@@ -230,6 +232,8 @@ export function* getMetadata(apiProvider, action) {
                 err.json && err.json.meta ? err.json.meta : {},
             ),
         )
+    } finally {
+        yield put(setGlobalLoading(false))
     }
 }
 
@@ -290,7 +294,6 @@ export function* flowDefaultModels(config) {
         const modelsChan = yield actionChannel([
             setModel.type,
             copyModel.type,
-            syncModel.type,
             removeModel.type,
             updateModel.type,
             updateMapModel.type,

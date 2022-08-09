@@ -29,7 +29,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
         super.io(e, b, p);
         p.attribute(e, "action-id", b::getActionId, b::setActionId);
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
-        p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasources, b::setValidateDatasources);
+        p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasourceIds, b::setValidateDatasourceIds);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
 
@@ -38,7 +38,9 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
         p.attributeEnum(e, "confirm-type", b::getConfirmType, b::setConfirmType, ConfirmType.class);
         p.attribute(e, "confirm-title", b::getConfirmTitle, b::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", b::getConfirmOkLabel, b::setConfirmOkLabel);
+        p.attribute(e, "confirm-ok-color", b::getConfirmOkColor, b::setConfirmOkColor);
         p.attribute(e, "confirm-cancel-label", b::getConfirmCancelLabel, b::setConfirmCancelLabel);
+        p.attribute(e, "confirm-cancel-color", b::getConfirmCancelColor, b::setConfirmCancelColor);
 
         p.attribute(e, "visible", b::getVisible, b::setVisible);
         p.attribute(e, "enabled", b::getEnabled, b::setEnabled);

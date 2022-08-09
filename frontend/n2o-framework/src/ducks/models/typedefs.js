@@ -1,8 +1,4 @@
 /**
- * @namespace ModelsStore
- */
-
-/**
  * ModelsStore item
  * @typedef {Object.<string, any>} ModelsStore.item
  */
@@ -25,14 +21,6 @@
  * @typedef ModelsStore.removeModelPayload
  * @property {string} prefix
  * @property {string | number} key
- */
-
-/**
- * Payload для SYNC
- * @typedef ModelsStore.syncModelPayload
- * @property {string} prefix
- * @property {string[]} keys
- * @property {object} model
  */
 
 /**

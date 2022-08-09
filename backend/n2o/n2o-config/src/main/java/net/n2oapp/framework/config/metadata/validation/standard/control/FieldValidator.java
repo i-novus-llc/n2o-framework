@@ -4,11 +4,11 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
@@ -52,7 +52,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      * @param source Поле
      */
     private void checkDefaultValues(N2oField source) {
-        if ((source.getRefPage() != null || source.getRefDatasource() != null || source.getRefModel() != null)
+        if ((source.getRefPage() != null || source.getRefDatasourceId() != null || source.getRefModel() != null)
                 && source.getRefFieldId() == null)
             if (source instanceof N2oListField) {
                 N2oListField list = (N2oListField) source;
@@ -65,7 +65,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                 if (!StringUtils.isLink(interval.getBegin()) && !StringUtils.isLink(interval.getEnd()))
                     throw new N2oMetadataValidationException(
                             String.format("У поля %s default-value не является ссылкой", source.getId()));
-            } else if (!StringUtils.isLink(source.getDefaultValue()) ) {
+            } else if (!StringUtils.isLink(source.getDefaultValue())) {
                 throw new N2oMetadataValidationException(
                         String.format("У поля %s атрибут default-value не является ссылкой или не задан: %s",
                                 source.getId(), source.getDefaultValue()));
@@ -102,19 +102,21 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
 
     /**
      * Проверка существования ссылки на источник данных поля
-     * @param source           Поле
+     *
+     * @param source             Поле
      * @param datasourceIdsScope Скоуп источников данных
      */
     private void checkRefDatasource(N2oField source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getRefDatasource() != null && N2oField.Page.THIS.equals(source.getRefPage())) {
-            ValidationUtils.checkForExistsDatasource(source.getRefDatasource(), datasourceIdsScope,
+        if (source.getRefDatasourceId() != null && PageRef.THIS.equals(source.getRefPage())) {
+            ValidationUtils.checkForExistsDatasource(source.getRefDatasourceId(), datasourceIdsScope,
                     String.format("В ссылке на источник данных поля %s содержится несуществующий источник данных '%s'",
-                            source.getId(), source.getRefDatasource()));
+                            source.getId(), source.getRefDatasourceId()));
         }
     }
 
     /**
      * Проверка наличия ссылки на корректный источник данных у виджета при наличии white-list валидации на поле
+     *
      * @param source      Поле с white-list валидацией
      * @param widgetScope Скоуп виджета, в котором находится поле
      * @param p           Процессор исходных метаданных
@@ -132,6 +134,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
 
     /**
      * Проверка внутреннего источника данных у виджета, в котором находится поле
+     *
      * @param source      Поле
      * @param widgetScope Скоуп виджета, в котором находится поле
      */
@@ -141,6 +144,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
 
     /**
      * Проверка наличия ссылки на источник данных у виджета, в котором находится поле
+     *
      * @param source      Поле
      * @param widgetScope Скоуп виджета, в котором находится поле
      * @param p           Процессор исходных метаданных
@@ -153,17 +157,18 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()))
             );
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-        if (dataSourcesScope != null)
-            checkDatasourceObject(source, dataSourcesScope.get(widgetScope.getDatasourceId()), widgetScope);
+        if (dataSourcesScope != null && dataSourcesScope.get(widgetScope.getDatasourceId()) instanceof N2oStandardDatasource)
+            checkDatasourceObject(source, (N2oStandardDatasource) dataSourcesScope.get(widgetScope.getDatasourceId()), widgetScope);
     }
 
     /**
      * Проверка наличия атрибута object у указанного в виджете источника данных
+     *
      * @param source      Поле
      * @param datasource  Источник данных
      * @param widgetScope Скоуп виджета, в котором находится поле
      */
-    private void checkDatasourceObject(N2oField source, N2oDatasource datasource, WidgetScope widgetScope) {
+    private void checkDatasourceObject(N2oField source, N2oStandardDatasource datasource, WidgetScope widgetScope) {
         if (datasource.getObjectId() == null)
             throw new N2oMetadataValidationException(
                     String.format("Для компиляции поля %s виджета %s необходимо указать объект источника данных %s",

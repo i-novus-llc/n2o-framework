@@ -1,46 +1,13 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
 import PropTypes from 'prop-types'
-
-import { WithDataSource } from '../../core/datasource/WithDataSource'
-import { addComponent, register } from '../../ducks/datasource/store'
 
 import { resolveItems } from './utils'
 
 export const withItemsResolver = (Component) => {
-    const WithItemsResolver = WithDataSource((props) => {
-        const dispatch = useDispatch()
-        const { menu, extraMenu, datasources, datasource, models, fetchData, queryKey, value, force } = props
-        const datasourceIsEmpty = !datasources || !datasource
+    const WithItemsResolver = (props) => {
+        const { menu, extraMenu, datasources, datasource, models } = props
 
-        useEffect(() => {
-            if (datasourceIsEmpty) {
-                return
-            }
-
-            let config = { ...datasources[datasource] }
-
-            config = {
-                ...config,
-                provider: {
-                    ...config.provider,
-                    queryMapping: {
-                        ...config.provider.queryMapping,
-                        [`${datasource}_${queryKey}`]: {
-                            ...config.provider.queryMapping[`${datasource}_${queryKey}`],
-                            value,
-                        },
-                    },
-                },
-            }
-
-            dispatch(register(datasource, config))
-            dispatch(addComponent(datasource, datasource))
-            fetchData({}, force)
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [value])
-
-        if (datasourceIsEmpty) {
+        if (!datasources || !datasource) {
             return <Component {...props} />
         }
 
@@ -57,13 +24,15 @@ export const withItemsResolver = (Component) => {
                 extraMenu={{ ...extraMenu, items: resolvedExtraItems }}
             />
         )
-    })
+    }
 
     WithItemsResolver.propTypes = {
+        datasources: PropTypes.object,
         datasource: PropTypes.string,
         menu: PropTypes.object,
         fetchData: PropTypes.func,
         models: PropTypes.object,
+        extraMenu: PropTypes.object,
     }
 
     return WithItemsResolver

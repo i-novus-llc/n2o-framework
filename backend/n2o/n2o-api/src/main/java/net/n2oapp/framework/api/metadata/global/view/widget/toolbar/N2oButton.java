@@ -24,7 +24,7 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     private Boolean validate;
     private String datasourceId;
     private ReduxModel model;
-    private String[] validateDatasources;
+    private String[] validateDatasourceIds;
     private N2oAction action;
 
     private String confirm;
@@ -32,7 +32,9 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     private String confirmText;
     private String confirmTitle;
     private String confirmOkLabel;
+    private String confirmOkColor;
     private String confirmCancelLabel;
+    private String confirmCancelColor;
     private DisableOnEmptyModelType disableOnEmptyModel;
 
     private Dependency[] dependencies;

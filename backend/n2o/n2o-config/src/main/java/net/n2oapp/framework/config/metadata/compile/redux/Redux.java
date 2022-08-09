@@ -9,7 +9,8 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.*;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Взаимодействие c Redux моделями
@@ -154,9 +155,7 @@ public abstract class Redux {
     public static ModelLink linkParam(N2oParam param, CompileProcessor p) {
         Object value = ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            ModelLink link = new ModelLink(param.getModel(),
-                    pageScope == null ? param.getDatasource() : pageScope.getClientDatasourceId(param.getDatasource()));
+            ModelLink link = new ModelLink(param.getModel(), getClientDatasourceId(param.getDatasourceId(), p));
             link.setValue(value);
             return link;
         } else {

@@ -31,7 +31,7 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attributeBoolean(e, "validate", m::getValidate, m::setValidate);
-        p.attributeArray(e, "validate-datasources", ",", m::getValidateDatasources, m::setValidateDatasources);
+        p.attributeArray(e, "validate-datasources", ",", m::getValidateDatasourceIds, m::setValidateDatasourceIds);
         p.attribute(e, "action-id", m::getActionId, m::setActionId);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
         p.attributeBoolean(e, "rounded", m::getRounded, m::setRounded);
@@ -41,7 +41,9 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attributeEnum(e, "confirm-type", m::getConfirmType, m::setConfirmType, ConfirmType.class);
         p.attribute(e, "confirm-title", m::getConfirmTitle, m::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", m::getConfirmOkLabel, m::setConfirmOkLabel);
+        p.attribute(e, "confirm-ok-color", m::getConfirmOkColor, m::setConfirmOkColor);
         p.attribute(e, "confirm-cancel-label", m::getConfirmCancelLabel, m::setConfirmCancelLabel);
+        p.attribute(e, "confirm-cancel-color", m::getConfirmCancelColor, m::setConfirmCancelColor);
 
         p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
         p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);

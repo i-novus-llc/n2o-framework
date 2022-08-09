@@ -57,17 +57,18 @@ public class XsdSchemaParser {
      * @throws IOException
      */
     public Resource getSchema(String schemaNamespace) throws IOException {
-        return prepareSchema(schemaNamespace);
+        return prepareSchema(schemaNamespace, new HashSet<>());
     }
 
     /**
      * Получение ресурса схемы и ее преобразование в случае, если она содержит зависимости на другие схемы
      *
-     * @param schemaNamespace Неймспейс схемы
+     * @param schemaNamespace            Неймспейс схемы
+     * @param preparedResourceNamespaces Неймспейсы преобразованных схем
      * @return XSD схема
      * @throws IOException
      */
-    private Resource prepareSchema(String schemaNamespace) throws IOException {
+    private Resource prepareSchema(String schemaNamespace, Set<String> preparedResourceNamespaces) throws IOException {
         String schemaName = getSchemaNameByNamespace(schemaNamespace);
 
         if (resourceBySchemaName.containsKey(schemaName))
@@ -86,9 +87,11 @@ public class XsdSchemaParser {
             else {
                 Map<String, List<String>> definitionRowsByName = new HashMap<>();
                 for (String namespace : schemaNamespacesByAlias.values()) {
-                    Resource subSchema = prepareSchema(namespace);
+                    if (preparedResourceNamespaces.contains(namespace))
+                        continue;
+                    preparedResourceNamespaces.add(namespace);
+                    Resource subSchema = prepareSchema(namespace, preparedResourceNamespaces);
                     fillSchemaDefinitions(subSchema, definitionRowsByName);
-                    continue;
                 }
 
                 Resource mergedSchema = mergeSchemas(linesList, definitionRowsByName, schemaName, schemaNamespacesByAlias);

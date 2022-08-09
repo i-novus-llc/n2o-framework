@@ -3,6 +3,7 @@ import {
     fork,
     put,
     select,
+    takeEvery,
     throttle,
 } from 'redux-saga/effects'
 import isFunction from 'lodash/isFunction'
@@ -13,12 +14,12 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import merge from 'deepmerge'
 
-import { START_INVOKE } from '../constants/actionImpls'
+import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
 import {
     widgetsSelector,
 } from '../ducks/widgets/selectors'
 import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
-import { validate as validateDatasource } from '../core/datasource/validate'
+import { validate as validateDatasource } from '../core/validation/validate'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
@@ -28,8 +29,8 @@ import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { resolveButton } from '../ducks/toolbar/sagas'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
-import { MODEL_PREFIX } from '../core/datasource/const'
-import { failValidate } from '../ducks/datasource/store'
+import { ModelPrefix } from '../core/datasource/const'
+import { failValidate, submit } from '../ducks/datasource/store'
 
 import fetchSaga from './fetch'
 
@@ -185,7 +186,7 @@ export function* handleInvoke(apiProvider, action) {
         const { submitForm } = dataProvider
 
         if (!optimistic && submitForm) {
-            const newModel = modelPrefix === MODEL_PREFIX.selected ? response.data?.$list : response.data
+            const newModel = modelPrefix === ModelPrefix.selected ? response.data?.$list : response.data
 
             if (!isEqual(model, newModel)) {
                 yield put(
@@ -198,7 +199,7 @@ export function* handleInvoke(apiProvider, action) {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        const errorMeta = err?.json?.meta
+        const errorMeta = err?.json?.meta || {}
 
         yield* handleFailInvoke(
             action.meta.fail || {},
@@ -239,5 +240,10 @@ export function* handleInvoke(apiProvider, action) {
 
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
-    throttle(500, START_INVOKE, handleInvoke, apiProvider),
+    takeEvery(START_INVOKE, handleInvoke, apiProvider),
+    takeEvery(SUBMIT, function* submitSaga({ payload }) {
+        const { datasource } = payload
+
+        yield put(submit(datasource))
+    }),
 ]

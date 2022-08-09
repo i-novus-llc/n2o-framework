@@ -16,7 +16,7 @@ import { makePageRoutesByIdSelector } from '../pages/selectors'
 import { getLocation, rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
-import { routesQueryMapping } from '../datasource/sagas/routesQueryMapping'
+import { routesQueryMapping } from '../datasource/Providers/service/routesQueryMapping'
 import { makeDatasourceIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
 import { failValidate, startValidate, dataRequest } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
@@ -40,12 +40,12 @@ export function* tabTraversal(action, tabs, regionId, form, param = null, option
     let isTargetFormInTabs = false
 
     for (const { content, id: tabId } of tabs) {
-        for (const { id, tabs: childrenTabs } of content) {
+        for (const { datasource, tabs: childrenTabs } of content) {
             if (childrenTabs) {
                 return tabTraversal(action, childrenTabs, regionId, form, param)
             }
 
-            if (id === form) {
+            if (datasource === form) {
                 isTargetFormInTabs = true
 
                 if (action) {

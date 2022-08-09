@@ -22,7 +22,7 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
     private ReduxModel model;
     private String color;
     private Boolean validate;
-    private String[] validateDatasources;
+    private String[] validateDatasourceIds;
     private String tooltipPosition;
     private Boolean rounded;
 
@@ -31,7 +31,9 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
     private String confirmText;
     private String confirmTitle;
     private String confirmOkLabel;
+    private String confirmOkColor;
     private String confirmCancelLabel;
+    private String confirmCancelColor;
 
     @Deprecated
     public String getWidgetId() {

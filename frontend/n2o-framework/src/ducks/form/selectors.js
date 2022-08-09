@@ -1,8 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
+import filter from 'lodash/filter'
 
 import { dataSourceFieldError } from '../datasource/selectors'
-import { makeDatasourceIdSelector, makeFormModelPrefixSelector } from '../widgets/selectors'
+import { makeFormModelPrefixSelector, widgetsSelector } from '../widgets/selectors'
 
 /**
  * селектор для редакс-форм
@@ -60,11 +61,10 @@ export const isInitSelector = (formName, fieldName) => createSelector(
     field => field.isInit,
 )
 
-export const messageSelector = (formName, fieldName) => createSelector(
-    makeDatasourceIdSelector(formName),
-    makeFormModelPrefixSelector(formName),
+export const messageSelector = (datasourceId, fieldName) => createSelector(
+    makeFormModelPrefixSelector(datasourceId),
     state => state,
-    (datasourceId, prefix, state) => {
+    (prefix, state) => {
         if (!datasourceId) {
             return undefined
         }
@@ -101,4 +101,10 @@ export const loadingSelector = (formName, fieldName) => createSelector(
 export const formValueSelector = (formName, fieldName) => createSelector(
     makeFormByName(formName),
     form => get(form, `values.${fieldName}`, []),
+)
+
+// Селектор получения всех форм по datasource
+export const makeFormsByDatasourceSelector = datasource => createSelector(
+    widgetsSelector,
+    widgets => filter(widgets, widgetState => widgetState.datasource === datasource && widgetState.form),
 )

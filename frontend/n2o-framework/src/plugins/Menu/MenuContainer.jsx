@@ -35,108 +35,59 @@ export class MenuContainer extends React.Component {
             sidebarExtraItems,
         } = this.props
 
-        const {
-            headerItems: prevHeaderItems,
-            headerExtraItems: prevHeaderExtraItems,
-            sidebarItems: prevSidebarItems,
-            sidebarExtraItems: prevSidebarExtraItems,
-            user: prevPropsUser,
-        } = prevProps
+        const notEqualHeaderItems = !isEqual(headerItems, prevProps.headerItems)
+        const notEqualHeaderExtraItems = !isEqual(headerExtraItems, prevProps.headerExtraItems)
+        const notEqualSidebarItems = !isEqual(sidebarItems, prevProps.sidebarItems)
+        const notEqualSidebarExtraItems = !isEqual(sidebarExtraItems, prevProps.sidebarExtraItems)
+        const notEqualUser = !isEqual(user, prevProps.user)
 
-        if (
-            !isEqual(headerItems, prevHeaderItems) ||
-            !isEqual(headerExtraItems, prevHeaderExtraItems) ||
-            !isEqual(sidebarItems, prevSidebarItems) ||
-            !isEqual(sidebarExtraItems, prevSidebarExtraItems) ||
-            !isEqual(user, prevPropsUser)
+        if (notEqualHeaderItems ||
+            notEqualHeaderExtraItems ||
+            notEqualSidebarItems ||
+            notEqualSidebarExtraItems ||
+            notEqualUser
         ) {
             await this.getItemsWithAccess()
         }
     }
 
-    giveAccess = (newItem, type, parentId, isChildren) => {
-        /* isChildren dropdown children items */
-        if (isChildren) {
-            this.setState((prevState) => {
-                const resolvedItems = prevState[type]
+     makeSecure = async (items) => {
+         const resolvedItems = []
 
-                const nextResolvedItems = resolvedItems.map((item) => {
-                    const { id } = item
+         if (Array.isArray(items) && !isEmpty(items)) {
+             for (const item of items) {
+                 const resolvedItem = await this.checkItem(item)
 
-                    if (id === parentId) {
-                        const { items = [] } = item
-
-                        return {
-                            ...item,
-                            items: items.concat(newItem),
-                        }
-                    }
-
-                    return item
-                })
-
-                return {
-                    ...prevState,
-                    [type]: nextResolvedItems,
-                }
-            })
-
-            return
-        }
-
-        /* init state items, this is necessary for deep verification */
-        const finalItem = newItem.type === 'dropdown'
-            ? { ...newItem, items: [] }
-            : newItem
-
-        this.setState(prevState => ({
-            ...prevState,
-            [type]: prevState[type].concat(finalItem),
-        }))
-    }
-
-     checkItem = async (item, type, parentId, isChildren = false) => {
-         const { id, items } = item
-
-         /* if the item is the parent, take its id (item.id)  */
-         const currentId = parentId || id
-
-         if (item.security) {
-             const { checkSecurity } = this.props
-             const config = item.security
-
-             try {
-                 await checkSecurity(config)
-
-                 this.giveAccess(item, type, currentId, isChildren)
-             } catch (error) {
-                 console.error(error)
-                 /* nothing to do */
-             }
-         } else {
-             this.giveAccess(item, type, currentId, isChildren)
-         }
-
-         if (items) {
-             for (const subItem of items) {
-                 await this.checkItem(subItem, type, currentId, true)
-             }
-         }
-     }
-
-     makeSecure = async (headerItems, headerExtraItems, sidebarItems, sidebarExtraItems) => {
-         const makeSecure = async (items, type) => {
-             if (Array.isArray(items) && !isEmpty(items)) {
-                 for (const item of items) {
-                     await this.checkItem(item, type)
+                 if (resolvedItem) {
+                     resolvedItems.push(resolvedItem)
                  }
              }
          }
 
-         await makeSecure(headerItems, 'headerItems')
-         await makeSecure(headerExtraItems, 'headerExtraItems')
-         await makeSecure(sidebarItems, 'sidebarItems')
-         await makeSecure(sidebarExtraItems, 'sidebarExtraItems')
+         return resolvedItems
+     }
+
+     checkItem = async (item) => {
+         const { checkSecurity } = this.props
+         const { security, items } = item
+
+         // проверка на секьюру родителя, если не прошел дальше нет смысла идти
+         if (!isEmpty(security)) {
+             try {
+                 await checkSecurity(security)
+             } catch (err) {
+                 return null
+             }
+         }
+
+         if (!isEmpty(items)) {
+             return {
+                 ...item,
+                 items: await this.makeSecure(items),
+             }
+         }
+
+         return item
      }
 
       getItemsWithAccess = async () => {
@@ -147,8 +98,12 @@ export class MenuContainer extends React.Component {
               sidebarExtraItems,
           } = this.props
 
-          await this.setState({ ...initialItems })
-          await this.makeSecure(headerItems, headerExtraItems, sidebarItems, sidebarExtraItems)
+          this.setState({
+              headerItems: await this.makeSecure(headerItems),
+              headerExtraItems: await this.makeSecure(headerExtraItems),
+              sidebarItems: await this.makeSecure(sidebarItems),
+              sidebarExtraItems: await this.makeSecure(sidebarExtraItems),
+          })
       }
 
       mapRenderProps = () => {
@@ -229,12 +184,14 @@ export const ConfigContainer = compose(
         const { header, sidebars = [] } = configProps
         const { location: { pathname } } = rest
 
-        const sidebar = getMatchingSidebar(sidebars, pathname)
+        const sidebar = getMatchingSidebar(sidebars, pathname) || {}
+
+        const { path } = sidebar
 
         return {
             ...rest,
             ...configProps,
-            sidebar,
+            sidebar: { ...sidebar, id: `Sidebar:${path}` },
             headerItems: get(header, 'menu.items') || [],
             headerExtraItems: get(header, 'extraMenu.items') || [],
             sidebarItems: get(sidebar, 'menu.items') || [],

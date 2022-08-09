@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -27,6 +26,7 @@ import java.util.ArrayList;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция простого заголовка таблицы
@@ -62,16 +62,12 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setResizable(source.getResizable());
         header.setFixed(source.getFixed());
 
-        String defaultDatasource = null;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null)
-            defaultDatasource = widgetScope.getDatasourceId();
 
-        PageScope pageScope = p.getScope(PageScope.class);
         if (isLink(source.getVisible())) {
             Condition condition = new Condition();
             condition.setExpression(unwrapLink(source.getVisible()));
-            String datasourceId = pageScope.getClientDatasourceId(defaultDatasource);
+            String datasourceId = widgetScope.getClientDatasourceId();
             condition.setModelLink(new ModelLink(ReduxModel.filter, datasourceId).getBindLink());
             if (!header.getConditions().containsKey(ValidationType.visible)) {
                 header.getConditions().put(ValidationType.visible, new ArrayList<>());
@@ -82,12 +78,11 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
         if (source.getColumnVisibilities() != null) {
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
-                String datasourceId = p.cast(visibility.getDatasourceId(), defaultDatasource);
-                String datasource = pageScope.getClientDatasourceId(datasourceId);
+                String datasourceId = getClientDatasourceId(p.cast(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);
                 ReduxModel refModel = p.cast(visibility.getModel(), ReduxModel.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
-                condition.setModelLink(new ModelLink(refModel, datasource).getBindLink());
+                condition.setModelLink(new ModelLink(refModel, datasourceId).getBindLink());
                 if (!header.getConditions().containsKey(ValidationType.visible)) {
                     header.getConditions().put(ValidationType.visible, new ArrayList<>());
                 }
@@ -96,11 +91,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
 
         CompiledQuery query = p.getScope(CompiledQuery.class);
-        if (query != null && query.getFieldsMap().containsKey(source.getTextFieldId())) {
-            header.setLabel(p.cast(source.getLabelName(), query.getFieldsMap().get(source.getTextFieldId()).getName()));
-        } else {
-            header.setLabel(source.getLabelName());
-        }
+        header.setLabel(initLabel(source, query));
         if (query != null && query.getFieldsMap().containsKey(source.getSortingFieldId())) {
             boolean sortable = !query.getFieldsMap().get(source.getSortingFieldId()).getNoSorting();
             if (sortable) {
@@ -111,5 +102,13 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setProperties(p.mapAttributes(source));
 
         return header;
+    }
+
+    private String initLabel(T source, CompiledQuery query) {
+        if (source.getLabelName() != null)
+            return source.getLabelName();
+        if (query != null && query.getFieldsMap().containsKey(source.getTextFieldId()))
+            return query.getFieldsMap().get(source.getTextFieldId()).getName();
+        return source.getTextFieldId();
     }
 }

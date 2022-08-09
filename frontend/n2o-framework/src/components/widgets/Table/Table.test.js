@@ -175,9 +175,11 @@ describe('Тесты hasSelect и hasFocus', () => {
         const wrapper = setup({ hasFocus: true, hasSelect: true })
         const row = wrapper.find('tbody tr').at(1)
         row.simulate('click')
-        expect(row.type().toLowerCase()).toEqual(
-            document.activeElement.tagName.toLowerCase(),
-        )
+        setTimeout(() => {
+            expect(row.type().toLowerCase()).toEqual(
+                document.activeElement.tagName.toLowerCase(),
+            )
+        }, 16)
     })
 
     it('проверяет, что при клике TableRow  находится в фокусе при hasFocus == false', () => {

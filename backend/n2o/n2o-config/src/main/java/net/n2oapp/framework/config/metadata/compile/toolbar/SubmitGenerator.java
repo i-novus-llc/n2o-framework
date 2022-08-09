@@ -48,11 +48,10 @@ public class SubmitGenerator implements ButtonGenerator {
             case copy: {
                 N2oCopyAction copyAction = new N2oCopyAction();
                 copyAction.setSourceModel(pageContext.getCopyModel());
-                copyAction.setSourceDatasource(pageContext.getCopyDatasource());
-                copyAction.setSourceDatasource(pageContext.getCopyDatasource());
+                copyAction.setSourceDatasourceId(pageContext.getCopyDatasourceId());
                 copyAction.setSourceFieldId(pageContext.getCopyFieldId());
                 copyAction.setTargetModel(pageContext.getTargetModel());
-                copyAction.setTargetDatasource(pageContext.getTargetDatasourceId());
+                copyAction.setTargetDatasourceId(pageContext.getTargetDatasourceId());
                 copyAction.setTargetClientPageId(pageContext.getParentClientPageId());
                 copyAction.setTargetFieldId(pageContext.getTargetFieldId());
                 copyAction.setMode(pageContext.getCopyMode());
