@@ -24,7 +24,7 @@
         </table>
         <form id="form"  datasource="ds1">
             <fields>
-                <input-text id="input" label="Инпут"/>
+                <input-text id="input" label="Тест"/>
             </fields>
             <toolbar place="bottomLeft">
                 <button label="Отправить" confirm-text="Зарегистрировать обращение?" datasource="ds1">
