@@ -6,7 +6,7 @@ import {
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
-import { clearModel, removeAllModel, removeModel, setModel } from '../models/store'
+import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -71,7 +71,7 @@ export default () => [
     takeEvery(startValidate, validateSaga),
     takeEvery(submit, submitSaga),
     takeEvery(remove, removeSaga),
-    takeEvery([setModel, removeModel, removeAllModel, clearModel], watchDependencies),
+    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.refresh?.datasources, function* refreshSage({ meta }) {
         const { refresh } = meta
