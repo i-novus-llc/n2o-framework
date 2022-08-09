@@ -3,9 +3,8 @@ package net.n2oapp.framework.api.metadata.datasource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-
-import java.io.Serializable;
 
 /**
  * Клиентская модель источника, хранящего данные в браузере
@@ -21,7 +20,7 @@ public class BrowserStorageDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Provider implements Serializable {
+    public static class Provider implements Compiled {
         @JsonProperty
         private String type = "browser";
         @JsonProperty
@@ -32,7 +31,7 @@ public class BrowserStorageDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Submit implements Serializable {
+    public static class Submit implements Compiled {
         @JsonProperty
         private String type = "browser";
         @JsonProperty
