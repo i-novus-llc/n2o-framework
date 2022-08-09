@@ -37,7 +37,7 @@ public class ModelLinkEquivalenceTest {
         assertTrue(withSubModelQuery1.equalsLink(modelLink3));
         assertTrue(withSubModelQuery1.equalsLink(modelLink4));
 
-        assertFalse(withSubModelQuery2.equalsLink(modelLink1));
+        assertTrue(withSubModelQuery2.equalsLink(modelLink1));
         assertFalse(withSubModelQuery2.equalsLink(modelLink2));
         assertFalse(withSubModelQuery2.equalsLink(modelLink3));
         assertFalse(withSubModelQuery2.equalsLink(modelLink4));
@@ -47,7 +47,7 @@ public class ModelLinkEquivalenceTest {
         assertTrue(modelLink3.equalsLink(withSubModelQuery1));
         assertTrue(modelLink4.equalsLink(withSubModelQuery1));
 
-        assertFalse(modelLink1.equalsLink(withSubModelQuery2));
+        assertTrue(modelLink1.equalsLink(withSubModelQuery2));
         assertFalse(modelLink2.equalsLink(withSubModelQuery2));
         assertFalse(modelLink3.equalsLink(withSubModelQuery2));
         assertFalse(modelLink4.equalsLink(withSubModelQuery2));

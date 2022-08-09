@@ -163,14 +163,14 @@ public class ModelLink extends BindLink {
                     return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".") && thatFieldId != null;
                 return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
             }
-            return false;
+            return this.getBindLink().equals(that.getBindLink());
         } else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length()) {
             if (that.getValue() == null && this.getValue() == null) {
                 if (this.getSubModelQuery() != null || that.getSubModelQuery() != null)
                     return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".") && thisFieldId != null;
                 return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".");
             }
-            return false;
+            return this.getBindLink().equals(that.getBindLink());
         } else
             return thisSubModelQueryLink.equals(thatSubModelQueryLink);
     }
