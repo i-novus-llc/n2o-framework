@@ -4,7 +4,7 @@ import { WithDataSourceTypes } from '../datasource/propTypes'
 import { WithDataSource as DataSourceHOC } from '../datasource/WithDataSource'
 
 import { FETCH_TYPE } from './const'
-import { DataSourceContext } from './context'
+import { DataSourceContext, METHODS } from './context'
 
 export const WithDatasourceLifeCycle = (Component) => {
     class WithDatasourceLifeCycle extends React.Component {
@@ -83,7 +83,9 @@ export const WithDataSource = (Component) => {
             return <WithDataSource {...props} />
         }
 
+        const models = { datasource: [], resolve: {}, multi: [], edit: {}, filter: {} }
+
         // without datasource
-        return <Component {...props} loading={false} page={1} count={0} size={0} />
+        return <Component {...props} loading={false} page={1} count={0} size={0} models={models} {...METHODS} />
     }
 }
