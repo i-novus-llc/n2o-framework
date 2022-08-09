@@ -65,7 +65,25 @@ export const WithDatasourceLifeCycle = (Component) => {
 
     WithDatasourceLifeCycle.propTypes = WithDataSourceTypes
 
+    WithDatasourceLifeCycle.contextType = DataSourceContext
+
     return WithDatasourceLifeCycle
 }
 
-export const WithDataSource = Component => DataSourceHOC(WithDatasourceLifeCycle(Component))
+const WithSource = Component => DataSourceHOC(WithDatasourceLifeCycle(Component))
+
+export const WithDataSource = (Component) => {
+    const WithDataSource = WithSource(Component)
+
+    return (props) => {
+        // eslint-disable-next-line react/prop-types
+        const { datasource } = props
+
+        if (datasource) {
+            return <WithDataSource {...props} />
+        }
+
+        // without datasource
+        return <Component {...props} loading={false} page={1} count={0} size={0} />
+    }
+}
