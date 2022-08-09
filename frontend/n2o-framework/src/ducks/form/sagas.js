@@ -13,7 +13,6 @@ import {
     makeGetModelByPrefixSelector,
     modelsSelector,
 } from '../models/selectors'
-import { makeDatasourceIdSelector } from '../widgets/selectors'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { setTabInvalid } from '../regions/store'
@@ -123,8 +122,7 @@ export function* clearForm({ payload }) {
  */
 export function* autoSubmit({ meta }) {
     const { form, field } = meta
-    const datasourceId = yield select(makeDatasourceIdSelector(form))
-    const datasource = yield select(dataSourceByIdSelector(datasourceId))
+    const datasource = yield select(dataSourceByIdSelector(form))
 
     if (isEmpty(datasource)) { return }
 
@@ -133,7 +131,7 @@ export function* autoSubmit({ meta }) {
         : datasource.fieldsSubmit[field]
 
     if (!isEmpty(provider)) {
-        yield put(submit(datasourceId, provider))
+        yield put(submit(form, provider))
     }
 }
 
