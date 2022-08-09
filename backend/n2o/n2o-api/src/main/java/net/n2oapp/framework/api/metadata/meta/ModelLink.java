@@ -20,7 +20,7 @@ public class ModelLink extends BindLink {
     /**
      * Клиентский идентификатор источника данных
      */
-     private String datasource;
+    private String datasource;
     /**
      * Идентификатор поля
      */
@@ -158,15 +158,19 @@ public class ModelLink extends BindLink {
         thatSubModelQueryLink = createBindLink(that.getModel(), that.getDatasource(), thatFieldId);
 
         if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length()) {
-            if (that.getValue() == null && this.getValue() == null
-                    && (this.getSubModelQuery() != null || that.getSubModelQuery() != null))
-                return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".") && thatFieldId != null;
-            return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
+            if (that.getValue() == null && this.getValue() == null) {
+                if (this.getSubModelQuery() != null || that.getSubModelQuery() != null)
+                    return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".") && thatFieldId != null;
+                return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
+            }
+            return false;
         } else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length()) {
-            if (that.getValue() == null && this.getValue() == null
-                    && (this.getSubModelQuery() != null || that.getSubModelQuery() != null))
-                return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".") && thisFieldId != null;
-            return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".");
+            if (that.getValue() == null && this.getValue() == null) {
+                if (this.getSubModelQuery() != null || that.getSubModelQuery() != null)
+                    return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".") && thisFieldId != null;
+                return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".");
+            }
+            return false;
         } else
             return thisSubModelQueryLink.equals(thatSubModelQueryLink);
     }

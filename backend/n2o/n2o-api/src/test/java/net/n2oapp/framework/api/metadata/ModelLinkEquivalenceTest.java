@@ -29,29 +29,28 @@ public class ModelLinkEquivalenceTest {
         ModelLink modelLink1 = new ModelLink(ReduxModel.resolve, "widget");
         modelLink1.setValue("`field.name`");
         ModelLink modelLink2 = new ModelLink(ReduxModel.resolve, "widget", "field");
-        modelLink2.setValue("`name`");
         ModelLink modelLink3 = new ModelLink(ReduxModel.resolve, "widget", "field.name");
         ModelLink modelLink4 = new ModelLink(ReduxModel.resolve, "widget", "field");
 
-        assertTrue(withSubModelQuery1.equalsLink(modelLink1));
+        assertFalse(withSubModelQuery1.equalsLink(modelLink1));
         assertTrue(withSubModelQuery1.equalsLink(modelLink2));
         assertTrue(withSubModelQuery1.equalsLink(modelLink3));
         assertTrue(withSubModelQuery1.equalsLink(modelLink4));
 
-        assertTrue(withSubModelQuery2.equalsLink(modelLink1));
-        assertTrue(withSubModelQuery2.equalsLink(modelLink2));
-        assertTrue(withSubModelQuery2.equalsLink(modelLink3));
-        assertTrue(withSubModelQuery2.equalsLink(modelLink4));
+        assertFalse(withSubModelQuery2.equalsLink(modelLink1));
+        assertFalse(withSubModelQuery2.equalsLink(modelLink2));
+        assertFalse(withSubModelQuery2.equalsLink(modelLink3));
+        assertFalse(withSubModelQuery2.equalsLink(modelLink4));
 
-        assertTrue(modelLink1.equalsLink(withSubModelQuery1));
+        assertFalse(modelLink1.equalsLink(withSubModelQuery1));
         assertTrue(modelLink2.equalsLink(withSubModelQuery1));
         assertTrue(modelLink3.equalsLink(withSubModelQuery1));
         assertTrue(modelLink4.equalsLink(withSubModelQuery1));
 
-        assertTrue(modelLink1.equalsLink(withSubModelQuery2));
-        assertTrue(modelLink2.equalsLink(withSubModelQuery2));
-        assertTrue(modelLink3.equalsLink(withSubModelQuery2));
-        assertTrue(modelLink4.equalsLink(withSubModelQuery2));
+        assertFalse(modelLink1.equalsLink(withSubModelQuery2));
+        assertFalse(modelLink2.equalsLink(withSubModelQuery2));
+        assertFalse(modelLink3.equalsLink(withSubModelQuery2));
+        assertFalse(modelLink4.equalsLink(withSubModelQuery2));
 
         assertTrue(modelLink3.equalsLink(modelLink4));
     }
