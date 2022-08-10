@@ -58,6 +58,7 @@ describe('Проверка MenuContainer', () => {
     it('проверка  items', async () => {
         const wrapper = setup({
             checkSecurity: (config) => {
+
                 if (!config.page.permissions.includes('test')) {
                     throw new Error()
                 }
@@ -67,21 +68,19 @@ describe('Проверка MenuContainer', () => {
             },
         })
 
-        await wrapper.instance().checkItem(
-            {
-                id: 'test1',
-                href: '/google.com',
-                label: 'button',
-                security: {
-                    page: {
-                        permissions: ['test'],
-                    },
+        const hasAccessItem = {
+            id: 'test1',
+            href: '/google.com',
+            label: 'button',
+            security: {
+                page: {
+                    permissions: ['test'],
                 },
             },
-            'headerItems',
-        )
+        }
 
-        await wrapper.instance().checkItem(
+        expect(await wrapper.instance().checkItem(hasAccessItem)).toBe(hasAccessItem)
+        expect(await wrapper.instance().checkItem(
             {
                 id: 'test1',
                 href: '/google.com',
@@ -92,25 +91,7 @@ describe('Проверка MenuContainer', () => {
                     },
                 },
             },
-            'headerItems',
-        )
-        expect(wrapper.state()).toEqual({
-            headerItems: [
-                {
-                    id: 'test1',
-                    href: '/google.com',
-                    label: 'button',
-                    security: {
-                        page: {
-                            permissions: ['test'],
-                        },
-                    },
-                },
-            ],
-            headerExtraItems: [],
-            sidebarItems: [],
-            sidebarExtraItems: [],
-        })
+        )).toBe(null)
     })
 
     it('проверка  extraItems', async () => {
@@ -124,22 +105,19 @@ describe('Проверка MenuContainer', () => {
                 permissions: ['test'],
             },
         })
-
-        await wrapper.instance().checkItem(
-            {
-                id: 'test1',
-                href: '/google.com',
-                label: 'button',
-                security: {
-                    page: {
-                        permissions: ['test'],
-                    },
+        const hasAccessItem = {
+            id: 'test1',
+            href: '/google.com',
+            label: 'button',
+            security: {
+                page: {
+                    permissions: ['test'],
                 },
             },
-            'headerExtraItems',
-        )
+        }
 
-        await wrapper.instance().checkItem(
+        expect(await wrapper.instance().checkItem(hasAccessItem)).toEqual(hasAccessItem)
+        expect(await wrapper.instance().checkItem(
             {
                 id: 'test1',
                 href: '/google.com',
@@ -151,24 +129,7 @@ describe('Проверка MenuContainer', () => {
                 },
             },
             'headerExtraItems',
-        )
-        expect(wrapper.state()).toEqual({
-            headerExtraItems: [
-                {
-                    id: 'test1',
-                    href: '/google.com',
-                    label: 'button',
-                    security: {
-                        page: {
-                            permissions: ['test'],
-                        },
-                    },
-                },
-            ],
-            headerItems: [],
-            sidebarItems: [],
-            sidebarExtraItems: [],
-        })
+        )).toBe(null)
     })
 
     it('проверка вложенных items, доступен с ролью admin', async () => {
@@ -192,33 +153,26 @@ describe('Проверка MenuContainer', () => {
             },
         })
 
-        await wrapper.instance().checkItem(dropdownItem, 'headerItems')
-
-        expect(wrapper.state()).toEqual({
-            headerExtraItems: [],
-            headerItems: [{
-                'id': 'mi1',
-                'title': 'Доступ',
-                'items': [
-                    {
-                        'id': '2',
-                        'title': 'роль admin',
-                        'href': '/2',
-                        'linkType': 'inner',
-                        'type': 'link',
-                        'security': {
-                            'custom': {
-                                'roles': [
-                                    'admin',
-                                ],
-                            },
+        expect(await wrapper.instance().checkItem(dropdownItem)).toEqual({
+            'id': 'mi1',
+            'title': 'Доступ',
+            'items': [
+                {
+                    'id': '2',
+                    'title': 'роль admin',
+                    'href': '/2',
+                    'linkType': 'inner',
+                    'type': 'link',
+                    'security': {
+                        'custom': {
+                            'roles': [
+                                'admin',
+                            ],
                         },
                     },
-                ],
-                'type': 'dropdown',
-            }],
-            sidebarItems: [],
-            sidebarExtraItems: [],
+                }
+            ],
+            'type': 'dropdown',
         })
     })
 })

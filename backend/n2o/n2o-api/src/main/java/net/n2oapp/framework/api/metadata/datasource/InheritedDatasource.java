@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 
 /**
@@ -21,7 +22,7 @@ public class InheritedDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Provider {
+    public static class Provider implements Compiled {
         @JsonProperty
         private String type = "inherited";
         @JsonProperty
@@ -34,7 +35,7 @@ public class InheritedDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Submit {
+    public static class Submit implements Compiled {
         @JsonProperty
         private String type = "inherited";
         @JsonProperty

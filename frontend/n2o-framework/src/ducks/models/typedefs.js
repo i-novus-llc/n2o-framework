@@ -24,14 +24,6 @@
  */
 
 /**
- * Payload для SYNC
- * @typedef ModelsStore.syncModelPayload
- * @property {string} prefix
- * @property {string[]} keys
- * @property {object} model
- */
-
-/**
  * Payload для UPDATE
  * @typedef ModelsStore.updateModelPayload
  * @property {string} prefix

@@ -1,5 +1,6 @@
 import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import type { IValidationResult } from '../../core/validation/IValidation'
+import { IActionMeta } from '../../sagas/types'
 
 import type { DataSourceState } from './DataSource'
 import type { IProvider, ISubmit, QueryResult } from './Provider'
@@ -88,4 +89,4 @@ export type SetFieldSubmitAction = DatasourceAction<{
 export type SubmitAction = DatasourceAction<{
     id: string
     provider?: ISubmit
-}>
+}, IActionMeta>

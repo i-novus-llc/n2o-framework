@@ -35,4 +35,10 @@ public class Dialog implements Compiled {
     @JsonProperty
     private Toolbar toolbar;
 
+    /**
+     * Ссылка на модель
+     */
+    @JsonProperty
+    private String modelLink;
+
 }

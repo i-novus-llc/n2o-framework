@@ -28,6 +28,7 @@ export default {
     pageNotFound: 'Страница не найдена',
     accessDenied: 'Доступ запрещён',
     innerAppError: 'Внутренняя ошибка приложения',
+    badGateway: 'Неверный ответ от восходящего сервера',
     routerError:
         'Нужно добавить {{page}} в компонент {{n2o}} или включить {{embeddedRouting}}.',
     pagesNotConfigured: 'Страницы не настроены',

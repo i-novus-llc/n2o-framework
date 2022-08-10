@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
-import net.n2oapp.framework.config.util.CompileUtil;
+import net.n2oapp.framework.config.util.DatasourceUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +52,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                     N2oStandardDatasource.FetchDependency dependency = (N2oStandardDatasource.FetchDependency) d;
                     Dependency fetchDependency = new Dependency();
                     ModelLink link = new ModelLink(p.cast(dependency.getModel(), ReduxModel.resolve),
-                            CompileUtil.getClientDatasourceId(dependency.getOn(), p));
+                            DatasourceUtil.getClientDatasourceId(dependency.getOn(), p));
                     fetchDependency.setOn(link.getBindLink());
                     fetchDependency.setType(DependencyType.fetch);
                     dependencies.add(fetchDependency);
@@ -60,7 +60,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                     N2oStandardDatasource.CopyDependency dependency = (N2oStandardDatasource.CopyDependency) d;
                     CopyDependency copyDependency = new CopyDependency();
                     ModelLink link = new ModelLink(p.cast(dependency.getSourceModel(), ReduxModel.resolve),
-                            CompileUtil.getClientDatasourceId(dependency.getOn(), p), dependency.getSourceFieldId());
+                            DatasourceUtil.getClientDatasourceId(dependency.getOn(), p), dependency.getSourceFieldId());
                     copyDependency.setOn(link.getBindLink());
                     copyDependency.setModel(p.cast(dependency.getTargetModel(), ReduxModel.resolve));
                     copyDependency.setField(dependency.getTargetFieldId());

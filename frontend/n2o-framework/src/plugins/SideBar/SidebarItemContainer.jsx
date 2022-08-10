@@ -5,7 +5,6 @@ import map from 'lodash/map'
 
 import { getFromSource } from '../Header/SimpleHeader/NavItemContainer'
 import { id as generateId } from '../../utils/id'
-import { WithDataSource } from '../../core/datasource/WithDataSource'
 
 import SidebarDropdown from './SidebarDropdown'
 import { ItemType } from './utils'
@@ -138,4 +137,4 @@ SidebarItemContainer.propTypes = {
     models: PropTypes.object,
 }
 
-export default WithDataSource(SidebarItemContainer)
+export default SidebarItemContainer

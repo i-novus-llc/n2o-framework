@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -46,7 +47,7 @@ import java.util.function.Supplier;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -59,11 +60,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setRefPage(p.cast(source.getRefPage(), N2oField.Page.THIS));
+        source.setRefPage(p.cast(source.getRefPage(), PageRef.THIS));
         source.setRefDatasourceId(p.cast(source.getRefDatasourceId(), () -> {
-            if (source.getRefPage().equals(N2oField.Page.THIS)) {
+            if (source.getRefPage().equals(PageRef.THIS)) {
                 return initLocalDatasourceId(p);
-            } else if (source.getRefPage().equals(N2oField.Page.PARENT)) {
+            } else if (source.getRefPage().equals(PageRef.PARENT)) {
                 if (context instanceof PageContext) {
                     return ((PageContext) context).getParentLocalDatasourceId();
                 } else {
@@ -460,7 +461,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
-            } else if (N2oField.Page.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
+            } else if (PageRef.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
                 ModelLink modelLink = getDefaultValueModelLink(source, context, p);
                 modelLink.setParam(source.getParam());
                 defaultValues.add(control.getId(), modelLink);
@@ -526,7 +527,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 
-        if (N2oField.Page.THIS.equals(source.getRefPage()))
+        if (PageRef.THIS.equals(source.getRefPage()))
             defaultValue.setObserve(true);
 
         return defaultValue;
