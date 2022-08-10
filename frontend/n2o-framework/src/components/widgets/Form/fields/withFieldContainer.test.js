@@ -49,7 +49,15 @@ describe('withFieldContainer', () => {
             },
         }
 
-        const { store } = setupToProvider(testPropsData)
+        const { store } = setupToProvider(testPropsData, {
+            datasource: {
+                'formName': {
+                    errors: {
+                        resolve: {}
+                    }
+                }
+            }
+        })
 
         expect(store.getActions()[0]).toEqual(
             registerFieldExtra('formName', 'testName', {
