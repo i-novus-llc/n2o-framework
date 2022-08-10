@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
-import { getFormValues } from 'redux-form'
+import { getFormValues, initialize } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -15,7 +15,7 @@ import ReduxForm from './ReduxForm'
 const fakeInitial = {}
 
 export const mapStateToProps = createStructuredSelector({
-    reduxFormValues: (state, props) => getFormValues(props.id)(state) || {},
+    reduxFormValues: (state, { datasource, id }) => getFormValues(datasource || id)(state) || {},
 })
 
 /*
@@ -38,7 +38,7 @@ class Container extends React.Component {
     }
 
     componentDidUpdate({ models: prevModels, reduxFormValues: prevValues }) {
-        const { models, reduxFormValues, form, setResolve } = this.props
+        const { models, reduxFormValues, form, setResolve, dispatch, id, datasource: datasourceId } = this.props
         const { initialValues } = this.state
         const { datasource } = models
         const { modelPrefix } = form
@@ -71,6 +71,7 @@ class Container extends React.Component {
             this.setState({ initialValues: fakeInitial })
         } else if (initialValues === fakeInitial) {
             this.setState({ initialValues: cloneDeep(activeModel) })
+            dispatch(initialize(datasourceId || id, initialValues))
         }
     }
 
@@ -102,12 +103,12 @@ class Container extends React.Component {
 
     render() {
         const { initialValues, fields } = this.state
-        const { id, form, models } = this.props
+        const { id, form, models, datasource } = this.props
         const activeModel = this.getActiveModel(models)
 
         return (
             <ReduxForm
-                form={id}
+                form={datasource || id}
                 fields={fields}
                 {...form}
                 activeModel={activeModel}
@@ -125,9 +126,11 @@ Container.propTypes = {
         modelPrefix: PropTypes.oneOf([MODEL_PREFIX.active, MODEL_PREFIX.edit]),
     }),
     id: PropTypes.string.isRequired,
+    datasource: PropTypes.string,
     setActive: PropTypes.func,
     setResolve: PropTypes.func,
     setEdit: PropTypes.func,
+    dispatch: PropTypes.func,
     isActive: PropTypes.bool,
     models: PropTypes.object,
     reduxFormValues: PropTypes.object,
