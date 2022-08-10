@@ -40,12 +40,12 @@ export function* tabTraversal(action, tabs, regionId, form, param = null, option
     let isTargetFormInTabs = false
 
     for (const { content, id: tabId } of tabs) {
-        for (const { id, tabs: childrenTabs } of content) {
+        for (const { datasource, tabs: childrenTabs } of content) {
             if (childrenTabs) {
                 return tabTraversal(action, childrenTabs, regionId, form, param)
             }
 
-            if (id === form) {
+            if (datasource === form) {
                 isTargetFormInTabs = true
 
                 if (action) {

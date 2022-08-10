@@ -51,7 +51,7 @@ describe('Проверка саги formPlugin', () => {
         expect(genAddMessage.next().done).toEqual(true)
     })
 
-    it('clearForm должен вызвать сброс формы', () => {
+    it.skip('clearForm должен вызвать сброс формы', () => {
         const gen = clearForm({
             payload: {
                 key: 'testForm',
