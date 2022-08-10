@@ -1,12 +1,10 @@
 package net.n2oapp.framework.autotest.datasources.browser_storage;
 
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -20,8 +18,6 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 
 public class BrowserStorageAT extends AutoTestBase {
 
@@ -65,33 +61,7 @@ public class BrowserStorageAT extends AutoTestBase {
         Selenide.clearBrowserLocalStorage();
     }
 
-    /**
-     * Тестирование invoke и
-     * clear-after-invoke у localStorage
-     */
-    @Test
-    public void testInvokeLocal() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/test.query.xml"));
-        StandardPage page = open(StandardPage.class);
-        invokeBrowserStorage(page);
-        Selenide.clearBrowserLocalStorage();
-    }
 
-    /**
-     * Тестирование invoke и
-     * clear-after-invoke у sessionStorage
-     */
-    @Test
-    public void testInvokeSession() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/test.query.xml"));
-        StandardPage page = open(StandardPage.class);
-        invokeBrowserStorage(page);
-        Selenide.clearBrowserLocalStorage();
-    }
 
     @Test
     public void testSubmit() {
@@ -100,7 +70,7 @@ public class BrowserStorageAT extends AutoTestBase {
         page.shouldExists();
 
         InputText input = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Инпут").control(InputText.class);
+                .fields().field("test submit").control(InputText.class);
         Button button = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
                 .toolbar().bottomLeft().button("Submit");
 
