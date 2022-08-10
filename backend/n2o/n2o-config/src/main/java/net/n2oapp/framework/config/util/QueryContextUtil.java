@@ -19,8 +19,7 @@ public class QueryContextUtil {
      * @return QueryContext с добавленными фильтрами
      */
     public static QueryContext prepareQueryContextForRouteRegister(CompiledQuery query) {
-        String queryId = query.getId();
-        QueryContext contextForRegister = new QueryContext(queryId, query.getRoute());
+        QueryContext contextForRegister = new QueryContext(query.getId(), query.getRoute());
         List<Filter> filters = query.getFilterFieldsMap().values().stream().map(f -> {
             Filter e = new Filter();
             e.setParam(f.getParam());
