@@ -5,7 +5,7 @@
         <browser-storage
                 id="ds1"
                 key="n2o.form"
-                type="sessionStorage"
+                type="localStorage"
         >
             <submit auto="false" />
         </browser-storage>
@@ -13,7 +13,7 @@
     <regions>
         <form id="form"  datasource="ds1">
             <fields>
-                <input-text id="input" label="Инпут"/>
+                <input-text id="input" label="test submit"/>
             </fields>
             <toolbar place="bottomLeft">
                 <button label="Submit">
