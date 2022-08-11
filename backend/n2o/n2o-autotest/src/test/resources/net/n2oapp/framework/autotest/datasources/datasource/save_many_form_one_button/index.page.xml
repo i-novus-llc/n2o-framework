@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Сохранение нескольких форм одной кнопкой">
+    <datasources>
+        <datasource id="ds1" query-id="test" object-id="test"/>
+    </datasources>
+    <regions>
+        <table datasource="ds1">
+            <toolbar>
+                <button id="create" label="Создать" model="filter">
+                    <open-page page-id="saveForm" upload="defaults" route="/create">
+                        <datasources>
+                            <datasource id="ds1" default-values-mode="defaults"/>
+                        </datasources>
+                    </open-page>
+                </button>
+                <button id="update" label="Изменить">
+                    <open-page page-id="saveForm" upload="query" route="/:id/update">
+                        <params>
+                            <path-param name="id" value="{id}"/>
+                        </params>
+                    </open-page>
+                </button>
+            </toolbar>
+            <columns>
+                <column text-field-id="name" label="Имя"/>
+                <column text-field-id="surname" label="Фамилия"/>
+                <column text-field-id="address" label="Адрес"/>
+                <column text-field-id="org" label="Организация"/>
+            </columns>
+        </table>
+    </regions>
+</page>

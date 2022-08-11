@@ -307,7 +307,7 @@
         </xs:annotation>
         <xs:attribute name="on" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иденитификатор источника данных.</xs:documentation>
+                <xs:documentation>Идентификатор источника данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="act:clientModel">
