@@ -13,7 +13,7 @@
     <regions>
         <form id="form"  datasource="ds1">
             <fields>
-                <input-text id="input" label="test submit"/>
+                <input-text id="input_submit" label="test submit"/>
             </fields>
             <toolbar place="bottomLeft">
                 <button label="Submit">

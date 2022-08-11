@@ -19,7 +19,7 @@
         <table datasource="ds" id="table">
             <columns>
                 <column id="id"/>
-                <column id="input"/>
+                <column id="input_session"/>
             </columns>
         </table>
         <form id="form"  datasource="ds1">
