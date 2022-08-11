@@ -25,7 +25,7 @@
             <toolbar place="bottomLeft">
                 <button id="create" label="Создать">
                     <submit
-                            datasource="ds2"
+                            datasource="ds2" refresh-datasources="ds1"
                     />
                 </button>
             </toolbar>

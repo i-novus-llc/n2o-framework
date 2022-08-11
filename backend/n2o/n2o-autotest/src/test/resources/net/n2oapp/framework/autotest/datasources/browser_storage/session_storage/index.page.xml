@@ -3,7 +3,7 @@
     <datasources>
         <browser-storage
                 id="ds1"
-                key="n2o.form"
+                key="n2o.session"
                 type="sessionStorage"
         >
             <submit auto="true" />

@@ -4,7 +4,7 @@
     <datasources>
         <browser-storage
                 id="ds1"
-                key="n2o.form"
+                key="n2o.submit"
                 type="localStorage"
         >
             <submit auto="false" />

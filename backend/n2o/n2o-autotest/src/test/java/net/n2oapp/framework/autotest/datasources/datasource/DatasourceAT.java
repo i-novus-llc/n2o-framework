@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.datasources.datasource;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
@@ -297,7 +296,6 @@ public class DatasourceAT extends AutoTestBase {
     /**
      * Тестирование действия Submit
      */
-    // TODO: дополнить после реализации  refresh у submit
     @Test
     public void testSubmit() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/index.page.xml"),
@@ -314,7 +312,6 @@ public class DatasourceAT extends AutoTestBase {
 
         name.val("submit-test");
         button.click();
-        Selenide.refresh();
         table.columns().rows().row(0).cell(1).textShouldHave("submit-test");
     }
 }
