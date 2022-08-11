@@ -7,7 +7,7 @@
         <field id="id">
             <select/>
         </field>
-        <field id="input">
+        <field id="input_session">
             <select/>
         </field>
     </fields>

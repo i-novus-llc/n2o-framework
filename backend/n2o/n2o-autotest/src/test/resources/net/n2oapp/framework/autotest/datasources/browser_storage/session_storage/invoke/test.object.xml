@@ -6,7 +6,7 @@
                 <test file="net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/test.json" operation="create"/>
             </invocation>
             <in>
-                <field id="input"/>
+                <field id="input_session"/>
             </in>
         </operation>
     </operations>

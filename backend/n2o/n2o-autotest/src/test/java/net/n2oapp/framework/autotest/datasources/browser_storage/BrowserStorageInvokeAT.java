@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Вынес отдельно так как наблюдалось странное поведение:
+ * Вынес отдельно ьак как наблюдалось странное поведение:
  * при запуске всех тестов всместе некоторые значения передавались между тестами
  * в случае использования sessionStorage
  */
@@ -43,6 +43,20 @@ public class BrowserStorageInvokeAT  extends AutoTestBase {
 
     /**
      * Тестирование invoke и
+     * clear-after-invoke у localStorage
+     */
+    @Test
+    public void testInvokeLocal() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/invoke/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        invokeBrowserStorage(page);
+    }
+
+    /**
+     * Тестирование invoke и
      * clear-after-invoke у sessionStorage
      */
     @Test
@@ -52,6 +66,12 @@ public class BrowserStorageInvokeAT  extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/invoke/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
+        invokeBrowserStorage(page);
+    }
+
+    private void invokeBrowserStorage(StandardPage page) {
+        page.shouldExists();
+
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
         InputText input = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, FormWidget.class).fields().field("Тест").control(InputText.class);
