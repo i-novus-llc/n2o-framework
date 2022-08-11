@@ -17,11 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Вынес отдельно ьак как наблюдалось странное поведение:
- * при запуске всех тестов всместе некоторые значения передавались между тестами
- * в случае использования sessionStorage
+ * Тестирование invoke browser-storage
  */
-public class BrowserStorageInvokeAT  extends AutoTestBase {
+public class BrowserStorageInvokeAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {

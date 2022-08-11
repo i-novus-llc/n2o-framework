@@ -8,7 +8,6 @@ import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -19,6 +18,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Тестирование browser-storage
+ */
 public class BrowserStorageAT extends AutoTestBase {
 
     @BeforeAll
@@ -60,8 +62,6 @@ public class BrowserStorageAT extends AutoTestBase {
         testBrowserStorage(page);
         Selenide.clearBrowserLocalStorage();
     }
-
-
 
     @Test
     public void testSubmit() {
@@ -116,21 +116,5 @@ public class BrowserStorageAT extends AutoTestBase {
         select.shouldSelected("Иван Алексеев");
         checkboxGroup.shouldBeChecked("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
-    }
-
-    private void invokeBrowserStorage(StandardPage page) {
-        page.shouldExists();
-
-        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
-        InputText input = page.regions().region(0, SimpleRegion.class).content()
-                .widget(1, FormWidget.class).fields().field("Тест").control(InputText.class);
-        Button button = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
-                .toolbar().bottomLeft().button("Отправить");
-
-        input.val("test");
-        button.click();
-        input.shouldBeEmpty();
-        table.columns().rows().row(0).cell(0).textShouldHave("1");
-        table.columns().rows().row(0).cell(1).textShouldHave("test");
     }
 }

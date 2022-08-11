@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Очистка модели после выполнения invoke">
+      name="Очистка модели после выполнения invoke в localStorage">
     <datasources>
         <datasource id="ds" query-id="test">
             <dependencies>
@@ -12,7 +12,7 @@
                 key="n2o.invlocal"
                 type="localStorage"
         >
-            <submit auto="true" />
+            <submit auto="true"/>
         </browser-storage>
     </datasources>
     <regions>
@@ -22,7 +22,7 @@
                 <column id="input"/>
             </columns>
         </table>
-        <form id="form"  datasource="ds1">
+        <form id="form" datasource="ds1">
             <fields>
                 <input-text id="input" label="Тест"/>
             </fields>

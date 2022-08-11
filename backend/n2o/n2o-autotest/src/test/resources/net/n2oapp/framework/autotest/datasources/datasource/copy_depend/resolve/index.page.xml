@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-                 name="Зависимость copy">
+      name="Тестирование copy зависимости. Форма берет данные выбранной записи в таблице">
     <datasources>
         <datasource id="ds1" query-id="test"/>
         <datasource id="ds2">

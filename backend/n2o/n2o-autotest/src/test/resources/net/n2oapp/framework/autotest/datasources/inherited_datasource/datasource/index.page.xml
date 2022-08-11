@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Тестирование модели datasource в inherited-datasource">
     <datasources>
         <datasource id="ds1" query-id="test"/>
         <inherited-datasource
@@ -8,7 +9,7 @@
                 source-model="datasource"
         >
             <dependencies>
-                <fetch on="ds1" model="datasource" />
+                <fetch on="ds1" model="datasource"/>
             </dependencies>
         </inherited-datasource>
     </datasources>

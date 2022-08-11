@@ -15,8 +15,12 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 
+/**
+ * Тестирование inherited-datasource
+ */
 public class InheritedDatasourceAT extends AutoTestBase {
 
     @BeforeAll
@@ -38,7 +42,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
     }
 
     /**
-     * Тестирование fetch зависимотси
+     * Тестирование fetch зависимости
      */
     @Test
     public void testFetchData() {
@@ -67,13 +71,13 @@ public class InheritedDatasourceAT extends AutoTestBase {
     @Test
     public void testModelResolve() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve/index.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         InputText id = page.regions().region(1, SimpleRegion.class).content()
-                            .widget(FormWidget.class).fields().field("id").control(InputText.class);
+                .widget(FormWidget.class).fields().field("id").control(InputText.class);
         InputText name = page.regions().region(1, SimpleRegion.class).content()
                 .widget(FormWidget.class).fields().field("name").control(InputText.class);
 
@@ -143,8 +147,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
     }
 
     /**
-     * Тестирование при котором данные
-     * беруться из определенного поля
+     * Тестирование при котором данные таблицы берутся из поля
      */
     @Test
     public void testSourceFieldId() {

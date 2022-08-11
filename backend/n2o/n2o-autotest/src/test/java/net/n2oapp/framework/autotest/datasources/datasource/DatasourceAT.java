@@ -117,8 +117,7 @@ public class DatasourceAT extends AutoTestBase {
     }
 
     /**
-     * Тестирование одного datasource
-     * на несколько виджетов
+     * Тестирование одного datasource на несколько виджетов
      */
     @Test
     public void testOneDSManyWidgets() {
@@ -136,12 +135,10 @@ public class DatasourceAT extends AutoTestBase {
     }
 
     /**
-     * Тестирование сохранения
-     * нескольких форм
-     * одной кнопкой
+     * Тестирование сохранения нескольких форм одной кнопкой
      */
     @Test
-    public void testSaveManyFormOneButton(){
+    public void testSaveManyFormOneButton() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/saveForm.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.query.xml"),
@@ -194,11 +191,10 @@ public class DatasourceAT extends AutoTestBase {
     }
 
     /**
-     * Тестирование валидации
-     * на несколько форм
+     * Тестирование валидации на несколько форм
      */
     @Test
-    public void testValidationManyForm(){
+    public void testValidationManyForm() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.object.xml"));
@@ -261,8 +257,8 @@ public class DatasourceAT extends AutoTestBase {
     }
 
     /**
-     * Тестирование copy зависимости
-     * форма берет данные выбранной записи в таблице
+     * Тестирование copy зависимости.
+     * Форма берет данные выбранной записи в таблице
      */
     @Test
     public void testCopyDepend() {
@@ -305,7 +301,7 @@ public class DatasourceAT extends AutoTestBase {
         page.shouldExists();
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
-        InputText name   = page.regions().region(0, SimpleRegion.class).content()
+        InputText name = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, FormWidget.class).fields().field("name").control(InputText.class);
         Button button = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, FormWidget.class).toolbar().bottomLeft().button("Создать");
