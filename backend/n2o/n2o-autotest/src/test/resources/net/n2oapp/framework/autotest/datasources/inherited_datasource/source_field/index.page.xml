@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Данные таблицы берутся из поля в inherited-datasource">
+    <datasources>
+        <datasource id="ds1" query-id="test"/>
+        <inherited-datasource id="ds2"
+                              source-datasource="ds1"
+                              source-model="resolve"
+                              source-field-id="clients">
+            <dependencies>
+                <fetch on="ds1"/>
+            </dependencies>
+        </inherited-datasource>
+    </datasources>
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <output-text id="name"/>
+            </fields>
+        </form>
+        <table name="Клиенты" datasource="ds2">
+            <columns>
+                <column text-field-id="name" label="ФИО"/>
+            </columns>
+        </table>
+    </regions>
+</page>
