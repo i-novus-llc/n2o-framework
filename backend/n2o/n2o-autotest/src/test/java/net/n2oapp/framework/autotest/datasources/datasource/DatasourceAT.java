@@ -176,7 +176,7 @@ public class DatasourceAT extends AutoTestBase {
         organizationInput.shouldBeEnabled();
         organizationInput.val("Сбербанк");
         saveButton.click();
-        page.breadcrumb().titleShouldHaveText("Datasource");
+        page.breadcrumb().titleShouldHaveText("Сохранение нескольких форм одной кнопкой");
 
         table.columns().rows().row(0).cell(0).textShouldHave("Сергей");
         table.columns().rows().row(0).click();

@@ -1,16 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Тестирование действия Submit">
-
     <datasources>
         <datasource id="ds1" query-id="test">
         </datasource>
         <datasource id="ds2" object-id="test">
-            <submit operation-id="create" message-on-success="true">
-
-            </submit>
+            <submit operation-id="create" message-on-success="true" refresh-datasources="ds1"/>
         </datasource>
     </datasources>
+
     <regions>
         <table id="table" datasource="ds1" selection="none">
             <columns>
@@ -18,18 +16,15 @@
                 <column text-field-id="name"/>
             </columns>
         </table>
-        <form datasource="ds2"  id="form">
+        <form datasource="ds2" id="form">
             <fields>
                 <input-text id="name"/>
             </fields>
             <toolbar place="bottomLeft">
                 <button id="create" label="Создать">
-                    <submit
-                            datasource="ds2" refresh-datasources="ds1"
-                    />
+                    <submit datasource="ds2"/>
                 </button>
             </toolbar>
         </form>
     </regions>
-
 </page>
