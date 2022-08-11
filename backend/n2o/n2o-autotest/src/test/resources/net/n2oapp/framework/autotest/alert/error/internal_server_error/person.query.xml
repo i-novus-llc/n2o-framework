@@ -7,18 +7,6 @@
         </java>
     </list>
 
-    <unique>
-        <java method="sendInternalServerError" class="net.n2oapp.framework.autotest.run.ErrorController">
-            <spring/>
-        </java>
-    </unique>
-
-    <count>
-        <java method="sendInternalServerError" class="net.n2oapp.framework.autotest.run.ErrorController">
-            <spring/>
-        </java>
-    </count>
-
     <fields>
         <field id="id">
             <select/>

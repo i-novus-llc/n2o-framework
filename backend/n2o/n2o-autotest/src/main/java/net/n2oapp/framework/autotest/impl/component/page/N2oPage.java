@@ -120,6 +120,8 @@ public class N2oPage extends N2oComponent implements Page {
             case (403):
                 element().shouldHave(Condition.text("403\nДоступ запрещён"));
                 break;
+            default:
+                element().$(".n2o-alert-segment").shouldHave(Condition.text(String.valueOf(statusCode)));
         }
     }
 
