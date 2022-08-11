@@ -5,7 +5,7 @@ import {
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import merge from 'deepmerge'
-import { getFormValues } from 'redux-form'
+import { getFormValues, initialize } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -45,7 +45,7 @@ export const withWidgetContainer = widgetContainer(
 )
 
 export const mapStateToProps = createStructuredSelector({
-    reduxFormValues: (state, props) => getFormValues(props.widgetId)(state) || {},
+    reduxFormValues: (state, { modelId, widgetId }) => getFormValues(modelId || widgetId)(state) || {},
 })
 
 const additionalMerge = (target, source) => merge(
@@ -74,7 +74,15 @@ class Container extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { datasource, resolveModel, reduxFormValues, activeModel } = this.props
+        const {
+            datasource,
+            resolveModel,
+            reduxFormValues,
+            activeModel,
+            dispatch,
+            modelId,
+            widgetId,
+        } = this.props
         const { initialValues } = this.state
         let initial
         let changed = false
@@ -100,6 +108,7 @@ class Container extends React.Component {
         }
         if (changed && !isEqual(initialValues, initial)) {
             this.setState({ initialValues: initial })
+            dispatch(initialize(modelId || widgetId, initialValues))
         }
     }
 
@@ -148,11 +157,11 @@ class Container extends React.Component {
 
     render() {
         const { initialValues, validators, fields } = this.state
-        const { widgetId } = this.props
+        const { modelId, widgetId } = this.props
 
         return (
             <ReduxForm
-                form={widgetId}
+                form={modelId || widgetId}
                 fields={fields}
                 {...validators}
                 {...this.props}
@@ -167,6 +176,7 @@ Container.propTypes = {
     form: PropTypes.string,
     modelPrefix: PropTypes.string,
     widgetId: PropTypes.string.isRequired,
+    modelId: PropTypes.string,
     setActive: PropTypes.func,
     onResolve: PropTypes.func,
     onSetModel: PropTypes.func,
@@ -177,6 +187,7 @@ Container.propTypes = {
     fieldsets: PropTypes.any,
     validation: PropTypes.any,
     store: PropTypes.any,
+    dispatch: PropTypes.func,
 }
 
 /**
