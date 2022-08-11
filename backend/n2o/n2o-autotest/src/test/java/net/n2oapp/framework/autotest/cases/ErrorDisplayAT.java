@@ -35,14 +35,12 @@ public class ErrorDisplayAT extends AutoTestBase {
 
     @Test
     public void testRouteNotFoundException() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/error/route_not_found/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/error/route_not_found/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/alert/error/route_not_found/person.query.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование ошибки RouteNotFoundException");
-        page.widget(FormWidget.class).toolbar().topLeft().button("Ошибка").click();
 
-        page.shouldExists();
         page.shouldHaveError(404);
     }
 
@@ -54,7 +52,6 @@ public class ErrorDisplayAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        page.shouldExists();
         page.shouldHaveError(500);
     }
 
@@ -66,7 +63,6 @@ public class ErrorDisplayAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        page.shouldExists();
         page.shouldHaveError(502);
     }
 
@@ -78,7 +74,6 @@ public class ErrorDisplayAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        page.shouldExists();
         page.shouldHaveError(403);
     }
 }
