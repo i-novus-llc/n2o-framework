@@ -21,7 +21,7 @@
                     <show-modal page-id="testPrintAction"/>
                 </button>
                 <button id="id5">
-                    <print url="/{url}"/>
+                    <print url=":url"/>
                 </button>
             </toolbar>
         </form>

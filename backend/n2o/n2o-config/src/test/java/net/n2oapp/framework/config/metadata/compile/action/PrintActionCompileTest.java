@@ -68,7 +68,7 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
         assertThat(print3.getPayload().getUrl(), is("http://google.com"));
 
         PrintAction print4 = (PrintAction) toolbar.getButton("id5").getAction();
-        assertThat(print4.getPayload().getUrl(), is("`'/'+url`"));
+        assertThat(print4.getPayload().getUrl(), is(":url"));
 
         PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("secWgt").getAction();
