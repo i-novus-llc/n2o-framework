@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,6 +39,7 @@ public class AppDatasourceAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled // TODO remove after NNO-8329
     public void testSimpleDS() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/side.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/index.page.xml"),
