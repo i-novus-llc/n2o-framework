@@ -5,7 +5,8 @@
         <datasource id="ds1" query-id="test">
         </datasource>
         <datasource id="ds2" object-id="test">
-            <submit operation-id="create" message-on-success="true" refresh-datasources="ds1"/>
+            <submit operation-id="create" message-on-success="true"
+                    refresh-datasources="ds1" refresh-on-success="true"/>
         </datasource>
     </datasources>
 
