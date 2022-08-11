@@ -34,7 +34,9 @@ export function* resolveButton(button) {
         if (visible) {
             const nextVisible = resolveConditions(visible, state).resolve
 
-            yield put(changeButtonVisibility(button.key, button.buttonId, nextVisible))
+            yield put(
+                changeButtonVisibility(button.key, button.buttonId, nextVisible),
+            )
             yield call(setParentVisibleIfAllChildChangeVisible, button)
         }
 
@@ -43,7 +45,13 @@ export function* resolveButton(button) {
 
             yield put(changeButtonDisabled(button.key, button.buttonId, !resolvedEnabled?.resolve))
             if (!resolvedEnabled?.resolve) {
-                yield put(changeButtonMessage(button.key, button.buttonId, resolvedEnabled?.message))
+                yield put(
+                    changeButtonMessage(
+                        button.key,
+                        button.buttonId,
+                        resolvedEnabled?.message,
+                    ),
+                )
             }
         }
     }
@@ -85,8 +93,7 @@ export function* setParentVisibleIfAllChildChangeVisible({ key, buttonId }) {
 
 function printText(text, keepIndent) {
     const uniqID = uniqueId('n2o-print-block-')
-    const printFrameStyles =
-        'position: absolute; left: -1000000px; top: -1000000px; width: 100%; height: auto; z-index: -1000'
+    const printFrameStyles = 'position: absolute; left: -1000000px; top: -1000000px; width: 100%; height: auto; z-index: -1000'
 
     const printFrame = document.createElement('iframe')
 
@@ -105,65 +112,67 @@ function printText(text, keepIndent) {
 }
 
 function* print(action) {
-    const state = yield select()
-    const {
-        url,
-        pathMapping,
-        queryMapping,
-        printable = null,
-        type = PrintType.TEXT,
-        keepIndent,
-        documentTitle,
-        loader = false,
-        loaderText,
-        base64 = false,
-    } = action.payload
-
-    const onError = text => (err) => {
-        // eslint-disable-next-line no-alert
-        alert(text)
-        // eslint-disable-next-line no-console
-        console.error(err)
-    }
-
-    const printConfig = {
-        printable,
-        type,
-        documentTitle,
-        showModal: loader,
-        modalMessage: loaderText,
-        base64,
-        onError: onError(DEFAULT_PRINT_ERROR_MESSAGE),
-        onIncompatibleBrowser: onError(DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE),
-    }
-
-    if (url) {
-        const { url: printUrl } = yield dataProviderResolver(state, {
+    try {
+        const state = yield select()
+        const {
             url,
             pathMapping,
             queryMapping,
-        })
+            printable = null,
+            type = PrintType.TEXT,
+            keepIndent,
+            documentTitle,
+            loader = false,
+            loaderText,
+            base64 = false,
+        } = action.payload
 
-        if (type === PrintType.TEXT) {
-            const text = yield request(printUrl, {}, { parseJson: false })
-
-            printText(text, keepIndent)
-
-            return
+        const onError = text => (err) => {
+            alert(text)
+            console.error(err)
         }
 
-        if (type === PrintType.PDF) {
-            if (base64) {
-                printConfig.printable = yield request(printUrl, {}, { parseJson: false })
-            } else {
+        const printConfig = {
+            printable,
+            type,
+            documentTitle,
+            showModal: loader,
+            modalMessage: loaderText,
+            base64,
+            onError: onError(DEFAULT_PRINT_ERROR_MESSAGE),
+            onIncompatibleBrowser: onError(DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE),
+        }
+
+        if (url) {
+            const { url: printUrl } = yield dataProviderResolver(state, {
+                url,
+                pathMapping,
+                queryMapping,
+            })
+
+            if (type === PrintType.TEXT) {
+                const text = yield request(printUrl, {}, { parseJson: false })
+
+                printText(text, keepIndent)
+
+                return
+            }
+
+            if (type === PrintType.PDF) {
+                if (base64) {
+                    printConfig.printable = yield request(printUrl, {}, { parseJson: false })
+                } else {
+                    printConfig.printable = printUrl
+                }
+            } else if (type === PrintType.IMAGE) {
                 printConfig.printable = printUrl
             }
-        } else if (type === PrintType.IMAGE) {
-            printConfig.printable = printUrl
         }
-    }
 
-    printJS(printConfig)
+        printJS(printConfig)
+    } catch (err) {
+        console.error(err)
+    }
 }
 
 // export function* handleAction(action) {
