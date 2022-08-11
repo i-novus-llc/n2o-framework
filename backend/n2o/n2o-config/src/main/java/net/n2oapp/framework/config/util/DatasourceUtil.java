@@ -30,7 +30,7 @@ public class DatasourceUtil {
      * @param p Процессор сборки метаданных
      * @return Список идентификаторов клиенстких источников данных
      */
-    public static List<String> getClientDatasourcesIds(List<String> datasourceIds, CompileProcessor p) {
+    public static List<String> getClientDatasourceIds(List<String> datasourceIds, CompileProcessor p) {
         return datasourceIds.stream().map(ds -> getClientDatasourceId(ds, p)).collect(Collectors.toList());
     }
 

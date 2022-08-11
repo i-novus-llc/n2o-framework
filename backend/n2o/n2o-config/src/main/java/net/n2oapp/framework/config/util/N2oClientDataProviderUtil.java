@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourcesIds;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
@@ -121,7 +121,7 @@ public class N2oClientDataProviderUtil {
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());
             if (submit.getRefreshDatasourceIds() != null) {
-                actionContextData.getRefresh().setDatasources(getClientDatasourcesIds(Arrays.asList(submit.getRefreshDatasourceIds()), p));
+                actionContextData.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(submit.getRefreshDatasourceIds()), p));
             } else {
                 if (widgetScope.getClientDatasourceId() != null)
                     actionContextData.getRefresh().setDatasources(Collections.singletonList(widgetScope.getClientDatasourceId()));

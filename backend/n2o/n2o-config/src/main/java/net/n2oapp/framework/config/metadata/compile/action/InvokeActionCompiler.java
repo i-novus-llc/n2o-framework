@@ -35,7 +35,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourcesIds;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
 /**
  * Сборка действия вызова операции
@@ -162,7 +162,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 if (!closeOnSuccess && source.getRefreshDatasourceIds() != null) {
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
-                        meta.getRefresh().setDatasources(getClientDatasourcesIds(Arrays.asList(source.getRefreshDatasourceIds()), p));
+                        meta.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(source.getRefreshDatasourceIds()), p));
                 } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
                     meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
             }
