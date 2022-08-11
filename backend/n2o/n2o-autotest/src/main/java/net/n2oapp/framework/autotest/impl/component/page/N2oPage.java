@@ -107,10 +107,20 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public void shouldHaveError(int statusCode) {
-        if (statusCode == 404)
-            element().shouldHave(Condition.text("404\nСтраница не найдена"));
-        else
-            element().$(".n2o-alert-segment").shouldHave(Condition.text(String.valueOf(statusCode)));
+        switch (statusCode) {
+            case (404):
+                element().shouldHave(Condition.text("404\nСтраница не найдена"));
+                break;
+            case (500):
+                element().shouldHave(Condition.text("500\nВнутренняя ошибка приложения"));
+                break;
+            case (502):
+                element().shouldHave(Condition.text("502\nНеверный ответ от восходящего сервера"));
+                break;
+            case (403):
+                element().shouldHave(Condition.text("403\nДоступ запрещён"));
+                break;
+        }
     }
 
     public class N2oPageToolbar implements PageToolbar {
