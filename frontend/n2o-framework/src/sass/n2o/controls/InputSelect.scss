@@ -87,11 +87,6 @@
         &.n2o-pop-up {
             user-select: none;
         }
-
-        .badge > img {
-            width: 1rem;
-            height: 1rem;
-        }
     }
 
     .n2o-dropdown-control.btn-sm {
@@ -135,14 +130,16 @@
     }
 
     .n2o-eclipse-content {
-        display: block;
+        display: flex;
         align-items: center;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
         width: 100%;
         cursor: pointer;
         outline: none;
+
+        .n2o-input-select__label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         &:disabled {
             cursor: not-allowed;

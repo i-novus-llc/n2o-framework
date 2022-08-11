@@ -220,7 +220,7 @@ function PopupItems({
         />
     )
     const renderLabel = item => (
-        <span className="text-cropped">{displayTitle(item)}</span>
+        <span className="n2o-input-select__label text-cropped">{displayTitle(item)}</span>
     )
 
     const renderSingleItems = options => options.map((item, i) => renderSingleItem(item, i))
