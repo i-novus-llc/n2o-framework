@@ -15,7 +15,11 @@ import type { ModelPrefix } from '../../core/datasource/const'
 
 import { ALL_PREFIXES, COPY } from './constants'
 import type { State } from './Models'
-import type { ClearModelAction, MergeModelAction, RemoveAllModelAction, RemoveModelAction, SetModelAction, SyncModelAction, UpdateMapModelAction, UpdateModelAction } from './Actions'
+import type {
+    ClearModelAction, CopyAction, MergeModelAction,
+    RemoveAllModelAction, RemoveModelAction, SetModelAction,
+    UpdateMapModelAction, UpdateModelAction,
+} from './Actions'
 
 const initialState: State = {
     datasource: {},
@@ -70,27 +74,6 @@ const modelsSlice = createSlice({
                 const { key, prefix } = action.payload
 
                 state[prefix] = omit(state[prefix], key)
-            },
-        },
-
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        SYNC: {
-            prepare(prefix: ModelPrefix, keys: string[], model: object) {
-                return ({
-                    payload: { prefix, keys, model },
-                })
-            },
-
-            /**
-             * Установка значений в несколько моделей
-             */
-            reducer(state, action: SyncModelAction) {
-                const { prefix, keys, model } = action.payload
-                const models = state[prefix]
-
-                keys.forEach((key) => {
-                    models[key] = model
-                })
             },
         },
 
@@ -210,7 +193,6 @@ export default modelsSlice.reducer
 export const {
     SET: setModel,
     REMOVE: removeModel,
-    SYNC: syncModel,
     UPDATE: updateModel,
     UPDATE_MAP: updateMapModel,
     CLEAR: clearModel,
@@ -233,9 +215,9 @@ export const {
 export const copyModel = createAction(
     COPY,
     (
-        source: { prefix: ModelPrefix, key: string },
-        target: { prefix: ModelPrefix, key: string },
-        { mode, sourceMapper }: { mode: string, sourceMapper: unknown },
+        source: CopyAction['payload']['source'],
+        target: CopyAction['payload']['target'],
+        { mode, sourceMapper }: Pick<CopyAction['payload'], 'mode' | 'sourceMapper'>,
     ) => ({
         payload: {
             sourceMapper,

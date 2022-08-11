@@ -85,8 +85,10 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void copyV2() {
+        PageContext pageContext = new PageContext("testCopyActionV2", "/p");
+        pageContext.setParentClientPageId("page1");
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyActionV2.page.xml")
-                .get(new PageContext("testCopyActionV2", "/p"));
+                .get(pageContext);
 
         CopyAction copyInPage = (CopyAction) page.findButton("copyInPage").getAction();
         assertThat(copyInPage.getType(), is("n2o/models/COPY"));
@@ -104,10 +106,10 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(copyInPage2.getPayload().getSource().getKey(), is("p_ds1"));
         assertThat(copyInPage2.getPayload().getSource().getField(), is("sourceId"));
         assertThat(copyInPage2.getPayload().getSource().getPrefix(), is("filter"));
-        assertThat(copyInPage2.getPayload().getTarget().getKey(), is("p_ds2"));
+        assertThat(copyInPage2.getPayload().getTarget().getKey(), is("page1_ds2"));
         assertThat(copyInPage2.getPayload().getTarget().getField(), is("targetId"));
         assertThat(copyInPage2.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(copyInPage2.getPayload().getMode(), is(CopyMode.replace));
-        assertThat(copyInPage2.getMeta().getModalsToClose(), is(1));
+        assertThat(copyInPage2.getMeta().getModalsToClose(), is(0));
     }
 }

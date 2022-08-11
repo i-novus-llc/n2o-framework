@@ -91,11 +91,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
 
         CompiledQuery query = p.getScope(CompiledQuery.class);
-        if (query != null && query.getFieldsMap().containsKey(source.getTextFieldId())) {
-            header.setLabel(p.cast(source.getLabelName(), query.getFieldsMap().get(source.getTextFieldId()).getName()));
-        } else {
-            header.setLabel(source.getLabelName());
-        }
+        header.setLabel(initLabel(source, query));
         if (query != null && query.getFieldsMap().containsKey(source.getSortingFieldId())) {
             boolean sortable = !query.getFieldsMap().get(source.getSortingFieldId()).getNoSorting();
             if (sortable) {
@@ -106,5 +102,13 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setProperties(p.mapAttributes(source));
 
         return header;
+    }
+
+    private String initLabel(T source, CompiledQuery query) {
+        if (source.getLabelName() != null)
+            return source.getLabelName();
+        if (query != null && query.getFieldsMap().containsKey(source.getTextFieldId()))
+            return query.getFieldsMap().get(source.getTextFieldId()).getName();
+        return source.getTextFieldId();
     }
 }

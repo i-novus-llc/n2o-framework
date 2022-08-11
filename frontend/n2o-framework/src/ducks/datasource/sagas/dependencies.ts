@@ -3,16 +3,14 @@ import {
     select,
     fork,
 } from 'redux-saga/effects'
-import { get } from 'lodash'
-import isEqual from 'lodash/isEqual'
+import { get, isEqual } from 'lodash'
 
-import type { DataSourceDependency } from '../../../core/datasource/const'
-import { DependencyTypes } from '../../../core/datasource/const'
+import { DataSourceDependency, DependencyTypes } from '../../../core/datasource/const'
 import { dataRequest, startValidate } from '../store'
 import { dataSourcesSelector } from '../selectors'
 import { updateModel, setModel } from '../../models/store'
-import type { State as GlobalState } from '../../State'
-import type { State as DatasourceState } from '../DataSource'
+import { State as DatasourceState } from '../DataSource'
+import { State as GlobalState } from '../../State'
 
 /**
  * @param {String} id
@@ -55,9 +53,10 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
 /**
  * Сага наблюдения за зависимостями
  * @param action
- * @param {object} prevState
  */
-export function* watchDependencies(action: unknown, prevState: GlobalState) {
+let prevState: GlobalState | void
+
+export function* watchDependencies() {
     const state: GlobalState = yield select()
     const dataSources: DatasourceState = yield select(dataSourcesSelector)
     const entries = Object.entries(dataSources)
@@ -68,9 +67,11 @@ export function* watchDependencies(action: unknown, prevState: GlobalState) {
             const model = get(state, on)
             const prevModel = get(prevState, on)
 
-            if (!isEqual(prevModel, model)) {
+            if (!isEqual(model, prevModel)) {
                 yield fork(resolveDependency, id, dependency, model)
             }
         }
     }
+
+    prevState = state
 }

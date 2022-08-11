@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
-import SecurityController from '../auth/SecurityController'
+import { SecurityController } from '../auth/SecurityController'
 
 export function Factory(props, context) {
     const { src, level, security, children, ...rest } = props

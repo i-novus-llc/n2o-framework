@@ -20,7 +20,6 @@ import {
     combineModels,
     setModel,
     copyModel,
-    syncModel,
     removeModel,
     updateModel,
     updateMapModel,
@@ -503,7 +502,6 @@ describe('Сага для для наблюдения за изменением 
             actionChannel([
                 setModel.type,
                 copyModel.type,
-                syncModel.type,
                 removeModel.type,
                 updateModel.type,
                 updateMapModel.type,

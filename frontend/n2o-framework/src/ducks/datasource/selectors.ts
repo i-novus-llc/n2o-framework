@@ -73,7 +73,7 @@ export const dataSourceErrors = (
     prefix: ModelPrefix.active | ModelPrefix.edit = ModelPrefix.active,
 ) => createSelector(
     dataSourceByIdSelector(sourceId),
-    state => (state.errors[prefix] || {}),
+    state => (state.errors?.[prefix] || {}),
 )
 
 export const dataSourceFieldError = (
