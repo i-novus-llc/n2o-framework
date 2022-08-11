@@ -18,7 +18,7 @@ import eq from 'lodash/eq'
 import get from 'lodash/get'
 
 import propsResolver from '../../../utils/propsResolver'
-import SecurityController from '../../../core/auth/SecurityController'
+import { SecurityController } from '../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
 import { InputRadio } from '../../controls/Radio/Input'

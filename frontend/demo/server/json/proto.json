@@ -1,466 +1,828 @@
 {
-  "id":"proto",
-  "routes":{
-    "list":[
+  "src": "LeftRightPage",
+  "id": "_",
+  "routes": {
+    "list": [
       {
-        "path":"/create2",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/clients/create2",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/:clients_id/contacts/:contacts_id/update",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/contacts/:contacts_id/update",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/:clients_id/contacts/createContact",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/contacts/:client_id/createContact",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/:clients_id/update",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/clients/:clients_id/update",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/:clients_id/name",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/clients/:id/name",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/:clients_id/surname",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/clients/:id/surname",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/:clients_id/view",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/clients/:id/view",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/:clients_id/update2",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/clients/:id/update2",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/:clients_id/update_client",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/clients/:id/update_client",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/create",
-        "exact":true,
-        "isOtherPage":true
+        "path": "/create",
+        "exact": true,
+        "isOtherPage": true
       },
       {
-        "path":"/",
-        "exact":true,
-        "isOtherPage":false
-      },
-      {
-        "path":"/:clients_id",
-        "exact":true,
-        "isOtherPage":false
-      },
-      {
-        "path":"/:clients_id/contacts",
-        "exact":true,
-        "isOtherPage":false
-      },
-      {
-        "path":"/:clients_id/contacts/:contacts_id",
-        "exact":true,
-        "isOtherPage":false
-      },
-      {
-        "path":"/:client_id/card",
-        "exact":true,
-        "isOtherPage":false
-      },
-      {
-        "path":"/:client_id/card/:form_id",
-        "exact":true,
-        "isOtherPage":false
+        "path": "/",
+        "exact": true,
+        "isOtherPage": false
       }
     ],
-    "pathMapping":{
-      "clients_id":{
-        "type":"n2o/widgets/CHANGE_SELECTED_ID",
-        "payload":{
-          "widgetId":"clients",
-          "value":":clients_id"
-        }
-      },
-      "contacts_id":{
-        "type":"n2o/widgets/CHANGE_SELECTED_ID",
-        "payload":{
-          "widgetId":"contacts",
-          "value":":contacts_id"
-        }
-      },
-      "client_id":{
-        "type":"n2o/widgets/CHANGE_SELECTED_ID",
-        "payload":{
-          "widgetId":"clients",
-          "value":":client_id"
-        }
-      },
-      "form_id":{
-        "type":"n2o/widgets/CHANGE_SELECTED_ID",
-        "payload":{
-          "widgetId":"form",
-          "value":":form_id"
-        }
-      }
-    },
-    "queryMapping":{
-      "clients_surname":{
-        "get":{
-          "type":"n2o/models/UPDATE",
-          "payload":{
-            "prefix":"filter",
-            "key":"clients",
-            "field":"surname",
-            "value":":clients_surname"
+    "pathMapping": {},
+    "queryMapping": {
+      "left_panel_0": {
+        "get": {
+          "type": "n2o/regions/SET_ACTIVE_REGION_ENTITY",
+          "payload": {
+            "regionId": "left_panel_0",
+            "activeEntity": ":left_panel_0"
           }
         },
-        "set":{
-          "value":"`surname`",
-          "link":"models.filter['clients']"
+        "set": {
+          "link": "regions.left_panel_0.activeEntity"
         }
       },
-      "clients_name":{
-        "get":{
-          "type":"n2o/models/UPDATE",
-          "payload":{
-            "prefix":"filter",
-            "key":"clients",
-            "field":"name",
-            "value":":clients_name"
+      "right_panel_1": {
+        "get": {
+          "type": "n2o/regions/SET_ACTIVE_REGION_ENTITY",
+          "payload": {
+            "regionId": "right_panel_1",
+            "activeEntity": ":right_panel_1"
           }
         },
-        "set":{
-          "value":"`name`",
-          "link":"models.filter['clients']"
+        "set": {
+          "link": "regions.right_panel_1.activeEntity"
         }
       },
-      "clients_bdate_begin":{
-        "get":{
-          "type":"n2o/models/UPDATE",
-          "payload":{
-            "prefix":"filter",
-            "key":"clients",
-            "field":"bdate.begin",
-            "value":":clients_bdate_begin"
+      "right_panel_2": {
+        "get": {
+          "type": "n2o/regions/SET_ACTIVE_REGION_ENTITY",
+          "payload": {
+            "regionId": "right_panel_2",
+            "activeEntity": ":right_panel_2"
           }
         },
-        "set":{
-          "value":"`bdate.begin`",
-          "link":"models.filter['clients']"
+        "set": {
+          "link": "regions.right_panel_2.activeEntity"
         }
       },
-      "clients_bdate_end":{
-        "get":{
-          "type":"n2o/models/UPDATE",
-          "payload":{
-            "prefix":"filter",
-            "key":"clients",
-            "field":"bdate.end",
-            "value":":clients_bdate_end"
+      "clients_surname": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "clients",
+            "field": "surname",
+            "value": ":clients_surname"
           }
         },
-        "set":{
-          "value":"`bdate.end`",
-          "link":"models.filter['clients']"
+        "set": {
+          "value": "`surname`",
+          "observe": true,
+          "required": false,
+          "link": "models.filter['clients']"
         }
       },
-      "clients_genders_id":{
-        "get":{
-          "type":"n2o/models/UPDATE_MAP",
-          "payload":{
-            "prefix":"filter",
-            "key":"clients",
-            "field":"genders",
-            "value":":clients_genders_id",
-            "map":"id"
+      "clients_name": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "clients",
+            "field": "name",
+            "value": ":clients_name"
           }
         },
-        "set":{
-          "value":"`genders.map(function(t){return t.id})`",
-          "link":"models.filter['clients']"
+        "set": {
+          "value": "`name`",
+          "observe": true,
+          "required": false,
+          "link": "models.filter['clients']"
         }
       },
-      "clients_vip":{
-        "get":{
-          "type":"n2o/models/UPDATE",
-          "payload":{
-            "prefix":"filter",
-            "key":"clients",
-            "field":"vip",
-            "value":":clients_vip"
+      "clients_bdate_end": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "clients",
+            "field": "bdate.end",
+            "value": ":clients_bdate_end"
           }
         },
-        "set":{
-          "value":"`vip`",
-          "link":"models.filter['clients']"
+        "set": {
+          "value": "`bdate.end`",
+          "observe": true,
+          "required": false,
+          "link": "models.filter['clients']"
         }
       },
-      "clients_birthday":{
-        "get":{
-          "type":"n2o/models/UPDATE",
-          "payload":{
-            "prefix":"filter",
-            "key":"clients",
-            "field":"birthday",
-            "value":":clients_birthday"
+      "clients_bdate_begin": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "clients",
+            "field": "bdate.begin",
+            "value": ":clients_bdate_begin"
           }
         },
-        "set":{
-          "value":"`birthday`",
-          "link":"models.filter['clients']"
+        "set": {
+          "value": "`bdate.begin`",
+          "observe": true,
+          "required": false,
+          "link": "models.filter['clients']"
         }
       },
-      "sorting_clients_surname":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"clients",
-            "fieldKey":"surname",
-            "sortDirection":":sorting_clients_surname"
+      "clients_genders_id": {
+        "get": {
+          "type": "n2o/models/UPDATE_MAP",
+          "payload": {
+            "prefix": "filter",
+            "key": "clients",
+            "field": "genders",
+            "value": ":clients_genders_id",
+            "map": "id"
           }
         },
-        "set":{
-          "link":"widgets['clients'].sorting.surname"
+        "set": {
+          "value": "`genders.map(function(t){return t.id})`",
+          "observe": true,
+          "required": false,
+          "link": "models.filter['clients']"
         }
       },
-      "sorting_clients_name":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"clients",
-            "fieldKey":"name",
-            "sortDirection":":sorting_clients_name"
+      "clients_vip": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "clients",
+            "field": "vip",
+            "value": ":clients_vip"
           }
         },
-        "set":{
-          "link":"widgets['clients'].sorting.name"
+        "set": {
+          "value": "`vip`",
+          "observe": true,
+          "required": false,
+          "link": "models.filter['clients']"
         }
       },
-      "sorting_clients_patrName":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"clients",
-            "fieldKey":"patrName",
-            "sortDirection":":sorting_clients_patrName"
+      "clients_birthday": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "clients",
+            "field": "birthday",
+            "value": ":clients_birthday"
           }
         },
-        "set":{
-          "link":"widgets['clients'].sorting.patrName"
+        "set": {
+          "value": "`birthday`",
+          "observe": true,
+          "required": false,
+          "link": "models.filter['clients']"
         }
       },
-      "sorting_clients_birthday":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"clients",
-            "fieldKey":"birthday",
-            "sortDirection":":sorting_clients_birthday"
+      "sorting_clients_surname": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "clients",
+            "fieldKey": "surname",
+            "sortDirection": ":sorting_clients_surname"
           }
         },
-        "set":{
-          "link":"widgets['clients'].sorting.birthday"
+        "set": {
+          "link": "widgets['clients'].sorting.surname"
         }
       },
-      "sorting_clients_age":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"clients",
-            "fieldKey":"age",
-            "sortDirection":":sorting_clients_age"
+      "sorting_clients_name": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "clients",
+            "fieldKey": "name",
+            "sortDirection": ":sorting_clients_name"
           }
         },
-        "set":{
-          "link":"widgets['clients'].sorting.age"
+        "set": {
+          "link": "widgets['clients'].sorting.name"
         }
       },
-      "sorting_contacts_value":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"contacts",
-            "fieldKey":"value",
-            "sortDirection":":sorting_contacts_value"
+      "sorting_clients_patrName": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "clients",
+            "fieldKey": "patrName",
+            "sortDirection": ":sorting_clients_patrName"
           }
         },
-        "set":{
-          "link":"widgets['contacts'].sorting.value"
+        "set": {
+          "link": "widgets['clients'].sorting.patrName"
         }
       },
-      "sorting_form_surname":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"form",
-            "fieldKey":"surname",
-            "sortDirection":":sorting_form_surname"
+      "sorting_clients_birthday": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "clients",
+            "fieldKey": "birthday",
+            "sortDirection": ":sorting_clients_birthday"
           }
         },
-        "set":{
-          "link":"widgets['form'].sorting.surname"
+        "set": {
+          "link": "widgets['clients'].sorting.birthday"
         }
       },
-      "sorting_form_name":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"form",
-            "fieldKey":"name",
-            "sortDirection":":sorting_form_name"
+      "sorting_clients_age": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "clients",
+            "fieldKey": "age",
+            "sortDirection": ":sorting_clients_age"
           }
         },
-        "set":{
-          "link":"widgets['form'].sorting.name"
+        "set": {
+          "link": "widgets['clients'].sorting.age"
         }
       },
-      "sorting_form_patrName":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"form",
-            "fieldKey":"patrName",
-            "sortDirection":":sorting_form_patrName"
+      "sorting_contacts_value": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "contacts",
+            "fieldKey": "value",
+            "sortDirection": ":sorting_contacts_value"
           }
         },
-        "set":{
-          "link":"widgets['form'].sorting.patrName"
+        "set": {
+          "link": "widgets['contacts'].sorting.value"
         }
       },
-      "sorting_form_birthday":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"form",
-            "fieldKey":"birthday",
-            "sortDirection":":sorting_form_birthday"
+      "sorting_form_surname": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "form",
+            "fieldKey": "surname",
+            "sortDirection": ":sorting_form_surname"
           }
         },
-        "set":{
-          "link":"widgets['form'].sorting.birthday"
+        "set": {
+          "link": "widgets['form'].sorting.surname"
         }
       },
-      "sorting_form_age":{
-        "get":{
-          "type":"n2o/widgets/SORT_BY",
-          "payload":{
-            "widgetId":"form",
-            "fieldKey":"age",
-            "sortDirection":":sorting_form_age"
+      "sorting_form_name": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "form",
+            "fieldKey": "name",
+            "sortDirection": ":sorting_form_name"
           }
         },
-        "set":{
-          "link":"widgets['form'].sorting.age"
+        "set": {
+          "link": "widgets['form'].sorting.name"
         }
       },
-      "left_panel_0":{
-        "get":{
-          "type":"n2o/regions/SET_ACTIVE_REGION_ENTITY",
-          "payload":{
-            "regionId":"left_panel_0",
-            "activeEntity":":left_panel_0"
+      "sorting_form_patrName": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "form",
+            "fieldKey": "patrName",
+            "sortDirection": ":sorting_form_patrName"
           }
         },
-        "set":{
-          "link":"regions.left_panel_0.activeEntity"
+        "set": {
+          "link": "widgets['form'].sorting.patrName"
         }
       },
-      "right_panel_1":{
-        "get":{
-          "type":"n2o/regions/SET_ACTIVE_REGION_ENTITY",
-          "payload":{
-            "regionId":"right_panel_1",
-            "activeEntity":":right_panel_1"
+      "sorting_form_birthday": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "form",
+            "fieldKey": "birthday",
+            "sortDirection": ":sorting_form_birthday"
           }
         },
-        "set":{
-          "link":"regions.right_panel_1.activeEntity"
+        "set": {
+          "link": "widgets['form'].sorting.birthday"
         }
       },
-      "right_panel_2":{
-        "get":{
-          "type":"n2o/regions/SET_ACTIVE_REGION_ENTITY",
-          "payload":{
-            "regionId":"right_panel_2",
-            "activeEntity":":right_panel_2"
+      "sorting_form_age": {
+        "get": {
+          "type": "n2o/widgets/SORT_BY",
+          "payload": {
+            "widgetId": "form",
+            "fieldKey": "age",
+            "sortDirection": ":sorting_form_age"
           }
         },
-        "set":{
-          "link":"regions.right_panel_2.activeEntity"
+        "set": {
+          "link": "widgets['form'].sorting.age"
         }
       }
     }
   },
-  "toolbar":{
-    "topRight":[
+  "toolbar": {
+    "topRight": [
       {
-        "id":"topRight0",
-        "buttons":[
+        "id": "topRight0",
+        "buttons": [
           {
-            "src":"StandardButton",
-            "id":"create2",
-            "label":"Добавить клиента",
-            "icon":"fa fa-plus",
-            "action":{
-
-            },
-            "hint":"Добавить клиента",
-            "hintPosition":"bottom",
-            "conditions":{
-
-            },
-            "color":"primary",
-            "url":"/create2",
-            "target":"application",
-            "rounded":false,
-            "pathMapping":{
-
-            },
-            "queryMapping":{
-
-            }
+            "src": "StandardButton",
+            "id": "create2",
+            "label": "Добавить клиента",
+            "icon": "fa fa-plus",
+            "color": "primary",
+            "rounded": false,
+            "action": {},
+            "hint": "Добавить клиента",
+            "hintPosition": "bottom",
+            "conditions": {},
+            "validate": [
+              "clients"
+            ],
+            "url": "/clients/create2",
+            "target": "application",
+            "pathMapping": {},
+            "queryMapping": {}
           }
         ]
       }
     ]
   },
-  "breadcrumb":[
+  "breadcrumb": [
     {
-      "label":"Список контактов"
+      "label": "Список контактов"
     }
   ],
-  "models":{
-    "filter['clients'].genders":{
-      "link":"models.filter['clients'].genders"
+  "models": {},
+  "datasources": {
+    "clients": {
+      "id": "clients",
+      "provider": {
+        "url": "n2o/data/",
+        "pathMapping": {},
+        "queryMapping": {
+          "clients_surname": {
+            "value": "`surname`",
+            "observe": true,
+            "required": false,
+            "link": "models.filter['clients']"
+          },
+          "clients_name": {
+            "value": "`name`",
+            "observe": true,
+            "required": false,
+            "link": "models.filter['clients']"
+          },
+          "clients_bdate_end": {
+            "value": "`bdate.end`",
+            "observe": true,
+            "required": false,
+            "link": "models.filter['clients']"
+          },
+          "clients_bdate_begin": {
+            "value": "`bdate.begin`",
+            "observe": true,
+            "required": false,
+            "link": "models.filter['clients']"
+          },
+          "clients_genders_id": {
+            "value": "`genders.map(function(t){return t.id})`",
+            "observe": true,
+            "required": false,
+            "link": "models.filter['clients']"
+          },
+          "clients_vip": {
+            "value": "`vip`",
+            "observe": true,
+            "required": false,
+            "link": "models.filter['clients']"
+          },
+          "clients_birthday": {
+            "value": "`birthday`",
+            "observe": true,
+            "required": false,
+            "link": "models.filter['clients']"
+          }
+        },
+        "size": 10
+      },
+      "validations": {},
+      "size": 10,
+      "dependencies": []
+    },
+    "form": {
+      "id": "form",
+      "provider": {
+        "url": "n2o/data/form/:client_id/card",
+        "pathMapping": {
+          "client_id": {
+            "value": "`id`",
+            "observe": false,
+            "required": true,
+            "link": "models.resolve['clients']"
+          }
+        },
+        "queryMapping": {},
+        "size": 1
+      },
+      "validations": {},
+      "size": 1,
+      "dependencies": [
+        {
+          "on": "models.resolve['clients']",
+          "type": "fetch"
+        }
+      ]
+    },
+    "contacts": {
+      "id": "contacts",
+      "provider": {
+        "url": "n2o/data/contacts/:client_id/list",
+        "pathMapping": {
+          "client_id": {
+            "value": "`id`",
+            "observe": false,
+            "required": true,
+            "link": "models.resolve['clients']"
+          }
+        },
+        "queryMapping": {},
+        "size": 10
+      },
+      "validations": {},
+      "size": 10,
+      "dependencies": [
+        {
+          "on": "models.resolve['clients']",
+          "type": "fetch"
+        }
+      ]
     }
   },
-  "regions":{
-    "left":[
+  "regions": {
+    "left": [
       {
-        "id":"left_panel_0",
-        "src":"PanelRegion",
-        "content":[
+        "src": "PanelRegion",
+        "id": "left_panel_0",
+        "content": [
           {
-            "src": "CardsWidget",
-            "id": "cards",
-            "dataProvider": {
-              "url": "n2o/data/cards",
-              "pathMapping": {},
-              "queryMapping": {},
-              "headersMapping": {}
+            "src": "AdvancedTableWidget",
+            "id": "clients",
+            "datasource": "clients",
+            "toolbar": {
+              "topLeft": [
+                {
+                  "id": "topLeft0",
+                  "buttons": [
+                    {
+                      "src": "StandardButton",
+                      "id": "create",
+                      "label": "Создать",
+                      "icon": "fa fa-plus",
+                      "rounded": false,
+                      "action": {
+                        "type": "n2o/overlays/INSERT_MODAL",
+                        "payload": {
+                          "name": "create",
+                          "pageId": "create",
+                          "pageUrl": "/create",
+                          "pathMapping": {},
+                          "queryMapping": {},
+                          "size": "lg",
+                          "scrollable": false,
+                          "closeButton": true,
+                          "visible": true,
+                          "prompt": true,
+                          "hasHeader": true,
+                          "backdrop": "static"
+                        }
+                      },
+                      "hint": "Создать",
+                      "hintPosition": "bottom",
+                      "conditions": {},
+                      "validate": [
+                        "clients"
+                      ]
+                    },
+                    {
+                      "src": "StandardButton",
+                      "id": "update_client",
+                      "label": "Изменить",
+                      "icon": "fa fa-pencil",
+                      "rounded": false,
+                      "action": {
+                        "type": "n2o/overlays/INSERT_MODAL",
+                        "payload": {
+                          "name": "clients_update_client",
+                          "pageId": "clients_update_client",
+                          "pageUrl": "/clients/:id/update_client",
+                          "pathMapping": {
+                            "id": {
+                              "value": "`id`",
+                              "observe": false,
+                              "required": false,
+                              "link": "models.resolve['clients']"
+                            }
+                          },
+                          "queryMapping": {},
+                          "size": "lg",
+                          "scrollable": false,
+                          "closeButton": true,
+                          "visible": true,
+                          "prompt": true,
+                          "hasHeader": true,
+                          "backdrop": "static"
+                        }
+                      },
+                      "hint": "Изменить",
+                      "hintPosition": "bottom",
+                      "conditions": {
+                        "enabled": [
+                          {
+                            "expression": "!_.isEmpty(this)",
+                            "modelLink": "models.resolve['clients']"
+                          }
+                        ]
+                      },
+                      "validate": [
+                        "clients"
+                      ]
+                    },
+                    {
+                      "src": "StandardButton",
+                      "id": "delete",
+                      "label": "Удалить",
+                      "icon": "fa fa-trash",
+                      "rounded": false,
+                      "action": {
+                        "type": "n2o/actionImpl/START_INVOKE",
+                        "payload": {
+                          "dataProvider": {
+                            "url": "n2o/data/clients/delete",
+                            "pathMapping": {},
+                            "queryMapping": {},
+                            "headersMapping": {},
+                            "formMapping": {},
+                            "method": "POST",
+                            "optimistic": false,
+                            "submitForm": true
+                          },
+                          "datasource": "clients",
+                          "model": "resolve",
+                          "widgetId": "clients",
+                          "pageId": "_"
+                        },
+                        "meta": {
+                          "success": {
+                            "refresh": {
+                              "datasources": [
+                                "clients"
+                              ]
+                            }
+                          },
+                          "fail": {}
+                        }
+                      },
+                      "hint": "Удалить",
+                      "hintPosition": "bottom",
+                      "conditions": {
+                        "enabled": [
+                          {
+                            "expression": "!_.isEmpty(this)",
+                            "modelLink": "models.resolve['clients']"
+                          }
+                        ]
+                      },
+                      "confirm": {
+                        "text": "`'Вы уверены, что хотите удалить клиента ' + this.surname + ' ' + this.name + '?'`",
+                        "title": "Предупреждение",
+                        "okLabel": "Да",
+                        "cancelLabel": "Нет",
+                        "modelLink": "models.resolve['clients']",
+                        "condition": "`true`",
+                        "mode": "modal"
+                      },
+                      "validate": [
+                        "clients"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "topRight": [
+                {
+                  "id": "topRight0",
+                  "buttons": [
+                    {
+                      "src": "StandardButton",
+                      "id": "update2",
+                      "label": "Изменить",
+                      "icon": "fa fa-edit",
+                      "color": "light",
+                      "rounded": false,
+                      "action": {},
+                      "hint": "Кнопка скрывается, если в строке имя Мария",
+                      "hintPosition": "bottom",
+                      "conditions": {
+                        "visible": [
+                          {
+                            "expression": "name != 'Мария'",
+                            "modelLink": "models.resolve['clients']"
+                          }
+                        ],
+                        "enabled": [
+                          {
+                            "expression": "!_.isEmpty(this)",
+                            "modelLink": "models.resolve['clients']"
+                          }
+                        ]
+                      },
+                      "validate": [
+                        "clients"
+                      ],
+                      "url": "/clients/:id/update2",
+                      "target": "application",
+                      "pathMapping": {
+                        "id": {
+                          "value": "`id`",
+                          "observe": false,
+                          "required": false,
+                          "link": "models.resolve['clients']"
+                        }
+                      },
+                      "queryMapping": {}
+                    },
+                    {
+                      "src": "StandardButton",
+                      "id": "view",
+                      "label": "Просмотр",
+                      "icon": "fa fa-book",
+                      "color": "info",
+                      "rounded": false,
+                      "action": {
+                        "type": "n2o/overlays/INSERT_MODAL",
+                        "payload": {
+                          "name": "clients_view",
+                          "pageId": "clients_view",
+                          "pageUrl": "/clients/:id/view",
+                          "pathMapping": {
+                            "id": {
+                              "value": "`id`",
+                              "observe": false,
+                              "required": false,
+                              "link": "models.resolve['clients']"
+                            }
+                          },
+                          "queryMapping": {},
+                          "size": "lg",
+                          "scrollable": false,
+                          "closeButton": true,
+                          "visible": true,
+                          "prompt": true,
+                          "hasHeader": true,
+                          "backdrop": "static"
+                        }
+                      },
+                      "hint": "Кнопка блокируется, если в фильтре имя Анна",
+                      "hintPosition": "right",
+                      "conditions": {
+                        "enabled": [
+                          {
+                            "expression": "!_.isEmpty(this)",
+                            "modelLink": "models.resolve['clients']"
+                          },
+                          {
+                            "expression": "name != 'Анна'",
+                            "modelLink": "models.resolve['clients']"
+                          }
+                        ]
+                      },
+                      "validate": [
+                        "clients"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "bottomRight": [
+                {
+                  "id": "bottomRight0",
+                  "buttons": [
+                    {
+                      "src": "StandardButton",
+                      "id": "mi5",
+                      "icon": "fa fa-filter",
+                      "rounded": false,
+                      "action": {
+                        "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY",
+                        "payload": {
+                          "widgetId": "clients"
+                        }
+                      },
+                      "hint": "Изменить видимость фильтров",
+                      "hintPosition": "bottom",
+                      "conditions": {},
+                      "validate": [
+                        "clients"
+                      ]
+                    },
+                    {
+                      "src": "ToggleColumn",
+                      "id": "mi6",
+                      "icon": "fa fa-table",
+                      "rounded": false,
+                      "hint": "Изменить видимость колонок",
+                      "hintPosition": "bottom",
+                      "conditions": {}
+                    },
+                    {
+                      "src": "StandardButton",
+                      "id": "mi7",
+                      "icon": "fa fa-refresh",
+                      "rounded": false,
+                      "action": {
+                        "type": "n2o/datasource/DATA_REQUEST",
+                        "payload": {
+                          "datasource": "clients"
+                        }
+                      },
+                      "hint": "Обновить данные",
+                      "hintPosition": "bottom",
+                      "conditions": {},
+                      "validate": [
+                        "clients"
+                      ]
+                    },
+                    {
+                      "src": "ChangeSize",
+                      "id": "mi8",
+                      "icon": "fa fa-bars",
+                      "rounded": false,
+                      "hint": "Изменить размер",
+                      "hintPosition": "bottom",
+                      "conditions": {}
+                    }
+                  ]
+                }
+              ]
             },
             "paging": {
-              "size": 10
+              "prev": false,
+              "next": false,
+              "size": 10,
+              "last": false,
+              "first": true,
+              "showCount": true,
+              "showSinglePage": false,
+              "layout": "separated",
+              "prevIcon": "fa fa-angle-left",
+              "nextIcon": "fa fa-angle-right",
+              "firstIcon": "fa fa-angle-double-left",
+              "lastIcon": "fa fa-angle-double-right",
+              "maxPages": 5,
+              "place": "bottomLeft"
             },
             "filter": {
               "filterFieldsets": [
@@ -474,7 +836,11 @@
                             {
                               "src": "StandardField",
                               "id": "surname",
+                              "required": false,
+                              "visible": true,
+                              "enabled": true,
                               "label": "Фамилия",
+                              "noLabelBlock": false,
                               "dependency": [],
                               "control": {
                                 "src": "InputText",
@@ -488,7 +854,11 @@
                             {
                               "src": "StandardField",
                               "id": "name",
+                              "required": false,
+                              "visible": true,
+                              "enabled": true,
                               "label": "Имя",
+                              "noLabelBlock": false,
                               "dependency": [],
                               "control": {
                                 "src": "InputText",
@@ -502,7 +872,11 @@
                             {
                               "src": "StandardField",
                               "id": "bdate",
+                              "required": false,
+                              "visible": true,
+                              "enabled": true,
                               "label": "Дата рождения",
+                              "noLabelBlock": false,
                               "dependency": [],
                               "control": {
                                 "src": "DateInterval",
@@ -524,7 +898,11 @@
                             {
                               "src": "StandardField",
                               "id": "genders",
+                              "required": false,
+                              "visible": true,
+                              "enabled": true,
                               "label": "Пол",
+                              "noLabelBlock": false,
                               "dependency": [],
                               "control": {
                                 "src": "CheckboxGroup",
@@ -537,7 +915,7 @@
                                   "queryMapping": {}
                                 },
                                 "inline": true,
-                                "type": "n2o"
+                                "type": "default"
                               }
                             }
                           ]
@@ -547,6 +925,10 @@
                             {
                               "src": "StandardField",
                               "id": "vip",
+                              "required": false,
+                              "visible": true,
+                              "enabled": true,
+                              "noLabelBlock": false,
                               "dependency": [],
                               "control": {
                                 "src": "Checkbox",
@@ -564,469 +946,556 @@
               ],
               "filterButtonId": "filter",
               "blackResetList": [],
-              "filterPlace": "top",
-              "validation": {}
+              "filterPlace": "top"
             },
-            "cards": [
-              {
-                "col": 4,
-                "content": [
-                  {
-                    "id": "card1",
-                    "style": {},
-                    "fieldKey": "card1",
-                    "src": "TextCell"
-                  }
-                ]
-              },
-              {
-                "col": 4,
-                "content": [
-                  {
-                    "id": "card2",
-                    "style": {},
-                    "fieldKey": "card2",
-                    "src": "ImageCell"
+            "children": "collapse",
+            "table": {
+              "size": 10,
+              "hasFocus": true,
+              "hasSelect": true,
+              "textWrap": true,
+              "cells": [
+                {
+                  "id": "surname",
+                  "fieldKey": "surname",
+                  "src": "LinkCell",
+                  "action": {},
+                  "url": "/clients/:id/surname",
+                  "target": "application",
+                  "pathMapping": {
+                    "id": {
+                      "value": "`id`",
+                      "observe": false,
+                      "required": false,
+                      "link": "models.resolve['clients']"
+                    }
                   },
-                  {
-                    "id": "card21",
-                    "style": {},
-                    "fieldKey": "card21",
-                    "subTextFieldKey": "card211",
-                    "src": "TextCell"
+                  "queryMapping": {},
+                  "type": "text"
+                },
+                {
+                  "id": "name",
+                  "fieldKey": "name",
+                  "src": "LinkCell",
+                  "action": {
+                    "type": "n2o/overlays/INSERT_MODAL",
+                    "payload": {
+                      "name": "clients_name",
+                      "pageId": "clients_name",
+                      "pageUrl": "/clients/:id/name",
+                      "pathMapping": {
+                        "id": {
+                          "value": "`id`",
+                          "observe": false,
+                          "required": false,
+                          "link": "models.resolve['clients']"
+                        }
+                      },
+                      "queryMapping": {},
+                      "size": "lg",
+                      "scrollable": false,
+                      "closeButton": true,
+                      "visible": true,
+                      "prompt": true,
+                      "hasHeader": true,
+                      "backdrop": "static"
+                    }
                   },
-                  {
-                  "id":"action",
-                  "fieldKey":"action",
-                  "src":"ButtonsCell",
-                  "toolbar":[
+                  "type": "text"
+                },
+                {
+                  "id": "patrName",
+                  "fieldKey": "patrName",
+                  "src": "LinkCell",
+                  "url": "`'/clients/'+id+'/update2'`",
+                  "target": "application",
+                  "type": "text",
+                  "visible": "`name!='Мария'`"
+                },
+                {
+                  "id": "birthday",
+                  "fieldKey": "birthday",
+                  "src": "EditableCell",
+                  "action": {
+                    "type": "n2o/actionImpl/START_INVOKE",
+                    "payload": {
+                      "dataProvider": {
+                        "url": "n2o/data/clients/update_birthday",
+                        "pathMapping": {},
+                        "queryMapping": {},
+                        "headersMapping": {},
+                        "formMapping": {},
+                        "method": "POST",
+                        "optimistic": false,
+                        "submitForm": true
+                      },
+                      "datasource": "clients",
+                      "model": "resolve",
+                      "pageId": "_"
+                    },
+                    "meta": {
+                      "success": {
+                        "refresh": {
+                          "datasources": [
+                            "clients"
+                          ]
+                        }
+                      },
+                      "fail": {}
+                    }
+                  },
+                  "control": {
+                    "src": "DatePicker",
+                    "id": "birthday",
+                    "dateFormat": "DD.MM.YYYY",
+                    "utc": false,
+                    "outputFormat": "YYYY-MM-DDTHH:mm:ss"
+                  },
+                  "format": "date DD.MM.YYYY",
+                  "editFieldId": "birthday",
+                  "editType": "inline",
+                  "editable": true
+                },
+                {
+                  "id": "genderName",
+                  "fieldKey": "genderName",
+                  "src": "BadgeCell",
+                  "color": "`gender.id==1?'danger':'success'`"
+                },
+                {
+                  "id": "vip",
+                  "fieldKey": "vip",
+                  "src": "CheckboxCell",
+                  "action": {
+                    "type": "n2o/actionImpl/START_INVOKE",
+                    "payload": {
+                      "dataProvider": {
+                        "url": "n2o/data/clients/update_vip",
+                        "pathMapping": {},
+                        "queryMapping": {},
+                        "headersMapping": {},
+                        "formMapping": {},
+                        "method": "POST",
+                        "optimistic": false,
+                        "submitForm": true
+                      },
+                      "datasource": "clients",
+                      "model": "resolve",
+                      "pageId": "_"
+                    },
+                    "meta": {
+                      "success": {
+                        "refresh": {
+                          "datasources": [
+                            "clients"
+                          ]
+                        }
+                      },
+                      "fail": {}
+                    }
+                  },
+                  "disabled": "`!(name!='Мария')`"
+                },
+                {
+                  "id": "",
+                  "fieldKey": "",
+                  "src": "ButtonsCell",
+                  "toolbar": [
                     {
-                      "buttons":[
+                      "buttons": [
                         {
-                          "src":"StandardButton",
-                          "id":"menuItem0",
-                          "label":"Info",
-                          "action":{
-                            "type":"n2o/overlays/INSERT_MODAL",
-                            "payload":{
-                              "name":"id_menuItem0",
-                              "pageId":"id_menuItem0",
-                              "pageUrl":"/:id/menuItem0",
-                              "pathMapping":{
-                                "id":{
-                                  "link":"models.resolve['main'].id"
+                          "src": "DropdownButton",
+                          "id": "mi0",
+                          "icon": "fa fa-ellipsis-v",
+                          "color": "link",
+                          "conditions": {},
+                          "subMenu": [
+                            {
+                              "src": "StandardButton",
+                              "id": "delete",
+                              "label": "Удалить",
+                              "icon": "fa fa-trash",
+                              "rounded": false,
+                              "action": {
+                                "type": "n2o/actionImpl/START_INVOKE",
+                                "payload": {
+                                  "dataProvider": {
+                                    "url": "n2o/data/clients/delete",
+                                    "pathMapping": {},
+                                    "queryMapping": {},
+                                    "headersMapping": {},
+                                    "formMapping": {},
+                                    "method": "POST",
+                                    "optimistic": false,
+                                    "submitForm": true
+                                  },
+                                  "datasource": "clients",
+                                  "model": "resolve",
+                                  "widgetId": "clients",
+                                  "pageId": "_"
+                                },
+                                "meta": {
+                                  "success": {
+                                    "refresh": {
+                                      "datasources": [
+                                        "clients"
+                                      ]
+                                    }
+                                  },
+                                  "fail": {}
                                 }
                               },
-                              "queryMapping":{
-
+                              "conditions": {},
+                              "confirm": {
+                                "text": "`'Вы уверены, что хотите удалить клиента ' + this.surname + ' ' + this.name + '?'`",
+                                "title": "Предупреждение",
+                                "okLabel": "Да",
+                                "cancelLabel": "Нет",
+                                "modelLink": "models.resolve['clients']",
+                                "condition": "`true`",
+                                "mode": "modal"
                               },
-                              "scrollable":false,
-                              "closeButton":true,
-                              "visible":true,
-                              "prompt":true
+                              "validate": [
+                                "clients"
+                              ]
+                            },
+                            {
+                              "src": "StandardButton",
+                              "id": "update",
+                              "label": "Изменить",
+                              "icon": "fa fa-pencil",
+                              "rounded": false,
+                              "action": {
+                                "type": "n2o/overlays/INSERT_MODAL",
+                                "payload": {
+                                  "name": "clients_update",
+                                  "pageId": "clients_update",
+                                  "pageUrl": "/clients/:clients_id/update",
+                                  "pathMapping": {
+                                    "clients_id": {
+                                      "value": "`id`",
+                                      "observe": false,
+                                      "required": false,
+                                      "link": "models.resolve['clients']"
+                                    }
+                                  },
+                                  "queryMapping": {},
+                                  "size": "lg",
+                                  "scrollable": false,
+                                  "closeButton": true,
+                                  "visible": true,
+                                  "prompt": true,
+                                  "hasHeader": true,
+                                  "backdrop": "static"
+                                }
+                              },
+                              "conditions": {},
+                              "validate": [
+                                "clients"
+                              ]
                             }
-                          },
-                          "conditions":{
-
-                          },
-                          "color":"success",
-                          "rounded":false,
-                          "security":{
-                            "page":{
-                              "denied":false,
-                              "permitAll":true
-                            }
-                          }
+                          ],
+                          "showToggleIcon": true
                         }
                       ]
                     }
                   ]
-                  }
-                ]
+                }
+              ],
+              "headers": [
+                {
+                  "id": "surname",
+                  "label": "Фамилия",
+                  "src": "TextTableHeader",
+                  "sortingParam": "surname",
+                  "conditions": {}
+                },
+                {
+                  "id": "name",
+                  "label": "Имя",
+                  "src": "TextTableHeader",
+                  "sortingParam": "name",
+                  "conditions": {}
+                },
+                {
+                  "id": "patrName",
+                  "label": "Отчество",
+                  "src": "TextTableHeader",
+                  "sortingParam": "patrName",
+                  "conditions": {}
+                },
+                {
+                  "id": "birthday",
+                  "label": "Дата рождения",
+                  "src": "TextTableHeader",
+                  "sortingParam": "birthday",
+                  "conditions": {}
+                },
+                {
+                  "id": "genderName",
+                  "label": "Пол",
+                  "src": "TextTableHeader",
+                  "conditions": {}
+                },
+                {
+                  "id": "vip",
+                  "label": "VIP",
+                  "src": "TextTableHeader",
+                  "conditions": {}
+                },
+                {
+                  "id": "",
+                  "src": "TextTableHeader",
+                  "conditions": {}
+                }
+              ],
+              "sorting": {
+                "birthday": "ASC"
               },
-              {
-                "col": 4,
-                "content": [
-                  {
-                    "id": "card3",
-                    "style": {},
-                    "fieldKey": "card3",
-                    "src": "RatingCell"
-                  },
-                  {
-                    "id": "card31",
-                    "style": {},
-                    "fieldKey": "card31",
-                    "src": "TextCell"
-                  }
-                ]
-              }
-            ]
+              "autoCheckboxOnSelect": false,
+              "rowSelection": "checkbox",
+              "autoFocus": false
+            }
           }
         ],
-        "headerTitle":"Данные клиента",
-        "open":true,
-        "collapsible":false,
-        "fullScreen":false,
-        "header":true
+        "headerTitle": "Данные клиента",
+        "open": true,
+        "collapsible": false,
+        "fullScreen": false,
+        "header": true
       }
     ],
-    "right":[
+    "right": [
       {
-        "id":"right_panel_1",
-        "src":"PanelRegion",
-        "content":[
+        "src": "PanelRegion",
+        "id": "right_panel_1",
+        "content": [
           {
-            "src":"ListWidget",
-            "id":"contacts",
-            "dataProvider":{
-              "url":"n2o/data/:clients_id/contacts",
-              "pathMapping":{
-                "clients_id":{
-                  "link":"models.resolve['clients'].id"
-                }
-              },
-              "queryMapping":{
-
-              }
-            },
-            "toolbar":{
-              "topLeft":[
+            "src": "ListWidget",
+            "id": "contacts",
+            "datasource": "contacts",
+            "toolbar": {
+              "topLeft": [
                 {
-                  "id":"topLeft0",
-                  "buttons":[
+                  "id": "topLeft0",
+                  "buttons": [
                     {
-                      "src":"StandardButton",
-                      "id":"createContact",
-                      "label":"Создать",
-                      "action":{
-                        "type":"n2o/overlays/INSERT_MODAL",
-                        "payload":{
-                          "name":"clients_id_contacts_createContact",
-                          "pageId":"clients_id_contacts_createContact",
-                          "pageUrl":"/:clients_id/contacts/createContact",
-                          "pathMapping":{
-                            "clients_id":{
-                              "link":"models.resolve['clients'].id"
+                      "src": "StandardButton",
+                      "id": "createContact",
+                      "label": "Создать",
+                      "rounded": false,
+                      "action": {
+                        "type": "n2o/overlays/INSERT_MODAL",
+                        "payload": {
+                          "name": "contacts_createContact",
+                          "pageId": "contacts_createContact",
+                          "pageUrl": "/contacts/:client_id/createContact",
+                          "pathMapping": {
+                            "client_id": {
+                              "value": "`id`",
+                              "observe": false,
+                              "required": false,
+                              "link": "models.resolve['clients']"
                             }
                           },
-                          "queryMapping":{
-                            "client_id":{
-                              "value":"`id`",
-                              "link":"models.resolve['clients']"
-                            }
-                          },
-                          "scrollable":false,
-                          "closeButton":true,
-                          "visible":true,
-                          "prompt":true
+                          "queryMapping": {},
+                          "size": "lg",
+                          "scrollable": false,
+                          "closeButton": true,
+                          "visible": true,
+                          "prompt": true,
+                          "hasHeader": true,
+                          "backdrop": "static"
                         }
                       },
-                      "conditions":{
-
-                      },
-                      "rounded":false
+                      "conditions": {},
+                      "validate": [
+                        "contacts"
+                      ]
                     }
                   ]
                 }
               ]
             },
-            "actions":{
-              "update":{
-                "type":"n2o/overlays/INSERT_MODAL",
-                "payload":{
-                  "name":"clients_id_contacts_update",
-                  "pageId":"clients_id_contacts_update",
-                  "pageUrl":"/:clients_id/contacts/:contacts_id/update",
-                  "pathMapping":{
-                    "clients_id":{
-                      "link":"models.resolve['clients'].id"
-                    },
-                    "contacts_id":{
-                      "link":"models.resolve['contacts'].id"
-                    }
-                  },
-                  "queryMapping":{
-
-                  },
-                  "scrollable":false,
-                  "closeButton":true,
-                  "visible":true,
-                  "prompt":true
-                }
-              },
-              "createContact":{
-                "type":"n2o/overlays/INSERT_MODAL",
-                "payload":{
-                  "name":"clients_id_contacts_createContact",
-                  "pageId":"clients_id_contacts_createContact",
-                  "pageUrl":"/:clients_id/contacts/createContact",
-                  "pathMapping":{
-                    "clients_id":{
-                      "link":"models.resolve['clients'].id"
-                    }
-                  },
-                  "queryMapping":{
-                    "client_id":{
-                      "value":"`id`",
-                      "link":"models.resolve['clients']"
-                    }
-                  },
-                  "scrollable":false,
-                  "closeButton":true,
-                  "visible":true,
-                  "prompt":true
-                }
-              },
-              "delete":{
-                "type":"n2o/actionImpl/START_INVOKE",
-                "payload":{
-                  "widgetId":"contacts",
-                  "dataProvider":{
-                    "url":"n2o/data/:clients_id/contacts/delete",
-                    "pathMapping":{
-                      "clients_id":{
-                        "link":"models.resolve['clients'].id"
-                      }
-                    },
-                    "queryMapping":{
-
-                    },
-                    "headersMapping":{
-
-                    },
-                    "formMapping":{
-
-                    },
-                    "method":"POST",
-                    "optimistic":false,
-                    "submitForm":true
-                  },
-                  "modelLink":"models.resolve['contacts']"
-                },
-                "meta":{
-                  "success":{
-                    "refresh":{
-                      "type":"widget",
-                      "options":{
-                        "widgetId":"contacts"
-                      }
-                    }
-                  },
-                  "fail":{
-
-                  }
-                }
-              }
-            },
-            "dependency":{
-              "fetch":[
+            "dependency": {
+              "visible": [
                 {
-                  "on":"models.resolve['clients']"
-                }
-              ],
-              "visible":[
-                {
-                  "on":"models.resolve['clients']",
-                  "condition":"name != 'Мария'"
+                  "on": "models.resolve['clients']",
+                  "condition": "name != 'Мария'"
                 }
               ]
             },
-            "list":{
-              "leftTop":{
-                "src":"IconCell",
-                "icon":"`type.id == 2 ? 'fa fa-phone' : type.id == 4 ? 'fa fa-envelop' : type.id == 7 ? 'fa fa-fax' : null`",
-                "type":"icon"
+            "list": {
+              "leftTop": {
+                "src": "IconCell",
+                "icon": "`type.id == 2 ? 'fa fa-phone' : type.id == 4 ? 'fa fa-envelop' : type.id == 7 ? 'fa fa-fax' : null`",
+                "type": "icon"
               },
-              "extra":{
-                "src":"ButtonsCell",
-                "toolbar":[
+              "extra": {
+                "src": "ButtonsCell",
+                "toolbar": [
                   {
-                    "buttons":[
+                    "buttons": [
                       {
-                        "src":"StandardButton",
-                        "id":"update",
-                        "label":"Изменить",
-                        "icon":"fa fa-pencil",
-                        "action":{
-                          "type":"n2o/overlays/INSERT_MODAL",
-                          "payload":{
-                            "name":"clients_id_contacts_update",
-                            "pageId":"clients_id_contacts_update",
-                            "pageUrl":"/:clients_id/contacts/:contacts_id/update",
-                            "pathMapping":{
-                              "clients_id":{
-                                "link":"models.resolve['clients'].id"
-                              },
-                              "contacts_id":{
-                                "link":"models.resolve['contacts'].id"
+                        "src": "StandardButton",
+                        "id": "update",
+                        "label": "Изменить",
+                        "icon": "fa fa-pencil",
+                        "color": "link",
+                        "rounded": false,
+                        "action": {
+                          "type": "n2o/overlays/INSERT_MODAL",
+                          "payload": {
+                            "name": "contacts_update",
+                            "pageId": "contacts_update",
+                            "pageUrl": "/contacts/:contacts_id/update",
+                            "pathMapping": {
+                              "contacts_id": {
+                                "value": "`id`",
+                                "observe": false,
+                                "required": false,
+                                "link": "models.resolve['contacts']"
                               }
                             },
-                            "queryMapping":{
-
-                            },
-                            "scrollable":false,
-                            "closeButton":true,
-                            "visible":true,
-                            "prompt":true
+                            "queryMapping": {},
+                            "size": "lg",
+                            "scrollable": false,
+                            "closeButton": true,
+                            "visible": true,
+                            "prompt": true,
+                            "hasHeader": true,
+                            "backdrop": "static"
                           }
                         },
-                        "conditions":{
-
-                        },
-                        "color":"link",
-                        "rounded":false
+                        "conditions": {},
+                        "validate": [
+                          "contacts"
+                        ]
                       },
                       {
-                        "src":"StandardButton",
-                        "id":"delete",
-                        "label":"Удалить",
-                        "icon":"fa fa-trash",
-                        "action":{
-                          "type":"n2o/actionImpl/START_INVOKE",
-                          "payload":{
-                            "widgetId":"contacts",
-                            "dataProvider":{
-                              "url":"n2o/data/:clients_id/contacts/delete",
-                              "pathMapping":{
-                                "clients_id":{
-                                  "link":"models.resolve['clients'].id"
-                                }
-                              },
-                              "queryMapping":{
-
-                              },
-                              "headersMapping":{
-
-                              },
-                              "formMapping":{
-
-                              },
-                              "method":"POST",
-                              "optimistic":false,
-                              "submitForm":true
+                        "src": "StandardButton",
+                        "id": "delete",
+                        "label": "Удалить",
+                        "icon": "fa fa-trash",
+                        "color": "link",
+                        "rounded": false,
+                        "action": {
+                          "type": "n2o/actionImpl/START_INVOKE",
+                          "payload": {
+                            "dataProvider": {
+                              "url": "n2o/data/contacts/delete",
+                              "pathMapping": {},
+                              "queryMapping": {},
+                              "headersMapping": {},
+                              "formMapping": {},
+                              "method": "POST",
+                              "optimistic": false,
+                              "submitForm": true
                             },
-                            "modelLink":"models.resolve['contacts']"
+                            "datasource": "contacts",
+                            "model": "resolve",
+                            "widgetId": "contacts",
+                            "pageId": "_"
                           },
-                          "meta":{
-                            "success":{
-                              "refresh":{
-                                "type":"widget",
-                                "options":{
-                                  "widgetId":"contacts"
-                                }
+                          "meta": {
+                            "success": {
+                              "refresh": {
+                                "datasources": [
+                                  "contacts"
+                                ]
                               }
                             },
-                            "fail":{
-
-                            }
+                            "fail": {}
                           }
                         },
-                        "conditions":{
-
+                        "conditions": {},
+                        "confirm": {
+                          "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
+                          "title": "Предупреждение",
+                          "okLabel": "Да",
+                          "cancelLabel": "Нет",
+                          "modelLink": "models.resolve['contacts']",
+                          "condition": "`true`",
+                          "mode": "modal"
                         },
-                        "confirm":{
-                          "text":"Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
-                          "title":"Предупреждение",
-                          "okLabel":"Да",
-                          "cancelLabel":"Нет",
-                          "mode":"modal"
-                        },
-                        "color":"link",
-                        "rounded":false
+                        "validate": [
+                          "contacts"
+                        ]
                       }
                     ]
                   }
                 ]
               },
-              "header":{
-                "id":"type.name",
-                "fieldKey":"type.name",
-                "src":"TextCell",
-                "className":"text-muted"
+              "header": {
+                "id": "type.name",
+                "fieldKey": "type.name",
+                "src": "TextCell",
+                "className": "text-muted"
               },
-              "body":{
-                "id":"value",
-                "fieldKey":"value",
-                "src":"TextCell"
+              "body": {
+                "id": "value",
+                "fieldKey": "value",
+                "src": "TextCell"
               }
             },
-            "paging":{
-              "size":5
+            "paging": {
+              "size": 5
             }
           }
         ],
-        "headerTitle":"Контакты",
-        "open":true,
-        "collapsible":true,
-        "fullScreen":false,
-        "header":true
+        "headerTitle": "Контакты",
+        "open": true,
+        "collapsible": true,
+        "fullScreen": false,
+        "header": true
       },
       {
-        "id":"right_panel_2",
-        "src":"PanelRegion",
-        "content":[
+        "src": "PanelRegion",
+        "id": "right_panel_2",
+        "content": [
           {
-            "src":"FormWidget",
-            "id":"form",
-            "dataProvider":{
-              "url":"n2o/data/:client_id/card",
-              "pathMapping":{
-                "client_id":{
-                  "link":"models.resolve['clients'].id"
-                }
-              },
-              "queryMapping":{
-
-              }
-            },
-            "actions":{
-
-            },
-            "dependency":{
-              "fetch":[
+            "src": "FormWidget",
+            "id": "form",
+            "datasource": "form",
+            "form": {
+              "fieldsets": [
                 {
-                  "on":"models.resolve['clients']"
-                }
-              ]
-            },
-            "form":{
-              "fieldsets":[
-                {
-                  "src":"StandardFieldset",
-                  "rows":[
+                  "src": "StandardFieldset",
+                  "rows": [
                     {
-                      "cols":[
+                      "cols": [
                         {
-                          "fields":[
+                          "fields": [
                             {
-                              "src":"StandardField",
-                              "id":"surname",
-                              "label":"Фамилия",
-                              "noLabelBlock":false,
-                              "dependency":[
-
-                              ],
-                              "control":{
-                                "src":"InputText",
-                                "id":"surname"
+                              "src": "StandardField",
+                              "id": "surname",
+                              "required": false,
+                              "visible": true,
+                              "enabled": true,
+                              "label": "Фамилия",
+                              "noLabelBlock": false,
+                              "dependency": [],
+                              "control": {
+                                "src": "InputText",
+                                "id": "surname"
                               }
                             }
                           ]
                         },
                         {
-                          "fields":[
+                          "fields": [
                             {
-                              "src":"StandardField",
-                              "id":"name",
-                              "label":"Имя",
-                              "noLabelBlock":false,
-                              "dependency":[
-
-                              ],
-                              "control":{
-                                "src":"InputText",
-                                "id":"name"
+                              "src": "StandardField",
+                              "id": "name",
+                              "required": false,
+                              "visible": true,
+                              "enabled": true,
+                              "label": "Имя",
+                              "noLabelBlock": false,
+                              "dependency": [],
+                              "control": {
+                                "src": "InputText",
+                                "id": "name"
                               }
                             }
                           ]
@@ -1034,58 +1503,71 @@
                       ]
                     },
                     {
-                      "cols":[
+                      "cols": [
                         {
-                          "size":8,
-                          "fields":[
+                          "size": 8,
+                          "fields": [
                             {
-                              "src":"StandardField",
-                              "id":"gender",
-                              "enabled":false,
-                              "label":"Пол",
-                              "noLabelBlock":false,
-                              "dependency":[
-
+                              "src": "StandardField",
+                              "id": "gender",
+                              "required": false,
+                              "visible": true,
+                              "enabled": false,
+                              "label": "Пол",
+                              "noLabelBlock": false,
+                              "dependency": [
+                                {
+                                  "type": "enabled",
+                                  "on": [],
+                                  "expression": "false",
+                                  "applyOnInit": true
+                                }
                               ],
-                              "control":{
-                                "src":"RadioGroup",
-                                "id":"gender",
-                                "valueFieldId":"id",
-                                "labelFieldId":"name",
-                                "sortFieldId":"name",
-                                "size":30,
-                                "dataProvider":{
-                                  "url":"n2o/data/ProtoGender",
-                                  "queryMapping":{
-
-                                  }
+                              "control": {
+                                "src": "RadioGroup",
+                                "id": "gender",
+                                "valueFieldId": "id",
+                                "labelFieldId": "name",
+                                "sortFieldId": "name",
+                                "size": 30,
+                                "dataProvider": {
+                                  "url": "n2o/data/ProtoGender",
+                                  "queryMapping": {}
                                 },
-                                "type":"n2o"
+                                "inline": false,
+                                "type": "default"
                               }
                             }
                           ]
                         },
                         {
-                          "fields":[
+                          "fields": [
                             {
-                              "src":"StandardField",
-                              "style":{
-                                "fontWeight":"bold"
+                              "src": "StandardField",
+                              "style": {
+                                "fontWeight": "bold"
                               },
-                              "id":"vip",
-                              "enabled":false,
-                              "noLabelBlock":false,
-                              "dependency":[
-
+                              "id": "vip",
+                              "required": false,
+                              "visible": true,
+                              "enabled": false,
+                              "noLabelBlock": false,
+                              "dependency": [
+                                {
+                                  "type": "enabled",
+                                  "on": [],
+                                  "expression": "false",
+                                  "applyOnInit": true
+                                }
                               ],
-                              "control":{
-                                "src":"Checkbox",
-                                "style":{
-                                  "fontWeight":"bold"
+                              "control": {
+                                "src": "Checkbox",
+                                "style": {
+                                  "fontWeight": "bold"
                                 },
-                                "id":"vip",
-                                "label":"VIP",
-                                "defaultUnchecked":"null"
+                                "id": "vip",
+                                "label": "VIP",
+                                "defaultUnchecked": "null"
                               }
                             }
                           ]
@@ -1095,32 +1577,24 @@
                   ]
                 }
               ],
-              "validation":{
-
-              },
-              "modelPrefix":"resolve",
-              "autoFocus":true
+              "modelPrefix": "resolve",
+              "prompt": false,
+              "autoFocus": false
             }
           }
         ],
-        "headerTitle":"Карточка",
-        "open":true,
-        "collapsible":true,
-        "fullScreen":false,
-        "header":true
+        "headerTitle": "Карточка",
+        "open": true,
+        "collapsible": true,
+        "fullScreen": false,
+        "header": true
       }
     ]
   },
-  "actions":{
-    "create2":{
-
-    }
+  "width": {
+    "left": "60%"
   },
-  "width":{
-    "left":"60%"
-  },
-  "src":"LeftRightPage",
-  "page":{
-    "htmlTitle":"Список контактов"
+  "page": {
+    "htmlTitle": "Список контактов"
   }
 }

@@ -3,13 +3,14 @@ import {
     select,
     fork,
 } from 'redux-saga/effects'
+import { get, isEqual } from 'lodash'
 
-import type { DataSourceDependency, ModelPrefix } from '../../../core/datasource/const'
-import { DependencyTypes } from '../../../core/datasource/const'
+import { DataSourceDependency, DependencyTypes } from '../../../core/datasource/const'
 import { dataRequest, startValidate } from '../store'
 import { dataSourcesSelector } from '../selectors'
 import { updateModel, setModel } from '../../models/store'
-import type { State as DatasourceState } from '../DataSource'
+import { State as DatasourceState } from '../DataSource'
+import { State as GlobalState } from '../../State'
 
 /**
  * @param {String} id
@@ -52,22 +53,25 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
 /**
  * Сага наблюдения за зависимостями
  * @param action
- * @param {object} prevState
  */
-export function* watchDependencies(action: { payload: { key: string, prefix?: ModelPrefix, model?: unknown } }) {
-    const { payload } = action
-    const { key, prefix, model } = payload
-    const changedModel = `${prefix || ''}['${key}']`
+let prevState: GlobalState | void
+
+export function* watchDependencies() {
+    const state: GlobalState = yield select()
     const dataSources: DatasourceState = yield select(dataSourcesSelector)
     const entries = Object.entries(dataSources)
 
     for (const [id, { dependencies }] of entries) {
         for (const dependency of dependencies) {
             const { on } = dependency
+            const model = get(state, on)
+            const prevModel = get(prevState, on)
 
-            if (on.includes(changedModel)) {
+            if (!isEqual(model, prevModel)) {
                 yield fork(resolveDependency, id, dependency, model)
             }
         }
     }
+
+    prevState = state
 }

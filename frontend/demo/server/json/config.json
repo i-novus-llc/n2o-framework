@@ -1,22 +1,51 @@
 {
+  "user": {
+    "username": null,
+    "testProperty": "testProperty"
+  },
+  "locale": "ru",
   "messages": {},
   "menu": {
-    "brand": "N2O",
-    "color": "inverse",
-    "fixed": false,
-    "collapsed": true,
-    "search": false,
-    "items": [
-      {
-        "id": "menuItem0",
-        "label": "Контакты",
-        "href": "/proto",
-        "linkType": "inner",
-        "type": "link"
+    "layout": {
+      "fullSizeHeader": true,
+      "fixed": false
+    },
+    "header": {
+      "src": "Header",
+      "className": "inverse",
+      "logo": {
+        "title": "N2O"
+      },
+      "menu": {
+        "items": [
+          {
+            "id": "mi1",
+            "title": "Контакты",
+            "href": "/proto",
+            "linkType": "inner",
+            "type": "link"
+          }
+        ]
+      },
+      "extraMenu": {},
+      "search": {
+        "urlFieldId": "url",
+        "labelFieldId": "surname",
+        "descrFieldId": "name",
+        "searchPageLocation": {
+          "url": "/search",
+          "searchQueryName": "q",
+          "linkType": "inner"
+        },
+        "dataProvider": {
+          "url": "n2o/data/ProtoClient",
+          "quickSearchParam": "surname"
+        }
       }
-    ],
-    "extraItems": []
-  },
-  "user": { "username": null, "testProperty": "testProperty" },
-  "locale": "${n2o.i18n.default-locale}"
+    },
+    "footer": {
+      "src": "DefaultFooter",
+      "textLeft": "N2O 7.22.1 © 2013-2021"
+    }
+  }
 }
