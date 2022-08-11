@@ -210,6 +210,25 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 <Sandbox height={420} projectId="documentation_filters_filtersparam" showHeader />
 
+#### Фильтрация по параметру боковой панели {#Values_sidebar}
+
+В качестве значения фильтра можно использовать параметр из адресной строки боковой панели.
+Для этого необходимо задать в атрибуте `value` двоеточие и название параметра пути боковой панели:
+
+```xml title="Фильтрация источника данных по параметру боковой панели"
+<sidebar path="/person/:person_id/**">
+  <datasource id="person" query-id="persons" size="1">
+    <filters>
+       <!-- Ссылка на параметр "person_id" в пути боковой панели -->
+       <eq field-id="id" value=":person_id"/>
+    </filters>
+  </datasource>
+  ...
+</sidebar>
+```
+
+[Подробнее о параметрах пути боковой панели](routing#Routing_sidebar_param)
+
 ### Master Detail фильтрация {#MasterDetail}
 
 Master Detail фильтрация - это распространенный шаблон проектирования пользовательского интерфейса,
