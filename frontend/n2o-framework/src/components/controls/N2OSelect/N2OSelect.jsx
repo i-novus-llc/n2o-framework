@@ -660,7 +660,6 @@ N2OSelect.defaultProps = {
     valueFieldId: 'id',
     labelFieldId: 'name',
     iconFieldId: 'icon',
-    imageFieldId: 'image',
     badge: {
         fieldId: 'badge',
     },

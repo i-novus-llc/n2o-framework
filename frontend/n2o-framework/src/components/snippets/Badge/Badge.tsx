@@ -48,6 +48,7 @@ export const Badge = React.memo((props: IBadgeProps) => {
 
     const badgeImageClassNames = classNames('n2o-badge-image', {
         'n2o-badge-image_right': imagePosition === Position.Right,
+        [`n2o-badge-image--${imageShape}`]: imageShape,
         'rounded-pill': imageShape === Shape.Circle || imageShape === Shape.Rounded,
     })
 
