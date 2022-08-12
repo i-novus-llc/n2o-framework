@@ -158,20 +158,18 @@ public class ModelLink extends BindLink {
         thatSubModelQueryLink = createBindLink(that.getModel(), that.getDatasource(), thatFieldId);
 
         if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length())
-            return compareLinks(this, that, thatFieldId, thisSubModelQueryLink, thatSubModelQueryLink);
+            return compareLinks(this, that, thisSubModelQueryLink, thatSubModelQueryLink);
         else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length())
-            return compareLinks(that, this, thisFieldId, thatSubModelQueryLink, thisSubModelQueryLink);
+            return compareLinks(that, this, thatSubModelQueryLink, thisSubModelQueryLink);
         else
             return thisSubModelQueryLink.equals(thatSubModelQueryLink);
     }
 
-    private boolean compareLinks(ModelLink first, ModelLink second, String secondFieldId,
+    private boolean compareLinks(ModelLink first, ModelLink second,
                                  String firstSubModelQueryLink, String secondSubModelQueryLink) {
-        if ((first.getValue() == null && second.getValue() == null) || (first.getValue() != null && second.getValue() != null)) {
-            if (first.getSubModelQuery() != null || second.getSubModelQuery() != null)
-                return firstSubModelQueryLink.startsWith(secondSubModelQueryLink + ".") && secondFieldId != null;
+        if ((first.getValue() == null && second.getValue() == null) ||
+                (first.getValue() != null && second.getValue() != null))
             return firstSubModelQueryLink.startsWith(secondSubModelQueryLink + ".");
-        }
         return first.getBindLink().equals(second.getBindLink());
     }
 
