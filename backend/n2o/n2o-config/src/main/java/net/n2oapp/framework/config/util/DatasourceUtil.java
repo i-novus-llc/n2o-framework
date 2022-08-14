@@ -4,6 +4,9 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Утилита для компиляции источников данных
  */
@@ -18,6 +21,17 @@ public class DatasourceUtil {
      */
     public static String getClientWidgetId(String widgetId, String pageId) {
         return getClientDatasourceId(widgetId, pageId);
+    }
+
+    /**
+     * Получение списка идентификаторов клиентских источников данных
+     *
+     * @param datasourceIds массив идентификаторов источников данных
+     * @param p Процессор сборки метаданных
+     * @return Список идентификаторов клиенстких источников данных
+     */
+    public static List<String> getClientDatasourceIds(List<String> datasourceIds, CompileProcessor p) {
+        return datasourceIds.stream().map(ds -> getClientDatasourceId(ds, p)).collect(Collectors.toList());
     }
 
     /**
