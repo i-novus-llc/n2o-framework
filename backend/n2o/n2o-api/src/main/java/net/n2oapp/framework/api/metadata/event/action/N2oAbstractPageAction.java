@@ -21,7 +21,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.n2oapp.framework.api.metadata.global.dao.query.SimpleField.PK;
+import static net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField.PK;
 
 /**
  * Абстрактное действие открытия страницы

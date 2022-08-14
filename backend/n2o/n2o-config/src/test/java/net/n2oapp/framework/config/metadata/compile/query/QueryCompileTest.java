@@ -4,7 +4,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -48,12 +48,12 @@ public class QueryCompileTest extends SourceCompileTestBase {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml")
                 .get(new QueryContext("utExpression"));
         assert query.getName().equals("utExpression");
-        SimpleField manual = query.getSimpleFieldsMap().get("manual");
+        QuerySimpleField manual = query.getSimpleFieldsMap().get("manual");
         assert "_test_".equals(manual.getSelectExpression());
         assert "_test_".equals(manual.getSortingExpression());
         assert "_test_".equals(manual.getFilterList()[0].getText());
 
-        SimpleField auto = query.getSimpleFieldsMap().get("auto");
+        QuerySimpleField auto = query.getSimpleFieldsMap().get("auto");
         assertThat(auto.getMapping(), is("['auto']"));
         assertThat(auto.getSortingMapping(), is("['autoDirection']"));
         assertThat(auto.getFilterList()[0].getMapping(), is("['test']"));
@@ -68,12 +68,12 @@ public class QueryCompileTest extends SourceCompileTestBase {
 //        assert ((N2oSqlDataProvider)query.getCounts()[0].getInvocation()).getQuery().contains("test");
 //        assert query.getUniques() == null;
 
-        SimpleField testFilter = query.getSimpleFieldsMap().get("testFilter");
+        QuerySimpleField testFilter = query.getSimpleFieldsMap().get("testFilter");
         assertThat(testFilter.getFilterList()[0].getRequired(), is(true));
         assertThat(testFilter.getFilterList()[0].getFilterId(), is("testFilter_eq"));
         assertThat(testFilter.getFilterList()[1].getFilterId(), is("testFilter_in"));
 
-        SimpleField withEmptySelect = query.getSimpleFieldsMap().get("withEmptySelect");
+        QuerySimpleField withEmptySelect = query.getSimpleFieldsMap().get("withEmptySelect");
         assertThat(withEmptySelect.getSelectExpression(), nullValue());
         assertThat(withEmptySelect.getMapping(), is("['withEmptySelect']"));
         assertThat(withEmptySelect.getSortingMapping(), nullValue());
