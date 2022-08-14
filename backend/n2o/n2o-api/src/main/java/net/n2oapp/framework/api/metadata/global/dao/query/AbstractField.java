@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.global.dao.query;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
@@ -11,7 +10,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
  */
 @Getter
 @Setter
-public abstract class AbstractField implements Source, Compiled, IdAware {
+public abstract class AbstractField implements Source, IdAware {
     private String id;
     private String mapping;
     private String normalize;
@@ -23,14 +22,6 @@ public abstract class AbstractField implements Source, Compiled, IdAware {
     }
 
     public AbstractField() {
-    }
-
-    public static AbstractField of(AbstractField field) {
-        if (field instanceof ListField)
-            return new ListField(((ListField) field));
-        if (field instanceof ReferenceField)
-            return new ReferenceField(((ReferenceField) field));
-        return new SimpleField(((SimpleField) field));
     }
 
     @Override

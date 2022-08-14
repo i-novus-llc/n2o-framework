@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 
 import java.util.*;
 import java.util.function.Function;
@@ -42,20 +44,20 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         return N2oQuery.class;
     }
 
-    public List<SimpleField> getSimpleFields() {
-        List<SimpleField> result = new ArrayList<>();
+    public List<QuerySimpleField> getSimpleFields() {
+        List<QuerySimpleField> result = new ArrayList<>();
         collectSimpleFields(fields, result);
         return result;
     }
 
-    private void collectSimpleFields(AbstractField[] fields, List<SimpleField> simpleFields) {
+    private void collectSimpleFields(AbstractField[] fields, List<QuerySimpleField> simpleFields) {
         if (fields == null)
             return;
         for (AbstractField field : fields) {
-            if (field instanceof ReferenceField)
-                collectSimpleFields(((ReferenceField) field).getFields(), simpleFields);
+            if (field instanceof QueryReferenceField)
+                collectSimpleFields(((QueryReferenceField) field).getFields(), simpleFields);
             else
-                simpleFields.add((SimpleField) field);
+                simpleFields.add((QuerySimpleField) field);
         }
     }
 
@@ -159,8 +161,8 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         if (fields != null) {
             List<Filter> filters = new ArrayList<>();
             for (AbstractField field : fields) {
-                if (((SimpleField) field).getFilterList() != null) {
-                    for (Filter filter : ((SimpleField) field).getFilterList()) {
+                if (((QuerySimpleField) field).getFilterList() != null) {
+                    for (Filter filter : ((QuerySimpleField) field).getFilterList()) {
                         filter.setFieldId(field.getId());
                         filters.add(filter);
                     }
