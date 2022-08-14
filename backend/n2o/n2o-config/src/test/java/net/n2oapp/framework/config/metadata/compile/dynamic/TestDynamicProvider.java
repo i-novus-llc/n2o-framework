@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
@@ -51,7 +51,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
 
         selection.setInvocation(invocation);
         query.setLists(new N2oQuery.Selection[]{selection});
-        query.setFields(new SimpleField[]{new SimpleField("id")});
+        query.setFields(new QuerySimpleField[]{new QuerySimpleField("id")});
         query.setObjectId("testDynamic?Dummy");
 
         N2oTable table = new N2oTable();

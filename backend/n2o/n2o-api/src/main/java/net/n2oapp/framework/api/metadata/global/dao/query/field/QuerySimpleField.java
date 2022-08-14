@@ -1,15 +1,17 @@
-package net.n2oapp.framework.api.metadata.global.dao.query;
+package net.n2oapp.framework.api.metadata.global.dao.query.field;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 
 /**
  * Модель простого поля запроса
  */
 @Getter
 @Setter
-public class SimpleField extends AbstractField implements NameAware {
+public class QuerySimpleField extends AbstractField implements NameAware {
     public static final String PK = "id";
 
     private String name;
@@ -24,7 +26,7 @@ public class SimpleField extends AbstractField implements NameAware {
     private Boolean isSorted;
     private Boolean isSelected;
 
-    public SimpleField(SimpleField field) {
+    public QuerySimpleField(QuerySimpleField field) {
         super(field);
         this.name = field.getName();
         this.domain = field.getDomain();
@@ -37,10 +39,10 @@ public class SimpleField extends AbstractField implements NameAware {
         this.filterList = field.getFilterList();
     }
 
-    public SimpleField(String id) {
+    public QuerySimpleField(String id) {
         setId(id);
     }
 
-    public SimpleField() {
+    public QuerySimpleField() {
     }
 }

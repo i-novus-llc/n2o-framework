@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.query.SimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -28,7 +28,7 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         if (!isMongodb(source))
             return source;
         if (source.getFields() != null) {
-            for (SimpleField field : source.getSimpleFields()) {
+            for (QuerySimpleField field : source.getSimpleFields()) {
                 if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
                     transformSelect(field);
                 if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
@@ -41,7 +41,7 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         return source;
     }
 
-    private void transformSelect(SimpleField field) {
+    private void transformSelect(QuerySimpleField field) {
         if (field.getId().equals("id")) {
             field.setSelectExpression("_id");
             field.setMapping("['_id'].toString()");
@@ -50,7 +50,7 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         }
     }
 
-    private void transformSortings(SimpleField field) {
+    private void transformSortings(QuerySimpleField field) {
         if (field.getId().equals("id")) {
             field.setSortingExpression("_id :idDirection");
         } else {
