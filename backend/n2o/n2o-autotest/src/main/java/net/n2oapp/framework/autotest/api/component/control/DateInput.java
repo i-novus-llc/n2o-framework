@@ -1,12 +1,12 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 
-import net.n2oapp.framework.autotest.api.component.Dropdown;
+import net.n2oapp.framework.autotest.api.component.Expandable;
 
 /**
  * Компонент ввода даты для автотестирования
  */
-public interface DateInput extends Control, Dropdown {
+public interface DateInput extends Control, Expandable {
 
     String val();
 

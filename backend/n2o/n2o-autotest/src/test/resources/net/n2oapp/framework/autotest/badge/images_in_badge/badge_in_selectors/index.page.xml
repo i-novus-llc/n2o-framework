@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Списковые компоненты с badge">
+    <form>
+        <fields >
+            <row>
+                <input-select
+                        placeholder="Введите значение"
+                        id="inputSelectWithStatus"
+                        label="Ввод с выпадающим списком"
+                        query-id="test"
+                        badge-field-id="badge"
+                        badge-color-field-id="status"
+                        badge-position="left"
+                        badge-shape="circle"
+                        badge-image-field-id="image"
+                        badge-image-position="right"
+                        badge-image-shape="square"
+                />
+                <select
+                        placeholder="Введите значение"
+                        id="selectWithStatus"
+                        label="Выпадающий список"
+                        query-id="test"
+                        badge-field-id="badge"
+                        badge-color-field-id="status"
+                        badge-position="left"
+                        badge-shape="rounded"
+                        badge-image-field-id="image"
+                        badge-image-position="left"
+                        badge-image-shape="rounded"
+                />
+                <input-select-tree
+                        id="tree"
+                        label="Дерево"
+                        query-id="tree"
+                        parent-field-id="parent"
+                        label-field-id="name"
+                        badge-field-id="badge"
+                        badge-position="left"
+                        badge-shape="rounded"
+                        badge-color-field-id="status"
+                        badge-image-field-id="image"
+                        badge-image-position="left"
+                        badge-image-shape="rounded"
+                />
+            </row>
+        </fields>
+    </form>
+</simple-page>

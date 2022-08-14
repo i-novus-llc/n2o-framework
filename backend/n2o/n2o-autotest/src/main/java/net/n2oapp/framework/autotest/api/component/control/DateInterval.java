@@ -1,11 +1,11 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
-import net.n2oapp.framework.autotest.api.component.Dropdown;
+import net.n2oapp.framework.autotest.api.component.Expandable;
 
 /**
  * Компонент ввода интервала дат для автотестирования
  */
-public interface DateInterval extends Control, Dropdown {
+public interface DateInterval extends Control, Expandable {
 
     void beginShouldBeEmpty();
 

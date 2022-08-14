@@ -1,12 +1,12 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.api.component.Dropdown;
+import net.n2oapp.framework.autotest.api.component.Expandable;
 
 /**
  * Компонент выбора из выпадающего списка для автотестирования
  */
-public interface Select extends Control, Dropdown {
+public interface Select extends Control, Expandable {
 
     void click();
 
