@@ -64,8 +64,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
      */
     private void checkRefreshWidgetDatasourceIds(N2oAbstractPageAction source, PageScope pageScope,
                                                  DatasourceIdsScope datasourceIdsScope) {
-        String[] refreshDatasourceIds = source.getRefreshDatasourceIds();
-        String notScopedDatasource = getNotScopedDatasourceId(refreshDatasourceIds, datasourceIdsScope);
+        String notScopedDatasource = getNotScopedDatasourceId(source.getRefreshDatasourceIds(), datasourceIdsScope);
         if (notScopedDatasource != null && !existWidgetIdInScope(source.getRefreshWidgetId(), pageScope))
             throw new N2oMetadataValidationException(
                     String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет '%s'", notScopedDatasource));
