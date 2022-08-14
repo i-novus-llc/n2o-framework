@@ -60,11 +60,6 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
         validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationInWidgetsToolbar.page.xml");
     }
 
-    @Test
-    public void testRefreshDatasourcesExistent() {
-        validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationRefreshDatasourcesExist.page.xml");
-    }
-
     @Test(expected = N2oMetadataValidationException.class)
     public void testRefreshDatasourceNonExistent() {
         validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationRefreshDatasourcesNonExistent.page.xml");
