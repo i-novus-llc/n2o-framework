@@ -37,7 +37,8 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     private List<Validation> validations;
     private List<SubModelQuery> subModelQueries;
 
-    protected Map<String, QuerySimpleField> fieldsMap;
+    protected Map<String, AbstractField> fieldsMap;//absoluteId to field
+    protected Map<String, QuerySimpleField> simpleFieldsMap;
     private Map<String, String> fieldNamesMap;
     private Map<String, String> displayValues;
     private List<String> selectExpressions; // fieldId - select body

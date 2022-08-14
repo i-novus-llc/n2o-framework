@@ -48,12 +48,12 @@ public class QueryCompileTest extends SourceCompileTestBase {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml")
                 .get(new QueryContext("utExpression"));
         assert query.getName().equals("utExpression");
-        QuerySimpleField manual = query.getFieldsMap().get("manual");
+        QuerySimpleField manual = query.getSimpleFieldsMap().get("manual");
         assert "_test_".equals(manual.getSelectExpression());
         assert "_test_".equals(manual.getSortingExpression());
         assert "_test_".equals(manual.getFilterList()[0].getText());
 
-        QuerySimpleField auto = query.getFieldsMap().get("auto");
+        QuerySimpleField auto = query.getSimpleFieldsMap().get("auto");
         assertThat(auto.getMapping(), is("['auto']"));
         assertThat(auto.getSortingMapping(), is("['autoDirection']"));
         assertThat(auto.getFilterList()[0].getMapping(), is("['test']"));
@@ -68,12 +68,12 @@ public class QueryCompileTest extends SourceCompileTestBase {
 //        assert ((N2oSqlDataProvider)query.getCounts()[0].getInvocation()).getQuery().contains("test");
 //        assert query.getUniques() == null;
 
-        QuerySimpleField testFilter = query.getFieldsMap().get("testFilter");
+        QuerySimpleField testFilter = query.getSimpleFieldsMap().get("testFilter");
         assertThat(testFilter.getFilterList()[0].getRequired(), is(true));
         assertThat(testFilter.getFilterList()[0].getFilterId(), is("testFilter_eq"));
         assertThat(testFilter.getFilterList()[1].getFilterId(), is("testFilter_in"));
 
-        QuerySimpleField withEmptySelect = query.getFieldsMap().get("withEmptySelect");
+        QuerySimpleField withEmptySelect = query.getSimpleFieldsMap().get("withEmptySelect");
         assertThat(withEmptySelect.getSelectExpression(), nullValue());
         assertThat(withEmptySelect.getMapping(), is("['withEmptySelect']"));
         assertThat(withEmptySelect.getSortingMapping(), nullValue());
@@ -83,8 +83,8 @@ public class QueryCompileTest extends SourceCompileTestBase {
     public void testEmptyBody() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
                 .get(new QueryContext("testEmptyBody"));
-        assertThat(query.getFieldsMap().get("field").getSelectExpression(), is(nullValue()));
-        assertThat(query.getFieldsMap().get("field").getSortingExpression(), is(nullValue()));
+        assertThat(query.getSimpleFieldsMap().get("field").getSelectExpression(), is(nullValue()));
+        assertThat(query.getSimpleFieldsMap().get("field").getSortingExpression(), is(nullValue()));
     }
 
     @Test
@@ -149,8 +149,8 @@ public class QueryCompileTest extends SourceCompileTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml"))
                 .transformers(new TestEngineQueryTransformer());
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"));
-        assertThat(query.getFieldsMap().get("id").getSelectExpression(), is("id"));
-        assertThat(query.getFieldsMap().get("id").getSortingExpression(), is("id :idDirection"));
+        assertThat(query.getSimpleFieldsMap().get("id").getSelectExpression(), is("id"));
+        assertThat(query.getSimpleFieldsMap().get("id").getSortingExpression(), is("id :idDirection"));
         assertThat(query.getFilterFieldsMap().get("id").getText(), is("id :eq :id"));
     }
 

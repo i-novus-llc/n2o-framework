@@ -258,16 +258,16 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             if (filter.getText() != null)
                 where.add(filter.getText());
             inMap(map, filter.getMapping(), r.getValue());
-            QuerySimpleField field = query.getFieldsMap().get(r.getFieldId());
-            if (!field.getNoJoin())
-                joins.add(field.getJoinBody());
+//            SimpleField field = query.getSimpleFieldsMap().get(r.getFieldId());FIXME https://jira.i-novus.ru/browse/NNO-8336
+//            if (!field.getNoJoin())
+//                joins.add(field.getJoinBody());
         }
         map.put("filters", where);
 
         List<String> sortingExp = new ArrayList<>();
         if (criteria.getSorting() != null)
             for (Sorting sorting : criteria.getSortings()) {
-                QuerySimpleField field = query.getFieldsMap().get(sorting.getField());
+                QuerySimpleField field = query.getSimpleFieldsMap().get(sorting.getField());
                 if (field.getNoSorting())
                     continue;
                 sortingExp.add(field.getSortingExpression());
@@ -392,9 +392,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private void addIdIfNotPresent(CompiledQuery query, CollectionPage<DataSet> collectionPage) {
-        if (!query.getFieldsMap().containsKey(QuerySimpleField.PK))
+        if (!query.getSimpleFieldsMap().containsKey(QuerySimpleField.PK))
             return;
-        if (!query.getFieldsMap().get(QuerySimpleField.PK).getNoDisplay())
+        if (!query.getSimpleFieldsMap().get(QuerySimpleField.PK).getNoDisplay())
             return;
         int i = 1;
         for (DataSet dataSet : collectionPage.getCollection()) {
