@@ -2,10 +2,11 @@ package net.n2oapp.framework.config.metadata.validation.standard.query;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
@@ -53,7 +54,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * @param queryId Идентификатор выборки
      * @param p       Процессор исходных метаданных
      */
-    private void checkForUniqueFields(N2oQuery.Field[] fields, String queryId, SourceProcessor p) {
+    private void checkForUniqueFields(AbstractField[] fields, String queryId, SourceProcessor p) {
         p.checkIdsUnique(fields, "Поле {0} встречается более чем один раз в выборке " + queryId);
     }
 

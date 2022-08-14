@@ -10,7 +10,8 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
@@ -75,7 +76,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
 
     private void executeQuery(CompiledQuery subQuery, SubModelQuery subModelQuery,
                               List<Map<String, Object>> subModels, String labelFieldId, String valueFieldId) {
-        N2oQuery.Field field = subQuery.getFieldsMap().get(valueFieldId);
+        QuerySimpleField field = subQuery.getFieldsMap().get(valueFieldId);
         if (field == null)
             throw new N2oException(String.format("field [%s] not found in query [%s]", valueFieldId, subModelQuery.getQueryId()));
 
@@ -89,7 +90,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
             CollectionPage<DataSet> subData = queryProcessor.executeOneSizeQuery(subQuery, criteria);
 
             DataSet first = subData.getCollection().iterator().next();
-            for (N2oQuery.Field queryField : subQuery.getDisplayFields()) {
+            for (AbstractField queryField : subQuery.getDisplayFields()) {
                 subModel.put(queryField.getId(), first.get(queryField.getId()));
             }
         }

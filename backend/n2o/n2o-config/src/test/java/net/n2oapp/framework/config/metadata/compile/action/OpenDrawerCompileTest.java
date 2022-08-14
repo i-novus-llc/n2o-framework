@@ -4,7 +4,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -134,7 +134,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().size(), is(1));
         assertThat(drawerContext.getPreFilters().get(0).getRefWidgetId(), is("main"));
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
-        assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
+        assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(QuerySimpleField.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.query));
@@ -237,7 +237,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().size(), is(1));
         assertThat(drawerContext.getPreFilters().get(0).getRefWidgetId(), is("main"));
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
-        assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
+        assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(QuerySimpleField.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModel.resolve));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{id}"));

@@ -1,7 +1,9 @@
 package net.n2oapp.framework.config.io.query;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -27,7 +29,8 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.children(e, null, "list", t::getLists, t::setLists, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::selection);
         p.children(e, null, "count", t::getCounts, t::setCounts, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::selection);
         p.children(e, null, "unique", t::getUniques, t::setUniques, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::selection);
-        p.children(e, "fields", "field", t::getFields, t::setFields, N2oQuery.Field::new, this::field);
+        p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)
+                .add("field", QuerySimpleField.class, this::field));
         t.adapterV4();
     }
 
@@ -38,7 +41,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), dataProviderDefaultNamespace);
     }
 
-    private void field(Element e, N2oQuery.Field t, IOProcessor p) {
+    private void field(Element e, QuerySimpleField t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "name", t::getName, t::setName);

@@ -1,8 +1,12 @@
 package net.n2oapp.framework.config.io.query;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.query.*;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryListField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
@@ -28,7 +32,28 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.children(e, null, "unique", t::getUniques, t::setUniques, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::selection);
         p.childrenByEnum(e, "filters", t::getFilters, t::setFilters, N2oQuery.Filter::getType,
                 N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
-        p.children(e, "fields", "field", t::getFields, t::setFields, N2oQuery.Field::new, this::field);
+        p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)
+                .add("field", QuerySimpleField.class, this::field)
+                .add("reference", QueryReferenceField.class, this::reference)
+                .add("list", QueryListField.class, this::list));
+    }
+
+    private void list(Element e, QueryListField f, IOProcessor p) {
+        reference(e, f, p);
+    }
+
+    private void reference(Element e, QueryReferenceField f, IOProcessor p) {
+        abstractField(e, f, p);
+        p.anyChildren(e, null, f::getFields, f::setFields, p.oneOf(AbstractField.class)
+                .add("field", QuerySimpleField.class, this::field)
+                .add("reference", QueryReferenceField.class, this::reference)
+                .add("list", QueryListField.class, this::list));
+    }
+
+    private void abstractField(Element e, AbstractField f, IOProcessor p) {
+        p.attribute(e, "id", f::getId, f::setId);
+        p.attribute(e, "mapping", f::getMapping, f::setMapping);
+        p.attribute(e, "normalize", f::getNormalize, f::setNormalize);
     }
 
     private void selection(Element e, N2oQuery.Selection t, IOProcessor p) {
@@ -38,16 +63,14 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), dataProviderDefaultNamespace);
     }
 
-    private void field(Element e, N2oQuery.Field t, IOProcessor p) {
-        p.attribute(e, "id", t::getId, t::setId);
+    private void field(Element e, QuerySimpleField t, IOProcessor p) {
+        abstractField(e, t, p);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "sorting-expression", t::getSortingExpression, t::setSortingExpression);
         p.attribute(e, "sorting-mapping", t::getSortingMapping, t::setSortingMapping);
         p.attribute(e, "select-expression", t::getSelectExpression, t::setSelectExpression);
-        p.attribute(e, "mapping", t::getMapping, t::setMapping);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
-        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.element(e, "join", t::getJoinBody, t::setJoinBody);
     }
 

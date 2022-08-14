@@ -5,7 +5,8 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
         if (!isTest(source))
             return source;
         if (source.getFields() != null) {
-            for (N2oQuery.Field field : source.getFields()) {
+            for (QuerySimpleField field : source.getSimpleFields()) {
                 if (!field.getNoDisplay() && field.getSelectExpression() == null) {
                     field.setSelectExpression(colon("expression"));
                 }

@@ -3,8 +3,9 @@ package net.n2oapp.framework.config.metadata.validation.standard.datasource;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
@@ -99,8 +100,8 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                     ValidationUtils.checkForExistsDatasource(preFilter.getDatasourceId(), scope,
                             String.format("В префильтре по полю '%s' указан несуществующий источник данных '%s'",
                                     fieldId, preFilter.getDatasourceId()));
-                N2oQuery.Field exField = null;
-                for (N2oQuery.Field field : query.getFields()) {
+                AbstractField exField = null;
+                for (AbstractField field : query.getFields()) {
                     if (preFilter.getFieldId().equals(field.getId())) {
                         exField = field;
                         break;

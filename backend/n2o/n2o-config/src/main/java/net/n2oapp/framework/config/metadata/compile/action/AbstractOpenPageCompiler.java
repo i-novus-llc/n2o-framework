@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -251,7 +251,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         ? clientWidgetId
                         : pageScope.getWidgetIdClientDatasourceMap().get(clientWidgetId);
             }
-            return new ModelLink(actionDataModel, datasource, isLink(pageId) ? unwrapLink(pageId) : N2oQuery.Field.PK);
+            return new ModelLink(actionDataModel, datasource, isLink(pageId) ? unwrapLink(pageId) : QuerySimpleField.PK);
         }
         return null;
     }

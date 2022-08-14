@@ -22,6 +22,7 @@ public abstract class StringUtils {
     private static PlaceHoldersResolver jsPlaceHoldersResolver = new PlaceHoldersResolver("`", "`");
     private static PlaceHoldersResolver linkPlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
     private static PlaceHoldersResolver jsonPlaceHoldersResolver = new PlaceHoldersResolver("{{", "}}");
+    private static PlaceHoldersResolver spelPlaceHoldersResolver = new PlaceHoldersResolver("['", "']");
     private static final String PATTERN = "^([a-zA-Z$_][a-zA-Z0-9$_]*\\(\\))$";
 
     /**
@@ -180,6 +181,7 @@ public abstract class StringUtils {
     public static String unwrapJs(String text) {
         return isJs(text) ? text.substring(1, text.length() - 1) : text;
     }
+
     /**
      * Проверка, что строка - javaScript функция
      * Примеры:
