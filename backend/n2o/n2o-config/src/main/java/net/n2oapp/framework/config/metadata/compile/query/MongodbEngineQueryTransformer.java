@@ -23,20 +23,16 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.ha
 @Component
 public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery>, SourceClassAware {
 
-    public static final String EXPRESSION = "expression";
-
     @Override
     public N2oQuery transform(N2oQuery source, SourceProcessor p) {
         if (!isMongodb(source))
             return source;
         if (source.getFields() != null) {
             for (QuerySimpleField field : source.getSimpleFields()) {
-                if (Boolean.FALSE.equals(field.getNoDisplay()) && field.getSelectExpression() == null) {
+                if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
                     transformSelect(field);
-                }
-                if (Boolean.FALSE.equals(field.getNoSorting()) && field.getSortingExpression() == null) {
+                if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
                     transformSortings(field);
-                }
             }
         }
         if (source.getFilters() != null) {
@@ -50,7 +46,7 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
             field.setSelectExpression("_id");
             field.setMapping("['_id'].toString()");
         } else {
-            field.setSelectExpression(colon(EXPRESSION));
+            field.setSelectExpression(field.getId());
         }
     }
 
@@ -58,7 +54,7 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         if (field.getId().equals("id")) {
             field.setSortingExpression("_id :idDirection");
         } else {
-            field.setSortingExpression(colon(EXPRESSION) + " " + colon(field.getId() + "Direction"));
+            field.setSortingExpression(field.getId() + " " + colon(field.getId() + "Direction"));
         }
     }
 
@@ -74,28 +70,28 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
                 } else {
                     switch (filter.getType()) {
                         case eq:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': " + getFilterField(filter, domain) + " }");
+                            filter.setText("{ '" + filter.getFieldId() + "': " + getFilterField(filter, domain) + " }");
                             break;
                         case notEq:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$ne: " + getFilterField(filter, domain) + " }}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$ne: " + getFilterField(filter, domain) + " }}");
                             break;
                         case like:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '.*" + hash(filter.getFilterId()) + ".*'}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$regex: '.*" + hash(filter.getFilterId()) + ".*'}}");
                             break;
                         case likeStart:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '" + hash(filter.getFilterId()) + ".*'}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$regex: '" + hash(filter.getFilterId()) + ".*'}}");
                             break;
                         case more:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$gte: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$gte: " + getFilterField(filter, domain) + "}}");
                             break;
                         case less:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$lte: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$lte: " + getFilterField(filter, domain) + "}}");
                             break;
                         case in:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$in: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$in: " + getFilterField(filter, domain) + "}}");
                             break;
                         case notIn:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$nin: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$nin: " + getFilterField(filter, domain) + "}}");
                             break;
                         default:
                             break;

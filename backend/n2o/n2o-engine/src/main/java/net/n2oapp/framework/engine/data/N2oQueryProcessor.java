@@ -248,7 +248,6 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
         map.put("select", query.getSelectExpressions());
-        Set<String> joins = new LinkedHashSet<>(query.getJoinExpressions());
 
         List<String> where = new ArrayList<>();
         for (Restriction r : criteria.getRestrictions()) {
@@ -258,9 +257,6 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             if (filter.getText() != null)
                 where.add(filter.getText());
             inMap(map, filter.getMapping(), r.getValue());
-//            SimpleField field = query.getSimpleFieldsMap().get(r.getFieldId());FIXME https://jira.i-novus.ru/browse/NNO-8336
-//            if (!field.getNoJoin())
-//                joins.add(field.getJoinBody());
         }
         map.put("filters", where);
 
@@ -268,12 +264,10 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         if (criteria.getSorting() != null)
             for (Sorting sorting : criteria.getSortings()) {
                 QuerySimpleField field = query.getSimpleFieldsMap().get(sorting.getField());
-                if (field.getNoSorting())
+                if (!field.getIsSorted())
                     continue;
                 sortingExp.add(field.getSortingExpression());
                 inMap(map, field.getSortingMapping(), sorting.getDirection().getExpression());
-                if (!field.getNoJoin())
-                    joins.add(field.getJoinBody());
             }
         map.put("sorting", sortingExp);
 
@@ -281,8 +275,6 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             criteria.getAdditionalFields().entrySet().stream().filter(es -> es.getValue() != null)
                     .forEach(es -> map.put(es.getKey(), es.getValue()));
         }
-
-        map.put("join", new ArrayList<>(joins));
     }
 
     public static void prepareMapForPage(Map<String, Object> map, N2oPreparedCriteria criteria, boolean pageStartsWith0) {
@@ -394,7 +386,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private void addIdIfNotPresent(CompiledQuery query, CollectionPage<DataSet> collectionPage) {
         if (!query.getSimpleFieldsMap().containsKey(QuerySimpleField.PK))
             return;
-        if (!query.getSimpleFieldsMap().get(QuerySimpleField.PK).getNoDisplay())
+        if (query.getSimpleFieldsMap().get(QuerySimpleField.PK).getIsSelected())
             return;
         int i = 1;
         for (DataSet dataSet : collectionPage.getCollection()) {

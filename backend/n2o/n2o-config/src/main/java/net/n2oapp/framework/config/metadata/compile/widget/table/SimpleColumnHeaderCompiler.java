@@ -97,7 +97,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             header.setLabel(source.getLabelName());
         }
         if (query != null && query.getSimpleFieldsMap().containsKey(source.getSortingFieldId())) {
-            boolean sortable = !query.getSimpleFieldsMap().get(source.getSortingFieldId()).getNoSorting();
+            boolean sortable = query.getSimpleFieldsMap().get(source.getSortingFieldId()).getIsSorted();
             if (sortable) {
                 header.setSortingParam(RouteUtil.normalizeParam(source.getSortingFieldId()));
             }

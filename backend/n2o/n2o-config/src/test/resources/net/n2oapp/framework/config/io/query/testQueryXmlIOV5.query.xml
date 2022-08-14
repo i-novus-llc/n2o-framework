@@ -37,7 +37,7 @@
     <fields>
         <field id="id" domain="integer" name="nameId" default-value="0" mapping="['id']" sorting-mapping="mapping"
             normalize="T(java.time.LocalDate).parse(this)" select-expression="id" sorting-expression="sorting"/>
-        <field id="individualId" domain="integer"/>
+        <field id="individualId" domain="integer" select="false" sorting="true"/>
         <reference id="ref" mapping="ref2" normalize="normalize">
             <field id="id"/>
             <field id="individualId" domain="integer"/>
