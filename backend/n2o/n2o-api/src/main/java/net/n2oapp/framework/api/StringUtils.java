@@ -22,7 +22,6 @@ public abstract class StringUtils {
     private static PlaceHoldersResolver jsPlaceHoldersResolver = new PlaceHoldersResolver("`", "`");
     private static PlaceHoldersResolver linkPlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
     private static PlaceHoldersResolver jsonPlaceHoldersResolver = new PlaceHoldersResolver("{{", "}}");
-    private static PlaceHoldersResolver spelPlaceHoldersResolver = new PlaceHoldersResolver("['", "']");
     private static final String PATTERN = "^([a-zA-Z$_][a-zA-Z0-9$_]*\\(\\))$";
 
     /**
