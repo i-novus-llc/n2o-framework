@@ -18,7 +18,6 @@ public class ResponseInfo  {
     private N2oDialog dialog;
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
-    private boolean stackedMessages = false;
     private AlertMessageBuilder alertMessageBuilder;
 
 
