@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -31,14 +32,19 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
             for (AbstractField field : source.getFields()) {
                 if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
                     transformSelect(field);
-                if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
-                    transformSortings(field);
+                if (field instanceof QuerySimpleField)
+                    transformSimpleField(((QuerySimpleField) field));
             }
         }
         if (source.getFilters() != null) {
             transformFilters(source.getFilters());
         }
         return source;
+    }
+
+    private void transformSimpleField(QuerySimpleField field) {
+        if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
+            transformSortings(field);
     }
 
     private void transformSelect(AbstractField field) {
@@ -50,11 +56,11 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         }
     }
 
-    private void transformSortings(AbstractField field) {
+    private void transformSortings(QuerySimpleField field) {
         if (field.getId().equals("id")) {
-            field.setSortingExpression("_id :idDirection");
+           field.setSortingExpression("_id :idDirection");
         } else {
-            field.setSortingExpression(field.getId() + " " + colon(field.getId() + "Direction"));
+           field.setSortingExpression(field.getId() + " " + colon(field.getId() + "Direction"));
         }
     }
 

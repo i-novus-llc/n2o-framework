@@ -145,6 +145,21 @@
                         <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="sorting" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Участвует ли поле в резолве плейсхолдера sorting</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="sorting-expression" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -245,21 +260,6 @@
                 <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="sorting" type="xs:boolean" default="false">
-            <xs:annotation>
-                <xs:documentation>Участвует ли поле в резолве плейсхолдера sorting</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="sorting-expression" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="listFieldDefinition">
@@ -282,6 +282,11 @@
                     <xs:element name="reference" type="referenceFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="list" type="listFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
+                <xs:attribute name="select-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ключ для резолва плейсхолдера в в select-expression</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

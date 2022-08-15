@@ -36,7 +36,9 @@ import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -432,5 +434,32 @@ public class QueryProcessorTest {
         assertThat(collection.get(0).getDataSet("myOrganization"), notNullValue());
         assertThat(collection.get(1).getDataSet("myOrganization"), notNullValue());
         assertThat(collection.get(2).getDataSet("myOrganization"), notNullValue());
+    }
+
+    @Test
+    public void testHierarchicalSelect() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testHierarchicalSelect.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testHierarchicalSelect"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        Map<String, Object> map = new LinkedHashMap<>();
+        N2oQueryProcessor.prepareMapForQuery(map, query, criteria);
+
+        List<String> value = (List<String>) map.get("select");
+        assertThat(value.size(), is(3));
+        assertThat(value.get(0), is("id"));
+        assertThat(value.get(1), is("price"));
+        assertThat(value.get(2), is("showrooms { $$showroomsSelect }"));
+
+        value = ((List<String>) map.get("showroomsSelect"));
+        assertThat(value.size(), is(3));
+        assertThat(value.get(0), is("id"));
+        assertThat(value.get(1), is("name"));
+        assertThat(value.get(2), is("owner { $$ownerSelect }"));
+
+        value = (List<String>) map.get("ownerSelect");
+        assertThat(value.size(), is(2));
+        assertThat(value.get(0), is("name"));
+        assertThat(value.get(1), is("inn"));
     }
 }

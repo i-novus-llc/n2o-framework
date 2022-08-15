@@ -175,6 +175,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
 
+        resolveHierarchicalSelect(args);
         query = replaceListPlaceholder(query, "$$select", args.remove("select"), "", QueryUtil::reduceSpace);
         if (args.get("sorting") != null) {
             String prefix = Objects.requireNonNullElse(invocation.getSortingPrefix(), defaultSortingPrefix);
@@ -209,6 +210,28 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         log.debug("Execute GraphQL query: " + query);
         return query;
+    }
+
+    private void resolveHierarchicalSelect(Map<String, Object> args) {
+        @SuppressWarnings("unchecked")//Всегда приходит в виде списка из select-expression
+        List<String> selectExpressions = (List<String>) args.get("select");
+        if (selectExpressions == null)
+            return;
+        List<String> resolvedExpressions = new ArrayList<>();
+        for (String selectExpression : selectExpressions) {
+            while (selectExpression.contains("$$")) {
+                Set<String> placeholderKeys = extractPlaceholderKeys(selectExpression);
+                for (Map.Entry<String, Object> entry : args.entrySet()) {
+                    String placeholder = "$$" + entry.getKey();
+                    String value = placeholderKeys.contains(placeholder) ?
+                            (String) entry.getValue() :
+                            toGraphQlString(entry.getValue());
+                    selectExpression = replacePlaceholder(selectExpression, placeholder, value, "null");
+                }
+            }
+            resolvedExpressions.add(selectExpression);
+        }
+        args.put("select", resolvedExpressions);
     }
 
     /**

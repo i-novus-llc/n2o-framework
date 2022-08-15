@@ -456,6 +456,32 @@ public class GraphQlDataProviderEngineTest {
         assertEquals(expectedQuery, payloadValue.get("query"));
     }
 
+    @Test
+    public void testHierarchicalSelect() {
+        String queryPath = "/n2o/data/test/graphql/hierarchicalSelect";
+        String url = "http://localhost:" + appPort + queryPath;
+
+        // mocked data
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> persons = new HashMap<>();
+        persons.put("persons", Collections.singletonList(
+                Map.of("name", "test", "age", 20)));
+        data.put("data", persons);
+
+        String expectedQuery = "query persons() { id price showrooms { id name owner { name inn } }";
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
+        verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
+
+        // graphql payload
+        //assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
+        assertEquals(expectedQuery, payloadValue.get("query"));
+    }
+
 
     @Getter
     @Setter
