@@ -64,45 +64,21 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
      */
     private void checkRefreshWidgetDatasourceIds(N2oAbstractPageAction source, PageScope pageScope,
                                                  DatasourceIdsScope datasourceIdsScope) {
-        String notScopedDatasource = getNotScopedDatasourceId(source.getRefreshDatasourceIds(), datasourceIdsScope);
-        if (notScopedDatasource != null && !existWidgetIdInScope(source.getRefreshWidgetId(), pageScope))
-            throw new N2oMetadataValidationException(
-                    String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет '%s'", notScopedDatasource));
-    }
-
-    /**
-     *
-     * Получение первого идентификатора, который не входит в скоуп
-     *
-     * @param refreshDatasourceIds список идентификаторов источников данных
-     * @param datasourceIdsScope скоуп источников данных
-     * @return идентификатор первого источника, который не входит в скоуп
-     */
-    private String getNotScopedDatasourceId(String[] refreshDatasourceIds, DatasourceIdsScope datasourceIdsScope) {
-        if (refreshDatasourceIds != null && datasourceIdsScope != null) {
+        String[] refreshDatasourceIds = source.getRefreshDatasourceIds();
+        boolean isNotDatasource = false;
+        if (refreshDatasourceIds != null && refreshDatasourceIds.length == 1) {
+            if (datasourceIdsScope != null && !datasourceIdsScope.contains(refreshDatasourceIds[0]))
+                isNotDatasource = true;
+            if (pageScope != null && !pageScope.getWidgetIds().contains(source.getRefreshWidgetId()) && isNotDatasource)
+                throw new N2oMetadataValidationException(
+                        String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет '%s'", refreshDatasourceIds[0]));
+        } else if (refreshDatasourceIds != null && datasourceIdsScope != null) {
             for (String datasourceId : refreshDatasourceIds) {
-                if (!datasourceIdsScope.contains(datasourceId))
-                    return datasourceId;
+              ValidationUtils.checkForExistsDatasource(datasourceId, datasourceIdsScope,
+                      String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных '%s'", datasourceId));
             }
         }
-        return null;
     }
-
-
-    /**
-     *
-     * Проверка существования виджета в скоупе
-     *
-     * @param refreshWidgetId идентификатор виджета
-     * @param pageScope скоуп страницы
-     * @return true - если виджет содержится в скоупе, false - если не содержится
-     */
-    private boolean existWidgetIdInScope(String refreshWidgetId, PageScope pageScope) {
-        if (refreshWidgetId != null && pageScope != null && !pageScope.getWidgetIds().contains(refreshWidgetId))
-            return false;
-        return true;
-    }
-
 
     /**
      * Проверка существования источника данных для копирования при открытии модального окна
