@@ -49,8 +49,8 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         p.safeStreamOf(page.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction(), pageScope, datasourceIdsScope, dataSourcesScope));
 
         p.checkIdsUnique(widgets, "Виджет {0} встречается более чем один раз на странице " + page.getId());
-        checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
         p.safeStreamOf(widgets).forEach(widget -> p.validate(widget, pageScope, datasourceIdsScope, dataSourcesScope));
+        checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
 
         p.checkIdsUnique(page.getDatasources(),
                 "Источник данных {0} встречается более чем один раз в метаданной страницы " + page.getId());
