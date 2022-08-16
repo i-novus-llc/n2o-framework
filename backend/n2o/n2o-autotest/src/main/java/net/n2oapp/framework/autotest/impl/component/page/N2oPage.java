@@ -5,14 +5,12 @@ import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
-import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
-import net.n2oapp.framework.autotest.impl.component.N2oDropDown;
 import net.n2oapp.framework.autotest.impl.component.application.N2oFooter;
 import net.n2oapp.framework.autotest.impl.component.application.N2oSidebar;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
@@ -69,11 +67,6 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public DropDown dropdown() {
-        return N2oSelenide.component(element().$(".n2o-dropdown-control"), DropDown.class); //почему не работает если просто dropdown писать
-    }
-
-    @Override
     public void urlShouldMatches(String regexp) {
         element().should(new UrlMatch(regexp));
     }
@@ -124,7 +117,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions, .n2o-page-body").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
         }
 
         @Override

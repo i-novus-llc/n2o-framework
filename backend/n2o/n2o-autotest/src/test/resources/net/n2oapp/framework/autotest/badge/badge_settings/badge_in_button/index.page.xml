@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Кнопки с баджем">
+    <form>
+        <toolbar place="topLeft">
+            <button label="Первая"
+                    badge="new"
+                    badge-color="success"
+                    badge-position="right"
+                    badge-shape="circle"
+                    badge-image="static/hamburg-3846525__340.jpg"
+                    badge-image-position="left"
+                    badge-image-shape="circle"
+                    disable-on-empty-model="false"/>
+
+            <button label="Вторая"
+                    badge="new"
+                    badge-color="success"
+                    badge-position="left"
+                    badge-shape="rounded"
+                    badge-image="static/hamburg-3846525__340.jpg"
+                    badge-image-position="right"
+                    badge-image-shape="rounded"
+                    disable-on-empty-model="false"/>
+            <button label="Третья"
+                    badge="new"
+                    badge-color="success"
+                    badge-position="left"
+                    badge-shape="square"
+                    badge-image="static/hamburg-3846525__340.jpg"
+                    badge-image-position="right"
+                    badge-image-shape="square"
+                    disable-on-empty-model="false"/>
+        </toolbar>
+    </form>
+</simple-page>

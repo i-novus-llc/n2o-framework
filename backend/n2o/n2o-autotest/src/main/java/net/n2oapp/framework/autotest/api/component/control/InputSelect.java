@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.api.component.control;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.Expandable;
 
 /**
@@ -36,4 +37,6 @@ public interface InputSelect extends Control, Expandable {
     void itemShouldHaveStatusColor(String value, Colors color);
 
     void itemShouldBeEnabled(Boolean enabled, String itemValue);
+
+    DropDown dropdown();
 }

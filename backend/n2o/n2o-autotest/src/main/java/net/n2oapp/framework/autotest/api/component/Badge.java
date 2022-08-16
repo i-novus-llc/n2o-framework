@@ -1,11 +1,24 @@
 package net.n2oapp.framework.autotest.api.component;
 
+import com.codeborne.selenide.Condition;
+
 public interface Badge extends Component{
-    void shouldHaveImage();
+    default void badgeShouldBeExists() {
+        element().$(".n2o-badge").shouldBe(Condition.exist);
+    }
+    default void badgeShouldHaveImage() {
+        element().$(".n2o-badge").$(".n2o-badge-image").shouldBe(Condition.exist);
+    }
 
-    void shouldBeShape(String shape);
+    default void badgeShouldBeShape(String shape) {
+        element().$(".n2o-badge").shouldHave(Condition.cssClass(String.format("n2o-badge--%s", shape)));
+    }
 
-    void imageShouldBeShape(String shape);
+    default void badgeImageShouldBeShape(String shape) {
+        element().$(".n2o-badge").$(".n2o-badge-image").shouldHave(Condition.cssClass(String.format("n2o-badge-image--%s", shape)));
+    }
 
-    void imageShouldBePosition(String position);
+    default void badgeImageShouldBePosition(String position) {
+        element().$(".n2o-badge").$(".n2o-badge-image").shouldHave(Condition.cssClass(String.format("n2o-badge-image--%s", position)));
+    }
 }

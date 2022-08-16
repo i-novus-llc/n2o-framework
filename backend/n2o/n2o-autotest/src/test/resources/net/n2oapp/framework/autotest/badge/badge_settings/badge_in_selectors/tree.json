@@ -38,6 +38,7 @@
     "parent" : 11,
     "icon" : "fa fa-trash",
     "status": "success",
-    "badge":"Проект 1.1.1"
+    "badge":"Проект 1.1.1",
+    "image": "static/hamburg-3846525__340.jpg"
   }
 ]

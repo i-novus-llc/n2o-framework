@@ -4,11 +4,8 @@ public interface DropDown extends Component{
 
     DropDownItem item(int index);
 
-    void shouldHaveItem(int size);
+    void shouldHaveItems(int size);
 
-    interface DropDownItem extends Component{
-        void shouldHaveBadge();
-
-        Badge badge();
+    interface DropDownItem extends Component, Badge{
     }
 }

@@ -131,6 +131,11 @@ public class N2oDateInput extends N2oControl implements DateInput {
         popUp().shouldNotBe(Condition.exist);
     }
 
+    @Override
+    public void shouldBeExpandable() {
+        element().$(".n2o-calendar-button").shouldBe(Condition.exist);
+    }
+
     private SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().$(".n2o-date-input input");

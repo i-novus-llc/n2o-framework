@@ -1,16 +1,13 @@
 package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
-import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Regions;
-import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
-import net.n2oapp.framework.autotest.impl.component.N2oDropDown;
 
 import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 
@@ -69,11 +66,6 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     @Override
     public Alerts alerts() {
         return null;
-    }
-
-    @Override
-    public DropDown dropdown() {
-        return N2oSelenide.component(element().$(".n2o-dropdown-control"), N2oDropDown.class);
     }
 
     @Override

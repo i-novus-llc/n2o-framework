@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.Expandable;
 
 /**
@@ -33,4 +34,6 @@ public interface Select extends Control, Expandable {
     void shouldNotBeChecked(int... indexes);
 
     void optionShouldHaveDescription(String option, String description);
+
+    DropDown dropdown();
 }

@@ -10,12 +10,10 @@
                         label="Ввод с выпадающим списком"
                         query-id="test"
                         badge-field-id="badge"
+                        badge-shape="square"
+                        badge-position="right"
                         badge-color-field-id="status"
-                        badge-position="left"
-                        badge-shape="circle"
                         badge-image-field-id="image"
-                        badge-image-position="right"
-                        badge-image-shape="square"
                 />
                 <select
                         placeholder="Введите значение"
@@ -27,7 +25,7 @@
                         badge-position="left"
                         badge-shape="rounded"
                         badge-image-field-id="image"
-                        badge-image-position="left"
+                        badge-image-position="right"
                         badge-image-shape="rounded"
                 />
                 <input-select-tree
@@ -38,11 +36,11 @@
                         label-field-id="name"
                         badge-field-id="badge"
                         badge-position="left"
-                        badge-shape="rounded"
+                        badge-shape="circle"
                         badge-color-field-id="status"
                         badge-image-field-id="image"
-                        badge-image-position="left"
-                        badge-image-shape="rounded"
+                        badge-image-position="right"
+                        badge-image-shape="square"
                 />
             </row>
         </fields>

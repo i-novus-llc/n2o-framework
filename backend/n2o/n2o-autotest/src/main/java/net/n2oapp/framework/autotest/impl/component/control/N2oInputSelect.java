@@ -5,6 +5,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import org.openqa.selenium.Keys;
 
@@ -141,6 +143,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void shouldBeExpandable() {
+        element().$(".n2o-popup-control").shouldBe(Condition.exist);
+    }
+
+    @Override
     public void optionShouldHaveDescription(String option, String description) {
         expand();
         SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
@@ -156,6 +163,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         popUpButtons().findBy(Condition.text(value))
                 .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
                 .shouldHave(Condition.cssClass(color.name("bg-")));
+    }
+
+    @Override
+    public DropDown dropdown() {
+        return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
     }
 
     private SelenideElement input() {

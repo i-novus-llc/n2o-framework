@@ -166,6 +166,11 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
+    public void shouldBeExpandable() {
+        element().$(".n2o-calendar-button").shouldBe(Condition.exist);
+    }
+
+    @Override
     public void shouldBeExpanded() {
         popUp().shouldBe(Condition.exist);
     }

@@ -3,6 +3,8 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import org.openqa.selenium.Keys;
 
@@ -121,6 +123,11 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
+    public void shouldBeExpandable() {
+        element().$(".n2o-popup-control").shouldBe(Condition.exist);
+    }
+
+    @Override
     public void optionShouldHaveDescription(String option, String description) {
         expand();
         SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
@@ -128,6 +135,11 @@ public class N2oSelect extends N2oControl implements Select {
         if (elm.is(Condition.cssClass("custom-checkbox")))
             elm = elm.parent();
         elm.$(".dropdown-header").shouldHave(Condition.text(description));
+    }
+
+    @Override
+    public DropDown dropdown() {
+        return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
     }
 
     private SelenideElement selectPopUp() {
