@@ -65,6 +65,8 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                     copyDependency.setModel(p.cast(dependency.getTargetModel(), ReduxModel.resolve));
                     copyDependency.setField(dependency.getTargetFieldId());
                     copyDependency.setType(DependencyType.copy);
+                    copyDependency.setSubmit(p.cast(dependency.getSubmit(), false));
+                    copyDependency.setApplyOnInit(p.cast(dependency.getApplyOnInit(), false));
                     dependencies.add(copyDependency);
                 }
             }
