@@ -40,6 +40,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
         DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope();
         p.safeStreamOf(page.getDatasources()).forEach(datasource -> datasourceIdsScope.add(datasource.getId()));
+        checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
         p.safeStreamOf(widgets).filter(widget -> widget.getDatasourceId() == null).forEach(widget -> datasourceIdsScope.add(widget.getId()));
 
         p.safeStreamOf(page.getToolbars())
@@ -50,7 +51,6 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
         p.checkIdsUnique(widgets, "Виджет {0} встречается более чем один раз на странице " + page.getId());
         p.safeStreamOf(widgets).forEach(widget -> p.validate(widget, pageScope, datasourceIdsScope, dataSourcesScope));
-        checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
 
         p.checkIdsUnique(page.getDatasources(),
                 "Источник данных {0} встречается более чем один раз в метаданной страницы " + page.getId());
