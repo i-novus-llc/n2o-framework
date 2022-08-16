@@ -28,22 +28,23 @@ export enum DependencyTypes {
 }
 
 export interface DataSourceDependencyBase {
-    type: DependencyTypes,
+    type: DependencyTypes
     on: string
+    applyOnInit: boolean
 }
 
 export interface DataSourceDependencyCopy extends DataSourceDependencyBase {
-    type: DependencyTypes.copy,
+    type: DependencyTypes.copy
     model: ModelPrefix
     field?: string
 }
 
 export interface DataSourceDependencyFetch extends DataSourceDependencyBase {
-    type: DependencyTypes.fetch,
+    type: DependencyTypes.fetch
 }
 
 export interface DataSourceDependencyValidate extends DataSourceDependencyBase {
-    type: DependencyTypes.validate,
+    type: DependencyTypes.validate
 }
 
 export type DataSourceDependency = (

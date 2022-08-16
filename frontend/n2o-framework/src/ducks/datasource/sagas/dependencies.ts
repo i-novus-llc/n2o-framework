@@ -11,6 +11,7 @@ import { dataSourcesSelector } from '../selectors'
 import { updateModel, setModel } from '../../models/store'
 import { State as DatasourceState } from '../DataSource'
 import { State as GlobalState } from '../../State'
+import { RegisterAction } from '../Actions'
 
 /**
  * @param {String} id
@@ -74,4 +75,18 @@ export function* watchDependencies() {
     }
 
     prevState = state
+}
+
+export function* applyOnInitDependencies({ payload }: RegisterAction) {
+    const { id, initProps } = payload
+    const { dependencies = [] } = initProps
+    const state: GlobalState = yield select()
+
+    for (const dependency of dependencies) {
+        if (dependency.applyOnInit) {
+            const model = get(state, dependency.on)
+
+            yield fork(resolveDependency, id, dependency, model)
+        }
+    }
 }
