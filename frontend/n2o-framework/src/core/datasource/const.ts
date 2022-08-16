@@ -37,6 +37,7 @@ export interface DataSourceDependencyCopy extends DataSourceDependencyBase {
     type: DependencyTypes.copy
     model: ModelPrefix
     field?: string
+    submit: boolean
 }
 
 export interface DataSourceDependencyFetch extends DataSourceDependencyBase {

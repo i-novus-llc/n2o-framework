@@ -6,7 +6,7 @@ import {
 import { get, isEqual } from 'lodash'
 
 import { DataSourceDependency, DependencyTypes } from '../../../core/datasource/const'
-import { dataRequest, startValidate } from '../store'
+import { dataRequest, startValidate, submit as submitAction } from '../store'
 import { dataSourcesSelector } from '../selectors'
 import { updateModel, setModel } from '../../models/store'
 import { State as DatasourceState } from '../DataSource'
@@ -33,12 +33,16 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
             break
         }
         case DependencyTypes.copy: {
-            const { model: targetPrefix, field: targetField } = dependency
+            const { model: targetPrefix, field: targetField, submit } = dependency
 
             if (targetField) {
                 yield put(updateModel(targetPrefix, id, targetField, model))
             } else {
                 yield put(setModel(targetPrefix, id, model as object))
+            }
+
+            if (submit) {
+                yield put(submitAction(id))
             }
 
             break
