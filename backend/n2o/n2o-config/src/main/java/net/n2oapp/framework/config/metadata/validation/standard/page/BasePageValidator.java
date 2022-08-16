@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -48,10 +49,18 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         p.safeStreamOf(page.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction(), pageScope, datasourceIdsScope, dataSourcesScope));
 
         p.checkIdsUnique(widgets, "Виджет {0} встречается более чем один раз на странице " + page.getId());
+        checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
         p.safeStreamOf(widgets).forEach(widget -> p.validate(widget, pageScope, datasourceIdsScope, dataSourcesScope));
 
         p.checkIdsUnique(page.getDatasources(),
                 "Источник данных {0} встречается более чем один раз в метаданной страницы " + page.getId());
         p.safeStreamOf(page.getDatasources()).forEach(datasource -> p.validate(datasource, datasourceIdsScope));
+    }
+
+    private void checkDuplicateWidgetIdsInDatasources(List<N2oWidget> widgets, DatasourceIdsScope datasourceIdsScope) {
+        widgets.forEach(n2oWidget -> {
+           if (datasourceIdsScope.contains(n2oWidget.getId()))
+               throw new N2oMetadataValidationException(String.format("Идентификатор виджета '%s' уже используется источником данных", n2oWidget.getId()));
+        });
     }
 }
