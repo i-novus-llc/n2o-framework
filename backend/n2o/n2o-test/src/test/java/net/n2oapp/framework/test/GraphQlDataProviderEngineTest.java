@@ -468,7 +468,7 @@ public class GraphQlDataProviderEngineTest {
                 Map.of("name", "test", "age", 20)));
         data.put("data", persons);
 
-        String expectedQuery = "query persons() { id price showrooms { id name owner { name inn } }";
+        String expectedQuery = "query persons() { id price showrooms { id name owner { name inn } } }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -478,7 +478,6 @@ public class GraphQlDataProviderEngineTest {
         Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
 
         // graphql payload
-        //assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
         assertEquals(expectedQuery, payloadValue.get("query"));
     }
 

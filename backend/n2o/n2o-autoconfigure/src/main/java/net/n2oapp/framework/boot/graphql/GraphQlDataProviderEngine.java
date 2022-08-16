@@ -22,6 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlString;
+import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlFields;
 import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
 import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
 
@@ -36,6 +37,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private static final String RESPONSE_DATA_KEY = "data";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
+    private final Pattern selectKeyPattern = Pattern.compile("\\$\\$\\w+\\W");
 
     @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
@@ -212,6 +214,11 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         return query;
     }
 
+    /**
+     * Замена плейсхолдеров в "select"
+     *
+     * @param args Данные
+     */
     private void resolveHierarchicalSelect(Map<String, Object> args) {
         @SuppressWarnings("unchecked")//Всегда приходит в виде списка из select-expression
         List<String> selectExpressions = (List<String>) args.get("select");
@@ -219,19 +226,34 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             return;
         List<String> resolvedExpressions = new ArrayList<>();
         for (String selectExpression : selectExpressions) {
-            while (selectExpression.contains("$$")) {
-                Set<String> placeholderKeys = extractPlaceholderKeys(selectExpression);
-                for (Map.Entry<String, Object> entry : args.entrySet()) {
-                    String placeholder = "$$" + entry.getKey();
-                    String value = placeholderKeys.contains(placeholder) ?
-                            (String) entry.getValue() :
-                            toGraphQlString(entry.getValue());
-                    selectExpression = replacePlaceholder(selectExpression, placeholder, value, "null");
-                }
+            while (selectKeyPattern.matcher(selectExpression).find()) {
+                selectExpression = resolveSelectKey(selectExpression, args);
             }
             resolvedExpressions.add(selectExpression);
         }
         args.put("select", resolvedExpressions);
+    }
+
+    /**
+     * Замена плейсхолдера в select-expression
+     *
+     * @param selectExpression Выражение
+     * @param args             Данные
+     * @return Разрезолвленное выражение или исходное при отсутствии в нем плейсхолдеров $$
+     */
+    private String resolveSelectKey(String selectExpression, Map<String, Object> args) {
+        Set<String> selectKeys = extract(selectExpression, selectKeyPattern, (s, m) -> s.substring(m.start() + 2, m.end() - 1));
+        Optional<String> selectKey = selectKeys.stream().findFirst();
+        if (selectKey.isEmpty())
+            return selectExpression;
+        if (selectKeys.size() > 1)
+            throw new N2oException("Find more than one select key in expression " + selectExpression);
+
+        @SuppressWarnings("unchecked")//Всегда приходит в виде списка из select-expression
+        List<String> value = (List<String>) args.remove(selectKey.get());
+        if (value == null)
+            throw new N2oException(String.format("Value for placeholder %s not found ", "$$" + selectKey.get()));
+        return replacePlaceholder(selectExpression, "$$" + selectKey.get(), toGraphQlFields(value), "");
     }
 
     /**

@@ -36,4 +36,19 @@ public class GraphQlUtil {
         else
             return obj.toString();
     }
+
+    /**
+     * Преобразование списка значений в строку возвращаемых полей GraphQl запросом
+     *
+     * @param values Список значений
+     * @return GraphQl строка
+     */
+    public static String toGraphQlFields(List<String> values) {
+        if (values == null)
+            return null;
+        StringJoiner joiner = new StringJoiner(" ");
+        for (String value : values)
+            joiner.add(value);
+        return joiner.toString();
+    }
 }
