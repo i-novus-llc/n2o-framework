@@ -50,6 +50,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.co
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
 /**
  * Компиляция источника данных
@@ -311,7 +312,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         if (submit.getRefreshOnSuccess() != null) {
             actionContextData.setRefresh(new RefreshSaga());
             if (submit.getRefreshDatasourceIds() != null)
-                actionContextData.getRefresh().setDatasources(Arrays.asList(submit.getRefreshDatasourceIds()));
+                actionContextData.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(submit.getRefreshDatasourceIds()), p));
         }
         dataProvider.setActionContextData(actionContextData);
 

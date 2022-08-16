@@ -12,6 +12,7 @@ import has from 'lodash/has'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import every from 'lodash/every'
 import merge from 'deepmerge'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
@@ -222,10 +223,13 @@ export function* handleInvoke(apiProvider, action) {
 
             for (const buttonId of buttonIds) {
                 const button = buttons[buttonId]
+                const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
 
                 if (!isEmpty(button.conditions)) {
                     yield call(resolveButton, buttons[buttonId])
-                } else {
+                }
+
+                if (needUnDisableButton) {
                     yield put(changeButtonDisabled(pageId, buttonId, false))
                 }
             }

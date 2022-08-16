@@ -20,6 +20,9 @@
                 <button id="id4">
                     <show-modal page-id="testPrintAction"/>
                 </button>
+                <button id="id5">
+                    <print url=":url"/>
+                </button>
             </toolbar>
         </form>
         <form id="secondWgt" route="/second">

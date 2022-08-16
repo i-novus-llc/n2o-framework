@@ -66,6 +66,47 @@ http://localhost:8080/#/[route]
 
 <Sandbox height={200} projectId="documentation_routing_homepage" showHeader />
 
+### Маршрутизация в боковых панелях {#Routing_sidebar}
+
+Некоторые боковые панели могут появляться на определенных адресах приложения.
+Эта возможность задается атрибутом `path`.
+```xml title="Адреса боковых панелей"
+<sidebars>
+  <sidebar path="/home" title="Главная"/>
+  <sidebar path="/search" title="Поиск"/>
+  <sidebar path="/profile/*" title="Профиль"/>
+  <sidebar path="/store/**" title="Карточка магазина"/>
+  <sidebar path="/client/:person_id/**" title="Карточка клиента"/>
+</sidebars>
+```
+
+Одна звездочка `*` определяет любой адрес до первого разделителя `/`.
+Двойная звездочка `**` определяет любые последующие адреса.
+
+#### Параметры пути боковой панели {#Routing_sidebar_param}
+
+В адресе боковой панели можно задавать параметры пути через двоеточие.
+```xml title="Параметр в пути боковой панели"
+<sidebar path="/client/:person_id/**" title="Карточка клиента">
+   ...
+</sidebar>
+```
+
+Параметры пути можно использовать в меню навигации боковой панели.
+```xml title="Использование параметра в пути боковой панели"
+<sidebar path="/client/:person_id/**" title="Карточка клиента">
+   <nav>
+     <menu-item name="Документы">
+       <open-page page-id="docs" route="/client/:person_id/docs">
+         <params>
+           <path-param name="person_id" value=":person_id"/>
+         </params>
+       </open-page>
+     </menu-item>
+   </nav>
+</sidebar>
+```
+Значение параметра пути боковой панели задается в атрибуте `value` через ведущее двоеточие `value=":person_id"`.
 
 ### Маршрутизация вложенных страниц {#Routing_page}
 

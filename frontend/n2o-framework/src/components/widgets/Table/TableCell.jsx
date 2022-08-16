@@ -26,25 +26,12 @@ class TableCell extends React.Component {
     }
 
     render() {
-        const {
-            className,
-            style,
-            component,
-            colSpan,
-            children,
-            model,
-            hideOnBlur,
-        } = this.props
+        const { className, style, component, colSpan, children, model, hideOnBlur } = this.props
         const ElementType = getElementType(TableCell, this.props)
 
         if (React.Children.count(children)) {
             return (
-                <ElementType
-                    className={className}
-                    colSpan={colSpan}
-                    model={model}
-                    style={style}
-                >
+                <ElementType className={className} colSpan={colSpan} model={model} style={style}>
                     {children}
                 </ElementType>
             )
@@ -57,10 +44,10 @@ class TableCell extends React.Component {
                 style={style}
             >
                 {component &&
-          React.createElement(component, {
-              ...this.getPassProps(),
-              model,
-          })}
+                    React.createElement(component, {
+                        ...this.getPassProps(),
+                        model,
+                    })}
             </ElementType>
         )
     }
