@@ -1,4 +1,4 @@
-import { select } from 'redux-saga/effects'
+import { select, put } from 'redux-saga/effects'
 import { isEmpty } from 'lodash'
 
 import { dataSourceByIdSelector } from '../selectors'
@@ -9,8 +9,13 @@ import { submit as submitStorage } from '../Providers/Storage'
 import { submit as submitInherited } from '../Providers/Inherited'
 import type { SubmitAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
+import { submitFail, submitSuccess } from '../store'
 
-type SubmitMethod<TProvider extends ISubmit = ISubmit> = (id: string, provider: TProvider) => Generator
+type SubmitMethod<TProvider extends ISubmit = ISubmit> = (
+    id: string,
+    provider: TProvider,
+    apiProvider: unknown,
+) => Generator
 
 function getSubmit<
     TSubmit extends ISubmit,
@@ -26,7 +31,7 @@ function getSubmit<
 }
 
 // eslint-disable-next-line consistent-return
-export function* submitSaga({ payload }: SubmitAction) {
+export function* submitSaga(apiProvider: unknown, { meta, payload }: SubmitAction) {
     const { id, provider } = payload
 
     try {
@@ -42,8 +47,10 @@ export function* submitSaga({ payload }: SubmitAction) {
 
         const submitMethod = getSubmit(submitProvider.type)
 
-        return (yield submitMethod(id, submitProvider)) as unknown
+        yield submitMethod(id, submitProvider, apiProvider)
+        yield put(submitSuccess(meta?.success))
     } catch (error) {
+        yield put(submitFail(error, meta?.fail))
         // eslint-disable-next-line no-console
         console.warn(`JS Error: DataSource(${id}) submit saga. ${error instanceof Error ? error.message : error}`)
     }

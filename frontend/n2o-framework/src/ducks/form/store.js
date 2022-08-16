@@ -533,6 +533,18 @@ const formSlice = createSlice({
                 })
             },
         },
+
+        initializeDependencies: {
+            prepare(form) {
+                return ({
+                    meta: { form },
+                    payload: {},
+                })
+            },
+            reducer() {
+                // empty reducer, action for saga
+            },
+        },
     },
 
     extraReducers: {
@@ -586,4 +598,5 @@ export const {
     HIDE_FIELDS: hideMultiFields,
     DISABLE_FIELDS: disableMultiFields,
     ENABLE_FIELDS: enableMultiFields,
+    initializeDependencies,
 } = formSlice.actions

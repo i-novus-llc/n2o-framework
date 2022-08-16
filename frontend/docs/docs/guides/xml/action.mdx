@@ -180,7 +180,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |source-datasource|Сссылка на [источник данных](../xml/page#datasources)|Идентификатор источника данных источника             |Источник данных текущего виджета|
 |source-field-id |Строка                              |Идентификатор копируемого поля источника                               |Вся модель           |
 |target-model    |resolve edit filter multi datasource|Модель, в которую будут скопированы данные                             |resolve              |
-|target-page-id  |Строка                              |Идентификатор целевой страницы                                         |Текущая страница     |
+|target-page     |parent this                         |Ссылка на страницу, в которую будет скопированы данные                 |this                 |
+|close-on-success|true false                          |Закрыть окно после успешного копирования данных                        |true                 |
 |target-datasource||Сссылка на [источник данных](../xml/page#datasources)|Идентификатор целевого источника данных             |Источник данных текущего виджета       |
 |target-field-id |Строка                              |Идентификатор поля целевого виджета, в которое будут скопированы данные|Вся модель           |
 |mode            |merge replace add                   |Тип слияния данных                                                     |merge                |
@@ -188,7 +189,11 @@ http://n2oapp.net/framework/config/schema/action-1.0
 **Пример**
 
 ```xml
-<copy source-field-id="id" target-datasource="table" target-field-id="dictionary.id"/>
+<copy source-field-id="id"
+      target-datasource="table"
+      target-field-id="dictionary.id"
+      target-page="parent"
+      close-on-success="false"/>
 ```
 
 <Sandbox height={250} projectId="uxcomponents_actions_copy"/>

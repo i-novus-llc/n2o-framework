@@ -6,7 +6,7 @@ import {
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
-import { clearModel, removeAllModel, removeModel, setModel } from '../models/store'
+import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -60,7 +60,7 @@ export function* dataRequestWrapper(action: DataRequestAction) {
     })
 }
 
-export default () => [
+export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequestWrapper),
     takeEvery(DATA_REQUEST, function* remapRequest({ payload }) {
@@ -69,11 +69,12 @@ export default () => [
         yield put(dataRequest(datasource, options))
     }),
     takeEvery(startValidate, validateSaga),
-    takeEvery(submit, submitSaga),
+    // @ts-ignore хер знает как затипизировать
+    takeEvery(submit, submitSaga, apiProvider),
     takeEvery(remove, removeSaga),
-    takeEvery([setModel, removeModel, removeAllModel, clearModel], watchDependencies),
+    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
     // @ts-ignore FIXME: проставить тип action
-    takeEvery(action => action.meta?.refresh?.datasources, function* refreshSage({ meta }) {
+    takeEvery(action => action.meta?.refresh?.datasources, function* refreshSaga({ meta }) {
         const { refresh } = meta
         const { datasources } = refresh
 

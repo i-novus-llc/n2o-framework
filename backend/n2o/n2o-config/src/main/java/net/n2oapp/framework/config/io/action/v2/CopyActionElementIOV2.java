@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.action.v2;
 
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.event.action.N2oCopyAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -33,6 +34,8 @@ public class CopyActionElementIOV2 extends AbstractActionElementIOV2<N2oCopyActi
         p.attribute(e, "target-page-id", m::getTargetClientPageId, m::setTargetClientPageId);
         p.attribute(e, "target-datasource", m::getTargetDatasourceId, m::setTargetDatasourceId);
         p.attribute(e, "target-field-id", m::getTargetFieldId, m::setTargetFieldId);
+        p.attributeEnum(e, "target-page", m::getTargetPage, m::setTargetPage, PageRef.class);
+        p.attributeBoolean(e, "close-on-success", m::getCloseOnSuccess, m::setCloseOnSuccess);
         p.attributeEnum(e, "mode", m::getMode, m::setMode, CopyMode.class);
     }
 }

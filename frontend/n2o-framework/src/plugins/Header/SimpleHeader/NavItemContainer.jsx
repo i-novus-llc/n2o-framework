@@ -9,15 +9,10 @@ import { NavItem, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownIt
 
 import colors from '../../../constants/colors'
 import { Badge } from '../../../components/snippets/Badge/Badge'
+import { LinkTarget } from '../../../constants/linkTarget'
 import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { resolveItem } from '../../../utils/propsResolver'
-
-const LinkTarget = {
-    Application: 'application',
-    Blank: '_blank',
-    Self: '_self',
-}
 
 export const getFromSource = (props, datasources, datasource, models) => {
     if (!datasource) {
