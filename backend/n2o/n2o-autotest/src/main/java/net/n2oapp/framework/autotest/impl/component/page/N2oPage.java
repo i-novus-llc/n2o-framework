@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.Tree;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -64,6 +65,11 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public Alerts alerts() {
         return N2oSelenide.collection(element().$$(".n2o-alerts-container .n2o-alert"), Alerts.class);
+    }
+
+    @Override
+    public Tree tree() {
+        return N2oSelenide.component(element().$(".n2o-rc-tree"), Tree.class);
     }
 
     @Override

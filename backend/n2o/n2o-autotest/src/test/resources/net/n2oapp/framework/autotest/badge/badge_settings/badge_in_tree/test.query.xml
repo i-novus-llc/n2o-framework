@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="net/n2oapp/framework/autotest/badge/badge_settings/badge_in_tree/test.json"/>
+    </list>
+    <count>
+        <test operation="count" file="net/n2oapp/framework/autotest/badge/badge_settings/badge_in_tree/test.json"/>
+    </count>
+
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <eq filter-id="name"/>
+            </filters>
+        </field>
+        <field id="icon">
+            <select/>
+        </field>
+        <field id="badge">
+            <select/>
+        </field>
+        <field id="status">
+            <select/>
+        </field>
+        <field id="parent">
+            <select/>
+            <filters>
+                <eq filter-id="parent"/>
+            </filters>
+        </field>
+        <field id="image">
+            <select />
+        </field>
+    </fields>
+</query>

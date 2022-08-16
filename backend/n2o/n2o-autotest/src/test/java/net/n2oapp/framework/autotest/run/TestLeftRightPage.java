@@ -1,8 +1,10 @@
 package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Regions;
+import net.n2oapp.framework.autotest.api.component.Tree;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
@@ -66,6 +68,11 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     @Override
     public Alerts alerts() {
         return null;
+    }
+
+    @Override
+    public Tree tree() {
+        return N2oSelenide.component(element().$(".n2o-rc-tree"), Tree.class);
     }
 
     @Override

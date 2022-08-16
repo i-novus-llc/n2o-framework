@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.badge;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
+import net.n2oapp.framework.autotest.api.component.Tree;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
@@ -31,7 +31,6 @@ public class BadgeSettingsAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-//        Configuration.headless=false;
     }
 
     @Override
@@ -89,6 +88,7 @@ public class BadgeSettingsAT extends AutoTestBase {
         firstItemTree.expand();
         firstItemTree.shouldBeExpanded();
         dropDownTreeSelect.shouldHaveItems(4);
+        firstItemTree.shouldHaveOption("11");
         DropDownTree.DropDownTreeItem thirdItemTree = dropDownTreeSelect.item(1);
         thirdItemTree.shouldBeExpandable();
         thirdItemTree.expand();
@@ -157,7 +157,29 @@ public class BadgeSettingsAT extends AutoTestBase {
 
     @Test
     public void testTree() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_tree/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_tree/test.query.xml"));
 
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        Tree tree = simplePage.tree();
+        tree.shouldExists();
+
+        tree.shouldHaveItems(2);
+        Tree.TreeItem firstItem = tree.item(0);
+        firstItem.shouldBeExpandable();
+        firstItem.expand();
+        tree.shouldHaveItems(4);
+        firstItem.shouldHaveItem("11");
+
+        Tree.TreeItem secondItem = tree.item(1);
+        secondItem.badgeShouldBeExists();
+        secondItem.badgeShouldBeShape("rounded");
+        secondItem.badgeShouldHaveImage();
+        secondItem.badgeImageShouldBePosition("left");
+        secondItem.badgeImageShouldBeShape("square");
     }
 
     @Test
