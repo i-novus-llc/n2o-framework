@@ -2,7 +2,6 @@ import {
     call,
     put,
     select,
-    take,
     fork,
     takeEvery,
     takeLatest,
@@ -38,7 +37,9 @@ import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widge
 
 import fetchSaga from './fetch'
 
-export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
+const FetchValueCache = new Set()
+
+export function* fetchValue(form, field, { dataProvider, valueFieldId }, cleanUp) {
     try {
         yield delay(300)
         yield put(setLoading(form, field, true))
@@ -81,12 +82,13 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
         console.error(e)
     } finally {
         yield put(setLoading(form, field, false))
+        cleanUp()
     }
 }
 
 // eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
-    const { type, expression, on } = dependency
+    const { type, expression } = dependency
 
     const evalResult = expression
         ? evalExpression(expression, values)
@@ -171,18 +173,19 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'fetchValue': {
-            const watcher = yield fork(fetchValue, formName, fieldName, dependency)
-            const action = yield take((action) => {
-                if (action.type !== actionTypes.CHANGE) { return false }
-                // TODO Выяснить может ли fetch быть без зависимостей, если нет, то убрать
-                if (!on || !on.length) { return true }
+            const fetchValueKey = `${formName}.${fieldName}`
+            const task = yield fork(
+                fetchValue,
+                formName,
+                fieldName,
+                dependency,
+                () => FetchValueCache.delete(fetchValueKey),
+            )
 
-                return on.includes(get(action, 'meta.field'))
-            })
-
-            // TODO разобраться с этим условием, не уверен что актуально
-            if (get(action, 'meta.field') !== fieldName) {
-                yield cancel(watcher)
+            if (FetchValueCache.has(fetchValueKey)) {
+                yield cancel(task)
+            } else {
+                FetchValueCache.add(fetchValueKey)
             }
 
             break
