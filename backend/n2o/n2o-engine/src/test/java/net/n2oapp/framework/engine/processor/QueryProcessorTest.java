@@ -462,4 +462,48 @@ public class QueryProcessorTest {
         assertThat(value.get(0), is("name"));
         assertThat(value.get(1), is("inn"));
     }
+
+    @Test
+    public void testResultNormalize() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testListResultNormalize.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testListResultNormalize"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCount(), is(1));
+        DataSet first = result.getCollection().iterator().next();
+
+        List<DataSet> ids = (List<DataSet>) first.getList("ids");
+        assertThat(ids.size(), is(2));
+        assertThat(ids.get(0).size(), is(1));
+        assertThat(ids.get(0).getLong("id"), is(1L));
+        assertThat(ids.get(1).size(), is(1));
+        assertThat(ids.get(1).getLong("id"), is(2L));
+
+        List<DataSet> names = (List<DataSet>) first.getList("names");
+        assertThat(names.size(), is(2));
+        assertThat(names.get(0).size(), is(1));
+        assertThat(names.get(0).getString("name"), is("test1"));
+        assertThat(names.get(1).size(), is(1));
+        assertThat(names.get(1).getString("name"), is("test2"));
+    }
+
+    @Test
+    public void testUniqueResultNormalize() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testUniqueResultNormalize.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testUniqueResultNormalize"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.setSize(1);
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCount(), is(1));
+
+        DataSet unique = result.getCollection().iterator().next();
+        assertThat(unique.getLong("id"), is(1L));
+        assertThat(unique.getDataSet("info").size(), is(2));
+        assertThat(unique.getDataSet("info").getString("name"), is("test1"));
+        assertThat(unique.getDataSet("info").getString("type"), is("type11"));
+    }
 }

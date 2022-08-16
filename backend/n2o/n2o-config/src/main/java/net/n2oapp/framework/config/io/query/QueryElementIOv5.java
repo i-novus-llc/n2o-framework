@@ -63,6 +63,7 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "filters", t::getFilters, t::setFilters);
         p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
         p.attribute(e, "result-mapping", t::getResultMapping, t::setResultMapping);
+        p.attribute(e, "result-normalize", t ::getResultNormalize, t::setResultNormalize);
         p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), dataProviderDefaultNamespace);
     }
 
