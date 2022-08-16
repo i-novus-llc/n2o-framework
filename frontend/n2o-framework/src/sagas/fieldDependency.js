@@ -5,6 +5,7 @@ import {
     take,
     fork,
     takeEvery,
+    takeLatest,
     delay,
     cancel,
 } from 'redux-saga/effects'
@@ -26,11 +27,13 @@ import {
     unsetRequired,
     setLoading,
     registerFieldExtra,
+    initializeDependencies,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
-import { startValidate } from '../ducks/datasource/store'
+import { resolveRequest, startValidate } from '../ducks/datasource/store'
+import { combineModels } from '../ducks/models/store'
 import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widgets/selectors'
 
 import fetchSaga from './fetch'
@@ -201,24 +204,20 @@ export function* checkAndModify(
 
         if (field.dependency) {
             for (const dep of field.dependency) {
-                if (
-                    (
-                        dep.applyOnInit && (
-                            (actionType === actionTypes.INITIALIZE) ||
-                            ((actionType === registerFieldExtra.type) && (fieldName === fieldId))
-                        )
-                    ) ||
-                    (
-                        some(
-                            dep.on,
-                            field => (
-                                field === fieldName ||
-                                (includes(field, '.') && includes(field, fieldName))
-                            ),
-                        ) && actionType === actionTypes.CHANGE
-                    )
+                const needRunOnInit = dep.applyOnInit && (
+                    actionType === initializeDependencies.type ||
+                    (fieldName === fieldId &&
+                        actionType === registerFieldExtra.type)
+                )
+                const someDepNeedRun = some(
+                    dep.on,
+                    field => (
+                        field === fieldName ||
+                        (includes(field, '.') && includes(field, fieldName))
+                    ),
+                )
 
-                ) {
+                if (needRunOnInit || (someDepNeedRun && actionType === actionTypes.CHANGE)) {
                     yield fork(modify, values, formName, fieldId, dep, field)
                 }
             }
@@ -226,9 +225,9 @@ export function* checkAndModify(
     }
 }
 
-export function* resolveDependency(action) {
+export function* resolveDependency({ type, meta, payload }) {
     try {
-        const { form: formName, field: fieldName } = action.meta
+        const { form: formName, field: fieldName } = meta
         const form = yield select(makeFormByName(formName))
 
         if (isEmpty(form) || isEmpty(form.registeredFields)) {
@@ -240,8 +239,8 @@ export function* resolveDependency(action) {
             form.values || {},
             form.registeredFields,
             formName,
-            action.type === registerFieldExtra.type ? action.payload.name : fieldName,
-            action.type,
+            type === registerFieldExtra.type ? payload.name : fieldName,
+            type,
         )
     } catch (e) {
         // todo: падает тут из-за отсутствия формы
@@ -250,10 +249,41 @@ export function* resolveDependency(action) {
     }
 }
 
+export function* resolveDependencyOnInit({ payload }) {
+    const { id } = payload
+
+    yield call(resolveDependency, {
+        type: initializeDependencies.type,
+        meta: {
+            form: id,
+        },
+    })
+}
+
+export function* resolveDependencyDefaultModels({ payload }) {
+    const { combine = {} } = payload
+
+    yield delay(500)
+
+    for (const [, models] of Object.entries(combine)) {
+        for (const [datasource] of Object.entries(models)) {
+            yield call(resolveDependency, {
+                type: initializeDependencies.type,
+                meta: {
+                    form: datasource,
+                },
+            })
+        }
+    }
+}
+
 export const fieldDependencySagas = [
     takeEvery([
         actionTypes.INITIALIZE,
         registerFieldExtra.type,
         actionTypes.CHANGE,
+        initializeDependencies.type,
     ], resolveDependency),
+    takeEvery(resolveRequest, resolveDependencyOnInit),
+    takeLatest(combineModels, resolveDependencyDefaultModels),
 ]
