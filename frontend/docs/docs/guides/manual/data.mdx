@@ -350,8 +350,18 @@ __*Типы фильтраций*__
     <test file="test.json" operation="findOne"/>
   </unique>
 ```
-
 :::
+
+#### Пагинация данных
+
+Пагинация данных тестового провайдера выполняется автоматически.
+Однако необходимо добавить получение общего количества записей.
+Это можно сделать с помощью операции `count`.
+```xml title="Получение количества записей в тестовом провайдере"
+<count>
+  <test file="test.json" operation="count"/>
+</count>
+```
 
 #### Маппинг полей
 
@@ -376,7 +386,7 @@ __*Типы фильтраций*__
 ```
 
 :::note
-Если идентификатор поля `id` совпадает с свойством в json объекте, то маппинг можно не задавать
+Если идентификатор поля совпадает со свойством в json объекте, то маппинг можно не задавать
 ```xml
 <query>
   ...
@@ -484,50 +494,208 @@ __*Операции тестового провайдера*__
 
 ### SQL {#SQL}
 
-SQL провайдер позволяет выполнять SQL запросы к базе данных, описанные прямо в XML файле.
-
-```xml title="Получение списка записей SQL провайдером"
-<query>
-  <list>
-    <sql>SELECT :select FROM mytable WHERE :filters ORDER BY :sortings</sql>
-  </list>
-  <count>
-    <sql>SELECT count(*) FROM mytable WHERE :filters</sql>
-  </count>
-  <fields>
-    <field id="name">
-      <select>name</select>
-      <filters>
-          <eq>name = :name</eq>
-      </filters>
-      <sorting>name :direction</sorting>
-    </field>
-  </fields>
-</query>
+SQL провайдер позволяет выполнять SQL запросы к базе данных.
+Запросы задаются в элементе `<sql>`
+```xml
+<sql>SELECT * FROM mytable</sql>
+```
+или в файле указанном в атрибуте `file` относительно ресурсов проекта
+```xml
+<sql file="/sql/mytable.sql"/>
+```
+```sql title="/src/resources/sql/mytable.sql"
+SELECT * FROM mytable
 ```
 
+#### Настройки соединения
+
+Для соединения с БД необходимо добавить настройки приложения в файл `application.properties`
+```properties title="Настройки соединения с БД"
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+```
+
+#### Получение данных
+Для получения списка записей достаточно написать SELECT запрос.
+```xml
+<list>
+  <sql>SELECT * FROM mytable t</sql>
+</list>
+```
+Для получения одной записи по идентификатору, можно добавить WHERE блок с плейсхолдером.
+Плейсхолдеры задаются через ведущее двоеточие `:something`.
+```xml
+<unique filters="idEq">
+  <sql>SELECT * FROM mytable t WHERE t.id = :idEq</sql>
+</unique>
+```
+
+Можно добавить специальный плейсхолдер `:select`, чтобы шаблонизировать выборку.
+```xml
+<sql>SELECT :select FROM mytable t</sql>
+```
+Плейсхолдер `:select` будет заменен на значения из элементов `<select>..</select>` в полях выборки.
+Разделителем между разными элементами select будет запятая `, `. Например, для полей
+```xml
+<field id="id">
+  <select>t.id as id</select>
+</field>
+<field id="name">
+  <select>t.name as name</select>
+</field>
+```
+итоговый запрос будет
+```sql
+SELECT t.id as id, t.name as name FROM mytable t
+```
+
+#### Пагинация данных
+
+Для пагинации записей SQL запроса следует использовать плейсхолдеры `:limit` и `:offset`.
+```xml title="Пагинация записей SQL запроса"
+<list>
+  <sql>SELECT * FROM mytable LIMIT :limit OFFSET :offset</sql>
+</list>
+```
+
+Чтобы получить общее количество записей можно использовать другой запрос к БД с функцией агрегации.
+```xml title="Получение количества записей SQL запроса"
+<count count-mapping="[0]['cnt']">
+  <sql>SELECT count(*) as cnt FROM mytable</sql>
+</count>
+```
+В атрибуте `count-mapping` указывается выражение для получения числа записей.
+
+#### Маппинг полей
+В результате выполнения SQL запроса вернется объект `Map<String, Object>`,
+где `String` алиас столбца запроса, а `Object` его значение.
+Если алиас столбца не совпадает с идентификатором поля выборки, необходимо сделать маппинг.
+```xml title="Маппинг полей SQL запроса"
+<field id="firstName">
+  <select mapping="['first_name']">t.name as first_name</select>
+</field>
+```
+
+#### Фильтрация данных
+
+Для задания фильтров SQL запроса нужно указать тип фильтра и идентификатор фильтра `filter-id`.
+```xml title="Фильтрация SQL запроса"
+<field id="id">
+  <filters>
+    <eq filter-id="idEq"/> <!-- Плейсхолдер :idEq -->
+  </filters>
+</field>
+```
+В этом случае будет доступен `PreparedStatement` плейсхолдер `:idEq` равный значению `filter-id`.
+Если плейсхолдер нужно переименовать, можно использовать маппинг.
+```xml title="Маппинг плейсхолдера фильтрации SQL запроса"
+<field id="gender.id">
+  <filters>
+    <eq filter-id="gender.id" mapping="['gender_id']"/> <!-- Плейсхолдер :gender_id -->
+  </filters>
+</field>
+```
+
+Можно добавить специальный плейсхолдер `:filters`, чтобы шаблонизировать фильтрацию выборки.
+```xml
+<list filters-separator=" and ">
+  <sql>SELECT * FROM mytable t WHERE :filters</sql>
+</list>
+```
+Разделителем между разными фильтрами обычно должен быть ` and `, поэтому необходимо задать его атрибутом `filters-separator`.
+
+Плейсхолдер `:filters` будет заменен на значения из элементов `<тип_фильтра>..</тип_фильтра>` в фильтрах выборки,
+если значение фильтра не будет `null`.
+```xml
+<field id="name">
+  <filters>
+    <like filter-id="nameLike">t.name like '%'||:nameLike</like>
+  </filters>
+</field>
+```
+при наличии значения в `nameLike` итоговый запрос будет
+```sql
+SELECT * FROM mytable t WHERE t.name like '%'||:nameLike
+```
+
+:::note
+Если ни одно значение фильтра не задано, плейсхолдер `:filters` будет заменен на `1=1`.
+:::
+
+#### Сортировка данных
+
+Сортировка записей в SQL задается через блок `ORDER BY`
+```xml
+<sql>SELECT * FROM mytable ORDER BY name :nameDir</sql>
+```
+В поле, поддерживающее сортировку, необходимо добавить элемент`<sorting>`
+и указать маппинг плейсхолдера для задания направления сортировки.
+
+```xml {6,10} title="Сортировка данных SQL запроса"
+<field id="name">
+  <sorting mapping="['nameDir']"/>
+  <!-- Если будет сортировка по полю name
+       в плейсхолдер :nameDir попадет значение asc или desc -->
+</field>
+```
+
+Можно добавить специальный плейсхолдер `:sorting`, чтобы шаблонизировать выражение сортировки.
+```xml
+<sql>SELECT * FROM mytable ORDER BY :sorting</sql>
+```
+Плейсхолдер `:sorting` будет заменен на значения из элементов `<sorting>..</sorting>` в полях выборки,
+если по этому полю будет задана сортировка.
+```xml
+<field id="name">
+  <sorting mapping="['nameDir']">name :nameDir</sorting>
+</field>
+```
+при наличии сортировки `asc` по полю `name` итоговый запрос будет
+```sql
+SELECT * FROM mytable ORDER BY name asc
+```
+для сортировки по `desc` аналогично.
+
+:::note
+Если ни одно направление сортировки не задано, плейсхолдер `:sorting` будет заменен на `1`.
+:::
+
+
+#### Операции над данными
+
+Для выполнения операций над данными нужно записать соответствующий SQL запрос.
 ```xml title="Выполнение операции SQL провайдером"
 <operation id="create">
   <invocation>
-    <sql>INSERT INTO mytable (first_name, last_name) VALUES (:firstName, :lastName)</sql>
+    <sql>INSERT INTO mytable (first_name, last_name) VALUES (:first_name, :last_name)</sql>
   </invocation>
   <in>
-    <field id="firstName"/>
-    <field id="lastName"/>
+    <field id="firstName" mapping="['first_name']"/>
+    <field id="lastName" mapping="['last_name']"/>
   </in>
+  <out>
+    <field id="id" mapping="[0]"/>
+  </out>
 </operation>
 ```
+Результатом `INSERT` запроса будет массив значений, добавленных в таблицу.
+Чтобы получить первичный ключ, необходимо в `<out>` поле задать маппинг на первое добавленное значение.
 
-#### Настройки SQL провайдера
+#### Обработка исключений
+При возникновении ошибок во время выполнения SQL запроса выбрасывается исключение `N2oQueryExecutionException`.
+Из него можно получить исходный запрос `query` и сообщение от БД `message`.
 
-Если приложение обращается только к одной базе данных,
-то настройки подключения соответствуют настройкам `spring.datasource`.
-
-Если необходимо подключиться к другой базе данных, то можно задать
-класс jdbc драйвера настройкой `n2o.engine.jdbc.driver-class-name`.
-
-<Sandbox height={400} projectId="data_providers_sql" />
-
+```xml title="Получение данных об ошибке SQL"
+<operation id="create" fail-message="Не удалось создать запись по причине {error}">
+  ...
+  <out-fail>
+    <field id="sql" mapping="query"/> <!-- Исходный запрос -->
+    <field id="error" mapping="message"/> <!-- Сообщение об ошибке -->
+  </out-fail>
+</operation>
+```
 
 ### REST {#Rest}
 
