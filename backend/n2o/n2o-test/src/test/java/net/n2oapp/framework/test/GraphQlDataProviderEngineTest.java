@@ -230,7 +230,7 @@ public class GraphQlDataProviderEngineTest {
         data.put("data", persons);
 
         String expectedQuery = "query persons(" +
-                "filter: { [{ name: {eq: \"test\" } }] AND [{ age: {ge: 20 } }] }) " +
+                "filter: { [{ name: {like: \"\\\"test\\\"\" } }] AND [{ age: {ge: 20 } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
@@ -249,7 +249,7 @@ public class GraphQlDataProviderEngineTest {
         url = "http://localhost:" + appPort + queryPath;
 
         expectedQuery = "query persons(" +
-                "filter: { [{ name: {eq: \"test\" } }] }) " +
+                "filter: { [{ name: {like: \"\\\"test\\\"\" } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));

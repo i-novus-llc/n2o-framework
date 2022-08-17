@@ -19,8 +19,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Map;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -68,6 +66,9 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
 
         PrintAction print3 = (PrintAction) toolbar.getButton("id3").getAction();
         assertThat(print3.getPayload().getUrl(), is("http://google.com"));
+
+        PrintAction print4 = (PrintAction) toolbar.getButton("id5").getAction();
+        assertThat(print4.getPayload().getUrl(), is(":url"));
 
         PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("secWgt").getAction();

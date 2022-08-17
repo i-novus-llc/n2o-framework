@@ -18,9 +18,8 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThrows;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -204,6 +203,17 @@ public class MappingProcessorTest {
         assertThat(MappingProcessor.normalizeValue(obj, "#this", data, parser, beanFactory), is("test"));
         assertThat(MappingProcessor.normalizeValue(obj, "#data['name']", data, parser, beanFactory), is("John"));
         assertThat(MappingProcessor.normalizeValue(obj, "@myBean.call()", data, parser, beanFactory), is("Doe"));
+    }
+
+    @Test
+    public void testException() {
+        ContextProcessor contextProcessor = Mockito.mock(ContextProcessor.class);
+
+        N2oSpelException n2oSpelException = assertThrows(N2oSpelException.class, () -> MappingProcessor
+                .outMap(new DataSet(), new DataSet(), "fieldId", "['id'] ? 0 :", null, contextProcessor));
+        assertThat(n2oSpelException.getCause(), instanceOf(IllegalArgumentException.class));
+        assertThat(n2oSpelException.getFieldId(), is("fieldId"));
+        assertThat(n2oSpelException.getMapping(), is("['id'] ? 0 :"));
     }
 
     public static class MyBean {

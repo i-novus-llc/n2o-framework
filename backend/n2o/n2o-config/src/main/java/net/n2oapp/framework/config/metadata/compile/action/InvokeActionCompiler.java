@@ -30,12 +30,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
 /**
  * Сборка действия вызова операции
@@ -56,7 +56,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setType(getType(p));
 
         invokeAction.getPayload().setModel(getModelFromComponentScope(p));
-        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasource(p), p));
+        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
         invokeAction.getPayload().setWidgetId(getClientWidgetIdByComponentScope(p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
@@ -78,18 +78,28 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
         source.setRefreshDatasourceIds(initRefreshDatasources(source, p));
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
-        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
-        source.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
+        initSubmitMessageDefaults(source, p, context);
         source.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         source.setSubmitAll(p.cast(source.getSubmitAll(), true));
         source.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
         source.setClearOnSuccess(p.cast(source.getClearOnSuccess(), false));
     }
 
+    private void initSubmitMessageDefaults(N2oInvokeAction source, CompileProcessor p, CompileContext<?, ?> context) {
+        Boolean submitOnSuccess = null;
+        Boolean submitOnFail = null;
+        if (source.getOperationId() != null && context instanceof PageContext) {
+            submitOnSuccess = ((PageContext) context).getSubmitMessageOnSuccess();
+            submitOnFail = ((PageContext) context).getSubmitMessageOnFail();
+        }
+        source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), submitOnSuccess, true));
+        source.setMessageOnFail(p.cast(source.getMessageOnFail(), submitOnFail, true));
+    }
+
     private String[] initRefreshDatasources(N2oInvokeAction source, CompileProcessor p) {
         if (source.getRefreshDatasourceIds() != null)
             return source.getRefreshDatasourceIds();
-        String localDatasource = getLocalDatasource(p);
+        String localDatasource = getLocalDatasourceId(p);
         if (localDatasource != null)
             return new String[]{localDatasource};
         return null;
@@ -124,7 +134,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
 
     private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
         if (source.getClearOnSuccess())
-            meta.setClear(getClientDatasourceId(getLocalDatasource(p), p));
+            meta.setClear(getClientDatasourceId(getLocalDatasourceId(p), p));
     }
 
     private void initRedirect(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess) {
@@ -152,8 +162,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 if (!closeOnSuccess && source.getRefreshDatasourceIds() != null) {
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
-                        meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasourceIds())
-                                .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
+                        meta.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(source.getRefreshDatasourceIds()), p));
                 } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
                     meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
             }
@@ -196,7 +205,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setId(source.getId());
         dataProvider.setOptimistic(source.getOptimistic());
         dataProvider.setTargetModel(targetWidgetModel);
-        dataProvider.setDatasourceId(getLocalDatasource(p));
+        dataProvider.setDatasourceId(getLocalDatasourceId(p));
         dataProvider.setClientDatasourceId(getClientDatasourceId(dataProvider.getDatasourceId(), p));
         validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
@@ -236,7 +245,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (source.getObjectId() != null) {
             compiledObject = p.getCompiled(new ObjectContext(source.getObjectId()));
         }
-        String localDatasource = getLocalDatasource(p);
+        String localDatasource = getLocalDatasourceId(p);
         if (compiledObject == null && localDatasource != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null) {

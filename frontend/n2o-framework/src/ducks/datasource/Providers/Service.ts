@@ -1,4 +1,4 @@
-import { put, select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import get from 'lodash/get'
 
 // @ts-ignore ignore import error from js file
@@ -12,17 +12,25 @@ import type { QueryOptions, QueryResult, ServiceProvider, ServiceSubmit } from '
 import type { State as GlobalState } from '../../State'
 import type { DataSourceState } from '../DataSource'
 // @ts-ignore ignore import error from js file
-import { startInvoke } from '../../../actions/actionImpl'
+import { handleInvoke } from '../../../sagas/actionsImpl'
 import { ModelPrefix } from '../../../core/datasource/const'
 
 // @ts-ignore ignore import error from js file
 import { routesQueryMapping } from './service/routesQueryMapping'
 import { fetch } from './service/fetch'
 
-export function* submit(id: string, provider: ServiceSubmit) {
+export function* submit(id: string, provider: ServiceSubmit, apiProvider: unknown) {
     const { pageId }: DataSourceState = yield select(dataSourceByIdSelector(id))
+    const action = {
+        payload: {
+            datasource: id,
+            dataProvider: provider,
+            model: ModelPrefix.active,
+            pageId,
+        },
+    }
 
-    yield put(startInvoke(id, provider, ModelPrefix.active, pageId))
+    yield call(handleInvoke, apiProvider, action)
 }
 
 export function* invoke() {

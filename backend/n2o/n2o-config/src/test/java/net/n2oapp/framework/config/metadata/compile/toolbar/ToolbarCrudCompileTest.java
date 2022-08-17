@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -87,8 +86,8 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
             if ("delete".equalsIgnoreCase(button.getId())) {
                 assertThat(button.getConfirm().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.text")));
                 assertThat(button.getConfirm().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.title")));
-                assertThat(button.getConfirm().getOkLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.okLabel")));
-                assertThat(button.getConfirm().getCancelLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.cancelLabel")));
+                assertThat(button.getConfirm().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.okLabel")));
+                assertThat(button.getConfirm().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.cancelLabel")));
                 assertThat(button.getConfirm().getCloseButton(), is(false));
             } else {
                 assertThat(button.getConfirm(), nullValue());

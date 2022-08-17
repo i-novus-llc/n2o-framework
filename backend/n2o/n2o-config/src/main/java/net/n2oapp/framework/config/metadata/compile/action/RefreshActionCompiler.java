@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.action.refresh.RefreshPayload;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция действия обновления данных виджета
@@ -35,6 +35,6 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
     @Override
     protected void initDefaults(N2oRefreshAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setDatasourceId(p.cast(source.getDatasourceId(), getLocalDatasource(p)));
+        source.setDatasourceId(p.cast(source.getDatasourceId(), getLocalDatasourceId(p)));
     }
 }

@@ -32,5 +32,7 @@ public abstract class AbstractDatasourceIO<T extends N2oAbstractDatasource> impl
         p.attributeEnum(e, "target-model", c::getTargetModel, c::setTargetModel, ReduxModel.class);
         p.attributeEnum(e, "source-model", c::getSourceModel, c::setSourceModel, ReduxModel.class);
         p.attribute(e, "source-field-id", c::getSourceFieldId, c::setSourceFieldId);
+        p.attributeBoolean(e, "submit", c::getSubmit, c::setSubmit);
+        p.attributeBoolean(e, "apply-on-init", c::getApplyOnInit, c::setApplyOnInit);
     }
 }

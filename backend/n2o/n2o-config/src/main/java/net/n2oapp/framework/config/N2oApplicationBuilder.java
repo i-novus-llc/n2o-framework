@@ -191,7 +191,7 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         if (!(systemProperties instanceof SimplePropertyResolver))
             throw new IllegalArgumentException("System properties is readonly");
         Stream.of(properties).forEach(p -> {
-            String[] split = p.contains("=") ? p.split("=") : p.split(":");
+            String[] split = p.contains("=") ? p.split("=", 2) : p.split(":");
             ((SimplePropertyResolver) systemProperties).setProperty(split[0], split[1]);
         });
         return this;

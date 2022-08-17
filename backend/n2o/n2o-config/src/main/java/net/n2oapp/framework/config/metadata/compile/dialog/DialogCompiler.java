@@ -1,11 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.dialog;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
@@ -39,6 +41,9 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
         dialog.setTitle(source.getTitle());
         dialog.setDescription(source.getDescription());
         dialog.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.dialog.size"), String.class)));
+        StringBuilder datasourceId = new StringBuilder(context.getParentPageId());
+        datasourceId.append("_" + context.getParentSourceDatasourceId());
+        dialog.setModelLink(new ModelLink(ReduxModel.resolve, datasourceId.toString()).getBindLink());
         CompiledObject object = p.getCompiled(new ObjectContext(context.getObjectId()));
         if (source.getToolbar() != null) {
             // double close for all invoke action

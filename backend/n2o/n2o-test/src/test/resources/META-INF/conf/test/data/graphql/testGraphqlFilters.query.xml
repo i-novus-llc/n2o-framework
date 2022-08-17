@@ -17,7 +17,7 @@
         <field id="personName">
             <select mapping="['name']"/>
             <filters>
-                <eq filter-id="personName" mapping="['name']">{ name: {eq: $$name } }</eq>
+                <like filter-id="personName" mapping="['name']">{ name: {like: "$$$name" } }</like>
             </filters>
         </field>
 

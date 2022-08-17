@@ -35,13 +35,13 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция таблицы
  */
 @Component
-public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
+public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseListWidgetCompiler<D, S> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -54,13 +54,12 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     }
 
     @Override
-    public Table compile(N2oTable source, CompileContext<?, ?> context, CompileProcessor p) {
-        Table table = new Table();
-        TableWidgetComponent component = table.getComponent();
+    public D compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        D table = constructTable();
+        compileBaseWidget(table, source, context, p);
         N2oAbstractDatasource datasource = initDatasource(table, source, p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
-        compileBaseWidget(table, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p);
         SubModelsScope subModelsScope = new SubModelsScope();
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
@@ -73,6 +72,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
                 new ModelsScope(ReduxModel.filter, widgetScope.getClientDatasourceId(), p.getScope(Models.class)), subModelsScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery), validationScope, tableFiltersScope);
         MetaActions widgetActions = initMetaActions(source, p);
+        TableWidgetComponent component = table.getComponent();
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions,
                 subModelsScope, tableFiltersScope);
@@ -107,6 +107,13 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             component.setRowSelection(RowSelectionEnum.checkbox);
 
         return table;
+    }
+
+    /**
+     * Метод для создания экземпляра клиентской модели таблицы, должен быть переопределен в подклассах
+     */
+    protected D constructTable() {
+        return (D) new Table(new TableWidgetComponent());
     }
 
     private void compileColumns(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
@@ -146,8 +153,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     }
 
     private void initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
-                                              WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
-                                              Object... scopes) {
+                            WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
+                            Object... scopes) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
                 widgetQuery, object, scopes);
         if (fieldSets.isEmpty())

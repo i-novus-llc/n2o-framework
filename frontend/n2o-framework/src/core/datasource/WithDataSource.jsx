@@ -38,6 +38,7 @@ export const WithDataSource = (Component) => {
         const dispatch = useDispatch()
         const models = useSelector(dataSourceModelsSelector(datasource))
         const isEmptyData = !(models.datasource?.length)
+
         const methods = useMemo(() => {
             const addComponentToSource = () => dispatch(addComponent(datasource, id))
             const removeComponentFromSource = () => dispatch(removeComponent(datasource, id))

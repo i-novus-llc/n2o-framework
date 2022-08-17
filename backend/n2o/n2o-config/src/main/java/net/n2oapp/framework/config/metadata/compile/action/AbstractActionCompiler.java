@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляции действия
@@ -149,12 +149,12 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
     }
 
     /**
-     * Инициализация локального источника данных действия
+     * Получение идентификатора локального источника данных действия (из компонента или из его родителей)
      *
-     * @param p Процессор сборки
-     * @return Локальный источник данных действия
+     * @param p Процессор сборки метаданных
+     * @return Идентификатор локального источника данных действия
      */
-    protected String getLocalDatasource(CompileProcessor p) {
+    protected String getLocalDatasourceId(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         while (componentScope != null) {
             DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
@@ -182,17 +182,21 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         PageScope pageScope = p.getScope(PageScope.class);
         String widgetId = p.cast(getClientDatasourceId(param.getRefWidgetId(), p), defaultClientWidgetId);
 
-        String datasource;
+        String clientDatasourceId;
         if (pageScope == null) {
-            datasource = param.getDatasourceId() != null ? param.getDatasourceId() : widgetId;
-            if (datasource == null)
-                datasource = getLocalDatasource(p);
+            clientDatasourceId = param.getDatasourceId() != null ? param.getDatasourceId() : widgetId;
+            if (clientDatasourceId == null)
+                clientDatasourceId = getLocalDatasourceId(p);
         } else {
-            datasource = param.getDatasourceId() != null ? getClientDatasourceId(param.getDatasourceId(), p) :
-                    pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+            if (param.getDatasourceId() != null)
+                clientDatasourceId = getClientDatasourceId(param.getDatasourceId(), p);
+            else if (widgetId != null)
+                clientDatasourceId = pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
+            else
+                clientDatasourceId = getClientDatasourceId(getLocalDatasourceId(p), p);
         }
 
-        ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), datasource);
+        ModelLink link = new ModelLink(p.cast(param.getModel(), defaultModel), clientDatasourceId);
         link.setValue(p.resolveJS(param.getValue()));
         return link;
     }

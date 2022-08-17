@@ -23,6 +23,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -91,9 +92,16 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 throw exceptionHandler.handle(query, criteria, e);
             }
         }
-        return outMap(result, selection.getCountMapping(), Integer.class);
+        return calculateCount(result, selection.getCountMapping());
     }
 
+    private Integer calculateCount(Object result, String countMapping) {
+        try {
+            return outMap(result, countMapping, Integer.class);
+        } catch (N2oException e) {
+            throw new N2oSpelException(countMapping, e);
+        }
+    }
 
     public CollectionPage<DataSet> executeOneSizeQuery(CompiledQuery query, N2oPreparedCriteria criteria) {
         criteria.setSize(2);
@@ -310,7 +318,13 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private DataSet prepareSingleResult(Object res, CompiledQuery query,
                                         N2oQuery.Selection selection) {
-        Object result = outMap(res, selection.getResultMapping(), Object.class);
+        Object result;
+        try {
+            result = outMap(res, selection.getResultMapping(), Object.class);
+        } catch (N2oException e) {
+            throw new N2oRecordNotFoundException(e);
+        }
+
         result = normalizeValue(result, selection.getResultNormalize(), null, parser, applicationContext);
         return mapFields(result, query.getDisplayFields());
     }
@@ -335,7 +349,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             } else if (selection.getCountMapping() == null) {
                 return executeCount(query, criteria);
             } else {
-                return outMap(res, selection.getCountMapping(), Integer.class);
+                return calculateCount(res, selection.getCountMapping());
             }
         });
     }

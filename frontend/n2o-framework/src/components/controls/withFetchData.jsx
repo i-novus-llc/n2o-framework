@@ -7,9 +7,10 @@ import has from 'lodash/has'
 import unionBy from 'lodash/unionBy'
 
 import cachingStore from '../../utils/cacher'
-import { fetchInputSelectData } from '../../core/api'
+import { fetchInputSelectData, FETCH_CONTROL_VALUE } from '../../core/api'
 import { addAlert, removeAllAlerts } from '../../ducks/alerts/store'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
+import { fetchError } from '../../actions/fetch'
 
 /**
  * HOC для работы с данными
@@ -193,7 +194,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * @private
          */
         async fetchData(extraParams = {}, merge = false) {
-            const { dataProvider, removeAlerts } = this.props
+            const { dataProvider, removeAlerts, fetchError } = this.props
             const { hasError, data } = this.state
 
             if (!dataProvider) { return }
@@ -214,6 +215,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
                 }
             } catch (err) {
                 await this.setErrorMessage(err)
+                fetchError(err)
             } finally {
                 this.setState({ loading: false })
             }
@@ -247,6 +249,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         data: PropTypes.array,
         addAlert: PropTypes.func,
         removeAlerts: PropTypes.func,
+        fetchError: PropTypes.func,
         valueFieldId: PropTypes.string,
         dataProvider: PropTypes.object,
         setRef: PropTypes.oneOfType([
@@ -265,6 +268,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     const mapDispatchToProps = (dispatch, ownProps) => ({
         addAlert: message => dispatch(addAlert(`${ownProps.form}.${ownProps.labelFieldId}`, message)),
         removeAlerts: () => dispatch(removeAllAlerts(`${ownProps.form}.${ownProps.labelFieldId}`)),
+        fetchError: error => dispatch(fetchError(FETCH_CONTROL_VALUE, {}, error)),
     })
 
     return connect(
