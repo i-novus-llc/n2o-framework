@@ -112,7 +112,7 @@ class Container extends React.Component {
                 fields={fields}
                 {...form}
                 activeModel={activeModel}
-                initialValues={initialValues}
+                initialValues={initialValues || activeModel}
                 onChange={this.onChange}
             />
         )
