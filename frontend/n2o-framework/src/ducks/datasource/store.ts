@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { isEmpty, omit } from 'lodash'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { IMeta } from '../../sagas/types'
@@ -217,11 +218,7 @@ const datasource = createSlice({
                 })
             },
             reducer(state, action: StartValidateAction) {
-                const { id, fields, prefix } = action.payload
-                const { errors, validations } = state[id]
-                const fieldList = fields?.length ? fields : Object.keys(validations || {})
-
-                fieldList.forEach((field) => { errors[prefix][field] = undefined })
+                // empty reducer, action for saga
             },
         },
 
@@ -240,6 +237,22 @@ const datasource = createSlice({
                     ...datasource.errors[prefix],
                     ...fields,
                 }
+            },
+        },
+
+        resetValidation: {
+            prepare(id, fields, prefix = ModelPrefix.active) {
+                return ({
+                    payload: { id, fields, prefix },
+                })
+            },
+            reducer(state, action: StartValidateAction) {
+                const { id, fields = [], prefix } = action.payload
+                const datasource = state[id]
+
+                datasource.errors[prefix] = isEmpty(fields)
+                    ? {}
+                    : omit(datasource.errors[prefix], fields)
             },
         },
 
@@ -320,6 +333,7 @@ export const {
     rejectRequest,
     setSorting,
     startValidate,
+    resetValidation,
     failValidate,
     changePage,
     changeSize,
