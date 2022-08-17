@@ -2,7 +2,7 @@ import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 
-import SecurityController from './SecurityController'
+import { SecurityController } from './SecurityController'
 
 /**
  * Вспомогательная функция для SecurityCheck

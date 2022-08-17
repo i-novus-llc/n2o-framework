@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
+import { IMeta } from '../../sagas/types'
 
 import type {
     AddComponentAction,
@@ -271,13 +272,37 @@ const datasource = createSlice({
         },
 
         submit: {
-            prepare(id: string, provider, meta = {}) {
+            prepare(id: string, provider?, meta = {}) {
                 return ({
                     payload: { id, provider },
                     meta,
                 })
             },
             reducer(state, action: SubmitAction) {
+                // empty reducer, action for saga
+            },
+        },
+
+        submitSuccess: {
+            prepare(meta?: IMeta) {
+                return ({
+                    payload: {},
+                    meta,
+                })
+            },
+            reducer() {
+                // empty reducer, action for saga
+            },
+        },
+
+        submitFail: {
+            prepare(error: unknown, meta?: IMeta) {
+                return ({
+                    payload: error,
+                    meta,
+                })
+            },
+            reducer() {
                 // empty reducer, action for saga
             },
         },
@@ -303,4 +328,6 @@ export const {
     setFieldSubmit,
     DATA_REQUEST,
     submit,
+    submitSuccess,
+    submitFail,
 } = datasource.actions

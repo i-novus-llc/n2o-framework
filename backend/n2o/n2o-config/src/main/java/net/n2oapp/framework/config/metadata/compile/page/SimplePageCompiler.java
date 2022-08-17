@@ -35,8 +35,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientWidgetId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
 
 /**
  * Компиляция страницы с единственным виджетом

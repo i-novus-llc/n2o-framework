@@ -36,7 +36,6 @@ import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.CopiedFieldScope;
 import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
@@ -51,7 +50,8 @@ import java.util.stream.Collectors;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
 /**
  * Компиляция источника данных
@@ -161,7 +161,6 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     }
 
     private List<Filter> initFilters(N2oStandardDatasource source, CompileProcessor p, CompiledQuery query) {
-        PageScope pageScope = p.getScope(PageScope.class);
         if (query == null)
             return null;
         List<Filter> filters = new ArrayList<>();
@@ -314,7 +313,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         if (submit.getRefreshOnSuccess() != null) {
             actionContextData.setRefresh(new RefreshSaga());
             if (submit.getRefreshDatasourceIds() != null)
-                actionContextData.getRefresh().setDatasources(Arrays.asList(submit.getRefreshDatasourceIds()));
+                actionContextData.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(submit.getRefreshDatasourceIds()), p));
         }
         dataProvider.setActionContextData(actionContextData);
 

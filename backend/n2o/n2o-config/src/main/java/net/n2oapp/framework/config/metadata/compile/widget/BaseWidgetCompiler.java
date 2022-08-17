@@ -42,8 +42,8 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientWidgetId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
 
 /**
  * Компиляция абстрактного виджета
@@ -55,13 +55,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     /**
      * Базовая сборка виджета
      */
-    protected void compileBaseWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
-                                     CompiledObject object) {
+    protected void compileBaseWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         compiled.setId(initClientWidgetId(source, context, p));
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
-        compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
+        compiled.setName(p.cast(source.getName(), source.getId()));
         compiled.setSrc(initSrc(source, p));
         compiled.setIcon(source.getIcon());
         compileAutoFocus(source, compiled, p);

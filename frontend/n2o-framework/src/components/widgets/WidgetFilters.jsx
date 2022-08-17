@@ -13,14 +13,11 @@ import { Filter } from '../snippets/Filter/Filter'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
 import { validateField } from '../../core/validation/createValidator'
 import propsResolver from '../../utils/propsResolver'
+import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
-
-function generateFormName(widgetId) {
-    return `${widgetId}_filter`
-}
 
 /**
  * Компонент WidgetFilters
@@ -40,7 +37,7 @@ class WidgetFilters extends React.Component {
         this.state = {
             defaultValues: props.filterModel,
         }
-        this.formName = generateFormName(props.widgetId)
+        this.formName = generateFormFilterId(props.widgetId)
         this.handleFilter = this.handleFilter.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.validateAndFetch = this.validateAndFetch.bind(this)
@@ -221,7 +218,7 @@ WidgetFilters.childContextTypes = {
 
 const mapStateToProps = createStructuredSelector({
     visible: (state, props) => makeWidgetFilterVisibilitySelector(props.widgetId)(state, props),
-    reduxFormFilter: (state, props) => getFormValues(generateFormName(props.widgetId))(state) || {},
+    reduxFormFilter: (state, props) => getFormValues(generateFormFilterId(props.widgetId))(state) || {},
 })
 
 const mapDispatchToProps = dispatch => ({

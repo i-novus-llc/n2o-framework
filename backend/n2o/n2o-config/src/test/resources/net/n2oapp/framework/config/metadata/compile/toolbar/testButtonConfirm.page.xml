@@ -5,7 +5,8 @@
        <toolbar>
            <button id="btn1"/>
            <button id="btn2" confirm="true" confirm-text="{id === '1' ? 'id is 1' : 'id is 2'}" confirm-cancel-label="Отмена"
-                   confirm-ok-label="Ок" confirm-title="Подтвердить действие" confirm-type="popover"/>
+                   confirm-ok-label="Ок" confirm-title="Подтвердить действие" confirm-type="popover"
+                   confirm-ok-color="success" confirm-cancel-color="danger"/>
            <button id="btn3" confirm="{id === '1'|| id === '2'}">
                <invoke operation-id="op1"/>
            </button>

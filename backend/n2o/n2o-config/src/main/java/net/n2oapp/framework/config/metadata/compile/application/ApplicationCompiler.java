@@ -40,7 +40,6 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setLayout(layout);
 
         DataSourcesScope dataSourcesScope = initDatasourcesScope(source.getDatasources());
-        application.setDatasources(initDatasources(source.getDatasources(), context, p));
 
         Header header = initHeader(source.getHeader(), context, dataSourcesScope, p);
         application.setHeader(header);
@@ -49,6 +48,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setFooter(initFooter(source.getFooter(), p));
         application.setEvents(initEvents(source.getEvents(), context, p));
         application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
+        application.setDatasources(initDatasources(dataSourcesScope, context, p));
         return application;
     }
 
@@ -129,15 +129,13 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         p.addRoute(context);
     }
 
-    private Map<String, AbstractDatasource> initDatasources(N2oAbstractDatasource[] datasources, ApplicationContext context,
+    private Map<String, AbstractDatasource> initDatasources(DataSourcesScope dataSourcesScope, ApplicationContext context,
                                                             CompileProcessor p) {
-        if (datasources == null)
-            return null;
         Map<String, AbstractDatasource> result = new HashMap<>();
-        for (N2oAbstractDatasource source : datasources) {
-            AbstractDatasource datasource = p.compile(source, context);
-            result.put(datasource.getId(), datasource);
-        }
+        dataSourcesScope.values().forEach(ds -> {
+            AbstractDatasource compiled = p.compile(ds, context);
+            result.put(compiled.getId(), compiled);
+        });
         return result;
     }
 

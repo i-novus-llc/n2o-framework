@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
+import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -52,6 +53,7 @@ public class N2oController {
 
     private DataProcessingStack dataProcessingStack;
     private AlertMessageBuilder messageBuilder;
+    private AlertMessagesConstructor messagesConstructor;
     private QueryProcessor queryProcessor;
     private N2oOperationProcessor operationProcessor;
     private ConfigBuilder<AppConfig> configBuilder;
@@ -63,12 +65,13 @@ public class N2oController {
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, AlertMessageBuilder messageBuilder,
                          QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor,
-                         DomainProcessor domainProcessor) {
+                         DomainProcessor domainProcessor, AlertMessagesConstructor messagesConstructor) {
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
         this.messageBuilder = messageBuilder;
         this.operationProcessor = operationProcessor;
         this.domainProcessor = domainProcessor;
+        this.messagesConstructor = messagesConstructor;
     }
 
     @GetMapping("/n2o/config")
@@ -137,9 +140,9 @@ public class N2oController {
         subModelsProcessor.setEnvironment(environment);
         Map<String, Object> beans = new HashMap<>();
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, messageBuilder, environment));
+                subModelsProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
-                operationProcessor, messageBuilder, environment));
+                operationProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder, environment));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,

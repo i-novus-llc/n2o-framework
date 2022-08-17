@@ -29,4 +29,10 @@ public class N2oUserException extends N2oException {
         setUserMessage(userMessage);
         setHttpStatus(400);
     }
+
+    public N2oUserException(String userMessage, Throwable e) {
+        super(e.getMessage(), e);
+        setUserMessage(userMessage);
+        setHttpStatus(400);
+    }
 }
