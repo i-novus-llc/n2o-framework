@@ -68,7 +68,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setFieldsMap(Collections.unmodifiableMap(initFieldsMap(fields, query.getId())));
         query.setSimpleFieldsMap(Collections.unmodifiableMap(initSimpleFieldsFieldsMap(simpleFields, query.getId())));
         query.setFiltersMap(Collections.unmodifiableMap(initFiltersMap(source, query, p)));
-        query.setInvertFiltersMap(Collections.unmodifiableMap(initInvertFiltersMap(source, query.getSimpleFieldsMap())));
+        query.setInvertFiltersMap(Collections.unmodifiableMap(initInvertFiltersMap(source, query.getFieldsMap())));
         query.setFilterFieldsMap(Collections.unmodifiableMap(initFilterFieldsMap(query.getFiltersMap())));
         query.setParamToFilterIdMap(Collections.unmodifiableMap(initParamToFilterIdMap(query.getFilterFieldsMap(), p)));
         query.setFilterIdToParamMap(Collections.unmodifiableMap(initFilterIdToParamMap(query.getParamToFilterIdMap())));
@@ -117,7 +117,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         }
     }
 
-    private Map<String, Map.Entry<String, FilterType>> initInvertFiltersMap(N2oQuery source, Map<String, QuerySimpleField> fieldsMap) {
+    private Map<String, Map.Entry<String, FilterType>> initInvertFiltersMap(N2oQuery source, Map<String, AbstractField> fieldsMap) {
         Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new StrictMap<>();
         fieldsMap.values().stream().filter(queryField -> source.isSearchAvailable(queryField.getId())).forEach(queryField -> {
             for (N2oQuery.Filter f : source.getFiltersList(queryField.getId())) {
