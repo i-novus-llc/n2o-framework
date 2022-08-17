@@ -50,3 +50,10 @@ export type ClearModelAction = ModelsAction<{
 export type MergeModelAction = ModelsAction<{
     combine: unknown
 }>
+
+export type CopyAction = ModelsAction<{
+    source: ModelsPayload
+    target: ModelsPayload
+    mode: 'replace' | 'merge' | 'add'
+    sourceMapper?: string
+}>

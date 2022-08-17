@@ -13,7 +13,7 @@ import { applyPaging } from './storage/applyPaging'
 
 export function* submit(id: string, {
     model: prefix,
-    tagetDs: tagetId,
+    targetDs: tagetId,
     targetModel: targetPrefix,
     targetField,
 }: InheritedSubmit) {

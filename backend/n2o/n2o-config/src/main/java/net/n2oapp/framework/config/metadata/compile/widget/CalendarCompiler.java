@@ -36,9 +36,9 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
     @Override
     public Calendar compile(N2oCalendar source, CompileContext<?, ?> context, CompileProcessor p) {
         Calendar calendar = new Calendar();
+        compileBaseWidget(calendar, source, context, p);
         N2oAbstractDatasource datasource = initDatasource(calendar, source, p);
         CompiledObject object = getObject(source, datasource, p);
-        compileBaseWidget(calendar, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
 
         CalendarWidgetComponent component = calendar.getComponent();

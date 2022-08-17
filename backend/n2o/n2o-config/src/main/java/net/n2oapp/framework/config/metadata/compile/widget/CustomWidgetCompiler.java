@@ -25,9 +25,9 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
     @Override
     public CustomWidget compile(N2oCustomWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         CustomWidget widget = new CustomWidget();
+        compileBaseWidget(widget, source, context, p);
         N2oAbstractDatasource datasource = initDatasource(widget, source, p);
         CompiledObject object = getObject(source, datasource, p);
-        compileBaseWidget(widget, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetActions, object, null);

@@ -22,9 +22,9 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
     @Override
     public HtmlWidget compile(N2oHtmlWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         HtmlWidget widget = new HtmlWidget();
+        compileBaseWidget(widget, source, context, p);
         N2oAbstractDatasource datasource = initDatasource(widget, source, p);
         CompiledObject object = getObject(source, datasource, p);
-        compileBaseWidget(widget, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         String html = p.cast(source.getHtml(), getContentByUri(source.getUrl()));

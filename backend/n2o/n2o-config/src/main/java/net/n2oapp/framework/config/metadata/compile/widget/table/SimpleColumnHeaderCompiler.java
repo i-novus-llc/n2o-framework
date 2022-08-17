@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция простого заголовка таблицы
@@ -91,6 +91,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         }
 
         CompiledQuery query = p.getScope(CompiledQuery.class);
+        header.setLabel(initLabel(source, query));
         if (query != null && query.getSimpleFieldsMap().containsKey(source.getTextFieldId())) {
             header.setLabel(p.cast(source.getLabelName(), query.getSimpleFieldsMap().get(source.getTextFieldId()).getName()));
         } else {
@@ -106,5 +107,13 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setProperties(p.mapAttributes(source));
 
         return header;
+    }
+
+    private String initLabel(T source, CompiledQuery query) {
+        if (source.getLabelName() != null)
+            return source.getLabelName();
+        if (query != null && query.getFieldsMap().containsKey(source.getTextFieldId()))
+            return query.getFieldsMap().get(source.getTextFieldId()).getName();
+        return source.getTextFieldId();
     }
 }
