@@ -10,8 +10,10 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.env.PropertyResolver;
 
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         builder.getEnvironment().getContextProcessor().set("username", "test");
-        builder.properties("n2o.homepage.id=index");
+        builder.properties("n2o.homepage.id=index", "url=http://example.org/?userId=123", "empty=");
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(),
                 new N2oQueriesPack(), new N2oActionsPack());
@@ -48,6 +50,14 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(application.getHeader(), notNullValue());
         PageContext pageContext = (PageContext) route("/", Page.class);
         assertThat(pageContext.getSourceId(null), is("testPage"));
+    }
+
+    @Test
+    public void properties() {
+        PropertyResolver systemProperties = builder.getEnvironment().getSystemProperties();
+        assertThat(systemProperties.getProperty("n2o.homepage.id"), is("index"));
+        assertThat(systemProperties.getProperty("url"), is("http://example.org/?userId=123"));
+        assertThat(systemProperties.getProperty("empty"), is(StringUtils.EMPTY));
     }
 
     @Test
@@ -122,5 +132,20 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getId(), is("person"));
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/person"));
         assertThat(datasource.getProvider().getQueryMapping().get("person_id").getValue(), is(":person_id"));
+    }
+
+    @Test
+    public void inlineSidebarDatasource() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/inlineSidebarDatasource.application.xml")
+                .get(new ApplicationContext("inlineSidebarDatasource"));
+        assertThat(application.getWsPrefix(), nullValue());
+
+        StandardDatasource datasource = (StandardDatasource) application.getDatasources().get("person");
+        assertThat(datasource.getId(), is("person"));
+        assertThat(datasource.getProvider().getUrl(), is("n2o/data/person"));
+        assertThat(datasource.getProvider().getQueryMapping().get("person_id").getValue(), is(":person_id"));
+
+        datasource = (StandardDatasource) application.getDatasources().get("home");
+        assertThat(datasource.getId(), is("home"));
     }
 }

@@ -6,4 +6,6 @@ public interface AlertMessagesConstructor {
 
     List<ResponseMessage> constructMessages(Exception exception);
 
+    List<ResponseMessage> constructMessages(Exception exception, RequestInfo requestInfo);
+
 }

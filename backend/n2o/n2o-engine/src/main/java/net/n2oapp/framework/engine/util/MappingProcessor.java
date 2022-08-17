@@ -13,7 +13,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.context.expression.MapAccessor;
 import org.springframework.expression.Expression;
-import org.springframework.expression.ExpressionException;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -53,7 +52,7 @@ public class MappingProcessor {
             Expression expression = writeParser.parseExpression(mapping);
             if (target != null)
                 expression.setValue(target, value);
-        } catch (ExpressionException e) {
+        } catch (Exception e) {
             throw new N2oSpelException(userMapping, e);
         }
     }
@@ -71,7 +70,7 @@ public class MappingProcessor {
             try {
                 Expression expression = readParser.parseExpression(mapping);
                 result = expression.getValue(target, clazz);
-            } catch (ExpressionException e) {
+            } catch (Exception e) {
                 throw new N2oSpelException(mapping, e);
             }
         } else {
@@ -99,7 +98,7 @@ public class MappingProcessor {
             Expression expression = readParser.parseExpression(mapping);
             Object obj = expression.getValue(value);
             target.put(fieldId, obj == null ? contextProcessor.resolve(defaultValue) : obj);
-        } catch (ExpressionException e) {
+        } catch (Exception e) {
             throw new N2oSpelException(fieldId, mapping, e);
         }
     }
@@ -142,7 +141,7 @@ public class MappingProcessor {
             String target = childParam.getMapping() != null ? childParam.getMapping() : childParam.getId();
             try {
                 writeParser.parseExpression(target).setValue(instance, dataSet.get(childParam.getId()));
-            } catch (ExpressionException e) {
+            } catch (Exception e) {
                 throw new N2oSpelException(parameter.getId(), target, e);
             }
         }
@@ -218,7 +217,7 @@ public class MappingProcessor {
         try {
             Expression expression = readParser.parseExpression(condition);
             return expression.getValue(context, Boolean.class);
-        } catch (ExpressionException e) {
+        } catch (Exception e) {
             throw new N2oSpelException(condition, e);
         }
     }

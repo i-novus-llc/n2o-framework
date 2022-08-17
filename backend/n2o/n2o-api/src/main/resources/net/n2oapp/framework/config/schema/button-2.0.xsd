@@ -141,6 +141,16 @@
                         <xs:documentation>Текст кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="confirm-ok-color" type="colorDefinition" default="primary">
+                    <xs:annotation>
+                        <xs:documentation>Цвет кнопки подтверждения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-cancel-color" type="colorDefinition" default="secondary">
+                    <xs:annotation>
+                        <xs:documentation>Цвет кнопки отмены.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="model" type="acn:clientModel">
                     <xs:annotation>
                         <xs:documentation>

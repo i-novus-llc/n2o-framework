@@ -2,9 +2,9 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/object-4.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0"
-           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:dp="http://n2oapp.net/framework/config/schema/data-provider-1.0"
-           xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0">
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0">
 
     <xs:element name="object" type="objectDefinition"/>
 

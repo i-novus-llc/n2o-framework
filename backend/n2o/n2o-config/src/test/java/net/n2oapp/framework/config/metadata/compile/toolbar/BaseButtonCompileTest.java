@@ -76,8 +76,12 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getCondition(), is("`true`"));
         assertThat(confirm.getText(), is("`'' + this.id === '1' ? 'id is 1' : 'id is 2' + ''`"));
         assertThat(confirm.getTitle(), is("Подтвердить действие"));
-        assertThat(confirm.getOkLabel(), is("Ок"));
-        assertThat(confirm.getCancelLabel(), is("Отмена"));
+        assertThat(confirm.getOk().getLabel(), is("Ок"));
+        assertThat(confirm.getOk().getColor(), is("success"));
+        assertThat(confirm.getCancel().getLabel(), is("Отмена"));
+        assertThat(confirm.getCancel().getColor(), is("danger"));
+        assertThat(confirm.getReverseButtons(), is(false));
+        assertThat(confirm.getCloseButton(), is(false));
         assertThat(confirm.getMode(), is(ConfirmType.popover));
         assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
 
@@ -85,8 +89,12 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getCondition(), is("`id === '1'|| id === '2'`"));
         assertThat(confirm.getText(), is("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие."));
         assertThat(confirm.getTitle(), is("Предупреждение"));
-        assertThat(confirm.getOkLabel(), is("Да"));
-        assertThat(confirm.getCancelLabel(), is("Нет"));
+        assertThat(confirm.getOk().getLabel(), is("Да"));
+        assertThat(confirm.getOk().getColor(), is("primary"));
+        assertThat(confirm.getCancel().getLabel(), is("Нет"));
+        assertThat(confirm.getCancel().getColor(), is("secondary"));
+        assertThat(confirm.getReverseButtons(), is(false));
+        assertThat(confirm.getCloseButton(), is(false));
         assertThat(confirm.getMode(), is(ConfirmType.modal));
         assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
 
@@ -94,8 +102,12 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getCondition(), is("`true`"));
         assertThat(confirm.getText(), is("Текст подтверждения из операции объекта"));
         assertThat(confirm.getTitle(), is("Предупреждение"));
-        assertThat(confirm.getOkLabel(), is("Да"));
-        assertThat(confirm.getCancelLabel(), is("Нет"));
+        assertThat(confirm.getOk().getLabel(), is("Да"));
+        assertThat(confirm.getOk().getColor(), is("primary"));
+        assertThat(confirm.getCancel().getLabel(), is("Нет"));
+        assertThat(confirm.getCancel().getColor(), is("secondary"));
+        assertThat(confirm.getReverseButtons(), is(false));
+        assertThat(confirm.getCloseButton(), is(false));
         assertThat(confirm.getMode(), is(ConfirmType.modal));
         assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
     }

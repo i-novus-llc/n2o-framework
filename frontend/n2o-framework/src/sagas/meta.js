@@ -2,11 +2,13 @@ import {
     put,
     select,
     takeEvery,
+    cancel,
 } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
 import { reset } from 'redux-form'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 
 import { insertDialog, destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
@@ -15,6 +17,8 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
 import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
 import { removeAllModel } from '../ducks/models/store'
+import { register } from '../ducks/datasource/store'
+import { requestConfigSuccess } from '../ducks/global/store'
 
 /* TODO избавиться от alertEffect
     для этого бэку нужно присылать
@@ -111,6 +115,20 @@ export function* clearEffect(action) {
     yield clearOnSuccessEffect(action)
 }
 
+function* dataSourcesRegister(action) {
+    const datasources = get(action, 'payload.menu.datasources')
+
+    if (isEmpty(datasources)) {
+        yield cancel()
+    }
+
+    const entries = Object.entries(datasources)
+
+    for (const [id, config] of entries) {
+        yield put(register(id, config))
+    }
+}
+
 export const metaSagas = [
     takeEvery(
         [action => action.meta && action.meta.alert, CALL_ALERT_META],
@@ -119,5 +137,6 @@ export const metaSagas = [
     takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
     takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
     takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),
+    takeEvery(requestConfigSuccess, dataSourcesRegister),
     takeEvery(action => action.meta?.clear, clearEffect),
 ]

@@ -5,7 +5,8 @@
                 icon="icon" tooltip-position="right" src="test" rounded="true" type="textAndIcon"
                 visible="true" enabled="false" class="class" style="color: red" action-id="act"
                 confirm="true" confirm-cancel-label="cancel" confirm-ok-label="ok" confirm-text="text"
-                confirm-title="title" confirm-type="popover" validate="true" datasource="ds1" validate-datasources="ds1,ds2">
+                confirm-title="title" confirm-type="popover" validate="true" datasource="ds1" validate-datasources="ds1,ds2"
+                confirm-cancel-color="danger" confirm-ok-color="success">
             <a href="https://google.com?q={name}"/>
         </button>
     </fields>

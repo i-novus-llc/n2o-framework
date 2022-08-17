@@ -7,7 +7,8 @@
         <datasource id="ds1" query-id="test" size="5" route="/:id/data">
             <dependencies>
                 <fetch on="ds1"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
             <filters>
                 <eq field-id="id" value="3"/>
@@ -25,7 +26,8 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
         </browser-storage>
         <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
@@ -33,7 +35,8 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
         </inherited-datasource>
     </datasources>
@@ -74,6 +77,11 @@
                  toggle-on-hover="true" toggled-state="maxi" path="/person/:person_id" datasource="ds1">
             <extra-menu ref-id="MenuRef"/>
             <nav ref-id="MenuRef"/>
+            <datasource id="ds1">
+                <dependencies>
+                    <fetch/>
+                </dependencies>
+            </datasource>
         </sidebar>
         <sidebar visible="true" path="/home" subtitle="Home description">
 

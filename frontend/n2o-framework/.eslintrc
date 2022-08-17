@@ -105,6 +105,7 @@
     "jsx-a11y/click-events-have-key-events": "off",
     // Теперь можно вешать обработчики на статические элементы, а не только на кнопки, чекбоксы, поля и прочее
     "jsx-a11y/no-static-element-interactions": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
     // off правил. иначе падает ошибка: Definition for rule was not found
     "react/jsx-curly-newline": "off", // TODO ["error", { "multiline": "require", "singleline": "forbid" }]
     "react/state-in-constructor": "off",
@@ -157,7 +158,7 @@
   "overrides": [
     // Typescript
     {
-      "files": ["*.ts", "*.tsx"], 
+      "files": ["*.ts", "*.tsx"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
         // "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -180,15 +181,15 @@
           "minimumDescriptionLength": 10
         }],
         "@typescript-eslint/consistent-type-exports": "error",
-        "@typescript-eslint/consistent-type-imports": "error",
+        "@typescript-eslint/consistent-type-imports": "off",
         "@typescript-eslint/method-signature-style": ["error", "method"],
-        "@typescript-eslint/naming-convention": "error",
+        "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-confusing-non-null-assertion": "warn",
         "@typescript-eslint/no-duplicate-enum-values": "warn",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-empty-interface": "warn",
         "@typescript-eslint/no-explicit-any": "error",
-        // Запрет повторных Required модификаторов поля через "!." 
+        // Запрет повторных Required модификаторов поля через "!."
         "@typescript-eslint/no-extra-non-null-assertion": "error",
         // Запрет чисто статических классов
         "@typescript-eslint/no-extraneous-class": "error",
@@ -245,7 +246,7 @@
   "settings": {
     "import/resolver": {
       "typescript": {
-        // this loads <rootdir>/tsconfig.json to eslint   
+        // this loads <rootdir>/tsconfig.json to eslint
       }
     }
   }

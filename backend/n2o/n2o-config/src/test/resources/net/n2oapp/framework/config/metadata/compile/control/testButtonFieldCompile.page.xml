@@ -30,6 +30,15 @@
             <button id="btn5">
                 <a href="{url}"/>
             </button>
+            <button id="btn6" confirm="true"/>
+            <button id="btn7"
+                    confirm="true"
+                    confirm-text="Зарегистрировать заявление?"
+                    confirm-ok-label="Зарегистрировать"
+                    confirm-ok-color="dark"
+                    confirm-cancel-label="Отмена"
+                    confirm-cancel-color="light"
+            />
         </fields>
     </form>
 </simple-page>

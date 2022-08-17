@@ -6,7 +6,7 @@ import { Button, UncontrolledTooltip } from 'reactstrap'
 
 // eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
-import SecurityController from '../../../../../core/auth/SecurityController'
+import { SecurityController } from '../../../../../core/auth/SecurityController'
 
 import { MODIFIERS, initUid } from './until'
 
