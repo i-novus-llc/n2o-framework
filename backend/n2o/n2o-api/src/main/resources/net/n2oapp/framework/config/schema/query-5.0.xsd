@@ -136,7 +136,7 @@
 
     <xs:complexType name="fieldDefinition">
         <xs:annotation>
-            <xs:documentation>Поле выборки.</xs:documentation>
+            <xs:documentation>Простое поле выборки.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
@@ -176,7 +176,7 @@
 
     <xs:complexType name="filtersElementDefinition">
         <xs:annotation>
-            <xs:documentation>Способы фильтрации поля выборки.</xs:documentation>
+            <xs:documentation>Способы фильтрации полей выборки.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="eq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
@@ -228,8 +228,7 @@
         </xs:attribute>
         <xs:attribute name="normalize" type="dmn:domainType" use="optional">
             <xs:annotation>
-                <xs:documentation>Тип, в который будет конвертировано значение при отправке в провайдер.
-                    По умолчанию эквивалентен domain от field с преобразованием в список для множественных типов.</xs:documentation>
+                <xs:documentation>Выражение для предварительного преобразования входных данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="required" type="xs:boolean" use="optional">
@@ -274,7 +273,7 @@
 
     <xs:complexType name="listFieldDefinition">
         <xs:annotation>
-            <xs:documentation>Списковое поле</xs:documentation>
+            <xs:documentation>Списковое поле выборки</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="referenceFieldDefinition"/>
@@ -283,7 +282,7 @@
 
     <xs:complexType name="referenceFieldDefinition">
         <xs:annotation>
-            <xs:documentation>Составное поле</xs:documentation>
+            <xs:documentation>Составное поле выборки</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
