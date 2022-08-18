@@ -30,6 +30,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Компиляция query
@@ -245,7 +246,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
 
     private void initDefaultSimpleField(QuerySimpleField field, Boolean defaultSorted) {
         field.setName(castDefault(field.getName(), field.getId()));
-        field.setIsSorted(castDefault(field.getIsSorted(), defaultSorted));
+        field.setIsSorted(castDefault(field.getIsSorted(), !isBlank(field.getSortingExpression()), defaultSorted));
 
         if (field.getIsSorted()) {
             field.setSortingMapping(castDefault(field.getSortingMapping(), spel(field.getId() + "Direction")));
