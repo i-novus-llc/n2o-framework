@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
-import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
@@ -91,9 +90,8 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public AlertMessagesConstructor alertMessagesConstructor(AlertMessageBuilder messageBuilder) {
-        return new N2oAlertMessagesConstructor(messageBuilder);
+        return new SandboxAlertMessagesConstructor(messageBuilder);
     }
 
     @Bean
