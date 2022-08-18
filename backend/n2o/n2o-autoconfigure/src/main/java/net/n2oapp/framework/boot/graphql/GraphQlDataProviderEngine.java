@@ -22,7 +22,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlString;
-import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlFields;
 import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
 import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
 
@@ -262,7 +261,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         List<String> value = (List<String>) args.remove(selectKey.get());
         if (value == null)
             throw new N2oException(String.format("Value for placeholder %s not found ", "$$" + selectKey.get()));
-        return replacePlaceholder(selectExpression, "$$" + selectKey.get(), toGraphQlFields(value), "");
+        return replacePlaceholder(selectExpression, "$$" + selectKey.get(), String.join(" ", value), "");
     }
 
     /**
