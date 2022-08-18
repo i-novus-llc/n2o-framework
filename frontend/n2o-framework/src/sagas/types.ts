@@ -7,7 +7,8 @@ export enum MetaType {
     Alert = 'alert',
     Clear = 'clear',
     ClearForm = 'clearForm',
-    UserDialog = 'userDialog'
+    UserDialog = 'userDialog',
+    ValidationMessages = 'messages'
 }
 
 export interface IMeta {
@@ -17,6 +18,7 @@ export interface IMeta {
     [MetaType.Clear]?: unknown
     [MetaType.ClearForm]?: IClearFormMeta
     [MetaType.UserDialog]?: IUserDialogMeta
+    [MetaType.ValidationMessages]?: IValidationMessagesMeta
 }
 
 export interface IActionMeta {
@@ -55,4 +57,19 @@ export interface IUserDialogMeta {
         toolbar: unknown
         [key: string]: unknown
     }
+}
+
+export interface IValidationFieldMessage {
+    id: string | number
+    field: string
+    placement: string
+    severity: string
+    closeButton: boolean
+    text: string
+    timeout?: number
+}
+
+export interface IValidationMessagesMeta {
+    form: string
+    fields: Record<string, IValidationFieldMessage>
 }
