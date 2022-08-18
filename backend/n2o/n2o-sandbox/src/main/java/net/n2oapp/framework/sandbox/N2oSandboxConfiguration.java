@@ -90,6 +90,7 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public AlertMessagesConstructor alertMessagesConstructor(AlertMessageBuilder messageBuilder) {
         return new SandboxAlertMessagesConstructor(messageBuilder);
     }

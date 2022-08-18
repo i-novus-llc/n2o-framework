@@ -35,8 +35,10 @@ public class SandboxAlertMessagesConstructor implements AlertMessagesConstructor
                 ResponseMessage responseMessage = new ResponseMessage();
                 responseMessage.setTitle(message.getTitle());
                 responseMessage.setText(message.getText());
-                responseMessage.setSeverityType(SeverityType.valueOf(message.getColor()));
-                responseMessage.setPlacement(MessagePlacement.valueOf(message.getPlacement()));
+                if (message.getColor() != null)
+                    responseMessage.setSeverityType(SeverityType.valueOf(message.getColor()));
+                if (message.getPlacement() != null)
+                    responseMessage.setPlacement(MessagePlacement.valueOf(message.getPlacement()));
                 responseMessages.add(responseMessage);
             }
             return responseMessages;
