@@ -14,7 +14,8 @@ import formPluginReducer, {
     enableField,
     disableField,
     registerFieldDependency,
-    setFilterValue
+    setFilterValue,
+    registerFieldExtra,
 } from '../../ducks/form/store'
 import { checkAndModify, modify } from '../../sagas/fieldDependency'
 
@@ -54,7 +55,7 @@ const mockData = {
     formName: 'test',
     fieldName: 'field1',
     dispatch: () => {},
-    actionType: actionTypes.INITIALIZE,
+    actionType: registerFieldExtra.type,
 }
 
 const actions = [

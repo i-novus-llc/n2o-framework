@@ -272,7 +272,7 @@ const datasource = createSlice({
         },
 
         submit: {
-            prepare(id: string, provider, meta = {}) {
+            prepare(id: string, provider?, meta = {}) {
                 return ({
                     payload: { id, provider },
                     meta,

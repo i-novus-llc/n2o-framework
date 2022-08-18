@@ -62,4 +62,11 @@ public class PageValidatorTest extends SourceValidationTestBase {
         validate("net/n2oapp/framework/config/metadata/validation/page/testDatasourcesIdUnique.page.xml");
     }
 
+    @Test
+    public void testWidgetIds() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Идентификатор виджета 'ds1' уже используется источником данных");
+        validate("net/n2oapp/framework/config/metadata/validation/page/testWidgetIds.page.xml");
+    }
+
 }

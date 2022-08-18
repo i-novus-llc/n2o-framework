@@ -1,3 +1,5 @@
+$alignments_map: ("left": "left", "centered": "center", "right": "right");
+
 .n2o-advanced-table-content {
     position: relative;
 }
@@ -50,6 +52,12 @@
 
         > span {
             align-self: center;
+        }
+    }
+
+    @each $alignment_name, $alignment_value in $alignments_map {
+        &.#{$alignment_name} > div {
+            justify-content: #{$alignment_value};
         }
     }
 }
@@ -105,6 +113,12 @@
 
         .custom-control-label {
             margin-bottom: 0.5rem;
+        }
+    }
+
+    @each $alignment_name, $alignment_value in $alignments_map {
+        .n2o-advanced-table-header-cel.#{$alignment_name} > .n2o-advanced-table-header-cell-content {
+            justify-content: #{$alignment_value};
         }
     }
 

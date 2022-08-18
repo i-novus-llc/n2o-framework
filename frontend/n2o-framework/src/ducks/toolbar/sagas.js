@@ -112,63 +112,67 @@ function printText(text, keepIndent) {
 }
 
 function* print(action) {
-    const state = yield select()
-    const {
-        url,
-        pathMapping,
-        queryMapping,
-        printable = null,
-        type = PrintType.TEXT,
-        keepIndent,
-        documentTitle,
-        loader = false,
-        loaderText,
-        base64 = false,
-    } = action.payload
-
-    const onError = text => (err) => {
-        alert(text)
-        console.error(err)
-    }
-
-    const printConfig = {
-        printable,
-        type,
-        documentTitle,
-        showModal: loader,
-        modalMessage: loaderText,
-        base64,
-        onError: onError(DEFAULT_PRINT_ERROR_MESSAGE),
-        onIncompatibleBrowser: onError(DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE),
-    }
-
-    if (url) {
-        const { url: printUrl } = yield dataProviderResolver(state, {
+    try {
+        const state = yield select()
+        const {
             url,
             pathMapping,
             queryMapping,
-        })
+            printable = null,
+            type = PrintType.TEXT,
+            keepIndent,
+            documentTitle,
+            loader = false,
+            loaderText,
+            base64 = false,
+        } = action.payload
 
-        if (type === PrintType.TEXT) {
-            const text = yield request(printUrl, {}, { parseJson: false })
-
-            printText(text, keepIndent)
-
-            return
+        const onError = text => (err) => {
+            alert(text)
+            console.error(err)
         }
 
-        if (type === PrintType.PDF) {
-            if (base64) {
-                printConfig.printable = yield request(printUrl, {}, { parseJson: false })
-            } else {
+        const printConfig = {
+            printable,
+            type,
+            documentTitle,
+            showModal: loader,
+            modalMessage: loaderText,
+            base64,
+            onError: onError(DEFAULT_PRINT_ERROR_MESSAGE),
+            onIncompatibleBrowser: onError(DEFAULT_PRINT_INCOMPATIBLE_BROWSER_MESSAGE),
+        }
+
+        if (url) {
+            const { url: printUrl } = yield dataProviderResolver(state, {
+                url,
+                pathMapping,
+                queryMapping,
+            })
+
+            if (type === PrintType.TEXT) {
+                const text = yield request(printUrl, {}, { parseJson: false })
+
+                printText(text, keepIndent)
+
+                return
+            }
+
+            if (type === PrintType.PDF) {
+                if (base64) {
+                    printConfig.printable = yield request(printUrl, {}, { parseJson: false })
+                } else {
+                    printConfig.printable = printUrl
+                }
+            } else if (type === PrintType.IMAGE) {
                 printConfig.printable = printUrl
             }
-        } else if (type === PrintType.IMAGE) {
-            printConfig.printable = printUrl
         }
-    }
 
-    printJS(printConfig)
+        printJS(printConfig)
+    } catch (err) {
+        console.error(err)
+    }
 }
 
 // export function* handleAction(action) {
