@@ -147,7 +147,7 @@
                 </xs:attribute>
                 <xs:attribute name="sorting" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Участвует ли поле в резолве плейсхолдера sorting</xs:documentation>
+                        <xs:documentation>Является ли поле сортируемым</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
@@ -252,7 +252,7 @@
         </xs:attribute>
         <xs:attribute name="select" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Участвует ли поле в резолве плейсхолдера select</xs:documentation>
+                <xs:documentation>Участвует ли поле в выборке</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="select-expression" type="xs:string" use="optional">
