@@ -10,12 +10,14 @@ import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Скомпилированная модель запроса за данными
@@ -46,6 +48,12 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     private Map<String, String> paramToFilterIdMap = new StrictMap<>(); // [urlParam : filterId]
     private Map<String, String> filterIdToParamMap = new StrictMap<>(); // [filterId : urlParam]
     private Set<String> copiedFields;
+
+    public List<AbstractField> getDisplayedInnerFields(QueryReferenceField referenceField) {
+        if (referenceField.getFields() == null)
+            return new ArrayList<>();
+        return Arrays.stream(referenceField.getFields()).filter(AbstractField::getIsSelected).collect(Collectors.toList());
+    }
 
     public boolean containsFilter(String fieldId, FilterType type) {
         return filtersMap.get(fieldId) != null && filtersMap.get(fieldId).containsKey(type);

@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -25,11 +26,11 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
         if (!isTest(source))
             return source;
         if (source.getFields() != null) {
-            for (QuerySimpleField field : source.getSimpleFields()) {
+            for (AbstractField field : source.getFields()) {
                 if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
                     field.setSelectExpression(field.getId());
-                if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
-                    field.setSortingExpression(field.getId() + " " + colon(field.getId() + "Direction"));
+                if (field instanceof QuerySimpleField)
+                    transformSimpleField(((QuerySimpleField) field));
             }
         }
         if (source.getFilters() != null) {
@@ -41,6 +42,11 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
             }
         }
         return source;
+    }
+
+    private void transformSimpleField(QuerySimpleField field) {
+        if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
+            field.setSortingExpression(field.getId() + " " + colon(field.getId() + "Direction"));
     }
 
     @Override

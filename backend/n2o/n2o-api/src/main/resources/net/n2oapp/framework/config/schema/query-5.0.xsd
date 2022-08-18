@@ -140,16 +140,6 @@
                         <xs:documentation>Тип данных</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="select" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Участвует ли поле в выборке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="select-expression" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="default-value" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
@@ -157,7 +147,7 @@
                 </xs:attribute>
                 <xs:attribute name="sorting" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Участвует ли поле в сортировке</xs:documentation>
+                        <xs:documentation>Является ли поле сортируемым</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
@@ -260,6 +250,16 @@
                 <xs:documentation>Нормализация данных поля из провайдера.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="select" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Участвует ли поле в выборке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="select-expression" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="listFieldDefinition">
@@ -282,6 +282,11 @@
                     <xs:element name="reference" type="referenceFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="list" type="listFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
+                <xs:attribute name="select-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ключ для резолва плейсхолдера в в select-expression</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

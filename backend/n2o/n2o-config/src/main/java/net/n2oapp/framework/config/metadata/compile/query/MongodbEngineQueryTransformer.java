@@ -3,11 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.query;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +29,11 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         if (!isMongodb(source))
             return source;
         if (source.getFields() != null) {
-            for (QuerySimpleField field : source.getSimpleFields()) {
+            for (AbstractField field : source.getFields()) {
                 if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
                     transformSelect(field);
-                if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
-                    transformSortings(field);
+                if (field instanceof QuerySimpleField)
+                    transformSimpleField(((QuerySimpleField) field));
             }
         }
         if (source.getFilters() != null) {
@@ -41,7 +42,12 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
         return source;
     }
 
-    private void transformSelect(QuerySimpleField field) {
+    private void transformSimpleField(QuerySimpleField field) {
+        if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
+            transformSortings(field);
+    }
+
+    private void transformSelect(AbstractField field) {
         if (field.getId().equals("id")) {
             field.setSelectExpression("_id");
             field.setMapping("['_id'].toString()");
@@ -52,9 +58,9 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
 
     private void transformSortings(QuerySimpleField field) {
         if (field.getId().equals("id")) {
-            field.setSortingExpression("_id :idDirection");
+           field.setSortingExpression("_id :idDirection");
         } else {
-            field.setSortingExpression(field.getId() + " " + colon(field.getId() + "Direction"));
+           field.setSortingExpression(field.getId() + " " + colon(field.getId() + "Direction"));
         }
     }
 

@@ -15,11 +15,16 @@ public abstract class AbstractField implements Source, IdAware {
     private String absoluteId;
     private String mapping;
     private String normalize;
+    private String selectExpression;
+    private Boolean isSelected;
 
     public AbstractField(AbstractField field) {
         this.id = field.getId();
         this.mapping = field.getMapping();
         this.normalize = field.getNormalize();
+        this.selectExpression = field.getSelectExpression();
+        this.isSelected = field.getIsSelected();
+        this.absoluteId = field.getAbsoluteId();
     }
 
     public AbstractField() {

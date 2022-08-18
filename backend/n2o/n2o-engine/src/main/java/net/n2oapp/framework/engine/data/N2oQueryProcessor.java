@@ -256,6 +256,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
         map.put("select", query.getSelectExpressions());
+        prepareSelectKeys(map, query.getDisplayFields(), query);
 
         List<String> where = new ArrayList<>();
         for (Restriction r : criteria.getRestrictions()) {
@@ -282,6 +283,20 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         if (criteria.getAdditionalFields() != null) {
             criteria.getAdditionalFields().entrySet().stream().filter(es -> es.getValue() != null)
                     .forEach(es -> map.put(es.getKey(), es.getValue()));
+        }
+    }
+
+    private static void prepareSelectKeys(Map<String, Object> map, List<AbstractField> fields, CompiledQuery query) {
+        for (AbstractField field : fields) {
+            if (field instanceof QueryReferenceField) {
+                QueryReferenceField referenceField = (QueryReferenceField) field;
+                if (referenceField.getSelectKey() != null) {
+                    List<AbstractField> displayedInnerFields = query.getDisplayedInnerFields(referenceField);
+                    map.put(referenceField.getSelectKey(),
+                            displayedInnerFields.stream().map(AbstractField::getSelectExpression).collect(Collectors.toList()));
+                    prepareSelectKeys(map, displayedInnerFields, query);
+                }
+            }
         }
     }
 
@@ -398,7 +413,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private void addIdIfNotPresent(CompiledQuery query, CollectionPage<DataSet> collectionPage) {
         if (!query.getSimpleFieldsMap().containsKey(QuerySimpleField.PK))
             return;
-        if (query.getSimpleFieldsMap().get(QuerySimpleField.PK).getIsSelected())
+        if (query.getFieldsMap().get(QuerySimpleField.PK).getIsSelected())
             return;
         int i = 1;
         for (DataSet dataSet : collectionPage.getCollection()) {
@@ -427,7 +442,8 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 List<DataSet> list = (List<DataSet>) target.getList(field.getId());
                 for (int i = 0; i < list.size(); i++)
                     list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(((QueryListField) field).getFields())));
-            } else if (target.get(field.getId()) != null)
+            }
+            else if (target.get(field.getId()) != null)
                 target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(((QueryReferenceField) field).getFields())));
         }
     }
