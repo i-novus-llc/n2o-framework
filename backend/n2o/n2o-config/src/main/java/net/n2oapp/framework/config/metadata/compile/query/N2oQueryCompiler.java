@@ -120,8 +120,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     private Map<String, Map.Entry<String, FilterType>> initInvertFiltersMap(N2oQuery source, Map<String, AbstractField> fieldsMap) {
         Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new StrictMap<>();
         fieldsMap.values().stream().filter(queryField -> source.isSearchAvailable(queryField.getId())).forEach(queryField -> {
-            for (N2oQuery.Filter f : source.getFiltersList(queryField.getId())) {
-                invertFiltersMap.put(f.getFilterId(), new CompiledQuery.FilterEntry(queryField.getId(), f.getType()));
+            for (N2oQuery.Filter f : source.getFiltersList(queryField.getAbsoluteId())) {
+                invertFiltersMap.put(f.getFilterId(), new CompiledQuery.FilterEntry(queryField.getAbsoluteId(), f.getType()));
             }
         });
         return invertFiltersMap;
