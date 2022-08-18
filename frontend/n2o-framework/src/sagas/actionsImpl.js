@@ -48,6 +48,7 @@ export function* validate({ dispatch, validate }) {
             validateDatasource,
             state,
             datasourceId,
+            ModelPrefix.active,
             dispatch,
             true,
         ))
