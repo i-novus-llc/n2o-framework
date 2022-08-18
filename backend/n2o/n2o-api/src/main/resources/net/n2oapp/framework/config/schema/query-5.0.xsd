@@ -51,6 +51,11 @@
                         <xs:documentation>Маппинг списка результатов. Для каждого провайдера данных свои значения по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="result-normalize" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Нормализация списка результатов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="count-mapping" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Маппинг общего количества записей. Для каждого провайдера данных свои значения по умолчанию.</xs:documentation>
@@ -84,6 +89,11 @@
                 <xs:attribute name="result-mapping" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Маппинг результата уникальной записи.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="result-normalize" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Нормализация списка результатов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

@@ -318,18 +318,27 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private DataSet prepareSingleResult(Object res, CompiledQuery query,
                                         N2oQuery.Selection selection) {
+        Object result;
         try {
-            Object result = outMap(res, selection.getResultMapping(), Object.class);
-            return mapFields(result, query.getDisplayFields());
+            result = outMap(res, selection.getResultMapping(), Object.class);
         } catch (N2oException e) {
             throw new N2oRecordNotFoundException(e);
         }
+
+        result = normalizeValue(result, selection.getResultNormalize(), null, parser, applicationContext);
+        return mapFields(result, query.getDisplayFields());
     }
 
     private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection
             selection,
                                                       N2oPreparedCriteria criteria) {
         Collection<?> result = outMap(res, selection.getResultMapping(), Collection.class);
+        try {
+            result = (Collection<?>) normalizeValue(
+                    result, selection.getResultNormalize(), null, parser, applicationContext);
+        } catch (ClassCastException e) {
+            throw new N2oException("Normalized result is not a collection");
+        }
 
         List<DataSet> content = result.stream()
                 .map(obj -> mapFields(obj, query.getDisplayFields()))

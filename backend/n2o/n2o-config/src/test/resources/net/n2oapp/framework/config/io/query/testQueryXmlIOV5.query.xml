@@ -7,7 +7,7 @@
     <list>
         <java method="test" class="test"/>
     </list>
-    <list filters="filter1,filter2" count-mapping="count" result-mapping="result">
+    <list filters="filter1,filter2" count-mapping="count" result-mapping="result" result-normalize="normalize">
         <rest>/api/find/1</rest>
     </list>
 
@@ -21,7 +21,7 @@
     <unique>
         <rest>/api/findOne</rest>
     </unique>
-    <unique filters="filter1" result-mapping="count">
+    <unique filters="filter1" result-mapping="count" result-normalize="normalize">
         <rest>/api/find1</rest>
     </unique>
 

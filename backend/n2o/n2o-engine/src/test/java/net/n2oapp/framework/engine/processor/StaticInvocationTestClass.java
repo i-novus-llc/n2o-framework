@@ -10,6 +10,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -99,6 +100,31 @@ public class StaticInvocationTestClass {
         employees.add(employee2);
 
         result.put("employees", employees);
+        return result;
+    }
+
+    public static List<DataSet> resultListNormalize(List<DataSet> data) {
+        DataSet resultDataSet = new DataSet();
+        List<DataSet> ids = new ArrayList<>();
+        List<DataSet> names = new ArrayList<>();
+        for (DataSet item : data) {
+            ids.add(new DataSet("id", item.get("id")));
+            names.add(new DataSet("name", item.get("name")));
+        }
+        resultDataSet.put("ids", ids);
+        resultDataSet.put("names", names);
+
+        return Collections.singletonList(resultDataSet);
+    }
+
+    public static DataSet resultUniqueNormalize(DataSet data) {
+        DataSet result = new DataSet();
+        result.put("id", data.get("id"));
+
+        DataSet info = new DataSet();
+        info.put("name", data.get("name"));
+        info.put("type", data.get("type"));
+        result.put("info", info);
         return result;
     }
 
