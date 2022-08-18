@@ -105,9 +105,12 @@ const datasource = createSlice({
 
                 const datasource = state[id]
 
-                state[id] = {
-                    ...datasource,
-                    components: datasource.components.filter(idFromDataSource => idFromDataSource !== componentId),
+                // После закрытия оверлея удаление компонента изds может прилететь позже удаления самого ds
+                if (datasource) {
+                    state[id] = {
+                        ...datasource,
+                        components: datasource.components.filter(idFromDataSource => idFromDataSource !== componentId),
+                    }
                 }
             },
         },
