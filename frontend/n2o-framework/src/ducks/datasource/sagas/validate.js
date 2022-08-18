@@ -8,7 +8,7 @@ import { dataSourceModelsSelector, dataSourceValidationSelector } from '../selec
 import {
     VALIDATION_SEVERITY,
 } from '../../../core/datasource/const'
-import { failValidate } from '../store'
+import { failValidate, resetValidation } from '../store'
 import { validateField } from '../../../core/datasource/validateField'
 
 export function* validate({ payload, meta }) {
@@ -17,6 +17,8 @@ export function* validate({ payload, meta }) {
     const models = yield select(dataSourceModelsSelector(id))
     const model = models[prefix] || {}
     let entries = Object.entries(validation)
+
+    yield put(resetValidation(id, fields, prefix))
 
     if (fields?.length) {
         entries = entries.filter(([field]) => fields.includes(field))

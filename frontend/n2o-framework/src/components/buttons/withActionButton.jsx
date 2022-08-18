@@ -18,6 +18,7 @@ import {
     countSelector,
 } from '../../ducks/toolbar/selectors'
 import { validate as validateDatasource } from '../../core/datasource/validate'
+import { MODEL_PREFIX } from '../../core/datasource/const'
 import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { id as getID } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'
@@ -137,6 +138,7 @@ export default function withActionButton(options = {}) {
                     const isDatasourceValid = await validateDatasource(
                         store.getState(),
                         datasourceId,
+                        MODEL_PREFIX.active,
                         dispatch,
                         true,
                     )
