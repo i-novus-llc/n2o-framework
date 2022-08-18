@@ -44,6 +44,7 @@ export function* validate({ dispatch, validate }) {
             validateDatasource,
             state,
             datasourceId,
+            MODEL_PREFIX.active,
             dispatch,
             true,
         ))

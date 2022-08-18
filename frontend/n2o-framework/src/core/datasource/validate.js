@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash'
 
 import { dataSourceModelsSelector, dataSourceValidationSelector } from '../../ducks/datasource/selectors'
-import { failValidate } from '../../ducks/datasource/store'
+import { failValidate, resetValidation } from '../../ducks/datasource/store'
 
 import { MODEL_PREFIX, VALIDATION_SEVERITY } from './const'
 import { validateField } from './validateField'
@@ -13,19 +13,23 @@ import { validateField } from './validateField'
  *  подумать как свести в одно и переделать
  * @param {object} state
  * @param {string} datasourceId
+ * @param {MODEL_PREFIX} prefix
  * @param {Function} dispatch
  * @returns {boolean}
  */
 export const validate = async (
     state,
     datasourceId,
-    dispatch,
-    touched,
+    prefix = MODEL_PREFIX.active,
+    dispatch = () => {},
+    touched = false,
 ) => {
     const validation = dataSourceValidationSelector(datasourceId)(state)
     const models = dataSourceModelsSelector(datasourceId)(state)
-    const model = models[MODEL_PREFIX.active] || {}
+    const model = models[prefix] || {}
     const entries = Object.entries(validation)
+
+    dispatch(resetValidation(datasourceId, [], prefix))
 
     const allMessages = {}
 
@@ -42,7 +46,7 @@ export const validate = async (
     )))
 
     if (!isEmpty(allMessages)) {
-        dispatch(failValidate(datasourceId, allMessages, MODEL_PREFIX.active, { touched }))
+        dispatch(failValidate(datasourceId, allMessages, prefix, { touched }))
     }
 
     return !invalid

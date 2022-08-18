@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { isEmpty, omit } from 'lodash'
 
 import { MODEL_PREFIX, SORT_DIRECTION } from '../../core/datasource/const'
 
@@ -189,14 +190,9 @@ const datasource = createSlice({
                     meta,
                 })
             },
+            // eslint-disable-next-line no-unused-vars
             reducer(state, action) {
-                const { id, fields, prefix } = action.payload
-                const datasource = state[id]
-                const fieldList = fields?.length ? fields : Object.keys(datasource.validation || {})
-
-                datasource.errors[prefix] = datasource.errors[prefix] || {}
-
-                fieldList.forEach((field) => { datasource.errors[prefix][field] = undefined })
+                // empty reducer, action for saga
             },
         },
 
@@ -218,6 +214,23 @@ const datasource = createSlice({
                 }
             },
         },
+
+        resetValidation: {
+            prepare(id, fields, prefix = MODEL_PREFIX.active) {
+                return ({
+                    payload: { id, fields, prefix },
+                })
+            },
+            reducer(state, action) {
+                const { id, fields = [], prefix } = action.payload
+                const datasource = state[id]
+
+                datasource.errors[prefix] = isEmpty(fields)
+                    ? {}
+                    : omit(datasource.errors[prefix], fields)
+            },
+        },
+
         setActiveModel: {
             prepare(id, model) {
                 return ({
@@ -311,6 +324,7 @@ export const {
     setSorting,
     startValidate,
     failValidate,
+    resetValidation,
     changePage,
     changeCount,
     changeSize,
