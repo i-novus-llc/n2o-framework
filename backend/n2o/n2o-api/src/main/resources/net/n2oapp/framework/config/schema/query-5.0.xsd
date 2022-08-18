@@ -93,7 +93,7 @@
                 </xs:attribute>
                 <xs:attribute name="result-normalize" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Нормализация списка результатов.</xs:documentation>
+                        <xs:documentation>Нормализация результата.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
