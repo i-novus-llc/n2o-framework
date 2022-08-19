@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 
+import { WithDataSourceTypes } from '../datasource/propTypes'
+
 import { FETCH_TYPE } from './const'
 
 /**
@@ -12,6 +14,7 @@ import { FETCH_TYPE } from './const'
  * @property {Array} dependency // TODO описать типы зависимостей
  * @property {object} toolbar // TODO описать тип
  * @property {'always'|'lazy'|'never'} fetch
+ * @property {boolean} fetchOnInit
  */
 export const widgetInitialTypes = {
     id: PropTypes.string.isRequired,
@@ -25,25 +28,11 @@ export const widgetInitialTypes = {
         FETCH_TYPE.lazy,
         FETCH_TYPE.never,
     ]).isRequired,
+    fetchOnInit: PropTypes.bool,
     className: PropTypes.string,
     style: PropTypes.any,
     autoFocus: PropTypes.bool,
     disabled: PropTypes.bool,
-}
-
-/**
- * Модели данных
- * @typedef {WidgetInitialTypes} WidgetModelTypes
- * @property {object} resolve
- * @property {object} filter
- * @property {Array.<object>} multi
- * @property {Array.<object>} datasource
- */
-export const modelsType = {
-    resolve: PropTypes.object,
-    filter: PropTypes.object,
-    multi: PropTypes.array,
-    datasource: PropTypes.array,
 }
 
 /**
@@ -60,44 +49,9 @@ export const reduxTypes = {
 }
 
 /**
- * Данные, необходимые для виджета, но лежащие в datasource
- * @typedef {object} WidgetDatasourceTypes
- * @property {boolean} loading
- * @property {object} sorting // todo set type from datasource
- * @property {WidgetModelTypes} models
- * @property {number} page
- */
-export const dataSourceTypes = {
-    loading: PropTypes.bool,
-    sorting: PropTypes.object,
-    models: PropTypes.shape(modelsType),
-    page: PropTypes.number,
-    size: PropTypes.number,
-    count: PropTypes.number,
-}
-
-/**
- * Методы для управления состоянием виджета
- * @typedef {object} WidgetMethods
- * @property {Function} fetchData
- * @property {Function} setFilter
- */
-export const widgetMethodsProps = {
-    fetchData: PropTypes.func,
-    setFilter: PropTypes.func,
-    setResolve: PropTypes.func,
-    setEdit: PropTypes.func,
-    setSelected: PropTypes.func,
-    setSorting: PropTypes.func,
-    setPage: PropTypes.func,
-    setSize: PropTypes.func,
-}
-
-/**
  * @typedef {WidgetReduxTypes, WidgetDatasourceTypes, WidgetMethods} WidgetTypes
  */
 export const widgetPropTypes = {
-    ...dataSourceTypes,
     ...reduxTypes,
-    ...widgetMethodsProps,
+    ...WithDataSourceTypes,
 }

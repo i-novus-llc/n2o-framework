@@ -1,12 +1,15 @@
 package net.n2oapp.framework.config.metadata.compile.dynamic;
 
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.control.Select;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -18,10 +21,11 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.register.JavaInfo;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -44,18 +48,19 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
                 .sources(new JavaInfo("testDynamic", N2oObject.class),
                         new JavaInfo("testDynamic", N2oQuery.class),
                         new JavaInfo("testDynamic", N2oTable.class),
-                        new JavaInfo("testDynamic", N2oPage.class),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/dynamic/formForTestDynamic.widget.xml"),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"))
+                        new JavaInfo("testDynamic", N2oPage.class))
                 .providers(new TestDynamicProvider())
                 .loaders(new JavaSourceLoader(builder.getEnvironment().getDynamicMetadataProviderFactory()));
     }
 
     @Test
     public void testDynamicPage() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicObject.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicObject.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/dynamic/formForTestDynamic.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml",
+                "net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml")
                 .get(new PageContext("testDynamicObject", "/test/route"));
+
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(table, instanceOf(Table.class));
         assertThat(table.getComponent().getCells().size(), is(1));
@@ -90,5 +95,25 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
         assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
+    }
+
+    @Test
+    public void testDynamicQuery() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicQuery.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicQuery.query.xml")
+                .get(new PageContext("testDynamicQuery"));
+
+        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows();
+        Select select1 = (Select) ((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(select1.getDataProvider().getUrl(), is("n2o/data/testDynamicQuery_version_1"));
+        CompiledQuery query = routeAndGet("/testDynamicQuery_version_1", CompiledQuery.class);
+        assertThat(((QuerySimpleField) query.getDisplayFields().get(1)).getDefaultValue(), is("1"));
+        assertThat(((QuerySimpleField) query.getDisplayFields().get(2)).getDefaultValue(), is("name"));
+
+        Select select2 = (Select) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(select2.getDataProvider().getUrl(), is("n2o/data/testDynamicQuery_version_2_name_test"));
+        query = routeAndGet("/testDynamicQuery_version_2_name_test", CompiledQuery.class);
+        assertThat(((QuerySimpleField) query.getDisplayFields().get(1)).getDefaultValue(), is("2"));
+        assertThat(((QuerySimpleField) query.getDisplayFields().get(2)).getDefaultValue(), is("test"));
     }
 }

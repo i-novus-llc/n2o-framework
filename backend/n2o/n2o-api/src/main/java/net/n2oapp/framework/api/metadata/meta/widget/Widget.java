@@ -28,6 +28,8 @@ public abstract class Widget<T extends WidgetComponent> extends Component implem
     private Set<String> notCopiedFields;
     @JsonProperty
     private String datasource;
+    @JsonProperty("fetchOnInit")
+    private Boolean fetchOnInit;
     private String filtersDatasourceId;
     @JsonProperty
     private Toolbar toolbar;

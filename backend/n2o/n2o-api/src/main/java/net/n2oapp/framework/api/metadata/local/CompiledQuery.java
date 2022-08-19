@@ -29,6 +29,7 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     private N2oQuery.Selection[] uniques;
     private N2oQuery.Selection[] counts;
 
+    private String name;
     private String route;
     private CompiledObject object;
     protected List<AbstractField> displayFields;

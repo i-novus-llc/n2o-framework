@@ -15,6 +15,7 @@ import { validateField } from '../../core/validation/createValidator'
 import propsResolver from '../../utils/propsResolver'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -183,6 +184,7 @@ class WidgetFilters extends React.Component {
                     activeModel={filterModel}
                     initialValues={defaultValues}
                     validation={validation}
+                    modelPrefix={ModelPrefix.filter}
                 />
             </Filter>
         )

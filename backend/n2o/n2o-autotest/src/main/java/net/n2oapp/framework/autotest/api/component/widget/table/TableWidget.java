@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.widget.table;
 
-import net.n2oapp.framework.autotest.api.collection.Cells;
-import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.collection.TableHeaders;
-import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.collection.*;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 
@@ -30,6 +27,8 @@ public interface TableWidget extends StandardWidget {
         Toolbar toolbar();
 
         Fields fields();
+
+        FieldSets fieldsets();
 
         void search();
 
