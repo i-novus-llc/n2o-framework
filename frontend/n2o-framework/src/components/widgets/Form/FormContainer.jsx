@@ -51,10 +51,14 @@ class Container extends React.Component {
                 ? { ...activeModel, ...datasource[0] }
                 : datasource[0]
 
-            this.updateActiveModel(model)
-            // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
-            if (modelPrefix === ModelPrefix.edit) {
-                setResolve(model)
+            if (model) {
+                this.setState(() => ({ initialValues: cloneDeep(model) }), () => {
+                    this.updateActiveModel(model)
+                    // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
+                    if (modelPrefix === ModelPrefix.edit) {
+                        setResolve(model)
+                    }
+                })
             }
         } else if (
             !isEqual(reduxFormValues, prevValues) &&
@@ -112,7 +116,7 @@ class Container extends React.Component {
                 fields={fields}
                 {...form}
                 activeModel={activeModel}
-                initialValues={initialValues || activeModel}
+                initialValues={initialValues}
                 onChange={this.onChange}
             />
         )
