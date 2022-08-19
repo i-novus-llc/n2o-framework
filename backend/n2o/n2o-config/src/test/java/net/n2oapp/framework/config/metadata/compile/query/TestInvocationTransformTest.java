@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
@@ -33,8 +34,10 @@ public class TestInvocationTransformTest extends SourceTransformTestBase {
     public void test() {
         N2oQuery query = transform("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml")
                 .get("testTestInvocationTransformer", N2oQuery.class);
-        assertThat(query.getFields()[0].getSelectBody(), is(":expression"));
-        assertThat(query.getFields()[0].getSortingBody(), is(":expression :idDirection"));
-        assertThat(query.getFields()[0].getFilterList()[0].getText(), is(":expression :eq :id"));
+        assertThat(query.getFields()[0].getId(), is("id"));
+        assertThat(((QuerySimpleField) query.getFields()[0]).getSelectExpression(), is("id"));
+        assertThat(((QuerySimpleField) query.getFields()[0]).getSortingExpression(), is("id :idDirection"));
+        assertThat(query.getFilters()[0].getFieldId(), is("id"));
+        assertThat(query.getFilters()[0].getText(), is("id :eq :id"));
     }
 }

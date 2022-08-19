@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.pipeline.ReadTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -36,20 +37,26 @@ public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
                 read("net/n2oapp/framework/config/metadata/transformer/testMongodbQueryTransformer.query.xml").transform();
 
         N2oQuery query = (N2oQuery) pipeline.get("testMongodbQueryTransformer", N2oQuery.class);
-        assertThat(query.getFields()[0].getSelectBody(), is("_id"));
-        assertThat(query.getFields()[0].getSelectMapping(), is("['_id'].toString()"));
-        assertThat(query.getFields()[0].getSortingBody(), is("_id :idDirection"));
-        assertThat(query.getFields()[0].getFilterList()[0].getText(), is("{ _id: new ObjectId('#id') }"));
+        assertThat(query.getFields()[0].getId(), is("id"));
+        assertThat(((QuerySimpleField) query.getFields()[0]).getSelectExpression(), is("_id"));
+        assertThat(query.getFields()[0].getMapping(), is("['_id'].toString()"));
+        assertThat(((QuerySimpleField) query.getFields()[0]).getSortingExpression(), is("_id :idDirection"));
+        assertThat(query.getFilters()[0].getFieldId(), is("id"));
+        assertThat(query.getFilters()[0].getText(), is("{ _id: new ObjectId('#id') }"));
 
-        assertThat(query.getFields()[1].getSelectBody(), is(":expression"));
-        assertThat(query.getFields()[1].getSelectMapping(), nullValue());
-        assertThat(query.getFields()[1].getSortingBody(), is(":expression :nameDirection"));
-        assertThat(query.getFields()[1].getFilterList()[0].getText(), is("{ ':expression': '#name' }"));
-        assertThat(query.getFields()[1].getFilterList()[1].getText(), is("{ ':expression': {$ne: '#notName' }}"));
-        assertThat(query.getFields()[1].getFilterList()[2].getText(), is("{ ':expression': {$in: #userNameIn}}"));
+        assertThat(query.getFields()[1].getId(), is("name"));
+        assertThat(((QuerySimpleField) query.getFields()[1]).getSelectExpression(), is("name"));
+        assertThat(query.getFields()[1].getMapping(), nullValue());
+        assertThat(((QuerySimpleField) query.getFields()[1]).getSortingExpression(), is("name :nameDirection"));
+        assertThat(query.getFilters()[1].getFieldId(), is("name"));
+        assertThat(query.getFilters()[1].getText(), is("{ 'name': '#name' }"));
+        assertThat(query.getFilters()[2].getFieldId(), is("name"));
+        assertThat(query.getFilters()[2].getText(), is("{ 'name': {$ne: '#notName' }}"));
+        assertThat(query.getFilters()[3].getFieldId(), is("name"));
+        assertThat(query.getFilters()[3].getText(), is("{ 'name': {$in: #userNameIn}}"));
 
-        assertThat(query.getFields()[2].getSortingBody(), is("age :sortUserAge"));
-        assertThat(query.getFields()[2].getSortingMapping(), is("['sortUserAge']"));
+        assertThat(((QuerySimpleField) query.getFields()[2]).getSortingExpression(), is("age :sortUserAge"));
+        assertThat(((QuerySimpleField) query.getFields()[2]).getSortingMapping(), is("['sortUserAge']"));
 
     }
 }

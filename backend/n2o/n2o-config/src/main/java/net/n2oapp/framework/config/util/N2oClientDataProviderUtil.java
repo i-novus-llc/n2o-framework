@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
@@ -62,7 +62,7 @@ public class N2oClientDataProviderUtil {
                 N2oPreFilter preFilter = preFilters[i];
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 N2oParam queryParam = new N2oParam();
-                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
+                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterId()));
                 if (preFilter.getParam() == null) {
                     queryParam.setValueList(getPrefilterValue(preFilter));
                     queryParam.setModel(preFilter.getModel());
