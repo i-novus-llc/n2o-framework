@@ -13,10 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import java.util.Arrays;
 import java.util.Map;
-
-import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 
 /**
  * Поиск по URL подходящего контекста для компиляции метаданных.
@@ -42,25 +39,25 @@ public class N2oRouter implements MetadataRouter {
      */
     public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass, Map<String, String[]> params) {
         url = url != null ? url : ROOT_ROUTE;
-        CompileContext<D, ?> result = findRoute(url, compiledClass, params);
+        CompileContext<D, ?> result = findRoute(url, compiledClass);
         if (result != null)
             return result;
 
         if (environment.getRouteRegister().synchronize()) {
-            result = findRoute(url, compiledClass, params);
+            result = findRoute(url, compiledClass);
             if (result != null) return result;
         }
 
         tryToFindShallow(url, compiledClass, params);
-        result = findRoute(url, compiledClass, params);
+        result = findRoute(url, compiledClass);
         if (result != null)
             return result;
 
         tryToFindDeep(url, params);
-        result = findRoute(url, compiledClass, params);
+        result = findRoute(url, compiledClass);
         if (result == null) {
             tryToFindShallow(url, compiledClass, params);
-            result = findRoute(url, compiledClass, params);
+            result = findRoute(url, compiledClass);
         }
         if (result != null)
             return result;
@@ -77,9 +74,9 @@ public class N2oRouter implements MetadataRouter {
      * @return Список найденных контекстов
      */
     @SuppressWarnings("unchecked")
-    private <D extends Compiled> CompileContext<D, ?> findRoute(String url, Class<D> compiledClass, Map<String, String[]> params) {
+    private <D extends Compiled> CompileContext<D, ?> findRoute(String url, Class<D> compiledClass) {
         for (Map.Entry<RouteInfoKey, CompileContext> routeEntry : environment.getRouteRegister()) {
-            if (matchInfo(routeEntry.getKey(), url, params) &&
+            if (matchInfo(routeEntry.getKey(), url) &&
                     compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass())) {
                 return routeEntry.getValue();
             }
@@ -94,20 +91,8 @@ public class N2oRouter implements MetadataRouter {
      * @param urlMatching URL шаблон в Ant стиле
      * @return Сопоставимы или нет
      */
-    private boolean matchInfo(RouteInfoKey info, String urlMatching, Map<String, String[]> params) {
-        String infoUrl = info.getUrlMatching();
-        if (isDynamic(infoUrl)) {
-            // TODO
-            //  1 - route params holding optimization
-            //  2 - incorrect equals with params number more than in route (e.g. ?p1=1&p2=2 equals /dynamic?p1=1)
-            //  3 - check null param (maybe NPE)
-            Map<String, String[]> routeParams = RouteUtil.parseQueryParams(RouteUtil.parseQuery(info.getUrlMatching()));
-            for (String paramKey : routeParams.keySet())
-                if (!Arrays.equals(routeParams.get(paramKey), params.get(paramKey)))
-                    return false;
-            infoUrl = RouteUtil.parsePath(infoUrl);
-        }
-        return pathMatcher.match(infoUrl, urlMatching);
+    private boolean matchInfo(RouteInfoKey info, String urlMatching) {
+        return pathMatcher.match(info.getUrlMatching(), urlMatching);
     }
 
     /**
@@ -118,7 +103,7 @@ public class N2oRouter implements MetadataRouter {
     private <D extends Compiled> void tryToFindShallow(String url, Class<D> compiledClass, Map<String, String[]> params) {
         if (Page.class == compiledClass)
             return;
-        CompileContext<Page, ?> result = findRoute(url, Page.class, params);
+        CompileContext<Page, ?> result = findRoute(url, Page.class);
         if (result != null) {
             pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
         }
@@ -139,10 +124,10 @@ public class N2oRouter implements MetadataRouter {
             else
                 subUrl = ROOT_ROUTE;
 
-            CompileContext<Page, ?> result = findRoute(subUrl, Page.class, params);
+            CompileContext<Page, ?> result = findRoute(subUrl, Page.class);
             if (result == null) {
                 tryToFindDeep(subUrl, params);
-                result = findRoute(subUrl, Page.class, params);
+                result = findRoute(subUrl, Page.class);
             }
             if (result != null) {
                 pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up

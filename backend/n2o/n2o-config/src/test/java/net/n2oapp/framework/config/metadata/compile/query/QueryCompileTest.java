@@ -157,8 +157,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSeparatorsDefaultValue() {
-        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testSeparatorsDefaultValue" +
-                ".query.xml")
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testSeparatorsDefaultValue.query.xml")
                 .get(new QueryContext("testSeparatorsDefaultValue"));
         N2oRestDataProvider list = (N2oRestDataProvider) query.getLists()[0].getInvocation();
         N2oRestDataProvider unique = (N2oRestDataProvider) query.getUniques()[0].getInvocation();
@@ -178,5 +177,10 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(count.getJoinSeparator(), is("&"));
         assertThat(count.getSelectSeparator(), is("&"));
         assertThat(count.getSortingSeparator(), is("&"));
+    }
+
+    @Test
+    public void testDynamic() {
+
     }
 }

@@ -49,8 +49,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         }
         query.setName(p.cast(source.getName(), source.getId()));
 
-        String route = normalize(p.cast(source.getRoute(), source.getId()));
-        query.setRoute(isDynamic(queryId) ? route + "?" + RouteUtil.parseQuery(queryId) : route);
+        String route = normalize(p.cast(source.getRoute(), queryId));
+        query.setRoute(isDynamic(route) ? route.replaceAll("[?=&]", "_") : route);
 
         query.setLists(initSeparators(source.getLists(), p));
         query.setUniques(initSeparators(source.getUniques(), p));
