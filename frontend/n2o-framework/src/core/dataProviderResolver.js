@@ -31,7 +31,12 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     const queryParams = getParams(queryMapping, state)
     const headersParams = getParams(headersMapping, state)
     const formParams = getParams(formMapping, state)
-    const baseQuery = { ...query, ...options, ...queryParams }
+    const baseQuery = {
+        ...query,
+        ...options,
+        ...queryParams,
+        ...queryString.parse(queryFromUrl),
+    }
     const isAbsolutePath = startsWith(url, ':')
     let path = isAbsolutePath ? url : pathname
 
