@@ -53,6 +53,7 @@ public class N2oClientDataProviderUtil {
             dataProvider.setTargetModel(widgetScope.getModel());
             dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         }
+
         dataProvider.setUrl(query.getRoute());
 
         if (preFilters != null) {
