@@ -532,7 +532,7 @@ spring.datasource.password=postgres
 </unique>
 ```
 
-Можно добавить специальный плейсхолдер `:select`, чтобы шаблонизировать выборку.
+Можно добавить специальный плейсхолдер `:select`, чтобы шаблонизировать запрос.
 ```xml
 <sql>SELECT :select FROM mytable t</sql>
 ```
@@ -699,39 +699,253 @@ SELECT * FROM mytable ORDER BY name asc
 
 ### REST {#Rest}
 
-REST провайдер выполняет http запросы к backend сервисам.
+REST провайдер выполняет http запросы к REST сервисам.
+В теле запроса и ответа используется формат Json.
 
-```xml title="Получение списка записей REST провайдером"
-<query>
-  <list>
-    <rest>/api/myentity/items?{filters}&amp;{sortings}</rest>
-  </list>
-  <unique filters="id">
-    <rest>/api/mytable/{id}</rest>
-  </unique>
-  <fields>
-    <field id="name">
-      <select/>
-      <filters>
-          <eq>name={name}</eq>
-      </filters>
-      <sorting>sort=name:{direction}</sorting>
-    </field>
-  </fields>
-</query>
+Запросы задаются в элементе `<rest>`
+```xml
+<rest>http://localhost:8081/api/myservice</rest>
 ```
 
-```xml title="Выполнение операции REST провайдером"
+#### Настройки соединения
+
+Начальный адрес, например, `http://localhost:8081/api`, можно опускать в элементах `<rest>`, если он одинаковый для всех сервисов.
+Для этого нужно задать настройку `n2o.engine.rest.url`
+```shell title="application.properties"
+n2o.engine.rest.url=http://localhost:8081/api
+```
+в результате REST запрос сократится до простого указания конечной точки
+```xml
+<rest>/myservice</rest>
+```
+
+
+Если для соединения используется прокси сервер, можно задать его настройки в атрибутах элемента `<rest>`
+```xml
+<rest proxy-host="192.168.1.0"
+      proxy-port="3333">...</rest>
+```
+
+Для прочих настроек http запросов к REST сервисам, например, настроек аутентификации,
+необходимо определить бин `RestTemplate`, с помощью которого REST провайдер выполняет запросы.
+```js title="MyAppConfiguration.java"
+@Bean
+RestTemplate restTemplate() {
+  RestTemplate restTemplate = new RestTemplate();
+  ... //настройки restTemplate
+  return restTemplate;
+}
+```
+
+#### Получение данных
+Для получения списка записей обычно нужно выполнить `GET` запрос к сервису получения данных.
+```xml title="Получение списка записей REST запроса"
+<list result-mapping="['content']">
+  <rest>/mystore/goods</rest>
+</list>
+```
+В атрибуте `result-mapping` нужно указать путь к списку объектов в ответе сервиса
+```json title="GET /mystore/goods"
+{
+  "content": [
+    { "id": 1, "name": "Товар 1", ... },
+    { "id": 1, "name": "Товар 2", ... },
+     ...
+  ]
+}
+```
+
+Для получения одной записи по идентификатору в REST сервисах обычно используется параметр пути.
+Параметр пути можно задать через плейсхолдер.
+Плейсхолдеры задаются в фигурных скобках `{something}`.
+```xml title="Получение одной записи REST запроса"
+<unique filters="idEq">
+  <rest>/mystore/goods/{idEq}</rest>
+</unique>
+```
+
+#### Пагинация данных
+
+Для пагинации записей REST запроса следует использовать плейсхолдеры `{limit}` и `{offset}`.
+```xml title="Пагинация записей REST запроса через offset"
+<list>
+  <rest>/mystore/goods?limit={limit}&amp;offset={offset}</rest>
+</list>
+```
+В качестве альтернативы `{offset}` можно использовать плейсхолдер `{page}`.
+```xml title="Пагинация записей REST запроса через page"
+<list>
+  <rest>/mystore/goods?size={limit}&amp;page={page}</rest>
+</list>
+```
+
+:::note
+Номер страницы `{page}` по умолчанию начинается с нуля `0`, но можно начать нумерацию страниц с `1` задав это в настройке
+```shell title="application.properties"
+#Паджинация начинается с нуля?
+n2o.engine.pageStartsWith0=false
+```
+:::
+
+Чтобы получить общее количество записей можно использовать атрибут `count-mapping`,
+если REST сервис возвращает общее количество записей вместе со списком записей одной страницы.
+```xml title="Получение количества записей REST запроса"
+<list result-mapping="['content']" count-mapping="['totalElements']">
+  <rest>/mystore/goods?size={limit}&amp;page={page}</rest>
+</list>
+```
+В атрибуте `count-mapping` указывается путь к свойству, содержащему общее количество записей списка.
+```json title="GET /mystore/goods?size=10&page=0"
+{
+  "content": [
+    { "id": 1, "name": "Товар 1", ... },
+    { "id": 2, "name": "Товар 2", ... },
+     ...
+    { "id": 10, "name": "Товар 10", ... }
+  ],
+  "totalElements": 100
+}
+```
+
+#### Маппинг полей
+В результате выполнения REST запроса вернется объект `DataSet`.
+К DataSet можно обращаться как к `Map<String, Object>`, используя квадратные скобки `['field']`.
+Для получения вложенных свойств используется символ "точка" `['field1.field2']`.
+
+Если свойство json не совпадает с идентификатором поля выборки, необходимо сделать маппинг.
+```xml title="Маппинг полей REST запроса"
+<field id="firstName">
+  <select mapping="['first_name']"/>
+</field>
+```
+
+#### Фильтрация данных
+
+Для задания фильтров REST запроса нужно указать тип фильтра и идентификатор фильтра `filter-id`.
+```xml title="Фильтрация REST запроса"
+<field id="id">
+  <filters>
+    <eq filter-id="idEq"/> <!-- Плейсхолдер {idEq} -->
+  </filters>
+</field>
+```
+В этом случае будет доступен плейсхолдер `{idEq}` равный значению `filter-id`.
+
+Если плейсхолдер нужно переименовать, можно использовать маппинг.
+```xml title="Маппинг плейсхолдера фильтрации REST запроса"
+<field id="gender.id">
+  <filters>
+    <eq filter-id="gender.id" mapping="['gender_id']"/> <!-- Плейсхолдер {gender_id} -->
+  </filters>
+</field>
+```
+
+Можно добавить специальный плейсхолдер `{filters}` в REST запрос, чтобы шаблонизировать фильтрацию выборки.
+```xml
+<list filters-separator="&amp;">
+  <rest>/mystore/goods?{filters}</rest>
+</list>
+```
+Разделителем между разными фильтрами в параметрах запроса будет `&`, поэтому необходимо задать его атрибутом `filters-separator`.
+
+Плейсхолдер `{filters}` будет заменен на значения из элементов `<тип_фильтра>..</тип_фильтра>` в фильтрах выборки,
+если значение фильтра не будет `null`.
+```xml
+<field id="name">
+  <filters>
+    <like filter-id="nameLike">name={nameLike}</like>
+  </filters>
+</field>
+```
+при наличии значения "Ноутбук" в `nameLike` итоговый запрос будет
+```shell
+/mystore/goods?name=Ноутбук
+```
+
+:::note
+Обычно в REST сервисе заранее прошито как то или иное поле фильтруется на сервере.
+В таком случае использование разных видов фильтров (`<eq>`, `<like>`, `<in>` и др.) не оказывает влияение на запрос и является чисто семантическим.
+:::
+
+:::note
+Если ни одно значение фильтра не задано, плейсхолдер `{filters}` будет заменен на пустую строку.
+:::
+
+#### Сортировка данных
+
+Сортировка записей в REST сервисах обычно задается в параметрах запроса.
+```xml
+<rest>/mystore/goods?sort=name,{nameDir}</rest>
+```
+В поле, поддерживающее сортировку, необходимо добавить элемент`<sorting>`
+и указать маппинг плейсхолдера для задания направления сортировки.
+
+```xml title="Сортировка данных REST запроса"
+<field id="name">
+  <sorting mapping="['nameDir']"/>
+  <!-- Если будет сортировка по полю name
+       в плейсхолдер {nameDir} попадет значение asc или desc -->
+</field>
+```
+
+Можно добавить специальный плейсхолдер `{sorting}`, чтобы шаблонизировать выражение сортировки.
+```xml
+<rest>/mystore/goods?{sorting}</rest>
+```
+Плейсхолдер `{sorting}` будет заменен на значения из элементов `<sorting>..</sorting>` в полях выборки,
+если по этому полю будет задана сортировка.
+```xml
+<field id="name">
+  <sorting mapping="['nameDir']">sort=name,{nameDir}</sorting>
+</field>
+```
+при наличии сортировки `asc` по полю `name` итоговый запрос будет
+```shell
+GET /mystore/goods?sort=name,asc
+```
+для сортировки по `desc` аналогично.
+
+:::note
+Если ни одно направление сортировки не задано, плейсхолдер `{sorting}` будет заменен на пустую строку.
+:::
+
+
+#### Операции над данными
+
+Для выполнения операций над данными нужно записать соответствующий REST запрос и http метод.
+```xml title="Выполнение операции REST"
 <operation id="create">
   <invocation>
-    <rest method="post">/api/myentity</rest>
+    <rest method="POST">/mystore/goods</rest>
   </invocation>
   <in>
-    <field id="firstName"/>
-    <field id="lastName"/>
+    <field id="name" mapping="['name']"/>
+    <field id="price" mapping="['price']"/>
   </in>
+  <out>
+    <field id="id" mapping="['id']"/>
+  </out>
 </operation>
 ```
+Входные параметры запроса будут собраны в `DataSet` объект, который будет сереализован в json и передан в теле запроса, если http метод `POST` или `PUT`.
+В остальных случаях, входные параметры можно использовать в виде плейсхолдеров в самом запросе.
+
+Выходные параметры можно использовать для обработки результата REST запроса.
+
+#### Обработка исключений
+При возникновении ошибок во время выполнения REST запроса выбрасывается исключение `N2oQueryExecutionException`.
+Из него можно получить исходный запрос `query` и сообщение от REST сервиса `message`.
+
+```xml title="Получение данных об ошибке REST"
+<operation id="create" fail-message="Не удалось создать запись по причине {error}">
+  ...
+  <out-fail>
+    <field id="sql" mapping="query"/> <!-- Исходный запрос -->
+    <field id="error" mapping="message"/> <!-- Сообщение об ошибке -->
+  </out-fail>
+</operation>
+```
+#### Пример
 
 <Sandbox height={400} projectId="data_providers_rest" />
 
