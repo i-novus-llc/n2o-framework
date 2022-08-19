@@ -1,8 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.dynamic;
 
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -106,13 +107,13 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         Select select1 = (Select) ((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl();
         assertThat(select1.getDataProvider().getUrl(), is("n2o/data/testDynamicQuery_version_1"));
         CompiledQuery query = routeAndGet("/testDynamicQuery_version_1", CompiledQuery.class);
-        assertThat(query.getDisplayFields().get(1).getSelectDefaultValue(), is("1"));
-        assertThat(query.getDisplayFields().get(2).getSelectDefaultValue(), is("name"));
+        assertThat(((QuerySimpleField) query.getDisplayFields().get(1)).getDefaultValue(), is("1"));
+        assertThat(((QuerySimpleField) query.getDisplayFields().get(2)).getDefaultValue(), is("name"));
 
         Select select2 = (Select) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(select2.getDataProvider().getUrl(), is("n2o/data/testDynamicQuery_version_2_name_test"));
         query = routeAndGet("/testDynamicQuery_version_2_name_test", CompiledQuery.class);
-        assertThat(query.getDisplayFields().get(1).getSelectDefaultValue(), is("2"));
-        assertThat(query.getDisplayFields().get(2).getSelectDefaultValue(), is("test"));
+        assertThat(((QuerySimpleField) query.getDisplayFields().get(1)).getDefaultValue(), is("2"));
+        assertThat(((QuerySimpleField) query.getDisplayFields().get(2)).getDefaultValue(), is("test"));
     }
 }
