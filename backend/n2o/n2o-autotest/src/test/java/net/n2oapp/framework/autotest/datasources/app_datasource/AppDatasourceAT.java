@@ -58,7 +58,7 @@ public class AppDatasourceAT extends AutoTestBase {
         id.shouldHaveValue("1");
         name.shouldHaveValue("test1");
         sidebar.nav().anchor(1).click();
-        step2.shouldHaveValue("step2");
+        step2.shouldHaveValue("test-step2");
         sidebar.nav().anchor(0).click();
         id.shouldHaveValue("1");
         name.shouldHaveValue("test1");
