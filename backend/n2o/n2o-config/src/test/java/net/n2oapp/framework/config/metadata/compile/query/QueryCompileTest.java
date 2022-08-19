@@ -178,9 +178,4 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(count.getSelectSeparator(), is("&"));
         assertThat(count.getSortingSeparator(), is("&"));
     }
-
-    @Test
-    public void testDynamic() {
-
-    }
 }
