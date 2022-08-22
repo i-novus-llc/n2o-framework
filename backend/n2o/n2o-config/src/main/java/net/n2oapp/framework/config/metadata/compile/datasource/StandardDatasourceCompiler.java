@@ -68,7 +68,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     @Override
     public StandardDatasource compile(N2oStandardDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StandardDatasource compiled = new StandardDatasource();
-        compileDatasource(source, compiled, p);
+        compileDatasource(source, compiled, context, p);
         initDefaults(source, p);
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
