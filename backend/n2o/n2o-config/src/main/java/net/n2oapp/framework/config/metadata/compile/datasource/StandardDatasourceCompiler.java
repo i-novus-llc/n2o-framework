@@ -16,7 +16,8 @@ import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
@@ -171,7 +172,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                     initMandatoryValidation(source, p, preFilter, queryFilter);
                     filter.setParam(p.cast(preFilter.getParam(), source.getId() + "_" + queryFilter.getParam()));
                     filter.setRoutable(p.cast(preFilter.getRoutable(), false));
-                    filter.setFilterId(queryFilter.getFilterField());
+                    filter.setFilterId(queryFilter.getFilterId());
                     Object prefilterValue = getPrefilterValue(preFilter);
                     ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
                     if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
@@ -217,9 +218,9 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         if (preFilter.getRequired() != null && preFilter.getRequired()) {
             if (p.getScope(ValidationList.class) != null) {
                 MandatoryValidation v = new MandatoryValidation(
-                        queryFilter.getFilterField(),
+                        queryFilter.getFilterId(),
                         p.getMessage("n2o.required.filter"),
-                        queryFilter.getFilterField()
+                        queryFilter.getFilterId()
                 );
                 v.setMoment(N2oValidation.ServerMoment.beforeQuery);
                 v.setSeverity(SeverityType.danger);
@@ -267,7 +268,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
 
     private Map<String, String> initSortingMap(CompiledQuery query) {
         Map<String, String> sortingMap = new HashMap<>();
-        for (N2oQuery.Field sortingField : query.getSortingFields()) {
+        for (QuerySimpleField sortingField : query.getSortingFields()) {
             sortingMap.put(SORTING + RouteUtil.normalizeParam(sortingField.getId()), sortingField.getId());
         }
         return sortingMap;
@@ -425,7 +426,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                         }
                         routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
                     });
-            for (N2oQuery.Field field : query.getSortingFields()) {
+            for (QuerySimpleField field : query.getSortingFields()) {
                 String sortParam = RouteUtil.normalizeParam(SORTING + source.getId() + "_" + field.getId());
                 BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
                 ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));
