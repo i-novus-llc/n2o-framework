@@ -65,14 +65,16 @@ public class RouteUtilTest {
     @Test
     public void parseQueryParams() {
         assertThat(RouteUtil.parseQueryParams("text"), nullValue());
-        Map<String, String> params = RouteUtil.parseQueryParams("id=123");
-        assertThat(params.get("id"), is("123"));
+        Map<String, String[]> params = RouteUtil.parseQueryParams("id=123");
+        assertThat(params.get("id"), is(new String[]{"123"}));
         params = RouteUtil.parseQueryParams("id=:a");
-        assertThat(params.get("id"), is(":a"));
+        assertThat(params.get("id"), is(new String[]{":a"}));
         params = RouteUtil.parseQueryParams("id=123&name=:b&surname=Ivanov");
-        assertThat(params.get("id"), is("123"));
-        assertThat(params.get("name"), is(":b"));
-        assertThat(params.get("surname"), is("Ivanov"));
+        assertThat(params.get("id"), is(new String[]{"123"}));
+        assertThat(params.get("name"), is(new String[]{":b"}));
+        assertThat(params.get("surname"), is(new String[]{"Ivanov"}));
+        params = RouteUtil.parseQueryParams("name=:b&name=Ivan");
+        assertThat(params.get("name"), is(new String[]{":b", "Ivan"}));
     }
 
     @Test

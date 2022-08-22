@@ -26,6 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -45,11 +46,15 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     @Override
     public CompiledQuery compile(N2oQuery source, QueryContext context, CompileProcessor p) {
         CompiledQuery query = new CompiledQuery();
-        query.setId(context.getSourceId((N2oCompileProcessor) p));
+        String queryId = context.getSourceId((N2oCompileProcessor) p);
+        query.setId(queryId);
         if (source.getObjectId() != null) {
             query.setObject(p.getCompiled(new ObjectContext(source.getObjectId())));
         }
-        query.setRoute(normalize(p.cast(source.getRoute(), source.getId())));
+
+        String route = normalize(p.cast(source.getRoute(), queryId));
+        query.setRoute(isDynamic(route) ? route.replaceAll("[?=&]", "_") : route);
+
         query.setLists(initSeparators(source.getLists(), p));
         query.setUniques(initSeparators(source.getUniques(), p));
         query.setCounts(initSeparators(source.getCounts(), p));
@@ -237,8 +242,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             if (field instanceof QueryReferenceField) {
                 field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
                 initDefaultFields(Arrays.asList(((QueryReferenceField) field).getFields()), computedId, defaultSelected, defaultSorted);
-            }
-            else
+            } else
                 initDefaultSimpleField(((QuerySimpleField) field), defaultSorted);
         }
     }

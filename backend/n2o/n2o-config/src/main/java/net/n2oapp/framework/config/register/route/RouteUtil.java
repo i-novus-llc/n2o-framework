@@ -126,16 +126,19 @@ public abstract class RouteUtil {
      * @param url
      * @return мапа с параметрами и их значениями
      */
-    public static Map<String, String> parseQueryParams(String url) {
+    public static Map<String, String[]> parseQueryParams(String url) {
         if (url == null || !(url.contains("=") || url.contains("&")))
             return null;
-        HashMap<String, String> result = new HashMap();
-        String[] splitParam = url.split("&");
-        for (int i = 0; i < splitParam.length && i < splitParam.length; i++) {
-            String[] paramValue = splitParam[i].split("=");
-            result.put(paramValue[0], paramValue[1]);
+
+        HashMap<String, List<String>> result = new HashMap();
+        String[] params = url.split("&");
+        for (String param : params) {
+            String[] paramValue = param.split("=");
+            result.putIfAbsent(paramValue[0], new ArrayList<>());
+            result.get(paramValue[0]).add(paramValue[1]);
         }
-        return result;
+
+        return result.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toArray(String[]::new)));
     }
 
 
