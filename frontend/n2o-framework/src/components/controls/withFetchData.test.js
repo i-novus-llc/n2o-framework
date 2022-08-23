@@ -4,8 +4,6 @@ import fetchMock from 'fetch-mock'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 
-import { removeAllAlerts } from '../../ducks/alerts/store'
-
 import withFetchData from './withFetchData'
 
 const dataUrl = 'test'
@@ -143,8 +141,8 @@ describe('fetchData HOC test', () => {
 
         expect(1).toBe(1)
 
-        expect(store.getActions()[1].payload.alert.severity).toBe('danger')
-        expect(store.getActions()[1].payload.alert.text).toBe(
+        expect(store.getActions()[0].payload.alerts[0].severity).toBe('danger')
+        expect(store.getActions()[0].payload.alerts[0].text).toBe(
             'Произошла внутренняя ошибка',
         )
     })
@@ -212,18 +210,9 @@ describe('fetchData HOC test', () => {
 
         await delay(400)
 
-        expect(store.getActions()[1].payload.alert.severity).toBe('danger')
-        expect(store.getActions()[1].payload.alert.text).toBe(
+        expect(store.getActions()[0].payload.alerts[0].severity).toBe('danger')
+        expect(store.getActions()[0].payload.alerts[0].text).toBe(
             'Произошла внутренняя ошибка',
         )
-
-        wrapper
-            .find('EmptyComponent')
-            .props()
-            ._fetchData()
-
-        await delay(400)
-
-        expect(store.getActions()[3]).toEqual(removeAllAlerts('form.labelFieldId'))
     })
 })
