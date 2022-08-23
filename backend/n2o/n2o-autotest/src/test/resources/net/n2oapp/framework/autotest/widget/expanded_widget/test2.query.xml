@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <unique result-mapping="#this.size()">
+        <test file="net/n2oapp/framework/autotest/widget/expanded_widget/test.json"/>
+    </unique>
+
+    <fields>
+        <field id="exists">
+            <select mapping="#this>0"/>
+        </field>
+    </fields>
+</query>

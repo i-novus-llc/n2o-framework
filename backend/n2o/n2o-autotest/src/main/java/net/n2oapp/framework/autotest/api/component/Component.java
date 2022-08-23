@@ -9,5 +9,6 @@ public interface Component extends Element {
     void shouldNotExists();
 
     void shouldBeVisible();
+    void shouldNotBeVisible();
     void shouldBeHidden();
 }
