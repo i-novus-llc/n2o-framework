@@ -19,10 +19,11 @@ public class PersonService {
     }
 
     public Page<Person> getList(PersonCriteria criteria) {
+        PageRequest pageRequest = PageRequest.of(criteria.getPage(), criteria.getSize());
         if (criteria.getFirstName() != null) {
-            return repository.findAll(PageRequest.of(criteria.getPage(), criteria.getSize()), criteria.getFirstName());
+            return repository.findAll(pageRequest, criteria.getFirstName());
         } else {
-            return repository.findAll(PageRequest.of(criteria.getPage(), criteria.getSize()));
+            return repository.findAll(pageRequest);
         }
     }
 
