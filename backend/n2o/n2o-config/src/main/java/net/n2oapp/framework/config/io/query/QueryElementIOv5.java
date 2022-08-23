@@ -23,7 +23,6 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
 
     @Override
     public void io(Element e, N2oQuery t, IOProcessor p) {
-        p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "object-id", t::getObjectId, t::setObjectId);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
