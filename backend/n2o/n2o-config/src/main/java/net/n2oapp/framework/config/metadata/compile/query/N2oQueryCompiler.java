@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import static java.util.Objects.isNull;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static java.util.Objects.isNull;
+import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -52,7 +53,6 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         if (source.getObjectId() != null) {
             query.setObject(p.getCompiled(new ObjectContext(source.getObjectId())));
         }
-        query.setName(p.cast(source.getName(), source.getId()));
 
         String route = normalize(p.cast(source.getRoute(), queryId));
         query.setRoute(isDynamic(route) ? route.replaceAll("[?=&]", "_") : route);
