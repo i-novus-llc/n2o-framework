@@ -36,6 +36,9 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private static final String RESPONSE_DATA_KEY = "data";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
+    private final Pattern selectKeyPattern = Pattern.compile("\\$\\$\\w+\\W");
+    private final Pattern placeholderStringEscapePattern = Pattern.compile("\\$\\$\\$\\w+");
+    private static final String ESCAPE_SYMBOLS = "\\\"";
 
     @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
@@ -175,6 +178,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
 
+        resolveHierarchicalSelect(args);
         query = replaceListPlaceholder(query, "$$select", args.remove("select"), "", QueryUtil::reduceSpace);
         if (args.get("sorting") != null) {
             String prefix = Objects.requireNonNullElse(invocation.getSortingPrefix(), defaultSortingPrefix);
@@ -199,16 +203,65 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         }
 
         Set<String> placeholderKeys = extractPlaceholderKeys(query);
+        Set<String> escapeStringPlaceholders = extractEscapeStringPlaceholder(query);
         for (Map.Entry<String, Object> entry : args.entrySet()) {
-            String placeholder = "$$" + entry.getKey();
-            String value = placeholderKeys.contains(placeholder) ?
-                    (String) entry.getValue() :
-                    toGraphQlString(entry.getValue());
+            String placeholder = "$$".concat(entry.getKey());
+            String value;
+            if (escapeStringPlaceholders.contains(entry.getKey())) {
+                placeholder = "$".concat(placeholder);
+                value = ESCAPE_SYMBOLS + entry.getValue() + ESCAPE_SYMBOLS;
+            } else {
+                value = placeholderKeys.contains(entry.getKey()) ?
+                        (String) entry.getValue() :
+                        toGraphQlString(entry.getValue());
+            }
             query = replacePlaceholder(query, placeholder, value, "null");
         }
 
         log.debug("Execute GraphQL query: " + query);
         return query;
+    }
+
+    /**
+     * Замена плейсхолдеров в "select"
+     *
+     * @param args Данные
+     */
+    private void resolveHierarchicalSelect(Map<String, Object> args) {
+        @SuppressWarnings("unchecked")//Всегда приходит в виде списка из select-expression
+        List<String> selectExpressions = (List<String>) args.get("select");
+        if (selectExpressions == null)
+            return;
+        List<String> resolvedExpressions = new ArrayList<>();
+        for (String selectExpression : selectExpressions) {
+            while (selectKeyPattern.matcher(selectExpression).find()) {
+                selectExpression = resolveSelectKey(selectExpression, args);
+            }
+            resolvedExpressions.add(selectExpression);
+        }
+        args.put("select", resolvedExpressions);
+    }
+
+    /**
+     * Замена плейсхолдера в select-expression
+     *
+     * @param selectExpression Выражение
+     * @param args             Данные
+     * @return Разрезолвленное выражение или исходное при отсутствии в нем плейсхолдеров $$
+     */
+    private String resolveSelectKey(String selectExpression, Map<String, Object> args) {
+        Set<String> selectKeys = extract(selectExpression, selectKeyPattern, (s, m) -> s.substring(m.start() + 2, m.end() - 1));
+        Optional<String> selectKey = selectKeys.stream().findFirst();
+        if (selectKey.isEmpty())
+            return selectExpression;
+        if (selectKeys.size() > 1)
+            throw new N2oException("Find more than one select key in expression " + selectExpression);
+
+        @SuppressWarnings("unchecked")//Всегда приходит в виде списка из select-expression
+        List<String> value = (List<String>) args.remove(selectKey.get());
+        if (value == null)
+            throw new N2oException(String.format("Value for placeholder %s not found ", "$$" + selectKey.get()));
+        return replacePlaceholder(selectExpression, "$$" + selectKey.get(), String.join(" ", value), "");
     }
 
     /**
@@ -253,7 +306,17 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      * @return Множество ключей-плейсхолдеров
      */
     private Set<String> extractPlaceholderKeys(String query) {
-        return extract(query, placeholderKeyPattern, (s, m) -> s.substring(m.start(), m.end() - 1).trim());
+        return extract(query, placeholderKeyPattern, (s, m) -> s.substring(m.start() + 2, m.end() - 1).trim());
+    }
+
+    /**
+     * Получение множества экранированных строковых плейсхолдеров
+     *
+     * @param query Строка GraphQl запроса
+     * @return Множество экранированных строковых плейсхолдеров
+     */
+    private Set<String> extractEscapeStringPlaceholder(String query) {
+        return extract(query, placeholderStringEscapePattern, (s, m) -> s.substring(m.start() + 3, m.end()));
     }
 
     /**

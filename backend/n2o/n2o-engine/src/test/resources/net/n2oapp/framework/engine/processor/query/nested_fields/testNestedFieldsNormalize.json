@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "code": 1000,
+    "organization": {
+      "code": 2,
+      "title": "org2",
+      "employees": [
+        {
+          "id": 73,
+          "name": "employee73"
+        },
+        {
+          "id": 75,
+          "name": "employee75"
+        }
+      ]
+    },
+    "departments": [
+      {
+        "id": 3,
+        "name": "department3",
+        "groups": [
+          {
+            "id": 9,
+            "name": "group9"
+          },
+          {
+            "id": 10,
+            "name": "group10"
+          }
+        ],
+        "manager": {
+          "id": 322,
+          "name": "manager322"
+        }
+      },
+      {
+        "id": 4,
+        "name": "department4",
+        "groups": [
+          {
+            "id": 14,
+            "name": "group14"
+          },
+          {
+            "id": 15,
+            "name": "group15"
+          }
+        ],
+        "manager": {
+          "id": 1322,
+          "name": "manager422"
+        }
+      }
+    ]
+  }
+]

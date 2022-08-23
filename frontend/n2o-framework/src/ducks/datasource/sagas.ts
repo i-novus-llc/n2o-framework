@@ -1,14 +1,12 @@
 import {
     put,
     takeEvery,
-    select,
     fork,
     cancel,
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
-import { clearModel, copyModel, removeAllModel, removeModel, setModel } from '../models/store'
-import type { State } from '../State'
+import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -17,12 +15,13 @@ import {
     changeSize,
     dataRequest,
     DATA_REQUEST,
+    register,
     remove,
     setSorting,
     startValidate,
     submit,
 } from './store'
-import { watchDependencies } from './sagas/dependencies'
+import { applyOnInitDependencies, watchDependencies } from './sagas/dependencies'
 import type { ChangePageAction, DataRequestAction, RemoveAction } from './Actions'
 import { submitSaga } from './sagas/submit'
 import { clear } from './Providers/Storage'
@@ -62,10 +61,7 @@ export function* dataRequestWrapper(action: DataRequestAction) {
     })
 }
 
-// Кеш предыдущего состояния для наблюдения за изменениями зависимостей
-let prevState: State = {} as State
-
-export default () => [
+export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequestWrapper),
     takeEvery(DATA_REQUEST, function* remapRequest({ payload }) {
@@ -74,14 +70,13 @@ export default () => [
         yield put(dataRequest(datasource, options))
     }),
     takeEvery(startValidate, validateSaga),
-    takeEvery(submit, submitSaga),
+    // @ts-ignore хер знает как затипизировать
+    takeEvery(submit, submitSaga, apiProvider),
     takeEvery(remove, removeSaga),
-    takeEvery([setModel, removeModel, removeAllModel, copyModel, clearModel], function* watcher(action) {
-        yield watchDependencies(action, prevState)
-        prevState = yield select()
-    }),
+    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
+    takeEvery(register, applyOnInitDependencies),
     // @ts-ignore FIXME: проставить тип action
-    takeEvery(action => action.meta?.refresh?.datasources, function* refreshSage({ meta }) {
+    takeEvery(action => action.meta?.refresh?.datasources, function* refreshSaga({ meta }) {
         const { refresh } = meta
         const { datasources } = refresh
 

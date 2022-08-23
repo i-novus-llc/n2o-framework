@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Абстрактная реализация компиляции действия

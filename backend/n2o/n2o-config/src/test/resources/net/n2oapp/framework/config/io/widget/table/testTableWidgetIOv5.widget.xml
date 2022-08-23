@@ -3,7 +3,7 @@
        name="Моя таблица" src="testSrc" datasource="ds1"
        icon="testIcon" class="testClass" selection="radio" visible="true"
        table-size="lg" width="300px" height="300px" text-wrap="false" children="expand"
-       checkboxes="true" check-on-select="false" auto-select="false">
+       checkboxes="true" check-on-select="false" auto-select="false" fetch-on-init="false">
     <datasource query-id="qtest" object-id="otest" default-values-mode="query" size="10">
         <submit operation-id="update" refresh-datasources="ds1" auto-submit-on="blur" submit-all="true"
                 refresh-on-success="true" message-widget-id="w1" message-on-success="true" message-on-fail="true"

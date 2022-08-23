@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
@@ -20,10 +20,9 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
@@ -54,6 +53,7 @@ public class N2oClientDataProviderUtil {
             dataProvider.setTargetModel(widgetScope.getModel());
             dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         }
+
         dataProvider.setUrl(query.getRoute());
 
         if (preFilters != null) {
@@ -62,7 +62,7 @@ public class N2oClientDataProviderUtil {
                 N2oPreFilter preFilter = preFilters[i];
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 N2oParam queryParam = new N2oParam();
-                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
+                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterId()));
                 if (preFilter.getParam() == null) {
                     queryParam.setValueList(getPrefilterValue(preFilter));
                     queryParam.setModel(preFilter.getModel());
@@ -122,8 +122,7 @@ public class N2oClientDataProviderUtil {
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
             actionContextData.setRefresh(new RefreshSaga());
             if (submit.getRefreshDatasourceIds() != null) {
-                actionContextData.getRefresh().setDatasources(Arrays.stream(submit.getRefreshDatasourceIds())
-                        .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
+                actionContextData.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(submit.getRefreshDatasourceIds()), p));
             } else {
                 if (widgetScope.getClientDatasourceId() != null)
                     actionContextData.getRefresh().setDatasources(Collections.singletonList(widgetScope.getClientDatasourceId()));

@@ -3,10 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.query;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -22,79 +24,80 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.ha
 @Component
 public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery>, SourceClassAware {
 
-    public static final String EXPRESSION = "expression";
-
     @Override
     public N2oQuery transform(N2oQuery source, SourceProcessor p) {
         if (!isMongodb(source))
             return source;
         if (source.getFields() != null) {
-            for (N2oQuery.Field field : source.getFields()) {
-                if (Boolean.FALSE.equals(field.getNoDisplay()) && field.getSelectBody() == null) {
+            for (AbstractField field : source.getFields()) {
+                if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
                     transformSelect(field);
-                }
-                if (Boolean.FALSE.equals(field.getNoSorting()) && field.getSortingBody() == null) {
-                    transformSortings(field);
-                }
-                if (field.getFilterList() != null) {
-                    transformFilters(field);
-                }
+                if (field instanceof QuerySimpleField)
+                    transformSimpleField(((QuerySimpleField) field));
             }
+        }
+        if (source.getFilters() != null) {
+            transformFilters(source.getFilters());
         }
         return source;
     }
 
-    private void transformSelect(N2oQuery.Field field) {
+    private void transformSimpleField(QuerySimpleField field) {
+        if (Boolean.TRUE.equals(field.getIsSorted()) && field.getSortingExpression() == null)
+            transformSortings(field);
+    }
+
+    private void transformSelect(AbstractField field) {
         if (field.getId().equals("id")) {
-            field.setSelectBody("_id");
-            field.setSelectMapping("['_id'].toString()");
+            field.setSelectExpression("_id");
+            field.setMapping("['_id'].toString()");
         } else {
-            field.setSelectBody(colon(EXPRESSION));
+            field.setSelectExpression(field.getId());
         }
     }
 
-    private void transformSortings(N2oQuery.Field field) {
+    private void transformSortings(QuerySimpleField field) {
         if (field.getId().equals("id")) {
-            field.setSortingBody("_id :idDirection");
+           field.setSortingExpression("_id :idDirection");
         } else {
-            field.setSortingBody(colon(EXPRESSION) + " " + colon(field.getId() + "Direction"));
+           field.setSortingExpression(field.getId() + " " + colon(field.getId() + "Direction"));
         }
     }
 
-    private void transformFilters(N2oQuery.Field field) {
-        for (N2oQuery.Filter filter : field.getFilterList()) {
+    private void transformFilters(N2oQuery.Filter[] filters) {
+        for (N2oQuery.Filter filter : filters) {
             String domain = getDomain(filter);
-            if (filter.getFilterField() == null)
-                filter.setFilterField(RouteUtil.normalizeParam(field.getId()) + "_" + filter.getType());
+            if (filter.getFilterId() == null)
+                filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
             if (filter.getText() == null) {
-                if (field.getId().equals("id")) {
+                if ("id".equals(filter.getFieldId())) {
                     if (filter.getType().equals(FilterType.eq))
-                        filter.setText("{ _id: new ObjectId('#" + filter.getFilterField() + "') }");
+                        filter.setText("{ _id: new ObjectId('#" + filter.getFilterId() + "') }");
                 } else {
                     switch (filter.getType()) {
                         case eq:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': " + getFilterField(filter, domain) + " }");
+                            filter.setText("{ '" + filter.getFieldId() + "': " + getFilterField(filter, domain) + " }");
                             break;
                         case notEq:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$ne: " + getFilterField(filter, domain) + " }}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$ne: " + getFilterField(filter, domain) + " }}");
                             break;
                         case like:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '.*" + hash(filter.getFilterField()) + ".*'}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$regex: '.*" + hash(filter.getFilterId()) + ".*'}}");
                             break;
                         case likeStart:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '" + hash(filter.getFilterField()) + ".*'}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$regex: '" + hash(filter.getFilterId()) + ".*'}}");
                             break;
                         case more:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$gte: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$gte: " + getFilterField(filter, domain) + "}}");
                             break;
                         case less:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$lte: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$lte: " + getFilterField(filter, domain) + "}}");
                             break;
                         case in:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$in: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$in: " + getFilterField(filter, domain) + "}}");
                             break;
                         case notIn:
-                            filter.setText("{ '" + colon(EXPRESSION) + "': {$nin: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + filter.getFieldId()  + "': {$nin: " + getFilterField(filter, domain) + "}}");
                             break;
                         default:
                             break;
@@ -106,8 +109,8 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
 
     private String getFilterField(N2oQuery.Filter filter, String domain) {
         if (domain.equals("string") || domain.equals("date") || domain.equals("localdate") || domain.equals("localdatetime"))
-            return "'" + hash(filter.getFilterField()) + "'";
-        return hash(filter.getFilterField());
+            return "'" + hash(filter.getFilterId()) + "'";
+        return hash(filter.getFilterId());
     }
 
     @Override

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test/>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq/>
+            </filters>
+        </field>
+        <field id="versionId">
+            <select default-value="${version}"/>
+            <filters>
+                <eq/>
+            </filters>
+        </field>
+        <field id="name">
+            <select default-value="${name}"/>
+        </field>
+    </fields>
+</query>

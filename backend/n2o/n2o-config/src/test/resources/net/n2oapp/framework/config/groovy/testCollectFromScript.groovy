@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.groovy
 
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage
 

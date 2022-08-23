@@ -5,7 +5,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
@@ -49,7 +49,7 @@ public class CopyValuesController extends DefaultValuesController {
                 responseInfo.addMessage(getMessageBuilder().build(e, requestInfo));
             }
         }
-        defaultModel.remove(N2oQuery.Field.PK);//при копировании идентификатор должен быть null, иначе будет изменение
+        defaultModel.remove(QuerySimpleField.PK);//при копировании идентификатор должен быть null, иначе будет изменение
         return defaultModel;
     }
 

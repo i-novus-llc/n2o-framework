@@ -1,15 +1,24 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
 
 import Toolbar from '../buttons/Toolbar'
+import { getModelSelector } from '../../ducks/models/selectors'
+import propsResolver from '../../utils/propsResolver'
 
 import withOverlayMethods from './withOverlayMethods'
 
-function PageDialog({ visible, props }) {
-    const { title, text, size, scrollable } = props
+const usePageDialog = ({ modelLink, ...props }) => {
+    const model = useSelector(getModelSelector(modelLink))
+
+    return model ? propsResolver(props, model) : props
+}
+
+function PageDialog({ visible, props = {} }) {
+    const { title, text, size = 'sm', scrollable = false } = usePageDialog(props)
 
     return (
         <div className="modal-page-overlay">
@@ -57,17 +66,13 @@ function PageDialog({ visible, props }) {
 
 PageDialog.propTypes = {
     visible: PropTypes.bool,
-    props: PropTypes.object,
-    title: PropTypes.string,
-    text: PropTypes.string,
-    size: PropTypes.string,
-    scrollable: PropTypes.bool,
-}
-
-PageDialog.defaultProps = {
-    props: {},
-    size: 'sm',
-    scrollable: false,
+    props: PropTypes.shape({
+        title: PropTypes.string,
+        text: PropTypes.string,
+        size: PropTypes.string,
+        scrollable: PropTypes.bool,
+        modelLink: PropTypes.string,
+    }),
 }
 
 export default withOverlayMethods(PageDialog)

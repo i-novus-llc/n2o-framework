@@ -20,7 +20,7 @@ public class ModelLink extends BindLink {
     /**
      * Клиентский идентификатор источника данных
      */
-     private String datasource;
+    private String datasource;
     /**
      * Идентификатор поля
      */
@@ -157,18 +157,20 @@ public class ModelLink extends BindLink {
             thatFieldId = that.getSubModelQuery().getSubModel();
         thatSubModelQueryLink = createBindLink(that.getModel(), that.getDatasource(), thatFieldId);
 
-        if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length()) {
-            if (that.getValue() == null && this.getValue() == null
-                    && (this.getSubModelQuery() != null || that.getSubModelQuery() != null))
-                return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".") && thatFieldId != null;
-            return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
-        } else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length()) {
-            if (that.getValue() == null && this.getValue() == null
-                    && (this.getSubModelQuery() != null || that.getSubModelQuery() != null))
-                return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".") && thisFieldId != null;
-            return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".");
-        } else
+        if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length())
+            return compareLinks(this, that, thisSubModelQueryLink, thatSubModelQueryLink);
+        else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length())
+            return compareLinks(that, this, thatSubModelQueryLink, thisSubModelQueryLink);
+        else
             return thisSubModelQueryLink.equals(thatSubModelQueryLink);
+    }
+
+    private boolean compareLinks(ModelLink first, ModelLink second,
+                                 String firstSubModelQueryLink, String secondSubModelQueryLink) {
+        if ((first.getValue() == null && second.getValue() == null) ||
+                (first.getValue() != null && second.getValue() != null))
+            return firstSubModelQueryLink.startsWith(secondSubModelQueryLink + ".");
+        return first.getBindLink().equals(second.getBindLink());
     }
 
     private static String createBindLink(ReduxModel model, String widgetId, String fieldId) {

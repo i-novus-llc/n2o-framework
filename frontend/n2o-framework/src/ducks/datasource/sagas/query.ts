@@ -10,8 +10,10 @@ import { setModel } from '../../models/store'
 import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { IMeta, IValidationFieldMessage } from '../../../sagas/types'
 import { dataSourceByIdSelector } from '../selectors'
 import {
+    failValidate,
     rejectRequest,
     resolveRequest,
 } from '../store'
@@ -69,7 +71,18 @@ export function* dataRequest({ payload }: DataRequestAction) {
 
         yield put(resolveRequest(id, response))
     } catch (error) {
-        const err = error as { message: string, stack: string, json?: { meta: unknown} }
+        const err = error as { message: string, stack: string, json?: { meta: IMeta} }
+        const errorMeta = err?.json?.meta || {}
+
+        if (errorMeta.messages) {
+            const fields: Record<string, IValidationFieldMessage[]> = {}
+
+            for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
+                fields[fieldName] = Array.isArray(error) ? error : [error]
+            }
+
+            yield put(failValidate(id, fields, ModelPrefix.filter, { touched: true }))
+        }
 
         // eslint-disable-next-line no-console
         console.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)

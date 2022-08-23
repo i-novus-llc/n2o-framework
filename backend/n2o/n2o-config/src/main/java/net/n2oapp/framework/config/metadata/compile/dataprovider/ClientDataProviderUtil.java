@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.dataprovider;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -30,7 +29,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
-import static net.n2oapp.framework.config.util.CompileUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Утилита для компиляции провайдера данных клиента
@@ -72,17 +71,6 @@ public class ClientDataProviderUtil {
         dataProvider.setSize(source.getSize());
 
         return dataProvider;
-    }
-
-    public static String getDatasourceByComponentScope(CompileProcessor p) {
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
-                return datasourceIdAware.getDatasourceId();
-            }
-        }
-        return null;
     }
 
     public static String getWidgetIdByComponentScope(CompileProcessor p) {

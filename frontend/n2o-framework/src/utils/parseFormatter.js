@@ -14,6 +14,10 @@ numeral.register('format', 'phone', {
         format: /\+?0?[ .-]?\(?000\)?[ .-]?000[ .-]?00[ .-]?00/,
     },
     format(value, formatString) {
+        if (!value || !formatString) {
+            return ''
+        }
+
         function normalize(phoneNumber) {
             return phoneNumber.toString().replace(
                 /^[\d\s+,{}-]*\(?(\d{3})\)?[ .-](\d{3})[ .-](\d{2})[ .-](\d{2})$/,
@@ -39,6 +43,10 @@ numeral.register('format', 'snils', {
         format: /(0{3}[ .-]?){3}0{2}/,
     },
     format(value, formatString) {
+        if (!value || !formatString) {
+            return ''
+        }
+
         function normalize(snilsNumber) {
             return snilsNumber.toString().replace(
                 /^[\d\s]*(\d{3})[ .-](\d{3})[ .-](\d{3})[ .-](\d{2})$/,

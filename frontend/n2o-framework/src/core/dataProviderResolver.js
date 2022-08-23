@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 import includes from 'lodash/includes'
 import each from 'lodash/each'
 import isNil from 'lodash/isNil'
+import startsWith from 'lodash/startsWith'
 
 import linkResolver from '../utils/linkResolver'
 
@@ -30,8 +31,14 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     const queryParams = getParams(queryMapping, state)
     const headersParams = getParams(headersMapping, state)
     const formParams = getParams(formMapping, state)
-    const baseQuery = { ...query, ...options, ...queryParams }
-    let path = pathname
+    const baseQuery = {
+        ...query,
+        ...options,
+        ...queryParams,
+        ...queryString.parse(queryFromUrl),
+    }
+    const isAbsolutePath = startsWith(url, ':')
+    let path = isAbsolutePath ? url : pathname
 
     // если хеш является частью роутинга, то приклеиваем его обратно
     if (hash && hash.includes('/')) {
@@ -54,6 +61,9 @@ export function dataProviderResolver(state, dataProvider, query, options) {
         compiledUrl = origin + compiledUrl
         basePath = origin + basePath
     }
+
+    basePath = decodeURIComponent(basePath)
+    compiledUrl = decodeURIComponent(compiledUrl)
 
     return {
         basePath,

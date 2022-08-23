@@ -19,7 +19,7 @@ interface IMappingParam {
 export interface ServiceProvider extends IProvider {
     type: ProviderType.service
     url: string
-    pathMappeng: Record<string, IMappingParam>
+    pathMapping: Record<string, IMappingParam>
     queryMapping: Record<string, IMappingParam>
     headerMapping: Record<string, IMappingParam>
     size: number
@@ -62,7 +62,7 @@ export interface ServiceSubmit {
     type: ProviderType.service
     autoSubmitOn?: 'change' | 'blur'
     url: string
-    pathMappeng: Record<string, IMappingParam>
+    pathMapping: Record<string, IMappingParam>
     queryMapping: Record<string, IMappingParam>
     headerMapping: Record<string, IMappingParam>
     formMapping: Record<string, IMappingParam>

@@ -400,6 +400,17 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getPlace(), is(Place.topLeft));
     }
 
+    @Test
+    public void testHeaderLabelInitialization() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4HeaderLabels.page.xml")
+                .get(new PageContext("testTable4HeaderLabels"));
+
+        List<ColumnHeader> columnHeaders = ((Table) page.getRegions().get("single").get(0).getContent().get(0))
+                .getComponent().getHeaders();
+        assertThat(columnHeaders.get(0).getLabel(), is("id"));
+        assertThat(columnHeaders.get(1).getLabel(), is("name"));
+    }
+
     private void checkDefaultPagingParams(Pagination pagination) {
         assertThat(pagination.getFirst(), is(true));
         assertThat(pagination.getLast(), is(false));

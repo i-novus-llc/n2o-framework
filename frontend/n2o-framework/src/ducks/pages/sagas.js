@@ -31,7 +31,6 @@ import {
     combineModels,
     setModel,
     copyModel,
-    syncModel,
     removeModel,
     updateModel,
     updateMapModel,
@@ -295,7 +294,6 @@ export function* flowDefaultModels(config) {
         const modelsChan = yield actionChannel([
             setModel.type,
             copyModel.type,
-            syncModel.type,
             removeModel.type,
             updateModel.type,
             updateMapModel.type,

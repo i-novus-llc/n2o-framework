@@ -8,7 +8,7 @@ import isString from 'lodash/isString'
 import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 
-import SecurityController from '../auth/SecurityController'
+import { SecurityController } from '../auth/SecurityController'
 
 import factoryConfigShape from './factoryConfigShape'
 import { NotFoundFactory } from './NotFoundFactory'

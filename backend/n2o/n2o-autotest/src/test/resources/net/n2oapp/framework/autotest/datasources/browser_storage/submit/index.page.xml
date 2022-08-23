@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Тестирование submit в browser-storage">
+    <datasources>
+        <browser-storage
+                id="ds1"
+                key="n2o.submit"
+                type="localStorage"
+        >
+            <submit auto="false" />
+        </browser-storage>
+    </datasources>
+    <regions>
+        <form id="form"  datasource="ds1">
+            <fields>
+                <input-text id="input_submit" label="test submit"/>
+            </fields>
+            <toolbar place="bottomLeft">
+                <button label="Submit">
+                    <submit/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>
