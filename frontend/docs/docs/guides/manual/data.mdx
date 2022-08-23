@@ -140,12 +140,14 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 
 ```xml title="Структура выборки"
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-  name="Моя выборка"
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
   object-id="myObject">
   <list>...</list> <!--Постраничное получение записей-->
   <count>...</count> <!--Получение общего количества записей-->
   <unique>...</unique> <!--Получение уникальной записи-->
+
+  <filters>...</filters>
+
   <fields>
     <!-- Поля выборки -->
     <field id="firstName"> ... </field>
@@ -184,9 +186,9 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 ```xml title="Поля выборки"
 <fields>
     <field id="name"/>
-    <refernce id="organization">
-        <field id="code/>
-        <list id="employess">
+    <reference id="organization">
+        <field id="code"/>
+        <list id="employees">
             <field id="id"/>
             <field id="email"/>
             <reference id="address">...</reference>
@@ -197,49 +199,83 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 
 #### Получение результатов выборки {#Query_select}
 
-Для того чтобы получить значения полей выборки, в некоторых случаях эти поля нужно передать на вход [провайдеру данных](#Data_providers).
-Это можно сделать с помощью атрибута `select-expression`.
+Для того чтобы получить значения полей выборки, эти поля нужно передать на вход [провайдеру данных](#Data_providers).
+По умолчанию все, указанные в query поля, участвуют в выборке.
+Чтобы поле не участвовало в выборке достаточно указать атрибут `select` со значением `false`.
 
-```xml title="Задание выражения для получения значения поля выборки sql запроса"
-<field id="firstName" select-expression="t.name as firstName"/>
+```xml title="Задание выражения для получения значения поля выборки"
+<field id="firstName"/>
+<!-- поле не участвует в выборке -->
+<field id="defaultName" select="false" default-value="test"/>
 ```
 
 Чтобы получить значение этого поля, алиас столбца и идентификатор поля выборки должны совпадать.
 Если они не совпадают можно использовать [маппинг](#Data_mapping_in_providers).
 
-В качестве значения `select-expression` записывается выражение, которое можно вставить в sql или rest запрос
-с помощью переменной `select`.
+В качестве значения `select-expression` записывается выражение, которое можно вставить в запрос провайдера
+с помощью плейсхолдера `select`.
 
 ```xml title="Задание шаблона select команды sql запроса"
-<list>
-    <sql>SELECT :select FROM mytalbe</sql>
-<list>
-```
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <sql>SELECT :select FROM mytable</sql>
+    <list>
 
-`select-expression` сложных полей поддерживает иерархическую подстановку выражений вложенных полей. Для этого в теле выражения
+    <fields>
+        <field id="firstName" select-expression="t.name as firstName"/>
+    </fields>
+</query>
+```
+В результате получится запрос вида `SELECT t.name as firstName FROM mytable`
+
+:::note
+У каждого провайдера свой синтаксис и набор плейсхолдеров
+:::
+
+Атрибут `select-expression` сложных полей поддерживает иерархическую подстановку выражений вложенных полей. Для этого в теле выражения
 нужно установить некоторую переменную с плейсхолдером, использующимся в [провайдере данных](#Data_providers),
 а затем эту переменную указать в атрибуте `select-key`
 
 ```xml title="Иерархическая подстановка select-expression для сложных полей GraphQL провайдера данных"
-<list id="showrooms" select-key="showroomsSelect" select-expression="showrooms { $$showroomsSelect }">
-    <field id="id" select-expression="id"/>
-    <field id="name" select-expression="name"/>
-    <reference id="owner" select-expression="owner { $$ownerSelect }" select-key="ownerSelect">
-        <field id="name" select-expression="name"/>
-        <field id="inn" select-expression="inn"/>
-    </reference>
-</list>
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <graphql>
+             query MyQuery {
+                allCar() {
+                    $$select
+                }
+            }
+        </graphql>
+    </list>
+
+    <fields>
+        <list id="showrooms" select-key="showroomsSelect" select-expression="showrooms { $$showroomsSelect }">
+            <field id="id" select-expression="id"/>
+            <field id="name" select-expression="name"/>
+            <reference id="owner" select-expression="owner { $$ownerSelect }" select-key="ownerSelect">
+                <field id="name" select-expression="name"/>
+                <field id="inn" select-expression="inn"/>
+            </reference>
+        </list>
+    </fields>
+</query>
 ```
-
-После подстановки значений атрибутов `select-expression` внутренних полей вместо переменных showroomsSelect и ownerSelect
-в запросе будет использована строка `...showrooms { id name owner { name inn } }...`. Для полей, значения которых не
-должны приходить из провайдера, необходимо указать `select="false"`
-
-```xml
-<fields>
-    <field id="id" select="false" default-value="{id}"/>
-    <field id="name"/>
-</fields>
+В результате подстановки значений атрибутов `select-expression` внутренних полей вместо переменных showroomsSelect и ownerSelect получится следующий запрос:
+```
+query MyQuery {
+    allCar() {
+        showrooms {
+            id
+            name
+            owner {
+                name
+                inn
+            }
+        }
+    }
+}
 ```
 
 ##### Сортировка поля выборки {#Query_sortings}
@@ -247,27 +283,28 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 Простые поля поддерживают сортировку. Чтобы отсортировать простое поле выборки по возрастанию или по убыванию,
 необходимо отправить эту информацию на вход в [провайдер данных](#Data_providers).
 
-В атрибуте `sorting-expression` указывается выражение для отправки,
-которое можно вставить в sql или rest запрос с помощью переменной `sortings`.
+В атрибуте `sorting-expression` указывается выражение для отправки.
 
-```xml title="Задание выражения сортировки для sql запроса"
-<field id="name" sorting-expression="name :direction"/>
+```xml title="Задание выражения сортировки поля"
+<field id="name" sorting="true" sorting-expression="name :direction" sorting-mapping="['direction']"/>
 ```
-Переменная `direction` содержит в себе направление сортировки: `ASC` или `DESC`.
+Переменная `:direction` содержит в себе направление сортировки: `ASC` или `DESC`.
 Название переменной можно сменить с помощью атрибута `sorting-mapping`.
 
+Атрибут `sorting-expression` также может использоваться для подстановки вместо плейсхолдера `sorting` провайдера данных.
 ```xml title="Задание шаблона order by команды sql запроса"
 <list>
-  <sql>SELECT t.name FROM mytable t ORDER BY :sortings</sql>
+  <sql>SELECT t.name FROM mytable t ORDER BY :sorting</sql>
 </list>
 ```
+В результате получится запрос вида `SELECT t.name FROM mytable t ORDER BY name :direction`
 
 #### Фильтры выборки {#Query_filters}
+Фильтры задаются в элементе `<filters>`.
 
-Фильтров у одного поля выборки может быть много.
+У одного поля выборки может быть несколько фильтров.
 Различаются они по типу фильтрации.
 
-Существует несколько типов фильтраций.
 Каждый из них задаётся соответствующим элементом:
 
 __*Типы фильтраций*__
@@ -291,41 +328,50 @@ __*Типы фильтраций*__
   <!-- Фильтр по "eq" -->
   <eq field-id="gender.id">...</eq>
   <!-- Фильтр по "in" -->
-  <in field-id="genders*.id">...</in>
+  <in field-id="gender.id" filter-id="genders*.id">...</in>
 </filters>
 ```
 
 <Sandbox height={700} projectId="data_query_list_filters" />
 
-Для фильтра является обязательным атрибут `field-id`, в нем указывается идентификатор поля выборки,
+Для фильтра обязательным является атрибут `field-id`, в котором указывается идентификатор поля выборки,
 по которому будет осуществлена фильтрация.
+:::note
+По умолчанию `filter-id` эквивалентен `field-id`.
+:::
+
+
 Для того чтобы сослаться на вложенное поле, необходимо использовать "точку"
 в качестве разделителя идентификаторов родительского и дочернего полей.
 
-```xml title="Задание выражения фильтрации для sql запроса"
-<filters>
-    <eq field-id="code">...</eq>
-    <contains field-id="resources.id">...</contains>
-</filters>
+```xml title="Задание выражения фильтрации"
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <filters>
+        <eq field-id="code">...</eq>
+        <more field-id="person.birthday">...</more>
+    </filters>
 
-<fields>
-    <field id="code"/>
-    <list id="resources">
-        <field id="id"/>
-        <field id="name"/>
-    </list>
-</fields>
+    <fields>
+        <field id="code"/>
+        <list id="person">
+            <field id="id"/>
+            <field id="name"/>
+            <field id="birthday"/>
+        </list>
+    </fields>
+</query>
 ```
 
-В теле фильтра записывается выражение,
-которое можно вставить в sql или rest запрос с помощью переменной `filters`.
+В теле фильтра можно задать выражение фильтрации.
 
-```xml title="Задание выражения фильтрации для sql запроса"
+```xml title="Задание выражения фильтрации"
 <filters>
   <eq field-id="id">t.id = :id</eq>
 </filters>
 ```
 
+Также тело фильтра может быть использовано для подстановки вместо плейсхолдера `filters` провайдера
 ```xml title="Задание шаблона where команды sql запроса"
 <list>
   <sql>SELECT t.name FROM mytable t WHERE :filters</sql>
@@ -517,7 +563,7 @@ SQL провайдер позволяет выполнять SQL запросы 
 ```xml title="Получение списка записей SQL провайдером"
 <query>
   <list>
-    <sql>SELECT :select FROM mytable WHERE :filters ORDER BY :sortings</sql>
+    <sql>SELECT :select FROM mytable WHERE :filters ORDER BY :sorting</sql>
   </list>
   <count>
     <sql>SELECT count(*) FROM mytable WHERE :filters</sql>
@@ -528,7 +574,8 @@ SQL провайдер позволяет выполнять SQL запросы 
   </filters
 
   <fields>
-    <field id="name" select-expression="name" sorting-expression="name :direction"/>
+    <field id="name" select-expression="name"
+           sorting="true" sorting-expression="name :direction"/>
   </fields>
 </query>
 ```
@@ -574,7 +621,8 @@ REST провайдер выполняет http запросы к backend сер
   </filters>
 
   <fields>
-    <field id="name" sorting-expression="sort=name:{direction}"/>
+    <field id="name"
+           sorting="true" sorting-expression="sort=name:{direction}"/>
   </fields>
 </query>
 ```
@@ -615,7 +663,7 @@ GraphQl провайдер позволяет выполнять GraphQl зап�
   </filters>
 
   <fields>
-    <field id="id" sorting-expression="{ name: $$nameDir }" sorting-mapping="['nameDir']"/>
+    <field id="id" sorting="true" sorting-expression="{ name: $$nameDir }" sorting-mapping="['nameDir']"/>
 
     <field id="name"/>
 
@@ -792,7 +840,7 @@ MongoDB провайдер выполняет запросы к MongoDB базе
         <field id="id" mapping="['_id'].toString()" select-expression="_id"
                 sorting="true" domain="string"/>
         <field id="name" select-expression="name" domain="string"
-            sorting-mapping="['sortName']" sorting-expression="name :sortName"/>
+               sorting="true" sorting-mapping="['sortName']" sorting-expression="name :sortName"/>
         <field id="birthday" domain="localdate"/>
     </fields>
 </query>
@@ -844,11 +892,11 @@ MongoDB провайдер выполняет запросы к MongoDB базе
 <!-- трансформируется в -->
 <filters>
     <like field-id="name" filter-id="nameLike">{ name: { $regex: '.*#nameLike.*'}}</like>
-    <likeStart field=id="name" filter-id="nameStart">{ name: {$regex: '#nameStart.*'}}</likeStart>
+    <likeStart field-id="name" filter-id="nameStart">{ name: {$regex: '#nameStart.*'}}</likeStart>
 </filters>
 
-<field id="name" select-epression="name"
-            sorting-expression="name :nameDirection" domain="string"/>
+<field id="name" select-expression="name" domain="string"
+       sorting="true" sorting-expression="name :nameDirection"/>
 
 <!-- Для даты тело фильтров необходимо прописывать самостоятельно -->
 <filters>
@@ -859,7 +907,7 @@ MongoDB провайдер выполняет запросы к MongoDB базе
 <field id="birthday" domain="localdate"/>
 ```
 
-```xml title="Выполнение операции Mongo DB провайдером"
+```xml title="Выполнение операции MongoDB провайдером"
 <operation id="create">
   <invocation>
     <mongodb collection-name="person" operation="insertOne"/>
@@ -1154,7 +1202,6 @@ Java провайдеры в качестве альтернативы могу�
     </graphql>
    </list>
 
-  <!-- при указании тела в фильтре оно будет добавлено в $$filters плейсхолдер -->
   <filters>
     <eq field-id="score" filter-id="score">{ score: {gt: $$score} }</eq>
     <eq field-id="completed" filter-id="completed">{ completed: $$completed }</eq>
@@ -1176,8 +1223,9 @@ Java провайдеры в качестве альтернативы могу�
   </list>
   <fields>
       <!-- Маппинг определяет ключ "sortUserAge" в который будет скопировано значение фильтра поля "userAge" -->
-      <field id="userAge" domain="integer" sorting-mapping="['sortUserAge']"
-            sorting-expression="age :sortUserAge"/>
+      <field id="userAge" domain="integer"
+             sorting="true" sorting-mapping="['sortUserAge']"
+             sorting-expression="age :sortUserAge"/>
   </fields>
 </query>
 ```
@@ -1546,11 +1594,11 @@ class MyEntity {
 <fields>
     <field id="orgId" mapping="['id']"/>
 
-    <list id="orgDepartments" mapping="['departments']>
+    <list id="orgDepartments" mapping="['departments']">
         <field id="depName" mapping="['name']"/>
         <reference id="depManager" mapping="['manager']">
-            <field id="managerId" mapping="['id']/>
-            <field id="managerName" mapping="['name']/>
+            <field id="managerId" mapping="['id']"/>
+            <field id="managerName" mapping="['name']"/>
         </reference>
     </list>
 </fields>
@@ -1560,11 +1608,12 @@ class MyEntity {
 
 При использовании вложенных полей также следует учитывать порядок маппинга и нормализации
 дочернего и родительского поля, так как в процессе нормализации поля обрабатываемый объект может изменяться.
+
 Порядок маппинга и нормализации сложных полей:
 - Маппинг родительского поля
 - Нормализация родительского поля
 - Маппинг дочернего поля
-- Нормализация родительского поля
+- Нормализация дочернего поля
 
 :::
 
