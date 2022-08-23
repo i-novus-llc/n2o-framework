@@ -5,6 +5,7 @@ import net.n2oapp.framework.sandbox.cases.persons.Person;
 import net.n2oapp.framework.sandbox.cases.persons.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,9 +20,9 @@ public class PersonService {
 
     public Page<Person> getList(PersonCriteria criteria) {
         if (criteria.getFirstName() != null) {
-            return repository.findAll(criteria, criteria.getFirstName());
+            return repository.findAll(PageRequest.of(criteria.getPage(), criteria.getSize()), criteria.getFirstName());
         } else {
-            return repository.findAll(criteria);
+            return repository.findAll(PageRequest.of(criteria.getPage(), criteria.getSize()));
         }
     }
 
