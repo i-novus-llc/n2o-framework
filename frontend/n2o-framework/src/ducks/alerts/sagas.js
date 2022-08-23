@@ -1,16 +1,13 @@
 import { call, put, select, takeEvery, all, delay } from 'redux-saga/effects'
+import take from 'lodash/take'
 
 import { addAlert, addMultiAlerts, removeAlert, alertsByKeySelector } from './store'
+import { ALLOWED_ALERTS_QUANTITY } from './constants'
 
 function getStopped(alertsByKey, targetId) {
-    if (!alertsByKey.length) {
-        return null
-    }
+    const alertProps = alertsByKey?.find(({ id }) => id === targetId)
 
-    const alertProps = alertsByKey
-        .find(({ id }) => id === targetId)
-
-    return alertProps.stopped
+    return alertProps ? alertProps.stopped : true
 }
 
 export function* removeAlertSideEffect(action, alert, timeout) {
@@ -26,8 +23,10 @@ export function* removeAlertSideEffect(action, alert, timeout) {
 
 export function* addAlertSideEffect(config, action) {
     try {
-        const { alerts } = action.payload
+        const { alerts: incomingAlerts } = action.payload
         let effects = []
+
+        const alerts = take(incomingAlerts, ALLOWED_ALERTS_QUANTITY)
 
         for (let i = 0; i < alerts.length; i++) {
             const timeout = yield call(getTimeout, alerts[i], config)

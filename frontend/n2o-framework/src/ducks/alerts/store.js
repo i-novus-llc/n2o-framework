@@ -1,9 +1,21 @@
 // TODO: Дописать тесты которых не хватает, если таковые имеются
 import { createSlice, createSelector } from '@reduxjs/toolkit'
+import take from 'lodash/take'
 
-import { id } from '../../utils/id'
+import { ALLOWED_ALERTS_QUANTITY } from './constants'
 
 export const initialState = {}
+
+const setAlertsToStore = (state, action) => {
+    const { key, alerts } = action.payload
+
+    if (!state[key]) {
+        state[key] = []
+    }
+
+    state[key].unshift(...alerts)
+    state[key] = take(state[key], ALLOWED_ALERTS_QUANTITY)
+}
 
 const alertsSlice = createSlice({
     name: 'n2o/alerts',
@@ -18,7 +30,7 @@ const alertsSlice = createSlice({
              */
             prepare(alertStoreKey, alert) {
                 return ({
-                    payload: { key: alertStoreKey, alert },
+                    payload: { key: alertStoreKey, alerts: [alert] },
                 })
             },
 
@@ -29,17 +41,7 @@ const alertsSlice = createSlice({
              * @param {string} action.type
              * @param {AlertsStore.addPayload} action.payload
              */
-            reducer(state, action) {
-                const { key, alert } = action.payload
-
-                const resolveAlert = { ...alert, id: id() }
-
-                if (!state[key]) {
-                    state[key] = []
-                }
-
-                state[key].push(resolveAlert)
-            },
+            reducer: setAlertsToStore,
         },
 
         ADD_MULTI: {
@@ -62,11 +64,7 @@ const alertsSlice = createSlice({
              * @param {string} action.type
              * @param {AlertsStore.addMultiPayload} action.payload
              */
-            reducer(state, action) {
-                const { key, alerts } = action.payload
-
-                state[key] = alerts
-            },
+            reducer: setAlertsToStore,
         },
 
         REMOVE: {

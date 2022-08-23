@@ -8,35 +8,31 @@ import { Alerts } from '../snippets/Alerts/Alerts'
 import { STORE_KEY_PATH, SUPPORTED_PLACEMENTS } from '../../ducks/alerts/constants'
 import { removeAlert, stopRemoving } from '../../ducks/alerts/store'
 
+const getTimestamp = (time) => {
+    if (!time) {
+        return null
+    }
+
+    let timestamp = moment(time).fromNow()
+
+    if (timestamp === 'несколько секунд назад') {
+        timestamp = 'только что'
+    }
+
+    return timestamp
+}
+
 /**
  * Глобальные алерты
  * @returns {JSX.Element}
  * @param isoTime
  */
 
-export function GlobalAlerts({ alerts = [], onDismiss, stopRemoving }) {
-    const mappedAlerts = alerts.map((alertsGroup) => {
-        /* 1 alert в каждом поддерживаемом placement
-           до реализации stacked */
-        const alert = alertsGroup[0]
-
+export function GlobalAlerts({ alerts = [[]], onDismiss, stopRemoving }) {
+    const mappedAlerts = alerts.flat().map((alert) => {
         const { time, id } = alert
 
         const storeKey = alert[STORE_KEY_PATH]
-
-        const getTimestamp = (time) => {
-            if (!time) {
-                return null
-            }
-
-            let timestamp = moment(time).fromNow()
-
-            if (timestamp === 'несколько секунд назад') {
-                timestamp = 'только что'
-            }
-
-            return timestamp
-        }
 
         return {
             ...alert,
