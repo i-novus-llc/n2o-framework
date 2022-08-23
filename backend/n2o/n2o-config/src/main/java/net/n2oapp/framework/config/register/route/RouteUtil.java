@@ -245,7 +245,7 @@ public abstract class RouteUtil {
     public static String absolute(String relativeRoute, String baseRoute) {
         if (!isApplicationUrl(relativeRoute))
             return relativeRoute;
-        if (relativeRoute.startsWith("/"))
+        if (relativeRoute.startsWith("/") || relativeRoute.startsWith("."))
             return relativeRoute;
         return join(baseRoute, relativeRoute);
     }
