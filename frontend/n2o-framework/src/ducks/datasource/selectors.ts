@@ -4,6 +4,7 @@ import { modelsSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import type { State as GlobalState } from '../State'
 import type { State as ModelsState } from '../models/Models'
+import { ValidationsKey } from '../../core/validation/IValidation'
 
 export const dataSourcesSelector = (state: GlobalState) => state.datasource
 
@@ -53,9 +54,12 @@ export const dataSourceCountSelector = (sourceId: string) => createSelector(
     state => state.count,
 )
 
-export const dataSourceValidationSelector = (sourceId: string) => createSelector(
+export const dataSourceValidationSelector = (
+    sourceId: string,
+    validationsKey: ValidationsKey = ValidationsKey.Validations,
+) => createSelector(
     dataSourceByIdSelector(sourceId),
-    state => state.validations,
+    state => state[validationsKey],
 )
 
 export const getDataSourceFieldValidation = (sourceId: string, fieldId: string) => createSelector(
