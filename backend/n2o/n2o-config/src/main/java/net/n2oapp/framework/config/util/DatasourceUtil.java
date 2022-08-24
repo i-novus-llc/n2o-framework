@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.List;
@@ -48,7 +49,9 @@ public class DatasourceUtil {
      * @return Идентификатор клиентского источника данных
      */
     public static String getClientDatasourceId(String datasourceId, CompileContext context, CompileProcessor p) {
-        if (context instanceof PageContext) {
+        DataSourcesScope datasourcesScope = p.getScope(DataSourcesScope.class);
+        boolean inCurrentPage = datasourcesScope.containsKey(datasourceId);
+        if (context instanceof PageContext && !inCurrentPage) {
             // проверка, что источник данных прокинут с родительской страницы
             PageContext pageContext = (PageContext) context;
             Optional<N2oAbstractDatasource> parentDatasource = Optional.ofNullable(pageContext.getParentDatasources()).map(m -> m.get(datasourceId));
