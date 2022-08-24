@@ -30,7 +30,7 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
             return source;
         if (source.getFields() != null) {
             for (AbstractField field : source.getFields()) {
-                if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
+                if (!Boolean.FALSE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
                     transformSelect(field);
                 if (field instanceof QuerySimpleField)
                     transformSimpleField(((QuerySimpleField) field));
