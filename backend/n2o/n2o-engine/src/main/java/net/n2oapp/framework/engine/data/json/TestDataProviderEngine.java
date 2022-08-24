@@ -406,6 +406,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 case "eqOrIsNull":
                     data = eqOrIsNullFilterData(field, pattern, data);
                     break;
+                case "contains":
+                    data = containsFilterData(field, pattern, data);
+                    break;
                 default:
                     throw new N2oException("Wrong filter type!");
             }
@@ -481,6 +484,31 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     })
                     .collect(Collectors.toList());
         }
+        return data;
+    }
+
+    private List<DataSet> containsFilterData(String field, Object pattern, List<DataSet> data) {
+        List<?> patterns = pattern instanceof List ? (List<?>) pattern : Collections.singletonList(pattern);
+        if (patterns.isEmpty())
+            return data;
+        List<String> splittedField = new ArrayList<>(Arrays.asList(field.split("\\.")));
+        if (splittedField.size() == 1)
+            return Collections.emptyList();
+        String indexedField = splittedField.remove(splittedField.size() - 1);
+        String parentField = String.join(".", splittedField);
+        data = data
+                .stream()
+                .filter(m -> {
+                    if (!m.containsKey(parentField) || !(m.get(parentField) instanceof List))
+                        return false;
+                    List<Object> mappedData = m.getList(parentField)
+                            .stream()
+                            .filter(DataSet.class::isInstance)
+                            .map(d -> ((DataSet) d).get(indexedField))
+                            .collect(Collectors.toList());
+                    return mappedData.containsAll(patterns);
+                })
+                .collect(Collectors.toList());
         return data;
     }
 

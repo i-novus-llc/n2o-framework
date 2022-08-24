@@ -222,8 +222,7 @@
         </xs:attribute>
         <xs:attribute name="normalize" type="dmn:domainType" use="optional">
             <xs:annotation>
-                <xs:documentation>Тип, в который будет конвертировано значение при отправке в провайдер.
-                    По умолчанию эквивалентен domain от field с преобразованием в список для множественных типов.</xs:documentation>
+                <xs:documentation>Выражение для предварительного преобразования входных данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="required" type="xs:boolean" use="optional">
