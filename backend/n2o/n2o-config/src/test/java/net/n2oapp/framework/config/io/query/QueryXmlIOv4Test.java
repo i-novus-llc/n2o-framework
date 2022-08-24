@@ -18,7 +18,6 @@ public class QueryXmlIOv4Test {
 
         assert tester.check("net/n2oapp/framework/config/io/query/testQueryIOv4.query.xml",
                 (N2oQuery query) -> {
-                    assert query.getName().equals("query 4");
                     assert query.getObjectId().equals("blank");
                 });
     }

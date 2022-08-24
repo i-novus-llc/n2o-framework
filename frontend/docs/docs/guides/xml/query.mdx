@@ -3,7 +3,7 @@ title: Выборка
 description: ""
 ---
 
-**Тип метаданных** `query`
+Тип метаданных `query`
 
 **Библиотека компонентов**
 
@@ -14,7 +14,6 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 |Наименование|Тип                                |Описание            |Значение по умолчанию|
 |------------|-----------------------------------|--------------------|---------------------|
-|name        |Строка                             |Наименование выборки|                     |
 |object-id   |Ссылка на [объект](../xml/object)  |Объект выборки      |                     |
 |route       |Строка                             |URL выборки         |Идентификатор выборки|
 
@@ -30,22 +29,22 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-  object-id="myObject"
-  name="Моя выборка">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
+  object-id="myObject">
   <list>
     <sql>SELECT :select FROM mytable WHERE :filters ORDER BY :sorting LIMIT :limit OFFSET :offset</sql>
   </list>
   <count>
     <sql>SELECT count(*) FROM mytable WHERE :filters</sql>
   </count>
+
   <fields>
     ...
   </fields>
 </query>
 ```
 
-### &lt;list&gt; {#list}
+## &lt;list&gt; {#list}
 
 Получение списка записей по определенным фильтрам.
 
@@ -60,7 +59,6 @@ http://n2oapp.net/framework/config/schema/query-5.0
 |Наименование    |Тип                              |Описание                                                                                                      |Значение по умолчанию                                   |
 |----------------|---------------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
 |filters         |Идентификаторы через запятую     |Идентификаторы фильтров (`filter-id`). При наличии хотя бы одного из фильтров сработает этот провайдер данных.|                                                        |
-|mapper          |dataset, spel, javascript, groovy|Способ маппинга фильтров в параметры провайдера                                                               |dataset                                                 |
 |count-mapping   |Строка                           |Маппинг общего количества записей                                                                             |Для каждого провайдера данных свои значения по умолчанию|
 |result-mapping  |Строка                           |Маппинг списка результатов                                                                                    |Для каждого провайдера данных свои значения по умолчанию|
 |result-normalize|Строка                           |Нормализация списка результатов                                                                               |                                                        |
@@ -79,21 +77,19 @@ http://n2oapp.net/framework/config/schema/query-5.0
           OR last_name '%'||:last_name
   </sql>
 </list>
+
+<filters>
+  <like filter-id="firstNameLike" field-id="firstName" mapping="first_name"/>
+  <like filter-id="lastNameLike" field-id="lastName" mapping="last_name"/>
+</filters>
+
 <fields>
-  <field id="firstName">
-    <filters>
-      <like filter-id="firstNameLike" mapping="first_name"/>
-    </filters>
-  </filed>
-  <field id="lastName">
-    <filters>
-      <like filter-id="lastNameLike" mapping="last_name"/>
-    </filters>
-  </filed>
+  <field id="firstName"/>
+  <field id="lastName"/>
 </fields>
 ```
 
-### &lt;count&gt; {#count}
+## &lt;count&gt; {#count}
 
 Получение количества записей.
 
@@ -108,7 +104,6 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 |Наименование |Тип                              |Описание                                                                                                      |Значение по умолчанию                                   |
 |-------------|---------------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
-|mapper       |dataset, spel, javascript, groovy|Способ маппинга фильтров в параметры провайдера                                                               |dataset                                                 |
 |count-mapping|Строка                           |Маппинг общего количества записей                                                                             |Для каждого провайдера данных свои значения по умолчанию|
 |filters      |Идентификаторы через запятую     |Идентификаторы фильтров (`filter-id`). При наличии хотя бы одного из фильтров сработает этот провайдер данных.|                                                        |
 
@@ -124,7 +119,7 @@ http://n2oapp.net/framework/config/schema/query-5.0
 </count>
 ```
 
-### &lt;unique&gt; {#unique}
+## &lt;unique&gt; {#unique}
 
 Получение уникальной записи по определенным фильтрам.
 
@@ -139,7 +134,6 @@ http://n2oapp.net/framework/config/schema/query-5.0
 |Наименование    |Тип                              |Описание                                                                                                      |Значение по умолчанию                                   |
 |----------------|---------------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
 |filters         |Идентификаторы через запятую     |Идентификаторы фильтров (`filter-id`). При наличии хотя бы одного из фильтров сработает этот провайдер данных.|                                                        |
-|mapper          |dataset, spel, javascript, groovy|Способ маппинга фильтров в параметры провайдера                                                               |dataset                                                 |
 |result-mapping  |Строка                           |Маппинг результата                                                                                            |Для каждого провайдера данных свои значения по умолчанию|
 |result-normalize|Строка                           |Нормализация результата                                                                                       |                                                        |
 
@@ -156,16 +150,17 @@ http://n2oapp.net/framework/config/schema/query-5.0
        WHERE id = :id
   </sql>
 <unique>
+
+<filters>
+  <eq filter-id="id" field-id="id"/>
+</filters>
+
 <fields>
-  <field id="id">
-    <filters>
-      <eq/>
-    </filters>
-  </field>
+  <field id="id"/>
 </fields>
 ```
 
-### &lt;fields&gt; {#fields}
+## &lt;fields&gt; {#fields}
 
 Поля выборки
 
@@ -175,25 +170,25 @@ http://n2oapp.net/framework/config/schema/query-5.0
 [Составное поле](../xml/query#reference),
 [Списковое поле](../xml/query#list-field)
 
-#### &lt;field&gt; {#field}
+### &lt;field&gt; {#field}
 
 Простое поле выборки
 
 **Атрибуты**
 
-|Наименование       |Тип                                        |Описание                                                             |Значение по умолчанию                   |
-|-------------------|-------------------------------------------|---------------------------------------------------------------------|----------------------------------------|
-|id                 |Строка                                     |Идентификатор поля                                                   |                                        |
-|name               |Строка                                     |Наименование поля                                                    |Наименование аналогичного поля в объекте|
-|domain             |[Тип данных](../xml/base#Data_types_domain)|Тип данных                                                           |string                                  |
-|default-value      |Строка                                     |Значение, которое проставится в поле, если в провайдере оно пустое   |                                        |
-|sorting            |true false                                 |Является ли поле сортируемым                                         |false                                   |
-|sorting-mapping    |Строка                                     |Маппинг плейсхолдера направления сортировки в провайдере             |По умолчанию [fieldId]Direction         |
-|sorting-expression |Строка                                     |Выражение, определяющее как сортировать это поле выборки в провайдере|                                        |
-|mapping            |Строка                                     |Маппинг данных поля из провайдера                                    |Cовпадает с id                          |
-|normalize          |Строка                                     |Нормализация данных поля из провайдера                               |                                        |
-|select             |true false                                 |Участвует ли поле в резолве плейсхолдера select                      |true                                    |
-|select-expression  |Строка                                     |Выражение для подстановки на место плейсхолдера select в провайдере  |                                        |
+|Наименование       |Тип                                        |Описание                                                             |Значение по умолчанию                         |
+|-------------------|-------------------------------------------|---------------------------------------------------------------------|----------------------------------------------|
+|id                 |Строка                                     |Идентификатор поля                                                   |                                              |
+|name               |Строка                                     |Наименование поля                                                    |Наименование аналогичного поля в объекте      |
+|domain             |[Тип данных](../xml/base#Data_types_domain)|Тип данных                                                           |string                                        |
+|default-value      |Строка                                     |Значение, которое проставится в поле, если в провайдере оно пустое   |                                              |
+|sorting            |true false                                 |Является ли поле сортируемым                                         |false. Если задан sorting-expression, то true |
+|sorting-mapping    |Строка                                     |Маппинг плейсхолдера направления сортировки в провайдере             |По умолчанию [fieldId]Direction               |
+|sorting-expression |Строка                                     |Выражение, определяющее как сортировать это поле выборки в провайдере|                                              |
+|mapping            |Строка                                     |Маппинг данных поля из провайдера                                    |Cовпадает с id                                |
+|normalize          |Строка                                     |Нормализация данных поля из провайдера                               |                                              |
+|select             |true false                                 |Участвует ли поле в выборке                                          |true                                          |
+|select-expression  |Строка                                     |Выражение для подстановки на место плейсхолдера select в провайдере  |                                              |
 
 **Пример**
 
@@ -201,7 +196,7 @@ http://n2oapp.net/framework/config/schema/query-5.0
 <field id="myName" mapping="['name']" default-value="user" normalize="#this.toUpperCase()"/>
 ```
 
-#### &lt;reference&gt; {#reference}
+### &lt;reference&gt; {#reference}
 
 Составное поле выборки
 
@@ -214,7 +209,7 @@ http://n2oapp.net/framework/config/schema/query-5.0
 |normalize          |Строка                                     |Нормализация данных поля из провайдера                               |                                        |
 |select             |true false                                 |Участвует ли поле в выборке                                          |true                                    |
 |select-expression  |Строка                                     |Выражение для подстановки на место плейсхолдера select в провайдере  |                                        |
-|select-key         |Строка                                     |Ключ для резолва плейсхолдера в в select-expression                  |                                        |
+|select-key         |Строка                                     |Ключ для резолва плейсхолдера в select-expression                    |                                        |
 
 **Тело**
 
@@ -232,7 +227,7 @@ http://n2oapp.net/framework/config/schema/query-5.0
 </reference>
 ```
 
-#### &lt;list&gt; {#list-field}
+### &lt;list&gt; {#list-field}
 
 Списковое поле выборки
 
@@ -243,9 +238,9 @@ http://n2oapp.net/framework/config/schema/query-5.0
 |id                 |Строка                                     |Идентификатор поля                                                   |                                        |
 |mapping            |Строка                                     |Маппинг данных поля из провайдера                                    |Cовпадает с id                          |
 |normalize          |Строка                                     |Нормализация данных поля из провайдера                               |                                        |
-|select             |true false                                 |Участвует ли поле в резолве плейсхолдера select                      |true                                    |
+|select             |true false                                 |Участвует ли поле в выборке                                          |true                                    |
 |select-expression  |Строка                                     |Выражение для подстановки на место плейсхолдера select в провайдере  |                                        |
-|select-key         |Строка                                     |Ключ для резолва плейсхолдера в в select-expression                  |                                        |
+|select-key         |Строка                                     |Ключ для резолва плейсхолдера в select-expression                    |                                        |
 
 **Тело**
 
@@ -263,7 +258,7 @@ http://n2oapp.net/framework/config/schema/query-5.0
 </list>
 ```
 
-##### &lt;filters&gt; {#filters}
+## &lt;filters&gt; {#filters}
 
 Способы фильтрации полей выборки.
 
@@ -284,7 +279,7 @@ http://n2oapp.net/framework/config/schema/query-5.0
 |&lt;notIn&gt;     |Выражение|Фильтр не вхождения в список            |                     |
 |&lt;isNotNull&gt; |Выражение|Фильтр не пустого поля                  |                     |
 
-Базовые **Атрибуты**
+**Базовые атрибуты**
 
 |Наименование |Тип                                        |Описание                                                                                                  |Значение по умолчанию                                                                |
 |-------------|-------------------------------------------|----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
@@ -302,7 +297,6 @@ http://n2oapp.net/framework/config/schema/query-5.0
   <eq field-id="gender.id" mapping="gender_id"
     default-value="1">gender_id = :gender_id</eq>
   <in field-id="genders" filter-id="genders*.id"
-    mapping="genders"
     domain="integer[]">gender_id in (:genders)</in>
   <like field-id="gender.name" filter-id="gender.name" domain="string" normalize="#this.toLowerCase()"/>
 </filters>
