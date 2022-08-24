@@ -18,7 +18,6 @@ description: ""
 `<sidebar>`, отображающихся в зависимости от url страницы, который должен соответствовать атрибуту `path`.
 
 *Пример как работало в схемах application-1.0 и application-2.0*
-
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
@@ -48,11 +47,12 @@ description: ""
 </application>
 ```
 
-- Добавлена новая схема `query-5.0`. Чтобы перейти на новую схему, нужно все фильтры полей вынести в новый тэг `<filters>`,
-указав при этом в новом атрибуте `field-id` фильтра значение идентификатора поля, соответствующего данному фильтру.
+- Добавлена новая схема `query-5.0`. Чтобы перейти на новую схему нужно:
+
+Все фильтры полей вынести в новый тэг `<filters>`,
+указав при этом в атрибуте `field-id` фильтра значение идентификатора поля, соответствующего данному фильтру.
 
 *Пример как работало в схеме query-4.0*
-
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
@@ -79,7 +79,8 @@ description: ""
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
-
+    <!-- фильтры вынесены отдельно от полей -->
+    <!-- для привязки к полю укажите field-id -->
     <filters>
         <eq field-id="id" filter-id="id"/>
         <eq field-id="name" filter-id="nameEq"/>
@@ -93,14 +94,14 @@ description: ""
 </query>
 ```
 
-Атрибуты `mapping`, `default-value` и `normalize` элемента `<select>` необходимо перенести в `<field>`,
-текст из элемента `<select>` переносится в новый атрибут `select-expression` тега `<field>`. В новой схеме все поля по
-умолчанию участвуют в выборке(задается настройкой `n2o.api.query.field.is_selected`), поэтому при переходе на `query-5.0`-схему
-во всех элементах `<field>`, с отсутствующим тегом `<select>`, необходимо прописать `select="false"`. После указанных преобразований
-элемент `<select>` должен быть удален из поля.
+Атрибуты `mapping`, `default-value` и `normalize` элемента `<select>` необходимо перенести в `<field>`.
+Тело элемента `<select>` переносится в атрибут `select-expression`.
+
+В новой схеме все поля по умолчанию участвуют в выборке.
+Поэтому во всех элементах `<field>` с отсутствующим тегом `<select>` необходимо прописать `select="false"`.
+После указанных преобразований элемент `<select>` должен быть удален из поля.
 
 *Пример как работало в схеме query-4.0*
-
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
@@ -109,6 +110,7 @@ description: ""
         <field id="personName">
             <select mapping="['name']" default-value="unknown" normalize="#this.toUpperCase()">name: $$name</select>
         </field>
+        <!-- поле не участвует в выборке -->
         <field id="personAge"/>
     </fields>
 </query>
@@ -122,16 +124,18 @@ description: ""
     <fields>
         <field id="personName" mapping="['name']" select-expression="name: $$name"
                     default-value="unknown" normalize="#this.toUpperCase()"/>
+        <!-- поле не участвует в выборке (задан select="false") -->
         <field id="personAge" select="false"/>
     </fields>
 </query>
 ```
 
-Значение атрибута `mapping` элемента `<sorting>` также необходимо перенести в атрибут `sorting-mapping` тега `<field>`,
-текст из элемента `<sorting>` - в атрибут `sorting-expression`. В новой схеме все поля по умолчанию не являются сортируемыми
-(задается настройкой `n2o.api.query.field.is_sorted`), поэтому при переходе на `query-5.0`-схему во всех элементах `<field>`,
-с указанным тегом `<sorting>`, необходимо прописать `sorting="true"`. После указанных преобразований
-элемент `<sorting>` должен быть удален из поля.
+Значение атрибута `mapping` элемента `<sorting>` переносится в атрибут `sorting-mapping` тега `<field>`.
+Тело элемента `<sorting>` переносится в атрибут `sorting-expression`.
+
+В новой схеме все поля по умолчанию не являются сортируемыми (как и раньше).
+Поэтому во всех элементах `<field>` с указанным тегом `<sorting>` необходимо прописать `sorting="true"`.
+После указанных преобразований элемент `<sorting>` должен быть удален из поля.
 
 *Пример как работало в схеме query-4.0*
 
@@ -162,8 +166,9 @@ description: ""
 </query>
 ```
 
-Также в новой схеме группы полей, использующих точку в `mapping` элемента `<select>` (или по умолчанию в идентификаторе), например
-`mapping="['employee.name']"` и `mapping="['employee.age']"` или `id="cars.id"` и `id="cars.price"` можно объединять в
+Также в новой схеме введена возможность задавать иерархию полей с помощью элементов `<field>`, `<reference>`, `<list>`.
+Группы полей, использующих точку в `mapping` элемента `<select>` (или по умолчанию в идентификаторе), например
+`mapping="['employee.name']"` и `mapping="['employee.age']"` или `id="cars.id"` и `id="cars.price"` можно задавать как
 `<reference>` и `<list>` поля.
 
 *Пример как работало в схеме query-4.0*

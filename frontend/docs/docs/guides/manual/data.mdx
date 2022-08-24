@@ -286,7 +286,7 @@ query MyQuery {
 В атрибуте `sorting-expression` указывается выражение для отправки.
 
 ```xml title="Задание выражения сортировки поля"
-<field id="name" sorting="true" sorting-expression="name :direction" sorting-mapping="['direction']"/>
+<field id="name" sorting-expression="name :direction" sorting-mapping="['direction']"/>
 ```
 Переменная `:direction` содержит в себе направление сортировки: `ASC` или `DESC`.
 Название переменной можно сменить с помощью атрибута `sorting-mapping`.
@@ -326,7 +326,7 @@ __*Типы фильтраций*__
 ```xml title="Задание фильтров в выборке"
 <filters>
   <!-- Фильтр по "eq" -->
-  <eq field-id="gender.id">...</eq>
+  <eq field-id="gender.id" filter-id="gender.id">...</eq>
   <!-- Фильтр по "in" -->
   <in field-id="gender.id" filter-id="genders*.id">...</in>
 </filters>
@@ -335,11 +335,7 @@ __*Типы фильтраций*__
 <Sandbox height={700} projectId="data_query_list_filters" />
 
 Для фильтра обязательным является атрибут `field-id`, в котором указывается идентификатор поля выборки,
-по которому будет осуществлена фильтрация.
-:::note
-По умолчанию `filter-id` эквивалентен `field-id`.
-:::
-
+по которому будет осуществлена фильтрация. Атрибут `filter-id`используется для указания поля фильтра на странице.
 
 Для того чтобы сослаться на вложенное поле, необходимо использовать "точку"
 в качестве разделителя идентификаторов родительского и дочернего полей.
@@ -348,8 +344,8 @@ __*Типы фильтраций*__
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <filters>
-        <eq field-id="code">...</eq>
-        <more field-id="person.birthday">...</more>
+        <eq field-id="code" filter-id="code">...</eq>
+        <more field-id="person.birthday" filter-id="birthday">...</more>
     </filters>
 
     <fields>
@@ -367,7 +363,7 @@ __*Типы фильтраций*__
 
 ```xml title="Задание выражения фильтрации"
 <filters>
-  <eq field-id="id">t.id = :id</eq>
+  <eq field-id="id" filter-id="id">t.id = :id</eq>
 </filters>
 ```
 
@@ -486,8 +482,8 @@ __*Типы фильтраций*__
 <query>
   ...
   <filters>
-    <eq field-id="id"/>
-    <like field-id="name"/>
+    <eq field-id="id" filter-id="id"/>
+    <like field-id="name" filter-id="name"/>
   </filters>
 
   <fields>
@@ -570,12 +566,12 @@ SQL провайдер позволяет выполнять SQL запросы 
   </count>
 
   <filters>
-    <eq field-id="name">name = :name</eq>
+    <eq field-id="name" filter-id="name">name = :name</eq>
   </filters
 
   <fields>
     <field id="name" select-expression="name"
-           sorting="true" sorting-expression="name :direction"/>
+           sorting-expression="name :direction"/>
   </fields>
 </query>
 ```
@@ -617,12 +613,11 @@ REST провайдер выполняет http запросы к backend сер
   </unique>
 
   <filters>
-    <eq field-id="name">name={name}</eq>
+    <eq field-id="name" filter-id="name">name={name}</eq>
   </filters>
 
   <fields>
-    <field id="name"
-           sorting="true" sorting-expression="sort=name:{direction}"/>
+    <field id="name" sorting-expression="sort=name:{direction}"/>
   </fields>
 </query>
 ```
@@ -659,11 +654,11 @@ GraphQl провайдер позволяет выполнять GraphQl зап�
   </list>
 
   <filters>
-    <eq field-id="name">{ name: {eq: $$name} }</eq>
+    <eq field-id="name" filter-id="name">{ name: {eq: $$name} }</eq>
   </filters>
 
   <fields>
-    <field id="id" sorting="true" sorting-expression="{ name: $$nameDir }" sorting-mapping="['nameDir']"/>
+    <field id="id" sorting-expression="{ name: $$nameDir }" sorting-mapping="['nameDir']"/>
 
     <field id="name"/>
 
@@ -808,7 +803,7 @@ MongoDB провайдер выполняет запросы к MongoDB базе
     </count>
 
     <filters>
-        <eq field-id="id"/>
+        <eq field-id="id" filter-id="id"/>
     </filters>
 
     <fields>
@@ -829,7 +824,7 @@ MongoDB провайдер выполняет запросы к MongoDB базе
     </list>
 
     <filters>
-        <eq field-id="id">{ _id: new ObjectId('#id') }</eq>
+        <eq field-id="id" filter-id="id">{ _id: new ObjectId('#id') }</eq>
         <like field-id="name" filter-id="nameLike" mapping="['nameLikeMap']">{ name: { $regex: '.*#nameLikeMap.*'}}</like>
         <likeStart field-id="name" filter-id="nameStart">{ name: {$regex: '#nameStart.*'}}</likeStart>
         <more field-id="birthday" filter-id="birthdayMore">{birthday: {$gte: new ISODate(#birthdayMore)}}</more>
@@ -840,7 +835,7 @@ MongoDB провайдер выполняет запросы к MongoDB базе
         <field id="id" mapping="['_id'].toString()" select-expression="_id"
                 sorting="true" domain="string"/>
         <field id="name" select-expression="name" domain="string"
-               sorting="true" sorting-mapping="['sortName']" sorting-expression="name :sortName"/>
+               sorting-mapping="['sortName']" sorting-expression="name :sortName"/>
         <field id="birthday" domain="localdate"/>
     </fields>
 </query>
@@ -878,7 +873,7 @@ MongoDB провайдер выполняет запросы к MongoDB базе
     <eq filter-id="id">{ _id: new ObjectId('#id') }</eq>
 </filters>
 
-<field id="id" mapping="['_id'].toString()" selext-epression="_id" domain="string"
+<field id="id" mapping="['_id'].toString()" select-expression="_id" domain="string"
             sorting-expression="_id :idDirection"/>
 
 <filters>
@@ -896,7 +891,7 @@ MongoDB провайдер выполняет запросы к MongoDB базе
 </filters>
 
 <field id="name" select-expression="name" domain="string"
-       sorting="true" sorting-expression="name :nameDirection"/>
+       sorting-expression="name :nameDirection"/>
 
 <!-- Для даты тело фильтров необходимо прописывать самостоятельно -->
 <filters>
@@ -1139,15 +1134,15 @@ Java провайдеры в качестве альтернативы могу�
 
   <filters>
   <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
-    <like field-id="firstName" mapping="['first_name']">
+    <like field-id="firstName" filter-id="firstName" mapping="['first_name']">
           t.first_name like '%'||:first_name||'%'
     </like>
   <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
-    <eq field-id="gender.id" mapping="['gender_id']">
+    <eq field-id="gender.id" filter-id="gender.id" mapping="['gender_id']">
           t.gender_id = :gender_id
     </eq>
   <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
-    <in field-id="gender.id" mapping="['genders']">
+    <in field-id="gender.id" filter-id="genders*.id" mapping="['genders']">
           t.gender_id in (:genders)
     </in>
   </filters>
@@ -1169,15 +1164,15 @@ Java провайдеры в качестве альтернативы могу�
 
   <filters>
   <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
-    <eq field-id="gender.id" mapping="['gender_id']">
+    <eq field-id="gender.id" filter-id="gender.id" mapping="['gender_id']">
           gender_id={gender_id}
     </eq>
   <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
-    <in field-id="gender.id" mapping="['genders']">
+    <in field-id="gender.id" filter-id="genders*.id" mapping="['genders']">
           gender_id_in={genders}
     </in>
   <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
-    <like field-id="firstName" mapping="['first_name']">
+    <like field-id="firstName" filter-id="firstName" mapping="['first_name']">
           first_name_like={first_name}
     </like>
   </filters>
@@ -1224,8 +1219,7 @@ Java провайдеры в качестве альтернативы могу�
   <fields>
       <!-- Маппинг определяет ключ "sortUserAge" в который будет скопировано значение фильтра поля "userAge" -->
       <field id="userAge" domain="integer"
-             sorting="true" sorting-mapping="['sortUserAge']"
-             sorting-expression="age :sortUserAge"/>
+             sorting-mapping="['sortUserAge']" sorting-expression="age :sortUserAge"/>
   </fields>
 </query>
 ```
