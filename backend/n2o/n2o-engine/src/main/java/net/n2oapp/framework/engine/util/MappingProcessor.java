@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
+import org.apache.commons.collections.ListUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.context.expression.MapAccessor;
@@ -196,6 +197,10 @@ public class MappingProcessor {
         if (normalizer == null)
             return value;
         StandardEvaluationContext context = new StandardEvaluationContext(value);
+        Arrays.stream(NormalizeUtil.class.getDeclaredMethods())
+                .forEach(f -> context.registerFunction(f.getName(), f));//FIXME
+        Arrays.stream(ListUtils.class.getDeclaredMethods())
+                .forEach(f -> context.registerFunction(f.getName(), f));//FIXME
         if (allData != null)
             context.setVariable("data", allData);
         if (beanFactory != null)
