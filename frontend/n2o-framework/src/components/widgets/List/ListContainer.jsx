@@ -8,7 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 
-import { modelsType } from '../../../core/widget/propTypes'
+import { modelsType } from '../../../core/datasource/propTypes'
 import withSecurity from '../../../core/auth/withSecurity'
 import withColumn from '../Table/withColumn'
 import TableCell from '../Table/TableCell'

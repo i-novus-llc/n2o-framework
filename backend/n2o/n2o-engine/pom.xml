@@ -9,7 +9,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.23.19-SNAPSHOT</version>
+        <version>7.23.23-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -149,12 +149,6 @@
             <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
 </project>

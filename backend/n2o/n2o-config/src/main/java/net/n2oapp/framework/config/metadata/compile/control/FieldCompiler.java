@@ -12,9 +12,10 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -59,11 +60,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setRefPage(p.cast(source.getRefPage(), N2oField.Page.THIS));
+        source.setRefPage(p.cast(source.getRefPage(), PageRef.THIS));
         source.setRefDatasourceId(p.cast(source.getRefDatasourceId(), () -> {
-            if (source.getRefPage().equals(N2oField.Page.THIS)) {
+            if (source.getRefPage().equals(PageRef.THIS)) {
                 return initLocalDatasourceId(p);
-            } else if (source.getRefPage().equals(N2oField.Page.PARENT)) {
+            } else if (source.getRefPage().equals(PageRef.PARENT)) {
                 if (context instanceof PageContext) {
                     return ((PageContext) context).getParentLocalDatasourceId();
                 } else {
@@ -220,13 +221,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(source.getId(), query);
             filters.forEach(f -> {
                 Filter filter = new Filter();
-                filter.setFilterId(f.getFilterField());
+                filter.setFilterId(f.getFilterId());
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientDatasourceId());
                 link.setSubModelQuery(subModelQuery);
-                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
+                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterId())));
                 link.setParam(filter.getParam());
                 link.setObserve(true);
                 filter.setLink(link);
@@ -460,7 +461,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
-            } else if (N2oField.Page.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
+            } else if (PageRef.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
                 ModelLink modelLink = getDefaultValueModelLink(source, context, p);
                 modelLink.setParam(source.getParam());
                 defaultValues.add(control.getId(), modelLink);
@@ -526,7 +527,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 
-        if (N2oField.Page.THIS.equals(source.getRefPage()))
+        if (PageRef.THIS.equals(source.getRefPage()))
             defaultValue.setObserve(true);
 
         return defaultValue;

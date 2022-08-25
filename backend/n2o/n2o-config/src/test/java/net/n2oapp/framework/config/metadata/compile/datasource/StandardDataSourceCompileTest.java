@@ -127,9 +127,11 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         dependency = ds.getDependencies().get(1);
         assertThat(dependency.getType(), is(DependencyType.copy));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.datasource));
         assertThat(dependency.getOn(), is("models.filter['p_w_a_detail'].source"));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.datasource));
         assertThat(((CopyDependency) dependency).getField(), is("target"));
+        assertThat(((CopyDependency) dependency).getSubmit(), is(true));
+        assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
     }
 
     @Test
