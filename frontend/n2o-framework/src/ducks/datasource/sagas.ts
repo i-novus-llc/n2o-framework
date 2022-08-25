@@ -15,12 +15,13 @@ import {
     changeSize,
     dataRequest,
     DATA_REQUEST,
+    register,
     remove,
     setSorting,
     startValidate,
     submit,
 } from './store'
-import { watchDependencies } from './sagas/dependencies'
+import { applyOnInitDependencies, watchDependencies } from './sagas/dependencies'
 import type { ChangePageAction, DataRequestAction, RemoveAction } from './Actions'
 import { submitSaga } from './sagas/submit'
 import { clear } from './Providers/Storage'
@@ -73,6 +74,7 @@ export default (apiProvider: unknown) => [
     takeEvery(submit, submitSaga, apiProvider),
     takeEvery(remove, removeSaga),
     takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
+    takeEvery(register, applyOnInitDependencies),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.refresh?.datasources, function* refreshSaga({ meta }) {
         const { refresh } = meta

@@ -180,6 +180,16 @@ public class MappingProcessor {
         return mappingMap;
     }
 
+    /**
+     * Нормализация значения по SpEL выражению
+     *
+     * @param value       Значение для нормализации
+     * @param normalizer  Нормализируещее выражение
+     * @param allData     Данные, используемые для нормализации
+     * @param parser      Парсер SpEL выражений
+     * @param beanFactory Фабрика бинов спринга
+     * @return Нормализированное значение
+     */
     public static Object normalizeValue(Object value, String normalizer, DataSet allData,
                                         ExpressionParser parser,
                                         BeanFactory beanFactory) {

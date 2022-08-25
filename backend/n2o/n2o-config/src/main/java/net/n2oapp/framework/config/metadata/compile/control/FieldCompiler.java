@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -221,13 +221,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(source.getId(), query);
             filters.forEach(f -> {
                 Filter filter = new Filter();
-                filter.setFilterId(f.getFilterField());
+                filter.setFilterId(f.getFilterId());
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientDatasourceId());
                 link.setSubModelQuery(subModelQuery);
-                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
+                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterId())));
                 link.setParam(filter.getParam());
                 link.setObserve(true);
                 filter.setLink(link);
