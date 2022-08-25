@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.widget.expanded_widget;
+package net.n2oapp.framework.autotest.condition.visibility.widget;
 
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
  * Автотест для проверки скрытия виджета по условию
  */
 
-public class ExpandedWidgetAT extends AutoTestBase {
+public class WidgetVisibilityAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -36,9 +36,9 @@ public class ExpandedWidgetAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/simple/test.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/expanded_widget/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/expanded_widget/test.query.xml"),
-        new CompileInfo("net/n2oapp/framework/autotest/widget/expanded_widget/test2.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/condition/visibility/widget/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/visibility/widget/test.query.xml"),
+        new CompileInfo("net/n2oapp/framework/autotest/condition/visibility/widget/test2.query.xml"));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ExpandedWidgetAT extends AutoTestBase {
         tableWidget.shouldBeVisible();
 
         exists.setChecked(false);
-        tableWidget.shouldNotBeVisible();
+        tableWidget.shouldBeHidden();
 
         exists.setChecked(true);
         tableWidget.shouldExists();

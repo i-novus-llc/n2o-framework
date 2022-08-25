@@ -27,9 +27,4 @@ public abstract class N2oComponent extends N2oElement implements Component {
     public void shouldBeHidden() {
         element().shouldBe(Condition.hidden);
     }
-
-    @Override
-    public void shouldNotBeVisible() {
-        element().shouldNotBe(Condition.visible);
-    }
 }
