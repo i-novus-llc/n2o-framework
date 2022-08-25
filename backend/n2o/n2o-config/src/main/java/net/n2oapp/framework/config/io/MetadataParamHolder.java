@@ -8,13 +8,13 @@ import java.util.Map;
  */
 public class MetadataParamHolder {
 
-    private static final ThreadLocal<Map<String, String>> threadLocalScope = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String, String[]>> threadLocalScope = new ThreadLocal<>();
 
-    public final static Map<String, String> getParams() {
+    public final static Map<String, String[]> getParams() {
         return threadLocalScope.get() == null ? Collections.emptyMap() : threadLocalScope.get();
     }
 
-    public final static void setParams(Map<String, String> params) {
+    public final static void setParams(Map<String, String[]> params) {
         threadLocalScope.set(params);
     }
 }

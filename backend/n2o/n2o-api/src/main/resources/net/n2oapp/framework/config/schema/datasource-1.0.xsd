@@ -299,6 +299,20 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="submit" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Вызов сохранения данных сразу после копирования
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="apply-on-init" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Срабатывание копирования при инициализации источника данных
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="fetchDefinition">

@@ -1,12 +1,13 @@
 import { takeEvery, put, select, debounce, delay } from 'redux-saga/effects'
-import { touch, actionTypes, focus, reset } from 'redux-form'
+import { touch, actionTypes, focus, reset, change } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import values from 'lodash/values'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
+import entries from 'lodash/entries'
+import isEmpty from 'lodash/isEmpty'
 import first from 'lodash/first'
-import { isEmpty } from 'lodash'
 
 import { setModel, copyModel, clearModel } from '../models/store'
 import {
@@ -18,6 +19,7 @@ import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
+import { generateFormFilterId } from '../../utils/generateFormFilterId'
 
 import { makeFormsByDatasourceSelector } from './selectors'
 import {
@@ -83,6 +85,20 @@ export function* copyAction({ payload }) {
     }
 
     yield put(setModel(target.prefix, target.key, newModel))
+
+    // костыль, тк я убрал резолв зависимостей на redux-form/INITIALIZE из-за беспорядочных вызовов,
+    // которые приводили к зацикливанию при applyOnInit: true и переинициализации, зависимости перестали вызываться
+    // после копирования
+    for (const [field, value] of entries(newModel)) {
+        if (get(targetModel, field) !== value) {
+            const form = target.prefix === ModelPrefix.filter ? generateFormFilterId(target.key) : target.key
+
+            yield put(change(form, field, {
+                keepDirty: true,
+                value,
+            }))
+        }
+    }
 }
 
 /* it uses in tabs region */
