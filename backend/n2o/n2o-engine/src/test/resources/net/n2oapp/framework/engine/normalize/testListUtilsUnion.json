@@ -1,0 +1,26 @@
+[
+  {
+    "users": {
+      "teachers": [
+        {
+          "id": 1,
+          "name": "teacher1"
+        },
+        {
+          "id": 2,
+          "name": "teacher2"
+        }
+      ],
+      "students": [
+        {
+          "id": 11,
+          "name": "student1"
+        },
+        {
+          "id": 22,
+          "name": "student2"
+        }
+      ]
+    }
+  }
+]

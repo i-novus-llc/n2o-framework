@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
-import org.apache.commons.collections.ListUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.context.expression.MapAccessor;
@@ -27,7 +26,11 @@ import java.util.*;
 public class MappingProcessor {
     private final static ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
     private static final ExpressionParser readParser = new SpelExpressionParser(new SpelParserConfiguration(false, false));
+    private static final StandardEvaluationContext context = new StandardEvaluationContext();
 
+    static {
+        NormalizerCollector.collect().forEach(f -> context.registerFunction(f.getName(), f));
+    }
 
     /**
      * Входящее преобразование value согласно выражению mapping в объект target
@@ -196,11 +199,7 @@ public class MappingProcessor {
                                         BeanFactory beanFactory) {
         if (normalizer == null)
             return value;
-        StandardEvaluationContext context = new StandardEvaluationContext(value);
-        Arrays.stream(NormalizeUtil.class.getDeclaredMethods())
-                .forEach(f -> context.registerFunction(f.getName(), f));//FIXME
-        Arrays.stream(ListUtils.class.getDeclaredMethods())
-                .forEach(f -> context.registerFunction(f.getName(), f));//FIXME
+        context.setRootObject(value);
         if (allData != null)
             context.setVariable("data", allData);
         if (beanFactory != null)
@@ -217,7 +216,7 @@ public class MappingProcessor {
      * @return true/false
      */
     public static Boolean resolveCondition(String condition, Map<String, Object> data) {
-        StandardEvaluationContext context = new StandardEvaluationContext(data);
+        context.setRootObject(data);
         context.addPropertyAccessor(new MapAccessor());
         try {
             Expression expression = readParser.parseExpression(condition);
