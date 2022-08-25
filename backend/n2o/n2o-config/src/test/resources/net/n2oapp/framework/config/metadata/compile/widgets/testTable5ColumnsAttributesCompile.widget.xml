@@ -7,7 +7,6 @@
                 <input-text id="input"/>
             </filter>
         </filter-column>
-        <multi-column src="MyMultiHeader" class="my-multi-header" style="color:blue" label="Multi"
-                      alignment="centered"/>
+        <multi-column src="MyMultiHeader" class="my-multi-header" style="color:blue" label="Multi"/>
     </columns>
 </table>

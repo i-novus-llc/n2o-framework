@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -42,6 +43,9 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         ColumnHeader header = new ColumnHeader();
         source.setId(p.cast(source.getId(), source.getTextFieldId()));
         source.setSortingFieldId(p.cast(source.getSortingFieldId(), source.getTextFieldId()));
+        source.setAlignment(p.cast(source.getAlignment(),
+                p.resolve(property("n2o.api.widget.column.alignment"), Alignment.class)));
+        source.setContentAlignment(p.cast(source.getContentAlignment(), source.getAlignment()));
 
         N2oCell cell = source.getCell();
         if (cell == null) {
@@ -58,6 +62,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setWidth(source.getWidth());
         header.setResizable(source.getResizable());
         header.setFixed(source.getFixed());
+        header.setAlignment(source.getAlignment());
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
 
