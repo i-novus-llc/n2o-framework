@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.application;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class StompDatasource extends AbstractDatasource {
 
     @Getter
     @Setter
-    public static class Provider {
+    public static class Provider implements Compiled {
         @JsonProperty
         private String type;
         @JsonProperty

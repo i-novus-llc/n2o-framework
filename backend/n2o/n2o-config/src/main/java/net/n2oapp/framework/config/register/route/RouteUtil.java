@@ -7,6 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.startsWithAny;
+
 /**
  * Утилитарные методы для работы с URL
  */
@@ -126,16 +128,19 @@ public abstract class RouteUtil {
      * @param url
      * @return мапа с параметрами и их значениями
      */
-    public static Map<String, String> parseQueryParams(String url) {
+    public static Map<String, String[]> parseQueryParams(String url) {
         if (url == null || !(url.contains("=") || url.contains("&")))
             return null;
-        HashMap<String, String> result = new HashMap();
-        String[] splitParam = url.split("&");
-        for (int i = 0; i < splitParam.length && i < splitParam.length; i++) {
-            String[] paramValue = splitParam[i].split("=");
-            result.put(paramValue[0], paramValue[1]);
+
+        HashMap<String, List<String>> result = new HashMap();
+        String[] params = url.split("&");
+        for (String param : params) {
+            String[] paramValue = param.split("=");
+            result.putIfAbsent(paramValue[0], new ArrayList<>());
+            result.get(paramValue[0]).add(paramValue[1]);
         }
-        return result;
+
+        return result.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toArray(String[]::new)));
     }
 
 
@@ -233,7 +238,7 @@ public abstract class RouteUtil {
     }
 
     /**
-     * Преобразование относительного маршрутав абсолютный
+     * Преобразование относительного маршрута в абсолютный
      *
      * @param baseRoute     Базовый маршрут
      * @param relativeRoute Относительный маршрут
@@ -242,16 +247,18 @@ public abstract class RouteUtil {
     public static String absolute(String relativeRoute, String baseRoute) {
         if (!isApplicationUrl(relativeRoute))
             return relativeRoute;
-        if (relativeRoute.startsWith("/"))
+        //target=application и url, начинающийся с ./ позволяет присоединить такой url к текущему.
+        //Это бывает полезно в кейсах, использующих redirect
+        if (startsWithAny(relativeRoute, "/", "./"))
             return relativeRoute;
         return join(baseRoute, relativeRoute);
     }
 
     /**
-     * Соединение родитеслького маршрута с дочерним
+     * Соединение родительского маршрута с дочерним
      *
      * @param parentRoute Родительский маршрут
-     * @param childRoute  Отнсительный маршрут
+     * @param childRoute  Относительный маршрут
      * @return Соединенный маршрут
      */
     public static String join(String parentRoute, String childRoute) {

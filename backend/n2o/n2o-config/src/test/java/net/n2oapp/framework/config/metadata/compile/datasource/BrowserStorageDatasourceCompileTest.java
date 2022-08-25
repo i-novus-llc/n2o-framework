@@ -60,8 +60,10 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
 
         dependency = datasource.getDependencies().get(1);
         assertThat(dependency.getType(), is(DependencyType.copy));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
         assertThat(dependency.getOn(), is("models.filter['testBrowserStorageDatasource_ds'].source"));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
+        assertThat(((CopyDependency) dependency).getSubmit(), is(true));
+        assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
 
 
         // default

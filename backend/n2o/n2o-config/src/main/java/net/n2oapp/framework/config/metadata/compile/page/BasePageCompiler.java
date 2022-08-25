@@ -99,11 +99,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 copiedFieldScope, datasourcesScope, appDatasourcesIdScope, metaActions, filtersScope, index));
 
         //datasources
-        Map<String, AbstractDatasource> compiledDataSources = compileDataSources(context, p,
+        Map<String, AbstractDatasource> compiledDatasources = compileDatasources(context, p,
                 datasourcesScope, pageScope,
                 validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope,
                 searchBarScope, filtersScope, appDatasourcesIdScope);
-        page.setDatasources(compiledDataSources);
+        page.setDatasources(compiledDatasources);
 
         //routes
         registerRoutes(pageRoutes, context, p);
@@ -181,7 +181,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
     }
 
-    private Map<String, AbstractDatasource> compileDataSources(PageContext context,
+    private Map<String, AbstractDatasource> compileDatasources(PageContext context,
                                                                CompileProcessor p,
                                                                DataSourcesScope dataSourcesScope,
                                                                PageScope pageScope,
@@ -190,7 +190,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         initContextDatasources(dataSourcesScope, pageScope, context, p);
         for (N2oAbstractDatasource ds : dataSourcesScope.values())
             if (!(ds instanceof N2oApplicationDatasource)) {
-                AbstractDatasource compiled = p.compile(ds, context, pageScope, scopes);
+                AbstractDatasource compiled = p.compile(ds, context, pageScope, dataSourcesScope, scopes);
                 compiledDataSources.put(compiled.getId(), compiled);
             }
         return compiledDataSources;

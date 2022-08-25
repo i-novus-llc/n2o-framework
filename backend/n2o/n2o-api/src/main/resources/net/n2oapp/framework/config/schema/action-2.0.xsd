@@ -694,10 +694,24 @@
                         <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-page-id" type="xs:string">
+                <xs:attribute name="target-page" default="this">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор целевой страницы (по умолчанию текущая).</xs:documentation>
+                        <xs:documentation>Ссылка на страницу, в которую будет скопированы данные.</xs:documentation>
                     </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="this">
+                                <xs:annotation>
+                                    <xs:documentation>Текущая.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="parent">
+                                <xs:annotation>
+                                    <xs:documentation>Родительская.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:attribute>
                 <xs:attribute name="target-datasource" type="xs:string">
                     <xs:annotation>
@@ -717,6 +731,11 @@
                 <xs:attribute name="mode" type="copyModeType" default="merge">
                     <xs:annotation>
                         <xs:documentation>Тип слияния данных.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-success" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Закрыть окно после копирования данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

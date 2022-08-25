@@ -3,6 +3,7 @@ package net.n2oapp.framework.engine.util;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -84,7 +85,7 @@ public class MapInvocationUtilTest {
         assertThat(personCodes.contains(new DataSet("value", "code2")), is(true));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = N2oSpelException.class)
     public void testMapToMapThrowIllegalArgs() {
         DataSet dataSet = new DataSet();
         dataSet.put("surname", "Alexeev");

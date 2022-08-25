@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const options = {
-  target: "https://n2o.i-novus.ru/next/demo/",
+  target: "https://n2oapp.net/demo/",
   changeOrigin: true,
   ws: true
 };

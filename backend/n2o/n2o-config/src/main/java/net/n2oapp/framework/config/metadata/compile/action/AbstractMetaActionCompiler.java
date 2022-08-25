@@ -15,10 +15,9 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
 /**
  * Абстрактная реализация компиляции действия, содержащего стандартные саги
@@ -82,8 +81,7 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
                 if (!closeOnSuccess && source.getRefreshDatasourceIds() != null) {
                     PageScope pageScope = p.getScope(PageScope.class);
                     if (pageScope != null)
-                        meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasourceIds())
-                                .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
+                        meta.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(source.getRefreshDatasourceIds()), p));
                 } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
                     meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
             }
