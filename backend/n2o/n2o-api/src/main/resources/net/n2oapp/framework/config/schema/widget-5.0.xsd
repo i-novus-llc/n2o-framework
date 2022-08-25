@@ -439,7 +439,15 @@
         </xs:attribute>
         <xs:attribute name="alignment" type="alignmentType" default="left">
             <xs:annotation>
-                <xs:documentation>Выравнивание контента в ячейках столбца таблицы</xs:documentation>
+                <xs:documentation>Выравнивание заголовка столбца таблицы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="content-alignment" type="alignmentType">
+            <xs:annotation>
+                <xs:documentation>
+                    Выравнивание контента в ячейках столбца таблицы
+                    (по умолчанию совпадает с alignment, если столбец не входит в multi-column)
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
@@ -516,9 +524,17 @@
                         <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="alignment" type="alignmentType" default="left">
+                <xs:attribute name="alignment" type="alignmentType" default="centered">
                     <xs:annotation>
-                        <xs:documentation>Выравнивание контента в ячейках столбца таблицы</xs:documentation>
+                        <xs:documentation>Выравнивание заголовка столбца таблицы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="content-alignment" type="alignmentType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Выравнивание контента в ячейках вложенных столбцов
+                            (значение content-alignment, указанное во вложенном столбце в приоритете)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

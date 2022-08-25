@@ -40,6 +40,7 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
     private ColumnVisibility[] columnVisibilities;
     private Boolean hideOnBlur;
     private Alignment alignment;
+    private Alignment contentAlignment;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 

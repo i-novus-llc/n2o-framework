@@ -460,4 +460,74 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(header.getLabel(), is("Multi"));
     }
 
+    @Test
+    public void testAlignment() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5Alignment.widget.xml")
+                .get(new WidgetContext("testTable5Alignment"));
+
+        ColumnHeader header = table.getComponent().getHeaders().get(0);
+        N2oAbstractCell cell = (N2oAbstractCell) table.getComponent().getCells().get(0);
+        assertThat(header.getLabel(), is("simple1"));
+        assertThat(header.getAlignment(), is(Alignment.left));
+        assertThat(cell.getId(), is("simple1"));
+        assertThat(cell.getContentAlignment(), is(Alignment.left));
+
+        header = table.getComponent().getHeaders().get(1);
+        cell = (N2oAbstractCell) table.getComponent().getCells().get(1);
+        assertThat(header.getLabel(), is("simple2"));
+        assertThat(header.getAlignment(), is(Alignment.centered));
+        assertThat(cell.getId(), is("simple2"));
+        assertThat(cell.getContentAlignment(), is(Alignment.centered));
+
+        header = table.getComponent().getHeaders().get(2);
+        cell = (N2oAbstractCell) table.getComponent().getCells().get(2);
+        assertThat(header.getLabel(), is("filter1"));
+        assertThat(header.getAlignment(), is(Alignment.right));
+        assertThat(cell.getId(), is("filter1"));
+        assertThat(cell.getContentAlignment(), is(Alignment.centered));
+
+
+        ColumnHeader multiHeader = table.getComponent().getHeaders().get(3);
+        assertThat(multiHeader.getLabel(), is("multi1"));
+        assertThat(multiHeader.getAlignment(), is(Alignment.centered));
+
+
+        multiHeader = table.getComponent().getHeaders().get(4);
+        assertThat(multiHeader.getLabel(), is("multi2"));
+        assertThat(multiHeader.getAlignment(), is(Alignment.right));
+
+        header = multiHeader.getChildren().get(0);
+        cell = (N2oAbstractCell) table.getComponent().getCells().get(3);
+        assertThat(header.getLabel(), is("sub21"));
+        assertThat(header.getAlignment(), is(Alignment.centered));
+        assertThat(cell.getId(), is("sub21"));
+        assertThat(cell.getContentAlignment(), is(Alignment.centered));
+
+
+        multiHeader = table.getComponent().getHeaders().get(5);
+        assertThat(multiHeader.getLabel(), is("multi3"));
+        assertThat(multiHeader.getAlignment(), is(Alignment.right));
+
+        header = multiHeader.getChildren().get(0);
+        cell = (N2oAbstractCell) table.getComponent().getCells().get(4);
+        assertThat(header.getLabel(), is("sub31"));
+        assertThat(header.getAlignment(), is(Alignment.left));
+        assertThat(cell.getId(), is("sub31"));
+        assertThat(cell.getContentAlignment(), is(Alignment.centered));
+
+        header = multiHeader.getChildren().get(1);
+        cell = (N2oAbstractCell) table.getComponent().getCells().get(5);
+        assertThat(header.getLabel(), is("sub32"));
+        assertThat(header.getAlignment(), is(Alignment.right));
+        assertThat(cell.getId(), is("sub32"));
+        assertThat(cell.getContentAlignment(), is(Alignment.centered));
+
+        header = multiHeader.getChildren().get(2);
+        cell = (N2oAbstractCell) table.getComponent().getCells().get(6);
+        assertThat(header.getLabel(), is("sub33"));
+        assertThat(header.getAlignment(), is(Alignment.left));
+        assertThat(cell.getId(), is("sub33"));
+        assertThat(cell.getContentAlignment(), is(Alignment.right));
+    }
+
 }

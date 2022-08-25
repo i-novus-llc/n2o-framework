@@ -108,5 +108,6 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attributeEnum(e, "alignment", c::getAlignment, c::setAlignment, Alignment.class);
+        p.attributeEnum(e, "content-alignment", c::getContentAlignment, c::setContentAlignment, Alignment.class);
     }
 }

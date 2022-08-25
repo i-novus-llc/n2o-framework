@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <columns>
+        <column id="simple1" label="simple1"/>
+        <column id="simple2" label="simple2" alignment="centered"/>
+        <filter-column id="filter1" label="filter1" alignment="right" content-alignment="centered">
+            <filter>
+                <input-text id="input"/>
+            </filter>
+        </filter-column>
+
+        <multi-column label="multi1"/>
+        <multi-column label="multi2" alignment="right">
+            <column id="sub21" label="sub21" alignment="centered"/>
+        </multi-column>
+        <multi-column label="multi3" alignment="right" content-alignment="centered">
+            <column id="sub31" label="sub31"/>
+            <column id="sub32" label="sub32" alignment="right"/>
+            <column id="sub33" label="sub33" content-alignment="right"/>
+        </multi-column>
+    </columns>
+</table>
