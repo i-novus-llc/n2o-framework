@@ -1232,9 +1232,9 @@
                 <xs:sequence>
                     <xs:element name="payload" type="payloadDef" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
-                <xs:attribute name="type" type="xs:string">
+                <xs:attribute name="type" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Тип кастомного действия</xs:documentation>
+                        <xs:documentation>Redux тип действия</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
