@@ -1,12 +1,12 @@
 package net.n2oapp.framework.autotest.condition;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -31,7 +31,6 @@ public class RequiredFieldAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        Configuration.headless=false;
     }
 
     @Override
@@ -57,7 +56,6 @@ public class RequiredFieldAT extends AutoTestBase {
         inputTextSurname.val("Фамилия");
 
         StandardButton button = formWidget.toolbar().bottomLeft().button("Создать");
-        button.shouldExists();
         button.shouldBeEnabled();
         button.click();
 
@@ -71,5 +69,9 @@ public class RequiredFieldAT extends AutoTestBase {
         button.click();
 
         nameField.shouldHaveValidationMessage(Condition.empty);
+
+        Alert alert = page.alerts().alert(0);
+        alert.shouldHavePlacement(Alert.Placement.top);
+        alert.shouldHaveText("Данные сохранены");
     }
 }

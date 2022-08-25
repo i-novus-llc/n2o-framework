@@ -3,7 +3,7 @@
     <operations>
         <operation id="create">
             <invocation>
-                <test file="net/n2oapp/framework/autotest/condition/required_field/data.json" operation="create"/>
+                <test operation="echo"/>
             </invocation>
             <in>
                 <field id="lastname"/>
