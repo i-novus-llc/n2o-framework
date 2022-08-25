@@ -1,6 +1,5 @@
-package net.n2oapp.framework.autotest.button;
+package net.n2oapp.framework.autotest.action;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
@@ -15,10 +14,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест для проверки кастомных действий
+ * Автотест для проверки кастомного действия
  */
 
-public class CustomActions extends AutoTestBase {
+public class CustomActionsAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -28,16 +27,15 @@ public class CustomActions extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        Configuration.headless=false;
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/custom_actions/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/button/custom_actions/test.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/button/custom_actions/test.object.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/custom/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/custom/test.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/custom/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
@@ -45,7 +43,7 @@ public class CustomActions extends AutoTestBase {
     public void test() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница для автотеста по проверке кастомных действий");
+        page.breadcrumb().titleShouldHaveText("Страница для автотеста по проверке кастомного действия");
 
         StandardButton customInvoke = page.widget(FormWidget.class).toolbar().topLeft().button("Custom invoke");
         customInvoke.click();

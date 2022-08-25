@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Страница для автотеста по проверке кастомных действий">
+             name="Страница для автотеста по проверке кастомного действия">
     <form>
         <toolbar place="topLeft">
             <button label="Custom invoke" disable-on-empty-model="false">
