@@ -190,7 +190,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         } else {
             if (param.getDatasourceId() != null)
                 clientDatasourceId = getClientDatasourceId(param.getDatasourceId(), p);
-            else if (widgetId != null)
+            else if (widgetId != null && pageScope.getWidgetIdClientDatasourceMap().containsKey(widgetId))
                 clientDatasourceId = pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
             else
                 clientDatasourceId = getClientDatasourceId(getLocalDatasourceId(p), p);
