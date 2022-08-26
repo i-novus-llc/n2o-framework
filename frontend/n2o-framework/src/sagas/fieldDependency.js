@@ -13,6 +13,7 @@ import isEqual from 'lodash/isEqual'
 import some from 'lodash/some'
 import includes from 'lodash/includes'
 import get from 'lodash/get'
+import keys from 'lodash/keys'
 import { actionTypes, change } from 'redux-form'
 
 import evalExpression from '../utils/evalExpression'
@@ -220,7 +221,10 @@ export function* checkAndModify(
                     ),
                 )
 
-                if (needRunOnInit || (someDepNeedRun && actionType === actionTypes.CHANGE)) {
+                if (
+                    needRunOnInit ||
+                    (someDepNeedRun && (actionType === actionTypes.CHANGE || actionType === actionTypes.INITIALIZE))
+                ) {
                     yield fork(modify, values, formName, fieldId, dep, field)
                 }
             }
@@ -232,19 +236,33 @@ export function* resolveDependency({ type, meta, payload }) {
     try {
         const { form: formName, field: fieldName } = meta
         const form = yield select(makeFormByName(formName))
+        const fieldKeys = type === actionTypes.INITIALIZE ? keys(form.registeredFields) : null
 
         if (isEmpty(form) || isEmpty(form.registeredFields)) {
             return
         }
 
-        yield call(
-            checkAndModify,
-            form.values || {},
-            form.registeredFields,
-            formName,
-            type === registerFieldExtra.type ? payload.name : fieldName,
-            type,
-        )
+        if (fieldKeys) {
+            for (const field of fieldKeys) {
+                yield call(
+                    checkAndModify,
+                    form.values || {},
+                    form.registeredFields,
+                    formName,
+                    field,
+                    type,
+                )
+            }
+        } else {
+            yield call(
+                checkAndModify,
+                form.values || {},
+                form.registeredFields,
+                formName,
+                type === registerFieldExtra.type ? payload.name : fieldName,
+                type,
+            )
+        }
     } catch (e) {
         // todo: падает тут из-за отсутствия формы
         // eslint-disable-next-line no-console
