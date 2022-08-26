@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
+import net.n2oapp.framework.engine.data.normalize.NormalizerCollector;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
@@ -30,6 +31,7 @@ public class MappingProcessor {
 
     static {
         NormalizerCollector.collect().forEach(f -> context.registerFunction(f.getName(), f));
+        context.addPropertyAccessor(new MapAccessor());
     }
 
     /**
@@ -217,7 +219,6 @@ public class MappingProcessor {
      */
     public static Boolean resolveCondition(String condition, Map<String, Object> data) {
         context.setRootObject(data);
-        context.addPropertyAccessor(new MapAccessor());
         try {
             Expression expression = readParser.parseExpression(condition);
             return expression.getValue(context, Boolean.class);

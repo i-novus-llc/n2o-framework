@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    
+    <list>
+        <test file="net/n2oapp/framework/engine/normalize/testNamesFormat.json" operation="findAll"/>
+    </list>
+    
+    <fields>
+        <field id="firstName"/>
+        <field id="patronymic"/>
+        <field id="lastName"/>
+        
+        <field id="fullName" normalize="#formatFullName(#data['lastName'], #data['firstName'], #data['patronymic'])"/>
+        <field id="shortName" normalize="#formatWithInitials(#data['lastName'], #data['firstName'], #data['patronymic'])"/>
+    </fields>
+</query>

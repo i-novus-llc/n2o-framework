@@ -14,9 +14,7 @@ import net.n2oapp.framework.config.compile.pipeline.operation.BindOperation;
 import net.n2oapp.framework.config.compile.pipeline.operation.CompileOperation;
 import net.n2oapp.framework.config.compile.pipeline.operation.ReadOperation;
 import net.n2oapp.framework.config.compile.pipeline.operation.SourceTransformOperation;
-import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
 import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
-import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.io.query.QueryElementIOv5;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
@@ -64,10 +62,8 @@ public class NormalizeFunctionsTest {
         builder = new N2oApplicationBuilder(environment)
                 .types(new MetaType("query", N2oQuery.class))
                 .loaders(new SelectiveMetadataLoader()
-                        .add(new QueryElementIOv4())
                         .add(new QueryElementIOv5())
-                        .add(new TestDataProviderIOv1())
-                        .add(new JavaDataProviderIOv1()))
+                        .add(new TestDataProviderIOv1()))
                 .operations(new ReadOperation(), new CompileOperation(), new BindOperation(), new SourceTransformOperation())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .properties("n2o.api.query.field.is_selected=true", "n2o.api.query.field.is_sorted=false");
@@ -145,10 +141,10 @@ public class NormalizeFunctionsTest {
         assertThat(result.getCount(), is(1));
 
         List<DataSet> users = (List<DataSet>) result.getCollection().iterator().next().getList("users");
-        assertThat(users.get(0).getString("name"), is("teacher2"));
-        assertThat(users.get(1).getString("name"), is("teacher1"));
-        assertThat(users.get(2).getString("name"), is("student2"));
-        assertThat(users.get(3).getString("name"), is("student1"));
+        assertThat(users.get(0).getString("name"), is("teacher1"));
+        assertThat(users.get(1).getString("name"), is("teacher2"));
+        assertThat(users.get(2).getString("name"), is("student1"));
+        assertThat(users.get(3).getString("name"), is("student2"));
     }
 
     @Test
@@ -164,5 +160,22 @@ public class NormalizeFunctionsTest {
 
         String phone = result.getCollection().iterator().next().getString("phone");
         assertThat(phone, is("8(322) 412-83-75"));
+    }
+
+    @Test
+    public void testNamesFormat() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/normalize/testNamesFormat.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testNamesFormat"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCount(), is(2));
+
+        List<DataSet> persons = (List<DataSet>) result.getCollection();
+        assertThat(persons.get(0).getString("fullName"), is("Толстой Лев Николаевич"));
+        assertThat(persons.get(0).getString("shortName"), is("Толстой Л.Н."));
+        assertThat(persons.get(1).getString("fullName"), is("Маркс Карл "));
+        assertThat(persons.get(1).getString("shortName"), is("Маркс К."));
     }
 }
