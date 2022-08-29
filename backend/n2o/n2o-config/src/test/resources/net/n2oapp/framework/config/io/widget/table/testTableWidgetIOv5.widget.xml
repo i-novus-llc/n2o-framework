@@ -14,7 +14,7 @@
     </datasource>
     <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true"
-                src="MyTableHeader" class="my-table-header" style="color: red" alignment="centered" content-alignment="right">
+                src="MyTableHeader" class="my-table-header" style="color: red" alignment="center" content-alignment="right">
             <toolbar generate="update,delete">
                 <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">
                     <menu-item style="margin-left:10px;width:300px">
