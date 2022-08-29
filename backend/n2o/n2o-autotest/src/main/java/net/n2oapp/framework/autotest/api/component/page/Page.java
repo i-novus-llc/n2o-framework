@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
-import net.n2oapp.framework.autotest.api.component.Tree;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
@@ -32,8 +31,6 @@ public interface Page extends Component {
     Tooltip tooltip();
 
     Alerts alerts();
-
-    Tree tree();
 
     void urlShouldMatches(String regexp);
 

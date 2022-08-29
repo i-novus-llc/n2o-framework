@@ -143,11 +143,6 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldBeExpandable() {
-        element().$(".n2o-popup-control").shouldBe(Condition.exist);
-    }
-
-    @Override
     public void optionShouldHaveDescription(String option, String description) {
         expand();
         SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")

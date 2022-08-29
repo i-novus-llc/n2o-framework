@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.badge;
 
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
-import net.n2oapp.framework.autotest.api.component.Tree;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
@@ -11,6 +10,7 @@ import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.TreeWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -21,7 +21,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BadgeSettingsAT extends AutoTestBase {
+/**
+ * Автотест для проверки работы баджей с картинками
+ */
+
+public class BadgeAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -42,16 +46,15 @@ public class BadgeSettingsAT extends AutoTestBase {
     @Test
     public void testSelects() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_selectors/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_selectors/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_selectors/tree.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/tree.query.xml"));
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         FormWidget formWidget = page.widget(FormWidget.class);
         InputSelect inputSelect = formWidget.fields().field("Ввод с выпадающим списком").control(InputSelect.class);
-        inputSelect.shouldBeExpandable();
         inputSelect.expand();
         inputSelect.shouldBeExpanded();
         DropDown dropDownInputSelect = inputSelect.dropdown();
@@ -59,13 +62,12 @@ public class BadgeSettingsAT extends AutoTestBase {
         dropDownInputSelect.shouldHaveItems(4);
         DropDown.DropDownItem itemDropDownInputSelect = dropDownInputSelect.item(0);
         itemDropDownInputSelect.badgeShouldBeExists();
-        itemDropDownInputSelect.badgeShouldBeShape("square");
+        itemDropDownInputSelect.badgeShouldHaveShape("square");
         itemDropDownInputSelect.badgeShouldHaveImage();
         itemDropDownInputSelect.badgeImageShouldBeShape("circle");
         itemDropDownInputSelect.badgeImageShouldBePosition("left");
 
         Select select = formWidget.fields().field("Выпадающий список").control(Select.class);
-        select.shouldBeExpandable();
         select.expand();
         select.shouldBeExpanded();
         DropDown dropDownSelect = select.dropdown();
@@ -73,30 +75,27 @@ public class BadgeSettingsAT extends AutoTestBase {
         dropDownSelect.shouldHaveItems(4);
         DropDown.DropDownItem itemDropDownSelect = dropDownSelect.item(0);
         itemDropDownSelect.badgeShouldBeExists();
-        itemDropDownSelect.badgeShouldBeShape("rounded");
+        itemDropDownSelect.badgeShouldHaveShape("rounded");
         itemDropDownSelect.badgeShouldHaveImage();
         itemDropDownSelect.badgeImageShouldBeShape("rounded");
         itemDropDownSelect.badgeImageShouldBePosition("right");
 
         InputSelectTree selectTree = formWidget.fields().field("Дерево").control(InputSelectTree.class);
-        selectTree.shouldBeExpandable();
         selectTree.expand();
         selectTree.shouldBeExpanded();
         DropDownTree dropDownTreeSelect = selectTree.dropdowntree();
         DropDownTree.DropDownTreeItem firstItemTree = dropDownTreeSelect.item(0);
-        firstItemTree.shouldBeExpandable();
         firstItemTree.expand();
         firstItemTree.shouldBeExpanded();
         dropDownTreeSelect.shouldHaveItems(4);
         firstItemTree.shouldHaveOption("11");
         DropDownTree.DropDownTreeItem thirdItemTree = dropDownTreeSelect.item(1);
-        thirdItemTree.shouldBeExpandable();
         thirdItemTree.expand();
         thirdItemTree.shouldBeExpanded();
         dropDownTreeSelect.shouldHaveItems(5);
         DropDownTree.DropDownTreeItem fourthTreeItem = dropDownTreeSelect.item(2);
         fourthTreeItem.badgeShouldBeExists();
-        fourthTreeItem.badgeShouldBeShape("circle");
+        fourthTreeItem.badgeShouldHaveShape("circle");
         fourthTreeItem.badgeShouldHaveImage();
         fourthTreeItem.badgeImageShouldBeShape("square");
         fourthTreeItem.badgeImageShouldBePosition("right");
@@ -105,8 +104,8 @@ public class BadgeSettingsAT extends AutoTestBase {
     @Test
     public void testCell() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_cell/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_cell/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/badge/cell/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/badge/cell/test.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -116,7 +115,7 @@ public class BadgeSettingsAT extends AutoTestBase {
         int col = 3;
         BadgeCell cell = rows.row(0).cell(col, BadgeCell.class);
         cell.badgeShouldBeExists();
-        cell.badgeShouldBeShape("rounded");
+        cell.badgeShouldHaveShape("rounded");
         cell.badgeShouldHaveImage();
         cell.badgeImageShouldBePosition("right");
         cell.badgeImageShouldBeShape("rounded");
@@ -125,7 +124,7 @@ public class BadgeSettingsAT extends AutoTestBase {
     @Test
     public void testButton() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_button/index.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/badge/button/index.page.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -133,7 +132,7 @@ public class BadgeSettingsAT extends AutoTestBase {
         StandardButton firstBtn = simplePage.toolbar().topLeft().button("Первая");
         firstBtn.shouldBeEnabled();
         firstBtn.badgeShouldBeExists();
-        firstBtn.badgeShouldBeShape("circle");
+        firstBtn.badgeShouldHaveShape("circle");
         firstBtn.badgeShouldHaveImage();
         firstBtn.badgeImageShouldBeShape("circle");
         firstBtn.badgeImageShouldBePosition("left");
@@ -141,7 +140,7 @@ public class BadgeSettingsAT extends AutoTestBase {
         StandardButton secondBtn = simplePage.toolbar().topLeft().button("Вторая");
         firstBtn.shouldBeEnabled();
         secondBtn.badgeShouldBeExists();
-        secondBtn.badgeShouldBeShape("rounded");
+        secondBtn.badgeShouldHaveShape("rounded");
         secondBtn.badgeShouldHaveImage();
         secondBtn.badgeImageShouldBeShape("rounded");
         secondBtn.badgeImageShouldBePosition("right");
@@ -149,7 +148,7 @@ public class BadgeSettingsAT extends AutoTestBase {
         StandardButton thirdBtn = simplePage.toolbar().topLeft().button("Третья");
         firstBtn.shouldBeEnabled();
         thirdBtn.badgeShouldBeExists();
-        thirdBtn.badgeShouldBeShape("square");
+        thirdBtn.badgeShouldHaveShape("square");
         thirdBtn.badgeShouldHaveImage();
         thirdBtn.badgeImageShouldBeShape("square");
         thirdBtn.badgeImageShouldBePosition("right");
@@ -158,35 +157,34 @@ public class BadgeSettingsAT extends AutoTestBase {
     @Test
     public void testTree() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_tree/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_tree/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/badge/tree/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/badge/tree/test.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 
-        Tree tree = simplePage.tree();
-        tree.shouldExists();
+        TreeWidget treeWidget = simplePage.widget(TreeWidget.class);
+        treeWidget.shouldExists();
 
-        tree.shouldHaveItems(2);
-        Tree.TreeItem firstItem = tree.item(0);
-        firstItem.shouldBeExpandable();
-        firstItem.expand();
-        tree.shouldHaveItems(4);
-        firstItem.shouldHaveItem("11");
+        treeWidget.shouldHaveItems(2);
+        TreeWidget.TreeItem firstItemTree = treeWidget.item(0);
+        firstItemTree.expand();
+        treeWidget.shouldHaveItems(4);
+        firstItemTree.shouldHaveItem("11");
 
-        Tree.TreeItem secondItem = tree.item(1);
-        secondItem.badgeShouldBeExists();
-        secondItem.badgeShouldBeShape("rounded");
-        secondItem.badgeShouldHaveImage();
-        secondItem.badgeImageShouldBePosition("left");
-        secondItem.badgeImageShouldBeShape("square");
+        TreeWidget.TreeItem secondItemTree = treeWidget.item(1);
+        secondItemTree.badgeShouldBeExists();
+        secondItemTree.badgeShouldHaveShape("rounded");
+        secondItemTree.badgeShouldHaveImage();
+        secondItemTree.badgeImageShouldBePosition("left");
+        secondItemTree.badgeImageShouldBeShape("square");
     }
 
     @Test
     public void testMenu() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_menu/app.application.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_menu/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/badge/badge_settings/badge_in_menu/test.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/menu/app.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/badge/menu/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/badge/menu/test.page.xml"));
         builder.properties("n2o.application.id=app");
 
         SimplePage simplePage = open(SimplePage.class);
@@ -200,7 +198,7 @@ public class BadgeSettingsAT extends AutoTestBase {
         menuItem.shouldHaveIcon();
         menuItem.iconShouldHaveCssClass("fa fa-bell");
         menuItem.badgeShouldBeExists();
-        menuItem.badgeShouldBeShape("square");
+        menuItem.badgeShouldHaveShape("square");
         menuItem.badgeShouldHaveImage();
         menuItem.badgeImageShouldBeShape("square");
         menuItem.badgeImageShouldBePosition("right");

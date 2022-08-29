@@ -52,11 +52,6 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
         item().shouldNotBe(expandedContentCondition());
     }
 
-    @Override
-    public void shouldBeExpandable() {
-        element().$(".n2o-collapse-icon-wrapper").shouldBe(Condition.exist);
-    }
-
 
     private SelenideElement header() {
         return element().$(".n2o-panel-header");

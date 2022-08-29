@@ -103,11 +103,6 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
     }
 
     @Override
-    public void shouldBeExpandable() {
-        element().$(".n2o-input-icon.clickable").shouldBe(Condition.exist);
-    }
-
-    @Override
     public void expand() {
         if (!popUp().is(Condition.exist))
             element().$(".n2o-input-icon").click();

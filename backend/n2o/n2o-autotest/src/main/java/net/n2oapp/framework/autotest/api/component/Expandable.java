@@ -11,6 +11,4 @@ public interface Expandable {
     void shouldBeExpanded();
 
     void shouldBeCollapsed();
-
-    void shouldBeExpandable();
 }

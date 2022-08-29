@@ -64,11 +64,6 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
     }
 
     @Override
-    public void shouldBeExpandable() {
-        element().$(".collapse-toggle").shouldBe(Condition.exist);
-    }
-
-    @Override
     public void shouldHaveBorderColor(Colors color) {
         element().shouldHave(Condition.cssClass(color.name("border-")));
     }

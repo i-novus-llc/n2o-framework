@@ -103,11 +103,6 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         element().shouldHave(Condition.attribute("aria-expanded", "false"));
     }
 
-    @Override
-    public void shouldBeExpandable() {
-        element().$(".n2o-select-tree-arrow").shouldBe(Condition.exist);
-    }
-
     private boolean isExpanded() {
         return element().getAttribute("aria-expanded").equals("true");
     }

@@ -7,7 +7,6 @@ import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.impl.collection.*;
 import net.n2oapp.framework.autotest.impl.component.N2oDropDown;
 import net.n2oapp.framework.autotest.impl.component.N2oDropDownTree;
-import net.n2oapp.framework.autotest.impl.component.N2oTree;
 import net.n2oapp.framework.autotest.impl.component.button.N2oDropdownButton;
 import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
 import net.n2oapp.framework.autotest.impl.component.cell.*;
@@ -34,6 +33,7 @@ import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oListWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.N2oTreeWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarEvent;
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarToolbar;
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarWidget;
@@ -77,6 +77,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oCalendarWidget.class, N2oCalendarToolbar.class, N2oCalendarEvent.class,
                 N2oCalendarMonthView.class, N2oCalendarAgendaView.class, N2oCalendarDayView.class, N2oCalendarWeekView.class,
                 N2oCalendarDayViewHeader.class, N2oCalendarWeekViewHeader.class,
+                N2oTreeWidget.class,
                 // fieldsets
                 N2oSimpleFieldSet.class, N2oLineFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
                 // buttons
@@ -95,9 +96,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oBadgeCell.class, N2oIconCell.class, N2oImageCell.class, N2oProgressBarCell.class, N2oRatingCell.class,
                 N2oListCell.class, N2oTooltipListCell.class, N2oRadioCell.class, N2oFileUploadCell.class,
                 //dropdown
-                N2oDropDown.class, N2oDropDownTree.class,
-                //tree
-                N2oTree.class
+                N2oDropDown.class, N2oDropDownTree.class
         );
     }
 

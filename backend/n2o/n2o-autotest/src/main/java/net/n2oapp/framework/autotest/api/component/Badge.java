@@ -10,7 +10,7 @@ public interface Badge extends Component{
         element().$(".n2o-badge").$(".n2o-badge-image").shouldBe(Condition.exist);
     }
 
-    default void badgeShouldBeShape(String shape) {
+    default void badgeShouldHaveShape(String shape) {
         element().$(".n2o-badge").shouldHave(Condition.cssClass(String.format("n2o-badge--%s", shape)));
     }
 

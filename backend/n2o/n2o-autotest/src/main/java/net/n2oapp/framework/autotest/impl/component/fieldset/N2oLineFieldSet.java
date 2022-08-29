@@ -69,11 +69,6 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
         item().shouldNotBe(expandedContentCondition());
     }
 
-    @Override
-    public void shouldBeExpandable() {
-        element().$(".n2o-collapse-icon-wrapper").shouldBe(Condition.exist);
-    }
-
     private SelenideElement header() {
         return element().$(".n2o-panel-header");
     }
