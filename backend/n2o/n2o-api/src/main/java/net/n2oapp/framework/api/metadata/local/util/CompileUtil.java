@@ -8,13 +8,8 @@ import java.util.Set;
 
 public class CompileUtil {
 
-    public static boolean isTrue(Boolean bool) {
-        return bool != null && bool;
-    }
-
     public static boolean castDefault(Boolean value, boolean defaultValue) {
         return value == null ? defaultValue : value;
-
     }
 
     public static boolean castDefault(Boolean value, Boolean defaultValue1, Boolean... defaultValues) {

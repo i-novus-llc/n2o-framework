@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 
 /* eslint-disable no-unused-vars,  @typescript-eslint/no-unused-vars */
-const METHODS = {
+export const METHODS = {
     fetchData() {},
     setFilter(filterModel) {},
     setResolve(model) {},
