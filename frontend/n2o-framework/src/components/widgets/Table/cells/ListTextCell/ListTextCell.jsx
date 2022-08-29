@@ -1,30 +1,67 @@
 import React from 'react'
-import get from 'lodash/get'
-import first from 'lodash/first'
 import PropTypes from 'prop-types'
 import { compose, setDisplayName } from 'recompose'
+import get from 'lodash/get'
+import first from 'lodash/first'
+import map from 'lodash/map'
+import isArray from 'lodash/isArray'
 
 import withCell from '../../withCell'
 import DefaultCell from '../DefaultCell'
+import getNoun from '../../../../../utils/getNoun'
 
-import Tooltip from './Tooltip'
+import { ListTextCellTrigger } from './ListTextCellTrigger'
+import { replacePlaceholder } from './utils'
 
 function ListTextCell(props) {
-    const { model, fieldKey, disabled } = props
+    const {
+        model,
+        fieldKey,
+        disabled,
+        label,
+        oneLabel,
+        fewLabel,
+        manyLabel,
+        trigger,
+        labelDashed,
+        theme,
+        placement,
+    } = props
 
     const tooltipList = get(model, fieldKey)
     const singleElement = tooltipList.length === 1
     const nullElements = tooltipList.length === 0
 
+    const validTooltipList = model && fieldKey && isArray(tooltipList)
+    const listLength = validTooltipList ? tooltipList.length : 0
+
+    const currentLabel = getNoun(listLength, oneLabel || label, fewLabel || label, manyLabel || label)
+
+    const hint = validTooltipList ? map(tooltipList, (tooltipItem, index) => (
+        <div
+            key={index}
+            className="list-text-cell__tooltip-container__body"
+        >
+            {tooltipItem}
+        </div>
+    )) : null
+
+    if (nullElements) {
+        return <DefaultCell disabled={disabled} className="list-text-cell" />
+    }
+
     return (
         <DefaultCell disabled={disabled} className="list-text-cell">
-            {/* eslint-disable-next-line no-nested-ternary */}
-            {singleElement
-                ? (first(tooltipList))
-                : nullElements
-                    ? null
-                    : (<Tooltip {...props} />)
-            }
+            {singleElement ? first(tooltipList) : (
+                <ListTextCellTrigger
+                    label={replacePlaceholder(currentLabel, listLength)}
+                    hint={hint}
+                    trigger={trigger}
+                    labelDashed={labelDashed}
+                    theme={theme}
+                    placement={placement}
+                />
+            )}
         </DefaultCell>
     )
 }

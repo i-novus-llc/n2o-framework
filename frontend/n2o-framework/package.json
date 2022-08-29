@@ -105,7 +105,7 @@
     "react-i18next": "11.7.3",
     "react-onclickoutside": "6.7.1",
     "react-popper": "^2.2.4",
-    "react-popper-tooltip": "3.1.1",
+    "react-popper-tooltip": "4.4.2",
     "react-redux": "7.2.6",
     "react-resizable": "1.7.5",
     "react-resize-detector": "^5.2.0",
