@@ -524,7 +524,7 @@
                         <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="alignment" type="alignmentType" default="centered">
+                <xs:attribute name="alignment" type="alignmentType" default="center">
                     <xs:annotation>
                         <xs:documentation>Выравнивание заголовка столбца таблицы</xs:documentation>
                     </xs:annotation>
@@ -1437,7 +1437,7 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>
-            <xs:enumeration value="centered"/>
+            <xs:enumeration value="center"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
