@@ -6,16 +6,16 @@ import net.n2oapp.framework.autotest.api.component.widget.TreeWidget;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
-    private static final String CSS_SELECTORS = ".n2o-rc-tree-treenode-switcher-open, .n2o-rc-tree-treenode-switcher-close";
+    protected String treeItem = ".n2o-rc-tree-treenode-switcher-open, .n2o-rc-tree-treenode-switcher-close";
 
     @Override
     public N2oTreeWidget.N2oTreeItem item(int index) {
-        return new N2oTreeWidget.N2oTreeItem(element().$$(CSS_SELECTORS).get(index));
+        return new N2oTreeWidget.N2oTreeItem(element().$$(treeItem).get(index));
     }
 
     @Override
     public void shouldHaveItems(int size) {
-        element().$$(CSS_SELECTORS).shouldHaveSize(size);
+        element().$$(treeItem).shouldHaveSize(size);
     }
 
     public class N2oTreeItem extends N2oComponent implements TreeWidget.TreeItem {
@@ -26,7 +26,7 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
 
         @Override
         public void shouldHaveItem(String label) {
-            element().$$(CSS_SELECTORS).find(Condition.text(label)).shouldBe(Condition.exist);
+            element().$$(treeItem).find(Condition.text(label)).shouldBe(Condition.exist);
         }
 
         @Override
