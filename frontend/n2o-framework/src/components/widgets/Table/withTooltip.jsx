@@ -2,10 +2,9 @@ import React from 'react'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
-// eslint-disable-next-line import/no-named-as-default
-import Tooltip from '../../snippets/Tooltip/Tooltip'
+import { ExtendedTooltipComponent } from '../../snippets/Tooltip/TooltipHOC'
 
-export default function withTooltip(WrappedComponent) {
+export default function withTooltip(Component) {
     /**
      * HOC, оборачивает Cell добавляя Tooltip
      * @param WrappedComponent оборачиваемый компонент
@@ -13,24 +12,26 @@ export default function withTooltip(WrappedComponent) {
      * @param hint подсказка - тело тултипа
      * @param tooltipFieldId ключ по которому резолвится Tooltip и берется hint
      */
-    return function TooltipHOC(props) {
+    return function Wrapper(props) {
         const { model, placement, tooltipFieldId } = props
         const hint = get(model, tooltipFieldId)
 
         if (!hint) {
-            return <WrappedComponent {...props} />
+            return <Component {...props} />
         }
-        TooltipHOC.propTypes = {
+
+        Wrapper.propTypes = {
             model: PropTypes.object,
             placement: PropTypes.object,
             tooltipFieldId: PropTypes.string,
         }
 
         return (
-            <Tooltip
-                label={<WrappedComponent {...props} />}
+            <ExtendedTooltipComponent
+                Component={Component}
+                {...props}
                 hint={hint}
-                placement={placement || 'bottom'}
+                placement={placement}
             />
         )
     }

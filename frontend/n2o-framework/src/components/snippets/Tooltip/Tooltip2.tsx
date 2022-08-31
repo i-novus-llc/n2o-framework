@@ -15,14 +15,8 @@ interface ITooltipProps {
         style: React.CSSProperties
     };
     setTooltipRef: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-    theme: string
+    theme: 'dark' | 'light'
 }
-
-// тема tooltip body
-export const getThemeClass = theme => classNames({
-    dark: theme === 'dark',
-    light: theme === 'light',
-})
 
 export function Tooltip({
     hint,
@@ -30,19 +24,17 @@ export function Tooltip({
     setTooltipRef,
     getTooltipProps,
     getArrowProps,
-    theme,
+    theme = 'dark',
 }: ITooltipProps): JSX.Element {
-    const themeClassName = getThemeClass(theme)
-
     return (
         <div
             ref={setTooltipRef}
             {...getTooltipProps(
-                { className: classNames('tooltip-container', className, themeClassName) },
+                { className: classNames('tooltip-container', className, theme) },
             )}
         >
             {hint}
-            <div {...getArrowProps({ className: classNames('tooltip-arrow', themeClassName) })} />
+            <div {...getArrowProps({ className: classNames('tooltip-arrow', theme) })} />
         </div>
     )
 }
