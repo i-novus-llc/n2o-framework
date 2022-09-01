@@ -533,6 +533,21 @@ const formSlice = createSlice({
                 })
             },
         },
+
+        failValidate: {
+            prepare(id, fields) {
+                return ({
+                    payload: {
+                        id,
+                        fields,
+                    },
+                })
+            },
+
+            reducer() {
+
+            },
+        },
     },
 
     extraReducers: {
@@ -577,4 +592,5 @@ export const {
     HIDE_FIELDS: hideMultiFields,
     DISABLE_FIELDS: disableMultiFields,
     ENABLE_FIELDS: enableMultiFields,
+    failValidate,
 } = formSlice.actions

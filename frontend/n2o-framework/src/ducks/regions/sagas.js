@@ -40,12 +40,12 @@ export function* tabTraversal(action, tabs, regionId, form, param = null) {
     let isTargetFormInTabs = false
 
     for (const { content, id: tabId } of tabs) {
-        for (const { id, tabs } of content) {
+        for (const { datasource, tabs } of content) {
             if (tabs) {
                 return tabTraversal(action, tabs, regionId, form, param)
             }
 
-            if (id === form) {
+            if (datasource === form) {
                 isTargetFormInTabs = true
 
                 if (action) {
@@ -65,7 +65,7 @@ function* switchTab(action) {
 
     const { type, meta } = action
 
-    if (type === actionTypes.FOCUS) {
+    if (type === actionTypes.TOUCH) {
         const { form } = meta
 
         for (const { tabs, regionId } of tabsRegions) {
@@ -256,6 +256,6 @@ function* validateTabs({ payload, type }) {
 
 export default [
     takeEvery(MAP_URL, mapUrl),
-    takeEvery([METADATA_SUCCESS, actionTypes.FOCUS], switchTab),
+    takeEvery([METADATA_SUCCESS, actionTypes.TOUCH], switchTab),
     takeEvery([addMessage, removeMessage], validateTabs),
 ]
