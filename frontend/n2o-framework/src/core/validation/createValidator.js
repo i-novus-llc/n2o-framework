@@ -16,7 +16,7 @@ import { batchActions } from 'redux-batched-actions'
 
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { isPromise } from '../../tools/helpers'
-import { addFieldMessage, removeFieldMessage } from '../../ducks/form/store'
+import { addFieldMessage, failValidate, removeFieldMessage } from '../../ducks/form/store'
 import { makeFormModelPrefixSelector, makeModelIdSelector } from '../../ducks/widgets/selectors'
 import { makeGetModelByPrefixSelector } from '../../ducks/models/selectors'
 
@@ -58,7 +58,7 @@ function findPriorityMessage(messages) {
  * @param {ValidationResult} messages
  * @returns {boolean}
  */
-function hasError(messages) {
+function checkHasError(messages) {
     return flatten(Object.values(messages)).reduce((res, msg) => msg.severity === 'danger' || res, false)
 }
 
@@ -263,7 +263,13 @@ export function validate(
             dispatch(batchActions(messagesAction))
         }
 
-        return hasError(errors)
+        const hasErrors = checkHasError(errors)
+
+        if (hasErrors) {
+            dispatch(failValidate(formName, errors))
+        }
+
+        return hasErrors
     })
 }
 

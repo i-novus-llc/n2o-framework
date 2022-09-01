@@ -24,6 +24,7 @@ import { regionsSelector } from '../regions/store'
 import { formsSelector, makeFormByName, messageSelector } from './selectors'
 import { addMessage } from './constants'
 import {
+    failValidate,
     removeFieldMessage,
     setRequired,
     unsetRequired,
@@ -220,6 +221,12 @@ export const formPluginSagas = [
     ),
     takeEvery([setRequired.type, unsetRequired.type], checkFieldValidation),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
+    takeEvery(failValidate, function* touchOnFailValidate({ payload }) {
+        const { id, fields } = payload
+        const keys = Object.keys(fields)
+
+        yield put(touch(id, ...keys))
+    }),
     takeEvery(copyModel.type, copyAction),
     debounce(100, addMessage, setFocus),
 ]
