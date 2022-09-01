@@ -81,29 +81,49 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         return N2oSelenide.component(element().$(".n2o-select-tree-dropdown"), DropDownTree.class);
     }
 
-    @Override
+    @Deprecated
     public void expand() {
-        if (!isExpanded())
-            switcher().click();
+        openPopup();
     }
 
-    @Override
+    @Deprecated
     public void collapse() {
-        if(isExpanded())
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
+    @Override
+    public void openPopup() {
+        if (!isOpened())
             switcher().click();
     }
 
     @Override
-    public void shouldBeExpanded() {
+    public void closePopup() {
+        if (isOpened())
+            switcher().click();
+    }
+
+    @Override
+    public void shouldBeOpened() {
         element().shouldHave(Condition.attribute("aria-expanded", "true"));
     }
 
     @Override
-    public void shouldBeCollapsed() {
+    public void shouldBeClosed() {
         element().shouldHave(Condition.attribute("aria-expanded", "false"));
     }
 
-    private boolean isExpanded() {
+    private boolean isOpened() {
         return element().getAttribute("aria-expanded").equals("true");
     }
 

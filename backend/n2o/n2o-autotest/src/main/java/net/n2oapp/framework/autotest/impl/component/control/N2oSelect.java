@@ -98,27 +98,47 @@ public class N2oSelect extends N2oControl implements Select {
         element().shouldHave(Condition.cssClass("disabled"));
     }
 
-    @Override
+    @Deprecated
     public void expand() {
+        openPopup();
+    }
+
+    @Override
+    public void openPopup() {
         SelenideElement elm = element().$(".n2o-popup-control");
         if (!elm.is(Condition.cssClass("isExpanded")))
             elm.click();
     }
 
-    @Override
+    @Deprecated
     public void collapse() {
+        closePopup();
+    }
+
+    @Override
+    public void closePopup() {
         SelenideElement elm = element().$(".n2o-popup-control");
         if (elm.is(Condition.cssClass("isExpanded")))
             elm.click();
     }
 
-    @Override
+    @Deprecated
     public void shouldBeExpanded() {
-        selectPopUp().shouldNotBe(Condition.hidden);
+        shouldBeOpened();
     }
 
     @Override
+    public void shouldBeOpened() {
+        selectPopUp().shouldNotBe(Condition.hidden);
+    }
+
+    @Deprecated
     public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
+    @Override
+    public void shouldBeClosed() {
         selectPopUp().shouldBe(Condition.hidden);
     }
 

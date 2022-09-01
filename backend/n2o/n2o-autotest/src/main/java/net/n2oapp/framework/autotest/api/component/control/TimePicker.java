@@ -1,11 +1,12 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 import net.n2oapp.framework.autotest.api.component.Expandable;
+import net.n2oapp.framework.autotest.api.component.PopupControl;
 
 /**
  * Компонент ввода времени для автотестирования
  */
-public interface TimePicker extends Control, Expandable {
+public interface TimePicker extends Control, PopupControl {
 
     void selectHoursMinutesSeconds(String hours, String minutes, String seconds);
 

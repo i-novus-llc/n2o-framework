@@ -4,11 +4,12 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.Expandable;
+import net.n2oapp.framework.autotest.api.component.PopupControl;
 
 /**
  * Компонент ввода текста с выбором из выпадающего списка для автотестирования
  */
-public interface InputSelect extends Control, Expandable {
+public interface InputSelect extends Control, PopupControl {
 
     void click();
 

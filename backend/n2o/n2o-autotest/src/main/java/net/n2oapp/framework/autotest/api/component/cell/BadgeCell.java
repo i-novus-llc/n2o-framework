@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
 import net.n2oapp.framework.autotest.Colors;
-import net.n2oapp.framework.autotest.api.component.Badge;
+import net.n2oapp.framework.autotest.api.component.badge.Badge;
 
 /**
  * Ячейка таблицы с текстом для автотестирования

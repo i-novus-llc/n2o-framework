@@ -1,12 +1,11 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
-
-import net.n2oapp.framework.autotest.api.component.Expandable;
+import net.n2oapp.framework.autotest.api.component.PopupControl;
 
 /**
  * Компонент ввода даты для автотестирования
  */
-public interface DateInput extends Control, Expandable {
+public interface DateInput extends Control, PopupControl {
 
     String val();
 

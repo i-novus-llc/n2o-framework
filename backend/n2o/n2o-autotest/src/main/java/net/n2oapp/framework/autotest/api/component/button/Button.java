@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.button;
 
-import net.n2oapp.framework.autotest.api.component.Badge;
+import net.n2oapp.framework.autotest.api.component.badge.Badge;
 import net.n2oapp.framework.autotest.api.component.Component;
 
 /**
