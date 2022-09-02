@@ -11,21 +11,16 @@ import net.n2oapp.framework.config.metadata.merge.datasource.N2oBrowserStorageDa
 import net.n2oapp.framework.config.metadata.merge.datasource.N2oInheritedDatasourceMerger;
 import net.n2oapp.framework.config.metadata.merge.datasource.N2oStandardDatasourceMerger;
 import net.n2oapp.framework.config.metadata.merge.datasource.N2oStompDatasourceMerger;
-import net.n2oapp.framework.config.metadata.compile.page.*;
 
-/**
- * Набор для сборки стандартных страниц
- */
-public class N2oPagesPack implements MetadataPack<N2oApplicationBuilder> {
-
+public class N2oAllDatasourcesPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oPagesIOv3Pack(), new N2oPagesIOv4Pack(), new N2oAllDatasourcesPack());
-        b.compilers(new SimplePageCompiler(),
-                new StandardPageCompiler(),
-                new LeftRightPageCompiler(),
-                new TopLeftRightPageCompiler(),
-                new SearchablePageCompiler());
-        b.binders(new SimplePageBinder(), new StandardPageBinder());
+        b.packs(new N2oDatasourcesV1IOPack());
+        b.compilers(new StandardDatasourceCompiler(),
+                new BrowserStorageDatasourceCompiler(),
+                new StompDatasourceCompiler(),
+                new InheritedDatasourceCompiler());
+        b.mergers(new N2oStandardDatasourceMerger(), new N2oStompDatasourceMerger(),
+                new N2oBrowserStorageDatasourceMerger(), new N2oInheritedDatasourceMerger());
     }
 }

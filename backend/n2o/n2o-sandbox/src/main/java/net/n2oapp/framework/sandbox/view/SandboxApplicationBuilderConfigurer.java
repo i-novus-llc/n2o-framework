@@ -23,7 +23,7 @@ public class SandboxApplicationBuilderConfigurer implements ApplicationBuilderCo
     @Override
     public void configure(N2oApplicationBuilder builder) {
 
-        builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(), new N2oAllIOPack(), new N2oApplicationPack(),
+        builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(), new N2oApplicationPack(),
                 new N2oLoadersPack(), new N2oOperationsPack(), new N2oSourceTypesPack(),
                 new AccessSchemaPack(), new N2oAllValidatorsPack());
         builder.scanners(new DefaultXmlInfoScanner(),

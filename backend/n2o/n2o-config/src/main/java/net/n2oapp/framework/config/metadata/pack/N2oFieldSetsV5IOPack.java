@@ -7,9 +7,9 @@ import net.n2oapp.framework.config.io.fieldset.v5.*;
 /**
  * Набор считывателей филдсетов версии 5.0
  */
-public class N2oFieldSetsV5IOPack implements MetadataPack<XmlIOBuilder> {
+public class N2oFieldSetsV5IOPack implements MetadataPack<XmlIOBuilder<?>> {
     @Override
-    public void build(XmlIOBuilder b) {
+    public void build(XmlIOBuilder<?> b) {
         b.ios(new SetFieldsetElementIOv5(),
                 new LineFieldsetElementIOv5(),
                 new MultiFieldsetElementIOv5(),
