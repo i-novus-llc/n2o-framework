@@ -74,7 +74,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             return null;
         }));
         source.setRefModel(p.cast(source.getRefModel(),
-                Optional.of(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
+                p.getScope(WidgetScope.class) == null ? null : Optional.of(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
                 ReduxModel.resolve));
         initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !"false".equals(source.getVisible()));
         initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !"false".equals(source.getEnabled()));
