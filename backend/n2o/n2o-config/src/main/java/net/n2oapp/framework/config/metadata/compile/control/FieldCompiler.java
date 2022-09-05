@@ -74,7 +74,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             return null;
         }));
         source.setRefModel(p.cast(source.getRefModel(),
-                p.getScope(WidgetScope.class) == null ? null : Optional.of(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
+                Optional.ofNullable(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
                 ReduxModel.resolve));
         initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !"false".equals(source.getVisible()));
         initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !"false".equals(source.getEnabled()));
@@ -85,7 +85,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         compileComponent(field, source, context, p);
 
         IndexScope idx = p.getScope(IndexScope.class);
-        field.setId(p.cast(source.getId(), "f" + Integer.toString(idx.get())));
+        field.setId(p.cast(source.getId(), "f" + idx.get()));
         field.setLabel(initLabel(source, p));
         field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
                 p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
