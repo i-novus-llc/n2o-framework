@@ -34,7 +34,7 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
 import { resolveRequest, startValidate } from '../ducks/datasource/store'
 import { combineModels } from '../ducks/models/store'
-import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
 
 import fetchSaga from './fetch'
 
@@ -161,7 +161,6 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'reRender': {
-            const datasource = yield select(makeDatasourceIdSelector(formName))
             const form = yield select(makeWidgetByIdSelector(formName))
             const model = get(form, [
                 'form',
@@ -169,7 +168,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             ])
 
             yield delay(50)
-            yield put(startValidate(datasource, [fieldName], model, { touched: true }))
+            yield put(startValidate(formName, [fieldName], model, { touched: true }))
 
             break
         }
