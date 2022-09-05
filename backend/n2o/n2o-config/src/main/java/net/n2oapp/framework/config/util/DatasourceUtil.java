@@ -50,8 +50,7 @@ public class DatasourceUtil {
      */
     public static String getClientDatasourceId(String datasourceId, CompileContext context, CompileProcessor p) {
         DataSourcesScope datasourcesScope = p.getScope(DataSourcesScope.class);
-        boolean inCurrentPage = datasourcesScope.containsKey(datasourceId);
-        if (context instanceof PageContext && !inCurrentPage) {
+        if (context instanceof PageContext && datasourcesScope != null && !datasourcesScope.containsKey(datasourceId)) {
             // проверка, что источник данных прокинут с родительской страницы
             PageContext pageContext = (PageContext) context;
             Optional<N2oAbstractDatasource> parentDatasource = Optional.ofNullable(pageContext.getParentDatasources()).map(m -> m.get(datasourceId));
