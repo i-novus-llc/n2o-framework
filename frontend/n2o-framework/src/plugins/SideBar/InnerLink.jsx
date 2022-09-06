@@ -5,18 +5,10 @@ import classNames from 'classnames'
 import { id as generateId } from '../../utils/id'
 import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
 import { renderBadge } from '../../components/snippets/Badge/Badge'
-import { Tooltip } from '../../components/snippets/Tooltip/Tooltip'
+import { ExtendedTooltipComponent } from '../../components/snippets/Tooltip/TooltipHOC'
 
 import { Icon, Title, getCurrentTitle } from './utils'
 import { linkTypes } from './LinkTypes'
-
-const ItemHOC = ({ children, needTooltip, hint }) => {
-    if (needTooltip) {
-        return <Tooltip label={children} placement="right" hint={hint} />
-    }
-
-    return children
-}
 
 export function InnerLink({
     href,
@@ -59,10 +51,14 @@ export function InnerLink({
         </>
     )
 
+    const hint = isMiniView ? title : null
+
     return (
-        <ItemHOC needTooltip={isMiniView} hint={title}>
-            <Component />
-        </ItemHOC>
+        <ExtendedTooltipComponent
+            Component={Component}
+            hint={hint}
+            placement="right"
+        />
     )
 }
 

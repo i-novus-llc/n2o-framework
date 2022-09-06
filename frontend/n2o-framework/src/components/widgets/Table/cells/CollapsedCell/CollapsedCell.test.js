@@ -8,10 +8,11 @@ const setup = (propOverrides = {}) => {
         tooltipFieldId: 'tooltip',
         model: {
             data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
-            tooltip: ['tooltip', 'body'],
+            tooltip: 'tooltip',
         },
         fieldKey: 'data',
         amountToGroup: 3,
+        isControlledTooltip: true,
         ...propOverrides,
     }
 
@@ -23,17 +24,11 @@ const setup = (propOverrides = {}) => {
     }
 }
 
-describe('<InputSelectContainer />', () => {
+describe('<CollapsedCell />', () => {
     it('проверяет создание элемента', () => {
         const { wrapper } = setup()
-
+        console.log('Point!', wrapper.props())
         expect(wrapper.find('span.badge').exists()).toBeTruthy()
-    })
-
-    it('Cell обернут тултипом', () => {
-        const { wrapper } = setup()
-
-        expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true)
     })
 
     it('проверяет количество элементов', () => {

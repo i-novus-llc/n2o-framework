@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react';
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { push } from 'connected-react-router'

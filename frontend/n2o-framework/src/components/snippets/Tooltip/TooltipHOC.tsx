@@ -1,27 +1,24 @@
-import React, { useContext } from 'react'
+import * as React from 'react'
+import { useContext, ComponentType } from 'react'
 import { usePopperTooltip, Config } from 'react-popper-tooltip'
 
 import { FactoryContext } from '../../../core/factory/context'
 
 interface ITooltipHocProps extends Config {
     hint?: string | number | React.Component
-    trigger?: 'click' | 'double-click' | 'right-click' | 'hover' | 'focus'
+    trigger?: 'click' | 'double-click' | 'right-click' | 'hover' | 'focus',
     isControlledTooltip?: boolean
-    className?: string
-}
-function Tooltip<TProps extends ITooltipHocProps>({ ...props }: TProps): React.ReactElement {
-    const { getComponent } = useContext(FactoryContext)
-    const FactoryTooltip = getComponent('Tooltip', 'SNIPPETS')
-
-    return <FactoryTooltip {...props} />
+    className?: string,
+    setTriggerRef?: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
 
-export function TooltipHOC<TProps extends ITooltipHocProps>(
-    Component: React.ComponentType<TProps> | React.FunctionComponent<TProps>,
-): React.ReactNode {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function TooltipHOC<TProps extends ITooltipHocProps>(Component: Function): ComponentType<TProps> {
     return function WithTooltip(props: TProps) {
-        const { hint, isControlledTooltip = false } = props
+        const { getComponent } = useContext(FactoryContext)
+        const FactoryTooltip = getComponent('Tooltip', 'SNIPPETS')
 
+        const { hint, isControlledTooltip = false } = props
         const {
             getArrowProps,
             getTooltipProps,
@@ -30,7 +27,7 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(
             visible,
         } = usePopperTooltip({ ...props })
 
-        if (!hint) {
+        if (!hint || !FactoryTooltip) {
             return <Component {...props} />
         }
 
@@ -38,6 +35,7 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(
             setTooltipRef,
             getTooltipProps,
             getArrowProps,
+            ...props,
         }
 
         if (isControlledTooltip) {
@@ -45,7 +43,7 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(
                 <>
                     <Component {...props} tooltipTriggerRef={setTriggerRef} />
                     {visible && (
-                        <Tooltip {...tooltipProps} {...props} />
+                        <FactoryTooltip {...tooltipProps} />
                     )}
                 </>
             )
@@ -57,16 +55,14 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(
                     <Component {...props} />
                 </div>
                 {visible && (
-                    <Tooltip {...tooltipProps} {...props} />
+                    <FactoryTooltip {...tooltipProps} />
                 )}
             </>
         )
     }
 }
 
-type component = React.ReactElement | React.ReactNode | React.FunctionComponent
-
-function Expandable({ Component, ...props }: {Component: component}): React.ReactElement {
+function Expandable({ Component, ...props }: {Component: ComponentType}): JSX.Element {
     return <Component {...props} />
 }
 

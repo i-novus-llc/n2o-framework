@@ -4,7 +4,7 @@ import { Progress } from 'reactstrap'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
-import { Tooltip } from '../../snippets/Tooltip/Tooltip'
+import { ExtendedTooltipComponent } from '../../snippets/Tooltip/TooltipHOC'
 import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import { convertSize } from './utils'
@@ -25,27 +25,29 @@ function FileUploaderItem(props) {
 
     const error = (!isEmpty(file.error) || !isEmpty(file.response)) && (file.response || file.error)
 
+    const Component = () => (
+        <a
+            title={file.name}
+            href={file.link}
+            /* eslint-disable-next-line react/jsx-no-target-blank */
+            target="_blank"
+            id={`tooltip-${file.id}`}
+            className={classNames('n2o-file-uploader-link', {
+                'n2o-file-uploader-item-error': file.error,
+            })}
+        >
+            <span className="n2o-file-uploader-file-name">{file.name}</span>
+            {file.link && (
+                <i className=" n2o-file-uploader-external-link fa fa-external-link" />
+            )}
+        </a>
+    )
+
     return (
         <div className="n2o-file-uploader-files-item">
             <span className="n2o-file-uploader-files-item-info">
-                <Tooltip
-                    label={(
-                        <a
-                            title={file.name}
-                            href={file.link}
-                            /* eslint-disable-next-line react/jsx-no-target-blank */
-                            target="_blank"
-                            id={`tooltip-${file.id}`}
-                            className={classNames('n2o-file-uploader-link', {
-                                'n2o-file-uploader-item-error': file.error,
-                            })}
-                        >
-                            <span className="n2o-file-uploader-file-name">{file.name}</span>
-                            {file.link && (
-                                <i className=" n2o-file-uploader-external-link fa fa-external-link" />
-                            )}
-                        </a>
-                    )}
+                <ExtendedTooltipComponent
+                    Component={Component}
                     hint={error}
                     placement="bottom"
                 />

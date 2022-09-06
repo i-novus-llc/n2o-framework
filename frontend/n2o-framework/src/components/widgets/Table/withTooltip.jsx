@@ -13,8 +13,8 @@ export default function withTooltip(Component) {
      * @param tooltipFieldId ключ по которому резолвится Tooltip и берется hint
      */
     return function Wrapper(props) {
-        const { model, placement, tooltipFieldId } = props
-        const hint = get(model, tooltipFieldId)
+        const { model = {}, placement, tooltipFieldId } = props
+        const hint = get(model, tooltipFieldId, null)
 
         if (!hint) {
             return <Component {...props} />
@@ -31,7 +31,7 @@ export default function withTooltip(Component) {
                 Component={Component}
                 {...props}
                 hint={hint}
-                placement={placement}
+                placement={placement || 'bottom'}
             />
         )
     }

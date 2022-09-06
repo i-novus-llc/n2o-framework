@@ -62,9 +62,4 @@ describe('<ProgressBarCell />', () => {
 
         expect(wrapper.find(`div.${props.size}`).exists()).toBeTruthy()
     })
-    it('Cell обернут тултипом', () => {
-        const wrapper = mount(<ProgressBarCell {...propsWithTooltip} />)
-
-        expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true)
-    })
 })
