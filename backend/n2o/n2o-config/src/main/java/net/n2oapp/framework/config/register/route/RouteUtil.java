@@ -7,6 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.startsWithAny;
+
 /**
  * Утилитарные методы для работы с URL
  */
@@ -236,7 +238,7 @@ public abstract class RouteUtil {
     }
 
     /**
-     * Преобразование относительного маршрутав абсолютный
+     * Преобразование относительного маршрута в абсолютный
      *
      * @param baseRoute     Базовый маршрут
      * @param relativeRoute Относительный маршрут
@@ -245,16 +247,18 @@ public abstract class RouteUtil {
     public static String absolute(String relativeRoute, String baseRoute) {
         if (!isApplicationUrl(relativeRoute))
             return relativeRoute;
-        if (relativeRoute.startsWith("/"))
+        //target=application и url, начинающийся с ./ позволяет присоединить такой url к текущему.
+        //Это бывает полезно в кейсах, использующих redirect
+        if (startsWithAny(relativeRoute, "/", "./"))
             return relativeRoute;
         return join(baseRoute, relativeRoute);
     }
 
     /**
-     * Соединение родитеслького маршрута с дочерним
+     * Соединение родительского маршрута с дочерним
      *
      * @param parentRoute Родительский маршрут
-     * @param childRoute  Отнсительный маршрут
+     * @param childRoute  Относительный маршрут
      * @return Соединенный маршрут
      */
     public static String join(String parentRoute, String childRoute) {

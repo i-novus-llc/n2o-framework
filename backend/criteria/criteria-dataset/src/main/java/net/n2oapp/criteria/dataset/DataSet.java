@@ -2,6 +2,8 @@ package net.n2oapp.criteria.dataset;
 
 import java.util.*;
 
+import static java.util.Objects.nonNull;
+
 /**
  * Данные объекта
  */
@@ -99,7 +101,7 @@ public class DataSet extends NestedMap {
                 merge((NestedMap) mainValue, (NestedMap) extendValue, strategy);
             } else if (mainValue != null && mainValue instanceof List && extendValue instanceof List) {
                 mergeArrays((List) mainValue, (List) extendValue);
-            } else {
+            } else if (nonNull(strategy.pickUp(mainValue, extendValue))) {
                 main.put(fieldName, strategy.pickUp(mainValue, extendValue));
             }
         }

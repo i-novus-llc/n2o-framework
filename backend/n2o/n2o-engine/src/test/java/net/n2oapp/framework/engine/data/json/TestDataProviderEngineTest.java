@@ -674,6 +674,14 @@ public class TestDataProviderEngineTest {
         assertThat(result.size(), is(10));
         assertThat(result.get(0).get("id"), is(1L));
         assertThat(result.get(1).get("id"), is(5607627L));
+
+        //Фильтр "contains" по "groups.id"
+        inParams.put("filters", Arrays.asList("groups.id :contains :groups*.id"));
+        inParams.put("groups*.id", new ArrayList<>(Arrays.asList(12, 14)));
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(2));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(1).get("id"), is(5607628L));
     }
 
     @Test

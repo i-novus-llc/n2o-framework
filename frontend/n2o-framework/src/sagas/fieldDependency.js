@@ -13,6 +13,7 @@ import isEqual from 'lodash/isEqual'
 import some from 'lodash/some'
 import includes from 'lodash/includes'
 import get from 'lodash/get'
+import keys from 'lodash/keys'
 import { actionTypes, change } from 'redux-form'
 
 import evalExpression from '../utils/evalExpression'
@@ -33,7 +34,7 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
 import { resolveRequest, startValidate } from '../ducks/datasource/store'
 import { combineModels } from '../ducks/models/store'
-import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
 
 import fetchSaga from './fetch'
 
@@ -160,7 +161,6 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'reRender': {
-            const datasource = yield select(makeDatasourceIdSelector(formName))
             const form = yield select(makeWidgetByIdSelector(formName))
             const model = get(form, [
                 'form',
@@ -168,7 +168,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             ])
 
             yield delay(50)
-            yield put(startValidate(datasource, [fieldName], model, { touched: true }))
+            yield put(startValidate(formName, [fieldName], model, { touched: true }))
 
             break
         }
@@ -220,7 +220,10 @@ export function* checkAndModify(
                     ),
                 )
 
-                if (needRunOnInit || (someDepNeedRun && actionType === actionTypes.CHANGE)) {
+                if (
+                    needRunOnInit ||
+                    (someDepNeedRun && (actionType === actionTypes.CHANGE || actionType === actionTypes.INITIALIZE))
+                ) {
                     yield fork(modify, values, formName, fieldId, dep, field)
                 }
             }
@@ -232,19 +235,33 @@ export function* resolveDependency({ type, meta, payload }) {
     try {
         const { form: formName, field: fieldName } = meta
         const form = yield select(makeFormByName(formName))
+        const fieldKeys = type === actionTypes.INITIALIZE ? keys(form.registeredFields) : null
 
         if (isEmpty(form) || isEmpty(form.registeredFields)) {
             return
         }
 
-        yield call(
-            checkAndModify,
-            form.values || {},
-            form.registeredFields,
-            formName,
-            type === registerFieldExtra.type ? payload.name : fieldName,
-            type,
-        )
+        if (fieldKeys) {
+            for (const field of fieldKeys) {
+                yield call(
+                    checkAndModify,
+                    form.values || {},
+                    form.registeredFields,
+                    formName,
+                    field,
+                    type,
+                )
+            }
+        } else {
+            yield call(
+                checkAndModify,
+                form.values || {},
+                form.registeredFields,
+                formName,
+                type === registerFieldExtra.type ? payload.name : fieldName,
+                type,
+            )
+        }
     } catch (e) {
         // todo: падает тут из-за отсутствия формы
         // eslint-disable-next-line no-console
