@@ -13,7 +13,5 @@ public interface Component extends Element {
     void shouldBeVisible();
     void shouldBeHidden();
 
-    default void shouldHaveCssClass(String cssClass) {
-        element().shouldHave(Condition.cssClass(cssClass));
-    }
+    void shouldHaveCssClass(String cssClass);
 }
