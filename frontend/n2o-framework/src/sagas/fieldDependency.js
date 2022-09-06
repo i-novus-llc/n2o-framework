@@ -2,9 +2,9 @@ import {
     call,
     put,
     select,
-    take,
     fork,
     takeEvery,
+    takeLatest,
     delay,
     cancel,
 } from 'redux-saga/effects'
@@ -13,6 +13,7 @@ import isEqual from 'lodash/isEqual'
 import some from 'lodash/some'
 import includes from 'lodash/includes'
 import get from 'lodash/get'
+import keys from 'lodash/keys'
 import { actionTypes, change } from 'redux-form'
 
 import evalExpression from '../utils/evalExpression'
@@ -26,16 +27,20 @@ import {
     unsetRequired,
     setLoading,
     registerFieldExtra,
+    initializeDependencies,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
-import { startValidate } from '../ducks/datasource/store'
-import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { resolveRequest, startValidate } from '../ducks/datasource/store'
+import { combineModels } from '../ducks/models/store'
+import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
 
 import fetchSaga from './fetch'
 
-export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
+const FetchValueCache = new Set()
+
+export function* fetchValue(form, field, { dataProvider, valueFieldId }, cleanUp) {
     try {
         yield delay(300)
         yield put(setLoading(form, field, true))
@@ -78,12 +83,13 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
         console.error(e)
     } finally {
         yield put(setLoading(form, field, false))
+        cleanUp()
     }
 }
 
 // eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
-    const { type, expression, on } = dependency
+    const { type, expression } = dependency
 
     const evalResult = expression
         ? evalExpression(expression, values)
@@ -155,7 +161,6 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'reRender': {
-            const datasource = yield select(makeDatasourceIdSelector(formName))
             const form = yield select(makeWidgetByIdSelector(formName))
             const model = get(form, [
                 'form',
@@ -163,23 +168,24 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             ])
 
             yield delay(50)
-            yield put(startValidate(datasource, [fieldName], model, { touched: true }))
+            yield put(startValidate(formName, [fieldName], model, { touched: true }))
 
             break
         }
         case 'fetchValue': {
-            const watcher = yield fork(fetchValue, formName, fieldName, dependency)
-            const action = yield take((action) => {
-                if (action.type !== actionTypes.CHANGE) { return false }
-                // TODO Выяснить может ли fetch быть без зависимостей, если нет, то убрать
-                if (!on || !on.length) { return true }
+            const fetchValueKey = `${formName}.${fieldName}`
+            const task = yield fork(
+                fetchValue,
+                formName,
+                fieldName,
+                dependency,
+                () => FetchValueCache.delete(fetchValueKey),
+            )
 
-                return on.includes(get(action, 'meta.field'))
-            })
-
-            // TODO разобраться с этим условием, не уверен что актуально
-            if (get(action, 'meta.field') !== fieldName) {
-                yield cancel(watcher)
+            if (FetchValueCache.has(fetchValueKey)) {
+                yield cancel(task)
+            } else {
+                FetchValueCache.add(fetchValueKey)
             }
 
             break
@@ -201,23 +207,22 @@ export function* checkAndModify(
 
         if (field.dependency) {
             for (const dep of field.dependency) {
-                if (
-                    (
-                        dep.applyOnInit && (
-                            (actionType === actionTypes.INITIALIZE) ||
-                            ((actionType === registerFieldExtra.type) && (fieldName === fieldId))
-                        )
-                    ) ||
-                    (
-                        some(
-                            dep.on,
-                            field => (
-                                field === fieldName ||
-                                (includes(field, '.') && includes(field, fieldName))
-                            ),
-                        ) && actionType === actionTypes.CHANGE
-                    )
+                const needRunOnInit = dep.applyOnInit && (
+                    actionType === initializeDependencies.type ||
+                    (fieldName === fieldId &&
+                        actionType === registerFieldExtra.type)
+                )
+                const someDepNeedRun = some(
+                    dep.on,
+                    field => (
+                        field === fieldName ||
+                        (includes(field, '.') && includes(field, fieldName))
+                    ),
+                )
 
+                if (
+                    needRunOnInit ||
+                    (someDepNeedRun && (actionType === actionTypes.CHANGE || actionType === actionTypes.INITIALIZE))
                 ) {
                     yield fork(modify, values, formName, fieldId, dep, field)
                 }
@@ -226,27 +231,69 @@ export function* checkAndModify(
     }
 }
 
-export function* resolveDependency(action) {
+export function* resolveDependency({ type, meta, payload }) {
     try {
-        const { form: formName, field: fieldName } = action.meta
+        const { form: formName, field: fieldName } = meta
         const form = yield select(makeFormByName(formName))
+        const fieldKeys = type === actionTypes.INITIALIZE ? keys(form.registeredFields) : null
 
         if (isEmpty(form) || isEmpty(form.registeredFields)) {
             return
         }
 
-        yield call(
-            checkAndModify,
-            form.values || {},
-            form.registeredFields,
-            formName,
-            action.type === registerFieldExtra.type ? action.payload.name : fieldName,
-            action.type,
-        )
+        if (fieldKeys) {
+            for (const field of fieldKeys) {
+                yield call(
+                    checkAndModify,
+                    form.values || {},
+                    form.registeredFields,
+                    formName,
+                    field,
+                    type,
+                )
+            }
+        } else {
+            yield call(
+                checkAndModify,
+                form.values || {},
+                form.registeredFields,
+                formName,
+                type === registerFieldExtra.type ? payload.name : fieldName,
+                type,
+            )
+        }
     } catch (e) {
         // todo: падает тут из-за отсутствия формы
         // eslint-disable-next-line no-console
         console.error(e)
+    }
+}
+
+export function* resolveDependencyOnInit({ payload }) {
+    const { id } = payload
+
+    yield call(resolveDependency, {
+        type: initializeDependencies.type,
+        meta: {
+            form: id,
+        },
+    })
+}
+
+export function* resolveDependencyDefaultModels({ payload }) {
+    const { combine = {} } = payload
+
+    yield delay(500)
+
+    for (const [, models] of Object.entries(combine)) {
+        for (const [datasource] of Object.entries(models)) {
+            yield call(resolveDependency, {
+                type: initializeDependencies.type,
+                meta: {
+                    form: datasource,
+                },
+            })
+        }
     }
 }
 
@@ -255,5 +302,8 @@ export const fieldDependencySagas = [
         actionTypes.INITIALIZE,
         registerFieldExtra.type,
         actionTypes.CHANGE,
+        initializeDependencies.type,
     ], resolveDependency),
+    takeEvery(resolveRequest, resolveDependencyOnInit),
+    takeLatest(combineModels, resolveDependencyDefaultModels),
 ]

@@ -8,6 +8,7 @@ module.exports = {
                 'guides/manual/getstarted',
                 'guides/manual/configs',
                 'guides/manual/components',
+                'guides/manual/datasources',
                 'guides/manual/data',
                 'guides/manual/defaultvalue',
                 'guides/manual/dependency',

@@ -84,6 +84,7 @@ public class DataController extends AbstractController {
     private void resolvePolling(ActionRequestInfo requestInfo, SetDataResponse response) {
         PollingSaga resolvedPolling = new PollingSaga();
         resolvedPolling.setDelay(requestInfo.getPolling().getDelay());
+        resolvedPolling.setMaxAttempts(requestInfo.getPolling().getMaxAttempts());
         resolvedPolling.setDataProvider(requestInfo.getPolling().getDataProvider());
         resolvedPolling.setDatasource(requestInfo.getPolling().getDatasource());
         resolvedPolling.setModel(requestInfo.getPolling().getModel());

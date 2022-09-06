@@ -61,7 +61,7 @@ export const isInitSelector = (formName, fieldName) => createSelector(
     field => field.isInit,
 )
 
-export const messageSelector = (datasourceId, fieldName) => createSelector(
+export const messageSelector = (datasourceId, fieldName, modelPrefix) => createSelector(
     makeFormModelPrefixSelector(datasourceId),
     state => state,
     (prefix, state) => {
@@ -69,7 +69,7 @@ export const messageSelector = (datasourceId, fieldName) => createSelector(
             return undefined
         }
 
-        return dataSourceFieldError(datasourceId, prefix, fieldName)(state)?.[0]
+        return dataSourceFieldError(datasourceId, modelPrefix || prefix, fieldName)(state)?.[0]
     },
 )
 

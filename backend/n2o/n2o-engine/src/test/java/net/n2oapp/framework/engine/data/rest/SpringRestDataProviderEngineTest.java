@@ -3,6 +3,7 @@ package net.n2oapp.framework.engine.data.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import org.junit.Assert;
@@ -59,9 +60,10 @@ public class SpringRestDataProviderEngineTest {
         try {
             actionEngine.invoke(invocation, request);
             Assert.fail();
-        } catch (HttpStatusCodeException e) {
-            assertThat(e.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
-            assertThat(e.getResponseBodyAsString(), is("Error"));
+        } catch (N2oQueryExecutionException e) {
+            HttpStatusCodeException cause = (HttpStatusCodeException) e.getCause();
+            assertThat(cause.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
+            assertThat(cause.getResponseBodyAsString(), is("Error"));
         }
     }
 

@@ -23,7 +23,7 @@ public class QueryContextUtil {
         List<Filter> filters = query.getFilterFieldsMap().values().stream().map(f -> {
             Filter e = new Filter();
             e.setParam(f.getParam());
-            e.setFilterId(f.getFilterField());
+            e.setFilterId(f.getFilterId());
             e.setRoutable(true);
             return e;
         }).collect(Collectors.toList());

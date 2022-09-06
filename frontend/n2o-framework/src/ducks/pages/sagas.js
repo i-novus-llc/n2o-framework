@@ -2,14 +2,10 @@ import {
     all,
     call,
     put,
-    race,
     select,
-    take,
+    fork,
     takeEvery,
     throttle,
-    fork,
-    actionChannel,
-    cancelled,
 } from 'redux-saga/effects'
 import { matchPath } from 'react-router-dom'
 import compact from 'lodash/compact'
@@ -18,30 +14,17 @@ import head from 'lodash/head'
 import isEmpty from 'lodash/isEmpty'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
-import clone from 'lodash/clone'
-import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
-import set from 'lodash/set'
-import reduce from 'lodash/reduce'
-import pickBy from 'lodash/pickBy'
-import { getAction, getLocation } from 'connected-react-router'
+import { getAction, getLocation, LOCATION_CHANGE } from 'connected-react-router'
 import queryString from 'query-string'
 
-import {
-    combineModels,
-    setModel,
-    copyModel,
-    removeModel,
-    updateModel,
-    updateMapModel,
-} from '../models/store'
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-import linkResolver from '../../utils/linkResolver'
 import { setGlobalLoading, changeRootPage, rootPageSelector } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
 
+import { resolvePageFilters, watchPageFilters } from './restoreFilters'
 import { makePageRoutesByIdSelector } from './selectors'
 import { MAP_URL } from './constants'
 import {
@@ -49,7 +32,6 @@ import {
     metadataSuccess,
     setStatus,
     metadataRequest,
-    resetPage,
 } from './store'
 
 /**
@@ -203,11 +185,13 @@ export function* getMetadata(apiProvider, action) {
         )
 
         yield call(mappingUrlToRedux, metadata.routes)
+
         if (rootPage) {
             yield put(changeRootPage(metadata.id))
             yield put(destroyOverlay())
         }
-        yield fork(watcherDefaultModels, metadata.models)
+
+        yield fork(resolvePageFilters, pageUrl, metadata.id, metadata.routes, metadata.models)
         yield put(setStatus(metadata.id, 200))
         yield put(metadataSuccess(metadata.id, metadata))
     } catch (err) {
@@ -238,100 +222,11 @@ export function* getMetadata(apiProvider, action) {
 }
 
 /**
- * Дополнительная функция для observeModels.
- * резолвит и сравнивает модели из стейта и резолв модели.
- * @param models - модели для резолва
- * @param stateModels - модели из стейта
- * @returns {*}
- */
-export function compareAndResolve(models, stateModels) {
-    return reduce(
-        models,
-        (acc, value, path) => {
-            const resolveValue = linkResolver(stateModels, value)
-            const stateValue = get(stateModels, path)
-
-            if (!isEqual(stateValue, resolveValue)) {
-                return set(clone(acc), path, resolveValue)
-            }
-
-            return acc
-        },
-        {},
-    )
-}
-
-/**
- * Для закрытия канала используем race
- * c экшеном сброса (обнуление) метаданных страницы
- * @param config - конфиг для моделей по умолчанию, который прокидывается в сагу
- */
-export function* watcherDefaultModels(config) {
-    yield race([call(flowDefaultModels, config), take(resetPage.type)])
-}
-
-/**
- * Сага для первоначальной установки моделей по умолчанию
- * и подписка на изменения через канал
- * @param config - конфиг для моделей по умолчанию
- * @returns {boolean}
- */
-// eslint-disable-next-line consistent-return
-export function* flowDefaultModels(config) {
-    if (isEmpty(config)) { return false }
-    const state = yield select()
-    const initialModels = yield call(compareAndResolve, config, state)
-
-    if (!isEmpty(initialModels)) {
-        yield put(combineModels(initialModels))
-    }
-    const observableModels = pickBy(
-        config,
-        item => !!item.observe && !!item.link,
-    )
-
-    if (!isEmpty(observableModels)) {
-        const modelsChan = yield actionChannel([
-            setModel.type,
-            copyModel.type,
-            removeModel.type,
-            updateModel.type,
-            updateMapModel.type,
-        ])
-
-        try {
-            while (true) {
-                const oldState = yield select()
-
-                yield take(modelsChan)
-                const newState = yield select()
-                const changedModels = pickBy(
-                    observableModels,
-                    cfg => !isEqual(get(oldState, cfg.link), get(newState, cfg.link)),
-                )
-                const newModels = yield call(
-                    compareAndResolve,
-                    changedModels,
-                    newState,
-                )
-
-                if (!isEmpty(newModels)) {
-                    yield put(combineModels(newModels))
-                }
-            }
-        } finally {
-            if (yield cancelled()) {
-                modelsChan.close()
-            }
-        }
-    }
-}
-
-/**
  * Сайд-эффекты для page редюсера
  * @ignore
  */
 export default apiProvider => [
     takeEvery(metadataRequest, getMetadata, apiProvider),
     throttle(500, MAP_URL, processUrl),
+    takeEvery(LOCATION_CHANGE, watchPageFilters),
 ]

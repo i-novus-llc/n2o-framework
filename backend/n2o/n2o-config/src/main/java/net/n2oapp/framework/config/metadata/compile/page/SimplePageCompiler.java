@@ -115,7 +115,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         initContextDatasources(dataSourcesScope, pageScope, context, p);
         if (!dataSourcesScope.isEmpty()) {
             dataSourcesScope.values().forEach(ds -> {
-                AbstractDatasource compiled = p.compile(ds, context, scopes);
+                AbstractDatasource compiled = p.compile(ds, context, dataSourcesScope, scopes);
                 compiledDatasources.put(compiled.getId(), compiled);
             });
         }
