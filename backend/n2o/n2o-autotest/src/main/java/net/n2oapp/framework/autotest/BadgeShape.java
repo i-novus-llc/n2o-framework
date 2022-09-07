@@ -10,4 +10,8 @@ public enum BadgeShape {
     BadgeShape(String shape) {
         this.shape = shape;
     }
+
+    public String name(String prefix) {
+        return prefix + shape;
+    }
 }

@@ -9,4 +9,8 @@ public enum BadgePosition {
     BadgePosition(String position) {
         this.position = position;
     }
+
+    public String name(String prefix) {
+        return prefix + position;
+    }
 }
