@@ -29,7 +29,7 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(Component: Function)
             setTooltipRef,
             setTriggerRef,
             visible,
-        } = usePopperTooltip({ ...props, trigger: 'click' })
+        } = usePopperTooltip({ ...props })
 
         if (!hint || !FactoryTooltip) {
             return <Component {...props} />
