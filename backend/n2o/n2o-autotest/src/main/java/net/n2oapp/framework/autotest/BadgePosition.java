@@ -9,8 +9,4 @@ public enum BadgePosition {
     BadgePosition(String position) {
         this.position = position;
     }
-
-    public String getPosition() {
-        return position;
-    }
 }

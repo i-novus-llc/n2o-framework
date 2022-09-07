@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.api.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
-import net.n2oapp.framework.autotest.api.component.Expandable;
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
 /**
@@ -30,5 +29,5 @@ public interface InputSelectTree extends Control, PopupControl {
 
     void shouldBeUnselected();
 
-    DropDownTree dropdowntree();
+    DropDownTree dropdown();
 }

@@ -10,8 +10,4 @@ public enum BadgeShape {
     BadgeShape(String shape) {
         this.shape = shape;
     }
-
-    public String getShape() {
-        return shape;
-    }
 }

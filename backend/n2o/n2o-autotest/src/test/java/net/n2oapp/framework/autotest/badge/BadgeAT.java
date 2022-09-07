@@ -65,10 +65,10 @@ public class BadgeAT extends AutoTestBase {
         DropDown.DropDownItem itemDropDownInputSelect = dropDownInputSelect.item(0);
         itemDropDownInputSelect.badgeShouldBeExists();
         itemDropDownInputSelect.badgeShouldHaveText("Проект 1");
-        itemDropDownInputSelect.badgeShouldHaveShape(BadgeShape.SQUARE.getShape());
+        itemDropDownInputSelect.badgeShouldHaveShape(BadgeShape.SQUARE);
         itemDropDownInputSelect.badgeShouldHaveImage("hamburg-3846525__340.jpg");
-        itemDropDownInputSelect.badgeImageShouldBeShape(BadgeShape.CIRCLE.getShape());
-        itemDropDownInputSelect.badgeImageShouldBePosition(BadgePosition.LEFT.getPosition());
+        itemDropDownInputSelect.badgeImageShouldHaveShape(BadgeShape.CIRCLE);
+        itemDropDownInputSelect.badgeImageShouldHavePosition(BadgePosition.LEFT);
 
         Select select = formWidget.fields().field("Выпадающий список").control(Select.class);
         select.openPopup();
@@ -79,15 +79,15 @@ public class BadgeAT extends AutoTestBase {
         DropDown.DropDownItem itemDropDownSelect = dropDownSelect.item(0);
         itemDropDownSelect.badgeShouldBeExists();
         itemDropDownSelect.badgeShouldHaveText("Проект 1");
-        itemDropDownSelect.badgeShouldHaveShape(BadgeShape.ROUNDED.getShape());
+        itemDropDownSelect.badgeShouldHaveShape(BadgeShape.ROUNDED);
         itemDropDownSelect.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        itemDropDownSelect.badgeImageShouldBeShape(BadgeShape.ROUNDED.getShape());
-        itemDropDownSelect.badgeImageShouldBePosition(BadgePosition.RIGHT.getPosition());
+        itemDropDownSelect.badgeImageShouldHaveShape(BadgeShape.ROUNDED);
+        itemDropDownSelect.badgeImageShouldHavePosition(BadgePosition.RIGHT);
 
         InputSelectTree selectTree = formWidget.fields().field("Дерево").control(InputSelectTree.class);
         selectTree.openPopup();
         selectTree.shouldBeOpened();
-        DropDownTree dropDownTreeSelect = selectTree.dropdowntree();
+        DropDownTree dropDownTreeSelect = selectTree.dropdown();
         DropDownTree.DropDownTreeItem firstItemTree = dropDownTreeSelect.item(0);
         firstItemTree.expand();
         firstItemTree.shouldBeExpanded();
@@ -100,10 +100,10 @@ public class BadgeAT extends AutoTestBase {
         DropDownTree.DropDownTreeItem fourthTreeItem = dropDownTreeSelect.item(2);
         fourthTreeItem.badgeShouldHaveText("Проект 1.1");
         fourthTreeItem.badgeShouldBeExists();
-        fourthTreeItem.badgeShouldHaveShape(BadgeShape.CIRCLE.getShape());
+        fourthTreeItem.badgeShouldHaveShape(BadgeShape.CIRCLE);
         fourthTreeItem.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        fourthTreeItem.badgeImageShouldBeShape(BadgeShape.SQUARE.getShape());
-        fourthTreeItem.badgeImageShouldBePosition(BadgePosition.RIGHT.getPosition());
+        fourthTreeItem.badgeImageShouldHaveShape(BadgeShape.SQUARE);
+        fourthTreeItem.badgeImageShouldHavePosition(BadgePosition.RIGHT);
     }
 
     @Test
@@ -120,11 +120,11 @@ public class BadgeAT extends AutoTestBase {
         int col = 3;
         BadgeCell cell = rows.row(0).cell(col, BadgeCell.class);
         cell.badgeShouldBeExists();
-        cell.badgeShouldHaveShape(BadgeShape.ROUNDED.getShape());
+        cell.badgeShouldHaveShape(BadgeShape.ROUNDED);
         cell.badgeShouldHaveText("Проект 1");
         cell.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        cell.badgeImageShouldBePosition(BadgePosition.RIGHT.getPosition());
-        cell.badgeImageShouldBeShape(BadgeShape.ROUNDED.getShape());
+        cell.badgeImageShouldHavePosition(BadgePosition.RIGHT);
+        cell.badgeImageShouldHaveShape(BadgeShape.ROUNDED);
     }
 
     @Test
@@ -138,29 +138,29 @@ public class BadgeAT extends AutoTestBase {
         StandardButton firstBtn = simplePage.toolbar().topLeft().button("Первая");
         firstBtn.shouldBeEnabled();
         firstBtn.badgeShouldBeExists();
-        firstBtn.badgeShouldHaveShape(BadgeShape.CIRCLE.getShape());
+        firstBtn.badgeShouldHaveShape(BadgeShape.CIRCLE);
         firstBtn.badgeShouldHaveText("new");
         firstBtn.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        firstBtn.badgeImageShouldBeShape(BadgeShape.CIRCLE.getShape());
-        firstBtn.badgeImageShouldBePosition(BadgePosition.LEFT.getPosition());
+        firstBtn.badgeImageShouldHaveShape(BadgeShape.CIRCLE);
+        firstBtn.badgeImageShouldHavePosition(BadgePosition.LEFT);
 
         StandardButton secondBtn = simplePage.toolbar().topLeft().button("Вторая");
         firstBtn.shouldBeEnabled();
         secondBtn.badgeShouldBeExists();
-        secondBtn.badgeShouldHaveShape(BadgeShape.ROUNDED.getShape());
+        secondBtn.badgeShouldHaveShape(BadgeShape.ROUNDED);
         secondBtn.badgeShouldHaveText("new");
         secondBtn.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        secondBtn.badgeImageShouldBeShape(BadgeShape.ROUNDED.getShape());
-        secondBtn.badgeImageShouldBePosition(BadgePosition.RIGHT.getPosition());
+        secondBtn.badgeImageShouldHaveShape(BadgeShape.ROUNDED);
+        secondBtn.badgeImageShouldHavePosition(BadgePosition.RIGHT);
 
         StandardButton thirdBtn = simplePage.toolbar().topLeft().button("Третья");
         firstBtn.shouldBeEnabled();
         thirdBtn.badgeShouldBeExists();
-        thirdBtn.badgeShouldHaveShape(BadgeShape.SQUARE.getShape());
+        thirdBtn.badgeShouldHaveShape(BadgeShape.SQUARE);
         thirdBtn.badgeShouldHaveText("new");
         thirdBtn.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        thirdBtn.badgeImageShouldBeShape(BadgeShape.SQUARE.getShape());
-        thirdBtn.badgeImageShouldBePosition(BadgePosition.RIGHT.getPosition());
+        thirdBtn.badgeImageShouldHaveShape(BadgeShape.SQUARE);
+        thirdBtn.badgeImageShouldHavePosition(BadgePosition.RIGHT);
     }
 
     @Test
@@ -183,11 +183,11 @@ public class BadgeAT extends AutoTestBase {
 
         TreeWidget.TreeItem secondItemTree = treeWidget.item(1);
         secondItemTree.badgeShouldBeExists();
-        secondItemTree.badgeShouldHaveShape(BadgeShape.ROUNDED.getShape());
+        secondItemTree.badgeShouldHaveShape(BadgeShape.ROUNDED);
         secondItemTree.badgeShouldHaveText("Проект 1.1");
         secondItemTree.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        secondItemTree.badgeImageShouldBePosition(BadgePosition.LEFT.getPosition());
-        secondItemTree.badgeImageShouldBeShape(BadgeShape.SQUARE.getShape());
+        secondItemTree.badgeImageShouldHavePosition(BadgePosition.LEFT);
+        secondItemTree.badgeImageShouldHaveShape(BadgeShape.SQUARE);
     }
 
     @Test
@@ -208,9 +208,9 @@ public class BadgeAT extends AutoTestBase {
         menuItem.shouldHaveIcon();
         menuItem.iconShouldHaveCssClass("fa fa-bell");
         menuItem.badgeShouldBeExists();
-        menuItem.badgeShouldHaveShape(BadgeShape.SQUARE.getShape());
+        menuItem.badgeShouldHaveShape(BadgeShape.SQUARE);
         menuItem.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        menuItem.badgeImageShouldBeShape(BadgeShape.SQUARE.getShape());
-        menuItem.badgeImageShouldBePosition(BadgePosition.RIGHT.getPosition());
+        menuItem.badgeImageShouldHaveShape(BadgeShape.SQUARE);
+        menuItem.badgeImageShouldHavePosition(BadgePosition.RIGHT);
     }
 }

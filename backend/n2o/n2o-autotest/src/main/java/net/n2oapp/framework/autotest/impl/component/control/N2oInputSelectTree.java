@@ -77,7 +77,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     @Override
-    public DropDownTree dropdowntree() {
+    public DropDownTree dropdown() {
         return N2oSelenide.component(element().$(".n2o-select-tree-dropdown"), DropDownTree.class);
     }
 
