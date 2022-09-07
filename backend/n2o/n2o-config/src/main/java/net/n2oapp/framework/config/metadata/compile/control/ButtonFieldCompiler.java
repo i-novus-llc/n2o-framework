@@ -86,8 +86,6 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             }
         }
 
-        initConfirm(button, source, context, p, operation);
-
         String hint;
         if (LabelType.icon.equals(source.getType()))
             hint = p.cast(source.getDescription(), p.resolveJS(source.getLabel()));
@@ -101,6 +99,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
 
         if (source.getModel() == null)
             source.setModel(ReduxModel.resolve);
+
+        initConfirm(button, source, p, operation);
 
         String datasource = initDatasource(source, p);
         button.setValidate(compileValidate(source, p, datasource));
@@ -127,7 +127,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         return null;
     }
 
-    private void initConfirm(ButtonField button, N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
+    private void initConfirm(ButtonField button, N2oButtonField source, CompileProcessor p, CompiledObject.Operation operation) {
         if ((source.getConfirm() == null || !source.getConfirm()) &&
                 (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
             return;
@@ -154,8 +154,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         }
         if (StringUtils.isJs(confirm.getText())) {
             String datasource = initClientDatasourceId(source, p);
-            ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, datasource).getBindLink());
+            confirm.setModelLink(new ModelLink(source.getModel(), datasource).getBindLink());
         }
         button.setConfirm(confirm);
     }
