@@ -5,6 +5,7 @@
 .tooltip-container.dark {
     background-color: black;
     color: white;
+    border: none;
 }
 
 .tooltip-container[data-popper-placement*='top'] .tooltip-arrow.dark::before {

@@ -23,7 +23,7 @@ import globalFnDate from './utils/globalFnDate'
 import { errorTemplates } from './components/errors/errorTemplates'
 import locales from './locales'
 import { GlobalAlertsConnected } from './components/core/GlobalAlerts'
-import { Tooltip } from './components/snippets/Tooltip/Tooltip2'
+import { Tooltip } from './components/snippets/Tooltip/Tooltip'
 
 const { version } = packageJson
 

@@ -7,6 +7,10 @@ import { FactoryContext } from '../../../core/factory/context'
 interface ITooltipHocProps extends Config {
     hint?: string | number | React.Component
     trigger?: 'click' | 'double-click' | 'right-click' | 'hover' | 'focus',
+    /**
+     * if this option is enabled, TooltipHOC will give the incoming component tooltipTriggerRef
+     * @default false
+     */
     isControlledTooltip?: boolean
     className?: string,
     setTriggerRef?: React.Dispatch<React.SetStateAction<HTMLElement | null>>
@@ -25,7 +29,7 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(Component: Function)
             setTooltipRef,
             setTriggerRef,
             visible,
-        } = usePopperTooltip({ ...props })
+        } = usePopperTooltip({ ...props, trigger: 'click' })
 
         if (!hint || !FactoryTooltip) {
             return <Component {...props} />
@@ -66,4 +70,14 @@ function Expandable({ Component, ...props }: {Component: ComponentType}): JSX.El
     return <Component {...props} />
 }
 
+/**
+ * Wrapper with TooltipHOC
+ * @example
+ *  <ExtendedTooltipComponent
+       Component={TargetComponent}
+       {...targetComponentProps}
+       hint='target component hint'
+       placement='top'
+    />
+ */
 export const ExtendedTooltipComponent = TooltipHOC(Expandable)

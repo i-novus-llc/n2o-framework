@@ -14,7 +14,7 @@ import { Image } from './Image/Image'
 import { Status } from './Status/Status'
 import { renderBadge } from './Badge/Badge'
 import { Html } from './Html/Html'
-import { Tooltip } from './Tooltip/Tooltip2'
+import { Tooltip } from './Tooltip/Tooltip'
 
 export default {
     Alert,
