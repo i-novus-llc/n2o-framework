@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
  * Слияние двух боковых панелей
  */
 @Component
-public class N2oSidebarMerger implements BaseSourceMerger<N2oSidebar> {
+public class N2oSidebarMerger<T extends N2oSidebar> implements BaseSourceMerger<T> {
 
     @Override
-    public N2oSidebar merge(N2oSidebar source, N2oSidebar override) {
+    public T merge(T source, T override) {
         setIfNotNull(source::setVisible, override::getVisible);
         setIfNotNull(source::setSide, override::getSide);
         setIfNotNull(source::setLogoSrc, override::getLogoSrc);

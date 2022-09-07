@@ -9,7 +9,7 @@ import { Manager, Reference } from 'react-popper'
 
 // eslint-disable-next-line import/no-named-as-default
 import Icon from '../../../../snippets/Icon/Icon'
-import SecurityController from '../../../../../core/auth/SecurityController'
+import { SecurityController } from '../../../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/DropdownCustomItem'
 

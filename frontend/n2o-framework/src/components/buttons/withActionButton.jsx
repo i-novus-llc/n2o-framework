@@ -23,6 +23,7 @@ import { id as getID } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'
 import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
+import { ModelPrefix } from '../../core/datasource/const'
 
 const ConfirmMode = {
     POPOVER: 'popover',
@@ -137,6 +138,7 @@ export default function withActionButton(options = {}) {
                     const isDatasourceValid = await validateDatasource(
                         store.getState(),
                         datasourceId,
+                        ModelPrefix.active,
                         dispatch,
                         true,
                     )

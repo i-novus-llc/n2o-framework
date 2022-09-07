@@ -4,7 +4,9 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
+import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
@@ -74,6 +76,13 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
     @SafeVarargs
     public final XmlIOReader ios(NamespaceIO<? extends NamespaceUriAware>... ios) {
         Stream.of(ios).forEach(this::addIO);
+        return this;
+    }
+
+    @SafeVarargs
+    @Override
+    public final XmlIOReader packs(MetadataPack<? super XmlIOReader>... packs) {
+        Stream.of(packs).forEach(p -> p.build(this));
         return this;
     }
 

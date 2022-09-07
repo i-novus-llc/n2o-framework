@@ -4,12 +4,13 @@ import { modelsSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import type { State as GlobalState } from '../State'
 import type { State as ModelsState } from '../models/Models'
+import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 export const dataSourcesSelector = (state: GlobalState) => state.datasource
 
 export const dataSourceByIdSelector = (sourceId: string) => createSelector(
     dataSourcesSelector,
-    sources => (sources[sourceId] || {}),
+    sources => (sources[sourceId] || EMPTY_OBJECT),
 )
 
 /* eslint-disable indent */
@@ -22,9 +23,9 @@ export const dataSourceModelsSelector = <
     (modelsList: ModelsState<TModel, TFilter>) => ({
         [ModelPrefix.active]: modelsList[ModelPrefix.active][sourceId],
         [ModelPrefix.edit]: modelsList[ModelPrefix.edit][sourceId],
-        [ModelPrefix.source]: modelsList[ModelPrefix.source][sourceId] || [],
-        [ModelPrefix.selected]: modelsList[ModelPrefix.selected][sourceId] || [],
-        [ModelPrefix.filter]: modelsList[ModelPrefix.filter][sourceId] || {},
+        [ModelPrefix.source]: modelsList[ModelPrefix.source][sourceId] || EMPTY_ARRAY,
+        [ModelPrefix.selected]: modelsList[ModelPrefix.selected][sourceId] || EMPTY_ARRAY,
+        [ModelPrefix.filter]: modelsList[ModelPrefix.filter][sourceId] || EMPTY_OBJECT,
     }),
 )
 /* eslint-enable indent */
@@ -73,7 +74,7 @@ export const dataSourceErrors = (
     prefix: ModelPrefix.active | ModelPrefix.edit = ModelPrefix.active,
 ) => createSelector(
     dataSourceByIdSelector(sourceId),
-    state => (state.errors[prefix] || {}),
+    state => (state.errors?.[prefix] || EMPTY_OBJECT),
 )
 
 export const dataSourceFieldError = (
@@ -87,5 +88,5 @@ export const dataSourceFieldError = (
 
 export const dataSourceError = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
-    state => (state.error || {}),
+    state => (state.error || EMPTY_OBJECT),
 )

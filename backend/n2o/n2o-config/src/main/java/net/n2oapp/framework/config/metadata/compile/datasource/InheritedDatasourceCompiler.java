@@ -1,18 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
-import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция источника данных, получающего данные из другого источника данных
@@ -28,7 +24,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
     @Override
     public InheritedDatasource compile(N2oInheritedDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         InheritedDatasource compiled = new InheritedDatasource();
-        compileDatasource(source, compiled, p);
+        compileDatasource(source, compiled, context, p);
         compiled.setProvider(initProvider(source, context, p));
         compiled.setSubmit(initSubmit(source, context, p));
         return compiled;
@@ -53,19 +49,5 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         provider.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
         provider.setSourceField(source.getSourceFieldId());
         return provider;
-    }
-
-    private String getClientDatasourceId(String datasourceId, CompileContext<?, ?> context, CompileProcessor p) {
-        if (context instanceof PageContext) {
-            // проверка, что источник данных прокинут с родительской страницы
-            PageContext pageContext = (PageContext) context;
-            Optional<N2oAbstractDatasource> parentDatasource = Optional.ofNullable(pageContext.getParentDatasources()).map(m -> m.get(datasourceId));
-            if (parentDatasource.isPresent()) {
-                if (parentDatasource.get() instanceof N2oApplicationDatasource)
-                    return datasourceId;
-                return DatasourceUtil.getClientDatasourceId(datasourceId, ((PageContext) context).getParentClientPageId());
-            }
-        }
-        return DatasourceUtil.getClientDatasourceId(datasourceId, p);
     }
 }

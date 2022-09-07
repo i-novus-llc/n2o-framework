@@ -19,6 +19,8 @@ export class Spinner extends Component {
             showSpinner: false,
         }
 
+        this.timeoutId = null
+
         this.renderCoverSpinner = this.renderCoverSpinner.bind(this)
         this.renderLineSpinner = this.renderLineSpinner.bind(this)
     }
@@ -27,7 +29,8 @@ export class Spinner extends Component {
         const { loading } = this.props
 
         if (prevProps.loading !== loading) {
-            setTimeout(() => {
+            clearTimeout(this.timeoutId)
+            this.timeoutId = setTimeout(() => {
                 const { loading } = this.props
 
                 if (!this.unmounted) {

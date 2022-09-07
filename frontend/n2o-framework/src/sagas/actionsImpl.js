@@ -12,6 +12,7 @@ import has from 'lodash/has'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import every from 'lodash/every'
 import merge from 'deepmerge'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
@@ -47,6 +48,7 @@ export function* validate({ dispatch, validate }) {
             validateDatasource,
             state,
             datasourceId,
+            ModelPrefix.active,
             dispatch,
             true,
         ))
@@ -182,7 +184,7 @@ export function* handleInvoke(apiProvider, action) {
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
             : yield call(fetchInvoke, dataProvider, model, apiProvider)
 
-        const meta = merge(action.meta.success || {}, response.meta || {})
+        const meta = merge(action.meta?.success || {}, response.meta || {})
         const { submitForm } = dataProvider
 
         if (!optimistic && submitForm) {
@@ -222,10 +224,13 @@ export function* handleInvoke(apiProvider, action) {
 
             for (const buttonId of buttonIds) {
                 const button = buttons[buttonId]
+                const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
 
                 if (!isEmpty(button.conditions)) {
                     yield call(resolveButton, buttons[buttonId])
-                } else {
+                }
+
+                if (needUnDisableButton) {
                     yield put(changeButtonDisabled(pageId, buttonId, false))
                 }
             }
@@ -241,9 +246,9 @@ export function* handleInvoke(apiProvider, action) {
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
     takeEvery(START_INVOKE, handleInvoke, apiProvider),
-    takeEvery(SUBMIT, function* submitSaga({ payload }) {
+    takeEvery(SUBMIT, function* submitSaga({ meta = {}, payload = {} }) {
         const { datasource } = payload
 
-        yield put(submit(datasource))
+        yield put(submit(datasource, null, meta))
     }),
 ]

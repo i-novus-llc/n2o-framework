@@ -15,7 +15,7 @@ import ReduxForm from './ReduxForm'
 const fakeInitial = {}
 
 export const mapStateToProps = createStructuredSelector({
-    reduxFormValues: (state, props) => getFormValues(props.id)(state) || {},
+    reduxFormValues: (state, { datasource, id }) => getFormValues(datasource || id)(state) || {},
 })
 
 /*
@@ -38,24 +38,29 @@ class Container extends React.Component {
     }
 
     componentDidUpdate({ models: prevModels, reduxFormValues: prevValues }) {
-        const { models, reduxFormValues, form, setResolve, dispatch, id } = this.props
+        const { models, reduxFormValues, form, setResolve, dispatch, id, datasource: datasourceId } = this.props
         const { initialValues } = this.state
         const { datasource } = models
         const { modelPrefix } = form
         const activeModel = this.getActiveModel(models)
         const prevModel = this.getActiveModel(prevModels)
+        const needUpdateValuesIfSameDatasource = datasource !== prevModels.datasource &&
+            isEqual(prevModels.datasource, datasource) &&
+            !isEqual(datasource[0], reduxFormValues)
 
-        if (!isEqual(datasource, prevModels.datasource)) {
+        if (!isEqual(datasource, prevModels.datasource) || needUpdateValuesIfSameDatasource) {
             // если предыдущий список пустой, и есть активная модель, то это defaultValues и надо их мержить
             const model = isEmpty(prevModels.datasource) && activeModel
                 ? { ...activeModel, ...datasource[0] }
-                : datasource[0]
+                : (datasource[0] || {})
 
-            this.updateActiveModel(model)
-            // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
-            if (modelPrefix === ModelPrefix.edit) {
-                setResolve(model)
-            }
+            this.setState(() => ({ initialValues: cloneDeep(model) }), () => {
+                this.updateActiveModel(model)
+                // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
+                if (modelPrefix === ModelPrefix.edit) {
+                    setResolve(model)
+                }
+            })
         } else if (
             !isEqual(reduxFormValues, prevValues) &&
             !isEqual(reduxFormValues, activeModel)
@@ -71,7 +76,7 @@ class Container extends React.Component {
             this.setState({ initialValues: fakeInitial })
         } else if (initialValues === fakeInitial) {
             this.setState({ initialValues: cloneDeep(activeModel) })
-            dispatch(initialize(id, initialValues))
+            dispatch(initialize(datasourceId || id, initialValues))
         }
     }
 
@@ -103,12 +108,12 @@ class Container extends React.Component {
 
     render() {
         const { initialValues, fields } = this.state
-        const { id, form, models } = this.props
+        const { id, form, models, datasource } = this.props
         const activeModel = this.getActiveModel(models)
 
         return (
             <ReduxForm
-                form={id}
+                form={datasource || id}
                 fields={fields}
                 {...form}
                 activeModel={activeModel}
@@ -126,6 +131,7 @@ Container.propTypes = {
         modelPrefix: PropTypes.oneOf([ModelPrefix.active, ModelPrefix.edit]),
     }),
     id: PropTypes.string.isRequired,
+    datasource: PropTypes.string,
     setActive: PropTypes.func,
     setResolve: PropTypes.func,
     setEdit: PropTypes.func,

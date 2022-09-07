@@ -45,6 +45,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
     @Override
     public ButtonField compile(N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p) {
         ButtonField field = new ButtonField();
+        initDefaults(source, context, p);
         compileField(field, source, context, p);
         field.setColor(source.getColor());
         field.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));

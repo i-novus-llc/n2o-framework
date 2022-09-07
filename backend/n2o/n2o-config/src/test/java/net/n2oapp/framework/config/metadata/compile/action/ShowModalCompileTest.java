@@ -5,7 +5,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
@@ -155,7 +155,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(filters.length, is(1));
         assertThat(filters[0].getDatasourceId(), is("main"));
         assertThat(filters[0].getRefPageId(), is("p"));
-        assertThat(filters[0].getFieldId(), is(N2oQuery.Field.PK));
+        assertThat(filters[0].getFieldId(), is(QuerySimpleField.PK));
         assertThat(filters[0].getType(), is(FilterType.eq));
         assertThat(filters[0].getModel(), is(ReduxModel.resolve));
 
@@ -278,7 +278,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(filters.length, is(1));
         assertThat(filters[0].getDatasourceId(), is("main"));
         assertThat(filters[0].getRefPageId(), is("p"));
-        assertThat(filters[0].getFieldId(), is(N2oQuery.Field.PK));
+        assertThat(filters[0].getFieldId(), is(QuerySimpleField.PK));
         assertThat(filters[0].getType(), is(FilterType.eq));
         assertThat(filters[0].getModel(), is(ReduxModel.resolve));
         assertThat(filters[0].getValue(), is("{id}"));

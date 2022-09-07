@@ -12,9 +12,9 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -59,11 +59,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setRefPage(p.cast(source.getRefPage(), N2oField.Page.THIS));
+        source.setRefPage(p.cast(source.getRefPage(), PageRef.THIS));
         source.setRefDatasourceId(p.cast(source.getRefDatasourceId(), () -> {
-            if (source.getRefPage().equals(N2oField.Page.THIS)) {
+            if (source.getRefPage().equals(PageRef.THIS)) {
                 return initLocalDatasourceId(p);
-            } else if (source.getRefPage().equals(N2oField.Page.PARENT)) {
+            } else if (source.getRefPage().equals(PageRef.PARENT)) {
                 if (context instanceof PageContext) {
                     return ((PageContext) context).getParentLocalDatasourceId();
                 } else {
@@ -73,7 +73,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             return null;
         }));
         source.setRefModel(p.cast(source.getRefModel(),
-                Optional.of(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
+                Optional.ofNullable(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
                 ReduxModel.resolve));
         initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !"false".equals(source.getVisible()));
         initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !"false".equals(source.getEnabled()));
@@ -84,7 +84,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         compileComponent(field, source, context, p);
 
         IndexScope idx = p.getScope(IndexScope.class);
-        field.setId(p.cast(source.getId(), "f" + Integer.toString(idx.get())));
+        field.setId(p.cast(source.getId(), "f" + idx.get()));
         field.setLabel(initLabel(source, p));
         field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
                 p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
@@ -220,13 +220,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(source.getId(), query);
             filters.forEach(f -> {
                 Filter filter = new Filter();
-                filter.setFilterId(f.getFilterField());
+                filter.setFilterId(f.getFilterId());
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientDatasourceId());
                 link.setSubModelQuery(subModelQuery);
-                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
+                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterId())));
                 link.setParam(filter.getParam());
                 link.setObserve(true);
                 filter.setLink(link);
@@ -413,15 +413,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void compileDefaultValues(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        UploadScope uploadScope = p.getScope(UploadScope.class);
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
             compileParams(control, source, paramScope, p);
         }
 
-        if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()) &&
-                Boolean.TRUE.equals(source.getCopied()))
-            return;
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
         if (defaultValues != null && defaultValues.hasModels()) {
             Object defValue;
@@ -460,7 +456,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
-            } else if (N2oField.Page.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
+            } else if (PageRef.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
                 ModelLink modelLink = getDefaultValueModelLink(source, context, p);
                 modelLink.setParam(source.getParam());
                 defaultValues.add(control.getId(), modelLink);
@@ -526,7 +522,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 
-        if (N2oField.Page.THIS.equals(source.getRefPage()))
+        if (PageRef.THIS.equals(source.getRefPage()))
             defaultValue.setObserve(true);
 
         return defaultValue;

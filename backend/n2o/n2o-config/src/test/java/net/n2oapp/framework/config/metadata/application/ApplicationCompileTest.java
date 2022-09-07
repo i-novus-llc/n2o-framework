@@ -1,8 +1,10 @@
 package net.n2oapp.framework.config.metadata.application;
 
 import net.n2oapp.framework.api.metadata.application.*;
+import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
+import net.n2oapp.framework.api.metadata.meta.CopyDependency;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -10,8 +12,10 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.env.PropertyResolver;
 
 import java.util.Map;
 
@@ -31,7 +35,7 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         builder.getEnvironment().getContextProcessor().set("username", "test");
-        builder.properties("n2o.homepage.id=index");
+        builder.properties("n2o.homepage.id=index", "url=http://example.org/?userId=123", "empty=");
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oApplicationPack(),
                 new N2oQueriesPack(), new N2oActionsPack());
@@ -48,6 +52,14 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(application.getHeader(), notNullValue());
         PageContext pageContext = (PageContext) route("/", Page.class);
         assertThat(pageContext.getSourceId(null), is("testPage"));
+    }
+
+    @Test
+    public void properties() {
+        PropertyResolver systemProperties = builder.getEnvironment().getSystemProperties();
+        assertThat(systemProperties.getProperty("n2o.homepage.id"), is("index"));
+        assertThat(systemProperties.getProperty("url"), is("http://example.org/?userId=123"));
+        assertThat(systemProperties.getProperty("empty"), is(StringUtils.EMPTY));
     }
 
     @Test
@@ -137,5 +149,25 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
 
         datasource = (StandardDatasource) application.getDatasources().get("home");
         assertThat(datasource.getId(), is("home"));
+    }
+
+    @Test
+    public void datasourceWithDependencies() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/datasourceWithDependencies.application.xml")
+                .get(new ApplicationContext("datasourceWithDependencies"));
+
+
+        StandardDatasource ds1 = (StandardDatasource) application.getDatasources().get("ds1");
+        assertThat(ds1.getId(), is("ds1"));
+
+        StandardDatasource ds2 = (StandardDatasource) application.getDatasources().get("ds2");
+        assertThat(ds2.getId(), is("ds2"));
+        assertThat(ds2.getDependencies().get(0).getOn(), is("models.resolve['ds1'].out"));
+
+        InheritedDatasource ds3 = (InheritedDatasource) application.getDatasources().get("ds3");
+        assertThat(ds3.getId(), is("ds3"));
+        assertThat(ds3.getProvider().getSourceDs(), is("ds1"));
+        assertThat(ds3.getDependencies().get(0).getOn(), is("models.resolve['ds1']"));
+
     }
 }

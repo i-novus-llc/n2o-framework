@@ -9,7 +9,7 @@ import { createStructuredSelector } from 'reselect'
 
 import propsResolver from '../../../utils/propsResolver'
 import { registerColumn } from '../../../ducks/columns/store'
-import SecurityController from '../../../core/auth/SecurityController'
+import { SecurityController } from '../../../core/auth/SecurityController'
 import {
     isInitSelector,
     isVisibleSelector,

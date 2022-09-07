@@ -42,7 +42,8 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
             <submit operation-id="create" route="/test" message-position="fixed"
                     message-placement="top" message-on-fail="true" message-on-success="true"
@@ -57,7 +58,8 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
         </browser-storage>
         <app-datasource id="test"/>
@@ -66,7 +68,8 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
         </inherited-datasource>
     </datasources>

@@ -25,7 +25,9 @@
                   source-field-id="sourceId"
                   target-datasource="ds2"
                   target-model="resolve"
-                  target-field-id="targetId"/>
+                  target-field-id="targetId"
+                  target-page="parent"
+                  close-on-success="false"/>
         </button>
     </toolbar>
 </page>

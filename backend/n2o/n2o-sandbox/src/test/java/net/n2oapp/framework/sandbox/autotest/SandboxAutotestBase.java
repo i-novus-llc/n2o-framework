@@ -51,7 +51,7 @@ public class SandboxAutotestBase extends AutoTestBase {
                 runtimeProperties, initProperties(session));
         ((N2oEnvironment) builder.getEnvironment()).setSystemProperties(propertyResolver);
 
-        builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(), new N2oAllIOPack(),
+        builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(),
                 new N2oApplicationPack(), new N2oLoadersPack());
         builder.scanners(
                 new JavaInfoScanner((N2oDynamicMetadataProviderFactory) builder.getEnvironment().getDynamicMetadataProviderFactory()),
