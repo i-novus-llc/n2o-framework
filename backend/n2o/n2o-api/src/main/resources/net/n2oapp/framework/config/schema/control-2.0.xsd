@@ -167,7 +167,7 @@
                 <xs:documentation>Описание поля</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="copied" type="xs:boolean" default="false">
+        <xs:attribute name="copied" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Копируется ли это поле при upload="copy"</xs:documentation>
             </xs:annotation>

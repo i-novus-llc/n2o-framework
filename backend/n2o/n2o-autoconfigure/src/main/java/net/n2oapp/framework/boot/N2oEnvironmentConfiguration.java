@@ -64,6 +64,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -85,7 +86,7 @@ public class N2oEnvironmentConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ContextProcessor contextProcessor(Context context) {
+    public ContextProcessor contextProcessor(@Lazy Context context) {
         return new ContextProcessor(context);
     }
 
