@@ -74,14 +74,6 @@ export default compose(
 
 ListTextCell.propTypes = {
     /**
-   * ID ячейки
-   */
-    id: PropTypes.string.isRequired,
-    /**
-   * src
-   */
-    src: PropTypes.string.isRequired,
-    /**
    * заголовок tooltip
    */
     label: PropTypes.string.isRequired,
