@@ -16,15 +16,15 @@ public interface Badge extends Component {
     }
 
     default void badgeShouldHaveShape(BadgeShape shape) {
-        element().$(".n2o-badge").shouldHave(Condition.cssClass(shape.name("n2o-badge--%s")));
+        element().$(".n2o-badge").shouldHave(Condition.cssClass(shape.name("n2o-badge--")));
     }
 
     default void badgeImageShouldHaveShape(BadgeShape shape) {
-        element().$(".n2o-badge").$(".n2o-badge-image").shouldHave(Condition.cssClass(shape.name("n2o-badge-image--%s")));
+        element().$(".n2o-badge").$(".n2o-badge-image").shouldHave(Condition.cssClass(shape.name("n2o-badge-image--")));
     }
 
     default void badgeImageShouldHavePosition(BadgePosition position) {
-        element().$(".n2o-badge").$(".n2o-badge-image").shouldHave(Condition.cssClass(position.name("n2o-badge-image--%s")));
+        element().$(".n2o-badge").$(".n2o-badge-image").shouldHave(Condition.cssClass(position.name("n2o-badge-image--")));
     }
 
     default void badgeShouldHaveText(String text) {
