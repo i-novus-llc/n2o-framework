@@ -226,6 +226,6 @@ export const {
  * @return {{payload: {name: string, prompt: boolean}}}
  */
 
-export const closeOverlay = createAction(CLOSE, (name, prompt) => ({
-    payload: { name, prompt },
+export const closeOverlay = createAction(CLOSE, (pageId, name, prompt) => ({
+    payload: { pageId, name, prompt },
 }))

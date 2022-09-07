@@ -52,8 +52,8 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-    close: (name, prompt) => {
-        dispatch(closeOverlay(name, prompt))
+    close: (pageId, name, prompt) => {
+        dispatch(closeOverlay(pageId, name, prompt))
     },
     hidePrompt: (name) => {
         dispatch(hidePrompt(name))
