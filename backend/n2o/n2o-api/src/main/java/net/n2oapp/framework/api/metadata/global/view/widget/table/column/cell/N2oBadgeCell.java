@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 
 /**
  * Исходная модель ячейки со значком.
@@ -21,5 +22,13 @@ public class N2oBadgeCell extends N2oAbstractCell {
     private String color;
     @JsonProperty("badgeFormat")
     private String format;
+    @JsonProperty
+    private ShapeType shape;
+    @JsonProperty
+    private String imageFieldId;
+    @JsonProperty
+    private Position imagePosition;
+    @JsonProperty
+    private ShapeType imageShape;
     private N2oSwitch n2oSwitch;
 }

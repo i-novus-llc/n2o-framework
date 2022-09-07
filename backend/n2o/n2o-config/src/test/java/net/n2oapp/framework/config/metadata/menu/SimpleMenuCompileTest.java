@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.menu;
 
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -46,8 +46,8 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getId(), is("notif"));
         assertThat(menuItem.getTitle(), is("Уведомления"));
         assertThat(menuItem.getIcon(), is("fa fa-bell"));
-        assertThat(menuItem.getBadge(), is("2"));
-        assertThat(menuItem.getBadgeColor(), is("warning"));
+        assertThat(menuItem.getBadge().getText(), is("2"));
+        assertThat(menuItem.getBadge().getColor(), is("warning"));
         assertThat(menuItem.getDatasource(), is("ds1"));
         assertThat(menuItem.getHref(), is("/login"));
         Page page = routeAndGet("/login", Page.class);
@@ -56,7 +56,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         menuItem = menu.getItems().get(1);
         assertThat(menuItem.getTitle(), nullValue());
         assertThat(menuItem.getImageSrc(), is("/static/users/ivan90.png"));
-        assertThat(menuItem.getImageShape(), is(ImageShape.square));
+        assertThat(menuItem.getImageShape(), is(ShapeType.square));
         assertThat(menuItem.getHref(), is("/logout"));
     }
 
@@ -69,7 +69,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(dropdownMenu.getId(), is("user"));
         assertThat(dropdownMenu.getTitle(), is("Виктория"));
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
-        assertThat(dropdownMenu.getImageShape(), is(ImageShape.circle));
+        assertThat(dropdownMenu.getImageShape(), is(ShapeType.circle));
 
         MenuItem subMenuItem = menu.getItems().get(2).getSubItems().get(0);
         assertThat(subMenuItem.getId(), is("mi4"));

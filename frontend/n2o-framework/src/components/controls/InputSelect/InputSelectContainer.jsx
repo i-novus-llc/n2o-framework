@@ -15,7 +15,7 @@ import InputSelect from './InputSelect'
  * @reactProps {string} labelFieldId - значение ключа label в данных
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
- * @reactProps {string} badgeFieldId - поле для баджей
+ * @reactProps {object} badge - данные для баджа
  * @reactProps {boolean} disabled - флаг неактивности
  * @reactProps {boolean} disabled - только на чтение
  * @reactProps {array} disabledValues - неактивные данные
@@ -94,8 +94,7 @@ InputSelectContainer.propTypes = {
     labelFieldId: PropTypes.string.isRequired,
     iconFieldId: PropTypes.string,
     imageFieldId: PropTypes.string,
-    badgeFieldId: PropTypes.string,
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.object,
     disabled: PropTypes.bool,
     disabledValues: PropTypes.array,
     filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', 'server']),

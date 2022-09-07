@@ -434,6 +434,26 @@
                         <xs:documentation>Формат текста вне значка.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>Форма значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

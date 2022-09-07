@@ -279,13 +279,6 @@
             margin: 5px 0;
         }
 
-        img {
-            width: $image-width;
-            padding: 0;
-            margin: 0;
-            display: inline;
-        }
-
         .n2o-select-tree-tree-switcher_open {
             transform: rotate(90deg);
             transition: all  $tree-animation-speed linear;

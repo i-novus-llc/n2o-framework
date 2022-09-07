@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.header;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.component.header.MenuItem;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
@@ -21,7 +21,7 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     }
 
     @Override
-    public void imageShouldHaveShape(ImageShape shape) {
+    public void imageShouldHaveShape(ShapeType shape) {
         switch (shape) {
             case square:
                 checkShape("mr-2 n2o-nav-image ");

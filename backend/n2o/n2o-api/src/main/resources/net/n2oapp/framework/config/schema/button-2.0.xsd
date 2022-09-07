@@ -46,6 +46,31 @@
                         <xs:documentation>Цвет значка.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Позиция значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>CSS класс кнопки.</xs:documentation>
@@ -328,6 +353,24 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="popover"/>
             <xs:enumeration value="modal"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="shapeType">
+        <xs:annotation>
+            <xs:documentation>Тип формы изображения.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
 

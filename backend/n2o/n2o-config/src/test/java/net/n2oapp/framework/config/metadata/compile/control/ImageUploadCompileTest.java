@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -53,7 +53,7 @@ public class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload.getIcon(), is("fa fa-plus"));
         assertThat(imageUpload.getIconSize(), is(150));
         assertThat(imageUpload.getShowTooltip(), is(false));
-        assertThat(imageUpload.getShape(), is(ImageShape.circle));
+        assertThat(imageUpload.getShape(), is(ShapeType.circle));
         assertThat(imageUpload.getAjax(), is(false));
         assertThat(imageUpload.getMulti(), is(true));
         assertThat(imageUpload.getShowSize(), is(false));
