@@ -27,7 +27,6 @@ const setup = (propOverrides = {}) => {
 describe('<CollapsedCell />', () => {
     it('проверяет создание элемента', () => {
         const { wrapper } = setup()
-        console.log('Point!', wrapper.props())
         expect(wrapper.find('span.badge').exists()).toBeTruthy()
     })
 
