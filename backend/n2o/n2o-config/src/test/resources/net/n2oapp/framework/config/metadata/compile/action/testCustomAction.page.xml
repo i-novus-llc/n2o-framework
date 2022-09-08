@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2"/>
+    </datasources>
+
+    <toolbar>
+        <button id="b1">
+            <action type="n2o/CUSTOM" src="test" redirect-target="application" redirect-url="/main"
+                     refresh-datasources="ds1,ds2">
+                <payload docId="{s3Guid}" formId="{formGuid}"
+                         update-value="{value}"
+                         update-datasource="ds"
+                         update-fieldId="pdfId"
+                         update-model="resolve"
+                         redirect-url="/print"
+                         redirect-target="application"/>
+            </action>
+        </button>
+    </toolbar>
+</page>
