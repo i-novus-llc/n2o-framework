@@ -16,7 +16,7 @@ import { makePageRoutesByIdSelector } from '../pages/selectors'
 import { rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
-import { routesQueryMapping } from '../datasource/Providers/service/routesQueryMapping'
+import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
 import { makeDatasourceIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
 import { failValidate, startValidate, dataRequest } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
@@ -29,7 +29,7 @@ function* mapUrl(value) {
     const routes = yield select(makePageRoutesByIdSelector(rootPageId))
 
     if (routes) {
-        yield call(routesQueryMapping, rootPageId, routes)
+        yield call(mapQueryToUrl, rootPageId)
         yield call(lazyFetch, value.payload)
     }
 }

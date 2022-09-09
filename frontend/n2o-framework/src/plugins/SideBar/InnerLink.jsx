@@ -4,7 +4,8 @@ import classNames from 'classnames'
 
 import { id as generateId } from '../../utils/id'
 import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
-import { renderBadge } from '../../components/snippets/Badge/Badge'
+import { Badge } from '../../components/snippets/Badge/Badge'
+import { Tooltip } from '../../components/snippets/Tooltip/Tooltip'
 import { ExtendedTooltipComponent } from '../../components/snippets/Tooltip/TooltipHOC'
 
 import { Icon, Title, getCurrentTitle } from './utils'
@@ -37,16 +38,17 @@ export function InnerLink({
             >
                 <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} />
                 <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
-                <Title
-                    title={currentTitle}
-                    className={
-                        classNames(
-                            'n2o-sidebar__item-title',
-                            { visible: isStaticView ? true : showContent },
-                        )
-                    }
-                />
-                {renderBadge(item)}
+                <Badge {...item.badge}>
+                    <Title
+                        title={currentTitle}
+                        className={
+                            classNames(
+                                'n2o-sidebar__item-title',
+                                { visible: isStaticView ? true : showContent },
+                            )
+                        }
+                    />
+                </Badge>
             </NavLink>
         </>
     )

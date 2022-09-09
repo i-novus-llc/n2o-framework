@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
@@ -16,24 +15,14 @@ import org.springframework.stereotype.Component;
  * Чтение/запись выполнения действия объекта версии 2.0
  */
 @Component
-public class InvokeActionElementIOV2 extends AbstractActionElementIOV2<N2oInvokeAction> {
+public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oInvokeAction> {
     @Override
     public void io(Element e, N2oInvokeAction ia, IOProcessor p) {
         super.io(e, ia, p);
         p.attribute(e, "operation-id", ia::getOperationId, ia::setOperationId);
         p.attribute(e, "object-id", ia::getObjectId, ia::setObjectId);
         p.attribute(e, "route", ia::getRoute, ia::setRoute);
-        p.read(e, ia, (el, md) -> {
-            if (el.getAttribute("close-after-success") != null) {
-                p.attributeBoolean(e, "close-after-success", ia::getCloseOnSuccess, ia::setCloseOnSuccess);
-            }
-        });
-        p.attributeBoolean(e, "close-on-success", ia::getCloseOnSuccess, ia::setCloseOnSuccess);
         p.attributeBoolean(e, "clear-on-success", ia::getClearOnSuccess, ia::setClearOnSuccess);
-        p.attributeArray(e, "refresh-datasources", ",", ia::getRefreshDatasourceIds, ia::setRefreshDatasourceIds);
-        p.attributeBoolean(e, "refresh-on-success", ia::getRefreshOnSuccess, ia::setRefreshOnSuccess);
-        p.attribute(e, "redirect-url", ia::getRedirectUrl, ia::setRedirectUrl);
-        p.attributeEnum(e, "redirect-target", ia::getRedirectTarget, ia::setRedirectTarget, Target.class);
         p.attributeBoolean(e, "message-on-success", ia::getMessageOnSuccess, ia::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", ia::getMessageOnFail, ia::setMessageOnFail);
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePosition.class);

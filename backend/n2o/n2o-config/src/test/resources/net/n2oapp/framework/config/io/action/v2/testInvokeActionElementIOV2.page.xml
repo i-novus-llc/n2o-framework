@@ -18,6 +18,7 @@
                     refresh-datasources="testWidget,ds2"
                     optimistic="true"
                     clear-on-success="false"
+                    close-on-fail="true"
             />
         </action>
         <action>

@@ -1,26 +1,23 @@
 import {
-    put,
-    call,
-    take,
-    race,
-    select,
-    cancelled,
     actionChannel,
-    CancelledEffect,
     ActionChannelEffect,
+    call,
+    cancelled,
+    CancelledEffect,
+    put,
+    select,
+    take,
 } from 'redux-saga/effects'
-import queryString from 'query-string'
 import pickBy from 'lodash/pickBy'
-import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 import reduce from 'lodash/reduce'
-import clone from 'lodash/clone'
-import set from 'lodash/set'
 import get from 'lodash/get'
-import findIndex from 'lodash/findIndex'
+import isEqual from 'lodash/isEqual'
+import set from 'lodash/set'
+import clone from 'lodash/clone'
+import isEmpty from 'lodash/isEmpty'
 
-// @ts-ignore import from js file
-import linkResolver from '../../utils/linkResolver'
+import { DefaultModels, State as ModelsState } from '../../models/Models'
+import { State } from '../../State'
 import {
     combineModels,
     copyModel,
@@ -28,50 +25,9 @@ import {
     setModel,
     updateMapModel,
     updateModel,
-} from '../models/store'
-import { State as ModelsState, DefaultModels } from '../models/Models'
-import { routesQueryMapping } from '../datasource/Providers/service/routesQueryMapping'
-import { State } from '../State'
-
-// @ts-ignore import from js file, ругается на import/no-cycle, непонятно почему
-// eslint-disable-next-line import/no-cycle
-import { mappingUrlToRedux } from './sagas'
+} from '../../models/store'
 // @ts-ignore import from js file
-import { resetPage } from './store'
-
-interface Location {
-    pathname: string
-    search: string
-}
-
-// В connected-react-router кривой тип экшена
-interface ILocationChangeAction {
-    type: string
-    payload: {
-        location: Location
-    }
-}
-
-const FiltersCache: Array<{ pageUrl: string, query: object }> = []
-let prevPageUrl: string | null = null
-
-// Смотрит за изменением location и кеширует фильтры по url страницы
-export function watchPageFilters({ payload }: ILocationChangeAction) {
-    const currentPageUrl = payload.location.pathname
-    const isSamePage = prevPageUrl === currentPageUrl
-    const cachedFiltersIndex = findIndex(FiltersCache, ({ pageUrl }) => pageUrl === currentPageUrl)
-    const query = queryString.parse(payload.location.search)
-
-    if (!isSamePage && cachedFiltersIndex === -1) {
-        FiltersCache.push({ pageUrl: currentPageUrl, query: {} })
-    } else if (isSamePage && cachedFiltersIndex !== -1) {
-        FiltersCache[cachedFiltersIndex] = { pageUrl: currentPageUrl, query }
-    }
-
-    if (prevPageUrl !== currentPageUrl) {
-        prevPageUrl = currentPageUrl
-    }
-}
+import linkResolver from '../../../utils/linkResolver'
 
 /**
  * Дополнительная функция для observeModels.
@@ -157,22 +113,5 @@ export function* flowDefaultModels(config: DefaultModels) {
                 modelsChan.close()
             }
         }
-    }
-}
-
-export function* resolvePageFilters(pageUrl: string, pageId: string, routes: object, defaultModels: DefaultModels) {
-    const cachedFiltersIndex = findIndex(FiltersCache, page => page.pageUrl === pageUrl)
-    const filtersFromCache = FiltersCache[cachedFiltersIndex]
-
-    if (!isEmpty(filtersFromCache?.query)) {
-        const { query } = filtersFromCache
-
-        yield call(routesQueryMapping, pageId, routes, query)
-        yield call(mappingUrlToRedux, routes)
-
-        // все что после текущей страницы - чистим
-        FiltersCache.splice(cachedFiltersIndex + 1)
-    } else {
-        yield race([call(flowDefaultModels, defaultModels), take(resetPage.type)])
     }
 }

@@ -40,8 +40,6 @@ public interface Page extends Component {
 
     void scrollDown();
 
-    void shouldHaveCssClass(String classname);
-
     void shouldHaveStyle(String style);
 
     void shouldHaveLayout(NavigationLayout layout);

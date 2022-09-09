@@ -23,8 +23,6 @@ public abstract class ListFieldIOv3<T extends N2oListField> extends StandardFiel
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "sort-field-id", m::getSortFieldId, m::setSortFieldId);
-        p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
-        p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
         p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attribute(e, "group-field-id", m::getGroupFieldId, m::setGroupFieldId);
         p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);

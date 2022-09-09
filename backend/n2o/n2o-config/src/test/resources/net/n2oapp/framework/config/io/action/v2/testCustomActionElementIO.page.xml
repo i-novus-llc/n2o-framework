@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action>
+            <action type="n2o/CUSTOM" src="test" redirect-target="application" redirect-url="/main"
+                    close-on-success="true" refresh-datasources="ds1,ds2" refresh-on-success="true" close-on-fail="true">
+                <payload docId="{s3guid}" formId="{formId}"/>
+            </action>
+        </action>
+    </actions>
+</page>

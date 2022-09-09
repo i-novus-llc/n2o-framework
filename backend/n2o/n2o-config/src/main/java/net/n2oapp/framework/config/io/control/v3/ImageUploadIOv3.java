@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.control.v3;
 
 import net.n2oapp.framework.api.metadata.control.N2oImageUpload;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 import org.jdom2.Element;
@@ -24,7 +24,7 @@ public class ImageUploadIOv3 extends BaseFileUploadIOv3<N2oImageUpload> {
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeInteger(e, "icon-size", m::getIconSize, m::setIconSize);
         p.attributeBoolean(e, "show-tooltip", m::getShowTooltip, m::setShowTooltip);
-        p.attributeEnum(e, "shape", m::getShape, m::setShape, ImageShape.class);
+        p.attributeEnum(e, "shape", m::getShape, m::setShape, ShapeType.class);
         p.attributeBoolean(e, "show-name", m::getShowName, m::setShowName);
     }
 

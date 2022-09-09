@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 
 import java.io.Serializable;
@@ -30,10 +31,6 @@ public abstract class AbstractButton extends Component implements IdAware, Seria
     @JsonProperty
     private String color;
     @JsonProperty
-    private String badge;
-    @JsonProperty
-    private String badgeColor;
-    @JsonProperty
     private Boolean rounded;
     @JsonProperty
     private Object visible;
@@ -49,6 +46,8 @@ public abstract class AbstractButton extends Component implements IdAware, Seria
     private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
     @JsonProperty
     private Confirm confirm;
+    @JsonProperty
+    private Badge badge;
     /**
      * Список источников данных, которые нужно валидировать
      */

@@ -241,7 +241,7 @@ export function* resolveDependency({ type, meta, payload }) {
             return
         }
 
-        if (fieldKeys) {
+        if (fieldKeys && meta.lastInitialValues) {
             for (const field of fieldKeys) {
                 yield call(
                     checkAndModify,
