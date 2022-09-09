@@ -47,9 +47,8 @@ describe('Тесты экшенов overlays', () => {
 
     describe('Проверка экшена closeOverlay', () => {
         it('Возвращает правильный payload', () => {
-            const action = closeOverlay('page', 'test', true)
+            const action = closeOverlay('test', true)
             expect(action.payload).toEqual({
-                pageId: 'page',
                 name: 'test',
                 prompt: true,
             })
