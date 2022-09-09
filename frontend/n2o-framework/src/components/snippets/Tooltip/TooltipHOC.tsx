@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { useContext, ComponentType } from 'react'
-import { usePopperTooltip, Config } from 'react-popper-tooltip'
+import { ComponentType, useContext } from 'react'
+import { Config, usePopperTooltip } from 'react-popper-tooltip'
 
 import { FactoryContext } from '../../../core/factory/context'
+import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
 interface ITooltipHocProps extends Config {
     hint?: string | number | React.Component
@@ -20,7 +21,7 @@ interface ITooltipHocProps extends Config {
 export function TooltipHOC<TProps extends ITooltipHocProps>(Component: Function): ComponentType<TProps> {
     return function WithTooltip(props: TProps) {
         const { getComponent } = useContext(FactoryContext)
-        const FactoryTooltip = getComponent('Tooltip', 'SNIPPETS')
+        const FactoryTooltip = getComponent('Tooltip', FactoryLevels.SNIPPETS)
 
         const { hint, isControlledTooltip = false } = props
         const {
@@ -66,8 +67,27 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(Component: Function)
     }
 }
 
-function Expandable({ Component, ...props }: {Component: ComponentType}): JSX.Element {
-    return <Component {...props} />
+interface IExpandableProps {
+    Component?: ComponentType,
+    children?: React.ReactChildren
+}
+
+type expandable = React.ReactChildren | JSX.Element | null
+
+function Expandable({
+    Component,
+    children,
+    ...props
+}: IExpandableProps): expandable {
+    if (children) {
+        return children
+    }
+
+    if (Component) {
+        return <Component {...props} />
+    }
+
+    return null
 }
 
 /**
@@ -79,5 +99,13 @@ function Expandable({ Component, ...props }: {Component: ComponentType}): JSX.El
        hint='target component hint'
        placement='top'
     />
+ * @example2
+ *  <ExtendedTooltipComponent
+       {...targetComponentProps}
+       hint='target component hint'
+       placement='top'
+     >
+ <TargetComponent />
+ </ExtendedTooltipComponent>
  */
 export const ExtendedTooltipComponent = TooltipHOC(Expandable)

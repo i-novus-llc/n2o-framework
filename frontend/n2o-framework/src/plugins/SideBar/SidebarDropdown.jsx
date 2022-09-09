@@ -48,43 +48,41 @@ function SidebarDropdown({
         },
     )
 
-    const Component = () => (
-        <div className="n2o-sidebar__item-dropdown">
-            <div
-                onClick={toggle}
-                className={itemDropdownClass}
-                id={id}
-            >
-                <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
-                <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
-                <span className={classNames(
-                    'n2o-sidebar__item-title',
-                    {
-                        mini: isMiniView,
-                        visible: showContent,
-                    },
-                )
-                }
-                >
-                    {title}
-                </span>
-                <i className={classNames(
-                    'align-self-center w-100 d-flex justify-content-end',
-                    'n2o-sidebar__item-dropdown-toggle',
-                    {
-                        'fa fa-angle-up': isOpen,
-                        'fa fa-angle-down': !isOpen,
-                        mini: isMiniView,
-                    },
-                )}
-                />
-            </div>
-        </div>
-    )
-
     return (
         <>
-            <ExtendedTooltipComponent Component={Component} hint={title} placement="right" />
+            <ExtendedTooltipComponent hint={title} placement="right">
+                <div className="n2o-sidebar__item-dropdown">
+                    <div
+                        onClick={toggle}
+                        className={itemDropdownClass}
+                        id={id}
+                    >
+                        <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
+                        <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
+                        <span className={classNames(
+                            'n2o-sidebar__item-title',
+                            {
+                                mini: isMiniView,
+                                visible: showContent,
+                            },
+                        )
+                        }
+                        >
+                            {title}
+                        </span>
+                        <i className={classNames(
+                            'align-self-center w-100 d-flex justify-content-end',
+                            'n2o-sidebar__item-dropdown-toggle',
+                            {
+                                'fa fa-angle-up': isOpen,
+                                'fa fa-angle-down': !isOpen,
+                                mini: isMiniView,
+                            },
+                        )}
+                        />
+                    </div>
+                </div>
+            </ExtendedTooltipComponent>
             {isOpen && (<div className={subItemsClass}>{children}</div>)}
         </>
     )
