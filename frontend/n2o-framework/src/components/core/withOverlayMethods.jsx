@@ -43,9 +43,9 @@ function withOverlayMethods(WrappedComponent) {
         }
 
         closeOverlay(prompt) {
-            const { pageId, name, close } = this.props
+            const { name, close } = this.props
 
-            close(pageId, name, prompt)
+            close(name, prompt)
         }
 
         closePrompt() {
@@ -80,7 +80,6 @@ function withOverlayMethods(WrappedComponent) {
 
     OverlayMethods.propTypes = {
         showPrompt: PropTypes.func,
-        pageId: PropTypes.string,
         name: PropTypes.string,
         close: PropTypes.func,
         hidePrompt: PropTypes.func,

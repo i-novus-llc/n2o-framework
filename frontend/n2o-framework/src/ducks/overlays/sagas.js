@@ -7,7 +7,7 @@ import { LOCATION_CHANGE } from 'connected-react-router'
 
 import { makePageRoutesByIdSelector, makePageWidgetsByIdSelector } from '../pages/selectors'
 import { dataRequest } from '../datasource/store'
-import { routesQueryMapping } from '../datasource/Providers/service/routesQueryMapping'
+import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
 
 import { CLOSE } from './constants'
 import {
@@ -49,7 +49,7 @@ export function* checkOnDirtyForm(name) {
  * @returns {IterableIterator<*>}
  */
 export function* checkPrompt(action) {
-    const { pageId, name, prompt } = action.payload
+    const { name, prompt } = action.payload
     let needToShowPrompt = false
 
     if (prompt) {
@@ -57,7 +57,7 @@ export function* checkPrompt(action) {
     }
     if (!needToShowPrompt) {
         yield put(destroyOverlay())
-        yield call(resetQuerySaga, pageId)
+        yield call(resetQuerySaga, name)
     } else {
         yield put(showPrompt(name))
     }
@@ -103,7 +103,7 @@ function* onCloseEffects() {
 }
 
 export function* resetQuerySaga(pageId) {
-    const routes = yield select(makePageRoutesByIdSelector(pageId)) || {}
+    const routes = yield select(makePageRoutesByIdSelector(pageId))
 
     if (routes) {
         const resetQuery = {}
@@ -112,7 +112,7 @@ export function* resetQuerySaga(pageId) {
             resetQuery[k] = undefined
         }
 
-        yield routesQueryMapping(pageId, routes, resetQuery)
+        yield mapQueryToUrl(pageId, resetQuery, true)
     }
 }
 
