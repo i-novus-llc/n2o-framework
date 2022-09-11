@@ -41,6 +41,12 @@ public class N2oEngineConfiguration {
     @Value("${n2o.engine.pageStartsWith0}")
     private boolean pageStartsWith0;
 
+    @Value("${n2o.engine.query.asc-expression}")
+    private String ascExpression;
+
+    @Value("${n2o.engine.query.desc-expression}")
+    private String descExpression;
+
     @Value("${n2o.engine.rest.url}")
     private String baseRestUrl;
 
@@ -107,8 +113,10 @@ public class N2oEngineConfiguration {
                                          QueryExceptionHandler exceptionHandler,
                                          MetadataEnvironment environment) {
         N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, exceptionHandler);
-        n2oQueryProcessor.setCriteriaResolver(new N2oCriteriaConstructor(pageStartsWith0));
+        n2oQueryProcessor.setCriteriaConstructor(new N2oCriteriaConstructor(pageStartsWith0));
         n2oQueryProcessor.setPageStartsWith0(pageStartsWith0);
+        n2oQueryProcessor.setAscExpression(ascExpression);
+        n2oQueryProcessor.setDescExpression(descExpression);
         n2oQueryProcessor.setEnvironment(environment);
         return n2oQueryProcessor;
     }

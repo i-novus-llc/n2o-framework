@@ -34,7 +34,7 @@ public class Criteria implements Serializable {
         return sortings != null && !sortings.isEmpty() ? sortings.get(0) : null;
     }
 
-    public void setSorting(Sorting sorting) {
+    public void addSorting(Sorting sorting) {
         if (sortings == null) {
             sortings = new ArrayList<>();
         }
