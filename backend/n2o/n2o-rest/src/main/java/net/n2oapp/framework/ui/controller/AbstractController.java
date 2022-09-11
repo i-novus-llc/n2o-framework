@@ -1,6 +1,6 @@
 package net.n2oapp.framework.ui.controller;
 
-import net.n2oapp.criteria.api.Direction;
+import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
@@ -163,7 +163,7 @@ public abstract class AbstractController {
             String fieldId = sortingMap.get(key);
             String value = data.getString(key);
             if (value != null) {
-                Direction direction = Direction.valueOf(value.toUpperCase());
+                SortingDirection direction = SortingDirection.valueOf(value.toUpperCase());
                 sortings.add(new Sorting(fieldId, direction));
             }
         }
