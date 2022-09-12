@@ -11,6 +11,6 @@
         <field id="lastName"/>
         
         <field id="fullName" normalize="#formatFullName(#data['lastName'], #data['firstName'], #data['patronymic'])"/>
-        <field id="shortName" normalize="#formatWithInitials(#data['lastName'], #data['firstName'], #data['patronymic'])"/>
+        <field id="shortName" normalize="#formatNameWithInitials(#data['lastName'], #data['firstName'], #data['patronymic'])"/>
     </fields>
 </query>

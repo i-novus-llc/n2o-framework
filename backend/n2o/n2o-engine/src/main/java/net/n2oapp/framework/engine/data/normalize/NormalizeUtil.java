@@ -166,7 +166,7 @@ public class NormalizeUtil {
      * @param names Список ФИО
      * @return форматированная строка
      */
-    public static String formatWithInitials(String... names) {
+    public static String formatNameWithInitials(String... names) {
         return names[0] + (names[1] != null ? String.format(" %s.", names[1].toCharArray()[0]) : "") +
                 (names[2] != null ? String.format("%s.", names[2].toCharArray()[0]) : "");
     }
