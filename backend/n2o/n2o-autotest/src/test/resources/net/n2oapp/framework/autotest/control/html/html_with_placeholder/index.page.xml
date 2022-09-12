@@ -5,33 +5,33 @@
         <datasource id="test" query-id="test"/>
     </datasources>
     <regions>
-        <html datasource="test" label="Простой вывод переменной, не работает: front">
+        <html datasource="test" label="Простой вывод переменной">
             <content>
                 {firstName}
             </content>
         </html>
         <html datasource="test"
-              label="Простой вывод переменной с текстом вначале , не работает: front"
+              label="Простой вывод переменной с текстом вначале"
         >
             <content>
                 -1- {firstName}
             </content>
         </html>
         <html datasource="test"
-              label="Простой вывод переменной с текстом в конце , не работает: front"
+              label="Простой вывод переменной с текстом в конце"
         >
             <content>
                 {firstName} -2-
             </content>
         </html>
         <html datasource="test"
-              label="Простой вывод переменной с текстом по бокам, работает"
+              label="Простой вывод переменной с текстом по бокам"
         >
             <content>
                 -3- {firstName} -3-
             </content>
         </html>
-        <html datasource="test"  label="Простой вывод переменной, не работает: front">
+        <html datasource="test"  label="Простой вывод переменной">
             <content>
                 <![CDATA[
                     <div style='color:red'>{firstName}</div>
@@ -39,7 +39,7 @@
             </content>
         </html>
         <html datasource="test"
-              label="Вывод переменной в cdata с текстом вначале , не работает: front"
+              label="Вывод переменной в cdata с текстом вначале"
         >
             <content>
                 <![CDATA[
@@ -48,7 +48,7 @@
             </content>
         </html>
         <html datasource="test"
-              label="Вывод переменной в cdata с текстом в конце , не работает: front"
+              label="Вывод переменной в cdata с текстом в конце"
         >
             <content>
                 <![CDATA[
@@ -57,7 +57,7 @@
             </content>
         </html>
         <html datasource="test"
-              label="Вывод переменной в cdata с текстом по бокам, работает"
+              label="Вывод переменной в cdata с текстом по бокам"
         >
             <content>
                 <![CDATA[
@@ -66,7 +66,7 @@
             </content>
         </html>
         <html datasource="test"
-              label="Многострочный вывод переменной в cdata, не работает: back"
+              label="Многострочный вывод переменной в cdata"
         >
             <content>
                 <![CDATA[
@@ -77,7 +77,7 @@
             </content>
         </html>
         <html datasource="test"
-              label="Многострочный вывод переменной в cdata c тегами, не работает: back"
+              label="Многострочный вывод переменной в cdata c тегами"
         >
             <content>
                 <![CDATA[
@@ -87,7 +87,7 @@
             </content>
         </html>
         <html datasource="test"
-              label="Многострочный вывод переменной в cdata c корневым тегом, не работает: back"
+              label="Многострочный вывод переменной в cdata c корневым тегом"
         >
             <content>
                 <![CDATA[
