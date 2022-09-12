@@ -47,7 +47,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 **Тело**
 
-[Виджет](../xml/widget)
+[Виджет](../xml/widget), Список [хлебных крошек](#breadcrumbs)
 
 ### &lt;page&gt;
 
@@ -67,7 +67,8 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 **Тело**
 
-Список [регионов](#regions), Список [действий](#actions), [Меню](#toolbar) управляющих кнопок страницы
+Список [регионов](#regions), Список [источников данных](#datasources), Список [действий](#actions),
+Список [хлебных крошек](#breadcrumbs), [Меню](#toolbar) управляющих кнопок страницы
 
 **Пример**
 
@@ -102,7 +103,8 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 **Тело**
 
-Регионы [left и right](#left-right-region), Список [действий](#actions), [Меню](#toolbar) управляющих кнопок страницы
+Регионы [left и right](#left-right-region), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
+[Меню](#toolbar) управляющих кнопок страницы
 
 **Пример**
 
@@ -159,7 +161,8 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 **Тело**
 
-Регионы [top, left и right](#top-left-right-region), Список [действий](#actions), [Меню](#toolbar) управляющих кнопок страницы
+Регионы [top, left и right](#top-left-right-region), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
+[Меню](#toolbar) управляющих кнопок страницы
 
 **Пример**
 
@@ -562,6 +565,39 @@ http://n2oapp.net/framework/config/schema/page-4.0
     model="edit"
     confirm="false"/>
 </action>
+```
+
+## Хлебные крошки {#breadcrumbs}
+
+**Тело**
+
+[Крошка](#crumb) (При отсутствии дочерних элементов хлебные крошки страницы будут построены в режиме по умолчанию)
+
+**Пример**
+
+```xml
+<breadcrumbs>
+    <crumb label="Первая страница" path="/"/>
+    <crumb label="Вторая страница" path="/test"/>
+    <crumb label="Третья страница"/>
+</breadcrumbs>
+```
+
+### &lt;crumb&gt; {#crumb}
+
+Хлебная крошка
+
+**Атрибуты**
+
+|Наименование |Тип    |Описание                            |Значение по умолчанию |
+|-------------|-------|------------------------------------|----------------------|
+|label        |Строка |Название хлебной крошки             |                      |
+|path         |Строка |Путь для перехода по хлебной крошке |                      |
+
+**Пример**
+
+```xml
+<crumb label="Домашняя страница" path="/"/>
 ```
 
 ## Меню управляющих кнопок страницы {#toolbar}
