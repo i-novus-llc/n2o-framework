@@ -27,11 +27,10 @@ import java.util.*;
 public class MappingProcessor {
     private final static ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
     private static final ExpressionParser readParser = new SpelExpressionParser(new SpelParserConfiguration(false, false));
-    private static final StandardEvaluationContext context = new StandardEvaluationContext();
+    private static final Map<String, Object> registeredFunctions = new HashMap<>();
 
     static {
-        NormalizerCollector.collect().forEach(f -> context.registerFunction(f.getName(), f));
-        context.addPropertyAccessor(new MapAccessor());
+        NormalizerCollector.collect().forEach(f -> registeredFunctions.put(f.getName(), f));
     }
 
     /**
@@ -201,7 +200,8 @@ public class MappingProcessor {
                                         BeanFactory beanFactory) {
         if (normalizer == null)
             return value;
-        context.setRootObject(value);
+        StandardEvaluationContext context = new StandardEvaluationContext(value);
+        context.setVariables(registeredFunctions);
         if (allData != null)
             context.setVariable("data", allData);
         if (beanFactory != null)
@@ -218,7 +218,9 @@ public class MappingProcessor {
      * @return true/false
      */
     public static Boolean resolveCondition(String condition, Map<String, Object> data) {
-        context.setRootObject(data);
+        StandardEvaluationContext context = new StandardEvaluationContext(data);
+        context.setVariables(registeredFunctions);
+        context.addPropertyAccessor(new MapAccessor());
         try {
             Expression expression = readParser.parseExpression(condition);
             return expression.getValue(context, Boolean.class);
