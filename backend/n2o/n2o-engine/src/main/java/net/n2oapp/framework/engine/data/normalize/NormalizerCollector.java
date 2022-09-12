@@ -4,10 +4,8 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.lang.reflect.Modifier.isPublic;
@@ -25,11 +23,13 @@ public class NormalizerCollector {
      *
      * @return Сет нормализующих функций
      */
-    public static Set<Method> collect() {
-        Set<Method> normalizers = new HashSet<>();
+    public static Map<String, Method> collect() {
+        Map<String, Method> normalizers = new HashMap<>();
         for (Class<?> normClass : ref.getTypesAnnotatedWith(Normalizer.class))
-            normalizers.addAll(filterPublicStaticMethods(Arrays.asList(normClass.getDeclaredMethods())));
-        normalizers.addAll(filterPublicStaticMethods(ref.getMethodsAnnotatedWith(Normalizer.class)));
+            normalizers.putAll(filterPublicStaticMethods(Arrays.asList(normClass.getDeclaredMethods()))
+                    .stream()
+                    .collect(Collectors.toMap(Method::getName, Function.identity())));
+        //normalizers.addAll(filterPublicStaticMethods(ref.getMethodsAnnotatedWith(Normalizer.class)));FIXME
         return normalizers;
     }
 
