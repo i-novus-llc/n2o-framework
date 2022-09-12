@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.application;
+package net.n2oapp.framework.config.metadata.validation.application;
 
 
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
@@ -18,7 +18,7 @@ import org.junit.rules.ExpectedException;
 /**
  * Тест валидации приложения
  */
-public class ApplicationValidateTest extends SourceValidationTestBase {
+public class ApplicationValidatorTest extends SourceValidationTestBase {
 
     @Rule
     public ExpectedException exception = ExpectedException.none();

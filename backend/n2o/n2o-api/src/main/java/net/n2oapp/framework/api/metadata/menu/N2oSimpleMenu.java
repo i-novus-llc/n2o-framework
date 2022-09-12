@@ -71,7 +71,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
     @Getter
     @Setter
     public static class DropdownMenuItem extends AbstractMenuItem {
-        private MenuItem[] menuItems;
+        private AbstractMenuItem[] menuItems;
     }
 
     @Deprecated
