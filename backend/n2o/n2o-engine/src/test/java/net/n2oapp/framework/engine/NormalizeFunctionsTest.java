@@ -130,24 +130,6 @@ public class NormalizeFunctionsTest {
     }
 
     @Test
-    public void testListUtilsUnion() {
-        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/normalize/testListUtilsUnion.query.xml"));
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testListUtilsUnion"));
-
-        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.setSize(1);
-        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
-        assertThat(result.getCount(), is(1));
-
-        List<DataSet> users = (List<DataSet>) result.getCollection().iterator().next().getList("users");
-        assertThat(users.get(0).getString("name"), is("teacher1"));
-        assertThat(users.get(1).getString("name"), is("teacher2"));
-        assertThat(users.get(2).getString("name"), is("student1"));
-        assertThat(users.get(3).getString("name"), is("student2"));
-    }
-
-    @Test
     public void testFormatByMask() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/normalize/testFormatByMask.query.xml"));
