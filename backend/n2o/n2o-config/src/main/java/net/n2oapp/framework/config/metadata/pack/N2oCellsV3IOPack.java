@@ -7,9 +7,9 @@ import net.n2oapp.framework.config.io.cell.v3.*;
 /**
  * Набор считывателей ячеек версии 3.0
  */
-public class N2oCellsV3IOPack implements MetadataPack<XmlIOBuilder> {
+public class N2oCellsV3IOPack implements MetadataPack<XmlIOBuilder<?>> {
     @Override
-    public void build(XmlIOBuilder b) {
+    public void build(XmlIOBuilder<?> b) {
         b.ios(new TextCellElementIOv3(),
                 new CheckboxCellElementIOv3(),
                 new LinkCellElementIOv3(),

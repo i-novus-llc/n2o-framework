@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +19,6 @@ public abstract class ListControl extends Control {
     private String labelFieldId;
     @JsonProperty
     private String sortFieldId;
-    @JsonProperty
-    private String badgeFieldId;
-    @JsonProperty
-    private String badgeColorFieldId;
     @JsonProperty
     private String iconFieldId;
     @JsonProperty
@@ -40,6 +37,8 @@ public abstract class ListControl extends Control {
     private Boolean caching;
     @JsonProperty
     private String enabledFieldId;
+    @JsonProperty
+    private Badge badge;
 
     @JsonProperty
     private List<Map<String, Object>> data;

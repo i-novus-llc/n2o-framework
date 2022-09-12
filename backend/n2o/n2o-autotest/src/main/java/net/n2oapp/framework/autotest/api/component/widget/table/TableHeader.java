@@ -20,8 +20,6 @@ public interface TableHeader extends Component {
 
     void shouldHaveStyle(String style);
 
-    void shouldHaveCssClass(String cssClass);
-
     void shouldHaveIcon(String icon);
 
     void shouldNotHaveIcon();

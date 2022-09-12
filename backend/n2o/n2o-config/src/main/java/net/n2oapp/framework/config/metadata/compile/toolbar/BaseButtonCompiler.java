@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -18,6 +19,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Базовая компиляция кнопки
  */
 public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
+    private static final String PROPERTY_PREFIX = "n2o.api.control.button_field";
 
     protected void compileBase(AbstractButton button, N2oAbstractButton source, IndexScope idx,
                                CompileContext<?, ?> context, CompileProcessor p) {
@@ -38,8 +40,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         button.setClassName(source.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         button.setColor(source.getColor());
-        button.setBadge(p.resolveJS(source.getBadge()));
-        button.setBadgeColor(p.resolveJS(source.getBadgeColor()));
+        button.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         initHint(source, button, p);
     }
 

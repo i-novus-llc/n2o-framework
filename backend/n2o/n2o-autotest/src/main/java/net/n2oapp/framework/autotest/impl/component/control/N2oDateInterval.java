@@ -150,23 +150,43 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         timeVal(lastCalendar(), hours, minutes, seconds);
     }
 
-    @Override
+    @Deprecated
     public void expand() {
+        openPopup();
+    }
+
+    @Override
+    public void openPopup() {
         element().$(".n2o-date-input").should(Condition.exist).click();
     }
 
-    @Override
+    @Deprecated
     public void collapse() {
+        closePopup();
+    }
+
+    @Override
+    public void closePopup() {
         throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
     }
 
-    @Override
+    @Deprecated
     public void shouldBeCollapsed() {
-        popUp().shouldNotBe(Condition.exist);
+        shouldBeClosed();
     }
 
     @Override
+    public void shouldBeClosed() {
+        popUp().shouldNotBe(Condition.exist);
+    }
+
+    @Deprecated
     public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Override
+    public void shouldBeOpened() {
         popUp().shouldBe(Condition.exist);
     }
 

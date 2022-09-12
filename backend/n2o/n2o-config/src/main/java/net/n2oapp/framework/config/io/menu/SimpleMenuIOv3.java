@@ -1,10 +1,11 @@
 package net.n2oapp.framework.config.io.menu;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeIO;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -12,7 +13,7 @@ import org.jdom2.Namespace;
 /**
  * Чтение/запись меню 3.0
  */
-public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
+public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, BadgeIO<N2oSimpleMenu.MenuItem> {
 
     private final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
@@ -41,12 +42,11 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
-        p.attribute(e, "badge", m::getBadge, m::setBadge);
-        p.attribute(e, "badge-color", m::getBadgeColor, m::setBadgeColor);
         p.attribute(e, "image", m::getImage, m::setImage);
-        p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ImageShape.class);
+        p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeType.class);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        badge(e, m, p);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
@@ -55,7 +55,7 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu> {
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "image", m::getImage, m::setImage);
-        p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ImageShape.class);
+        p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeType.class);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getMenuItems, m::setMenuItems, p.oneOf(N2oSimpleMenu.MenuItem.class)
                 .add("menu-item", N2oSimpleMenu.MenuItem.class, this::menuItem));

@@ -3,10 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.widget.table;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Cells;
-import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.collection.TableHeaders;
-import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.collection.*;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oPaging;
@@ -43,6 +40,11 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         @Override
         public Fields fields() {
             return N2oSelenide.collection(element().$$(".n2o-filter .n2o-fieldset .n2o-form-group"), Fields.class);
+        }
+
+        @Override
+        public FieldSets fieldsets() {
+            return N2oSelenide.collection(element().$$(".n2o-fieldset"), FieldSets.class);
         }
 
         @Override

@@ -6,6 +6,8 @@
                 action-id="test" class="test" style="test"   description="desc" tooltip-position="right"
                 confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
                 confirm-cancel-label="cancel" type="icon" src="testSrc" disable-on-empty-model="false" rounded="true"
+                badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
+                badge-image-position="right" badge-image-shape="square"
                 confirm-cancel-color="danger" confirm-ok-color="success">
             <dependencies>
                 <enabling model="resolve" datasource="ref" message="Не указана дата"/>

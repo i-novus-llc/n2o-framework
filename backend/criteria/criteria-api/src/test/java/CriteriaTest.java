@@ -1,5 +1,5 @@
 import net.n2oapp.criteria.api.Criteria;
-import net.n2oapp.criteria.api.Direction;
+import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.api.Sorting;
 import org.junit.Test;
 
@@ -13,20 +13,20 @@ public class CriteriaTest {
     public void testSorting() {
         Criteria criteria = new Criteria();
         //check initial setting
-        criteria.setSorting(new Sorting("test1", Direction.DESC));
+        criteria.addSorting(new Sorting("test1", SortingDirection.DESC));
         assert criteria.getSorting() != null;
         assert criteria.getSorting().getField().equals("test1");
-        assert criteria.getSorting().getDirection().equals(Direction.DESC);
+        assert criteria.getSorting().getDirection().equals(SortingDirection.DESC);
         assert criteria.getSortings().size() == 1;
 
         //check re-setting
-        criteria.setSorting(new Sorting("test2", Direction.ASC));
+        criteria.addSorting(new Sorting("test2", SortingDirection.ASC));
         assert criteria.getSorting() != null;
         assert criteria.getSorting().getField().equals("test2");
-        assert criteria.getSorting().getDirection().equals(Direction.ASC);
+        assert criteria.getSorting().getDirection().equals(SortingDirection.ASC);
         assert criteria.getSortings().size() == 2;
         assert criteria.getSortings().get(1).getField().equals("test1");
-        assert criteria.getSortings().get(1).getDirection().equals(Direction.DESC);
+        assert criteria.getSortings().get(1).getDirection().equals(SortingDirection.DESC);
     }
 
 

@@ -21,6 +21,7 @@ import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.n2oapp.framework.boot.graphql.GraphQlUtil.escapeJson;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlString;
 import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
 import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
@@ -36,8 +37,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private static final String RESPONSE_DATA_KEY = "data";
     private final Pattern variablePattern = Pattern.compile("\\$\\w+");
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
+    private final Pattern selectKeyPattern = Pattern.compile("\\$\\$\\w+\\W");
     private final Pattern placeholderStringEscapePattern = Pattern.compile("\\$\\$\\$\\w+");
-    private static final String ESCAPE_SYMBOLS = "\\\"";
 
     @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
@@ -177,6 +178,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
 
+        resolveHierarchicalSelect(args);
         query = replaceListPlaceholder(query, "$$select", args.remove("select"), "", QueryUtil::reduceSpace);
         if (args.get("sorting") != null) {
             String prefix = Objects.requireNonNullElse(invocation.getSortingPrefix(), defaultSortingPrefix);
@@ -207,7 +209,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             String value;
             if (escapeStringPlaceholders.contains(entry.getKey())) {
                 placeholder = "$".concat(placeholder);
-                value = ESCAPE_SYMBOLS + entry.getValue() + ESCAPE_SYMBOLS;
+                value = escapeJson(toGraphQlString(entry.getValue()));
             } else {
                 value = placeholderKeys.contains(entry.getKey()) ?
                         (String) entry.getValue() :
@@ -218,6 +220,48 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         log.debug("Execute GraphQL query: " + query);
         return query;
+    }
+
+    /**
+     * Замена плейсхолдеров в "select"
+     *
+     * @param args Данные
+     */
+    private void resolveHierarchicalSelect(Map<String, Object> args) {
+        @SuppressWarnings("unchecked")//Всегда приходит в виде списка из select-expression
+        List<String> selectExpressions = (List<String>) args.get("select");
+        if (selectExpressions == null)
+            return;
+        List<String> resolvedExpressions = new ArrayList<>();
+        for (String selectExpression : selectExpressions) {
+            while (selectKeyPattern.matcher(selectExpression).find()) {
+                selectExpression = resolveSelectKey(selectExpression, args);
+            }
+            resolvedExpressions.add(selectExpression);
+        }
+        args.put("select", resolvedExpressions);
+    }
+
+    /**
+     * Замена плейсхолдера в select-expression
+     *
+     * @param selectExpression Выражение
+     * @param args             Данные
+     * @return Разрезолвленное выражение или исходное при отсутствии в нем плейсхолдеров $$
+     */
+    private String resolveSelectKey(String selectExpression, Map<String, Object> args) {
+        Set<String> selectKeys = extract(selectExpression, selectKeyPattern, (s, m) -> s.substring(m.start() + 2, m.end() - 1));
+        Optional<String> selectKey = selectKeys.stream().findFirst();
+        if (selectKey.isEmpty())
+            return selectExpression;
+        if (selectKeys.size() > 1)
+            throw new N2oException("Find more than one select key in expression " + selectExpression);
+
+        @SuppressWarnings("unchecked")//Всегда приходит в виде списка из select-expression
+        List<String> value = (List<String>) args.remove(selectKey.get());
+        if (value == null)
+            throw new N2oException(String.format("Value for placeholder %s not found ", "$$" + selectKey.get()));
+        return replacePlaceholder(selectExpression, "$$" + selectKey.get(), String.join(" ", value), "");
     }
 
     /**

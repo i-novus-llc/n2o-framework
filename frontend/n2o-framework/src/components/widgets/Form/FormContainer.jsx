@@ -44,18 +44,23 @@ class Container extends React.Component {
         const { modelPrefix } = form
         const activeModel = this.getActiveModel(models)
         const prevModel = this.getActiveModel(prevModels)
+        const needUpdateValuesIfSameDatasource = datasource !== prevModels.datasource &&
+            isEqual(prevModels.datasource, datasource) &&
+            !isEqual(datasource[0], reduxFormValues)
 
-        if (!isEqual(datasource, prevModels.datasource)) {
+        if (!isEqual(datasource, prevModels.datasource) || needUpdateValuesIfSameDatasource) {
             // если предыдущий список пустой, и есть активная модель, то это defaultValues и надо их мержить
             const model = isEmpty(prevModels.datasource) && activeModel
                 ? { ...activeModel, ...datasource[0] }
-                : datasource[0]
+                : (datasource[0] || {})
 
-            this.updateActiveModel(model)
-            // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
-            if (modelPrefix === ModelPrefix.edit) {
-                setResolve(model)
-            }
+            this.setState(() => ({ initialValues: cloneDeep(model) }), () => {
+                this.updateActiveModel(model)
+                // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
+                if (modelPrefix === ModelPrefix.edit) {
+                    setResolve(model)
+                }
+            })
         } else if (
             !isEqual(reduxFormValues, prevValues) &&
             !isEqual(reduxFormValues, activeModel)
