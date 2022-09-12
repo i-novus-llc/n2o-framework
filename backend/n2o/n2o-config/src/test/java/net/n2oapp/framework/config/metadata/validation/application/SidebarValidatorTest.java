@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Тест валдиции боковй панели приложения
+ * Тестирование валидатора боковой панели приложения
  */
 public class SidebarValidatorTest extends SourceValidationTestBase {
 

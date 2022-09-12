@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Тест валидации приложения
+ * Тест валидатора приложения
  */
 public class ApplicationValidatorTest extends SourceValidationTestBase {
 
