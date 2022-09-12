@@ -130,14 +130,16 @@
     }
 
     .n2o-eclipse-content {
-        display: block;
+        display: flex;
         align-items: center;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
         width: 100%;
         cursor: pointer;
         outline: none;
+
+        .n2o-input-select__label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         &:disabled {
             cursor: not-allowed;

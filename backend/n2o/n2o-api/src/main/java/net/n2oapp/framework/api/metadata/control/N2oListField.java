@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 
 import java.util.Map;
 
@@ -12,7 +15,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oListField extends N2oStandardField implements PreFiltersAware {
+public abstract class N2oListField extends N2oStandardField implements PreFiltersAware, BadgeAware {
     protected Boolean search;
     protected Map<String, String>[] options;
     protected Boolean cache;
@@ -25,6 +28,11 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     private String imageFieldId;
     private String badgeFieldId;
     private String badgeColorFieldId;
+    private Position badgePosition;
+    private ShapeType badgeShape;
+    private String badgeImageFieldId;
+    private Position badgeImagePosition;
+    private ShapeType badgeImageShape;
     private String groupFieldId;
     private String searchFilterId;
     private String labelFieldId;
@@ -40,4 +48,5 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     public enum PopupScaling {
         auto, nowrap, normal
     }
+
 }

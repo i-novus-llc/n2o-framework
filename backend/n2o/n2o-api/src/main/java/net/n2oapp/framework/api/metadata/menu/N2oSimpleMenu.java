@@ -11,8 +11,10 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 
 import java.util.Map;
 
@@ -45,7 +47,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String datasourceId;
         private String icon;
         private String image;
-        private ImageShape imageShape;
+        private ShapeType imageShape;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
@@ -55,9 +57,14 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
      */
     @Getter
     @Setter
-    public static class MenuItem extends AbstractMenuItem {
+    public static class MenuItem extends AbstractMenuItem implements BadgeAware {
         private String badge;
         private String badgeColor;
+        private Position badgePosition;
+        private ShapeType badgeShape;
+        private String badgeImage;
+        private Position badgeImagePosition;
+        private ShapeType badgeImageShape;
         private N2oAction action;
     }
 

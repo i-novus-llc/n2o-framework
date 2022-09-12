@@ -1,21 +1,12 @@
 import {
-    all,
     call,
     put,
     select,
-    fork,
     takeEvery,
     throttle,
 } from 'redux-saga/effects'
-import { matchPath } from 'react-router-dom'
-import compact from 'lodash/compact'
-import each from 'lodash/each'
-import head from 'lodash/head'
 import isEmpty from 'lodash/isEmpty'
-import isObject from 'lodash/isObject'
-import map from 'lodash/map'
-import get from 'lodash/get'
-import { getAction, getLocation, LOCATION_CHANGE } from 'connected-react-router'
+import { getAction, getLocation } from 'connected-react-router'
 import queryString from 'query-string'
 
 import { destroyOverlay } from '../overlays/store'
@@ -24,7 +15,8 @@ import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { setGlobalLoading, changeRootPage, rootPageSelector } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
 
-import { resolvePageFilters, watchPageFilters } from './restoreFilters'
+import { mapPageQueryToUrl } from './sagas/restoreFilters'
+import { mappingUrlToRedux } from './sagas/mapUrlToRedux'
 import { makePageRoutesByIdSelector } from './selectors'
 import { MAP_URL } from './constants'
 import {
@@ -34,104 +26,7 @@ import {
     metadataRequest,
 } from './store'
 
-/**
- *
- function autoDetectBasePath(pathPattern, pathname) {
-  const match = matchPath(pathname, {
-    path: pathPattern,
-    exact: false,
-    strict: false,
-  });
-  return match && match.url;
-}
- */
-
-export function applyPlaceholders(key, obj, placeholders) {
-    const newObj = {}
-
-    each(obj, (v, k) => {
-        if (isObject(v)) {
-            newObj[k] = applyPlaceholders(key, v, placeholders)
-        } else if (v === '::self') {
-            newObj[k] = placeholders[key]
-        } else if (placeholders[v.substr(1)]) {
-            newObj[k] = placeholders[v.substr(1)]
-        } else {
-            newObj[k] = obj[k]
-        }
-    })
-
-    return newObj
-}
-
-export function* pathMapping(location, routes) {
-    const parsedPath = head(
-        compact(map(routes.list, route => matchPath(location.pathname, route))),
-    )
-
-    if (parsedPath && !isEmpty(parsedPath.params)) {
-        const actions = map(parsedPath.params, (value, key) => ({
-            ...routes.pathMapping[key],
-            ...applyPlaceholders(key, routes.pathMapping[key], parsedPath.params),
-        }))
-
-        for (const action of actions) {
-            yield put(action)
-        }
-    }
-}
-
-export function* queryMapping(location, routes) {
-    const parsedQuery = queryString.parse(location.search)
-
-    if (!isEmpty(parsedQuery)) {
-        const actions = compact(
-            map(parsedQuery, (value, key) => (
-                routes.queryMapping[key] && {
-                    ...get(routes, `queryMapping[${key}].get`, {}),
-                    ...applyPlaceholders(
-                        key,
-                        get(routes, `queryMapping[${key}].get`, {}),
-                        parsedQuery,
-                    ),
-                }
-            )),
-        )
-
-        for (const action of actions) {
-            yield put(action)
-        }
-    }
-}
-
-export function* mappingUrlToRedux(routes) {
-    const location = yield select(getLocation)
-
-    if (routes) {
-        yield all([
-            call(pathMapping, location, routes),
-            call(queryMapping, location, routes),
-        ])
-    }
-    // TODO: исправить сброс роутинга до базового уровня
-    // try {
-    //   const firstRoute = (routes && routes.list && routes.list[0]) || {};
-    //   const basePath = autoDetectBasePath(firstRoute.path, location.pathname);
-    //   if (!firstRoute.isOtherPage && location.pathname !== basePath) {
-    //     yield put(
-    //       replace({
-    //         pathname: basePath,
-    //         search: location.search,
-    //         state: { silent: true },
-    //       })
-    //     );
-    //   }
-    // } catch (e) {
-    //   console.error(`Ошибка автоматического определения базового роута.`);
-    //   console.error(e);
-    // }
-}
-
+// TODO выпилить?
 export function* processUrl() {
     try {
         const location = yield select(getLocation)
@@ -177,6 +72,7 @@ export function* getMetadata(apiProvider, action) {
         } else if (rootPage) {
             url += search
         }
+
         const metadata = yield call(
             fetchSaga,
             FETCH_PAGE_METADATA,
@@ -184,16 +80,15 @@ export function* getMetadata(apiProvider, action) {
             apiProvider,
         )
 
-        yield call(mappingUrlToRedux, metadata.routes)
-
         if (rootPage) {
             yield put(changeRootPage(metadata.id))
             yield put(destroyOverlay())
         }
 
-        yield fork(resolvePageFilters, pageUrl, metadata.id, metadata.routes, metadata.models)
         yield put(setStatus(metadata.id, 200))
         yield put(metadataSuccess(metadata.id, metadata))
+
+        yield call(mapPageQueryToUrl, metadata.id, metadata.models)
     } catch (err) {
         if (err && err.status) {
             yield put(setStatus(pageId, err.status))
@@ -228,5 +123,4 @@ export function* getMetadata(apiProvider, action) {
 export default apiProvider => [
     takeEvery(metadataRequest, getMetadata, apiProvider),
     throttle(500, MAP_URL, processUrl),
-    takeEvery(LOCATION_CHANGE, watchPageFilters),
 ]

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
 import java.io.File;
@@ -40,7 +40,7 @@ public interface ImageUploadControl extends Control {
 
     void sizeShouldBe(int index, String fileSize);
 
-    void uploadAreaShapeShouldBe(ImageShape shape);
+    void uploadAreaShapeShouldBe(ShapeType shape);
 
     void uploadAreaShouldHaveIcon(String icon);
 

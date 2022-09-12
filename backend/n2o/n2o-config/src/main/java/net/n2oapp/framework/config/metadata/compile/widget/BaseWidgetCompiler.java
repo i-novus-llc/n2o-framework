@@ -282,7 +282,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 Dependency condition = new Dependency();
                 String unwrapped = StringUtils.unwrapJs(dep.getValue());
                 condition.setCondition(unwrapped);
-                ModelLink link = new ModelLink(dep.getModel(), getClientDatasourceId(dep.getDatasource(), p));
+                ModelLink link = new ModelLink(
+                        p.cast(dep.getModel(), ReduxModel.resolve),
+                        getClientDatasourceId(dep.getDatasource(), p));
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);

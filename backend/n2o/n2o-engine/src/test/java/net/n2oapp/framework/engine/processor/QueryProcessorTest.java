@@ -1,6 +1,8 @@
 package net.n2oapp.framework.engine.processor;
 
 import net.n2oapp.criteria.api.CollectionPage;
+import net.n2oapp.criteria.api.Sorting;
+import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterType;
@@ -60,6 +62,7 @@ public class QueryProcessorTest {
         ContextProcessor contextProcessor = new ContextProcessor(new TestContextEngine());
         factory = mock(N2oInvocationFactory.class);
         queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
+        queryProcessor.setDescExpression("desc");
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
         environment.setSystemProperties(new SimplePropertyResolver(new Properties()));
@@ -442,8 +445,9 @@ public class QueryProcessorTest {
         CompiledQuery query = builder.read().compile().get(new QueryContext("testHierarchicalSelect"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.Type.list);
         Map<String, Object> map = new LinkedHashMap<>();
-        N2oQueryProcessor.prepareMapForQuery(map, query, criteria);
+        queryProcessor.prepareMapForQuery(map, selection, query, criteria);
 
         List<String> value = (List<String>) map.get("select");
         assertThat(value.size(), is(3));
@@ -505,5 +509,25 @@ public class QueryProcessorTest {
         assertThat(unique.getDataSet("info").size(), is(2));
         assertThat(unique.getDataSet("info").getString("name"), is("test1"));
         assertThat(unique.getDataSet("info").getString("type"), is("type11"));
+    }
+
+    @Test
+    public void testSortingDirectionExpression() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testQuerySortingDirectionExpression.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQuerySortingDirectionExpression"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.addSorting(new Sorting("name", SortingDirection.DESC));
+        N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.Type.list);
+        Map<String, Object> map = new LinkedHashMap<>();
+
+        queryProcessor.prepareMapForQuery(map, selection, query, criteria);
+        assertThat(map.get("nameDirection"), is("desc"));
+
+        selection = new N2oQuery.Selection(N2oQuery.Selection.Type.list);
+        selection.setDescExpression("DESC");
+        queryProcessor.prepareMapForQuery(map, selection, query, criteria);
+        assertThat(map.get("nameDirection"), is("DESC"));
     }
 }

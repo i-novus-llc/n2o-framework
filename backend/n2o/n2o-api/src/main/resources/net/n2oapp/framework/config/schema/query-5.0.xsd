@@ -41,19 +41,29 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="selectionDefinition">
-                <xs:attribute name="result-mapping" type="xs:string" use="optional">
+                <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Маппинг списка результатов. Для каждого провайдера данных свои значения по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="result-normalize" type="xs:string" use="optional">
+                <xs:attribute name="result-normalize" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Нормализация списка результатов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="count-mapping" type="xs:string" use="optional">
+                <xs:attribute name="count-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Маппинг общего количества записей. Для каждого провайдера данных свои значения по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="asc-expression" type="xs:string" default="asc">
+                    <xs:annotation>
+                        <xs:documentation>Выражение ASC направления сортировки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="desc-expression" type="xs:string" default="desc">
+                    <xs:annotation>
+                        <xs:documentation>Выражение DESC направления сортировки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -81,12 +91,12 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="selectionDefinition">
-                <xs:attribute name="result-mapping" type="xs:string" use="optional">
+                <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Маппинг результата уникальной записи.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="result-normalize" type="xs:string" use="optional">
+                <xs:attribute name="result-normalize" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Нормализация результата.</xs:documentation>
                     </xs:annotation>
@@ -110,7 +120,7 @@
                 </xs:annotation>
             </xs:any>
         </xs:sequence>
-        <xs:attribute name="filters" type="xs:string" use="optional">
+        <xs:attribute name="filters" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификаторы фильтров (filter-id). При наличии хотя бы одного из фильтров сработает этот провайдер данных.</xs:documentation>
             </xs:annotation>

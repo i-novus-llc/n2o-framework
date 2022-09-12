@@ -1,8 +1,10 @@
 package net.n2oapp.framework.config.metadata.application;
 
 import net.n2oapp.framework.api.metadata.application.*;
+import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
+import net.n2oapp.framework.api.metadata.meta.CopyDependency;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -147,5 +149,25 @@ public class ApplicationCompileTest extends SourceCompileTestBase {
 
         datasource = (StandardDatasource) application.getDatasources().get("home");
         assertThat(datasource.getId(), is("home"));
+    }
+
+    @Test
+    public void datasourceWithDependencies() {
+        Application application = compile("net/n2oapp/framework/config/metadata/application/datasourceWithDependencies.application.xml")
+                .get(new ApplicationContext("datasourceWithDependencies"));
+
+
+        StandardDatasource ds1 = (StandardDatasource) application.getDatasources().get("ds1");
+        assertThat(ds1.getId(), is("ds1"));
+
+        StandardDatasource ds2 = (StandardDatasource) application.getDatasources().get("ds2");
+        assertThat(ds2.getId(), is("ds2"));
+        assertThat(ds2.getDependencies().get(0).getOn(), is("models.resolve['ds1'].out"));
+
+        InheritedDatasource ds3 = (InheritedDatasource) application.getDatasources().get("ds3");
+        assertThat(ds3.getId(), is("ds3"));
+        assertThat(ds3.getProvider().getSourceDs(), is("ds1"));
+        assertThat(ds3.getDependencies().get(0).getOn(), is("models.resolve['ds1']"));
+
     }
 }

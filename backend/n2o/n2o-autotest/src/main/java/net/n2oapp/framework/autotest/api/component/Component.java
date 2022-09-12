@@ -6,8 +6,12 @@ package net.n2oapp.framework.autotest.api.component;
 public interface Component extends Element {
 
     void shouldExists();
+
     void shouldNotExists();
 
     void shouldBeVisible();
+
     void shouldBeHidden();
+
+    void shouldHaveCssClass(String cssClass);
 }

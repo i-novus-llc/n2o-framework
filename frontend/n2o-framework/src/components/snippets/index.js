@@ -12,7 +12,7 @@ import { Drawer } from './Drawer/Drawer'
 import { StatusText } from './StatusText/StatusText'
 import { Image } from './Image/Image'
 import { Status } from './Status/Status'
-import { renderBadge } from './Badge/Badge'
+import { Badge } from './Badge/Badge'
 import { Html } from './Html/Html'
 
 export default {
@@ -30,6 +30,6 @@ export default {
     StatusText,
     Image,
     Status,
-    Badge: renderBadge,
+    Badge,
     Html,
 }

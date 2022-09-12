@@ -5,6 +5,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import org.openqa.selenium.Keys;
 
@@ -116,27 +118,47 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         element().shouldHave(Condition.cssClass("disabled"));
     }
 
-    @Override
+    @Deprecated
     public void expand() {
+        openPopup();
+    }
+
+    @Override
+    public void openPopup() {
         SelenideElement elm = element().$(".n2o-popup-control");
         if (!elm.is(Condition.cssClass("isExpanded")))
             elm.click();
     }
 
-    @Override
+    @Deprecated
     public void collapse() {
+        closePopup();
+    }
+
+    @Override
+    public void closePopup() {
         SelenideElement elm = element().$(".n2o-popup-control");
         if (elm.is(Condition.cssClass("isExpanded")))
             elm.click();
     }
 
-    @Override
+    @Deprecated
     public void shouldBeExpanded() {
-        selectPopUp().shouldNotBe(Condition.hidden);
+        shouldBeOpened();
     }
 
     @Override
+    public void shouldBeOpened() {
+        selectPopUp().shouldNotBe(Condition.hidden);
+    }
+
+    @Deprecated
     public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
+    @Override
+    public void shouldBeClosed() {
         selectPopUp().shouldBe(Condition.hidden);
     }
 
@@ -156,6 +178,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         popUpButtons().findBy(Condition.text(value))
                 .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
                 .shouldHave(Condition.cssClass(color.name("bg-")));
+    }
+
+    @Override
+    public DropDown dropdown() {
+        return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
     }
 
     private SelenideElement input() {

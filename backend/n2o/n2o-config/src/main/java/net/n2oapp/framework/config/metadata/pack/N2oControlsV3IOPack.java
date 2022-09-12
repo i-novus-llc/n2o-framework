@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
+import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.*;
 import net.n2oapp.framework.config.io.control.v3.interval.DateIntervalIOv3;
@@ -9,9 +10,9 @@ import net.n2oapp.framework.config.io.control.v3.plain.*;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
 
-public class N2oControlsV3IOPack implements MetadataPack<N2oApplicationBuilder> {
+public class N2oControlsV3IOPack implements MetadataPack<XmlIOBuilder<?>> {
     @Override
-    public void build(N2oApplicationBuilder b) {
+    public void build(XmlIOBuilder<?> b) {
         b.ios(new CheckboxGroupIOv3(),
                 new CheckboxIOv3(),
                 new CustomFieldIOv3(),

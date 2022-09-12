@@ -1,4 +1,4 @@
-import { call, select } from 'redux-saga/effects'
+import { call, select, delay } from 'redux-saga/effects'
 import get from 'lodash/get'
 
 // @ts-ignore ignore import error from js file
@@ -10,9 +10,8 @@ import type { DataSourceState } from '../DataSource'
 // @ts-ignore ignore import error from js file
 import { handleInvoke } from '../../../sagas/actionsImpl'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { mapQueryToUrl } from '../../pages/sagas/restoreFilters'
 
-// @ts-ignore ignore import error from js file
-import { routesQueryMapping } from './service/routesQueryMapping'
 import { fetch } from './service/fetch'
 
 export function* submit(id: string, provider: ServiceSubmit, apiProvider: unknown) {
@@ -34,20 +33,24 @@ export function* invoke() {
 }
 
 export function* query(id: string, provider: ServiceProvider, options: QueryOptions) {
-    const state: GlobalState = yield select()
     const { size, sorting, page, pageId } = yield select(dataSourceByIdSelector(id))
 
     if (!provider.url) {
         throw new Error('Parameter "url" is required for fetch data')
     }
 
-    yield* routesQueryMapping(pageId, undefined)
+    // Редакс состояние не успевает обновиться после маппинга из урла,
+    // запрос за данными слишком быстро запускается
+    yield delay(16)
+    yield call(mapQueryToUrl, pageId)
 
     const query = {
         page: get(options, 'page', page),
         size,
         sorting,
     }
+
+    const state: GlobalState = yield select()
     const resolvedProvider = dataProviderResolver(
         state,
         provider,

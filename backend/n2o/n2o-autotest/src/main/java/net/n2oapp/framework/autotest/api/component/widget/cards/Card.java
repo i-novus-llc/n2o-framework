@@ -29,7 +29,5 @@ public interface Card extends Component {
         <T extends Cell> T cell(Class<T> componentClass);
 
         void shouldHaveStyle(String style);
-
-        void shouldHaveCssClass(String cssClass);
     }
 }
