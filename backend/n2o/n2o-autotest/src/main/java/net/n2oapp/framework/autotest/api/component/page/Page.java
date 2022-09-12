@@ -30,7 +30,10 @@ public interface Page extends Component {
 
     Tooltip tooltip();
 
+    @Deprecated
     Alerts alerts();
+
+    Alerts alerts(String place);
 
     void urlShouldMatches(String regexp);
 

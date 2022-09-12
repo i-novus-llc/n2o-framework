@@ -67,6 +67,11 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
+    public Alerts alerts(String place) {
+        return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", place)), Alerts.class);
+    }
+
+    @Override
     public void urlShouldMatches(String regexp) {
         element().should(new UrlMatch(regexp));
     }
