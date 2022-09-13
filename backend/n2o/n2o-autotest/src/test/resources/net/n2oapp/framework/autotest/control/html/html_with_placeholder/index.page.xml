@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для автотеста html виджет с плейсхолдером">
+    <datasources>
+        <datasource id="test" query-id="test"/>
+    </datasources>
+    <regions>
+        <html datasource="test" label="Простой вывод переменной">
+            <content>
+                {firstName}
+            </content>
+        </html>
+        <html datasource="test"
+              label="Простой вывод переменной с текстом вначале"
+        >
+            <content>
+                -1- {firstName}
+            </content>
+        </html>
+        <html datasource="test"
+              label="Простой вывод переменной с текстом в конце"
+        >
+            <content>
+                {firstName} -2-
+            </content>
+        </html>
+        <html datasource="test"
+              label="Простой вывод переменной с текстом по бокам"
+        >
+            <content>
+                -3- {firstName} -3-
+            </content>
+        </html>
+        <html datasource="test"  label="Простой вывод переменной">
+            <content>
+                <![CDATA[
+                    <div style='color:red'>{firstName}</div>
+                ]]>
+            </content>
+        </html>
+        <html datasource="test"
+              label="Вывод переменной в cdata с текстом вначале"
+        >
+            <content>
+                <![CDATA[
+                    <div class="test">-5- {firstName}</div>
+                ]]>
+            </content>
+        </html>
+        <html datasource="test"
+              label="Вывод переменной в cdata с текстом в конце"
+        >
+            <content>
+                <![CDATA[
+                    {firstName} -6-
+                ]]>
+            </content>
+        </html>
+        <html datasource="test"
+              label="Вывод переменной в cdata с текстом по бокам"
+        >
+            <content>
+                <![CDATA[
+                    -7- {firstName} -7-
+                ]]>
+            </content>
+        </html>
+        <html datasource="test"
+              label="Многострочный вывод переменной в cdata"
+        >
+            <content>
+                <![CDATA[
+                    -8-
+                    {firstName}
+                    -8-
+                ]]>
+            </content>
+        </html>
+        <html datasource="test"
+              label="Многострочный вывод переменной в cdata c тегами"
+        >
+            <content>
+                <![CDATA[
+                    <span>-9-</span>
+                    <span>{firstName}</span>
+                ]]>
+            </content>
+        </html>
+        <html datasource="test"
+              label="Многострочный вывод переменной в cdata c корневым тегом"
+        >
+            <content>
+                <![CDATA[
+                    <span>
+                        <span>-10-</span>
+                        <span>{firstName}</span>
+                    </span>
+                ]]>
+            </content>
+        </html>
+    </regions>
+</page>
