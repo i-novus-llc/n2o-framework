@@ -59,11 +59,6 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     }
 
     @Override
-    public Tooltip tooltip() {
-        return null;
-    }
-
-    @Override
     public Alerts alerts() {
         return null;
     }

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.autotest.api.component.cell.*;
-import net.n2oapp.framework.autotest.api.component.page.Page;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
+import net.n2oapp.framework.autotest.api.component.cell.IconCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -60,20 +60,29 @@ public class IconCellAT extends AutoTestBase {
 
     @Test
     public void iconCellTooltipTest() {
-        Page.Tooltip tooltip = page.tooltip();
-
         // идем снизу вверх, чтобы tooltip не перекрывал ячейку
-        rows.row(3).cell(0, IconCell.class).hover();
-        tooltip.shouldBeExist();
+        IconCell cell = rows.row(3).cell(0, IconCell.class);
+        cell.hover();
+        Tooltip tooltip = cell.tooltip();
+        tooltip.shouldExists();
         tooltip.shouldHaveText("minus");
-        rows.row(2).cell(0, IconCell.class).hover();
-        tooltip.shouldBeExist();
+
+        cell = rows.row(2).cell(0, IconCell.class);
+        cell.hover();
+        tooltip = cell.tooltip();
+        tooltip.shouldExists();
         tooltip.shouldHaveText("fax");
-        rows.row(1).cell(0, IconCell.class).hover();
-        tooltip.shouldBeExist();
+
+        cell = rows.row(1).cell(0, IconCell.class);
+        cell.hover();
+        tooltip = cell.tooltip();
+        tooltip.shouldExists();
         tooltip.shouldHaveText("plus");
-        rows.row(0).cell(0, IconCell.class).hover();
-        tooltip.shouldBeExist();
+
+        cell = rows.row(0).cell(0, IconCell.class);
+        cell.hover();
+        tooltip = cell.tooltip();
+        tooltip.shouldExists();
         tooltip.shouldHaveText("phone");
     }
 }
