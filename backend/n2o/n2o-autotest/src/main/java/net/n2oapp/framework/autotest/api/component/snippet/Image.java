@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.snippet;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 
 /**
@@ -12,7 +12,7 @@ public interface Image extends Snippet {
 
     void shouldHaveDescription(String text);
 
-    void shouldHaveShape(ImageShape shape);
+    void shouldHaveShape(ShapeType shape);
 
     void shouldHaveUrl(String url);
 

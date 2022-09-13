@@ -20,23 +20,12 @@ public class N2oPagesPack implements MetadataPack<N2oApplicationBuilder> {
 
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oPagesIOv3Pack(), new N2oPagesIOv4Pack());
-        b.ios(new ApplicationDatasourceIO(),
-                new BrowserStorageDatasourceIO(),
-                new StandardDatasourceIO(),
-                new StompDatasourceIO(),
-                new InheritedDatasourceIO());
+        b.packs(new N2oPagesIOv3Pack(), new N2oPagesIOv4Pack(), new N2oAllDatasourcesPack());
         b.compilers(new SimplePageCompiler(),
                 new StandardPageCompiler(),
                 new LeftRightPageCompiler(),
                 new TopLeftRightPageCompiler(),
-                new SearchablePageCompiler(),
-                new StandardDatasourceCompiler(),
-                new BrowserStorageDatasourceCompiler(),
-                new StompDatasourceCompiler(),
-                new InheritedDatasourceCompiler());
+                new SearchablePageCompiler());
         b.binders(new SimplePageBinder(), new StandardPageBinder());
-        b.mergers(new N2oStandardDatasourceMerger(), new N2oStompDatasourceMerger(),
-                new N2oBrowserStorageDatasourceMerger(), new N2oInheritedDatasourceMerger());
     }
 }

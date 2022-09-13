@@ -26,8 +26,7 @@ import N2OSelectInput from './N2OSelectInput'
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {string} statusFieldId - поле для статуса
- * @reactProps {string} badgeFieldId - поле для баджей
- * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {object} badge - данные для баджа
  * @reactProps {boolean} disabled - флаг неактивности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {string} enabledFieldId - поле для активности
@@ -465,8 +464,7 @@ class N2OSelect extends React.Component {
             descriptionFieldId,
             format,
             placeholder,
-            badgeFieldId,
-            badgeColorFieldId,
+            badge,
             onScrollEnd,
             hasSearch,
             cleanable,
@@ -524,10 +522,9 @@ class N2OSelect extends React.Component {
                             iconFieldId={iconFieldId}
                             imageFieldId={imageFieldId}
                             statusFieldId={statusFieldId}
-                            badgeFieldId={badgeFieldId}
+                            badge={badge}
                             descriptionFieldId={descriptionFieldId}
                             enabledFieldId={enabledFieldId}
-                            badgeColorFieldId={badgeColorFieldId}
                             onSelect={this.handleItemSelect}
                             onScrollEnd={onScrollEnd}
                             isExpanded={isExpanded}
@@ -577,13 +574,9 @@ N2OSelect.propTypes = {
      */
     statusFieldId: PropTypes.string,
     /**
-     * Ключ badge в данных
+     * Данные для badge
      */
-    badgeFieldId: PropTypes.string,
-    /**
-     * Ключ badgeColor в данных
-     */
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.object,
     /**
      * Флаг активности
      */
@@ -667,8 +660,9 @@ N2OSelect.defaultProps = {
     valueFieldId: 'id',
     labelFieldId: 'name',
     iconFieldId: 'icon',
-    imageFieldId: 'image',
-    badgeFieldId: 'badge',
+    badge: {
+        fieldId: 'badge',
+    },
     loading: false,
     disabled: false,
     disabledValues: [],

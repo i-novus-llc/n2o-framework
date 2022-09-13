@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  */
 @Component
 public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oButtonField> {
+    private static final String PROPERTY_PREFIX = "n2o.api.control.button_field";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -46,8 +48,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         initDefaults(source, context, p);
         compileField(field, source, context, p);
         field.setColor(source.getColor());
-        field.setBadge(p.resolveJS(source.getBadge()));
-        field.setBadgeColor(p.resolveJS(source.getBadgeColor()));
+        field.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
 
         initItem(field, source, context, p);
 
@@ -86,8 +87,6 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             }
         }
 
-        initConfirm(button, source, context, p, operation);
-
         String hint;
         if (LabelType.icon.equals(source.getType()))
             hint = p.cast(source.getDescription(), p.resolveJS(source.getLabel()));
@@ -101,6 +100,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
 
         if (source.getModel() == null)
             source.setModel(ReduxModel.resolve);
+
+        initConfirm(button, source, p, operation);
 
         String datasource = initDatasource(source, p);
         button.setValidate(compileValidate(source, p, datasource));
@@ -127,7 +128,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         return null;
     }
 
-    private void initConfirm(ButtonField button, N2oButtonField source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
+    private void initConfirm(ButtonField button, N2oButtonField source, CompileProcessor p, CompiledObject.Operation operation) {
         if ((source.getConfirm() == null || !source.getConfirm()) &&
                 (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
             return;
@@ -154,8 +155,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         }
         if (StringUtils.isJs(confirm.getText())) {
             String datasource = initClientDatasourceId(source, p);
-            ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, datasource).getBindLink());
+            confirm.setModelLink(new ModelLink(source.getModel(), datasource).getBindLink());
         }
         button.setConfirm(confirm);
     }

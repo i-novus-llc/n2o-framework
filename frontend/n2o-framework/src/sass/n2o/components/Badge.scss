@@ -1,0 +1,31 @@
+.n2o-badge-container {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.n2o-badge {
+    &.n2o-badge--circle {
+        width: 1.375rem;
+        height: 1.375rem;
+        padding: 0;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .n2o-badge-image {
+        height: 1rem;
+        margin-right: 4px;
+        object-fit: cover;
+
+        &.n2o-badge-image--right {
+            order: 1;
+            margin-right: 0;
+            margin-left: 0.25rem;
+        }
+
+        &.n2o-badge-image--circle,
+        &.n2o-badge-image--square {
+            width: 1rem;
+        }
+    }
+}

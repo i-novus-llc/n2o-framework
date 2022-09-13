@@ -629,8 +629,8 @@ public class IOProcessorTest {
         testElementWithProperty(p, "testProp1");
 
         //test params
-        HashMap<String, String> params = new HashMap<>();
-        params.put("testProp1", "testProp2");
+        HashMap<String, String[]> params = new HashMap<>();
+        params.put("testProp1", new String[]{"testProp2"});
         p = new IOProcessorImpl(readerFactory);
         try {
             MetadataParamHolder.setParams(params);

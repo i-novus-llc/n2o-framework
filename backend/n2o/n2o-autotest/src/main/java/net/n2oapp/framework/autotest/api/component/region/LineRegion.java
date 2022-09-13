@@ -1,11 +1,11 @@
 package net.n2oapp.framework.autotest.api.component.region;
 
-import net.n2oapp.framework.autotest.api.component.Dropdown;
+import net.n2oapp.framework.autotest.api.component.Expandable;
 
 /**
  * Регион с горизонтальным делителем для автотестирования
  */
-public interface LineRegion extends Region, Dropdown {
+public interface LineRegion extends Region, Expandable {
     RegionItems content();
 
     void shouldBeCollapsible();

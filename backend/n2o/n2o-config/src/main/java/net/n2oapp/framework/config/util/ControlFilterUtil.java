@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.util;
 
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 
 import java.util.ArrayList;

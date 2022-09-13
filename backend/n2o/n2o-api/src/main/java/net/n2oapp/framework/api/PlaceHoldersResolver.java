@@ -304,6 +304,8 @@ public class PlaceHoldersResolver {
     private Function<String, Object> notReplaceNull(Object data) {
         return key -> {
             Object result = function(data).apply(key);
+            if (result instanceof Object[])
+                result = ((Object[]) result)[0];
             return result != null ? result : prefix.concat(key).concat(suffix);
         };
     }
