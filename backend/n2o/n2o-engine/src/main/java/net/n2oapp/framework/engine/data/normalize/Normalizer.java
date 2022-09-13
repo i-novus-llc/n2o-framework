@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface Normalizer {
-    String alias() default "";
+    String value() default "";
 }

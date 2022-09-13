@@ -27,11 +27,7 @@ import java.util.*;
 public class MappingProcessor {
     private final static ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
     private static final ExpressionParser readParser = new SpelExpressionParser(new SpelParserConfiguration(false, false));
-    private static final Map<String, Object> registeredFunctions = NormalizerCollector.collect();//FIXME
-
-//    static {
-//        NormalizerCollector.collect().forEach(f -> registeredFunctions.put(f.getName(), f));
-//    }
+    private static final Map<String, Object> registeredFunctions = new HashMap<>(NormalizerCollector.collect());
 
     /**
      * Входящее преобразование value согласно выражению mapping в объект target
