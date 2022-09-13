@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
+import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 
 import java.util.List;
 
@@ -18,15 +19,13 @@ public class ButtonField extends ActionField {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private String badge;
-    @JsonProperty
-    private String badgeColor;
-    @JsonProperty
     private String hint;
     @JsonProperty
     private String hintPosition;
     @JsonProperty
     private Confirm confirm;
+    @JsonProperty
+    private Badge badge;
     /**
      * Список источников данных, которые нужно валидировать
      */

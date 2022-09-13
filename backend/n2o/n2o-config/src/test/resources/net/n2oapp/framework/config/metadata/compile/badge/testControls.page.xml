@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <fields>
+            <select id="s1" badge-field-id="bfi1" badge-color-field-id="bcfi1" badge-position="left"
+                    badge-shape="rounded" badge-image-field-id="bifi1" badge-image-position="right" badge-image-shape="square"/>
+            <input-select id="is1" badge-image-field-id="bifi2"/>
+            <input-select-tree id="ist1" parent-field-id="pfi1"/>
+        </fields>
+    </form>
+</simple-page>

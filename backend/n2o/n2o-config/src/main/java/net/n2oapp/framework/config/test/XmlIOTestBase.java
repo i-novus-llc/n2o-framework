@@ -13,7 +13,7 @@ public abstract class XmlIOTestBase {
 
     public void setUp() throws Exception {
         XmlIOReader reader = new XmlIOReader();
-        configure(reader::ios);
+        configure(reader);
         tester = new ION2oMetadataTester(reader);
     }
 

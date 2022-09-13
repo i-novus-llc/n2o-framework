@@ -23,13 +23,15 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
 
     @Override
     public void io(Element e, N2oQuery t, IOProcessor p) {
-        p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "object-id", t::getObjectId, t::setObjectId);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
-        p.children(e, null, "list", t::getLists, t::setLists, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::selection);
-        p.children(e, null, "count", t::getCounts, t::setCounts, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::selection);
-        p.children(e, null, "unique", t::getUniques, t::setUniques, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::selection);
+        p.children(e, null, "list", t::getLists, t::setLists,
+                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::listSelection);
+        p.children(e, null, "count", t::getCounts, t::setCounts,
+                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::countSelection);
+        p.children(e, null, "unique", t::getUniques, t::setUniques,
+                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::uniqueSelection);
         p.childrenByEnum(e, "filters", t::getFilters, t::setFilters, N2oQuery.Filter::getType,
                 N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
         p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)
@@ -61,10 +63,27 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
 
     private void selection(Element e, N2oQuery.Selection t, IOProcessor p) {
         p.attribute(e, "filters", t::getFilters, t::setFilters);
-        p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
-        p.attribute(e, "result-mapping", t::getResultMapping, t::setResultMapping);
-        p.attribute(e, "result-normalize", t ::getResultNormalize, t::setResultNormalize);
         p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), dataProviderDefaultNamespace);
+    }
+
+    private void listSelection(Element e, N2oQuery.Selection t, IOProcessor p) {
+        selection(e, t, p);
+        p.attribute(e, "result-mapping", t::getResultMapping, t::setResultMapping);
+        p.attribute(e, "result-normalize", t::getResultNormalize, t::setResultNormalize);
+        p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
+        p.attribute(e, "asc-expression", t::getAscExpression, t::setAscExpression);
+        p.attribute(e, "desc-expression", t::getDescExpression, t::setDescExpression);
+    }
+
+    private void uniqueSelection(Element e, N2oQuery.Selection t, IOProcessor p) {
+        selection(e, t, p);
+        p.attribute(e, "result-mapping", t::getResultMapping, t::setResultMapping);
+        p.attribute(e, "result-normalize", t::getResultNormalize, t::setResultNormalize);
+    }
+
+    private void countSelection(Element e, N2oQuery.Selection t, IOProcessor p) {
+        selection(e, t, p);
+        p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
     }
 
     private void field(Element e, QuerySimpleField f, IOProcessor p) {

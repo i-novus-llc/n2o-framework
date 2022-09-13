@@ -326,6 +326,31 @@
                         <xs:documentation>Поле выборки, отвечающее за цвет ячейки с текстом</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>Форма значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Позиция значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="icon-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, отвечающее за иконку вариантов выбора</xs:documentation>
@@ -445,6 +470,13 @@
                         <xs:documentation>Тип кнопок</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -462,6 +494,13 @@
                         <xs:documentation>Тип кнопок</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -479,6 +518,13 @@
                         <xs:documentation>Тип кнопок</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1621,6 +1667,13 @@
                         <xs:documentation>Шаг приращения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1633,6 +1686,13 @@
                         <xs:documentation>Тип выбора значения</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

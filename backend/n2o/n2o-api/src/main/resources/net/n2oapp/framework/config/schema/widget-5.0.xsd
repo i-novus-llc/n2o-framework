@@ -600,23 +600,92 @@
     </xs:complexType>
 
     <xs:complexType name="treeReferenceDefinition">
+        <xs:annotation>
+            <xs:documentation>Виджет дерево.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="widgetDefinition">
-                <xs:annotation>
-                    <xs:documentation>Виджет дерево.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="ajax" type="xs:boolean" default="false"/>
-                <xs:attribute name="multi-select" type="xs:boolean" default="false"/>
-                <xs:attribute name="checkboxes" type="xs:boolean" default="false"/>
+                <xs:attribute name="ajax" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Поддержка загрузки через ajax запрос</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="multi-select" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Режим множественного выбора</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Выбор в режиме чекбокс </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
 
-                <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
-                <xs:attribute name="has-children-field-id" type="xs:string"/>
-                <xs:attribute name="value-field-id" type="xs:string"/>
-                <xs:attribute name="label-field-id" type="xs:string"/>
-                <xs:attribute name="image-field-id" type="xs:string"/>
-                <xs:attribute name="icon-field-id" type="xs:string"/>
-                <xs:attribute name="badge-field-id" type="xs:string"/>
-                <xs:attribute name="badge-color-field-id" type="xs:string"/>
+                <xs:attribute name="parent-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Родительский узел дерева</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="has-children-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Наличие дочерних элементов</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="value-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор узла дерева</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Наименование узла дерева</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Изображение узла дерева</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка узла дерева</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Значок узла дерева</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-color-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет значка узла дерева</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>Форма значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Позиция значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Картинка в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1438,6 +1507,27 @@
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>
             <xs:enumeration value="center"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positionType">
+        <xs:annotation>
+            <xs:documentation>Тип расположения.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="shapeType">
+        <xs:annotation>
+            <xs:documentation>Тип формы изображения.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="rounded"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

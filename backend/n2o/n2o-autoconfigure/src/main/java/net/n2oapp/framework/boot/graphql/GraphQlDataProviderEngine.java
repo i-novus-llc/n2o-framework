@@ -21,6 +21,7 @@ import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.n2oapp.framework.boot.graphql.GraphQlUtil.escapeJson;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlString;
 import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
 import static net.n2oapp.framework.engine.data.QueryUtil.replacePlaceholder;
@@ -38,7 +39,6 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
     private final Pattern selectKeyPattern = Pattern.compile("\\$\\$\\w+\\W");
     private final Pattern placeholderStringEscapePattern = Pattern.compile("\\$\\$\\$\\w+");
-    private static final String ESCAPE_SYMBOLS = "\\\"";
 
     @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
@@ -209,7 +209,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             String value;
             if (escapeStringPlaceholders.contains(entry.getKey())) {
                 placeholder = "$".concat(placeholder);
-                value = ESCAPE_SYMBOLS + entry.getValue() + ESCAPE_SYMBOLS;
+                value = escapeJson(toGraphQlString(entry.getValue()));
             } else {
                 value = placeholderKeys.contains(entry.getKey()) ?
                         (String) entry.getValue() :

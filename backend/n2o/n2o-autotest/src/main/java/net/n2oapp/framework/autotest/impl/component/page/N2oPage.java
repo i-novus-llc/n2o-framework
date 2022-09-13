@@ -129,7 +129,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions, .n2o-page-body").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
         }
 
         @Override

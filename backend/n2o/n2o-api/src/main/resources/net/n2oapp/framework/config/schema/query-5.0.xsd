@@ -23,11 +23,6 @@
                 <xs:documentation>Объект выборки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="name" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Локализованное наименование выборки. По умолчанию равно элементу name объекта, на основе которого сделана выборка.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="route" type="xs:string">
             <xs:annotation>
                 <xs:documentation>URL выборки. По умолчанию совпадает с идентификатором выборки.</xs:documentation>
@@ -46,19 +41,29 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="selectionDefinition">
-                <xs:attribute name="result-mapping" type="xs:string" use="optional">
+                <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Маппинг списка результатов. Для каждого провайдера данных свои значения по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="result-normalize" type="xs:string" use="optional">
+                <xs:attribute name="result-normalize" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Нормализация списка результатов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="count-mapping" type="xs:string" use="optional">
+                <xs:attribute name="count-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Маппинг общего количества записей. Для каждого провайдера данных свои значения по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="asc-expression" type="xs:string" default="asc">
+                    <xs:annotation>
+                        <xs:documentation>Выражение ASC направления сортировки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="desc-expression" type="xs:string" default="desc">
+                    <xs:annotation>
+                        <xs:documentation>Выражение DESC направления сортировки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -86,14 +91,14 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="selectionDefinition">
-                <xs:attribute name="result-mapping" type="xs:string" use="optional">
+                <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Маппинг результата уникальной записи.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="result-normalize" type="xs:string" use="optional">
+                <xs:attribute name="result-normalize" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Нормализация списка результатов.</xs:documentation>
+                        <xs:documentation>Нормализация результата.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -115,7 +120,7 @@
                 </xs:annotation>
             </xs:any>
         </xs:sequence>
-        <xs:attribute name="filters" type="xs:string" use="optional">
+        <xs:attribute name="filters" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификаторы фильтров (filter-id). При наличии хотя бы одного из фильтров сработает этот провайдер данных.</xs:documentation>
             </xs:annotation>
@@ -136,7 +141,7 @@
 
     <xs:complexType name="fieldDefinition">
         <xs:annotation>
-            <xs:documentation>Поле выборки.</xs:documentation>
+            <xs:documentation>Простое поле выборки.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
@@ -176,7 +181,7 @@
 
     <xs:complexType name="filtersElementDefinition">
         <xs:annotation>
-            <xs:documentation>Способы фильтрации поля выборки.</xs:documentation>
+            <xs:documentation>Способы фильтрации полей выборки.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="eq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
@@ -228,8 +233,7 @@
         </xs:attribute>
         <xs:attribute name="normalize" type="dmn:domainType" use="optional">
             <xs:annotation>
-                <xs:documentation>Тип, в который будет конвертировано значение при отправке в провайдер.
-                    По умолчанию эквивалентен domain от field с преобразованием в список для множественных типов.</xs:documentation>
+                <xs:documentation>Выражение для предварительного преобразования входных данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="required" type="xs:boolean" use="optional">
@@ -274,7 +278,7 @@
 
     <xs:complexType name="listFieldDefinition">
         <xs:annotation>
-            <xs:documentation>Списковое поле</xs:documentation>
+            <xs:documentation>Списковое поле выборки</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="referenceFieldDefinition"/>
@@ -283,7 +287,7 @@
 
     <xs:complexType name="referenceFieldDefinition">
         <xs:annotation>
-            <xs:documentation>Составное поле</xs:documentation>
+            <xs:documentation>Составное поле выборки</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
@@ -294,7 +298,7 @@
                 </xs:sequence>
                 <xs:attribute name="select-key" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ключ для резолва плейсхолдера в в select-expression</xs:documentation>
+                        <xs:documentation>Ключ для резолва плейсхолдера в select-expression</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

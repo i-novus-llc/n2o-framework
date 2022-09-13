@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
@@ -11,7 +12,6 @@ import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
-import net.n2oapp.framework.config.util.DatasourceUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,16 +20,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Базовая компиляция источника данных
  */
 public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends AbstractDatasource> extends AbstractDatasourceCompiler<S, D> {
 
-    public void compileDatasource(S source, D compiled, CompileProcessor p) {
+    public void compileDatasource(S source, D compiled, CompileContext<?, ?> context, CompileProcessor p) {
         initDatasource(source, compiled, p);
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
-        compiled.setDependencies(initDependencies(source, p));
+        compiled.setDependencies(initDependencies(source, context, p));
         compiled.setValidations(initValidations(source, p));
     }
 
@@ -44,7 +45,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
             return Collections.emptyMap();
     }
 
-    protected List<Dependency> initDependencies(N2oDatasource source, CompileProcessor p) {
+    protected List<Dependency> initDependencies(N2oDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         List<Dependency> dependencies = new ArrayList<>();
         if (source.getDependencies() != null) {
             for (N2oStandardDatasource.Dependency d : source.getDependencies()) {
@@ -52,7 +53,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                     N2oStandardDatasource.FetchDependency dependency = (N2oStandardDatasource.FetchDependency) d;
                     Dependency fetchDependency = new Dependency();
                     ModelLink link = new ModelLink(p.cast(dependency.getModel(), ReduxModel.resolve),
-                            DatasourceUtil.getClientDatasourceId(dependency.getOn(), p));
+                            getClientDatasourceId(dependency.getOn(), context, p));
                     fetchDependency.setOn(link.getBindLink());
                     fetchDependency.setType(DependencyType.fetch);
                     dependencies.add(fetchDependency);
@@ -60,7 +61,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                     N2oStandardDatasource.CopyDependency dependency = (N2oStandardDatasource.CopyDependency) d;
                     CopyDependency copyDependency = new CopyDependency();
                     ModelLink link = new ModelLink(p.cast(dependency.getSourceModel(), ReduxModel.resolve),
-                            DatasourceUtil.getClientDatasourceId(dependency.getOn(), p), dependency.getSourceFieldId());
+                            getClientDatasourceId(dependency.getOn(), context, p), dependency.getSourceFieldId());
                     copyDependency.setOn(link.getBindLink());
                     copyDependency.setModel(p.cast(dependency.getTargetModel(), ReduxModel.resolve));
                     copyDependency.setField(dependency.getTargetFieldId());

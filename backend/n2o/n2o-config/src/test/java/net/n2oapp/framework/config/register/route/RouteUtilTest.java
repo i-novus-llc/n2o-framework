@@ -168,6 +168,7 @@ public class RouteUtilTest {
         assertThat(RouteUtil.absolute("../", "/parent/child"), is("/parent"));
         assertThat(RouteUtil.absolute("../../", "/parent/child"), is("/"));
         assertThat(RouteUtil.absolute("../", "/parent"), is("/"));
+        assertThat(RouteUtil.absolute("./test", "/parent"), is("./test"));
     }
 
     @Test

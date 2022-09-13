@@ -51,7 +51,7 @@ public abstract class SimpleMenuIOv2 implements NamespaceIO<N2oSimpleMenu> {
         p.attribute(e, "label", m::getName, m::setName);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
-        p.anyChildren(e, null, m::getMenuItems, m::setMenuItems, p.oneOf(N2oSimpleMenu.MenuItem.class)
+        p.anyChildren(e, null, m::getMenuItems, m::setMenuItems, p.oneOf(N2oSimpleMenu.AbstractMenuItem.class)
                 .add("page", N2oSimpleMenu.PageMenuItem.class, this::page)
                 .add("a", N2oSimpleMenu.AnchorMenuItem.class, this::anchor));
     }

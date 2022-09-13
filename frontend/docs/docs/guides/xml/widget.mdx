@@ -143,6 +143,13 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |confirm-cancel-label|Строка                                                                     |Текст кнопки отмены                                                                        |                                                 |
 |type                |text, icon, textAndIcon                                                    |Кнопка с иконкой или без                                                                   |Если задан `icon`, то `iconAndText`, иначе `text`|
 |rounded             |true false                                                                 |Круглая форма кнопки                                                                       |false                                            |
+|badge               |Строка                                                                     |Значок кнопки                                                                              |                                                 |
+|badge-color         |Строка                                                                     |Цвет значка                                                                                |                                                 |
+|badge-shape         |rounded, circle, square                                                    |Форма значка                                                                               |circle                                           |
+|badge-position      |left, right                                                                |Позиция значка                                                                             |right                                            |
+|badge-image         |Строка                                                                     |Картинка в значке                                                                          |                                                 |
+|badge-image-shape   |rounded, circle, square                                                    |Форма картинки в значке                                                                    |circle                                           |
+|badge-image-position|left, right                                                                |Позиция картинки в значке                                                                  |left                                             |
 |src                 |Строка                                                                     |Реализация действия                                                                        |                                                 |
 
 **Тело**
@@ -217,12 +224,19 @@ Java Script выражение
 
 **Атрибуты**
 
-|Наименование|Тип                                                                        |Описание                |Значение по умолчанию                           |
-|------------|---------------------------------------------------------------------------|------------------------|------------------------------------------------|
-|label       |Строка                                                                     |Заголовок кнопки        |Вычисляется из действия кнопки                  |
-|icon        |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка                  |                                                |
-|type        |text, icon, textAndIcon                                                    |Кнопка с иконкой или без|Еслизадан `icon`, то `iconAndText`, иначе `text`|
-|class       |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Стиль кнопки            |                                                |
+|Наименование        |Тип                                                                        |Описание                 |Значение по умолчанию                           |
+|--------------------|---------------------------------------------------------------------------|-------------------------|------------------------------------------------|
+|label               |Строка                                                                     |Заголовок кнопки         |Вычисляется из действия кнопки                  |
+|icon                |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка                   |                                                |
+|type                |text, icon, textAndIcon                                                    |Кнопка с иконкой или без |Еслизадан `icon`, то `iconAndText`, иначе `text`|
+|class               |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Стиль кнопки             |                                                |
+|badge               |Строка                                                                     |Значок кнопки            |                                                |
+|badge-color         |Строка                                                                     |Цвет значка              |                                                |
+|badge-shape         |rounded, circle, square                                                    |Форма значка             |circle                                          |
+|badge-position      |left, right                                                                |Позиция значка           |right                                           |
+|badge-image         |Строка                                                                     |Картинка в значке        |                                                |
+|badge-image-shape   |rounded, circle, square                                                    |Форма картинки в значке  |circle                                          |
+|badge-image-position|left, right                                                                |Позиция картинки в значке|left                                            |
 
 **Пример**
 ```xml
@@ -267,6 +281,13 @@ Java Script выражение
 |confirm-title       |Строка                                                                     |Заголовок окна предупреждения                                                                 |                                    |
 |confirm-ok-label    |Строка                                                                     |Текст кнопки подтверждения                                                                    |                                    |
 |confirm-cancel-label|Строка                                                                     |Текст кнопки отмены                                                                           |                                    |
+|badge               |Строка                                                                     |Значок кнопки                                                                                 |                                    |
+|badge-color         |Строка                                                                     |Цвет значка                                                                                   |                                    |
+|badge-shape         |rounded, circle, square                                                    |Форма значка                                                                                  |circle                              |
+|badge-position      |left, right                                                                |Позиция значка                                                                                |right                               |
+|badge-image         |Строка                                                                     |Картинка в значке                                                                             |                                    |
+|badge-image-shape   |rounded, circle, square                                                    |Форма картинки в значке                                                                       |circle                              |
+|badge-image-position|left, right                                                                |Позиция картинки в значке                                                                     |left                                |
 
 **Пример**
 
@@ -688,18 +709,24 @@ Java Script выражение
 
 **Атрибуты**
 
-|Наименование        |Тип                   |Описание                            |Значение по умолчанию|
-|--------------------|----------------------|------------------------------------|---------------------|
-|parent-field-id     |Ссылка на поле выборки|Родительский узел дерева            |                     |
-|value-field-id      |Ссылка на поле выборки|Идентификатор узла дерева           |                     |
-|label-field-id      |Ссылка на поле выборки|Наименование узла дерева            |                     |
-|icon-field-id       |Ссылка на поле выборки|Иконка узла дерева                  |                     |
-|badge-field-id      |Ссылка на поле выборки|Значок узла дерева                  |                     |
-|badge-color-field-id|Ссылка на поле выборки|Цвет значка узла дерева             |                     |
-|image-field-id      |Ссылка на поле выборки|Изображение узла дерева             |                     |
-|multi-select        |true false            |Режим множественного выбора         |true                 |
-|checkboxes          |true false            |Выбор в режиме чекбокс              |false                |
-|ajax                |true false            |Поддержка загрузки через ajax запрос|false                |
+|Наименование         |Тип                    |Описание                            |Значение по умолчанию|
+|---------------------|-----------------------|------------------------------------|---------------------|
+|parent-field-id      |Ссылка на поле выборки |Родительский узел дерева            |                     |
+|value-field-id       |Ссылка на поле выборки |Идентификатор узла дерева           |                     |
+|label-field-id       |Ссылка на поле выборки |Наименование узла дерева            |                     |
+|icon-field-id        |Ссылка на поле выборки |Иконка узла дерева                  |                     |
+|has-children-field-id|Ссылка на поле выборки |Наличие дочерних элементов          |                     |
+|badge-field-id       |Ссылка на поле выборки |Значок узла дерева                  |                     |
+|badge-color-field-id |Ссылка на поле выборки |Цвет значка узла дерева             |                     |
+|badge-position       |left right             |Позиция значка                      |right                |
+|badge-shape          |rounded, circle, square|Форма значка                        |square               |
+|badge-image-field-id |Ссылка на поле выборки |Картинка в значке                   |                     |
+|badge-image-position |left right             |Позиция картинки в значке           |left                 |
+|badge-image-shape    |rounded, circle, square|Форма картинки в значке             |circle               |
+|image-field-id       |Ссылка на поле выборки |Изображение узла дерева             |                     |
+|multi-select         |true false             |Режим множественного выбора         |true                 |
+|checkboxes           |true false             |Выбор в режиме чекбокс              |false                |
+|ajax                 |true false             |Поддержка загрузки через ajax запрос|false                |
 
 **Пример**
 

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "fio": "Иванов П.И.",
+    "birthdate": "25.01.1989",
+    "project": "Проект 1",
+    "image": "static/hamburg-3846525__340.jpg"
+  },
+  {
+    "id": 2,
+    "fio": "Васильев Г.П.",
+    "birthdate": "07.04.1992",
+    "project": "Проект 2",
+    "image": "static/hamburg-3846525__340.jpg"
+  },
+  {
+    "id": 3,
+    "fio": "Сергеев К.Л.",
+    "birthdate": "15.03.1990",
+    "project": "Проект 3",
+    "image": "static/hamburg-3846525__340.jpg"
+  }
+]

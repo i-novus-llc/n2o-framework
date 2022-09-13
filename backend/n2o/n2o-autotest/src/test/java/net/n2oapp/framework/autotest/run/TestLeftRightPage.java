@@ -89,11 +89,6 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     }
 
     @Override
-    public void shouldHaveCssClass(String classname) {
-
-    }
-
-    @Override
     public void shouldHaveStyle(String style) {
 
     }
