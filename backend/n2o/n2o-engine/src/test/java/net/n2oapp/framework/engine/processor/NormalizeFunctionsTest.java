@@ -162,17 +162,18 @@ public class NormalizeFunctionsTest {
     }
 
     @Test
-    public void testNormalizerWithAlias() {
+    public void testAnnotatedFunction() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testNormalizerWithAlias.query.xml"));
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testNormalizerWithAlias"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testAnnotatedFunction.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testAnnotatedFunction"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.setSize(1);
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
 
-        String phone = result.getCollection().iterator().next().getString("key");
-        assertThat(phone, is("VALUE"));
+        DataSet data = result.getCollection().iterator().next();
+        assertThat(data.getInteger("length"), is(5)); //simple annotation
+        assertThat(data.getString("upperCase"), is("VALUE")); //annotation with alias
     }
 }

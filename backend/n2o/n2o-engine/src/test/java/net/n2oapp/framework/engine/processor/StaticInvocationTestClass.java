@@ -173,6 +173,11 @@ public class StaticInvocationTestClass {
         return entityTypeArgument.getTestField() + primitiveTypeArgument + classTypeArgument.getTestField();
     }
 
+    @Normalizer
+    public static Integer normalizerTest(String value) {
+        return value.length();
+    }
+
     @Normalizer("test")
     public static String customFunction(String value) {
         return value.toUpperCase();
