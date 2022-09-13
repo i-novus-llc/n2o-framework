@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.data.normalize;
 
 import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Method;
@@ -17,7 +18,9 @@ import static java.util.Objects.isNull;
  */
 public class NormalizerCollector {
     private static final String BASE_PACKAGE = ".";
-    private static final Reflections ref = new Reflections(new ConfigurationBuilder().forPackages(BASE_PACKAGE));
+    private static final Reflections ref = new Reflections(new ConfigurationBuilder()
+            .forPackages(BASE_PACKAGE)
+            .addScanners(Scanners.TypesAnnotated, Scanners.MethodsAnnotated));
 
     /**
      * Метод для поиска нормализующих функций и сборки в мапу<алиас-функция>

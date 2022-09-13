@@ -1,4 +1,4 @@
-package net.n2oapp.framework.engine;
+package net.n2oapp.framework.engine.processor;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -72,7 +72,7 @@ public class NormalizeFunctionsTest {
     @Test
     public void testJsonToMap() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/normalize/testJsonToMap.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testJsonToMap.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testJsonToMap"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -99,7 +99,7 @@ public class NormalizeFunctionsTest {
     @Test
     public void testMapToJson() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/normalize/testMapToJson.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testMapToJson.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testMapToJson"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -115,7 +115,7 @@ public class NormalizeFunctionsTest {
     @Test
     public void testBase64EncodeDecode() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/normalize/testBase64EncodeDecode.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testBase64EncodeDecode.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testBase64EncodeDecode"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -132,7 +132,7 @@ public class NormalizeFunctionsTest {
     @Test
     public void testFormatByMask() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/normalize/testFormatByMask.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testFormatByMask.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testFormatByMask"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -147,7 +147,7 @@ public class NormalizeFunctionsTest {
     @Test
     public void testNamesFormat() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        builder.sources(new CompileInfo("net/n2oapp/framework/engine/normalize/testNamesFormat.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testNamesFormat.query.xml"));
         CompiledQuery query = builder.read().compile().get(new QueryContext("testNamesFormat"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -159,5 +159,20 @@ public class NormalizeFunctionsTest {
         assertThat(persons.get(0).getString("shortName"), is("Толстой Л.Н."));
         assertThat(persons.get(1).getString("fullName"), is("Маркс Карл "));
         assertThat(persons.get(1).getString("shortName"), is("Маркс К."));
+    }
+
+    @Test
+    public void testNormalizerWithAlias() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/normalize/testNormalizerWithAlias.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testNormalizerWithAlias"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.setSize(1);
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCount(), is(1));
+
+        String phone = result.getCollection().iterator().next().getString("key");
+        assertThat(phone, is("VALUE"));
     }
 }
