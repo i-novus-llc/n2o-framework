@@ -13,6 +13,11 @@ export function* validate({ payload, meta }: StartValidateAction) {
     const { id, fields, prefix } = payload
     let validation: ReturnType<ReturnType<typeof dataSourceValidationSelector>> =
         yield select(dataSourceValidationSelector(id))
+
+    if (!validation) {
+        return false
+    }
+
     const models: ReturnType<ReturnType<typeof dataSourceModelsSelector>> = yield select(dataSourceModelsSelector(id))
     const model = models[prefix] || {}
 
