@@ -1,12 +1,14 @@
 package net.n2oapp.framework.sandbox.autotest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import net.n2oapp.framework.sandbox.SandboxAlertMessagesConstructor;
 import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FileStorageController;
 import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FilesRestController;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
@@ -91,7 +93,13 @@ public class SandboxAutotestApplication {
 
     @Bean
     AlertMessagesConstructor messagesConstructor(AlertMessageBuilder messageBuilder) {
-        return new N2oAlertMessagesConstructor(messageBuilder);
+        return new SandboxAlertMessagesConstructor(messageBuilder);
+    }
+
+    @Bean
+    @Primary
+    OperationExceptionHandler operationExceptionHandler() {
+        return new SandboxAutotestOperationExceptionHandler();
     }
 
     @Bean
