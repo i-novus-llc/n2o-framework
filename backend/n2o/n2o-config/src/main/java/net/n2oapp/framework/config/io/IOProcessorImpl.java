@@ -104,8 +104,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity != null) {
                 Element seqE = element;
                 if (sequences != null) {
-                    seqE = new Element(sequences, element.getNamespace());
-                    element.addContent(seqE);
+                    seqE = initSequenceElement(element, sequences);
                 }
                 Element childE = persist(io, entity, element.getNamespace());
                 installNamespace(childE, element.getNamespace());
@@ -193,8 +192,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -234,8 +232,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -276,8 +273,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -418,11 +414,7 @@ public final class IOProcessorImpl implements IOProcessor {
     private Element persistSequences(Element element, String sequences) {
         Element seqE;
         if (sequences != null) {
-            seqE = element.getChild(sequences, element.getNamespace());
-            if (seqE == null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
-            }
+            seqE = initSequenceElement(element, sequences);
         } else {
             seqE = element;
         }
@@ -540,8 +532,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entities == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -593,12 +584,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entities == null) return;
             Element seqE;
             if (sequences != null) {
-                if (element.getChild(sequences, element.getNamespace()) != null)
-                    seqE = element.getChild(sequences, element.getNamespace());
-                else {
-                    seqE = new Element(sequences, element.getNamespace());
-                    element.addContent(seqE);
-                }
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -645,8 +631,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -1004,8 +989,10 @@ public final class IOProcessorImpl implements IOProcessor {
             setter.accept(child != null);
         } else {
             if (getter.get() == null || !getter.get()) return;
-            Element childElement = new Element(name, element.getNamespace());
-            element.addContent(childElement);
+            if (element.getChild(name, element.getNamespace()) == null) {
+                Element childElement = new Element(name, element.getNamespace());
+                element.addContent(childElement);
+            }
         }
     }
 
@@ -1186,6 +1173,15 @@ public final class IOProcessorImpl implements IOProcessor {
         if (isNull(element))
             return null;
         return nonNull(element.getParentElement()) ? element.getParentElement().getNamespacePrefix() : null;
+    }
+
+    private Element initSequenceElement(Element parent, String seqName) {
+        Element seqE = parent.getChild(seqName, parent.getNamespace());
+        if (seqE == null) {
+            seqE = new Element(seqName, parent.getNamespace());
+            parent.addContent(seqE);
+        }
+        return seqE;
     }
 
     public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {

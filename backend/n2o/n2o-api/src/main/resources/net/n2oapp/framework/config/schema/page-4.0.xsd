@@ -71,6 +71,16 @@
                 <xs:documentation>Стиль страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="clientModel" default="resolve">
+            <xs:annotation>
+                <xs:documentation>Модель данных страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -97,6 +107,9 @@
                 <xs:annotation>
                     <xs:documentation>Страница с единственным виджетом.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
+                </xs:sequence>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Реализация страницы</xs:documentation>
@@ -144,6 +157,11 @@
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Стиль страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="clientModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>Модель данных страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
@@ -397,4 +415,17 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
+    <xs:simpleType name="clientModel">
+        <xs:annotation>
+            <xs:documentation>Модель страницы на клиенте.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="filter"/>
+            <xs:enumeration value="resolve"/>
+            <xs:enumeration value="edit"/>
+            <xs:enumeration value="multi"/>
+            <xs:enumeration value="datasource"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>
