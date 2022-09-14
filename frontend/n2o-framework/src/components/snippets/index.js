@@ -14,6 +14,7 @@ import { Image } from './Image/Image'
 import { Status } from './Status/Status'
 import { Badge } from './Badge/Badge'
 import { Html } from './Html/Html'
+import { Tooltip } from './Tooltip/Tooltip'
 
 export default {
     Alert,
@@ -32,4 +33,5 @@ export default {
     Status,
     Badge,
     Html,
+    Tooltip,
 }

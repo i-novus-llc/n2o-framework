@@ -106,9 +106,7 @@ public class SidebarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testInvisibleSidebar() {
-        Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/application/sidebar/invisibleSidebar.application.xml")
+        Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/invisibleSidebar.application.xml")
                 .bind().get(new ApplicationContext("invisibleSidebar"), null);
 
         assertThat(application.getSidebars().get(0), nullValue());

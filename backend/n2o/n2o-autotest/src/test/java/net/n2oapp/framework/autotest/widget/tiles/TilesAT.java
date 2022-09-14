@@ -63,7 +63,7 @@ public class TilesAT extends AutoTestBase {
         iconCell.iconShouldBe("fa-plus");
         iconCell.textShouldHave("icon1");
         iconCell.hover();
-        page.tooltip().shouldHaveText("icon1");
+        iconCell.tooltip().shouldHaveText("icon1");
 
         BadgeCell badgeCell = tile1.blocks().cell(3, BadgeCell.class);
         badgeCell.colorShouldBe(Colors.INFO);

@@ -94,8 +94,4 @@ describe('<ImageCell />', () => {
                 .pop().props.style,
         ).toEqual(props.style)
     })
-    it('Cell обернут тултипом', () => {
-        const { wrapper, props } = setupImageCellWithTooltip()
-        expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true)
-    })
 })
