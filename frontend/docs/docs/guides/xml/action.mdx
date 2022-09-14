@@ -446,7 +446,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 **Тело**
 
 Параметры пути открытия новой страницы [params](#params),
-Список переопределений [источников данных](../xml/page#datasources)
+Список переопределений [источников данных](../xml/page#datasources),
+Список [хлебных крошек](#breadcrumbs)
 
 **Пример**
 
@@ -461,6 +462,9 @@ http://n2oapp.net/framework/config/schema/action-1.0
         <path-param>...</path-param>
         <query-param>...</query-param>
     </params>
+    <breadcrumbs>
+        <crumb>...</crumb>
+    </breadcrumbs>
     <datasources>
         <datasource ... />
     </datasources>
@@ -474,6 +478,38 @@ http://n2oapp.net/framework/config/schema/action-1.0
 **Тело**
 
 [Параметры запроса](../xml/base#Request_parameters)
+
+## Хлебные крошки {#breadcrumbs}
+
+**Тело**
+
+[Крошка](#crumb) (При отсутствии дочерних элементов хлебные крошки страницы будут построены в режиме по умолчанию)
+
+**Пример**
+
+```xml
+<breadcrumbs>
+    <crumb label="Первая страница" path="/"/>
+    <crumb label="Вторая страница"/>
+</breadcrumbs>
+```
+
+### &lt;crumb&gt; {#crumb}
+
+Хлебная крошка
+
+**Атрибуты**
+
+|Наименование |Тип    |Описание                            |Значение по умолчанию |
+|-------------|-------|------------------------------------|----------------------|
+|label        |Строка |Название хлебной крошки             |                      |
+|path         |Строка |Путь для перехода по хлебной крошке |                      |
+
+**Пример**
+
+```xml
+<crumb label="Домашняя страница" path="/"/>
+```
 
 ### &lt;show-modal&gt; {#show-modal}
 
@@ -503,7 +539,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 **Тело**
 
-Параметры пути открытия новой страницы [params](#params), список переопределений [источников данных](#datasource)
+Параметры пути открытия новой страницы [params](#params), список переопределений [источников данных](#datasource),
+cписок [хлебных крошек](#breadcrumbs)
 
 **Пример**
 
@@ -515,6 +552,9 @@ http://n2oapp.net/framework/config/schema/action-1.0
          <path-param>...</path-param>
          <query-param>...</query-param>
      </params>
+    <breadcrumbs>
+        <crumb>...</crumb>
+    </breadcrumbs>
      <datasources>
          <datasource ... />
      </datasources>
@@ -553,7 +593,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 **Тело**
 
-Параметры пути открытия новой страницы [params](#params), список переопределений [источников данных](#datasource)
+Параметры пути открытия новой страницы [params](#params), список переопределений [источников данных](#datasource),
+cписок [хлебных крошек](#breadcrumbs)
 
 **Пример**
 
@@ -562,12 +603,15 @@ http://n2oapp.net/framework/config/schema/action-1.0
   page-id="employee"
   submit-operation-id="create">
         <params>
-           <path-param>...</path-param>
-           <query-param>...</query-param>
-       </params>
-       <datasources>
-           <datasource ... />
-       </datasources>
+            <path-param>...</path-param>
+            <query-param>...</query-param>
+        </params>
+        <breadcrumbs>
+            <crumb>...</crumb>
+        </breadcrumbs>
+        <datasources>
+            <datasource ... />
+        </datasources>
 </open-drawer>
 ```
 

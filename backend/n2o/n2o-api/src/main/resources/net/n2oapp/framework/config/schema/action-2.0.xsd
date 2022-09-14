@@ -70,7 +70,8 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
-                    <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
+                    <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded"><xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
                         <xs:annotation>
                             <xs:documentation>
                                 Переопределение источников данных в открываемой странице
@@ -1296,5 +1297,30 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="breadcrumbsDefinition">
+        <xs:annotation>
+            <xs:documentation>Хлебные крошки страницы</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="crumb" type="crumbDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="crumbDefinition">
+        <xs:annotation>
+            <xs:documentation>Хлебная крошка страницы</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="label" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Название хлебной крошки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="path" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Путь для перехода по хлебной крошке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 </xs:schema>

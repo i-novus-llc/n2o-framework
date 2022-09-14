@@ -18,6 +18,9 @@
                     <path-param name="par1" value="{par1}" datasource="ds1" model="resolve"/>
                     <path-param name="par2" value="{par2}" datasource="ds2" model="resolve"/>
                 </params>
+                <breadcrumbs>
+                    <crumb label="Первая страница" path="/"/>
+                </breadcrumbs>
                 <datasources>
                     <datasource id="ds" query-id="test">
                         <filters>
