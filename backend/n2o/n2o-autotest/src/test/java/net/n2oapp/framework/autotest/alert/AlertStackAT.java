@@ -1,13 +1,9 @@
 package net.n2oapp.framework.autotest.alert;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.autotest.api.component.button.Button;
-import net.n2oapp.framework.autotest.api.component.control.InputText;
-import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -50,8 +46,7 @@ public class AlertStackAT extends AutoTestBase {
                 new N2oCellsPack(), new N2oActionsPack(), new N2oControlsPack(), new N2oAllDataPack());
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/stack/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/alert/stack/alert.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+                        new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));;
     }
 
     @Test
@@ -59,17 +54,24 @@ public class AlertStackAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Button send = page.widget(FormWidget.class).toolbar().bottomRight().button("Отправить уведомления");
+        Button alert1 = page.widget(FormWidget.class).toolbar().topLeft().button("Алерт 1");
+        Button alert2 = page.widget(FormWidget.class).toolbar().topLeft().button("Алерт 2");
 
-        MultiFieldSet multiFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
-        multiFieldSet.clickAddButton();
-        InputText text = multiFieldSet.item(0).fields().field("Текст сообщения").control(InputText.class);
-        InputText position = multiFieldSet.item(0).fields().field("Позиция уведомления").control(InputText.class);
-
-        text.val("Алерт 1");
-        position.val("top");
-
-        send.click();
+        alert1.click();
         page.alerts("top").alert(0).shouldHaveText("Алерт 1");
+
+        alert2.click();
+        page.alerts("top").alert(0).shouldHaveText("Алерт 2");
+        page.alerts("top").alert(1).shouldHaveText("Алерт 1");
+
+        alert2.click();
+        page.alerts("top").alert(0).shouldHaveText("Алерт 2");
+        page.alerts("top").alert(1).shouldHaveText("Алерт 2");
+        page.alerts("top").alert(2).shouldHaveText("Алерт 1");
+
+        alert1.click();
+        page.alerts("top").alert(0).shouldHaveText("Алерт 1");
+        page.alerts("top").alert(1).shouldHaveText("Алерт 2");
+        page.alerts("top").alert(2).shouldHaveText("Алерт 2");
     }
 }
