@@ -29,7 +29,7 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
@@ -82,7 +82,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
-        ValidationList validationList = new ValidationList();
+        ValidationScope validationScope = new ValidationScope();
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         SubModelsScope subModelsScope = new SubModelsScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
@@ -95,13 +95,13 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //regions
         IndexScope index = new IndexScope();
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
-                breadcrumb, validationList, models, pageRoutesScope, searchBarScope, subModelsScope,
+                breadcrumb, validationScope, models, pageRoutesScope, searchBarScope, subModelsScope,
                 copiedFieldScope, datasourcesScope, appDatasourcesIdScope, metaActions, filtersScope, index));
 
         //datasources
         Map<String, AbstractDatasource> compiledDatasources = compileDatasources(context, p,
                 datasourcesScope, pageScope,
-                validationList, subModelsScope, copiedFieldScope, pageRoutes, routeScope,
+                validationScope, subModelsScope, copiedFieldScope, pageRoutes, routeScope,
                 searchBarScope, filtersScope, appDatasourcesIdScope);
         page.setDatasources(compiledDatasources);
 
@@ -112,7 +112,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //toolbars
         initToolbarGenerate(source, context, resultWidget);
         compileToolbarAndAction(page, source, context, p, pageScope, routeScope, pageRoutes, object,
-                breadcrumb, metaActions, validationList, datasourcesScope, appDatasourcesIdScope);
+                breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourcesIdScope);
         return page;
     }
 
