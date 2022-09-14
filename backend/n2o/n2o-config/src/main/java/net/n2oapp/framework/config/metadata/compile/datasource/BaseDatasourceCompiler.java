@@ -31,13 +31,14 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
         initDatasource(source, compiled, p);
         compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
         compiled.setDependencies(initDependencies(source, context, p));
-        compiled.setValidations(initValidations(source, p));
+        compiled.setValidations(initValidations(source, p, ReduxModel.resolve));
+        compiled.setFilterValidations(initValidations(source, p, ReduxModel.filter));
     }
 
-    protected Map<String, List<Validation>> initValidations(N2oDatasource source, CompileProcessor p) {
+    protected Map<String, List<Validation>> initValidations(S source, CompileProcessor p, ReduxModel model) {
         ValidationScope validationScope = p.getScope(ValidationScope.class);
         if (validationScope != null) {
-            return validationScope.get(source.getId(), ReduxModel.resolve).stream()
+            return validationScope.get(source.getId(), model).stream()
                     .filter(v -> v.getSide() == null || v.getSide().contains("client"))
                     .collect(Collectors.groupingBy(Validation::getFieldId));
         } else
