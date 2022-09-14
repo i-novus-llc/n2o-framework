@@ -32,7 +32,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
@@ -216,7 +216,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     private void initMandatoryValidation(N2oStandardDatasource source, CompileProcessor p,
                                          N2oPreFilter preFilter, N2oQuery.Filter queryFilter) {
         if (preFilter.getRequired() != null && preFilter.getRequired()) {
-            if (p.getScope(ValidationList.class) != null) {
+            if (p.getScope(ValidationScope.class) != null) {
                 MandatoryValidation v = new MandatoryValidation(
                         queryFilter.getFilterId(),
                         p.getMessage("n2o.required.filter"),
@@ -225,8 +225,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                 v.setMoment(N2oValidation.ServerMoment.beforeQuery);
                 v.setSeverity(SeverityType.danger);
 
-                ValidationList validationList = p.getScope(ValidationList.class);
-                validationList.add(source.getId(), ReduxModel.filter, v);
+                ValidationScope validationScope = p.getScope(ValidationScope.class);
+                validationScope.add(source.getId(), ReduxModel.filter, v);
             }
         }
     }
@@ -247,8 +247,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                                          List<Filter> filters,
                                          CompiledQuery query) {
         QueryContext queryContext = new QueryContext(source.getQueryId(), route, context.getUrlPattern());
-        ValidationList validationList = p.getScope(ValidationList.class);
-        List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.filter);
+        ValidationScope validationScope = p.getScope(ValidationScope.class);
+        List<Validation> validations = validationScope == null ? null : validationScope.get(source.getId(), ReduxModel.filter);
         queryContext.setValidations(validations);
         queryContext.setFilters(filters);
         if (source.getDefaultValuesMode() != null)

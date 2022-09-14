@@ -140,10 +140,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                            WidgetScope widgetScope, MetaActions widgetActions,
-                                           CompiledObject object, ValidationList validationList) {
+                                           CompiledObject object, ValidationScope validationScope) {
         actionsToToolbar(source);
-        compileActions(source, context, p, widgetActions, widgetScope, object, validationList);
-        compileToolbar(compiled, source, context, p, object, widgetActions, widgetScope, validationList);
+        compileActions(source, context, p, widgetActions, widgetScope, object, validationScope);
+        compileToolbar(compiled, source, context, p, object, widgetActions, widgetScope, validationScope);
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
@@ -165,11 +165,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void compileActions(S source, CompileContext<?, ?> context, CompileProcessor p, MetaActions widgetActions,
-                                WidgetScope widgetScope, CompiledObject object, ValidationList validationList) {
+                                WidgetScope widgetScope, CompiledObject object, ValidationScope validationScope) {
         if (source.getActions() != null) {
             for (ActionsBar a : source.getActions()) {
                 a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
-                p.compile(a.getAction(), context, widgetScope, widgetActions, object, validationList, new ComponentScope(a));
+                p.compile(a.getAction(), context, widgetScope, widgetActions, object, validationScope, new ComponentScope(a));
             }
         }
     }
