@@ -37,18 +37,12 @@
     </xs:complexType>
 
     <xs:complexType name="dropdownMenuDef">
+        <xs:annotation>
+            <xs:documentation>Выпадающее меню</xs:documentation>
+        </xs:annotation>
         <xs:sequence>
-            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Компонент меню</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <!--            <xs:element name="divider" minOccurs="0" maxOccurs="unbounded">-->
-            <!--                <xs:annotation>-->
-            <!--                    <xs:documentation>Разделитель компонентов выпадающего меню</xs:documentation>-->
-            <!--                </xs:annotation>-->
-            <!--                <xs:complexType/>-->
-            <!--            </xs:element>-->
+            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
@@ -83,6 +77,9 @@
     </xs:complexType>
 
     <xs:complexType name="menuItemDef">
+        <xs:annotation>
+            <xs:documentation>Компонент меню</xs:documentation>
+        </xs:annotation>
         <xs:sequence>
             <xs:element name="open-page" type="act:openPageDefinition" minOccurs="0">
                 <xs:annotation>

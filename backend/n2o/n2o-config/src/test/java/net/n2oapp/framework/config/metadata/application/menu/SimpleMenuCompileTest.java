@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.menu;
+package net.n2oapp.framework.config.metadata.application.menu;
 
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
@@ -44,6 +44,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         MenuItem menuItem = menu.getItems().get(0);
 
         assertThat(menuItem.getId(), is("notif"));
+        assertThat(menuItem.getType(), is("link"));
         assertThat(menuItem.getTitle(), is("Уведомления"));
         assertThat(menuItem.getIcon(), is("fa fa-bell"));
         assertThat(menuItem.getBadge().getText(), is("2"));
@@ -66,19 +67,37 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         SimpleMenu menu = application.getHeader().getMenu();
         MenuItem dropdownMenu = menu.getItems().get(2);
 
+        // dropdown 1
         assertThat(dropdownMenu.getId(), is("user"));
+        assertThat(dropdownMenu.getType(), is("dropdown"));
         assertThat(dropdownMenu.getTitle(), is("Виктория"));
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
         assertThat(dropdownMenu.getImageShape(), is(ShapeType.circle));
+        assertThat(dropdownMenu.getSubItems().size(), is(2));
 
-        MenuItem subMenuItem = menu.getItems().get(2).getSubItems().get(0);
-        assertThat(subMenuItem.getId(), is("mi4"));
+        // dropdown 1 -> dropdown
+        MenuItem subDropdownItem = dropdownMenu.getSubItems().get(0);
+        assertThat(subDropdownItem.getId(), is("mi4"));
+        assertThat(subDropdownItem.getType(), is("dropdown"));
+        assertThat(subDropdownItem.getTitle(), is("Отделы"));
+        assertThat(subDropdownItem.getSubItems().size(), is(2));
+
+        // dropdown 1 -> dropdown -> item
+        MenuItem subMenuItem = subDropdownItem.getSubItems().get(0);
+        assertThat(subMenuItem.getId(), is("mi5"));
+        assertThat(subMenuItem.getType(), is("link"));
+        assertThat(subMenuItem.getHref(), is("/developers"));
+
+        // dropdown 1 -> item
+        subMenuItem = dropdownMenu.getSubItems().get(1);
+        assertThat(subMenuItem.getId(), is("mi7"));
+        assertThat(subMenuItem.getType(), is("link"));
         assertThat(subMenuItem.getTitle(), is("Профиль"));
         assertThat(subMenuItem.getIcon(), is("fa fa-user"));
         assertThat(subMenuItem.getHref(), is("/profile"));
 
-        assertThat(dropdownMenu.getSubItems().size(), is(1));
 
+        // dropdown 2
         dropdownMenu = menu.getItems().get(3);
         assertThat(dropdownMenu.getTitle(), is("Сообщения"));
         assertThat(dropdownMenu.getIcon(), is("fa fa-bell"));

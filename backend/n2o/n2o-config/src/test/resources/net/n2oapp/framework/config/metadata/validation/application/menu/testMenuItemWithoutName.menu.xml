@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<nav xmlns="http://n2oapp.net/framework/config/schema/menu-3.0">
+    <menu-item>
+        <a href="/users"/>
+    </menu-item>
+</nav>
