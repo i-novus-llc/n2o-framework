@@ -42,7 +42,7 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAlert.page.xml")
                 .get(new PageContext("testAlert"));
 
-        assertThat(((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getType(), is("n2o/alerts/ADD_MULTI"));
+        assertThat(((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getType(), is("n2o/api/alerts/add"));
         assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getKey(), is(MessagePlacement.top));
         ResponseMessage message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getAlerts().get(0);
         assertThat(message.getId(), notNullValue());
@@ -52,7 +52,7 @@ public class AlertActionCompileTest extends SourceCompileTestBase {
         assertThat(message.getPlacement(), is(MessagePlacement.top));
         assertThat(message.getCloseButton(), is(true));
 
-        assertThat(((AlertAction) page.getToolbar().getButton("alert").getAction()).getType(), is("n2o/alerts/ADD_MULTI"));
+        assertThat(((AlertAction) page.getToolbar().getButton("alert").getAction()).getType(), is("n2o/api/alerts/add"));
         assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getKey(), is(MessagePlacement.bottomRight));
         message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getAlerts().get(0);
         assertThat(message.getId(), notNullValue());
