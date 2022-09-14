@@ -69,7 +69,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
 
     public Filter[] getFiltersList(String fieldId) {
         if (filters == null)
-            return null;
+            return new Filter[0];
         if (filtersMap == null) {
             Map<String, List<Filter>> filtersListMap = new HashMap<>();
             for (Filter filter : filters) {
@@ -79,7 +79,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
             setFiltersMap(filtersListMap.keySet().stream()
                     .collect(Collectors.toMap(Function.identity(), k -> filtersListMap.get(k).toArray(new Filter[0]))));
         }
-        return filtersMap.get(fieldId);
+        return filtersMap.getOrDefault(fieldId, new Filter[0]);
     }
 
     @Getter
@@ -140,6 +140,8 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String resultMapping;
         private String resultNormalize;
         private String countMapping;
+        private String ascExpression;
+        private String descExpression;
         private N2oInvocation invocation;
         private Type type;
 

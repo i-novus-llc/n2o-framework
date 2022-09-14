@@ -9,7 +9,7 @@ export enum ProviderType {
 export interface IProvider {
     type: ProviderType
 }
-interface IMappingParam {
+export interface IMappingParam {
     link: string
     observe: boolean
     required: boolean

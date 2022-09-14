@@ -2,6 +2,9 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
 import org.openqa.selenium.Keys;
 
@@ -31,8 +34,8 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     @Override
-    public void expandParentOptions(int parentId) {
-        element().$$(".n2o-select-tree-dropdown .n2o-select-tree-tree-treenode-switcher-close i").get(parentId).click();
+    public void expandParentOptions(int parentIndex) {
+        element().$$(".n2o-select-tree-dropdown .n2o-select-tree-tree-treenode-switcher-close i").get(parentIndex).click();
     }
 
     @Override
@@ -71,5 +74,60 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     @Override
     public void shouldBeUnselected() {
         element().$$(".n2o-select-tree-selection__choice").shouldHaveSize(0);
+    }
+
+    @Override
+    public DropDownTree dropdown() {
+        return N2oSelenide.component(element().$(".n2o-select-tree-dropdown"), DropDownTree.class);
+    }
+
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
+    @Override
+    public void openPopup() {
+        if (!isOpened())
+            switcher().click();
+    }
+
+    @Override
+    public void closePopup() {
+        if (isOpened())
+            switcher().click();
+    }
+
+    @Override
+    public void shouldBeOpened() {
+        element().shouldHave(Condition.attribute("aria-expanded", "true"));
+    }
+
+    @Override
+    public void shouldBeClosed() {
+        element().shouldHave(Condition.attribute("aria-expanded", "false"));
+    }
+
+    private boolean isOpened() {
+        return element().getAttribute("aria-expanded").equals("true");
+    }
+
+    private SelenideElement switcher() {
+        return element().$(".n2o-select-tree-arrow");
     }
 }

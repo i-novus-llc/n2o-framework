@@ -2,6 +2,7 @@ import React from 'react'
 
 import { WithDataSourceTypes } from '../datasource/propTypes'
 import { WithDataSource as DataSourceHOC } from '../datasource/WithDataSource'
+import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { FETCH_TYPE } from './const'
 import { DataSourceContext, METHODS } from './context'
@@ -83,7 +84,13 @@ export const WithDataSource = (Component) => {
             return <WithDataSource {...props} />
         }
 
-        const models = { datasource: [], resolve: {}, multi: [], edit: {}, filter: {} }
+        const models = {
+            datasource: EMPTY_ARRAY,
+            resolve: EMPTY_OBJECT,
+            multi: EMPTY_ARRAY,
+            edit: EMPTY_OBJECT,
+            filter: EMPTY_OBJECT,
+        }
 
         // without datasource
         return <Component {...props} loading={false} page={1} count={0} size={0} models={models} {...METHODS} />

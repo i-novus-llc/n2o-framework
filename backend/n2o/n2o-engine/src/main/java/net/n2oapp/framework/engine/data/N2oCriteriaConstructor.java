@@ -18,7 +18,7 @@ public class N2oCriteriaConstructor implements CriteriaConstructor {
     @Override
     public Object construct(N2oPreparedCriteria criteria, Object instance) {
         if (instance instanceof Criteria) {
-            ((Criteria) instance).setSorting(criteria.getSorting());
+            ((Criteria) instance).addSorting(criteria.getSorting());
             ((Criteria) instance).setSize(criteria.getSize());
             ((Criteria) instance).setPage(pageStartsWith0 ? criteria.getPage() -1 : criteria.getPage());
             ((Criteria) instance).setCount(criteria.getCount());

@@ -92,24 +92,44 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
         prefix().shouldNot(Condition.exist);
     }
 
-    @Override
+    @Deprecated
     public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Override
+    public void shouldBeOpened() {
         popUp().shouldBe(Condition.exist);
     }
 
     @Override
-    public void shouldBeCollapsed() {
+    public void shouldBeClosed() {
         popUp().shouldNotBe(Condition.exist);
     }
 
-    @Override
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
+    @Deprecated
     public void expand() {
+        openPopup();
+    }
+
+    @Override
+    public void openPopup() {
         if (!popUp().is(Condition.exist))
             element().$(".n2o-input-icon").click();
     }
 
-    @Override
+    @Deprecated
     public void collapse() {
+        closePopup();
+    }
+
+    @Override
+    public void closePopup() {
         if (popUp().is(Condition.exist))
             element().$(".n2o-input-icon").click();
     }

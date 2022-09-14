@@ -7,6 +7,11 @@
       icon-field-id="test"
       badge-field-id="test"
       badge-color-field-id="test"
+      badge-position="left"
+      badge-shape="rounded"
+      badge-image-field-id="test"
+      badge-image-position="right"
+      badge-image-shape="rounded"
       ajax="true" datasource="ds1"
       checkboxes="true"
       multi-select="false">

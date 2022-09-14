@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
@@ -55,7 +55,7 @@ public class ImageCellAT extends AutoTestBase {
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.imageShouldBe(getBaseUrl() + "/favicon.ico");
         cell.widthShouldBe(15);
-        cell.shapeShouldBe(ImageShape.circle);
+        cell.shapeShouldBe(ShapeType.circle);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
@@ -45,7 +45,7 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         Table table = (Table) page.getWidget();
         N2oImageCell cell = (N2oImageCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("ImageCell"));
-        assertThat(cell.getShape(), is(ImageShape.rounded));
+        assertThat(cell.getShape(), is(ShapeType.rounded));
         assertThat(cell.getWidth(), is("20px"));
         assertThat(cell.getProperties().size(), is(1));
         assertThat(cell.getTitle(), is("`Title`"));
@@ -67,6 +67,6 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         cell = (N2oImageCell) table.getComponent().getCells().get(1);
         assertThat(cell.getWidth(), nullValue());
         assertThat(cell.getTextPosition(), is(N2oImageCell.Position.right));
-        assertThat(cell.getShape(), is(ImageShape.square));
+        assertThat(cell.getShape(), is(ShapeType.square));
     }
 }

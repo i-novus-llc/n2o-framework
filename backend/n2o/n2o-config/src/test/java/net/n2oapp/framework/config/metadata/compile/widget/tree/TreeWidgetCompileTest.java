@@ -42,8 +42,6 @@ public class TreeWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tree.getLabelFieldId(), is("test"));
         assertThat(tree.getIconFieldId(), is("test"));
         assertThat(tree.getImageFieldId(), is("test"));
-        assertThat(tree.getBadgeFieldId(), is("test"));
-        assertThat(tree.getBadgeColorFieldId(), is("test"));
         assertThat(tree.getAjax(), is(true));
         assertThat(tree.getHasCheckboxes(), is(true));
         assertThat(tree.getMultiselect(), is(false));

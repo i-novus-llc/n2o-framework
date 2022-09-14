@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <tree parent-field-id="pfi1" badge-field-id="bfi1" badge-color-field-id="bcfi1" badge-position="left"
+              badge-shape="rounded" badge-image-field-id="bifi1" badge-image-position="right" badge-image-shape="square"/>
+        <tree parent-field-id="pfi2" badge-image-field-id="bifi2"/>
+    </regions>
+</page>

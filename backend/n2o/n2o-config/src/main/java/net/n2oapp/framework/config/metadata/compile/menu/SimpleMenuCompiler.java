@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -27,6 +28,7 @@ import java.util.List;
  */
 @Component
 public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSimpleMenu, ApplicationContext>, SourceClassAware {
+    private static final String PROPERTY_PREFIX = "n2o.api.menu.item";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -58,8 +60,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         compiled.setDatasource(source.getDatasourceId());
         if (source instanceof N2oSimpleMenu.MenuItem) {
             menuItem((N2oSimpleMenu.MenuItem) source, compiled, p, context);
-        }
-        else if (source instanceof N2oSimpleMenu.DropdownMenuItem) {
+        } else if (source instanceof N2oSimpleMenu.DropdownMenuItem) {
             dropdownMenu((N2oSimpleMenu.DropdownMenuItem) source, compiled, p, context, idx);
         }
         compiled.setProperties(p.mapAttributes(source));
@@ -67,8 +68,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     }
 
     private void menuItem(N2oSimpleMenu.MenuItem source, MenuItem compiled, CompileProcessor p, ApplicationContext context) {
-        compiled.setBadge(p.resolveJS(source.getBadge()));
-        compiled.setBadgeColor(p.resolveJS(source.getBadgeColor()));
+        compiled.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         compiled.setType("link");
         compiled.setPageId(initPageId(source.getAction()));
         if (source.getName() == null)
@@ -107,7 +107,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     private void dropdownMenu(N2oSimpleMenu.DropdownMenuItem source, MenuItem item, CompileProcessor p, ApplicationContext context, IndexScope idx) {
         item.setType("dropdown");
         ArrayList<MenuItem> subItems = new ArrayList<>();
-        for (N2oSimpleMenu.MenuItem subItem : source.getMenuItems())
+        for (N2oSimpleMenu.AbstractMenuItem subItem : source.getMenuItems())
             subItems.add(createMenuItem(subItem, p, context, idx));
         item.setSubItems(subItems);
     }

@@ -3,6 +3,7 @@ package net.n2oapp.framework.sandbox.autotest.examples;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -90,14 +91,15 @@ public class ButtonsAT extends SandboxAutotestBase {
         buttonMenuItem2.shouldHaveLabel("Два");
         buttonMenuItem2.click();
 
-        StandardButton buttonTooltip = topLeft.button(6, StandardButton.class);
-        buttonTooltip.shouldExists();
-        buttonTooltip.shouldBeEnabled();
-        buttonTooltip.shouldHaveLabel("Подсказка");
-        buttonTooltip.element().hover();
-        page.tooltip().shouldBeExist();
-        page.tooltip().shouldHaveText("Эта подсказка появляется сверху");
-        buttonTooltip.click();
+        StandardButton buttonWithTooltip = topLeft.button(6, StandardButton.class);
+        buttonWithTooltip.shouldExists();
+        buttonWithTooltip.shouldBeEnabled();
+        buttonWithTooltip.shouldHaveLabel("Подсказка");
+        buttonWithTooltip.element().hover();
+        Tooltip tooltip = buttonWithTooltip.tooltip();
+        tooltip.shouldExists();
+        tooltip.shouldHaveText("Эта подсказка появляется сверху");
+        buttonWithTooltip.click();
     }
 
     @Test

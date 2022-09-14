@@ -1,7 +1,9 @@
 package net.n2oapp.framework.engine.data;
 
+import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Sorting;
+import net.n2oapp.criteria.api.SortingDirection;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterReducer;
@@ -25,7 +27,6 @@ import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
@@ -46,11 +47,19 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private ContextProcessor contextProcessor;
     private N2oInvocationFactory invocationFactory;
+    @Setter
     private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor(false);
     private DomainProcessor domainProcessor;
     private QueryExceptionHandler exceptionHandler;
+    @Setter
     private ApplicationContext applicationContext;
+
+    @Setter
     private boolean pageStartsWith0;
+    @Setter
+    private String ascExpression;
+    @Setter
+    private String descExpression;
 
     public N2oQueryProcessor(N2oInvocationFactory invocationFactory,
                              QueryExceptionHandler exceptionHandler) {
@@ -85,7 +94,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
         } else {
             Map<String, Object> map = new LinkedHashMap<>();
-            prepareMapForQuery(map, query, criteria);
+            prepareMapForQuery(map, selection, query, criteria);
             try {
                 result = engine.invoke(selection.getInvocation(), map);
             } catch (Exception e) {
@@ -183,7 +192,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
         } else if (engine instanceof MapInvocationEngine) {
             Map<String, Object> map = new LinkedHashMap<>();
-            prepareMapForQuery(map, query, criteria);
+            prepareMapForQuery(map, selection, query, criteria);
             prepareMapForPage(map, criteria, pageStartsWith0);
             try {
                 result = engine.invoke(selection.getInvocation(), map);
@@ -198,7 +207,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private CollectionPage<DataSet> executePageQuery(N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
         if (criteria != null && criteria.getRestrictions() != null) {
-            Set<String> restrictionFieldIds = criteria.getRestrictions().stream().map(r -> r.getFieldId()).collect(Collectors.toSet());
+            Set<String> restrictionFieldIds = criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toSet());
             for (String fieldId : restrictionFieldIds) {
                 if (reduceFiltersByField(criteria, fieldId))
                     return new CollectionPage<>(0, Collections.emptyList(), criteria);
@@ -254,7 +263,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
     }
 
-    public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
+    public void prepareMapForQuery(Map<String, Object> map, N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
         map.put("select", query.getSelectExpressions());
         prepareSelectKeys(map, query.getDisplayFields(), query);
 
@@ -276,7 +285,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 if (!field.getIsSorted())
                     continue;
                 sortingExp.add(field.getSortingExpression());
-                inMap(map, field.getSortingMapping(), sorting.getDirection().getExpression());
+                inMap(map, field.getSortingMapping(), getSortingDirectionExpression(sorting.getDirection(), selection));
             }
         map.put("sorting", sortingExp);
 
@@ -286,7 +295,14 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
     }
 
-    private static void prepareSelectKeys(Map<String, Object> map, List<AbstractField> fields, CompiledQuery query) {
+    private String getSortingDirectionExpression(SortingDirection direction, N2oQuery.Selection selection) {
+        if (direction == SortingDirection.ASC)
+            return Objects.requireNonNullElse(selection.getAscExpression(), ascExpression);
+        else
+            return Objects.requireNonNullElse(selection.getDescExpression(), descExpression);
+    }
+
+    private void prepareSelectKeys(Map<String, Object> map, List<AbstractField> fields, CompiledQuery query) {
         for (AbstractField field : fields) {
             if (field instanceof QueryReferenceField) {
                 QueryReferenceField referenceField = (QueryReferenceField) field;
@@ -300,7 +316,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
     }
 
-    public static void prepareMapForPage(Map<String, Object> map, N2oPreparedCriteria criteria, boolean pageStartsWith0) {
+    public void prepareMapForPage(Map<String, Object> map, N2oPreparedCriteria criteria, boolean pageStartsWith0) {
         map.put("limit", criteria.getSize());
         map.put("offset", criteria.getFirst());
         if (criteria.getCount() != null)
@@ -473,28 +489,15 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
             return new CollectionPage<>(totalSupplier.get(), content, criteria);
         }
-        if (content.size() != 0 && criteria.getSize() > content.size()) {
+        if (!content.isEmpty() && criteria.getSize() > content.size()) {
             return new CollectionPage<>(criteria.getFirst() + content.size(), content, criteria);
         }
         return new CollectionPage<>(totalSupplier.get(), content, criteria);
-    }
-
-    public void setPageStartsWith0(boolean pageStartsWith0) {
-        this.pageStartsWith0 = pageStartsWith0;
-    }
-
-    public void setCriteriaResolver(CriteriaConstructor criteriaResolver) {
-        this.criteriaConstructor = criteriaResolver;
     }
 
     @Override
     public void setEnvironment(MetadataEnvironment environment) {
         this.contextProcessor = environment.getContextProcessor();
         this.domainProcessor = environment.getDomainProcessor();
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 }

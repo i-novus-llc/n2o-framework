@@ -29,6 +29,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         if (control.getSrc() == null)
             control.setSrc(source.getSrc());
         source.setSrc(null);
+        source.setCopied(p.cast(source.getCopied(), true));
         compileField(field, source, context, p);
         field.setControl(control);
         field.setClassName(null);//для StandardField className должен попасть в control, а не field

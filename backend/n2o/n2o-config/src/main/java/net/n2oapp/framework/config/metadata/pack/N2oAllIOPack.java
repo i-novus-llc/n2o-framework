@@ -1,11 +1,13 @@
 package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
+import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.application.ApplicationIO;
 import net.n2oapp.framework.config.io.application.ApplicationIOv2;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
+import net.n2oapp.framework.config.io.datasource.*;
 import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv2;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
@@ -19,9 +21,9 @@ import net.n2oapp.framework.config.io.query.QueryElementIOv5;
 /**
  * Набор всех считывателей метаданных
  */
-public class N2oAllIOPack implements MetadataPack<N2oApplicationBuilder> {
+public class N2oAllIOPack implements MetadataPack<XmlIOBuilder<? extends XmlIOBuilder<?>>> {
     @Override
-    public void build(N2oApplicationBuilder b) {
+    public void build(XmlIOBuilder<? extends XmlIOBuilder<?>> b) {
         b.ios(new ApplicationIO(), new ApplicationIOv2(), new NavMenuIOv2(), new ExtraMenuIOv2(),
                 new ApplicationIOv3(), new SidebarIOv3(), new NavMenuIOv3(), new ExtraMenuIOv3(),
                 new StompEventIO());
@@ -30,8 +32,11 @@ public class N2oAllIOPack implements MetadataPack<N2oApplicationBuilder> {
 
         b.ios(new QueryElementIOv4(), new QueryElementIOv5());
 
-        b.packs(new N2oRegionsV2IOPack(), new N2oWidgetsIOPack(), new N2oWidgetsV5IOPack(),
+        b.packs(new N2oPagesIOv3Pack(), new N2oPagesIOv4Pack(),
+                new N2oDatasourcesV1IOPack(),
+                new N2oRegionsV2IOPack(), new N2oWidgetsIOPack(), new N2oWidgetsV5IOPack(),
                 new N2oFieldSetsIOPack(), new N2oFieldSetsV5IOPack(), new N2oControlsV2IOPack(),
+                new N2oControlsV3IOPack(),
                 new N2oDataProvidersIOPack(), new N2oCellsIOPack(), new N2oCellsV3IOPack(),
                 new N2oChartsIOPack());
     }

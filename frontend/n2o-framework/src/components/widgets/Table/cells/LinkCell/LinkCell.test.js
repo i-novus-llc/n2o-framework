@@ -68,11 +68,4 @@ describe('Тесты LinkCell', () => {
         })
         expect(wrapper.find('a[target="_blank"]').exists()).toEqual(true)
     })
-    it('Cell обернут тултипом', () => {
-        const wrapper = setupLinkCell({
-            url: 'https://google.com',
-            target: '_blank',
-        })
-        expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true)
-    })
 })

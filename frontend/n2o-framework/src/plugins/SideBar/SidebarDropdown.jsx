@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { NavItemImage } from '../../components/snippets/NavItemImage/NavItemImage'
-import { Tooltip } from '../../components/snippets/Tooltip/Tooltip'
+import { ExtendedTooltipComponent } from '../../components/snippets/Tooltip/TooltipHOC'
 
 import { Icon } from './utils'
 
@@ -50,43 +50,39 @@ function SidebarDropdown({
 
     return (
         <>
-            <Tooltip
-                label={(
-                    <div className="n2o-sidebar__item-dropdown">
-                        <div
-                            onClick={toggle}
-                            className={itemDropdownClass}
-                            id={id}
+            <ExtendedTooltipComponent hint={title} placement="right">
+                <div className="n2o-sidebar__item-dropdown">
+                    <div
+                        onClick={toggle}
+                        className={itemDropdownClass}
+                        id={id}
+                    >
+                        <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
+                        <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
+                        <span className={classNames(
+                            'n2o-sidebar__item-title',
+                            {
+                                mini: isMiniView,
+                                visible: showContent,
+                            },
+                        )
+                        }
                         >
-                            <Icon icon={icon} title={title} type={type} sidebarOpen={sidebarOpen} hasSubItems />
-                            <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
-                            <span className={classNames(
-                                'n2o-sidebar__item-title',
-                                {
-                                    mini: isMiniView,
-                                    visible: showContent,
-                                },
-                            )
-                            }
-                            >
-                                {title}
-                            </span>
-                            <i className={classNames(
-                                'align-self-center w-100 d-flex justify-content-end',
-                                'n2o-sidebar__item-dropdown-toggle',
-                                {
-                                    'fa fa-angle-up': isOpen,
-                                    'fa fa-angle-down': !isOpen,
-                                    mini: isMiniView,
-                                },
-                            )}
-                            />
-                        </div>
+                            {title}
+                        </span>
+                        <i className={classNames(
+                            'align-self-center w-100 d-flex justify-content-end',
+                            'n2o-sidebar__item-dropdown-toggle',
+                            {
+                                'fa fa-angle-up': isOpen,
+                                'fa fa-angle-down': !isOpen,
+                                mini: isMiniView,
+                            },
+                        )}
+                        />
                     </div>
-                )}
-                hint={title}
-                placement="right"
-            />
+                </div>
+            </ExtendedTooltipComponent>
             {isOpen && (<div className={subItemsClass}>{children}</div>)}
         </>
     )

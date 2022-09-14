@@ -295,8 +295,7 @@ class AutoComplete extends React.Component {
             groupFieldId,
             hasCheckboxes,
             format,
-            badgeFieldId,
-            badgeColorFieldId,
+            badge,
             onScrollEnd,
             style,
             alerts,
@@ -403,8 +402,7 @@ class AutoComplete extends React.Component {
                                         labelFieldId={valueFieldId}
                                         iconFieldId={iconFieldId}
                                         imageFieldId={imageFieldId}
-                                        badgeFieldId={badgeFieldId}
-                                        badgeColorFieldId={badgeColorFieldId}
+                                        badge={badge}
                                         onSelect={this.onSelect}
                                         selected={value}
                                         disabledValues={disabledValues}
@@ -460,13 +458,9 @@ AutoComplete.propTypes = {
      */
     imageFieldId: PropTypes.string,
     /**
-     * Ключ badge в данных
+     * Данные для badge
      */
-    badgeFieldId: PropTypes.string,
-    /**
-     * Ключ цвета badgeColor в данных
-     */
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.object,
     /**
      * Флаг активности
      */
@@ -567,7 +561,9 @@ AutoComplete.defaultProps = {
     valueFieldId: 'label',
     iconFieldId: 'icon',
     imageFieldId: 'image',
-    badgeFieldId: 'badge',
+    badge: {
+        fieldId: 'badge',
+    },
     loading: false,
     disabled: false,
     disabledValues: [],
