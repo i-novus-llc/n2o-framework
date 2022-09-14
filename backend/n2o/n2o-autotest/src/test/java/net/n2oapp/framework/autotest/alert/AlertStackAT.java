@@ -66,33 +66,4 @@ public class AlertStackAT extends AutoTestBase {
         page.alerts("top").alert(1).shouldHaveText("Алерт 2");
         page.alerts("top").alert(2).shouldHaveText("Алерт 2");
     }
-
-    @Test
-    public void testMessage() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/stack/message/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/alert/stack/message/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-
-        FormWidget form = page.widget(FormWidget.class);
-        form.shouldExists();
-        Toolbar toolbar = form.toolbar().topLeft();
-
-        toolbar.button("Успех").click();
-        page.alerts("top").alert(0).shouldHaveText("Данные сохранены");
-        toolbar.button("Успех").click();
-        page.alerts("top").alert(0).shouldHaveText("Данные сохранены");
-        page.alerts("top").alert(1).shouldHaveText("Данные сохранены");
-        toolbar.button("Успех").click();
-        page.alerts("top").alert(0).shouldHaveText("Данные сохранены");
-        page.alerts("top").alert(1).shouldHaveText("Данные сохранены");
-        page.alerts("top").alert(2).shouldHaveText("Данные сохранены");
-        toolbar.button("Ошибка валидации").click();
-        page.alerts("top").alert(0).shouldHaveText("Ошибка");
-        page.alerts("top").alert(1).shouldHaveText("Данные сохранены");
-        page.alerts("top").alert(2).shouldHaveText("Данные сохранены");
-
-
-    }
 }
