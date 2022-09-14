@@ -1,8 +1,8 @@
 package net.n2oapp.framework.sandbox.autotest.alert;
 
 import net.n2oapp.framework.autotest.api.component.button.Button;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
-import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -39,7 +39,7 @@ public class AlertAT extends SandboxAutotestBase {
     }
 
     @Test
-    public void test() {
+    public void testStack() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -48,7 +48,7 @@ public class AlertAT extends SandboxAutotestBase {
         MultiFieldSet multiFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         multiFieldSet.clickAddButton();
         InputText text = multiFieldSet.item(0).fields().field("Текст сообщения").control(InputText.class);
-        Select position = multiFieldSet.item(0).fields().field("Позиция уведомления").control(Select.class);
+        InputSelect position = multiFieldSet.item(0).fields().field("Позиция уведомления").control(InputSelect.class);
 
         text.val("Алерт 1");
         position.select(0);
@@ -75,23 +75,23 @@ public class AlertAT extends SandboxAutotestBase {
 
         multiFieldSet.clickAddButton();
         multiFieldSet.item(1).fields().field("Текст сообщения").control(InputText.class).val("Алерт 1-2");
-        multiFieldSet.item(1).fields().field("Позиция уведомления").control(Select.class).select(1);
+        multiFieldSet.item(1).fields().field("Позиция уведомления").control(InputSelect.class).select(1);
 
         multiFieldSet.clickAddButton();
         multiFieldSet.item(2).fields().field("Текст сообщения").control(InputText.class).val("Алерт 1-3");
-        multiFieldSet.item(2).fields().field("Позиция уведомления").control(Select.class).select(2);
+        multiFieldSet.item(2).fields().field("Позиция уведомления").control(InputSelect.class).select(2);
 
         send.click();
         page.alerts("top").alert(0).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 3");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 2");
+        page.alerts("top").alert(1).shouldHaveText("Алерт 4");
+        page.alerts("top").alert(2).shouldHaveText("Алерт 3");
         page.alerts("bottom").alert(0).shouldHaveText("Алерт 1-2");
         page.alerts("topLeft").alert(0).shouldHaveText("Алерт 1-3");
 
         send.click();
         page.alerts("top").alert(0).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 3");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 2");
+        page.alerts("top").alert(1).shouldHaveText("Алерт 4");
+        page.alerts("top").alert(2).shouldHaveText("Алерт 4");
         page.alerts("bottom").alert(0).shouldHaveText("Алерт 1-2");
         page.alerts("bottom").alert(1).shouldHaveText("Алерт 1-2");
         page.alerts("topLeft").alert(0).shouldHaveText("Алерт 1-3");
@@ -99,8 +99,8 @@ public class AlertAT extends SandboxAutotestBase {
 
         send.click();
         page.alerts("top").alert(0).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 3");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 2");
+        page.alerts("top").alert(1).shouldHaveText("Алерт 4");
+        page.alerts("top").alert(2).shouldHaveText("Алерт 4");
         page.alerts("bottom").alert(0).shouldHaveText("Алерт 1-2");
         page.alerts("bottom").alert(1).shouldHaveText("Алерт 1-2");
         page.alerts("bottom").alert(2).shouldHaveText("Алерт 1-2");

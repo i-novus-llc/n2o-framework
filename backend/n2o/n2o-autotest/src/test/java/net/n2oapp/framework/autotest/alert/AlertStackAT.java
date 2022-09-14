@@ -3,8 +3,10 @@ package net.n2oapp.framework.autotest.alert;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -14,18 +16,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.headless;
-import static com.codeborne.selenide.Configuration.timeout;
-
 
 public class AlertStackAT extends AutoTestBase {
-
-    public static void configureSelenide() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
-        headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "false"));
-        timeout = Long.parseLong(System.getProperty("selenide.timeout", "5000"));
-    }
 
     @BeforeAll
     public static void beforeClass() {
@@ -45,12 +37,12 @@ public class AlertStackAT extends AutoTestBase {
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oCellsPack(), new N2oActionsPack(), new N2oControlsPack(), new N2oAllDataPack());
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/stack/index.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));;
     }
 
     @Test
-    public void test() {
+    public void testComponent() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/stack/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -73,5 +65,34 @@ public class AlertStackAT extends AutoTestBase {
         page.alerts("top").alert(0).shouldHaveText("Алерт 1");
         page.alerts("top").alert(1).shouldHaveText("Алерт 2");
         page.alerts("top").alert(2).shouldHaveText("Алерт 2");
+    }
+
+    @Test
+    public void testMessage() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/stack/message/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/alert/stack/message/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+        form.shouldExists();
+        Toolbar toolbar = form.toolbar().topLeft();
+
+        toolbar.button("Успех").click();
+        page.alerts("top").alert(0).shouldHaveText("Данные сохранены");
+        toolbar.button("Успех").click();
+        page.alerts("top").alert(0).shouldHaveText("Данные сохранены");
+        page.alerts("top").alert(1).shouldHaveText("Данные сохранены");
+        toolbar.button("Успех").click();
+        page.alerts("top").alert(0).shouldHaveText("Данные сохранены");
+        page.alerts("top").alert(1).shouldHaveText("Данные сохранены");
+        page.alerts("top").alert(2).shouldHaveText("Данные сохранены");
+        toolbar.button("Ошибка валидации").click();
+        page.alerts("top").alert(0).shouldHaveText("Ошибка");
+        page.alerts("top").alert(1).shouldHaveText("Данные сохранены");
+        page.alerts("top").alert(2).shouldHaveText("Данные сохранены");
+
+
     }
 }
