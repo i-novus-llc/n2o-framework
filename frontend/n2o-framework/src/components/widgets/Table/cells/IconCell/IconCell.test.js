@@ -58,8 +58,4 @@ describe('<IconCell />', () => {
         wrapper = mount(<IconCell {...props} />)
         expect(wrapper.find('.n2o-cell-text').exists()).toBeFalsy()
     })
-    it('Cell обернут тултипом', () => {
-        const wrapper = mount(<IconCell {...propsWithTooltip} />)
-        expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true)
-    })
 })
