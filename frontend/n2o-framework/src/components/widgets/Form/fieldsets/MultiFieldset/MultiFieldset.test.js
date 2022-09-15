@@ -116,7 +116,7 @@ const setup = (propsOverride = {}) => {
     )
 }
 
-describe('<MultiFieldset />', () => {
+describe.skip('<MultiFieldset />', () => {
     it('Компонент отрисовывается', () => {
         const wrapper = setup()
         expect(wrapper.find('MultiFieldset').length).toBe(1)
