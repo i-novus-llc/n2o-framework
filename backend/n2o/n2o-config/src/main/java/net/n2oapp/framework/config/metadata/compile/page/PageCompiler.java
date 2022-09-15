@@ -139,7 +139,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         if (context instanceof ModalPageContext)
             pageProperty.setModalHeaderTitle(pageName);
         else if (showTitle)
-            pageProperty.setTitle(p.resolveJS(p.cast(source.getTitle(), pageName)));
+            pageProperty.setTitle(p.cast(source.getTitle(), pageName));
 
         if (context.getParentModelLinks() != null)
             pageProperty.setModelLinks(context.getParentModelLinks());

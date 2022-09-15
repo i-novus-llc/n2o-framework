@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.util.BindUtil;
@@ -19,6 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static net.n2oapp.framework.api.StringUtils.hasLink;
 
 /**
  * Базовое связывание данных на странице
@@ -77,10 +80,10 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             resolveLinks(page.getModels(), p);
         }
         if (page.getPageProperty() != null) {
-            page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
-                    page.getPageProperty().getModelLinks()));
-            page.getPageProperty().setHtmlTitle(p.resolveText(page.getPageProperty().getHtmlTitle(),
-                    page.getPageProperty().getModelLinks()));
+            page.getPageProperty().setTitle(tryToResolve(page.getPageProperty().getTitle(),
+                    page.getPageProperty().getModelLinks(), p));
+            page.getPageProperty().setHtmlTitle(tryToResolve(page.getPageProperty().getHtmlTitle(),
+                    page.getPageProperty().getModelLinks(), p));
             page.getPageProperty().setModalHeaderTitle(p.resolveText(page.getPageProperty().getModalHeaderTitle(),
                     page.getPageProperty().getModelLinks()));
 
@@ -116,6 +119,11 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                         });
                     }
                 }
+    }
+
+    private String tryToResolve(String title, List<ModelLink> modelLinks, BindProcessor p) {
+        String resolved = p.resolveText(title, modelLinks);
+        return hasLink(resolved) ? ScriptProcessor.resolveLinks(resolved) : resolved;
     }
 
     private void resolveLinks(Models models, BindProcessor p) {
