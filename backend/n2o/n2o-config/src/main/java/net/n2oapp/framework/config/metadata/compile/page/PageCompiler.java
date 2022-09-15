@@ -79,9 +79,12 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      * @return breadcrumb текущей страницы
      */
     protected BreadcrumbList initBreadcrumb(N2oPage source, String pageName, PageContext context, CompileProcessor p) {
-        boolean hasBreadcrumb = Boolean.TRUE.equals(source.getHasBreadcrumbs()) || source.getBreadcrumbs() != null ||
+        if (Boolean.TRUE.equals(context.getCustomBreadcrumb()))
+            return new BreadcrumbList(context.getBreadcrumbs());
+
+        boolean needCreation = Boolean.TRUE.equals(source.getHasBreadcrumbs()) || source.getBreadcrumbs() != null ||
                 p.resolve(property("n2o.api.page.breadcrumbs"), Boolean.class);
-        if (hasBreadcrumb) {
+        if (needCreation) {
             if (source.getBreadcrumbs() == null)
                 return initBreadcrumbByContext(pageName, context, p);
             

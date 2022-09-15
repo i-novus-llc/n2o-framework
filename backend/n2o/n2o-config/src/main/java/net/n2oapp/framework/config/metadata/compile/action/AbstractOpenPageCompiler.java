@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -155,7 +156,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
         }
         pageContext.setPageName(source.getPageName());
-        pageContext.setBreadcrumbs(p.getScope(BreadcrumbList.class));
+        pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
         pageContext.setSubmitMessageOnSuccess(source.getSubmitMessageOnSuccess());
         pageContext.setSubmitMessageOnFail(source.getSubmitMessageOnFail());
@@ -215,6 +216,18 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
+    }
+
+    private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
+        if (source.getBreadcrumbs() != null) {
+            pageContext.setCustomBreadcrumb(true);
+            return Arrays.stream(source.getBreadcrumbs())
+                    .map(crumb -> new Breadcrumb(crumb.getLabel(), crumb.getPath()))
+                    .collect(Collectors.toList());
+        }
+
+        pageContext.setCustomBreadcrumb(false);
+        return p.getScope(BreadcrumbList.class);
     }
 
     /**
