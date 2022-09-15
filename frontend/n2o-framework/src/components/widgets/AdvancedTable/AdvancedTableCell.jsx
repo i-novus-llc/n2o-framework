@@ -13,7 +13,7 @@ import classNames from 'classnames'
  * @returns {*}
  * @constructor
  */
-function AdvancedTableCell({ children, hasSpan, record, textWrap, needRender, alignment }) {
+function AdvancedTableCell({ children, hasSpan, record, textWrap, needRender }) {
     const { span } = record
 
     let colSpan = 1
@@ -31,7 +31,7 @@ function AdvancedTableCell({ children, hasSpan, record, textWrap, needRender, al
     return (
         <td className={classNames({ 'd-none': !needRender })} colSpan={colSpan} rowSpan={rowSpan}>
             <div
-                className={classNames('n2o-advanced-table-cell-expand', alignment, {
+                className={classNames('n2o-advanced-table-cell-expand', {
                     'text-no-wrap': textWrap === false,
                 })}
             >
@@ -47,7 +47,6 @@ AdvancedTableCell.propTypes = {
     hasSpan: PropTypes.bool,
     record: PropTypes.object,
     needRender: PropTypes.bool,
-    alignment: PropTypes.oneOf(['right', 'center', 'left']),
 }
 
 AdvancedTableCell.defaultProps = {

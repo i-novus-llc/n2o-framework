@@ -67,3 +67,15 @@ $input-color: $gray-900;
 $link-hover-decoration: none;
 $link-hover-color: $pink;
 $popover-border-color: $gray-200;
+
+$table-alignments-inline: (
+    "left": left,
+    "center": center,
+    "right": right
+);
+
+$table-alignments-flex: (
+    "left": flex-start,
+    "center": center,
+    "right": flex-end
+);

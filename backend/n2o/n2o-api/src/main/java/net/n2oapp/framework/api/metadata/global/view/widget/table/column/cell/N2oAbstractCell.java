@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.Map;
@@ -37,6 +38,8 @@ public abstract class N2oAbstractCell implements N2oCell, ExtensionAttributesAwa
     private Map<String, Object> properties;
     @JsonProperty
     private String tooltipFieldId;
+    @JsonProperty
+    private Alignment contentAlignment;
     @JsonProperty
     private Boolean hideOnBlur;
 
