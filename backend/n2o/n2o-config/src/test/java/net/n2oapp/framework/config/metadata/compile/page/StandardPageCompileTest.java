@@ -164,7 +164,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void testPageTitle() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageTitle.page.xml")
                 .get(new PageContext("testStandardPageTitle"));
-        assertThat(page.getPageProperty().getTitle(), is("`'Page '+name`"));
+        assertThat(page.getPageProperty().getTitle(), is("Page {name}"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
         assertThat(page.getPageProperty().getDatasource(), is("ds1"));
         assertThat(page.getPageProperty().getModel(), is(ReduxModel.resolve));
