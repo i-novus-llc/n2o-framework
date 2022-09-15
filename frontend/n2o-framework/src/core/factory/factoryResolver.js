@@ -15,6 +15,7 @@ import ToggleColumn from '../../components/buttons/ToggleColumn/ToggleColumn'
 import ChangeSize from '../../components/buttons/ChangeSize/ChangeSize'
 import controls from '../../components/controls'
 import overlays from '../../components/core/overlays'
+import * as breadcrumbs from '../../components/core/Breadcrumb/breadcrumb'
 
 import { NotFoundFactory } from './NotFoundFactory'
 
@@ -26,6 +27,7 @@ const index = {
     ...actions,
     ...controls,
     ...overlays,
+    ...breadcrumbs,
     exportModal,
     ToggleColumn,
     ChangeSize,
