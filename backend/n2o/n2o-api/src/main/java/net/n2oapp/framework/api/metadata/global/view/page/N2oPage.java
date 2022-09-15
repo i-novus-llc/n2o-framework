@@ -37,6 +37,11 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     @ExtAttributesSerializer
     protected Map<N2oNamespace, Map<String, String>> extAttributes;
 
+    public Boolean getHasBreadcrumbs() {
+        if (breadcrumbs != null)
+            return true;
+        return Boolean.TRUE.equals(hasBreadcrumbs);
+    }
 
     @Override
     public String getPostfix() {
