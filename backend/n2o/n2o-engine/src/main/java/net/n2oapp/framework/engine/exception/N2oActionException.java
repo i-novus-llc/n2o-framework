@@ -1,4 +1,4 @@
-package net.n2oapp.framework.engine.processor;
+package net.n2oapp.framework.engine.exception;
 
 import net.n2oapp.framework.api.exception.N2oException;
 
