@@ -1,11 +1,18 @@
 package net.n2oapp.framework.engine.data;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Собирает данные для вызова InvocationEngine
@@ -25,6 +32,25 @@ public abstract class QueryUtil {
                 q = q.substring(0, q.length() - 1);
         }
         return q;
+    }
+
+    /**
+     * Копирование заголовков из запроса клиента
+     *
+     * @param forwardedHeaders Заголовки которые надо скопировать
+     * @param headers          Заголовки запроса к сервису
+     */
+    public static void copyForwardedHeaders(String forwardedHeaders, HttpHeaders headers) {
+        if (!hasText(forwardedHeaders))
+            return;
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        for (String forwardedHeaderName : forwardedHeaders.trim().split(",")) {
+            forwardedHeaderName = forwardedHeaderName.trim();
+            String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
+            if (hasText(forwardedHeaderValue))
+                headers.add(forwardedHeaderName, forwardedHeaderValue);
+        }
     }
 
     public static String replacePlaceholders(String baseQuery, Predicate<String> matcher, Function<String, Object> resolver) {

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.engine.data.rest;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -32,9 +31,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BinaryOperator;
 
-import static net.n2oapp.framework.engine.data.QueryUtil.normalizeQueryParams;
-import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
-
+import static net.n2oapp.framework.engine.data.QueryUtil.*;
 
 /**
  * Сервис вызова Spring RestTemplate
@@ -93,7 +90,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + sortingSeparator + b);
         query = replaceListPlaceholder(query, "{join}", args.remove("join"), "", (a, b) -> a + joinSeparator + b);
         query = normalizeQueryParams(query);
-        return executeQuery(method, query, args, invocation.getProxyHost(), invocation.getProxyPort());
+        return executeQuery(method, query, args, invocation);
     }
 
     /**
@@ -135,10 +132,10 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         }
     }
 
-    private Object executeQuery(HttpMethod method, String query, Map<String, Object> args, String proxyHost,
-                                Integer proxyPort) {
-        query = getURL(proxyHost, proxyPort, query);
+    private Object executeQuery(HttpMethod method, String query, Map<String, Object> args, N2oRestDataProvider invocation) {
+        query = getURL(invocation.getProxyHost(), invocation.getProxyPort(), query);
         HttpHeaders headers = initHeaders(args);
+        copyForwardedHeaders(invocation.getForwardedHeaders(), headers);
         Map<String, Object> body = new HashMap<>(args);
 
         log.debug("Execute REST query: " + query);
@@ -217,5 +214,4 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         else
             return "http://" + host + ":" + port + url;
     }
-
 }
