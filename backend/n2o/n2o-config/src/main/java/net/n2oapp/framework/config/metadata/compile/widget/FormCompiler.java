@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import org.springframework.stereotype.Component;
 
@@ -48,8 +47,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
         CopiedFieldScope copiedFieldScope = p.cast(p.getScope(CopiedFieldScope.class), new CopiedFieldScope());
         WidgetParamScope paramScope = new WidgetParamScope();
-        ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList() : p.getScope(ValidationList.class);
-        ValidationScope validationScope = new ValidationScope(datasource, ReduxModel.resolve, validationList);
+        ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
         form.getComponent().setPrompt(initPrompt(source, p));
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p,
                 widgetScope, query, object, widgetActions,
@@ -61,7 +59,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
                 new ComponentScope(source),
                 validationScope));
         addParamRoutes(paramScope, context, p);
-        compileToolbarAndAction(form, source, context, p, widgetScope, widgetActions, object, validationList);
+        compileToolbarAndAction(form, source, context, p, widgetScope, widgetActions, object, validationScope);
         form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
         return form;
     }

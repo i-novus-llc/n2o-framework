@@ -1,4 +1,8 @@
-import { put, select } from 'redux-saga/effects'
+import {
+    put,
+    call,
+    select,
+} from 'redux-saga/effects'
 
 import { setModel } from '../../models/store'
 // @ts-ignore ignore import error from js file
@@ -6,11 +10,13 @@ import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { IMeta, IValidationFieldMessage } from '../../../sagas/types'
+import { ValidationsKey } from '../../../core/validation/IValidation'
 import { dataSourceByIdSelector } from '../selectors'
 import {
     failValidate,
     rejectRequest,
     resolveRequest,
+    startValidate,
 } from '../store'
 import type { IProvider, QueryResult, Query } from '../Provider'
 import { ProviderType } from '../Provider'
@@ -19,6 +25,8 @@ import { query as storageQuery } from '../Providers/Storage'
 import { query as inheritedQuery } from '../Providers/Inherited'
 import type { DataRequestAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
+
+import { validate } from './validate'
 
 function getQuery<
     TProvider extends IProvider,
@@ -45,6 +53,16 @@ export function* dataRequest({ payload }: DataRequestAction) {
 
         if (!components.length) {
             throw new Error('Unnecessary request for datasource with empty components list ')
+        }
+
+        const filtersIsValid: boolean = yield call(
+            validate,
+            startValidate(id, undefined, ModelPrefix.filter, { touched: true }),
+            ValidationsKey.FilterValidations,
+        )
+
+        if (!filtersIsValid) {
+            throw new Error('Invalid filters, request canceled')
         }
 
         const query = getQuery(provider.type)

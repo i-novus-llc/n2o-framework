@@ -1,35 +1,38 @@
 package net.n2oapp.framework.config.metadata.compile;
 
+import lombok.Getter;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 
-import java.util.List;
+import java.util.*;
 
 /**
- * Список валидаций для определенной модели виджета (обертка над ValidationList)
+ * Карта скомпилированных валидаций, разложенная по модели и источнику данных
  */
-public class ValidationScope {
-    private final String datasourceId;
-    private final ReduxModel model;
-    private final ValidationList validations;
+@Getter
+public class ValidationScope implements Compiled {
+    private Map<ReduxModel, Map<String, List<Validation>>> validations;
 
-    public ValidationScope(N2oAbstractDatasource datasource, ReduxModel model, ValidationList validations) {
-        this.datasourceId = datasource.getId();
-        this.model = model;
-        this.validations = validations;
+    public ValidationScope() {
+        this.validations = new EnumMap<>(ReduxModel.class);
     }
 
-    public void add(Validation validation) {
-        validations.add(datasourceId, model, validation);
+
+    public List<Validation> get(String datasourceId, ReduxModel model) {
+        if (validations.containsKey(model) && validations.get(model).containsKey(datasourceId))
+            return validations.get(model).get(datasourceId);
+        else
+            return Collections.emptyList();
     }
 
-    public void addAll(List<Validation> validationList) {
-        validations.addAll(datasourceId, model, validationList);
+    public void add(String datasourceId, ReduxModel model, Validation validation) {
+        validations.putIfAbsent(model, new HashMap<>());
+        validations.get(model).putIfAbsent(datasourceId, new ArrayList<>());
+        get(datasourceId, model).add(validation);
     }
 
-    public List<Validation> getAll() {
-        return validations.get(datasourceId, model);
+    public void addAll(String datasourceId, ReduxModel model, List<Validation> validations) {
+        validations.forEach(v -> add(datasourceId, model, v));
     }
 }
-
