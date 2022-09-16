@@ -35,6 +35,7 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
         addIfNotNull(source, override, N2oWidget::setActions, N2oWidget::getActions);
         addIfNotNull(source, override, N2oWidget::setToolbars, N2oWidget::getToolbars);
         addIfNotNull(source, override, N2oWidget::setPreFilters, N2oWidget::getPreFilters);
+        addIfNotNull(source, override, N2oWidget::setDependencies, N2oWidget::getDependencies);
         mergeExtAttributes(source, override);
         return source;
     }
