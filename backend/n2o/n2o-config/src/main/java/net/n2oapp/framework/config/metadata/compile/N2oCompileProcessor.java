@@ -346,6 +346,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
+    public String resolveRelativeUrl(String url) {
+        return null;
+    }
+
+    @Override
     public BindLink resolveLink(BindLink link, boolean observable) {
         if (link == null)
             return null;
