@@ -1,36 +1,46 @@
 package net.n2oapp.framework.engine.data.normalize;
 
 import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
+import static java.util.Objects.isNull;
 
 /**
  * Сборщик нормализующих функций
  */
 public class NormalizerCollector {
     private static final String BASE_PACKAGE = ".";
-    private static final Reflections ref = new Reflections(new ConfigurationBuilder().forPackages(BASE_PACKAGE));
+    private static final Reflections ref = new Reflections(new ConfigurationBuilder()
+            .forPackages(BASE_PACKAGE)
+            .addScanners(Scanners.TypesAnnotated, Scanners.MethodsAnnotated));
 
     /**
-     * Метод для поиска и сборки в сет нормализующих функций
+     * Метод для поиска нормализующих функций и сборки в мапу<алиас-функция>
      *
-     * @return Сет нормализующих функций
+     * @return Мапа нормализующих функций
      */
-    public static Set<Method> collect() {
-        Set<Method> normalizers = new HashSet<>();
+    public static Map<String, Method> collect() {
+        Set<Method> functions = new HashSet<>();
         for (Class<?> normClass : ref.getTypesAnnotatedWith(Normalizer.class))
-            normalizers.addAll(filterPublicStaticMethods(Arrays.asList(normClass.getDeclaredMethods())));
-        normalizers.addAll(filterPublicStaticMethods(ref.getMethodsAnnotatedWith(Normalizer.class)));
-        return normalizers;
+            functions.addAll(filterPublicStaticMethods(Arrays.asList(normClass.getDeclaredMethods())));
+
+        functions.addAll(filterPublicStaticMethods(ref.getMethodsAnnotatedWith(Normalizer.class)));
+        return functions.stream().collect(Collectors.toMap(NormalizerCollector::findAlias, Function.identity()));
+    }
+
+    private static String findAlias(Method function) {
+        if (isNull(function.getAnnotation(Normalizer.class)))
+            return function.getName();
+        String alias = function.getAnnotation(Normalizer.class).value();
+        return !alias.isBlank() ? alias : function.getName();
     }
 
     private static Set<Method> filterPublicStaticMethods(Collection<Method> methods) {

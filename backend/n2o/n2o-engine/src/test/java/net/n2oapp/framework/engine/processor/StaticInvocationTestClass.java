@@ -6,12 +6,10 @@ import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.engine.data.normalize.Normalizer;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class StaticInvocationTestClass {
@@ -173,6 +171,16 @@ public class StaticInvocationTestClass {
 
     public static Integer sum(Model entityTypeArgument, Integer primitiveTypeArgument, Model classTypeArgument) {
         return entityTypeArgument.getTestField() + primitiveTypeArgument + classTypeArgument.getTestField();
+    }
+
+    @Normalizer
+    public static Integer normalizerTest(String value) {
+        return value.length();
+    }
+
+    @Normalizer("test")
+    public static String customFunction(String value) {
+        return value.toUpperCase();
     }
 
     @Getter
