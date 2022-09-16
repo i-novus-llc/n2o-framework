@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.validation;
 
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -22,7 +23,7 @@ public class ConstraintValidationCompiler extends InvocationValidationCompiler<C
     public ConstraintValidation compile(N2oConstraint source, CompileContext<?, ?> context, CompileProcessor p) {
         ConstraintValidation validation = new ConstraintValidation();
         compileInvocationValidation(validation, source, p);
-        validation.setSeverity(source.getSeverity());
+        validation.setSeverity(p.cast(source.getSeverity(), SeverityType.danger));
 
         return validation;
     }

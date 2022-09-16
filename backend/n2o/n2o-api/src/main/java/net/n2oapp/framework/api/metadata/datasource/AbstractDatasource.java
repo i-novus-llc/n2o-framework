@@ -25,5 +25,7 @@ public abstract class AbstractDatasource implements Compiled, IdAware {
     @JsonProperty
     private Map<String, List<Validation>> validations;
     @JsonProperty
+    private Map<String, List<Validation>> filterValidations;
+    @JsonProperty
     private Integer size;
 }

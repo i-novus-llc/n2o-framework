@@ -437,6 +437,19 @@
                 <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="alignment" type="alignmentType" default="left">
+            <xs:annotation>
+                <xs:documentation>Выравнивание заголовка столбца таблицы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="content-alignment" type="alignmentType">
+            <xs:annotation>
+                <xs:documentation>
+                    Выравнивание контента в ячейках столбца таблицы
+                    (по умолчанию совпадает с alignment, если столбец не входит в multi-column)
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -509,6 +522,19 @@
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="alignment" type="alignmentType" default="center">
+                    <xs:annotation>
+                        <xs:documentation>Выравнивание заголовка столбца таблицы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="content-alignment" type="alignmentType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Выравнивание контента в ячейках вложенных столбцов
+                            (значение content-alignment, указанное во вложенном столбце в приоритете)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1470,6 +1496,17 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="one-model"/>
             <xs:enumeration value="two-models"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="alignmentType">
+        <xs:annotation>
+            <xs:documentation>Тип выравнивания контента.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="center"/>
         </xs:restriction>
     </xs:simpleType>
 

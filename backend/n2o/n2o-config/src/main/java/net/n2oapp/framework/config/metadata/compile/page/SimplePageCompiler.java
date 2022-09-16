@@ -19,7 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
@@ -68,14 +68,14 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setModels(models);
         ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
-        ValidationList validationList = new ValidationList();
+        ValidationScope validationScope = new ValidationScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         DataSourcesScope datasourcesScope = new DataSourcesScope();
         FiltersScope filtersScope = new FiltersScope();
         SubModelsScope subModelsScope = new SubModelsScope();
         Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, pageRouteScope, breadcrumbs,
-                validationList, models, pageRoutesScope, datasourcesScope, filtersScope,
+                validationScope, models, pageRoutesScope, datasourcesScope, filtersScope,
                 copiedFieldScope, subModelsScope);
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
@@ -83,10 +83,10 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         compileComponent(page, source, context, p);
         Map<String, Widget<?>> compiledWidgets = new HashMap<>();
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
-        page.setDatasources(initDatasources(datasourcesScope, context, p, pageScope, validationList, routes,
+        page.setDatasources(initDatasources(datasourcesScope, context, p, pageScope, validationScope, routes,
                 pageRouteScope, pageScope, filtersScope, copiedFieldScope, subModelsScope));
         page.setToolbar(compileToolbar(context, p, widget.getDatasourceId(), pageScope,
-                new MetaActions(), pageRouteScope, breadcrumbs, validationList, datasourcesScope));
+                new MetaActions(), pageRouteScope, breadcrumbs, validationScope, datasourcesScope));
         return page;
     }
 

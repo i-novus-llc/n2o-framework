@@ -31,11 +31,19 @@ public class DataSet extends NestedMap {
     }
 
     public void merge(DataSet dataSet) {
-        merge(this, dataSet, ALWAYS_EXTEND_VALUE);
+        merge(this, dataSet, ALWAYS_EXTEND_VALUE, false);
+    }
+
+    public void merge(DataSet dataSet, Boolean addNullValues) {
+        merge(this, dataSet, ALWAYS_EXTEND_VALUE, addNullValues);
     }
 
     public void merge(DataSet dataSet, ValuePickUpStrategy strategy) {
-        merge(this, dataSet, strategy);
+        merge(this, dataSet, strategy, false);
+    }
+
+    public void merge(DataSet dataSet, ValuePickUpStrategy strategy, Boolean addNullValues) {
+        merge(this, dataSet, strategy, addNullValues);
     }
 
     public Integer getInteger(String key) {
@@ -91,18 +99,20 @@ public class DataSet extends NestedMap {
     }
 
 
-    private static void merge(NestedMap main, NestedMap extend, ValuePickUpStrategy strategy) {
+    private static void merge(NestedMap main, NestedMap extend, ValuePickUpStrategy strategy, Boolean addNullValues) {
         if (main == extend) return;
         if (extend == null) return;
         for (String fieldName : extend.keySet()) {
             Object mainValue = main.get(fieldName);
             Object extendValue = extend.get(fieldName);
-            if (mainValue != null && (mainValue instanceof NestedMap && extendValue instanceof NestedMap)) {
-                merge((NestedMap) mainValue, (NestedMap) extendValue, strategy);
-            } else if (mainValue != null && mainValue instanceof List && extendValue instanceof List) {
+            if (mainValue instanceof NestedMap && extendValue instanceof NestedMap) {
+                merge((NestedMap) mainValue, (NestedMap) extendValue, strategy, addNullValues);
+            } else if (mainValue instanceof List && extendValue instanceof List) {
                 mergeArrays((List) mainValue, (List) extendValue);
             } else if (nonNull(strategy.pickUp(mainValue, extendValue))) {
                 main.put(fieldName, strategy.pickUp(mainValue, extendValue));
+            } else if (addNullValues) {
+                main.put(fieldName, null);
             }
         }
     }

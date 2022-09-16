@@ -8,6 +8,7 @@ import merge from 'lodash/merge'
 import entries from 'lodash/entries'
 import isEmpty from 'lodash/isEmpty'
 import first from 'lodash/first'
+import isEqual from 'lodash/isEqual'
 
 import { setModel, copyModel, clearModel } from '../models/store'
 import {
@@ -151,6 +152,8 @@ export function* autoSubmit({ meta }) {
     }
 }
 
+let prevModel = {}
+
 export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
@@ -172,11 +175,34 @@ export const formPluginSagas = [
         const { form: datasource, field } = meta
         const form = first(yield select(makeFormsByDatasourceSelector(datasource)))
         const currentFormPrefix = get(form, ['form', 'modelPrefix'], ModelPrefix.active)
+        const model = yield select(makeGetModelByPrefixSelector(currentFormPrefix, datasource))
+
+        const findDifferentValues = () => {
+            const keys = [field]
+
+            if (!model) {
+                return keys
+            }
+
+            for (const [k] of Object.entries(model)) {
+                if (!isEqual(model[k], prevModel[k])) {
+                    keys.push(k)
+                }
+            }
+
+            return keys
+        }
 
         if (form) {
+            const fields = findDifferentValues()
+
             /* blurValidation is used in the setFocus saga,
              this is needed to observing the field validation type */
-            yield put(startValidate(datasource, [field], currentFormPrefix, { blurValidation: true }))
+            yield put(startValidate(datasource, fields, currentFormPrefix, { blurValidation: true }))
+        }
+
+        prevModel = {
+            ...model,
         }
     }),
     debounce(400, [

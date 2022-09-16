@@ -28,10 +28,7 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationScope;
+import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
@@ -259,9 +256,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
         validations.addAll(initRequiredValidation(field, source, p, visibilityConditions));
         validations.addAll(initInlineValidations(field, source, context, p, visibilityConditions));
+
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ValidationScope validationScope = p.getScope(ValidationScope.class);
-        if (validationScope != null)
-            validationScope.addAll(validations);
+        if (widgetScope != null && validationScope != null)
+            validationScope.addAll(widgetScope.getDatasourceId(), widgetScope.getModel(), validations);
     }
 
     private List<Validation> initRequiredValidation(Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
