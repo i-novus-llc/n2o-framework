@@ -34,8 +34,8 @@ public class N2oSimpleAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oPagesPack(), new N2oWidgetsPack());
-        builder.sources(new CompileInfo("autotest/examples/simple/index.page.xml"),
-                new CompileInfo("autotest/examples/simple/test.application.xml"));
+        builder.sources(
+                new CompileInfo("autotest/examples/simple/index.page.xml"));
     }
 
     @Test

@@ -228,3 +228,6 @@ description: ""
 использующих его компонентов (`StandardButton`, `IconCell`, `TooltipListCell`)
 - Методы `expand` \ `collapse` компонентов `DateInput`, `DateInterval`, `Select`, `InputSelect`, `TimePicker`, `InputSelectTree` объявлены deprecated.
 Вместо них рекомендуется использовать методы `openPopup` \ `closePopup`
+- В автотестах теперь необязательно указывать application.xml файл, если он не используется явно.
+Как следствие этого, файл `net/n2oapp/framework/autotest/blank.application` был удален.
+Поэтому если он использовался в ваших автотестах, то необходимо его также удалить из тестовых классов.

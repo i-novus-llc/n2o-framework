@@ -35,8 +35,7 @@ public class CustomActionsAT extends AutoTestBase {
         builder.packs(new N2oApplicationPack(), new N2oAllPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/custom/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/custom/test.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/custom/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/custom/test.object.xml"));
     }
 
     @Test

@@ -46,7 +46,8 @@ public class WebSocketAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oActionsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/websocket/test.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/websocket/test.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/websocket/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/websocket/app.application.xml"));
     }

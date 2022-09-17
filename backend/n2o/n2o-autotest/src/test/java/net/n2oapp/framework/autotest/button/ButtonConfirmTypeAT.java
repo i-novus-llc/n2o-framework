@@ -13,7 +13,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,9 +41,9 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/myObject.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/myObject.object.xml"));
     }
 
     @Test
@@ -85,7 +84,6 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         page.alerts().alert(0).shouldHaveText("success");
     }
 
-    @Disabled//FIXME включить после реализации фронтенда https://jira.i-novus.ru/browse/NNO-8228
     @Test
     public void testCustomPopover() {
         StandardButton button = toolbar.bottomLeft().button("CustomPopover");

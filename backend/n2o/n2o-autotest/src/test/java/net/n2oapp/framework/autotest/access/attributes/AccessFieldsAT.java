@@ -36,7 +36,7 @@ public class AccessFieldsAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/fields/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/fields/default.access.xml"));
     }

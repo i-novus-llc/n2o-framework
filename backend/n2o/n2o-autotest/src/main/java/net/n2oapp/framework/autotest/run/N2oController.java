@@ -62,6 +62,9 @@ public class N2oController {
     @Value("${n2o.config.path}")
     private String basePath;
 
+    @Value("${n2o.application.id}")
+    private String defaultApplicationId;
+
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, AlertMessageBuilder messageBuilder,
                          QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor,
@@ -77,8 +80,17 @@ public class N2oController {
     @GetMapping("/n2o/config")
     public AppConfig config() {
         List<SourceInfo> apps = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class);
-        Assert.isTrue(!apps.isEmpty(), "No header metadata found");
-        configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(apps.get(0).getId()), new DataSet()));
+        Assert.isTrue(!apps.isEmpty(), "Not found application.xml file");
+
+        String applicationId = defaultApplicationId;
+        if ("default".equals(defaultApplicationId))
+            for (SourceInfo si : apps)
+                if (!"default".equals(si.getId())) {
+                    applicationId = si.getId();
+                    break;
+                }
+
+        configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new ApplicationContext(applicationId), new DataSet()));
         return configBuilder.get();
     }
 

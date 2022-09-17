@@ -76,6 +76,8 @@ public interface Page extends Component {
         <T extends Button> T button(String label);
 
         void shouldBeClosed(long timeOut);
+
+        void shouldHaveReversedButtons();
     }
 
     interface Popover {

@@ -30,9 +30,9 @@ public class TooltipListCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/tooltip_list/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/tooltip_list/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
 
         page = open(StandardPage.class);
         page.shouldExists();

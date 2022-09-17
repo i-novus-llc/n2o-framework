@@ -36,13 +36,12 @@ public class ResolveFormFieldSubModelsAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/form_fields/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/form_fields/new_page.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/form_fields/type.query.xml"));
     }
 
-    //todo временно отключен тест, необходимо исправить
     @Test
     public void resolveTableFiltersSubModels() {
         SimplePage page = open(SimplePage.class);

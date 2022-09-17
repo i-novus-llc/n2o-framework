@@ -47,7 +47,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testSelects() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/tree.query.xml"));
@@ -108,7 +108,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testCell() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/cell/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/cell/test.query.xml"));
 
@@ -129,7 +129,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testButton() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/button/index.page.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
@@ -165,7 +165,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testTree() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/tree/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/tree/test.query.xml"));
 
@@ -192,10 +192,10 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testMenu() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/menu/app.application.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/badge/menu/app.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/menu/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/menu/test.page.xml"));
-        builder.properties("n2o.application.id=app");
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();

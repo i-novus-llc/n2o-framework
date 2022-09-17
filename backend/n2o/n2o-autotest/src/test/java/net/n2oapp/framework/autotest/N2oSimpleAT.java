@@ -29,7 +29,7 @@ public class N2oSimpleAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oPagesPack(), new N2oWidgetsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/simple/test.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/simple/index.page.xml"));
     }
 
