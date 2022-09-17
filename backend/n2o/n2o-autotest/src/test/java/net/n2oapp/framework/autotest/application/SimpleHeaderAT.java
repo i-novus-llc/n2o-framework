@@ -10,7 +10,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,15 +34,16 @@ public class SimpleHeaderAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oActionsPack());
+
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/header/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/header/testPage1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/header/test.application.xml"));
     }
 
     @Test
     public void simpleHeader() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/header/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/header/testPage1.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/application/header/test.application.xml"));
-
-        String rootUrl = getBaseUrl();
+                String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("Лого");

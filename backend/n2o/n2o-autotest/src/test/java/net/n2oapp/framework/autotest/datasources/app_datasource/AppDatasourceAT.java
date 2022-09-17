@@ -35,14 +35,16 @@ public class AppDatasourceAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-    }
 
-    @Test
-    public void testSimpleDS() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/side.application.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/side.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/page2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/app_datasource/test.query.xml"));
+    }
+
+    @Test
+    public void testAppDS() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("App datasource. Ссылка на источник данных, объявленный в application.xml");

@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class AutoTestBase extends N2oTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.transformers(new TestEngineQueryTransformer());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/default.application.xml"));
     }
 
     protected String getBaseUrl() {

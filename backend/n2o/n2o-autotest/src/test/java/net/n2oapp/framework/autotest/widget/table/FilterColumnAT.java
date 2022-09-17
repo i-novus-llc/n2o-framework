@@ -34,10 +34,6 @@ public class FilterColumnAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/table.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
         page = open(SimplePage.class);
         page.shouldExists();
     }
@@ -46,6 +42,10 @@ public class FilterColumnAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/table.widget.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/test.query.xml"));
     }
 
     @Test

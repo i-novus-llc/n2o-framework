@@ -29,8 +29,8 @@ public class BadgeCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/badge/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/badge/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);

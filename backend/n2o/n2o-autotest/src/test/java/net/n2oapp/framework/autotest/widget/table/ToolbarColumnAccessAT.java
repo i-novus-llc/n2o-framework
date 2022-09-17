@@ -42,7 +42,7 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
         builder.extensions(new SecurityExtensionAttributeMapper());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/access/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/access/test.query.xml"));
     }

@@ -42,10 +42,6 @@ public class ImageUploadAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/files.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
     }
@@ -54,8 +50,10 @@ public class ImageUploadAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-
         builder.ios(new TestDataProviderIOv1());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/files.query.xml"));
     }
 
     @Test

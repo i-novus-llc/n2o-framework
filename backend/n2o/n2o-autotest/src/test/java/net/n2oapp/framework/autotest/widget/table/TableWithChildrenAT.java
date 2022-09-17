@@ -34,10 +34,6 @@ public class TableWithChildrenAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
         page = open(SimplePage.class);
         page.shouldExists();
     }
@@ -46,6 +42,10 @@ public class TableWithChildrenAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/test.query.xml"));
     }
 
     @Test

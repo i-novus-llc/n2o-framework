@@ -205,6 +205,11 @@ public class N2oPage extends N2oComponent implements Page {
             if (element.$(".modal-header .modal-title").exists())
                 element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
         }
+
+        @Override
+        public void shouldHaveReversedButtons() {
+            element.$(".btn-group").shouldHave(Condition.cssClass("flex-row-reverse"));
+        }
     }
 
     public static class N2oPopover implements Popover {
