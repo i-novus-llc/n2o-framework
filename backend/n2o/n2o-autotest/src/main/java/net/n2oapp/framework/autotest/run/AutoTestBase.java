@@ -49,7 +49,7 @@ public class AutoTestBase extends N2oTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.transformers(new TestEngineQueryTransformer());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/default.application.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     protected String getBaseUrl() {
