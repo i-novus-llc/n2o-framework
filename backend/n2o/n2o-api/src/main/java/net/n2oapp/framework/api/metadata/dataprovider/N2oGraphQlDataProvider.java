@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oMapInvocation;
 
+import java.util.Set;
+
 /**
  * Структура GraphQL провайдера данных
  */
@@ -23,4 +25,5 @@ public class N2oGraphQlDataProvider extends AbstractDataProvider implements N2oM
     private String sizeMapping;
     private String accessToken;
     private String forwardedHeaders;
+    private Set<String> forwardedHeadersSet;
 }

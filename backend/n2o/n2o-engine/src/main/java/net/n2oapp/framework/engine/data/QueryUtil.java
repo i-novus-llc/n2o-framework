@@ -7,11 +7,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
 
 /**
@@ -40,13 +42,12 @@ public abstract class QueryUtil {
      * @param forwardedHeaders Заголовки которые надо скопировать
      * @param headers          Заголовки запроса к сервису
      */
-    public static void copyForwardedHeaders(String forwardedHeaders, HttpHeaders headers) {
-        if (!hasText(forwardedHeaders))
+    public static void copyForwardedHeaders(Set<String> forwardedHeaders, HttpHeaders headers) {
+        if (isEmpty(forwardedHeaders))
             return;
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        for (String forwardedHeaderName : forwardedHeaders.trim().split(",")) {
-            forwardedHeaderName = forwardedHeaderName.trim();
+        for (String forwardedHeaderName : forwardedHeaders) {
             String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
             if (hasText(forwardedHeaderValue))
                 headers.add(forwardedHeaderName, forwardedHeaderValue);

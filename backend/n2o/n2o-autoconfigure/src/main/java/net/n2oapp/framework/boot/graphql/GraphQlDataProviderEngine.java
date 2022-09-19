@@ -91,7 +91,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         String endpoint = initEndpoint(invocation.getEndpoint());
 
         HttpHeaders headers = new HttpHeaders();
-        copyForwardedHeaders(invocation.getForwardedHeaders(), headers);
+        copyForwardedHeaders(invocation.getForwardedHeadersSet(), headers);
         headers.setContentType(MediaType.APPLICATION_JSON);
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);

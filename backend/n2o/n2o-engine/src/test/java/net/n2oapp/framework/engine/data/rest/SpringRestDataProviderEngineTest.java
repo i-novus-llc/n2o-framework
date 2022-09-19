@@ -81,7 +81,7 @@ public class SpringRestDataProviderEngineTest {
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
         N2oRestDataProvider invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
-        invocation.setForwardedHeaders("testForwardedHeader");
+        invocation.setForwardedHeadersSet(Set.of("testForwardedHeader"));
         invocation.setMethod(N2oRestDataProvider.Method.GET);
         Map<String, Object> request = new HashMap<>();
 

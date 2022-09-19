@@ -135,7 +135,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     private Object executeQuery(HttpMethod method, String query, Map<String, Object> args, N2oRestDataProvider invocation) {
         query = getURL(invocation.getProxyHost(), invocation.getProxyPort(), query);
         HttpHeaders headers = initHeaders(args);
-        copyForwardedHeaders(invocation.getForwardedHeaders(), headers);
+        copyForwardedHeaders(invocation.getForwardedHeadersSet(), headers);
         Map<String, Object> body = new HashMap<>(args);
 
         log.debug("Execute REST query: " + query);
