@@ -159,7 +159,7 @@
                         <xs:documentation>Стиль страницы</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="model" type="clientModel" default="resolve">
+                <xs:attribute name="model" type="ac:clientModel" default="resolve">
                     <xs:annotation>
                         <xs:documentation>Модель данных страницы</xs:documentation>
                     </xs:annotation>
@@ -415,17 +415,4 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-
-    <xs:simpleType name="clientModel">
-        <xs:annotation>
-            <xs:documentation>Модель страницы на клиенте.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="filter"/>
-            <xs:enumeration value="resolve"/>
-            <xs:enumeration value="edit"/>
-            <xs:enumeration value="multi"/>
-            <xs:enumeration value="datasource"/>
-        </xs:restriction>
-    </xs:simpleType>
 </xs:schema>
