@@ -1,19 +1,21 @@
 {
   "name": "n2o-simple-project",
-  "version": "7.23.27",
+  "version": "1.0.0",
   "private": true,
   "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "clean": "rimraf ./build/ && rimraf ./node_modules/"
   },
   "dependencies": {
-    "n2o-framework": "^7.23.27"
+    "n2o-framework": "*"
   },
   "devDependencies": {
     "@babel/runtime": "^7.9.2",
-    "react-scripts": "^3.1.1"
+    "react-scripts": "^3.1.1",
+    "rimraf": "^3.0.2"
   },
   "peerDependencies": {
     "react": "*",

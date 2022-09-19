@@ -1,44 +1,44 @@
 {
   "name": "n2o-frontend",
   "private": true,
-  "version": "7.23.1",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
   "workspaces": [
     "n2o-framework",
     "n2o-simple-project",
     "demo"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
-    "build:n2o": "lerna run --scope n2o-framework build",
-    "build:libs": "yarn run build:n2o",
-    "build:projects": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
-    "build:all": "yarn run build:libs&&yarn run build:projects",
-    "version:patch": "lerna version patch --no-git-tag-version --no-push --yes",
-    "version:minor": "lerna version minor --no-git-tag-version --no-push --yes",
-    "version:major": "lerna version major --no-git-tag-version --no-push --yes",
-    "clean": "lerna run clean && lerna clean",
-    "compile:dist:watch": "lerna run --stream --scope n2o-framework compile:dist:watch",
-    "compile:lib:watch": "lerna run --stream --scope n2o-framework compile:lib:watch",
+    "build": "yarn run build:n2o && yarn run build:simple && yarn run build:demo",
+    "build:demo": "yarn workspace n2o-demo-client run build",
+    "build:simple": "yarn workspace n2o-simple-project run build",
+    "build:n2o": "yarn workspace n2o-framework run build",
+    "version:patch": "yarn workspace n2o-framework version --patch --no-git-tag-version",
+    "version:minor": "yarn workspace n2o-framework version --minor --no-git-tag-version",
+    "version:major": "yarn workspace n2o-framework version --major --no-git-tag-version",
     "compile:watch": "concurrently --kill-others \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\"",
-    "prepare": "lerna bootstrap",
-    "release": "lerna publish from-package --no-git-tag-version --no-push --yes",
-    "release:local": "lerna publish from-package --no-git-tag-version --no-push --yes --registry=https://npm.i-novus.ru",
-    "start:demo": "lerna run --scope n2o-demo-client start",
-    "start:simple": "lerna run --scope n2o-simple-project start",
-    "lint": "lerna run --scope n2o-framework lint",
-    "test": "lerna run --scope n2o-framework test",
-    "test:n2o": "lerna run --scope n2o-framework test",
-    "test:n2o:generate-output": "lerna run --scope n2o-framework test:generate-output",
-    "test:n2o:hook": "lerna run --scope n2o-framework test:hook",
-    "docs:install": "cd docs&&yarn install",
-    "docs:start": "cd docs&&yarn run start",
-    "docs:build": "cd docs&&yarn run build"
+    "compile:dist:watch": "yarn workspace n2o-framework run compile:dist:watch",
+    "compile:lib:watch": "yarn workspace n2o-framework run compile:lib:watch",
+    "start:demo": "yarn workspace n2o-demo-client run start",
+    "start:simple": "yarn workspace n2o-simple-project run start",
+    "lint": "yarn workspace n2o-framework run lint",
+    "clean": "yarn workspace n2o-demo-client clean && yarn workspace n2o-simple-project clean && yarn workspace n2o-framework clean && rimraf ./node_modules/",
+    "test": "yarn workspace n2o-framework run test",
+    "test:n2o": "yarn workspace n2o-framework run test",
+    "test:n2o:generate-output": "yarn workspace n2o-framework run test:generate-output",
+    "test:n2o:hook": "yarn workspace n2o-framework run test:hook",
+    "docs:install": "cd docs && yarn install",
+    "docs:start": "cd docs && yarn run start",
+    "docs:build": "cd docs && yarn run build"
   },
   "devDependencies": {
+    "@jsdevtools/npm-publish": "^1.4.3",
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
-    "lerna": "3.18.3",
-    "node-sass": "^6.0.1"
+    "node-sass": "^6.0.1",
+    "rimraf": "^3.0.2"
   }
 }

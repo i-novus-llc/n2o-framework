@@ -59,7 +59,7 @@
                             </execution>
 
                             <execution>
-                                <id>yarn run build:libs</id>
+                                <id>yarn run build</id>
                                 <goals>
                                     <goal>yarn</goal>
                                 </goals>
@@ -67,20 +67,7 @@
                                     <environmentVariables>
                                         <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>run build:libs</arguments>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>yarn run build:projects</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <environmentVariables>
-                                        <max_old_space_size>4096</max_old_space_size>
-                                    </environmentVariables>
-                                    <arguments>run build:projects</arguments>
+                                    <arguments>run build</arguments>
                                 </configuration>
                             </execution>
 
