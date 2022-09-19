@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.application;
 
 import net.n2oapp.framework.api.metadata.application.SidebarState;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.DropdownMenuItem;
@@ -35,7 +35,8 @@ public class MenuAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oActionsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/testMenu.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/testMenu.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/menu/index.page.xml"));
     }
 
@@ -97,7 +98,7 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ImageShape.circle);
+        menuItem.imageShouldHaveShape(ShapeType.circle);
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
@@ -120,7 +121,7 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ImageShape.circle);
+        menuItem.imageShouldHaveShape(ShapeType.circle);
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("2");
@@ -145,7 +146,7 @@ public class MenuAT extends AutoTestBase {
         dropdown.labelShouldHave("Виктория");
         dropdown.shouldHaveImage();
         dropdown.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        dropdown.imageShouldHaveShape(ImageShape.circle);
+        dropdown.imageShouldHaveShape(ShapeType.circle);
         dropdown.click();
 
         AnchorMenuItem menuItem = dropdown.item(0);
@@ -205,13 +206,13 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ImageShape.rounded);
+        menuItem.imageShouldHaveShape(ShapeType.rounded);
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
 
         sidebar.clickToggleBtn();
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ImageShape.rounded);
+        menuItem.imageShouldHaveShape(ShapeType.rounded);
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
         menuItem.labelShouldHave("Профиль");
 
@@ -234,7 +235,7 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ImageShape.square);
+        menuItem.imageShouldHaveShape(ShapeType.square);
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
@@ -242,7 +243,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ImageShape.square);
+        menuItem.imageShouldHaveShape(ShapeType.square);
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");

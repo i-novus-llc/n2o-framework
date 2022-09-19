@@ -1,28 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Badge } from 'reactstrap'
+import { Button } from 'reactstrap'
 import cn from 'classnames'
 
 import { Icon } from '../../snippets/Icon/Icon'
+import { Badge } from '../../snippets/Badge/Badge'
+import { isBadgeLeftPosition, isBadgeRightPosition } from '../../snippets/Badge/utils'
 
 const convertCounter = count => (count > 100 ? '99+' : count)
-
-const renderEntity = (badge, count, badgeColor) => {
-    if (badge || (count || count === 0)) {
-        return (
-            <Badge
-                className={cn({
-                    'badge-counter': count,
-                })}
-                color={badgeColor}
-            >
-                {badge || convertCounter(count)}
-            </Badge>
-        )
-    }
-
-    return null
-}
 
 const SimpleButton = ({
     id,
@@ -40,30 +25,46 @@ const SimpleButton = ({
     rounded,
     className,
     badge,
-    badgeColor,
     ...rest
-}) => (visible ? (
-    <Button
-        id={id}
-        tag={tag}
-        size={size}
-        color={color}
-        outline={outline}
-        onClick={onClick}
-        disabled={disabled}
-        className={cn(className, {
-            'btn-rounded': rounded && !label,
-            'btn-disabled': disabled,
-            'btn-rounded__with-content': rounded && label,
-            'btn-with-entity': badge || (count || count === 0),
-        })}
-        {...rest}
-    >
-        {icon && <Icon name={icon} />}
-        {children || label}
-        {renderEntity(badge, count, badgeColor)}
-    </Button>
-) : null)
+}) => {
+    const { text, position } = badge || {}
+
+    const badgeStyle = {
+        marginLeft: isBadgeRightPosition(position) && 8,
+        marginRight: isBadgeLeftPosition(position) && 8,
+    }
+
+    return visible ? (
+        <Button
+            id={id}
+            tag={tag}
+            size={size}
+            color={color}
+            outline={outline}
+            onClick={onClick}
+            disabled={disabled}
+            className={cn(className, {
+                'btn-rounded': rounded && !label,
+                'btn-disabled': disabled,
+                'btn-rounded__with-content': rounded && label,
+                'btn-with-entity': badge || (count || count === 0),
+            })}
+            {...rest}
+        >
+            {icon && <Icon name={icon} />}
+            {badge && (
+                <Badge
+                    {...badge}
+                    text={text || convertCounter(count)}
+                    hasMargin={false}
+                    style={badgeStyle}
+                >
+                    <span>{children || label}</span>
+                </Badge>
+            )}
+        </Button>
+    ) : null
+}
 
 SimpleButton.propTypes = {
     id: PropTypes.string,
@@ -91,13 +92,14 @@ SimpleButton.propTypes = {
     rounded: PropTypes.bool,
     className: PropTypes.string,
     children: PropTypes.node,
-    badge: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    badgeColor: PropTypes.string,
+    badge: PropTypes.object,
 }
 
 SimpleButton.defaultProps = {
     tag: 'button',
-    badgeColor: 'primary',
+    badge: {
+        color: 'primary',
+    },
     rounded: false,
     visible: true,
     onClick: () => {},

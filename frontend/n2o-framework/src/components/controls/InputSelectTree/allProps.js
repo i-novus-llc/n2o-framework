@@ -9,7 +9,6 @@ export const defaultProps = {
     valueFieldId: 'id',
     labelFieldId: 'name',
     iconFieldId: 'icon',
-    imageFieldId: 'image',
     badgeFieldId: 'badge',
     badgeColorFieldId: 'color',
     filter: '',

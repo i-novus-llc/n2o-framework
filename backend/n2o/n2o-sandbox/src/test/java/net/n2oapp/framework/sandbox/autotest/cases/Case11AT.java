@@ -40,7 +40,7 @@ public class Case11AT extends SandboxAutotestBase {
     protected void configure(N2oApplicationBuilder builder) {
         builder.transformers(new TestEngineQueryTransformer());
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("META-INF/conf/test.object.xml"),
                 new CompileInfo("META-INF/conf/test.query.xml"));
     }

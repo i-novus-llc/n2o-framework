@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для автотест по проверке скрытия виджета по условию">
+
+    <datasources>
+        <datasource id="ds1" query-id="test2"/>
+        <datasource id="ds2" query-id="test">
+            <dependencies>
+                <fetch on="ds1" apply-on-init="false"/>
+            </dependencies>
+        </datasource>
+    </datasources>
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <checkbox id="exists" />
+            </fields>
+        </form>
+        <table datasource="ds2">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <dependencies>
+                <visibility model="resolve" datasource="ds1">exists</visibility>
+            </dependencies>
+        </table>
+    </regions>
+</page>

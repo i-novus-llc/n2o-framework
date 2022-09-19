@@ -39,12 +39,11 @@ public class CloseWithClearAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/modal.page.xml"));
     }
 
-    //wait https://jira.i-novus.ru/browse/NNO-7383
     @Test
     public void testCloseWithClearModal() {
         SimplePage page = open(SimplePage.class);
@@ -84,7 +83,6 @@ public class CloseWithClearAT extends AutoTestBase {
         modal.shouldNotExists();
     }
 
-    //wait https://jira.i-novus.ru/browse/NNO-7383
     @Test
     public void testCloseWithClearDrawer() {
         SimplePage page = open(SimplePage.class);

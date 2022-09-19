@@ -29,9 +29,6 @@ public class InputPasswordAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/password/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
     }
@@ -41,6 +38,8 @@ public class InputPasswordAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oControlsV2IOPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/password/index.page.xml"));
     }
 
     @Test

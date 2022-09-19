@@ -43,8 +43,4 @@ describe('Тесты <StatusCell />', () => {
         expect(wrapper.find('.bg-info').exists()).toEqual(true)
         expect(wrapper.find('StatusCell').contains('test-text')).toEqual(true)
     })
-    it('Cell обернут тултипом', () => {
-        const wrapper = setup()
-        expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true)
-    })
 })

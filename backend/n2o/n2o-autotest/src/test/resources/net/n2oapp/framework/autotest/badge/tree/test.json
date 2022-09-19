@@ -1,0 +1,45 @@
+[
+  {
+    "id" : 1,
+    "name" : "1"
+  },
+  {
+    "id" : 2,
+    "name" : "2"
+  },
+  {
+    "id" : 11,
+    "name" : "11",
+    "parent" : 1,
+    "icon" : "fa fa-plus",
+    "status": "success",
+    "badge":"Проект 1.1",
+    "image": "static/hamburg-3846525__340.jpg"
+  },
+  {
+    "id" : 12,
+    "name" : "12",
+    "parent" : 1,
+    "icon" : "fa fa-pencil",
+    "status": "warning",
+    "badge":"Проект 1.2",
+    "image": "static/hamburg-3846525__340.jpg"
+  },
+  {
+    "id" : 21,
+    "name" : "21",
+    "parent" : 2,
+    "icon" : "fa fa-trash",
+    "status": "danger",
+    "badge":"Проект 2.1"
+  },
+  {
+    "id" : 111,
+    "name" : "111",
+    "parent" : 11,
+    "icon" : "fa fa-trash",
+    "status": "success",
+    "badge":"Проект 1.1.1",
+    "image": "static/hamburg-3846525__340.jpg"
+  }
+]

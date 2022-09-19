@@ -40,12 +40,11 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal.page.xml"));
     }
 
-    //wait https://jira.i-novus.ru/browse/NNO-7381
     @Test
     public void testModal() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/test.query.xml"),
@@ -109,7 +108,6 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         rows.row(0).cell(1).textShouldHave("new4");
     }
 
-    //wait https://jira.i-novus.ru/browse/NNO-7381
     @Test
     public void testDrawer() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/test.query.xml"),

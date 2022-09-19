@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <header>
+        <nav>
+            <menu-item badge="{badge}"
+                       badge-color="warning"
+                       badge-position="left"
+                       badge-shape="rounded"
+                       badge-image="{img}"
+                       badge-image-position="right"
+                       badge-image-shape="square"/>
+            <menu-item badge-image="/static/candidate.png"/>
+            <menu-item/>
+        </nav>
+    </header>
+</application>

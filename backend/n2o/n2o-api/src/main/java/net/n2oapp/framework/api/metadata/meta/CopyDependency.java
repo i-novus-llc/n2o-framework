@@ -17,4 +17,8 @@ public class CopyDependency extends Dependency {
     private ReduxModel model;
     @JsonProperty
     private String field;
+    @JsonProperty
+    private Boolean submit;
+    @JsonProperty
+    private Boolean applyOnInit;
 }

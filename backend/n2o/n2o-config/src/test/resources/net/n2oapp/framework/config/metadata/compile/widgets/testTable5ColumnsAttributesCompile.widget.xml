@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <columns>
+        <column src="MyTableHeader" class="my-table-header" style="color:red" alignment="right"/>
+        <filter-column src="MyFilterHeader" class="my-filter-header" style="color:green">
+            <filter>
+                <input-text id="input"/>
+            </filter>
+        </filter-column>
+        <multi-column src="MyMultiHeader" class="my-multi-header" style="color:blue" label="Multi"/>
+    </columns>
+</table>

@@ -1,24 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import has from 'lodash/has'
-import { Badge } from 'reactstrap'
-// components
 
 // fns
+import { Badge } from '../../../../snippets/Badge/Badge'
+import { isBadgeRightPosition, resolveBadgeProps } from '../../../../snippets/Badge/utils'
 import { splitSearchText } from '../../until'
+import { Shape } from '../../../../snippets/Badge/enums'
 
 function BaseNode({
     prefixCls,
     imageFieldId,
     labelFieldId,
-    badgeFieldId,
+    badge,
     valueFieldId,
-    badgeColorFieldId,
     searchValue,
     searchKeys,
     data,
     filter,
 }) {
+    const {
+        fieldId: badgeFieldId,
+        position: badgePosition,
+    } = badge || {}
+
+    const labelStyle = {
+        order: isBadgeRightPosition(badgePosition) ? 0 : 1,
+    }
+
     return (
         <span
             data-id={data[valueFieldId]}
@@ -39,19 +48,19 @@ function BaseNode({
                     <span
                         key={`tree_label_${data[valueFieldId]}`}
                         className={`${prefixCls}-label`}
+                        style={labelStyle}
                     >
                         {searchKeys.includes(data[valueFieldId]) && searchValue
                             ? splitSearchText(data[labelFieldId], searchValue, filter)
                             : data[labelFieldId]}
                     </span>
                 ),
-                has(data, badgeFieldId) && (
+                (badge && has(data, badgeFieldId)) && (
                     <Badge
-                        key={`tree_badge_${data[valueFieldId]}`}
-                        color={data[badgeColorFieldId]}
-                    >
-                        {data[badgeFieldId]}
-                    </Badge>
+                        {...badge}
+                        {...resolveBadgeProps(badge, data)}
+                        shape={badge?.shape || Shape.Square}
+                    />
                 ),
             ]}
         </span>
@@ -62,9 +71,8 @@ BaseNode.propTypes = {
     prefixCls: PropTypes.string,
     imageFieldId: PropTypes.string,
     labelFieldId: PropTypes.string,
-    badgeFieldId: PropTypes.string,
+    badge: PropTypes.object,
     valueFieldId: PropTypes.string,
-    badgeColorFieldId: PropTypes.string,
     searchValue: PropTypes.string,
     searchKeys: PropTypes.string,
     data: PropTypes.object,

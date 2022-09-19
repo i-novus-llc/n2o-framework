@@ -1,12 +1,14 @@
 import { takeEvery, put, select, debounce, delay } from 'redux-saga/effects'
-import { touch, actionTypes, focus, reset } from 'redux-form'
+import { touch, actionTypes, focus, reset, change } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import values from 'lodash/values'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
+import entries from 'lodash/entries'
+import isEmpty from 'lodash/isEmpty'
 import first from 'lodash/first'
-import { isEmpty } from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 import { setModel, copyModel, clearModel } from '../models/store'
 import {
@@ -18,6 +20,7 @@ import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
+import { generateFormFilterId } from '../../utils/generateFormFilterId'
 
 import { makeFormsByDatasourceSelector } from './selectors'
 import {
@@ -83,6 +86,20 @@ export function* copyAction({ payload }) {
     }
 
     yield put(setModel(target.prefix, target.key, newModel))
+
+    // костыль, тк я убрал резолв зависимостей на redux-form/INITIALIZE из-за беспорядочных вызовов,
+    // которые приводили к зацикливанию при applyOnInit: true и переинициализации, зависимости перестали вызываться
+    // после копирования
+    for (const [field, value] of entries(newModel)) {
+        if (get(targetModel, field) !== value) {
+            const form = target.prefix === ModelPrefix.filter ? generateFormFilterId(target.key) : target.key
+
+            yield put(change(form, field, {
+                keepDirty: true,
+                value,
+            }))
+        }
+    }
 }
 
 /* it uses in tabs region */
@@ -135,6 +152,8 @@ export function* autoSubmit({ meta }) {
     }
 }
 
+let prevModel = {}
+
 export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
@@ -156,11 +175,34 @@ export const formPluginSagas = [
         const { form: datasource, field } = meta
         const form = first(yield select(makeFormsByDatasourceSelector(datasource)))
         const currentFormPrefix = get(form, ['form', 'modelPrefix'], ModelPrefix.active)
+        const model = yield select(makeGetModelByPrefixSelector(currentFormPrefix, datasource))
+
+        const findDifferentValues = () => {
+            const keys = [field]
+
+            if (!model) {
+                return keys
+            }
+
+            for (const [k] of Object.entries(model)) {
+                if (!isEqual(model[k], prevModel[k])) {
+                    keys.push(k)
+                }
+            }
+
+            return keys
+        }
 
         if (form) {
+            const fields = findDifferentValues()
+
             /* blurValidation is used in the setFocus saga,
              this is needed to observing the field validation type */
-            yield put(startValidate(datasource, [field], currentFormPrefix, { blurValidation: true }))
+            yield put(startValidate(datasource, fields, currentFormPrefix, { blurValidation: true }))
+        }
+
+        prevModel = {
+            ...model,
         }
     }),
     debounce(400, [

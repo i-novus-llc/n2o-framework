@@ -107,7 +107,6 @@ public class HeaderCompileTest extends SourceCompileTestBase {
     public void externalMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/headerWithExternalMenu.application.xml",
-                "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testMenu.menu.xml")
                 .get(new ApplicationContext("headerWithExternalMenu"));
 

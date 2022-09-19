@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <list result-mapping="['data.persons']">
+        <graphql>query persons() { $$select }</graphql>
+    </list>
+
+    <fields>
+        <field id="id" select-expression="id"/>
+        <field id="price" select-expression="price"/>
+        <list id="showrooms"
+              select-key="showroomsSelect"
+              select-expression="showrooms { $$showroomsSelect }">
+            <field id="id" select-expression="id"/>
+            <field id="name" select-expression="name"/>
+            <reference id="owner" select-expression="owner { $$ownerSelect }"
+                       select-key="ownerSelect">
+                <field id="name" select-expression="name"/>
+                <field id="inn" select-expression="inn"/>
+            </reference>
+        </list>
+    </fields>
+</query>

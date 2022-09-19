@@ -1,6 +1,8 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
@@ -54,11 +56,6 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public Popover popover(String title) {
         return new N2oPopover(element().$$(".popover .popover-header, .popover-body").findBy(Condition.text(title)).parent());
-    }
-
-    @Override
-    public Tooltip tooltip() {
-        return new N2oTooltip(element().$(".list-text-cell__tooltip-container, .show.tooltip"));
     }
 
     @Override
@@ -129,7 +126,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions, .n2o-page-body").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
         }
 
         @Override
@@ -208,6 +205,11 @@ public class N2oPage extends N2oComponent implements Page {
             if (element.$(".modal-header .modal-title").exists())
                 element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
         }
+
+        @Override
+        public void shouldHaveReversedButtons() {
+            element.$(".btn-group").shouldHave(Condition.cssClass("flex-row-reverse"));
+        }
     }
 
     public static class N2oPopover implements Popover {
@@ -236,37 +238,6 @@ public class N2oPage extends N2oComponent implements Page {
         public void shouldBeClosed(long timeOut) {
             if (element.$(".popover-header .popover-body").exists())
                 element.$(".popover-header .popover-body").waitWhile(Condition.exist, timeOut);
-        }
-    }
-
-    public static class N2oTooltip implements Tooltip {
-        private final SelenideElement element;
-
-        public N2oTooltip(SelenideElement element) {
-            this.element = element;
-        }
-
-        @Override
-        public void shouldBeExist() {
-            element.shouldBe(Condition.exist);
-        }
-
-        @Override
-        public void shouldNotBeExist() {
-            element.shouldNotBe(Condition.exist);
-        }
-
-        @Override
-        public void shouldBeEmpty() {
-            element.shouldBe(Condition.empty);
-        }
-
-        @Override
-        public void shouldHaveText(String... text) {
-            ElementsCollection items = element.$$(".list-text-cell__tooltip-container__body, .tooltip-inner");
-            items.shouldHaveSize(text.length);
-            if (text.length != 0)
-                items.shouldHave(CollectionCondition.texts(text));
         }
     }
 

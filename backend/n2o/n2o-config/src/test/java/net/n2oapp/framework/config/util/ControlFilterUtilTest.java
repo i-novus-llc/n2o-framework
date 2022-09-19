@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.util;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import org.junit.Test;
 
@@ -42,26 +42,26 @@ public class ControlFilterUtilTest {
         assertThat(getFilters("name", query).size(), is(1));
 
         List<N2oQuery.Filter> filters = getFilters("gender", query);
-        Set<String> filterIds = filters.stream().map(f -> f.getFilterField()).collect(Collectors.toSet());
+        Set<String> filterIds = filters.stream().map(f -> f.getFilterId()).collect(Collectors.toSet());
         assertThat(filters.size(), is(3));
         assertThat(filterIds.contains("gender"), is(true));
         assertThat(filterIds.contains("gender.id"), is(true));
         assertThat(filterIds.contains("gender.name"), is(true));
 
         filters = getFilters("gender.id", query);
-        filterIds = filters.stream().map(f -> f.getFilterField()).collect(Collectors.toSet());
+        filterIds = filters.stream().map(f -> f.getFilterId()).collect(Collectors.toSet());
         assertThat(filters.size(), is(2));
         assertThat(filterIds.contains("gender.id"), is(true));
         assertThat(filterIds.contains("gender.id.test"), is(true));
 
         filters = getFilters("parent", query);
-        filterIds = filters.stream().map(f -> f.getFilterField()).collect(Collectors.toSet());
+        filterIds = filters.stream().map(f -> f.getFilterId()).collect(Collectors.toSet());
         assertThat(filters.size(), is(2));
         assertThat(filterIds.contains("parent*.id"), is(true));
         assertThat(filterIds.contains("parent*.name"), is(true));
 
         filters = getFilters("parent.id", query);
-        filterIds = filters.stream().map(f -> f.getFilterField()).collect(Collectors.toSet());
+        filterIds = filters.stream().map(f -> f.getFilterId()).collect(Collectors.toSet());
         assertThat(filters.size(), is(1));
         assertThat(filterIds.contains("parent.id*.like"), is(true));
     }

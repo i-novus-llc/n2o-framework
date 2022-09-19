@@ -37,9 +37,9 @@ public class PageTitleAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/page.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/simple/test.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/page.page.xml"));
     }
 
     @Test

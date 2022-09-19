@@ -31,8 +31,6 @@ public class TableCheckboxesAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/checkboxes/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/checkboxes/test.query.xml"));
         page = open(SimplePage.class);
         page.shouldExists();
     }
@@ -41,7 +39,9 @@ public class TableCheckboxesAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/checkboxes/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/checkboxes/test.query.xml"));
     }
 
     @Test

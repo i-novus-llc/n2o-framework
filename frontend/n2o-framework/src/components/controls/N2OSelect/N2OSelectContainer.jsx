@@ -15,7 +15,7 @@ import N2OSelect from './N2OSelect'
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {string} imageFieldId - поле для картинки
- * @reactProps {string} badgeFieldId - поле для баджей
+ * @reactProps {object} badge - данные для баджа
  * @reactProps {boolean} disabled - флаг неактивности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {string} filter - варианты фильтрации
@@ -58,8 +58,7 @@ N2OSelectContainer.propTypes = {
     labelFieldId: PropTypes.string.isRequired,
     iconFieldId: PropTypes.string,
     imageFieldId: PropTypes.string,
-    badgeFieldId: PropTypes.string,
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.object,
     disabled: PropTypes.bool,
     disabledValues: PropTypes.array,
     filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', 'server']),

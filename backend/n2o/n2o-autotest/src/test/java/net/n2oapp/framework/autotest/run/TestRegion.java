@@ -13,11 +13,6 @@ public class TestRegion extends N2oComponent implements Region {
     }
 
     @Override
-    public void shouldHaveCssClass(String classname) {
-
-    }
-
-    @Override
     public void shouldHaveStyle(String style) {
 
     }

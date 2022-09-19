@@ -59,4 +59,11 @@ public class ION2oMetadataTester implements XmlIOBuilder<ION2oMetadataTester> {
         Stream.of(ios).forEach(this::addIO);
         return this;
     }
+
+    @Override
+    @SafeVarargs
+    public final ION2oMetadataTester packs(MetadataPack<? super ION2oMetadataTester>... packs) {
+        Stream.of(packs).forEach(p -> p.build(this));
+        return this;
+    }
 }

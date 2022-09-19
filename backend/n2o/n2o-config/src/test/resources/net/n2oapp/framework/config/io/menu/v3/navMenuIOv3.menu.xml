@@ -5,7 +5,12 @@
                datasource="ds1"
                icon="fa fa-bell"
                badge="2"
-               badge-color="warning">
+               badge-color="warning"
+               badge-position="left"
+               badge-shape="square"
+               badge-image="/static/candidate.png"
+               badge-image-position="right"
+               badge-image-shape="square">
         <open-page page-id="index" route="/login"/>
     </menu-item>
     <menu-item image="/static/users/ivan90.png"
@@ -18,6 +23,14 @@
                    name="Виктория"
                    image="/static/users/vika91.png"
                    image-shape="circle">
+        <dropdown-menu name="Отделы">
+            <menu-item name="Отдел разработки">
+                <a href="/developers" target="application"/>
+            </menu-item>
+            <menu-item name="Отдел тестирования">
+                <a href="/testers" target="application"/>
+            </menu-item>
+        </dropdown-menu>
         <menu-item name="Профиль"
                    icon="fa fa-user">
             <a href="/profile" target="application"/>

@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
@@ -29,7 +29,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shapeShouldBe(ImageShape shape) {
+    public void shapeShouldBe(ShapeType shape) {
         switch (shape) {
             case circle:
                 imgShouldHaveCircleShape();

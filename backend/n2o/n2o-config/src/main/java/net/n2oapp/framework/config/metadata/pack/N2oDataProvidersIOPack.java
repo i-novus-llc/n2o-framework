@@ -7,9 +7,9 @@ import net.n2oapp.framework.config.io.dataprovider.*;
 /**
  * Набор считывателей провайдеров данных
  */
-public class N2oDataProvidersIOPack implements MetadataPack<XmlIOBuilder> {
+public class N2oDataProvidersIOPack implements MetadataPack<XmlIOBuilder<?>> {
     @Override
-    public void build(XmlIOBuilder b) {
+    public void build(XmlIOBuilder<?> b) {
         b.ios(new RestDataProviderIOv1(),
                 new SqlDataProviderIOv1(),
                 new JavaDataProviderIOv1(),
