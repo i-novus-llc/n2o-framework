@@ -58,16 +58,15 @@ public class AlertPositionAT extends AutoTestBase {
 
         // success
         toolbar.button("Успех").click();
-        Alert alert = page.alerts().alert(0);
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldHaveText("Данные сохранены");
         alert.shouldHaveColor(Colors.SUCCESS);
-        alert.shouldHavePlacement(Alert.Placement.top);
 
         // fail
         toolbar.button("Ошибка валидации").click();
+        alert = page.alerts(Alert.Placement.bottom).alert(0);
         alert.shouldHaveText("Ошибка");
         alert.shouldHaveColor(Colors.DANGER);
-        alert.shouldHavePlacement(Alert.Placement.bottom);
 
         // in modal
         toolbar.button("Успех/Ошибка в модальном окне").click();
@@ -77,15 +76,13 @@ public class AlertPositionAT extends AutoTestBase {
 
         Toolbar modalToolbar = modal.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft();
         modalToolbar.button("Успех").click();
-        Alert modalAlert = page.alerts().alert(0);
+        Alert modalAlert = page.alerts(Alert.Placement.top).alert(0);
         modalAlert.shouldHaveText("Данные сохранены");
         modalAlert.shouldHaveColor(Colors.SUCCESS);
-        modalAlert.shouldHavePlacement(Alert.Placement.top);
 
         modalToolbar.button("Ошибка валидации").click();
         modalAlert.shouldHaveText("Ошибка в модальном окне");
         modalAlert.shouldHaveColor(Colors.DANGER);
-        modalAlert.shouldHavePlacement(Alert.Placement.top);
         modal.close();
 
         // fail with stacktrace
@@ -95,6 +92,5 @@ public class AlertPositionAT extends AutoTestBase {
         modalAlert.shouldHaveColor(Colors.DANGER);
         modalAlert.shouldHaveStacktrace();
         modalAlert.shouldHaveText("Произошла внутренняя ошибка");
-        modalAlert.shouldHavePlacement(Alert.Placement.top);
     }
 }

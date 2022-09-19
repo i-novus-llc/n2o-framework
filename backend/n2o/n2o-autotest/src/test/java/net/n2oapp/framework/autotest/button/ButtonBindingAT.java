@@ -8,6 +8,7 @@ import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -70,24 +71,25 @@ public class ButtonBindingAT extends AutoTestBase {
         ButtonField buttonField = widget1.fields().field("Кнопка в поле", ButtonField.class);
         buttonField.shouldExists();
         buttonField.click();
-        openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
+        Alert alert = openPage.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveText("Hello, Ivan");
 
         ButtonField controlButton = widget1.fields().field("Кнопка в контроле", ButtonField.class);
         controlButton.shouldExists();
         controlButton.click();
-        openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
+        alert.shouldHaveText("Hello, Ivan");
 
         StandardField fieldWithButton = widget1.fields().field("Кнопка в тулбаре поля", StandardField.class);
         StandardButton fieldToolbarButton = fieldWithButton.toolbar().button("Кнопка в тулбаре поля");
         fieldToolbarButton.shouldExists();
         fieldToolbarButton.click();
-        openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
+        alert.shouldHaveText("Hello, Ivan");
 
         TableWidget widget2 = region.content().widget(1, TableWidget.class);
         ToolbarCell toolbarCell = widget2.columns().rows().row(0).cell(0, ToolbarCell.class);
         StandardButton toolbarCellButton = toolbarCell.toolbar().button("Кнопка в ячейке");
         toolbarCellButton.shouldExists();
         toolbarCellButton.click();
-        openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
+        alert.shouldHaveText("Hello, Ivan");
     }
 }
