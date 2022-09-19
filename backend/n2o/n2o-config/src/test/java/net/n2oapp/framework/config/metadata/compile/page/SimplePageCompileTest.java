@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
@@ -54,10 +55,13 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getStyle().size(), is(2));
         assertThat(page.getPageProperty().getTitle(), is("testPage"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
+        assertThat(page.getPageProperty().getDatasource(), is("test_route_main"));
+        assertThat(page.getPageProperty().getModel(), is(ReduxModel.edit));
         assertThat(page.getWidget(), notNullValue());
         assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));
         assertThat(page.getRoutes().getList().size(), is(1));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
+        assertThat(page.getBreadcrumb().get(0).getLabel(), is("tesName"));
         assertThat(route("/test/route", Page.class), notNullValue());
     }
 

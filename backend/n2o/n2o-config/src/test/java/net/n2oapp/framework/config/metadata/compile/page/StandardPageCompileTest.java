@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -163,8 +164,10 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void testPageTitle() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageTitle.page.xml")
                 .get(new PageContext("testStandardPageTitle"));
-        assertThat(page.getPageProperty().getTitle(), is("title"));
+        assertThat(page.getPageProperty().getTitle(), is("Page {name}"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
+        assertThat(page.getPageProperty().getDatasource(), is("ds1"));
+        assertThat(page.getPageProperty().getModel(), is(ReduxModel.resolve));
     }
 
     @Test
@@ -173,5 +176,27 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(new ModalPageContext("testStandardPageModalTitle", "/modal"));
         assertThat(page.getPageProperty().getTitle(), nullValue());
         assertThat(page.getPageProperty().getModalHeaderTitle(), is("testPage"));
+    }
+
+    @Test
+    public void testBreadcrumb() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testBreadcrumb.page.xml")
+                .get(new PageContext("testBreadcrumb"));
+
+        assertThat(page.getPageProperty().getDatasource(), is("ds1"));
+        assertThat(page.getPageProperty().getModel(), is(ReduxModel.resolve));
+        assertThat(page.getBreadcrumb().get(0).getLabel(), is("First page"));
+        assertThat(page.getBreadcrumb().get(0).getPath(), is("/"));
+        assertThat(page.getBreadcrumb().get(1).getLabel(), is("`'Second '+name1+' page'`"));
+        assertThat(page.getBreadcrumb().get(1).getPath(), nullValue());
+
+        builder.properties("n2o.api.page.breadcrumbs=false");
+        page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testDefaultBreadcrumb.page.xml")
+                .get(new PageContext("testDefaultBreadcrumb"));
+        assertThat(page.getBreadcrumb().get(0).getLabel(), is("Test"));
+
+        page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testNoBreadcrumb.page.xml")
+                .get(new PageContext("testNoBreadcrumb"));
+        assertThat(page.getBreadcrumb(), nullValue());
     }
 }
