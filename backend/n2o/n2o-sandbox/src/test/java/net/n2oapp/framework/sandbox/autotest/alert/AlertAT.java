@@ -5,9 +5,9 @@ import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,7 +35,6 @@ public class AlertAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
@@ -54,24 +53,24 @@ public class AlertAT extends SandboxAutotestBase {
         position.select(0);
 
         send.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 1");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 1");
 
         text.val("Алерт 2");
         send.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 2");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 1");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 2");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 1");
 
         text.val("Алерт 3");
         send.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 3");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 2");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 1");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 3");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 2");
+        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 1");
 
         text.val("Алерт 4");
         send.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 3");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 2");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 3");
+        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 2");
 
         multiFieldSet.clickAddButton();
         multiFieldSet.item(1).fields().field("Текст сообщения").control(InputText.class).val("Алерт 1-2");
@@ -82,31 +81,31 @@ public class AlertAT extends SandboxAutotestBase {
         multiFieldSet.item(2).fields().field("Позиция уведомления").control(InputSelect.class).select(2);
 
         send.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 3");
-        page.alerts("bottom").alert(0).shouldHaveText("Алерт 1-2");
-        page.alerts("topLeft").alert(0).shouldHaveText("Алерт 1-3");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 3");
+        page.alerts(Alert.Placement.bottom).alert(0).shouldHaveText("Алерт 1-2");
+        page.alerts(Alert.Placement.topLeft).alert(0).shouldHaveText("Алерт 1-3");
 
         send.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 4");
-        page.alerts("bottom").alert(0).shouldHaveText("Алерт 1-2");
-        page.alerts("bottom").alert(1).shouldHaveText("Алерт 1-2");
-        page.alerts("topLeft").alert(0).shouldHaveText("Алерт 1-3");
-        page.alerts("topLeft").alert(1).shouldHaveText("Алерт 1-3");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.bottom).alert(0).shouldHaveText("Алерт 1-2");
+        page.alerts(Alert.Placement.bottom).alert(1).shouldHaveText("Алерт 1-2");
+        page.alerts(Alert.Placement.topLeft).alert(0).shouldHaveText("Алерт 1-3");
+        page.alerts(Alert.Placement.topLeft).alert(1).shouldHaveText("Алерт 1-3");
 
         send.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 4");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 4");
-        page.alerts("bottom").alert(0).shouldHaveText("Алерт 1-2");
-        page.alerts("bottom").alert(1).shouldHaveText("Алерт 1-2");
-        page.alerts("bottom").alert(2).shouldHaveText("Алерт 1-2");
-        page.alerts("topLeft").alert(0).shouldHaveText("Алерт 1-3");
-        page.alerts("topLeft").alert(1).shouldHaveText("Алерт 1-3");
-        page.alerts("topLeft").alert(2).shouldHaveText("Алерт 1-3");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 4");
+        page.alerts(Alert.Placement.bottom).alert(0).shouldHaveText("Алерт 1-2");
+        page.alerts(Alert.Placement.bottom).alert(1).shouldHaveText("Алерт 1-2");
+        page.alerts(Alert.Placement.bottom).alert(2).shouldHaveText("Алерт 1-2");
+        page.alerts(Alert.Placement.topLeft).alert(0).shouldHaveText("Алерт 1-3");
+        page.alerts(Alert.Placement.topLeft).alert(1).shouldHaveText("Алерт 1-3");
+        page.alerts(Alert.Placement.topLeft).alert(2).shouldHaveText("Алерт 1-3");
     }
 
 }

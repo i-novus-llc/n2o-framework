@@ -38,8 +38,7 @@ public class FormValidationAT extends AutoTestBase {
                 new N2oFieldSetsPack(), new N2oActionsPack(), new N2oControlsPack(), new N2oAllDataPack());
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/validation/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/form/validation/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/validation/test.object.xml"));
     }
 
     @Test

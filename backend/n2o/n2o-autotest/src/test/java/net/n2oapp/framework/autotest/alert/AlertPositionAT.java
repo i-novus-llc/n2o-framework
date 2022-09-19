@@ -39,12 +39,12 @@ public class AlertPositionAT extends AutoTestBase {
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oCellsPack(), new N2oActionsPack(), new N2oControlsPack(), new N2oAllDataPack());
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/index.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/alert/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/modal2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/alert/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/alert/test.object.xml"));
     }
 
     @Test

@@ -1,9 +1,5 @@
 package net.n2oapp.framework.autotest.alert;
 
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
-import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
@@ -17,6 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+/**
+ * Тестирование отображение алертов в стэке
+ */
 public class AlertStackAT extends AutoTestBase {
 
     @BeforeAll
@@ -28,7 +27,6 @@ public class AlertStackAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        ScriptProcessor.getScriptEngine();
     }
 
     @Override
@@ -37,12 +35,12 @@ public class AlertStackAT extends AutoTestBase {
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oCellsPack(), new N2oActionsPack(), new N2oControlsPack(), new N2oAllDataPack());
 
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/alert/stack/index.page.xml"));
     }
 
     @Test
     public void testComponent() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/stack/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -50,20 +48,20 @@ public class AlertStackAT extends AutoTestBase {
         Button alert2 = page.widget(FormWidget.class).toolbar().topLeft().button("Алерт 2");
 
         alert1.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 1");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 1");
 
         alert2.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 2");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 1");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 2");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 1");
 
         alert2.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 2");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 2");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 1");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 2");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 2");
+        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 1");
 
         alert1.click();
-        page.alerts("top").alert(0).shouldHaveText("Алерт 1");
-        page.alerts("top").alert(1).shouldHaveText("Алерт 2");
-        page.alerts("top").alert(2).shouldHaveText("Алерт 2");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 1");
+        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 2");
+        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 2");
     }
 }

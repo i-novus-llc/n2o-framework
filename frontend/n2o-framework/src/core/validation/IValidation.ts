@@ -14,6 +14,11 @@ export enum ValidationTypes {
     maxLength = 'maxLength'
 }
 
+export enum ValidationsKey {
+    Validations = 'validations',
+    FilterValidations = 'filterValidations'
+}
+
 export interface IExtraValidationConfig {
     expression: string
     min: number

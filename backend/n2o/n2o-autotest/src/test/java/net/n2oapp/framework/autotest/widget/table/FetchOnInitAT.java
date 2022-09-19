@@ -32,17 +32,16 @@ public class FetchOnInitAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/form.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/table.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/form.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/table.query.xml"));
     }
 
     @Test

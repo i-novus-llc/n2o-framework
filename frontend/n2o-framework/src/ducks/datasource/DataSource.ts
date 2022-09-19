@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 import type { DataSourceDependency, SortDirection } from '../../core/datasource/const'
 import { ModelPrefix } from '../../core/datasource/const'
-import type { IValidation, IValidationResult } from '../../core/validation/IValidation'
+import { ValidationsKey, IValidation, IValidationResult } from '../../core/validation/IValidation'
 
 import type { IProvider, ISubmit } from './Provider'
 
@@ -12,7 +12,8 @@ export interface DataSourceState<
     TKey extends string = string // TKey = keyof TModel
 > {
     provider?: IProvider
-    validations: Record<string, IValidation[]>
+    [ValidationsKey.Validations]: Record<string, IValidation[]>
+    [ValidationsKey.FilterValidations]: Record<string, IValidation[]>
     components: string[]
     dependencies: DataSourceDependency[]
     size: number
@@ -34,7 +35,8 @@ export interface DataSourceState<
 export class DataSource {
     static get defaultState(): DataSourceState {
         return ({
-            validations: {},
+            [ValidationsKey.Validations]: {},
+            [ValidationsKey.FilterValidations]: {},
             components: [],
             dependencies: [],
             size: 0,

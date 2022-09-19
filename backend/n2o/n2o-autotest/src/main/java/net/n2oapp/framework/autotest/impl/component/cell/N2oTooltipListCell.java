@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.cell.TooltipListCell;
 
 /**
@@ -29,6 +31,12 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
         if (elm.is(Condition.exist))
             cellTrigger().hover();
         else element().hover();
+    }
+
+    @Override
+    public Tooltip tooltip() {
+        SelenideElement element = element().$(".tooltip-container");
+        return N2oSelenide.component(element, Tooltip.class);
     }
 
     @Override

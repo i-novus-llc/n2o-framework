@@ -11,3 +11,19 @@ export const ACTIONS = 'actions'
 export const BUTTONS = 'buttons'
 export const TEMPLATES = 'templates'
 export const OVERLAYS = 'overlays'
+
+export enum FactoryLevels {
+    CONTROLS = 'controls',
+    WIDGETS = 'widgets',
+    REGIONS = 'regions',
+    PAGES = 'pages',
+    HEADERS = 'headers',
+    CELLS = 'cells',
+    FIELDSETS = 'fieldsets',
+    FIELDS = 'fields',
+    SNIPPETS = 'snippets',
+    ACTIONS = 'actions',
+    BUTTONS = 'buttons',
+    TEMPLATES = 'templates',
+    OVERLAYS = 'overlays',
+}

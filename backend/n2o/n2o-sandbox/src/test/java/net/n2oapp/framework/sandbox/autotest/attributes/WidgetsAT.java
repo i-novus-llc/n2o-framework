@@ -43,7 +43,7 @@ public class WidgetsAT extends SandboxAutotestBase {
         builder.packs(new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("META-INF/conf/default.access.xml"));
     }
 

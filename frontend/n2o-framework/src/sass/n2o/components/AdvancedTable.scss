@@ -1,5 +1,3 @@
-$alignments_map: ("left": "left", "centered": "center", "right": "right");
-
 .n2o-advanced-table-content {
     position: relative;
 }
@@ -13,6 +11,18 @@ $alignments_map: ("left": "left", "centered": "center", "right": "right");
 .n2o-advanced-table-header-text-center .n2o-advanced-table-header-cell-content {
     justify-content: center;
     text-align: center;
+}
+
+@each $alignment, $inline-value in $table-alignments-inline {
+    .n2o-advanced-table-header-cel.alignment-#{$alignment} {
+        text-align: $inline-value;
+    }
+}
+
+@each $alignment, $flex-value in $table-alignments-flex {
+    .n2o-advanced-table-header-cel.alignment-#{$alignment} {
+        justify-content: $flex-value;
+    }
 }
 
 .n2o-advanced-table-filter-badge.badge {
@@ -52,12 +62,6 @@ $alignments_map: ("left": "left", "centered": "center", "right": "right");
 
         > span {
             align-self: center;
-        }
-    }
-
-    @each $alignment_name, $alignment_value in $alignments_map {
-        &.#{$alignment_name} > div {
-            justify-content: #{$alignment_value};
         }
     }
 }
@@ -116,12 +120,6 @@ $alignments_map: ("left": "left", "centered": "center", "right": "right");
         }
     }
 
-    @each $alignment_name, $alignment_value in $alignments_map {
-        .n2o-advanced-table-header-cel.#{$alignment_name} > .n2o-advanced-table-header-cell-content {
-            justify-content: #{$alignment_value};
-        }
-    }
-
     td.n2o-advanced-table-row-expand-icon-cell {
         width: 30px;
     }
@@ -171,6 +169,26 @@ $alignments_map: ("left": "left", "centered": "center", "right": "right");
 
     .n2o-input-select .n2o-input-control {
         padding: 0 5px;
+    }
+
+    div[class*="alignment-"] {
+        display: flex;
+        width: 100%;
+    }
+
+    @each $alignment, $flex-value in $table-alignments-flex {
+        .alignment-#{$alignment} {
+            .n2o-advanced-table-header-cell-content,
+            > .n2o-widget-list-cell {
+                justify-content: $flex-value;
+            }
+        }
+    }
+
+    @each $alignment, $flex-value in $table-alignments-flex {
+        .n2o-widget-list-cell.content-alignment-#{$alignment} {
+            justify-content: $flex-value;
+        }
     }
 }
 

@@ -12,7 +12,6 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openjdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -36,8 +35,8 @@ public class FileUploadCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/test.query.xml"));
     }
 
     @Override

@@ -36,7 +36,6 @@ public class TabsRegionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
@@ -142,7 +141,6 @@ public class TabsRegionAT extends AutoTestBase {
         tabs.shouldNotHaveScrollbar();
     }
 
-    //wait https://jira.i-novus.ru/browse/NNO-7315
     @Test
     public void testVisible() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));

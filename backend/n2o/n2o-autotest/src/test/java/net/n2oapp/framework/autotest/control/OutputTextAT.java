@@ -29,9 +29,6 @@ public class OutputTextAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_text/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         page = open(SimplePage.class);
         page.shouldExists();
     }
@@ -40,6 +37,8 @@ public class OutputTextAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/output_text/index.page.xml"));
     }
 
     @Test

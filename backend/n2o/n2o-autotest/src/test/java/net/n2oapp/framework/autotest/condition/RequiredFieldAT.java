@@ -37,7 +37,7 @@ public class RequiredFieldAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/simple/test.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/required_field/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/required_field/myObject.object.xml"));
     }

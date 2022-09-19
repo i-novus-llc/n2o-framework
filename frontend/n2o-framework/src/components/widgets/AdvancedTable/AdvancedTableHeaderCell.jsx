@@ -49,9 +49,11 @@ class AdvancedTableHeaderCell extends Component {
                 title={label}
                 className={classNames(
                     'n2o-advanced-table-header-cel',
-                    'n2o-advanced-table-header-text-center',
                     className,
-                    alignment,
+                    {
+                        'n2o-advanced-table-header-text-center': !alignment,
+                        [`alignment-${alignment}`]: alignment,
+                    },
                 )}
                 colSpan={colSpan}
                 rowSpan={rowSpan}
@@ -71,9 +73,11 @@ class AdvancedTableHeaderCell extends Component {
             <th
                 className={classNames(
                     'n2o-advanced-table-header-cel',
-                    'n2o-advanced-table-header-text-center',
                     className,
-                    alignment,
+                    {
+                        'n2o-advanced-table-header-text-center': !alignment,
+                        [`alignment-${alignment}`]: alignment,
+                    },
                 )}
                 colSpan={colSpan}
                 rowSpan={rowSpan}
@@ -124,10 +128,11 @@ class AdvancedTableHeaderCell extends Component {
                 rowSpan={rowSpan}
                 colSpan={colSpan}
                 style={style}
-                className={classNames('n2o-advanced-table-header-cel', alignment, {
+                className={classNames('n2o-advanced-table-header-cel', {
                     [selectionClass]: selectionHead,
-                    'n2o-advanced-table-header-text-center': multiHeader,
+                    'n2o-advanced-table-header-text-center': multiHeader && !alignment,
                     'd-none': !get(children, 'props.needRender', true),
+                    [`alignment-${alignment}`]: alignment,
                 })}
             >
                 <div className={classNames('n2o-advanced-table-header-cell-content', className)}>

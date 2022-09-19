@@ -29,8 +29,8 @@ public class RatingCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/rating/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/rating/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/rating/rating.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/rating/rating.object.xml"));
     }

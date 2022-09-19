@@ -43,7 +43,6 @@ public class ButtonsAT extends SandboxAutotestBase {
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
         addRuntimeProperty("n2o.access.schema.id", "schema");
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test

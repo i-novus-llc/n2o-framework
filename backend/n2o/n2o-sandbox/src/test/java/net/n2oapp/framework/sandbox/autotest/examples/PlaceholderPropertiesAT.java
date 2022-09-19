@@ -29,7 +29,6 @@ public class PlaceholderPropertiesAT extends SandboxAutotestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test

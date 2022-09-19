@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -18,7 +19,6 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -43,6 +43,9 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         ColumnHeader header = new ColumnHeader();
         source.setId(p.cast(source.getId(), source.getTextFieldId()));
         source.setSortingFieldId(p.cast(source.getSortingFieldId(), source.getTextFieldId()));
+        source.setAlignment(p.cast(source.getAlignment(),
+                p.resolve(property("n2o.api.widget.column.alignment"), Alignment.class)));
+        source.setContentAlignment(p.cast(source.getContentAlignment(), source.getAlignment()));
 
         N2oCell cell = source.getCell();
         if (cell == null) {
@@ -53,14 +56,13 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (cellsScope != null && cellsScope.getCells() != null)
             cellsScope.getCells().add(cell);
 
+        compileBaseProperties(source, header, p);
         header.setId(source.getId());
-        header.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.widget.column.src"), String.class)));
-        header.setCssClass(source.getCssClass());
-        header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         header.setIcon(source.getLabelIcon());
         header.setWidth(source.getWidth());
         header.setResizable(source.getResizable());
         header.setFixed(source.getFixed());
+        header.setAlignment(source.getAlignment());
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
 
