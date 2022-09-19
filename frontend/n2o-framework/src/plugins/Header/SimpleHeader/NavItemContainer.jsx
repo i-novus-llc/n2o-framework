@@ -122,9 +122,9 @@ const NavItemContainer = ({
         )
     }
 
-    const handleLinkDropdown = (item, dropdownItems) => (
-        <UncontrolledDropdown nav inNavbar direction={direction}>
-            <DropdownToggle nav caret>
+    const handleLinkDropdown = (item, dropdownItems, nested) => (
+        <UncontrolledDropdown nav inNavbar direction={direction} className={cx({ 'dropdown-level-3': nested })}>
+            <DropdownToggle nav caret className={cx({ 'toggle-level-3': nested })}>
                 {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
                 <NavItemImage
                     imageSrc={item.imageSrc}
@@ -142,9 +142,23 @@ const NavItemContainer = ({
     let dropdownItems = []
 
     if (item.type === 'dropdown' && !sidebarOpen) {
-        dropdownItems = item.items.map(child => (
-            <DropdownItem>{handleLink(child, 'dropdown-item')}</DropdownItem>
-        ))
+        dropdownItems = item.items.map((child = {}) => {
+            if (child.items) {
+                const nestedDropdownItems = (
+                    <DropdownMenu className="item-level-3" right>
+                        {child.items.map(nestedChild => <DropdownItem>{handleLink(nestedChild, 'dropdown-item')}</DropdownItem>)}
+                    </DropdownMenu>
+                )
+
+                return (
+                    handleLinkDropdown(child, nestedDropdownItems, true)
+                )
+            }
+
+            return (
+                <DropdownItem>{handleLink(child, 'dropdown-item')}</DropdownItem>
+            )
+        })
         if (
             item.type === 'dropdown' &&
                 item.items.length > 1 &&
