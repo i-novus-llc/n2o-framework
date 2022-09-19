@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 public class N2oSpelException extends N2oException {
 
     private static final String DEFAULT_MESSAGE = "Spel expression conversion error with %s from metadata %s";
-    private static final String DEFAULT_FIELD_MESSAGE = "Spel expression conversion error with %s of field %s from metadata %s";
+    private static final String DEFAULT_FIELD_MESSAGE = "Spel expression conversion error with %s of field '%s' from metadata %s";
 
     private String file;
     private String mapping;
