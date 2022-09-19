@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 @Getter
 @Setter
 public abstract class N2oBasePage extends N2oPage {
-    private String datasource;
+    private String datasourceId;
     private ActionsBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
