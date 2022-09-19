@@ -1,12 +1,13 @@
 {
   "name": "n2o-demo-client",
-  "version": "7.23.27",
+  "version": "1.0.0",
   "private": true,
   "homepage": ".",
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "server": "node server/dev.js"
+    "server": "node server/dev.js",
+    "clean": "rimraf ./build/ && rimraf ./node_modules/"
   },
   "dependencies": {
     "@atlaskit/select": "^1.2.0",
@@ -31,7 +32,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.9.0",
-    "n2o-framework": "^7.23.27",
+    "n2o-framework": "*",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -64,7 +65,8 @@
   "devDependencies": {
     "@babel/runtime": "^7.9.2",
     "body-parser": "^1.19.0",
-    "core-js": "^3.6.5"
+    "core-js": "^3.6.5",
+    "rimraf": "^3.0.2"
   },
   "peerDependencies": {
     "moment": "*",
