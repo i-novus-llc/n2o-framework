@@ -8,10 +8,15 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.http.client.MockClientHttpResponse;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -19,6 +24,7 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class SpringRestDataProviderEngineTest {
     @Test
@@ -45,7 +51,6 @@ public class SpringRestDataProviderEngineTest {
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
         actionEngine.invoke(dataProvider, request);
         assertThat(restTemplate.getQuery(), is("http://www.example.org/1/1"));
-
     }
 
     @Test
@@ -65,6 +70,34 @@ public class SpringRestDataProviderEngineTest {
             assertThat(cause.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
             assertThat(cause.getResponseBodyAsString(), is("Error"));
         }
+    }
+
+    /**
+     * Проверка проброса заголовков клиента
+     */
+    @Test
+    public void testHeadersForwarding() {
+        TestRestTemplate restTemplate = new TestRestTemplate("1");
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        N2oRestDataProvider invocation = new N2oRestDataProvider();
+        invocation.setQuery("http://www.example.org/");
+        invocation.setForwardedHeaders("testForwardedHeader");
+        invocation.setMethod(N2oRestDataProvider.Method.GET);
+        Map<String, Object> request = new HashMap<>();
+
+        HttpServletRequest httpServletRequest = new MockHttpServletRequest() {
+            @Override
+            public String getHeader(String name) {
+                if ("testForwardedHeader".equals(name))
+                    return "ForwardedHeaderValue";
+                return null;
+            }
+        };
+        ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(httpServletRequest);
+        RequestContextHolder.setRequestAttributes(servletRequestAttributes);
+        actionEngine.invoke(invocation, request);
+        assertEquals(Boolean.TRUE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testForwardedHeader"));
+        assertEquals(Boolean.FALSE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testNotForwardHeader"));
     }
 
     @Test
@@ -90,7 +123,7 @@ public class SpringRestDataProviderEngineTest {
 
         result = actionEngine.invoke(invocation, request);
         assertThat(result, instanceOf(DataSet.class));
-        assertThat(((DataSet)result).get("id"), is("1"));
+        assertThat(((DataSet) result).get("id"), is("1"));
 
         //response list
         restTemplate = new TestRestTemplate("[{\"id\" : \"1\"}]");
@@ -102,8 +135,8 @@ public class SpringRestDataProviderEngineTest {
 
         result = actionEngine.invoke(invocation, request);
         assertThat(result, instanceOf(List.class));
-        assertThat(((List)result).get(0), instanceOf(DataSet.class));
-        assertThat(((DataSet)((List)result).get(0)).get("id"), is("1"));
+        assertThat(((List) result).get(0), instanceOf(DataSet.class));
+        assertThat(((DataSet) ((List) result).get(0)).get("id"), is("1"));
 
         //response empty
         restTemplate = new TestRestTemplate("");
