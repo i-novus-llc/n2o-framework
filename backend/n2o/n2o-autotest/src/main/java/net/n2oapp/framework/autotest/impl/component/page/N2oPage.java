@@ -12,6 +12,7 @@ import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import net.n2oapp.framework.autotest.impl.component.application.N2oFooter;
 import net.n2oapp.framework.autotest.impl.component.application.N2oSidebar;
@@ -61,6 +62,11 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public Alerts alerts() {
         return N2oSelenide.collection(element().$$(".n2o-alerts-container .n2o-alert"), Alerts.class);
+    }
+
+    @Override
+    public Alerts alerts(Alert.Placement placement) {
+        return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", placement.name())), Alerts.class);
     }
 
     @Override

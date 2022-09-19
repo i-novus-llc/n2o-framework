@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.boot.graphql.N2oGraphQlException;
-import net.n2oapp.framework.sandbox.exception.SandboxAlertMessagesException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.NonUniqueResultException;
@@ -22,12 +21,9 @@ import javax.persistence.NonUniqueResultException;
 public class SandboxOperationExceptionHandler implements OperationExceptionHandler {
     @Override
     public N2oException handle(CompiledObject.Operation o, DataSet data, Exception e) {
-        if (e instanceof N2oGraphQlException) {
+        if (e instanceof N2oGraphQlException)
             return GraphQlUtil.constructErrorMessage((N2oGraphQlException) e);
-        }
-        if (e instanceof SandboxAlertMessagesException) {
-            return (SandboxAlertMessagesException) e;
-        }
+
         if (e instanceof N2oException) {
             if (e.getCause() instanceof NonUniqueResultException)
                 return notUniqueDialog(data);

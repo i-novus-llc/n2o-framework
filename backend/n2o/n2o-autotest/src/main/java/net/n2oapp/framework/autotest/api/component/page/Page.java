@@ -8,6 +8,7 @@ import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 
 /**
  * Страница для автотестирования
@@ -28,7 +29,10 @@ public interface Page extends Component {
 
     Popover popover(String title);
 
+    @Deprecated
     Alerts alerts();
+
+    Alerts alerts(Alert.Placement placement);
 
     void urlShouldMatches(String regexp);
 
