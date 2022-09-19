@@ -1112,7 +1112,6 @@
             <xs:enumeration value="filter"/>
             <xs:enumeration value="resolve"/>
             <xs:enumeration value="edit"/>
-            <xs:enumeration value="selected"/>
             <xs:enumeration value="datasource"/>
             <xs:enumeration value="multi"/>
         </xs:restriction>

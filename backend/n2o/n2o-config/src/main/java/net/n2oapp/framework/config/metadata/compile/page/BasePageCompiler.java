@@ -109,8 +109,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         compileToolbarAndAction(page, source, context, p, pageScope, routeScope, pageRoutes, object,
                 breadcrumb, metaActions, validationList, datasourcesScope, appDatasourcesIdScope);
 
-        if (source.getDatasource() != null)
-            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasource(), p));
+        if (source.getDatasourceId() != null)
+            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
 
         return page;
     }
