@@ -66,6 +66,11 @@
                         <xs:documentation>Выражение DESC направления сортировки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="additional-mapping" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Маппинг дополнительной информации.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

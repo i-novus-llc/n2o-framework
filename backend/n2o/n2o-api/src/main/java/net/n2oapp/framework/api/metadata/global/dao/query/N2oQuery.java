@@ -142,6 +142,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String countMapping;
         private String ascExpression;
         private String descExpression;
+        private String additionalMapping;
         private N2oInvocation invocation;
         private Type type;
 

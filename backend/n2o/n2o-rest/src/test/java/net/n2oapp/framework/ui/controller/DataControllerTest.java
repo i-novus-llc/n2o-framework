@@ -323,7 +323,8 @@ public class DataControllerTest extends DataControllerTestBase {
         N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory);
         invocationProcessor.setEnvironment(builder.getEnvironment());
 
-        N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
+        N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor),
+                new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null));
         Map<String, DataProcessing> moduleMap = new HashMap<>();
         moduleMap.put("validationModule", validationModule);
         N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor, new N2oOperationExceptionHandler());

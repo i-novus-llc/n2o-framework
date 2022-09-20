@@ -348,6 +348,10 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection
             selection,
                                                       N2oPreparedCriteria criteria) {
+        DataSet additionalInfo = new DataSet();
+        if (selection.getAdditionalMapping() != null)
+            additionalInfo.put(selection.getAdditionalMapping(), outMap(res, selection.getAdditionalMapping(), Object.class));
+
         Collection<?> result = outMap(res, selection.getResultMapping(), Collection.class);
         try {
             result = (Collection<?>) normalizeValue(
@@ -359,7 +363,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         List<DataSet> content = result.stream()
                 .map(obj -> mapFields(obj, query.getDisplayFields()))
                 .collect(Collectors.toList());
-        return getPage(content, criteria, () -> {
+        return getPage(content, criteria, additionalInfo, () -> {
             if (criteria.getSize() == 1) {
                 return 1;
             } else if (selection.getCountMapping() == null) {
@@ -482,17 +486,23 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private CollectionPage<DataSet> getPage(Collection<DataSet> content, N2oPreparedCriteria criteria,
-                                            Supplier<Integer> totalSupplier) {
+                                            DataSet additionalInfo, Supplier<Integer> totalSupplier) {
+        CollectionPage<DataSet> collectionPage;
         if (criteria.getFirst() == 0) {
             if (criteria.getSize() > content.size()) {
-                return new CollectionPage<>(content.size(), content, criteria);
+                collectionPage = new CollectionPage<>(content.size(), content, criteria);
+            } else {
+                collectionPage = new CollectionPage<>(totalSupplier.get(), content, criteria);
             }
-            return new CollectionPage<>(totalSupplier.get(), content, criteria);
+        } else if (!content.isEmpty() && criteria.getSize() > content.size()) {
+            collectionPage = new CollectionPage<>(criteria.getFirst() + content.size(), content, criteria);
+        } else {
+            collectionPage = new CollectionPage<>(totalSupplier.get(), content, criteria);
         }
-        if (!content.isEmpty() && criteria.getSize() > content.size()) {
-            return new CollectionPage<>(criteria.getFirst() + content.size(), content, criteria);
-        }
-        return new CollectionPage<>(totalSupplier.get(), content, criteria);
+
+        if (!additionalInfo.isEmpty())
+            collectionPage.setAdditionalInfo(additionalInfo);
+        return collectionPage;
     }
 
     @Override
