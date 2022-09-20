@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -70,7 +69,7 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
                 ? null : filtersMap.get(fieldId).get(type).getFilterId();
     }
 
-    public static class FilterEntry implements Map.Entry<String, FilterType>, Serializable {
+    public static class FilterEntry implements Map.Entry<String, FilterType>, Compiled {
         private String fieldId;
         private FilterType value;
 

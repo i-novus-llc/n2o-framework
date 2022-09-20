@@ -3,8 +3,7 @@ package net.n2oapp.framework.access.metadata.schema.user;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
-
-import java.io.Serializable;
+import net.n2oapp.framework.api.metadata.Source;
 
 /**
  * Точки доступа пользователя
@@ -12,7 +11,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class N2oUserAccess implements Serializable {
+public class N2oUserAccess implements Source {
 
     private String id;
     private AccessPoint[] accessPoints;

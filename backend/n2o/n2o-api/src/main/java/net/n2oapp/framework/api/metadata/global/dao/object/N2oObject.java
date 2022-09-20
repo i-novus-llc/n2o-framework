@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
@@ -81,7 +80,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
 
         @Getter
         @Setter
-        public static class Validations implements Serializable {
+        public static class Validations implements Source {
             private String[] whiteList;
             private String[] blackList;
             private Validation[] refValidations;
@@ -89,7 +88,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
 
             @Getter
             @Setter
-            public static class Validation implements Serializable {
+            public static class Validation implements Source {
                 private String refId;
             }
         }

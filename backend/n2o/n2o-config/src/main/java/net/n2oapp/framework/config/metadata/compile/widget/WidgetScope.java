@@ -7,13 +7,11 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.DatasourceUtil;
 
-import java.io.Serializable;
-
 /**
  * Информация о виджете при сборке внутренних метаданных
  */
 @Getter
-public class WidgetScope implements Serializable {
+public class WidgetScope {
     private String widgetId;
     private String datasourceId;
     private String clientWidgetId;

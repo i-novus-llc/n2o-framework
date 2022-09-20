@@ -2,12 +2,11 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
-
-import java.io.Serializable;
 
 /**
  * Исходная модель виджета карточки
@@ -22,7 +21,7 @@ public class N2oCards extends N2oAbstractListWidget {
 
     @Getter
     @Setter
-    public static class Col implements Serializable {
+    public static class Col implements Source {
         private Integer size;
         private Block[] blocks;
     }

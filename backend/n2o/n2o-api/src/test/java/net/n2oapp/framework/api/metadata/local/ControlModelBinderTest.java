@@ -2,15 +2,13 @@ package net.n2oapp.framework.api.metadata.local;
 
 import net.n2oapp.context.CacheTemplateByMapMock;
 import net.n2oapp.context.StaticSpringContext;
-
 import net.n2oapp.framework.api.metadata.control.N2oField;
-import org.junit.Before;
-import org.junit.Test;
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
 import net.n2oapp.framework.api.metadata.control.list.N2oClassifier;
-import net.n2oapp.framework.api.metadata.control.multi.N2oMultiClassifier;
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.metadata.local.view.widget.control.ControlModelBinder;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
@@ -39,7 +37,6 @@ public class ControlModelBinderTest {
         controls.add(new N2oInputText("id"));
         controls.add(new N2oClassifier("gender"));
         controls.add(new N2oInputText("gender.id"));
-        controls.add(new N2oMultiClassifier("genders"));
         controls.add(new N2oClassifier("nat.group"));
         controls.add(new N2oClassifier("nat.group.subgroup"));
         controls.add(new N2oDateInterval("bdate"));
