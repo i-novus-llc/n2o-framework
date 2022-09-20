@@ -6,6 +6,7 @@ import type { State as GlobalState } from '../../ducks/State'
 import { ModelPrefix } from '../datasource/const'
 
 import { hasError, validateModel } from './validateModel'
+import { ValidationsKey } from './IValidation'
 
 /**
  * Валидация datasource по стейту
@@ -23,7 +24,10 @@ export const validate = async (
     dispatch: (arg: unknown) => void = () => {},
     touched = false,
 ) => {
-    const validation = dataSourceValidationSelector(datasourceId)(state)
+    const validation = dataSourceValidationSelector(
+        datasourceId,
+        prefix === ModelPrefix.filter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
+    )(state)
     const models = dataSourceModelsSelector(datasourceId)(state)
     const model = models[prefix] || {}
 

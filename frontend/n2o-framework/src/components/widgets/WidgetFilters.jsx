@@ -72,10 +72,9 @@ class WidgetFilters extends React.Component {
             }
         } else if (!isEqual(reduxFormFilter, prevProps.reduxFormFilter)) {
             const { store } = this.context
-            const state = store.getState()
 
             setFilter(reduxFormFilter)
-            validate(state, this.formName)
+            validate(store.getState(), this.formName)
 
             if (searchOnChange) {
                 this.debouncedHandleFilter()
