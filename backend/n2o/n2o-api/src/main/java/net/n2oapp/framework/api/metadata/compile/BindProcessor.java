@@ -151,14 +151,6 @@ public interface BindProcessor {
     String resolveUrl(String url, List<ModelLink> links);
 
     /**
-     * Заменить в адресе относительные ссылки (../, ../../) на значения
-     *
-     * @param url Адрес
-     * @return Измененный адрес
-     */
-    String resolveRelativeUrl(String url);
-
-    /**
      * Пытается превратить ссылку в константное значение.
      *
      * @param link Ссылка

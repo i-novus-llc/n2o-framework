@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -18,6 +19,8 @@ import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+
+import java.util.Objects;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
@@ -79,8 +82,15 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      * @return breadcrumb текущей страницы
      */
     protected BreadcrumbList initBreadcrumb(N2oPage source, String pageName, PageContext context, CompileProcessor p) {
-        if (Boolean.TRUE.equals(context.getCustomBreadcrumb()))
-            return new BreadcrumbList(context.getBreadcrumbs());
+        if (Boolean.TRUE.equals(context.getCustomBreadcrumb())) {
+            BreadcrumbList breadcrumbList = new BreadcrumbList();
+            for (Breadcrumb breadcrumb : context.getBreadcrumbs()) {
+                breadcrumb.setPath(resolvePath(breadcrumb.getPath (), context));
+                breadcrumb.setModelLinks(context.getParentModelLinks());
+                breadcrumbList.add(breadcrumb);
+            }
+            return breadcrumbList;
+        }
 
         boolean needCreation = source.getHasBreadcrumbs() || p.resolve(property("n2o.api.page.breadcrumbs"), Boolean.class);
         if (needCreation) {
@@ -89,11 +99,28 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
             
             BreadcrumbList breadcrumbs = new BreadcrumbList();
             for (N2oBreadcrumb sourceCrumb : source.getBreadcrumbs()) {
-                breadcrumbs.add(new Breadcrumb(p.resolveJS(sourceCrumb.getLabel()), sourceCrumb.getPath()));
+                breadcrumbs.add(new Breadcrumb(
+                        p.resolveJS(sourceCrumb.getLabel()), resolvePath(sourceCrumb.getPath(), context)));
             }
             return breadcrumbs;
         }
         return null;
+    }
+
+    private String resolvePath(String path, PageContext context) {
+        if (!RouteUtil.hasRelativity(path))
+            return path;
+
+        Integer nestingLevel = RouteUtil.getRelativeLevel(path);
+        PageContext parent = context;
+        N2oException noRouteException = new N2oException("No parent route found for path \"" + path + "\"");
+        for (int i = 0; i < nestingLevel - 1; i++) {
+            parent = Objects.requireNonNullElseGet(parent.getParent(), () -> {throw noRouteException;});
+        }
+
+        if (parent.getParentRoute() == null)
+            throw noRouteException;
+        return parent.getParentRoute();
     }
 
     /**

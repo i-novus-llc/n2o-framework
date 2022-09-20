@@ -147,6 +147,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String parentRoute = normalize(route);
         route = normalize(route + actionRoute) + (actionRoute.endsWith("/") ? "/" : "");
         PageContext pageContext = constructContext(pageId, route);
+        if (context instanceof PageContext)
+            pageContext.setParent((PageContext) context);
         if (pageScope != null && pageScope.getWidgetIdClientDatasourceMap() != null)
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
         if (pageScope != null && pageScope.getTabIds() != null)

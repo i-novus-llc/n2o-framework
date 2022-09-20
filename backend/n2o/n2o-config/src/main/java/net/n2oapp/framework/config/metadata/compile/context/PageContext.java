@@ -158,6 +158,11 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Set<String> parentTabIds;
 
+    /**
+     * Контекст родительской страницы
+     */
+    private PageContext parent;
+
     public PageContext(String sourcePageId) {
         super(sourcePageId, N2oPage.class, Page.class);
     }

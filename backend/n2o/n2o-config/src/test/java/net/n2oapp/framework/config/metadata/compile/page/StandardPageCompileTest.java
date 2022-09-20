@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThrows;
 
 /**
  * Тестирование компиляции стандартной страницы
@@ -198,5 +200,45 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testNoBreadcrumb.page.xml")
                 .get(new PageContext("testNoBreadcrumb"));
         assertThat(page.getBreadcrumb(), nullValue());
+    }
+
+    @Test
+    public void testRelativeBreadcrumb() {
+        compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/first.page.xml")
+                .get(new PageContext("first", "/"));
+        compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/second.page.xml")
+                .get(route("/", Page.class));
+        compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/third.page.xml")
+                .get(route("/second", Page.class));
+        compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/fourth.page.xml")
+                .get(route("/second/third", Page.class));
+
+        Page third = routeAndGet("/second/third", Page.class);
+        assertThat(third.getBreadcrumb().size(), is(3));
+        assertThat(third.getBreadcrumb().get(0).getLabel(), is("first"));
+        assertThat(third.getBreadcrumb().get(0).getPath(), is("/"));
+        assertThat(third.getBreadcrumb().get(1).getLabel(), is("second"));
+        assertThat(third.getBreadcrumb().get(1).getPath(), is("/second"));
+        assertThat(third.getBreadcrumb().get(2).getLabel(), is("third"));
+        assertThat(third.getBreadcrumb().get(2).getPath(), nullValue());
+
+        Page fourth = routeAndGet("/second/third/fourth", Page.class);
+        assertThat(fourth.getBreadcrumb().size(), is(4));
+        assertThat(fourth.getBreadcrumb().get(0).getLabel(), is("openPageCrumb1"));
+        assertThat(fourth.getBreadcrumb().get(0).getPath(), is("/"));
+        assertThat(fourth.getBreadcrumb().get(1).getLabel(), is("openPageCrumb2"));
+        assertThat(fourth.getBreadcrumb().get(1).getPath(), is("/second"));
+        assertThat(fourth.getBreadcrumb().get(2).getLabel(), is("openPageCrumb3"));
+        assertThat(fourth.getBreadcrumb().get(2).getPath(), is("/second/third"));
+        assertThat(fourth.getBreadcrumb().get(3).getLabel(), is("openPageCrumb4"));
+        assertThat(fourth.getBreadcrumb().get(3).getPath(), nullValue());
+    }
+
+    @Test
+    public void testWrongRelativeBreadcrumb() {
+        N2oException exception = assertThrows(N2oException.class,
+                () -> compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/wrong.page.xml")
+                .get(new PageContext("wrong")));
+        assertThat(exception.getMessage(), is("No parent route found for path \"../\""));
     }
 }
