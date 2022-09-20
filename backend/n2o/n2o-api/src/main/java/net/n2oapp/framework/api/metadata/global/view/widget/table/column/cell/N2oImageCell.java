@@ -16,7 +16,7 @@ public class N2oImageCell extends N2oActionCell {
     private String data;
     private String description;
     private Position textPosition;
-    private ImageStatusElement[] statuses;
+    private N2oImageStatusElement[] statuses;
 
     public enum Position {
         top, left, right, bottom
