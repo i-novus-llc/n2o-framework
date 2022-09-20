@@ -1,20 +1,23 @@
-package net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell;
+package net.n2oapp.framework.api.metadata.meta.cell;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.UrlAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.Map;
 
 /**
- * Ячейка с изображением
+ * Клиентская модель ячейки с изображением
  */
 @Getter
 @Setter
-public class N2oImageCell extends N2oActionCell {
+public class ImageCell extends ActionCell implements UrlAware {
     @JsonProperty
     private String width;
     @JsonProperty
@@ -28,7 +31,7 @@ public class N2oImageCell extends N2oActionCell {
     @JsonProperty
     private String description;
     @JsonProperty
-    private Position textPosition;
+    private N2oImageCell.Position textPosition;
     @JsonProperty
     private ImageStatusElement[] statuses;
     @JsonProperty
@@ -37,8 +40,4 @@ public class N2oImageCell extends N2oActionCell {
     private Map<String, ModelLink> pathMapping;
     @JsonProperty
     private Map<String, ModelLink> queryMapping;
-
-    public enum Position {
-        top, left, right, bottom
-    }
 }

@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oSwitchCell;
+import net.n2oapp.framework.api.metadata.meta.cell.AbstractCell;
 import net.n2oapp.framework.api.metadata.meta.cell.SwitchCell;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -35,7 +35,7 @@ public class SwitchCellCompiler implements BaseSourceCompiler<SwitchCell, N2oSwi
         }
         cell.setSwitchFieldId(source.getValueFieldId());
         for (N2oSwitchCell.Case c : source.getCases()) {
-            N2oAbstractCell compile = p.compile(c.getItem(), context, p);
+            AbstractCell compile = p.compile(c.getItem(), context, p);
             cell.getSwitchList().put(c.getValue(), compile);
         }
         cell.setSwitchDefault(p.compile(source.getDefaultCase(), context, p));
