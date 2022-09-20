@@ -3,13 +3,13 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Source;
 
-import java.io.Serializable;
 import java.util.Map;
 
 @Getter
 @Setter
-public class N2oSwitch implements Serializable {
+public class N2oSwitch implements Source {
 
     private final static String KEY_VALUE_FORMAT = "%s:%s";
 
