@@ -222,13 +222,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
     private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
         if (source.getBreadcrumbs() != null) {
-            pageContext.setCustomBreadcrumb(true);
+            pageContext.setBreadcrumbFromParent(true);
             return Arrays.stream(source.getBreadcrumbs())
                     .map(crumb -> new Breadcrumb(crumb.getLabel(), crumb.getPath()))
                     .collect(Collectors.toList());
         }
 
-        pageContext.setCustomBreadcrumb(false);
+        pageContext.setBreadcrumbFromParent(false);
         return p.getScope(BreadcrumbList.class);
     }
 

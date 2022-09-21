@@ -71,7 +71,7 @@
                 <xs:sequence>
                     <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
                     <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
-                    <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded"><xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
+                    <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>
                                 Переопределение источников данных в открываемой странице
