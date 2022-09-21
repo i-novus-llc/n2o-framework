@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.serialize;
 
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.api.metadata.jackson.ComponentTypeResolver;
 import net.n2oapp.framework.api.metadata.jackson.SingletonTypeIdHandlerInstantiator;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -16,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -56,11 +56,16 @@ public class SerializeDeserializeTest extends SourceCompileTestBase {
     }
 
     @Test
+    public void serializePage4() throws IOException {
+        check("net/n2oapp/framework/config/metadata/serialize/serializePage4.page.xml", "serializePage4", N2oStandardPage.class);
+    }
+
+    @Test
     public void serializeSimplePage4Form() throws IOException {
         check("net/n2oapp/framework/config/metadata/serialize/simplePage4Form.page.xml", "simplePage4Form", N2oSimplePage.class);
     }
 
-    private void check(String xml, String id, Class<N2oSimplePage> sourceClass) throws IOException {
+    private void check(String xml, String id, Class<? extends N2oPage> sourceClass) throws IOException {
         InputStream json = read(xml).serialize().get(id, sourceClass);
         if (print) {
             InputStream jsonForPrint = read(xml).serialize().get(id, sourceClass);

@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.jackson.ComponentType;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.Map;
@@ -20,7 +19,6 @@ import java.util.Map;
  */
 @Getter
 @Setter
-@ComponentType
 public abstract class AbstractColumn implements IdAware, Source, ExtensionAttributesAware {
     private String id;
     private String src;

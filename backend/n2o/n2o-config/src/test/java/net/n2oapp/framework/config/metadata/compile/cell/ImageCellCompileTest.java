@@ -1,9 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -43,7 +44,7 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testImageCell.page.xml")
                 .get(new PageContext("testImageCell"));
         Table table = (Table) page.getWidget();
-        N2oImageCell cell = (N2oImageCell) table.getComponent().getCells().get(0);
+        ImageCell cell = (ImageCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("ImageCell"));
         assertThat(cell.getShape(), is(ShapeType.rounded));
         assertThat(cell.getWidth(), is("20px"));
@@ -56,15 +57,15 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getStatuses()[0].getSrc(), is("testSrc"));
         assertThat(cell.getStatuses()[0].getFieldId(), is("status1"));
         assertThat(cell.getStatuses()[0].getIcon(), is("`icon1`"));
-        assertThat(cell.getStatuses()[0].getPlace(), is(ImageStatusElement.Place.topRight));
+        assertThat(cell.getStatuses()[0].getPlace(), is(ImageStatusElementPlace.topRight));
         assertThat(cell.getStatuses()[1].getFieldId(), is("id"));
         assertThat(cell.getStatuses()[1].getSrc(), is("Status"));
         assertThat(cell.getStatuses()[1].getIcon(), is(nullValue()));
-        assertThat(cell.getStatuses()[1].getPlace(), is(ImageStatusElement.Place.topLeft));
+        assertThat(cell.getStatuses()[1].getPlace(), is(ImageStatusElementPlace.topLeft));
 
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
 
-        cell = (N2oImageCell) table.getComponent().getCells().get(1);
+        cell = (ImageCell) table.getComponent().getCells().get(1);
         assertThat(cell.getWidth(), nullValue());
         assertThat(cell.getTextPosition(), is(N2oImageCell.Position.right));
         assertThat(cell.getShape(), is(ShapeType.square));

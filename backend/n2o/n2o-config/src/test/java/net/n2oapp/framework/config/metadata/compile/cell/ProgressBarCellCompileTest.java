@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ProgressBarCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -39,14 +40,14 @@ public class ProgressBarCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testProgressBarCell.page.xml")
                 .get(new PageContext("testProgressBarCell"));
         Table table = (Table) page.getWidget();
-        N2oProgressBarCell cell = (N2oProgressBarCell) table.getComponent().getCells().get(0);
+        ProgressBarCell cell = (ProgressBarCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("ProgressBarCell"));
         assertThat(cell.getActive(), is(true));
         assertThat(cell.getColor(), is("info"));
         assertThat(cell.getSize(), is(N2oProgressBarCell.Size.large));
         assertThat(cell.getStriped(), is(true));
 
-        cell = (N2oProgressBarCell) table.getComponent().getCells().get(1);
+        cell = (ProgressBarCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("ProgressBarCell"));
         assertThat(cell.getSize(), is(N2oProgressBarCell.Size.normal));
     }

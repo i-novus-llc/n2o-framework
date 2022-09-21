@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
-import java.io.Serializable;
-
 /**
  * Клиентская модель страницы с поисковой строкой
  */
@@ -49,7 +47,7 @@ public class SearchablePage extends StandardPage {
             BUTTON
         }
 
-        public static class Button implements Serializable {
+        public static class Button implements Compiled {
         }
     }
 }

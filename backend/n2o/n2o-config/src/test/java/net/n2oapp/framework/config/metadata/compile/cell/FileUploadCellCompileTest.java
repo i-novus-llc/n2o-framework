@@ -44,7 +44,7 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSrc(), is("FileUploadCell"));
         assertThat(cell.getCssClass(), nullValue());
         assertThat(cell.getVisible(), nullValue());
-        assertThat(cell.getJsonVisible(), nullValue());
+        assertThat(cell.getVisible(), nullValue());
         assertThat(cell.getStyle(), nullValue());
         assertThat(cell.getMulti(), is(false));
         assertThat(cell.getAjax(), is(true));
@@ -65,10 +65,8 @@ public class FileUploadCellCompileTest extends SourceCompileTestBase {
         cell = (FileUploadCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("src"));
         assertThat(cell.getCssClass(), is("testClass"));
-        assertThat(cell.getVisible(), nullValue());
-        assertThat(cell.getJsonVisible(), is(true));
-        assertThat(cell.getStyle(), nullValue());
-        assertThat(cell.getReactStyle().size(), is(2));
+        assertThat(cell.getVisible(), is(true));
+        assertThat(cell.getStyle().size(), is(2));
         assertThat(cell.getMulti(), is(true));
         assertThat(cell.getAjax(), is(false));
         assertThat(cell.getUploadUrl(), is("/uploadDoc"));

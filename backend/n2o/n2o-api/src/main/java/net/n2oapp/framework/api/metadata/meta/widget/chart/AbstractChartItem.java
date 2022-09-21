@@ -1,9 +1,9 @@
 package net.n2oapp.framework.api.metadata.meta.widget.chart;
 
-import java.io.Serializable;
+import net.n2oapp.framework.api.metadata.Compiled;
 
 /**
  * Клиентская модель абстрактного элемента диаграммы
  */
-public abstract class AbstractChartItem implements Serializable {
+public abstract class AbstractChartItem implements Compiled {
 }

@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class AbstractButton extends Component implements IdAware, Serializable {
+public abstract class AbstractButton extends Component implements IdAware {
     @JsonProperty
     private String id;
     @JsonProperty

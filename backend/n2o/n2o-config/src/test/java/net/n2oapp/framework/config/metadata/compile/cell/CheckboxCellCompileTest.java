@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.cell.CheckboxCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,16 +41,15 @@ public class CheckboxCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testCheckboxCell.page.xml")
                 .get(new PageContext("testCheckboxCell"));
         Table table = (Table) page.getWidget();
-        N2oCheckboxCell cell = (N2oCheckboxCell) table.getComponent().getCells().get(0);
+        CheckboxCell cell = (CheckboxCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("CheckboxCell"));
-        assertThat(cell.getEnabled(), nullValue());
-        assertThat(cell.getActionId(), is("update"));
+        assertThat(cell.getDisabled(), nullValue());
 
-        cell = (N2oCheckboxCell) table.getComponent().getCells().get(1);
-        assertThat(cell.getEnabled(), is("false"));
+        cell = (CheckboxCell) table.getComponent().getCells().get(1);
+        assertThat(cell.getDisabled(), is("true"));
 
-        cell = (N2oCheckboxCell) table.getComponent().getCells().get(2);
-        assertThat(cell.getEnabled(), nullValue());
+        cell = (CheckboxCell) table.getComponent().getCells().get(2);
+        assertThat(cell.getDisabled(), nullValue());
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }
 }

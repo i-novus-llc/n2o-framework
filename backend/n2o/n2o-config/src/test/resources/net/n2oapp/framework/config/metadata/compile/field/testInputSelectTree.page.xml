@@ -2,11 +2,11 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <form>
         <fields>
-            <input-select-tree id="inputSelectTree" checking-strategy="child" max-tag-count="5" size="35"
-                               checkboxes="true" max-tag-text-length="20" placeholder="{select}">
-                <inheritance-nodes query-id="testSelect" parent-field-id="testParentFieldId"
-                                   has-children-field-id="testHasChildrenFieldId"/>
-            </input-select-tree>
+            <input-select-tree id="inputSelectTree" checking-strategy="child"
+                               max-tag-count="5" size="35"
+                               checkboxes="true" max-tag-text-length="20"
+                               placeholder="{select}" parent-field-id="testParentFieldId"
+                               has-children-field-id="testHasChildrenFieldId"/>
         </fields>
     </form>
 </simple-page>

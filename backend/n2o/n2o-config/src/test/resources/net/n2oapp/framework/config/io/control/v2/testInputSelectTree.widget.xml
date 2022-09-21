@@ -7,18 +7,6 @@
             <pre-filters>
                 <contains field-id="testId" value="value"/>
             </pre-filters>
-            <inheritance-nodes query-id="queryId"
-                               parent-field-id="testId"
-                               value-field-id="testId"
-                               icon-field-id="testId"
-                               label-field-id="testId"
-                               has-children-field-id="testId"
-                               enabled-field-id="testId"
-                               search-filter-id="testId">
-                <pre-filters>
-                    <pre-filter field-id="testId" value="value" type="contains"/>
-                </pre-filters>
-            </inheritance-nodes>
         </input-select-tree>
     </fields>
 </form>

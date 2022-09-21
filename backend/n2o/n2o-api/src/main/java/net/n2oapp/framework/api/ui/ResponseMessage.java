@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 @Getter
 @Setter
-public class ResponseMessage implements Serializable {
+public class ResponseMessage implements Compiled {
     @JsonProperty
     private String id;
     @JsonProperty

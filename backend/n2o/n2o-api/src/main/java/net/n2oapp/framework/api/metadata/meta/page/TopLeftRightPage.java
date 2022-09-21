@@ -3,8 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.page;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
+import net.n2oapp.framework.api.metadata.Compiled;
 
 /**
  * Клиентская модель страницы с тремя регионами
@@ -19,7 +18,7 @@ public class TopLeftRightPage extends StandardPage {
 
     @Getter
     @Setter
-    public static class Places implements Serializable {
+    public static class Places implements Compiled {
         @JsonProperty
         private RegionOptions top;
         @JsonProperty
@@ -29,7 +28,7 @@ public class TopLeftRightPage extends StandardPage {
 
         @Getter
         @Setter
-        public static class RegionOptions implements Serializable {
+        public static class RegionOptions implements Compiled {
             @JsonProperty
             private String width;
             @JsonProperty

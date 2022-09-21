@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTooltipListCell;
+import net.n2oapp.framework.api.metadata.meta.cell.TooltipListCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -13,15 +14,15 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция ячейки с тултипом и раскрывающимся текстовым списком
  */
 @Component
-public class TooltipListCellCompiler extends AbstractCellCompiler<N2oTooltipListCell, N2oTooltipListCell> {
+public class TooltipListCellCompiler extends AbstractCellCompiler<TooltipListCell, N2oTooltipListCell> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oTooltipListCell.class;
     }
 
     @Override
-    public N2oTooltipListCell compile(N2oTooltipListCell source, CompileContext<?, ?> context, CompileProcessor p) {
-        N2oTooltipListCell cell = new N2oTooltipListCell();
+    public TooltipListCell compile(N2oTooltipListCell source, CompileContext<?, ?> context, CompileProcessor p) {
+        TooltipListCell cell = new TooltipListCell();
         build(cell, source, context, p, property("n2o.api.cell.tooltip_list.src"));
         cell.setLabel(source.getLabel());
         cell.setFewLabel(source.getFewLabel());

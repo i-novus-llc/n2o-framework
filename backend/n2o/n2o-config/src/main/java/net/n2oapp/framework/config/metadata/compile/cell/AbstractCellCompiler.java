@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oActionCell;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.cell.AbstractCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ActionCell;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -23,7 +25,7 @@ import java.util.Map;
 /**
  * Компиляция абстрактной ячейки
  */
-public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends N2oAbstractCell>
+public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2oAbstractCell>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     protected D build(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, String defaultSrc) {
@@ -39,13 +41,13 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
         }
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));
         compiled.setCssClass(p.resolveJS(source.getCssClass()));
-        compiled.setReactStyle(StylesResolver.resolveStyles(source.getStyle()));
-        compiled.setJsonVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         compiled.setProperties(p.mapAttributes(source));
         return compiled;
     }
 
-    protected void compileAction(N2oActionCell compiled, N2oActionCell source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileAction(ActionCell compiled, N2oActionCell source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getActionId() != null || source.getN2oAction() != null) {
             N2oAction n2oAction = source.getN2oAction();
             if (source.getActionId() != null) {
@@ -60,12 +62,10 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
             if (n2oAction != null) {
                 action = p.compile(n2oAction, context, new ComponentScope(source));
             }
-            compiled.setActionId(source.getActionId());
             compiled.setAction(action);
 
             if (compiled.getAction() != null && compiled.getAction() instanceof LinkAction) {
                 LinkAction linkAction = ((LinkAction) compiled.getAction());
-                compiled.setActionId(null);
                 compiled.setUrl(linkAction.getUrl());
                 compiled.setTarget(linkAction.getTarget());
                 compiled.setPathMapping(linkAction.getPathMapping());

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTooltipListCell;
+import net.n2oapp.framework.api.metadata.meta.cell.TooltipListCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -40,7 +40,7 @@ public class TooltipListCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testTooltipListCell.page.xml")
                 .get(new PageContext("testTooltipListCell"));
         Table table = (Table) page.getWidget();
-        N2oTooltipListCell cell = (N2oTooltipListCell) table.getComponent().getCells().get(0);
+        TooltipListCell cell = (TooltipListCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("ListTextCell"));
         assertThat(cell.getFieldKey(), is("test1"));
         assertThat(cell.getFewLabel(), is("{size} объекта"));
@@ -48,7 +48,7 @@ public class TooltipListCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getDashedLabel(), is(false));
         assertThat(cell.getTrigger(), is(TriggerEnum.click));
 
-        cell = (N2oTooltipListCell) table.getComponent().getCells().get(1);
+        cell = (TooltipListCell) table.getComponent().getCells().get(1);
         assertThat(cell.getFieldKey(), is("test2"));
         assertThat(cell.getLabel(), is("Объектов {size} шт"));
         assertThat(cell.getTrigger(), is(TriggerEnum.hover));
