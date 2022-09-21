@@ -3,8 +3,6 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 
 /**
  * Исходная модель виджета Плитки
@@ -18,11 +16,5 @@ public class N2oTiles extends N2oAbstractListWidget {
     private Integer height;
     private Integer width;
     private N2oPagination pagination;
-    private Block[] content;
-
-    @Getter
-    @Setter
-    public static class Block extends AbstractColumn {
-        private N2oCell component;
-    }
+    private N2oBlock[] content;
 }

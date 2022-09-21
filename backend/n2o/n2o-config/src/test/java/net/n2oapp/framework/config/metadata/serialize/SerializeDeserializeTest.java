@@ -56,8 +56,8 @@ public class SerializeDeserializeTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void serializePage4Table() throws IOException {
-        check("net/n2oapp/framework/config/metadata/serialize/serializePage4Table.page.xml", "serializePage4Table", N2oStandardPage.class);
+    public void serializePage4() throws IOException {
+        check("net/n2oapp/framework/config/metadata/serialize/serializePage4.page.xml", "serializePage4", N2oStandardPage.class);
     }
 
     @Test
