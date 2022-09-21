@@ -46,6 +46,7 @@
     "yarn": "^1.22.0"
   },
   "devDependencies": {
+    "@jsdevtools/npm-publish": "^1.4.3",
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
     "execa": "^3.4.0",
