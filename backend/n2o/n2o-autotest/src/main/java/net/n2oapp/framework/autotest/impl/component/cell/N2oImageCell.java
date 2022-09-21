@@ -3,7 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageStatusElement;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 
@@ -59,16 +59,16 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shouldHaveStatus(N2oImageStatusElement.Place position, int index, String title) {
+    public void shouldHaveStatus(ImageStatusElementPlace position, int index, String title) {
         getStatus(position, index).$(".n2o-status__text").shouldBe(Condition.text(title));
     }
 
-    private SelenideElement getStatus(N2oImageStatusElement.Place position, int index) {
+    private SelenideElement getStatus(ImageStatusElementPlace position, int index) {
         return element().$$(".n2o-image-statuses ." + position).get(index);
     }
 
     @Override
-    public void statusShouldHaveIcon(N2oImageStatusElement.Place position, int index, String icon) {
+    public void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon) {
         if (icon != null && !icon.isEmpty()) {
             element().$(".n2o-image-statuses ." + position).$(".n2o-status__icon"+icon).should(Condition.exist);
         }
