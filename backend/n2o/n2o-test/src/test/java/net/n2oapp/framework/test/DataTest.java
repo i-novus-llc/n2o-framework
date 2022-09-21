@@ -272,8 +272,8 @@ public class DataTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(response.getBody().getAdditionalInfo(), instanceOf(Map.class));
-        assertThat(((Map<?, ?>) response.getBody().getAdditionalInfo()).get("resultPrice"), is(600));
+        assertThat(response.getBody().getAdditionalInfo(), instanceOf(Integer.class));
+        assertThat(response.getBody().getAdditionalInfo(), is(600));
     }
 
     @Getter

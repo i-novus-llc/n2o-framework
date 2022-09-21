@@ -348,9 +348,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection
             selection,
                                                       N2oPreparedCriteria criteria) {
-        DataSet additionalInfo = new DataSet();
+        Object additionalInfo = null;
         if (selection.getAdditionalMapping() != null)
-            additionalInfo.put(selection.getAdditionalMapping(), outMap(res, selection.getAdditionalMapping(), Object.class));
+            additionalInfo = outMap(res, selection.getAdditionalMapping(), Object.class);
 
         Collection<?> result = outMap(res, selection.getResultMapping(), Collection.class);
         try {
@@ -486,7 +486,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private CollectionPage<DataSet> getPage(Collection<DataSet> content, N2oPreparedCriteria criteria,
-                                            DataSet additionalInfo, Supplier<Integer> totalSupplier) {
+                                            Object additionalInfo, Supplier<Integer> totalSupplier) {
         CollectionPage<DataSet> collectionPage;
         if (criteria.getFirst() == 0) {
             if (criteria.getSize() > content.size()) {
@@ -500,7 +500,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             collectionPage = new CollectionPage<>(totalSupplier.get(), content, criteria);
         }
 
-        if (!additionalInfo.isEmpty())
+        if (additionalInfo != null)
             collectionPage.setAdditionalInfo(additionalInfo);
         return collectionPage;
     }
