@@ -4,7 +4,7 @@ import {
 } from 'recompose'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import cloneDeep from 'lodash/cloneDeep'
+import merge from 'deepmerge'
 import { getFormValues, initialize } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
@@ -48,13 +48,21 @@ export const mapStateToProps = createStructuredSelector({
     reduxFormValues: (state, { modelId, widgetId }) => getFormValues(modelId || widgetId)(state) || {},
 })
 
-const fakeInitial = {}
+const additionalMerge = (target, source) => merge(
+    target || {},
+    source || {},
+    {
+        arrayMerge: (destinationArray, sourceArray) => sourceArray,
+    },
+)
+
+const mergeInitial = (target, source) => additionalMerge(additionalMerge({}, target), source)
 
 class Container extends React.Component {
     constructor(props) {
         super(props)
-        const { activeModel, datasource } = props
-        const initialValues = cloneDeep(isEmpty(activeModel) ? datasource : activeModel)
+        const { resolveModel, datasource } = props
+        const initialValues = mergeInitial(resolveModel, datasource)
         const { widgetId, fieldsets, validation, store } = this.props
         const fields = getFieldsKeys(fieldsets)
 
@@ -65,53 +73,41 @@ class Container extends React.Component {
         }
     }
 
-    componentDidUpdate({
-        datasource: prevDatasource,
-        reduxFormValues: prevValues,
-        activeModel: prevModel,
-    }) {
+    componentDidUpdate(prevProps) {
         const {
-            reduxFormValues,
-            dispatch,
-            widgetId,
             datasource,
+            resolveModel,
+            reduxFormValues,
             activeModel,
+            dispatch,
             modelId,
-            modelPrefix,
-            onSetModel,
+            widgetId,
         } = this.props
         const { initialValues } = this.state
+        let initial
+        let changed = false
 
-        if (!isEqual(datasource, prevDatasource)) {
-            // если предыдущий список пустой, и есть активная модель, то это defaultValues и надо их мержить
-            const model = isEmpty(prevDatasource) && activeModel
-                ? { ...activeModel, ...datasource }
-                : datasource
-
-            if (model) {
-                this.setState(() => ({ initialValues: cloneDeep(model) }), () => {
-                    onSetModel(modelPrefix, null, model)
-                    // фикс, чтобы отрабатывала master-detail зависимость при ините edit формы
-                    if (modelPrefix === PREFIXES.edit) {
-                        onSetModel(PREFIXES.resolve, null, model)
-                    }
-                })
-            }
-        } else if (
-            !isEqual(reduxFormValues, prevValues) &&
-            !isEqual(reduxFormValues, activeModel)
+        if (!isEqual(datasource, prevProps.datasource)) {
+            initial = mergeInitial(resolveModel, datasource)
+            changed = true
+        }
+        if (
+            !isEqual(resolveModel || {}, prevProps.resolveModel) &&
+            !isEqual(activeModel, reduxFormValues) &&
+            isEqual(reduxFormValues, prevProps.reduxFormValues)
         ) {
-            // Поменялись данные в форме (onChange) - актуализируем активную модель
-            onSetModel(modelPrefix, null, {
-                ...(activeModel || {}),
-                ...reduxFormValues,
-            })
-        } else if (!isEqual(activeModel, prevModel) && !isEqual(activeModel, reduxFormValues)) {
-            // поменялась активная модель и она отличается от того что в форме (copyActyon / setValue-dependency) - обновляем данные в форме
-            // костыль для того чтобы редакс-форма подхватила новую модель, даже если она совпадает с предыдущим initialValues
-            this.setState({ initialValues: fakeInitial })
-        } else if (initialValues === fakeInitial) {
-            this.setState({ initialValues: cloneDeep(activeModel) })
+            if (!isEmpty(activeModel)) {
+                initial = activeModel
+            } else if (!isEmpty(resolveModel)) {
+                initial = resolveModel
+            } else {
+                initial = mergeInitial(datasource, isEmpty(activeModel) ? resolveModel : activeModel)
+            }
+
+            changed = true
+        }
+        if (changed && !isEqual(initialValues, initial)) {
+            this.setState({ initialValues: initial })
             dispatch(initialize(modelId || widgetId, initialValues))
         }
     }
