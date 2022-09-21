@@ -6,6 +6,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BinaryOperator;
@@ -52,6 +53,16 @@ public abstract class QueryUtil {
             if (hasText(forwardedHeaderValue))
                 headers.add(forwardedHeaderName, forwardedHeaderValue);
         }
+    }
+
+    public static Set<String> parseHeadersString(String headers) {
+        Set<String> result = new HashSet<>();
+        for (String forwardedHeaderName : headers.trim().split(",")) {
+            forwardedHeaderName = forwardedHeaderName.trim();
+            if (hasText(forwardedHeaderName))
+                result.add(forwardedHeaderName);
+        }
+        return result;
     }
 
     public static String replacePlaceholders(String baseQuery, Predicate<String> matcher, Function<String, Object> resolver) {

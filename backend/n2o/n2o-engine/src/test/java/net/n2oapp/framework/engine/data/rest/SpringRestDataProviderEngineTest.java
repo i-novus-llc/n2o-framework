@@ -93,10 +93,25 @@ public class SpringRestDataProviderEngineTest {
                 return null;
             }
         };
-        ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(httpServletRequest);
-        RequestContextHolder.setRequestAttributes(servletRequestAttributes);
+
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(httpServletRequest));
         actionEngine.invoke(invocation, request);
-        assertEquals(Boolean.TRUE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testForwardedHeader"));
+        assertEquals("ForwardedHeaderValue", ((HttpHeaders) restTemplate.getRequestHeader()).get("testForwardedHeader").get(0));
+        assertEquals(Boolean.FALSE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testNotForwardHeader"));
+
+        httpServletRequest = new MockHttpServletRequest() {
+            @Override
+            public String getHeader(String name) {
+                if ("testHeaderFromProperty1".equals(name))
+                    return "testHeaderFromProperty1Value";
+                return null;
+            }
+        };
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(httpServletRequest));
+        invocation.setForwardedHeadersSet(null);
+        actionEngine.setForwardHeaders("testHeaderFromProperty1");
+        actionEngine.invoke(invocation, request);
+        assertEquals("testHeaderFromProperty1Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("testHeaderFromProperty1").get(0));
         assertEquals(Boolean.FALSE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testNotForwardHeader"));
     }
 

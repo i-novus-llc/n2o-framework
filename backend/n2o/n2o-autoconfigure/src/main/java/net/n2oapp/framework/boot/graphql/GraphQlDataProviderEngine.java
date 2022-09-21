@@ -24,6 +24,8 @@ import java.util.regex.Pattern;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.escapeJson;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlString;
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
+import static org.springframework.util.CollectionUtils.isEmpty;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * GraphQL провайдер данных
@@ -43,6 +45,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private String endpoint;
     @Value("${n2o.engine.graphql.access-token:}")
     private String accessToken;
+    @Value("${n2o.engine.graphql.forward-headers:}")
+    private String forwardHeaders;
     @Value("${n2o.engine.graphql.filter-separator:}")
     private String defaultFilterSeparator;
     @Value("${n2o.engine.graphql.sorting-separator:}")
@@ -91,6 +95,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         String endpoint = initEndpoint(invocation.getEndpoint());
 
         HttpHeaders headers = new HttpHeaders();
+        resolveForwardedHeaders(invocation);
         copyForwardedHeaders(invocation.getForwardedHeadersSet(), headers);
         headers.setContentType(MediaType.APPLICATION_JSON);
         addAuthorization(invocation, headers);
@@ -125,6 +130,19 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             throw new N2oGraphQlException(((DataSet) response.getList(RESPONSE_ERROR_KEY).get(0)).getString(RESPONSE_ERROR_MESSAGE_KEY),
                     query, response);
         }
+    }
+
+    /**
+     * Парсинг и выбор заголовков для пересылки
+     *
+     * @param invocation Провайдер данных
+     */
+    private void resolveForwardedHeaders(N2oGraphQlDataProvider invocation) {
+        if (!isEmpty(invocation.getForwardedHeadersSet())) return;
+        if (hasText(invocation.getForwardedHeaders()))
+            invocation.setForwardedHeadersSet(QueryUtil.parseHeadersString(invocation.getForwardedHeaders()));
+        else if (hasText(forwardHeaders))
+            invocation.setForwardedHeadersSet(parseHeadersString(forwardHeaders));
     }
 
     /**

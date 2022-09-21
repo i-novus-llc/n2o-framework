@@ -107,8 +107,9 @@ public class GraphQlDataProviderEngineTest {
      */
     @Test
     public void testHeadersForwarding() {
-        String queryPath = "/n2o/data/test/graphql/query/headersForwarding";
-        String url = "http://localhost:" + appPort + queryPath;
+        String headersForwardingQueryPath = "/n2o/data/test/graphql/query/headersForwarding";
+        String headersForwardingFromPropertiesQueryPath = "/n2o/data/test/graphql/query/headerForwardingFromProperties";
+        String url = "http://localhost:" + appPort + headersForwardingQueryPath;
 
         // mocked data
         Map<String, Object> data = new HashMap<>();
@@ -131,7 +132,22 @@ public class GraphQlDataProviderEngineTest {
 
         verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         HttpHeaders httpHeaders = httpEntityCaptor.getValue().getHeaders();
-        assertEquals(Boolean.TRUE, httpHeaders.containsKey("testForwardedHeader"));
+        assertEquals("ForwardedHeaderValue", httpHeaders.get("testForwardedHeader").get(0));
+        assertEquals(Boolean.FALSE, httpHeaders.containsKey("testNotForwardHeader"));
+
+        headers.add("testHeaderFromProperty1", "testHeaderFromProperty1Value");
+        headers.add("testHeaderFromProperty2", "testHeaderFromProperty2Value");
+
+        url = "http://localhost:" + appPort + headersForwardingFromPropertiesQueryPath;
+
+        restTemplate.exchange(
+                url, HttpMethod.GET, new HttpEntity<>(headers), GetDataResponse.class);
+
+        verify(restTemplateMock, times(2)).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
+        httpHeaders = httpEntityCaptor.getValue().getHeaders();
+        assertEquals("testHeaderFromProperty1Value", httpHeaders.get("testHeaderFromProperty1").get(0));
+        assertEquals("testHeaderFromProperty2Value", httpHeaders.get("testHeaderFromProperty2").get(0));
+        assertEquals(Boolean.FALSE, httpHeaders.containsKey("testForwardedHeader"));
         assertEquals(Boolean.FALSE, httpHeaders.containsKey("testNotForwardHeader"));
     }
 

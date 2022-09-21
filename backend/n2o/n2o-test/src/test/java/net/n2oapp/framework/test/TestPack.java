@@ -41,6 +41,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 // graphql
                 new RouteInfo("/test/graphql/query/variables", getTestGraphqlQueryContext("testGraphqlVariables", "/test/graphql/query/variables")),
                 new RouteInfo("/test/graphql/query/headersForwarding", getTestGraphqlQueryContext("testGraphqlHeaderForwarding", "/test/graphql/query/headersForwarding")),
+                new RouteInfo("/test/graphql/query/headerForwardingFromProperties", getTestGraphqlQueryContext("testGraphqlHeaderForwardingFromProperties", "/test/graphql/query/headerForwardingFromProperties")),
                 new RouteInfo("/test/graphql/mutationVariables", getTestInsertGraphqlContext("testVariables", "/test/graphql/mutationVariables")),
                 new RouteInfo("/test/graphql/mutationPlaceholders", getTestInsertGraphqlContext("testPlaceholders", "/test/graphql/mutationPlaceholders")),
                 new RouteInfo("/test/graphql/select", getTestGraphqlQueryContext("testGraphqlSelect", "/test/graphql/select")),
