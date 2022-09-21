@@ -20,6 +20,11 @@ import java.util.*;
 public class PageContext extends BaseCompileContext<Page, N2oPage> {
 
     private List<Breadcrumb> breadcrumbs;
+
+    /**
+     * Задан ли бредкрамб на родительской странице
+     */
+    private Boolean breadcrumbFromParent;
     /**
      * Операция на кнопке отправки формы
      */

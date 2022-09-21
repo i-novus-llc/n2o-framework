@@ -553,4 +553,20 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(link.getUrl(), is("#/testSimpleOpenPage/view"));
         assertThat(link.getTarget(), is(Target.newWindow));
     }
+
+    @Test
+    public void testCustomBreadcrumb() {
+        compile("net/n2oapp/framework/config/metadata/compile/action/testCustomBreadcrumb.page.xml")
+                .get(new PageContext("testCustomBreadcrumb"));
+        PageContext context = (PageContext) route("/testCustomBreadcrumb/open", Page.class);
+        SimplePage openPage = (SimplePage) read().compile().get(context);
+
+        assertThat(openPage.getBreadcrumb().size(), is(3));
+        assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("First"));
+        assertThat(openPage.getBreadcrumb().get(0).getPath(), is("/"));
+        assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("Second"));
+        assertThat(openPage.getBreadcrumb().get(1).getPath(), is("/:id/page2"));
+        assertThat(openPage.getBreadcrumb().get(2).getLabel(), is("Third {name}"));
+        assertThat(openPage.getBreadcrumb().get(2).getPath(), nullValue());
+    }
 }

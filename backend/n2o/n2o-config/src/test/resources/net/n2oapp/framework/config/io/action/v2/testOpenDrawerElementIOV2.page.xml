@@ -13,6 +13,9 @@
                          submit-action-type="copy" target-model="resolve" target-datasource="table"
                          target-field-id="test" copy-mode="replace" close-on-escape="false"
                          submit-message-on-success="true" submit-message-on-fail="false">
+                <breadcrumbs>
+                    <crumb label="Первая страница" path="/"/>
+                </breadcrumbs>
             </open-drawer>
         </action>
     </actions>
