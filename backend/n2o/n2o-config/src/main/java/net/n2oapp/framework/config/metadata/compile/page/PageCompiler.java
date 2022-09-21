@@ -82,7 +82,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      * @return breadcrumb текущей страницы
      */
     protected BreadcrumbList initBreadcrumb(N2oPage source, String pageName, PageContext context, CompileProcessor p) {
-        if (Boolean.TRUE.equals(context.getCustomBreadcrumb())) {
+        if (Boolean.TRUE.equals(context.getBreadcrumbFromParent())) {
             BreadcrumbList breadcrumbList = new BreadcrumbList();
             for (Breadcrumb breadcrumb : context.getBreadcrumbs()) {
                 breadcrumb.setPath(resolvePath(breadcrumb.getPath (), context));
