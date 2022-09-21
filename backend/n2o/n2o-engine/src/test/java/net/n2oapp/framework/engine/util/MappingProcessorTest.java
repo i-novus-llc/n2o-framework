@@ -203,6 +203,9 @@ public class MappingProcessorTest {
         assertThat(MappingProcessor.normalizeValue(obj, "#this", data, parser, beanFactory), is("test"));
         assertThat(MappingProcessor.normalizeValue(obj, "#data['name']", data, parser, beanFactory), is("John"));
         assertThat(MappingProcessor.normalizeValue(obj, "@myBean.call()", data, parser, beanFactory), is("Doe"));
+
+        assertThrows(N2oSpelException.class,
+                () -> MappingProcessor.normalizeValue(obj, "#this + '100", data, parser, beanFactory));
     }
 
     @Test

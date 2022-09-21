@@ -477,7 +477,12 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         if (field.getNormalize() != null) {
             Object obj = resultDataSet.get(field.getId());
             obj = contextProcessor.resolve(obj);
-            resultDataSet.put(field.getId(), normalizeValue(obj, field.getNormalize(), resultDataSet, parser, applicationContext));
+            try {
+                resultDataSet.put(field.getId(), normalizeValue(obj, field.getNormalize(), resultDataSet, parser, applicationContext));
+            } catch (N2oSpelException e) {
+                e.setFieldId(field.getId());
+                throw e;
+            }
         }
     }
 

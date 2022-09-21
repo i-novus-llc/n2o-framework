@@ -202,8 +202,12 @@ public class MappingProcessor {
             context.setVariable("data", allData);
         if (beanFactory != null)
             context.setBeanResolver(new BeanFactoryResolver(beanFactory));
-        Expression exp = parser.parseExpression(normalizer);
-        return exp.getValue(context);
+        try {
+            Expression exp = parser.parseExpression(normalizer);
+            return exp.getValue(context);
+        } catch (Exception e) {
+            throw new N2oSpelException(normalizer, e);
+        }
     }
 
     /**
