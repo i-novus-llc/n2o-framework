@@ -5,7 +5,6 @@ import net.n2oapp.framework.access.metadata.SecurityPageBinder;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.boot.ApplicationBuilderConfigurer;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.dataprovider.DataProviderForwardHeadersTransformer;
 import net.n2oapp.framework.config.metadata.compile.query.MongodbEngineQueryTransformer;
 import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -33,6 +32,6 @@ public class SandboxApplicationBuilderConfigurer implements ApplicationBuilderCo
         builder.binders(new SecurityPageBinder(securityProvider));
         builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
 
-        builder.transformers(new TestEngineQueryTransformer(), new MongodbEngineQueryTransformer(), new DataProviderForwardHeadersTransformer());
+        builder.transformers(new TestEngineQueryTransformer(), new MongodbEngineQueryTransformer());
     }
 }
