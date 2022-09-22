@@ -1,11 +1,21 @@
 package net.n2oapp.framework.engine.data;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Собирает данные для вызова InvocationEngine
@@ -25,6 +35,36 @@ public abstract class QueryUtil {
                 q = q.substring(0, q.length() - 1);
         }
         return q;
+    }
+
+    /**
+     * Копирование заголовков из запроса клиента
+     *
+     * @param forwardedHeaders Заголовки которые надо скопировать
+     * @param headers          Заголовки запроса к сервису
+     */
+    public static void copyForwardedHeaders(Set<String> forwardedHeaders, HttpHeaders headers) {
+        if (isEmpty(forwardedHeaders))
+            return;
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        for (String forwardedHeaderName : forwardedHeaders) {
+            String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
+            if (hasText(forwardedHeaderValue))
+                headers.add(forwardedHeaderName, forwardedHeaderValue);
+        }
+    }
+
+    public static Set<String> parseHeadersString(String headers) {
+        if (!hasText(headers))
+            return null;
+        Set<String> result = new HashSet<>();
+        for (String forwardedHeaderName : headers.trim().split(",")) {
+            forwardedHeaderName = forwardedHeaderName.trim();
+            if (hasText(forwardedHeaderName))
+                result.add(forwardedHeaderName);
+        }
+        return result;
     }
 
     public static String replacePlaceholders(String baseQuery, Predicate<String> matcher, Function<String, Object> resolver) {

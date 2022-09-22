@@ -90,6 +90,11 @@
                 <xs:documentation>Порт прокси</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="forwarded-headers" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовки, которые должны быть скопированы из запроса клиента</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="javaDefinition">
@@ -334,6 +339,11 @@
         <xs:attribute name="size-mapping" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Маппинг поля размера выборки в запросе</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="forwarded-headers" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовки, которые должны быть скопированы из запроса клиента</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
