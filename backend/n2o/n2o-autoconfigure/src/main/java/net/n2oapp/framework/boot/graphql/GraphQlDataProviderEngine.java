@@ -25,7 +25,6 @@ import static net.n2oapp.framework.boot.graphql.GraphQlUtil.escapeJson;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlString;
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
 import static org.springframework.util.CollectionUtils.isEmpty;
-import static org.springframework.util.StringUtils.hasText;
 
 /**
  * GraphQL провайдер данных
@@ -139,10 +138,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private void resolveForwardedHeaders(N2oGraphQlDataProvider invocation) {
         if (!isEmpty(invocation.getForwardedHeadersSet())) return;
-        if (hasText(invocation.getForwardedHeaders()))
-            invocation.setForwardedHeadersSet(QueryUtil.parseHeadersString(invocation.getForwardedHeaders()));
-        else if (hasText(forwardHeaders))
-            invocation.setForwardedHeadersSet(parseHeadersString(forwardHeaders));
+        String headers = invocation.getForwardedHeaders() != null ? invocation.getForwardedHeaders() : forwardHeaders;
+        invocation.setForwardedHeadersSet(parseHeadersString(headers));
     }
 
     /**

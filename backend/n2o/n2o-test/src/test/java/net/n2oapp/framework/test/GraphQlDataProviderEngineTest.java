@@ -108,7 +108,7 @@ public class GraphQlDataProviderEngineTest {
     @Test
     public void testHeadersForwarding() {
         String headersForwardingQueryPath = "/n2o/data/test/graphql/query/headersForwarding";
-        String headersForwardingFromPropertiesQueryPath = "/n2o/data/test/graphql/query/headerForwardingFromProperties";
+        String headersForwardingFromPropertiesQueryPath = "/n2o/data/test/graphql/select";
         String url = "http://localhost:" + appPort + headersForwardingQueryPath;
 
         // mocked data

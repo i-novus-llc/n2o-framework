@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
-import net.n2oapp.framework.engine.data.QueryUtil;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +35,6 @@ import java.util.function.BinaryOperator;
 
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
 import static org.springframework.util.CollectionUtils.isEmpty;
-import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Сервис вызова Spring RestTemplate
@@ -185,10 +183,8 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
      */
     private void resolveForwardedHeaders(N2oRestDataProvider invocation) {
         if (!isEmpty(invocation.getForwardedHeadersSet())) return;
-        if (hasText(invocation.getForwardedHeaders()))
-            invocation.setForwardedHeadersSet(QueryUtil.parseHeadersString(invocation.getForwardedHeaders()));
-        else if (hasText(forwardHeaders))
-            invocation.setForwardedHeadersSet(parseHeadersString(forwardHeaders));
+        String headers = invocation.getForwardedHeaders() != null ? invocation.getForwardedHeaders() : forwardHeaders;
+        invocation.setForwardedHeadersSet(parseHeadersString(headers));
     }
 
     private String resolve(String str, Map<String, Object> args, BinaryOperator<String> reducer) {

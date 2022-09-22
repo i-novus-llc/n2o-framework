@@ -56,6 +56,8 @@ public abstract class QueryUtil {
     }
 
     public static Set<String> parseHeadersString(String headers) {
+        if (!hasText(headers))
+            return null;
         Set<String> result = new HashSet<>();
         for (String forwardedHeaderName : headers.trim().split(",")) {
             forwardedHeaderName = forwardedHeaderName.trim();
