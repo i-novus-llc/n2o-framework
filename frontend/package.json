@@ -2,10 +2,6 @@
   "name": "n2o-frontend",
   "private": true,
   "version": "1.0.0",
-  "engines": {
-    "node": ">=14.0.0",
-    "npm": ">=6.0.0"
-  },
   "workspaces": [
     "n2o-framework",
     "n2o-simple-project",
