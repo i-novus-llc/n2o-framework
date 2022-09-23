@@ -67,7 +67,7 @@ public class N2oResponse {
         }
     }
 
-    public void setResponseMessages(List<ResponseMessage> messageList, String widgetId, Boolean stacked) {
+    public void setResponseMessages(List<ResponseMessage> messageList, String widgetId) {
         if (getMeta() == null)
             setMeta(new MetaSaga());
         getMeta().setMessages(null);
@@ -77,7 +77,6 @@ public class N2oResponse {
 
         if (messageList.stream().anyMatch(m -> m.getField() == null)) {
             getMeta().setAlert(new AlertSaga());
-            getMeta().getAlert().setStacked(stacked);
         }
         messageList.forEach(m -> addResponseMessage(m, widgetId));
     }

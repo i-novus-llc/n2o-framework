@@ -102,7 +102,7 @@ public class SandboxDataProviderTest {
 
         ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request);
         assertThat(response.getStatusCodeValue(), is(200));
-        assertThat(response.getBody().getCount(), is(4));
+        assertThat(response.getBody().getPaging().getCount(), is(4));
         assertThat(response.getBody().getList().get(0).get("id"), is(1L));
         assertThat(response.getBody().getList().get(1).get("id"), is(2L));
         assertThat(response.getBody().getList().get(2).get("id"), is(3L));

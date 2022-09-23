@@ -3,6 +3,7 @@ package net.n2oapp.framework.boot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.*;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.boot.graphql.GraphQlDataProviderEngine;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -103,8 +104,8 @@ public class N2oEngineConfiguration {
     }
 
     @Bean
-    public N2oValidationModule validationModule(ValidationProcessor processor) {
-        return new N2oValidationModule(processor);
+    public N2oValidationModule validationModule(ValidationProcessor processor, AlertMessageBuilder alertMessageBuilder) {
+        return new N2oValidationModule(processor, alertMessageBuilder);
     }
 
     @Bean
