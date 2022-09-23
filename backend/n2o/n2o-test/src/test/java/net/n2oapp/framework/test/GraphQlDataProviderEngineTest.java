@@ -16,10 +16,10 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -51,7 +51,6 @@ public class GraphQlDataProviderEngineTest {
     private RestTemplate restTemplateMock;
 
     private RestTemplate restTemplate = new RestTemplate();
-
 
     @BeforeEach
     public void before() {
@@ -101,6 +100,55 @@ public class GraphQlDataProviderEngineTest {
         assertEquals(2, result.getList().get(0).get("id"));
         assertEquals("t\"es\"t", result.getList().get(0).get("personName"));
         assertEquals(20, result.getList().get(0).get("age"));
+    }
+
+    /**
+     * Проверка проброса заголовков клиента
+     */
+    @Test
+    public void testHeadersForwarding() {
+        String headersForwardingQueryPath = "/n2o/data/test/graphql/query/headersForwarding";
+        String headersForwardingFromPropertiesQueryPath = "/n2o/data/test/graphql/select";
+        String url = "http://localhost:" + appPort + headersForwardingQueryPath;
+
+        // mocked data
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> persons = new HashMap<>();
+        persons.put("persons", Collections.singletonList(
+                new HashMap<>(Map.of("id", 2,
+                        "name", "test"))));
+        data.put("data", persons);
+
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("testForwardedHeader", "ForwardedHeaderValue");
+        headers.add("testNotForwardHeader", "NotForwardHeaderValue");
+
+
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        restTemplate.exchange(
+                url, HttpMethod.GET, new HttpEntity<>(headers), GetDataResponse.class);
+
+        verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
+        HttpHeaders httpHeaders = httpEntityCaptor.getValue().getHeaders();
+        assertEquals("ForwardedHeaderValue", httpHeaders.get("testForwardedHeader").get(0));
+        assertEquals(Boolean.FALSE, httpHeaders.containsKey("testNotForwardHeader"));
+
+        headers.add("testHeaderFromProperty1", "testHeaderFromProperty1Value");
+        headers.add("testHeaderFromProperty2", "testHeaderFromProperty2Value");
+
+        url = "http://localhost:" + appPort + headersForwardingFromPropertiesQueryPath;
+
+        restTemplate.exchange(
+                url, HttpMethod.GET, new HttpEntity<>(headers), GetDataResponse.class);
+
+        verify(restTemplateMock, times(2)).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
+        httpHeaders = httpEntityCaptor.getValue().getHeaders();
+        assertEquals("testHeaderFromProperty1Value", httpHeaders.get("testHeaderFromProperty1").get(0));
+        assertEquals("testHeaderFromProperty2Value", httpHeaders.get("testHeaderFromProperty2").get(0));
+        assertEquals(Boolean.FALSE, httpHeaders.containsKey("testForwardedHeader"));
+        assertEquals(Boolean.FALSE, httpHeaders.containsKey("testNotForwardHeader"));
     }
 
     /**
@@ -480,7 +528,6 @@ public class GraphQlDataProviderEngineTest {
         // graphql payload
         assertEquals(expectedQuery, payloadValue.get("query"));
     }
-
 
     @Getter
     @Setter

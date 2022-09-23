@@ -145,7 +145,7 @@ const NavItemContainer = ({
         dropdownItems = item.items.map((child = {}) => {
             if (child.items) {
                 const nestedDropdownItems = (
-                    <DropdownMenu className="item-level-3" right>
+                    <DropdownMenu className="item-level-3" flip>
                         {child.items.map(nestedChild => <DropdownItem>{handleLink(nestedChild, 'dropdown-item')}</DropdownItem>)}
                     </DropdownMenu>
                 )

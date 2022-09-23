@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
-import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import org.springframework.stereotype.Component;
 

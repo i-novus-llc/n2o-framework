@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
@@ -55,11 +55,11 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getStatuses()[0].getSrc(), Matchers.is("testSrc"));
         assertThat(field.getStatuses()[0].getFieldId(), Matchers.is("status1"));
         assertThat(field.getStatuses()[0].getIcon(), Matchers.is("`icon1`"));
-        assertThat(field.getStatuses()[0].getPlace(), Matchers.is(ImageStatusElement.Place.topRight));
+        assertThat(field.getStatuses()[0].getPlace(), Matchers.is(ImageStatusElementPlace.topRight));
         assertThat(field.getStatuses()[1].getSrc(), Matchers.is("Status"));
         assertThat(field.getStatuses()[1].getFieldId(), Matchers.is("id"));
         assertThat(field.getStatuses()[1].getIcon(), Matchers.is(nullValue()));
-        assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElement.Place.topLeft));
+        assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElementPlace.topLeft));
         assertThat(field.getAction(),  nullValue());
         assertThat(field.getUrl(), is("http://example.com"));
 

@@ -2,16 +2,15 @@ package net.n2oapp.framework.api.metadata.global.dao.invocation.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.aware.IdAware;
-
-import java.io.Serializable;
 
 /**
  * Аргумент метода
  */
 @Getter
 @Setter
-public class Argument implements Serializable {
+public class Argument implements Source {
     private String name;
     private String className;
     private Type type;

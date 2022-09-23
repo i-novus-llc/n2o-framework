@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -88,7 +89,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 value = contextProcessor.resolve(parameter.getDefaultValue());
             }
             if (value != null && parameter.getNormalize() != null) {
-                value = normalizeValue(value, parameter.getNormalize(), resultDataSet, parser, applicationContext);
+                value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
             }
             resultDataSet.put(parameter.getId(), value);
         }
@@ -176,12 +177,25 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             if (parameter instanceof ObjectSimpleField && ((ObjectSimpleField) parameter).getNormalize() != null) {
                 Object value = inDataSet.get(parameter.getId());
                 if (value != null) {
-                    value = normalizeValue(value, ((ObjectSimpleField) parameter).getNormalize(), inDataSet, parser, applicationContext);
+                    value = tryToNormalize(value, parameter, inDataSet, applicationContext);
                     copiedDataSet.put(parameter.getId(), value);
                 }
             }
         }
         return copiedDataSet;
+    }
+
+    private Object tryToNormalize(Object value,
+                                  AbstractParameter parameter,
+                                  DataSet inDataSet,
+                                  ApplicationContext applicationContext) {
+        try {
+            value = normalizeValue(value, ((ObjectSimpleField) parameter).getNormalize(), inDataSet, parser, applicationContext);
+        } catch (N2oSpelException e) {
+            e.setFieldId(parameter.getId());
+            throw e;
+        }
+        return value;
     }
 
     private boolean isMappingEnabled(AbstractParameter inParam, DataSet inDataSet) {

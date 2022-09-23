@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-
-import java.io.Serializable;
+import net.n2oapp.framework.api.metadata.Source;
 
 /**
  * Модель предустановленных параметров
@@ -13,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class N2oParam implements Serializable {
+public class N2oParam implements Source {
     /**
      * Имя параметра
      */

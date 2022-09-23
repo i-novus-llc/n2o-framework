@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oToolbarCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
-import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;

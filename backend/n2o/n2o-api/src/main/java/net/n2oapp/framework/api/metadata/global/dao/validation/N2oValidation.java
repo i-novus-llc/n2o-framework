@@ -7,8 +7,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
-import java.io.Serializable;
-
 /**
  * Исходная модель абстрактной валидации
  */
@@ -32,68 +30,6 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
     @Override
     public String getNamespaceUri() {
         return "";
-    }
-
-    //для персистеров 1.0, 2.0
-    @Deprecated
-    public String getMoment() {
-        if (serverMoment == null) return null;
-        if (serverMoment.equals(ServerMoment.beforeOperation))
-            return "before-action";
-        else if (serverMoment.equals(ServerMoment.afterSuccessOperation))
-            return "after-success-action";
-        else if (serverMoment.equals(ServerMoment.afterFailOperation))
-            return "after-fail-action";
-        else
-            return serverMoment.getId();
-    }
-
-    //для ридеров 1.0, 2.0
-    @Deprecated
-    public void setMoment(String moment) {
-        if (moment == null)
-            this.serverMoment = null;
-        else if ("before-action".equalsIgnoreCase(moment))
-            this.serverMoment = ServerMoment.beforeOperation;
-        else if ("after-success-action".equalsIgnoreCase(moment))
-            this.serverMoment = ServerMoment.afterSuccessOperation;
-        else if ("after-fail-action".equalsIgnoreCase(moment))
-            this.serverMoment = ServerMoment.afterFailOperation;
-        else if ("before-query".equalsIgnoreCase(moment))
-            this.serverMoment = ServerMoment.beforeQuery;
-        else if ("after-success-query".equalsIgnoreCase(moment))
-            this.serverMoment = ServerMoment.afterSuccessQuery;
-        else if ("after-fail-query".equalsIgnoreCase(moment))
-            this.serverMoment = ServerMoment.afterFailQuery;
-    }
-
-    //для персистеров 1.0, 2.0
-    @Deprecated
-    public Level getLevel() {
-        if (SeverityType.danger.equals(severity))
-            return Level.error;
-        return Level.valueOf(severity.name());
-    }
-
-    //для ридеров 1.0, 2.0
-    @Deprecated
-    public void setLevel(Level level) {
-        severity = level.getSeverity();
-    }
-
-    @Deprecated
-    public enum Level implements Serializable {
-        error(SeverityType.danger), warning(SeverityType.warning), info(SeverityType.info), success(SeverityType.success);
-
-        private SeverityType severity;
-
-        Level(SeverityType severity) {
-            this.severity = severity;
-        }
-
-        public SeverityType getSeverity() {
-            return severity;
-        }
     }
 
     public enum ServerMoment implements IdAware {

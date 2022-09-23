@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 
 import java.util.List;
@@ -37,6 +37,6 @@ public class Tiles extends Widget {
         @JsonProperty
         private String id;
         @JsonProperty
-        private N2oCell component;
+        private Cell component;
     }
 }

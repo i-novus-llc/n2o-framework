@@ -1,12 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile;
 
-import java.io.Serializable;
-
 /**
  * Компонент-обёртка.
  * Применяется для передачи родительского компонента в сборку к дочернему
  */
-public class ComponentScope implements Serializable {
+public class ComponentScope {
     private Object component;
     private ComponentScope parentScope;
 

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 
 /**
@@ -23,16 +23,16 @@ public interface ImageCell extends Cell {
 
     void shouldHaveTextPosition(TextPosition textPosition);
 
-    default void shouldHaveStatus(ImageStatusElement.Place position, String title) {
+    default void shouldHaveStatus(ImageStatusElementPlace position, String title) {
         shouldHaveStatus(position, 0, title);
     }
 
-    void shouldHaveStatus(ImageStatusElement.Place position, int index, String title);
+    void shouldHaveStatus(ImageStatusElementPlace position, int index, String title);
 
-    default void statusShouldHaveIcon(ImageStatusElement.Place position, String icon){
+    default void statusShouldHaveIcon(ImageStatusElementPlace position, String icon){
         statusShouldHaveIcon(position, 0, icon);
     }
 
-    void statusShouldHaveIcon(ImageStatusElement.Place position, int index, String icon);
+    void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon);
 
 }

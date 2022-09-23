@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
+import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,12 +41,12 @@ public class IconCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testIconCell.page.xml")
                 .get(new PageContext("testIconCell"));
         Table table = (Table) page.getWidget();
-                N2oIconCell cell = (N2oIconCell) table.getComponent().getCells().get(0);
+        IconCell cell = (IconCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("IconCell"));
         assertThat(cell.getIcon(), is("icon"));
         assertThat(cell.getIconType(), is(IconType.icon));
 
-        cell = (N2oIconCell) table.getComponent().getCells().get(1);
+        cell = (IconCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("IconCell"));
         assertThat(cell.getIcon(), is("`type.id == 1 ? 'icon1' : type.id == 2 ? 'icon2' : 'icon3'`"));
         assertThat(cell.getIconType(), is(IconType.iconAndText));

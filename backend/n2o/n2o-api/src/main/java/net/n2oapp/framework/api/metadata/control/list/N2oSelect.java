@@ -9,9 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oSelect extends N2oSingleListFieldAbstract {
-    private Boolean searchAsYouType;
-    private Boolean wordWrap;
-    private N2oClassifier.Mode mode;
     private ListType type;
     private Boolean cleanable;
     private String selectFormat;
