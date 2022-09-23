@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.escapeJson;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlString;
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
-import static org.springframework.util.CollectionUtils.isEmpty;
 
 /**
  * GraphQL провайдер данных
@@ -94,8 +93,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         String endpoint = initEndpoint(invocation.getEndpoint());
 
         HttpHeaders headers = new HttpHeaders();
-        resolveForwardedHeaders(invocation);
-        copyForwardedHeaders(invocation.getForwardedHeadersSet(), headers);
+        copyForwardedHeaders(resolveForwardedHeaders(invocation), headers);
         headers.setContentType(MediaType.APPLICATION_JSON);
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
@@ -136,10 +134,9 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      *
      * @param invocation Провайдер данных
      */
-    private void resolveForwardedHeaders(N2oGraphQlDataProvider invocation) {
-        if (!isEmpty(invocation.getForwardedHeadersSet())) return;
+    private Set<String> resolveForwardedHeaders(N2oGraphQlDataProvider invocation) {
         String headers = invocation.getForwardedHeaders() != null ? invocation.getForwardedHeaders() : forwardHeaders;
-        invocation.setForwardedHeadersSet(parseHeadersString(headers));
+        return parseHeadersString(headers);
     }
 
     /**

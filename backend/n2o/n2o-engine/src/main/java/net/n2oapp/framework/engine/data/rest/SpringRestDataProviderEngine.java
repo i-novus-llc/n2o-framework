@@ -26,15 +26,11 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BinaryOperator;
 
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
-import static org.springframework.util.CollectionUtils.isEmpty;
 
 /**
  * Сервис вызова Spring RestTemplate
@@ -142,8 +138,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     private Object executeQuery(HttpMethod method, String query, Map<String, Object> args, N2oRestDataProvider invocation) {
         query = getURL(invocation.getProxyHost(), invocation.getProxyPort(), query);
         HttpHeaders headers = initHeaders(args);
-        resolveForwardedHeaders(invocation);
-        copyForwardedHeaders(invocation.getForwardedHeadersSet(), headers);
+        copyForwardedHeaders(resolveForwardedHeaders(invocation), headers);
         Map<String, Object> body = new HashMap<>(args);
 
         log.debug("Execute REST query: " + query);
@@ -181,10 +176,9 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
      *
      * @param invocation Провайдер данных
      */
-    private void resolveForwardedHeaders(N2oRestDataProvider invocation) {
-        if (!isEmpty(invocation.getForwardedHeadersSet())) return;
+    private Set<String> resolveForwardedHeaders(N2oRestDataProvider invocation) {
         String headers = invocation.getForwardedHeaders() != null ? invocation.getForwardedHeaders() : forwardHeaders;
-        invocation.setForwardedHeadersSet(parseHeadersString(headers));
+        return parseHeadersString(headers);
     }
 
     private String resolve(String str, Map<String, Object> args, BinaryOperator<String> reducer) {

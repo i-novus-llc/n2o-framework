@@ -81,7 +81,7 @@ public class SpringRestDataProviderEngineTest {
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
         N2oRestDataProvider invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
-        invocation.setForwardedHeadersSet(Set.of("testForwardedHeader"));
+        actionEngine.setForwardHeaders("testForwardedHeader");
         invocation.setMethod(N2oRestDataProvider.Method.GET);
         Map<String, Object> request = new HashMap<>();
 
@@ -108,7 +108,7 @@ public class SpringRestDataProviderEngineTest {
             }
         };
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(httpServletRequest));
-        invocation.setForwardedHeadersSet(null);
+        actionEngine.setForwardHeaders(null);
         actionEngine.setForwardHeaders("testHeaderFromProperty1");
         actionEngine.invoke(invocation, request);
         assertEquals("testHeaderFromProperty1Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("testHeaderFromProperty1").get(0));
