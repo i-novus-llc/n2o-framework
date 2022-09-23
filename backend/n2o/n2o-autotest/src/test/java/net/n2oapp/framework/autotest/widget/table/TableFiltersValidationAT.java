@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -13,21 +12,24 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.exceptions.verification.NeverWantedButInvoked;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Автотест по проверке работы валидации у фильтров и запроса данных при их ошибке
  */
 
 public class TableFiltersValidationAT extends AutoTestBase {
-    private final N2oController controllerMock = Mockito.mock(N2oController.class);
+
+    @SpyBean
+    private N2oController controller;
 
     @BeforeAll
     public static void beforeClass() {
@@ -50,24 +52,26 @@ public class TableFiltersValidationAT extends AutoTestBase {
 
     @Test
     public void test() {
-        Configuration.headless=false;
-
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        when(controllerMock.getData(any())).thenReturn(null);
-        Assertions.assertNull(verify(controllerMock, never()).getData(any()));
-
         TableWidget tableWidget = page.widget(TableWidget.class);
         tableWidget.filters().toolbar().button("Найти").click();
-        Assertions.assertNull(verify(controllerMock, never()).getData(any()));
         StandardField field = tableWidget.filters().fields().field("name");
         field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        InputText inputText = field.control(InputText.class);
+        verifyNeverGetDataInvocation("Запрос за данными таблицы при валидации фильтров");
 
+        InputText inputText = field.control(InputText.class);
         inputText.val("test1");
         tableWidget.filters().toolbar().button("Найти").click();
-        Assertions.assertNull(verify(controllerMock, never()).getData(any()));
         tableWidget.columns().rows().row(0).cell(0).textShouldHave("test1");
+    }
+
+    private void verifyNeverGetDataInvocation(String errorMessage) {
+        try {
+            verify(controller, never()).getData(any());
+        } catch (NeverWantedButInvoked e) {
+            throw new AssertionError(errorMessage);
+        }
     }
 }
