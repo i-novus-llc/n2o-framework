@@ -81,7 +81,7 @@ public class OperationController extends SetController {
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
         SetDataResponse response = new SetDataResponse();
-        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getMessagesForm(), responseInfo.isStackedMessages());
+        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getMessagesForm());
         response.setData(data);
         if (responseInfo.getDialog() != null)
             response.setDialog(compileDialog(responseInfo.getDialog(), requestInfo));

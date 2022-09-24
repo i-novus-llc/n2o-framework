@@ -73,6 +73,7 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
         p.attribute(e, "asc-expression", t::getAscExpression, t::setAscExpression);
         p.attribute(e, "desc-expression", t::getDescExpression, t::setDescExpression);
+        p.attribute(e, "additional-mapping", t::getAdditionalMapping, t::setAdditionalMapping);
     }
 
     private void uniqueSelection(Element e, N2oQuery.Selection t, IOProcessor p) {
