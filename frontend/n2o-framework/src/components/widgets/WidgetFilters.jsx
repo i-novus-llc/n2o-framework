@@ -15,7 +15,6 @@ import propsResolver from '../../utils/propsResolver'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
 import { ModelPrefix } from '../../core/datasource/const'
-import { validate as validateFilters } from '../../core/validation/validate'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -55,7 +54,7 @@ class WidgetFilters extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { filterModel, reduxFormFilter, setFilter, validate, searchOnChange } = this.props
+        const { filterModel, reduxFormFilter, setFilter, searchOnChange } = this.props
         const { defaultValues } = this.state
 
         if (isEqual(reduxFormFilter, filterModel)) { return }
@@ -71,10 +70,7 @@ class WidgetFilters extends React.Component {
                 this.handleFilter()
             }
         } else if (!isEqual(reduxFormFilter, prevProps.reduxFormFilter)) {
-            const { store } = this.context
-
             setFilter(reduxFormFilter)
-            validate(store.getState(), this.formName)
 
             if (searchOnChange) {
                 this.debouncedHandleFilter()
@@ -188,7 +184,6 @@ WidgetFilters.propTypes = {
     fetchData: PropTypes.func,
     hideButtons: PropTypes.bool,
     searchOnChange: PropTypes.bool,
-    validate: PropTypes.func,
     resetFilterModel: PropTypes.func,
 }
 
@@ -211,13 +206,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
     dispatch,
     resetFilterModel: formName => dispatch(reset(formName)),
-    validate: (state, datasourceId) => validateFilters(
-        state,
-        datasourceId,
-        ModelPrefix.filter,
-        dispatch,
-        true,
-    ),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetFilters)

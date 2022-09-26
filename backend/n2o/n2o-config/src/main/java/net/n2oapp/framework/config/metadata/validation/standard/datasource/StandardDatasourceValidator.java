@@ -97,13 +97,17 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                         String.format("Источник данных '%s' имеет префильтры, но в выборке '%s' нет filters!", datasource.getId(), query.getId()));
 
             for (N2oPreFilter preFilter : datasource.getFilters()) {
-                String fieldId = ValidationUtils.getIdOrEmptyString(preFilter.getFieldId());
-                String queryId = ValidationUtils.getIdOrEmptyString(query.getId());
+                if (preFilter.getFieldId() == null) {
+                    throw new N2oMetadataValidationException(
+                            String.format("Источник данных '%s' содержит префильтр без указанного field-id!", datasource.getId())
+                    );
+                }
 
+                String queryId = ValidationUtils.getIdOrEmptyString(query.getId());
                 if (preFilter.getDatasourceId() != null)
                     ValidationUtils.checkForExistsDatasource(preFilter.getDatasourceId(), scope,
                             String.format("В префильтре по полю '%s' указан несуществующий источник данных '%s'",
-                                    fieldId, preFilter.getDatasourceId()));
+                                    preFilter.getFieldId(), preFilter.getDatasourceId()));
                 AbstractField exField = findExField(preFilter, query.getFields(), null);
                 if (exField == null)
                     throw new N2oMetadataValidationException(
@@ -144,7 +148,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
             if (field instanceof QueryReferenceField) {
                 return findExField(preFilter, ((QueryReferenceField) field).getFields(), computedId);
             }
-            if (preFilter.getFieldId().equals(computedId))
+            if (computedId.equals(preFilter.getFieldId()))
                 return field;
         }
         return null;
