@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
 import cn from 'classnames'
 
@@ -34,6 +35,8 @@ const SimpleButton = ({
         marginRight: isBadgeLeftPosition(position) && 8,
     }
 
+    const needBadge = !isEmpty(badge) || typeof count === 'number'
+
     return visible ? (
         <Button
             id={id}
@@ -48,16 +51,20 @@ const SimpleButton = ({
                 'btn-disabled': disabled,
                 'btn-rounded__with-content': rounded && label,
                 'btn-with-entity': badge || (count || count === 0),
+                'with-badge': badge && (text || typeof count === 'number'),
+                'with-label': label,
+                'with-icon': icon,
             })}
             {...rest}
         >
-            {icon && <Icon name={icon} />}
-            {badge && (
+            {icon && <Icon name={icon} className="n2o-btn-icon" />}
+            {needBadge && (
                 <Badge
                     {...badge}
                     text={text || convertCounter(count)}
                     hasMargin={false}
                     style={badgeStyle}
+                    className="n2o-btn-badge"
                 >
                     <span>{children || label}</span>
                 </Badge>
