@@ -14,7 +14,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MetaDataAT extends AutoTestBase {
+/**
+ * Автотест динамических данных query
+ */
+public class DynamicQueryAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -37,8 +40,7 @@ public class MetaDataAT extends AutoTestBase {
     @Test
     public void testDynamic() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/query/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/query/dynamic.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/query/dynamic.query.xml"));
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
