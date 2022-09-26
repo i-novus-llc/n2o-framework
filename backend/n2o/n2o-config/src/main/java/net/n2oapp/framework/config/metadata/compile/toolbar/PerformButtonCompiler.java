@@ -316,7 +316,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
-            condition.setExpression("!_.isEmpty(this)");
+            condition.setExpression("!$.isEmptyModel(this)");
             condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
             return condition;
         }
