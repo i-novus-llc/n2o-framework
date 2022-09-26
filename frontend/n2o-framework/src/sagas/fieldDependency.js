@@ -39,7 +39,7 @@ import fetchSaga from './fetch'
 
 const FetchValueCache = new Map()
 
-export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
+export function* fetchValue(values, form, field, { dataProvider, valueFieldId }) {
     const fetchValueKey = `${form}.${field}`
 
     try {
@@ -69,12 +69,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
             : get(response, 'list[0]', null)
 
         const currentModel = isMultiModel ? model : model[valueFieldId]
+        const prevFieldValue = get(values, field)
+        const nextFieldValue = valueFieldId ? currentModel : model
 
-        if (model) {
+        if (model && !isEqual(prevFieldValue, nextFieldValue)) {
             yield put(
                 change(form, field, {
                     keepDirty: true,
-                    value: valueFieldId ? currentModel : model,
+                    value: nextFieldValue,
                 }),
             )
         }
@@ -182,6 +184,7 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
         case 'fetchValue': {
             yield fork(
                 fetchValue,
+                values,
                 formName,
                 fieldName,
                 dependency,
