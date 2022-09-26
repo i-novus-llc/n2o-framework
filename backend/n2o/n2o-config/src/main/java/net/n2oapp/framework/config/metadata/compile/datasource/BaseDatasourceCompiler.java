@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.CopyDependency;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.rest.Paging;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
 
     public void compileDatasource(S source, D compiled, CompileContext<?, ?> context, CompileProcessor p) {
         initDatasource(source, compiled, p);
-        compiled.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
+        compiled.setPaging(
+                new Paging(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class))));
         compiled.setDependencies(initDependencies(source, context, p));
         compiled.setValidations(initValidations(source, p, ReduxModel.resolve));
         compiled.setFilterValidations(initValidations(source, p, ReduxModel.filter));

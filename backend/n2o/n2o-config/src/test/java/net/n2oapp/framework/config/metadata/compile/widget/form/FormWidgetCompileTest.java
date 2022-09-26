@@ -84,7 +84,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidget().getDatasource(), notNullValue());
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get(page.getWidget().getDatasource());
         assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesMode.query));
-        assertThat(datasource.getSize(), is(1));
+        assertThat(datasource.getPaging().getSize(), is(1));
         QueryContext queryContext = (QueryContext) route("/testFormCompile2/main", CompiledQuery.class);
         assertThat(queryContext, notNullValue());
     }
@@ -265,6 +265,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFormInlineDatasource"));
 
         assertThat(page.getDatasources().size(), is(1));
-        assertThat(((StandardDatasource) page.getDatasources().get("testFormInlineDatasource_main")).getSize(), is(1));
+        assertThat(((StandardDatasource) page.getDatasources().get("testFormInlineDatasource_main")).getPaging().getSize(), is(1));
     }
 }

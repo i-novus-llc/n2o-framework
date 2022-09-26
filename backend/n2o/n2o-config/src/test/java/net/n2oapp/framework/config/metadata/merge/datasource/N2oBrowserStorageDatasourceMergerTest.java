@@ -42,7 +42,7 @@ public class N2oBrowserStorageDatasourceMergerTest extends SourceMergerTestBase 
 
         BrowserStorageDatasource datasource = (BrowserStorageDatasource) modal.getDatasources().get("modal_bs");
         assertThat(datasource, notNullValue());
-        assertThat(datasource.getSize(), is(15));
+        assertThat(datasource.getPaging().getSize(), is(15));
 
         assertThat(datasource.getProvider().getKey(), is("key1"));
         assertThat(datasource.getProvider().getType(), is("browser"));

@@ -18,6 +18,10 @@ public class Paging {
     public Paging() {
     }
 
+    public Paging(Integer size) {
+        this.size = size;
+    }
+
     public Paging(Integer page, Integer size, Integer count) {
         this.page = page;
         this.size = size;

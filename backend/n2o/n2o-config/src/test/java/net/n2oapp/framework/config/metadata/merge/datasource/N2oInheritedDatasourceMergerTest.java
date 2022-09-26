@@ -41,7 +41,7 @@ public class N2oInheritedDatasourceMergerTest extends SourceMergerTestBase {
 
         InheritedDatasource datasource = (InheritedDatasource) modal.getDatasources().get("modal_ids");
         assertThat(datasource, notNullValue());
-        assertThat(datasource.getSize(), is(15));
+        assertThat(datasource.getPaging().getSize(), is(15));
 
         assertThat(datasource.getProvider().getType(), is("inherited"));
         assertThat(datasource.getProvider().getSourceDs(), is("modal_ids"));
