@@ -21,9 +21,11 @@ const state = {
     datasource: {
         ds1: {
             loading: true,
-            size: 10,
-            count: 100,
-            page: 1,
+            paging: {
+                size: 10,
+                count: 100,
+                page: 1,
+            },
             sorting: {
                 name: 'DESC',
             },
@@ -78,12 +80,12 @@ describe('Проверка селекторов widgets', () => {
     })
     it('makeWidgetSizeSelector должен вернуть size по id', () => {
         expect(makeWidgetSizeSelector('widget1')(state)).toEqual(
-            state.datasource.ds1.size,
+            state.datasource.ds1.paging.size,
         )
     })
     it('makeWidgetCountSelector должен вернуть count по id', () => {
         expect(makeWidgetCountSelector('widget1')(state)).toEqual(
-            state.datasource.ds1.count,
+            state.datasource.ds1.paging.count,
         )
     })
     it('makeWidgetSortingSelector должен вернуть count по id', () => {
@@ -108,7 +110,7 @@ describe('Проверка селекторов widgets', () => {
     })
     it('makeWidgetPageSelector должен вернуть page по id', () => {
         expect(makeWidgetPageSelector('widget1')(state)).toEqual(
-            state.datasource.ds1.page,
+            state.datasource.ds1.paging.page,
         )
     })
     it('makeWidgetPageIdSelector должен вернуть pageId по id', () => {

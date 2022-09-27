@@ -58,6 +58,11 @@ export type SetSortDirectionAction = DatasourceAction<{
     direction: SortDirection
 }>
 
+export type SetAdditionalInfoAction = DatasourceAction<{
+    id: string
+    additionalInfo: object
+}>
+
 export type ChangePageAction = DatasourceAction<{
     id: string
     page: number

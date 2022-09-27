@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { isEmpty, omit } from 'lodash'
+import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { IMeta } from '../../sagas/types'
@@ -17,6 +18,7 @@ import type {
     ResolveRequestAction,
     SetFieldSubmitAction,
     SetSortDirectionAction,
+    SetAdditionalInfoAction,
     StartValidateAction,
     SubmitAction,
 } from './Actions'
@@ -50,11 +52,7 @@ const datasource = createSlice({
                     }
                 }
 
-                const datasource = {
-                    ...DataSource.defaultState,
-                    ...initProps,
-                    provider,
-                }
+                const datasource = { ...merge(DataSource.defaultState, initProps), provider }
 
                 state[id] = datasource
             },
@@ -148,8 +146,10 @@ const datasource = createSlice({
                 const { id, query } = action.payload
 
                 state[id].loading = false
-                state[id].page = query.page
-                state[id].count = query.count
+                state[id].paging = {
+                    ...state[id].paging,
+                    ...query.paging,
+                }
             },
         },
 
@@ -187,6 +187,23 @@ const datasource = createSlice({
             },
         },
 
+        setAdditionalInfo: {
+            prepare(id: string, additionalInfo: object) {
+                return ({
+                    payload: {
+                        id,
+                        additionalInfo,
+                    },
+                })
+            },
+
+            reducer(state, action: SetAdditionalInfoAction) {
+                const { id, additionalInfo } = action.payload
+
+                state[id].additionalInfo = additionalInfo
+            },
+        },
+
         changePage: {
             prepare(id: string, page: number) {
                 return ({
@@ -196,7 +213,7 @@ const datasource = createSlice({
             reducer(state, action: ChangePageAction) {
                 const { id, page } = action.payload
 
-                state[id].page = page
+                state[id].paging.page = page
             },
         },
 
@@ -209,7 +226,7 @@ const datasource = createSlice({
             reducer(state, action: ChangeSizeAction) {
                 const { id, size } = action.payload
 
-                state[id].size = size
+                state[id].paging.size = size
             },
         },
 
@@ -335,6 +352,7 @@ export const {
     resolveRequest,
     rejectRequest,
     setSorting,
+    setAdditionalInfo,
     startValidate,
     resetValidation,
     failValidate,
