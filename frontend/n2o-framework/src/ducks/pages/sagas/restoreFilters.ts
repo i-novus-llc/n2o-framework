@@ -73,6 +73,7 @@ export function* mapQueryToUrl(
             filtersCache.addCache(pageId, newQuery)
         } else if (!withoutCache) {
             filtersCache.setQueryTo(pageId, newQuery)
+            filtersCache.clearFromPage(pageId)
         }
     }
 }
