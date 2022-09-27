@@ -17,6 +17,7 @@ import {
     rejectRequest,
     resolveRequest,
     startValidate,
+    setAdditionalInfo,
 } from '../store'
 import type { IProvider, QueryResult, Query } from '../Provider'
 import { ProviderType } from '../Provider'
@@ -69,6 +70,11 @@ export function* dataRequest({ payload }: DataRequestAction) {
         const response: QueryResult = yield query(id, provider, options)
 
         yield put(setModel(ModelPrefix.source, id, response.list))
+
+        if (response.additionalInfo) {
+            yield put(setAdditionalInfo(id, response.additionalInfo))
+        }
+
         yield put(resolveRequest(id, response))
     } catch (error) {
         const err = error as { message: string, stack: string, json?: { meta: IMeta} }

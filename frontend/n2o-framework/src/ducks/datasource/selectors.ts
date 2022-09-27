@@ -36,13 +36,18 @@ export const dataSourceLoadingSelector = (sourceId: string) => createSelector(
     state => state.loading,
 )
 
-export const dataSourceSizeSelector = (sourceId: string) => createSelector(
+export const dataSourcePagingSelector = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
+    state => state.paging || {},
+)
+
+export const dataSourceSizeSelector = (sourceId: string) => createSelector(
+    dataSourcePagingSelector(sourceId),
     state => state.size,
 )
 
 export const dataSourcePageSelector = (sourceId: string) => createSelector(
-    dataSourceByIdSelector(sourceId),
+    dataSourcePagingSelector(sourceId),
     state => state.page,
 )
 
@@ -50,8 +55,9 @@ export const dataSourceSortingSelector = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
     state => state.sorting,
 )
+
 export const dataSourceCountSelector = (sourceId: string) => createSelector(
-    dataSourceByIdSelector(sourceId),
+    dataSourcePagingSelector(sourceId),
     state => state.count,
 )
 
@@ -93,4 +99,9 @@ export const dataSourceFieldError = (
 export const dataSourceError = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
     state => (state.error || EMPTY_OBJECT),
+)
+
+export const dataSourceAdditionalInfo = (sourceId: string) => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => state.additionalInfo,
 )

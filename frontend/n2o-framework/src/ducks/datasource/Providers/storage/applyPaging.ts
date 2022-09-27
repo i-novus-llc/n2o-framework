@@ -1,3 +1,5 @@
+import { Paging } from '../../Provider'
+
 export type PagingInfo = {
     page: number
     size: number
@@ -6,9 +8,9 @@ export type PagingInfo = {
 export function applyPaging<TData>(
     list: TData[],
     { page, size }: PagingInfo,
-): { list: TData[], page: number } {
+): { list: TData[], paging: Pick<Paging, 'page'> } {
     if (list.length <= size) {
-        return { list, page: 1 }
+        return { list, paging: { page: 1 } }
     }
 
     let newPage = page
@@ -19,6 +21,6 @@ export function applyPaging<TData>(
 
     return {
         list: list.slice((newPage - 1) * size, newPage * size),
-        page: newPage,
+        paging: { page: newPage },
     }
 }

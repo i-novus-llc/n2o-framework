@@ -38,7 +38,7 @@ export function* query(id: string, {
     sourceField,
 }: InheritedProvider, options: QueryOptions) {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
-    const { size, sorting, page } = datasource
+    const { sorting, paging: { size, page } } = datasource
 
     const model: object | void = yield select(makeGetModelByPrefixSelector(prefix, datasourceId))
     const data = cloneDeep(sourceField ? get(model, sourceField) : model)
@@ -46,14 +46,16 @@ export function* query(id: string, {
     if (!data) {
         return {
             list: [],
-            page: 1,
-            count: 0,
+            paging: {
+                page: 1,
+                count: 0,
+            },
         }
     }
 
     const filtered = applyFilter(Array.isArray(data) ? data : [data])
     const sortered = applySorting(filtered, sorting)
-    const { list, page: newPage } = applyPaging(
+    const { list, paging } = applyPaging(
         sortered,
         {
             size,
@@ -63,7 +65,9 @@ export function* query(id: string, {
 
     return {
         list,
-        page: newPage,
-        count: filtered.length,
+        paging: {
+            page: paging.page,
+            count: filtered.length,
+        },
     }
 }
