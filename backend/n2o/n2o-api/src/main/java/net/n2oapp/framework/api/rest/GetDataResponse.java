@@ -41,7 +41,7 @@ public class GetDataResponse extends N2oResponse {
         size = criteria.getSize();
         count = 1;
         page = criteria.getPage();
-        setResponseMessages(responseInfo.getMessageList(), widgetId, responseInfo.isStackedMessages());
+        setResponseMessages(responseInfo.getMessageList(), widgetId);
     }
 
     public GetDataResponse(CollectionPage<DataSet> collectionPage, QueryResponseInfo responseInfo, String widgetId) {
@@ -49,6 +49,6 @@ public class GetDataResponse extends N2oResponse {
         size = collectionPage.getCriteria().getSize();
         count = collectionPage.getCount();
         page = collectionPage.getCriteria().getPage();
-        setResponseMessages(responseInfo.getMessageList(), widgetId, responseInfo.isStackedMessages());
+        setResponseMessages(responseInfo.getMessageList(), widgetId);
     }
 }

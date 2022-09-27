@@ -70,8 +70,6 @@ public class RequiredFieldAT extends AutoTestBase {
 
         nameField.shouldHaveValidationMessage(Condition.empty);
 
-        Alert alert = page.alerts().alert(0);
-        alert.shouldHavePlacement(Alert.Placement.top);
-        alert.shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
     }
 }

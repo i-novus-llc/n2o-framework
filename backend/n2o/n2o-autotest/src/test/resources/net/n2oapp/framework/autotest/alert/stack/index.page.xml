@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Отображение алертов в стэке">
+    <form>
+        <fields>
+            <hidden id="hid" default-value="1"/>
+        </fields>
+        <toolbar>
+            <button label="Алерт 1">
+                <alert text="Алерт 1" placement="top" timeout="10000"/>
+            </button>
+            <button label="Алерт 2">
+                <alert text="Алерт 2" placement="top" timeout="10000"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

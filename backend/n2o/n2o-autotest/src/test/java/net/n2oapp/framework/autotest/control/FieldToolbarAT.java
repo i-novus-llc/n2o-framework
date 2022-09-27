@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -70,8 +71,9 @@ public class FieldToolbarAT extends AutoTestBase {
 
         fields.field("id").control(InputText.class).val("test");
         toolbar.button("Показать текст").click();
-        page.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
-        page.alerts().alert(0).shouldHaveText("test");
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveColor(Colors.SUCCESS);
+        alert.shouldHaveText("test");
 
         toolbar.button("Открыть модальное окно").click();
         Modal modal = N2oSelenide.modal();
@@ -114,8 +116,9 @@ public class FieldToolbarAT extends AutoTestBase {
         fields.field("sub").control(InputText.class).val("notForShow");
         dropdownButton.click();
         dropdownButton.menuItem("Показать текст").click();
-        page.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
-        page.alerts().alert(0).shouldHaveText("test");
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveColor(Colors.SUCCESS);
+        alert.shouldHaveText("test");
 
         dropdownButton.click();
         dropdownButton.menuItem("Открыть модальное окно").click();

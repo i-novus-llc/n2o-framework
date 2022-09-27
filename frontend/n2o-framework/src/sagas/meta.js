@@ -14,11 +14,26 @@ import { insertDialog, destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
-import { addMultiAlerts, removeAllAlerts } from '../ducks/alerts/store'
+import { addAlert, addMultiAlerts } from '../ducks/alerts/store'
 import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
 import { removeAllModel } from '../ducks/models/store'
 import { register } from '../ducks/datasource/store'
 import { requestConfigSuccess } from '../ducks/global/store'
+
+const mapMessage = message => ({
+    ...message,
+    id: message.id || id(),
+})
+
+const separateMessagesByPlacement = messages => messages.reduce((acc, message) => {
+    if (!acc[message.placement]) {
+        acc[message.placement] = []
+    }
+
+    acc[message.placement].unshift(message)
+
+    return acc
+}, {})
 
 /* TODO избавиться от alertEffect
     для этого бэку нужно присылать
@@ -28,22 +43,26 @@ import { requestConfigSuccess } from '../ducks/global/store'
     маппит id и выполняет redux action */
 export function* alertEffect(action) {
     try {
-        const { messages, stacked } = action.meta.alert
+        const { messages } = action.meta.alert
 
-        const mapMessage = message => ({
-            ...message,
-            id: messages.id || id(),
-        })
         const alerts = isArray(messages)
             ? messages.map(mapMessage)
             : [mapMessage(messages)]
 
-        const alertsKey = get(alerts[0], STORE_KEY_PATH) || GLOBAL_KEY
+        if (!alerts?.length) { return }
 
-        /* !stacked 1 alert в каждом поддерживаемом placement  */
-        if (!stacked) { yield put(removeAllAlerts(alertsKey)) }
+        if (alerts.length === 1) {
+            const alertsStoreKey = get(alerts[0], STORE_KEY_PATH) || GLOBAL_KEY
 
-        yield put(addMultiAlerts(alertsKey, alerts))
+            yield put(addAlert(alertsStoreKey, alerts[0]))
+        } else {
+            const separatedAlerts = separateMessagesByPlacement(alerts)
+            const alertsStoreKeys = Object.keys(separatedAlerts)
+
+            for (const key of alertsStoreKeys) {
+                yield put(addMultiAlerts(key, separatedAlerts[`${key}`]))
+            }
+        }
     } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e)

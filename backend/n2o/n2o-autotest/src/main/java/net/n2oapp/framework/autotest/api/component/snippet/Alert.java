@@ -14,6 +14,7 @@ public interface Alert extends Snippet {
 
     void shouldHaveUrl(String url);
 
+    @Deprecated
     void shouldHavePlacement(Placement placement);
 
     void shouldHaveStacktrace();

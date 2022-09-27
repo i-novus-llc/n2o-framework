@@ -11,6 +11,7 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -99,7 +100,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
         inputText.val("unique");
         field.shouldHaveValidationMessage(Condition.empty);
         button.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
     }
 
     @Test
@@ -152,6 +153,6 @@ public class ValidationTabMessageAT extends AutoTestBase {
         inputText.val("unique");
         field.shouldHaveValidationMessage(Condition.empty);
         button.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
     }
 }
