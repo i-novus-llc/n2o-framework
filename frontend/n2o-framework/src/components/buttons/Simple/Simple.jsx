@@ -26,6 +26,7 @@ const SimpleButton = ({
     rounded,
     className,
     badge,
+    tooltipTriggerRef,
     ...rest
 }) => {
     const { text, position } = badge || {}
@@ -38,38 +39,40 @@ const SimpleButton = ({
     const needBadge = !isEmpty(badge) || typeof count === 'number'
 
     return visible ? (
-        <Button
-            id={id}
-            tag={tag}
-            size={size}
-            color={color}
-            outline={outline}
-            onClick={onClick}
-            disabled={disabled}
-            className={cn(className, {
-                'btn-rounded': rounded && !label,
-                'btn-disabled': disabled,
-                'btn-rounded__with-content': rounded && label,
-                'btn-with-entity': badge || (count || count === 0),
-                'with-badge': badge && (text || typeof count === 'number'),
-                'with-label': label,
-                'with-icon': icon,
-            })}
-            {...rest}
-        >
-            {icon && <Icon name={icon} className="n2o-btn-icon" />}
-            {needBadge && (
-                <Badge
-                    {...badge}
-                    text={text || convertCounter(count)}
-                    hasMargin={false}
-                    style={badgeStyle}
-                    className="n2o-btn-badge"
-                >
-                    <span>{children || label}</span>
-                </Badge>
-            )}
-        </Button>
+        <div ref={tooltipTriggerRef}>
+            <Button
+                id={id}
+                tag={tag}
+                size={size}
+                color={color}
+                outline={outline}
+                onClick={onClick}
+                disabled={disabled}
+                className={cn(className, {
+                    'btn-rounded': rounded && !label,
+                    'btn-disabled': disabled,
+                    'btn-rounded__with-content': rounded && label,
+                    'btn-with-entity': badge || (count || count === 0),
+                    'with-badge': badge && (text || typeof count === 'number'),
+                    'with-label': label,
+                    'with-icon': icon,
+                })}
+                {...rest}
+            >
+                {icon && <Icon name={icon} className="n2o-btn-icon" />}
+                {needBadge && (
+                    <Badge
+                        {...badge}
+                        text={text || convertCounter(count)}
+                        hasMargin={false}
+                        style={badgeStyle}
+                        className="n2o-btn-badge"
+                    >
+                        <span>{children || label}</span>
+                    </Badge>
+                )}
+            </Button>
+        </div>
     ) : null
 }
 
@@ -100,6 +103,7 @@ SimpleButton.propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
     badge: PropTypes.object,
+    tooltipTriggerRef: PropTypes.func,
 }
 
 SimpleButton.defaultProps = {

@@ -11,7 +11,7 @@ import classNames from 'classnames'
 import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
 
-function Toolbar({ className, toolbar, entityKey, onClick }) {
+function Toolbar({ className, toolbar, entityKey, onClick, tooltipTriggerRef = null }) {
     const { className: toolbarClassName, style } = toolbar[0] || {}
     const handleClick = (e) => {
         e.stopPropagation()
@@ -43,6 +43,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
             level={BUTTONS}
             {...remapButtons(buttonProps)}
             entityKey={entityKey}
+            tooltipTriggerRef={tooltipTriggerRef}
         />
     )
 
@@ -90,6 +91,7 @@ Toolbar.propTypes = {
     entityKey: PropTypes.string,
     onClick: PropTypes.func,
     className: PropTypes.string,
+    tooltipTriggerRef: PropTypes.func,
 }
 
 Toolbar.defaultProps = {
