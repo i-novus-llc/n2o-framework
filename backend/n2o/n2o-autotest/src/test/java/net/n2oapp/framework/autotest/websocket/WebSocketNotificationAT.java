@@ -75,12 +75,11 @@ public class WebSocketNotificationAT extends AutoTestBase {
 
         webSocketMessageController.sendAlert(DESTINATION, message);
         page.shouldBeVisible();
-        Alert alert = page.alerts().alert(0);
+        Alert alert = page.alerts(Alert.Placement.topLeft).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Title");
         alert.shouldHaveText("Text");
         alert.shouldHaveColor(Colors.PRIMARY);
-        alert.shouldHavePlacement(Alert.Placement.topLeft);
 
         message.clear();
 
@@ -91,11 +90,10 @@ public class WebSocketNotificationAT extends AutoTestBase {
 
         webSocketMessageController.sendAlert(DESTINATION, message);
         page.shouldBeVisible();
-        alert = page.alerts().alert(0);
+        alert = page.alerts(Alert.Placement.bottomRight).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Hello world");
         alert.shouldHaveText("Привет Мир");
         alert.shouldHaveColor(Colors.DANGER);
-        alert.shouldHavePlacement(Alert.Placement.bottomRight);
     }
 }

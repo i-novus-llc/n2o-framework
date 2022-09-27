@@ -14,6 +14,7 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -187,7 +188,7 @@ public class TableAT extends AutoTestBase {
         rows.row(0).hover();
         button.shouldBeEnabled();
         button.click();
-        page.alerts().alert(0).shouldHaveText("echo");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("echo");
 
         button = rows.row(1).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
         button.shouldNotExists();

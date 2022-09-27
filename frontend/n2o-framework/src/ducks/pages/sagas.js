@@ -4,6 +4,7 @@ import {
     select,
     takeEvery,
     throttle,
+    fork,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import { getAction, getLocation } from 'connected-react-router'
@@ -88,7 +89,7 @@ export function* getMetadata(apiProvider, action) {
         yield put(setStatus(metadata.id, 200))
         yield put(metadataSuccess(metadata.id, metadata))
 
-        yield call(mapPageQueryToUrl, metadata.id, metadata.models)
+        yield fork(mapPageQueryToUrl, metadata.id, metadata.models)
     } catch (err) {
         if (err && err.status) {
             yield put(setStatus(pageId, err.status))

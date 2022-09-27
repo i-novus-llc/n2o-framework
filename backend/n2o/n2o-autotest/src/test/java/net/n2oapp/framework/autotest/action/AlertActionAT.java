@@ -50,34 +50,30 @@ public class AlertActionAT extends AutoTestBase {
         StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
 
         toolbar.topLeft().button("Тестирование текста и заголовка").click();
-        Alert alert = page.alerts().alert(0);
+        Alert alert = page.alerts(Alert.Placement.topLeft).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Простое уведомление");
         alert.shouldHaveText("Привет, мир!");
         alert.shouldHaveColor(Colors.SECONDARY);
-        alert.shouldHavePlacement(Alert.Placement.topLeft);
         alert.closeButton().shouldExists();
 
         toolbar.topLeft().button("Тестирование таймаута").click();
-        alert = page.alerts().alert(0);
+        alert = page.alerts(Alert.Placement.topRight).alert(0);
         alert.shouldHaveColor(Colors.INFO);
-        alert.shouldHavePlacement(Alert.Placement.topRight);
         alert.closeButton().shouldNotExists();
         alert.shouldNotExists();
 
         toolbar.topLeft().button("Тестирование кнопки закрыть").click();
-        alert = page.alerts().alert(0);
+        alert = page.alerts(Alert.Placement.bottomRight).alert(0);
         alert.shouldHaveColor(Colors.LIGHT);
-        alert.shouldHavePlacement(Alert.Placement.bottomRight);
         alert.closeButton().shouldExists();
         alert.closeButton().click();
         alert.shouldNotExists();
 
         toolbar.topLeft().button("Тестирование ссылки").click();
-        alert = page.alerts().alert(0);
+        alert = page.alerts(Alert.Placement.bottomLeft).alert(0);
         alert.shouldExists();
         alert.shouldHaveColor(Colors.WARNING);
-        alert.shouldHavePlacement(Alert.Placement.bottomLeft);
         alert.closeButton().shouldExists();
         alert.shouldHaveUrl(getBaseUrl() + "/#/test");
         alert.shouldHaveText("Привет, мир!");

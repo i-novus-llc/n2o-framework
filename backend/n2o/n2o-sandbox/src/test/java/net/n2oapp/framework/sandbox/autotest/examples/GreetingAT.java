@@ -3,9 +3,9 @@ package net.n2oapp.framework.sandbox.autotest.examples;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -53,7 +53,7 @@ public class GreetingAT extends SandboxAutotestBase {
         inputText.shouldHaveValue("name");
 
         button.click();
-        page.alerts().alert(0).shouldHaveText("Привет, " + "name");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Привет, " + "name");
     }
 
 }

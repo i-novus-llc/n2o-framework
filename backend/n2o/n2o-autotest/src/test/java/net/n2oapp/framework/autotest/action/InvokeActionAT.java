@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -57,8 +58,8 @@ public class InvokeActionAT extends AutoTestBase {
 
         StandardButton btn = page.toolbar().bottomRight().button("Сохранить");
         btn.click();
-        page.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
-        page.alerts().alert(0).shouldHaveText("form_value=1 second_form.value=2 second_form.value2=3");
-
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveColor(Colors.SUCCESS);
+        alert.shouldHaveText("form_value=1 second_form.value=2 second_form.value2=3");
     }
 }

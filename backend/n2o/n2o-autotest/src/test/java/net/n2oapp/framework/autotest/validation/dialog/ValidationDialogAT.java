@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -70,7 +71,7 @@ public class ValidationDialogAT extends AutoTestBase {
         age.val("20");
         modalSaveBtn.click();
         modal.shouldNotExists();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(3);
         tableRows.row(2).cell(0).textShouldHave("3");
         tableRows.row(2).cell(1).textShouldHave("Mark");
@@ -87,7 +88,7 @@ public class ValidationDialogAT extends AutoTestBase {
         modalSaveBtn.click();
         dialog.click("Yes");
         modal.shouldNotExists();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(4);
         tableRows.row(3).cell(0).textShouldHave("4");
         tableRows.row(3).cell(1).textShouldHave("default");
@@ -104,7 +105,7 @@ public class ValidationDialogAT extends AutoTestBase {
         modalSaveBtn.click();
         dialog.click("Yes");
         modal.shouldNotExists();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(5);
         tableRows.row(4).cell(0).textShouldHave("5");
         tableRows.row(4).cell(1).textShouldHave("Ann");

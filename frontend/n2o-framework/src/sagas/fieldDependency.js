@@ -6,7 +6,6 @@ import {
     takeEvery,
     takeLatest,
     delay,
-    cancel,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
@@ -38,18 +37,26 @@ import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
 
 import fetchSaga from './fetch'
 
-const FetchValueCache = new Set()
+const FetchValueCache = new Map()
 
-export function* fetchValue(form, field, { dataProvider, valueFieldId }, cleanUp) {
+export function* fetchValue(values, form, field, { dataProvider, valueFieldId }) {
+    const fetchValueKey = `${form}.${field}`
+
     try {
         yield delay(300)
         yield put(setLoading(form, field, true))
         const state = yield select()
-        const { url, headersParams } = yield call(
-            dataProviderResolver,
+        const { url, headersParams, baseQuery } = dataProviderResolver(
             state,
             dataProvider,
         )
+
+        if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) {
+            return
+        }
+
+        FetchValueCache.set(fetchValueKey, baseQuery)
+
         const response = yield call(fetchSaga, FETCH_VALUE, {
             url,
             headers: headersParams,
@@ -62,12 +69,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }, cleanUp
             : get(response, 'list[0]', null)
 
         const currentModel = isMultiModel ? model : model[valueFieldId]
+        const prevFieldValue = get(values, field)
+        const nextFieldValue = valueFieldId ? currentModel : model
 
-        if (model) {
+        if (model && !isEqual(prevFieldValue, nextFieldValue)) {
             yield put(
                 change(form, field, {
                     keepDirty: true,
-                    value: valueFieldId ? currentModel : model,
+                    value: nextFieldValue,
                 }),
             )
         }
@@ -83,7 +92,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }, cleanUp
         console.error(e)
     } finally {
         yield put(setLoading(form, field, false))
-        cleanUp()
+        FetchValueCache.delete(fetchValueKey)
     }
 }
 
@@ -173,20 +182,13 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'fetchValue': {
-            const fetchValueKey = `${formName}.${fieldName}`
-            const task = yield fork(
+            yield fork(
                 fetchValue,
+                values,
                 formName,
                 fieldName,
                 dependency,
-                () => FetchValueCache.delete(fetchValueKey),
             )
-
-            if (FetchValueCache.has(fetchValueKey)) {
-                yield cancel(task)
-            } else {
-                FetchValueCache.add(fetchValueKey)
-            }
 
             break
         }
