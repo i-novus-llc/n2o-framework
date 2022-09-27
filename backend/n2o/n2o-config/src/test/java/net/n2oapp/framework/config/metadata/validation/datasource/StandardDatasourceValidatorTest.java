@@ -139,4 +139,14 @@ public class StandardDatasourceValidatorTest extends SourceValidationTestBase {
         exception.expectMessage("В выборке 'utDs' поле 'name' не содержит фильтр типа 'notEq'!");
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredReferenceForPrefiltersQueryFieldFilterType.page.xml");
     }
+
+    /**
+     * Проверяется наличие обязательного атрибута field-id для префильтра
+     */
+    @Test
+    public void testRequiredPrefilterFieldId() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Источник данных 'ds1' содержит префильтр без указанного field-id!");
+        validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredPrefilterFieldId.page.xml");
+    }
 }
