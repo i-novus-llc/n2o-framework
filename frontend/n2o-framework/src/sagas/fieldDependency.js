@@ -2,11 +2,9 @@ import {
     call,
     put,
     select,
-    take,
     fork,
     takeEvery,
     delay,
-    cancel,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
@@ -36,16 +34,26 @@ import * as presets from '../core/validation/presets'
 
 import fetchSaga from './fetch'
 
-export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
+const FetchValueCache = new Map()
+
+export function* fetchValue(values, form, field, { dataProvider, valueFieldId }) {
+    const fetchValueKey = `${form}.${field}`
+
     try {
         yield delay(300)
         yield put(setLoading(form, field, true))
         const state = yield select()
-        const { url, headersParams } = yield call(
-            dataProviderResolver,
+        const { url, headersParams, baseQuery } = dataProviderResolver(
             state,
             dataProvider,
         )
+
+        if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) {
+            return
+        }
+
+        FetchValueCache.set(fetchValueKey, baseQuery)
+
         const response = yield call(fetchSaga, FETCH_VALUE, {
             url,
             headers: headersParams,
@@ -58,12 +66,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
             : get(response, 'list[0]', null)
 
         const currentModel = isMultiModel ? model : model[valueFieldId]
+        const prevFieldValue = get(values, field)
+        const nextFieldValue = valueFieldId ? currentModel : model
 
-        if (model) {
+        if (model && !isEqual(prevFieldValue, nextFieldValue)) {
             yield put(
                 change(form, field, {
                     keepDirty: true,
-                    value: valueFieldId ? currentModel : model,
+                    value: nextFieldValue,
                 }),
             )
         }
@@ -79,12 +89,13 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
         console.error(e)
     } finally {
         yield put(setLoading(form, field, false))
+        FetchValueCache.delete(fetchValueKey)
     }
 }
 
 // eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
-    const { type, expression, on } = dependency
+    const { type, expression } = dependency
 
     const evalResult = expression
         ? evalExpression(expression, values)
@@ -197,19 +208,13 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'fetchValue': {
-            const watcher = yield fork(fetchValue, formName, fieldName, dependency)
-            const action = yield take((action) => {
-                if (action.type !== actionTypes.CHANGE) { return false }
-                // TODO Выяснить может ли fetch быть без зависимостей, если нет, то убрать
-                if (!on || !on.length) { return true }
-
-                return on.includes(get(action, 'meta.field'))
-            })
-
-            // TODO разобраться с этим условием, не уверен что актуально
-            if (get(action, 'meta.field') !== fieldName) {
-                yield cancel(watcher)
-            }
+            yield fork(
+                fetchValue,
+                values,
+                formName,
+                fieldName,
+                dependency,
+            )
 
             break
         }
