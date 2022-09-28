@@ -21,9 +21,9 @@ import javax.persistence.NonUniqueResultException;
 public class SandboxOperationExceptionHandler implements OperationExceptionHandler {
     @Override
     public N2oException handle(CompiledObject.Operation o, DataSet data, Exception e) {
-        if (e instanceof N2oGraphQlException) {
+        if (e instanceof N2oGraphQlException)
             return GraphQlUtil.constructErrorMessage((N2oGraphQlException) e);
-        }
+
         if (e instanceof N2oException) {
             if (e.getCause() instanceof NonUniqueResultException)
                 return notUniqueDialog(data);

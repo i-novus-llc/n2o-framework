@@ -47,8 +47,8 @@ public class CustomActionsAT extends AutoTestBase {
         StandardButton customInvoke = page.widget(FormWidget.class).toolbar().topLeft().button("Custom invoke");
         customInvoke.click();
 
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
-        page.alerts().alert(0).shouldHavePlacement(Alert.Placement.top);
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveText("Данные сохранены");
 
         page.breadcrumb().titleShouldHaveText("Страница для редиректа");
     }

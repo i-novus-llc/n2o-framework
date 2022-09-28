@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -212,25 +213,26 @@ public class DatasourceAT extends AutoTestBase {
         nameInput.val("Сергей");
         birthdayInput.val(formatter.format(LocalDate.now().plusDays(1)));
         createButton.click();
-        page.alerts().alert(0).shouldHaveText("Дата рождения не может быть в будущем");
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveText("Дата рождения не может быть в будущем");
         table.columns().rows().shouldNotHaveRows();
 
         nameInput.val("Сергей");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        alert.shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(1);
 
         nameInput.val("Сергей");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
-        page.alerts().alert(0).shouldHaveText("Имя Сергей уже существует");
+        alert.shouldHaveText("Имя Сергей уже существует");
         table.columns().rows().shouldHaveSize(1);
 
         nameInput.val("Артем");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        alert.shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(2);
     }
 

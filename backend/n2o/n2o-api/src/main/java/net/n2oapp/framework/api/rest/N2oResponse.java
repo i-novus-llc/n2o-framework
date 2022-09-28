@@ -75,9 +75,8 @@ public class N2oResponse {
         if (messageList == null || messageList.isEmpty())
             return;
 
-        if (messageList.stream().anyMatch(m -> m.getField() == null)) {
+        if (messageList.stream().anyMatch(m -> m.getField() == null))
             getMeta().setAlert(new AlertSaga());
-        }
         messageList.forEach(m -> addResponseMessage(m, widgetId));
     }
 

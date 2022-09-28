@@ -44,7 +44,7 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
 
     @Override
     public Tooltip tooltip() {
-        SelenideElement element = element().parent().parent().parent().$(".tooltip-container");
+        SelenideElement element = element().parent().parent().parent().parent().$(".tooltip-container");
         return N2oSelenide.component(element, Tooltip.class);
     }
 }

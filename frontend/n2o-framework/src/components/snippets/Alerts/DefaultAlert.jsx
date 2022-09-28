@@ -1,5 +1,6 @@
 import React from 'react'
 import omit from 'lodash/omit'
+import PropTypes from 'prop-types'
 
 import { AlertTypes } from './AlertsTypes'
 import { AlertWrapper } from './AlertWrapper'
@@ -22,6 +23,7 @@ export const DefaultAlert = ({
     togglingStacktrace,
     onClose = null,
     isField = false,
+    animationDirection,
 }) => {
     const severity = propsSeverity || 'secondary'
 
@@ -74,6 +76,7 @@ export const DefaultAlert = ({
         stacktrace,
         href,
         style,
+        animationDirection,
     }
 
     /* simple one section alert without extra features */
@@ -117,4 +120,7 @@ export const DefaultAlert = ({
     )
 }
 
-DefaultAlert.propTypes = AlertTypes
+DefaultAlert.propTypes = {
+    ...AlertTypes,
+    animationDirection: PropTypes.oneOf(['default', 'reversed']),
+}

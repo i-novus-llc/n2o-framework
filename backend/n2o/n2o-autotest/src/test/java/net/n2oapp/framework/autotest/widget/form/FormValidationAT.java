@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -61,12 +62,12 @@ public class FormValidationAT extends AutoTestBase {
         form1Control.shouldBeEmpty();
         validateFormBtn.click();
         form1Field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        page.alerts().shouldBeEmpty();
+        page.alerts(Alert.Placement.top).shouldBeEmpty();
 
         form1Control.val("value1");
         validateFormBtn.click();
         form1Field.shouldHaveValidationMessage(Condition.empty);
-        page.alerts().shouldHaveSize(1);
+        page.alerts(Alert.Placement.top).shouldHaveSize(1);
 
         // validate all forms
         tabs.tab(2).click();
@@ -75,7 +76,7 @@ public class FormValidationAT extends AutoTestBase {
         form3Control.val("value3");
 
         validatePageBtn.click();
-        page.alerts().shouldBeEmpty();
+        page.alerts(Alert.Placement.top).shouldBeEmpty();
 
         tabs.tab(1).click();
         StandardField form2Field = tabs.tab(1).content().widget(FormWidget.class).fields().field("form2.name");
@@ -83,7 +84,7 @@ public class FormValidationAT extends AutoTestBase {
         form2Control.val("value2");
 
         validatePageBtn.click();
-        page.alerts().shouldHaveSize(1);
+        page.alerts(Alert.Placement.top).shouldHaveSize(1);
 
     }
 }

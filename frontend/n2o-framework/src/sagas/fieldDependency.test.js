@@ -163,6 +163,7 @@ describe('Проверка саги dependency', () => {
             await runSaga(
                 fakeStore,
                 fetchValue,
+                {},
                 'testForm',
                 'testField',
                 {
