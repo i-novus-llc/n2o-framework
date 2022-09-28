@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.register.route;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.*;
@@ -305,5 +306,49 @@ public abstract class RouteUtil {
      */
     public static String parseQuery(String url) {
         return url.contains("?") ? url.substring(url.indexOf('?') + 1) : null;
+    }
+
+    /**
+     * Получение уровня вложенности относительного пути
+     *
+     * Пример 1:
+     *
+     * Входные данные: "../"
+     * Выходные данные: 1
+     *
+     * Пример 2:
+     *
+     * Входные данные: "../../../"
+     * Выходные данные: 3
+     *
+     * Пример 3:
+     *
+     * Входные данные: "/"
+     * Выходные данные: 0
+     *
+     * @param url Адрес
+     * @return Уровень вложенности
+     */
+    public static Integer getRelativeLevel(String url) {
+        if (!hasRelativity(url))
+            return 0;
+        String[] split = url.split("/");
+        for (String points : split) {
+            if (!"..".equals(points))
+                throw new N2oException("Url: \"" + url + "\" has wrong relative format");
+        }
+
+        return split.length;
+    }
+
+    /**
+     * Проверка наличия в адресе относительных ссылок
+     *
+     * @param url Адрес
+     */
+    public static boolean hasRelativity(String url) {
+        if (url == null)
+            return false;
+        return url.contains("../");
     }
 }

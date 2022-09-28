@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import PropTypes from 'prop-types'
 
-function DefaultBreadcrumb({ items }) {
+export function DefaultBreadcrumb({ items }) {
     const { N2O_ELEMENT_VISIBILITY } = window
     let style = {}
 

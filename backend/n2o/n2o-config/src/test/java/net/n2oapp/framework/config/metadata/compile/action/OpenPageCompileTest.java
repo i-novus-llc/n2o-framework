@@ -77,7 +77,8 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testDefaultValue.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testPreFilter.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithRefWidget.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testRefbook.query.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testRefbook.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testCustomBreadcrumb.page.xml"));
     }
 
     @Test
@@ -552,5 +553,28 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         link = (LinkAction) toolbar.getButton("id2").getAction();
         assertThat(link.getUrl(), is("#/testSimpleOpenPage/view"));
         assertThat(link.getTarget(), is(Target.newWindow));
+    }
+
+    @Test
+    public void testCustomBreadcrumb() {
+        DataSet data = new DataSet("id", 123);
+        PageContext context = new PageContext("testOpenPageParent", "/page/:id/view");
+        ModelLink modelLink = new ModelLink(ReduxModel.resolve, "ds1");
+        modelLink.setValue("`id`");
+        context.setPathRouteMapping(Collections.singletonMap("id", modelLink));
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageParent.page.xml")
+                .bind().get(context, data);
+        assertThat(page.getRoutes().findRouteByUrl("/page/123/view"), notNullValue());
+
+        Page openPage = routeAndGet("/page/123/view/open", Page.class);
+        assertThat(openPage.getBreadcrumb().size(), is(3));
+        assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("First"));
+        assertThat(openPage.getBreadcrumb().get(0).getPath(), is("/"));
+        assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("Second"));
+        assertThat(openPage.getBreadcrumb().get(1).getPath(), is("/123/page2"));
+        assertThat(openPage.getBreadcrumb().get(2).getLabel(), is("Third 123"));
+        assertThat(openPage.getBreadcrumb().get(2).getPath(), nullValue());
+        assertThat(openPage.getPageProperty().getTitle(), is("Id 123"));
+        assertThat(openPage.getPageProperty().getHtmlTitle(), is("Id 123"));
     }
 }

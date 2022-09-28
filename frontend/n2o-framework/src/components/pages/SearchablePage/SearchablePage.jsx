@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import { compose, withHandlers, withProps, mapProps } from 'recompose'
 import { createStructuredSelector } from 'reselect'
-import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
@@ -10,10 +9,8 @@ import debounce from 'lodash/debounce'
 import { set } from 'lodash'
 
 import Alert from '../../snippets/Alerts/Alert'
-import DocumentTitle from '../../core/DocumentTitle'
-import PageTitle from '../../core/PageTitle'
-import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb'
-import BreadcrumbContainer from '../../core/Breadcrumb/BreadcrumbContainer'
+import { PageTitle, PageTitle as DocumentTitle } from '../../core/PageTitle'
+import { BreadcrumbContainer } from '../../core/Breadcrumb/BreadcrumbContainer'
 import Toolbar from '../../buttons/Toolbar'
 import PageRegions from '../PageRegions'
 // eslint-disable-next-line import/no-named-as-default
@@ -27,7 +24,7 @@ import { ModelPrefix } from '../../../core/datasource/const'
 
 function SearchablePage({
     id,
-    metadata,
+    metadata = {},
     toolbar,
     pageId,
     error,
@@ -40,7 +37,8 @@ function SearchablePage({
     initSearchValue,
     dispatch,
 }) {
-    const { style, className, datasources } = metadata
+    const { style, className, datasources, page, breadcrumb } = metadata
+    const { title, htmlTitle, datasource, model: modelPrefix } = page
     const searchHandler = useMemo(() => debounce(onSearch, FILTER_DELAY), [onSearch])
 
     usePageRegister(datasources, dispatch, pageId)
@@ -57,19 +55,16 @@ function SearchablePage({
             style={style}
         >
             {error && <Alert {...error} visible />}
-            {!isEmpty(metadata) && metadata.page && (
-                <DocumentTitle {...metadata.page} />
-            )}
+            <DocumentTitle htmlTitle={htmlTitle} datasource={datasource} modelPrefix={modelPrefix} />
             <div className="n2o-searchable-page__breadcrumbs">
-                {!isEmpty(metadata) && metadata.breadcrumb && (
-                    <BreadcrumbContainer
-                        defaultBreadcrumb={DefaultBreadcrumb}
-                        items={metadata.breadcrumb}
-                    />
-                )}
+                <BreadcrumbContainer
+                    breadcrumb={breadcrumb}
+                    datasource={datasource}
+                    modelPrefix={modelPrefix}
+                />
             </div>
             <div className="n2o-searchable-page__title d-flex align-items-center my-3">
-                <PageTitle className="mr-0" {...get(metadata, 'page', {})} />
+                <PageTitle title={title} datasource={datasource} modelPrefix={modelPrefix} className="mr-0" />
                 <Toolbar className="ml-2" entityKey={pageId} toolbar={toolbar.title} />
                 <SearchBar
                     {...searchBar}

@@ -18,6 +18,8 @@ export enum ModelPrefix {
     edit = 'edit'
 }
 
+export type ModelPrefixes = 'resolve' | 'multi' | 'datasource' | 'filter' | 'edit'
+
 /**
  * @enum DependencyTypes Типы зависимостей
  */
@@ -53,3 +55,11 @@ export type DataSourceDependency = (
     | DataSourceDependencyCopy
     | DataSourceDependencyValidate
 )
+
+export interface IDataSourceModels {
+    datasource: object[],
+    edit: object,
+    filter: object,
+    multi: object[],
+    resolve: object,
+}

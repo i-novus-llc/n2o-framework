@@ -21,7 +21,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
-import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -36,7 +35,6 @@ import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDataso
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
 
@@ -60,24 +58,21 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                              Object... scopes);
 
     public D compilePage(S source, D page, PageContext context, CompileProcessor p, SearchBarScope searchBarScope) {
+        String pageName = p.cast(context.getPageName(), source.getName());
+        page.setPageProperty(initPageName(source, pageName, context, p));
+        compileBaseProperties(source, page, context, p);
         String pageRoute = initPageRoute(source, context, p);
-        page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
 
         List<N2oWidget> sourceWidgets = collectWidgets(source, p);
         N2oWidget resultWidget = initResultWidget(sourceWidgets);
 
-        String pageName = p.cast(context.getPageName(), source.getName());
-        page.setPageProperty(initPageName(source, pageName, context, p));
-        BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);
+        BreadcrumbList breadcrumb = initBreadcrumb(source, pageName, context, p);
         page.setBreadcrumb(breadcrumb);
 
         CompiledObject object = initObject(source, p);
         page.setClassName(source.getCssClass());
         page.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compileComponent(page, source, context, p);
-
-        Models models = new Models();
-        page.setModels(models);
 
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
@@ -95,7 +90,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //regions
         IndexScope index = new IndexScope();
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
-                breadcrumb, validationScope, models, pageRoutesScope, searchBarScope, subModelsScope,
+                breadcrumb, validationScope, page.getModels(), pageRoutesScope, searchBarScope, subModelsScope,
                 copiedFieldScope, datasourcesScope, appDatasourcesIdScope, metaActions, filtersScope, index));
 
         //datasources
@@ -113,6 +108,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         initToolbarGenerate(source, context, resultWidget);
         compileToolbarAndAction(page, source, context, p, pageScope, routeScope, pageRoutes, object,
                 breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourcesIdScope);
+
+        if (source.getDatasourceId() != null)
+            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
+
         return page;
     }
 

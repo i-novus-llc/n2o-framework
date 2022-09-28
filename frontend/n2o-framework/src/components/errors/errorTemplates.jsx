@@ -1,34 +1,34 @@
 import React from 'react'
 
 import translation from '../../locales/ru/translation'
-import DocumentTitle from '../core/DocumentTitle'
+import { PageTitle as DocumentTitle } from '../core/PageTitle'
 
 import ErrorPage from './ErrorPage'
 
 const ForbiddenPage = () => (
     <>
-        <DocumentTitle title={translation.accessDenied} />
+        <DocumentTitle htmlTitle={translation.accessDenied} />
         <ErrorPage status={403} error={translation.accessDenied} />
     </>
 )
 
 const NotFoundPage = () => (
     <>
-        <DocumentTitle title={translation.pageNotFound} />
+        <DocumentTitle htmlTitle={translation.pageNotFound} />
         <ErrorPage status={404} error={translation.pageNotFound} />
     </>
 )
 
 const ServerErrorPage = () => (
     <>
-        <DocumentTitle title={translation.innerAppError} />
+        <DocumentTitle htmlTitle={translation.innerAppError} />
         <ErrorPage status={500} error={translation.innerAppError} />
     </>
 )
 
 const BadGatewayPage = () => (
     <>
-        <DocumentTitle title={translation.badGateway} />
+        <DocumentTitle htmlTitle={translation.badGateway} />
         <ErrorPage status={502} error={translation.badGateway} />
     </>
 )

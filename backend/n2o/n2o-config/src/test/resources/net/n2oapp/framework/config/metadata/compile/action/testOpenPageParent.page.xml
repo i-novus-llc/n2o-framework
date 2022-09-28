@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button id="testCustomBreadcrumb">
+            <open-page page-id="testCustomBreadcrumb" page-name="Id {id}" route="/open">
+                <breadcrumbs>
+                    <crumb label="First" path="/"/>
+                    <crumb label="Second" path="/:id/page2"/>
+                    <crumb label="Third {id}"/>
+                </breadcrumbs>
+            </open-page>
+        </button>
+    </toolbar>
+</page>
