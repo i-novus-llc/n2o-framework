@@ -33,7 +33,7 @@ export function* invoke() {
 }
 
 export function* query(id: string, provider: ServiceProvider, options: QueryOptions) {
-    const { size, sorting, page, pageId } = yield select(dataSourceByIdSelector(id))
+    const { sorting, paging: { page, size }, pageId } = yield select(dataSourceByIdSelector(id))
 
     if (!provider.url) {
         throw new Error('Parameter "url" is required for fetch data')

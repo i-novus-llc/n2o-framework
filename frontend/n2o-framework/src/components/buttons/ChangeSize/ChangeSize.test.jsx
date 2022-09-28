@@ -11,7 +11,9 @@ const store = configureStore(
     {
         datasource: {
             ds1: {
-                size: 1,
+                paging: {
+                    size: 1,
+                }
             }
         },
         widgets: {

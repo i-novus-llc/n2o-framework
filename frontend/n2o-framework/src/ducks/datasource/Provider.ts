@@ -43,10 +43,16 @@ export interface InheritedProvider extends IProvider {
     sourceField?: string
 }
 
+export interface Paging {
+    page: number
+    size: number
+    count: number
+}
+
 export interface QueryResult<TModel extends object = object> {
     list: TModel[]
-    page: number
-    count: number
+    additionalInfo?: object
+    paging: Paging
     meta?: object
 }
 
