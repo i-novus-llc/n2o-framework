@@ -31,7 +31,7 @@ export function* submit(id: string, { key, model: prefix, storage }: StorageSubm
 
 export function* query(id: string, { storage, key }: StorageProvider, options: QueryOptions) {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
-    const { size, sorting, page } = datasource
+    const { sorting, paging: { page, size } } = datasource
 
     if (!key) {
         throw new Error('Parametr "key" is required for query data')
@@ -44,8 +44,10 @@ export function* query(id: string, { storage, key }: StorageProvider, options: Q
     if (!storageData) {
         return {
             list: [],
-            page: 1,
-            count: 0,
+            paging: {
+                page: 1,
+                count: 0,
+            },
         }
     }
 
@@ -57,7 +59,7 @@ export function* query(id: string, { storage, key }: StorageProvider, options: Q
 
     const filtered = applyFilter(json)
     const sortered = applySorting(filtered, sorting)
-    const { list, page: newPage } = applyPaging(
+    const { list, paging } = applyPaging(
         sortered,
         {
             size,
@@ -67,8 +69,10 @@ export function* query(id: string, { storage, key }: StorageProvider, options: Q
 
     return {
         list,
-        page: newPage,
-        count: filtered.length,
+        paging: {
+            page: paging.page,
+            count: filtered.length,
+        },
     }
 }
 

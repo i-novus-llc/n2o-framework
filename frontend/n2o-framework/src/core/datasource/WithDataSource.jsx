@@ -20,20 +20,16 @@ export const useDatasourceProps = (datasource) => {
     const {
         loading,
         sorting,
-        page,
-        count,
-        size,
+        paging,
     } = useSelector(dataSourceByIdSelector(datasource))
 
     const models = useSelector(dataSourceModelsSelector((datasource)))
 
     return {
-        size,
         models,
         loading,
         sorting,
-        page,
-        count,
+        ...paging,
     }
 }
 

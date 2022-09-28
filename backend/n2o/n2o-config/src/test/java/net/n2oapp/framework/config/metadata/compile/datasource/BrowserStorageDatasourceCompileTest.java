@@ -41,7 +41,7 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
                         .get(new PageContext("testBrowserStorageDatasource"));
 
         BrowserStorageDatasource datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds1");
-        assertThat(datasource.getSize(), is(13));
+        assertThat(datasource.getPaging().getSize(), is(13));
 
         assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageType.localStorage));
         assertThat(datasource.getSubmit().getType(), is("browser"));
@@ -68,7 +68,7 @@ public class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
 
         // default
         datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds2");
-        assertThat(datasource.getSize(), is(10));
+        assertThat(datasource.getPaging().getSize(), is(10));
         assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageType.sessionStorage));
         assertThat(datasource.getSubmit().getType(), is("browser"));
         assertThat(datasource.getSubmit().getAuto(), is(true));

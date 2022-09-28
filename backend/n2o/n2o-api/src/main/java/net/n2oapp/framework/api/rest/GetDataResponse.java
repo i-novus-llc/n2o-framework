@@ -23,11 +23,9 @@ public class GetDataResponse extends N2oResponse {
     @JsonInclude
     private List<DataSet> list;
     @JsonProperty
-    private Integer count;
+    private Paging paging;
     @JsonProperty
-    private Integer size;
-    @JsonProperty
-    private Integer page;
+    private Object additionalInfo;
 
     public GetDataResponse() {
     }
@@ -38,17 +36,14 @@ public class GetDataResponse extends N2oResponse {
 
     public GetDataResponse(DataSet dataSet, Criteria criteria, QueryResponseInfo responseInfo, String widgetId) {
         list = Collections.singletonList(dataSet);
-        size = criteria.getSize();
-        count = 1;
-        page = criteria.getPage();
+        paging = new Paging(criteria.getPage(), criteria.getSize(), 1);
         setResponseMessages(responseInfo.getMessageList(), widgetId);
     }
 
     public GetDataResponse(CollectionPage<DataSet> collectionPage, QueryResponseInfo responseInfo, String widgetId) {
         list = (List<DataSet>) collectionPage.getCollection();
-        size = collectionPage.getCriteria().getSize();
-        count = collectionPage.getCount();
-        page = collectionPage.getCriteria().getPage();
+        paging = new Paging(collectionPage.getCriteria().getPage(), collectionPage.getCriteria().getSize(), collectionPage.getCount());
+        additionalInfo = collectionPage.getAdditionalInfo();
         setResponseMessages(responseInfo.getMessageList(), widgetId);
     }
 }

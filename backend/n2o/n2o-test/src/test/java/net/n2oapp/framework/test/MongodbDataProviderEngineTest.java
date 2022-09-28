@@ -90,7 +90,7 @@ public class MongodbDataProviderEngineTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(5));
+        assertThat(result.getPaging().getCount(), is(5));
         DataSet document = result.getList().get(0);
         //simple
         assertThat(document.get("name"), is("Anna"));
@@ -111,7 +111,7 @@ public class MongodbDataProviderEngineTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(5));
+        assertThat(result.getPaging().getCount(), is(5));
         assertThat(result.getList().size(), is(2));
         DataSet document = result.getList().get(0);
         assertThat(document.get("name"), is("Anna"));
@@ -137,7 +137,7 @@ public class MongodbDataProviderEngineTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
         DataSet document = result.getList().get(0);
         assertThat(document.get("name"), is("Inna"));
         String id = (String) document.get("id");
@@ -146,14 +146,14 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
         document = result.getList().get(0);
         assertThat(document.get("id"), is(id));
         fooResourceUrl = "http://localhost:" + appPort + queryPath + "?gender_id=1&size=10&page=1";
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
         document = result.getList().get(0);
         assertThat(document.get("name"), is("Artur"));
 
@@ -163,7 +163,7 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(2));
+        assertThat(result.getPaging().getCount(), is(2));
 
         //likeStart with body
         restTemplate = new RestTemplate();
@@ -171,7 +171,7 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
         assertThat(result.getList().get(0).get("name"), is("Inna"));
 
         //notEq
@@ -180,7 +180,7 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(4));
+        assertThat(result.getPaging().getCount(), is(4));
 
         //in
         restTemplate = new RestTemplate();
@@ -188,7 +188,7 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(2));
+        assertThat(result.getPaging().getCount(), is(2));
 
         //in string
         restTemplate = new RestTemplate();
@@ -196,7 +196,7 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(2));
+        assertThat(result.getPaging().getCount(), is(2));
         String id1 = result.getList().get(0).getId();
         String id2 = result.getList().get(1).getId();
 
@@ -206,7 +206,7 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(2));
+        assertThat(result.getPaging().getCount(), is(2));
 
         //notIn
         restTemplate = new RestTemplate();
@@ -214,7 +214,7 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(2));
+        assertThat(result.getPaging().getCount(), is(2));
 
         //more, less
         restTemplate = new RestTemplate();
@@ -222,7 +222,7 @@ public class MongodbDataProviderEngineTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assertThat(result.getCount(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
     }
 
     @Test
@@ -243,7 +243,7 @@ public class MongodbDataProviderEngineTest {
         ResponseEntity<GetDataResponse> responseList = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert responseList.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = responseList.getBody();
-        assertThat(result.getCount(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
         DataSet document = result.getList().get(0);
         assertThat(document.get("name"), is("test"));
         assertThat(document.get("userAge"), is(99));
@@ -267,7 +267,7 @@ public class MongodbDataProviderEngineTest {
         ResponseEntity<GetDataResponse> responseList = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert responseList.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = responseList.getBody();
-        assertThat(result.getCount(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
         DataSet document = result.getList().get(0);
         assertThat(document.get("name"), is("test22"));
         assertThat(document.get("userAge"), is(99));
@@ -290,7 +290,7 @@ public class MongodbDataProviderEngineTest {
         ResponseEntity<GetDataResponse> responseList = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert responseList.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = responseList.getBody();
-        assertThat(result.getCount(), is(0));
+        assertThat(result.getPaging().getCount(), is(0));
     }
 
     @Test

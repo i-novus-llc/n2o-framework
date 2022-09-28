@@ -3,7 +3,7 @@ import type { DataSourceDependency, SortDirection } from '../../core/datasource/
 import { ModelPrefix } from '../../core/datasource/const'
 import { ValidationsKey, IValidation, IValidationResult } from '../../core/validation/IValidation'
 
-import type { IProvider, ISubmit } from './Provider'
+import type { IProvider, ISubmit, Paging } from './Provider'
 
 export type State = Record<string, DataSourceState>
 
@@ -16,9 +16,8 @@ export interface DataSourceState<
     [ValidationsKey.FilterValidations]: Record<string, IValidation[]>
     components: string[]
     dependencies: DataSourceDependency[]
-    size: number
-    page: number
-    count: number
+    paging: Paging
+    additionalInfo: object
     loading: boolean
     sorting: Partial<Record<TKey, SortDirection>>
     submit?: ISubmit
@@ -39,9 +38,12 @@ export class DataSource {
             [ValidationsKey.FilterValidations]: {},
             components: [],
             dependencies: [],
-            size: 0,
-            count: 0,
-            page: 1,
+            paging: {
+                page: 1,
+                size: 1,
+                count: 0,
+            },
+            additionalInfo: {},
             loading: false,
             sorting: {},
             errors: {

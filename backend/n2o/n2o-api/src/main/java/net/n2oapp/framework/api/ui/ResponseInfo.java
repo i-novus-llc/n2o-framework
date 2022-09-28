@@ -18,10 +18,10 @@ public class ResponseInfo  {
     private N2oDialog dialog;
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
-    private AlertMessageBuilder alertMessageBuilder;
 
 
-    public ResponseMessage constructMessage(RequestInfo requestInfo, SeverityType severityType) {
+    public ResponseMessage constructMessage(RequestInfo requestInfo, SeverityType severityType,
+                                            AlertMessageBuilder alertMessageBuilder) {
         return alertMessageBuilder.buildMessage(requestInfo, severityType);
     }
 
