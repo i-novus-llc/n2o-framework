@@ -15,6 +15,7 @@ import propsResolver from '../../utils/propsResolver'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
 import { ModelPrefix } from '../../core/datasource/const'
+import { validate as validateFilters } from '../../core/validation/validate'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -37,7 +38,7 @@ class WidgetFilters extends React.Component {
         this.state = {
             defaultValues: props.filterModel,
         }
-        this.formName = generateFormFilterId(props.widgetId)
+        this.formName = generateFormFilterId(props.datasource)
         this.handleFilter = this.handleFilter.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.debouncedHandleFilter = debounce(this.handleFilter, FILTER_DELAY)
@@ -54,8 +55,15 @@ class WidgetFilters extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { filterModel, reduxFormFilter, setFilter, searchOnChange } = this.props
+        const { filterModel, reduxFormFilter, setFilter, validate, searchOnChange } = this.props
         const { defaultValues } = this.state
+
+        if (!isEqual(prevProps.filterModel, filterModel)) {
+            const { store } = this.context
+            const state = store.getState()
+
+            validate(state, this.formName)
+        }
 
         if (isEqual(reduxFormFilter, filterModel)) { return }
 
@@ -71,7 +79,6 @@ class WidgetFilters extends React.Component {
             }
         } else if (!isEqual(reduxFormFilter, prevProps.reduxFormFilter)) {
             setFilter(reduxFormFilter)
-
             if (searchOnChange) {
                 this.debouncedHandleFilter()
             }
@@ -173,7 +180,7 @@ class WidgetFilters extends React.Component {
 }
 
 WidgetFilters.propTypes = {
-    widgetId: PropTypes.string,
+    datasource: PropTypes.string,
     fieldsets: PropTypes.array,
     visible: PropTypes.bool,
     blackResetList: PropTypes.array,
@@ -184,6 +191,7 @@ WidgetFilters.propTypes = {
     fetchData: PropTypes.func,
     hideButtons: PropTypes.bool,
     searchOnChange: PropTypes.bool,
+    validate: PropTypes.func,
     resetFilterModel: PropTypes.func,
 }
 
@@ -200,12 +208,18 @@ WidgetFilters.childContextTypes = {
 
 const mapStateToProps = createStructuredSelector({
     visible: (state, props) => makeWidgetFilterVisibilitySelector(props.widgetId)(state, props),
-    reduxFormFilter: (state, props) => getFormValues(generateFormFilterId(props.widgetId))(state) || {},
+    reduxFormFilter: (state, props) => getFormValues(generateFormFilterId(props.datasource))(state) || {},
 })
 
 const mapDispatchToProps = dispatch => ({
     dispatch,
     resetFilterModel: formName => dispatch(reset(formName)),
+    validate: (state, datasourceId) => validateFilters(
+        state,
+        datasourceId,
+        ModelPrefix.filter,
+        dispatch,
+    ),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetFilters)
