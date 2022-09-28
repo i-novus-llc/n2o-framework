@@ -71,4 +71,29 @@ public class SimpleHeaderAT extends AutoTestBase {
         link.labelShouldHave("ссылка из extra-menu");
         link.urlShouldHave(getBaseUrl() + "/");
     }
+
+    @Test
+    public void multiLevelDropdown() {
+        String rootUrl = getBaseUrl();
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.header().brandNameShouldBe("Лого");
+        page.header().nav().shouldHaveSize(2);
+
+        DropdownMenuItem dropdown = page.header().nav().dropdown(1);
+        dropdown.labelShouldHave("список");
+        dropdown.click();
+        DropdownMenuItem dropdownLevelTwo = dropdown.item(2, DropdownMenuItem.class);
+        dropdownLevelTwo.labelShouldHave("Многоуровневый список");
+        dropdownLevelTwo.click();
+        dropdown.item(2, DropdownMenuItem.class).shouldHaveSize(2);
+        page.breadcrumb().titleShouldHaveText("Название страницы");
+
+        dropdownLevelTwo.item(0).labelShouldHave("Название страницы");
+        dropdownLevelTwo.item(0).urlShouldHave(rootUrl + "/#/pageRoute");
+        dropdownLevelTwo.item(1).labelShouldHave("элемент многоуровнегосписка №2");
+        dropdownLevelTwo.item(1).urlShouldHave(rootUrl + "/#/pageRoute1");
+        dropdownLevelTwo.item(1).click();
+        page.breadcrumb().titleShouldHaveText("Вторая страница");
+    }
 }
