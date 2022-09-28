@@ -9,10 +9,10 @@ import net.n2oapp.framework.autotest.api.component.header.MenuItem;
  * Кнопка с выпадающим списком для автотестирования
  */
 public class N2oDropdownMenuItem extends N2oMenuItem implements DropdownMenuItem {
-    @Deprecated
+
     @Override
     public AnchorMenuItem item(int index) {
-        return N2oSelenide.component(element().$$(".dropdown-menu li").get(index), N2oAnchorMenuItem.class);
+        return item(index, N2oAnchorMenuItem.class);
     }
 
     @Override
