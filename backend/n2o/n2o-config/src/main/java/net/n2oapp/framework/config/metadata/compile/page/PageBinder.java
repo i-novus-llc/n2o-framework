@@ -122,7 +122,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     }
 
     private String tryToResolve(String title, List<ModelLink> modelLinks, BindProcessor p) {
-        String resolved = p.resolveText(title, modelLinks);
+        String resolved = p.resolveText(title, modelLinks); //TODO использовать только один modelLink https://jira.i-novus.ru/browse/NNO-8532
         return hasLink(resolved) ? ScriptProcessor.resolveLinks(resolved) : resolved;
     }
 

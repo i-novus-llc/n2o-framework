@@ -147,8 +147,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String parentRoute = normalize(route);
         route = normalize(route + actionRoute) + (actionRoute.endsWith("/") ? "/" : "");
         PageContext pageContext = constructContext(pageId, route);
-        if (context instanceof PageContext)
-            pageContext.setParent((PageContext) context);
         if (pageScope != null && pageScope.getWidgetIdClientDatasourceMap() != null)
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
         if (pageScope != null && pageScope.getTabIds() != null)
@@ -185,6 +183,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, p));
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
+        if (context instanceof PageContext) {
+            pageContext.addParentRoute(pageContext.getParentRoute(), ((PageContext) context));
+        }
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
@@ -241,6 +242,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param queryLinks      Ссылки на модели параметров запроса
      * @return список родительских ссылок
      */
+    //TODO убрать в рамках рефакторинга https://jira.i-novus.ru/browse/NNO-8532
     protected List<ModelLink> collectParentLinks(ModelLink actionModelLink, Collection<ModelLink> pathLinks, Collection<ModelLink> queryLinks) {
         List<ModelLink> links = new ArrayList<>();
         links.add(actionModelLink);

@@ -159,9 +159,9 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     private Set<String> parentTabIds;
 
     /**
-     * Контекст родительской страницы
+     * Список всех родительских маршрутов
      */
-    private PageContext parent;
+    private List<String> parentRoutes;
 
     public PageContext(String sourcePageId) {
         super(sourcePageId, N2oPage.class, Page.class);
@@ -187,5 +187,14 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
                     .filter(N2oStandardDatasource.class::isInstance)
                     .forEach(ds -> filters.addAll(Arrays.asList(((N2oStandardDatasource) ds).getFilters())));
         return filters;
+    }
+
+    public void addParentRoute(String route, PageContext context) {
+        if (this.parentRoutes == null)
+            this.parentRoutes = new ArrayList<>();
+
+        if (context.getParentRoutes() != null)
+            this.parentRoutes.addAll(context.getParentRoutes());
+        this.parentRoutes.add(route);
     }
 }

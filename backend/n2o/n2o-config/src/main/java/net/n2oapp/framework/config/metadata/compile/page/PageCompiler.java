@@ -20,8 +20,9 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.Objects;
+import java.util.List;
 
+import static java.util.Objects.requireNonNullElseGet;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -112,15 +113,16 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
             return path;
 
         Integer nestingLevel = RouteUtil.getRelativeLevel(path);
-        PageContext parent = context;
         N2oException noRouteException = new N2oException("No parent route found for path \"" + path + "\"");
-        for (int i = 0; i < nestingLevel - 1; i++) {
-            parent = Objects.requireNonNullElseGet(parent.getParent(), () -> {throw noRouteException;});
-        }
-
-        if (parent.getParentRoute() == null)
+        List<String> parentRoutes = requireNonNullElseGet(context.getParentRoutes(), () -> {
             throw noRouteException;
-        return parent.getParentRoute();
+        });
+        if (nestingLevel > parentRoutes.size())
+            throw noRouteException;
+
+        return requireNonNullElseGet(parentRoutes.get(parentRoutes.size() - nestingLevel), () -> {
+            throw noRouteException;
+        });
     }
 
     /**
