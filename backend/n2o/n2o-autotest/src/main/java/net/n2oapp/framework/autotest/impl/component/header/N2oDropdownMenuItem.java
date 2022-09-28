@@ -12,7 +12,7 @@ public class N2oDropdownMenuItem extends N2oMenuItem implements DropdownMenuItem
     @Deprecated
     @Override
     public AnchorMenuItem item(int index) {
-        return N2oSelenide.component(element().$$(".dropdown-menu li").get(index), AnchorMenuItem.class);
+        return N2oSelenide.component(element().$$(".dropdown-menu li").get(index), N2oAnchorMenuItem.class);
     }
 
     @Override
