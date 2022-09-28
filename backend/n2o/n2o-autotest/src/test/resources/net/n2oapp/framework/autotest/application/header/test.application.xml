@@ -1,17 +1,32 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header class="inverse"
             title="Лого" logo-src="https://avatars0.githubusercontent.com/u/25926683?s=200&amp;v=4">
         <nav>
-            <a label="ссылка" href="/" target="self"/>
-            <sub-menu label="список">
-                <page page-id="index" route="/pageRoute"/>
-                <page page-id="testPage1" label="элемент списка №2" route="/pageRoute1"/>
-            </sub-menu>
+            <menu-item name="ссылка">
+                <a href="/" target="self"/>
+            </menu-item>
+            <dropdown-menu name="Список">
+                <menu-item>
+                    <open-page page-id="index" route="/pageRoute"/>
+                </menu-item>
+                <menu-item name="элемент списка №2">
+                    <open-page page-id="testPage1" route="/pageRoute1"/>
+                </menu-item>
+                <dropdown-menu name="Многоуровневый список">
+                    <menu-item>
+                        <open-page page-id="index" route="/pageRoute"/>
+                    </menu-item>
+                    <menu-item name="элемент многоуровнегосписка №2">
+                        <open-page page-id="testPage1" route="/pageRoute1"/>
+                    </menu-item>
+                </dropdown-menu>
+            </dropdown-menu>
         </nav>
         <extra-menu>
-            <a label="ссылка из extra-menu" href="/" target="newWindow"/>
+            <menu-item name="ссылка из extra-menu">
+                <a href="/" target="newWindow"/>
+            </menu-item>
         </extra-menu>
     </header>
-
 </application>
