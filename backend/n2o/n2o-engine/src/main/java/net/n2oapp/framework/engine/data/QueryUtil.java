@@ -1,5 +1,7 @@
 package net.n2oapp.framework.engine.data;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -20,6 +22,8 @@ import static org.springframework.util.StringUtils.hasText;
  */
 public abstract class QueryUtil {
     private static final String AMP_ESCAPE = "&amp;";
+
+    private static Logger logger = LoggerFactory.getLogger(QueryUtil.class);
 
     public static String normalizeQueryParams(String query) {
         String q = query;
@@ -46,13 +50,16 @@ public abstract class QueryUtil {
             return;
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        logger.info("Forwarded headers for request: {}", request.getRequestURL());
         for (String forwardedHeaderName : forwardedHeaders) {
             if ("*".equals(forwardedHeaderName)) {
                 copyForwardedHeaders(new HashSet<>(Collections.list(request.getHeaderNames())), headers);
             }
             String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
-            if (hasText(forwardedHeaderValue))
+            if (hasText(forwardedHeaderValue)) {
                 headers.add(forwardedHeaderName, forwardedHeaderValue);
+                logger.info("{} : {}", forwardedHeaderName, forwardedHeaderValue);
+            }
         }
     }
 
@@ -81,8 +88,10 @@ public abstract class QueryUtil {
                         .ifPresent(cookieJoiner::add);
             }
         }
-        if (cookieJoiner.length() > 0)
+        if (cookieJoiner.length() > 0) {
             headers.add(HttpHeaders.COOKIE, cookieJoiner.toString());
+            logger.info("Forwarded cookies for request: {} \n {}", request.getRequestURL(), cookieJoiner.toString());
+        }
     }
 
     public static Set<String> parseHeadersString(String headers) {
