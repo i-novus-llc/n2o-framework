@@ -5,15 +5,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -53,6 +51,30 @@ public abstract class QueryUtil {
             if (hasText(forwardedHeaderValue))
                 headers.add(forwardedHeaderName, forwardedHeaderValue);
         }
+    }
+
+    /**
+     * Копирование Cookie из запроса клиента
+     *
+     * @param forwardedCookies Cookie которые надо скопировать
+     * @param headers          Заголовки запроса к сервису
+     */
+    public static void copyForwardedCookies(Set<String> forwardedCookies, HttpHeaders headers) {
+        if (isEmpty(forwardedCookies))
+            return;
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        StringJoiner cookieJoiner = new StringJoiner(";");
+        for (String forwardedHeaderName : forwardedCookies) {
+            if (nonNull(request.getCookies())) {
+                Arrays.stream(request.getCookies())
+                        .filter(cookie -> forwardedHeaderName.equals(cookie.getName()))
+                        .findFirst().map(cookie -> String.format("%s=%s", cookie.getName(), cookie.getValue()))
+                        .ifPresent(cookieJoiner::add);
+            }
+        }
+        if (cookieJoiner.length() > 0)
+            headers.add(HttpHeaders.COOKIE, cookieJoiner.toString());
     }
 
     public static Set<String> parseHeadersString(String headers) {
@@ -95,7 +117,7 @@ public abstract class QueryUtil {
         if (!baseQuery.contains(placeholder)) return baseQuery;
         String clause = defaultValue;
         if (list != null) {
-            clause = ((List<String>)list).stream().map(resolver).reduce(reducer).orElse(defaultValue);
+            clause = ((List<String>) list).stream().map(resolver).reduce(reducer).orElse(defaultValue);
         }
         return baseQuery.replace(placeholder, clause);
     }

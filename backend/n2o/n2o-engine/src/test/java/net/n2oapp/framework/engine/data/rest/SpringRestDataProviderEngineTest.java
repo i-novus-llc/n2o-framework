@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -76,12 +77,13 @@ public class SpringRestDataProviderEngineTest {
      * Проверка проброса заголовков клиента
      */
     @Test
-    public void testHeadersForwarding() {
+    public void testHeadersAndCookiesForwarding() {
         TestRestTemplate restTemplate = new TestRestTemplate("1");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
         N2oRestDataProvider invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
-        actionEngine.setForwardHeaders("testForwardedHeader");
+        invocation.setForwardedHeaders("testForwardedHeader");
+        invocation.setForwardedCookies("c1,c3");
         invocation.setMethod(N2oRestDataProvider.Method.GET);
         Map<String, Object> request = new HashMap<>();
 
@@ -92,11 +94,17 @@ public class SpringRestDataProviderEngineTest {
                     return "ForwardedHeaderValue";
                 return null;
             }
+
+            @Override
+            public Cookie[] getCookies() {
+                return new Cookie[]{new Cookie("c1", "c1Value"), new Cookie("c2", "c2Value"), new Cookie("c3", "c3Value")};
+            }
         };
 
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(httpServletRequest));
         actionEngine.invoke(invocation, request);
         assertEquals("ForwardedHeaderValue", ((HttpHeaders) restTemplate.getRequestHeader()).get("testForwardedHeader").get(0));
+        assertEquals("c3=c3Value;c1=c1Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("cookie").get(0));
         assertEquals(Boolean.FALSE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testNotForwardHeader"));
 
         httpServletRequest = new MockHttpServletRequest() {
@@ -106,12 +114,20 @@ public class SpringRestDataProviderEngineTest {
                     return "testHeaderFromProperty1Value";
                 return null;
             }
+
+            @Override
+            public Cookie[] getCookies() {
+                return new Cookie[]{new Cookie("cfp1", "cfp1Value")};
+            }
         };
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(httpServletRequest));
-        actionEngine.setForwardHeaders(null);
+        invocation.setForwardedHeaders(null);
         actionEngine.setForwardHeaders("testHeaderFromProperty1");
+        invocation.setForwardedCookies(null);
+        actionEngine.setForwardCookies("cfp1");
         actionEngine.invoke(invocation, request);
         assertEquals("testHeaderFromProperty1Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("testHeaderFromProperty1").get(0));
+        assertEquals("cfp1=cfp1Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("cookie").get(0));
         assertEquals(Boolean.FALSE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testNotForwardHeader"));
     }
 

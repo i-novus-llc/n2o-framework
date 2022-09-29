@@ -95,6 +95,11 @@
                 <xs:documentation>Заголовки, которые должны быть скопированы из запроса клиента</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="forwarded-cookies" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Cookie, которые должны быть скопированы из запроса клиента</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="javaDefinition">
@@ -344,6 +349,11 @@
         <xs:attribute name="forwarded-headers" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Заголовки, которые должны быть скопированы из запроса клиента</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="forwarded-cookies" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Cookie, которые должны быть скопированы из запроса клиента</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
