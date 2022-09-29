@@ -47,7 +47,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     @Setter
     private String forwardHeaders;
 
-    @Value("${n2o.engine.graphql.forward-cookies:}")
+    @Value("${n2o.engine.rest.forward-cookies:}")
     @Setter
     private String forwardCookies;
 

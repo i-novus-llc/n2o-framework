@@ -47,6 +47,9 @@ public abstract class QueryUtil {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         for (String forwardedHeaderName : forwardedHeaders) {
+            if ("*".equals(forwardedHeaderName)) {
+                copyForwardedHeaders(new HashSet<>(Collections.list(request.getHeaderNames())), headers);
+            }
             String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
             if (hasText(forwardedHeaderValue))
                 headers.add(forwardedHeaderName, forwardedHeaderValue);
@@ -65,10 +68,15 @@ public abstract class QueryUtil {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         StringJoiner cookieJoiner = new StringJoiner(";");
-        for (String forwardedHeaderName : forwardedCookies) {
+        for (String forwardedCookieName : forwardedCookies) {
             if (nonNull(request.getCookies())) {
+                if ("*".equals(forwardedCookieName)) {
+                    Arrays.stream(request.getCookies())
+                            .map(cookie -> String.format("%s=%s", cookie.getName(), cookie.getValue())).forEach(cookieJoiner::add);
+                    break;
+                }
                 Arrays.stream(request.getCookies())
-                        .filter(cookie -> forwardedHeaderName.equals(cookie.getName()))
+                        .filter(cookie -> forwardedCookieName.equals(cookie.getName()))
                         .findFirst().map(cookie -> String.format("%s=%s", cookie.getName(), cookie.getValue()))
                         .ifPresent(cookieJoiner::add);
             }
@@ -80,6 +88,8 @@ public abstract class QueryUtil {
     public static Set<String> parseHeadersString(String headers) {
         if (!hasText(headers))
             return null;
+        if (headers.contains("*"))
+            return Set.of("*");
         Set<String> result = new HashSet<>();
         for (String forwardedHeaderName : headers.trim().split(",")) {
             forwardedHeaderName = forwardedHeaderName.trim();
