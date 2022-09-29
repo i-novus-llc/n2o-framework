@@ -21,7 +21,7 @@ import { makeDatasourceIdSelector, makeWidgetVisibleSelector } from '../widgets/
 import { failValidate, startValidate, dataRequest } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
 
-import { setActiveRegion, regionsSelector, setTabInvalid } from './store'
+import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from './store'
 import { MAP_URL } from './constants'
 
 function* mapUrl(value) {
@@ -270,6 +270,6 @@ function* validateTabs({ payload, meta }) {
 
 export default [
     takeEvery(MAP_URL, mapUrl),
-    takeEvery([METADATA_SUCCESS, actionTypes.TOUCH], switchTab),
+    takeEvery([METADATA_SUCCESS, actionTypes.TOUCH, registerRegion], switchTab),
     takeEvery([failValidate, startValidate], validateTabs),
 ]
