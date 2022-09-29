@@ -1,5 +1,6 @@
 package net.n2oapp.framework.engine.data;
 
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.criteria.dataset.FieldMapping;
@@ -119,11 +120,15 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                                 Arrays.asList(refParameter.getFields()),
                                 (DataSet) inDataSet.get(parameter.getId())));
                     } else {
-                        for (Object dataSet : Objects.requireNonNullElse((Collection) inDataSet.get(parameter.getId()), Collections.emptyList()))
-                            ((DataSet) dataSet).putAll(resolveInValuesMapping(
-                                    mappingMap.get(parameter.getId()).getChildMapping(),
-                                    Arrays.asList(refParameter.getFields()),
-                                    (DataSet) dataSet));
+                        if (inDataSet.get(parameter.getId()) == null)
+                            inDataSet.put(parameter.getId(), new DataList());
+                        else {
+                            for (Object dataSet : (Collection<?>) inDataSet.get(parameter.getId()))
+                                ((DataSet) dataSet).putAll(resolveInValuesMapping(
+                                        mappingMap.get(parameter.getId()).getChildMapping(),
+                                        Arrays.asList(refParameter.getFields()),
+                                        (DataSet) dataSet));
+                        }
                     }
                     if (refParameter.getEntityClass() != null)
                         MappingProcessor.mapParameter(refParameter, inDataSet);
