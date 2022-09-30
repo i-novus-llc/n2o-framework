@@ -3,6 +3,9 @@
   "version": "7.23.29",
   "description": "N2O React",
   "homepage": "https://n2oapp.net/",
+  "engines" : {
+    "node" : "^16.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:i-novus-llc/n2o-framework.git",
@@ -216,7 +219,8 @@
   "peerDependencies": {
     "css-animation": "*",
     "rc-tree": "*",
-    "redux-thunk": "*"
+    "redux-thunk": "*",
+    "sass": "*"
   },
   "jest": {
     "modulePaths": [
