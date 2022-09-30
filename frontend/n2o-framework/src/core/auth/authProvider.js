@@ -4,6 +4,8 @@ import intersection from 'lodash/intersection'
 import isEmpty from 'lodash/isEmpty'
 import indexOf from 'lodash/indexOf'
 
+import { ResponseStatus } from '../../constants/ResponseStatus'
+
 import {
     SECURITY_LOGIN,
     SECURITY_LOGOUT,
@@ -42,7 +44,7 @@ export default (type, params) => {
         case SECURITY_ERROR: {
             const { status } = params
 
-            return status === 401
+            return status === ResponseStatus.Unauthorized
                 ? Promise.reject(params)
                 : Promise.resolve(params)
         }
