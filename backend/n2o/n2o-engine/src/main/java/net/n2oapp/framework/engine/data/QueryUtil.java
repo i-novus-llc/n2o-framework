@@ -52,14 +52,13 @@ public abstract class QueryUtil {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         logger.info("Forwarded headers for request: {}", request.getRequestURL());
         if (forwardedHeaders.contains("*"))
-            copyForwardedHeaders(new HashSet<>(Collections.list(request.getHeaderNames())), headers);
-        else {
-            for (String forwardedHeaderName : forwardedHeaders) {
-                String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
-                if (hasText(forwardedHeaderValue)) {
-                    headers.add(forwardedHeaderName, forwardedHeaderValue);
-                    logger.info("{} : {}", forwardedHeaderName, forwardedHeaderValue);
-                }
+            forwardedHeaders = new HashSet<>(Collections.list(request.getHeaderNames()));
+
+        for (String forwardedHeaderName : forwardedHeaders) {
+            String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
+            if (hasText(forwardedHeaderValue)) {
+                headers.add(forwardedHeaderName, forwardedHeaderValue);
+                logger.info("{} : {}", forwardedHeaderName, forwardedHeaderValue);
             }
         }
     }
