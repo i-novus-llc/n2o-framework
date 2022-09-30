@@ -110,7 +110,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourcesIdScope);
 
         if (source.getDatasourceId() != null)
-            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
+            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId()));
 
         return page;
     }
