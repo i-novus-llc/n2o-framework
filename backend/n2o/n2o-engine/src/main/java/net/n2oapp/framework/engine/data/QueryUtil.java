@@ -3,7 +3,6 @@ package net.n2oapp.framework.engine.data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +15,7 @@ import java.util.stream.Collectors;
 import static java.util.Objects.isNull;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
+import static org.springframework.web.context.request.RequestContextHolder.getRequestAttributes;
 
 /**
  * Собирает данные для вызова InvocationEngine
@@ -46,10 +46,10 @@ public abstract class QueryUtil {
      * @param headers          Заголовки запроса к сервису
      */
     public static void copyForwardedHeaders(Set<String> forwardedHeaders, HttpHeaders headers) {
-        if (isEmpty(forwardedHeaders))
+        if (isEmpty(forwardedHeaders) || isNull(getRequestAttributes()))
             return;
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) getRequestAttributes()).getRequest();
         logger.info("Forwarded headers for request: {}", request.getRequestURL());
         if (forwardedHeaders.contains("*"))
             forwardedHeaders = new HashSet<>(Collections.list(request.getHeaderNames()));
@@ -70,7 +70,9 @@ public abstract class QueryUtil {
      * @param headers          Заголовки запроса к сервису
      */
     public static void copyForwardedCookies(Set<String> forwardedCookies, HttpHeaders headers) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if (isNull(getRequestAttributes()))
+            return;
+        HttpServletRequest request = ((ServletRequestAttributes) getRequestAttributes()).getRequest();
         if (isEmpty(forwardedCookies) || isNull(request.getCookies()))
             return;
 
