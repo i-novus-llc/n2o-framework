@@ -13,7 +13,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.nonNull;
+import static java.util.Objects.isNull;
 import static org.springframework.util.CollectionUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -51,14 +51,15 @@ public abstract class QueryUtil {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         logger.info("Forwarded headers for request: {}", request.getRequestURL());
-        for (String forwardedHeaderName : forwardedHeaders) {
-            if ("*".equals(forwardedHeaderName)) {
-                copyForwardedHeaders(new HashSet<>(Collections.list(request.getHeaderNames())), headers);
-            }
-            String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
-            if (hasText(forwardedHeaderValue)) {
-                headers.add(forwardedHeaderName, forwardedHeaderValue);
-                logger.info("{} : {}", forwardedHeaderName, forwardedHeaderValue);
+        if (forwardedHeaders.contains("*"))
+            copyForwardedHeaders(new HashSet<>(Collections.list(request.getHeaderNames())), headers);
+        else {
+            for (String forwardedHeaderName : forwardedHeaders) {
+                String forwardedHeaderValue = request.getHeader(forwardedHeaderName);
+                if (hasText(forwardedHeaderValue)) {
+                    headers.add(forwardedHeaderName, forwardedHeaderValue);
+                    logger.info("{} : {}", forwardedHeaderName, forwardedHeaderValue);
+                }
             }
         }
     }
@@ -70,27 +71,27 @@ public abstract class QueryUtil {
      * @param headers          Заголовки запроса к сервису
      */
     public static void copyForwardedCookies(Set<String> forwardedCookies, HttpHeaders headers) {
-        if (isEmpty(forwardedCookies))
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if (isEmpty(forwardedCookies) || isNull(request.getCookies()))
             return;
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         StringJoiner cookieJoiner = new StringJoiner(";");
-        for (String forwardedCookieName : forwardedCookies) {
-            if (nonNull(request.getCookies())) {
-                if ("*".equals(forwardedCookieName)) {
-                    Arrays.stream(request.getCookies())
-                            .map(cookie -> String.format("%s=%s", cookie.getName(), cookie.getValue())).forEach(cookieJoiner::add);
-                    break;
-                }
+
+        if (forwardedCookies.contains("*")) {
+            Arrays.stream(request.getCookies())
+                    .map(cookie -> String.format("%s=%s", cookie.getName(), cookie.getValue())).forEach(cookieJoiner::add);
+        } else {
+            for (String forwardedCookieName : forwardedCookies) {
                 Arrays.stream(request.getCookies())
                         .filter(cookie -> forwardedCookieName.equals(cookie.getName()))
                         .findFirst().map(cookie -> String.format("%s=%s", cookie.getName(), cookie.getValue()))
                         .ifPresent(cookieJoiner::add);
             }
         }
+
         if (cookieJoiner.length() > 0) {
             headers.add(HttpHeaders.COOKIE, cookieJoiner.toString());
-            logger.info("Forwarded cookies for request: {} \n {}", request.getRequestURL(), cookieJoiner.toString());
+            logger.info("Forwarded cookies for request: {} \n {}", request.getRequestURL(), cookieJoiner);
         }
     }
 
