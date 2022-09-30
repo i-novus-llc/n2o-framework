@@ -2,6 +2,9 @@
   "name": "n2o-frontend",
   "private": true,
   "version": "1.0.0",
+  "engines" : {
+    "node" : "^16.0.0"
+  },
   "workspaces": [
     "n2o-framework",
     "n2o-simple-project",
@@ -34,7 +37,7 @@
     "@jsdevtools/npm-publish": "^1.4.3",
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
-    "node-sass": "^6.0.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "sass": "^1.55.0"
   }
 }
