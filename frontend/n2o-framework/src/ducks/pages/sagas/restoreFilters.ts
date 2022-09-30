@@ -13,7 +13,7 @@ import { replace } from 'connected-react-router'
 // @ts-ignore import from js file
 import { getParams } from '../../../core/dataProviderResolver'
 // @ts-ignore import from js file
-import { getLocation } from '../../global/store'
+import { getLocation, rootPageSelector } from '../../global/store'
 import { State } from '../../State'
 // @ts-ignore import from js file
 import { makePageRoutesByIdSelector } from '../selectors'
@@ -60,13 +60,14 @@ export function* mapQueryToUrl(
     query?: object | null,
     withoutCache?: boolean,
 ) {
+    const rootPageId: string = yield select(rootPageSelector)
     const newQuery: object | false = yield call(
         generateNewQuery,
         pageId,
         query,
     )
 
-    if (newQuery) {
+    if (newQuery && pageId === rootPageId) {
         yield put(replace({ search: queryString.stringify(newQuery), state: { silent: true } }))
 
         if (!filtersCache.checkCacheExists(pageId) && !withoutCache) {
