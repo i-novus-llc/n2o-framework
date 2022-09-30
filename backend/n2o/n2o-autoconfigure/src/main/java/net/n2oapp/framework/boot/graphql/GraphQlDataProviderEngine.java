@@ -45,6 +45,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private String accessToken;
     @Value("${n2o.engine.graphql.forward-headers:}")
     private String forwardHeaders;
+    @Value("${n2o.engine.graphql.forward-cookies:}")
+    private String forwardCookies;
     @Value("${n2o.engine.graphql.filter-separator:}")
     private String defaultFilterSeparator;
     @Value("${n2o.engine.graphql.sorting-separator:}")
@@ -94,6 +96,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
 
         HttpHeaders headers = new HttpHeaders();
         copyForwardedHeaders(resolveForwardedHeaders(invocation), headers);
+        copyForwardedCookies(resolveForwardedCookies(invocation), headers);
         headers.setContentType(MediaType.APPLICATION_JSON);
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
@@ -137,6 +140,16 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private Set<String> resolveForwardedHeaders(N2oGraphQlDataProvider invocation) {
         String headers = invocation.getForwardedHeaders() != null ? invocation.getForwardedHeaders() : forwardHeaders;
         return parseHeadersString(headers);
+    }
+
+    /**
+     * Парсинг и выбор cookie для пересылки
+     *
+     * @param invocation Провайдер данных
+     */
+    private Set<String> resolveForwardedCookies(N2oGraphQlDataProvider invocation) {
+        String cookies = invocation.getForwardedCookies() != null ? invocation.getForwardedCookies() : forwardCookies;
+        return parseHeadersString(cookies);
     }
 
     /**

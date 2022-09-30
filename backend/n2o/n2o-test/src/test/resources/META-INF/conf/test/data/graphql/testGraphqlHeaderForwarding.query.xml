@@ -2,7 +2,7 @@
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
 
     <list result-mapping="['data.persons']">
-        <graphql forwarded-headers="testForwardedHeader">query persons {id name}</graphql>
+        <graphql forwarded-headers="testForwardedHeader" forwarded-cookies="c1, c3">query persons {id name}</graphql>
     </list>
 
     <fields>
