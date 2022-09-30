@@ -1,12 +1,28 @@
-.n2o-input-select-tree {
+.n2o-input-select-tree.n2o-select-tree {
     &.n2o-disabled {
         background-color: $input-disabled-bg;
         opacity: 1;
     }
 
     .n2o-select-tree-selection__clear {
-        right: 10px !important;
+        right: 10px;
     }
+
+    .n2o-select-tree-selection.n2o-select-tree-selection--single {
+        .n2o-select-tree-selection__clear {
+            right: 35px;
+        }
+    }
+
+    .n2o-select-tree-arrow {
+        .n2o-icon {
+            padding: 5px;
+        }
+    }
+}
+
+.n2o-select-tree.loading::after {
+    display: none;
 }
 
 .n2o-input-select-tree__search-clear-icon {
