@@ -19,7 +19,7 @@ import static java.util.Objects.isNull;
 public class NormalizerCollector {
     private static final String BASE_PACKAGE = ".";
     private static final Reflections ref = new Reflections(new ConfigurationBuilder()
-            .forPackages(BASE_PACKAGE)
+            .forPackages(BASE_PACKAGE, "net", "org", "ru", "com")//TODO refactoring https://jira.i-novus.ru/browse/NNO-8550
             .addScanners(Scanners.TypesAnnotated, Scanners.MethodsAnnotated));
 
     /**
