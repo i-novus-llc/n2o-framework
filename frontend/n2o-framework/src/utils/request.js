@@ -1,16 +1,20 @@
 import 'whatwg-fetch'
+
+import { ResponseStatus } from '../constants/ResponseStatus'
+
 import RequestError from './RequestError'
 
 function parseResponse(response) {
     return response.text().then(text => ({
         status: response.status,
         statusText: response.statusText,
+        headers: response.headers,
         body: text,
     }))
 }
 
 function checkStatus(parseJson = true) {
-    return ({ status, statusText, body }) => {
+    return ({ status, statusText, headers, body }) => {
         let responseData
 
         try {
@@ -22,8 +26,13 @@ function checkStatus(parseJson = true) {
         } catch (e) {
             // ничего не делаем, если не JSON
         }
-        if (status < 200 || status >= 300) {
-            return Promise.reject(new RequestError(statusText, status, body, responseData))
+
+        if (status === ResponseStatus.OpaqueRedirect) {
+            window.location.reload()
+        }
+
+        if (status < ResponseStatus.OK || status >= ResponseStatus.MultipleChoices) {
+            return Promise.reject(new RequestError(statusText, status, headers, body, responseData))
         }
 
         return responseData
@@ -40,7 +49,7 @@ function checkStatus(parseJson = true) {
  * @return {object} Ответ на запрос в виде JSON
  */
 export default function request(url, options = {}, { parseJson } = {}) {
-    return fetch(url, options)
+    return fetch(url, { ...options, redirect: 'manual' })
         .then(parseResponse)
         .then(checkStatus(parseJson))
 }
