@@ -168,7 +168,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testStandardPageTitle"));
         assertThat(page.getPageProperty().getTitle(), is("Page {name}"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
-        assertThat(page.getPageProperty().getDatasource(), is("ds1"));
+        assertThat(page.getPageProperty().getDatasource(), is("testStandardPageTitle_ds1"));
         assertThat(page.getPageProperty().getModel(), is(ReduxModel.resolve));
     }
 
@@ -185,7 +185,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testBreadcrumb.page.xml")
                 .get(new PageContext("testBreadcrumb"));
 
-        assertThat(page.getPageProperty().getDatasource(), is("ds1"));
+        assertThat(page.getPageProperty().getDatasource(), is("testBreadcrumb_ds1"));
         assertThat(page.getPageProperty().getModel(), is(ReduxModel.resolve));
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("First page"));
         assertThat(page.getBreadcrumb().get(0).getPath(), is("/"));
