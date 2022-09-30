@@ -311,11 +311,7 @@ function InputSelectTree({
         />
     )
 
-    const inputIcon = loading ? (
-        <InlineSpinner />
-    ) : (
-        <Icon name="fa fa-chevron-down" />
-    )
+    const inputIcon = <Icon name="fa fa-chevron-down" />
 
     const getPopupContainer = container => container
 
@@ -341,7 +337,6 @@ function InputSelectTree({
                 treeNodeFilterProp={labelFieldId}
                 treeNodeLabelProp={labelFieldId}
                 maxTagTextLength={maxTagTextLength}
-                removeIcon={clearIcon}
                 clearIcon={clearIcon}
                 onChange={handleChange}
                 onSelect={handleSelect}
