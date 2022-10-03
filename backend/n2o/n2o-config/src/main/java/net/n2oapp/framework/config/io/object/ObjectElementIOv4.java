@@ -6,13 +6,13 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
-import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
+import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -156,7 +156,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "result", t::getResult, t::setResult);
         p.attribute(e, "size", t::getSize, t::setSize);
         p.attribute(e, "title", t::getTitle, t::setTitle);
-        p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIO());
+        p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIOv2());
     }
 
     @Override

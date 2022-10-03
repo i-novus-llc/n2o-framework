@@ -89,14 +89,18 @@ public class ClientDataProviderUtil {
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                        CompileProcessor p, ReduxModel model, String clientDatasourceId) {
+                                                        CompileProcessor p, ReduxModel defaultModel,
+                                                        String defaultClientDatasourceId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
         for (N2oParam param : params) {
             ModelLink link;
             if (param.getValueParam() == null) {
-                link = getModelLink(p, model, clientDatasourceId, param);
+                link = getModelLink(p,
+                        p.cast(param.getModel(), defaultModel),
+                        p.cast(param.getDatasourceId(), defaultClientDatasourceId),
+                        param);
             } else {
                 link = getModelLinkByParam(context, param);
             }
