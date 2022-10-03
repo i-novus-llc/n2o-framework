@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual'
 import difference from 'lodash/difference'
 import map from 'lodash/map'
 import unset from 'lodash/unset'
+import cloneDeep from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import { createStructuredSelector } from 'reselect'
 
@@ -99,7 +100,7 @@ class WidgetFilters extends React.Component {
             resetFilterModel,
             setFilter,
         } = this.props
-        const newReduxForm = { ...reduxFormFilter }
+        const newReduxForm = cloneDeep(reduxFormFilter)
         const toReset = difference(
             map(flatFields(fieldsets, []), 'id'),
             blackResetList,
