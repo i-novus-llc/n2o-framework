@@ -1863,12 +1863,12 @@ class MyService {
 
 ### Нормализация данных {#Normalize}
 
-После маппинга значения, полученные для полей выборки и полей [операции объекта](#Operations) могут быть приведены
+После маппинга значения полей выборки и полей [операций объекта](#Operations) могут быть приведены
 к определенному виду (нормализованы) с помощью
 [SpEL](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/expressions.html) выражения.
-Для записи выражения нормализации используется атрибут `normalize`
+Для его записи используется атрибут `normalize`
 
-```xml title="Нормаилизация поля выборки"
+```xml title="Нормализация поля выборки"
 <fields>
   <field id="title" normalize="#this.toUpperCase()"/>
 </fields>
@@ -1881,24 +1881,71 @@ class MyService {
 
 :::
 
+#### Ключевые слова
+
+##### `#this`
+Позволяет ссылаться на значение <u>текущего</u> поля, полученное после маппинга
+
+##### `#data`
+Позволяет ссылаться на значение <u>другого</u> поля (на том же уровне вложенности), полученного после маппинга
+
+```xml title="Использование ключевых слов"
+<fields>
+    <field id="shortName"/>
+    <field id="fullName" normalize="#this != null ? #this : #data['shortName']"/>
+</fields>
+```
+
 #### Функции нормализации
 
-В выражениях нормализации могут быть использованы статические java-функции
+В выражениях нормализации могут быть использованы:
 
-```xml title="Использование java-функций в выражении нормализации"
+1. Статические java-функции
+```xml title="Использование статической java-функций в выражении нормализации"
 <fields>
     <field id="max" normalize="T(java.lang.Math).max(1000, #this)"/>
 </fields>
 ```
 
-#### Добавление собственных нормализаторов
+2. Нестатические java-функции
+```xml title="Использование нестатической java-функций в выражении нормализации"
+<fields>
+    <field id="random" normalize="new java.util.Random().nextInt(100)"/>
+</fields>
+```
 
-Для собственных функций нормализации в N2O существует механизм их добавления в контекст SpEL. Благодаря этому
-появляется возможность не указывать полное имя класса, в котором расположена функция, а ограничиться лишь
-ссылкой вида `normalize="#myFunction(#this)"`. Чтобы добавить функцию в контекст необходимо сделать её открытой
-(public) и указать над ней аннотацию `@Normalizer`
+3. Пользовательские классы
+```xml title="Использование пользовательских классов в выражении нормализации"
+<fields>
+    <field id="currentDate" normalize="T(org.my_project.app.MyDateUtil).getCurrentDate()"/>
+</fields>
+```
 
-```java title="Кастомная функция нормализации"
+#### Встроенные функции нормализации
+
+В java-библиотеке N2O содержится класс `NormalizeUtil`, реализующий базовые функции нормализации.
+
+|Имя метода               |Описание                                 |Пример вызова                    |Входное значение                   |Выходное значение                  |
+|-------------------------|-----------------------------------------|---------------------------------|-----------------------------------|-----------------------------------|
+|`jsonToMap`              |Преобразование строки json в объект      |#jsonToMap(#this)                |"{ \"id\": 1,\"name\": \"test\" }" |{ "id": 1, "name": "test" }        |
+|`mapToJson`              |Преобразование объекта в строку json     |#mapToJson(#this)                |{ "id": 1, "name": "test" }        |"{ \"id\": 1,\"name\": \"test\" }" |
+|`encodeToBase64`         |Преобразование строки из UTF-16 в base64 |#encodeToBase64(#this)           |"test"                             |"dGVzdA=="                         |
+|`decodeFromBase64`       |Преобразование строки из base64 в UTF-16 |#decodeFromBase64(#this)         |"dGVzdA=="                         |"test"                             |
+|`formatByMask`           |Форматирование значения по маске         |#formatByMask(#this, "##-## ##") |"123456"                           |"12-34 56"                         |
+|`formatFullName`         |Форматирование ФИО без сокращений        |#formatFullName(#this)           |["Маркс", "Карл"]                  |"Маркс Карл"                       |
+|`formatNameWithInitials` |Форматирование ФИО с инициалами          |#formatNameWithInitials(#this)   |["Толстой", "Лев", "Николаевич"]   |"Толстой Л.Н."                     |
+
+:::note
+Для вызова базовых функций в xml укажите ее имя после символа #
+:::
+
+#### Добавление собственных функций
+
+Указание полного имени класса для вызова пользовательских функций является не очень удобным.
+Однако существует возможность вызывать пользовательские функции таким же образом, что и встроенные, например `normalize="#myFunction(#this)"`.
+Для этого достаточно сделать их открытыми (public) и указать над ними аннотацию `@Normalizer`
+
+```java title="Пользовательская функция нормализации"
 @Normalizer
 public static String shorten(String text, Integer length) {
     if (text == null)
@@ -1906,11 +1953,11 @@ public static String shorten(String text, Integer length) {
     if (text.length < length)
         text;
     else
-        text.substring(0, length - 1)} + "...";
+        text.substring(0, length - 1) + "...";
 }
 ```
 
-```xml title="Кастомная функция нормализации"
+```xml title="Вызов пользовательской функции нормализации"
 <fields>
   <field id="description" normalize="#shorten(#this, 100)"/>
 </fields>
@@ -1938,14 +1985,9 @@ public static String shorten(String text) {
 ```
 
 :::note
-
-Аннотацией @Normalize также можно пометить класс. В таком случае в контекст будут добавлены
+Аннотацией @Normalizer также можно пометить класс. В таком случае в контекст будут добавлены
 все открытые статические методы этого класса.
-
 :::
-
-В java-библиотеке N2O уже существует класс `NormalizeUtil`, содержащий базовые функции нормализации, а также
-документацию к ним.
 
 #### Нормализация вложенных полей
 
@@ -1987,6 +2029,7 @@ public static String shorten(String text) {
 <fields>
     <reference id="mainOrg" mapping="['organization']"
                    normalize="#normalizeOrganization(#this)">
+        <!-- после маппинга и нормализации родительского поля аналогичные действия производятся и для дочерних полей -->
         <field id="orgCode" mapping="['codeStr']" normalize="'code: ' + #this"/>
         <field id="orgTitle" mapping="['upperCaseTitle']" normalize="'title: ' + #this"/>
     </reference>
@@ -2000,22 +2043,4 @@ public static String shorten(String text) {
         "upperCaseTitle": "title: ORG2"
     }
 }
-```
-
-#### Использование данных других полей
-
-В выражении нормализации одного из полей может быть использовано значение другого поля, находящегося на том же
-уровне вложенности. Данный механизм реализуется с использованием SpEL-ссылки `#data`
-
-```xml title="Использование данных других полей"
-<fields>
-    <field id="email"/>
-    <field id="login" normalize="#this ?: #data[email]"/>
-
-    <reference id="dates">
-        <field id="from" domain="localdate"/>
-        <field id="until" domain="localdate"/>
-        <field id="period" normalize="#data[from] + ' - ' + #data[until]"/>
-    </reference>
-</fields>
 ```
