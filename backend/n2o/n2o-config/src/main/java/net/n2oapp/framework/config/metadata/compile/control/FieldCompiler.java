@@ -195,7 +195,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private FetchValueDependency compileFetchDependency(N2oField.Dependency d, CompileContext<?, ?> context, CompileProcessor p) {
         FetchValueDependency dependency = new FetchValueDependency();
         dependency.setType(ValidationType.fetchValue);
-        dependency.setValueFieldId(p.cast(((N2oField.FetchValueDependency) d).getValueFieldId(), "name"));
+        dependency.setValueFieldId(((N2oField.FetchValueDependency) d).getValueFieldId());
         dependency.setDataProvider(compileFetchDependencyDataProvider((N2oField.FetchValueDependency) d, context, p));
         return dependency;
     }
