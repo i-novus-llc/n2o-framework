@@ -174,8 +174,35 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
         @Override
+        @Deprecated
         public void titleByIndexShouldHaveText(String text, Integer index) {
             element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(text));
+        }
+
+        public N2oCrumb crumb(int index) {
+            return new N2oCrumb(element().$$(".breadcrumb-item").get(index));
+        }
+
+        public class N2oCrumb extends N2oComponent implements Crumb {
+
+            public N2oCrumb(SelenideElement element) {
+                setElement(element);
+            }
+
+            @Override
+            public void click() {
+                element().click();
+            }
+
+            @Override
+            public void shouldHaveLabel(String text) {
+                element().$(".n2o-breadcrumb-link").shouldHave(Condition.text(text));
+            }
+
+            @Override
+            public void shouldHaveLink(String link) {
+                element().$(".n2o-breadcrumb-link").shouldHave(Condition.href(link));
+            }
         }
     }
 

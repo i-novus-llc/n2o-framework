@@ -67,6 +67,17 @@ public interface Page extends Component {
         void titleShouldHaveText(String text);
 
         void titleByIndexShouldHaveText(String text, Integer index);
+
+        Crumb crumb(int index);
+
+        interface Crumb {
+
+            void click();
+
+            void shouldHaveLabel(String text);
+
+            void  shouldHaveLink(String link);
+        }
     }
 
     interface Dialog {
