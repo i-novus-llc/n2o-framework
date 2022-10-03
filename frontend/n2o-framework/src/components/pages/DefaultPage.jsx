@@ -1,13 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 
 import Alert from '../snippets/Alerts/Alert'
-import DocumentTitle from '../core/DocumentTitle'
-import PageTitle from '../core/PageTitle'
-import DefaultBreadcrumb from '../core/Breadcrumb/DefaultBreadcrumb'
-import BreadcrumbContainer from '../core/Breadcrumb/BreadcrumbContainer'
+import { PageTitle, PageTitle as DocumentTitle } from '../core/PageTitle'
+import { BreadcrumbContainer } from '../core/Breadcrumb/BreadcrumbContainer'
 import Toolbar from '../buttons/Toolbar'
 
 import { usePageRegister } from './usePageRegister'
@@ -25,7 +22,7 @@ import { usePageRegister } from './usePageRegister'
  * @constructor
  */
 function DefaultPage({
-    metadata,
+    metadata = {},
     toolbar,
     entityKey,
     error,
@@ -33,23 +30,21 @@ function DefaultPage({
     disabled,
     dispatch,
 }) {
-    const { style, className, datasources, id: pageId } = metadata
+    const { style, className, datasources, id: pageId, page = {}, breadcrumb } = metadata
+    const { title, htmlTitle, datasource = '_clients', model: modelPrefix = 'resolve' } = page
 
     usePageRegister(datasources, dispatch, pageId)
 
     return (
         <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>
             {error && <Alert {...error} visible />}
-            {!isEmpty(metadata) && metadata.page && (
-                <DocumentTitle {...metadata.page} />
-            )}
-            {!isEmpty(metadata) && metadata.breadcrumb && (
-                <BreadcrumbContainer
-                    defaultBreadcrumb={DefaultBreadcrumb}
-                    items={metadata.breadcrumb}
-                />
-            )}
-            {!isEmpty(metadata) && metadata.page && <PageTitle {...metadata.page} />}
+            <DocumentTitle htmlTitle={htmlTitle} datasource={datasource} modelPrefix={modelPrefix} />
+            <BreadcrumbContainer
+                breadcrumb={breadcrumb}
+                datasource={datasource}
+                modelPrefix={modelPrefix}
+            />
+            <PageTitle title={title} datasource={datasource} modelPrefix={modelPrefix} className="n2o-page__title" />
             {toolbar && (toolbar.topLeft || toolbar.topRight || toolbar.topCenter) && (
                 <div className="n2o-page-actions">
                     <Toolbar entityKey={entityKey} toolbar={toolbar.topLeft} />

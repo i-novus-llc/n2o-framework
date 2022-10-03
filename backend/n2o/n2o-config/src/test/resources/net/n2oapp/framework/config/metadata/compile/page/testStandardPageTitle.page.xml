@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="test" show-title="true" title="title" html-title="tab title">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="test" show-title="true" datasource="ds1" title="Page {name}" html-title="tab title">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
     <regions>
         <html/>
     </regions>
