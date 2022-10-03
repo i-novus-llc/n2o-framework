@@ -1974,7 +1974,7 @@ public static String shorten(String text) {
     if (text.length < DEFAULT_LENGTH)
         text;
     else
-        text.substring(0, DEFAULT_LENGTH - 1)} + "...";
+        text.substring(0, DEFAULT_LENGTH - 1) + "...";
 }
 ```
 
@@ -1985,8 +1985,8 @@ public static String shorten(String text) {
 ```
 
 :::note
-Аннотацией @Normalizer также можно пометить класс. В таком случае в контекст будут добавлены
-все открытые статические методы этого класса.
+Аннотацией @Normalizer также можно пометить класс.
+В таком случае в контекст будут добавлены все открытые статические методы этого класса.
 :::
 
 #### Нормализация вложенных полей
