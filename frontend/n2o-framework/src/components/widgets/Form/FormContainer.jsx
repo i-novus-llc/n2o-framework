@@ -1,13 +1,14 @@
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
-import { getFormValues, initialize } from 'redux-form'
+import { getFormValues, initialize, destroy } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React from 'react'
 
 import { ModelPrefix } from '../../../core/datasource/const'
+import { makeFormsByDatasourceSelector } from '../../../ducks/form/selectors'
 
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'
@@ -16,6 +17,7 @@ const fakeInitial = {}
 
 export const mapStateToProps = createStructuredSelector({
     reduxFormValues: (state, { datasource, id }) => getFormValues(datasource || id)(state) || {},
+    formsByDatasource: (state, { datasource }) => makeFormsByDatasourceSelector(datasource)(state) || [],
 })
 
 /*
@@ -34,6 +36,14 @@ class Container extends React.Component {
         this.state = {
             initialValues,
             fields,
+        }
+    }
+
+    componentWillUnmount() {
+        const { dispatch, datasource: datasourceId, id, formsByDatasource } = this.props
+
+        if (formsByDatasource.length === 1) {
+            dispatch(destroy(datasourceId || id))
         }
     }
 
@@ -139,6 +149,7 @@ Container.propTypes = {
     isActive: PropTypes.bool,
     models: PropTypes.object,
     reduxFormValues: PropTypes.object,
+    formsByDatasource: PropTypes.array,
 }
 
 export default connect(mapStateToProps)(Container)
