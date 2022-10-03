@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import PropTypes from 'prop-types'
 
-function DefaultBreadcrumb({ items }) {
+export function DefaultBreadcrumb({ items }) {
     const { N2O_ELEMENT_VISIBILITY } = window
     let style = {}
 
@@ -18,7 +18,7 @@ function DefaultBreadcrumb({ items }) {
 
         return (
             <BreadcrumbItem key={index} active={lastCrumb}>
-                {path && !lastCrumb ? (
+                {path ? (
                     <Link className="n2o-breadcrumb-link" to={path} key={index}>
                         {label}
                     </Link>
