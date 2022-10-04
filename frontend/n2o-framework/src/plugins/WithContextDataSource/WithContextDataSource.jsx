@@ -7,6 +7,8 @@ import { addComponent, register, removeComponent } from '../../ducks/datasource/
 import { resolveExpression } from '../withItemsResolver/utils'
 import { DataSourceContext } from '../../core/widget/context'
 
+import { queryMappingResolver } from './utils'
+
 /* datasource register with a context key by the path */
 export function WithContextDataSource(Component) {
     function Register(props) {
@@ -20,38 +22,39 @@ export function WithContextDataSource(Component) {
             models,
             id,
         } = props
+        /*
+           HACK!
+           Frontend custom query matching parameters manually,
+           The queryKey shows which part of the URL the value should be extracted from.
+           The context value taken from the location using the queryKey.
+        */
+
         const hasSource = datasources && datasource
         const { key: queryKey, value } = resolveExpression(location, path)
 
         const dispatch = useDispatch()
         const { setResolve } = useContext(DataSourceContext)
 
-        /* HACK! frontend custom query matching parameters manually,
-           the context key taken from the path to the sidebar */
         useEffect(() => {
             if (!hasSource) {
                 return
             }
 
             const metaConfig = { ...datasources[datasource] }
-            const queryMapping = get(metaConfig, 'provider.queryMapping', null)
 
-            if (!queryMapping) {
+            /* unresolved meta query mapping */
+            const metaQueryMapping = get(metaConfig, 'provider.queryMapping', null)
+
+            if (!metaQueryMapping) {
                 return
             }
 
-            const key = `${datasource}_${queryKey}`
+            const dsQueryKey = `${datasource}_${queryKey}`
+            const dsQueryMapping = { [dsQueryKey]: { ...metaQueryMapping[dsQueryKey], value } }
 
-            const config = {
-                ...metaConfig,
-                provider: {
-                    ...metaConfig.provider,
-                    queryMapping: {
-                        ...queryMapping,
-                        [key]: { ...queryMapping[key], value },
-                    },
-                },
-            }
+            const queryMapping = queryMappingResolver(metaQueryMapping, value, dsQueryMapping)
+
+            const config = { ...metaConfig, provider: { ...metaConfig.provider, queryMapping } }
 
             dispatch(register(datasource, config))
             dispatch(addComponent(datasource, id))

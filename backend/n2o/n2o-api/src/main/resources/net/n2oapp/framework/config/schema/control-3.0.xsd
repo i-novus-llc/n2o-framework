@@ -1932,9 +1932,11 @@
                         <xs:documentation>Идентификатор выборки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="value-field-id" type="xs:string" use="optional">
+                <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, значение которого будет проставлено в модель поля ввода</xs:documentation>
+                        <xs:documentation>
+                            Поле выборки, значение которого будет проставлено в модель поля ввода (по умолчанию вся модель)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="size" type="xs:integer">

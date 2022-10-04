@@ -106,7 +106,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка проброса заголовков клиента
      */
     @Test
-    public void testHeadersForwarding() {
+    public void testHeadersAndCookiesForwarding() {
         String headersForwardingQueryPath = "/n2o/data/test/graphql/query/headersForwarding";
         String headersForwardingFromPropertiesQueryPath = "/n2o/data/test/graphql/select";
         String url = "http://localhost:" + appPort + headersForwardingQueryPath;
@@ -122,6 +122,7 @@ public class GraphQlDataProviderEngineTest {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("testForwardedHeader", "ForwardedHeaderValue");
         headers.add("testNotForwardHeader", "NotForwardHeaderValue");
+        headers.add("Cookie", "c1=c1Value;c2=c2Value;c3=c3Value;");
 
 
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
@@ -133,10 +134,12 @@ public class GraphQlDataProviderEngineTest {
         verify(restTemplateMock).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
         HttpHeaders httpHeaders = httpEntityCaptor.getValue().getHeaders();
         assertEquals("ForwardedHeaderValue", httpHeaders.get("testForwardedHeader").get(0));
+        assertEquals("c3=c3Value;c1=c1Value", httpHeaders.get("cookie").get(0));
         assertEquals(Boolean.FALSE, httpHeaders.containsKey("testNotForwardHeader"));
 
         headers.add("testHeaderFromProperty1", "testHeaderFromProperty1Value");
         headers.add("testHeaderFromProperty2", "testHeaderFromProperty2Value");
+        headers.add("Cookie", "cfp1=cfp1Value;cfp2=cfp2Value;cfp3=cfp3Value;");
 
         url = "http://localhost:" + appPort + headersForwardingFromPropertiesQueryPath;
 
@@ -147,6 +150,7 @@ public class GraphQlDataProviderEngineTest {
         httpHeaders = httpEntityCaptor.getValue().getHeaders();
         assertEquals("testHeaderFromProperty1Value", httpHeaders.get("testHeaderFromProperty1").get(0));
         assertEquals("testHeaderFromProperty2Value", httpHeaders.get("testHeaderFromProperty2").get(0));
+        assertEquals("cfp2=cfp2Value", httpHeaders.get("cookie").get(0));
         assertEquals(Boolean.FALSE, httpHeaders.containsKey("testForwardedHeader"));
         assertEquals(Boolean.FALSE, httpHeaders.containsKey("testNotForwardHeader"));
     }

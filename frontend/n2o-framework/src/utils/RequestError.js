@@ -1,9 +1,10 @@
 class RequestError extends Error {
-    constructor(message, status, body = null, json = null) {
+    constructor(message, status, headers, body = null, json = null) {
         super(message)
         this.name = 'RequestError'
         this.message = message
         this.status = status
+        this.headers = headers
         this.body = body
         this.json = json
         if (Error.captureStackTrace) {

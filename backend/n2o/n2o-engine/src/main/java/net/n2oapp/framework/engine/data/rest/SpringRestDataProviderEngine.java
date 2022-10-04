@@ -47,6 +47,10 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     @Setter
     private String forwardHeaders;
 
+    @Value("${n2o.engine.rest.forward-cookies:}")
+    @Setter
+    private String forwardCookies;
+
     public SpringRestDataProviderEngine(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
@@ -139,6 +143,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         query = getURL(invocation.getProxyHost(), invocation.getProxyPort(), query);
         HttpHeaders headers = initHeaders(args);
         copyForwardedHeaders(resolveForwardedHeaders(invocation), headers);
+        copyForwardedCookies(resolveForwardedCookies(invocation), headers);
         Map<String, Object> body = new HashMap<>(args);
 
         log.debug("Execute REST query: " + query);
@@ -179,6 +184,16 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     private Set<String> resolveForwardedHeaders(N2oRestDataProvider invocation) {
         String headers = invocation.getForwardedHeaders() != null ? invocation.getForwardedHeaders() : forwardHeaders;
         return parseHeadersString(headers);
+    }
+
+    /**
+     * Парсинг и выбор cookie для пересылки
+     *
+     * @param invocation Провайдер данных
+     */
+    private Set<String> resolveForwardedCookies(N2oRestDataProvider invocation) {
+        String cookies = invocation.getForwardedCookies() != null ? invocation.getForwardedCookies() : forwardCookies;
+        return parseHeadersString(cookies);
     }
 
     private String resolve(String str, Map<String, Object> args, BinaryOperator<String> reducer) {

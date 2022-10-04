@@ -29,6 +29,7 @@ public class RestDataProviderIOv1 implements NamespaceIO<N2oRestDataProvider>, D
         p.attribute(e, "content-type", m::getContentType, m::setContentType);
         p.attribute(e, "proxy-host", m::getProxyHost, m::setProxyHost);
         p.attribute(e, "forwarded-headers", m::getForwardedHeaders, m::setForwardedHeaders);
+        p.attribute(e, "forwarded-cookies", m::getForwardedCookies, m::setForwardedCookies);
         p.attributeInteger(e, "proxy-port", m::getProxyPort, m::setProxyPort);
         p.text(e, m::getQuery, m::setQuery);
     }

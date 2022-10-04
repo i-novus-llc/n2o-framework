@@ -7,6 +7,7 @@
       select-separator=","
       proxy-host="localhost"
       proxy-port="8080"
-      forwarded-headers="testHeader">
+      forwarded-headers="testHeader"
+      forwarded-cookies="testCookie">
     /api/service/test;select={select};join={join}?{filters}&amp;{sorting}
 </rest>

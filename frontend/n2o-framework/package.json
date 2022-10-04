@@ -1,8 +1,11 @@
 {
   "name": "n2o-framework",
-  "version": "7.23.28",
+  "version": "7.23.30",
   "description": "N2O React",
   "homepage": "https://n2oapp.net/",
+  "engines": {
+    "node": "^16.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:i-novus-llc/n2o-framework.git",
@@ -165,6 +168,7 @@
     "@types/lodash": "^4.14.182",
     "@types/numeral": "^2.0.2",
     "@types/query-string": "^5.1.0",
+    "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "5.3.0",
     "@types/recompose": "^0.30.10",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
@@ -217,7 +221,8 @@
   "peerDependencies": {
     "css-animation": "*",
     "rc-tree": "*",
-    "redux-thunk": "*"
+    "redux-thunk": "*",
+    "sass": "*"
   },
   "jest": {
     "modulePaths": [
