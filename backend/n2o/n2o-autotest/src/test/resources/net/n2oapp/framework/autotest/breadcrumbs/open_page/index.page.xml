@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Таблица">
+
+    <table>
+        <datasource query-id="test"/>
+        <columns>
+            <column text-field-id="name"/>
+            <column text-field-id="surname"/>
+        </columns>
+        <rows>
+            <click>
+                <open-page page-id="page1" route="/:id/page1" page-name="{name}">
+                    <params>
+                        <path-param name="id" value="{id}">
+                        </path-param>
+                    </params>
+                    <breadcrumbs>
+                        <crumb label="Первая страница" route="/"/>
+                        <crumb label="Вторая страница {name} open-page" route="/:id1/page2"/>
+                    </breadcrumbs>
+                </open-page>
+            </click>
+        </rows>
+    </table>
+</simple-page>
