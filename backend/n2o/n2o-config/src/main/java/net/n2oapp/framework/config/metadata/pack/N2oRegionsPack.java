@@ -13,7 +13,6 @@ public class N2oRegionsPack implements MetadataPack<N2oApplicationBuilder> {
     public void build(N2oApplicationBuilder b) {
         b.packs(new N2oRegionsV2IOPack(), new N2oRegionsV3IOPack());
         b.compilers(new TabsRegionCompiler(),
-                new NoneRegionCompiler(),
                 new PanelRegionCompiler(),
                 new LineRegionCompiler(),
                 new CustomRegionCompiler(),
