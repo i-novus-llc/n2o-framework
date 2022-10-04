@@ -355,6 +355,36 @@ public class InvocationProcessorTest {
     }
 
     @Test
+    public void testReferenceNormalize() {
+        N2oJavaDataProvider method = new N2oJavaDataProvider();
+        method.setMethod("methodReturnedEntity");
+        method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
+
+        Argument entityTypeArgument = new Argument();
+        entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
+        entityTypeArgument.setType(Argument.Type.ENTITY);
+
+        method.setArguments(new Argument[]{entityTypeArgument});
+
+        ObjectSimpleField childParam = new ObjectSimpleField();
+        childParam.setId("name");
+        childParam.setMapping("[0].valueStr");
+        childParam.setNormalize("#this.toLowerCase()");
+
+        DataSet innerDataSet = new DataSet();
+        innerDataSet.put("name", "TESTSTRING");
+
+        ObjectSimpleField outField = new ObjectSimpleField();
+        outField.setId("entity");
+        outField.setMapping("#this");
+        Collection<ObjectSimpleField> outMapping = Arrays.asList(outField);
+
+        DataSet resultDataSet = invocationProcessor.invoke(method, innerDataSet, Arrays.asList(childParam), outMapping);
+
+        assertThat(((TestEntity) resultDataSet.get("entity")).getValueStr(), is("teststring"));
+    }
+
+    @Test
     public void testAdvancedNestingWithMapInvocationProvider() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setOperation(N2oTestDataProvider.Operation.echo);

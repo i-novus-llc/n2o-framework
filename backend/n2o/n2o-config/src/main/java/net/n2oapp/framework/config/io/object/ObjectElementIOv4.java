@@ -81,6 +81,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
     private void abstractParameter(Element e, AbstractParameter t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
+        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
     }
 
@@ -88,7 +89,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         abstractParameter(e, t, p);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
-        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
     }
 
     private void inField(Element e, ObjectSimpleField t, IOProcessor p) {

@@ -157,6 +157,11 @@
                 <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="normalize" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="operationListDefinition">
@@ -567,4 +572,10 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:complexType name="baseFieldDefinition">
+        <xs:annotation>
+            <xs:documentation>Базовое определение поля объекта</xs:documentation>
+        </xs:annotation>
+
+    </xs:complexType>
 </xs:schema>
