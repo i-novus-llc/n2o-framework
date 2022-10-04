@@ -1,8 +1,10 @@
 package net.n2oapp.framework.autotest.breadcrumbs;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -86,10 +88,8 @@ public class BreadcrumbsAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#");
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         page.breadcrumb().crumb(1).shouldHaveLink(getBaseUrl() + "/#/page2");
-        String url = getBaseUrl();
         page.breadcrumb().crumb(1).click();
         page.shouldExists();
-        Assertions.assertEquals(url, getBaseUrl());
 
         page.breadcrumb().crumb(0).click();
         page.shouldExists();
@@ -101,9 +101,28 @@ public class BreadcrumbsAT extends AutoTestBase {
         page.breadcrumb().crumb(1).shouldHaveLabel("Третья страница");
         page.breadcrumb().crumb(1).shouldHaveLink(getBaseUrl() + "/#/page2/page3");
         page.breadcrumb().crumb(2).shouldHaveLabel("Нет ссылки");
-        url = getBaseUrl();
-        page.breadcrumb().crumb(2).click();
-        Assertions.assertEquals(url, getBaseUrl());
+        page.breadcrumb().crumb(2).shouldNotHaveLink();
+
+    }
+
+    @Test
+    public void testOpenPage() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/page2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/test.query.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.widget(TableWidget.class).columns().rows().row(2).click();
+        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
+        page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#/");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница test3 open-page");
+        page.breadcrumb().crumb(1).shouldHaveLink(getBaseUrl() + "/#/3/page2");
+        page.breadcrumb().crumb(0).click();
+        page.shouldExists();
+        page.widget(TableWidget.class).shouldExists();
     }
 
     @Test
@@ -130,6 +149,24 @@ public class BreadcrumbsAT extends AutoTestBase {
         page.toolbar().bottomLeft().button("Третья страница").click();
         page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#");
         page.breadcrumb().crumb(1).shouldHaveLink(getBaseUrl() + "/#/page2");
+    }
+
+    @Test
+    public void testResolve() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/page2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class).columns().rows().row(2).click();
+        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Таблица");
+        page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#/");
+        page.breadcrumb().crumb(1).shouldHaveLabel("test3");
+        page.breadcrumb().crumb(1).shouldHaveLink(getBaseUrl() + "/#/3/page2");
+        page.titleShouldHaveText("2");
     }
 
     private void checkPageAndClickRow(SimplePage page, String firstTableRow, String secondTableRow, Integer clickRow) {

@@ -169,7 +169,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void titleShouldHaveText(String text) {
-            element().$(".active.breadcrumb-item")
+            element().$$(".breadcrumb-item").last()
                     .shouldHave(Condition.text(text));
         }
 
@@ -196,12 +196,17 @@ public class N2oPage extends N2oComponent implements Page {
 
             @Override
             public void shouldHaveLabel(String text) {
-                element().$(".n2o-breadcrumb-link").shouldHave(Condition.text(text));
+                element().lastChild().shouldHave(Condition.text(text));
             }
 
             @Override
             public void shouldHaveLink(String link) {
                 element().$(".n2o-breadcrumb-link").shouldHave(Condition.href(link));
+            }
+
+            @Override
+            public void shouldNotHaveLink() {
+                element().$(".n2o-breadcrumb-link").shouldNot(Condition.exist);
             }
         }
     }

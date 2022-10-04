@@ -5,4 +5,13 @@
         <crumb label="Третья страница" path="/page2/page3"/>
         <crumb label="Нет ссылки"/>
     </breadcrumbs>
+    <regions>
+        <form>
+            <fields>
+                <text id="text">
+                    Вторая страница
+                </text>
+            </fields>
+        </form>
+    </regions>
 </page>

@@ -76,7 +76,9 @@ public interface Page extends Component {
 
             void shouldHaveLabel(String text);
 
-            void  shouldHaveLink(String link);
+            void shouldHaveLink(String link);
+
+            void shouldNotHaveLink();
         }
     }
 

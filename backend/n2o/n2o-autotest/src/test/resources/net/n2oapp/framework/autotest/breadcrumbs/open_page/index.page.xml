@@ -10,14 +10,14 @@
         </columns>
         <rows>
             <click>
-                <open-page page-id="page1" route="/:id/page1" page-name="{name}">
+                <open-page page-id="page2" route="/:id/page2" page-name="{name}">
                     <params>
                         <path-param name="id" value="{id}">
                         </path-param>
                     </params>
                     <breadcrumbs>
-                        <crumb label="Первая страница" route="/"/>
-                        <crumb label="Вторая страница {name} open-page" route="/:id1/page2"/>
+                        <crumb label="Первая страница" path="/"/>
+                        <crumb label="Вторая страница {name} open-page" path="/:id/page2"/>
                     </breadcrumbs>
                 </open-page>
             </click>
