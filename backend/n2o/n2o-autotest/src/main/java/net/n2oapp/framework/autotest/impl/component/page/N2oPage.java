@@ -169,7 +169,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void titleShouldHaveText(String text) {
-            element().$(".active.breadcrumb-item")
+            element().$$(".breadcrumb-item").last()
                     .shouldHave(Condition.text(text));
         }
 
