@@ -3,12 +3,6 @@
     <list>
         <test file="net/n2oapp/framework/autotest/breadcrumbs/open_page/test.json"/>
     </list>
-
-    <filters>
-        <eq field-id="id" filter-id="id"/>
-        <eq field-id="name" filter-id="name"/>
-    </filters>
-
     <fields>
         <field id="id"/>
         <field id="name"/>
