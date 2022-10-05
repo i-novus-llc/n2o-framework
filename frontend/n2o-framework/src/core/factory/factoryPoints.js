@@ -12,4 +12,5 @@ export default [
     'buttons',
     'templates',
     'overlays',
+    'breadcrumbs',
 ]

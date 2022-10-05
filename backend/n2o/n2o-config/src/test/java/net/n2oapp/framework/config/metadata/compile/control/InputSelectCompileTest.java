@@ -89,7 +89,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getBindLink(), is("models.resolve['testInputSelect_main']"));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getSize(), is(7));
-        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getValueFieldId(), is("name"));
+        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getValueFieldId(), nullValue());
         assertThat(field.getDependencies().get(0).getApplyOnInit(), is(true));
         assertThat(field.getDependencies().get(0).getType(), is(ValidationType.fetchValue));
 

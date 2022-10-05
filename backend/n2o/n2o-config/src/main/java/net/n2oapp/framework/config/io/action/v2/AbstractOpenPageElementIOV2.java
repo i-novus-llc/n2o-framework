@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.datasource.AbstractDatasourceIO;
 import org.jdom2.Element;
@@ -38,11 +39,18 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attributeBoolean(e, "submit-message-on-success", op::getSubmitMessageOnSuccess, op::setSubmitMessageOnSuccess);
         p.attributeBoolean(e, "submit-message-on-fail", op::getSubmitMessageOnFail, op::setSubmitMessageOnFail);
         p.attribute(e, "route", op::getRoute, op::setRoute);
+        p.children(e, "breadcrumbs", "crumb", op::getBreadcrumbs, op::setBreadcrumbs,
+                N2oBreadcrumb.class, this::breadcrumbs);
         p.anyChildren(e, "datasources", op::getDatasources, op::setDatasources, p.anyOf(N2oAbstractDatasource.class), datasourceDefaultNamespace);
         p.anyChildren(e, "params", op::getParams, op::setParams,
                 p.oneOf(N2oParam.class)
                         .add("path-param", N2oPathParam.class, this::param)
                         .add("query-param", N2oQueryParam.class, this::param));
+    }
+
+    private void breadcrumbs(Element e, N2oBreadcrumb c, IOProcessor p) {
+        p.attribute(e, "label", c::getLabel, c::setLabel);
+        p.attribute(e, "path", c::getPath, c::setPath);
     }
 
     private void param(Element e, N2oParam param, IOProcessor p) {

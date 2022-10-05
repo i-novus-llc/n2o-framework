@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.register.route;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -14,6 +15,7 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThrows;
 
 /**
  * Тестирование методов класса {@link RouteUtil}
@@ -214,4 +216,22 @@ public class RouteUtilTest {
         assertThat(RouteUtil.parseQuery("/example"), nullValue());
     }
 
+    @Test
+    public void getNestingLevel() {
+        assertThat(RouteUtil.getRelativeLevel(""), is(0));
+        assertThat(RouteUtil.getRelativeLevel("/"), is(0));
+        assertThat(RouteUtil.getRelativeLevel("./"), is(0));
+        assertThat(RouteUtil.getRelativeLevel("/test/open"), is(0));
+        assertThat(RouteUtil.getRelativeLevel("../"), is(1));
+        assertThat(RouteUtil.getRelativeLevel("../../../"), is(3));
+        assertThrows(N2oException.class, () -> RouteUtil.getRelativeLevel(".../"));
+        assertThrows(N2oException.class, () -> RouteUtil.getRelativeLevel(".././"));
+    }
+
+    @Test
+    public void hasRelativity() {
+        assertThat(RouteUtil.hasRelativity("../"), is(true));
+        assertThat(RouteUtil.hasRelativity("../../../"), is(true));
+        assertThat(RouteUtil.hasRelativity("/test/:id"), is(false));
+    }
 }

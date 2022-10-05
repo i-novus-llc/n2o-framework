@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -155,7 +156,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
         }
         pageContext.setPageName(source.getPageName());
-        pageContext.setBreadcrumbs(p.getScope(BreadcrumbList.class));
+        pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
         pageContext.setSubmitMessageOnSuccess(source.getSubmitMessageOnSuccess());
         pageContext.setSubmitMessageOnFail(source.getSubmitMessageOnFail());
@@ -182,6 +183,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, p));
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
+        if (context instanceof PageContext) {
+            pageContext.addParentRoute(pageContext.getParentRoute(), ((PageContext) context));
+        }
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
@@ -217,6 +221,18 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         return pageContext;
     }
 
+    private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
+        if (source.getBreadcrumbs() != null) {
+            pageContext.setBreadcrumbFromParent(true);
+            return Arrays.stream(source.getBreadcrumbs())
+                    .map(crumb -> new Breadcrumb(crumb.getLabel(), crumb.getPath()))
+                    .collect(Collectors.toList());
+        }
+
+        pageContext.setBreadcrumbFromParent(false);
+        return p.getScope(BreadcrumbList.class);
+    }
+
     /**
      * Сбор родительских ссылок на модели в список в порядке приоритета их использования для разрешения
      * параметров открываемой страницы
@@ -226,6 +242,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param queryLinks      Ссылки на модели параметров запроса
      * @return список родительских ссылок
      */
+    //TODO убрать в рамках рефакторинга https://jira.i-novus.ru/browse/NNO-8532
     protected List<ModelLink> collectParentLinks(ModelLink actionModelLink, Collection<ModelLink> pathLinks, Collection<ModelLink> queryLinks) {
         List<ModelLink> links = new ArrayList<>();
         links.add(actionModelLink);
