@@ -1,5 +1,6 @@
 package net.n2oapp.framework.engine;
 
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
@@ -24,9 +25,9 @@ import org.mockito.stubbing.Answer;
 
 import java.util.*;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -355,33 +356,57 @@ public class InvocationProcessorTest {
     }
 
     @Test
-    public void testReferenceNormalize() {
-        N2oJavaDataProvider method = new N2oJavaDataProvider();
-        method.setMethod("methodReturnedEntity");
-        method.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
+    public void testListNormalizing() {
+        N2oTestDataProvider invocation = new N2oTestDataProvider();
+        invocation.setOperation(N2oTestDataProvider.Operation.echo);
 
-        Argument entityTypeArgument = new Argument();
-        entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        entityTypeArgument.setType(Argument.Type.ENTITY);
+        //List
+        ObjectListField listField = new ObjectListField();
+        listField.setId("employees");
+        listField.setNormalize("#this.?[['id'] != 101]");
 
-        method.setArguments(new Argument[]{entityTypeArgument});
+        //Inner simple1
+        ObjectSimpleField simpleListChildField1 = new ObjectSimpleField();
+        simpleListChildField1.setId("id");
+        simpleListChildField1.setNormalize("#this + 100");
 
-        ObjectSimpleField childParam = new ObjectSimpleField();
-        childParam.setId("name");
-        childParam.setMapping("[0].valueStr");
-        childParam.setNormalize("#this.toLowerCase()");
+        //Inner simple2
+        ObjectSimpleField simpleListChildField2 = new ObjectSimpleField();
+        simpleListChildField2.setId("name");
+        simpleListChildField2.setNormalize("#this.toUpperCase()");
 
-        DataSet innerDataSet = new DataSet();
-        innerDataSet.put("name", "TESTSTRING");
+        listField.setFields(new AbstractParameter[]{simpleListChildField1, simpleListChildField2});
 
-        ObjectSimpleField outField = new ObjectSimpleField();
-        outField.setId("entity");
-        outField.setMapping("#this");
-        Collection<ObjectSimpleField> outMapping = Arrays.asList(outField);
+        //Out simple fields
+        ObjectSimpleField simpleOutId = new ObjectSimpleField();
+        simpleOutId.setId("id");
+        simpleOutId.setMapping("['employees[0].id']");
+        ObjectSimpleField simpleOutName = new ObjectSimpleField();
+        simpleOutName.setId("name");
+        simpleOutName.setMapping("['employees[0].name']");
+        ObjectSimpleField simpleOutSize = new ObjectSimpleField();
+        simpleOutSize.setId("processedListSize");
+        simpleOutSize.setMapping("['employees'].size()");
 
-        DataSet resultDataSet = invocationProcessor.invoke(method, innerDataSet, Arrays.asList(childParam), outMapping);
+        //DATA
+        DataSet innerDataSet1 = new DataSet();
+        innerDataSet1.put("id", 1);
+        innerDataSet1.put("name", "test1");
+        DataSet innerDataSet2 = new DataSet();
+        innerDataSet2.put("id", 2);
+        innerDataSet2.put("name", "test2");
 
-        assertThat(((TestEntity) resultDataSet.get("entity")).getValueStr(), is("teststring"));
+        DataList dataList = new DataList();
+        dataList.add(innerDataSet1);
+        dataList.add(innerDataSet2);
+
+        DataSet dataSet = new DataSet("employees", dataList);
+
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, singletonList(listField),
+                Arrays.asList(simpleOutId, simpleOutName, simpleOutSize));
+        assertThat(result.getInteger("id"), is(102));
+        assertThat(result.getString("name"), is("TEST2"));
+        assertThat(result.getInteger("processedListSize"), is(1));
     }
 
     @Test

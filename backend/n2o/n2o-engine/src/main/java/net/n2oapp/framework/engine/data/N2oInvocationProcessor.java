@@ -137,7 +137,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 mappingMap.remove(parameter.getId());
             }
         }
-        return normalize(invocationParameters, inDataSet);
+        return normalize(invocationParameters, inDataSet);//TODO refactoring https://jira.i-novus.ru/browse/NNO-8596
     }
 
     /**
@@ -179,7 +179,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     private DataSet normalize(Collection<AbstractParameter> invocationParameters, DataSet inDataSet) {
         DataSet copiedDataSet = new DataSet(inDataSet);
         for (AbstractParameter parameter : invocationParameters) {
-            if (parameter instanceof ObjectSimpleField && ((ObjectSimpleField) parameter).getNormalize() != null) {
+            if (parameter.getNormalize() != null) {
                 Object value = inDataSet.get(parameter.getId());
                 if (value != null) {
                     value = tryToNormalize(value, parameter, inDataSet, applicationContext);
@@ -195,7 +195,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                                   DataSet inDataSet,
                                   ApplicationContext applicationContext) {
         try {
-            value = normalizeValue(value, ((ObjectSimpleField) parameter).getNormalize(), inDataSet, parser, applicationContext);
+            value = normalizeValue(value, parameter.getNormalize(), inDataSet, parser, applicationContext);
         } catch (N2oSpelException e) {
             e.setFieldId(parameter.getId());
             throw e;
