@@ -509,6 +509,7 @@ __*Виды основных виджетов*__
 |&lt;table&gt;|TableWidget    |[Таблица](../xml/widget#table) |
 |&lt;list&gt; |ListWidget     |[Список](../xml/widget#list)   |
 |&lt;tree&gt; |TreeWidget     |[Дерево](../xml/widget#tree)   |
+|&lt;html&gt; |HtmlWidget     |[Html](../xml/widget#html)   |
 |&lt;cards&gt;|CardsWidget    |[Карточки](../xml/widget#cards)|
 |&lt;tiles&gt;|TilesWidget    |[Плитки](../xml/widget#tiles)  |
 
@@ -675,14 +676,14 @@ __*Виды действий*__
 |Вид                 |Redux действие             |Описание                                                                            |
 |--------------------|---------------------------|------------------------------------------------------------------------------------|
 |&lt;invoke&gt;      |n2o/actionImpl/START_INVOKE|[Отправка данных формы](../xml/action#invoke)                                       |
-|&lt;show-modal&gt;  |n2o/modals/INSERT          |[Открытие модального окна](../xml/action#show-modal)                                |
+|&lt;show-modal&gt;  |n2o/overlays/INSERT_MODAL  |[Открытие модального окна](../xml/action#show-modal)                                |
 |&lt;open-drawer&gt; |n2o/overlays/INSERT_DRAWER |[Открытие выдвижной панели](../xml/action#open-drawer)                              |
 |&lt;open-page&gt;   |                           |[Открытие вложенной страницы](../xml/action#open-page)                              |
 |&lt;a&gt;           |                           |[Открытие ссылки](../xml/action#a)                                                  |
-|&lt;close&gt;       |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)  |
-|&lt;refresh&gt;     |n2o/widgets/DATA_REQUEST   |[Обновление данных виджета](../xml/action#refresh)                                  |
-|&lt;clear&gt;       |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                       |
-|&lt;copy&gt;        |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)           |
+|&lt;close&gt;       |n2o/overlays/CLOSE         |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)  |
+|&lt;refresh&gt;     |n2o/datasource/DATA_REQUEST|[Обновление данных виджета](../xml/action#refresh)                                  |
+|&lt;clear&gt;       |n2o/models/CLEAR           |[Очистка данных виджета](../xml/action#clear)                                       |
+|&lt;copy&gt;        |n2o/models/COPY            |[Копирование данных виджета из одной модели в другую](../xml/action#copy)           |
 |&lt;print&gt;       |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
 |&lt;submit&gt;      |n2o/actionImpl/SUBMIT      |[Сохранить источник данных](../xml/action#submit)                                             |
 
@@ -741,10 +742,11 @@ __*Виды действий*__
 
 __*Виды филдсетов*__
 
-|Вид         |React компонент |Описание                                                                                  |
-|------------|----------------|------------------------------------------------------------------------------------------|
-|&lt;set&gt; |StandardFieldset|[Филдсет без верстки](../xml/fieldset#set)             |
-|&lt;line&gt;|LineFieldset    |[Филдсет с горизонтальной чертой](../xml/fieldset#line)|
+|Вид          |React компонент |Описание                                                                                  |
+|-------------|----------------|------------------------------------------------------------------------------------------|
+|&lt;set&gt;  |StandardFieldset|[Простой филдсет](../xml/fieldset#set)                          |
+|&lt;line&gt; |LineFieldset    |[Филдсет с горизонтальной чертой](../xml/fieldset#line)         |
+|&lt;multi&gt;|MultiFieldset   |[Филдсет с динамическим числом полей](../xml/fieldset#multi-set)|
 
 В филдсете поля можно расположить в строку или столбец
 с помощью элементов `<row>` и `<col>`.
