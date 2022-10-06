@@ -12,7 +12,6 @@ import { createStructuredSelector } from 'reselect'
 
 import { Filter } from '../snippets/Filter/Filter'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
-import propsResolver from '../../utils/propsResolver'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -94,7 +93,7 @@ class WidgetFilters extends React.Component {
 
     handleReset() {
         const {
-            fieldsets,
+            filterFieldsets,
             blackResetList,
             reduxFormFilter,
             resetFilterModel,
@@ -102,7 +101,7 @@ class WidgetFilters extends React.Component {
         } = this.props
         const newReduxForm = cloneDeep(reduxFormFilter)
         const toReset = difference(
-            map(flatFields(fieldsets, []), 'id'),
+            map(flatFields(filterFieldsets, []), 'id'),
             blackResetList,
         )
 
@@ -135,17 +134,16 @@ class WidgetFilters extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        const { fieldsets } = props
-        const resolved = Object.values(propsResolver(fieldsets) || {})
+        const { filterFieldsets } = props
 
-        if (isEqual(resolved, state.fieldsets)) {
+        if (isEqual(filterFieldsets, state.fieldsets)) {
             return null
         }
 
-        const fields = getFieldsKeys(resolved)
+        const fields = getFieldsKeys(filterFieldsets)
 
         return {
-            fieldsets: resolved,
+            fieldsets: filterFieldsets,
             fields,
         }
     }
@@ -182,7 +180,7 @@ class WidgetFilters extends React.Component {
 
 WidgetFilters.propTypes = {
     datasource: PropTypes.string,
-    fieldsets: PropTypes.array,
+    filterFieldsets: PropTypes.array,
     visible: PropTypes.bool,
     blackResetList: PropTypes.array,
     filterModel: PropTypes.object,
