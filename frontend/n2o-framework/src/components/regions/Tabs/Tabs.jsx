@@ -46,7 +46,7 @@ class Tabs extends React.Component {
 
         const activeEntityVisibilityChanged = activeEntityVisibility !== getActiveEntityVisibility(prevProps.children)
 
-        if (activeEntityVisibilityChanged && !activeEntityVisibility) {
+        if (activeEntityVisibilityChanged && !activeEntityVisibility && !isEmpty(prevProps.children)) {
             const firstVisibleTab = find(children, child => child.props.visible)
 
             onChangeActive(get(firstVisibleTab, 'key'), get(firstVisibleTab, 'key', prevProps.activeId))
