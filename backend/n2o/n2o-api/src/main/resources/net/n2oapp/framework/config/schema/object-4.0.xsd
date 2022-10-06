@@ -571,11 +571,4 @@
             <xs:enumeration value="after-success-operation"/>
         </xs:restriction>
     </xs:simpleType>
-
-    <xs:complexType name="baseFieldDefinition">
-        <xs:annotation>
-            <xs:documentation>Базовое определение поля объекта</xs:documentation>
-        </xs:annotation>
-
-    </xs:complexType>
 </xs:schema>
