@@ -12,7 +12,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +80,7 @@ public class BreadcrumbsAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        page.breadcrumb().titleShouldHaveText("Тест настройки бредкрампа на странице");
+        page.breadcrumb().titleShouldHaveText("Тест настройки бредкрамба на странице");
         page.toolbar().bottomLeft().button("Вторая страница").click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
         page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#");
@@ -92,7 +91,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
         page.breadcrumb().crumb(0).click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест настройки бредкрампа на странице");
+        page.breadcrumb().titleShouldHaveText("Тест настройки бредкрамба на странице");
         page.toolbar().bottomLeft().button("Вторая страница").click();
         page.toolbar().bottomLeft().button("Третья страница").click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
