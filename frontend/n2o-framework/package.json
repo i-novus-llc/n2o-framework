@@ -173,6 +173,7 @@
     "@types/recompose": "^0.30.10",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.27.1",
+    "@types/react-helmet": "^6.1.5",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "axios-mock-adapter": "^1.16.0",
     "babel-jest": "^28.1.1",
