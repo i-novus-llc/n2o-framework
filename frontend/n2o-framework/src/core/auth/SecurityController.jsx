@@ -61,7 +61,7 @@ const useSecurityController = ({ config = {}, onPermissionsSet, disabled, ...res
 
     const behaviorDisable = config.behavior === Behavior.DISABLE
 
-    const setDisabled = !hasAccess && behaviorDisable
+    const setDisabled = hasAccess === false && behaviorDisable
     const needRender = behaviorDisable || hasAccess
     const props = omit(rest, excludedKeys)
 
