@@ -44,7 +44,7 @@ public class TopLeftRightPageAT extends AutoTestBase {
     public void testTopLeftRightPage() {
         TopLeftRightPage page = open(TopLeftRightPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница с тремя регионами");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с тремя регионами");
         page.shouldHaveCssClass("page_class");
         page.shouldHaveStyle("background: blue;");
 
@@ -75,7 +75,7 @@ public class TopLeftRightPageAT extends AutoTestBase {
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().firstTitleShouldHaveText("Страница с тремя регионами");
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с тремя регионами");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
     }
 }

@@ -45,29 +45,29 @@ public class BreadcrumbsAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/books.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleByIndexShouldHaveText("Table", 0);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Table");
         checkPageAndClickRow(page, "reader1", "reader2", 0);
 
         page.shouldExists();
-        page.breadcrumb().titleByIndexShouldHaveText("Table", 0);
-        page.breadcrumb().titleByIndexShouldHaveText("reader1", 1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Table");
+        page.breadcrumb().crumb(1).shouldHaveLabel("reader1");
         checkPageAndClickRow(page, "book1", "book2", 1);
 
         page.shouldExists();
-        page.breadcrumb().titleByIndexShouldHaveText("Table", 0);
-        page.breadcrumb().titleByIndexShouldHaveText("reader1", 1);
-        page.breadcrumb().titleByIndexShouldHaveText("book2", 2);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Table");
+        page.breadcrumb().crumb(1).shouldHaveLabel("reader1");
+        page.breadcrumb().crumb(2).shouldHaveLabel("book2");
         checkPageAndClickRow(page, "reader1", "reader2", 1);
 
         page.shouldExists();
-        page.breadcrumb().titleByIndexShouldHaveText("Table", 0);
-        page.breadcrumb().titleByIndexShouldHaveText("reader2", 1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Table");
+        page.breadcrumb().crumb(1).shouldHaveLabel("reader2");
         checkPageAndClickRow(page, "book1", "book2", 0);
 
         page.shouldExists();
-        page.breadcrumb().titleByIndexShouldHaveText("Table", 0);
-        page.breadcrumb().titleByIndexShouldHaveText("reader2", 1);
-        page.breadcrumb().titleByIndexShouldHaveText("book1", 2);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Table");
+        page.breadcrumb().crumb(1).shouldHaveLabel("reader2");
+        page.breadcrumb().crumb(2).shouldHaveLabel("book1");
     }
 
     @Test
@@ -80,7 +80,8 @@ public class BreadcrumbsAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        page.breadcrumb().titleShouldHaveText("Тест настройки бредкрамба на странице");
+        page.breadcrumb().shouldHaveSize(2);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест настройки бредкрамба на странице");
         page.toolbar().bottomLeft().button("Вторая страница").click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
         page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#");
@@ -91,9 +92,11 @@ public class BreadcrumbsAT extends AutoTestBase {
 
         page.breadcrumb().crumb(0).click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест настройки бредкрамба на странице");
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест настройки бредкрамба на странице");
         page.toolbar().bottomLeft().button("Вторая страница").click();
         page.toolbar().bottomLeft().button("Третья страница").click();
+        page.breadcrumb().shouldHaveSize(3);
         page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
         page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#/page2");
         page.breadcrumb().crumb(1).shouldHaveLabel("Третья страница");

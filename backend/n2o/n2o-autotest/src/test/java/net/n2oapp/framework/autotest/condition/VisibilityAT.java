@@ -45,7 +45,7 @@ public class VisibilityAT extends AutoTestBase {
     public void testVisibility() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("VisibilityTestPage");
+        page.breadcrumb().crumb(0).shouldHaveLabel("VisibilityTestPage");
 
         Fields fields1 = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         fields1.shouldHaveSize(4);
@@ -100,7 +100,7 @@ public class VisibilityAT extends AutoTestBase {
     public void testDependenciesAndVisibility() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("VisibilityTestPage");
+        page.breadcrumb().crumb(0).shouldHaveLabel("VisibilityTestPage");
 
         Fields fields = page.regions().region(2, SimpleRegion.class).content().widget(FormWidget.class).fields();
         fields.shouldHaveSize(2);
@@ -133,7 +133,7 @@ public class VisibilityAT extends AutoTestBase {
     public void testVisibilityAndDependencyVisibility() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("VisibilityTestPage");
+        page.breadcrumb().crumb(0).shouldHaveLabel("VisibilityTestPage");
 
         Fields fields = page.regions().region(3, SimpleRegion.class).content().widget(FormWidget.class).fields();
         Field field = fields.field("Should be visible");

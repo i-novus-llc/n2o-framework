@@ -53,7 +53,7 @@ public class FieldsAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к полям по sec атрибутам");
 
         Fields fields = page.widget(FormWidget.class).fields();
         fields.shouldHaveSize(3);
@@ -73,7 +73,7 @@ public class FieldsAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к полям по sec атрибутам");
 
         Fields fields = page.widget(FormWidget.class).fields();
         fields.field("Доступно всем").shouldExists();

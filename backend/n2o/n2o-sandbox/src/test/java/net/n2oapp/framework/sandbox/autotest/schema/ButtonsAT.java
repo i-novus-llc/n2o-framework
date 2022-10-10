@@ -54,7 +54,7 @@ public class ButtonsAT extends SandboxAutotestBase {
         page.header().brandNameShouldBe("N2O");
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
 
         Toolbar topLeft = form.toolbar().topLeft();
         topLeft.shouldHaveSize(3);
@@ -64,33 +64,36 @@ public class ButtonsAT extends SandboxAutotestBase {
         button.shouldHaveLabel("Доступно всем");
         button.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступно всем");
-        page.breadcrumb().firstTitleShouldHaveText("Доступ к кнопкам по access схеме");
-        page.breadcrumb().clickLink("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Доступно всем");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(0).click();
         form.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по access схеме");
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
 
         button = topLeft.button(1, StandardButton.class);
         button.shouldExists();
         button.shouldHaveLabel("Только с ролью admin");
         button.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Только с ролью admin");
-        page.breadcrumb().firstTitleShouldHaveText("Доступ к кнопкам по access схеме");
-        page.breadcrumb().clickLink("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Только с ролью admin");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(0).click();
         form.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по access схеме");
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
 
         button = topLeft.button(2, StandardButton.class);
         button.shouldExists();
         button.shouldHaveLabel("Только с правом edit");
         button.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Только с правом edit");
-        page.breadcrumb().firstTitleShouldHaveText("Доступ к кнопкам по access схеме");
-        page.breadcrumb().clickLink("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Только с правом edit");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(0).click();
         form.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по access схеме");
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
     }
 
     @Test
@@ -102,7 +105,7 @@ public class ButtonsAT extends SandboxAutotestBase {
         page.header().brandNameShouldBe("N2O");
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
 
         Toolbar topLeft = form.toolbar().topLeft();
         topLeft.shouldHaveSize(2);
@@ -112,22 +115,24 @@ public class ButtonsAT extends SandboxAutotestBase {
         button.shouldHaveLabel("Доступно всем");
         button.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступно всем");
-        page.breadcrumb().firstTitleShouldHaveText("Доступ к кнопкам по access схеме");
-        page.breadcrumb().clickLink("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Доступно всем");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(0).click();
         form.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по access схеме");
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
 
         button = topLeft.button(1, StandardButton.class);
         button.shouldExists();
         button.shouldHaveLabel("Только анонимам");
         button.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Только анонимам");
-        page.breadcrumb().firstTitleShouldHaveText("Доступ к кнопкам по access схеме");
-        page.breadcrumb().clickLink("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Только анонимам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
+        page.breadcrumb().crumb(0).click();
         form.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по access схеме");
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
     }
 
     @SneakyThrows

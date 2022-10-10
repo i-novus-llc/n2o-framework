@@ -59,7 +59,7 @@ public class AlertFieldAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование независимости закрытия алертов по кнопке");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование независимости закрытия алертов по кнопке");
 
         Alert first = page.widget(FormWidget.class).fields().field(0, Alert.class);
         first.shouldExists();

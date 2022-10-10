@@ -53,7 +53,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
     @Test
     public void testValidationTabMessageInModal() {
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Подсветка невалидных полей в неактивных вкладках");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Подсветка невалидных полей в неактивных вкладках");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         StandardButton button = form.toolbar().bottomLeft().button("Модальное окно");
@@ -106,7 +106,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
     @Test
     public void testValidationTabMessageInPage() {
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Подсветка невалидных полей в неактивных вкладках");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Подсветка невалидных полей в неактивных вкладках");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         StandardButton button = form.toolbar().bottomLeft().button("Новая страница");
@@ -114,7 +114,10 @@ public class ValidationTabMessageAT extends AutoTestBase {
         button.click();
 
         StandardPage newPage = N2oSelenide.page(StandardPage.class);
-        newPage.breadcrumb().titleShouldHaveText("Создание записи");
+        page.breadcrumb().shouldHaveSize(2);
+        page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
+        newPage.breadcrumb().shouldHaveSize(2);
+        newPage.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
         button = newPage.toolbar().bottomRight().button("Сохранить");
         Fields fields = newPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         StandardField field = fields.field("Имя");

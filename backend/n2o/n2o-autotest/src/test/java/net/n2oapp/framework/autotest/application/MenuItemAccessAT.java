@@ -47,7 +47,7 @@ public class MenuItemAccessAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
 
         page.header().nav().shouldHaveSize(3);
 
@@ -70,7 +70,7 @@ public class MenuItemAccessAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
 
         page.header().nav().shouldHaveSize(1);
 

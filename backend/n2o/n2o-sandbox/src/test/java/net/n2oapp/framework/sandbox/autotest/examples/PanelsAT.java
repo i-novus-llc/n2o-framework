@@ -38,7 +38,7 @@ public class PanelsAT extends SandboxAutotestBase {
         LeftRightPage page = open(LeftRightPage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Страница с двумя панелями");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с двумя панелями");
 
         Regions left = page.left();
         left.shouldHaveSize(1);

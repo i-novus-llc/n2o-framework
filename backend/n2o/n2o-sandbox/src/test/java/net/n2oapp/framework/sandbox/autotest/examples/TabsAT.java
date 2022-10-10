@@ -37,7 +37,7 @@ public class TabsAT extends SandboxAutotestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Вкладки");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Вкладки");
 
         TabsRegion tabs = page.regions().region(0, TabsRegion.class);
         tabs.tab(0).shouldHaveName("Один");

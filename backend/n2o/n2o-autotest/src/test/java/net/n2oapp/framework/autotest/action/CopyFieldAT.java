@@ -40,7 +40,7 @@ public class CopyFieldAT extends AutoTestBase {
     public void testCopyField() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Копирование значения поля");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Копирование значения поля");
         Button button = page.widget(FormWidget.class).toolbar().topLeft().button("Копировать");
         button.shouldExists();
 

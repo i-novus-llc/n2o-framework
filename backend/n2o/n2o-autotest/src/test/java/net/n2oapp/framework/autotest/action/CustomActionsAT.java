@@ -42,7 +42,7 @@ public class CustomActionsAT extends AutoTestBase {
     public void test() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница для автотеста по проверке кастомного действия");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста по проверке кастомного действия");
 
         StandardButton customInvoke = page.widget(FormWidget.class).toolbar().topLeft().button("Custom invoke");
         customInvoke.click();
@@ -50,6 +50,6 @@ public class CustomActionsAT extends AutoTestBase {
         Alert alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldHaveText("Данные сохранены");
 
-        page.breadcrumb().titleShouldHaveText("Страница для редиректа");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Страница для редиректа");
     }
 }

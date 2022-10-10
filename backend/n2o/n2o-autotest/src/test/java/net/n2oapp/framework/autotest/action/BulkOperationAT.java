@@ -51,7 +51,7 @@ public class BulkOperationAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Bulk Операции");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Bulk Операции");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -101,7 +101,7 @@ public class BulkOperationAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Bulk Операции с разными типами id");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Bulk Операции с разными типами id");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -144,5 +144,4 @@ public class BulkOperationAT extends AutoTestBase {
         deleteManyButton.click();
         table.columns().rows().shouldHaveSize(1);
     }
-
 }

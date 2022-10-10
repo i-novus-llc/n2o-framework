@@ -46,7 +46,7 @@ public class AlertActionAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        page.breadcrumb().titleShouldHaveText("Всплывающие уведомления");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Всплывающие уведомления");
         StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
 
         toolbar.topLeft().button("Тестирование текста и заголовка").click();
@@ -79,6 +79,6 @@ public class AlertActionAT extends AutoTestBase {
         alert.shouldHaveText("Привет, мир!");
         alert.click();
         page.shouldExists();
-        page.breadcrumb().titleByIndexShouldHaveText("Тест", 1);
+        page.breadcrumb().crumb(1).shouldHaveLabel("Тест");
     }
 }

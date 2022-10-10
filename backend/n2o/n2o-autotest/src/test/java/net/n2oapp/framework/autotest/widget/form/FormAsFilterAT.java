@@ -48,7 +48,7 @@ public class FormAsFilterAT extends AutoTestBase {
     public void openWithoutParam() {
         StandardPage page = open(StandardPage.class);
         Selenide.refresh();
-        page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Форма как фильтры таблицы");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
         form.shouldExists();
@@ -87,7 +87,7 @@ public class FormAsFilterAT extends AutoTestBase {
     public void openWithIdParam() {
         StandardPage page = open(StandardPage.class, "/", Collections.singletonMap("uid", "3"));
         Selenide.refresh();
-        page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Форма как фильтры таблицы");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
         form.shouldExists();
@@ -109,7 +109,7 @@ public class FormAsFilterAT extends AutoTestBase {
     public void openWithPeriodParam() {
         StandardPage page = open(StandardPage.class, "/", Collections.singletonMap("period", "MONTH"));
         Selenide.refresh();
-        page.breadcrumb().titleShouldHaveText("Форма как фильтры таблицы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Форма как фильтры таблицы");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
         form.shouldExists();
@@ -136,7 +136,7 @@ public class FormAsFilterAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/test.query.xml"));
 
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Фильтрация по нажатию кнопки");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Фильтрация по нажатию кнопки");
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
         table.columns().rows().shouldHaveSize(4);

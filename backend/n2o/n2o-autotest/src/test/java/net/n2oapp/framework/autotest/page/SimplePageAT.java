@@ -37,7 +37,7 @@ public class SimplePageAT extends AutoTestBase {
     @Test
     public void testSimplePage() {
         SimplePage page = open(SimplePage.class);
-        page.breadcrumb().titleShouldHaveText("Простая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Простая страница");
         page.shouldExists();
         page.shouldHaveCssClass("page_class");
         page.shouldHaveStyle("background: blue;");

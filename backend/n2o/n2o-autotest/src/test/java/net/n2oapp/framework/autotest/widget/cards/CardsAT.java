@@ -50,7 +50,7 @@ public class CardsAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("CardsWidget1");
+        page.breadcrumb().crumb(0).shouldHaveLabel("CardsWidget1");
 
         CardsWidget cardsWidget = page.widget(CardsWidget.class);
         cardsWidget.shouldExists();
@@ -110,7 +110,7 @@ public class CardsAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page2/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("CardsWidget2");
+        page.breadcrumb().crumb(0).shouldHaveLabel("CardsWidget2");
 
         CardsWidget cardsWidget = page.widget(CardsWidget.class);
         cardsWidget.shouldExists();
@@ -238,5 +238,4 @@ public class CardsAT extends AutoTestBase {
         cards2.shouldHaveItems(2);
         cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test7");
     }
-
 }

@@ -36,7 +36,7 @@ public class FormAT extends SandboxAutotestBase {
         page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Форма");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Форма");
     }
 
     @Override
