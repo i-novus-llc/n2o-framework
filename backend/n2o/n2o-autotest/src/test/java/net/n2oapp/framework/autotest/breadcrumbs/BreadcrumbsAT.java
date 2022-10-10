@@ -80,9 +80,9 @@ public class BreadcrumbsAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        page.breadcrumb().shouldHaveSize(2);
         page.breadcrumb().crumb(0).shouldHaveLabel("Тест настройки бредкрамба на странице");
         page.toolbar().bottomLeft().button("Вторая страница").click();
+        page.breadcrumb().shouldHaveSize(2);
         page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
         page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#");
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
