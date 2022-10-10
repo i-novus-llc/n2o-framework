@@ -13,6 +13,7 @@ interface IPageTitle {
     className?: string,
     models: IDataSourceModels,
     modelPrefix?: ModelPrefix,
+    titleLayout: boolean,
 }
 
 /** Renders the main-title or html title of the page **/
@@ -23,13 +24,18 @@ function PageTitleBody({
     models,
     modelPrefix,
     className,
-}: IPageTitle): JSX.Element | React.Component<HelmetProps> | null {
+    titleLayout = true,
+}: IPageTitle): JSX.Element | React.Component<HelmetProps> | string | null {
     if (title) {
         const resolvedTitle = textResolver(models, title, modelPrefix) || ''
 
-        return (
-            <h1 className={className}>{resolvedTitle}</h1>
-        )
+        if (titleLayout) {
+            return (
+                <h1 className={className}>{resolvedTitle}</h1>
+            )
+        }
+
+        return resolvedTitle
     }
 
     if (htmlTitle) {

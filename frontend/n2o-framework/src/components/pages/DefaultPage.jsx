@@ -31,7 +31,7 @@ function DefaultPage({
     dispatch,
 }) {
     const { style, className, datasources, id: pageId, page = {}, breadcrumb } = metadata
-    const { title, htmlTitle, datasource = '_clients', model: modelPrefix = 'resolve' } = page
+    const { title, htmlTitle, datasource, model: modelPrefix = 'resolve' } = page
 
     usePageRegister(datasources, dispatch, pageId)
 
