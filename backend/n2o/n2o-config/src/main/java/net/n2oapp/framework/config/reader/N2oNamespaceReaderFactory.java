@@ -37,7 +37,7 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
         Map<String, NamespaceReader<T>> elementReaders = new HashMap<>();
         for (Namespace namespace : namespaces) {
             if (engines.containsKey(namespace.getURI()))
-                elementReaders.putAll(engines.get(namespace.getURI()));
+                engines.get(namespace.getURI()).forEach(elementReaders::putIfAbsent);
         }
         if (elementReaders.isEmpty())
             throw new EngineNotFoundException(elementName);
