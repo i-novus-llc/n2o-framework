@@ -39,7 +39,7 @@ http://n2oapp.net/framework/config/schema/button-2.0
 
 |Наименование             |Тип                                                                   |Описание                                                                                                                                                                                        |Значение по умолчанию           |
 |-------------------------|----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|
-|action-id                |Ссылка на [действие страницы](#action)                                |Действие страницы, которое будет вызвано при нажатии на кнопку                                                                                                                                  |                                |
+|action-ids               |Список ссылок на [действия страницы](..xml/page#actions#action)       |Действия страницы, которые будут вызваны при нажатии на кнопку                                                                                                                                  |                                |
 |rounded                  |true false                                                            |Круглая форма кнопки                                                                                                                                                                            |false                           |
 |validate                 |true false                                                            |Валидирование форм при нажатии на кнопку.                                                                                                                                                       |true                            |
 |validate-datasources     |Список идентификаторов [источников данных](../xml/page#datasource)    |Источники данных, которые будут валидироваться                                                                                                                                                  |Источник данных текущего виджета|
@@ -59,13 +59,13 @@ http://n2oapp.net/framework/config/schema/button-2.0
 
 **Тело**
 
-[Обработчик действия](#Actions),
+[Обработчики действий](#Actions),
 [Зависимости компонента](#_Зависимости_компонента)
 
 **Пример**
 
 ```xml
-<button action-id="create" enabled="{type=='type1'}"/>
+<button action-ids="submit,create" enabled="{type=='type1'}"/>
 ```
 
 ```xml
@@ -73,7 +73,9 @@ http://n2oapp.net/framework/config/schema/button-2.0
   label="Добавить в реестр"
   icon="fa-plus"
   type="icon">
-  <open-page page-id="register" action-id="create"/>
+   <submit datasource="ds1"/>
+   <invoke operation-id="save"/>
+   <open-page page-id="register" action-id="create"/>
 </button>
 ```
 

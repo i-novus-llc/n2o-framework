@@ -31,7 +31,7 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attributeBoolean(e, "validate", m::getValidate, m::setValidate);
         p.attributeArray(e, "validate-datasources", ",", m::getValidateDatasourceIds, m::setValidateDatasourceIds);
-        p.attribute(e, "action-id", m::getActionId, m::setActionId);
+        p.attributeArray(e, "action-ids", ",", m::getActionIds, m::setActionIds);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
         p.attributeBoolean(e, "rounded", m::getRounded, m::setRounded);
 
@@ -46,7 +46,7 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
 
         p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
         badge(e, m, p);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
+        p.anyChildren(e, null, m::getActions, m::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
     }
 
     @Override

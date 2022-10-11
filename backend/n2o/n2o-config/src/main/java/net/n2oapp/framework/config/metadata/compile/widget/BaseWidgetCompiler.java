@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
@@ -208,21 +207,21 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     private void copyAction(N2oButton item, Map<String, ActionsBar> actionMap) {
         N2oButton mi = item;
-        if (mi.getAction() == null && mi.getActionId() != null) {
-            ActionsBar action = actionMap.get(mi.getActionId());
-            if (action == null) {
-                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", mi.getAction()));
-            }
-            mi.setAction(action.getAction());//todo скорее всего не нужно
-            if (mi.getModel() == null)
-                mi.setModel(action.getModel());
-            if (mi.getDatasourceId() == null)
-                mi.setDatasourceId(action.getDatasourceId());
-            if (mi.getLabel() == null)
-                mi.setLabel(action.getLabel());
-            if (mi.getIcon() == null)
-                mi.setIcon(action.getIcon());
-        }
+//        if (mi.getAction() == null && mi.getActionId() != null) {FIXME
+//            ActionsBar action = actionMap.get(mi.getActionId());
+//            if (action == null) {
+//                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", mi.getAction()));
+//            }
+//           // mi.setAction(action.getAction());//todo скорее всего не нужно
+//            if (mi.getModel() == null)
+//                mi.setModel(action.getModel());
+//            if (mi.getDatasourceId() == null)
+//                mi.setDatasourceId(action.getDatasourceId());
+//            if (mi.getLabel() == null)
+//                mi.setLabel(action.getLabel());
+//            if (mi.getIcon() == null)
+//                mi.setIcon(action.getIcon());
+//        }
     }
 
     private void compileToolbar(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {

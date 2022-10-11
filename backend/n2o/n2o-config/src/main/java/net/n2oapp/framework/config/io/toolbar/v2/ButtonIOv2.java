@@ -27,7 +27,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
     @Override
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
-        p.attribute(e, "action-id", b::getActionId, b::setActionId);
+        p.attributeArray(e, "action-ids", ",", b::getActionIds, b::setActionIds);
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
         p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasourceIds, b::setValidateDatasourceIds);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
@@ -50,7 +50,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
                 .add("enabling", N2oButton.EnablingDependency.class, this::enablingDependency)
                 .add("visibility", N2oButton.VisibilityDependency.class, this::dependency));
 
-        p.anyChild(e, null, b::getAction, b::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
+        p.anyChildren(e, null, b::getActions, b::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
     }
 
     private void dependency(Element e, N2oButton.Dependency t, IOProcessor p) {

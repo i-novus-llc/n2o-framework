@@ -47,14 +47,14 @@
         </action>
     </actions>
     <toolbar place="bottomRight" generate="submit, close">
-        <button action-id="testId" model="filter"/>
+        <button action-ids="ac1,ac2" model="filter"/>
         <sub-menu>
-            <menu-item action-id="miTestId"/>
+            <menu-item action-ids="ac1,ac2"/>
         </sub-menu>
         <group>
-            <button action-id="groupTestId"/>
+            <button action-ids="ac1,ac2"/>
             <sub-menu>
-                <menu-item action-id="miTestId"/>
+                <menu-item action-ids="ac1,ac2"/>
             </sub-menu>
         </group>
     </toolbar>

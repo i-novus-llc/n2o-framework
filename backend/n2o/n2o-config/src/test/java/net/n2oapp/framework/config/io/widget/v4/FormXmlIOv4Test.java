@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * Тестирование чтения/записи виджета Форма
  */
-public class FormXmlIOTest {
+public class FormXmlIOv4Test {
 
     @Test
     public void testFormXmlIOV4() {

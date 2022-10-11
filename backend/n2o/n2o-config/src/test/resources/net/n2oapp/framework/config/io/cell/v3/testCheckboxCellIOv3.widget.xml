@@ -3,8 +3,9 @@
     <columns>
         <column text-field-id="test">
             <checkbox src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                  action-id="update" enabled="false">
+                  action-ids="create,update" enabled="false">
                 <close/>
+                <open-page page-id="test"/>
             </checkbox>
         </column>
         <column text-field-id="test2">

@@ -22,13 +22,13 @@
                                 redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                     </menu-item>
                 </sub-menu>
-                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true"
+                <button label="Удалить" action-ids="testAction" icon="testIcon" class="testClass" confirm="true"
                         confirm-type="popover">
                     <invoke operation-id="testId" route="route" src="src"
                             redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                 </button>
                 <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
-                    <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"/>
+                    <menu-item icon="icon" label="label" class="class" action-ids="actionId,test2" visible="true"/>
                 </sub-menu>
             </toolbar>
         </column>
@@ -101,51 +101,51 @@
         </action>
     </actions>
     <toolbar place="bottomLeft">
-        <button action-id="test1" datasource="ds1" class="test" icon="test" label="test" type="icon" tooltip-position="bottom">
+        <button action-ids="test1" datasource="ds1" class="test" icon="test" label="test" type="icon" tooltip-position="bottom">
             <close src="test"/>
         </button>
-        <button action-id="test2" class="test" icon="test" label="test" type="icon">
+        <button action-ids="test2" class="test" icon="test" label="test" type="icon">
             <close src="test"/>
         </button>
         <sub-menu>
-            <menu-item datasource="ds1" action-id="test1" icon="test" label="test" class="test"/>
-            <menu-item action-id="test2" icon="test" label="test" class="test" tooltip-position="left"/>
-            <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            <menu-item datasource="ds1" action-ids="test1" icon="test" label="test" class="test"/>
+            <menu-item action-ids="test2" icon="test" label="test" class="test" tooltip-position="left"/>
+            <menu-item action-ids="test3" icon="test" label="test" class="test"/>
         </sub-menu>
         <group>
-            <button action-id="test3" class="test" icon="test" label="test" type="icon" datasource="ds1">
+            <button action-ids="test3" class="test" icon="test" label="test" type="icon" datasource="ds1">
                 <close src="test"/>
             </button>
             <sub-menu show-toggle-icon="true">
-                <menu-item action-id="test1" icon="test" label="test" class="test"/>
-                <menu-item action-id="test2" icon="test" label="test" class="test"/>
-                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+                <menu-item action-ids="test1" icon="test" label="test" class="test"/>
+                <menu-item action-ids="test2" icon="test" label="test" class="test"/>
+                <menu-item action-ids="test3" icon="test" label="test" class="test"/>
             </sub-menu>
             <sub-menu>
-                <menu-item action-id="test1" icon="test" label="test" class="test"/>
-                <menu-item action-id="test2" icon="test" label="test" class="test"/>
-                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+                <menu-item action-ids="test1" icon="test" label="test" class="test"/>
+                <menu-item action-ids="test2" icon="test" label="test" class="test"/>
+                <menu-item action-ids="test3" icon="test" label="test" class="test"/>
             </sub-menu>
         </group>
     </toolbar>
      <toolbar place="topLeft">
-         <button action-id="test1" class="test" icon="test" label="test" type="icon"
+         <button action-ids="test1" class="test" icon="test" label="test" type="icon"
                  confirm-type="popover" datasource="ds1">
              <close src="test"/>
              <dependencies>
                  <visibility datasource="ds1" model="datasource">type==1</visibility>
              </dependencies>
          </button>
-         <button action-id="test2" class="test" icon="test" label="test" type="icon">
+         <button action-ids="test2" class="test" icon="test" label="test" type="icon">
              <close src="test"/>
          </button>
          <sub-menu>
-             <menu-item action-id="test1" icon="test" label="test" class="test"/>
-             <menu-item action-id="test2" icon="test" label="test" class="test"/>
-             <menu-item action-id="test3" icon="test" label="test" class="test"/>
+             <menu-item action-ids="test1" icon="test" label="test" class="test"/>
+             <menu-item action-ids="test2" icon="test" label="test" class="test"/>
+             <menu-item action-ids="test3" icon="test" label="test" class="test"/>
          </sub-menu>
          <group>
-             <button action-id="test3" class="test" icon="test" label="test" type="icon">
+             <button action-ids="test1,test2" class="test" icon="test" label="test" type="icon">
                  <dependencies>
                      <enabling model="filter" datasource="test">condition1</enabling>
                      <visibility model="filter" datasource="test">condition2</visibility>
@@ -154,20 +154,20 @@
              </button>
              <button enabled="false" visible="false"/>
              <sub-menu style="margin-left:10px;width:300px">
-                 <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px">
+                 <menu-item action-ids="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px">
                      <close src="test"/>
                      <dependencies>
                          <enabling model="resolve">condition1</enabling>
                          <visibility datasource="test">condition2</visibility>
                      </dependencies>
                  </menu-item>
-                 <menu-item action-id="test2" icon="test" label="test" class="test" enabled="false" visible="false"/>
-                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
+                 <menu-item action-ids="test2" icon="test" label="test" class="test" enabled="false" visible="false"/>
+                 <menu-item action-ids="test3" icon="test" label="test" class="test"/>
              </sub-menu>
              <sub-menu>
-                 <menu-item action-id="test1" icon="test" label="test" class="test"/>
-                 <menu-item action-id="test2" icon="test" label="test" class="test"/>
-                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
+                 <menu-item action-ids="test1,test2" icon="test" label="test" class="test"/>
+                 <menu-item action-ids="test2" icon="test" label="test" class="test"/>
+                 <menu-item action-ids="test3" icon="test" label="test" class="test"/>
              </sub-menu>
          </group>
      </toolbar>

@@ -3,8 +3,9 @@
     <columns>
         <column text-field-id="test">
             <link src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                  action-id="update" icon="icon" type="iconAndText" url="/test/" target="newWindow">
+                  action-ids="create,update" icon="icon" type="iconAndText" url="/test/" target="newWindow">
                 <close/>
+                <open-page page-id="test"/>
             </link>
         </column>
         <column text-field-id="test2">

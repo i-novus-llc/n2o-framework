@@ -36,7 +36,7 @@ public abstract class AbstractButton extends Component implements IdAware {
     @JsonProperty
     private Object enabled;
     @JsonProperty
-    private Action action;
+    private List<Action> actions;
     @JsonProperty
     private String hint;
     @JsonProperty

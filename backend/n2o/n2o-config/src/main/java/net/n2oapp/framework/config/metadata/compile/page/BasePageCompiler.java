@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.DynamicUtil;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -329,21 +328,21 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void copyAction(N2oButton item, Map<String, ActionsBar> actionMap) {
-        if (item.getAction() == null && item.getActionId() != null) {
-            ActionsBar actionsBar = actionMap.get(item.getActionId());
-            if (actionsBar == null) {
-                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", item.getActionId()));
-            }
-            item.setAction(actionsBar.getAction());
-            if (item.getModel() == null)
-                item.setModel(actionsBar.getModel());
-            if (item.getDatasourceId() == null)
-                item.setDatasourceId(actionsBar.getDatasourceId());
-            if (item.getLabel() == null)
-                item.setLabel(actionsBar.getLabel());
-            if (item.getIcon() == null)
-                item.setIcon(actionsBar.getIcon());
-        }
+//        if (item.getAction() == null && item.getActionId() != null) {FIXME
+//            ActionsBar actionsBar = actionMap.get(item.getActionId());
+//            if (actionsBar == null) {
+//                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", item.getActionId()));
+//            }
+//            item.setAction(actionsBar.getAction());
+//            if (item.getModel() == null)
+//                item.setModel(actionsBar.getModel());
+//            if (item.getDatasourceId() == null)
+//                item.setDatasourceId(actionsBar.getDatasourceId());
+//            if (item.getLabel() == null)
+//                item.setLabel(actionsBar.getLabel());
+//            if (item.getIcon() == null)
+//                item.setIcon(actionsBar.getIcon());
+//        }
     }
 
     private Toolbar compileToolbar(S source, PageContext context, CompileProcessor p,

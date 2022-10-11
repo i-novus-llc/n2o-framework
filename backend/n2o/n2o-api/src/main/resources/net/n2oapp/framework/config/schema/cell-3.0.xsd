@@ -77,6 +77,24 @@
         </xs:anyAttribute>
     </xs:complexType>
 
+    <xs:complexType name="actionCellDefinition">
+        <xs:annotation>
+            <xs:documentation>Ячейка с действиями</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:sequence>
+                    <xs:group ref="acn:actionsDef"/>
+                </xs:sequence>
+                <xs:attribute name="action-ids" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Действия виджета, которые будут вызваны при клике по ячейке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <xs:complexType name="textDefinition">
         <xs:complexContent>
@@ -108,27 +126,10 @@
 
     <xs:complexType name="linkDefinition">
         <xs:complexContent>
-            <xs:extension base="cellDefinition">
+            <xs:extension base="actionCellDefinition">
                 <xs:annotation>
                     <xs:documentation>Ссылка.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence>
-                    <xs:annotation>
-                        <xs:documentation>Встроенные в page-2.0 стандартные обработчики действий.</xs:documentation>
-                    </xs:annotation>
-                    <xs:element name="open-page" type="acn:openPageDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="a" type="acn:aDefinition"/>
-                    <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="close" type="acn:closeDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="set-value" type="acn:setValueDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:any namespace="##other" processContents="strict">
-                        <xs:annotation>
-                            <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
-                        </xs:annotation>
-                    </xs:any>
-                </xs:sequence>
                 <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Адрес URL открываемой страницы.</xs:documentation>
@@ -137,11 +138,6 @@
                 <xs:attribute name="target" type="acn:aType">
                     <xs:annotation>
                         <xs:documentation>Сценарий открытия ссылки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="action-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Действие виджета, которое будет вызвано при клике по ссылке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
@@ -223,35 +219,13 @@
 
     <xs:complexType name="checkboxDefinition">
         <xs:complexContent>
-            <xs:extension base="cellDefinition">
+            <xs:extension base="actionCellDefinition">
                 <xs:annotation>
                     <xs:documentation>Чекбокс.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence>
-                    <xs:annotation>
-                        <xs:documentation>Встроенные в page-2.0 стандартные обработчики действий.</xs:documentation>
-                    </xs:annotation>
-                    <xs:element name="open-page" type="acn:openPageDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="a" type="acn:aDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="close" type="acn:closeDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="set-value" type="acn:setValueDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:any namespace="##other" processContents="strict">
-                        <xs:annotation>
-                            <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
-                        </xs:annotation>
-                    </xs:any>
-                </xs:sequence>
                 <xs:attribute name="enabled" type="xs:boolean" use="optional">
                     <xs:annotation>
                         <xs:documentation>Доступность чекбокса.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="action-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Действие, которое выполнится при клике по чекбоксу.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -296,16 +270,16 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
-                    <xs:element name="action" type="acn:actions" minOccurs="0"/>
+                    <xs:element name="actions" type="acn:actions" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="width" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Ширина изображения (px).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="action-id" type="xs:string">
+                <xs:attribute name="action-ids" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Действие, которое выполнится при клике по иконке.</xs:documentation>
+                        <xs:documentation>Действия, которые выполнятся при клике по изображению.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="shape" type="shapeType" default="square">
@@ -351,15 +325,16 @@
                 <xs:annotation>
                     <xs:documentation>Редактирование значения.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence maxOccurs="1" minOccurs="1" >
+                <xs:sequence maxOccurs="1" minOccurs="1">
                     <xs:element name="input-text" type="ctr2:controlInputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="date-time" type="ctr2:controlDatePickerDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="actions" type="acn:actions" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
-                <xs:attribute name="action-id" type="xs:string" use="optional">
+                <xs:attribute name="action-ids" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Действие виджета, которое выполнится при завершении редактирования.
+                        <xs:documentation>Действия виджета, которые выполнятся при завершении редактирования.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -460,17 +435,10 @@
 
     <xs:complexType name="ratingDefinition">
         <xs:complexContent>
-            <xs:extension base="cellDefinition">
+            <xs:extension base="actionCellDefinition">
                 <xs:annotation>
                     <xs:documentation>Ячейка с рейтингом.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence>
-                    <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Обработчик изменения рейтинга.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
                 <xs:attribute name="show-tooltip" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Показать подсказку.</xs:documentation>
@@ -491,11 +459,6 @@
                 <xs:attribute name="readonly" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Предназначен только для чтения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="action-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Ссылка на обработчик изменения рейтинга.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -703,32 +666,10 @@
 
     <xs:complexType name="customDefinition">
         <xs:complexContent>
-            <xs:extension base="cellDefinition">
+            <xs:extension base="actionCellDefinition">
                 <xs:annotation>
                     <xs:documentation>Настраиваемая ячейка.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence>
-                    <xs:annotation>
-                        <xs:documentation>Встроенные в page-2.0 стандартные обработчики действий.</xs:documentation>
-                    </xs:annotation>
-                    <xs:element name="open-page" type="acn:openPageDefinition" maxOccurs="1" minOccurs="0"/>
-                    <xs:element name="a" type="acn:aDefinition" maxOccurs="unbounded" minOccurs="0"/>
-                    <xs:element name="show-modal" type="acn:showModalDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="invoke" type="acn:invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
-                    <xs:element name="close" type="acn:closeDefinition" maxOccurs="1" minOccurs="0"/>
-                    <xs:element name="set-value" type="acn:setValueDefinition" maxOccurs="1" minOccurs="0"/>
-                    <xs:element name="perform" type="acn:performDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="open-drawer" type="acn:openDrawerDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="copy" type="acn:copyDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="clear" type="acn:clearDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="print" type="acn:printDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="refresh" type="acn:refreshDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:any namespace="##other" processContents="strict" maxOccurs="1" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
-                        </xs:annotation>
-                    </xs:any>
-                </xs:sequence>
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>

@@ -17,10 +17,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmp
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
@@ -45,6 +43,8 @@ import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static org.apache.commons.lang3.ArrayUtils.isEmpty;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * Компиляция кнопки
@@ -67,7 +67,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setValidate(compileValidate(source, p));
         CompiledObject compiledObject = initObject(p, source);
         Action action = compileAction(source, context, p, compiledObject);
-        button.setAction(action);
+        //button.setAction(action);
         compileLink(button);
         button.setConfirm(compileConfirm(source, action, p, compiledObject));
         compileDependencies(source, button, p);
@@ -89,7 +89,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     protected void initDefaults(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setId(p.cast(source.getId(), source.getActionId()));
+        source.setId(p.cast(source.getId(), isNotEmpty(source.getActionIds()) ? String.join("_", source.getActionIds()) : null));
         super.initDefaults(source, context, p);
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
         source.setRounded(p.cast(source.getRounded(), false));
@@ -99,21 +99,29 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         source.setValidate(validate);
         source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
         source.setValidateDatasourceIds(initValidateDatasources(source, validate, datasource));
-        source.setAction(initAction(source, p));
+        source.setActions(initActions(source, p));
     }
 
     private Boolean initValidate(N2oButton source, CompileProcessor p, String datasource) {
-        if (source.getAction() == null)
+        if (isEmpty(source.getActionIds()))
             return p.cast(source.getValidate(), false);
         return p.cast(source.getValidate(), datasource != null || source.getValidateDatasourceIds() != null);
     }
 
-    private N2oAction initAction(N2oButton source, CompileProcessor p) {
-        if (source.getAction() != null)
-            return source.getAction();
-        MetaActions metaActions = p.getScope(MetaActions.class);
-        return source.getActionId() == null ? null :
-                (metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction());
+    private N2oAction[] initActions(N2oButton source, CompileProcessor p) {
+        if (source.getActions() != null)
+            return source.getActions();
+
+        if (isNotEmpty(source.getActionIds())) {
+            MetaActions metaActions = p.getScope(MetaActions.class);
+            List<N2oAction> actions = new ArrayList<>();
+            for (String actionId : source.getActionIds()) {
+                if (metaActions.containsKey(actionId) && metaActions.get(actionId).getAction() != null)
+                    actions.add(metaActions.get(actionId).getAction());
+            }
+            return actions.toArray(new N2oAction[0]);
+        }
+        return null;
     }
 
     private List<String> compileValidate(N2oButton source, CompileProcessor p) {
@@ -153,15 +161,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private void compileLink(PerformButton button) {
-        if (button.getAction() instanceof LinkAction) {
-            LinkAction linkAction = ((LinkAction) button.getAction());
-            button.setUrl(linkAction.getUrl());
-            button.setTarget(linkAction.getTarget());
-            if (linkAction.getPathMapping() != null)
-                button.setPathMapping(new StrictMap<>(linkAction.getPathMapping()));
-            if (linkAction.getQueryMapping() != null)
-                button.setQueryMapping(new StrictMap<>(linkAction.getQueryMapping()));
-        }
+//        if (button.getAction() instanceof LinkAction) {
+//            LinkAction linkAction = ((LinkAction) button.getAction());
+//            button.setUrl(linkAction.getUrl());
+//            button.setTarget(linkAction.getTarget());
+//            if (linkAction.getPathMapping() != null)
+//                button.setPathMapping(new StrictMap<>(linkAction.getPathMapping()));
+//            if (linkAction.getQueryMapping() != null)
+//                button.setQueryMapping(new StrictMap<>(linkAction.getQueryMapping()));
+//        }
     }
 
     private Confirm compileConfirm(N2oButton source,
@@ -227,14 +235,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private Action compileAction(N2oButton source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject object) {
-        N2oAction butAction = source.getAction();
-        if (source.getAction() == null && source.getActionId() != null) {
-            MetaActions metaActions = p.getScope(MetaActions.class);
-            butAction = metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction();
-        }
-        if (butAction == null) return null;
-        butAction.setId(p.cast(butAction.getId(), source.getId()));
-        return p.compile(butAction, context, object, new ComponentScope(source, p.getScope(ComponentScope.class)));
+//        N2oAction butAction = source.getAction();FIXME
+//        if (source.getAction() == null && source.getActionId() != null) {
+//            MetaActions metaActions = p.getScope(MetaActions.class);
+//            butAction = metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction();
+//        }
+//        if (butAction == null) return null;
+//        butAction.setId(p.cast(butAction.getId(), source.getId()));
+//        return p.compile(butAction, context, object, new ComponentScope(source, p.getScope(ComponentScope.class)));
+        return null;
     }
 
     private String initDatasource(N2oButton source, CompileProcessor p) {

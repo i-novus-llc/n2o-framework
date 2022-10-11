@@ -22,7 +22,7 @@ public class CheckboxCellCompiler extends AbstractCellCompiler<CheckboxCell, N2o
         CheckboxCell cell = new CheckboxCell();
         if (source.getEnabled() != null) {
             cell.setDisabled(ScriptProcessor.invertExpression(source.getEnabled()));
-        } else if (source.getActionId() == null && source.getN2oAction() == null) {
+        } else if (source.getActionIds() == null && source.getN2oActions() == null) {
             cell.setDisabled("true");
         }
 

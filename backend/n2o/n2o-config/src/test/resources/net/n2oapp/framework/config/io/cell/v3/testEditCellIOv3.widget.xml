@@ -3,7 +3,11 @@
     <columns>
         <column text-field-id="test">
             <edit src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                      action-id="update" enabled="false" type="popup" format="test">
+                      action-ids="update,delete" enabled="false" type="popup" format="test">
+                <actions>
+                    <clear/>
+                    <open-page page-id="test"/>
+                </actions>
                 <input-text id="field"/>
             </edit>
         </column>

@@ -14,7 +14,7 @@ import org.junit.Test;
 /**
  * Тестирование чтения и записи таблицы версии 4
  */
-public class TableXmlIOTest {
+public class TableXmlIOv4Test {
     @Test
     public void testTableXmlIOV4() {
         ION2oMetadataTester tester = new ION2oMetadataTester();

@@ -13,17 +13,20 @@ import org.springframework.stereotype.Component;
  * Чтение\запись ячейки с ссылкой
  */
 @Component
-public class LinkCellElementIOv2 extends AbstractCellElementIOv2<N2oLinkCell> {
+public class LinkCellElementIOv2 extends AbstractActionCellElementIOv2<N2oLinkCell> {
 
     @Override
     public void io(Element e, N2oLinkCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.attribute(e, "action-id", c::getActionId, c::setActionId);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attributeEnum(e, "type", c::getType, c::setType, IconType.class);
         p.attribute(e, "url", c::getUrl, c::setUrl);
         p.attributeEnum(e, "target", c::getTarget, c::setTarget, Target.class);
-        p.anyChild(e, null, c::getN2oAction, c::setN2oAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
+    }
+
+    @Override
+    public String actionSequenceTag() {
+        return null;
     }
 
     @Override
