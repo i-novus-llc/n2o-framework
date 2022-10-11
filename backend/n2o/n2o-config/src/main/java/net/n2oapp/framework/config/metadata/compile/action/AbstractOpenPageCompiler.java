@@ -35,6 +35,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.StringUtils.isLink;
@@ -151,10 +152,16 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
+
         String targetDS = source.getTargetDatasourceId();
-        if (pageScope != null && targetDS == null && currentWidgetId != null) {
-            targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
+        if (pageScope != null && targetDS == null) {
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (nonNull(datasourceIdAware) && nonNull(datasourceIdAware.getDatasourceId()))
+                targetDS = datasourceIdAware.getDatasourceId();
+            else if (currentWidgetId != null)
+                targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
         }
+
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
