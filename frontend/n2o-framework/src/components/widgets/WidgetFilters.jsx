@@ -15,7 +15,8 @@ import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selector
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
 import { ModelPrefix } from '../../core/datasource/const'
-import { validate as validateFilters } from '../../core/validation/validate'
+import { startValidate } from '../../ducks/datasource/store'
+import { ValidationsKey } from '../../core/validation/IValidation'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -55,15 +56,8 @@ class WidgetFilters extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { filterModel, reduxFormFilter, setFilter, validate, searchOnChange } = this.props
+        const { filterModel, reduxFormFilter, setFilter, searchOnChange } = this.props
         const { defaultValues } = this.state
-
-        if (!isEqual(prevProps.filterModel, filterModel)) {
-            const { store } = this.context
-            const state = store.getState()
-
-            validate(state, this.formName)
-        }
 
         if (isEqual(reduxFormFilter, filterModel)) { return }
 
@@ -133,6 +127,12 @@ class WidgetFilters extends React.Component {
             ))
     }
 
+    validateField = (e, field) => {
+        const { validate } = this.props
+
+        validate(field)
+    }
+
     static getDerivedStateFromProps(props, state) {
         const { filterFieldsets } = props
 
@@ -172,6 +172,8 @@ class WidgetFilters extends React.Component {
                     initialValues={defaultValues}
                     validation={validation}
                     modelPrefix={ModelPrefix.filter}
+                    handleChange={this.validateField}
+                    handleBlur={this.validateField}
                 />
             </Filter>
         )
@@ -210,14 +212,11 @@ const mapStateToProps = createStructuredSelector({
     reduxFormFilter: (state, props) => getFormValues(generateFormFilterId(props.datasource))(state) || {},
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, { datasource }) => ({
     dispatch,
     resetFilterModel: formName => dispatch(reset(formName)),
-    validate: (state, datasourceId) => validateFilters(
-        state,
-        datasourceId,
-        ModelPrefix.filter,
-        dispatch,
+    validate: field => dispatch(
+        startValidate(datasource, ValidationsKey.FilterValidations, ModelPrefix.filter, [field]),
     ),
 })
 

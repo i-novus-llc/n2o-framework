@@ -58,8 +58,13 @@ export function* dataRequest({ payload }: DataRequestAction) {
 
         const filtersIsValid: boolean = yield call(
             validate,
-            startValidate(id, undefined, ModelPrefix.filter, { touched: true }),
-            ValidationsKey.FilterValidations,
+            startValidate(
+                id,
+                ValidationsKey.FilterValidations,
+                ModelPrefix.filter,
+                undefined,
+                { touched: true },
+            ),
         )
 
         if (!filtersIsValid) {

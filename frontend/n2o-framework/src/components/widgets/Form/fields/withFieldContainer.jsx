@@ -110,14 +110,13 @@ export default (Field) => {
          * @param e
          */
         onChange(e) {
-            const { input, onChange } = this.props
+            const { id, input, onChange } = this.props
 
             if (input) {
                 input.onChange(e)
             }
-
             if (onChange) {
-                onChange(e)
+                onChange(e, id)
             }
         }
 
@@ -126,14 +125,14 @@ export default (Field) => {
          * @param e
          */
         onBlur(e) {
-            const { input, onBlur } = this.props
+            const { id, input, onBlur } = this.props
 
             if (input) {
                 input.onBlur(e)
             }
 
             if (onBlur) {
-                onBlur(e.target.value)
+                onBlur(e, id)
             }
         }
 
@@ -163,11 +162,12 @@ export default (Field) => {
 
             const props = mapProps(this.props)
 
-            return <Field {...props} />
+            return <Field {...props} onChange={this.onChange} onBlur={this.onBlur} />
         }
     }
 
     FieldContainer.propTypes = {
+        id: PropTypes.string,
         mapProps: PropTypes.func,
         input: PropTypes.object,
         onChange: PropTypes.func,
