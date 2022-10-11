@@ -21,6 +21,11 @@ export const makeFormByName = name => createSelector(
     formsState => get(formsState, name) || {},
 )
 
+export const getFormFieldsByName = name => createSelector(
+    makeFormByName(name),
+    form => get(form, 'fields', {}),
+)
+
 /**
  * селктор для поля формы
  * @param formName

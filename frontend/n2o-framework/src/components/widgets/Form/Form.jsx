@@ -45,6 +45,8 @@ class Form extends React.Component {
             autoSubmit,
             activeModel,
             activeField,
+            handleChange,
+            handleBlur,
         } = this.props
 
         const autoFocusId = autoFocus && getAutoFocusId(flatFields(fieldsets, []))
@@ -58,6 +60,8 @@ class Form extends React.Component {
                 modelPrefix={modelPrefix}
                 autoSubmit={autoSubmit}
                 activeField={activeField}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 {...fieldset}
             />
         ))
@@ -112,6 +116,8 @@ Form.propTypes = {
         PropTypes.node,
     ]),
     activeField: PropTypes.string,
+    handleChange: PropTypes.func,
+    handleBlur: PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => (

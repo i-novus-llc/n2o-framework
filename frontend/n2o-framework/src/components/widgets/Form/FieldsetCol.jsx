@@ -28,6 +28,8 @@ function FieldsetColComponent({
     disabled,
     autoSubmit,
     activeField,
+    onChange,
+    onBlur,
 }) {
     if (!colVisible) { return null }
 
@@ -55,6 +57,8 @@ function FieldsetColComponent({
                                 disabled={disabled}
                                 autoSubmit={autoSubmit}
                                 active={activeField === field.id}
+                                onChange={onChange}
+                                onBlur={onBlur}
                                 {...field}
                             />
                         )
@@ -76,6 +80,8 @@ function FieldsetColComponent({
                                 disabled={disabled}
                                 autoSubmit={autoSubmit}
                                 activeModel={activeModel}
+                                onChange={onChange}
+                                onBlur={onBlur}
                                 {...rest}
                             />
                         )
@@ -125,6 +131,8 @@ FieldsetColComponent.propTypes = {
     disabled: PropTypes.bool,
     autoSubmit: PropTypes.bool,
     activeField: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
 }
 
 const FieldsetCol = enhance(FieldsetColComponent)

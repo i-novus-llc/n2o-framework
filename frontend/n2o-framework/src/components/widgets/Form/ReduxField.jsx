@@ -40,6 +40,8 @@ class ReduxField extends React.Component {
     constructor(props) {
         super(props)
 
+        const { validate, onChange, onBlur } = props
+
         this.setRef = this.setRef.bind(this)
         const Field = compose(
             withProps(() => ({
@@ -50,7 +52,14 @@ class ReduxField extends React.Component {
 
         // фикс для проброса валидации через redux-field, который ожидает function/function[], а мы используем это как string[] для валидации датасурсов
         // eslint-disable-next-line react/destructuring-assignment, react/prop-types
-        this.Field = props => (<Field {...props} validate={this.props.validate} />)
+        this.Field = props => (
+            <Field
+                {...props}
+                validate={validate}
+                onChange={onChange}
+                onBlur={onBlur}
+            />
+        )
     }
 
     setRef(el) {
@@ -86,6 +95,9 @@ ReduxField.propTypes = {
         PropTypes.node,
     ]),
     setReRenderRef: PropTypes.func,
+    validate: PropTypes.func,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
 }
 
 const mapStateToProps = createStructuredSelector({

@@ -21,6 +21,7 @@ import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
+import { ValidationsKey } from '../../core/validation/IValidation'
 
 import { makeFormsByDatasourceSelector } from './selectors'
 import {
@@ -198,7 +199,15 @@ export const formPluginSagas = [
 
             /* blurValidation is used in the setFocus saga,
              this is needed to observing the field validation type */
-            yield put(startValidate(datasource, fields, currentFormPrefix, { blurValidation: true }))
+            yield put(
+                startValidate(
+                    datasource,
+                    ValidationsKey.Validations,
+                    currentFormPrefix,
+                    fields,
+                    { blurValidation: true },
+                ),
+            )
         }
 
         prevModel = {

@@ -14,10 +14,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.timeout;
+
 /**
  * Автотест шапки(header)
  */
-public class SimpleHeaderAT extends AutoTestBase {
+public class  SimpleHeaderAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {

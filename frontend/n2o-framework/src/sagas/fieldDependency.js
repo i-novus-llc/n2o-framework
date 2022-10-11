@@ -34,6 +34,7 @@ import { evalResultCheck } from '../utils/evalResultCheck'
 import { resolveRequest, startValidate } from '../ducks/datasource/store'
 import { combineModels } from '../ducks/models/store'
 import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { ValidationsKey } from '../core/validation/IValidation'
 
 import fetchSaga from './fetch'
 
@@ -171,13 +172,13 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
         }
         case 'reRender': {
             const form = yield select(makeWidgetByIdSelector(formName))
-            const model = get(form, [
+            const prefix = get(form, [
                 'form',
                 'modelPrefix',
             ])
 
             yield delay(50)
-            yield put(startValidate(formName, [fieldName], model, { touched: true }))
+            yield put(startValidate(formName, ValidationsKey.Validations, prefix, [fieldName], { touched: true }))
 
             break
         }
