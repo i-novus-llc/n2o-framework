@@ -110,7 +110,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
     private Map<String, AbstractDatasource> initDatasources(DataSourcesScope dataSourcesScope, PageContext context,
                                                                        CompileProcessor p, PageScope pageScope, Object ... scopes) {
         Map<String, AbstractDatasource> compiledDatasources = new StrictMap<>();
-        initContextDatasources(dataSourcesScope, pageScope, context, p);
+        initContextDatasources(dataSourcesScope, pageScope, context);
         if (!dataSourcesScope.isEmpty()) {
             dataSourcesScope.values().forEach(ds -> {
                 AbstractDatasource compiled = p.compile(ds, context, dataSourcesScope, scopes);

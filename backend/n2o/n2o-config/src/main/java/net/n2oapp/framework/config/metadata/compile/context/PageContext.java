@@ -149,7 +149,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     private String clientPageId;
 
     /**
-     * Сооответствия идентификаторов виджета с источником данных в родительском виджете
+     * Соответствия идентификаторов виджета с источником данных в родительском виджете
      */
     private Map<String, String> parentWidgetIdDatasourceMap;
 

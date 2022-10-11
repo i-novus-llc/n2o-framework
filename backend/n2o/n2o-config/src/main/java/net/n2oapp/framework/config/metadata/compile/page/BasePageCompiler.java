@@ -186,7 +186,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                                PageScope pageScope,
                                                                Object... scopes) {
         Map<String, AbstractDatasource> compiledDataSources = new HashMap<>();
-        initContextDatasources(dataSourcesScope, pageScope, context, p);
+        initContextDatasources(dataSourcesScope, pageScope, context);
         for (N2oAbstractDatasource ds : dataSourcesScope.values())
             if (!(ds instanceof N2oApplicationDatasource)) {
                 AbstractDatasource compiled = p.compile(ds, context, pageScope, dataSourcesScope, scopes);
