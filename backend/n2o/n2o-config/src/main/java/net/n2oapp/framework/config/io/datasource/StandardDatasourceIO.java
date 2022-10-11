@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.datasource;
 
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.control.SubmitOn;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
@@ -50,6 +51,7 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attribute(e, "datasource", pf::getDatasourceId, pf::setDatasourceId);
+        p.attributeEnum(e, "ref-page", pf::getRefPage, pf::setRefPage, PageRef.class);
         p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModel.class);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);

@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -51,14 +52,19 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String submitLabel;
     private ReduxModel submitModel;
     private SubmitActionType submitActionType;
-    private ReduxModel copyModel;
     private Boolean submitMessageOnSuccess;
     private Boolean submitMessageOnFail;
-    private String copyDatasourceId;
-    private String copyFieldId;
-    private ReduxModel targetModel;
-    private String targetDatasourceId;
+
     private CopyMode copyMode;
+    private String copyDatasourceId;
+    private PageRef copyPage;
+    private ReduxModel copyModel;
+    private String copyFieldId;
+    private String targetDatasourceId;
+    private PageRef targetPage;
+    private ReduxModel targetModel;
+    private String targetFieldId;
+
     private Boolean createMore;
     private Boolean closeAfterSubmit;
     private String redirectUrlAfterSubmit;
@@ -67,7 +73,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String[] refreshDatasourceIds;
     //on resolve
     private String labelFieldId;
-    private String targetFieldId;
     private String valueFieldId;
     @Deprecated
     private N2oPreFilter[] preFilters;

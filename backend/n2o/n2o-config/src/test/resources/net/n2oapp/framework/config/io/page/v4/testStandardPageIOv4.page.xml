@@ -55,8 +55,8 @@
                     message-placement="top" message-on-fail="true" message-on-success="true"
                     message-widget-id="w1" refresh-on-success="true" refresh-datasources="ds2" submit-all="true"/>
             <filters>
-                <eq field-id="test" datasource="ds1" model="datasource" value="{id}" param="param" required="true"
-                    routable="true"/>
+                <eq field-id="test" datasource="ds1" model="datasource" ref-page="this"
+                    value="{id}" param="param" required="true" routable="true"/>
             </filters>
         </datasource>
         <browser-storage id="ds2" key="test" type="localStorage" size="1">
@@ -69,8 +69,10 @@
             </dependencies>
         </browser-storage>
         <app-datasource id="test"/>
-        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
-            <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2"/>
+        <inherited-datasource id="ds3" size="1"
+                              source-field-id="name" source-datasource="ds1" source-model="filter" source-ref-page="this">
+            <submit auto="false"
+                    target-field-id="name2" target-model="filter" target-datasource="ds2" target-ref-page="this"/>
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>

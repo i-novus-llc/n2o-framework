@@ -6,6 +6,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 
 import java.util.Objects;
 
@@ -46,7 +47,12 @@ public class N2oPreFilter implements Source {
     /**
      * Идентификатор страницы, на которую ссылается фильтр
      */
+    @Deprecated // TODO - убрать
     private String refPageId;
+    /**
+     * Ссылка на страницу, на которую ссылается фильтр
+     */
+    private PageRef refPage;
     /**
      * Идентификатор источника данных на странице, на который ссылается фильтр
      */
