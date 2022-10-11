@@ -12,6 +12,7 @@ import compact from 'lodash/compact'
 import map from 'lodash/map'
 import has from 'lodash/has'
 import flatten from 'lodash/flatten'
+import filter from 'lodash/filter'
 import { batchActions } from 'redux-batched-actions'
 
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
@@ -147,6 +148,7 @@ export function validate(
     dispatch,
 ) {
     const registeredFields = get(state, ['form', formName, 'registeredFields'])
+    const formFields = get(state, ['form', formName, 'fields'])
     const validation = pickBy(validationConfig, (value, key) => get(registeredFields, `${key}.visible`, true))
     const errors = {}
     const promiseList = [Promise.resolve()]
@@ -266,7 +268,9 @@ export function validate(
         const hasErrors = checkHasError(errors)
 
         if (hasErrors) {
-            dispatch(failValidate(formName, errors))
+            const touchedErrors = filter(errors, (err, fieldName) => get(formFields, [fieldName, 'touched'], false))
+
+            dispatch(failValidate(formName, isTouched ? errors : touchedErrors))
         }
 
         return hasErrors
