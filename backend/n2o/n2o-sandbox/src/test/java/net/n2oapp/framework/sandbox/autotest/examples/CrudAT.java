@@ -46,7 +46,7 @@ public class CrudAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("CRUD Операции");
+        page.breadcrumb().crumb(0).shouldHaveLabel("CRUD Операции");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

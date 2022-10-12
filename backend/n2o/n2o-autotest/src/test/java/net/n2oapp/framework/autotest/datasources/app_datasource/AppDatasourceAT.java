@@ -47,7 +47,7 @@ public class AppDatasourceAT extends AutoTestBase {
     public void testAppDS() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("App datasource. Ссылка на источник данных, объявленный в application.xml");
+        page.breadcrumb().crumb(0).shouldHaveLabel("App datasource. Ссылка на источник данных, объявленный в application.xml");
 
         Sidebar sidebar = page.sidebar();
         InputText id = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)

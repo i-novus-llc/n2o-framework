@@ -47,7 +47,7 @@ public class OpenDrawerAT extends AutoTestBase {
     @Test
     public void testDrawerPage() {
         SimplePage page = open(SimplePage.class);
-        page.breadcrumb().titleShouldHaveText("drawer-tests");
+        page.breadcrumb().crumb(0).shouldHaveLabel("drawer-tests");
         page.shouldExists();
 
         TableWidget.Rows rows = page.widget(TableWidget.class).columns().rows();

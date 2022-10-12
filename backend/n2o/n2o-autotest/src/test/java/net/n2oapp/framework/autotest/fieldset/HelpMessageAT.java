@@ -44,7 +44,7 @@ public class HelpMessageAT extends AutoTestBase {
     public void testHelpMessage() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Филдсеты и поля с подсказками");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Филдсеты и поля с подсказками");
 
         SimpleFieldSet simpleFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(SimpleFieldSet.class);
         simpleFieldSet.shouldHaveHelp();

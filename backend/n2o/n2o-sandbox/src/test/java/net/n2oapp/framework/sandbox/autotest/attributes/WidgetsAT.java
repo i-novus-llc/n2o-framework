@@ -54,7 +54,7 @@ public class WidgetsAT extends SandboxAutotestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к виджетам по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к виджетам по sec атрибутам");
 
         Regions regions = page.regions();
         regions.shouldHaveSize(2);
@@ -78,7 +78,7 @@ public class WidgetsAT extends SandboxAutotestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к виджетам по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к виджетам по sec атрибутам");
 
         Regions regions = page.regions();
         regions.shouldHaveSize(3);

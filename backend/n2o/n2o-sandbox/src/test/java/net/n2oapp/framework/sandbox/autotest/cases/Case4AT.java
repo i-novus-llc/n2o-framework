@@ -39,7 +39,7 @@ public class Case4AT extends SandboxAutotestBase {
     public void hideButtonTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Скрытие кнопки dropdown при скрытии последнего подменю");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Скрытие кнопки dropdown при скрытии последнего подменю");
 
         InputText input = page.widget(FormWidget.class).fields().field("Введите 'test'").control(InputText.class);
         input.shouldBeEmpty();

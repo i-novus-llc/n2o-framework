@@ -39,7 +39,7 @@ public class GreetingAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Приветственное сообщение");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Приветственное сообщение");
 
         Button button = page.widget(FormWidget.class).toolbar().bottomLeft()
                 .button("Отправить");

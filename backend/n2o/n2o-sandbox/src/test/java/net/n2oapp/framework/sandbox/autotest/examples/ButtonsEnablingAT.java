@@ -39,7 +39,7 @@ public class ButtonsEnablingAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступность кнопок");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступность кнопок");
 
         RadioGroup radioGroup = page.widget(FormWidget.class).fields().field("Пол")
                 .control(RadioGroup.class);

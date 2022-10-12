@@ -65,7 +65,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
     public void testAlertNotification() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Отправка уведомлений по web-socket");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Отправка уведомлений по web-socket");
 
         Map<String, String> message = new HashMap<>();
         message.put("title", "Title");

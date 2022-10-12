@@ -38,7 +38,7 @@ public class SearchableAT extends SandboxAutotestBase {
     public void crudTest() {
         SearchablePage page = open(SearchablePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница с поисковой строкой");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с поисковой строкой");
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.columns().rows().shouldHaveSize(10);

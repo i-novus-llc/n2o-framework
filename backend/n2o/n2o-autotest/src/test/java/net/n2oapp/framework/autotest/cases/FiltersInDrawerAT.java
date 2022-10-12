@@ -55,7 +55,7 @@ public class FiltersInDrawerAT extends AutoTestBase {
     public void searchOnFiltersChangeTest() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Фильтры в отдельном окне");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Фильтры в отдельном окне");
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.shouldExists();
