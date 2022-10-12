@@ -2,7 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -33,30 +36,30 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
     }
 
-//    @Test FIXME
-//    public void testButton() {
-//        Page page = compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
-//                .get(new PageContext("testButton"));
-//
-//        AbstractButton btn = page.getToolbar().getButton("btn1");
-//        assertThat(btn.getLabel(), is("delete"));
-//        assertThat(btn.getIcon(), is("fa fa-trash"));
-//        assertThat(btn.getColor(), is("danger"));
-//        assertThat(btn.getHintPosition(), is("right"));
-//        assertThat(btn.getClassName(), is("Button"));
-//        assertThat(btn.getStyle().size(), is(1));
-//        assertThat(btn.getStyle().get("color"), is("red"));
-//        assertThat(btn.getHint(), is("hint"));
-//        assertThat(((InvokeAction) btn.getAction()).getPayload().getDatasource(), is("testButton_table"));
-//
-//        btn = page.getToolbar().getButton("btn2");
-//        assertThat(btn.getLabel(), is("edit"));
-//        assertThat(btn.getIcon(), is("fa fa-pencil"));
-//
-//        btn = page.getToolbar().getButton("btn3");
-//        assertThat(btn.getLabel(), is("load"));
-//        assertThat(btn.getIcon(), is("fa fa-download"));
-//    }
+    @Test
+    public void testButton() {
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
+                .get(new PageContext("testButton"));
+
+        AbstractButton btn = page.getToolbar().getButton("btn1");
+        assertThat(btn.getLabel(), is("delete"));
+        assertThat(btn.getIcon(), is("fa fa-trash"));
+        assertThat(btn.getColor(), is("danger"));
+        assertThat(btn.getHintPosition(), is("right"));
+        assertThat(btn.getClassName(), is("Button"));
+        assertThat(btn.getStyle().size(), is(1));
+        assertThat(btn.getStyle().get("color"), is("red"));
+        assertThat(btn.getHint(), is("hint"));
+        assertThat(((InvokeAction) btn.getActions().get(0)).getPayload().getDatasource(), is("testButton_table"));
+
+        btn = page.getToolbar().getButton("btn2");
+        assertThat(btn.getLabel(), is("edit"));
+        assertThat(btn.getIcon(), is("fa fa-pencil"));
+
+        btn = page.getToolbar().getButton("btn3");
+        assertThat(btn.getLabel(), is("load"));
+        assertThat(btn.getIcon(), is("fa fa-download"));
+    }
 
     @Test
     public void testConfirm() {

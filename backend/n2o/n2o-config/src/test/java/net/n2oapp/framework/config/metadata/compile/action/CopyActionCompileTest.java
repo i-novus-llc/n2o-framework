@@ -1,7 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.CopyActionElementIOV1;
 import net.n2oapp.framework.config.io.action.v2.CopyActionElementIOV2;
@@ -14,6 +18,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Проверка копиляции действия copy
@@ -48,31 +56,31 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
-//        CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getSubMenu().get(0).getAction();
-//        assertThat(action.getType(), is("n2o/models/COPY"));FIXME
-//        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
-//        assertThat(action.getPayload().getSource().getField(), nullValue());
-//        assertThat(action.getPayload().getSource().getPrefix(), is("edit"));
-//        assertThat(action.getPayload().getTarget().getKey(), is("modal_table1"));
-//        assertThat(action.getPayload().getTarget().getField(), nullValue());
-//        assertThat(action.getPayload().getTarget().getPrefix(), is("filter"));
-//        assertThat(action.getPayload().getMode(), is(CopyMode.merge));
-//        assertThat(action.getMeta().getModalsToClose(), is(1));
-//
-//        action = (CopyAction) table.getToolbar().getButton("btn").getAction();
-//        assertThat(action.getType(), is("n2o/models/COPY"));
-//        assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.edit.getId()));
-//        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
-//        assertThat(action.getPayload().getSource().getField(), is("id"));
-//        assertThat(action.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
-//        assertThat(action.getPayload().getTarget().getKey(), is("modal_table2"));
-//        assertThat(action.getPayload().getTarget().getField(), is("dictionary.id"));
-//        assertThat(action.getPayload().getMode(), is(CopyMode.replace));
-//        assertThat(action.getMeta().getModalsToClose(), is(1));
-//
-//        action = (CopyAction) page.getToolbar().getButton("pageBtn").getAction();
-//        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
-//        assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
+        CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getSubMenu().get(0).getActions().get(0);
+        assertThat(action.getType(), is("n2o/models/COPY"));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getSource().getField(), nullValue());
+        assertThat(action.getPayload().getSource().getPrefix(), is("edit"));
+        assertThat(action.getPayload().getTarget().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getTarget().getField(), nullValue());
+        assertThat(action.getPayload().getTarget().getPrefix(), is("filter"));
+        assertThat(action.getPayload().getMode(), is(CopyMode.merge));
+        assertThat(action.getMeta().getModalsToClose(), is(1));
+
+        action = (CopyAction) table.getToolbar().getButton("btn").getActions().get(0);
+        assertThat(action.getType(), is("n2o/models/COPY"));
+        assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.edit.getId()));
+        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getSource().getField(), is("id"));
+        assertThat(action.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
+        assertThat(action.getPayload().getTarget().getKey(), is("modal_table2"));
+        assertThat(action.getPayload().getTarget().getField(), is("dictionary.id"));
+        assertThat(action.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(action.getMeta().getModalsToClose(), is(1));
+
+        action = (CopyAction) page.getToolbar().getButton("pageBtn").getActions().get(0);
+        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
     }
 
     @Test
@@ -82,26 +90,26 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyActionV2.page.xml")
                 .get(pageContext);
 
-//        CopyAction copyInPage = (CopyAction) page.findButton("copyInPage").getAction();FIXME
-//        assertThat(copyInPage.getType(), is("n2o/models/COPY"));
-//        assertThat(copyInPage.getPayload().getSource().getKey(), is("p_ds1"));
-//        assertThat(copyInPage.getPayload().getSource().getField(), nullValue());
-//        assertThat(copyInPage.getPayload().getSource().getPrefix(), is("resolve"));
-//        assertThat(copyInPage.getPayload().getTarget().getKey(), is("p_ds1"));
-//        assertThat(copyInPage.getPayload().getTarget().getField(), nullValue());
-//        assertThat(copyInPage.getPayload().getTarget().getPrefix(), is("resolve"));
-//        assertThat(copyInPage.getPayload().getMode(), is(CopyMode.merge));
-//        assertThat(copyInPage.getMeta().getModalsToClose(), is(1));
-//
-//        CopyAction copyInPage2 = (CopyAction) page.findButton("copyInPage2").getAction();
-//        assertThat(copyInPage2.getType(), is("n2o/models/COPY"));
-//        assertThat(copyInPage2.getPayload().getSource().getKey(), is("p_ds1"));
-//        assertThat(copyInPage2.getPayload().getSource().getField(), is("sourceId"));
-//        assertThat(copyInPage2.getPayload().getSource().getPrefix(), is("filter"));
-//        assertThat(copyInPage2.getPayload().getTarget().getKey(), is("page1_ds2"));
-//        assertThat(copyInPage2.getPayload().getTarget().getField(), is("targetId"));
-//        assertThat(copyInPage2.getPayload().getTarget().getPrefix(), is("resolve"));
-//        assertThat(copyInPage2.getPayload().getMode(), is(CopyMode.replace));
-//        assertThat(copyInPage2.getMeta().getModalsToClose(), is(0));
+        CopyAction copyInPage = (CopyAction) page.findButton("copyInPage").getActions().get(0);
+        assertThat(copyInPage.getType(), is("n2o/models/COPY"));
+        assertThat(copyInPage.getPayload().getSource().getKey(), is("p_ds1"));
+        assertThat(copyInPage.getPayload().getSource().getField(), nullValue());
+        assertThat(copyInPage.getPayload().getSource().getPrefix(), is("resolve"));
+        assertThat(copyInPage.getPayload().getTarget().getKey(), is("p_ds1"));
+        assertThat(copyInPage.getPayload().getTarget().getField(), nullValue());
+        assertThat(copyInPage.getPayload().getTarget().getPrefix(), is("resolve"));
+        assertThat(copyInPage.getPayload().getMode(), is(CopyMode.merge));
+        assertThat(copyInPage.getMeta().getModalsToClose(), is(1));
+
+        CopyAction copyInPage2 = (CopyAction) page.findButton("copyInPage2").getActions().get(0);
+        assertThat(copyInPage2.getType(), is("n2o/models/COPY"));
+        assertThat(copyInPage2.getPayload().getSource().getKey(), is("p_ds1"));
+        assertThat(copyInPage2.getPayload().getSource().getField(), is("sourceId"));
+        assertThat(copyInPage2.getPayload().getSource().getPrefix(), is("filter"));
+        assertThat(copyInPage2.getPayload().getTarget().getKey(), is("page1_ds2"));
+        assertThat(copyInPage2.getPayload().getTarget().getField(), is("targetId"));
+        assertThat(copyInPage2.getPayload().getTarget().getPrefix(), is("resolve"));
+        assertThat(copyInPage2.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(copyInPage2.getMeta().getModalsToClose(), is(0));
     }
 }

@@ -60,7 +60,7 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getStatuses()[1].getFieldId(), Matchers.is("id"));
         assertThat(field.getStatuses()[1].getIcon(), Matchers.is(nullValue()));
         assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElementPlace.topLeft));
-        assertThat(field.getAction(),  nullValue());
+        assertThat(field.getActions().get(0),  nullValue());
         assertThat(field.getUrl(), is("http://example.com"));
 
         ControlDependency dependency = field.getDependencies().get(0);

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oRatingCell;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.cell.RatingCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -48,7 +47,7 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getMax(), is(10));
         assertThat(cell.getShowTooltip(), is(true));
         assertThat(cell.getReadonly(), is(false));
-        assertThat(cell.getAction(), instanceOf(InvokeAction.class));
+        assertThat(cell.getActions().get(0), instanceOf(InvokeAction.class));
 
         cell = (RatingCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("RatingCell"));
@@ -58,6 +57,6 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getReadonly(), is(true));
 
         cell = (RatingCell) table.getComponent().getCells().get(2);
-        assertThat(cell.getAction(), instanceOf(InvokeAction.class));
+        assertThat(cell.getActions().get(0), instanceOf(InvokeAction.class));
     }
 }

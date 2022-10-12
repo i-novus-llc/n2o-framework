@@ -2,8 +2,16 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.application.Application;
+import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -37,67 +45,67 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         //Root page
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
                 .get(new PageContext("testAnchorAction"));
-//        Toolbar toolbar = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();FIXME
-//        LinkAction link1 = (LinkAction) toolbar.getButton("id1").getAction();
-//        assertThat(link1.getUrl(), is("/test"));
-//        assertThat(link1.getTarget(), is(Target.application));
-//        assertThat(link1.getPathMapping().size(), is(0));
-//        assertThat(link1.getQueryMapping().size(), is(0));
-//
-//
-//        LinkActionImpl link2 = (LinkActionImpl) toolbar.getButton("id2").getAction();
-//        assertThat(link2.getUrl(), is("/page/test2/:param1/:param2?param3=:param3"));
-//        assertThat(link2.getTarget(), is(Target.application));
-//        assertThat(link2.getPathMapping().size(), is(2));
-//        assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
-//        assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
-//        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
-//        assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
-//        assertThat(link2.getQueryMapping().size(), is(1));
-//        assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
-//        assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
-//        PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/test2/:param1/:param2?param3=:param3");
-//        assertThat(anchor.getIsOtherPage(), is(true));
-//
-//        LinkActionImpl link3 = (LinkActionImpl) toolbar.getButton("id3").getAction();
-//        assertThat(link3.getUrl(), is("http://google.com"));
-//        assertThat(link3.getTarget(), is(Target.self));
-//
-//        LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
-//                .getToolbar().getButton("secWgt").getAction();
-//
-//        assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
-//        assertThat(linkSecond.getTarget(), is(Target.newWindow));
-//        assertThat(linkSecond.getPathMapping().size(), is(1));
-//        assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
-//        assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
-//
-//        //Modal page
-//        PageContext modalContext = (PageContext) route("/page/id4", Page.class);
-//        SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
-//        link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getAction();
-//        assertThat(link1.getUrl(), is("/page/id4/test"));
-//        assertThat(link1.getTarget(), is(Target.application));
-//        assertThat(link1.getPathMapping().size(), is(0));
-//        assertThat(link1.getQueryMapping().size(), is(0));
-//
-//        link2 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id2").getAction();
-//        assertThat(link2.getUrl(), is("/page/id4/test2/:param1/:param2?param3=:param3"));
-//        assertThat(link2.getTarget(), is(Target.application));
-//        assertThat(link2.getPathMapping().size(), is(2));
-//        assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.resolve['page_id4_test']"));
-//        assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
-//        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_id4_test']"));
-//        assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
-//        assertThat(link2.getQueryMapping().size(), is(1));
-//        assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_id4_test']"));
-//        assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
-//
-//        link3 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id3").getAction();
-//        assertThat(link3.getUrl(), is("/test3"));
-//        assertThat(link3.getTarget(), is(Target.application));
-//        assertThat(link3.getPathMapping().size(), is(0));
-//        assertThat(link3.getQueryMapping().size(), is(0));
+        Toolbar toolbar = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
+        LinkAction link1 = (LinkAction) toolbar.getButton("id1").getActions().get(0);
+        assertThat(link1.getUrl(), is("/test"));
+        assertThat(link1.getTarget(), is(Target.application));
+        assertThat(link1.getPathMapping().size(), is(0));
+        assertThat(link1.getQueryMapping().size(), is(0));
+
+
+        LinkActionImpl link2 = (LinkActionImpl) toolbar.getButton("id2").getActions().get(0);
+        assertThat(link2.getUrl(), is("/page/test2/:param1/:param2?param3=:param3"));
+        assertThat(link2.getTarget(), is(Target.application));
+        assertThat(link2.getPathMapping().size(), is(2));
+        assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
+        assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
+        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
+        assertThat(link2.getQueryMapping().size(), is(1));
+        assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
+        assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
+        PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/test2/:param1/:param2?param3=:param3");
+        assertThat(anchor.getIsOtherPage(), is(true));
+
+        LinkActionImpl link3 = (LinkActionImpl) toolbar.getButton("id3").getActions().get(0);
+        assertThat(link3.getUrl(), is("http://google.com"));
+        assertThat(link3.getTarget(), is(Target.self));
+
+        LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
+                .getToolbar().getButton("secWgt").getActions().get(0);
+
+        assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
+        assertThat(linkSecond.getTarget(), is(Target.newWindow));
+        assertThat(linkSecond.getPathMapping().size(), is(1));
+        assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
+        assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
+
+        //Modal page
+        PageContext modalContext = (PageContext) route("/page/id4", Page.class);
+        SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
+        link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getActions().get(0);
+        assertThat(link1.getUrl(), is("/page/id4/test"));
+        assertThat(link1.getTarget(), is(Target.application));
+        assertThat(link1.getPathMapping().size(), is(0));
+        assertThat(link1.getQueryMapping().size(), is(0));
+
+        link2 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id2").getActions().get(0);
+        assertThat(link2.getUrl(), is("/page/id4/test2/:param1/:param2?param3=:param3"));
+        assertThat(link2.getTarget(), is(Target.application));
+        assertThat(link2.getPathMapping().size(), is(2));
+        assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
+        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
+        assertThat(link2.getQueryMapping().size(), is(1));
+        assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
+
+        link3 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id3").getActions().get(0);
+        assertThat(link3.getUrl(), is("/test3"));
+        assertThat(link3.getTarget(), is(Target.application));
+        assertThat(link3.getPathMapping().size(), is(0));
+        assertThat(link3.getQueryMapping().size(), is(0));
     }
 
     @Test

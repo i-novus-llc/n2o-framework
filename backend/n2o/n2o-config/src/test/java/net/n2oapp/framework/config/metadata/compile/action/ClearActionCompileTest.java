@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.ClearActionElementIOV1;
@@ -10,6 +11,9 @@ import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 public class ClearActionCompileTest extends SourceCompileTestBase {
 
@@ -31,12 +35,12 @@ public class ClearActionCompileTest extends SourceCompileTestBase {
     public void clearActionTest() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testClearAction.page.xml")
                 .get(new ModalPageContext("testClearAction", "/p/w/a"));
-//        ClearAction testAction = (ClearAction) page.getWidget().getToolbar().getButton("test").getAction();
-//        assertThat(testAction.getType(), is("n2o/models/CLEAR"));FIXME
-//        assertThat(testAction.getPayload().getKey(), is("p_w_a_main"));
-//        assertThat(testAction.getPayload().getPrefixes()[0], is("edit"));
-//        assertThat(testAction.getPayload().getPrefixes()[1], is("resolve"));
-//        assertThat(testAction.getMeta().getModalsToClose(), is(1));
+        ClearAction testAction = (ClearAction) page.getWidget().getToolbar().getButton("test").getActions().get(0);
+        assertThat(testAction.getType(), is("n2o/models/CLEAR"));
+        assertThat(testAction.getPayload().getKey(), is("p_w_a_main"));
+        assertThat(testAction.getPayload().getPrefixes()[0], is("edit"));
+        assertThat(testAction.getPayload().getPrefixes()[1], is("resolve"));
+        assertThat(testAction.getMeta().getModalsToClose(), is(1));
     }
 
 }
