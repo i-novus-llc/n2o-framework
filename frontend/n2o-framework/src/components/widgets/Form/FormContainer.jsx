@@ -63,12 +63,12 @@ class Container extends React.Component {
         super(props)
         const { resolveModel, datasource } = props
         const initialValues = mergeInitial(resolveModel, datasource)
-        const { widgetId, fieldsets, validation, store } = this.props
+        const { widgetId, modelId, fieldsets, validation, store } = this.props
         const fields = getFieldsKeys(fieldsets)
 
         this.state = {
             initialValues,
-            validators: createValidator(validation, widgetId, store, fields),
+            validators: createValidator(validation, modelId || widgetId, store, fields),
             fields,
         }
     }
