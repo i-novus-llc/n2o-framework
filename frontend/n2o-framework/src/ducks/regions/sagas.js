@@ -9,6 +9,7 @@ import some from 'lodash/some'
 import every from 'lodash/every'
 import each from 'lodash/each'
 import find from 'lodash/find'
+import includes from 'lodash/includes'
 import isEmpty from 'lodash/isEmpty'
 
 import { metadataSuccess as METADATA_SUCCESS } from '../pages/store'
@@ -20,6 +21,7 @@ import { routesQueryMapping } from '../widgets/sagas/routesQueryMapping'
 import { makeModelIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
 import { dataRequestWidget } from '../widgets/store'
 import { addMessage, removeMessage } from '../form/constants'
+import { getFieldsKeys } from '../../components/widgets/Form/utils'
 
 import { setActiveRegion, regionsSelector, setTabInvalid } from './store'
 import { MAP_URL } from './constants'
@@ -36,19 +38,21 @@ function* mapUrl(value) {
     }
 }
 
-export function* tabTraversal(action, tabs, regionId, form, param = null) {
+export function* tabTraversal(action, tabs, regionId, formName, param = null, fields = null) {
     let isTargetFormInTabs = false
 
     for (const { content, id: tabId } of tabs) {
-        for (const { datasource, tabs } of content) {
+        for (const { datasource, tabs, form } of content) {
             if (tabs) {
-                return tabTraversal(action, tabs, regionId, form, param)
+                return tabTraversal(action, tabs, regionId, formName, param, fields)
             }
 
-            if (datasource === form) {
+            if (datasource === formName) {
+                const allFields = getFieldsKeys(get(form, 'fieldsets', []))
+
                 isTargetFormInTabs = true
 
-                if (action) {
+                if (action && (!fields || some(fields, field => includes(allFields, field)))) {
                     yield put(action(regionId, tabId, param))
                 }
             }
@@ -66,10 +70,10 @@ function* switchTab(action) {
     const { type, meta } = action
 
     if (type === actionTypes.TOUCH) {
-        const { form } = meta
+        const { form, fields } = meta
 
         for (const { tabs, regionId } of tabsRegions) {
-            yield tabTraversal(setActiveRegion, tabs, regionId, form)
+            yield tabTraversal(setActiveRegion, tabs, regionId, form, null, fields)
             yield mapUrl(regionId)
         }
     }
@@ -237,7 +241,7 @@ export function* checkIdBeforeLazyFetch() {
 }
 
 function* validateTabs({ payload, type }) {
-    const { form } = payload
+    const { form, name } = payload
     const { regions = {} } = yield select()
 
     if (!form || isEmpty(regions)) {
@@ -250,7 +254,7 @@ function* validateTabs({ payload, type }) {
         .filter(region => region.tabs)
 
     for (const { tabs, regionId } of tabsRegions) {
-        yield tabTraversal(setTabInvalid, tabs, regionId, form, invalid)
+        yield tabTraversal(setTabInvalid, tabs, regionId, form, invalid, [name])
     }
 }
 
