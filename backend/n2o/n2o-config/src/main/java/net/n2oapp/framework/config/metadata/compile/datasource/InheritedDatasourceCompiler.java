@@ -4,11 +4,12 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
-
-import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция источника данных, получающего данные из другого источника данных
@@ -37,7 +38,8 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         N2oInheritedDatasource.Submit sourceSubmit = source.getSubmit();
         submit.setAuto(p.cast(sourceSubmit.getAuto(), true));
         submit.setModel(p.cast(sourceSubmit.getModel(), ReduxModel.resolve));
-        submit.setTargetDs(getClientDatasourceId(p.cast(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), context, p));
+        submit.setTargetDs(getClientDatasourceId(sourceSubmit.getTargetPage(), p.cast(sourceSubmit.getTargetDatasource(),
+                source.getSourceDatasource()), context, p));
         submit.setTargetModel(p.cast(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));
         submit.setTargetField(p.cast(sourceSubmit.getTargetFieldId(), source.getSourceFieldId()));
         return submit;
@@ -45,9 +47,15 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
 
     private InheritedDatasource.Provider initProvider(N2oInheritedDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         InheritedDatasource.Provider provider = new InheritedDatasource.Provider();
-        provider.setSourceDs(getClientDatasourceId(source.getSourceDatasource(), context, p));
+        provider.setSourceDs(getClientDatasourceId(source.getSourcePage(), source.getSourceDatasource(), context, p));
         provider.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
         provider.setSourceField(source.getSourceFieldId());
         return provider;
+    }
+
+    private String getClientDatasourceId(PageRef pageRef, String datasourceId, CompileContext<?, ?> context, CompileProcessor p) {
+        return pageRef != PageRef.THIS && context instanceof PageContext && ((PageContext) context).getParentDatasourceIdsMap() != null ?
+                ((PageContext) context).getParentDatasourceIdsMap().get(datasourceId) :
+                DatasourceUtil.getClientDatasourceId(datasourceId, p);
     }
 }

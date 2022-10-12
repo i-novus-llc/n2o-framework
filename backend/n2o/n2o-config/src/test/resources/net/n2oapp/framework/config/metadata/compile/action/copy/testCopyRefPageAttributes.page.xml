@@ -3,7 +3,6 @@
     <datasources>
         <datasource id="ds"/>
         <datasource id="ds2"/>
-
         <app-datasource id="appDs"/>
     </datasources>
 

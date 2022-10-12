@@ -113,7 +113,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCopyRefPageAttributes() {
+    public void testRefPageAttributes() {
         PageContext pageContext = new PageContext("testCopyRefPageAttributes", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/copy/testCopyRefPageAttributes.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/copy/testCopyRefPageAttributesModal.page.xml")
