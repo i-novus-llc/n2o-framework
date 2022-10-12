@@ -33,6 +33,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
@@ -163,18 +164,28 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitLabel(source.getSubmitLabel());
         pageContext.setSubmitModel(source.getSubmitModel());
         pageContext.setSubmitActionType(source.getSubmitActionType());
+        // copy
         pageContext.setCopyModel(source.getCopyModel());
         pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
+        pageContext.setCopyPage(source.getCopyPage());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetDatasourceId(targetDS);
+        pageContext.setTargetPage(source.getTargetPage());
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
+
+
         if (source.getDatasources() != null)
             pageContext.setDatasources(Arrays.asList(source.getDatasources()));
+        pageContext.setParentDatasourceIdsMap(
+                p.getScope(DataSourcesScope.class).keySet().stream()
+        .collect(Collectors.toMap(Function.identity(), ds -> getClientDatasourceId(ds, p))));
+        // TODO - убрать
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
         if (dataSourcesScope != null)
             pageContext.setParentDatasources(new HashMap<>(dataSourcesScope));
+
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);

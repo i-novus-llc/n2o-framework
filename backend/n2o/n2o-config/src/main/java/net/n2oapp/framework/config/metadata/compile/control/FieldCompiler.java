@@ -509,7 +509,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 break;
             case PARENT:
                 if (context instanceof PageContext) {
-                    clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), ((PageContext) context).getParentClientPageId());
+                    clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), ((PageContext) context).getParentClientPageId(), p);
                 } else
                     throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
         }
