@@ -178,10 +178,17 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         return pageProperty;
     }
 
-    protected void initContextDatasources(DataSourcesScope dataSourcesScope, PageScope pageScope, PageContext context) {
+    protected void initContextDatasources(DataSourcesScope dataSourcesScope, PageScope pageScope,
+                                          PageContext context, CompileProcessor p) {
         if (context.getDatasources() != null) {
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
-                String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
+                String dsId;
+                if (ctxDs.getId() != null) {
+                    dsId = ctxDs.getId();
+                } else { // нужно только для adapterV1
+                    dsId = pageScope.getResultWidgetId();
+                    ctxDs = p.merge(dataSourcesScope.get(dsId), ctxDs);
+                }
                 if (!dataSourcesScope.containsKey(dsId))
                     ctxDs.setId(dsId);//todo нужно клонировать ctxDs
                 dataSourcesScope.put(dsId, ctxDs);

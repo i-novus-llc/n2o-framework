@@ -6,6 +6,7 @@ import net.n2oapp.framework.config.metadata.compile.datasource.BrowserStorageDat
 import net.n2oapp.framework.config.metadata.compile.datasource.InheritedDatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.datasource.StandardDatasourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.datasource.StompDatasourceCompiler;
+import net.n2oapp.framework.config.metadata.merge.datasource.N2oStandardDatasourceMerger;
 
 public class N2oAllDatasourcesPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -15,5 +16,6 @@ public class N2oAllDatasourcesPack implements MetadataPack<N2oApplicationBuilder
                 new BrowserStorageDatasourceCompiler(),
                 new StompDatasourceCompiler(),
                 new InheritedDatasourceCompiler());
+        b.mergers(new N2oStandardDatasourceMerger());
     }
 }

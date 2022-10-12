@@ -82,7 +82,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Deprecated
     private String width;
 
-    @Deprecated
+    @Deprecated // при удалении убрать, N2oStandardDatasourceMerger, а также его вызов в PageCompiler
     public void adaptV1() {
         if (getUpload() != null || getDetailFieldId() != null || getPreFilters() != null) {
             N2oStandardDatasource datasource = new N2oStandardDatasource();
