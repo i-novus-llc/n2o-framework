@@ -233,5 +233,5 @@ description: ""
 Если он использовался в ваших автотестах, то необходимо удалить его из тестовых классов.
 - Обращение к алертам через `page.alerts().alert(0)` объявлено deprecated.
 Рекомендуется использовать следующий вызов `page.alerts(Alert.Placement.top).alert(0)`.
-- Методы `clickLink` \ `firstTitleShouldHaveText` \ `titleShouldHaveText` \ `titleByIndexShouldHaveText` компонента Breadcrumb объявлены deprecated и перенесены в компонент Crumb.
-Обращение к хлебным крошкам имеет теперь следующий вызов `page.breadcrumb.crumb(0)`.
+- Методы `clickLink` \ `firstTitleShouldHaveText` \ `titleShouldHaveText` \ `titleByIndexShouldHaveText` компонента Breadcrumb объявлены deprecated.
+Для обращения к хлебным крошкам рекомендуется использовать следующий вызов `page.breadcrumb.crumb(0)`.

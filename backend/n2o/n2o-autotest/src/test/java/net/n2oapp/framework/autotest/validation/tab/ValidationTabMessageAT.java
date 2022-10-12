@@ -116,8 +116,6 @@ public class ValidationTabMessageAT extends AutoTestBase {
         StandardPage newPage = N2oSelenide.page(StandardPage.class);
         page.breadcrumb().shouldHaveSize(2);
         page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
-        newPage.breadcrumb().shouldHaveSize(2);
-        newPage.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
         button = newPage.toolbar().bottomRight().button("Сохранить");
         Fields fields = newPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         StandardField field = fields.field("Имя");
