@@ -5,7 +5,8 @@ import has from 'lodash/has'
 import get from 'lodash/get'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
-import { makePageWidgetsByIdSelector } from '../pages/selectors'
+import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
+import { makePageRoutesByIdSelector, makePageWidgetsByIdSelector } from '../pages/selectors'
 import { refreshEffect } from '../../sagas/meta'
 
 import { CLOSE } from './constants'
@@ -56,6 +57,7 @@ export function* checkPrompt(action) {
     }
     if (!needToShowPrompt) {
         yield put(destroyOverlay())
+        yield call(resetQuerySaga, name)
     } else {
         yield put(showPrompt(name))
     }
@@ -92,6 +94,20 @@ function* onCloseEffects() {
 
     yield takeEvery([insertOverlay, insertDrawer], getClose)
     yield takeEvery(CLOSE, onClose)
+}
+
+export function* resetQuerySaga(pageId) {
+    const routes = yield select(makePageRoutesByIdSelector(pageId))
+
+    if (routes) {
+        const resetQuery = {}
+
+        for (const [k] of Object.entries(routes.queryMapping)) {
+            resetQuery[k] = undefined
+        }
+
+        yield mapQueryToUrl(pageId, resetQuery, true)
+    }
 }
 
 export const overlaysSagas = [
