@@ -5,6 +5,7 @@ import {
     select,
     takeEvery,
     cancel,
+    delay,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
@@ -24,8 +25,8 @@ import { generateErrorMeta } from '../../utils/generateErrorMeta'
 import { id } from '../../utils/id'
 import fetchSaga from '../../sagas/fetch'
 import { REQUEST_CACHE_TIMEOUT } from '../../constants/time'
+import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
 
-import { routesQueryMapping } from './sagas/routesQueryMapping'
 import {
     makeModelIdSelector,
     makeWidgetByIdSelector,
@@ -208,6 +209,8 @@ export function* handleFetch(modelId, widgetId, options, isQueryEqual) {
         return
     }
     try {
+        yield delay(16)
+
         const {
             state,
             location,
@@ -249,7 +252,9 @@ export function* handleFetch(modelId, widgetId, options, isQueryEqual) {
         }
 
         if (routes && routes.queryMapping) {
-            yield* routesQueryMapping(state, routes, location)
+            const rootPageId = yield select(rootPageSelector)
+
+            yield call(mapQueryToUrl, rootPageId)
         }
 
         const response = yield doFetch(modelId, resolvedProvider)
