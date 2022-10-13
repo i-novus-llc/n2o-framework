@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.io.datasource;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись источника данных, получающего данные из другого источника данных
  */
 @Component
-public class InheritedDatasourceIO  extends BaseDatasourceIO<N2oInheritedDatasource> {
+public class InheritedDatasourceIO extends BaseDatasourceIO<N2oInheritedDatasource> {
 
     @Override
     public void io(Element e, N2oInheritedDatasource ds, IOProcessor p) {
