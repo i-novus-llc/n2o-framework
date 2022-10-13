@@ -47,12 +47,7 @@ public class N2oPreFilter implements Source {
     /**
      * Идентификатор страницы, на которую ссылается фильтр
      */
-    @Deprecated // TODO - убрать
     private String refPageId;
-    /**
-     * Ссылка на страницу, на которую ссылается фильтр
-     */
-    private PageRef refPage;
     /**
      * Идентификатор источника данных на странице, на который ссылается фильтр
      */

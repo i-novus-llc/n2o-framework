@@ -134,14 +134,6 @@
                         <xs:documentation>Идентификатор источника данных, из которого будут скопированы данные</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="source-ref-page" type="act:refPageType" default="parent">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Ссылка на страницу, из источника данных которой будут копироваться данные.
-                            (Использовать только при прокидывании источника из родительской страницы)
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="source-model" type="act:clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель источника данных, из которой будут скопированы данные</xs:documentation>
@@ -209,14 +201,6 @@
         <xs:attribute name="target-datasource" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор источника данных, в который производится сохранение</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="target-ref-page" type="act:refPageType" default="parent">
-            <xs:annotation>
-                <xs:documentation>
-                    Ссылка на страницу, в источник данных которой будет производиться сохранение.
-                    (Использовать только при прокидывании источника из родительской страницы)
-                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="target-model" type="act:clientModel">
@@ -455,14 +439,6 @@
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор источника данных, по полю которого будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="ref-page" type="act:refPageType" default="parent">
-            <xs:annotation>
-                <xs:documentation>
-                    Ссылка на страницу, по полю источника которого будет фильтрация.
-                    (Использовать только при прокидывании источника из родительской страницы)
-                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="param" type="xs:string">

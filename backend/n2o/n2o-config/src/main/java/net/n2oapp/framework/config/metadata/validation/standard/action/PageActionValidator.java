@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
@@ -53,7 +52,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                     .forEach(datasource -> actionDatasourceScope.add(datasource.getId()));
             Arrays.stream(source.getDatasources())
                     .filter(datasource -> datasource.getId() != null)
-                    .forEach(datasource -> p.validate(datasource, actionDatasourceScope, new ComponentScope(source)));
+                    .forEach(datasource -> p.validate(datasource, actionDatasourceScope));
         }
     }
 

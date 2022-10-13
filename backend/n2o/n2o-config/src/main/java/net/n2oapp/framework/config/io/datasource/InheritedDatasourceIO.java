@@ -17,7 +17,6 @@ public class InheritedDatasourceIO  extends BaseDatasourceIO<N2oInheritedDatasou
     public void io(Element e, N2oInheritedDatasource ds, IOProcessor p) {
         super.io(e, ds, p);
         p.attribute(e, "source-datasource", ds::getSourceDatasource, ds::setSourceDatasource);
-        p.attributeEnum(e, "source-ref-page", ds::getSourcePage, ds::setSourcePage, PageRef.class);
         p.attributeEnum(e, "source-model", ds::getSourceModel, ds::setSourceModel, ReduxModel.class);
         p.attribute(e, "source-field-id", ds::getSourceFieldId, ds::setSourceFieldId);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, N2oInheritedDatasource.Submit::new, this::submit);
@@ -27,7 +26,6 @@ public class InheritedDatasourceIO  extends BaseDatasourceIO<N2oInheritedDatasou
         p.attributeBoolean(e, "auto", t::getAuto, t::setAuto);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
         p.attribute(e, "target-datasource", t::getTargetDatasource, t::setTargetDatasource);
-        p.attributeEnum(e, "target-ref-page", t::getTargetPage, t::setTargetPage, PageRef.class);
         p.attributeEnum(e, "target-model", t::getTargetModel, t::setTargetModel, ReduxModel.class);
         p.attribute(e, "target-field-id", t::getTargetFieldId, t::setTargetFieldId);
     }

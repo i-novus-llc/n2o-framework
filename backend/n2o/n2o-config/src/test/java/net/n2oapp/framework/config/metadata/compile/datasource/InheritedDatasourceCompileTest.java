@@ -1,12 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyType;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -15,8 +13,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -87,32 +83,5 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
         assertThat(((CopyDependency) dependency).getSubmit(), is(true));
         assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
-    }
-
-    @Test
-    public void testRefPageAttributes() {
-        PageContext pageContext = new PageContext("testInheritedDatasourceRefPageAttributes", "/p");
-        compile("net/n2oapp/framework/config/metadata/compile/datasource/testInheritedDatasourceRefPageAttributes.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/datasource/testInheritedDatasourceRefPageAttributesModal.page.xml")
-                .get(pageContext);
-
-        StandardPage page = (StandardPage) routeAndGet("/p/modal", Page.class);
-        Map<String, AbstractDatasource> datasources = page.getDatasources();
-        // source: parent, target: parent
-        InheritedDatasource inhDs = ((InheritedDatasource) datasources.get("p_modal_inh"));
-        assertThat(inhDs.getProvider().getSourceDs(), is("p_ds"));
-        assertThat(inhDs.getSubmit().getTargetDs(), is("p_ds2"));
-        // source: this, target: this
-        inhDs = ((InheritedDatasource) datasources.get("p_modal_inh2"));
-        assertThat(inhDs.getProvider().getSourceDs(), is("p_modal_ds"));
-        assertThat(inhDs.getSubmit().getTargetDs(), is("p_modal_ds2"));
-        // source: parent (app-ds), target: parent (app-ds)
-        inhDs = ((InheritedDatasource) datasources.get("p_modal_inh3"));
-        assertThat(inhDs.getProvider().getSourceDs(), is("appDs"));
-        assertThat(inhDs.getSubmit().getTargetDs(), is("appDs"));
-        // source: this (app-ds), target: this (app-ds)
-        inhDs = ((InheritedDatasource) datasources.get("p_modal_inh4"));
-        assertThat(inhDs.getProvider().getSourceDs(), is("appDs2"));
-        assertThat(inhDs.getSubmit().getTargetDs(), is("appDs2"));
     }
 }

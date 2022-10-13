@@ -175,7 +175,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
 
-
         if (source.getDatasources() != null)
             pageContext.setDatasources(Arrays.asList(source.getDatasources()));
         pageContext.setParentDatasourceIdsMap(

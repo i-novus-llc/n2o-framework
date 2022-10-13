@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.datasource.Submittable;
 public class N2oInheritedDatasource extends N2oDatasource implements Submittable {
 
     private String sourceDatasource;
-    private PageRef sourcePage;
     private ReduxModel sourceModel;
     private String sourceFieldId;
     private Submit submit;
@@ -26,7 +25,6 @@ public class N2oInheritedDatasource extends N2oDatasource implements Submittable
         private Boolean auto;
         private ReduxModel model;
         private String targetDatasource;
-        private PageRef targetPage;
         private ReduxModel targetModel;
         private String targetFieldId;
     }

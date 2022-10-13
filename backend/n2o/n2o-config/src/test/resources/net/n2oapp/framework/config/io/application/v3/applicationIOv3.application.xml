@@ -11,7 +11,7 @@
                       submit="true" apply-on-init="true"/>
             </dependencies>
             <filters>
-                <eq field-id="id" value="3" datasource="ds1" ref-page="this"/>
+                <eq field-id="id" value="3"/>
             </filters>
         </datasource>
         <stomp-datasource id="taskCount" destination="/task/count"/>
@@ -30,10 +30,8 @@
                       submit="true" apply-on-init="true"/>
             </dependencies>
         </browser-storage>
-        <inherited-datasource id="ds3" size="1"
-                              source-field-id="name" source-datasource="ds1" source-model="filter" source-ref-page="this">
-            <submit auto="false" target-field-id="name2"
-                    target-model="filter" target-datasource="ds2" target-ref-page="this"/>
+        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
+            <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2"/>
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
