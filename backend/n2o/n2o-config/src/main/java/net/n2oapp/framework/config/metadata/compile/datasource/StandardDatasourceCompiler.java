@@ -180,7 +180,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
                         String clientDatasourceId = preFilter.getRefPageId() != null ?
-                                getClientDatasourceId(preFilter.getDatasourceId(), preFilter.getRefPageId()) :
+                                getClientDatasourceId(preFilter.getDatasourceId(), preFilter.getRefPageId(), p) :
                                 getClientDatasourceId(preFilter.getDatasourceId(), p);
                         ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.resolve);
                         ModelLink link = new ModelLink(model, clientDatasourceId);

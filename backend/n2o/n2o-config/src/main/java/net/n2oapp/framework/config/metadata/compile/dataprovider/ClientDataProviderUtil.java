@@ -119,7 +119,7 @@ public class ClientDataProviderUtil {
                 clientDatasourceId = defaultClientDatasourceId;
             } else {
                 clientDatasourceId = param.getRefPageId() != null ?
-                        getClientDatasourceId(param.getDatasourceId(), param.getRefPageId()) :
+                        getClientDatasourceId(param.getDatasourceId(), param.getRefPageId(), p) :
                         getClientDatasourceId(param.getDatasourceId(), p);
             }
             link = new ModelLink(p.cast(param.getModel(), model), clientDatasourceId);

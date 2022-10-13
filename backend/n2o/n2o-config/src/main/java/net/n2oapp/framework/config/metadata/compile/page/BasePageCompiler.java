@@ -83,7 +83,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
         ApplicationDatasourceIdsScope appDatasourcesIdScope = new ApplicationDatasourceIdsScope();
         DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, appDatasourcesIdScope);
-        PageScope pageScope = initPageScope(source, page.getId(), sourceWidgets, resultWidget, appDatasourcesIdScope, context);
+        PageScope pageScope = initPageScope(source, page.getId(), sourceWidgets, resultWidget, appDatasourcesIdScope, context, p);
         MetaActions metaActions = initMetaActions(source);
         FiltersScope filtersScope = new FiltersScope();
 
@@ -110,7 +110,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourcesIdScope);
 
         if (source.getDatasourceId() != null)
-            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId()));
+            page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(), p));
 
         return page;
     }
@@ -149,7 +149,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private PageScope initPageScope(S source, String pageId, List<N2oWidget> sourceWidgets, N2oWidget resultWidget,
-                                    ApplicationDatasourceIdsScope applicationDatasourceIds, PageContext context) {
+                                    ApplicationDatasourceIdsScope applicationDatasourceIds,
+                                    PageContext context, CompileProcessor p) {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(pageId);
         if (context.getParentTabIds() != null) {
@@ -169,7 +170,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                         w -> {
                             String datasourceId = w.getDatasourceId() == null ? w.getId() : w.getDatasourceId();
                             return applicationDatasourceIds.contains(datasourceId) ?
-                                    datasourceId : getClientDatasourceId(datasourceId, pageId);
+                                    datasourceId : getClientDatasourceId(datasourceId, pageId, p);
                         })));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());

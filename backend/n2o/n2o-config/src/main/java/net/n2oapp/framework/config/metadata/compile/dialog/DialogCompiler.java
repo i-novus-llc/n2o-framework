@@ -42,7 +42,7 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
         dialog.setTitle(source.getTitle());
         dialog.setDescription(source.getDescription());
         dialog.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.dialog.size"), String.class)));
-        String datasourceId = getClientDatasourceId(context.getParentSourceDatasourceId(), context.getParentPageId());
+        String datasourceId = getClientDatasourceId(context.getParentSourceDatasourceId(), context.getParentPageId(), p);
         dialog.setModelLink(new ModelLink(ReduxModel.resolve, datasourceId).getBindLink());
         CompiledObject object = p.getCompiled(new ObjectContext(context.getObjectId()));
         if (source.getToolbar() != null) {
