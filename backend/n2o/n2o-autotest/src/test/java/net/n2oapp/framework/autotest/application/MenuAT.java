@@ -46,7 +46,7 @@ public class MenuAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         page.header().brandNameShouldBe("Хедер");
         page.header().nav().shouldHaveSize(1);
 
@@ -59,7 +59,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
 
     @Test
@@ -68,7 +68,7 @@ public class MenuAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         page.header().brandNameShouldBe("Хедер");
         page.header().nav().shouldHaveSize(1);
 
@@ -82,7 +82,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
 
     @Test
@@ -91,7 +91,7 @@ public class MenuAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         page.header().brandNameShouldBe("Хедер");
         page.header().nav().shouldHaveSize(1);
 
@@ -105,7 +105,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
 
     @Test
@@ -114,7 +114,7 @@ public class MenuAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         page.header().brandNameShouldBe("Хедер");
         page.header().nav().shouldHaveSize(1);
 
@@ -129,7 +129,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
 
     @Test
@@ -138,7 +138,7 @@ public class MenuAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         page.header().brandNameShouldBe("Хедер");
         page.header().nav().shouldHaveSize(1);
 
@@ -158,7 +158,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
 
     @Test
@@ -167,7 +167,7 @@ public class MenuAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
         sidebar.shouldHaveState(SidebarState.mini);
         sidebar.nav().shouldHaveSize(1);
@@ -189,7 +189,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
 
     @Test
@@ -198,7 +198,7 @@ public class MenuAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
         sidebar.shouldHaveState(SidebarState.mini);
         sidebar.nav().shouldHaveSize(1);
@@ -218,7 +218,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
 
     @Test
@@ -227,7 +227,7 @@ public class MenuAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
         sidebar.shouldHaveState(SidebarState.mini);
         sidebar.nav().shouldHaveSize(1);
@@ -251,6 +251,6 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
 }

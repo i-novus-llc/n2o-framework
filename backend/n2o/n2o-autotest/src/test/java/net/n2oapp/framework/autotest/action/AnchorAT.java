@@ -44,14 +44,14 @@ public class AnchorAT extends AutoTestBase {
     public void testAnchorAction() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование действия перехода по ссылке");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование действия перехода по ссылке");
 
         TableWidget table = page.widget(TableWidget.class);
         table.columns().rows().row(2).click();
         table.toolbar().topLeft().button("Открыть").click();
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         open.toolbar().bottomRight().button("Ссылка").click();
 
         open.urlShouldMatches(getBaseUrl() + "/link/3/");

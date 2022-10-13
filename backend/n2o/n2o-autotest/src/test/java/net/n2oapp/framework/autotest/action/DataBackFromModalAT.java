@@ -60,11 +60,11 @@ public class DataBackFromModalAT extends AutoTestBase {
 
     private void openAndCheckPage(SimplePage page, Integer buttonNumber) {
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Проброс значений обратно из модального окна");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Проброс значений обратно из модального окна");
         page.widget(FormWidget.class).toolbar().bottomLeft().button(buttonNumber, StandardButton.class).shouldExists();
         page.widget(FormWidget.class).toolbar().bottomLeft().button(buttonNumber, StandardButton.class).click();
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница с/без выборки");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Страница с/без выборки");
         StandardField testField = page.widget(FormWidget.class).fields().field("Поле с данными, введенными в модальном окне");
         testField.control(InputText.class).shouldBeDisabled();
         testField.control(InputText.class).shouldBeEmpty();

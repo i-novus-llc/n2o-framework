@@ -44,7 +44,7 @@ public class MasterDetailAT extends SandboxAutotestBase {
         LeftRightPage page = open(LeftRightPage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Связь Master Detail");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Связь Master Detail");
 
         TableWidget table = page.left().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.shouldExists();

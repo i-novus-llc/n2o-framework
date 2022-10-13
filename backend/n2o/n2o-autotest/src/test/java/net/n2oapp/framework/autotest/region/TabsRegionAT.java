@@ -147,7 +147,6 @@ public class TabsRegionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-
         RadioGroup radio = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields()
                 .field("radio").control(RadioGroup.class);
 

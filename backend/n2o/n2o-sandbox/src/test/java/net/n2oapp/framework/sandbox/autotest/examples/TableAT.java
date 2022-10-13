@@ -44,7 +44,7 @@ public class TableAT extends SandboxAutotestBase {
     @Test
     public void testTableBase() {
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Таблица");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Таблица");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

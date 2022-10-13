@@ -68,7 +68,11 @@ public interface Page extends Component {
 
         void titleByIndexShouldHaveText(String text, Integer index);
 
+        void shouldHaveSize(int size);
+
         Crumb crumb(int index);
+
+        Crumb crumb(String label);
 
         interface Crumb {
 

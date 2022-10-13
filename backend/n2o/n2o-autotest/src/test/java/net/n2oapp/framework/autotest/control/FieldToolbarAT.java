@@ -83,7 +83,7 @@ public class FieldToolbarAT extends AutoTestBase {
 
         toolbar.button("Открыть страницу").click();
 
-        page.breadcrumb().titleShouldHaveText("Другая страница");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Другая страница");
         page.widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
     }
 
@@ -129,7 +129,7 @@ public class FieldToolbarAT extends AutoTestBase {
 
         dropdownButton.click();
         dropdownButton.menuItem("Открыть страницу").click();
-        page.breadcrumb().titleShouldHaveText("Другая страница");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Другая страница");
         page.widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
     }
 }

@@ -53,7 +53,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/test.object.xml"));
 
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Обновление виджета после закрытия модального окна");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Обновление виджета после закрытия модального окна");
         page.shouldExists();
 
         TableWidget.Rows rows = page.regions().region(0, SimpleRegion.class).content()
@@ -116,7 +116,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/test.object.xml"));
 
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Обновление виджета после закрытия модального окна");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Обновление виджета после закрытия модального окна");
         page.shouldExists();
 
         TableWidget.Rows rows = page.regions().region(0, SimpleRegion.class).content()

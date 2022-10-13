@@ -38,7 +38,7 @@ public class WebSocketAT extends AutoTestBase {
         super.setUp();
         page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Изменение счетчика в меню навигации по web-socket");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Изменение счетчика в меню навигации по web-socket");
     }
 
     @Override

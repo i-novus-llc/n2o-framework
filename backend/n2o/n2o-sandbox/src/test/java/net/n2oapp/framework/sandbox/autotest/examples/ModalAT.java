@@ -46,7 +46,7 @@ public class ModalAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Модальное окно");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Модальное окно");
 
         TableWidget table = page.widget(TableWidget.class);
         Button button = table.toolbar().topLeft().button("Открыть");

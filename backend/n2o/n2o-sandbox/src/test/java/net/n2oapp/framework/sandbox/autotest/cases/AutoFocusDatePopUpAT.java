@@ -41,7 +41,7 @@ public class AutoFocusDatePopUpAT extends SandboxAutotestBase {
     public void popUpTest() {
         SimplePage indexPage = open(SimplePage.class);
         indexPage.shouldExists();
-        indexPage.breadcrumb().titleShouldHaveText("При автофокусе на date-time и date-interval открывается pop-up");
+        indexPage.breadcrumb().crumb(0).shouldHaveLabel("При автофокусе на date-time и date-interval открывается pop-up");
 
         StandardButton dateTimeButton = indexPage.widget(FormWidget.class)
                 .toolbar()

@@ -122,28 +122,30 @@ public class OverlayPromptAT extends AutoTestBase {
         openBtn.click();
         StandardPage openPage = N2oSelenide.page(StandardPage.class);
         Page.Breadcrumb breadcrumb = openPage.breadcrumb();
-        breadcrumb.titleShouldHaveText("Overlay окно");
+        breadcrumb.crumb(1).shouldHaveLabel("Overlay окно");
         InputText nameControl = openPage.regions().region(0, SimpleRegion.class)
                 .content().widget(FormWidget.class).fields().field("name").control(InputText.class);
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
         nameControl.shouldHaveValue("edited");
-        breadcrumb.firstTitleShouldHaveText("Тест overlay окон");
-        breadcrumb.clickLink("Тест overlay окон");
-        breadcrumb.titleShouldHaveText("Тест overlay окон");
+        breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
+        breadcrumb.crumb(0).click();
+        breadcrumb.shouldHaveSize(1);
+        breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
 
         openBtn = tableToolbar.button("OpenPage с подтверждением");
         openBtn.click();
-        breadcrumb.titleShouldHaveText("Overlay окно");
+        breadcrumb.crumb(1).shouldHaveLabel("Overlay окно");
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
         nameControl.shouldHaveValue("edited");
-        breadcrumb.firstTitleShouldHaveText("Тест overlay окон");
-        breadcrumb.clickLink("Тест overlay окон");
+        breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
+        breadcrumb.crumb(0).click();
         Selenide.dismiss();
-        breadcrumb.titleShouldHaveText("Overlay окно");
-        breadcrumb.clickLink("Тест overlay окон");
+        breadcrumb.crumb(1).shouldHaveLabel("Overlay окно");
+        breadcrumb.crumb("Тест overlay окон").click();
         Selenide.confirm();
-        breadcrumb.titleShouldHaveText("Тест overlay окон");
+        breadcrumb.shouldHaveSize(1);
+        breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
     }
 }

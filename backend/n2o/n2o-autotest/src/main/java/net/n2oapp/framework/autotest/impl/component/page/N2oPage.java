@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Driver;
 import com.codeborne.selenide.SelenideElement;
@@ -48,6 +49,7 @@ public class N2oPage extends N2oComponent implements Page {
     public Breadcrumb breadcrumb() {
         return new N2oBreadcrumb(element().$(".breadcrumb"));
     }
+
 
     @Override
     public Dialog dialog(String title) {
@@ -157,30 +159,44 @@ public class N2oPage extends N2oComponent implements Page {
             setElement(element);
         }
 
+        @Deprecated
         @Override
         public void clickLink(String text) {
             element().$$(".n2o-breadcrumb-link").findBy(Condition.text(text)).shouldBe(Condition.exist).click();
         }
 
+        @Deprecated
         @Override
         public void firstTitleShouldHaveText(String text) {
             element().$(".breadcrumb-item").shouldHave(Condition.text(text));
         }
 
+        @Deprecated
         @Override
         public void titleShouldHaveText(String text) {
             element().$$(".breadcrumb-item").last()
                     .shouldHave(Condition.text(text));
         }
 
-        @Override
         @Deprecated
+        @Override
         public void titleByIndexShouldHaveText(String text, Integer index) {
             element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(text));
         }
 
+        @Override
+        public void shouldHaveSize(int size) {
+            element().$$(".breadcrumb-item").should(CollectionCondition.size(size));
+        }
+
+        @Override
         public N2oCrumb crumb(int index) {
             return new N2oCrumb(element().$$(".breadcrumb-item").get(index));
+        }
+
+        @Override
+        public N2oCrumb crumb(String label) {
+            return new N2oCrumb(element().$$(".breadcrumb-item").findBy(Condition.text(label)));
         }
 
         public class N2oCrumb extends N2oComponent implements Crumb {

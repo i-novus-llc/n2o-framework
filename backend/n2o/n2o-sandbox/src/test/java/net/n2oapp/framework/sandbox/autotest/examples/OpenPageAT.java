@@ -43,7 +43,7 @@ public class OpenPageAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Первая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
 
         TableWidget table = page.widget(TableWidget.class);
         Button button = table.toolbar().topLeft().button("Открыть");
@@ -76,8 +76,8 @@ public class OpenPageAT extends SandboxAutotestBase {
 
     private void checkNestedPage(SimplePage page, String id, String name) {
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Вторая страница");
-        page.breadcrumb().firstTitleShouldHaveText("Первая страница");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
         Fields fields = page.widget(FormWidget.class).fields();
         InputText inputText = fields.field("id").control(InputText.class);
         inputText.shouldExists();
@@ -86,8 +86,9 @@ public class OpenPageAT extends SandboxAutotestBase {
         inputText.shouldExists();
         inputText.shouldHaveValue(name);
 
-        page.breadcrumb().clickLink("Первая страница");
-        page.breadcrumb().titleShouldHaveText("Первая страница");
+        page.breadcrumb().crumb(0).click();
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
     }
 
 }

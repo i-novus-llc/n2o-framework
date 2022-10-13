@@ -46,7 +46,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Список автомобилей");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -120,7 +120,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Список автомобилей");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -139,7 +139,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Список автомобилей");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

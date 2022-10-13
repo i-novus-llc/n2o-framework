@@ -43,7 +43,7 @@ public class DependenciesInitAT extends AutoTestBase {
     public void testApplyOnInit() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Инициализация зависимостей (apply-on-init)");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Инициализация зависимостей (apply-on-init)");
 
         FieldSets fieldsSets = page.widget(FormWidget.class).fieldsets();
 

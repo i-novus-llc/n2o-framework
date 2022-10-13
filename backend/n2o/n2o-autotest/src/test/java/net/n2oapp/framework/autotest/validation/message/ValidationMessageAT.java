@@ -47,7 +47,7 @@ public class ValidationMessageAT extends AutoTestBase {
     @Test
     public void testDependenciesValidation() {
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Dynamic validation test");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Dynamic validation test");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
 
@@ -77,7 +77,7 @@ public class ValidationMessageAT extends AutoTestBase {
     @Test
     public void testConditionValidation() {
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Dynamic validation test");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Dynamic validation test");
 
         FormWidget form = page.regions().region(1, SimpleRegion.class).content().widget(FormWidget.class);
         RadioGroup rg = form.fields().field("Make valid").control(RadioGroup.class);
@@ -116,7 +116,7 @@ public class ValidationMessageAT extends AutoTestBase {
     @Test
     public void testStaticDependencies() {
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Dynamic validation test");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Dynamic validation test");
 
         FormWidget form = page.regions().region(2, SimpleRegion.class).content().widget(FormWidget.class);
         StandardField field = form.fields().field("Requiring field");

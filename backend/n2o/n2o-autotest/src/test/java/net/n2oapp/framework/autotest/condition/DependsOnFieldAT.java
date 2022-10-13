@@ -74,7 +74,7 @@ public class DependsOnFieldAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Зависимость от поля с другим именем в дровере");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Зависимость от поля с другим именем в дровере");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

@@ -42,7 +42,7 @@ public class TabsLazyInitAT extends AutoTestBase {
     @Test
     public void testLazyInit() {
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Ленивая загрузка вкладок региона <tabs>");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Ленивая загрузка вкладок региона <tabs>");
 
         TabsRegion tabs = page.regions().region(0, TabsRegion.class);
         tabs.shouldHaveSize(2);
