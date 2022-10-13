@@ -182,16 +182,13 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
                                           PageContext context, CompileProcessor p) {
         if (context.getDatasources() != null) {
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
-                String dsId;
-                if (ctxDs.getId() != null) {
-                    dsId = ctxDs.getId();
-                } else { // нужно только для adapterV1
-                    dsId = pageScope.getResultWidgetId();
-                    ctxDs = p.merge(dataSourcesScope.get(dsId), ctxDs);
-                }
-                if (!dataSourcesScope.containsKey(dsId))
+                String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
+                if (dataSourcesScope.containsKey(dsId))
+                    dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
+                else {
                     ctxDs.setId(dsId);//todo нужно клонировать ctxDs
-                dataSourcesScope.put(dsId, ctxDs);
+                    dataSourcesScope.put(dsId, ctxDs);
+                }
             }
         }
     }
