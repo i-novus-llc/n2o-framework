@@ -131,12 +131,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
 
         String currentClientWidgetId = null;
-        String currentWidgetId = null;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
+        if (widgetScope != null)
             currentClientWidgetId = widgetScope.getClientWidgetId();
-            currentWidgetId = widgetScope.getWidgetId();
-        }
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId, pageScope,
@@ -153,15 +150,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
 
-        String targetDS = source.getTargetDatasourceId();
-        if (pageScope != null && targetDS == null) {
-            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (nonNull(datasourceIdAware) && nonNull(datasourceIdAware.getDatasourceId()))
-                targetDS = datasourceIdAware.getDatasourceId();
-            else if (currentWidgetId != null)
-                targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
-        }
-
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
@@ -174,7 +162,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
-        pageContext.setTargetDatasourceId(targetDS);
+        pageContext.setTargetDatasourceId(computeTargetDatasource(source, pageScope, componentScope, widgetScope));
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
         if (source.getDatasources() != null)
@@ -226,6 +214,23 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
+    }
+
+    private String computeTargetDatasource(S source, PageScope pageScope, ComponentScope componentScope, WidgetScope widgetScope) {
+        String currentWidgetId = null;
+        if (widgetScope != null) {
+            currentWidgetId = widgetScope.getWidgetId();
+        }
+
+        String targetDatasourceId = source.getTargetDatasourceId();
+        if (pageScope != null && targetDatasourceId == null) {
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (nonNull(datasourceIdAware) && nonNull(datasourceIdAware.getDatasourceId()))
+                targetDatasourceId = datasourceIdAware.getDatasourceId();
+            else if (currentWidgetId != null)
+                targetDatasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
+        }
+        return targetDatasourceId;
     }
 
     private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
