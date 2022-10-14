@@ -7,6 +7,7 @@ import includes from 'lodash/includes'
 import merge from 'lodash/merge'
 import entries from 'lodash/entries'
 import isEmpty from 'lodash/isEmpty'
+import isObject from 'lodash/isObject'
 import first from 'lodash/first'
 import isEqual from 'lodash/isEqual'
 
@@ -51,15 +52,22 @@ export function* copyAction({ payload }) {
     }
 
     if (mode === 'merge') {
-        newModel = target.field
-            ? {
+        if (!target.field) {
+            newModel = { ...targetModel, ...sourceModel }
+        } else if (isObject(sourceModel) || Array.isArray(sourceModel)) {
+            newModel = {
                 ...targetModel,
                 [target.field]: {
                     ...targetModelField,
                     ...sourceModel,
                 },
             }
-            : { ...targetModel, ...sourceModel }
+        } else {
+            newModel = {
+                ...targetModel,
+                [target.field]: sourceModel,
+            }
+        }
     } else if (mode === 'add') {
         if (!Array.isArray(sourceModel) || !Array.isArray(targetModelField)) {
             // eslint-disable-next-line no-console
