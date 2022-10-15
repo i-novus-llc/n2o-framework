@@ -17,8 +17,6 @@ import memoize from 'lodash/memoize'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
-import replace from 'lodash/replace'
-import includes from 'lodash/includes'
 import isNil from 'lodash/isNil'
 
 import {
@@ -48,13 +46,13 @@ export default (Field) => {
             this.onChange = this.onChange.bind(this)
             this.onFocus = this.onFocus.bind(this)
             this.onBlur = this.onBlur.bind(this)
-            this.initIfNeeded(props)
+            this.initIfNeeded()
         }
 
         /**
-     * Регистрация дополнительных свойств поля
-     */
-        initIfNeeded(props) {
+         * Регистрация дополнительных свойств поля
+         */
+        initIfNeeded() {
             const {
                 meta: { form },
                 input: { name },
@@ -66,7 +64,7 @@ export default (Field) => {
                 registerFieldExtra,
                 parentIndex,
                 validation,
-            } = props
+            } = this.props
 
             if (!isInit) {
                 registerFieldExtra(form, name, {
@@ -74,6 +72,7 @@ export default (Field) => {
                     visible_field: visibleToRegister,
                     disabled: disabledToRegister,
                     disabled_field: disabledToRegister,
+                    parentIndex,
                     dependency: this.modifyDependency(dependency, parentIndex),
                     required: requiredToRegister,
                     validation,
@@ -81,100 +80,101 @@ export default (Field) => {
             }
         }
 
-    modifyDependency = (dependency, parentIndex) => {
-        if (!isNil(parentIndex)) {
-            return map(dependency, (dep) => {
-                const { expression, on } = dep
-                let newDep = { ...dep }
+        modifyDependency = (dependency, parentIndex) => {
+            if (!isNil(parentIndex)) {
+                return map(dependency, (dep) => {
+                    const newDep = { ...dep }
 
-                if (expression) {
-                    newDep = { ...newDep, expression: replace(expression, INDEX_PLACEHOLDER, parentIndex) }
-                }
+                    if (newDep.on) {
+                        newDep.on = this.modifyOn(newDep.on, parentIndex)
+                    }
 
-                if (on) {
-                    newDep = { ...newDep, on: this.modifyOn(on, parentIndex) }
-                }
+                    return newDep
+                })
+            }
 
-                return newDep
-            })
+            return dependency
         }
 
-        return dependency
-    };
+        modifyOn = (on, parentIndex) => on.map(key => key.replace(INDEX_PLACEHOLDER, parentIndex))
 
-    modifyOn = (on, parentIndex) => map(on, key => (includes(key, INDEX_PLACEHOLDER)
-        ? replace(key, INDEX_PLACEHOLDER, parentIndex)
-        : key));
+        /**
+         * мэппинг onChange
+         * @param e
+         */
+        onChange(e) {
+            const { input, onChange } = this.props
 
-    /**
-     * мэппинг onChange
-     * @param e
-     */
-    onChange(e) {
-        const { input, onChange } = this.props
-
-        if (input) {
-            input.onChange(e)
+            if (input) {
+                input.onChange(e)
+            }
+            if (onChange) {
+                onChange(e)
+            }
         }
 
-        if (onChange) {
-            onChange(e)
-        }
-    }
+        /**
+         * мэппинг onBlur
+         * @param e
+         */
+        onBlur(e) {
+            const { input, onBlur } = this.props
 
-    /**
-     * мэппинг onBlur
-     * @param e
-     */
-    onBlur(e) {
-        const { input, onBlur } = this.props
+            if (input) {
+                input.onBlur(e)
+            }
 
-        if (input) {
-            input.onBlur(e)
-        }
-
-        if (onBlur) {
-            onBlur(e.target.value)
-        }
-    }
-
-    /**
-     * мэппинг onFocus
-     * @param e
-     */
-    onFocus(e) {
-        const { input, onFocus } = this.props
-
-        if (input) {
-            input.onFocus(e)
+            if (onBlur) {
+                onBlur(e.target.value)
+            }
         }
 
-        if (onFocus) {
-            onFocus(e.target.value)
+        /**
+         * мэппинг onFocus
+         * @param e
+         */
+        onFocus(e) {
+            const { input, onFocus } = this.props
+
+            if (input) {
+                input.onFocus(e)
+            }
+
+            if (onFocus) {
+                onFocus(e.target.value)
+            }
         }
-    }
 
-    /**
-     * мэппинг сообщений
-     * @param error
-     * @returns {string}
-     */
+        /**
+         * мэппинг сообщений
+         * @returns {string}
+         */
 
-    render() {
-        const { mapProps } = this.props
+        render() {
+            const { mapProps } = this.props
 
-        const props = mapProps(this.props)
+            const props = mapProps(this.props)
 
-        return <Field {...props} />
-    }
+            return <Field {...props} />
+        }
     }
 
     FieldContainer.propTypes = {
+        id: PropTypes.string,
         mapProps: PropTypes.func,
         input: PropTypes.object,
         onChange: PropTypes.func,
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
+        meta: PropTypes.object,
+        isInit: PropTypes.bool,
+        visibleToRegister: PropTypes.any,
+        disabledToRegister: PropTypes.any,
+        dependency: PropTypes.object,
+        requiredToRegister: PropTypes.any,
+        registerFieldExtra,
+        parentIndex: PropTypes.number,
+        validation: PropTypes.any,
     }
 
     const mapStateToProps = (state, ownProps) => {
@@ -266,15 +266,15 @@ export default (Field) => {
         ),
         shouldUpdate(
             (props, nextProps) => !isEqual(props.model, nextProps.model) ||
-        props.isInit !== nextProps.isInit ||
-        props.visible !== nextProps.visible ||
-        props.disabled !== nextProps.disabled ||
-        props.message !== nextProps.message ||
-        props.required !== nextProps.required ||
-        props.loading !== nextProps.loading ||
-        props.meta.touched !== nextProps.meta.touched ||
-        props.active !== nextProps.active ||
-        get(props, 'input.value', null) !== get(nextProps, 'input.value', null),
+            props.isInit !== nextProps.isInit ||
+            props.visible !== nextProps.visible ||
+            props.disabled !== nextProps.disabled ||
+            props.message !== nextProps.message ||
+            props.required !== nextProps.required ||
+            props.loading !== nextProps.loading ||
+            props.meta.touched !== nextProps.meta.touched ||
+            props.active !== nextProps.active ||
+            get(props, 'input.value', null) !== get(nextProps, 'input.value', null),
         ),
         withProps(props => ({
             ref: props.setReRenderRef,
