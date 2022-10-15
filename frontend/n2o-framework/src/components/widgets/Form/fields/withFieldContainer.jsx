@@ -17,6 +17,8 @@ import memoize from 'lodash/memoize'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
+import replace from 'lodash/replace'
+import includes from 'lodash/includes'
 import isNil from 'lodash/isNil'
 
 import {
@@ -45,13 +47,13 @@ export default (Field) => {
             this.onChange = this.onChange.bind(this)
             this.onFocus = this.onFocus.bind(this)
             this.onBlur = this.onBlur.bind(this)
-            this.initIfNeeded()
+            this.initIfNeeded(props)
         }
 
         /**
          * Регистрация дополнительных свойств поля
          */
-        initIfNeeded() {
+        initIfNeeded(props) {
             const {
                 meta: { form },
                 input: { name },
@@ -63,7 +65,7 @@ export default (Field) => {
                 registerFieldExtra,
                 parentIndex,
                 validation,
-            } = this.props
+            } = props
 
             if (!isInit) {
                 registerFieldExtra(form, name, {
@@ -71,7 +73,6 @@ export default (Field) => {
                     visible_field: visibleToRegister,
                     disabled: disabledToRegister,
                     disabled_field: disabledToRegister,
-                    parentIndex,
                     dependency: this.modifyDependency(dependency, parentIndex),
                     required: requiredToRegister,
                     validation,
@@ -82,10 +83,15 @@ export default (Field) => {
         modifyDependency = (dependency, parentIndex) => {
             if (!isNil(parentIndex)) {
                 return map(dependency, (dep) => {
-                    const newDep = { ...dep }
+                    const { expression, on } = dep
+                    let newDep = { ...dep }
 
-                    if (newDep.on) {
-                        newDep.on = this.modifyOn(newDep.on, parentIndex)
+                    if (expression) {
+                        newDep = { ...newDep, expression: replace(expression, INDEX_PLACEHOLDER, parentIndex) }
+                    }
+
+                    if (on) {
+                        newDep = { ...newDep, on: this.modifyOn(on, parentIndex) }
                     }
 
                     return newDep
@@ -95,7 +101,9 @@ export default (Field) => {
             return dependency
         }
 
-        modifyOn = (on, parentIndex) => on.map(key => key.replace(INDEX_PLACEHOLDER, parentIndex))
+        modifyOn = (on, parentIndex) => map(on, key => (includes(key, INDEX_PLACEHOLDER)
+            ? replace(key, INDEX_PLACEHOLDER, parentIndex)
+            : key))
 
         /**
          * мэппинг onChange
@@ -165,15 +173,6 @@ export default (Field) => {
         onChange: PropTypes.func,
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
-        meta: PropTypes.object,
-        isInit: PropTypes.bool,
-        visibleToRegister: PropTypes.any,
-        disabledToRegister: PropTypes.any,
-        dependency: PropTypes.object,
-        requiredToRegister: PropTypes.any,
-        registerFieldExtra,
-        parentIndex: PropTypes.number,
-        validation: PropTypes.any,
     }
 
     const mapStateToProps = (state, { modelPrefix, ...ownProps }) => {
