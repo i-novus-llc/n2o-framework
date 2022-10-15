@@ -90,9 +90,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }, cleanUp
 // eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
     const { type, expression } = dependency
+    const { parentIndex } = field
+    const context = {
+        ...values,
+        index: typeof parentIndex === 'number' ? parentIndex : values.index,
+    }
 
     const evalResult = expression
-        ? evalExpression(expression, values)
+        ? evalExpression(expression, context)
         : undefined
 
     switch (type) {
