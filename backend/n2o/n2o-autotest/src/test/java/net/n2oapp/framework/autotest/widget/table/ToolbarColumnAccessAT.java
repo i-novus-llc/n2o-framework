@@ -53,7 +53,7 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к колонкам по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к колонкам по sec атрибутам");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -91,7 +91,7 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к колонкам по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к колонкам по sec атрибутам");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

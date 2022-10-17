@@ -36,7 +36,7 @@ public class ButtonsAT extends SandboxAutotestBase {
         page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Кнопки");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Кнопки");
     }
 
     @Override

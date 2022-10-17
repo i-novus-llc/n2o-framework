@@ -200,7 +200,7 @@ public class BadgeAT extends AutoTestBase {
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 
-        simplePage.breadcrumb().titleShouldHaveText("Меню с баджем");
+        simplePage.breadcrumb().crumb(0).shouldHaveLabel("Меню с баджем");
         simplePage.header().brandNameShouldBe("Хедер");
         simplePage.header().nav().shouldHaveSize(1);
 

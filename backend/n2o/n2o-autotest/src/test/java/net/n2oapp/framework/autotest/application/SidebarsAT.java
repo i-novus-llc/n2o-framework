@@ -81,7 +81,7 @@ public class SidebarsAT extends AutoTestBase {
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
         openHeader.sidebarSwitcherShouldExists();
@@ -114,7 +114,7 @@ public class SidebarsAT extends AutoTestBase {
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
         openHeader.sidebarSwitcherShouldExists();
@@ -147,7 +147,7 @@ public class SidebarsAT extends AutoTestBase {
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
         openHeader.sidebarSwitcherShouldExists();
@@ -181,7 +181,7 @@ public class SidebarsAT extends AutoTestBase {
 
         SimplePage list = N2oSelenide.page(SimplePage.class);
         list.shouldExists();
-        list.breadcrumb().titleShouldHaveText("Вторая страница");
+        list.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
         openHeader.sidebarSwitcherShouldExists();
@@ -199,7 +199,7 @@ public class SidebarsAT extends AutoTestBase {
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Третья страница");
+        open.breadcrumb().crumb(2).shouldHaveLabel("Третья страница");
         openHeader = page.header();
         openHeader.shouldExists();
         openHeader.sidebarSwitcherShouldExists();
@@ -219,7 +219,7 @@ public class SidebarsAT extends AutoTestBase {
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование источника данных в сайдбаре");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование источника данных в сайдбаре");
         Sidebar sidebar = page.sidebar();
         sidebar.shouldBeHidden();
 
@@ -231,7 +231,7 @@ public class SidebarsAT extends AutoTestBase {
 
         page.shouldExists();
         page.urlShouldMatches(getBaseUrl() + "/#/person/1/profile");
-        page.breadcrumb().titleShouldHaveText("Страница профиля");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Страница профиля");
         sidebar.shouldExists();
         sidebar.shouldHaveState(SidebarState.mini);
         sidebar.titleShouldBe("test1");
@@ -244,7 +244,7 @@ public class SidebarsAT extends AutoTestBase {
 
         page.shouldExists();
         page.urlShouldMatches(getBaseUrl() + "/#/person/1/docs\\?name=test1");
-        page.breadcrumb().titleShouldHaveText("Документы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Документы");
         sidebar.titleShouldBe("test1");
         sidebar.subtitleShouldBe("type11");
     }

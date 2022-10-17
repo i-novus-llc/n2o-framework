@@ -1,6 +1,7 @@
 import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import type { IValidationResult } from '../../core/validation/IValidation'
 import { IActionMeta } from '../../sagas/types'
+import { ValidationsKey } from '../../core/validation/IValidation'
 
 import type { DataSourceState } from './DataSource'
 import type { IProvider, ISubmit, QueryResult } from './Provider'
@@ -75,13 +76,14 @@ export type ChangeSizeAction = DatasourceAction<{
 
 export type StartValidateAction = DatasourceAction<{
     id: string
-    prefix: ModelPrefix.active | ModelPrefix.edit
+    validationsKey?: ValidationsKey
+    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
     fields?: string[]
 }, { touched: boolean }>
 
 export type FailValidateAction = DatasourceAction<{
     id: string
-    prefix: ModelPrefix.active | ModelPrefix.edit
+    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
     fields: Record<string, IValidationResult[]>
 }, { touched: boolean }>
 

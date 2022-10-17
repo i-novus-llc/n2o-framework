@@ -84,5 +84,4 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(((CopyDependency) dependency).getSubmit(), is(true));
         assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
     }
-
 }

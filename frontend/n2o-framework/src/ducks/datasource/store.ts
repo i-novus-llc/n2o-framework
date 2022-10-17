@@ -4,6 +4,7 @@ import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { IMeta } from '../../sagas/types'
+import { ValidationsKey } from '../../core/validation/IValidation'
 
 import type {
     AddComponentAction,
@@ -16,9 +17,9 @@ import type {
     RemoveAction,
     RemoveComponentAction,
     ResolveRequestAction,
+    SetAdditionalInfoAction,
     SetFieldSubmitAction,
     SetSortDirectionAction,
-    SetAdditionalInfoAction,
     StartValidateAction,
     SubmitAction,
 } from './Actions'
@@ -231,9 +232,15 @@ const datasource = createSlice({
         },
 
         startValidate: {
-            prepare(id: string, fields?: string[], prefix = ModelPrefix.active, meta = {}) {
+            prepare(
+                id: string,
+                validationsKey = ValidationsKey.Validations,
+                prefix = ModelPrefix.active,
+                fields?: [],
+                meta = {},
+            ) {
                 return ({
-                    payload: { id, prefix, fields },
+                    payload: { id, validationsKey, prefix, fields },
                     meta,
                 })
             },
@@ -270,9 +277,11 @@ const datasource = createSlice({
                 const { id, fields = [], prefix } = action.payload
                 const datasource = state[id]
 
-                datasource.errors[prefix] = isEmpty(fields)
-                    ? {}
-                    : omit(datasource.errors[prefix], fields)
+                if (datasource) {
+                    datasource.errors[prefix] = isEmpty(fields)
+                        ? {}
+                        : omit(datasource.errors[prefix], fields)
+                }
             },
         },
 

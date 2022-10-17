@@ -34,6 +34,7 @@ import { evalResultCheck } from '../utils/evalResultCheck'
 import { resolveRequest, startValidate } from '../ducks/datasource/store'
 import { combineModels } from '../ducks/models/store'
 import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { ValidationsKey } from '../core/validation/IValidation'
 
 import fetchSaga from './fetch'
 
@@ -99,9 +100,14 @@ export function* fetchValue(values, form, field, { dataProvider, valueFieldId })
 // eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
     const { type, expression } = dependency
+    const { parentIndex } = field
+    const context = {
+        ...values,
+        index: typeof parentIndex === 'number' ? parentIndex : values.index,
+    }
 
     const evalResult = expression
-        ? evalExpression(expression, values)
+        ? evalExpression(expression, context)
         : undefined
 
     switch (type) {
@@ -171,13 +177,13 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
         }
         case 'reRender': {
             const form = yield select(makeWidgetByIdSelector(formName))
-            const model = get(form, [
+            const prefix = get(form, [
                 'form',
                 'modelPrefix',
             ])
 
             yield delay(50)
-            yield put(startValidate(formName, [fieldName], model, { touched: true }))
+            yield put(startValidate(formName, ValidationsKey.Validations, prefix, [fieldName], { touched: true }))
 
             break
         }

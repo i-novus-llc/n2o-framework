@@ -8,6 +8,7 @@ import Toolbar from '../buttons/Toolbar'
 
 // eslint-disable-next-line import/no-cycle,import/no-named-as-default
 import Page from './Page'
+import { PageTitle } from './PageTitle'
 import withOverlayMethods from './withOverlayMethods'
 /**
  * Компонент, отображающий модальное окно
@@ -33,7 +34,6 @@ function ModalPage(props) {
         entityKey,
         toolbar,
         visible,
-        modalHeaderTitle,
         loading,
         pageUrl,
         pageId,
@@ -50,7 +50,11 @@ function ModalPage(props) {
         hasHeader,
         renderFromSrc,
         closeOverlay,
+        metadata = {},
     } = props
+
+    const { page = {} } = metadata
+    const { modalHeaderTitle, datasource, model: modelPrefix = 'resolve' } = page
 
     const pageMapping = {
         pathMapping,
@@ -74,7 +78,12 @@ function ModalPage(props) {
                     className={classes}
                     toggle={() => closeOverlay(prompt)}
                 >
-                    {modalHeaderTitle}
+                    <PageTitle
+                        title={modalHeaderTitle}
+                        datasource={datasource}
+                        modelPrefix={modelPrefix}
+                        titleLayout={false}
+                    />
                 </ModalHeader>
             )}
 
@@ -126,10 +135,6 @@ ModalPage.propTypes = {
      */
     size: PropTypes.oneOf(['lg', 'sm']),
     /**
-     * Заголовок
-     */
-    modalHeaderTitle: PropTypes.string,
-    /**
      * Настройка кнопок
      */
     toolbar: PropTypes.array,
@@ -160,11 +165,11 @@ ModalPage.propTypes = {
     prompt: PropTypes.func,
     renderFromSrc: PropTypes.func,
     closeOverlay: PropTypes.func,
+    metadata: PropTypes.object,
 }
 
 ModalPage.defaultProps = {
     size: 'lg',
-    modalHeaderTitle: 'Модальное окно',
     disabled: false,
     hasHeader: false,
     backdrop: 'static',

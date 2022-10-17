@@ -45,7 +45,7 @@ public class DynamicValidationMessageAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Динамическое сообщение валидации");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Динамическое сообщение валидации");
 
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
@@ -65,7 +65,7 @@ public class DynamicValidationMessageAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Динамическое сообщение валидации");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Динамическое сообщение валидации");
 
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();

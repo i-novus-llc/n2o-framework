@@ -47,6 +47,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         page.setModels(models);
         page.getPageProperty().setModel(p.cast(source.getModel(), ReduxModel.resolve));
     }
+
     /**
      * Получение базового маршрута страницы
      *
@@ -72,10 +73,10 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
                 p.addRoute(route.getPath(), context);
         }
     }
-    
+
     /**
      * Получение базового маршрута страницы
-     * 
+     *
      * @param source   Исходная модель страницы
      * @param pageName Наименование страницы
      * @param context  Контекст сборки
@@ -86,7 +87,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         if (Boolean.TRUE.equals(context.getBreadcrumbFromParent())) {
             BreadcrumbList breadcrumbList = new BreadcrumbList();
             for (Breadcrumb breadcrumb : context.getBreadcrumbs()) {
-                breadcrumb.setPath(resolvePath(breadcrumb.getPath (), context));
+                breadcrumb.setPath(resolvePath(breadcrumb.getPath(), context));
                 breadcrumb.setModelLinks(context.getParentModelLinks());
                 breadcrumbList.add(breadcrumb);
             }
@@ -97,7 +98,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         if (needCreation) {
             if (source.getBreadcrumbs() == null)
                 return initBreadcrumbByContext(pageName, context, p);
-            
+
             BreadcrumbList breadcrumbs = new BreadcrumbList();
             for (N2oBreadcrumb sourceCrumb : source.getBreadcrumbs()) {
                 breadcrumbs.add(new Breadcrumb(
@@ -177,7 +178,8 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         return pageProperty;
     }
 
-    protected void initContextDatasources(DataSourcesScope dataSourcesScope, PageScope pageScope, PageContext context, CompileProcessor p) {
+    protected void initContextDatasources(DataSourcesScope dataSourcesScope, PageScope pageScope,
+                                          PageContext context, CompileProcessor p) {
         if (context.getDatasources() != null) {
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();

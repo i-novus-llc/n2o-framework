@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenDrawer;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
@@ -28,9 +29,11 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
         p.attributeEnum(e, "submit-action-type", od::getSubmitActionType, od::setSubmitActionType, SubmitActionType.class);
         p.attributeEnum(e, "copy-model", od::getCopyModel, od::setCopyModel, ReduxModel.class);
         p.attribute(e, "copy-datasource", od::getCopyDatasourceId, od::setCopyDatasourceId);
+        p.attributeEnum(e, "copy-ref-page", od::getCopyPage, od::setCopyPage, PageRef.class);
         p.attribute(e, "copy-field-id", od::getCopyFieldId, od::setCopyFieldId);
         p.attributeEnum(e, "target-model", od::getTargetModel, od::setTargetModel, ReduxModel.class);
         p.attribute(e, "target-datasource", od::getTargetDatasourceId, od::setTargetDatasourceId);
+        p.attributeEnum(e, "target-ref-page", od::getTargetPage, od::setTargetPage, PageRef.class);
         p.attribute(e, "target-field-id", od::getTargetFieldId, od::setTargetFieldId);
         p.attributeEnum(e, "copy-mode", od::getCopyMode, od::setCopyMode, CopyMode.class);
         p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);

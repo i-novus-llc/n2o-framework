@@ -45,7 +45,7 @@ public class Case43AT extends SandboxAutotestBase {
     public void pageTitlesTest() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Разрешение ссылок в названии страницы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Разрешение ссылок в названии страницы");
 
         RegionItems content = page.regions().region(0, SimpleRegion.class).content();
         Button breadButton = content.widget(FormWidget.class).toolbar().topLeft().button("Хлебные крошки");
@@ -67,10 +67,11 @@ public class Case43AT extends SandboxAutotestBase {
         rows.shouldBeSelected(1);
         breadButton.click();
         page.shouldExists();
-        page.breadcrumb().firstTitleShouldHaveText("Разрешение ссылок в названии страницы");
-        page.breadcrumb().titleShouldHaveText("Страница name=test2 type=1");
-        page.breadcrumb().clickLink("Разрешение ссылок в названии страницы");
-        page.breadcrumb().titleShouldHaveText("Разрешение ссылок в названии страницы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Разрешение ссылок в названии страницы");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Страница name=test2 type=1");
+        page.breadcrumb().crumb(0).click();
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Разрешение ссылок в названии страницы");
 
         rows.row(3).click();
         rows.shouldBeSelected(3);
@@ -84,10 +85,11 @@ public class Case43AT extends SandboxAutotestBase {
         rows.shouldBeSelected(2);
         breadButton2.click();
         page.shouldExists();
-        page.breadcrumb().firstTitleShouldHaveText("Разрешение ссылок в названии страницы");
-        page.breadcrumb().titleShouldHaveText("Страница name=test3 type=2");
-        page.breadcrumb().clickLink("Разрешение ссылок в названии страницы");
-        page.breadcrumb().titleShouldHaveText("Разрешение ссылок в названии страницы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Разрешение ссылок в названии страницы");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Страница name=test3 type=2");
+        page.breadcrumb().crumb(0).click();
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Разрешение ссылок в названии страницы");
 
         rows.row(0).click();
         rows.shouldBeSelected(0);

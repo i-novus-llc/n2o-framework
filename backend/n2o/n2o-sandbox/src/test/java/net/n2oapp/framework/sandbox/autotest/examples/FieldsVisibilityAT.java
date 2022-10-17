@@ -40,7 +40,7 @@ public class FieldsVisibilityAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Скрытие полей");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Скрытие полей");
 
         RadioGroup radioGroup = page.widget(FormWidget.class).fields().field("Пол")
                 .control(RadioGroup.class);

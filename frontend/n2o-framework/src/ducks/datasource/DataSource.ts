@@ -25,7 +25,7 @@ export interface DataSourceState<
     pageId?: string
     // TODO: rename to "messages"
     errors: Record<
-    ModelPrefix.active | ModelPrefix.edit,
+    ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter,
     Partial<Record<TKey, IValidationResult[]>>
     >
     error?: Error | object
@@ -49,6 +49,7 @@ export class DataSource {
             errors: {
                 [ModelPrefix.active]: {},
                 [ModelPrefix.edit]: {},
+                [ModelPrefix.filter]: {},
             },
             fieldsSubmit: {},
         })

@@ -14,10 +14,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.timeout;
+
 /**
  * Автотест шапки(header)
  */
-public class SimpleHeaderAT extends AutoTestBase {
+public class  SimpleHeaderAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -58,13 +60,13 @@ public class SimpleHeaderAT extends AutoTestBase {
         dropdown.item(0).labelShouldHave("Название страницы");
         dropdown.item(0).urlShouldHave(rootUrl + "/#/pageRoute");
         dropdown.item(0).click();
-        page.breadcrumb().titleShouldHaveText("Название страницы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Название страницы");
 
         dropdown.click();
         dropdown.item(1).labelShouldHave("элемент списка №2");
         dropdown.item(1).urlShouldHave(rootUrl + "/#/pageRoute1");
         dropdown.item(1).click();
-        page.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
 
         page.header().extra().shouldHaveSize(1);
         link = page.header().extra().item(0, AnchorMenuItem.class);
@@ -87,13 +89,13 @@ public class SimpleHeaderAT extends AutoTestBase {
         dropdownLevelTwo.labelShouldHave("Многоуровневый список");
         dropdownLevelTwo.click();
         dropdown.item(2, DropdownMenuItem.class).shouldHaveSize(2);
-        page.breadcrumb().titleShouldHaveText("Название страницы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Название страницы");
 
         dropdownLevelTwo.item(0).labelShouldHave("Название страницы");
         dropdownLevelTwo.item(0).urlShouldHave(rootUrl + "/#/pageRoute");
         dropdownLevelTwo.item(1).labelShouldHave("элемент многоуровнегосписка №2");
         dropdownLevelTwo.item(1).urlShouldHave(rootUrl + "/#/pageRoute1");
         dropdownLevelTwo.item(1).click();
-        page.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
     }
 }

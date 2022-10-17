@@ -374,7 +374,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             return data;
         }
         for (String filter : filters) {
-            String[] splittedFilter = filter.replace(" ", "").split(":");
+            String[] splittedFilter = filter.replaceAll("[\\s]", "").split(":");
             String field = splittedFilter[0];
             Object pattern = inParams.get(splittedFilter[2]);
 

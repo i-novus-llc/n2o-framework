@@ -48,6 +48,7 @@ public class DatasourceUtil {
      * @param p            Процессор сборки метаданных
      * @return Идентификатор клиентского источника данных
      */
+    @Deprecated
     public static String getClientDatasourceId(String datasourceId, CompileContext context, CompileProcessor p) {
         DataSourcesScope datasourcesScope = p.getScope(DataSourcesScope.class);
         if (context instanceof PageContext && datasourcesScope != null && !datasourcesScope.containsKey(datasourceId)) {
@@ -71,14 +72,10 @@ public class DatasourceUtil {
      * @return Идентификатор клиентского источника данных
      */
     public static String getClientDatasourceId(String datasourceId, CompileProcessor p) {
-        ApplicationDatasourceIdsScope appDatasourceIds = p.getScope(ApplicationDatasourceIdsScope.class);
-        if (appDatasourceIds != null && appDatasourceIds.contains(datasourceId))
-            return datasourceId;
-
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope == null)
             return datasourceId;
-        return getClientDatasourceId(datasourceId, pageScope.getPageId());
+        return getClientDatasourceId(datasourceId, pageScope.getPageId(), p);
     }
 
     /**
@@ -88,9 +85,30 @@ public class DatasourceUtil {
      * @param pageId       Идентификатор страницы
      * @return Идентификатор клиентского источника данных
      */
+    @Deprecated
     public static String getClientDatasourceId(String datasourceId, String pageId) {
         if (datasourceId == null || pageId == null)
             return datasourceId;
+        String separator = "_".equals(pageId) ? "" : "_";
+        return pageId.concat(separator).concat(datasourceId);
+    }
+
+    /**
+     * Получение идентификатора клиентского источника данных.
+     *
+     * @param datasourceId Идентификатор источника данных
+     * @param pageId       Идентификатор страницы
+     * @param p            Процессор сборки метаданных
+     * @return Идентификатор клиентского источника данных
+     */
+    public static String getClientDatasourceId(String datasourceId, String pageId, CompileProcessor p) {
+        if (datasourceId == null || pageId == null)
+            return datasourceId;
+
+        ApplicationDatasourceIdsScope appDatasourceIds = p.getScope(ApplicationDatasourceIdsScope.class);
+        if (appDatasourceIds != null && appDatasourceIds.contains(datasourceId))
+            return datasourceId;
+
         String separator = "_".equals(pageId) ? "" : "_";
         return pageId.concat(separator).concat(datasourceId);
     }

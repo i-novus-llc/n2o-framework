@@ -63,7 +63,7 @@ public class CrudRestAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Магазин");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Магазин");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -132,7 +132,7 @@ public class CrudRestAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Магазин");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Магазин");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -151,7 +151,7 @@ public class CrudRestAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Магазин");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Магазин");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

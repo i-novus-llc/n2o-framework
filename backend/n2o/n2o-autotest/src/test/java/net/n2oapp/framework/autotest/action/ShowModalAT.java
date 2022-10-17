@@ -51,7 +51,7 @@ public class ShowModalAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Модальное окно с фиксированной высотой");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Модальное окно с фиксированной высотой");
 
         Button openScrollableModal = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть со скроллом");
         openScrollableModal.shouldExists();
@@ -91,7 +91,7 @@ public class ShowModalAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Настраиваемое модальное окно");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Настраиваемое модальное окно");
 
         Button openModalWithHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с шапкой");
         openModalWithHeader.shouldExists();
@@ -169,7 +169,7 @@ public class ShowModalAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Настраиваемое модальное окно");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Настраиваемое модальное окно");
         StandardButton openModalButton = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с шапкой");
         openModalButton.shouldExists();
         openModalButton.shouldBeEnabled();

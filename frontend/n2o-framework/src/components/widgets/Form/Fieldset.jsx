@@ -207,6 +207,8 @@ class Fieldset extends React.Component {
             autoSubmit,
             activeModel,
             activeField,
+            onChange,
+            onBlur,
         } = this.props
 
         const { enabled } = this.state
@@ -227,6 +229,8 @@ class Fieldset extends React.Component {
                 disabled={!enabled}
                 autoSubmit={autoSubmit}
                 activeField={activeField}
+                onChange={onChange}
+                onBlur={onBlur}
                 {...props}
             />
         )
@@ -327,6 +331,8 @@ Fieldset.propTypes = {
     autoSubmit: PropTypes.bool,
     activeField: PropTypes.string,
     help: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
 }
 
 Fieldset.defaultProps = {

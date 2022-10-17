@@ -61,7 +61,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         N2oWidget widget = source.getWidget();
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
         widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
-        PageScope pageScope = initPageScope(page.getId(), widget, context);
+        PageScope pageScope = initPageScope(page.getId(), widget, context, p);
         PageRoutes routes = initRoute(pageRoute);
         ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
@@ -88,7 +88,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         return page;
     }
 
-    private PageScope initPageScope(String pageId, N2oWidget widget, PageContext context) {
+    private PageScope initPageScope(String pageId, N2oWidget widget, PageContext context, CompileProcessor p) {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(pageId);
         pageScope.setResultWidgetId(widget.getId());
@@ -101,7 +101,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         pageScope.getWidgetIdSourceDatasourceMap().putAll(Map.of(widget.getId(),
                 widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId()));
         pageScope.getWidgetIdClientDatasourceMap().putAll(Map.of(getClientWidgetId(widget.getId(), pageId),
-                getClientDatasourceId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId(), pageId)));
+                getClientDatasourceId(widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId(), pageId, p)));
         if (context.getParentWidgetIdDatasourceMap() != null)
             pageScope.getWidgetIdClientDatasourceMap().putAll(context.getParentWidgetIdDatasourceMap());
         return pageScope;

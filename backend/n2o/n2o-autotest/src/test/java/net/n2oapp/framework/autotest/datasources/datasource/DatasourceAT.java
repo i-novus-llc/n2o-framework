@@ -150,7 +150,7 @@ public class DatasourceAT extends AutoTestBase {
 
         page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class)
                 .toolbar().topLeft().button("Создать").click();
-        page.breadcrumb().titleShouldHaveText("Создание записи");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
 
         InputText nameInput = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
                 .fields().field("Имя").control(InputText.class);
@@ -176,14 +176,16 @@ public class DatasourceAT extends AutoTestBase {
         organizationInput.shouldBeEnabled();
         organizationInput.val("Сбербанк");
         saveButton.click();
-        page.breadcrumb().titleShouldHaveText("Сохранение нескольких форм одной кнопкой");
+
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Сохранение нескольких форм одной кнопкой");
 
         table.columns().rows().row(0).cell(0).textShouldHave("Сергей");
         table.columns().rows().row(0).click();
 
         page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class)
                 .toolbar().topLeft().button("Изменить").click();
-        page.breadcrumb().titleShouldHaveText("Создание записи");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
 
         nameInput.shouldHaveValue("Сергей");
         tabs.tab(1).click();

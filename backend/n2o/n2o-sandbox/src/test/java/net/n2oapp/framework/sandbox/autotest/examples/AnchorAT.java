@@ -42,7 +42,7 @@ public class AnchorAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Поиск в яндексе");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Поиск в яндексе");
 
         Button button = page.widget(FormWidget.class).toolbar().bottomLeft()
                 .button("Найти");

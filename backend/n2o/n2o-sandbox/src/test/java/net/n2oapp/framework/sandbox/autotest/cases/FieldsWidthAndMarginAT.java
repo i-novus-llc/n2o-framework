@@ -48,7 +48,7 @@ public class FieldsWidthAndMarginAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Поля");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Поля");
     }
 
     @Override

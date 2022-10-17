@@ -68,10 +68,11 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         // test title in open page
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Page name=test3 type=type2");
-        open.breadcrumb().clickLink("Start page");
+        open.breadcrumb().crumb(1).shouldHaveLabel("Page name=test3 type=type2");
+        open.breadcrumb().crumb(0).click();
 
-        page.breadcrumb().titleShouldHaveText("Start page");
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Start page");
         table.columns().rows().row(2).click();
         tableToolbar.button("Modal").click();
 
@@ -87,11 +88,13 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         Toolbar formToolbar = form.toolbar().bottomLeft();
         formToolbar.button("Open page from master").click();
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Page name=test2 type=type1");
-        open.breadcrumb().clickLink("Start page");
+        open.breadcrumb().shouldHaveSize(2);
+        open.breadcrumb().crumb(1).shouldHaveLabel("Page name=test2 type=type1");
+        open.breadcrumb().crumb(0).click();
 
         // test title in modal (opened from dependent widget)
-        page.breadcrumb().titleShouldHaveText("Start page");
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Start page");
         table.columns().rows().row(1).click();
         formToolbar.button("Modal from detail").click();
         modal.shouldExists();
@@ -123,10 +126,12 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         // test title in open page
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Page id=3 name=test3 type=type2");
-        open.breadcrumb().clickLink("Start page");
+        open.breadcrumb().shouldHaveSize(2);
+        open.breadcrumb().crumb(1).shouldHaveLabel("Page id=3 name=test3 type=type2");
+        open.breadcrumb().crumb(0).click();
 
-        page.breadcrumb().titleShouldHaveText("Start page");
+        open.breadcrumb().shouldHaveSize(1);
+        open.breadcrumb().crumb(0).shouldHaveLabel("Start page");
         // lost query parameter after returning from open page
         table.columns().rows().row(2).click();
         tableToolbar.button("Modal").click();
@@ -143,11 +148,13 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         Toolbar formToolbar = form.toolbar().bottomLeft();
         formToolbar.button("Open page from master").click();
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Page id=2 name=test2 type=type1");
-        open.breadcrumb().clickLink("Start page");
+        open.breadcrumb().shouldHaveSize(2);
+        open.breadcrumb().crumb(1).shouldHaveLabel("Page id=2 name=test2 type=type1");
+        open.breadcrumb().crumb(0).click();
 
         // test title in modal (opened from dependent widget)
-        page.breadcrumb().titleShouldHaveText("Start page");
+        open.breadcrumb().shouldHaveSize(1);
+        open.breadcrumb().crumb(0).shouldHaveLabel("Start page");
         // lost query parameter after returning from open page
         table.columns().rows().row(1).click();
         formToolbar.button("Modal from detail").click();
@@ -164,7 +171,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Разрешение заголовка страницы по константному параметру");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Разрешение заголовка страницы по константному параметру");
         page.toolbar().topLeft().button("Открыть").click();
 
         page.shouldExists();

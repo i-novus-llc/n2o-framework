@@ -47,7 +47,7 @@ public class SetValueAT extends AutoTestBase {
     @Test
     public void testSetValue() {
         SimplePage page = open(SimplePage.class);
-        page.breadcrumb().titleShouldHaveText("Действие set-value");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Действие set-value");
         page.shouldExists();
 
         // вычисление значения

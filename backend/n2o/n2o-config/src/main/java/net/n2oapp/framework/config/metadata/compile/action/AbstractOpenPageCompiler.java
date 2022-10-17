@@ -33,8 +33,10 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.StringUtils.isLink;
@@ -130,12 +132,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
 
         String currentClientWidgetId = null;
-        String currentWidgetId = null;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
+        if (widgetScope != null)
             currentClientWidgetId = widgetScope.getClientWidgetId();
-            currentWidgetId = widgetScope.getWidgetId();
-        }
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId, pageScope,
@@ -151,10 +150,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.setParentWidgetIdDatasourceMap(pageScope.getWidgetIdClientDatasourceMap());
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
-        String targetDS = source.getTargetDatasourceId();
-        if (pageScope != null && targetDS == null && currentWidgetId != null) {
-            targetDS = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
-        }
+
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
@@ -163,18 +159,27 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitLabel(source.getSubmitLabel());
         pageContext.setSubmitModel(source.getSubmitModel());
         pageContext.setSubmitActionType(source.getSubmitActionType());
+        // copy
         pageContext.setCopyModel(source.getCopyModel());
         pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
+        pageContext.setCopyPage(source.getCopyPage());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
-        pageContext.setTargetDatasourceId(targetDS);
+        pageContext.setTargetDatasourceId(computeTargetDatasource(source, pageScope, componentScope, widgetScope));
+        pageContext.setTargetPage(source.getTargetPage());
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
+
         if (source.getDatasources() != null)
             pageContext.setDatasources(Arrays.asList(source.getDatasources()));
+        pageContext.setParentDatasourceIdsMap(
+                p.getScope(DataSourcesScope.class).keySet().stream()
+        .collect(Collectors.toMap(Function.identity(), ds -> getClientDatasourceId(ds, p))));
+        // TODO - убрать
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
         if (dataSourcesScope != null)
             pageContext.setParentDatasources(new HashMap<>(dataSourcesScope));
+
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
@@ -219,6 +224,23 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
+    }
+
+    private String computeTargetDatasource(S source, PageScope pageScope, ComponentScope componentScope, WidgetScope widgetScope) {
+        String currentWidgetId = null;
+        if (widgetScope != null) {
+            currentWidgetId = widgetScope.getWidgetId();
+        }
+
+        String targetDatasourceId = source.getTargetDatasourceId();
+        if (pageScope != null && targetDatasourceId == null) {
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (nonNull(datasourceIdAware) && nonNull(datasourceIdAware.getDatasourceId()))
+                targetDatasourceId = datasourceIdAware.getDatasourceId();
+            else if (currentWidgetId != null)
+                targetDatasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
+        }
+        return targetDatasourceId;
     }
 
     private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
