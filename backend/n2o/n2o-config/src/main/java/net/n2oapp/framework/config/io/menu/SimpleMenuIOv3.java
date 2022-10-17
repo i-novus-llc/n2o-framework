@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
-import net.n2oapp.framework.api.metadata.meta.badge.BadgeIO;
+import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -13,7 +13,7 @@ import org.jdom2.Namespace;
 /**
  * Чтение/запись меню 3.0
  */
-public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, BadgeIO<N2oSimpleMenu.MenuItem> {
+public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, BadgeAwareIO<N2oSimpleMenu.MenuItem> {
 
     private final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 

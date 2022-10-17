@@ -24,11 +24,6 @@ public class EditCellElementIOv2 extends AbstractActionCellElementIOv2<N2oEditCe
     }
 
     @Override
-    public String actionSequenceTag() {
-        return null;
-    }
-
-    @Override
     public String getElementName() {
         return "edit";
     }

@@ -17,6 +17,10 @@
                         place="topLeft"
                 />
             </statuses>
+            <actions>
+                <invoke operation-id="op1"/>
+                <a href="/test"/>
+            </actions>
         </image>
     </fields>
 </form>

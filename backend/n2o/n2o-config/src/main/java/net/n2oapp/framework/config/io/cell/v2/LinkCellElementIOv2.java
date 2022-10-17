@@ -1,11 +1,9 @@
 package net.n2oapp.framework.config.io.cell.v2;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.action.ActionIOv1;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +20,6 @@ public class LinkCellElementIOv2 extends AbstractActionCellElementIOv2<N2oLinkCe
         p.attributeEnum(e, "type", c::getType, c::setType, IconType.class);
         p.attribute(e, "url", c::getUrl, c::setUrl);
         p.attributeEnum(e, "target", c::getTarget, c::setTarget, Target.class);
-    }
-
-    @Override
-    public String actionSequenceTag() {
-        return null;
     }
 
     @Override

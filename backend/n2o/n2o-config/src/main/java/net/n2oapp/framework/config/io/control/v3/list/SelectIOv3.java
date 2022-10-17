@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.control.v3.list;
 import net.n2oapp.framework.api.metadata.control.list.ListType;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelect;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.badge.BadgeIO;
+import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись компонента выбора из выпадающего списка версии 3.0
  */
 @Component
-public class SelectIOv3 extends ListFieldIOv3<N2oSelect> implements BadgeIO<N2oSelect> {
+public class SelectIOv3 extends ListFieldIOv3<N2oSelect> implements BadgeAwareIO<N2oSelect> {
 
     @Override
     public void io(Element e, N2oSelect m, IOProcessor p) {

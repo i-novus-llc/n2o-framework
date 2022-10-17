@@ -1,13 +1,15 @@
-package net.n2oapp.framework.api.metadata.meta.badge;
+package net.n2oapp.framework.config.io.common;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import org.jdom2.Element;
 
 /**
  * Интерфейс чтения/записи компонентов {@link BadgeAware}
  */
-public interface BadgeIO<T extends BadgeAware> {
+public interface BadgeAwareIO<T extends BadgeAware> {
 
     /**
      * Чтение/запись элемента, не использующего ссылки на поля

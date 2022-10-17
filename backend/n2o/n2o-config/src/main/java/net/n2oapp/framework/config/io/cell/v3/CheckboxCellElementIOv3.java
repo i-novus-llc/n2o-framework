@@ -18,11 +18,6 @@ public class CheckboxCellElementIOv3 extends AbstractActionCellElementIOv3<N2oCh
     }
 
     @Override
-    public String actionsSequenceTag() {
-        return null;
-    }
-
-    @Override
     public String getElementName() {
         return "checkbox";
     }

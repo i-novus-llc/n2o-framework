@@ -18,11 +18,6 @@ public class CustomCellElementIOv3 extends AbstractActionCellElementIOv3<N2oCust
     }
 
     @Override
-    public String actionsSequenceTag() {
-        return null;
-    }
-
-    @Override
     public Class<N2oCustomCell> getElementClass() {
         return N2oCustomCell.class;
     }

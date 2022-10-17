@@ -23,11 +23,6 @@ public class LinkCellElementIOv3 extends AbstractActionCellElementIOv3<N2oLinkCe
     }
 
     @Override
-    public String actionsSequenceTag() {
-        return null;
-    }
-
-    @Override
     public String getElementName() {
         return "link";
     }

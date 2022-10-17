@@ -20,11 +20,6 @@ public class RatingCellElementIOv3 extends AbstractActionCellElementIOv3<N2oRati
     }
 
     @Override
-    public String actionsSequenceTag() {
-        return null;
-    }
-
-    @Override
     public Class<N2oRatingCell> getElementClass() {
         return N2oRatingCell.class;
     }

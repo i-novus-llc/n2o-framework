@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.widget.v5;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.badge.BadgeIO;
+import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись виджета дерево
  */
 @Component
-public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> implements BadgeIO<N2oTree> {
+public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> implements BadgeAwareIO<N2oTree> {
 
     @Override
     public void io(Element e, N2oTree m, IOProcessor p) {

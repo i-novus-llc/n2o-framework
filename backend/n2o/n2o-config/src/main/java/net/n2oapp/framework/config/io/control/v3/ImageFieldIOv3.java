@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись компонента вывода изображения
  */
 @Component
-public class ImageFieldIOv3 extends FieldIOv3<N2oImageField> {
+public class ImageFieldIOv3 extends ActionFieldIOv3<N2oImageField> {
 
     @Override
     public void io(Element e, N2oImageField m, IOProcessor p) {
@@ -34,6 +34,11 @@ public class ImageFieldIOv3 extends FieldIOv3<N2oImageField> {
         p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attributeEnum(e, "place", c::getPlace, c::setPlace, ImageStatusElementPlace.class);
+    }
+
+    @Override
+    public String actionsSequenceTag() {
+        return "actions";
     }
 
     @Override
