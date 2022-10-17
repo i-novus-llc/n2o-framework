@@ -113,6 +113,8 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="switch" type="acn:switchDefinition" minOccurs="0"/>
+                    <xs:group ref="acn:ifElseDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>

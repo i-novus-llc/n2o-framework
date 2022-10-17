@@ -1380,4 +1380,103 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
+    <xs:complexType name="switchDefinition">
+        <xs:annotation>
+            <xs:documentation>Переключатель действий</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" type="caseDefinition" minOccurs="0"/>
+            <xs:element name="default" type="defaultCaseDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="value-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля, значение которого будет сравниваться с value в вариантах переключателя
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных, из которого будет взят value-field-id</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="clientModel">
+            <xs:annotation>
+                <xs:documentation>Модель источника данных, из которой будет взят value-field-id</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="caseDefinition">
+        <xs:annotation>
+            <xs:documentation>Вариант переключателя</xs:documentation>
+        </xs:annotation>
+        <xs:group ref="actionsDef" minOccurs="0"/>
+        <xs:attribute name="value" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Значение, с которым сравнивается value-field-id</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="defaultCaseDefinition">
+        <xs:annotation>
+            <xs:documentation>Вариант действия по умолчанию</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsDef" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:group name="ifElseDefinition">
+        <xs:annotation>
+            <xs:documentation>Условия if/else</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="if" type="ifDefinition" minOccurs="0"/>
+            <xs:element name="else-if" type="ifDefinition" minOccurs="0"/>
+            <xs:element name="else" type="elseDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:complexType name="ifDefinition">
+        <xs:annotation>
+            <xs:documentation>Условный оператор</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsDef" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="test" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие для выполнения действия условного оператора</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля, значение которого будет сравниваться с value в вариантах переключателя
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных, из которого будут браться значения для test</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="clientModel">
+            <xs:annotation>
+                <xs:documentation>Модель источника данных, из которой будут браться значения для test</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="elseDefinition">
+        <xs:annotation>
+            <xs:documentation>Условный оператор else</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsDef" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>

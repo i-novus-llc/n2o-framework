@@ -85,6 +85,8 @@
             <xs:extension base="cellDefinition">
                 <xs:sequence>
                     <xs:group ref="acn:actionsDef"/>
+                    <xs:element name="switch" type="acn:switchDefinition" minOccurs="0"/>
+                    <xs:group ref="acn:ifElseDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
@@ -271,6 +273,8 @@
                 <xs:sequence>
                     <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
                     <xs:element name="action" type="acn:actions" minOccurs="0"/>
+                    <xs:element name="switch" type="acn:switchDefinition" minOccurs="0"/>
+                    <xs:group ref="acn:ifElseDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="width" type="xs:integer">
                     <xs:annotation>
@@ -331,6 +335,8 @@
                     <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="action" type="acn:actions" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="switch" type="acn:switchDefinition" minOccurs="0"/>
+                    <xs:group ref="acn:ifElseDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
@@ -573,7 +579,9 @@
         </xs:sequence>
         <xs:attribute name="value-field-id" type="xs:string" use="optional">
             <xs:annotation>
-                <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор поля, значение которого будет сравниваться с value в вариантах переключателя.
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
