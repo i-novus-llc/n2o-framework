@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import uniqueId from 'lodash/uniqueId'
 import isString from 'lodash/isString'
 import map from 'lodash/map'
+import get from 'lodash/get'
 
 import withTooltip from '../../withTooltip'
 
@@ -54,7 +55,7 @@ class CollapsedCell extends React.Component {
                     {map(items, item => (
                         <React.Fragment key={uniqueId('collapsed-cell')}>
                             <span className={labelClasses}>
-                                {isString(item) ? item : item[labelFieldId]}
+                                {isString(item) ? item : get(item, labelFieldId)}
                             </span>
                             {' '}
                         </React.Fragment>
