@@ -67,7 +67,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String targetDatasourceId;
     /**
-     *
+     * Ссылка на страницу целевого источника данных
      */
     private PageRef targetPage;
     /**
@@ -100,7 +100,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String parentLocalDatasourceId;
     /**
-     * Родительская страница (клиентский), в которой находилось действие
+     * Клиентский идентификатор родительской страницы, в которой находилось действие
      */
     private String parentClientPageId;
     /**
@@ -151,24 +151,18 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Соответствия идентификаторов с клиентскими идентификаторами источников данных родительской страницы
      */
     private Map<String, String> parentDatasourceIdsMap;
-
-    private Map<String, N2oAbstractDatasource> parentDatasources;
-
     /**
      * Клиентский идентификатор страницы
      */
     private String clientPageId;
-
     /**
      * Соответствия идентификаторов виджета с источником данных в родительском виджете
      */
     private Map<String, String> parentWidgetIdDatasourceMap;
-
     /**
      * Список идентификаторов таб регионов
      */
     private Set<String> parentTabIds;
-
     /**
      * Список всех родительских маршрутов
      */

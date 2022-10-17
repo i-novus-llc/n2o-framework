@@ -175,10 +175,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentDatasourceIdsMap(
                 p.getScope(DataSourcesScope.class).keySet().stream()
         .collect(Collectors.toMap(Function.identity(), ds -> getClientDatasourceId(ds, p))));
-        // TODO - убрать
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-        if (dataSourcesScope != null)
-            pageContext.setParentDatasources(new HashMap<>(dataSourcesScope));
 
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
