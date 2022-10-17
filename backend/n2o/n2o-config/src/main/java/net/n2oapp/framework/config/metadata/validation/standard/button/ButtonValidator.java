@@ -5,9 +5,14 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * Валидатор исходной модели кнопки
@@ -26,8 +31,8 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
         checkDatasource(source, datasourceIdsScope);
         checkValidateDatasource(source, datasourceIdsScope);
 
-//        if (source.getAction() != null)FIXME
-//            p.validate(source.getAction(), new ComponentScope(source, p.getScope(ComponentScope.class)));
+        if (isNotEmpty(source.getActions()))
+            Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
     }
 
     /**

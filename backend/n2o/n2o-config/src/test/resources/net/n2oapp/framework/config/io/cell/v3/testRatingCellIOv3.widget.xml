@@ -3,7 +3,7 @@
     <columns>
         <column text-field-id="test">
             <rating src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                    max="10" half="true" show-tooltip="true" readonly="false" action-ids="updateRating,delete"/>
+                    max="10" half="true" show-tooltip="true" readonly="false" action-id="updateRating"/>
         </column>
         <column text-field-id="test2">
             <rating>
@@ -12,7 +12,7 @@
             </rating>
         </column>
         <column text-field-id="test3">
-            <rating action-ids="testAction"/>
+            <rating action-id="testAction"/>
         </column>
     </columns>
 </table>

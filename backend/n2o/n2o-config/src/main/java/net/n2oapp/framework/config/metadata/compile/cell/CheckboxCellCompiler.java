@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 @Component
 public class CheckboxCellCompiler extends AbstractCellCompiler<CheckboxCell, N2oCheckboxCell> {
@@ -22,7 +23,7 @@ public class CheckboxCellCompiler extends AbstractCellCompiler<CheckboxCell, N2o
         CheckboxCell cell = new CheckboxCell();
         if (source.getEnabled() != null) {
             cell.setDisabled(ScriptProcessor.invertExpression(source.getEnabled()));
-        } else if (source.getActionIds() == null && source.getN2oActions() == null) {
+        } else if (source.getActionId() == null && isEmpty(source.getActions())) {
             cell.setDisabled("true");
         }
 

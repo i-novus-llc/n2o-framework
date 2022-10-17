@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
+import net.n2oapp.framework.api.metadata.aware.SourceActionsAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 
@@ -18,14 +19,15 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oButton extends N2oAbstractButton implements GroupItem, DatasourceIdAware, WidgetIdAware, ModelAware {
+public class N2oButton extends N2oAbstractButton implements GroupItem, DatasourceIdAware, WidgetIdAware,
+        ModelAware, SourceActionsAware {
+    private String actionId;
     private Boolean rounded;
     private String enabled;
     private Boolean validate;
     private String datasourceId;
     private ReduxModel model;
     private String[] validateDatasourceIds;
-    private String[] actionIds;
     private N2oAction[] actions;
 
     private String confirm;

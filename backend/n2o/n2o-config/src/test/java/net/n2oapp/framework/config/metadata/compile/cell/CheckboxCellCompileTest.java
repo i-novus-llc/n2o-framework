@@ -50,6 +50,6 @@ public class CheckboxCellCompileTest extends SourceCompileTestBase {
 
         cell = (CheckboxCell) table.getComponent().getCells().get(2);
         assertThat(cell.getDisabled(), nullValue());
-        assertThat(cell.getActions().get(0), instanceOf(LinkActionImpl.class));
+        assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }
 }

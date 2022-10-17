@@ -3,7 +3,7 @@
     <columns>
         <column text-field-id="test">
             <checkbox src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                  action-ids="create,update" enabled="false">
+                  action-id="update" enabled="false">
                 <close/>
                 <open-page page-id="test"/>
             </checkbox>

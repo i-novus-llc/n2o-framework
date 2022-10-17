@@ -41,7 +41,7 @@ public class CheckboxCellBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testCheckboxCellBinderShowModal", "/p/w/:id/modal");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("id", "2"));
         CheckboxCell checkboxCell = (CheckboxCell) ((Table) page.getWidget()).getComponent().getCells().get(0);
-        ClientDataProvider dataProvider = ((InvokeAction) checkboxCell.getActions().get(0)).getPayload().getDataProvider();
+        ClientDataProvider dataProvider = ((InvokeAction) checkboxCell.getAction()).getPayload().getDataProvider();
         assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/vip"));
     }
 }

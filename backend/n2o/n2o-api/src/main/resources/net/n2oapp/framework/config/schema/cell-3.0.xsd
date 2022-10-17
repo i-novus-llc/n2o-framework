@@ -86,9 +86,9 @@
                 <xs:sequence>
                     <xs:group ref="acn:actionsDef"/>
                 </xs:sequence>
-                <xs:attribute name="action-ids" type="xs:string">
+                <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Действия виджета, которые будут вызваны при клике по ячейке.</xs:documentation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при клике по ячейке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -270,16 +270,16 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="statuses" type="ctr2:statusesType" minOccurs="0"/>
-                    <xs:element name="actions" type="acn:actions" minOccurs="0"/>
+                    <xs:element name="action" type="acn:actions" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="width" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Ширина изображения (px).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="action-ids" type="xs:string">
+                <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Действия, которые выполнятся при клике по изображению.</xs:documentation>
+                        <xs:documentation>Действие, которое выполнится при клике по изображению.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="shape" type="shapeType" default="square">
@@ -330,11 +330,11 @@
                     <xs:element name="date-time" type="ctr2:controlDatePickerDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="actions" type="acn:actions" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="action" type="acn:actions" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
-                <xs:attribute name="action-ids" type="xs:string" use="optional">
+                <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Действия виджета, которые выполнятся при завершении редактирования.
+                        <xs:documentation>Действие виджета, которое выполнится при завершении редактирования.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

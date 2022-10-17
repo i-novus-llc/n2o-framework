@@ -92,7 +92,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("first"));
         assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("second"));
 
-        InvokeAction submit = (InvokeAction) openPage.getToolbar().getButton("submit").getActions().get(0);
+        InvokeAction submit = (InvokeAction) openPage.getToolbar().getButton("submit").getAction();
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/action1/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
@@ -106,7 +106,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         ActionContext submitContext = (ActionContext) route("/page/action1/submit", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());
 
-        LinkActionImpl close = (LinkActionImpl) openPage.getToolbar().getButton("close").getActions().get(0);
+        LinkActionImpl close = (LinkActionImpl) openPage.getToolbar().getButton("close").getAction();
         assertThat(close.getUrl(), is("/page"));
         assertThat(close.getTarget(), is(Target.application));
 
@@ -119,7 +119,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
-        LinkActionImpl action = (LinkActionImpl) page.getWidget().getToolbar().getButton("id2").getActions().get(0);
+        LinkActionImpl action = (LinkActionImpl) page.getWidget().getToolbar().getButton("id2").getAction();
         assertThat(action.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
         assertThat(action.getPathMapping().get("page_test_id").getValue(), is("`id`"));
         assertThat(action.getQueryMapping().size(), is(0));
@@ -149,7 +149,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(provider.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
         assertThat(provider.getPathMapping().get("page_test_id").getValue(), is("`id`"));
 
-        InvokeAction submit = (InvokeAction) openPage.getToolbar().getButton("submit").getActions().get(0);
+        InvokeAction submit = (InvokeAction) openPage.getToolbar().getButton("submit").getAction();
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/:page_test_id/action2/submit"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
@@ -162,7 +162,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         ActionContext submitContext = (ActionContext) route("/page/123/action2/submit", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());
 
-        LinkActionImpl close = (LinkActionImpl) openPage.getToolbar().getButton("close").getActions().get(0);
+        LinkActionImpl close = (LinkActionImpl) openPage.getToolbar().getButton("close").getAction();
         assertThat(close.getUrl(), is("/page"));
         assertThat(close.getTarget(), is(Target.application));
         PageRoutes.Route action2 = page.getRoutes().findRouteByUrl("/page/:page_test_id/action2");
@@ -318,7 +318,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
 
-        LinkActionImpl linkAction = (LinkActionImpl) page.getWidget().getToolbar().getButton("masterDetail").getActions().get(0);
+        LinkActionImpl linkAction = (LinkActionImpl) page.getWidget().getToolbar().getButton("masterDetail").getAction();
         assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
         assertThat(linkAction.getPathMapping().get("page_test_id").getValue(), is("`id`"));
         assertThat(linkAction.getQueryMapping().get("name").getBindLink(), is("models.filter['page_test']"));
@@ -418,7 +418,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(((StandardDatasource) p2.getDatasources().get("testOpenPageMasterParam_modalDetail")).getProvider().getUrl(), is("n2o/data/testOpenPageMasterParam/detail2"));
         assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam"), notNullValue());
 
-        ShowModal showModal = (ShowModal) ((Form) p2.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("byName").getActions().get(0);
+        ShowModal showModal = (ShowModal) ((Form) p2.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("byName").getAction();
         assertThat(showModal.getPayload().getPageUrl(), is("/testOpenPageMasterParam/byName"));
         Map<String, ModelLink> pathMapping = showModal.getPayload().getPathMapping();
         Map<String, ModelLink> queryMapping = showModal.getPayload().getQueryMapping();
@@ -546,11 +546,11 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testSimpleOpenPage.page.xml")
                 .get(new PageContext("testSimpleOpenPage"));
         Toolbar toolbar =  page.getWidget().getToolbar();
-        LinkAction link = (LinkAction) toolbar.getButton("id1").getActions().get(0);
+        LinkAction link = (LinkAction) toolbar.getButton("id1").getAction();
         assertThat(link.getUrl(), is("/testSimpleOpenPage/id1"));
         assertThat(link.getTarget(), is(Target.application));
 
-        link = (LinkAction) toolbar.getButton("id2").getActions().get(0);
+        link = (LinkAction) toolbar.getButton("id2").getAction();
         assertThat(link.getUrl(), is("#/testSimpleOpenPage/view"));
         assertThat(link.getTarget(), is(Target.newWindow));
     }

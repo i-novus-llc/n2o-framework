@@ -41,7 +41,7 @@ public class EditCellBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testEditCellBinder", "/p/w/:id/modal");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("id", "2"));
         EditCell editCell = (EditCell) ((Table) page.getWidget()).getComponent().getCells().get(0);
-        ClientDataProvider dataProvider = ((InvokeAction) editCell.getActions().get(0)).getPayload().getDataProvider();
+        ClientDataProvider dataProvider = ((InvokeAction) editCell.getAction()).getPayload().getDataProvider();
         assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/actionTest"));
     }
 }

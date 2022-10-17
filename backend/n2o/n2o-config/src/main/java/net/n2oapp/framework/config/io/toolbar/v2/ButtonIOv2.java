@@ -27,7 +27,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
     @Override
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
-        p.attributeArray(e, "action-ids", ",", b::getActionIds, b::setActionIds);
+        p.attribute(e, "action-id", b::getActionId, b::setActionId);
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
         p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasourceIds, b::setValidateDatasourceIds);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);

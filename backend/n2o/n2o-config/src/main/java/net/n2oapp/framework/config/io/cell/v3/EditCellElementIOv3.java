@@ -20,12 +20,12 @@ public class EditCellElementIOv3 extends AbstractActionCellElementIOv3<N2oEditCe
         p.attributeEnum(e, "type", c::getEditType, c::setEditType, EditType.class);
         p.attribute(e, "format", c::getFormat, c::setFormat);
         p.attribute(e, "enabled", c::getEnabled, c::setEnabled);
-        p.anyChild(e, null, c::getN2oField, c::setN2oField, p.anyOf(N2oField.class).ignore("actions"), FieldIOv3.NAMESPACE);
+        p.anyChild(e, null, c::getN2oField, c::setN2oField, p.anyOf(N2oField.class).ignore("action"), FieldIOv3.NAMESPACE);
     }
 
     @Override
     public String actionsSequenceTag() {
-        return "actions";
+        return "action";
     }
 
     @Override

@@ -60,7 +60,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
-                .getToolbar().getButton("withParam").getActions().get(0);
+                .getToolbar().getButton("withParam").getAction();
         assertThat(action.getUrl(), is("/test/:masterId/detail/:detailId/open1"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
@@ -76,7 +76,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
-                .getToolbar().getButton("withoutParam").getActions().get(0);
+                .getToolbar().getButton("withoutParam").getAction();
         assertThat(action.getUrl(), is("/test/open2"));
         assertThat(action.getQueryMapping().size(), is(1));
     }
@@ -91,7 +91,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
-                .getToolbar().getButton("withParamWithoutMasterDetail").getActions().get(0);
+                .getToolbar().getButton("withParamWithoutMasterDetail").getAction();
         assertThat(action.getUrl(), is("/test/:detailId/open3"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
@@ -109,7 +109,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testMasterWidgetWithParams.page.xml")
                 .get(new PageContext("testMasterWidgetWithParams", "/test"));
         OpenDrawer action = (OpenDrawer) ((ButtonField) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
-                .getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getActions().get(0);
+                .getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
@@ -132,7 +132,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testDependentWidgetWithParams", "/test"));
 
         OpenDrawer action = (OpenDrawer) ((ButtonField) ((Form) page.getRegions().get("single").get(0).getContent().get(1))
-                .getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getActions().get(0);
+                .getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
@@ -157,7 +157,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testDependentWidgetsToolbarWithParams", "/test"));
 
         OpenDrawer action = (OpenDrawer) ((Form) page.getRegions().get("single").get(0).getContent().get(1))
-                .getToolbar().get("topLeft").get(0).getButtons().get(0).getActions().get(0);
+                .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
@@ -180,7 +180,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testPageToolbarWithParams.page.xml")
                 .get(new PageContext("testPageToolbarWithParams", "/test"));
 
-        OpenDrawer action = (OpenDrawer) page.getToolbar().getButton("mi0").getActions().get(0);
+        OpenDrawer action = (OpenDrawer) page.getToolbar().getButton("mi0").getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
@@ -203,7 +203,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         // with itself model and widget-id
         ShowModal action = (ShowModal) ((Form) page.getRegions().get("single").get(0).getContent().get(1))
-                .getToolbar().get("topLeft").get(0).getButtons().get(0).getActions().get(0);
+                .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(1));
         assertThat(pathMapping.get("id").getBindLink(), is("models.resolve['test_master']"));
@@ -211,7 +211,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         // with default (from button) model and widget-id
         action = (ShowModal) ((Form) page.getRegions().get("single").get(0).getContent().get(2))
-                .getToolbar().get("topLeft").get(0).getButtons().get(0).getActions().get(0);
+                .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
         pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(1));
         assertThat(pathMapping.get("id").getBindLink(), is("models.filter['test_dependent2']"));
@@ -227,22 +227,22 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
 
-        LinkActionImpl routeWithResolveModel = (LinkActionImpl) toolbar.getButton("btn1").getActions().get(0);
+        LinkActionImpl routeWithResolveModel = (LinkActionImpl) toolbar.getButton("btn1").getAction();
         assertThat(routeWithResolveModel.getUrl(), is("/test/update"));
         assertThat(routeWithResolveModel.getPathMapping().isEmpty(), is(true));
         assertThat(routeWithResolveModel.getQueryMapping().isEmpty(), is(true));
 
-        LinkActionImpl routeWithFilterModel = (LinkActionImpl) toolbar.getButton("btn2").getActions().get(0);
+        LinkActionImpl routeWithFilterModel = (LinkActionImpl) toolbar.getButton("btn2").getAction();
         assertThat(routeWithFilterModel.getUrl(), is("/test/update"));
         assertThat(routeWithFilterModel.getPathMapping().isEmpty(), is(true));
         assertThat(routeWithFilterModel.getQueryMapping().isEmpty(), is(true));
 
-        LinkActionImpl routeWithMasterParam = (LinkActionImpl) toolbar.getButton("btn3").getActions().get(0);
+        LinkActionImpl routeWithMasterParam = (LinkActionImpl) toolbar.getButton("btn3").getAction();
         assertThat(routeWithMasterParam.getUrl(), is("/test/update"));
         assertThat(routeWithMasterParam.getPathMapping().isEmpty(), is(true));
         assertThat(routeWithMasterParam.getQueryMapping().isEmpty(), is(true));
 
-        LinkActionImpl routeWithDetailFieldId = (LinkActionImpl) toolbar.getButton("btn4").getActions().get(0);
+        LinkActionImpl routeWithDetailFieldId = (LinkActionImpl) toolbar.getButton("btn4").getAction();
         assertThat(routeWithDetailFieldId.getUrl(), is("/test/update"));
         assertThat(routeWithDetailFieldId.getPathMapping().isEmpty(), is(true));
         assertThat(routeWithDetailFieldId.getQueryMapping().isEmpty(), is(true));
@@ -258,12 +258,12 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
 
-        LinkActionImpl actionWithResolveModel = (LinkActionImpl) toolbar.getButton("btn5").getActions().get(0);
+        LinkActionImpl actionWithResolveModel = (LinkActionImpl) toolbar.getButton("btn5").getAction();
         assertThat(actionWithResolveModel.getUrl(), is("/test/btn5"));
         assertThat(actionWithResolveModel.getPathMapping().isEmpty(), is(true));
         assertThat(actionWithResolveModel.getQueryMapping().isEmpty(), is(true));
 
-        LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn6").getActions().get(0);
+        LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn6").getAction();
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn6"));
         assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
         assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true));
@@ -278,14 +278,14 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
 
-        LinkActionImpl actionWithResolveModel = (LinkActionImpl) toolbar.getButton("btn7").getActions().get(0);
+        LinkActionImpl actionWithResolveModel = (LinkActionImpl) toolbar.getButton("btn7").getAction();
         assertThat(actionWithResolveModel.getUrl(), is("/test/btn7"));
         assertThat(actionWithResolveModel.getPathMapping().isEmpty(), is(true));
         assertThat(actionWithResolveModel.getQueryMapping().size(), is(1));
         assertThat(actionWithResolveModel.getQueryMapping().containsKey("test_form_id"), is(true));
         assertThat(actionWithResolveModel.getQueryMapping().get("test_form_id").normalizeLink(), is("models.resolve['test_form'].id"));
 
-        LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn8").getActions().get(0);
+        LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn8").getAction();
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn8"));
         assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
 //        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true)); todo этот кейс не работает, т.к. в adaptV1 невозможно получить model из кнопки
@@ -300,13 +300,13 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
 
-        LinkActionImpl actionWithResolveModel = (LinkActionImpl) toolbar.getButton("btn9").getActions().get(0);
+        LinkActionImpl actionWithResolveModel = (LinkActionImpl) toolbar.getButton("btn9").getAction();
         assertThat(actionWithResolveModel.getUrl(), is("/test/btn9"));
         assertThat(actionWithResolveModel.getPathMapping().isEmpty(), is(true));
         assertThat(actionWithResolveModel.getQueryMapping().size(), is(1));
         assertThat(actionWithResolveModel.getQueryMapping().containsKey("master_id"), is(true));
 
-        LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn10").getActions().get(0);
+        LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn10").getAction();
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn10"));
         assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
         //query param будет несмотря на model=filter т.к. detail-field-id есть
@@ -323,12 +323,12 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRoute", "/test"));
         Toolbar toolbar = page.getWidget().getToolbar();
 
-        LinkActionImpl actionWithResolveModel = (LinkActionImpl) toolbar.getButton("btn11").getActions().get(0);
+        LinkActionImpl actionWithResolveModel = (LinkActionImpl) toolbar.getButton("btn11").getAction();
         assertThat(actionWithResolveModel.getUrl(), is("/test/btn11"));
         assertThat(actionWithResolveModel.getPathMapping().isEmpty(), is(true));
         assertThat(actionWithResolveModel.getQueryMapping().isEmpty(), is(true));
 
-        LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn12").getActions().get(0);
+        LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn12").getAction();
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn12"));
         assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
         assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true));
@@ -346,7 +346,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(3)).getToolbar()
                 .get("topLeft").get(0).getButtons();
 
-        LinkActionImpl action = (LinkActionImpl) buttons.get(0).getActions().get(0);
+        LinkActionImpl action = (LinkActionImpl) buttons.get(0).getAction();
         assertThat(action.getPathMapping().size(), is(2));
         assertThat(action.getQueryMapping().size(), is(2));
         assertThat(action.getPathMapping().get("param1").getSubModelQuery().getQueryId(), is("testOpenPageRoute"));
@@ -354,13 +354,13 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         assertThat(action.getQueryMapping().get("param2").getSubModelQuery().getQueryId(), is("testOpenPageRoute"));
         assertThat(action.getQueryMapping().get("param4").getSubModelQuery(), nullValue());
 
-        action = (LinkActionImpl) buttons.get(1).getActions().get(0);
+        action = (LinkActionImpl) buttons.get(1).getAction();
         assertThat(action.getPathMapping().size(), is(1));
         assertThat(action.getQueryMapping().size(), is(1));
         assertThat(action.getPathMapping().get("param5").getSubModelQuery().getQueryId(), is("testRefbook"));
         assertThat(action.getQueryMapping().get("param6").getSubModelQuery().getQueryId(), is("testRefbook"));
 
-        action = (LinkActionImpl) buttons.get(2).getActions().get(0);
+        action = (LinkActionImpl) buttons.get(2).getAction();
         assertThat(action.getPathMapping().size(), is(1));
         assertThat(action.getQueryMapping().size(), is(1));
         assertThat(action.getPathMapping().get("param7").getSubModelQuery().getQueryId(), is("utBlank2"));
@@ -377,7 +377,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testSimplePageParamsSubModel", "/test"));
         List<AbstractButton> buttons = page.getWidget().getToolbar().get("topLeft").get(0).getButtons();
 
-        LinkActionImpl action = (LinkActionImpl) buttons.get(0).getActions().get(0);
+        LinkActionImpl action = (LinkActionImpl) buttons.get(0).getAction();
         assertThat(action.getPathMapping().size(), is(1));
         assertThat(action.getQueryMapping().size(), is(1));
         assertThat(action.getPathMapping().get("param7").getSubModelQuery().getQueryId(), is("utBlank2"));
@@ -393,7 +393,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageTwoPathParam", "/test"));
 
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
-                .getToolbar().get("topLeft").get(0).getButtons().get(0).getActions().get(0);
+                .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
         assertThat(action.getUrl(), is("/test/:rec_id/:rec_name/open"));
         assertThat(action.getPathMapping().get("rec_id"), notNullValue());
         assertThat(action.getPathMapping().get("rec_name"), notNullValue());

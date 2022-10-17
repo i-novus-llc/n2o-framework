@@ -15,8 +15,8 @@ public abstract class AbstractActionCellElementIOv2<T extends N2oActionCell> ext
     @Override
     public void io(Element e, T c, IOProcessor p) {
         super.io(e, c, p);
-        p.attributeArray(e, "action-id", ",", c::getActionIds, c::setActionIds);
-        p.anyChildren(e, actionSequenceTag(), c::getN2oActions, c::setN2oActions, p.anyOf(N2oAction.class)
+        p.attribute(e, "action-id", c::getActionId, c::setActionId);
+        p.anyChildren(e, actionSequenceTag(), c::getActions, c::setActions, p.anyOf(N2oAction.class)
                 .ignore("input-text", "field", "date-time", "input-select"), ActionIOv1.NAMESPACE);
     }
 

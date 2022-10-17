@@ -63,7 +63,7 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getStatuses()[1].getIcon(), is(nullValue()));
         assertThat(cell.getStatuses()[1].getPlace(), is(ImageStatusElementPlace.topLeft));
 
-        assertThat(cell.getActions().get(0), instanceOf(LinkActionImpl.class));
+        assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
 
         cell = (ImageCell) table.getComponent().getCells().get(1);
         assertThat(cell.getWidth(), nullValue());

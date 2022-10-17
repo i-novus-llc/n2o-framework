@@ -41,9 +41,9 @@ public class PerformActionCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testPerformAction.page.xml")
                 .get(new PageContext("testPerformAction"));
         Form widget = (Form) page.getWidget();
-        assertThat(widget.getToolbar().getButton("test1").getActions().get(0) instanceof Perform, is(true));
-        assertThat(((Perform)widget.getToolbar().getButton("test1").getActions().get(0)).getType(), is("mySrc"));
-        assertThat(widget.getToolbar().getButton("test2").getActions().get(0) instanceof Perform, is(true));
-        assertThat(((Perform)widget.getToolbar().getButton("test2").getActions().get(0)).getType(), is("mySrc"));
+        assertThat(widget.getToolbar().getButton("test1").getAction() instanceof Perform, is(true));
+        assertThat(((Perform)widget.getToolbar().getButton("test1").getAction()).getType(), is("mySrc"));
+        assertThat(widget.getToolbar().getButton("test2").getAction() instanceof Perform, is(true));
+        assertThat(((Perform)widget.getToolbar().getButton("test2").getAction()).getType(), is("mySrc"));
     }
 }

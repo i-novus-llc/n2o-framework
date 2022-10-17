@@ -16,14 +16,14 @@ public class ToolbarCellBinder implements BaseMetadataBinder<ToolbarCell> {
 
     @Override
     public ToolbarCell bind(ToolbarCell compiled, BindProcessor p) {
-//        if (compiled.getToolbar() != null) {FIXME
-//            compiled.getToolbar().forEach(t ->
-//                    t.getButtons().forEach(b -> {
-//                        if (b.getAction() != null)
-//                            p.bind(b.getAction());
-//                    })
-//            );
-//        }
+        if (compiled.getToolbar() != null) {
+            compiled.getToolbar().forEach(t ->
+                    t.getButtons().forEach(b -> {
+                        if (b.getAction() != null)
+                            p.bind(b.getAction());
+                    })
+            );
+        }
         return compiled;
     }
 }

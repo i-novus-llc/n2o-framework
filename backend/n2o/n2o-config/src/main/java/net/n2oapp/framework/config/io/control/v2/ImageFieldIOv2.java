@@ -18,7 +18,7 @@ public class ImageFieldIOv2 extends FieldIOv2<N2oImageField> {
     @Override
     public void io(Element e, N2oImageField m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeArray(e, "action-id", ",", m::getActionIds, m::setActionIds);
+        p.attribute(e, "action-id", m::getActionId, m::setActionId);
         p.attribute(e, "url", () -> null, m::setData);//deprecated
         p.attribute(e, "data", m::getData, m::setData);
         p.attribute(e, "title", m::getTitle, m::setTitle);

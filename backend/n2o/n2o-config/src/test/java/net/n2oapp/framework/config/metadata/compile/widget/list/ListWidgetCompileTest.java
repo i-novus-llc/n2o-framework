@@ -71,8 +71,8 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(listWidget.getList().get("extra").getSrc(), is("ButtonsCell"));
         AbstractButton extra = ((ToolbarCell) listWidget.getList().get("extra")).getToolbar().get(0).getButtons().get(0);
-        assertThat(((InvokeAction) extra.getActions().get(0)).getOperationId(), is("create"));
-        assertThat(((InvokeAction) extra.getActions().get(0)).getObjectId(), is("utBlank"));
+        assertThat(((InvokeAction) extra.getAction()).getOperationId(), is("create"));
+        assertThat(((InvokeAction) extra.getAction()).getObjectId(), is("utBlank"));
         assertThat(listWidget.getList().get("rightTop"), notNullValue());
 
         assertThat(listWidget.getPaging().getFirst(), is(true));

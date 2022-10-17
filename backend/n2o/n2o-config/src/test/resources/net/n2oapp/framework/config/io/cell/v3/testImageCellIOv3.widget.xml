@@ -3,12 +3,12 @@
     <columns>
         <column text-field-id="test">
             <image src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                   action-ids="create,update" width="100" shape="rounded" title="testTitle" text-position="left"
+                   action-id="create" width="100" shape="rounded" title="testTitle" text-position="left"
                    data="testData" description="testDescription">
-                <actions>
+                <action>
                     <close/>
                     <open-page page-id="test"/>
-                </actions>
+                </action>
                 <statuses>
                     <status
                             src="testSrc"

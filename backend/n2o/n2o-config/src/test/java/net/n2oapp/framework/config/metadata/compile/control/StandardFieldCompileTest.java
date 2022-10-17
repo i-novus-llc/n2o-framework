@@ -124,8 +124,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(button.getStyle().size(), is(1));
         assertThat(button.getStyle().get("color"), is("red"));
         assertThat(button.getClassName(), is("class"));
-        assertThat(button.getActions().get(0), instanceOf(InvokeAction.class));
-        InvokeAction action = (InvokeAction) button.getActions().get(0);
+        assertThat(button.getAction(), instanceOf(InvokeAction.class));
+        InvokeAction action = (InvokeAction) button.getAction();
         assertThat(action.getOperationId(), is("update"));
         assertThat(action.getPayload().getDatasource(), is("testStandardField_form"));
     }

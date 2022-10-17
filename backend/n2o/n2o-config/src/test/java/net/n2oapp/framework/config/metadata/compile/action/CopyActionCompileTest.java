@@ -56,7 +56,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
-        CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getSubMenu().get(0).getActions().get(0);
+        CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getSubMenu().get(0).getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getSource().getField(), nullValue());
@@ -67,7 +67,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getMode(), is(CopyMode.merge));
         assertThat(action.getMeta().getModalsToClose(), is(1));
 
-        action = (CopyAction) table.getToolbar().getButton("btn").getActions().get(0);
+        action = (CopyAction) table.getToolbar().getButton("btn").getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
         assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.edit.getId()));
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
@@ -78,7 +78,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getMode(), is(CopyMode.replace));
         assertThat(action.getMeta().getModalsToClose(), is(1));
 
-        action = (CopyAction) page.getToolbar().getButton("pageBtn").getActions().get(0);
+        action = (CopyAction) page.getToolbar().getButton("pageBtn").getAction();
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
     }
@@ -90,7 +90,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyActionV2.page.xml")
                 .get(pageContext);
 
-        CopyAction copyInPage = (CopyAction) page.findButton("copyInPage").getActions().get(0);
+        CopyAction copyInPage = (CopyAction) page.findButton("copyInPage").getAction();
         assertThat(copyInPage.getType(), is("n2o/models/COPY"));
         assertThat(copyInPage.getPayload().getSource().getKey(), is("p_ds1"));
         assertThat(copyInPage.getPayload().getSource().getField(), nullValue());
@@ -101,7 +101,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(copyInPage.getPayload().getMode(), is(CopyMode.merge));
         assertThat(copyInPage.getMeta().getModalsToClose(), is(1));
 
-        CopyAction copyInPage2 = (CopyAction) page.findButton("copyInPage2").getActions().get(0);
+        CopyAction copyInPage2 = (CopyAction) page.findButton("copyInPage2").getAction();
         assertThat(copyInPage2.getType(), is("n2o/models/COPY"));
         assertThat(copyInPage2.getPayload().getSource().getKey(), is("p_ds1"));
         assertThat(copyInPage2.getPayload().getSource().getField(), is("sourceId"));

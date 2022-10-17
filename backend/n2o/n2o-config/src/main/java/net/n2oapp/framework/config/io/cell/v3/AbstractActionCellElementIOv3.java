@@ -15,8 +15,8 @@ public abstract class AbstractActionCellElementIOv3<T extends N2oActionCell> ext
     @Override
     public void io(Element e, T c, IOProcessor p) {
         super.io(e, c, p);
-        p.attributeArray(e, "action-ids", ",", c::getActionIds, c::setActionIds);
-        p.anyChildren(e, actionsSequenceTag(), c::getN2oActions, c::setN2oActions, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
+        p.attribute(e, "action-id", c::getActionId, c::setActionId);
+        p.anyChildren(e, actionsSequenceTag(), c::getActions, c::setActions, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
     }
 
     public abstract String actionsSequenceTag();

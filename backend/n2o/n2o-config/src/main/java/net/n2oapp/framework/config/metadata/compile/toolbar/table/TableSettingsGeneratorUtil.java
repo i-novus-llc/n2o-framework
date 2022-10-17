@@ -44,7 +44,7 @@ public class TableSettingsGeneratorUtil {
         Map<N2oNamespace, Map<String, String>> props = new HashMap<>();
         props.put(new N2oNamespace(Namespace.NO_NAMESPACE), Collections.singletonMap("widgetId", widgetId));
         filterAction.setExtAttributes(props);
-//        filterButton.setAction(filterAction);FIXME
+        filterButton.setActions(new N2oPerform[]{filterAction});
         filterButton.setModel(ReduxModel.filter);
         return filterButton;
     }
@@ -54,7 +54,7 @@ public class TableSettingsGeneratorUtil {
         refreshButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.refresh.description"));
         refreshButton.setIcon("fa fa-refresh");
         N2oRefreshAction refreshAction = new N2oRefreshAction();
-//        refreshButton.setAction(refreshAction);FIXME
+        refreshButton.setActions(new N2oRefreshAction[]{refreshAction});
         refreshButton.setModel(ReduxModel.filter);
         return refreshButton;
     }

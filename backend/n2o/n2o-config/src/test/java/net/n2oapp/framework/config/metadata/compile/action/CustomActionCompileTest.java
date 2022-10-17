@@ -38,7 +38,7 @@ public class CustomActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCustomAction.page.xml")
                 .get(new PageContext("testCustomAction"));
 
-        CustomAction action = (CustomAction) page.getToolbar().getButton("b1").getActions().get(0);
+        CustomAction action = (CustomAction) page.getToolbar().getButton("b1").getAction();
 
         assertThat(action.getType(), is("n2o/CUSTOM"));
         Map<String, Object> attributes = action.getPayload().getAttributes();

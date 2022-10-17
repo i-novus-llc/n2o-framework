@@ -55,9 +55,9 @@ public class N2oFieldCompileTest extends SourceCompileTestBase {
         List<AbstractButton> buttons = toolbar[0].getButtons();
         assertThat(buttons.size(), is(1));
         assertThat(buttons.get(0), instanceOf(PerformButton.class));
-        assertThat(((InvokeAction) buttons.get(0).getActions().get(0)).getObjectId(), is("utBlank"));
-        assertThat(((InvokeAction) buttons.get(0).getActions().get(0)).getOperationId(), is("create"));
-        assertThat(((InvokeAction) buttons.get(0).getActions().get(0)).getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(((InvokeAction) buttons.get(0).getAction()).getObjectId(), is("utBlank"));
+        assertThat(((InvokeAction) buttons.get(0).getAction()).getOperationId(), is("create"));
+        assertThat(((InvokeAction) buttons.get(0).getAction()).getType(), is("n2o/actionImpl/START_INVOKE"));
 
         buttons = toolbar[1].getButtons();
         assertThat(buttons.size(), is(1));

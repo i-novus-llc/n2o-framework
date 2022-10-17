@@ -42,12 +42,12 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         context.setRefreshClientDataSourceIds(Arrays.asList("p_w"));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
-        CloseAction testAction = (CloseAction) page.getWidget().getToolbar().getButton("test").getActions().get(0);
+        CloseAction testAction = (CloseAction) page.getWidget().getToolbar().getButton("test").getAction();
         assertThat(testAction.getType(), is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("p_w_a"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
         assertThat(( testAction.getMeta()).getRefresh(), nullValue());
-        CloseAction testCloseRefreshAction = (CloseAction) page.getWidget().getToolbar().getButton("testCloseRefresh").getActions().get(0);
+        CloseAction testCloseRefreshAction = (CloseAction) page.getWidget().getToolbar().getButton("testCloseRefresh").getAction();
         assertThat(( testCloseRefreshAction.getMeta()).getRefresh().getDatasources(), hasItem("p_w"));
 
     }
@@ -58,13 +58,13 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         context.setParentRoute("/p/w");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
-        LinkActionImpl testAction = (LinkActionImpl) page.getWidget().getToolbar().getButton("test").getActions().get(0);
+        LinkActionImpl testAction = (LinkActionImpl) page.getWidget().getToolbar().getButton("test").getAction();
         assertThat(testAction.getUrl(), is("/p/w"));
 
         PageContext openPageContext = (PageContext) route("/p/w/a/b/c", Page.class);
         assertThat(openPageContext.getParentRoute(), is("/p/w/a"));
         SimplePage openPage = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageCloseAction.page.xml")
                 .get(openPageContext);
-        assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getActions().get(0)).getUrl(), is("/p/w/a"));
+        assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getAction()).getUrl(), is("/p/w/a"));
     }
 }

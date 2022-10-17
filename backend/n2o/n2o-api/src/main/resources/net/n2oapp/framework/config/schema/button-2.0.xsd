@@ -114,10 +114,10 @@
                 <xs:sequence>
                     <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="action-ids" type="xs:string">
+                <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Действия виджета, которые будут вызваны при нажатии на кнопку.
+                            Действие виджета, которое будет вызвано при нажатии на кнопку.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

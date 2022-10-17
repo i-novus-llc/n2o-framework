@@ -31,7 +31,7 @@ public class ImageCellElementIOv3 extends AbstractActionCellElementIOv3<N2oImage
 
     @Override
     public String actionsSequenceTag() {
-        return "actions";
+        return "action";
     }
 
     private void statuses(Element e, N2oImageStatusElement c, IOProcessor p) {

@@ -63,7 +63,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         List<String> buttonsLabel = form.getToolbar().get("topLeft").get(0)
                 .getButtons().stream().map(AbstractButton::getLabel).collect(Collectors.toList());
         List<String> buttonsAction = form.getToolbar().get("topLeft").get(0)
-                .getButtons().stream().flatMap(b -> b.getActions().stream()).map(a -> {
+                .getButtons().stream().map(AbstractButton::getAction).map(a -> {
                     if (a instanceof ShowModal) return ((ShowModal) a).getOperationId();
                     if (a instanceof InvokeAction) return ((InvokeAction) a).getOperationId();
                     return null;
@@ -106,7 +106,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         context.setParentRoute("/test");
 
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseActionModal.page.xml").get(context);
-        CloseAction close = (CloseAction) page.getToolbar().getButton("close").getActions().get(0);
+        CloseAction close = (CloseAction) page.getToolbar().getButton("close").getAction();
 
         assertThat(close.getType(), is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) close.getPayload()).getPrompt(), is(true));

@@ -7,7 +7,7 @@
                   badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
                   badge-image-position="right" badge-image-shape="square">
             <menu-item id="btn" label="label" datasource="table" model="resolve" icon="icon" color="primary"
-                visible="true" enabled="true" validate="true" action-ids="test,test2" class="test" style="test"
+                visible="true" enabled="true" validate="true" action-id="test" class="test" style="test"
                 description="desc" tooltip-position="right" disable-on-empty-model="false"
                 confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
                 confirm-cancel-label="cancel" type="icon" rounded="true" src="test" badge="badge" badge-color="color"

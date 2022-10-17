@@ -45,25 +45,25 @@ public class RefreshActionCompileTest extends SourceCompileTestBase {
                 .getToolbar().get("topLeft").get(0).getButtons();
 
         assertThat(buttons.size(), is(3));
-        RefreshAction action = (RefreshAction) buttons.get(0).getActions().get(0);
+        RefreshAction action = (RefreshAction) buttons.get(0).getAction();
         assertThat(action.getType(), is("n2o/datasource/DATA_REQUEST"));
         assertThat(((RefreshPayload) action.getPayload()).getDatasource(), is("testRefreshAction_ds2"));
         assertThat(((RefreshPayload) action.getPayload()).getDatasource(), is("testRefreshAction_ds2"));
 
-        action = (RefreshAction) buttons.get(1).getActions().get(0);
+        action = (RefreshAction) buttons.get(1).getAction();
         assertThat(((RefreshPayload) action.getPayload()).getDatasource(), is("testRefreshAction_ds1"));
 
-        action = (RefreshAction) buttons.get(2).getActions().get(0);
+        action = (RefreshAction) buttons.get(2).getAction();
         assertThat(((RefreshPayload) action.getPayload()).getDatasource(), is("ds3"));
 
 
-        action = (RefreshAction) page.getToolbar().getButton("btn4").getActions().get(0);
+        action = (RefreshAction) page.getToolbar().getButton("btn4").getAction();
         assertThat(((RefreshPayload) action.getPayload()).getDatasource(), is("testRefreshAction_ds1"));
 
-        action = (RefreshAction) page.getToolbar().getButton("btn5").getActions().get(0);
+        action = (RefreshAction) page.getToolbar().getButton("btn5").getAction();
         assertThat(((RefreshPayload) action.getPayload()).getDatasource(), is("testRefreshAction_ds2"));
 
-        action = (RefreshAction) page.getToolbar().getButton("btn6").getActions().get(0);
+        action = (RefreshAction) page.getToolbar().getButton("btn6").getAction();
         assertThat(((RefreshPayload) action.getPayload()).getDatasource(), is("ds3"));
     }
 }

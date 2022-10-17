@@ -246,7 +246,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons().get(0);
         assertThat(closeBtn, notNullValue());
         assertThat(closeBtn.getConfirm(), nullValue());
-        assertThat(closeBtn.getActions().get(0), instanceOf(CloseAction.class));
+        assertThat(closeBtn.getAction(), instanceOf(CloseAction.class));
         assertThat(closeBtn.getValidate(), nullValue());
     }
 

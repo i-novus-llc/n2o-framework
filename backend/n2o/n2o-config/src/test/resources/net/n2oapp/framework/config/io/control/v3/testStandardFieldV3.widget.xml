@@ -17,7 +17,7 @@
                         label="label"
                         class="class"
                         icon="icon"
-                        action-ids="actionId"
+                        action-id="actionId"
                         model="filter">
                     <show-modal src="src"
                                 page-id="pageId"

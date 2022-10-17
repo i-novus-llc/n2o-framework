@@ -41,7 +41,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn1"));
-        assertThat(field.getActions().get(0), notNullValue());
+        assertThat(field.getAction(), notNullValue());
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getLabel(), is("delete"));
         assertThat(field.getIcon(), nullValue());
@@ -60,7 +60,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn2"));
-        assertThat(field.getActions().get(0), notNullValue());
+        assertThat(field.getAction(), notNullValue());
         assertThat(field.getUrl(), is("http://ya.ru"));
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getLabel(), nullValue());

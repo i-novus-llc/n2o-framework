@@ -27,7 +27,7 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
     @Override
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
-        p.attributeArray(e, "action-id", ",", b::getActionIds, b::setActionIds);
+        p.attribute(e, "action-id",  b::getActionId, b::setActionId);
         p.attribute(e, "validate", b::getValidateString, b::setValidateString);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);

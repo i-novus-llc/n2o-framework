@@ -3,7 +3,7 @@
     <fields>
         <button id="id" description="desc" color="red" badge="{badge}" badge-color="{color}" model="filter" label="btn"
                 icon="icon" tooltip-position="right" src="test" rounded="true" type="textAndIcon"
-                visible="true" enabled="false" class="class" style="color: red" action-ids="act1,act2"
+                visible="true" enabled="false" class="class" style="color: red" action-id="act1"
                 confirm="true" confirm-cancel-label="cancel" confirm-ok-label="ok" confirm-text="text"
                 confirm-title="title" confirm-type="popover" validate="true" datasource="ds1"
                 validate-datasources="ds1,ds2"

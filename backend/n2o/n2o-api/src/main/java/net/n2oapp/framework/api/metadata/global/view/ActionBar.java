@@ -11,17 +11,18 @@ import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 
 /**
- * Абстрактная модель компонента вызывающего действие
+ * "Исходная" модель действия для ссылки в action-id (метадействие)
  */
 @Getter
 @Setter
-public abstract class ActionComponent implements Source, IdAware, ModelAware, WidgetIdAware, DatasourceIdAware {
+public class ActionBar implements Source, IdAware, ModelAware, WidgetIdAware, DatasourceIdAware {
     private String id;
     private String label;
     private String icon;
     private String visible;
     private String enabled;
-    private N2oAction action;
+    private Boolean defaultValue;
+    private N2oAction[] n2oActions;
     private ReduxModel model;
     private String datasourceId;
 

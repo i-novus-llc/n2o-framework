@@ -46,14 +46,14 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
                 .get(new PageContext("testAnchorAction"));
         Toolbar toolbar = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
-        LinkAction link1 = (LinkAction) toolbar.getButton("id1").getActions().get(0);
+        LinkAction link1 = (LinkAction) toolbar.getButton("id1").getAction();
         assertThat(link1.getUrl(), is("/test"));
         assertThat(link1.getTarget(), is(Target.application));
         assertThat(link1.getPathMapping().size(), is(0));
         assertThat(link1.getQueryMapping().size(), is(0));
 
 
-        LinkActionImpl link2 = (LinkActionImpl) toolbar.getButton("id2").getActions().get(0);
+        LinkActionImpl link2 = (LinkActionImpl) toolbar.getButton("id2").getAction();
         assertThat(link2.getUrl(), is("/page/test2/:param1/:param2?param3=:param3"));
         assertThat(link2.getTarget(), is(Target.application));
         assertThat(link2.getPathMapping().size(), is(2));
@@ -67,12 +67,12 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/test2/:param1/:param2?param3=:param3");
         assertThat(anchor.getIsOtherPage(), is(true));
 
-        LinkActionImpl link3 = (LinkActionImpl) toolbar.getButton("id3").getActions().get(0);
+        LinkActionImpl link3 = (LinkActionImpl) toolbar.getButton("id3").getAction();
         assertThat(link3.getUrl(), is("http://google.com"));
         assertThat(link3.getTarget(), is(Target.self));
 
         LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
-                .getToolbar().getButton("secWgt").getActions().get(0);
+                .getToolbar().getButton("secWgt").getAction();
 
         assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
         assertThat(linkSecond.getTarget(), is(Target.newWindow));
@@ -83,13 +83,13 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         //Modal page
         PageContext modalContext = (PageContext) route("/page/id4", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
-        link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getActions().get(0);
+        link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getAction();
         assertThat(link1.getUrl(), is("/page/id4/test"));
         assertThat(link1.getTarget(), is(Target.application));
         assertThat(link1.getPathMapping().size(), is(0));
         assertThat(link1.getQueryMapping().size(), is(0));
 
-        link2 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id2").getActions().get(0);
+        link2 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id2").getAction();
         assertThat(link2.getUrl(), is("/page/id4/test2/:param1/:param2?param3=:param3"));
         assertThat(link2.getTarget(), is(Target.application));
         assertThat(link2.getPathMapping().size(), is(2));
@@ -101,7 +101,7 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_id4_test']"));
         assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
 
-        link3 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id3").getActions().get(0);
+        link3 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id3").getAction();
         assertThat(link3.getUrl(), is("/test3"));
         assertThat(link3.getTarget(), is(Target.application));
         assertThat(link3.getPathMapping().size(), is(0));

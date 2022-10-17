@@ -38,7 +38,7 @@ public class CloseGenerator implements ButtonGenerator {
         if (context instanceof PageContext) {
             cancelAction.setRefreshOnClose(((PageContext) context).getRefreshOnClose());
         }
-//        closeButton.setAction(cancelAction);fixme
+        closeButton.setActions(new N2oCloseAction[]{cancelAction});
         closeButton.setValidate(false);
         return Collections.singletonList(closeButton);
     }

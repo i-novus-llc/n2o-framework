@@ -50,7 +50,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(btn.getStyle().size(), is(1));
         assertThat(btn.getStyle().get("color"), is("red"));
         assertThat(btn.getHint(), is("hint"));
-        assertThat(((InvokeAction) btn.getActions().get(0)).getPayload().getDatasource(), is("testButton_table"));
+        assertThat(((InvokeAction) btn.getAction()).getPayload().getDatasource(), is("testButton_table"));
 
         btn = page.getToolbar().getButton("btn2");
         assertThat(btn.getLabel(), is("edit"));

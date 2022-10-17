@@ -51,11 +51,11 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         PerformButton createBtn = items.get(0);
         assertThat(createBtn.getId(), is("create"));
         assertThat(createBtn.getLabel(), is("Создать"));
-        assertThat(createBtn.getActions().get(0), instanceOf(ShowModal.class));
+        assertThat(createBtn.getAction(), instanceOf(ShowModal.class));
         PerformButton updateBtn = items.get(1);
         assertThat(updateBtn.getId(), is("update"));
         assertThat(updateBtn.getLabel(), is("Изменить"));
-        assertThat(updateBtn.getActions().get(0), instanceOf(ShowModal.class));
+        assertThat(updateBtn.getAction(), instanceOf(ShowModal.class));
         assertThat(updateBtn.getConditions().get(ValidationType.enabled).size(), is(1));
 
 

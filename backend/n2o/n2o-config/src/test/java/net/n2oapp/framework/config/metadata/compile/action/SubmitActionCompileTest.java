@@ -45,11 +45,11 @@ public class SubmitActionCompileTest extends SourceCompileTestBase {
                 .getToolbar().get("topLeft").get(0).getButtons();
 
         assertThat(buttons.size(), is(2));
-        SubmitAction submitAction = (SubmitAction) buttons.get(0).getActions().get(0);
+        SubmitAction submitAction = (SubmitAction) buttons.get(0).getAction();
         assertThat(submitAction.getPayload().getDatasource(), is("testSubmitAction_ds1"));
         assertThat(submitAction.getType(), is("n2o/actionImpl/SUBMIT"));
 
-        submitAction = (SubmitAction) buttons.get(1).getActions().get(0);
+        submitAction = (SubmitAction) buttons.get(1).getAction();
         assertThat(submitAction.getPayload().getDatasource(), is("testSubmitAction_ds2"));
     }
 }

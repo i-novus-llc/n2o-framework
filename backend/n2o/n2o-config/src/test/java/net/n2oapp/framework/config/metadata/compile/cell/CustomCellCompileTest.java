@@ -45,6 +45,6 @@ public class CustomCellCompileTest extends SourceCompileTestBase {
         Table table = (Table) page.getWidget();
         CustomCell cell = (CustomCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("MyCell"));
-        assertThat(cell.getActions().get(0), instanceOf(LinkActionImpl.class));
+        assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }
 }
