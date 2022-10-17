@@ -3,7 +3,6 @@ title: Страницы
 description: ""
 ---
 
-
 import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 **Тип метаданных**
@@ -65,12 +64,12 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |route       |Строка                              |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
-|datasource  |Строка                              |Идентификатор источника данных страницы                       |                                      |
+|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
 |model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
-Список [регионов](#regions), Список [источников данных](#datasources), Список [действий](#actions),
+Список [регионов](#regions), Список [источников данных](./xml/datasource#datasources), Список [действий](#actions),
 Список [хлебных крошек](#breadcrumbs), [Меню](#toolbar) управляющих кнопок страницы
 
 **Пример**
@@ -103,7 +102,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |route       |Строка                              |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
-|datasource  |Строка                              |Идентификатор источника данных страницы                       |                                      |
+|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
 |model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
 
 **Тело**
@@ -163,7 +162,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |modal-size       |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title       |true false                          |Показывать заголовок страницы?                                |false                                 |
 |scroll-top-button|true false                          |Показывается ли кнопка скролла в начало страницы              |false                                 |
-|datasource       |Строка                              |Идентификатор источника данных страницы                       |                                      |
+|datasource       |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
 |model            |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
 
 **Тело**
@@ -228,7 +227,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |route       |Строка                              |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
-|datasource  |Строка                              |Идентификатор источника данных страницы                       |                                      |
+|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
 |model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
 
 **Тело**
@@ -260,7 +259,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |----------------|------|------------------------------------------------------------|----------------------------------------------------------|
 |class           |Строка|CSS класс стилей                                            |                                                          |
 |placeholder     |Строка|Подсказка для ввода                                         |                                                          |
-|datasource      |Строка|Идентификатор источника данных, в котором производится поиск|Главный виджет страницы                                   |
+|datasource      |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, в котором производится поиск|Главный виджет страницы                                   |
 |search-filter-id|Строка|Идентификатор фильтра                                       |                                                          |
 |search-param    |Строка|Параметр поиска                                             |Идентификатор виджета + Идентификатор фильтра (table_name)|
 
@@ -268,260 +267,6 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 ```xml
 <search-bar button-label="Искать" datasource="main" search-filter-id="name"/>
-```
-
-## Источники данных {#datasources}
-
-**Пример**
-
-```xml
-<datasources>
-  <datasource id="ds1">...</datasource>
-  <app-datasource id="ds2">...</app-datasource>
-  <browser-storage id="ds3">...</browser-storage>
-  <inherited-datasource id="ds4">...</inherited-datasource>
-</datasources>
-```
-
-### &lt;datasource&gt; {#datasource}
-
-Стандартный источник данных
-
-**Атрибуты**
-
-|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию |
-|--------------------|-----------------------|----------------------------------------------------------------------|----------------------|
-|id                  |Строка                 |Идентификатор источника данных                                        |                      |
-|query-id            |Строка                 |Идентификатор выборки, на основе которой происходит получение данных  |                      |
-|object-id           |Строка                 |Идентификатор объекта                                                 |                      |
-|default-values-mode |defaults, query, merge |Подстановка значений по умолчанию.<br/>defaults - значения по умолчанию заполняются данными прописанными в полях<br/>query - значения по умолчанию заполняются данными из запроса<br/>merge - значения по умолчанию заполняются путем мержа данных прописанных в полях и полученных из запроса(полученные из запроса в приоритете), id игнорируется |query|
-|size                |Число                  |Размер выборки                                                        |10                    |
-|route               |Строка                 |URL получения данных                                                  |true                  |
-
-**Тело**
-
-[Предустановленная фильтрация](../xml/base#pre-filters) <br/>
-[Отправка полей на сервер при их изменении](../xml/action#submit) <br/>
-[Зависимости источника данных](#ds_dependencies)
-
-**Пример**
-
-```xml
-<datasource id="ds1">
-  <filters>
-    <eq field-id="id" value="{id}"/>
-    ...
-  </filters>
-  <submit>
-    ...
-  </submit>
-  <dependencies>
-    <fetch on="ds2"/>
-    ...
-  </dependencies>
-</datasource>
-```
-
-### STOMP-источник данных (&lt;stomp-datasource&gt;) {#stomp-datasource}
-
-**Атрибуты**
-
-|Наименование |Тип            |Описание                                                 |Значение по умолчанию|
-|-------------|---------------|---------------------------------------------------------|---------------------|
-|id           |Строка         |Идентификатор источника данных                           |                     |
-|destination  |Строка         |Место назначения                                         |                     |
-
-**Пример**
-
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
-    <datasources>
-        <stomp-datasource id="notifCount" destination="/notif/count">
-            <values>
-                ...
-            </values>
-        </stomp-datasource>
-    </datasources>
-</application>
-
-```
-
-**Тело**
-
-[Значения на момент инициализации](../xml/application#values)
-
-### Значения на момент инициализации (&lt;values&gt;) {#values}
-
-**Пример**
-
-```xml
-<stomp-datasource id="notifCount" destination="/notif/count">
-    <values>
-        ...
-    </values>
-</stomp-datasource>
-```
-
-**Тело**
-
-[Инициализирующее значение](../xml/application#value)
-
-### Инициализирующее значение(имя атрибута задается пользователем) (&lt;value&gt;) {#value}
-
-**Пример**
-
-```xml
-<stomp-datasource id="notifCount" destination="/notif/count">
-    <values>
-        <value count="0"/>
-    </values>
-</stomp-datasource>
-```
-
-### &lt;app-datasource&gt; {#app-datasource}
-
-Источник данных, ссылающийся на источник из application.xml
-
-**Атрибуты**
-
-|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию |
-|--------------------|-----------------------|----------------------------------------------------------------------|----------------------|
-|id                  |Строка                 |Идентификатор источника данных из application.xml                     |                      |
-
-**Пример**
-
-```xml
-<app-datasource id="ds1"/>
-```
-
-### &lt;browser-storage&gt; {#browser-storage}
-
-Источник, хранящий данные в браузере
-
-**Атрибуты**
-
-|Наименование        |Тип                    |Описание                                                              |Значение по умолчанию              |
-|--------------------|-----------------------|----------------------------------------------------------------------|-----------------------------------|
-|id                  |Строка                 |Идентификатор источника данных                                        |                                   |
-|key                 |Строка                 |Ключ, под которым будут хранится данные                               |Глобальный идентификатор источника |
-|type                |Строка                 |Тип хранилища в браузере                                              |sessionStorage                     |
-|size                |Число                  |Размер выборки                                                        |10                                 |
-
-**Тело**
-[Сохранение данных](#browser_storage_submit)
-[Зависимости источника данных](#ds_dependencies)
-
-#### &lt;submit&gt; {#browser_storage_submit}
-
-Сохранение данных
-
-**Атрибуты**
-
-|Наименование        |Тип                            |Описание                                                              |Значение по умолчанию   |
-|--------------------|-------------------------------|----------------------------------------------------------------------|------------------------|
-|key                 |Строка                         |Ключ, под которым будут записываться данные                           |Ключ источника данных   |
-|type                |Строка                         |Тип хранилища браузера, в которое будут записываться данные           |Хранилище источника     |
-|auto                |true false                     |Автоматически ли записывать в хранилище при изменении данных?         |true                    |
-|model               |filter,resolve,edit,datasource |Модель текущего источника данных, которая будет сохранена             |resolve                 |
-
-**Пример**
-
-```xml
-<browser-storage id="ds1" key="store" type="localStorage">
-    <submit type="localStorage" auto="false" key="store" model="filter"/>
-    <dependencies>
-        <fetch on="ds2"/>
-        ...
-    </dependencies>
-</browser-storage>
-```
-
-### &lt;inherited-datasource&gt; {#inherited-datasource}
-
-Источник, получающий данные из другого источника
-
-**Атрибуты**
-
-|Наименование        |Тип                           |Описание                                                              |Значение по умолчанию              |
-|--------------------|------------------------------|----------------------------------------------------------------------|-----------------------------------|
-|id                  |Строка                        |Идентификатор источника данных                                        |                                   |
-|source-datasource   |Строка                        |Идентификатор источника данных, из которого будут скопированы данные  |                                   |
-|source-model        |filter resolve edit datasource|Модель источника данных, из которой будут скопированы данные          |parent                             |
-|target-field-id     |Строка                        |Идентификатор поля, из которого будут скопированы данные              |Вся модель                         |
-|size                |Число                         |Размер выборки                                                        |10                                 |
-
-**Тело**
-[Сохранение данных](#inherited_datasource_submit)
-[Зависимости источника данных](#ds_dependencies)
-
-#### &lt;submit&gt; {#inherited_datasource_submit}
-
-Сохранение данных
-
-**Атрибуты**
-
-|Наименование        |Тип                           |Описание                                                              |Значение по умолчанию   |
-|--------------------|------------------------------|----------------------------------------------------------------------|------------------------|
-|model               |filter,resolve,edit,datasource|Модель текущего источника данных, которая будет сохранена             |resolve                 |
-|auto                |true false                    |Автоматически ли записывать при изменении данных?                     |true                    |
-|target-datasource   |Строка                        |Идентификатор источника данных, в который производится сохранение     |                        |
-|target-model        |filter,resolve,edit,datasource|Модель источника данных, в которую производится сохранение            |resolve                 |
-|target-field-id     |Строка                        |Идентификатор поля, в которое производится сохранение                 |Вся модель              |
-
-**Пример**
-
-```xml
-<datasources>
-  <inherited-datasource id="ds" source-datasource="app-ds">
-    <submit target-model="false" target-field-id="name"/>
-    <dependencies>
-      <fetch on="ds2"/>
-      ...
-    </dependencies>
-  </inherited-datasource>
-</datasources>
-```
-
-#### Зависимости источника данных {#ds_dependencies}
-
-##### Обновление данных при изменении зависимых источников данных &lt;fetch&gt;
-
-**Атрибуты**
-
-|Наименование|Тип                             |Описание                          |Значение по умолчанию|
-|------------|--------------------------------|----------------------------------|---------------------|
-|on          |Строка                          |Идентификатор источника данных    |                     |
-|model       |filter,resolve,edit,datasource  |Модель источника данных           |resolve              |
-
-**Пример**
-
-```xml
-<dependencies>
-    <fetch on="ds2" model="filter"/>
-</dependencies>
-```
-
-##### Копирование части модели из другого источника &lt;copy&gt;
-
-**Атрибуты**
-
-|Наименование       |Тип                             |Описание                                                                  |Значение по умолчанию|
-|-------------------|--------------------------------|--------------------------------------------------------------------------|---------------------|
-|on                 |Строка                          |Идентификатор источника данных, из которого копируются данные             |                     |
-|source-model       |filter,resolve,edit,datasource  |Модель источника данных, из которой будут скопированы данные              |resolve              |
-|target-model       |filter,resolve,edit,datasource  |Модель текущего источника, в которую будут скопированы данные             |resolve              |
-|source-field-id    |Строка                          |Идентификатор поля, из которого будут скопированы данные                  |Вся модель           |
-|target-field-id    |Строка                          |Идентификатор поля текущего источника, в которое будут скопированы данные |Вся модель           |
-|submit             |true false                      |Вызов сохранения данных сразу после копирования                           |false                |
-|apply-on-init      |true false                      |Срабатывание копирования при инициализации источника данных               |false                |
-
-**Пример**
-
-```xml
-<dependencies>
-    <copy on="ds" source-model="resolve" target-model="filter" source-field-id="name" target-field-id="name"/>
-</dependencies>
 ```
 
 ## Действия на странице {#actions}
@@ -558,7 +303,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |visible     |true false                               |Видимость действия                                       |true                                                                                                         |
 |enabled     |true false                               |Доступность действия                                     |true                                                                                                         |
 |model       |resolve filter edit multi datasource     |Модель, на которой выполнится действие                   |resolve                                                                                                         |
-|datasource  |true false                               |Идентификатор источника данных для выполнения действия   |true                                                                                                         |
+|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для выполнения действия   |true                                                                                                         |
 
 **Тело**
 
