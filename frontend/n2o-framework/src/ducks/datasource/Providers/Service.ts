@@ -32,7 +32,7 @@ export function* invoke() {
     // TODO Перенести сюда инвок из actionsImpl
 }
 
-export function* query(id: string, provider: ServiceProvider, options: QueryOptions) {
+export function* query(id: string, provider: ServiceProvider, options: QueryOptions, apiProvider: unknown) {
     const { sorting, paging: { page, size }, pageId } = yield select(dataSourceByIdSelector(id))
 
     if (!provider.url) {
@@ -58,5 +58,5 @@ export function* query(id: string, provider: ServiceProvider, options: QueryOpti
         options,
     )
 
-    return (yield fetch(id, resolvedProvider)) as QueryResult
+    return (yield fetch(id, resolvedProvider, apiProvider)) as QueryResult
 }
