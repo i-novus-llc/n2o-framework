@@ -2,12 +2,11 @@ package net.n2oapp.framework.config.io.control.v3;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.badge.BadgeIO;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
+import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements ControlIOv3, BadgeIO<N2oButtonField> {
+public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements ControlIOv3, BadgeAwareIO<N2oButtonField> {
 
     private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
@@ -31,7 +30,6 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attributeBoolean(e, "validate", m::getValidate, m::setValidate);
         p.attributeArray(e, "validate-datasources", ",", m::getValidateDatasourceIds, m::setValidateDatasourceIds);
-        p.attribute(e, "action-id", m::getActionId, m::setActionId);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
         p.attributeBoolean(e, "rounded", m::getRounded, m::setRounded);
 
@@ -46,7 +44,6 @@ public class ButtonFieldIOv3 extends FieldIOv3<N2oButtonField> implements Contro
 
         p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
         badge(e, m, p);
-        p.anyChildren(e, null, m::getActions, m::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
     }
 
     @Override

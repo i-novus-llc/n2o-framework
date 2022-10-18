@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.io.toolbar.v2;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.common.ActionsAwareIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись кнопки версии 2.0
  */
 @Component
-public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
+public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements ActionsAwareIO<N2oButton> {
     @Override
     public Class<N2oButton> getElementClass() {
         return N2oButton.class;
@@ -27,7 +27,6 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
     @Override
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
-        p.attribute(e, "action-id", b::getActionId, b::setActionId);
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
         p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasourceIds, b::setValidateDatasourceIds);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
@@ -49,8 +48,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> {
         p.anyChildren(e, "dependencies", b::getDependencies, b::setDependencies, p.oneOf(N2oButton.Dependency.class)
                 .add("enabling", N2oButton.EnablingDependency.class, this::enablingDependency)
                 .add("visibility", N2oButton.VisibilityDependency.class, this::dependency));
-
-        p.anyChildren(e, null, b::getActions, b::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
+        action(e, b, p, "dependencies");
     }
 
     private void dependency(Element e, N2oButton.Dependency t, IOProcessor p) {

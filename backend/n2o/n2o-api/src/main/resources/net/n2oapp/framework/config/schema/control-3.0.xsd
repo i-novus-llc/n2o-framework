@@ -1086,6 +1086,7 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:sequence>
                     <xs:element name="statuses" type="statusesType" minOccurs="0"/>
+                    <xs:element name="actions" type="act:actions" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
