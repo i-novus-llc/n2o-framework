@@ -139,7 +139,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private List<N2oAbstractDatasource> datasources;
     /**
-     * Соответствия идентификаторов с клиентскими идентификаторами источников данных родительской страницы
+     * Идентификаторы источников данных родительской страницы
      */
     private List<String> parentDatasourceIds;
     /**

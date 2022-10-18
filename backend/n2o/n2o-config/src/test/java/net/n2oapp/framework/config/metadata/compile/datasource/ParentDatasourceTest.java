@@ -23,6 +23,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
+/**
+ * Тестирование источника данных родительской страницы
+ */
 public class ParentDatasourceTest extends SourceCompileTestBase {
 
     @Override
