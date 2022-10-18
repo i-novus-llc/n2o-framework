@@ -11,10 +11,10 @@ import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Сборка действия вызова операции
@@ -34,7 +34,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         copyAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
 
         CopyActionPayload.ClientModel sourceModel = new CopyActionPayload.ClientModel(
-                getClientDatasourceId(source.getSourcePage(), source.getSourceDatasourceId(), context, p),
+                getClientDatasourceId(source.getSourceDatasourceId(), p),
                 source.getSourceModel().getId(), source.getSourceFieldId());
         CopyActionPayload.ClientModel targetModel = new CopyActionPayload.ClientModel(
                 getClientTargetDatasourceId(source, context, p),
@@ -69,13 +69,9 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
 
     private String getClientTargetDatasourceId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getTargetClientPageId() != null)
-            return DatasourceUtil.getClientDatasourceId(source.getTargetDatasourceId(), source.getTargetClientPageId(), p);
-        return getClientDatasourceId(source.getTargetPage(), source.getTargetDatasourceId(), context, p);
-    }
-
-    private String getClientDatasourceId(PageRef pageRef, String datasourceId, CompileContext<?, ?> context, CompileProcessor p) {
-        return pageRef == PageRef.PARENT && context instanceof PageContext && ((PageContext) context).getParentDatasourceIdsMap() != null ?
-                ((PageContext) context).getParentDatasourceIdsMap().get(datasourceId) :
-                DatasourceUtil.getClientDatasourceId(datasourceId, p);
+            return getClientDatasourceId(source.getTargetDatasourceId(), source.getTargetClientPageId());
+        if (source.getTargetPage() == PageRef.PARENT && context instanceof PageContext)
+            return getClientDatasourceId(source.getTargetDatasourceId(), ((PageContext) context).getParentClientPageId());
+        return getClientDatasourceId(source.getTargetDatasourceId(), p);
     }
 }

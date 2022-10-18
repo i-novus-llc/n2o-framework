@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
@@ -24,7 +23,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 /**
- * Проверка копиляции действия copy
+ * Проверка компиляции действия copy
  */
 public class CopyActionCompileTest extends SourceCompileTestBase {
 
@@ -110,31 +109,5 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(copyInPage2.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(copyInPage2.getPayload().getMode(), is(CopyMode.replace));
         assertThat(copyInPage2.getMeta().getModalsToClose(), is(0));
-    }
-
-    @Test
-    public void testRefPageAttributes() {
-        PageContext pageContext = new PageContext("testCopyRefPageAttributes", "/p");
-        compile("net/n2oapp/framework/config/metadata/compile/action/copy/testCopyRefPageAttributes.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/action/copy/testCopyRefPageAttributesModal.page.xml")
-                .get(pageContext);
-
-        // parent -> this
-        StandardPage page = (StandardPage) routeAndGet("/p/modal1", Page.class);
-        CopyAction submit = (CopyAction) page.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getPayload().getSource().getKey(), is("p_ds"));
-        assertThat(submit.getPayload().getTarget().getKey(), is("p_modal1_ds2"));
-
-        // this -> parent
-        page = (StandardPage) routeAndGet("/p/modal2", Page.class);
-        submit = (CopyAction) page.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getPayload().getSource().getKey(), is("p_modal2_ds"));
-        assertThat(submit.getPayload().getTarget().getKey(), is("p_ds2"));
-
-        // parent -> this (with app-datasource)
-        page = (StandardPage) routeAndGet("/p/modal3", Page.class);
-        submit = (CopyAction) page.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getPayload().getSource().getKey(), is("appDs"));
-        assertThat(submit.getPayload().getTarget().getKey(), is("appDs2"));
     }
 }

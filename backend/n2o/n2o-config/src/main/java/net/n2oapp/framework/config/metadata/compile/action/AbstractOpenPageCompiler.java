@@ -162,11 +162,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         // copy
         pageContext.setCopyModel(source.getCopyModel());
         pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
-        pageContext.setCopyPage(source.getCopyPage());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetDatasourceId(computeTargetDatasource(source, pageScope, componentScope, widgetScope));
-        pageContext.setTargetPage(source.getTargetPage());
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
 

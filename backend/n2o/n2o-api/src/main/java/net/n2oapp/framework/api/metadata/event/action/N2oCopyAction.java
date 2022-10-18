@@ -15,7 +15,6 @@ public class N2oCopyAction extends N2oAbstractAction implements N2oAction {
     private ReduxModel sourceModel;
     private String sourceDatasourceId;
     private String sourceFieldId;
-    private PageRef sourcePage;
 
     private ReduxModel targetModel;
     private String targetDatasourceId;
