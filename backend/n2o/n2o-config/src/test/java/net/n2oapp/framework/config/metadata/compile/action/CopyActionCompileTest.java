@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -77,14 +76,13 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         action = (CopyAction) page.getToolbar().getButton("pageBtn").getAction();
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
-        assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
+        assertThat(action.getPayload().getTarget().getKey(), is("modal_form"));
     }
 
     @Test
     public void copyV2() {
         PageContext pageContext = new PageContext("testCopyActionV2", "/p");
         pageContext.setParentClientPageId("page1");
-        pageContext.setParentDatasourceIdsMap(Map.of("ds2", "page1_ds2"));
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/copy/testCopyActionV2.page.xml")
                 .get(pageContext);
 

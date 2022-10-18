@@ -343,7 +343,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_modal"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
         assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
-        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_update_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
         assertThat(submit.getMeta().getModalsToClose(), is(1));
@@ -367,7 +367,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidget_update_table2"));
         assertThat(submit.getPayload().getSource().getField(), is("id"));
         assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.multi.getId()));
-        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidget_table1"));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidget_update_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
         assertThat(submit.getMeta().getModalsToClose(), is(1));
@@ -391,7 +391,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_update_master"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
         assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
-        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_ignore_table"));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_update_ignore_table"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
         assertThat(submit.getMeta().getModalsToClose(), is(1));

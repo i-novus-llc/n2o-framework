@@ -68,8 +68,6 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String getClientTargetDatasourceId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getTargetClientPageId() != null)
-            return getClientDatasourceId(source.getTargetDatasourceId(), source.getTargetClientPageId());
         if (source.getTargetPage() == PageRef.PARENT && context instanceof PageContext)
             return getClientDatasourceId(source.getTargetDatasourceId(), ((PageContext) context).getParentClientPageId());
         return getClientDatasourceId(source.getTargetDatasourceId(), p);

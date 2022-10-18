@@ -141,7 +141,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Соответствия идентификаторов с клиентскими идентификаторами источников данных родительской страницы
      */
-    private Map<String, String> parentDatasourceIdsMap;
+    private List<String> parentDatasourceIds;
     /**
      * Клиентский идентификатор страницы
      */

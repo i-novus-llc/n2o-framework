@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -33,7 +34,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -170,9 +170,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         if (source.getDatasources() != null)
             pageContext.setDatasources(Arrays.asList(source.getDatasources()));
-        pageContext.setParentDatasourceIdsMap(
-                p.getScope(DataSourcesScope.class).keySet().stream()
-        .collect(Collectors.toMap(Function.identity(), ds -> getClientDatasourceId(ds, p))));
+        pageContext.setParentDatasourceIds(
+                p.getScope(DataSourcesScope.class).entrySet().stream()
+                        .filter(e -> !(e.getValue() instanceof N2oApplicationDatasource))
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.toList()));
 
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
