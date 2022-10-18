@@ -49,9 +49,9 @@ export function* removeSaga({ payload }: RemoveAction) {
 }
 
 // Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
-export function* dataRequestWrapper(action: DataRequestAction) {
+export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAction) {
     const { id } = action.payload
-    const task: Task = yield fork(query, action)
+    const task: Task = yield fork(query, action, apiProvider)
 
     activeTasks[id] = activeTasks[id] || []
     activeTasks[id].push(task)
@@ -63,7 +63,7 @@ export function* dataRequestWrapper(action: DataRequestAction) {
 
 export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
-    takeEvery(dataRequest, dataRequestWrapper),
+    takeEvery(dataRequest, dataRequestWrapper, apiProvider),
     takeEvery(DATA_REQUEST, function* remapRequest({ payload }) {
         const { datasource, options } = payload
 
