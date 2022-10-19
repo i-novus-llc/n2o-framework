@@ -74,14 +74,18 @@ export function* copyAction({ payload }) {
             console.warn('Source or target is not an array!')
         }
 
-        sourceModel = Object.values(sourceModel)
+        if (!Array.isArray(sourceModel) && Array.isArray(targetModel)) {
+            newModel = targetModel.concat(sourceModel)
+        } else {
+            sourceModel = Object.values(sourceModel)
 
-        newModel = target.field
-            ? {
-                ...targetModel,
-                [target.field]: [...targetModelField, ...sourceModel],
-            }
-            : [...targetModelField, ...sourceModel]
+            newModel = target.field
+                ? {
+                    ...targetModel,
+                    [target.field]: [...targetModelField, ...sourceModel],
+                }
+                : [...targetModelField, ...sourceModel]
+        }
     } else if (treePath) {
         newModel = merge({}, targetModel)
         set(newModel, target.field, sourceModel)
