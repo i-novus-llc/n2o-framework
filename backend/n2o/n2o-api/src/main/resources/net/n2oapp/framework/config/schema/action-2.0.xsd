@@ -240,13 +240,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="copy-ref-page" type="refPageType" default="this">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Ссылка на страницу, из источника данных которой будут копироваться данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="copy-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -266,13 +259,6 @@
                     <xs:annotation>
                         <xs:documentation>
                             Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий).
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-ref-page" type="refPageType" default="parent">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Ссылка на страницу, в источник данных которой будут скопированы данные
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -428,13 +414,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="copy-ref-page" type="refPageType" default="this">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Ссылка на страницу, из источника данных которой будут копироваться данные
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="copy-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -454,13 +433,6 @@
                     <xs:annotation>
                         <xs:documentation>
                             Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий).
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-ref-page" type="refPageType" default="parent">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Ссылка на страницу, в источник данных которой будут скопированы данные
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -723,15 +695,11 @@
                         <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-page" type="refPageType" default="this">
-                    <xs:annotation>
-                        <xs:documentation>Ссылка на страницу, в которую будет скопированы данные.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="target-datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             Идентификатор целевого контекста данных (по умолчанию текущий).
+                            Задайте <parent-datasource/> для ссылки на источник родительской страницы.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

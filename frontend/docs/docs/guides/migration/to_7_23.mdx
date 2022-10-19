@@ -214,6 +214,10 @@ description: ""
 
 В `query-5.0` упразднены дочерние элементы `<expression>` и `<join>` тега `<fields>`.
 
+- Атрибуты `ref-page` полей и `target-page` действия `<copy>` упразднены с сохранением обратной совместимости.
+Атрибут `target-page-id` действий `show-modal` / `open-drawer` был удален.
+Для обращения к источнику данных родительской страницы рекомендуется использовать `<parent-datasource>`.
+
 ### Изменения в сборке Frontend {#changes-frontend-build}
 
 Удалены модули

@@ -78,5 +78,6 @@
                       submit="true" apply-on-init="true"/>
             </dependencies>
         </inherited-datasource>
+        <parent-datasource id="parent_ds"/>
     </datasources>
 </page>

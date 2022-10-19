@@ -15,12 +15,10 @@ public class N2oCopyAction extends N2oAbstractAction implements N2oAction {
     private ReduxModel sourceModel;
     private String sourceDatasourceId;
     private String sourceFieldId;
-    private PageRef sourcePage;
 
     private ReduxModel targetModel;
     private String targetDatasourceId;
     private String targetFieldId;
-    private String targetClientPageId;
     private PageRef targetPage;
     private Boolean closeOnSuccess;
     private CopyMode mode;

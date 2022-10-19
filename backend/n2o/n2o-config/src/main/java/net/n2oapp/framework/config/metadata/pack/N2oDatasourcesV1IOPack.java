@@ -8,6 +8,7 @@ public class N2oDatasourcesV1IOPack implements MetadataPack<XmlIOBuilder<?>> {
     @Override
     public void build(XmlIOBuilder<?> b) {
         b.ios(new ApplicationDatasourceIO(),
+                new ParentDatasourceIO(),
                 new BrowserStorageDatasourceIO(),
                 new StandardDatasourceIO(),
                 new StompDatasourceIO(),
