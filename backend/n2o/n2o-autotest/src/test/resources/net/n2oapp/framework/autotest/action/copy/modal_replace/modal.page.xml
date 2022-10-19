@@ -1,15 +1,8 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <datasources>
-        <parent-datasource id="form"/>
-    </datasources>
-
-    <regions>
-        <form id="info">
-            <fields>
-                <input-text id="city" label="Город"/>
-                <input-text id="street" label="Улица"/>
-            </fields>
-        </form>
-    </regions>
-</page>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form id="info">
+        <fields>
+            <input-text id="city" label="Город"/>
+            <input-text id="street" label="Улица"/>
+        </fields>
+    </form>
+</simple-page>

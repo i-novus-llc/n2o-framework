@@ -8,7 +8,7 @@
     </datasources>
 
     <toolbar>
-        <button id="btn1">
+        <button>
             <show-modal page-id="testParentDatasourceModal" route="/modal1"
                         submit-action-type="copy"
                         copy-datasource="ds2"

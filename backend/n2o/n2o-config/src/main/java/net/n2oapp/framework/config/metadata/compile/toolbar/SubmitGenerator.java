@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oCopyAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
@@ -53,6 +54,7 @@ public class SubmitGenerator implements ButtonGenerator {
                 copyAction.setTargetModel(pageContext.getTargetModel());
                 copyAction.setTargetDatasourceId(pageContext.getTargetDatasourceId());
                 copyAction.setTargetFieldId(pageContext.getTargetFieldId());
+                copyAction.setTargetPage(PageRef.PARENT);
                 copyAction.setMode(pageContext.getCopyMode());
                 action = copyAction;
                 saveButtonModel = ((PageContext) context).getCopyModel();

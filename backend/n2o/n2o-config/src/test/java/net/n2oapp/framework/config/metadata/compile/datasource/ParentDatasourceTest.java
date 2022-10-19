@@ -62,6 +62,6 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
         page = (StandardPage) routeAndGet("/p/modal2", Page.class);
         submit = (CopyAction) page.getToolbar().getButton("submit").getAction();
         assertThat(submit.getPayload().getSource().getKey(), is("p_ds3"));
-        assertThat(submit.getPayload().getTarget().getKey(), is("p_modal2_ds2"));
+        assertThat(submit.getPayload().getTarget().getKey(), is("p_ds2"));
     }
 }
