@@ -35,7 +35,7 @@ public class MapInvocationUtil {
             Object data = dataSet.get(map.getKey());
             if (map.getValue() != null) {
                 String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
-                if (map.getValue().getChildMapping() != null) {
+                if (map.getValue().getChildMapping() != null && data != null) {
                     if (data instanceof Collection) {
                         List list = new ArrayList();
                         for (Object obj : (DataList) data)
