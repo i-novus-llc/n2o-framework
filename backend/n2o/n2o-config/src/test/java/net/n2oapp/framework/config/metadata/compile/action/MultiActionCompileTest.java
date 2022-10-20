@@ -38,8 +38,8 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/multiaction/bind/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/multiaction/bind/test.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testBind.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testBind.page.xml"));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testBind() {
-        StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/multiaction/bind/testBindMultiAction.page.xml")
+        StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/multiaction/testBindMultiAction.page.xml")
                 .get(new PageContext("testBindMultiAction", "/p/w/:parent_id/modal"),
                         new DataSet("parent_id", 123));
         PerformButton button = (PerformButton) page.getToolbar().getButton("test1");

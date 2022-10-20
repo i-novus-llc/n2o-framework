@@ -1161,28 +1161,25 @@
         <xs:annotation>
             <xs:documentation>Клик по строке.</xs:documentation>
         </xs:annotation>
-
-        <xs:complexContent>
-            <xs:extension base="act:actions">
-                <xs:attribute name="action-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Условие доступности действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:anyAttribute>
-                    <xs:annotation>
-                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-                    </xs:annotation>
-                </xs:anyAttribute>
-            </xs:extension>
-        </xs:complexContent>
-
+        <xs:sequence>
+            <xs:group ref="act:actionsDef"/>
+        </xs:sequence>
+        <xs:attribute name="action-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие доступности действия.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="paginationDefinition">

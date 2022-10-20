@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <toolbar>
+        <button id="b1" datasource="ds1">
+            <if test="code == 'A' &amp;&amp; type == 1">
+                <invoke operation-id="op1" object-id="testBind"/>
+            </if>
+            <else-if test="code == 'A' &amp;&amp; type == 2">
+                <invoke operation-id="op2" object-id="testBind"/>
+            </else-if>
+            <else-if test="code == 'A' &amp;&amp; type == 3">
+                <if test="test">
+                    <invoke operation-id="op1" object-id="testBind"/>
+                </if>
+            </else-if>
+            <else>
+                <invoke operation-id="op1" object-id="testBind"/>
+            </else>
+        </button>
+    </toolbar>
+</page>

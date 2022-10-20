@@ -38,6 +38,8 @@
             <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
             <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
+            <xs:element name="switch" type="switchActionDefinition" minOccurs="0"/>
+            <xs:group ref="ifElseDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -64,6 +66,8 @@
             <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
             <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
+            <xs:element name="switch" type="switchActionDefinition" minOccurs="0"/>
+            <xs:group ref="ifElseDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -1381,7 +1385,7 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="switchDefinition">
+    <xs:complexType name="switchActionDefinition">
         <xs:annotation>
             <xs:documentation>Переключатель действий</xs:documentation>
         </xs:annotation>
@@ -1392,7 +1396,7 @@
         <xs:attribute name="value-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Идентификатор поля, значение которого будет сравниваться с value в вариантах переключателя
+                    Идентификатор поля, значение которого будет сравниваться с value в кейсах переключателя
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -1401,7 +1405,7 @@
                 <xs:documentation>Идентификатор источника данных, из которого будет взят value-field-id</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="clientModel">
+        <xs:attribute name="model" type="clientModel" default="resolve">
             <xs:annotation>
                 <xs:documentation>Модель источника данных, из которой будет взят value-field-id</xs:documentation>
             </xs:annotation>
@@ -1410,7 +1414,7 @@
 
     <xs:complexType name="caseDefinition">
         <xs:annotation>
-            <xs:documentation>Вариант переключателя</xs:documentation>
+            <xs:documentation>Кейс переключателя</xs:documentation>
         </xs:annotation>
         <xs:group ref="actionsDef" minOccurs="0"/>
         <xs:attribute name="value" type="xs:string">
@@ -1435,28 +1439,21 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="if" type="ifDefinition" minOccurs="0"/>
-            <xs:element name="else-if" type="ifDefinition" minOccurs="0"/>
+            <xs:element name="else-if" type="elseIfDefinition" minOccurs="0"/>
             <xs:element name="else" type="elseDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:group>
 
     <xs:complexType name="ifDefinition">
         <xs:annotation>
-            <xs:documentation>Условный оператор</xs:documentation>
+            <xs:documentation>Условный оператор if</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="actionsDef" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="test" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Условие для выполнения действия условного оператора</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="value-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Идентификатор поля, значение которого будет сравниваться с value в вариантах переключателя
-                </xs:documentation>
+                <xs:documentation>Условие для выполнения действия условного оператора if</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
@@ -1464,9 +1461,23 @@
                 <xs:documentation>Идентификатор источника данных, из которого будут браться значения для test</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="clientModel">
+        <xs:attribute name="model" type="clientModel" default="resolve">
             <xs:annotation>
                 <xs:documentation>Модель источника данных, из которой будут браться значения для test</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="elseIfDefinition">
+        <xs:annotation>
+            <xs:documentation>Условный оператор else if</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsDef" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="test" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие для выполнения действия условного оператора else if</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
