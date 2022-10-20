@@ -92,7 +92,6 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private DataSet execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
         Map<String, Object> payload = initPayload(invocation, query, data);
-        query = (String) payload.get("query");
         String endpoint = initEndpoint(invocation.getEndpoint());
 
         HttpHeaders headers = new HttpHeaders();
@@ -188,24 +187,8 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private Map<String, Object> initPayload(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
         Map<String, Object> payload = new HashMap<>();
-
-        //Инициализация множества переменных GraphQl запроса значениями
-        Set<String> extractedVariables = extractVariables(query);
-        DataSet variables = new DataSet();
-        if (invocation.getPageMapping() != null)
-            data.put(invocation.getPageMapping(), data.get("page"));
-        if (invocation.getSizeMapping() != null)
-            data.put(invocation.getSizeMapping(), data.get("limit"));
-
-        for (String variable : extractedVariables) {
-            if (!data.containsKey(variable))
-                query = replacePlaceholder(query, "$$".concat(variable), null, "null");
-            else
-                variables.add(variable, data.get(variable));
-        }
-
         payload.put("query", query);
-        payload.put("variables", variables);
+        payload.put("variables", initVariables(invocation, query, data));
         return payload;
     }
 
@@ -304,6 +287,31 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         if (value == null)
             throw new N2oException(String.format("Value for placeholder %s not found ", "$$" + selectKey.get()));
         return replacePlaceholder(selectExpression, "$$" + selectKey.get(), String.join(" ", value), "");
+    }
+
+    /**
+     * Инициализация множества переменных GraphQl запроса значениями
+     *
+     * @param invocation Провайдер данных
+     * @param query      Строка GraphQl запроса
+     * @param data       Входные данные
+     * @return Объект со значениями переменных GraphQl запроса
+     */
+    private Object initVariables(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
+        Set<String> variables = extractVariables(query);
+        DataSet result = new DataSet();
+
+        if (invocation.getPageMapping() != null)
+            data.put(invocation.getPageMapping(), data.get("page"));
+        if (invocation.getSizeMapping() != null)
+            data.put(invocation.getSizeMapping(), data.get("limit"));
+
+        for (String variable : variables) {
+            if (!data.containsKey(variable))
+                throw new N2oException(String.format("Значение переменной '%s' не задано", variable));
+            result.add(variable, data.get(variable));
+        }
+        return result;
     }
 
     /**
