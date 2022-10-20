@@ -3,14 +3,14 @@ title: Миграция с 6.0 на 7.0
 description: ""
 ---
 
-### Изменения в сборке {#changes-build}
+## Изменения в сборке {#changes-build}
 
 - N2O теперь встраивается в Spring Boot приложение с помощью стартера `n2o-spring-boot-starter`
 - Статические ресурсы клиента N2O теперь нужно собирать самостоятельно, либо подключить модуль `n2o-web`
 - Для работы с SQL из N2O теперь необходимо подключить `n2o-engine-sql` модуль
 - Вместо `n2o-build.properties` необходимо использовать `application.properties`
 
-### Изменения в XML API {#changes-xml-api}
+## Изменения в XML API {#changes-xml-api}
 
 - Во всех `<set-value-expression>` в теле необходимо в конце явно вызывать команду return с тем значением, которое хотели установить
 - Если `<set-value-expression>` возвращает `undefined`, то значение не будет установлено
@@ -27,7 +27,7 @@ description: ""
 - В схеме `n2o-widget-3.0` не поддерживаются настройки `<settings/>`.  Необходимо использовать `n2o-widget-4.0`
 - Фильтры в схеме доступа `access-1.0` больше не поддерживаются. Необходимо использовать `access-2.0`
 
-### Изменения в Java API {#changes-java-api}
+## Изменения в Java API {#changes-java-api}
 
 - `LocalizationHolder` и библиотека i18n больше не используются. Для локализации нужно использовать бин `MessageSourceAccessor`.
 - `N2oBusinessException` устарел, вместо него рекомендуется использовать `N2oUserException`
