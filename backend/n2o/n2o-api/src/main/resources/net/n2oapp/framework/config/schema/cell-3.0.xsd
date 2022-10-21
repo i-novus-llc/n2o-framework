@@ -84,7 +84,7 @@
         <xs:complexContent>
             <xs:extension base="cellDefinition">
                 <xs:sequence>
-                    <xs:group ref="acn:actionsDef"/>
+                    <xs:group ref="acn:actionsGroup"/>
                 </xs:sequence>
                 <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>

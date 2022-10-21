@@ -22,33 +22,11 @@
 
     <xs:complexType name="actions">
         <xs:sequence>
-            <xs:element name="open-page" type="openPageDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="open-drawer" type="openDrawerDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="show-modal" type="showModalDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="a" type="aDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="invoke" type="invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="perform-validation" type="performValidationDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="close" type="closeDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="copy" type="copyDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="clear" type="clearDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="set-value" type="setValueDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="perform" type="performDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="print" type="printDefinition" minOccurs="0"/>
-            <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
-            <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
-            <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
-            <xs:element name="switch" type="switchActionDefinition" minOccurs="0"/>
-            <xs:group ref="ifElseDefinition" minOccurs="0"/>
-            <xs:any namespace="##other" processContents="strict">
-                <xs:annotation>
-                    <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
-                </xs:annotation>
-            </xs:any>
+            <xs:group ref="actionsGroup"/>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:group name="actionsDef">
+    <xs:group name="actionsGroup">
         <xs:sequence>
             <xs:element name="open-page" type="openPageDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="open-drawer" type="openDrawerDefinition" maxOccurs="1" minOccurs="0"/>

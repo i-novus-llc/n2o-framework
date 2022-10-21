@@ -193,11 +193,6 @@
                         <xs:documentation>Иконка действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="default" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Действие по умолчанию. Вызов по двойному клику или Enter.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="visible" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Видимость действия.</xs:documentation>
