@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.ActionBarAware;
-import net.n2oapp.framework.api.metadata.aware.SourceActionsAware;
-import net.n2oapp.framework.api.metadata.aware.ToolbarAware;
+import net.n2oapp.framework.api.metadata.aware.ActionsAware;
+import net.n2oapp.framework.api.metadata.aware.ToolbarsAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
@@ -68,7 +68,7 @@ public class ActionCompileStaticProcessor {
      * @param source      Компонент, содержащая метадействия и тулбар
      * @param metaActions Карта собранных действий
      */
-    public static <T extends ActionBarAware & ToolbarAware> void actionsToToolbar(T source, MetaActions metaActions) {
+    public static <T extends ActionBarAware & ToolbarsAware> void actionsToToolbar(T source, MetaActions metaActions) {
         if (source.getActions() == null || source.getToolbars() == null)
             return;
         for (N2oToolbar toolbar : source.getToolbars()) {
@@ -109,7 +109,7 @@ public class ActionCompileStaticProcessor {
      * @param scopes               Метаданные, влияющие на сборку. Должны быть разных классов
      * @return Скомпилированная клиентская модель тулбара
      */
-    public static Toolbar compileToolbar(ToolbarAware source, String defaultPlaceProperty, CompileContext<?, ?> context,
+    public static Toolbar compileToolbar(ToolbarsAware source, String defaultPlaceProperty, CompileContext<?, ?> context,
                                          CompileProcessor p, Object... scopes) {
         if (source.getToolbars() == null)
             return null;
@@ -128,7 +128,7 @@ public class ActionCompileStaticProcessor {
      * @param p      Процессор сборки метаданных
      * @return Массив исходных действий или null
      */
-    public static N2oAction[] initActions(SourceActionsAware source, CompileProcessor p) {
+    public static N2oAction[] initActions(ActionsAware source, CompileProcessor p) {
         N2oAction[] actions = null;
         if (isNotEmpty(source.getActions()))
             actions = source.getActions();
@@ -152,7 +152,7 @@ public class ActionCompileStaticProcessor {
      * @param scopes   Метаданные, влияющие на сборку. Должны быть разных классов
      * @return Скомпилированная клиентская модель действия
      */
-    public static Action compileAction(SourceActionsAware source, CompileContext<?, ?> context, CompileProcessor p,
+    public static Action compileAction(ActionsAware source, CompileContext<?, ?> context, CompileProcessor p,
                                        @Nullable CompiledObject dsObject, Object... scopes) {
         N2oAction[] n2oActions = source.getActions();
         if (n2oActions == null)

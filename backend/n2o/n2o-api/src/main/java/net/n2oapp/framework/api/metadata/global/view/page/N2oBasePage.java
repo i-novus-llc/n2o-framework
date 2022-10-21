@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.aware.ActionBarAware;
-import net.n2oapp.framework.api.metadata.aware.ToolbarAware;
+import net.n2oapp.framework.api.metadata.aware.ToolbarsAware;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
  */
 @Getter
 @Setter
-public abstract class N2oBasePage extends N2oPage implements ActionBarAware, ToolbarAware {
+public abstract class N2oBasePage extends N2oPage implements ActionBarAware, ToolbarsAware {
     private String datasourceId;
     private ActionBar[] actions;
     private GenerateType actionGenerate;

@@ -35,7 +35,7 @@ import java.util.Map;
 @Setter
 public abstract class N2oWidget extends N2oMetadata
         implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem,
-        DatasourceIdAware, ActionBarAware, ToolbarAware {
+        DatasourceIdAware, ActionBarAware, ToolbarsAware {
     private String src;
     private String customize;
     private String name;
