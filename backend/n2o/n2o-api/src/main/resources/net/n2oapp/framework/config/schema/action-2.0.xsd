@@ -1394,8 +1394,10 @@
         <xs:annotation>
             <xs:documentation>Кейс переключателя</xs:documentation>
         </xs:annotation>
-        <xs:group ref="actionsDef" minOccurs="0"/>
-        <xs:attribute name="value" type="xs:string">
+        <xs:sequence>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="value" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Значение, с которым сравнивается value-field-id</xs:documentation>
             </xs:annotation>
@@ -1407,7 +1409,7 @@
             <xs:documentation>Вариант действия по умолчанию</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:group ref="actionsDef" minOccurs="0"/>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -1427,9 +1429,9 @@
             <xs:documentation>Условный оператор if</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:group ref="actionsDef" minOccurs="0"/>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="test" type="xs:string">
+        <xs:attribute name="test" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Условие для выполнения действия условного оператора if</xs:documentation>
             </xs:annotation>
@@ -1451,9 +1453,9 @@
             <xs:documentation>Условный оператор else if</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:group ref="actionsDef" minOccurs="0"/>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="test" type="xs:string">
+        <xs:attribute name="test" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Условие для выполнения действия условного оператора else if</xs:documentation>
             </xs:annotation>
@@ -1465,7 +1467,7 @@
             <xs:documentation>Условный оператор else</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:group ref="actionsDef" minOccurs="0"/>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

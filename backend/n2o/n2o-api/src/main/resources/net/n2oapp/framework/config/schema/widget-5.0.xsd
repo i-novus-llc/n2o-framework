@@ -1157,7 +1157,7 @@
             <xs:documentation>Клик по строке.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:group ref="act:actionsDef"/>
+            <xs:group ref="act:actionsGroup"/>
         </xs:sequence>
         <xs:attribute name="action-id" type="xs:string">
             <xs:annotation>
