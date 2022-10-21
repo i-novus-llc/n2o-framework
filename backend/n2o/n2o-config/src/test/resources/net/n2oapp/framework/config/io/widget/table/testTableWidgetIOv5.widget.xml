@@ -95,7 +95,7 @@
         </set>
     </filters>
     <actions>
-        <action id="test" default="false" enabled="false" icon="test" name="test"
+        <action id="test" enabled="false" icon="test" name="test"
                 visible="false">
             <close src="test"/>
         </action>

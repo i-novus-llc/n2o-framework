@@ -21,7 +21,6 @@ public class ActionBar implements Source, IdAware, ModelAware, WidgetIdAware, Da
     private String icon;
     private String visible;
     private String enabled;
-    private Boolean defaultValue;
     private N2oAction[] n2oActions;
     private ReduxModel model;
     private String datasourceId;
