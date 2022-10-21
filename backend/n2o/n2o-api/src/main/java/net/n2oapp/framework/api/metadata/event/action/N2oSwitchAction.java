@@ -3,8 +3,8 @@ package net.n2oapp.framework.api.metadata.event.action;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.aware.SourceActionsAware;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +51,7 @@ public class N2oSwitchAction extends N2oAbstractAction {
 
     @Getter
     @Setter
-    public static abstract class AbstractCase implements SourceActionsAware, IdAware {
+    public static abstract class AbstractCase implements ActionsAware, IdAware {
         private String id;
         private String actionId;
         private N2oAction[] actions;
