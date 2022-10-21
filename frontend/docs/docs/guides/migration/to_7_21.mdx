@@ -76,7 +76,8 @@ description: ""
 </page>
 ```
 
-- Префильтры виджета `<pre-filters>` перенести в элемент `<filters>` внутри `<datasource>`.
+- Элемент `<pre-filters>` был переименован в `<filters>`.
+Также префильтр виджета был перенесен внутрь элемента `<datasource>`.
 
 *Пример как работало в схемe page-3.0*
 ```xml {6-8}
@@ -217,7 +218,7 @@ description: ""
 - Атрибуты `ref-model` и `ref-widget-id` параметров и зависимостей переименованы на `model` и `datasource` соответственно.
 
 
-## Изменения в Java API
+## Изменения в Java API {#changes-java-api}
 
 - В `N2o*` классах добавились `@Deprecated` свойства.
 Например, в `N2oWidget` поля `queryId` и `objectId`.
