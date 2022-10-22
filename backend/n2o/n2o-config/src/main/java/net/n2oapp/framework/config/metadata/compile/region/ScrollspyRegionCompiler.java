@@ -27,8 +27,8 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
     }
 
     @Override
-    protected String createId(String regionPlace, CompileProcessor p) {
-        return createId(regionPlace, "scrollspy", p);
+    protected String createId(CompileProcessor p) {
+        return createId("scrollspy", p);
     }
 
     @Override

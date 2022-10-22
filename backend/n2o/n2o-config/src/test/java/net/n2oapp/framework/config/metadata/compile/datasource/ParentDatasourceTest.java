@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,7 +42,7 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
     @Test
     public void testParentDatasource() {
         PageContext pageContext = new PageContext("testParentDatasource", "/p");
-        pageContext.setParentDatasourceIds(List.of("ds", "ds2", "ds3"));
+//        pageContext.setParentDatasourceIds(List.of("ds", "ds2", "ds3"));
         compile("net/n2oapp/framework/config/metadata/compile/datasource/testParentDatasource.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/datasource/testParentDatasourceModal.page.xml")
                 .get(pageContext);

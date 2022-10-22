@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.datasource;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Информация об идентификаторах источников данных родительской страницы
@@ -11,11 +11,10 @@ import java.util.HashSet;
 @Getter
 @Setter
 public class ParentDatasourceIdsScope {
-    private String pageId;
-    private HashSet<String> datasources;
+    private Map<String, String> datasourceIdsMap;
 
-    public ParentDatasourceIdsScope(String pageId) {
-        this.pageId = pageId;
+    public ParentDatasourceIdsScope(Map<String, String> datasourceIdsMap) {
+        this.datasourceIdsMap = datasourceIdsMap;
     }
 }
 
