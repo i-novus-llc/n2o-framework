@@ -1905,7 +1905,7 @@ class MyService {
 </fields>
 ```
 
-### Функции нормализации {#normalize_functions}
+### Вызовы функций нормализации {#normalize_functions_call}
 
 В выражениях нормализации могут быть использованы:
 
@@ -1930,25 +1930,183 @@ class MyService {
 </fields>
 ```
 
-#### Встроенные функции нормализации {#normalize_built_in_functions}
+### Встроенные функции нормализации {#normalize_built_in_functions}
 
 В java-библиотеке N2O содержится класс `NormalizeUtil`, реализующий базовые функции нормализации.
 
-|Имя метода               |Описание                                 |Пример вызова                    |
-|-------------------------|-----------------------------------------|---------------------------------|
-|`jsonToMap`              |Преобразование строки json в объект      |#jsonToMap(#this)                |
-|`mapToJson`              |Преобразование объекта в строку json     |#mapToJson(#this)                |
-|`encodeToBase64`         |Преобразование строки из UTF-16 в base64 |#encodeToBase64(#this)           |
-|`decodeFromBase64`       |Преобразование строки из base64 в UTF-16 |#decodeFromBase64(#this)         |
-|`formatByMask`           |Форматирование значения по маске         |#formatByMask(#this, "##-## ##") |
-|`formatFullName`         |Форматирование ФИО без сокращений        |#formatFullName(#this)           |
-|`formatNameWithInitials` |Форматирование ФИО с инициалами          |#formatNameWithInitials(#this)   |
+|Имя метода                                           |Описание                                 |
+|-----------------------------------------------------|-----------------------------------------|
+|[jsonToMap](#json_to_map)                            |Преобразование строки json в объект      |
+|[mapToJson](#map_to_json)                            |Преобразование объекта в строку json     |
+|[encodeToBase64](#encode_to_base64)                  |Преобразование строки из UTF-16 в base64 |
+|[decodeFromBase64](#decode_from_base64)              |Преобразование строки из base64 в UTF-16 |
+|[formatByMask](#format_by_mask)                      |Форматирование значения по маске         |
+|[formatFullName](#format_full_name)                  |Форматирование ФИО без сокращений        |
+|[formatNameWithInitials](#format_name_with_initials) |Форматирование ФИО с инициалами          |
 
-:::note
-Для вызова базовых функций в xml укажите ее имя после символа #
-:::
+#### `jsonToMap` {#json_to_map}
+Преобразование строки json в объект
 
-#### Добавление собственных функций {#normalize_custom_functions}
+|Аргумент |Тип    |Описание    |
+|---------|-------|------------|
+|json     |Строка |Строка json |
+
+
+**Данные**
+```
+Входные данные:
+"{ \"id\": 1,\"name\": \"test\" }"
+
+Выходные данные:
+{
+  "id": 1,
+  "name": "test"
+}
+```
+
+**Пример**
+```xml
+<reference id="person" normalize="#jsonToMap(#this)">
+    <field id="id"/>
+    <field id="name"/>
+</reference>
+```
+
+#### `mapToJson` {#map_to_json}
+Преобразование объекта в строку json
+
+|Аргумент |Тип    |Описание     |
+|---------|-------|-------------|
+|map      |Объект |Объект \ Map |
+
+
+**Данные**
+```
+Входные данные:
+{
+  "id": 1,
+  "name": "test"
+}
+
+Выходные данные:
+"{ \"id\": 1,\"name\": \"test\" }"
+```
+
+**Пример**
+```xml
+<field id="organization" normalize="#mapToJson(#this)"/>
+```
+
+#### `encodeToBase64` {#encode_to_base64}
+Преобразование строки из UTF-16 в base64
+
+|Аргумент |Тип    |Описание        |
+|---------|-------|----------------|
+|text     |Строка |Строка в UTF-16 |
+
+**Данные**
+```
+Входные данные:
+"test"
+
+Выходные данные:
+"dGVzdA=="
+```
+
+**Пример**
+```xml
+<field id="encoded" normalize="#encodeToBase64(#this)"/>
+```
+
+#### `decodeFromBase64` {#decode_from_base64}
+Преобразование строки из base64 в UTF-16
+
+|Аргумент |Тип    |Описание        |
+|---------|-------|----------------|
+|base64   |Строка |Строка в base64 |
+
+**Данные**
+```
+Входные данные:
+"dGVzdA=="
+
+Выходные данные:
+"test"
+```
+
+**Пример**
+```xml
+<field id="decoded" normalize="#decodeFromBase64(#this)"/>
+```
+
+#### `formatByMask` {#format_by_mask}
+Форматирование значения по маске
+
+|Аргумент |Тип    |Описание               |
+|---------|-------|-----------------------|
+|value    |Объект |Форматируемое значение |
+|mask     |Строка |Маска                  |
+
+**Данные**
+```
+Входные данные:
+"1234567890"
+
+Выходные данные:
+"(123) 456-78-90"
+```
+
+**Пример**
+```xml
+<field id="phone" normalize="#formatByMask(#this, '(###) ###-##-##')"/>
+```
+
+#### `formatFullName` {#format_full_name}
+Форматирование ФИО без сокращений
+
+|Аргумент |Тип          |Описание                               |
+|---------|-------------|---------------------------------------|
+|names    |Список строк |Список ФИО (допускается ФИ, ИО и т.д.) |
+
+**Данные**
+```
+Входные данные:
+"Лев", "Николаевич", "Толстой"
+
+Выходные данные:
+"Лев Николаевич Толстой"
+```
+
+**Пример**
+```xml
+<field id="fio" normalize="#formatFullName(#this)"/>
+<field id="fullName" normalize="#formatFullName(#data['lastName'], #data['firstName'], #data['patronymic'])"/>
+```
+
+#### `formatNameWithInitials` {#format_name_with_initials}
+Форматирование ФИО с инициалами
+
+|Аргумент |Тип          |Описание                               |
+|---------|-------------|---------------------------------------|
+|names    |Список строк |Список ФИО (допускается ФИ, ИО и т.д.) |
+
+**Данные**
+```
+Входные данные:
+"Толстой", "Лев", "Николаевич"
+
+Выходные данные:
+"Толстой Л.Н."
+```
+
+**Пример**
+```xml
+<field id="fio" normalize="#formatNameWithInitials(#this)"/>
+<field id="shortName" normalize="#formatNameWithInitials(#data['lastName'], #data['firstName'], #data['patronymic'])"/>
+```
+
+
+### Добавление собственных функций {#normalize_custom_functions}
 
 Указание полного имени класса для вызова пользовательских функций является не очень удобным.
 Однако существует возможность вызывать пользовательские функции таким же образом, что и встроенные, например `normalize="#myFunction(#this)"`.

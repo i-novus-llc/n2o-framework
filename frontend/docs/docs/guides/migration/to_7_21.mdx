@@ -140,31 +140,53 @@ description: ""
 ```
 
 - Атрибут `upload` действия открытия страницы (например `<show-modal>`)
-можно прокинуть на следующую страницу в виде `<datasource>` c атрибутом `default-values-mode`.
-Либо на следующей странице указать в `datasource` атрибут `default-values-mode` с соответствующим значением.
+можно прокинуть на следующую страницу в виде `<datasource>` с соответствующей выборкой.
 
 *Пример как работало в схемe page-3.0*
 ```xml
+<!-- для действия create данные берутся из default выборки -->
 <show-modal page-id="person" submit-operation-id="create" upload="defaults"/>
+...
+<!-- для действия update данные берутся из обычной выборки -->
+<show-modal page-id="person" submit-operation-id="update"/>
+```
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="data" default-values-query-id="default">
+        ...
+    </form>
+</simple-page>
 ```
 
 *Пример как работает в схемe page-4.0*
 ```xml
 <show-modal page-id="person" submit-operation-id="create">
-    <!-- прокидывание источника с defaults на следующую страницу -->
+    <!-- прокидывание источника с default выборкой на следующую страницу -->
     <datasources>
-        <datasource default-values-mode="defaults"/>
+        <datasource query-id="default"/>
+    </datasources>
+</show-modal>
+...
+<show-modal page-id="person" submit-operation-id="update">
+    <!-- прокидывание источника с обычной выборкой на следующую страницу -->
+    <datasources>
+        <datasource query-id="data"/>
     </datasources>
 </show-modal>
 ```
 
 ```xml
-<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <!-- задание default в источнике открываемой страницы -->
-    <datasources>
-        <datasource id="ds" query-id="data" default-values-mode="defaults"/>
-    </datasources>
-</page>
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <!-- источник первого виджета страницы будет неявно заменен на тот,
+             который прокинули из родительской страницы -->
+        <datasource query-id="data"/>
+        ...
+    </form>
+</simple-page>
 ```
 
 - Master-detail зависимость виджетов задается через `<fetch>` зависимость `<datasource>`.
