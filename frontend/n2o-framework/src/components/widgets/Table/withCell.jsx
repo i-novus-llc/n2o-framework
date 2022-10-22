@@ -54,6 +54,7 @@ export default function WithCell(WrappedComponent) {
                 callAction={callAction}
                 action={defaultAction}
                 model={model}
+                dispatch={dispatch}
                 {...rest}
             />
         )
@@ -64,6 +65,8 @@ export default function WithCell(WrappedComponent) {
         model: PropTypes.object,
         datasource: PropTypes.string.isRequired,
         dispatch: PropTypes.func,
+        url: PropTypes.string,
+        target: PropTypes.string,
     }
 
     return WithCellComponent

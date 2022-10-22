@@ -60,6 +60,11 @@ function CheckboxN2O({
                 onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
+                onKeyDown={(evt) => {
+                    if (evt.key === 'Enter') {
+                        evt.target.checked = !evt.target.checked
+                    }
+                }}
                 tabIndex={tabIndex}
             />
             <label className="custom-control-label" htmlFor={elementId}>

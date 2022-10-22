@@ -58,7 +58,11 @@ export interface QueryResult<TModel extends object = object> {
 
 export type QueryOptions = { page?: number }
 
-export type Query<TProvider extends IProvider> = (id: string, provider: TProvider, options: QueryOptions) => unknown
+export type Query<TProvider extends IProvider> = (
+    id: string,
+    provider: TProvider,
+    options: QueryOptions,
+    apiProvider: unknown) => unknown
 
 export interface ISubmitBase extends IProvider {
     auto: boolean
