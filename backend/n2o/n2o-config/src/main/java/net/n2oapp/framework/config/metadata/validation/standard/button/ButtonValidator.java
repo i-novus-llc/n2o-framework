@@ -10,6 +10,10 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScop
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+
 /**
  * Валидатор исходной модели кнопки
  */
@@ -27,8 +31,8 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
         checkDatasource(source, datasourceIdsScope);
         checkValidateDatasource(source, datasourceIdsScope);
 
-        if (source.getAction() != null)
-            p.validate(source.getAction(), new ComponentScope(source, p.getScope(ComponentScope.class)));
+        if (isNotEmpty(source.getActions()))
+            Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
     }
 
     /**

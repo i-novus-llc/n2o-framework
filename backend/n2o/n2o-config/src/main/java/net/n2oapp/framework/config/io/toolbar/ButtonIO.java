@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ValidateType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,7 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
     @Override
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
-        p.attribute(e, "action-id", b::getActionId, b::setActionId);
+        p.attribute(e, "action-id",  b::getActionId, b::setActionId);
         p.attribute(e, "validate", b::getValidateString, b::setValidateString);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
@@ -50,7 +49,7 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
                 .add("enabling", N2oButton.EnablingDependency.class, this::enablingDependency)
                 .add("visibility", N2oButton.VisibilityDependency.class, this::dependency));
 
-        p.anyChild(e, null, b::getAction, b::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
+        p.anyChildren(e, null, b::getActions, b::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
     }
 
     private void dependency(Element e, N2oButton.Dependency t, IOProcessor p) {

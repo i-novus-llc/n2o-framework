@@ -22,6 +22,12 @@
 
     <xs:complexType name="actions">
         <xs:sequence>
+            <xs:group ref="actionsGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:group name="actionsGroup">
+        <xs:sequence>
             <xs:element name="open-page" type="openPageDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="open-drawer" type="openDrawerDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="show-modal" type="showModalDefinition" maxOccurs="1" minOccurs="0"/>
@@ -44,7 +50,7 @@
                 </xs:annotation>
             </xs:any>
         </xs:sequence>
-    </xs:complexType>
+    </xs:group>
 
     <xs:complexType name="actionDefinition">
         <xs:annotation>

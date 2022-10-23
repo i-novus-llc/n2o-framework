@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
@@ -17,10 +16,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmp
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
@@ -31,7 +28,6 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +40,9 @@ import java.util.stream.Stream;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
  * Компиляция кнопки
@@ -99,21 +97,13 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         source.setValidate(validate);
         source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
         source.setValidateDatasourceIds(initValidateDatasources(source, validate, datasource));
-        source.setAction(initAction(source, p));
+        source.setActions(initActions(source, p));
     }
 
     private Boolean initValidate(N2oButton source, CompileProcessor p, String datasource) {
-        if (source.getAction() == null)
+        if (isEmpty(source.getActions()))
             return p.cast(source.getValidate(), false);
         return p.cast(source.getValidate(), datasource != null || source.getValidateDatasourceIds() != null);
-    }
-
-    private N2oAction initAction(N2oButton source, CompileProcessor p) {
-        if (source.getAction() != null)
-            return source.getAction();
-        MetaActions metaActions = p.getScope(MetaActions.class);
-        return source.getActionId() == null ? null :
-                (metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction());
     }
 
     private List<String> compileValidate(N2oButton source, CompileProcessor p) {
@@ -150,18 +140,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             }
         }
         return p.getScope(CompiledObject.class);
-    }
-
-    private void compileLink(PerformButton button) {
-        if (button.getAction() instanceof LinkAction) {
-            LinkAction linkAction = ((LinkAction) button.getAction());
-            button.setUrl(linkAction.getUrl());
-            button.setTarget(linkAction.getTarget());
-            if (linkAction.getPathMapping() != null)
-                button.setPathMapping(new StrictMap<>(linkAction.getPathMapping()));
-            if (linkAction.getQueryMapping() != null)
-                button.setQueryMapping(new StrictMap<>(linkAction.getQueryMapping()));
-        }
     }
 
     private Confirm compileConfirm(N2oButton source,
@@ -224,17 +202,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             return text;
         }
         return attr;
-    }
-
-    private Action compileAction(N2oButton source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject object) {
-        N2oAction butAction = source.getAction();
-        if (source.getAction() == null && source.getActionId() != null) {
-            MetaActions metaActions = p.getScope(MetaActions.class);
-            butAction = metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction();
-        }
-        if (butAction == null) return null;
-        butAction.setId(p.cast(butAction.getId(), source.getId()));
-        return p.compile(butAction, context, object, new ComponentScope(source, p.getScope(ComponentScope.class)));
     }
 
     private String initDatasource(N2oButton source, CompileProcessor p) {

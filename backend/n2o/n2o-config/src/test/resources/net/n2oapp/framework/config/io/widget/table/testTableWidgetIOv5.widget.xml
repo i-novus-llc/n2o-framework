@@ -95,7 +95,7 @@
         </set>
     </filters>
     <actions>
-        <action id="test" default="false" enabled="false" icon="test" name="test"
+        <action id="test" enabled="false" icon="test" name="test"
                 visible="false">
             <close src="test"/>
         </action>
@@ -145,7 +145,7 @@
              <menu-item action-id="test3" icon="test" label="test" class="test"/>
          </sub-menu>
          <group>
-             <button action-id="test3" class="test" icon="test" label="test" type="icon">
+             <button action-id="test1" class="test" icon="test" label="test" type="icon">
                  <dependencies>
                      <enabling model="filter" datasource="test">condition1</enabling>
                      <visibility model="filter" datasource="test">condition2</visibility>

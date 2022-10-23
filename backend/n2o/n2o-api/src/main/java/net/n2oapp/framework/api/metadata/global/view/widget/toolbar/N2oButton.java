@@ -6,9 +6,11 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
+import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +19,8 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oButton extends N2oAbstractButton implements GroupItem, DatasourceIdAware, WidgetIdAware, ModelAware {
+public class N2oButton extends N2oAbstractButton implements GroupItem, DatasourceIdAware, WidgetIdAware,
+        ModelAware, ActionsAware {
     private String actionId;
     private Boolean rounded;
     private String enabled;
@@ -25,7 +28,7 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     private String datasourceId;
     private ReduxModel model;
     private String[] validateDatasourceIds;
-    private N2oAction action;
+    private N2oAction[] actions;
 
     private String confirm;
     private ConfirmType confirmType;
@@ -79,12 +82,10 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
     }
 
     @Override
-    public List<N2oAction> getActions() {
-        return Arrays.asList(getAction());
-    }
-
-    public void setActionId(String actionId) {
-        this.actionId = actionId;
+    public List<N2oAction> getListActions() {
+        if (actions == null)
+            return new ArrayList<>();
+        return Arrays.asList(actions);
     }
 
     @Getter

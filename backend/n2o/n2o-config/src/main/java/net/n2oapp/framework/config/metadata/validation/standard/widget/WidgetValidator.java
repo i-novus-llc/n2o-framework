@@ -55,7 +55,8 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         if (source.getDatasourceId() != null) {
             checkDatasource(source, datasourceIdsScope);
         }
-        p.safeStreamOf(source.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction(), componentScope));
+        p.safeStreamOf(source.getActions()).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
+                .forEach(action -> p.validate(action, componentScope));
     }
 
     /**

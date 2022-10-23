@@ -47,7 +47,8 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions()).forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope)));
         p.safeStreamOf(page.getToolbars()).map(N2oToolbar::getItems).filter(Objects::nonNull)
                 .flatMap(Arrays::stream).forEach(button -> p.validate(button, datasourceIdsScope, dataSourcesScope));
-        p.safeStreamOf(page.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction(), pageScope, datasourceIdsScope, dataSourcesScope));
+        p.safeStreamOf(page.getActions()).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
+                .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope));
 
         p.checkIdsUnique(widgets, "Виджет {0} встречается более чем один раз на странице " + page.getId());
         p.safeStreamOf(widgets).forEach(widget -> p.validate(widget, pageScope, datasourceIdsScope, dataSourcesScope));

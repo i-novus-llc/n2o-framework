@@ -8,15 +8,13 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
-import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
+import net.n2oapp.framework.api.metadata.aware.*;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
+import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
@@ -36,7 +34,8 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oWidget extends N2oMetadata
-        implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem, DatasourceIdAware {
+        implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem,
+        DatasourceIdAware, ActionBarAware, ToolbarsAware {
     private String src;
     private String customize;
     private String name;
@@ -76,7 +75,7 @@ public abstract class N2oWidget extends N2oMetadata
     private String visible;
     @Deprecated
     private N2oPreFilter[] preFilters;
-    private ActionsBar[] actions;
+    private ActionBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
     @ExtAttributesSerializer

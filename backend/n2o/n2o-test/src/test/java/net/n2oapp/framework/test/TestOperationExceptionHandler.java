@@ -48,12 +48,12 @@ public class TestOperationExceptionHandler implements OperationExceptionHandler 
         action.setOperationId("create");
         action.setObjectId("testDialog");
         action.setRoute("/create");
-        buttons[0].setAction(action);
+        buttons[0].setActions(new N2oInvokeAction[]{action});
         buttons[1] = new N2oButton();
         buttons[0].setId("no");
         buttons[1].setLabel("No");
         N2oCloseAction action1 = new N2oCloseAction();
-        buttons[1].setAction(action1);
+        buttons[1].setActions(new N2oCloseAction[]{action1});
         buttons[1].setModel(ReduxModel.filter);
         dialog.setToolbar(new N2oToolbar(buttons));
         exception.setDialog(dialog);

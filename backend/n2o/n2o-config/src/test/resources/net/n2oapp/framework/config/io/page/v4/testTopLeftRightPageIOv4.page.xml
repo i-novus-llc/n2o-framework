@@ -68,14 +68,14 @@
         </action>
     </actions>
     <toolbar place="bottomRight" generate="submit, close">
-        <button action-id="testId" model="filter"/>
+        <button action-id="ac1" model="filter"/>
         <sub-menu>
-            <menu-item action-id="miTestId"/>
+            <menu-item action-id="ac1"/>
         </sub-menu>
         <group>
-            <button action-id="groupTestId"/>
+            <button action-id="ac1"/>
             <sub-menu>
-                <menu-item action-id="miTestId"/>
+                <menu-item action-id="ac1"/>
             </sub-menu>
         </group>
     </toolbar>

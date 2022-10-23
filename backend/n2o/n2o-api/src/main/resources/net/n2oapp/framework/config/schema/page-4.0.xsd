@@ -325,7 +325,8 @@
 
     <xs:complexType name="actionDefinition">
         <xs:annotation>
-            <xs:documentation>Действие над страницей.</xs:documentation>
+            <xs:documentation>Действие над страницей
+                (допускает использование нескольких обработчиков действий в теле)</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ac:actions">
