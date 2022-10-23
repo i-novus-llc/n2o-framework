@@ -129,14 +129,14 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 if (ds instanceof N2oParentDatasource) {
                     parentDatasourceIds.add(ds.getId());
                     if (context.getParentDatasourceIdsMap() != null && !context.getParentDatasourceIdsMap().containsKey(ds.getId())) {
-                        throw new N2oException("Элемент `<parent-datasource>` ссылается на несуществующий источник или `<app-datasource>` родительской страницы");
+                        throw new N2oException("Элемент \"<parent-datasource>\" ссылается на несуществующий источник или \"<app-datasource>\" родительской страницы");
                     }
                 }
                 datasourcesScope.put(ds.getId(), ds);
             }
 
         if (!parentDatasourceIds.isEmpty() && context.getParentClientPageId() == null)
-            throw new N2oException("На странице задан `<parent-datasource>`, при этом она не имеет родительской страницы");
+            throw new N2oException("На странице задан \"<parent-datasource>\", при этом она не имеет родительской страницы");
 
         addInlineDatasourcesToScope(sourceWidgets, datasourcesScope);
 

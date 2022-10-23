@@ -117,7 +117,7 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
                     .get(context);
             fail();
         } catch (N2oException e) {
-            assertThat(e.getMessage(), is("На странице задан `<parent-datasource>`, при этом она не имеет родительской страницы"));
+            assertThat(e.getMessage(), is("На странице задан \"<parent-datasource>\", при этом она не имеет родительской страницы"));
         }
 
         context = new PageContext("testNonExistDatasourceInParentPage", "/p/modal");
@@ -127,7 +127,7 @@ public class ParentDatasourceTest extends SourceCompileTestBase {
                     .get(context);
             fail();
         } catch (N2oException e) {
-            assertThat(e.getMessage(), is("Элемент `<parent-datasource>` ссылается на несуществующий источник или `<app-datasource>` родительской страницы"));
+            assertThat(e.getMessage(), is("Элемент \"<parent-datasource>\" ссылается на несуществующий источник или \"<app-datasource>\" родительской страницы"));
         }
     }
 }
