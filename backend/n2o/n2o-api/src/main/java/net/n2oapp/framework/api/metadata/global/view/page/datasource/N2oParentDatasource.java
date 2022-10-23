@@ -10,7 +10,10 @@ import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 @Getter
 @Setter
 public class N2oParentDatasource extends N2oAbstractDatasource {
-
+    /**
+     * Поле является признаком того, что источник был неявно проброшен с родительской страницы (для обратной совместимости!),
+     * и не является источником, который задан на текущей странице с помощью элемента <parent-datasource/>
+     */
     private boolean fromParentPage;
 
     public N2oParentDatasource() {

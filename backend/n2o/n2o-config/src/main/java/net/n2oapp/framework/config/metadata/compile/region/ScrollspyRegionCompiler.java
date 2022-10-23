@@ -78,7 +78,7 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
     }
 
     private void initElement(ScrollspyElement element, N2oScrollspyRegion.AbstractMenuItem item, CompileProcessor p) {
-        element.setId(p.cast(item.getId(), createId("element", p)));
+        element.setId(p.cast(item.getId(), createId("element_scrollspy", p)));
         element.setTitle(item.getTitle());
     }
 }

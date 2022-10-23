@@ -39,10 +39,7 @@ import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.StylesResolver;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,8 +80,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         SubModelsScope subModelsScope = new SubModelsScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
         ApplicationDatasourceIdsScope appDatasourcesIdScope = new ApplicationDatasourceIdsScope();
-        ParentDatasourceIdsScope parentDatasourceIdsScope = new ParentDatasourceIdsScope(context.getParentDatasourceIdsMap());
-        DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, appDatasourcesIdScope, context);
+        ParentDatasourceIdsScope parentDatasourceIdsScope = new ParentDatasourceIdsScope();
+        DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, appDatasourcesIdScope, parentDatasourceIdsScope, context);
         PageScope pageScope = initPageScope(source, page.getId(), sourceWidgets, resultWidget,
                 appDatasourcesIdScope, context, p);
         MetaActions metaActions = initMetaActions(source);
@@ -120,29 +117,39 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
     private DataSourcesScope initDataSourcesScope(S source, List<N2oWidget> sourceWidgets,
                                                   ApplicationDatasourceIdsScope appDatasourcesIdScope,
+                                                  ParentDatasourceIdsScope parentDatasourceIdsScope,
                                                   PageContext context) {
         DataSourcesScope datasourcesScope = new DataSourcesScope();
+        Set<String> parentDatasourceIds = new HashSet<>();
 
         if (source.getDatasources() != null)
-            Stream.of(source.getDatasources()).forEach(ds -> {
+            for (N2oAbstractDatasource ds : source.getDatasources()) {
                 if (ds instanceof N2oApplicationDatasource)
                     appDatasourcesIdScope.add(ds.getId());
                 if (ds instanceof N2oParentDatasource) {
-                    // TODO check existance + check datasource
+                    parentDatasourceIds.add(ds.getId());
+                    if (context.getParentDatasourceIdsMap() != null && !context.getParentDatasourceIdsMap().containsKey(ds.getId())) {
+                        throw new N2oException("Элемент `<parent-datasource>` ссылается на несуществующий источник или `<app-datasource>` родительской страницы");
+                    }
                 }
                 datasourcesScope.put(ds.getId(), ds);
-            });
+            }
 
-//        if (haveParentDatasource && context.getParentClientPageId() == null)
-//            throw new N2oException("На странице задан `<parent-datasource>`, при этом она не имеет родительской страницы");
+        if (!parentDatasourceIds.isEmpty() && context.getParentClientPageId() == null)
+            throw new N2oException("На странице задан `<parent-datasource>`, при этом она не имеет родительской страницы");
 
         addInlineDatasourcesToScope(sourceWidgets, datasourcesScope);
 
         // add datasources from parent page as N2oParentDatasource
         if (context.getParentDatasourceIdsMap() != null)
-            context.getParentDatasourceIdsMap().keySet().stream()
-                    .filter(id -> !datasourcesScope.containsKey(id))
-                    .forEach(id -> datasourcesScope.put(id, new N2oParentDatasource(id, true)));
+            for (String dsId : context.getParentDatasourceIdsMap().keySet()) {
+                if (datasourcesScope.containsKey(dsId) && !parentDatasourceIds.contains(dsId))
+                    continue;
+
+                if (!datasourcesScope.containsKey(dsId))
+                    datasourcesScope.put(dsId, new N2oParentDatasource(dsId, true));
+                parentDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(dsId));
+            }
 
         return datasourcesScope;
     }

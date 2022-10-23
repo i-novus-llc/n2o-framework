@@ -83,9 +83,8 @@ public class DatasourceUtil {
 
         // parent-datasource
         ParentDatasourceIdsScope parentDatasourceIdsScope = p.getScope(ParentDatasourceIdsScope.class);
-        if (parentDatasourceIdsScope != null && parentDatasourceIdsScope.getDatasourceIdsMap() != null &&
-                parentDatasourceIdsScope.getDatasourceIdsMap().containsKey(datasourceId))
-            return parentDatasourceIdsScope.getDatasourceIdsMap().get(datasourceId);
+        if (parentDatasourceIdsScope != null && parentDatasourceIdsScope.containsKey(datasourceId))
+            return parentDatasourceIdsScope.get(datasourceId);
 
         String separator = "_".equals(pageId) ? "" : "_";
         return pageId.concat(separator).concat(datasourceId);

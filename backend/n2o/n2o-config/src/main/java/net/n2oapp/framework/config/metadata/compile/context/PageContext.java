@@ -83,10 +83,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     @Deprecated
     private String parentClientWidgetId;
     /**
-     * Родительский глобальный источник данных, в котором находилось действие
-     */
-    private String parentClientDatasourceId;
-    /**
      * Родительский локальный источник данных, в котором находилось действие
      */
     private String parentLocalDatasourceId;
