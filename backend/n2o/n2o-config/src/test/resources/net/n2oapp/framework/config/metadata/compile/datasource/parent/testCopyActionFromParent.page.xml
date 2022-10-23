@@ -9,14 +9,14 @@
 
     <toolbar>
         <button>
-            <show-modal page-id="testParentDatasourceModal" route="/modal1"
+            <show-modal page-id="testCopyActionFromParentModal" route="/modal1"
                         submit-action-type="copy"
                         copy-datasource="ds2"
                         target-datasource="ds3">
             </show-modal>
         </button>
         <button>
-            <show-modal page-id="testParentDatasourceModal" route="/modal2"
+            <show-modal page-id="testCopyActionFromParentModal" route="/modal2"
                         submit-action-type="copy"
                         copy-datasource="ds3"
                         target-datasource="ds2">

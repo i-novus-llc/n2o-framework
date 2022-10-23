@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Модальное окно">
+    <datasources>
+        <parent-datasource id="ds1"/>
+        <datasource id="ds3">
+            <filters>
+                <eq field-id="id" value="2"/>
+            </filters>
+        </datasource>
+        <app-datasource id="appDs"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds3">
+            <toolbar>
+                <button label="Открыть">
+                    <show-modal page-id="testParentDatasourceModal2" route="/modal2"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

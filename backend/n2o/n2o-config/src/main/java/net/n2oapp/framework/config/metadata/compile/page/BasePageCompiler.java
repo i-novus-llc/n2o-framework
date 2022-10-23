@@ -38,7 +38,6 @@ import net.n2oapp.framework.config.metadata.compile.datasource.ParentDatasourceI
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.StylesResolver;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -81,10 +80,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         SubModelsScope subModelsScope = new SubModelsScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
         ApplicationDatasourceIdsScope appDatasourcesIdScope = new ApplicationDatasourceIdsScope();
-        ParentDatasourceIdsScope parentDatasourceIdsScope = new ParentDatasourceIdsScope(context.getParentClientPageId());
+        ParentDatasourceIdsScope parentDatasourceIdsScope = new ParentDatasourceIdsScope();
         DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, appDatasourcesIdScope, parentDatasourceIdsScope, context);
         PageScope pageScope = initPageScope(source, page.getId(), sourceWidgets, resultWidget,
-                appDatasourcesIdScope, parentDatasourceIdsScope, context, p);
+                appDatasourcesIdScope, context, p);
         MetaActions metaActions = initMetaActions(source);
         FiltersScope filtersScope = new FiltersScope();
 
@@ -121,28 +120,36 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                                   ParentDatasourceIdsScope parentDatasourceIdsScope,
                                                   PageContext context) {
         DataSourcesScope datasourcesScope = new DataSourcesScope();
+        Set<String> parentDatasourceIds = new HashSet<>();
+
         if (source.getDatasources() != null)
-            Stream.of(source.getDatasources()).forEach(ds -> {
+            for (N2oAbstractDatasource ds : source.getDatasources()) {
                 if (ds instanceof N2oApplicationDatasource)
                     appDatasourcesIdScope.add(ds.getId());
-                else if (ds instanceof N2oParentDatasource) {
-                    if (parentDatasourceIdsScope.getDatasources() == null)
-                        parentDatasourceIdsScope.setDatasources(new HashSet<>());
-                    parentDatasourceIdsScope.getDatasources().add(ds.getId());
+                if (ds instanceof N2oParentDatasource) {
+                    parentDatasourceIds.add(ds.getId());
+                    if (context.getParentDatasourceIdsMap() != null && !context.getParentDatasourceIdsMap().containsKey(ds.getId())) {
+                        throw new N2oException("Элемент \"<parent-datasource>\" ссылается на несуществующий источник или \"<app-datasource>\" родительской страницы");
+                    }
                 }
                 datasourcesScope.put(ds.getId(), ds);
-            });
+            }
 
-        if (parentDatasourceIdsScope.getDatasources() != null && parentDatasourceIdsScope.getPageId() == null)
-            throw new N2oException("На странице задан `<parent-datasource>`, при этом она не имеет родительской страницы");
+        if (!parentDatasourceIds.isEmpty() && context.getParentClientPageId() == null)
+            throw new N2oException("На странице задан \"<parent-datasource>\", при этом она не имеет родительской страницы");
 
         addInlineDatasourcesToScope(sourceWidgets, datasourcesScope);
 
         // add datasources from parent page as N2oParentDatasource
-        if (context.getParentDatasourceIds() != null)
-            context.getParentDatasourceIds().stream()
-                    .filter(id -> !datasourcesScope.containsKey(id))
-                    .forEach(id -> datasourcesScope.put(id, new N2oParentDatasource(id)));
+        if (context.getParentDatasourceIdsMap() != null)
+            for (String dsId : context.getParentDatasourceIdsMap().keySet()) {
+                if (datasourcesScope.containsKey(dsId) && !parentDatasourceIds.contains(dsId))
+                    continue;
+
+                if (!datasourcesScope.containsKey(dsId))
+                    datasourcesScope.put(dsId, new N2oParentDatasource(dsId, true));
+                parentDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(dsId));
+            }
 
         return datasourcesScope;
     }
@@ -169,7 +176,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
     private PageScope initPageScope(S source, String pageId, List<N2oWidget> sourceWidgets, N2oWidget resultWidget,
                                     ApplicationDatasourceIdsScope applicationDatasourceIds,
-                                    ParentDatasourceIdsScope parentDatasourceIds,
                                     PageContext context, CompileProcessor p) {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(pageId);
@@ -178,9 +184,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         }
         pageScope.setObjectId(source.getObjectId());
         pageScope.setResultWidgetId(resultWidget == null ? null : resultWidget.getId());
-        if (!CollectionUtils.isEmpty(sourceWidgets))
-            pageScope.setWidgetIdQueryIdMap(sourceWidgets.stream().filter(w -> w.getQueryId() != null)
-                    .collect(Collectors.toMap(N2oWidget::getId, N2oWidget::getQueryId)));
         pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()
                 .collect(Collectors.toMap(N2oMetadata::getId,
                         w -> w.getDatasourceId() == null ? w.getId() : w.getDatasourceId())));
@@ -191,9 +194,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                             String datasourceId = w.getDatasourceId() == null ? w.getId() : w.getDatasourceId();
                             if (applicationDatasourceIds.contains(datasourceId))
                                 return datasourceId;
-                            else if (parentDatasourceIds.getDatasources() != null &&
-                                    parentDatasourceIds.getDatasources().contains(datasourceId) && parentDatasourceIds.getPageId() != null)
-                                return getClientDatasourceId(datasourceId, parentDatasourceIds.getPageId(), p);
                             else
                                 return getClientDatasourceId(datasourceId, pageId, p);
                         })));
@@ -298,7 +298,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     private void createRegion(N2oRegion n2oRegion, Map<String, List<Region>> regionMap, String defaultPlace,
                               PageContext context, CompileProcessor p, Object... scopes) {
         Region region = p.compile(n2oRegion, context, scopes);
-        String place = p.cast(n2oRegion.getPlace(), defaultPlace);
+        String place = defaultPlace;
         if (regionMap.get(place) != null) {
             regionMap.get(place).add(region);
         } else {
