@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 @Getter
 @Setter
 public abstract class N2oBasePage extends N2oPage implements ActionBarAware, ToolbarsAware {
-    private String datasourceId;
+    private String datasourceId;//TODO если потребуется добавить интерфейс DatasourceIdAware, то стоит изменить метод AbstractActionCompiler.getLocalDatasourceId
     private ActionBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
