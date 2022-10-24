@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.validation;
+package net.n2oapp.framework.config.metadata.validation.action;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;

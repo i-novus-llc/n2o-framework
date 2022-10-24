@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.ActionsAware;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
  */
 @Getter
 @Setter
-public class N2oSwitchAction extends N2oAbstractAction {
+public class N2oSwitchAction extends N2oAbstractAction implements DatasourceIdAware {
     private String valueFieldId;
     private String datasourceId;
     private ReduxModel model;

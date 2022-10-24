@@ -30,6 +30,10 @@
                     <else>
                         <alert text="Не выполнены условия"/>
                     </else>
+
+                    <if test="code == 'B'">
+                        <alert text="Next"/>
+                    </if>
                 </button>
             </toolbar>
         </form>

@@ -30,6 +30,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -164,7 +165,7 @@ public class ActionCompileStaticProcessor {
             return null;
 
         List<Action> actions = Arrays.stream(n2oActions)
-                .filter(ActionCompileStaticProcessor::filterFailConditions)
+                .filter(ActionCompileStaticProcessor::isNotFailConditions)
                 .map(n2oAction -> (Action) p.compile(n2oAction, context,
                         initActionObject(n2oAction, dsObject, p),
                         initFailConditionBranchesScope(n2oAction, n2oActions),
@@ -209,12 +210,15 @@ public class ActionCompileStaticProcessor {
     private static ConditionBranchesScope initFailConditionBranchesScope(N2oAction n2oAction, N2oAction[] n2oActions) {
         if (!(n2oAction instanceof N2oIfBranchAction))
             return null;
-        List<N2oConditionBranch> branches = Arrays.stream(n2oActions)
-                .filter(a -> a instanceof N2oElseIfBranchAction || a instanceof N2oElseBranchAction)
-                .map(N2oConditionBranch.class::cast)
-                .collect(Collectors.toList());
+        List<N2oConditionBranch> failBranches = new ArrayList<>();
+        for (N2oAction act: n2oActions) {
+            if (act instanceof N2oIfBranchAction && !act.equals(n2oAction))
+                break;
+            if (act instanceof N2oElseIfBranchAction || act instanceof N2oElseBranchAction)
+                failBranches.add((N2oConditionBranch) act);
+        }
 
-        return new ConditionBranchesScope(branches);
+        return new ConditionBranchesScope(failBranches);
     }
 
     private static CompiledObject initActionObject(N2oAction n2oAction, CompiledObject dsObject, CompileProcessor p) {
@@ -229,7 +233,7 @@ public class ActionCompileStaticProcessor {
     private static void initMultiActionIds(N2oAction[] actions, CompileProcessor p) {
         if (ArrayUtils.getLength(actions) > 1) {
             IndexScope indexScope = new IndexScope();
-            Arrays.stream(actions).filter(ActionCompileStaticProcessor::filterFailConditions)
+            Arrays.stream(actions).filter(ActionCompileStaticProcessor::isNotFailConditions)
                     .forEach(action -> action.setId(p.cast(action.getId(), "multi" + indexScope.get())));
         }
     }
@@ -265,7 +269,7 @@ public class ActionCompileStaticProcessor {
         }
     }
 
-    private static boolean filterFailConditions(N2oAction n2oAction) {
+    private static boolean isNotFailConditions(N2oAction n2oAction) {
         return !(n2oAction instanceof N2oElseIfBranchAction) && !(n2oAction instanceof N2oElseBranchAction);
     }
 }

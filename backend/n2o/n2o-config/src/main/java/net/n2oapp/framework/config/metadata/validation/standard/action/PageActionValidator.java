@@ -77,7 +77,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                         String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет '%s'", refreshDatasourceIds[0]));
         } else if (datasourceIdsScope != null) {
             for (String datasourceId : refreshDatasourceIds) {
-                ValidationUtils.checkForExistsDatasource(datasourceId, datasourceIdsScope,
+                ValidationUtils.checkDatasourceExistence(datasourceId, datasourceIdsScope,
                         String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных '%s'", datasourceId));
             }
         }
@@ -92,7 +92,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
     private void checkTargetDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getTargetDatasourceId() != null && source.getTargetPage() != PageRef.THIS) {
             String openPage = getIdOrEmptyString(source.getPageId());
-            ValidationUtils.checkForExistsDatasource(source.getTargetDatasourceId(), datasourceIdsScope,
+            ValidationUtils.checkDatasourceExistence(source.getTargetDatasourceId(), datasourceIdsScope,
                     String.format("Атрибут 'target-datasource' действия открытия страницы '%s' ссылается на несуществующий источник данных '%s' родительской страницы",
                             openPage, source.getTargetDatasourceId()));
         }
@@ -107,7 +107,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
     private void checkCopyDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getCopyDatasourceId() != null && source.getCopyPage() == PageRef.PARENT) {
             String openPage = getIdOrEmptyString(source.getPageId());
-            ValidationUtils.checkForExistsDatasource(source.getCopyDatasourceId(), datasourceIdsScope,
+            ValidationUtils.checkDatasourceExistence(source.getCopyDatasourceId(), datasourceIdsScope,
                     String.format("Атрибут 'copy-datasource' действия открытия страницы '%s' ссылается на несуществующий источник данных '%s' родительской страницы",
                             openPage, source.getCopyDatasourceId()));
         }
