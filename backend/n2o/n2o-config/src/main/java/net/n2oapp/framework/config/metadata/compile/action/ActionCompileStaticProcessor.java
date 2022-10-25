@@ -8,6 +8,10 @@ import net.n2oapp.framework.api.metadata.aware.ToolbarsAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
+import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseBranchAction;
+import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseIfBranchAction;
+import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -19,6 +23,7 @@ import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.action.condition.ConditionBranchesScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -157,10 +162,15 @@ public class ActionCompileStaticProcessor {
         N2oAction[] n2oActions = source.getActions();
         if (n2oActions == null)
             return null;
+
         List<Action> actions = Arrays.stream(n2oActions)
-                .map(n2oAction -> (Action) p.compile(n2oAction, context, initActionObject(n2oAction, dsObject, p),
+                .filter(ActionCompileStaticProcessor::filterFailConditions)
+                .map(n2oAction -> (Action) p.compile(n2oAction, context,
+                        initActionObject(n2oAction, dsObject, p),
+                        initFailConditionBranchesScope(n2oAction, n2oActions),
                         new ComponentScope(source, p.getScope(ComponentScope.class)), scopes))
                 .collect(Collectors.toList());
+
         if (actions.size() == 0)
             return null;
         if (actions.size() > 1) {
@@ -196,6 +206,17 @@ public class ActionCompileStaticProcessor {
         }
     }
 
+    private static ConditionBranchesScope initFailConditionBranchesScope(N2oAction n2oAction, N2oAction[] n2oActions) {
+        if (!(n2oAction instanceof N2oIfBranchAction))
+            return null;
+        List<N2oConditionBranch> branches = Arrays.stream(n2oActions)
+                .filter(a -> a instanceof N2oElseIfBranchAction || a instanceof N2oElseBranchAction)
+                .map(N2oConditionBranch.class::cast)
+                .collect(Collectors.toList());
+
+        return new ConditionBranchesScope(branches);
+    }
+
     private static CompiledObject initActionObject(N2oAction n2oAction, CompiledObject dsObject, CompileProcessor p) {
         if (dsObject != null)
             return dsObject;
@@ -208,7 +229,8 @@ public class ActionCompileStaticProcessor {
     private static void initMultiActionIds(N2oAction[] actions, CompileProcessor p) {
         if (ArrayUtils.getLength(actions) > 1) {
             IndexScope indexScope = new IndexScope();
-            Arrays.stream(actions).forEach(action -> action.setId(p.cast(action.getId(), "multi" + indexScope.get())));
+            Arrays.stream(actions).filter(ActionCompileStaticProcessor::filterFailConditions)
+                    .forEach(action -> action.setId(p.cast(action.getId(), "multi" + indexScope.get())));
         }
     }
 
@@ -241,5 +263,9 @@ public class ActionCompileStaticProcessor {
             if (item.getIcon() == null)
                 item.setIcon(actionsBar.getIcon());
         }
+    }
+
+    private static boolean filterFailConditions(N2oAction n2oAction) {
+        return !(n2oAction instanceof N2oElseIfBranchAction) && !(n2oAction instanceof N2oElseBranchAction);
     }
 }

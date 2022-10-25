@@ -80,6 +80,10 @@
             <case value="2">Женский</case>
             <default>Неопределенный</default>
         </switch>
+        <click>
+            <invoke operation-id="op1"/>
+            <invoke operation-id="op2"/>
+        </click>
     </rows>
     <pagination src="test" first="false" show-single-page="false"
                 last="false" next="false" prev="false" show-count="false" layout="bordered" prev-label="prev"

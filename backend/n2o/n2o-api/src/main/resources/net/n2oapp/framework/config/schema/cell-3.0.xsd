@@ -573,7 +573,9 @@
         </xs:sequence>
         <xs:attribute name="value-field-id" type="xs:string" use="optional">
             <xs:annotation>
-                <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор поля, значение которого будет сравниваться с value в вариантах переключателя.
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
