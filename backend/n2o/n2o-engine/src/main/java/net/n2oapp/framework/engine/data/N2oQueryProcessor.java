@@ -4,6 +4,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.api.SortingDirection;
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterReducer;
@@ -468,9 +469,10 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private void processInnerFields(AbstractField field, DataSet target) {
         if (field instanceof QueryReferenceField) {
             if (field instanceof QueryListField && target.getList(field.getId()) != null) {
-                List<DataSet> list = (List<DataSet>) target.getList(field.getId());
+                DataList list = new DataList(target.getList(field.getId()));
                 for (int i = 0; i < list.size(); i++)
                     list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(((QueryListField) field).getFields())));
+                target.put(field.getId(), list);
             }
             else if (target.get(field.getId()) != null)
                 target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(((QueryReferenceField) field).getFields())));
