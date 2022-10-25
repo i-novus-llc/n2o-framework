@@ -312,6 +312,30 @@ public class QueryProcessorTest {
     }
 
     @Test
+    public void testNestedFieldsSameMapping() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsSameMapping.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testNestedFieldsSameMapping"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCount(), is(1));
+
+        List<DataSet> department = (List<DataSet>) result.getCollection().iterator().next().getList("departmentsA");
+        assertThat(department.size(), is(2));
+        assertThat(department.get(0).getString("depName"), is("department3"));
+        assertThat(department.get(1).getString("depName"), is("department4"));
+
+        department = (List<DataSet>) result.getCollection().iterator().next().getList("departmentsB");
+        assertThat(department.size(), is(2));
+        assertThat(department.get(0).getString("depName"), is("DEPARTMENT3"));
+        assertThat(department.get(1).getString("depName"), is("DEPARTMENT4"));
+
+        assertThat(result.getCollection().iterator().next().getDataSet("organizationA").getString("orgManager"), is("manager1"));
+        assertThat(result.getCollection().iterator().next().getDataSet("organizationB").getString("orgManager"), is("MANAGER1"));
+    }
+
+    @Test
     public void testNestedFieldsDefaultValues() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testNestedFieldsDefaultValues.query.xml"));
