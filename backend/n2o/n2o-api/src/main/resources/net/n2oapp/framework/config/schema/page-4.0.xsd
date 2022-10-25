@@ -76,7 +76,7 @@
                 <xs:documentation>Идентификатор источника данных страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="clientModel" default="resolve">
+        <xs:attribute name="model" type="ac:clientModel" default="resolve">
             <xs:annotation>
                 <xs:documentation>Модель данных страницы</xs:documentation>
             </xs:annotation>

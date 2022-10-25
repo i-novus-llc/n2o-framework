@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.aware.ActionBarAware;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ToolbarsAware;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -13,8 +14,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
  */
 @Getter
 @Setter
-public abstract class N2oBasePage extends N2oPage implements ActionBarAware, ToolbarsAware {
-    private String datasourceId;//TODO если потребуется добавить интерфейс DatasourceIdAware, то стоит изменить метод AbstractActionCompiler.getLocalDatasourceId
+public abstract class N2oBasePage extends N2oPage implements ActionBarAware, ToolbarsAware, DatasourceIdAware {
+    private String datasourceId;
     private ActionBar[] actions;
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;

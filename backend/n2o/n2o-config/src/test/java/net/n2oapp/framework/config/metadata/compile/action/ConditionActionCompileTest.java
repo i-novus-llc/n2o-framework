@@ -116,6 +116,13 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
         assertThat(condition.getPayload().getModel(), is(ReduxModel.edit));
         assertThat(condition.getPayload().getCondition(), is("code == 'B'"));
         assertThat(condition.getPayload().getSuccess(), instanceOf(AlertAction.class));
+
+
+        //Проверка использования датасорса страницы для if-else в тулбаре (при отсутствии своего ds и ds у кнопки, для if-else любой вложенности берется датасорс страницы)
+        condition = (ConditionAction) page.getToolbar().getButton("b2").getAction();
+        assertThat(condition.getPayload().getDatasource(), is("dsForPage"));
+        condition = (ConditionAction) condition.getPayload().getSuccess();
+        assertThat(condition.getPayload().getDatasource(), is("dsForPage"));
     }
 
     @Test

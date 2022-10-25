@@ -65,6 +65,12 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getType(), is("n2o/api/action/switch"));
         assertThat(action.getPayload().getDatasource(), is("ds2"));
         assertThat(action.getPayload().getModel(), is(ReduxModel.filter));
+
+        //Проверка использования датасорса страницы для switch в тулбаре (при отсутствии своего ds и ds у кнопки, для switch любой вложенности берется датасорс страницы)
+        action = (SwitchAction) page.getToolbar().getButton("b3").getAction();
+        assertThat(action.getPayload().getDatasource(), is("dsForPage"));
+        action = (SwitchAction) action.getPayload().getCases().get("A");
+        assertThat(action.getPayload().getDatasource(), is("dsForPage"));
     }
 
     @Test
