@@ -64,6 +64,13 @@ public class AlertMessageBuilder {
         return message;
     }
 
+    public ResponseMessage buildSuccessMessage(ActionRequestInfo<DataSet> requestInfo, DataSet data) {
+        ResponseMessage message = buildMessage(requestInfo, SeverityType.success);
+        message.setText(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessText(), data));
+        message.setTitle(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessTitle(), data));
+        return message;
+    }
+
     private void initDevMode(PropertyResolver propertyResolver) {
         Boolean activeDevMode = propertyResolver != null ? propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class) : null;
         this.devMode = activeDevMode != null && activeDevMode;
@@ -76,6 +83,9 @@ public class AlertMessageBuilder {
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
         initDevMode(propertyResolver);
         resp.setText(buildText(e));
+
+        if (!devMode && e instanceof N2oException && ((N2oException) e).getUserMessageTitle() != null)
+            resp.setTitle(((N2oException) e).getUserMessageTitle());
 
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setPayload(initPayload(e));

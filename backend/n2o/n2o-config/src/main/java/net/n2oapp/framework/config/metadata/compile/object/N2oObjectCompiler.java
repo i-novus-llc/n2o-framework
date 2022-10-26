@@ -413,7 +413,9 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 p.getMessage("n2o.confirm.group")));
         compiledOperation.setSuccessText(castDefault(operation.getSuccessText(),
                 p.getMessage("n2o.success")));
+        compiledOperation.setSuccessTitle(operation.getSuccessTitle());
         compiledOperation.setFailText(operation.getFailText());
+        compiledOperation.setFailTitle(operation.getFailTitle());
         compiledOperation.setInvocation(operation.getInvocation());
         compiledOperation.setValidations(operation.getValidations());
         DefaultActions defaultOperations = DefaultActions.get(operation.getId());
