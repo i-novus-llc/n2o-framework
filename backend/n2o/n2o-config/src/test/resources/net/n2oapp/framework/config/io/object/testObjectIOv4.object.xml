@@ -72,7 +72,7 @@
             </fail-out>
             <validations black-list="id2">
                 <condition id="id1" severity="danger" server-moment="after-success-operation"
-                           field-id="field" message="message" on="f" src="/test">test</condition>
+                           field-id="field" message="message" on="f" src="/test" title="title">test</condition>
             </validations>
         </operation>
     </operations>
