@@ -53,7 +53,9 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "submit-label", t::getFormSubmitLabel, t::setFormSubmitLabel);
         p.attribute(e, "description", t::getDescription, t::setDescription);
         p.attribute(e, "success-text", t::getSuccessText, t::setSuccessText);
+        p.attribute(e, "success-title", t::getSuccessTitle, t::setSuccessTitle);
         p.attribute(e, "fail-text", t::getFailText, t::setFailText);
+        p.attribute(e, "fail-title", t::getFailTitle, t::setFailTitle);
         p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
         p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);

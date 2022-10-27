@@ -58,9 +58,10 @@ public class AlertMessageBuilder {
                 : Collections.singletonList(build(e, requestInfo));
     }
 
-    public ResponseMessage buildSuccessMessage(String successText, RequestInfo requestInfo, DataSet data) {
+    public ResponseMessage buildSuccessMessage(ActionRequestInfo<DataSet> requestInfo, DataSet data) {
         ResponseMessage message = buildMessage(requestInfo, SeverityType.success);
-        message.setText(StringUtils.resolveLinks(successText, data));
+        message.setText(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessText(), data));
+        message.setTitle(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessTitle(), data));
         return message;
     }
 
@@ -76,6 +77,9 @@ public class AlertMessageBuilder {
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
         initDevMode(propertyResolver);
         resp.setText(buildText(e));
+
+        if (!devMode && e instanceof N2oException && ((N2oException) e).getUserMessageTitle() != null)
+            resp.setTitle(((N2oException) e).getUserMessageTitle());
 
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setPayload(initPayload(e));

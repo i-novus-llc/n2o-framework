@@ -232,6 +232,8 @@ description: ""
 ## Изменения в Java API {#changes-java-api}
 
 - Метод `setCriteriaResolver` класса `N2oQueryProcessor` был переименован в `setCriteriaConstructor`.
+- Изменилась сигнатура метода `buildSuccessMessage класса` класса `AlertMessageBuilder`:
+`buildSuccessMessage(String, RequestInfo, DataSet)` -> `buildSuccessMessage(ActionRequestInfo<DataSet>, DataSet)`
 
 ## Изменения в API автотестов {#changes-autotest-api}
 
