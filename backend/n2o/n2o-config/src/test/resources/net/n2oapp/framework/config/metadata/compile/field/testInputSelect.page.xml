@@ -9,7 +9,7 @@
                                   badge-field-id="badgeFieldId" badge-color-field-id="badgeColorFieldId"
                                   format="`id+' '+id`" sort-field-id="sortName"
                                   description-field-id="descFieldId"
-                                  enabled-field-id="isEnabled" status-field-id="testStatus">
+                                  enabled-field-id="isEnabled" status-field-id="testStatus" size="20">
                         <default-value id="1" name="test" isTest="true"/>
                             <pre-filters>
                                 <notEq field-id="ref" value="{someField}" param="test" reset-on-change="true"/>
