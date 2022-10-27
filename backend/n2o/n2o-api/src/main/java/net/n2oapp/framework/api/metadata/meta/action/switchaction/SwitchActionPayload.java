@@ -23,6 +23,6 @@ public class SwitchActionPayload implements ActionPayload {
     private String valueFieldId;
     @JsonProperty
     private Map<String, Action> cases;
-    @JsonProperty("default")
+    @JsonProperty("defaultAction")
     private Action defaultCase;
 }
