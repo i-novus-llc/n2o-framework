@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -196,6 +197,19 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             }
         });
         return extAttributes;
+    }
+
+    @Override
+    public Map<String, Object> mapAndResolveAttributes(ExtensionAttributesAware source) {
+        if (source.getExtAttributes() == null || source.getExtAttributes().isEmpty())
+            return null;
+        Map<N2oNamespace, Map<String, String>> resolved = new HashMap<>();
+        for (Map.Entry<N2oNamespace, Map<String, String>> entry : source.getExtAttributes().entrySet())
+            resolved.put(entry.getKey(), entry.getValue().keySet().stream()
+                    .collect(Collectors.toMap(k -> k, k -> this.resolveJS(entry.getValue().get(k)))));
+        source.setExtAttributes(resolved);
+
+        return mapAttributes(source);
     }
 
     @Override

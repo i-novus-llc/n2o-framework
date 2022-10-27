@@ -25,7 +25,7 @@ public abstract class ComponentCompiler<D extends Component, S extends SourceCom
             throw new N2oException("component src is required");
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        compiled.setProperties(p.mapAttributes(source));
+        compiled.setProperties(p.mapAndResolveAttributes(source));
     }
 
     /**
