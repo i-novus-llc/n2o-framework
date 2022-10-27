@@ -1030,61 +1030,338 @@ GET /mystore/goods?sort=name,asc
 
 ### GraphQL {#graphql}
 
-GraphQl провайдер позволяет выполнять GraphQl запросы к backend сервисам.
+GraphQl провайдер позволяет выполнять GraphQl запросы к GraphQl сервисам.
 
-```xml title="Получение списка записей GraphQl провайдером"
-<query>
-  <list>
-    <graphql>
-        query persons(filters: { $$filters }, page: $$page, size: $$limit, sort: { $$sorting }) {
-           id
-           name
-           age
-        }
-    <graphql/>
-  </list>
-
-  <filters>
-    <eq field-id="name" filter-id="name">{ name: {eq: $$name} }</eq>
-  </filters>
-
-  <fields>
-    <field id="id" sorting-expression="{ name: $$nameDir }" sorting-mapping="['nameDir']"/>
-
-    <field id="name"/>
-
-    <field id="age"/>
-  </fields>
-</query>
-```
-
-```xml title="Выполнение операции GraphQl провайдером"
-<operation id="create">
-  <invocation>
-    <graphql>
-      mutation {
-         createPerson(name: $$name, age: $$age) {
+Запросы задаются в элементе `<graphql>`
+```xml
+<graphql endpoint="http://localhost:8081/graphql">
+    query myQuery() {
+        goods() {
             id
             name
             age
-         }
-      }
-    </graphql>
-  </invocation>
-  <in>
-    <field id="name"/>
-    <field id="age"/>
-  </in>
-</operation>
+        }
+    }
+</graphql>
 ```
 
-#### Настройки GraphQl провайдера {#graphql_settings}
+#### Настройки соединения
 
-Для подключения к backend сервису используется атрибут `endpoint`.
-Вместо задания `endpoint` в каждом определении провайдера можно воспользоваться глобальной настройкой `n2o.engine.graphql.endpoint`.
+Адрес GraphQL сервиса, например, `http://localhost:9090/graphql`, можно опускать в элементах `<graphql>`,
+если он одинаковый для всех сервисов.
+Для этого нужно задать настройку `n2o.engine.graphql.endpoint`
+```shell title="application.properties"
+n2o.engine.graphql.endpoint=http://localhost:8081/graphql
+```
+в результате достаточно будет задавать только сам GraphQL запрос
+```xml
+<graphql>
+    query myQuery() {
+        goods() {
+            id
+            name
+        }
+    }
+</graphql>
+```
 
 Для обеспечения безопасного доступа к backend сервису необходимо использовать атрибут `access-token` или
 глобальную настройку `n2o.engine.graphql.access-token`.
+
+Для прочих настроек http к GraphQL сервисам, например, настроек аутентификации,
+необходимо определить бин `RestTemplate`, с помощью которого GraphQL провайдер выполняет запросы.
+```js title="MyAppConfiguration.java"
+@Bean
+RestTemplate restTemplate() {
+  RestTemplate restTemplate = new RestTemplate();
+  ... //настройки restTemplate
+  return restTemplate;
+}
+```
+
+#### Получение данных
+Для получения списка записей нужно выполнить запрос выборки данных к GraphQL сервису.
+```xml title="Получение списка записей GraphQL запроса"
+<list result-mapping="['data.goods']">
+  <graphql>
+      query myQuery() {
+          goods() {
+              id
+              name
+          }
+      }
+  </graphql>
+</list>
+```
+В атрибуте `result-mapping` нужно указать путь к списку объектов в ответе GraphQL сервиса
+```json title="myGoods { goods() }"
+{
+  "data": {
+    "goods": [
+        { "id": 1, "name": "Товар 1"},
+        { "id": 1, "name": "Товар 2"},
+        ...
+    ]
+  }
+}
+```
+
+Для получения одной записи по идентификатору в GraphQL сервисах обычно используется атрибуты метода.
+Значение атрибута можно задать через плейсхолдер.
+Плейсхолдеры задаются со знаком "двойной доллар" `$$something`.
+```xml title="Получение одной записи GraphQL запроса"
+<unique filters="idEq" mapping="['data.goodById']">
+    <graphql>
+        query myQuery() {
+            goodById(id: $$idEq) {
+                id
+                name
+            }
+        }
+    </graphql>
+</unique>
+```
+
+#### Пагинация данных
+
+Для пагинации записей GraphQL запроса следует использовать плейсхолдеры `$$size` и `$$offset`.
+```xml title="Пагинация записей GraphQL запроса через offset"
+<list>
+  <graphql>
+      query myQuery() {
+          goods(first: $$size, offset: $$offset) {
+              id
+              name
+          }
+      }
+  </graphql>
+</list>
+```
+В качестве альтернативы `$$offset` можно использовать плейсхолдер `$$page`.
+```xml title="Пагинация записей GraphQL запроса через page"
+<list>
+  <graphql>
+      query myQuery() {
+          goods(size: $$size, page: $$page) {
+              id
+              name
+          }
+      }
+  </graphql>
+</list>
+```
+
+:::note
+Номер страницы `$$page` по умолчанию начинается с нуля `0`, но можно начать нумерацию страниц с `1` задав это в настройке
+```shell title="application.properties"
+#Паджинация начинается с нуля?
+n2o.engine.pageStartsWith0=false
+```
+:::
+
+Чтобы получить общее количество записей можно использовать атрибут `count-mapping`,
+если GraphQL сервис возвращает общее количество записей вместе со списком записей одной страницы.
+```xml title="Получение количества записей GraphQL запроса"
+<list result-mapping="['data.goods']" count-mapping="['data.aggregateGoods.count']">
+  <graphql>
+      query myQuery() {
+          goods(first: $$size, offset: $$offset) {
+              id
+              name
+          }
+          aggregateGoods {
+              count
+          }
+      }
+  </graphql>
+</list>
+```
+В атрибуте `count-mapping` указывается путь к свойству, содержащему общее количество записей списка.
+```json title="myQuery { goods() aggregateGoods() }"
+{
+  "data": {
+    "goods": [
+        { "id": 1, "name": "Товар 1"},
+        { "id": 1, "name": "Товар 2"},
+        ...
+    ],
+    "aggregateGoods": {
+        "count": 100
+    }
+  }
+}
+```
+
+#### Маппинг полей
+В результате выполнения GraphQL запроса вернется объект `DataSet`.
+К DataSet можно обращаться как к `Map<String, Object>`, используя квадратные скобки `['field']`.
+Для получения вложенных свойств используется символ "точка" `['field1.field2']`.
+
+Если свойство json не совпадает с идентификатором поля выборки, необходимо сделать маппинг.
+```xml {2} title="Маппинг полей GraphQL запроса"
+<field id="firstName"
+       mapping="['first_name']"/>
+```
+
+#### Фильтрация данных
+
+Для задания фильтров GraphQL запроса нужно указать тип фильтра, идентификатор фильтра `filter-id`
+и ссылку на поле выборки `field-id`.
+```xml {5} title="Фильтрация GraphQL запроса"
+<fields>
+    <field id="id"/>
+</fields>
+<filters>
+    <eq field-id="id" filter-id="idEq"/> <!-- Плейсхолдер $$idEq -->
+</filters>
+```
+В этом случае будет доступен плейсхолдер `$$idEq` равный значению `filter-id`.
+
+Если плейсхолдер нужно переименовать, можно использовать маппинг.
+```xml {4} title="Маппинг плейсхолдера фильтрации GraphQL запроса"
+<filters>
+    <eq field-id="gender.id"
+        filter-id="gender.id"
+        mapping="['genderId']"/> <!-- Плейсхолдер $$genderId -->
+</filters>
+```
+
+Можно добавить специальный плейсхолдер `$$filters` в GraphQL запрос, чтобы шаблонизировать фильтрацию выборки.
+```xml
+<list>
+  <graphql filter-separator=", and: {">
+      query myQuery() {
+          goods(filter: $$filters) {
+              id
+              name
+          }
+      }
+  </graphql>
+</list>
+```
+Разделителем между разными фильтрами в параметрах запроса будет `, and: {`, поэтому необходимо задать его атрибутом `filters-separator`.
+
+Плейсхолдер `$$filters` будет заменен на значения из атрибутов `filter-expression` в фильтрах выборки,
+если значение фильтра не будет `null`.
+```xml {4}
+<filters>
+    <like field-id="name"
+          filter-id="nameLike"
+          filter-expression="name: $$nameLike"/>
+</filters>
+```
+при наличии значения "Ноутбук" в `nameLike` итоговый запрос будет
+```js
+query myQuery() {
+    goods(filter: { name: "Ноутбук" }) {
+        id
+        name
+    }
+}
+```
+
+:::note
+Обычно в GraphQL сервисе заранее прошито как то или иное поле фильтруется на сервере.
+В таком случае использование разных видов фильтров (`<eq>`, `<like>`, `<in>` и др.) не оказывает влияение на запрос и является чисто семантическим.
+:::
+
+:::note
+Если ни одно значение фильтра не задано, плейсхолдер `$$filters` будет заменен на пустую строку.
+:::
+
+#### Сортировка данных
+
+Сортировка записей в GraphQL сервисах обычно задается в атрибутах методов.
+```xml
+<graphql>
+  query myQuery() {
+      goods(order: { $$nameDir: name } ) {
+          id
+          name
+      }
+  }
+</graphql>
+```
+В поле, поддерживающее сортировку, необходимо добавить атрибут `sorting`
+и указать маппинг плейсхолдера для задания направления сортировки с помощью `sorting-mapping`.
+
+```xml {3} title="Сортировка данных GraphQL запроса"
+<field id="name"
+       sorting="true"
+       sorting-mapping="['nameDir']"/>
+  <!-- Если будет сортировка по полю name
+       в плейсхолдер $$nameDir попадет значение asc или desc -->
+```
+:::note
+Если GraphQL принимает вместо "asc" или "desc" что-то другое, можно изменить в настройках:
+```
+#Значение asc направления сортировки
+n2o.engine.query.asc-expression=asc
+#Значение desc направления сортировки
+n2o.engine.query.desc-expression=desc
+```
+:::
+
+Можно добавить специальный плейсхолдер `$$sorting`, чтобы шаблонизировать выражение сортировки.
+```xml
+<graphql>
+  query myQuery() {
+      goods(order: { $$sorting } ) {
+          id
+          name
+      }
+  }
+</graphql>
+```
+Плейсхолдер `$$sorting` будет заменен на значения из атрибутов `sorting-expression` в полях выборки,
+если по этому полю будет задана сортировка.
+```xml {4}
+<field id="name"
+       sorting="true"
+       sorting-mapping="['nameDir']"
+       sorting-expression="$$nameDir: name"/>
+```
+при наличии сортировки `asc` по полю `name` итоговый запрос будет
+```js
+query myQuery() {
+  goods(order: { asc: name } ) {
+      id
+      name
+  }
+}
+```
+для сортировки по `desc` аналогично.
+
+:::note
+Если ни одно направление сортировки не задано, плейсхолдер `$$sorting` будет заменен на пустую строку.
+:::
+
+#### Операции над данными
+
+Для выполнения операций над данными нужно задать GraphQL запрос мутации данных.
+```xml title="Выполнение мутации GraphQL"
+<operation id="create">
+  <invocation>
+    <graphql>
+        mutation MyMutation {
+            addGood(input: { name: $$name }) {
+                good {
+                    id
+                }
+            }
+        }
+    </graphql>
+  </invocation>
+  <in>
+    <field id="name" mapping="['name']"/>
+  </in>
+  <out>
+    <field id="id" mapping="['data.addGood.good[0].id']"/>
+  </out>
+</operation>
+```
+
+Выходные параметры можно использовать для обработки результата GraphQL запроса.
 
 #### Экранирование строковых плейсхолдеров {#graphql_escaping}
 
@@ -1130,6 +1407,7 @@ public class GraphQlOperationExceptionHandler implements OperationExceptionHandl
     }
 }
 ```
+#### Пример
 
 <Sandbox height={700} projectId="data_providers_graphql" />
 
