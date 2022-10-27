@@ -1,4 +1,5 @@
 import { select } from 'redux-saga/effects'
+import { isNil } from 'lodash'
 
 import { dataSourceByIdSelector, dataSourceProviderSelector } from '../selectors'
 import type { IProvider, QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
@@ -10,42 +11,42 @@ import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
 import { applyPaging } from './storage/applyPaging'
 
-export function* submit(id: string, { key, model: prefix, storage }: StorageSubmit) {
-    const model: unknown = yield select(makeGetModelByPrefixSelector(prefix, id))
-    let data
+const KEY_PREFIX = 'n2o/datasource/'
 
-    if (Array.isArray(model)) {
-        data = model
-    } else if (model) {
-        data = [model]
+const getFullKey = (key: string) => `${KEY_PREFIX}${key}`
+
+export function* submit(id: string, { key, model: prefix, storage: storageType }: StorageSubmit) {
+    const model: unknown = yield select(makeGetModelByPrefixSelector(prefix, id))
+    const storage = storageType === StorageType.local ? localStorage : sessionStorage
+
+    if (isNil(model)) {
+        return storage.removeItem(getFullKey(key))
     }
 
+    const data = Array.isArray(model) ? model : [model]
     const stringData = JSON.stringify(data)
 
-    if (storage === StorageType.local) {
-        localStorage.setItem(key, stringData)
-    } else {
-        sessionStorage.setItem(key, stringData)
-    }
+    return storage.setItem(getFullKey(key), stringData)
 }
 
-export function* query(id: string, { storage, key }: StorageProvider, options: QueryOptions) {
+export function* query(id: string, { storage: storageType, key }: StorageProvider, options: QueryOptions) {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
-    const { size, sorting, page } = datasource
+    const { sorting, paging: { page, size } } = datasource
 
     if (!key) {
         throw new Error('Parametr "key" is required for query data')
     }
 
-    const storageData = storage === StorageType.local
-        ? localStorage.getItem(key)
-        : sessionStorage.getItem(key)
+    const storage = storageType === StorageType.local ? localStorage : sessionStorage
+    const storageData = storage.getItem(getFullKey(key))
 
     if (!storageData) {
         return {
             list: [],
-            page: 1,
-            count: 0,
+            paging: {
+                page: 1,
+                count: 0,
+            },
         }
     }
 
@@ -57,7 +58,7 @@ export function* query(id: string, { storage, key }: StorageProvider, options: Q
 
     const filtered = applyFilter(json)
     const sortered = applySorting(filtered, sorting)
-    const { list, page: newPage } = applyPaging(
+    const { list, paging } = applyPaging(
         sortered,
         {
             size,
@@ -67,8 +68,10 @@ export function* query(id: string, { storage, key }: StorageProvider, options: Q
 
     return {
         list,
-        page: newPage,
-        count: filtered.length,
+        paging: {
+            page: paging.page,
+            count: filtered.length,
+        },
     }
 }
 
@@ -87,11 +90,8 @@ export function* clear({ meta }: {
         return
     }
 
-    const { storage, key } = provider as StorageProvider
+    const { storage: storageType, key } = provider as StorageProvider
+    const storage = storageType === StorageType.local ? localStorage : sessionStorage
 
-    if (storage === StorageType.local) {
-        localStorage.removeItem(key)
-    } else {
-        sessionStorage.removeItem(key)
-    }
+    storage.removeItem(getFullKey(key))
 }

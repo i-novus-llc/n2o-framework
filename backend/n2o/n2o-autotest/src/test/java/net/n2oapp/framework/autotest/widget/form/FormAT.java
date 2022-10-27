@@ -4,7 +4,6 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
-import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
@@ -39,7 +38,6 @@ public class FormAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
@@ -74,8 +72,6 @@ public class FormAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Page.Tooltip tooltip = page.tooltip();
-
         FormWidget form = page.widget(FormWidget.class);
         form.fields().shouldHaveSize(1);
         InputText name = form.fields().field("Имя").control(InputText.class);
@@ -87,20 +83,20 @@ public class FormAT extends AutoTestBase {
         // подсказка при недоступности кнопки1 и кнопки2
         button1.shouldBeDisabled();
         button1.hover();
-        tooltip.shouldHaveText("Заполните имя");
+        button1.tooltip().shouldHaveText("Заполните имя");
         button2.shouldBeDisabled();
         button2.hover();
-        tooltip.shouldHaveText("Заполните имя");
+        button2.tooltip().shouldHaveText("Заполните имя");
 
         name.val("test");
         // подсказка при доступности кнопки1 и кнопки2
         button1.shouldBeEnabled();
         button1.hover();
-        tooltip.shouldHaveText("Описание");
+        button1.tooltip().shouldHaveText("Описание");
         button2.shouldBeEnabled();
         button2.hover();
         // у кнопки2 не должно быть подсказки, т.к. не указан description
-        tooltip.shouldNotBeExist();
+        button2.tooltip().shouldNotExists();
     }
     
     @Test

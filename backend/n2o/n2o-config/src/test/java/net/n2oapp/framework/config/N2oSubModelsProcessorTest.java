@@ -6,7 +6,8 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineFunction;
@@ -145,11 +146,11 @@ public class N2oSubModelsProcessorTest {
     private static class TestCompiledQuery extends CompiledQuery {
         public TestCompiledQuery(String queryId) {
             this.id = queryId;
-            this.fieldsMap = new HashMap<>();
-            N2oQuery.Field idField = new N2oQuery.Field("id");
+            this.simpleFieldsMap = new HashMap<>();
+            QuerySimpleField idField = new QuerySimpleField("id");
             idField.setDomain("integer");
-            this.fieldsMap.put("id", idField);
-            this.displayFields = Arrays.asList(idField, new N2oQuery.Field("label"), new N2oQuery.Field("someField"));
+            this.simpleFieldsMap.put("id", idField);
+            this.displayFields = Arrays.asList(idField, new QuerySimpleField("label"), new QuerySimpleField("someField"));
             N2oQuery.Filter filter = new N2oQuery.Filter();
             Map<FilterType, N2oQuery.Filter> filterMap = new HashMap<>();
             filterMap.put(FilterType.eq, filter);

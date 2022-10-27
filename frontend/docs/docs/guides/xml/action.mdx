@@ -40,7 +40,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <a href="https://google.com"/>
 ```
 
-<Sandbox height={100} projectId="uxcomponents_actions_link" />
+<Sandbox height={100} projectId="uxcomponents_actions_link"/>
 
 ### &lt;print&gt; {#print}
 
@@ -71,7 +71,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 ```
 
-<Sandbox height={250} projectId="uxcomponents_actions_print" />
+<Sandbox height={250} projectId="uxcomponents_actions_print"/>
 
 ### &lt;refresh&gt; {#refresh}
 
@@ -89,7 +89,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <refresh datasource="reports"/>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_actions_refresh" />
+<Sandbox height={200} projectId="uxcomponents_actions_refresh"/>
 
 ### &lt;submit&gt; {#submit}
 
@@ -147,7 +147,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 </invoke>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_actions_submit" />
+<Sandbox height={200} projectId="uxcomponents_actions_submit"/>
 
 ### &lt;close&gt; {#close}
 
@@ -166,7 +166,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 <close unsaved-data-prompt="false"/>
 ```
 
-<Sandbox height={200} projectId="uxcomponents_actions_close" showHeader />
+<Sandbox height={200} projectId="uxcomponents_actions_close" showHeader/>
 
 ### &lt;copy&gt; {#copy}
 
@@ -379,6 +379,47 @@ http://n2oapp.net/framework/config/schema/action-1.0
                timeout="5000" time="2022-02-02T12:15:23" href="http://example.org"/>
 ```
 
+### &lt;action&gt; {#custom-action}
+
+Кастомное действие.
+
+**Атрибуты**
+
+|Наименование       |Тип                                                         |Описание                                                                                                                                                               |Значение по умолчанию                                       |
+|-------------------|------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+|type               |Строка                                                      |Redux тип действия                                                                                                                                                |                                                            |
+|close-on-success   |true false                                                  |Закрыть окно после успешного выполнения действия. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках.                                      |false                                                       |
+|close-on-fail      |true false                                                  |Закрыть окно после неудачного выполнения действия. Закроется модальное окно, либо откроется предыдущая страница в хлебных крошках.                                     |false                                                       |
+|refresh-on-success |true false                                                  |Необходимо ли обновлять данные после успешного выполнения действия                                                                                                     |true                                                        |
+|redirect-url       |Строка                                                      |URL адрес, на который произойдет переход сразу после успешного выполнения действия. Можно задавать относительный путь и плейсхолдеры, например, `redirect-url="../:id"`|                                                            |
+|redirect-target    |self, newWindow, application                                |Сценарий открытия ссылки сразу после успешного выполнения операции (См. [target](#a) в `<a>`).                                                                         |self                                                        |
+|refresh-datasources|Список ссылок на [источники данных](../xml/page#datasource) |Идентификаторы источника данных, который необходимо обновить после успешного выполнения операции                                                                       |datasource у button, а если нет, datasource текущего виджета|
+
+**Тело**
+
+[Полезная нагрузка](../xml/action/#custom-payload)
+
+**Пример**
+
+```xml
+<action type="n2o/CUSTOM_ACTION" redirect-target="application" redirect-url="/main"
+        close-on-success="true" refresh-datasources="ds1,ds2"/>
+```
+
+### &lt;payload&gt; {#custom-payload}
+
+Полезная нагрузка кастомного действия.
+
+**Атрибуты**
+
+Может содержать любые атрибуты без неймспейса
+
+**Пример**
+
+```xml
+    <payload docId="{s3guid}" formId="{formId}"/>
+```
+
 ### Базовые свойства действий открытия страниц {#Basic_open_page_actions_properties}
 
 |Наименование                     |Тип                                 |Описание                                                                                                                            |Значение по умолчанию                                      |
@@ -405,7 +446,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 **Тело**
 
 Параметры пути открытия новой страницы [params](#params),
-Список переопределений [источников данных](../xml/page#datasources)
+Список переопределений [источников данных](../xml/page#datasources),
+Список [хлебных крошек](#breadcrumbs)
 
 **Пример**
 
@@ -420,6 +462,9 @@ http://n2oapp.net/framework/config/schema/action-1.0
         <path-param>...</path-param>
         <query-param>...</query-param>
     </params>
+    <breadcrumbs>
+        <crumb>...</crumb>
+    </breadcrumbs>
     <datasources>
         <datasource ... />
     </datasources>
@@ -433,6 +478,38 @@ http://n2oapp.net/framework/config/schema/action-1.0
 **Тело**
 
 [Параметры запроса](../xml/base#Request_parameters)
+
+## Хлебные крошки {#breadcrumbs}
+
+**Тело**
+
+[Крошка](#crumb) (При отсутствии дочерних элементов хлебные крошки страницы будут построены в режиме по умолчанию)
+
+**Пример**
+
+```xml
+<breadcrumbs>
+    <crumb label="Первая страница" path="/"/>
+    <crumb label="Вторая страница"/>
+</breadcrumbs>
+```
+
+### &lt;crumb&gt; {#crumb}
+
+Хлебная крошка
+
+**Атрибуты**
+
+|Наименование |Тип    |Описание                            |Значение по умолчанию |
+|-------------|-------|------------------------------------|----------------------|
+|label        |Строка |Название хлебной крошки             |                      |
+|path         |Строка |Путь для перехода по хлебной крошке |                      |
+
+**Пример**
+
+```xml
+<crumb label="Домашняя страница" path="/"/>
+```
 
 ### &lt;show-modal&gt; {#show-modal}
 
@@ -449,10 +526,12 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |refresh-on-close              |true false                                                               |Обновление виджета после закрытия модального окна                                                                                                                                                                                                  |false                                                      |
 |submit-action-type            |invoke copy                                                              |Действие при нажатии кнопки "Сохранить"                                                                                                                                                                                                            |invoke                                                     |
 |copy-model                    |resolve edit filter multi datasource                                     |Модель виджета открываемой страницы, которая будет скопирована                                                                                                                                                                                     |resolve                                                    |
-|copy-datasource               |Сссылка на [источник данных](../xml/page#datasource)                     |Идентификатор источника данных открываемой страницы, данные которого будут копироваться                                                                                                                                                            |Главный виджет страницы                                    |
+|copy-datasource               |Ссылка на [источник данных](../xml/page#datasource)                      |Идентификатор источника данных открываемой страницы, данные которого будут копироваться                                                                                                                                                            |Главный виджет страницы                                    |
+|copy-ref-page                 |this parent                                                              |Ссылка на страницу, из источника данных которой будут копироваться данные                                                                                                                                                                          |this                                                       |
 |copy-field-id                 |Строка                                                                   |Идентификатор поля виджета открываемой страницы, данные которого будут копироваться                                                                                                                                                                |Вся модель                                                 |
 |target-model                  |resolve edit filter multi datasource                                     |Модель виджета текущей страницы, в которую будут скопированы данные                                                                                                                                                                                |resolve                                                    |
-|target-datasource             |Сссылка на [источник данных](../xml/page#datasource)                     |Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий)                                                                                                                                                        |Текущий виджет                                             |
+|target-datasource             |Ссылка на [источник данных](../xml/page#datasource)                      |Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий)                                                                                                                                                        |Текущий виджет                                             |
+|target-ref-page               |this parent                                                              |Ссылка на страницу, в источник данных которой будут скопированы данные                                                                                                                                                                             |parent                                                     |
 |target-field-id               |Строка                                                                   |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные                                                                                                                                                                    |Вся модель                                                 |
 |copy-mode                     |merge replace add                                                        |Тип слияния                                                                                                                                                                                                                                        |merge                                                      |
 |has-header                    |true false                                                               |Наличие шапки                                                                                                                                                                                                                                      |true                                                       |
@@ -462,7 +541,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 **Тело**
 
-Параметры пути открытия новой страницы [params](#params), список переопределений [источников данных](#datasource)
+Параметры пути открытия новой страницы [params](#params), список переопределений [источников данных](#datasource),
+cписок [хлебных крошек](#breadcrumbs)
 
 **Пример**
 
@@ -474,6 +554,9 @@ http://n2oapp.net/framework/config/schema/action-1.0
          <path-param>...</path-param>
          <query-param>...</query-param>
      </params>
+    <breadcrumbs>
+        <crumb>...</crumb>
+    </breadcrumbs>
      <datasources>
          <datasource ... />
      </datasources>
@@ -488,31 +571,34 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 **Атрибуты**
 
-|Наименование                  |Тип                                 |Описание                                                                                                                            |Значение по умолчанию                                      |
-|------------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-|close-on-escape               |true false                          |Закрыть окно по кнопке Esc                                                                                                          |true                                                       |
-|unsaved-data-prompt-on-close  |true false                          |Предупредить о несохраненных данных на форме при закрытии модального окна?                                                          |true                                                       |
-|refresh-datasources           |Список ссылок на [источники данных](../xml/page#datasource)  |Идентификаторы источника данных, который необходимо обновить после успешного выполнения операции           |datasource у button, а если нет, datasource текущего виджета|
-|refresh-on-close              |true false                          |Обновление виджета после закрытия drawer                                                                                            |false                                                      |
-|closable                      |true false                          |Есть ли крестик для закрытия                                                                                                        |true                                                       |
-|backdrop                      |true false                          |Включение маски(backdrop)                                                                                                           |true                                                       |
-|width                         |Строка                              |Ширина компонента                                                                                                                   |                                                           |
-|height                        |Строка                              |Высота компонента                                                                                                                   |                                                           |
-|placement                     |left top right bottom               |Позиция компонента                                                                                                                  |                                                           |
-|level                         |Строка                              |Сдвиг элемента или группы элементов при открытии                                                                                    |                                                           |
-|fixed-footer                  |true false                          |Фиксирование footer внизу drawer.                                                                                                   |false                                                      |
-|submit-action-type            |invoke copy                         |Действие при нажатии кнопки "Сохранить"                                                                                             |invoke                                                     |
-|copy-model                    |resolve edit filter multi datasource|Модель виджета открываемой страницы, которая будет скопирована                                                                      |resolve                                                    |
-|copy-datasource               |Сссылка на [источник данных](../xml/page#datasource)|Идентификатор источника данных открываемой страницы, данные которого будут копироваться                                                                                                                                                            |Главный виджет страницы                                    |
-|copy-field-id                 |Строка                              |Идентификатор поля виджета открываемой страницы, данные которого будут копироваться                                                 |Вся модель                                                 |
-|target-model                  |resolve edit filter multi datasource|Модель виджета текущей страницы, в которую будут скопированы данные                                                                 |resolve                                                    |
-|target-datasource             |Сссылка на [источник данных](../xml/page#datasource)|Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий)                                                                                                                                                        |Текущий виджет                                             |
-|target-field-id               |Строка                              |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные                                                     |Вся модель                                                 |
-|copy-mode                     |merge replace add                   |Тип слияния                                                                                                                         |merge                                                      |
+|Наименование                  |Тип                                                          |Описание                                                                                                                            |Значение по умолчанию                                       |
+|------------------------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+|close-on-escape               |true false                                                   |Закрыть окно по кнопке Esc                                                                                                          |true                                                        |
+|unsaved-data-prompt-on-close  |true false                                                   |Предупредить о несохраненных данных на форме при закрытии модального окна?                                                          |true                                                        |
+|refresh-datasources           |Список ссылок на [источники данных](../xml/page#datasource)  |Идентификаторы источника данных, который необходимо обновить после успешного выполнения операции                                    |datasource у button, а если нет, datasource текущего виджета|
+|refresh-on-close              |true false                                                   |Обновление виджета после закрытия drawer                                                                                            |false                                                       |
+|closable                      |true false                                                   |Есть ли крестик для закрытия                                                                                                        |true                                                        |
+|backdrop                      |true false                                                   |Включение маски(backdrop)                                                                                                           |true                                                        |
+|width                         |Строка                                                       |Ширина компонента                                                                                                                   |                                                            |
+|height                        |Строка                                                       |Высота компонента                                                                                                                   |                                                            |
+|placement                     |left top right bottom                                        |Позиция компонента                                                                                                                  |                                                            |
+|level                         |Строка                                                       |Сдвиг элемента или группы элементов при открытии                                                                                    |                                                            |
+|fixed-footer                  |true false                                                   |Фиксирование footer внизу drawer.                                                                                                   |false                                                       |
+|submit-action-type            |invoke copy                                                  |Действие при нажатии кнопки "Сохранить"                                                                                             |invoke                                                      |
+|copy-model                    |resolve edit filter multi datasource                         |Модель виджета открываемой страницы, которая будет скопирована                                                                      |resolve                                                     |
+|copy-datasource               |Сссылка на [источник данных](../xml/page#datasource)         |Идентификатор источника данных открываемой страницы, данные которого будут копироваться                                             |                                                            |                                                   |Главный виджет страницы                                    |
+|copy-ref-page                 |this parent                                                  |Ссылка на страницу, из источника данных которой будут копироваться данные                                                           |                                                            |                                                   |this                                                       |
+|copy-field-id                 |Строка                                                       |Идентификатор поля виджета открываемой страницы, данные которого будут копироваться                                                 |Вся модель                                                  |
+|target-model                  |resolve edit filter multi datasource                         |Модель виджета текущей страницы, в которую будут скопированы данные                                                                 |resolve                                                     |
+|target-datasource             |Сссылка на [источник данных](../xml/page#datasource)         |Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий)                                         |                                                            |                                                   |Текущий виджет                                             |
+|target-ref-page               |this parent                                                  |Ссылка на страницу, в источник данных которой будут скопированы данные                                                              |                                                            |                                                   |parent                                                     |
+|target-field-id               |Строка                                                       |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные                                                     |Вся модель                                                  |
+|copy-mode                     |merge replace add                                            |Тип слияния                                                                                                                         |merge                                                       |
 
 **Тело**
 
-Параметры пути открытия новой страницы [params](#params), список переопределений [источников данных](#datasource)
+Параметры пути открытия новой страницы [params](#params), список переопределений [источников данных](#datasource),
+cписок [хлебных крошек](#breadcrumbs)
 
 **Пример**
 
@@ -521,12 +607,15 @@ http://n2oapp.net/framework/config/schema/action-1.0
   page-id="employee"
   submit-operation-id="create">
         <params>
-           <path-param>...</path-param>
-           <query-param>...</query-param>
-       </params>
-       <datasources>
-           <datasource ... />
-       </datasources>
+            <path-param>...</path-param>
+            <query-param>...</query-param>
+        </params>
+        <breadcrumbs>
+            <crumb>...</crumb>
+        </breadcrumbs>
+        <datasources>
+            <datasource ... />
+        </datasources>
 </open-drawer>
 ```
 

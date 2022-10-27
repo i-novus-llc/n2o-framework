@@ -40,4 +40,5 @@ ReduxForm.Field = ReduxField
 
 export default reduxForm({
     enableReinitialize: true,
+    destroyOnUnmount: false,
 })(ReduxForm)

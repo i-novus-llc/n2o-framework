@@ -37,16 +37,16 @@ public class PageTitleAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/page.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/simple/test.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/page.page.xml"));
     }
 
     @Test
     public void testTitle() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование заголовков страницы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование заголовков страницы");
         page.titleShouldHaveText("Заголовок страницы");
 
         Toolbar toolbar = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).toolbar().topLeft();
@@ -56,11 +56,11 @@ public class PageTitleAT extends AutoTestBase {
 
         openPageBtn.click();
         SimplePage openPage = N2oSelenide.page(SimplePage.class);
-        openPage.breadcrumb().titleShouldHaveText("Вторая страница");
+        openPage.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         openPage.titleShouldHaveText("Заголовок второй страницы");
 
-        openPage.breadcrumb().clickLink("Тестирование заголовков страницы");
-        page.breadcrumb().titleShouldHaveText("Тестирование заголовков страницы");
+        openPage.breadcrumb().crumb(0).click();
+        openPage.breadcrumb().crumb(0).shouldHaveLabel("Тестирование заголовков страницы");
 
         modalBtn.click();
         Modal modal = N2oSelenide.modal(Modal.class);

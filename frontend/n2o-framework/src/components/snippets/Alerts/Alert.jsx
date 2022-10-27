@@ -36,6 +36,7 @@ function Alert(props) {
         stacktrace,
         onDismiss,
         stopRemoving,
+        placement,
     } = props
 
     const [stacktraceVisible, setStacktraceVisible] = useState(false)
@@ -92,6 +93,7 @@ function Alert(props) {
             t={t}
             stacktraceVisible={stacktraceVisible}
             togglingStacktrace={togglingStacktrace}
+            animationDirection={placement.startsWith('bottom') ? 'reversed' : 'default'}
         />
     )
 }
@@ -108,6 +110,7 @@ Alert.defaultProps = {
     animate: false,
     t: () => {
     },
+    placement: 'top',
 }
 
 Alert.propTypes = AlertTypes

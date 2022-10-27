@@ -18,7 +18,7 @@
             <toolbar>
                 <button id="yes" label="Yes">
                     <invoke operation-id="create">
-                        <header-param name="validated" value="true"/>
+                        <header-param name="validated" value="true" datasource="test" model="multi"/>
                     </invoke>
                 </button>
                 <button>

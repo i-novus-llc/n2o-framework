@@ -48,14 +48,14 @@ public class FieldsWidthAndMarginAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Поля");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Поля");
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("autotest/cases/fields_autosize/index.page.xml"));
     }
 

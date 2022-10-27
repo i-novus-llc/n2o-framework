@@ -10,6 +10,7 @@ export function AlertWrapper({
     stacktrace,
     href,
     style,
+    animationDirection,
 }) {
     return (
         <div
@@ -18,6 +19,8 @@ export function AlertWrapper({
                 className, {
                     [`alert-${severity}`]: severity,
                     'n2o-alert--animated': animate,
+                    'n2o-alert--animated_default': animationDirection === 'default',
+                    'n2o-alert--animated_reversed': animationDirection === 'reversed',
                     'with-details': stacktrace,
                     'with-link': href,
                 },
@@ -47,4 +50,9 @@ AlertWrapper.propTypes = {
     stacktrace: PropTypes.bool,
     href: PropTypes.string,
     style: PropTypes.object,
+    animationDirection: PropTypes.oneOf(['default', 'reversed']),
+}
+
+AlertWrapper.defaultProps = {
+    animationDirection: 'default',
 }

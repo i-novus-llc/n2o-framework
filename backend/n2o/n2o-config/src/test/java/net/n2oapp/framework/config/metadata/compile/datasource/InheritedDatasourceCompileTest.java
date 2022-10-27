@@ -61,7 +61,7 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
 
         InheritedDatasource inh3 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh3");
         assertThat(inh3.getId(), is("testInheritedDatasource_inh3"));
-        assertThat(inh3.getSize(), is(13));
+        assertThat(inh3.getPaging().getSize(), is(13));
         assertThat(inh3.getProvider().getType(), is("inherited"));
         assertThat(inh3.getProvider().getSourceDs(), is("testInheritedDatasource_ds2"));
         assertThat(inh3.getProvider().getSourceModel(), is(ReduxModel.datasource));
@@ -79,8 +79,9 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(dependency.getType(), is(DependencyType.fetch));
         dependency = inh3.getDependencies().get(1);
         assertThat(dependency.getType(), is(DependencyType.copy));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
         assertThat(dependency.getOn(), is("models.filter['testInheritedDatasource_ds'].source"));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
+        assertThat(((CopyDependency) dependency).getSubmit(), is(true));
+        assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
     }
-
 }

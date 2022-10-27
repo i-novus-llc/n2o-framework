@@ -104,7 +104,7 @@ public class AlertMessageBuilder {
         return message;
     }
 
-    private List<ResponseMessage> buildValidationMessages(N2oValidationException e, RequestInfo requestInfo) {
+    public List<ResponseMessage> buildValidationMessages(N2oValidationException e, RequestInfo requestInfo) {
         List<ResponseMessage> messages = new ArrayList<>();
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {

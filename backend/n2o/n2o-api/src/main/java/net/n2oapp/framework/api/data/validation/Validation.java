@@ -8,8 +8,6 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.control.N2oFieldCondition;
-import net.n2oapp.framework.api.metadata.control.ValidationReference;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 
 import java.util.*;
@@ -27,7 +25,6 @@ public abstract class Validation implements Compiled {
     @JsonProperty("text")
     private String jsonMessage;
     private Set<String> fields;
-    private ValidationReference.Target target;
     @JsonProperty
     private SeverityType severity = SeverityType.danger;
     private N2oValidation.ServerMoment moment;
@@ -44,7 +41,6 @@ public abstract class Validation implements Compiled {
         this.message = validation.getMessage();
         this.jsonMessage = validation.getJsonMessage();
         this.fields = validation.getFields();
-        this.target = validation.getTarget();
         this.severity = validation.getSeverity();
         this.moment = validation.getMoment();
         this.fieldId = validation.getFieldId();

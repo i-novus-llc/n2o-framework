@@ -31,7 +31,6 @@ public class HelloWorldAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
@@ -39,7 +38,7 @@ public class HelloWorldAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Моя первая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Моя первая страница");
         page.widget(FormWidget.class).fields().field(0, Text.class).shouldHaveText("Привет Мир!");
     }
 

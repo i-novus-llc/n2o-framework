@@ -10,6 +10,7 @@ public abstract class N2oObjectFieldMerger<T extends AbstractParameter> implemen
         setIfNotNull(source::setMapping, override::getMapping);
         setIfNotNull(source::setRequired, override::getRequired);
         setIfNotNull(source::setEnabled, override::getEnabled);
+        setIfNotNull(source::setNormalize, override::getNormalize);
         return source;
     }
 }

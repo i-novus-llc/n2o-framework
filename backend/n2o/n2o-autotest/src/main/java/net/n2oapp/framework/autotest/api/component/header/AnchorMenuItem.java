@@ -1,9 +1,11 @@
 package net.n2oapp.framework.autotest.api.component.header;
 
+import net.n2oapp.framework.autotest.api.component.badge.Badge;
+
 /**
  * Кнопка с ссылкой для автотестирования
  */
-public interface AnchorMenuItem extends MenuItem {
+public interface AnchorMenuItem extends MenuItem, Badge {
 
     void shouldHaveIcon();
 

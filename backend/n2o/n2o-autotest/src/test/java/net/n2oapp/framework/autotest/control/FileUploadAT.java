@@ -13,7 +13,6 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openjdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -39,9 +38,6 @@ public class FileUploadAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
     }
@@ -52,6 +48,8 @@ public class FileUploadAT extends AutoTestBase {
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oControlsV2IOPack(), new N2oQueriesPack());
         builder.ios(new TestDataProviderIOv1());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/fileupload/index.page.xml"));
     }
 
     @Test

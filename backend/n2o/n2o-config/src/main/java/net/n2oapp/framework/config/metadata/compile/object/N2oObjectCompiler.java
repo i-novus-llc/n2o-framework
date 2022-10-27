@@ -486,8 +486,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             parameter.setDomain(field.getDomain());
         if (parameter.getDefaultValue() == null)
             parameter.setDefaultValue(field.getDefaultValue());
-        if (parameter.getNormalize() == null)
-            parameter.setNormalize(field.getNormalize());
     }
 
     /**
@@ -517,6 +515,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             parameter.setRequired(field.getRequired());
         if (parameter.getMapping() == null)
             parameter.setMapping(field.getMapping());
+        if (parameter.getNormalize() == null)
+            parameter.setNormalize(field.getNormalize());
     }
 
     public boolean isNotEmpty(Object[] array) {

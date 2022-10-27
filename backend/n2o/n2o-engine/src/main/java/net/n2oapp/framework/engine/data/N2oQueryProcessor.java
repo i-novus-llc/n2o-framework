@@ -1,7 +1,10 @@
 package net.n2oapp.framework.engine.data;
 
+import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Sorting;
+import net.n2oapp.criteria.api.SortingDirection;
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterReducer;
@@ -14,14 +17,17 @@ import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryListField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
@@ -42,11 +48,19 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private ContextProcessor contextProcessor;
     private N2oInvocationFactory invocationFactory;
+    @Setter
     private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor(false);
     private DomainProcessor domainProcessor;
     private QueryExceptionHandler exceptionHandler;
+    @Setter
     private ApplicationContext applicationContext;
+
+    @Setter
     private boolean pageStartsWith0;
+    @Setter
+    private String ascExpression;
+    @Setter
+    private String descExpression;
 
     public N2oQueryProcessor(N2oInvocationFactory invocationFactory,
                              QueryExceptionHandler exceptionHandler) {
@@ -81,7 +95,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
         } else {
             Map<String, Object> map = new LinkedHashMap<>();
-            prepareMapForQuery(map, query, criteria);
+            prepareMapForQuery(map, selection, query, criteria);
             try {
                 result = engine.invoke(selection.getInvocation(), map);
             } catch (Exception e) {
@@ -179,7 +193,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
         } else if (engine instanceof MapInvocationEngine) {
             Map<String, Object> map = new LinkedHashMap<>();
-            prepareMapForQuery(map, query, criteria);
+            prepareMapForQuery(map, selection, query, criteria);
             prepareMapForPage(map, criteria, pageStartsWith0);
             try {
                 result = engine.invoke(selection.getInvocation(), map);
@@ -194,7 +208,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private CollectionPage<DataSet> executePageQuery(N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
         if (criteria != null && criteria.getRestrictions() != null) {
-            Set<String> restrictionFieldIds = criteria.getRestrictions().stream().map(r -> r.getFieldId()).collect(Collectors.toSet());
+            Set<String> restrictionFieldIds = criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toSet());
             for (String fieldId : restrictionFieldIds) {
                 if (reduceFiltersByField(criteria, fieldId))
                     return new CollectionPage<>(0, Collections.emptyList(), criteria);
@@ -250,9 +264,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
     }
 
-    public static void prepareMapForQuery(Map<String, Object> map, CompiledQuery query, N2oPreparedCriteria criteria) {
+    public void prepareMapForQuery(Map<String, Object> map, N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
         map.put("select", query.getSelectExpressions());
-        Set<String> joins = new LinkedHashSet<>(query.getJoinExpressions());
+        prepareSelectKeys(map, query.getDisplayFields(), query);
 
         List<String> where = new ArrayList<>();
         for (Restriction r : criteria.getRestrictions()) {
@@ -262,22 +276,17 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             if (filter.getText() != null)
                 where.add(filter.getText());
             inMap(map, filter.getMapping(), r.getValue());
-            N2oQuery.Field field = query.getFieldsMap().get(r.getFieldId());
-            if (!field.getNoJoin())
-                joins.add(field.getJoinBody());
         }
         map.put("filters", where);
 
         List<String> sortingExp = new ArrayList<>();
         if (criteria.getSorting() != null)
             for (Sorting sorting : criteria.getSortings()) {
-                N2oQuery.Field field = query.getFieldsMap().get(sorting.getField());
-                if (field.getNoSorting())
+                QuerySimpleField field = query.getSimpleFieldsMap().get(sorting.getField());
+                if (!field.getIsSorted())
                     continue;
-                sortingExp.add(field.getSortingBody());
-                inMap(map, field.getSortingMapping(), sorting.getDirection().getExpression());
-                if (!field.getNoJoin())
-                    joins.add(field.getJoinBody());
+                sortingExp.add(field.getSortingExpression());
+                inMap(map, field.getSortingMapping(), getSortingDirectionExpression(sorting.getDirection(), selection));
             }
         map.put("sorting", sortingExp);
 
@@ -285,11 +294,30 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             criteria.getAdditionalFields().entrySet().stream().filter(es -> es.getValue() != null)
                     .forEach(es -> map.put(es.getKey(), es.getValue()));
         }
-
-        map.put("join", new ArrayList<>(joins));
     }
 
-    public static void prepareMapForPage(Map<String, Object> map, N2oPreparedCriteria criteria, boolean pageStartsWith0) {
+    private String getSortingDirectionExpression(SortingDirection direction, N2oQuery.Selection selection) {
+        if (direction == SortingDirection.ASC)
+            return Objects.requireNonNullElse(selection.getAscExpression(), ascExpression);
+        else
+            return Objects.requireNonNullElse(selection.getDescExpression(), descExpression);
+    }
+
+    private void prepareSelectKeys(Map<String, Object> map, List<AbstractField> fields, CompiledQuery query) {
+        for (AbstractField field : fields) {
+            if (field instanceof QueryReferenceField) {
+                QueryReferenceField referenceField = (QueryReferenceField) field;
+                if (referenceField.getSelectKey() != null) {
+                    List<AbstractField> displayedInnerFields = query.getDisplayedInnerFields(referenceField);
+                    map.put(referenceField.getSelectKey(),
+                            displayedInnerFields.stream().map(AbstractField::getSelectExpression).collect(Collectors.toList()));
+                    prepareSelectKeys(map, displayedInnerFields, query);
+                }
+            }
+        }
+    }
+
+    public void prepareMapForPage(Map<String, Object> map, N2oPreparedCriteria criteria, boolean pageStartsWith0) {
         map.put("limit", criteria.getSize());
         map.put("offset", criteria.getFirst());
         if (criteria.getCount() != null)
@@ -307,23 +335,36 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private DataSet prepareSingleResult(Object res, CompiledQuery query,
                                         N2oQuery.Selection selection) {
+        Object result;
         try {
-            Object result = outMap(res, selection.getResultMapping(), Object.class);
-            return mapFields(result, query.getDisplayFields());
+            result = outMap(res, selection.getResultMapping(), Object.class);
         } catch (N2oException e) {
             throw new N2oRecordNotFoundException(e);
         }
+
+        result = normalizeValue(result, selection.getResultNormalize(), null, parser, applicationContext);
+        return mapFields(result, query.getDisplayFields());
     }
 
     private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection
             selection,
                                                       N2oPreparedCriteria criteria) {
+        Object additionalInfo = null;
+        if (selection.getAdditionalMapping() != null)
+            additionalInfo = outMap(res, selection.getAdditionalMapping(), Object.class);
+
         Collection<?> result = outMap(res, selection.getResultMapping(), Collection.class);
+        try {
+            result = (Collection<?>) normalizeValue(
+                    result, selection.getResultNormalize(), null, parser, applicationContext);
+        } catch (ClassCastException e) {
+            throw new N2oException("Normalized result is not a collection");
+        }
 
         List<DataSet> content = result.stream()
                 .map(obj -> mapFields(obj, query.getDisplayFields()))
                 .collect(Collectors.toList());
-        return getPage(content, criteria, () -> {
+        return getPage(content, criteria, additionalInfo, () -> {
             if (criteria.getSize() == 1) {
                 return 1;
             } else if (selection.getCountMapping() == null) {
@@ -400,63 +441,80 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private void addIdIfNotPresent(CompiledQuery query, CollectionPage<DataSet> collectionPage) {
-        if (!query.getFieldsMap().containsKey(N2oQuery.Field.PK))
+        if (!query.getSimpleFieldsMap().containsKey(QuerySimpleField.PK))
             return;
-        if (!query.getFieldsMap().get(N2oQuery.Field.PK).getNoDisplay())
+        if (query.getFieldsMap().get(QuerySimpleField.PK).getIsSelected())
             return;
         int i = 1;
         for (DataSet dataSet : collectionPage.getCollection()) {
-            dataSet.put(N2oQuery.Field.PK, i++);
+            dataSet.put(QuerySimpleField.PK, i++);
         }
     }
 
-    private DataSet mapFields(Object entry, List<N2oQuery.Field> fields) {
+    private DataSet mapFields(Object entry, List<AbstractField> fields) {
         DataSet resultDataSet = new DataSet();
-        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getSelectMapping(), f.getSelectDefaultValue(), contextProcessor));
-        return normalizeDataSet(resultDataSet, fields);
+        fields.forEach(field -> mapField(field, resultDataSet, entry));
+        fields.forEach(field -> normalizeField(field, resultDataSet));
+        fields.forEach(field -> processInnerFields(field, resultDataSet));
+        return resultDataSet;
     }
 
-    private DataSet normalizeDataSet(DataSet dataSet, List<N2oQuery.Field> fields) {
-        for (N2oQuery.Field f : fields) {
-            if (f.getNormalize() != null) {
-                Object obj = dataSet.get(f.getId());
-                obj = contextProcessor.resolve(obj);
-                dataSet.put(f.getId(), normalizeValue(obj, f.getNormalize(), dataSet, parser, applicationContext));
+    private void mapField(AbstractField field, DataSet target, Object entry) {
+        if (field instanceof QueryReferenceField)
+            outMap(target, entry, field.getId(), field.getMapping(), null, contextProcessor);
+        else
+            outMap(target, entry, field.getId(), field.getMapping(), ((QuerySimpleField) field).getDefaultValue(), contextProcessor);
+    }
+
+    private void processInnerFields(AbstractField field, DataSet target) {
+        if (field instanceof QueryReferenceField) {
+            if (field instanceof QueryListField && target.getList(field.getId()) != null) {
+                DataList list = new DataList(target.getList(field.getId()));
+                for (int i = 0; i < list.size(); i++)
+                    list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(((QueryListField) field).getFields())));
+                target.put(field.getId(), list);
+            }
+            else if (target.get(field.getId()) != null)
+                target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(((QueryReferenceField) field).getFields())));
+        }
+    }
+
+    private void normalizeField(AbstractField field, DataSet resultDataSet) {
+        if (field.getNormalize() != null) {
+            Object obj = resultDataSet.get(field.getId());
+            obj = contextProcessor.resolve(obj);
+            try {
+                resultDataSet.put(field.getId(), normalizeValue(obj, field.getNormalize(), resultDataSet, parser, applicationContext));
+            } catch (N2oSpelException e) {
+                e.setFieldId(field.getId());
+                throw e;
             }
         }
-        return dataSet;
     }
 
     private CollectionPage<DataSet> getPage(Collection<DataSet> content, N2oPreparedCriteria criteria,
-                                            Supplier<Integer> totalSupplier) {
+                                            Object additionalInfo, Supplier<Integer> totalSupplier) {
+        CollectionPage<DataSet> collectionPage;
         if (criteria.getFirst() == 0) {
             if (criteria.getSize() > content.size()) {
-                return new CollectionPage<>(content.size(), content, criteria);
+                collectionPage = new CollectionPage<>(content.size(), content, criteria);
+            } else {
+                collectionPage = new CollectionPage<>(totalSupplier.get(), content, criteria);
             }
-            return new CollectionPage<>(totalSupplier.get(), content, criteria);
+        } else if (!content.isEmpty() && criteria.getSize() > content.size()) {
+            collectionPage = new CollectionPage<>(criteria.getFirst() + content.size(), content, criteria);
+        } else {
+            collectionPage = new CollectionPage<>(totalSupplier.get(), content, criteria);
         }
-        if (content.size() != 0 && criteria.getSize() > content.size()) {
-            return new CollectionPage<>(criteria.getFirst() + content.size(), content, criteria);
-        }
-        return new CollectionPage<>(totalSupplier.get(), content, criteria);
-    }
 
-    public void setPageStartsWith0(boolean pageStartsWith0) {
-        this.pageStartsWith0 = pageStartsWith0;
-    }
-
-    public void setCriteriaResolver(CriteriaConstructor criteriaResolver) {
-        this.criteriaConstructor = criteriaResolver;
+        if (additionalInfo != null)
+            collectionPage.setAdditionalInfo(additionalInfo);
+        return collectionPage;
     }
 
     @Override
     public void setEnvironment(MetadataEnvironment environment) {
         this.contextProcessor = environment.getContextProcessor();
         this.domainProcessor = environment.getDomainProcessor();
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 }

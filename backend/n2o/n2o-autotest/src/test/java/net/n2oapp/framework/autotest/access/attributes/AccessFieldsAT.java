@@ -36,7 +36,7 @@ public class AccessFieldsAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/fields/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/fields/default.access.xml"));
     }
@@ -52,7 +52,7 @@ public class AccessFieldsAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к полям по sec атрибутам");
 
         Fields fields = page.widget(FormWidget.class).fields();
         fields.shouldHaveSize(3);
@@ -69,7 +69,7 @@ public class AccessFieldsAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к полям по sec атрибутам");
 
         Fields fields = page.widget(FormWidget.class).fields();
         fields.shouldHaveSize(2);

@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -45,7 +46,6 @@ public class DatasourceAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     /**
@@ -150,7 +150,7 @@ public class DatasourceAT extends AutoTestBase {
 
         page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class)
                 .toolbar().topLeft().button("Создать").click();
-        page.breadcrumb().titleShouldHaveText("Создание записи");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
 
         InputText nameInput = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
                 .fields().field("Имя").control(InputText.class);
@@ -176,14 +176,16 @@ public class DatasourceAT extends AutoTestBase {
         organizationInput.shouldBeEnabled();
         organizationInput.val("Сбербанк");
         saveButton.click();
-        page.breadcrumb().titleShouldHaveText("Сохранение нескольких форм одной кнопкой");
+
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Сохранение нескольких форм одной кнопкой");
 
         table.columns().rows().row(0).cell(0).textShouldHave("Сергей");
         table.columns().rows().row(0).click();
 
         page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class)
                 .toolbar().topLeft().button("Изменить").click();
-        page.breadcrumb().titleShouldHaveText("Создание записи");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
 
         nameInput.shouldHaveValue("Сергей");
         tabs.tab(1).click();
@@ -213,25 +215,26 @@ public class DatasourceAT extends AutoTestBase {
         nameInput.val("Сергей");
         birthdayInput.val(formatter.format(LocalDate.now().plusDays(1)));
         createButton.click();
-        page.alerts().alert(0).shouldHaveText("Дата рождения не может быть в будущем");
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveText("Дата рождения не может быть в будущем");
         table.columns().rows().shouldNotHaveRows();
 
         nameInput.val("Сергей");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        alert.shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(1);
 
         nameInput.val("Сергей");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
-        page.alerts().alert(0).shouldHaveText("Имя Сергей уже существует");
+        alert.shouldHaveText("Имя Сергей уже существует");
         table.columns().rows().shouldHaveSize(1);
 
         nameInput.val("Артем");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        alert.shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(2);
     }
 

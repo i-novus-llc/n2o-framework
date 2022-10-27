@@ -23,9 +23,11 @@ import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidat
 public class N2oValidationModule implements DataProcessing {
 
     private ValidationProcessor processor;
+    private AlertMessageBuilder alertMessageBuilder;
 
-    public N2oValidationModule(ValidationProcessor processor) {
+    public N2oValidationModule(ValidationProcessor processor, AlertMessageBuilder alertMessageBuilder) {
         this.processor = processor;
+        this.alertMessageBuilder = alertMessageBuilder;
     }
 
     @Override
@@ -103,7 +105,7 @@ public class N2oValidationModule implements DataProcessing {
 
     private void prepareResponse(List<FailInfo> fails, RequestInfo requestInfo, ResponseInfo responseInfo) {
         for (FailInfo fail : fails) {
-            ResponseMessage message = responseInfo.constructMessage(requestInfo, fail.getSeverity());
+            ResponseMessage message = responseInfo.constructMessage(requestInfo, fail.getSeverity(), alertMessageBuilder);
             message.setText(fail.getMessage());
             message.setField(fail.getFieldId());
             responseInfo.addMessage(message);

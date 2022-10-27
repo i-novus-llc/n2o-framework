@@ -3,14 +3,21 @@ package net.n2oapp.framework.engine.data.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.http.client.MockClientHttpResponse;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -18,6 +25,7 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class SpringRestDataProviderEngineTest {
     @Test
@@ -44,7 +52,6 @@ public class SpringRestDataProviderEngineTest {
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
         actionEngine.invoke(dataProvider, request);
         assertThat(restTemplate.getQuery(), is("http://www.example.org/1/1"));
-
     }
 
     @Test
@@ -59,10 +66,85 @@ public class SpringRestDataProviderEngineTest {
         try {
             actionEngine.invoke(invocation, request);
             Assert.fail();
-        } catch (HttpStatusCodeException e) {
-            assertThat(e.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
-            assertThat(e.getResponseBodyAsString(), is("Error"));
+        } catch (N2oQueryExecutionException e) {
+            HttpStatusCodeException cause = (HttpStatusCodeException) e.getCause();
+            assertThat(cause.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
+            assertThat(cause.getResponseBodyAsString(), is("Error"));
         }
+    }
+
+    /**
+     * Проверка проброса заголовков клиента
+     */
+    @Test
+    public void testHeadersAndCookiesForwarding() {
+        TestRestTemplate restTemplate = new TestRestTemplate("1");
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
+        N2oRestDataProvider invocation = new N2oRestDataProvider();
+        invocation.setQuery("http://www.example.org/");
+        invocation.setForwardedHeaders("testForwardedHeader");
+        invocation.setForwardedCookies("c1,c3");
+        invocation.setMethod(N2oRestDataProvider.Method.GET);
+        Map<String, Object> request = new HashMap<>();
+
+        HttpServletRequest httpServletRequest = new MockHttpServletRequest() {
+            @Override
+            public String getHeader(String name) {
+                if ("testForwardedHeader".equals(name))
+                    return "ForwardedHeaderValue";
+                if ("testNotForwardHeader".equals(name))
+                    return "testNotForwardHeaderValue";
+                return null;
+            }
+
+            @Override
+            public Enumeration<String> getHeaderNames() {
+                return Collections.enumeration(List.of("testForwardedHeader", "testNotForwardHeader"));
+            }
+
+            @Override
+            public Cookie[] getCookies() {
+                return new Cookie[]{new Cookie("c1", "c1Value"), new Cookie("c2", "c2Value"), new Cookie("c3", "c3Value")};
+            }
+        };
+
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(httpServletRequest));
+        actionEngine.invoke(invocation, request);
+        assertEquals("ForwardedHeaderValue", ((HttpHeaders) restTemplate.getRequestHeader()).get("testForwardedHeader").get(0));
+        assertEquals("c3=c3Value;c1=c1Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("cookie").get(0));
+        assertEquals(Boolean.FALSE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testNotForwardHeader"));
+
+        invocation.setForwardedCookies("*");
+        invocation.setForwardedHeaders("*");
+
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(httpServletRequest));
+        actionEngine.invoke(invocation, request);
+        assertEquals("ForwardedHeaderValue", ((HttpHeaders) restTemplate.getRequestHeader()).get("testForwardedHeader").get(0));
+        assertEquals("c1=c1Value;c2=c2Value;c3=c3Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("cookie").get(0));
+        assertEquals("testNotForwardHeaderValue", ((HttpHeaders) restTemplate.getRequestHeader()).get("testNotForwardHeader").get(0));
+
+        httpServletRequest = new MockHttpServletRequest() {
+            @Override
+            public String getHeader(String name) {
+                if ("testHeaderFromProperty1".equals(name))
+                    return "testHeaderFromProperty1Value";
+                return null;
+            }
+
+            @Override
+            public Cookie[] getCookies() {
+                return new Cookie[]{new Cookie("cfp1", "cfp1Value")};
+            }
+        };
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(httpServletRequest));
+        invocation.setForwardedHeaders(null);
+        actionEngine.setForwardHeaders("testHeaderFromProperty1");
+        invocation.setForwardedCookies(null);
+        actionEngine.setForwardCookies("cfp1");
+        actionEngine.invoke(invocation, request);
+        assertEquals("testHeaderFromProperty1Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("testHeaderFromProperty1").get(0));
+        assertEquals("cfp1=cfp1Value", ((HttpHeaders) restTemplate.getRequestHeader()).get("cookie").get(0));
+        assertEquals(Boolean.FALSE, ((HttpHeaders) restTemplate.getRequestHeader()).containsKey("testNotForwardHeader"));
     }
 
     @Test
@@ -88,7 +170,7 @@ public class SpringRestDataProviderEngineTest {
 
         result = actionEngine.invoke(invocation, request);
         assertThat(result, instanceOf(DataSet.class));
-        assertThat(((DataSet)result).get("id"), is("1"));
+        assertThat(((DataSet) result).get("id"), is("1"));
 
         //response list
         restTemplate = new TestRestTemplate("[{\"id\" : \"1\"}]");
@@ -100,8 +182,8 @@ public class SpringRestDataProviderEngineTest {
 
         result = actionEngine.invoke(invocation, request);
         assertThat(result, instanceOf(List.class));
-        assertThat(((List)result).get(0), instanceOf(DataSet.class));
-        assertThat(((DataSet)((List)result).get(0)).get("id"), is("1"));
+        assertThat(((List) result).get(0), instanceOf(DataSet.class));
+        assertThat(((DataSet) ((List) result).get(0)).get("id"), is("1"));
 
         //response empty
         restTemplate = new TestRestTemplate("");

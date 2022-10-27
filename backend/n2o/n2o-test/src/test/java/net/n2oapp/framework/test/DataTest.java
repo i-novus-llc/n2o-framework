@@ -22,8 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.*;
 
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -66,9 +65,9 @@ public class DataTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = response.getBody();
-        assert result.getCount() == 15;
-        assert result.getSize() == 10;
-        assert result.getPage() == 1;
+        assert result.getPaging().getCount() == 15;
+        assert result.getPaging().getSize() == 10;
+        assert result.getPaging().getPage() == 1;
         assert result.getList().size() == 10;
 
         //test data by id
@@ -76,9 +75,9 @@ public class DataTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         result = response.getBody();
-        assert result.getCount() == 1;
-        assert result.getSize() == 1;
-        assert result.getPage() == 1;
+        assert result.getPaging().getCount() == 1;
+        assert result.getPaging().getSize() == 1;
+        assert result.getPaging().getPage() == 1;
         assert result.getList().size() == 1;
         assert result.getList().get(0).get("id").equals(3);
         assert result.getList().get(0).get("value").equals("value3");
@@ -92,9 +91,9 @@ public class DataTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(50));
-        assertThat(result.getSize(), is(10));
-        assertThat(result.getPage(), is(1));
+        assertThat(result.getPaging().getCount(), is(50));
+        assertThat(result.getPaging().getSize(), is(10));
+        assertThat(result.getPaging().getPage(), is(1));
         assertThat(result.getList().size(), is(10));
         assertThat(result.getList(), isOrdered());
 
@@ -103,9 +102,9 @@ public class DataTest {
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         result = response.getBody();
-        assertThat(result.getCount(), is(1));
-        assertThat(result.getSize(), is(1));
-        assertThat(result.getPage(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
+        assertThat(result.getPaging().getSize(), is(1));
+        assertThat(result.getPaging().getPage(), is(1));
         assertThat(result.getList().size(), is(1));
         assertThat(result.getList().get(0).get("id"), is(3));
         assertThat(result.getList().get(0).get("value"), is("+79655000022"));
@@ -150,7 +149,7 @@ public class DataTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(queryPath + "?size=10&page=2&sorting.value=desc", GetDataResponse.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(50));
+        assertThat(result.getPaging().getCount(), is(50));
         assertThat(result.getList().size(), is(10));
         DataSet row = new DataSet().add("id", 10).add("value", "10");
         assertThat(result.getList(), hasItem(row));
@@ -160,9 +159,9 @@ public class DataTest {
         response = restTemplate.getForEntity(queryPath + "?size=1&id=3", GetDataResponse.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         result = response.getBody();
-        assertThat(result.getCount(), is(1));
-        assertThat(result.getSize(), is(1));
-        assertThat(result.getPage(), is(1));
+        assertThat(result.getPaging().getCount(), is(1));
+        assertThat(result.getPaging().getSize(), is(1));
+        assertThat(result.getPaging().getPage(), is(1));
         assertThat(result.getList().size(), is(1));
         assertThat(result.getList().get(0).get("id"), is(3));
         assertThat(result.getList().get(0).get("value"), is("3"));
@@ -177,9 +176,9 @@ public class DataTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(10));
-        assertThat(result.getSize(), is(10));
-        assertThat(result.getPage(), is(1));
+        assertThat(result.getPaging().getCount(), is(10));
+        assertThat(result.getPaging().getSize(), is(10));
+        assertThat(result.getPaging().getPage(), is(1));
         assertThat(result.getList().size(), is(10));
         assertThat((result.getList()).get(0).get("value"), is("value0"));
     }
@@ -193,9 +192,9 @@ public class DataTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(10));
-        assertThat(result.getSize(), is(10));
-        assertThat(result.getPage(), is(1));
+        assertThat(result.getPaging().getCount(), is(10));
+        assertThat(result.getPaging().getSize(), is(10));
+        assertThat(result.getPaging().getPage(), is(1));
         assertThat(result.getList().size(), is(10));
         assertThat(result.getList().get(0).get("value"), is("value0"));
     }
@@ -245,7 +244,7 @@ public class DataTest {
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         GetDataResponse result = response.getBody();
-        assertThat(result.getCount(), is(2));
+        assertThat(result.getPaging().getCount(), is(2));
         for (DataSet data : result.getList()) {
             assertThat(data.get("individualId"), is(1));
         }
@@ -263,6 +262,18 @@ public class DataTest {
         assertThat(response.getBody().getList().get(0).get("id"), is(11));
         assertThat(((Map) response.getBody().getList().get(0).get("subModel")).get("id"), is(123));
         assertThat(((Map) response.getBody().getList().get(0).get("subModel")).get("name"), is("testName"));
+    }
+
+    @Test
+    public void testAdditionalInfo() {
+        RestTemplate restTemplate = new RestTemplate();
+        String queryPath = "/n2o/data/test/testAdditionalInfo";
+        String fooResourceUrl = "http://localhost:" + port + queryPath;
+        ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getBody().getAdditionalInfo(), instanceOf(Integer.class));
+        assertThat(response.getBody().getAdditionalInfo(), is(600));
     }
 
     @Getter

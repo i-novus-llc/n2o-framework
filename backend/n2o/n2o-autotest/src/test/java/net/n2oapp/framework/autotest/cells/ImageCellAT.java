@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -30,8 +30,6 @@ public class ImageCellAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Override
@@ -55,7 +53,7 @@ public class ImageCellAT extends AutoTestBase {
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.imageShouldBe(getBaseUrl() + "/favicon.ico");
         cell.widthShouldBe(15);
-        cell.shapeShouldBe(ImageShape.circle);
+        cell.shapeShouldBe(ShapeType.circle);
     }
 
     @Test
@@ -98,10 +96,10 @@ public class ImageCellAT extends AutoTestBase {
 
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldExists();
-        cell.shouldHaveStatus(ImageStatusElement.Place.topRight, "Статус1");
-        cell.statusShouldHaveIcon(ImageStatusElement.Place.topRight, ".fa.fa-plus");
+        cell.shouldHaveStatus(ImageStatusElementPlace.topRight, "Статус1");
+        cell.statusShouldHaveIcon(ImageStatusElementPlace.topRight, ".fa.fa-plus");
 
         cell = rows.row(1).cell(0, ImageCell.class);
-        cell.shouldHaveStatus(ImageStatusElement.Place.topRight, "Статус2");
+        cell.shouldHaveStatus(ImageStatusElementPlace.topRight, "Статус2");
     }
 }

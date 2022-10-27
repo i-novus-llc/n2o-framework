@@ -41,6 +41,7 @@ function ModalDialog({
     visible,
     close,
     closeButton,
+    className,
     reverseButtons = false,
 }) {
     const { t } = useTranslation()
@@ -48,16 +49,18 @@ function ModalDialog({
     const { label: okLabel, color: okColor = 'primary' } = ok || {}
     const { label: cancelLabel, color: cancelColor } = cancel || {}
 
+    const hasHeader = title || closeButton
+
     return (
         <Modal
             isOpen={visible}
             size={size}
             toggle={close}
-            modalClassName={classNames('n2o-modal-dialog', {
+            modalClassName={classNames('n2o-modal-dialog', className, {
                 'simple-modal-dialog': !title && !text,
             })}
         >
-            {title && (
+            {hasHeader && (
                 <ModalHeader toggle={closeButton ? close : null}>
                     {title}
                 </ModalHeader>
@@ -126,6 +129,7 @@ ModalDialog.propTypes = {
      * Смена кнопок местами
      */
     reverseButtons: PropTypes.bool,
+    className: PropTypes.string,
 }
 
 export default ModalDialog

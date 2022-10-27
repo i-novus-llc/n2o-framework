@@ -19,6 +19,8 @@ public class N2oRestDataProvider extends AbstractDataProvider implements N2oMapI
     private String contentType;
     private String proxyHost;
     private Integer proxyPort;
+    private String forwardedHeaders;
+    private String forwardedCookies;
 
     public enum Method {
         GET, PUT, POST, REMOVE, HEAD, DELETE, PATCH

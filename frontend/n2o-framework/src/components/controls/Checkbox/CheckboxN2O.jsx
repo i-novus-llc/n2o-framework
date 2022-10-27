@@ -116,7 +116,7 @@ CheckboxN2O.propTypes = {
      * Подсказка в popover
      */
     help: PropTypes.string,
-    tabIndex: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+    tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 CheckboxN2O.defaultProps = {

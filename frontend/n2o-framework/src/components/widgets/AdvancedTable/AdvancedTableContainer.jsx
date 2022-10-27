@@ -56,14 +56,15 @@ class AdvancedTableContainer extends React.Component {
             models: prevModels,
             sorting: prevSorting,
         } = prevProps
-        const { models, registredColumns, sorting } = this.props
+        const { models, registredColumns, sorting, headers } = this.props
         const { datasource } = models
         const { datasource: prevDatasource } = prevModels
 
         if (
             !isEqual(prevDatasource, datasource) ||
             !isEqual(prevProps.registredColumns, registredColumns) ||
-            !isEqual(sorting, prevSorting)
+            !isEqual(sorting, prevSorting) ||
+            !isEqual(prevProps.headers, headers)
         ) {
             this.setState({
                 data: this.mapData(datasource),

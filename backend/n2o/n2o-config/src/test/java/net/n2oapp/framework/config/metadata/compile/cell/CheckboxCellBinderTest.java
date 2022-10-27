@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.cell.CheckboxCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -40,7 +40,7 @@ public class CheckboxCellBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/cell/test.object.xml");
         PageContext context = new PageContext("testCheckboxCellBinderShowModal", "/p/w/:id/modal");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("id", "2"));
-        N2oCheckboxCell checkboxCell = (N2oCheckboxCell) ((Table) page.getWidget()).getComponent().getCells().get(0);
+        CheckboxCell checkboxCell = (CheckboxCell) ((Table) page.getWidget()).getComponent().getCells().get(0);
         ClientDataProvider dataProvider = ((InvokeAction) checkboxCell.getAction()).getPayload().getDataProvider();
         assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/vip"));
     }

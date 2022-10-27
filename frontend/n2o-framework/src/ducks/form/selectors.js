@@ -21,6 +21,11 @@ export const makeFormByName = name => createSelector(
     formsState => get(formsState, name) || {},
 )
 
+export const getFormFieldsByName = name => createSelector(
+    makeFormByName(name),
+    form => get(form, 'fields', {}),
+)
+
 /**
  * селктор для поля формы
  * @param formName
@@ -61,7 +66,7 @@ export const isInitSelector = (formName, fieldName) => createSelector(
     field => field.isInit,
 )
 
-export const messageSelector = (datasourceId, fieldName) => createSelector(
+export const messageSelector = (datasourceId, fieldName, modelPrefix) => createSelector(
     makeFormModelPrefixSelector(datasourceId),
     state => state,
     (prefix, state) => {
@@ -69,7 +74,7 @@ export const messageSelector = (datasourceId, fieldName) => createSelector(
             return undefined
         }
 
-        return dataSourceFieldError(datasourceId, prefix, fieldName)(state)?.[0]
+        return dataSourceFieldError(datasourceId, modelPrefix || prefix, fieldName)(state)?.[0]
     },
 )
 
@@ -107,4 +112,9 @@ export const formValueSelector = (formName, fieldName) => createSelector(
 export const makeFormsByDatasourceSelector = datasource => createSelector(
     widgetsSelector,
     widgets => filter(widgets, widgetState => widgetState.datasource === datasource && widgetState.form),
+)
+
+export const makeFormsFiltersByDatasourceSelector = datasource => createSelector(
+    widgetsSelector,
+    widgets => filter(widgets, widgetState => widgetState.datasource === datasource && widgetState.filter),
 )

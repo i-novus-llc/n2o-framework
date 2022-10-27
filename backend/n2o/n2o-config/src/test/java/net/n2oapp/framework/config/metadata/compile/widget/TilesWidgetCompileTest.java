@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
+import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -58,16 +58,16 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
 
         tile = tiles.getTile().get(1);
         assertThat(tile.getId(), is("id2"));
-        assertThat(tile.getComponent(), instanceOf(N2oTextCell.class));
+        assertThat(tile.getComponent(), instanceOf(TextCell.class));
         assertThat(tile.getComponent().getSrc(), is("TextCell"));
         assertThat(tile.getComponent().getId(), is("id2"));
-        assertThat(((N2oTextCell) tile.getComponent()).getFieldKey(), is("test2"));
-        assertThat(((N2oTextCell) tile.getComponent()).getTooltipFieldId(), is("tooltip"));
+        assertThat(((TextCell) tile.getComponent()).getFieldKey(), is("test2"));
+        assertThat(((TextCell) tile.getComponent()).getTooltipFieldId(), is("tooltip"));
 
         tile = tiles.getTile().get(2);
         assertThat(tile.getId(), is("test3"));
-        assertThat(tile.getComponent(), instanceOf(N2oImageCell.class));
-        assertThat(((N2oImageCell) tile.getComponent()).getData(), is("/test"));
+        assertThat(tile.getComponent(), instanceOf(ImageCell.class));
+        assertThat(((ImageCell) tile.getComponent()).getData(), is("/test"));
 
         assertThat(tiles.getPaging().getFirst(), is(false));
         assertThat(tiles.getPaging().getShowSinglePage(), is(true));

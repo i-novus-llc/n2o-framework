@@ -39,13 +39,12 @@ public class TableAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
     public void testTableBase() {
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Таблица");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Таблица");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

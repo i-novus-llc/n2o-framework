@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oRatingCell;
+import net.n2oapp.framework.api.metadata.meta.cell.RatingCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -12,15 +13,15 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция ячейки рейтинга
  */
 @Component
-public class RatingCellCompiler extends AbstractCellCompiler<N2oRatingCell, N2oRatingCell> {
+public class RatingCellCompiler extends AbstractCellCompiler<RatingCell, N2oRatingCell> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oRatingCell.class;
     }
 
     @Override
-    public N2oRatingCell compile(N2oRatingCell source, CompileContext<?, ?> context, CompileProcessor p) {
-        N2oRatingCell cell = new N2oRatingCell();
+    public RatingCell compile(N2oRatingCell source, CompileContext<?, ?> context, CompileProcessor p) {
+        RatingCell cell = new RatingCell();
         build(cell, source, context, p, property("n2o.api.cell.rating.src"));
         cell.setShowTooltip(p.cast(source.getShowTooltip(), p.resolve(property("n2o.api.cell.rating.showTooltip"), Boolean.class)));
         cell.setHalf(p.cast(source.getHalf(), p.resolve(property("n2o.api.cell.rating.half"), Boolean.class)));

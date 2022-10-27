@@ -1,8 +1,8 @@
 package net.n2oapp.framework.engine.data.rest;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,16 +26,11 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BinaryOperator;
 
-import static net.n2oapp.framework.engine.data.QueryUtil.normalizeQueryParams;
-import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
-
+import static net.n2oapp.framework.engine.data.QueryUtil.*;
 
 /**
  * Сервис вызова Spring RestTemplate
@@ -46,6 +42,14 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     private ObjectMapper objectMapper;
     private ResponseExtractor<Object> responseExtractor;
     private String baseRestUrl;
+
+    @Value("${n2o.engine.rest.forward-headers:}")
+    @Setter
+    private String forwardHeaders;
+
+    @Value("${n2o.engine.rest.forward-cookies:}")
+    @Setter
+    private String forwardCookies;
 
     public SpringRestDataProviderEngine(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
@@ -93,7 +97,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + sortingSeparator + b);
         query = replaceListPlaceholder(query, "{join}", args.remove("join"), "", (a, b) -> a + joinSeparator + b);
         query = normalizeQueryParams(query);
-        return executeQuery(method, query, args, invocation.getProxyHost(), invocation.getProxyPort());
+        return executeQuery(method, query, args, invocation);
     }
 
     /**
@@ -135,10 +139,11 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         }
     }
 
-    private Object executeQuery(HttpMethod method, String query, Map<String, Object> args, String proxyHost,
-                                Integer proxyPort) {
-        query = getURL(proxyHost, proxyPort, query);
+    private Object executeQuery(HttpMethod method, String query, Map<String, Object> args, N2oRestDataProvider invocation) {
+        query = getURL(invocation.getProxyHost(), invocation.getProxyPort(), query);
         HttpHeaders headers = initHeaders(args);
+        copyForwardedHeaders(resolveForwardedHeaders(invocation), headers);
+        copyForwardedCookies(resolveForwardedCookies(invocation), headers);
         Map<String, Object> body = new HashMap<>(args);
 
         log.debug("Execute REST query: " + query);
@@ -169,6 +174,26 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     private Object exchange(String query, HttpMethod method, Object body, HttpHeaders headers, Map<String, Object> args) {
         RequestCallback requestCallback = restTemplate.httpEntityCallback(new HttpEntity<>(body, headers), Object.class);
         return restTemplate.execute(query, method, requestCallback, responseExtractor, args);
+    }
+
+    /**
+     * Парсинг и выбор заголовков для пересылки
+     *
+     * @param invocation Провайдер данных
+     */
+    private Set<String> resolveForwardedHeaders(N2oRestDataProvider invocation) {
+        String headers = invocation.getForwardedHeaders() != null ? invocation.getForwardedHeaders() : forwardHeaders;
+        return parseHeadersString(headers);
+    }
+
+    /**
+     * Парсинг и выбор cookie для пересылки
+     *
+     * @param invocation Провайдер данных
+     */
+    private Set<String> resolveForwardedCookies(N2oRestDataProvider invocation) {
+        String cookies = invocation.getForwardedCookies() != null ? invocation.getForwardedCookies() : forwardCookies;
+        return parseHeadersString(cookies);
     }
 
     private String resolve(String str, Map<String, Object> args, BinaryOperator<String> reducer) {
@@ -217,5 +242,4 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         else
             return "http://" + host + ":" + port + url;
     }
-
 }

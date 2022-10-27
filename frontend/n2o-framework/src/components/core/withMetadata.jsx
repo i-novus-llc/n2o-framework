@@ -34,11 +34,13 @@ const withMetadata = (Component) => {
         }
 
         componentDidUpdate(prevProps) {
-            const { pageId, metadata, error, routeMap, reset } = this.props
+            // eslint-disable-next-line no-unused-vars
+            const { pageId, metadata, error, routeMap, reset, pageUrl } = this.props
 
             if (
                 isEqual(metadata, prevProps.metadata) &&
                 !isEmpty(metadata) &&
+                !isEqual(pageUrl, prevProps.pageUrl) &&
                 this.shouldGetPageMetadata(prevProps)
             ) {
                 reset(prevProps.pageId)

@@ -31,7 +31,7 @@ public class HeaderAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("Хедер");
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
 
         page.header().nav().shouldHaveSize(3);
 
@@ -39,13 +39,13 @@ public class HeaderAT extends SandboxAutotestBase {
         menu1.labelShouldHave("Первая страница");
         menu1.urlShouldHave(getBaseUrl() + "/#/mi1");
         menu1.click();
-        page.breadcrumb().titleShouldHaveText("Первая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
 
         AnchorMenuItem menu2 = page.header().nav().anchor(1);
         menu2.labelShouldHave("Вторая страница");
         menu2.urlShouldHave(getBaseUrl() + "/#/mi2");
         menu2.click();
-        page.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
 
         DropdownMenuItem dropdown = page.header().nav().dropdown(2);
         dropdown.click();
@@ -53,14 +53,14 @@ public class HeaderAT extends SandboxAutotestBase {
         dropdown.item(0).labelShouldHave("Третья страница");
         dropdown.item(0).urlShouldHave(getBaseUrl() + "/#/mi4");
         dropdown.item(0).click();
-        page.breadcrumb().titleShouldHaveText("Третья страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Третья страница");
 
         dropdown.click();
         dropdown.labelShouldHave("Вложенное меню");
         dropdown.item(1).labelShouldHave("Четвертая страница");
         dropdown.item(1).urlShouldHave(getBaseUrl() + "/#/mi5");
         dropdown.item(1).click();
-        page.breadcrumb().titleShouldHaveText("Четвертая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Четвертая страница");
 
         page.header().extra().shouldHaveSize(1);
         AnchorMenuItem extraLink = page.header().extra().item(0, AnchorMenuItem.class);
@@ -69,6 +69,5 @@ public class HeaderAT extends SandboxAutotestBase {
         extraLink.click();
         page.urlShouldMatches("http://example.com/");
     }
-
 }
 

@@ -31,9 +31,24 @@ public class GraphQlUtil {
             for (Object item : ((List) obj))
                 joiner.add(toGraphQlString(item));
             return joiner.toString();
-        } else if (obj instanceof String || obj instanceof Temporal || obj instanceof Date)
+        } else if (obj instanceof Temporal || obj instanceof Date) {
             return "\"" + obj + "\"";
-        else
+        } else if (obj instanceof String) {
+            return "\"" + escapeJson((String)obj) + "\"";
+        } else
             return obj.toString();
+    }
+
+
+    public static String escapeJson(String raw) {
+        String escaped = raw;
+        escaped = escaped.replace("\\", "\\\\");
+        escaped = escaped.replace("\"", "\\\"");
+        escaped = escaped.replace("\b", "\\b");
+        escaped = escaped.replace("\f", "\\f");
+        escaped = escaped.replace("\n", "\\n");
+        escaped = escaped.replace("\r", "\\r");
+        escaped = escaped.replace("\t", "\\t");
+        return escaped;
     }
 }

@@ -1,10 +1,11 @@
 package net.n2oapp.framework.config.io.cell.v3;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageStatusElement;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -22,8 +23,8 @@ public class ImageCellElementIOv3 extends AbstractCellElementIOv3<N2oImageCell> 
         super.io(e, c, p);
         p.attribute(e, "action-id", c::getActionId, c::setActionId);
         p.attribute(e, "width", c::getWidth, c::setWidth);
-        p.attributeEnum(e, "shape", c::getShape, c::setShape, ImageShape.class);
-        p.children(e, "statuses", "status", c::getStatuses, c::setStatuses, ImageStatusElement::new, this::statuses);
+        p.attributeEnum(e, "shape", c::getShape, c::setShape, ShapeType.class);
+        p.children(e, "statuses", "status", c::getStatuses, c::setStatuses, N2oImageStatusElement::new, this::statuses);
         p.anyChild(e, "action", c::getN2oAction, c::setN2oAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
         p.attribute(e, "title", c::getTitle, c::setTitle);
         p.attribute(e, "description", c::getDescription, c::setDescription);
@@ -31,11 +32,11 @@ public class ImageCellElementIOv3 extends AbstractCellElementIOv3<N2oImageCell> 
         p.attributeEnum(e, "text-position", c::getTextPosition, c::setTextPosition, N2oImageCell.Position.class);
     }
 
-    private void statuses(Element e, ImageStatusElement c, IOProcessor p) {
+    private void statuses(Element e, N2oImageStatusElement c, IOProcessor p) {
         p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
-        p.attributeEnum(e, "place", c::getPlace, c::setPlace, ImageStatusElement.Place.class);
+        p.attributeEnum(e, "place", c::getPlace, c::setPlace, ImageStatusElementPlace.class);
     }
 
     @Override

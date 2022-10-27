@@ -4,7 +4,9 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationValidator;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarValidator;
-import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.datasource.InheritedDatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.action.CustomActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.InvokeActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.PageActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.SubmitActionValidator;
@@ -37,7 +39,9 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new FieldSetColumnValidator(), new FieldSetRowValidator(), new FormValidator(),
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(),
                 new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
-                new StandardDatasourceValidator(), new ApplicationDatasourceValidator(), new FieldValidator(), new LineFieldSetValidator(),
-                new MultiFieldSetValidator(), new JavaDataProviderValidator(), new ButtonValidator(), new SubmitActionValidator());
+                new StandardDatasourceValidator(), new ApplicationDatasourceValidator(), new InheritedDatasourceValidator(),
+                new FieldValidator(), new LineFieldSetValidator(), new MultiFieldSetValidator(),
+                new JavaDataProviderValidator(), new ButtonValidator(), new SubmitActionValidator(),
+                new CustomActionValidator());
     }
 }

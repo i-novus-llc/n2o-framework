@@ -9,7 +9,7 @@ export enum ProviderType {
 export interface IProvider {
     type: ProviderType
 }
-interface IMappingParam {
+export interface IMappingParam {
     link: string
     observe: boolean
     required: boolean
@@ -43,16 +43,26 @@ export interface InheritedProvider extends IProvider {
     sourceField?: string
 }
 
+export interface Paging {
+    page: number
+    size: number
+    count: number
+}
+
 export interface QueryResult<TModel extends object = object> {
     list: TModel[]
-    page: number
-    count: number
+    additionalInfo?: object
+    paging: Paging
     meta?: object
 }
 
 export type QueryOptions = { page?: number }
 
-export type Query<TProvider extends IProvider> = (id: string, provider: TProvider, options: QueryOptions) => unknown
+export type Query<TProvider extends IProvider> = (
+    id: string,
+    provider: TProvider,
+    options: QueryOptions,
+    apiProvider: unknown) => unknown
 
 export interface ISubmitBase extends IProvider {
     auto: boolean

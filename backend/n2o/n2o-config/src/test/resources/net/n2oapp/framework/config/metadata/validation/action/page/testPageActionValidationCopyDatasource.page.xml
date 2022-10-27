@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <!-- correct -->
+        <button>
+            <show-modal page-id="utBlank"
+                        copy-datasource="ds"/>
+        </button>
+
+        <button>
+            <show-modal page-id="utBlank"
+                        copy-datasource="ds2" copy-ref-page="parent"/>
+        </button>
+    </toolbar>
+</page>

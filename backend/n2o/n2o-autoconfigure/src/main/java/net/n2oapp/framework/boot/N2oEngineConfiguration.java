@@ -3,6 +3,7 @@ package net.n2oapp.framework.boot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.*;
+import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.boot.graphql.GraphQlDataProviderEngine;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -40,6 +41,12 @@ public class N2oEngineConfiguration {
 
     @Value("${n2o.engine.pageStartsWith0}")
     private boolean pageStartsWith0;
+
+    @Value("${n2o.engine.query.asc-expression}")
+    private String ascExpression;
+
+    @Value("${n2o.engine.query.desc-expression}")
+    private String descExpression;
 
     @Value("${n2o.engine.rest.url}")
     private String baseRestUrl;
@@ -97,8 +104,8 @@ public class N2oEngineConfiguration {
     }
 
     @Bean
-    public N2oValidationModule validationModule(ValidationProcessor processor) {
-        return new N2oValidationModule(processor);
+    public N2oValidationModule validationModule(ValidationProcessor processor, AlertMessageBuilder alertMessageBuilder) {
+        return new N2oValidationModule(processor, alertMessageBuilder);
     }
 
     @Bean
@@ -107,8 +114,10 @@ public class N2oEngineConfiguration {
                                          QueryExceptionHandler exceptionHandler,
                                          MetadataEnvironment environment) {
         N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, exceptionHandler);
-        n2oQueryProcessor.setCriteriaResolver(new N2oCriteriaConstructor(pageStartsWith0));
+        n2oQueryProcessor.setCriteriaConstructor(new N2oCriteriaConstructor(pageStartsWith0));
         n2oQueryProcessor.setPageStartsWith0(pageStartsWith0);
+        n2oQueryProcessor.setAscExpression(ascExpression);
+        n2oQueryProcessor.setDescExpression(descExpression);
         n2oQueryProcessor.setEnvironment(environment);
         return n2oQueryProcessor;
     }

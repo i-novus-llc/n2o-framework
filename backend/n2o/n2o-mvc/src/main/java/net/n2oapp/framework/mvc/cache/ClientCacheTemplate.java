@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * Шаблон для кэширования запросов на клиенте
@@ -66,7 +65,7 @@ public abstract class ClientCacheTemplate {
         /**
          * Выполнить запрос
          *
-         * @param req Запрос
+         * @param req  Запрос
          * @param resp Ответ
          */
         void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;

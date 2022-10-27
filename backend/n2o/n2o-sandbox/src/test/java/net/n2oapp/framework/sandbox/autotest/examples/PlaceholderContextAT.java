@@ -48,7 +48,7 @@ public class PlaceholderContextAT extends AutoTestBase {//TODO работает 
         builder.getEnvironment().getContextProcessor().set("email", email);
         builder.getEnvironment().getContextProcessor().set("roles", roles);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("autotest/examples/placeholder_context/index.page.xml"));
     }
 
@@ -57,7 +57,7 @@ public class PlaceholderContextAT extends AutoTestBase {//TODO работает 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Placeholder context");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Placeholder context");
 
         OutputText email = page.widget(FormWidget.class).fields().field("email")
                 .control(OutputText.class);

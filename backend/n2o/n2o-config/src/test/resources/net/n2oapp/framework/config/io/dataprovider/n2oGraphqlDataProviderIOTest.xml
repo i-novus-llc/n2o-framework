@@ -8,16 +8,18 @@
          sorting-suffix="}"
          access-token="token"
          page-mapping="pageNum"
-         size-mapping="sizeNum">
+         size-mapping="sizeNum"
+         forwarded-headers="testHeader"
+         forwarded-cookies="testCookie">
     query getAllPeople($first: Int, $last: Int) {
-        allPeople(first: $first, last: $last) {
-            people {
-                id
-                name
-                gender
-                eyeColor
-            }
-            totalCount
-        }
+    allPeople(first: $first, last: $last) {
+    people {
+    id
+    name
+    gender
+    eyeColor
+    }
+    totalCount
+    }
     }
 </graphql>

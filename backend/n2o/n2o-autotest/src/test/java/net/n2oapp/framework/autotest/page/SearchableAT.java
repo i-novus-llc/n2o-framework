@@ -33,7 +33,7 @@ public class SearchableAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/searchable/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/searchable/search.query.xml"));
     }
@@ -42,7 +42,7 @@ public class SearchableAT extends AutoTestBase {
     public void crudTest() {
         SearchablePage page = open(SearchablePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница с поисковой строкой");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с поисковой строкой");
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.columns().rows().shouldHaveSize(10);

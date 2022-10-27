@@ -203,8 +203,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
-            ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, clientDatasource).getBindLink());
+            confirm.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
         }
         return confirm;
     }
@@ -317,7 +316,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
-            condition.setExpression("!_.isEmpty(this)");
+            condition.setExpression("!$.isEmptyModel(this)");
             condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
             return condition;
         }

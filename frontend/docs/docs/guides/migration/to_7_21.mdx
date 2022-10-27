@@ -2,21 +2,18 @@
 title: Миграция с 7.20 на 7.21
 description: ""
 ---
-### Изменения в XML API {#changes-xml-api}
+## Изменения в XML API {#changes-xml-api}
+
+- Атрибут `datasource` в `page-3.0` удален.
+Если нужен один `datasource` на несколько виджетов, необходимо использовать схему `page-4.0` с элементом `<datasources>`.
 
 - Появились новые схемы `page-4.0`, `widget-5.0`, `toolbar-2.0`, `datasource-1.0`, `action-2.0`, `region-3.0`,
 `button-2.0`, `cell-3.0`, `fieldset-5.0`, `control-3.0`.
-Чтобы перейти на новые схемы, нужно в виджетах атрибуты `query-id` и `object-id` перенести в элемент `<datasource>`
-внутри виджета или создать его на странице.
-Префильтры виджета `<pre-filters>` перенести в `<datasource>` с именем `<filters>`.
 
 - У виджетов упразднен атрибут `route`, теперь все пути вложенных и модальных страниц строятся от корня страницы.
 Если на странице несколько виджетов открывающих вложенные (`<open-page>`) или модальные страницы (`<show-modal>`),
 рекомендуется изменить их `route` так, чтобы они не совпадали.
 Если у `route` виджета использовался параметр пути, то необходимо эти параметры пути скопировать в действия вызова страниц и окон.
-
-- Атрибут `datasource` в `page-3.0` удален.
-Если нужен один датасурс на несколько виджетов, необходимо использовать схему `page-4.0` с элементом `<datasources>`.
 
 - Атрибут `validate="page"` у `<button>` упразднен.
 Для всех кнопок действует проверка только текущей формы,
@@ -33,14 +30,224 @@ description: ""
 
 - Атрибут `search-widget-id` стал обязательным в `<search-bar>` страницы с поисковой строкой для схем `page-2.0` и `page-3.0`
 
-### Изменения в Java API
+### Переход на page-4.0 {#to_page_4_0}
+
+- Атрибуты `query-id` и `object-id` виджетов необходимо перенести в элемент `<datasource>` страницы или виджета
+
+*Пример как работало в схемe page-3.0*
+```xml {4}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form query-id="data" object-id="data">
+            ...
+        </form>
+    </regions>
+</page>
+```
+
+*Пример как работает в схемe page-4.0*
+```xml {5}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <!-- использование источника на странице -->
+    <datasources>
+        <datasource id="ds" query-id="data" object-id="data"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds">
+            ...
+        </form>
+    </regions>
+</page>
+```
+
+```xml {6}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <form>
+            <!-- использование внутреннего источника данных виджета -->
+            <datasource query-id="data" object-id="data"/>
+            ...
+        </form>
+    </regions>
+</page>
+```
+
+- Элемент `<pre-filters>` был переименован в `<filters>`.
+Также префильтр виджета был перенесен внутрь элемента `<datasource>`.
+
+*Пример как работало в схемe page-3.0*
+```xml {6-8}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form>
+            ...
+            <pre-filters>
+                <eq field-id="id" param="person_id"/>
+            </pre-filters>
+        </form>
+    </regions>
+</page>
+```
+
+*Пример как работает в схемe page-4.0*
+```xml {5-7}
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds">
+            <filters>
+                <eq field-id="id" param="person_id"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <regions>
+        <form datasource="ds">
+            ...
+        </form>
+    </regions>
+</page>
+```
+
+:::note
+Здесь и далее будут приведены примеры только для источника данных страницы.
+Но то же самое верно и для внутреннего источника виджета.
+:::
+
+- Параметры действий перенесены в элемент `<params>`
+
+*Пример как работало в схемe page-3.0*
+```xml
+<show-modal page-id="person" route="/:id/update">
+    <path-param name="id" value="{id}"/>
+    <query-param name="name" value="{name}"/>
+</show-modal>
+```
+
+*Пример как работает в схемe page-4.0*
+```xml
+<show-modal page-id="person" route="/:id/update">
+    <params>
+        <path-param name="id" value="{id}"/>
+        <query-param name="name" value="{name}"/>
+    </params>
+</show-modal>
+```
+
+- Атрибут `upload` действия открытия страницы (например `<show-modal>`)
+можно прокинуть на следующую страницу в виде `<datasource>` с соответствующей выборкой.
+
+*Пример как работало в схемe page-3.0*
+```xml
+<!-- для действия create данные берутся из default выборки -->
+<show-modal page-id="person" submit-operation-id="create" upload="defaults"/>
+...
+<!-- для действия update данные берутся из обычной выборки -->
+<show-modal page-id="person" submit-operation-id="update"/>
+```
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="data" default-values-query-id="default">
+        ...
+    </form>
+</simple-page>
+```
+
+*Пример как работает в схемe page-4.0*
+```xml
+<show-modal page-id="person" submit-operation-id="create">
+    <!-- прокидывание источника с default выборкой на следующую страницу -->
+    <datasources>
+        <datasource query-id="default"/>
+    </datasources>
+</show-modal>
+...
+<show-modal page-id="person" submit-operation-id="update">
+    <!-- прокидывание источника с обычной выборкой на следующую страницу -->
+    <datasources>
+        <datasource query-id="data"/>
+    </datasources>
+</show-modal>
+```
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <!-- источник первого виджета страницы будет неявно заменен на тот,
+             который прокинули из родительской страницы -->
+        <datasource query-id="data"/>
+        ...
+    </form>
+</simple-page>
+```
+
+- Master-detail зависимость виджетов задается через `<fetch>` зависимость `<datasource>`.
+
+*Пример как работало в схемe page-3.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <table id="master" query-id="test">
+            ...
+        </table>
+
+        <table depends-on="master" query-id="docs"
+               master-field-id="id" detail-field-id="personId">
+            ...
+        </table>
+    </regions>
+</page>
+```
+
+*Пример как работает в схемe page-4.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2">
+            <dependencies>
+                <fetch on="ds1" model="resolve"/>
+            </dependencies>
+            <filters>
+                <eq field-id="personId" value="{id}" datasource="ds1"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <regions>
+        <table datasource="ds1">
+            ...
+        </table>
+
+        <table datasource="ds2">
+            ...
+        </table>
+    </regions>
+</page>
+```
+
+- Атрибуты `widget-id` и `*-widget-id` переименованы на `datasource` и `*-datasource`.
+- Атрибуты `ref-model` и `ref-widget-id` параметров и зависимостей переименованы на `model` и `datasource` соответственно.
+
+
+## Изменения в Java API {#changes-java-api}
 
 - В `N2o*` классах добавились `@Deprecated` свойства.
 Например, в `N2oWidget` поля `queryId` и `objectId`.
 В этих классах появились методы `adaptV*()`, которые мигрируют устаревшие поля в новые структуры.
 Нужно либо вызвать их, либо перейти на новую структуру самостоятельно, не используя deprecated свойства.
 
-### Изменения функциональности {#functions}
+## Изменения функциональности {#functions}
 
 - Возможность фокуса на только что созданной записи упразднена.
 Удален атрибут `focus-after-submit`.

@@ -1,3 +1,15 @@
+.n2o-radio-input-wrapper {
+    input.alt-radio {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+    }
+}
+
 .n2o-radio-input {
     cursor: pointer;
 
@@ -10,10 +22,6 @@
     &.n2o-radio-input-n2o, // для обратной совместимости
     &.n2o-radio-input-default {
         margin: $n2o-radio-margin;
-
-        input {
-            display: none;
-        }
 
         &::before {
             content: ' ';
@@ -43,13 +51,10 @@
 
     /// type = tabs
     &.n2o-radio-input-tabs {
-        input[type="radio"] {
-            display: none;
-        }
-
         border: $n2o-radio-input-border-width solid transparent;
         padding: $n2o-radio-input-tabs-padding;
         margin: 0;
+        width: 100%;
 
         &.checked {
             border-color: $n2o-radio-input-border-color;
@@ -83,21 +88,14 @@
     display: flex;
     flex-direction: column;
 
-    &.n2o-radio-group-inline {
-        flex-direction: row;
-    }
-
     /// type = default
     &.n2o-radio-group-n2o, // для обратной совместимости
     &.n2o-radio-group-default {
-        &.n2o-radio-group-inline {
-            .n2o-radio-input {
-                margin-right: $n2o-radio-input-margin-right;
-                margin-bottom: 0;
-            }
-
-            .n2o-radio-input:last-child {
-                margin-right: 0;
+        .n2o-radio-input-wrapper {
+            // focus при табуляции на кастомный компонент радиокнопки
+            // FIXME: временно выделяем фокус от табуляции тенью как при ховере. заменить на стили от дизайнеров, когда они появятся
+            .alt-radio:focus-visible + .n2o-radio-input-default::before {
+                box-shadow: $n2o-radio-focus-box-shadow;
             }
         }
     }
@@ -105,6 +103,14 @@
     /// type = tabs
     &.n2o-radio-group-tabs {
         position: relative;
+
+        .n2o-radio-input-wrapper {
+            // focus при табуляции на кастомный компонент радиотаба
+            // FIXME: временно выделяем фокус от табуляции цветом шрифта как при ховере. заменить на стили от дизайнеров, когда они появятся
+            .alt-radio:focus-visible + .n2o-radio-input-tabs {
+                color: black;
+            }
+        }
 
         &::before {
             z-index: -1;
@@ -149,6 +155,19 @@
                     border-right: transparent;
                 }
             }
+        }
+    }
+
+    &.n2o-radio-group-inline {
+        flex-direction: row;
+
+        .n2o-radio-input-wrapper {
+            margin-right: $n2o-radio-input-margin-right;
+            margin-bottom: 0;
+        }
+
+        .n2o-radio-input-wrapper:last-child {
+            margin-right: 0;
         }
     }
 

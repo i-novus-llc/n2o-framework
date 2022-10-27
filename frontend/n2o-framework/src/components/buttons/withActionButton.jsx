@@ -7,7 +7,6 @@ import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
 
-import { SimpleTooltip } from '../snippets/Tooltip/SimpleTooltip'
 import { registerButton, removeButton } from '../../ducks/toolbar/store'
 import {
     toolbarSelector,
@@ -18,16 +17,12 @@ import {
     countSelector,
 } from '../../ducks/toolbar/selectors'
 import { validate as validateDatasource } from '../../core/validation/validate'
-import ModalDialog from '../actions/ModalDialog/ModalDialog'
 import { id as getID } from '../../utils/id'
 import linkResolver from '../../utils/linkResolver'
-import { PopoverConfirm } from '../snippets/PopoverConfirm/PopoverConfirm'
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
+import { ModelPrefix } from '../../core/datasource/const'
 
-const ConfirmMode = {
-    POPOVER: 'popover',
-    MODAL: 'modal',
-}
+import { ActionButton } from './ActionButton'
 
 /*
  * TODO декомпозировать ХОК
@@ -83,7 +78,6 @@ export default function withActionButton(options = {}) {
                 registerButton(entityKey, id, { visible, disabled, count, conditions })
             }
 
-            // eslint-disable-next-line consistent-return
             mapConfirmProps = () => {
                 const { confirm } = this.props
 
@@ -113,13 +107,14 @@ export default function withActionButton(options = {}) {
                         resolvedConditions: getResolvedCondition(condition),
                     }
                 }
+
+                return null
             }
 
             /**
-            * Запуск валидации при клике на кнопку тулбара
-            * @param isTouched - отображение ошибок филдов
-            * @returns {Promise<*>}
-            */
+             * Запуск валидации при клике на кнопку тулбара
+             * @returns {Promise<*>}
+             */
             validationFields = async () => {
                 const { store } = this.context
                 const {
@@ -137,6 +132,7 @@ export default function withActionButton(options = {}) {
                     const isDatasourceValid = await validateDatasource(
                         store.getState(),
                         datasourceId,
+                        ModelPrefix.active,
                         dispatch,
                         true,
                     )
@@ -241,53 +237,32 @@ export default function withActionButton(options = {}) {
                 const resolvedConfirmProps = this.mapConfirmProps(confirm)
 
                 return (
-                    <div id={this.generatedTooltipId}>
-                        <SimpleTooltip
-                            id={this.generatedTooltipId}
-                            message={currentMessage}
-                            placement={hintPosition}
-                        />
-                        <WrappedComponent
-                            {...omit(this.props, [
+                    <ActionButton
+                        Component={WrappedComponent}
+                        componentProps={
+                            { ...omit(this.props, [
                                 'isInit',
                                 'targetTooltip',
                                 'initialProps',
                                 'registerButton',
                                 'uid',
-                            ])}
-                            url={permittedUrl}
-                            disabled={currentDisabled}
-                            visible={currentVisible}
-                            onClick={this.handleClick}
-                            id={this.generatedButtonId}
-                        />
-                        {
-                            confirmMode === ConfirmMode.POPOVER
-                                ? (
-                                    <PopoverConfirm
-                                        {...resolvedConfirmProps}
-                                        isOpen={confirmVisible}
-                                        onConfirm={this.handleConfirm}
-                                        onDeny={this.handleCloseConfirmModal}
-                                        target={this.generatedButtonId}
-                                    />
-                                )
-                                : null
-                        }
-                        {
-                            confirmMode === ConfirmMode.MODAL
-                                ? (
-                                    <ModalDialog
-                                        {...resolvedConfirmProps}
-                                        visible={confirmVisible}
-                                        onConfirm={this.handleConfirm}
-                                        onDeny={this.handleCloseConfirmModal}
-                                        close={this.handleCloseConfirmModal}
-                                    />
-                                )
-                                : null
-                        }
-                    </div>
+                            ]) }}
+                        url={permittedUrl}
+                        componentDisabled={currentDisabled}
+                        componentVisible={currentVisible}
+                        onClick={this.handleClick}
+                        id={this.generatedButtonId}
+                        confirmMode={confirmMode}
+                        isOpen={confirmVisible}
+                        onConfirm={this.handleConfirm}
+                        onDeny={this.handleCloseConfirmModal}
+                        confirmProps={{ ...resolvedConfirmProps }}
+                        confirmTarget={this.generatedButtonId}
+                        confirmVisible={confirmVisible}
+                        close={this.handleCloseConfirmModal}
+                        hint={currentMessage}
+                        placement={hintPosition}
+                    />
                 )
             }
         }
@@ -314,27 +289,19 @@ export default function withActionButton(options = {}) {
         }
 
         ButtonContainer.propTypes = {
-            isInit: PropTypes.bool,
             visible: PropTypes.bool,
             disabled: PropTypes.bool,
-            count: PropTypes.number,
             initialProps: PropTypes.object,
             hint: PropTypes.string,
-            className: PropTypes.string,
-            style: PropTypes.object,
             uid: PropTypes.string,
             entityKey: PropTypes.string,
             id: PropTypes.string,
-            validateWidgetId: PropTypes.string,
-            validatePageId: PropTypes.string,
             validate: PropTypes.arrayOf(PropTypes.string),
             confirm: PropTypes.object,
             registerButton: PropTypes.func,
             removeButton: PropTypes.func,
             dispatch: PropTypes.func,
-            confirmMode: PropTypes.string,
             message: PropTypes.oneOf(['string', null, undefined]),
-            toolbar: PropTypes.object,
             visibleFromState: PropTypes.bool,
             disabledFromState: PropTypes.bool,
             hintPosition: PropTypes.oneOf(['left', 'top', 'right', 'bottom']),

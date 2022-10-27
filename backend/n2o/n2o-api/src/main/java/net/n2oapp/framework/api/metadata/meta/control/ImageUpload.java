@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 
 /**
  * Клиентская модель компонента загрузки изображений
@@ -28,7 +28,7 @@ public class ImageUpload extends FileUpload {
     @JsonProperty
     private Boolean showTooltip;
     @JsonProperty
-    private ImageShape shape;
+    private ShapeType shape;
     @JsonProperty
     private Boolean showName;
 

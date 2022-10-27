@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -42,10 +42,6 @@ public class ImageUploadAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/files.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
     }
@@ -54,8 +50,10 @@ public class ImageUploadAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-
         builder.ios(new TestDataProviderIOv1());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/files.query.xml"));
     }
 
     @Test
@@ -102,7 +100,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldHaveSize(1);
 
         imageUpload.nameInfoShouldExist(0);
-        imageUpload.uploadAreaShapeShouldBe(ImageShape.circle);
+        imageUpload.uploadAreaShapeShouldBe(ShapeType.circle);
         imageUpload.nameShouldBe(0, "image.png");
         imageUpload.sizeShouldBe(0, "186");
         imageUpload.shouldHavePreview(0);

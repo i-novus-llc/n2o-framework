@@ -35,14 +35,13 @@ public class AutoFocusDatePopUpAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
     public void popUpTest() {
         SimplePage indexPage = open(SimplePage.class);
         indexPage.shouldExists();
-        indexPage.breadcrumb().titleShouldHaveText("При автофокусе на date-time и date-interval открывается pop-up");
+        indexPage.breadcrumb().crumb(0).shouldHaveLabel("При автофокусе на date-time и date-interval открывается pop-up");
 
         StandardButton dateTimeButton = indexPage.widget(FormWidget.class)
                 .toolbar()

@@ -116,6 +116,7 @@ class SimpleHeader extends React.Component {
             {
                 'navbar-container-fixed': fixed,
                 'navbar-container-relative': !fixed,
+                open: isOpen,
             },
         )
 

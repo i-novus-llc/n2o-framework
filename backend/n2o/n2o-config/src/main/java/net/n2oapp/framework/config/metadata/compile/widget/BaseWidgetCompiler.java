@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
@@ -63,8 +63,15 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setName(p.cast(source.getName(), source.getId()));
         compiled.setSrc(initSrc(source, p));
         compiled.setIcon(source.getIcon());
-        compileAutoFocus(source, compiled, p);
+        compiled.setFetchOnInit(p.cast(source.getFetchOnInit(), true));
+        compileComponent(compiled, source, p);
         compileDependencies(compiled, source, p);
+    }
+
+    private void compileComponent(D compiled, S source, CompileProcessor p) {
+        if (compiled.getComponent() == null)
+            return;
+        compileAutoFocus(source, compiled, p);
     }
 
     private String initSrc(S source, CompileProcessor p) {
@@ -133,10 +140,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                            WidgetScope widgetScope, MetaActions widgetActions,
-                                           CompiledObject object, ValidationList validationList) {
+                                           CompiledObject object, ValidationScope validationScope) {
         actionsToToolbar(source);
-        compileActions(source, context, p, widgetActions, widgetScope, object, validationList);
-        compileToolbar(compiled, source, context, p, object, widgetActions, widgetScope, validationList);
+        compileActions(source, context, p, widgetActions, widgetScope, object, validationScope);
+        compileToolbar(compiled, source, context, p, object, widgetActions, widgetScope, validationScope);
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
@@ -158,11 +165,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void compileActions(S source, CompileContext<?, ?> context, CompileProcessor p, MetaActions widgetActions,
-                                WidgetScope widgetScope, CompiledObject object, ValidationList validationList) {
+                                WidgetScope widgetScope, CompiledObject object, ValidationScope validationScope) {
         if (source.getActions() != null) {
             for (ActionsBar a : source.getActions()) {
                 a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
-                p.compile(a.getAction(), context, widgetScope, widgetActions, object, validationList, new ComponentScope(a));
+                p.compile(a.getAction(), context, widgetScope, widgetActions, object, validationScope, new ComponentScope(a));
             }
         }
     }
@@ -275,7 +282,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 Dependency condition = new Dependency();
                 String unwrapped = StringUtils.unwrapJs(dep.getValue());
                 condition.setCondition(unwrapped);
-                ModelLink link = new ModelLink(dep.getModel(), getClientDatasourceId(dep.getDatasource(), p));
+                ModelLink link = new ModelLink(
+                        p.cast(dep.getModel(), ReduxModel.resolve),
+                        getClientDatasourceId(dep.getDatasource(), p));
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);
@@ -310,8 +319,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected FieldSetScope initFieldSetScope(CompiledQuery query) {
         FieldSetScope scope = new FieldSetScope();
         if (query != null) {
-            Map<String, N2oQuery.Field> fieldsMap = query.getFieldsMap();
-            for (Map.Entry<String, N2oQuery.Field> entry : fieldsMap.entrySet()) {
+            Map<String, QuerySimpleField> fieldsMap = query.getSimpleFieldsMap();
+            for (Map.Entry<String, QuerySimpleField> entry : fieldsMap.entrySet()) {
                 if (entry.getValue() != null) {
                     scope.put(entry.getKey(), entry.getValue().getName());
                 }

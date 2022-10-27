@@ -4,10 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -16,7 +14,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция ячейки с иконкой
  */
 @Component
-public class IconCellCompiler extends AbstractCellCompiler<N2oIconCell, N2oIconCell> {
+public class IconCellCompiler extends AbstractCellCompiler<IconCell, N2oIconCell> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -24,8 +22,8 @@ public class IconCellCompiler extends AbstractCellCompiler<N2oIconCell, N2oIconC
     }
 
     @Override
-    public N2oIconCell compile(N2oIconCell source, CompileContext<?, ?> context, CompileProcessor p) {
-        N2oIconCell cell = new N2oIconCell();
+    public IconCell compile(N2oIconCell source, CompileContext<?, ?> context, CompileProcessor p) {
+        IconCell cell = new IconCell();
         build(cell, source, context, p, property("n2o.api.cell.icon.src"));
         cell.setText(source.getText());
         cell.setIconType(p.cast(source.getIconType(), IconType.icon));

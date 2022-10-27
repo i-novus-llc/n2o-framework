@@ -14,5 +14,20 @@
                 </input-text>
             </fields>
         </form>
+
+        <table datasource="ds1">
+            <filters>
+                <input-text id="id2" required="true"/>
+                <input-text id="name2">
+                    <validations>
+                        <condition id="name2_length">name2.length>1</condition>
+                    </validations>
+                </input-text>
+            </filters>
+            <columns>
+                <column text-field-id="id2"/>
+                <column text-field-id="name2"/>
+            </columns>
+        </table>
     </regions>
 </page>

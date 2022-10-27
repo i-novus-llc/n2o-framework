@@ -38,7 +38,7 @@ public class MasterDetailAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/detail.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/open.page.xml"),
@@ -49,7 +49,7 @@ public class MasterDetailAT extends AutoTestBase {
     public void testMasterDetail() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Master-detail фильтрация");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Master-detail фильтрация");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -62,7 +62,7 @@ public class MasterDetailAT extends AutoTestBase {
 
         StandardPage open = N2oSelenide.page(StandardPage.class);
         open.shouldExists();
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
 
         FormWidget form = open.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         form.shouldExists();

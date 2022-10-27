@@ -3,7 +3,7 @@
        name="Моя таблица" src="testSrc" datasource="ds1"
        icon="testIcon" class="testClass" selection="radio" visible="true"
        table-size="lg" width="300px" height="300px" text-wrap="false" children="expand"
-       checkboxes="true" check-on-select="false" auto-select="false">
+       checkboxes="true" check-on-select="false" auto-select="false" fetch-on-init="false">
     <datasource query-id="qtest" object-id="otest" default-values-mode="query" size="10">
         <submit operation-id="update" refresh-datasources="ds1" auto-submit-on="blur" submit-all="true"
                 refresh-on-success="true" message-widget-id="w1" message-on-success="true" message-on-fail="true"
@@ -14,7 +14,7 @@
     </datasource>
     <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true"
-                src="MyTableHeader" class="my-table-header" style="color: red">
+                src="MyTableHeader" class="my-table-header" style="color: red" alignment="center" content-alignment="right">
             <toolbar generate="update,delete">
                 <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">
                     <menu-item style="margin-left:10px;width:300px">
@@ -45,7 +45,7 @@
             <text/>
         </column>
 
-        <filter-column text-field-id="test" label="label">
+        <filter-column text-field-id="test" label="label" alignment="right" content-alignment="right">
             <filter>
                 <input-text id="name" label="label"/>
             </filter>
@@ -53,7 +53,7 @@
                 <text format="test" visible="true"/>
             </cell>
         </filter-column>
-        <multi-column label="test" src="MyTableHeader" class="my-table-header" style="color: red">
+        <multi-column label="test" src="MyTableHeader" class="my-table-header" style="color: red" alignment="right">
             <column text-field-id="test1">
                 <cell>
                     <close src="test"/>

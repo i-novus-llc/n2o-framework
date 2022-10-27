@@ -40,7 +40,6 @@ public class DependsOnFieldAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oAllDataPack(), new N2oApplicationPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class DependsOnFieldAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Зависимость от поля с другим именем в дровере");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Зависимость от поля с другим именем в дровере");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

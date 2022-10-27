@@ -1,0 +1,15 @@
+[
+  {
+    "departments": [
+      {
+        "name": "department3"
+      },
+      {
+        "name": "department4"
+      }
+    ],
+    "organization": {
+      "manager": "manager1"
+    }
+  }
+]

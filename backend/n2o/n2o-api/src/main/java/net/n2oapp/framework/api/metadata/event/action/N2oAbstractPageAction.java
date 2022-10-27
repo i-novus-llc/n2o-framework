@@ -8,12 +8,14 @@ import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import org.apache.commons.lang3.ArrayUtils;
@@ -21,7 +23,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
+import static net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField.PK;
 
 /**
  * Абстрактное действие открытия страницы
@@ -50,14 +52,19 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String submitLabel;
     private ReduxModel submitModel;
     private SubmitActionType submitActionType;
-    private ReduxModel copyModel;
     private Boolean submitMessageOnSuccess;
     private Boolean submitMessageOnFail;
-    private String copyDatasourceId;
-    private String copyFieldId;
-    private ReduxModel targetModel;
-    private String targetDatasourceId;
+
     private CopyMode copyMode;
+    private String copyDatasourceId;
+    private PageRef copyPage;
+    private ReduxModel copyModel;
+    private String copyFieldId;
+    private String targetDatasourceId;
+    private PageRef targetPage;
+    private ReduxModel targetModel;
+    private String targetFieldId;
+
     private Boolean createMore;
     private Boolean closeAfterSubmit;
     private String redirectUrlAfterSubmit;
@@ -66,16 +73,16 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String[] refreshDatasourceIds;
     //on resolve
     private String labelFieldId;
-    private String targetFieldId;
     private String valueFieldId;
     @Deprecated
     private N2oPreFilter[] preFilters;
     private N2oParam[] params;
     private N2oAbstractDatasource[] datasources;
+    private N2oBreadcrumb[] breadcrumbs;
     @Deprecated
     private String width;
 
-    @Deprecated
+    @Deprecated // при удалении убрать, N2oStandardDatasourceMerger, а также его вызов в PageCompiler
     public void adaptV1() {
         if (getUpload() != null || getDetailFieldId() != null || getPreFilters() != null) {
             N2oStandardDatasource datasource = new N2oStandardDatasource();

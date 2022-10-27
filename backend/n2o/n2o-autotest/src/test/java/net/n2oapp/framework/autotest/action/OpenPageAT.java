@@ -39,10 +39,8 @@ public class OpenPageAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
-    @Disabled //todo https://jira.i-novus.ru/browse/NNO-7530
     @Test
     public void testFilterState() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/index.page.xml"),
@@ -51,7 +49,7 @@ public class OpenPageAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        page.breadcrumb().titleShouldHaveText("Сохранение фильтров при возврате назад");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Сохранение фильтров при возврате назад");
         TableWidget table = page.widget(TableWidget.class);
 
         TableWidget.Rows rows = table.columns().rows();
@@ -66,7 +64,7 @@ public class OpenPageAT extends AutoTestBase {
 
         rows.row(0).click();
         StandardPage open = N2oSelenide.page(StandardPage.class);
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         TableWidget openPageTable = open.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
         TableWidget.Rows openPageTableRows = openPageTable.columns().rows();
         InputText openPageTypeFilter = openPageTable.filters().fields().field("type").control(InputText.class);
@@ -77,8 +75,9 @@ public class OpenPageAT extends AutoTestBase {
         openPageTable.filters().search();
         openPageTableRows.shouldHaveSize(2);
 
-        open.breadcrumb().clickLink("Сохранение фильтров при возврате назад");
-        page.breadcrumb().titleShouldHaveText("Сохранение фильтров при возврате назад");
+        open.breadcrumb().crumb(0).click();
+        page.breadcrumb().shouldHaveSize(1);
+        page.breadcrumb().crumb(0).shouldHaveLabel("Сохранение фильтров при возврате назад");
 
         // preserving filters when going back
         nameFilter.shouldHaveValue("test3");
@@ -87,7 +86,7 @@ public class OpenPageAT extends AutoTestBase {
         rows.row(0).click();
 
         // reset filters on return forward
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         openPageTypeFilter.shouldBeEmpty();
         openPageTableRows.shouldHaveSize(4);
     }
@@ -101,7 +100,7 @@ public class OpenPageAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        page.breadcrumb().titleShouldHaveText("Первая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().rows().row(0).click();
@@ -109,7 +108,7 @@ public class OpenPageAT extends AutoTestBase {
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.widget(FormWidget.class).shouldExists();
-        open.breadcrumb().titleShouldHaveText("test1");
+        page.breadcrumb().crumb(1).shouldHaveLabel("test1");
     }
 
     @Test
@@ -121,7 +120,7 @@ public class OpenPageAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        page.breadcrumb().titleShouldHaveText("Первая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.shouldExists();
         table.columns().rows().row(0).click();
@@ -129,7 +128,7 @@ public class OpenPageAT extends AutoTestBase {
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.widget(FormWidget.class).shouldExists();
-        open.breadcrumb().titleShouldHaveText("test1");
+        page.breadcrumb().crumb(1).shouldHaveLabel("test1");
     }
 
     @Test
@@ -141,7 +140,7 @@ public class OpenPageAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Первая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -151,7 +150,7 @@ public class OpenPageAT extends AutoTestBase {
 
         Selenide.switchTo().window(1);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         page.urlShouldMatches(getBaseUrl() + "/#/1/open");
 
         page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
@@ -169,7 +168,7 @@ public class OpenPageAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование вложенных роутов с path-параметрами");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование вложенных роутов с path-параметрами");
         page.urlShouldMatches(getBaseUrl() + "/#/");
 
         TableWidget table = page.widget(TableWidget.class);
@@ -177,7 +176,7 @@ public class OpenPageAT extends AutoTestBase {
         table.columns().rows().row(0).click();
         table.toolbar().topLeft().button("Open").click();
 
-        page.breadcrumb().titleByIndexShouldHaveText("Первая вложенная страница", 1);
+        page.breadcrumb().crumb(1).shouldHaveLabel("Первая вложенная страница");
         page.urlShouldMatches(getBaseUrl() + "/#/1/reader");
 
         table = page.widget(TableWidget.class);
@@ -185,7 +184,7 @@ public class OpenPageAT extends AutoTestBase {
         table.columns().rows().row(1).click();
         table.toolbar().topLeft().button("Open").click();
 
-        page.breadcrumb().titleByIndexShouldHaveText("Вторая вложенная страница", 2);
+        page.breadcrumb().crumb(2).shouldHaveLabel("Вторая вложенная страница");
         page.urlShouldMatches(getBaseUrl() + "/#/1/reader/2/book");
     }
 }

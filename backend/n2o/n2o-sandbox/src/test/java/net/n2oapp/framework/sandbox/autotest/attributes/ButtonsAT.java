@@ -42,7 +42,7 @@ public class ButtonsAT extends SandboxAutotestBase {
         builder.packs(new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("META-INF/conf/default.access.xml"));
     }
 
@@ -54,7 +54,7 @@ public class ButtonsAT extends SandboxAutotestBase {
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
         page.widget(FormWidget.class).shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по sec атрибутам");
 
         Toolbar topLeft = page.widget(FormWidget.class).toolbar().topLeft();
         topLeft.shouldHaveSize(3);
@@ -83,7 +83,7 @@ public class ButtonsAT extends SandboxAutotestBase {
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
         page.widget(FormWidget.class).shouldExists();
-        page.breadcrumb().titleShouldHaveText("Доступ к кнопкам по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по sec атрибутам");
 
         Toolbar topLeft = page.widget(FormWidget.class).toolbar().topLeft();
         topLeft.shouldHaveSize(2);

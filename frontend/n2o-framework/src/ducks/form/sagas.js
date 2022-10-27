@@ -7,7 +7,9 @@ import includes from 'lodash/includes'
 import merge from 'lodash/merge'
 import entries from 'lodash/entries'
 import isEmpty from 'lodash/isEmpty'
+import isObject from 'lodash/isObject'
 import first from 'lodash/first'
+import isEqual from 'lodash/isEqual'
 
 import { setModel, copyModel, clearModel } from '../models/store'
 import {
@@ -20,8 +22,9 @@ import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
+import { ValidationsKey } from '../../core/validation/IValidation'
 
-import { makeFormsByDatasourceSelector } from './selectors'
+import { makeFormsFiltersByDatasourceSelector, makeFormsByDatasourceSelector } from './selectors'
 import {
     setRequired,
     unsetRequired,
@@ -49,29 +52,40 @@ export function* copyAction({ payload }) {
     }
 
     if (mode === 'merge') {
-        newModel = target.field
-            ? {
+        if (!target.field) {
+            newModel = { ...targetModel, ...sourceModel }
+        } else if (isObject(sourceModel) || Array.isArray(sourceModel)) {
+            newModel = {
                 ...targetModel,
                 [target.field]: {
                     ...targetModelField,
                     ...sourceModel,
                 },
             }
-            : { ...targetModel, ...sourceModel }
+        } else {
+            newModel = {
+                ...targetModel,
+                [target.field]: sourceModel,
+            }
+        }
     } else if (mode === 'add') {
         if (!Array.isArray(sourceModel) || !Array.isArray(targetModelField)) {
             // eslint-disable-next-line no-console
             console.warn('Source or target is not an array!')
         }
 
-        sourceModel = Object.values(sourceModel)
+        if (!Array.isArray(sourceModel) && Array.isArray(targetModel)) {
+            newModel = targetModel.concat(sourceModel)
+        } else {
+            sourceModel = Object.values(sourceModel)
 
-        newModel = target.field
-            ? {
-                ...targetModel,
-                [target.field]: [...targetModelField, ...sourceModel],
-            }
-            : [...targetModelField, ...sourceModel]
+            newModel = target.field
+                ? {
+                    ...targetModel,
+                    [target.field]: [...targetModelField, ...sourceModel],
+                }
+                : [...targetModelField, ...sourceModel]
+        }
     } else if (treePath) {
         newModel = merge({}, targetModel)
         set(newModel, target.field, sourceModel)
@@ -119,7 +133,8 @@ export function* clearForm({ payload }) {
     * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
     */
     const { prefixes, key } = payload
-    const formWidgets = yield select(makeFormsByDatasourceSelector(payload.key))
+    const formWidgets = yield select(makeFormsByDatasourceSelector(key))
+    const widgetsWithFilter = yield select(makeFormsFiltersByDatasourceSelector(key))
 
     yield delay(50)
 
@@ -128,6 +143,15 @@ export function* clearForm({ payload }) {
 
         if (includes(prefixes, modelPrefix)) {
             yield put(reset(key))
+        }
+    }
+
+    /* костыль для очистки фильтров виджета через clear action */
+    for (const widgetFilter of widgetsWithFilter) {
+        const { datasource = null } = widgetFilter
+
+        if (datasource) {
+            yield put(reset(datasource))
         }
     }
 }
@@ -151,6 +175,8 @@ export function* autoSubmit({ meta }) {
     }
 }
 
+let prevModel = {}
+
 export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
@@ -172,11 +198,42 @@ export const formPluginSagas = [
         const { form: datasource, field } = meta
         const form = first(yield select(makeFormsByDatasourceSelector(datasource)))
         const currentFormPrefix = get(form, ['form', 'modelPrefix'], ModelPrefix.active)
+        const model = yield select(makeGetModelByPrefixSelector(currentFormPrefix, datasource))
+
+        const findDifferentValues = () => {
+            const keys = [field]
+
+            if (!model) {
+                return keys
+            }
+
+            for (const [k] of Object.entries(model)) {
+                if (!isEqual(model[k], prevModel[k])) {
+                    keys.push(k)
+                }
+            }
+
+            return keys
+        }
 
         if (form) {
+            const fields = findDifferentValues()
+
             /* blurValidation is used in the setFocus saga,
              this is needed to observing the field validation type */
-            yield put(startValidate(datasource, [field], currentFormPrefix, { blurValidation: true }))
+            yield put(
+                startValidate(
+                    datasource,
+                    ValidationsKey.Validations,
+                    currentFormPrefix,
+                    fields,
+                    { blurValidation: true },
+                ),
+            )
+        }
+
+        prevModel = {
+            ...model,
         }
     }),
     debounce(400, [

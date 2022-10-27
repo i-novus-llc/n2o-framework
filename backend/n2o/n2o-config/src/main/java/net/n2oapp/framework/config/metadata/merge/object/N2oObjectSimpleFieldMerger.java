@@ -12,7 +12,6 @@ public class N2oObjectSimpleFieldMerger extends N2oObjectFieldMerger<ObjectSimpl
         super.merge(source, override);
         setIfNotNull(source::setDefaultValue, override::getDefaultValue);
         setIfNotNull(source::setDomain, override::getDomain);
-        setIfNotNull(source::setNormalize, override::getNormalize);
         setIfNotNull(source::setParam, override::getParam);
         setIfNotNull(source::setValidationFailKey, override::getValidationFailKey);
         return source;

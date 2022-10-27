@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -38,7 +39,6 @@ public class CrudAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CrudAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("CRUD Операции");
+        page.breadcrumb().crumb(0).shouldHaveLabel("CRUD Операции");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -73,7 +73,7 @@ public class CrudAT extends SandboxAutotestBase {
         Button save = modal.toolbar().bottomRight().button("Сохранить");
         save.shouldExists();
         save.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         rows.shouldHaveSize(5);
         rows.row(0).cell(1).textShouldHave("test-value");
 
@@ -89,7 +89,7 @@ public class CrudAT extends SandboxAutotestBase {
         Button save1 = modal.toolbar().bottomRight().button("Сохранить");
         save1.shouldExists();
         save1.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         rows.shouldHaveSize(5);
         rows.row(0).cell(1).textShouldHave("change-test-value");
 
@@ -97,7 +97,7 @@ public class CrudAT extends SandboxAutotestBase {
         delete.click();
         page.dialog("Предупреждение").shouldBeVisible();
         page.dialog("Предупреждение").click("Да");
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         rows.shouldHaveSize(4);
     }
 

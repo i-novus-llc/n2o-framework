@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 import type { DataSourceDependency, SortDirection } from '../../core/datasource/const'
 import { ModelPrefix } from '../../core/datasource/const'
-import type { IValidation, IValidationResult } from '../../core/validation/IValidation'
+import { ValidationsKey, IValidation, IValidationResult } from '../../core/validation/IValidation'
 
-import type { IProvider, ISubmit } from './Provider'
+import type { IProvider, ISubmit, Paging } from './Provider'
 
 export type State = Record<string, DataSourceState>
 
@@ -12,12 +12,12 @@ export interface DataSourceState<
     TKey extends string = string // TKey = keyof TModel
 > {
     provider?: IProvider
-    validations: Record<string, IValidation[]>
+    [ValidationsKey.Validations]: Record<string, IValidation[]>
+    [ValidationsKey.FilterValidations]: Record<string, IValidation[]>
     components: string[]
     dependencies: DataSourceDependency[]
-    size: number
-    page: number
-    count: number
+    paging: Paging
+    additionalInfo: object
     loading: boolean
     sorting: Partial<Record<TKey, SortDirection>>
     submit?: ISubmit
@@ -25,7 +25,7 @@ export interface DataSourceState<
     pageId?: string
     // TODO: rename to "messages"
     errors: Record<
-    ModelPrefix.active | ModelPrefix.edit,
+    ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter,
     Partial<Record<TKey, IValidationResult[]>>
     >
     error?: Error | object
@@ -34,17 +34,22 @@ export interface DataSourceState<
 export class DataSource {
     static get defaultState(): DataSourceState {
         return ({
-            validations: {},
+            [ValidationsKey.Validations]: {},
+            [ValidationsKey.FilterValidations]: {},
             components: [],
             dependencies: [],
-            size: 0,
-            count: 0,
-            page: 1,
+            paging: {
+                page: 1,
+                size: 1,
+                count: 0,
+            },
+            additionalInfo: {},
             loading: false,
             sorting: {},
             errors: {
                 [ModelPrefix.active]: {},
                 [ModelPrefix.edit]: {},
+                [ModelPrefix.filter]: {},
             },
             fieldsSubmit: {},
         })

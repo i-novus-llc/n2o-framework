@@ -28,10 +28,6 @@ public class PillsAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/pills/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/pills/pills.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         page = open(SimplePage.class);
         page.shouldExists();
     }
@@ -41,6 +37,9 @@ public class PillsAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/pills/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/pills/pills.query.xml"));
     }
 
     @Test

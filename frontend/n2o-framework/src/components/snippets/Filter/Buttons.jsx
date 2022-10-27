@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 import { ButtonGroup, Button } from 'reactstrap'
 import { useTranslation } from 'react-i18next'
 
-function Buttons({ visible, searchLabel, resetLabel, onSearch, onReset, className }) {
+function Buttons({ visible, disabled, searchLabel, resetLabel, onSearch, onReset, className }) {
     const { t } = useTranslation()
 
     return visible ? (
         <ButtonGroup className={className}>
-            <Button color="primary" onClick={onSearch}>
+            <Button disabled={disabled} color="primary" onClick={onSearch}>
                 {searchLabel || t('search')}
             </Button>
-            <Button color="secondary" onClick={onReset}>
+            <Button disabled={disabled} color="secondary" onClick={onReset}>
                 {resetLabel || t('reset')}
             </Button>
         </ButtonGroup>
@@ -25,6 +25,7 @@ Buttons.propTypes = {
     searchLabel: PropTypes.string,
     resetLabel: PropTypes.string,
     visible: PropTypes.bool,
+    disabled: PropTypes.bool,
 }
 
 Buttons.defaultProps = {

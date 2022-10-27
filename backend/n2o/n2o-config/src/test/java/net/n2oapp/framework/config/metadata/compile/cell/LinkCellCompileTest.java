@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.cell.LinkCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -44,38 +44,37 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testLinkCell.page.xml")
                 .get(new PageContext("testLinkCell"));
         Table table = (Table) page.getWidget();
-        N2oLinkCell cell = (N2oLinkCell) table.getComponent().getCells().get(0);
+        LinkCell cell = (LinkCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("LinkCell"));
         assertThat(cell.getId(), is("test1"));
         assertThat(cell.getIcon(), nullValue());
         assertThat(cell.getType(), is(IconType.text));
 
-        cell = (N2oLinkCell) table.getComponent().getCells().get(1);
+        cell = (LinkCell) table.getComponent().getCells().get(1);
         assertThat(cell.getId(), is("test2"));
         assertThat(cell.getIcon(), nullValue());
         assertThat(cell.getType(), is(IconType.text));
 
-        cell = (N2oLinkCell) table.getComponent().getCells().get(2);
+        cell = (LinkCell) table.getComponent().getCells().get(2);
         assertThat(cell.getId(), is("test3"));
         assertThat(cell.getIcon(), is("iconTest3"));
         assertThat(cell.getType(), is(IconType.icon));
 
-        cell = (N2oLinkCell) table.getComponent().getCells().get(3);
+        cell = (LinkCell) table.getComponent().getCells().get(3);
         assertThat(cell.getId(), is("test4"));
         assertThat(cell.getIcon(), is("`id`"));
         assertThat(cell.getType(), is(IconType.iconAndText));
 
-        cell = (N2oLinkCell) table.getComponent().getCells().get(4);
+        cell = (LinkCell) table.getComponent().getCells().get(4);
         assertThat(cell.getId(), is("test5"));
         assertThat(cell.getUrl(), is("`'/test/'+uid`"));
         assertThat(cell.getTarget(), is(Target.newWindow));
-        assertThat(cell.getN2oAction(), nullValue());
+        assertThat(cell.getAction(), nullValue());
 
-        cell = (N2oLinkCell) table.getComponent().getCells().get(5);
+        cell = (LinkCell) table.getComponent().getCells().get(5);
         assertThat(cell.getId(), is("test6"));
-        assertThat(cell.getActionId(), is("update"));
 
-        cell = (N2oLinkCell) table.getComponent().getCells().get(6);
+        cell = (LinkCell) table.getComponent().getCells().get(6);
         assertThat(cell.getId(), is("test7"));
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }

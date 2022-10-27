@@ -3,13 +3,18 @@ package net.n2oapp.framework.config.metadata.validation.standard.datasource;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
+
+import static java.util.Objects.isNull;
 
 /**
  * Валидатор исходного источника данных
@@ -87,35 +92,33 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
             if (query == null)
                 throw new N2oMetadataValidationException(
                         String.format("Источник данных '%s' имеет префильтры, но не задана выборка", datasource.getId()));
-            if (query.getFields() == null)
+            if (query.getFilters() == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных '%s' имеет префильтры, но в выборке '%s' нет fields!", datasource.getId(), query.getId()));
+                        String.format("Источник данных '%s' имеет префильтры, но в выборке '%s' нет filters!", datasource.getId(), query.getId()));
 
             for (N2oPreFilter preFilter : datasource.getFilters()) {
-                String fieldId = ValidationUtils.getIdOrEmptyString(preFilter.getFieldId());
-                String queryId = ValidationUtils.getIdOrEmptyString(query.getId());
+                if (preFilter.getFieldId() == null) {
+                    throw new N2oMetadataValidationException(
+                            String.format("Источник данных '%s' содержит префильтр без указанного field-id!", datasource.getId())
+                    );
+                }
 
+                String queryId = ValidationUtils.getIdOrEmptyString(query.getId());
                 if (preFilter.getDatasourceId() != null)
                     ValidationUtils.checkForExistsDatasource(preFilter.getDatasourceId(), scope,
                             String.format("В префильтре по полю '%s' указан несуществующий источник данных '%s'",
-                                    fieldId, preFilter.getDatasourceId()));
-                N2oQuery.Field exField = null;
-                for (N2oQuery.Field field : query.getFields()) {
-                    if (preFilter.getFieldId().equals(field.getId())) {
-                        exField = field;
-                        break;
-                    }
-                }
+                                    preFilter.getFieldId(), preFilter.getDatasourceId()));
+                AbstractField exField = findExField(preFilter, query.getFields(), null);
                 if (exField == null)
                     throw new N2oMetadataValidationException(
                             String.format("В выборке '%s' нет поля '%s'!", queryId, preFilter.getFieldId()));
 
-                if (exField.getFilterList() == null)
+                if (ArrayUtils.isEmpty(query.getFiltersList(exField.getId())))
                     throw new N2oMetadataValidationException(
                             String.format("В выборке '%s' поле '%s' не содержит фильтров!", queryId, preFilter.getFieldId()));
 
                 N2oQuery.Filter exFilter = null;
-                for (N2oQuery.Filter filter : exField.getFilterList()) {
+                for (N2oQuery.Filter filter : query.getFiltersList(exField.getId())) {
                     if (preFilter.getType() == filter.getType()) {
                         exFilter = filter;
                         break;
@@ -129,6 +132,26 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                                     preFilter.getType()));
             }
         }
+    }
+
+    /**
+     * Поиск поля выборки, соответствующего префильтру
+     *
+     * @param preFilter      Префильтр
+     * @param fields         Список полей для поиска
+     * @param parentFieldId  Идентификатор родительского поля
+     * @return Поле выборки или null
+     */
+    private AbstractField findExField(N2oPreFilter preFilter, AbstractField[] fields, String parentFieldId) {
+        for (AbstractField field : fields) {
+            String computedId = isNull(parentFieldId) ? field.getId() : parentFieldId + "." + field.getId();
+            if (field instanceof QueryReferenceField) {
+                return findExField(preFilter, ((QueryReferenceField) field).getFields(), computedId);
+            }
+            if (computedId.equals(preFilter.getFieldId()))
+                return field;
+        }
+        return null;
     }
 
     /**

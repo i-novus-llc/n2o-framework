@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.dataprovider;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -22,7 +21,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
@@ -74,17 +73,6 @@ public class ClientDataProviderUtil {
         return dataProvider;
     }
 
-    public static String getDatasourceByComponentScope(CompileProcessor p) {
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
-                return datasourceIdAware.getDatasourceId();
-            }
-        }
-        return null;
-    }
-
     public static String getWidgetIdByComponentScope(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
@@ -101,14 +89,18 @@ public class ClientDataProviderUtil {
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                        CompileProcessor p, ReduxModel model, String clientDatasourceId) {
+                                                        CompileProcessor p, ReduxModel defaultModel,
+                                                        String defaultClientDatasourceId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
         for (N2oParam param : params) {
             ModelLink link;
             if (param.getValueParam() == null) {
-                link = getModelLink(p, model, clientDatasourceId, param);
+                link = getModelLink(p,
+                        p.cast(param.getModel(), defaultModel),
+                        p.cast(param.getDatasourceId(), defaultClientDatasourceId),
+                        param);
             } else {
                 link = getModelLinkByParam(context, param);
             }
@@ -127,7 +119,7 @@ public class ClientDataProviderUtil {
                 clientDatasourceId = defaultClientDatasourceId;
             } else {
                 clientDatasourceId = param.getRefPageId() != null ?
-                        getClientDatasourceId(param.getDatasourceId(), param.getRefPageId()) :
+                        getClientDatasourceId(param.getDatasourceId(), param.getRefPageId(), p) :
                         getClientDatasourceId(param.getDatasourceId(), p);
             }
             link = new ModelLink(p.cast(param.getModel(), model), clientDatasourceId);
@@ -174,9 +166,9 @@ public class ClientDataProviderUtil {
             if (componentScope == null
                     || componentScope.unwrap(N2oButton.class) == null
                     || componentScope.unwrap(N2oButton.class).getValidate()) {
-                ValidationList validationList = p.getScope(ValidationList.class);
-                if (validationList != null)
-                    actionContext.setValidations(validationList.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));
+                ValidationScope validationScope = p.getScope(ValidationScope.class);
+                if (validationScope != null)
+                    actionContext.setValidations(validationScope.get(source.getDatasourceId(), getTargetActionModel(p, source.getTargetModel())));
             }
 
             actionContext.setRedirect(actionContextData.getRedirect());

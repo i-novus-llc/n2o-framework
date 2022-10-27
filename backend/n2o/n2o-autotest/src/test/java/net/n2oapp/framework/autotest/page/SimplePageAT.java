@@ -13,8 +13,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 public class SimplePageAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
@@ -32,14 +30,14 @@ public class SimplePageAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/simplePage/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/simple/test.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/simplePage/index.page.xml"));
     }
 
     @Test
     public void testSimplePage() {
         SimplePage page = open(SimplePage.class);
-        page.breadcrumb().titleShouldHaveText("Простая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Простая страница");
         page.shouldExists();
         page.shouldHaveCssClass("page_class");
         page.shouldHaveStyle("background: blue;");

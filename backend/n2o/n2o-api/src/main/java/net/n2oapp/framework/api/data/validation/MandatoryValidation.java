@@ -1,12 +1,10 @@
 package net.n2oapp.framework.api.data.validation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.metadata.control.ValidationReference.Target;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 
 import java.util.List;
@@ -28,7 +26,6 @@ public class MandatoryValidation extends Validation {
         setMessage(message);
         setJsonMessage(message);
         setFieldId(fieldId);
-        setTarget(Target.field);
     }
 
     public MandatoryValidation(MandatoryValidation v) {

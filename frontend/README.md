@@ -7,14 +7,12 @@
    `yarn install`
 3. Перейти по пути `~/frontend/demo/src`, создать копию файла `setupProxy.example.js` переименовать ее в `setupProxy.js` Открыть файл `~/frontend/demo/src/setupProxy.js` и подставить нужный URL в свойство `target`:
 >![n2o-sandbox](readme/setupProxy.png "Настройка setupProxy")
-4. Установить необходимые библиотеки для корректного выполнения приложения:
-   `yarn run build:libs`
-5. Компиляция исходников:
+4. Компиляция исходников:
    - Если вам необходимо следить за изменениями в коде и быстро перекомпилироваться, то используйте (запуск http сервера запускается отдельно):
      `yarn run compile:watch`
    - Если хотите скомпилировать production версию, то используйте:
      `yarn run build:n2o`
-6. Для запуска frontend выполнить:
+5. Для запуска frontend выполнить:
    `yarn start:demo`
 
 ## Запуск frontend N2O-demo

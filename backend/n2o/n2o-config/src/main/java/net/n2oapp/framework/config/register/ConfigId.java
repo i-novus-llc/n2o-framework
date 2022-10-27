@@ -5,8 +5,6 @@ import net.n2oapp.framework.api.register.MetaType;
 
 import java.io.Serializable;
 
-import static net.n2oapp.context.StaticSpringContext.getBean;
-
 /**
  * Полный идентификатор метаданной
  */

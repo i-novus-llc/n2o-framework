@@ -111,7 +111,8 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
         N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory);
 
-        N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
+        N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor),
+                new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), builder.getEnvironment().getSystemProperties()));
         Map<String, DataProcessing> moduleMap = new HashMap<>();
         moduleMap.put("validationModule", validationModule);
 

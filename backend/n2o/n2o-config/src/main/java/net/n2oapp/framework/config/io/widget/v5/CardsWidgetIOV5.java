@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.widget.v5;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oBlock;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -29,15 +30,15 @@ public class CardsWidgetIOV5 extends AbstractListWidgetElementIOv5<N2oCards> {
         super.io(e, t, p);
         p.attributeEnum(e, "vertical-align", t::getVerticalAlign, t::setVerticalAlign, Cards.Position.class);
         p.attribute(e, "height", t::getHeight, t::setHeight);
-        p.children(e, "content", "col", t::getContent, t::setContent, N2oCards.Col::new, this::col);
+        p.children(e, "content", "col", t::getContent, t::setContent, N2oCards.N2oCol::new, this::col);
     }
 
-    private void col(Element e, N2oCards.Col col, IOProcessor p) {
+    private void col(Element e, N2oCards.N2oCol col, IOProcessor p) {
         p.attributeInteger(e, "size", col::getSize, col::setSize);
-        p.children(e, null, "block", col::getBlocks, col::setBlocks, N2oCards.Block::new, this::block);
+        p.children(e, null, "block", col::getBlocks, col::setBlocks, N2oBlock::new, this::block);
     }
 
-    private void block(Element e, N2oCards.Block b, IOProcessor p) {
+    private void block(Element e, N2oBlock b, IOProcessor p) {
         p.attribute(e, "id", b::getId, b::setId);
         p.attribute(e, "text-field-id", b::getTextFieldId, b::setTextFieldId);
         p.attribute(e, "tooltip-field-id", b::getTooltipFieldId, b::setTooltipFieldId);

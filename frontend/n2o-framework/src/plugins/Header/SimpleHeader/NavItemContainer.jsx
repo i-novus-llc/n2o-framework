@@ -8,8 +8,8 @@ import merge from 'lodash/merge'
 import { NavItem, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import colors from '../../../constants/colors'
+import { Badge } from '../../../components/snippets/Badge/Badge'
 import { LinkTarget } from '../../../constants/linkTarget'
-import { renderBadge } from '../../../components/snippets/Badge/Badge'
 import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { resolveItem } from '../../../utils/propsResolver'
@@ -95,8 +95,7 @@ const NavItemContainer = ({
                             title={item.title}
                             imageShape={item.imageShape}
                         />
-                        {item.title}
-                        {renderBadge(item)}
+                        <Badge {...item.badge}>{item.title}</Badge>
                     </a>
                 </NavItem>
             )
@@ -117,16 +116,15 @@ const NavItemContainer = ({
                         title={item.title}
                         imageShape={item.imageShape}
                     />
-                    {item.title}
-                    {renderBadge(item)}
+                    <Badge {...item.badge}>{item.title}</Badge>
                 </NavLink>
             </NavItem>
         )
     }
 
-    const handleLinkDropdown = (item, dropdownItems) => (
-        <UncontrolledDropdown nav inNavbar direction={direction}>
-            <DropdownToggle nav caret>
+    const handleLinkDropdown = (item, dropdownItems, nested) => (
+        <UncontrolledDropdown nav inNavbar direction={direction} className={cx({ 'dropdown-level-3': nested })}>
+            <DropdownToggle nav caret className={cx({ 'toggle-level-3': nested })}>
                 {!item.imageSrc && item.icon && <NavItemIcon icon={item.icon} />}
                 <NavItemImage
                     imageSrc={item.imageSrc}
@@ -144,9 +142,23 @@ const NavItemContainer = ({
     let dropdownItems = []
 
     if (item.type === 'dropdown' && !sidebarOpen) {
-        dropdownItems = item.items.map(child => (
-            <DropdownItem>{handleLink(child, 'dropdown-item')}</DropdownItem>
-        ))
+        dropdownItems = item.items.map((child = {}) => {
+            if (child.items) {
+                const nestedDropdownItems = (
+                    <DropdownMenu className="item-level-3" flip>
+                        {child.items.map(nestedChild => <DropdownItem>{handleLink(nestedChild, 'dropdown-item')}</DropdownItem>)}
+                    </DropdownMenu>
+                )
+
+                return (
+                    handleLinkDropdown(child, nestedDropdownItems, true)
+                )
+            }
+
+            return (
+                <DropdownItem>{handleLink(child, 'dropdown-item')}</DropdownItem>
+            )
+        })
         if (
             item.type === 'dropdown' &&
                 item.items.length > 1 &&

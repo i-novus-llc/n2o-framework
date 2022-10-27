@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
+import net.n2oapp.framework.api.metadata.meta.cell.Cell;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
+import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -48,15 +48,15 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(card.getContent().get(0).getClassName(), is("font-weight-bold"));
         assertThat(card.getContent().get(0).getStyle().get("color"), is("red"));
 
-        N2oCell cell = card.getContent().get(0).getComponent();
-        assertThat(cell, instanceOf(N2oTextCell.class));
+        Cell cell = card.getContent().get(0).getComponent();
+        assertThat(cell, instanceOf(TextCell.class));
         assertThat(cell.getSrc(), is("TextCell"));
         assertThat(cell.getId(), is("11"));
-        assertThat(((N2oTextCell) cell).getFieldKey(), is("test1"));
-        assertThat(((N2oTextCell) cell).getTooltipFieldId(), is("tooltip"));
+        assertThat(((TextCell) cell).getFieldKey(), is("test1"));
+        assertThat(((TextCell) cell).getTooltipFieldId(), is("tooltip"));
 
         cell = card.getContent().get(1).getComponent();
-        assertThat(cell, instanceOf(N2oImageCell.class));
+        assertThat(cell, instanceOf(ImageCell.class));
         assertThat(cell.getSrc(), is("cell12"));
         assertThat(cell.getId(), is("12"));
 
@@ -65,7 +65,7 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(card.getContent().size(), is(1));
 
         cell = card.getContent().get(0).getComponent();
-        assertThat(cell, instanceOf(N2oTextCell.class));
+        assertThat(cell, instanceOf(TextCell.class));
         assertThat(cell.getSrc(), is("TextCell"));
 
         assertThat(cards.getPaging().getFirst(), is(false));
@@ -88,7 +88,7 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(card.getContent().size(), is(1));
 
         cell = card.getContent().get(0).getComponent();
-        assertThat(cell, instanceOf(N2oImageCell.class));
+        assertThat(cell, instanceOf(ImageCell.class));
         assertThat(cell.getSrc(), is("ImageCell"));
         assertThat(cell.getId(), is("31"));
 

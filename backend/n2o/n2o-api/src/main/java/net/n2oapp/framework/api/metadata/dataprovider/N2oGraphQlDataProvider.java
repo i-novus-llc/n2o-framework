@@ -22,4 +22,6 @@ public class N2oGraphQlDataProvider extends AbstractDataProvider implements N2oM
     private String pageMapping;
     private String sizeMapping;
     private String accessToken;
+    private String forwardedHeaders;
+    private String forwardedCookies;
 }

@@ -127,9 +127,11 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         dependency = ds.getDependencies().get(1);
         assertThat(dependency.getType(), is(DependencyType.copy));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.datasource));
         assertThat(dependency.getOn(), is("models.filter['p_w_a_detail'].source"));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.datasource));
         assertThat(((CopyDependency) dependency).getField(), is("target"));
+        assertThat(((CopyDependency) dependency).getSubmit(), is(true));
+        assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
     }
 
     @Test
@@ -188,6 +190,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds1");
 
+        // validations
         assertThat(ds.getValidations().get("id"), notNullValue());
         assertThat(ds.getValidations().get("id").size(), is(1));
         assertThat(ds.getValidations().get("id").get(0), instanceOf(MandatoryValidation.class));
@@ -195,5 +198,16 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getValidations().get("name"), notNullValue());
         assertThat(ds.getValidations().get("name").size(), is(1));
         assertThat(ds.getValidations().get("name").get(0), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getValidations().get("name").get(0)).getExpression(), is("name.length>1"));
+
+        // filter validations
+        assertThat(ds.getFilterValidations().get("id2"), notNullValue());
+        assertThat(ds.getFilterValidations().get("id2").size(), is(1));
+        assertThat(ds.getFilterValidations().get("id2").get(0), instanceOf(MandatoryValidation.class));
+
+        assertThat(ds.getFilterValidations().get("name2"), notNullValue());
+        assertThat(ds.getFilterValidations().get("name2").size(), is(1));
+        assertThat(ds.getFilterValidations().get("name2").get(0), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getFilterValidations().get("name2").get(0)).getExpression(), is("name2.length>1"));
     }
 }

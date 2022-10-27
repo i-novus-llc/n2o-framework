@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
+import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
+import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
 import net.n2oapp.framework.api.metadata.meta.cell.SwitchCell;
+import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -53,20 +53,20 @@ public class SwitchCellCompileTest extends SourceCompileTestBase {
 
         // проверка, что вложенные ячейки скомпилировались
         assertThat(cell.getSwitchList().size(), is(2));
-        assertThat(cell.getSwitchList().get("type1"), instanceOf(N2oBadgeCell.class));
+        assertThat(cell.getSwitchList().get("type1"), instanceOf(BadgeCell.class));
         assertThat(cell.getSwitchList().get("type1").getSrc(), is("BadgeCell"));
-        assertThat(((N2oBadgeCell) cell.getSwitchList().get("type1")).getText(), is("text"));
-        assertThat(((N2oBadgeCell) cell.getSwitchList().get("type1")).getFormat(), is("format"));
-        assertThat(cell.getSwitchList().get("type2"), instanceOf(N2oIconCell.class));
+        assertThat(((BadgeCell) cell.getSwitchList().get("type1")).getText(), is("text"));
+        assertThat(((BadgeCell) cell.getSwitchList().get("type1")).getFormat(), is("format"));
+        assertThat(cell.getSwitchList().get("type2"), instanceOf(IconCell.class));
         assertThat(cell.getSwitchList().get("type2").getSrc(), is("IconCell"));
-        assertThat(((N2oIconCell) cell.getSwitchList().get("type2")).getText(), is("text"));
-        assertThat(((N2oIconCell) cell.getSwitchList().get("type2")).getIcon(), is("icon"));
-        assertThat(((N2oIconCell) cell.getSwitchList().get("type2")).getPosition(), is(Position.right));
+        assertThat(((IconCell) cell.getSwitchList().get("type2")).getText(), is("text"));
+        assertThat(((IconCell) cell.getSwitchList().get("type2")).getIcon(), is("icon"));
+        assertThat(((IconCell) cell.getSwitchList().get("type2")).getPosition(), is(Position.right));
 
         // проверка default ячейки
-        assertThat(cell.getSwitchDefault(), instanceOf(N2oTextCell.class));
+        assertThat(cell.getSwitchDefault(), instanceOf(TextCell.class));
         assertThat(cell.getSwitchDefault().getSrc(), is("TextCell"));
-        assertThat(((N2oTextCell) cell.getSwitchDefault()).getFormat(), is("format"));
-        assertThat(((N2oTextCell) cell.getSwitchDefault()).getSubTextFieldKey(), is("field1"));
+        assertThat(((TextCell) cell.getSwitchDefault()).getFormat(), is("format"));
+        assertThat(((TextCell) cell.getSwitchDefault()).getSubTextFieldKey(), is("field1"));
     }
 }

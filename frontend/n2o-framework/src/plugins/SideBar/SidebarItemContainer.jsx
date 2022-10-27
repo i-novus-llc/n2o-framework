@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 
 import { getFromSource } from '../Header/SimpleHeader/NavItemContainer'
 import { id as generateId } from '../../utils/id'
@@ -65,6 +66,10 @@ export function SidebarItemContainer({
 
     const renderDropdown = () => {
         const dropdownId = generateId()
+
+        if (isEmpty(item)) {
+            return null
+        }
 
         return (
             <>

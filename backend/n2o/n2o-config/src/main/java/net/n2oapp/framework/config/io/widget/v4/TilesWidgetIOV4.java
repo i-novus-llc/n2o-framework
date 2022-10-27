@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.widget.v4;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oBlock;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -31,10 +32,10 @@ public class TilesWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oTiles> {
         p.attributeInteger(e, "cols-lg", t::getColsLg, t::setColsLg);
         p.attributeInteger(e, "width", t::getWidth, t::setWidth);
         p.attributeInteger(e, "height", t::getHeight, t::setHeight);
-        p.children(e, "content", "block", t::getContent, t::setContent, N2oTiles.Block::new, this::block);
+        p.children(e, "content", "block", t::getContent, t::setContent, N2oBlock::new, this::block);
     }
 
-    private void block(Element e, N2oTiles.Block b, IOProcessor p) {
+    private void block(Element e, N2oBlock b, IOProcessor p) {
         p.attribute(e, "id", b::getId, b::setId);
         p.attribute(e, "text-field-id", b::getTextFieldId, b::setTextFieldId);
         p.attribute(e, "tooltip-field-id", b::getTooltipFieldId, b::setTooltipFieldId);

@@ -11,14 +11,17 @@ import toString from 'lodash/toString'
 import isEqual from 'lodash/isEqual'
 import cx from 'classnames'
 import { findDOMNode } from 'react-dom'
-import { Badge, DropdownItem } from 'reactstrap'
+import { DropdownItem } from 'reactstrap'
 import scrollIntoView from 'scroll-into-view-if-needed'
 
 import propsResolver from '../../../utils/propsResolver'
 import { Icon } from '../../snippets/Icon/Icon'
 import { StatusText } from '../../snippets/StatusText/StatusText'
+import { Badge } from '../../snippets/Badge/Badge'
+import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../snippets/Badge/utils'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../Checkbox/CheckboxN2O'
+import { Shape } from '../../snippets/Badge/enums'
 
 import {
     groupData,
@@ -37,8 +40,7 @@ import {
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {string} groupFieldId - поле для группировки
- * @reactProps {string} badgeFieldId - поле для баджей
- * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {string} badge - поле баджа
  * @reactProps {string} enabledFieldId - поле для активности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {function} onSelect - callback при выборе элемента
@@ -66,8 +68,7 @@ function PopupItems({
     groupFieldId,
     hasCheckboxes,
     format,
-    badgeFieldId,
-    badgeColorFieldId,
+    badge,
     onRemoveItem,
     onSelect,
     setActiveValueId,
@@ -161,6 +162,11 @@ function PopupItems({
     }, [setActiveValueId])
 
     const renderSingleItem = (item, index) => {
+        const {
+            fieldId: badgeFieldId,
+            position: badgePosition,
+        } = badge || {}
+
         const disabled = getDisabled(item)
 
         return (
@@ -180,17 +186,18 @@ function PopupItems({
             >
                 {iconFieldId && renderIcon(item, iconFieldId)}
                 {imageFieldId && renderImage(item, imageFieldId)}
+                {badgeFieldId && isBadgeLeftPosition(badgePosition) && <Badge key="badge-left" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
                 {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
-                {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
+                {badgeFieldId && isBadgeRightPosition(badgePosition) && <Badge key="badge-right" {...resolveBadgeProps(badge, item)} shape={badge?.shape || Shape.Square} />}
                 {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
                     <DropdownItem
                         className={cx('n2o-eclipse-content__description', {
                             'n2o-eclipse-content__description-with-icon':
-                                                !hasCheckboxes && item[iconFieldId],
+                                !hasCheckboxes && item[iconFieldId],
                             'n2o-eclipse-content__description-with-checkbox':
-                                                hasCheckboxes && !item[iconFieldId],
+                                hasCheckboxes && !item[iconFieldId],
                             'n2o-eclipse-content__description-with-icon-checkbox':
-                                                hasCheckboxes && item[iconFieldId],
+                                hasCheckboxes && item[iconFieldId],
                         })}
                         header
                     >
@@ -204,9 +211,6 @@ function PopupItems({
     const renderIcon = (item, iconFieldId) => item[iconFieldId] && <Icon name={item[iconFieldId]} />
     // eslint-disable-next-line jsx-a11y/alt-text
     const renderImage = (item, imageFieldId) => item[imageFieldId] && <img src={item[imageFieldId]} />
-    const renderBadge = (item, badgeFieldId, badgeColorFieldId) => (
-        <Badge color={item[badgeColorFieldId]}>{item[badgeFieldId]}</Badge>
-    )
     const renderCheckbox = (item, selected) => (
         <CheckboxN2O
             value={inArray(selected, item)}
@@ -216,7 +220,7 @@ function PopupItems({
         />
     )
     const renderLabel = item => (
-        <span className="text-cropped">{displayTitle(item)}</span>
+        <span className="n2o-input-select__label text-cropped">{displayTitle(item)}</span>
     )
 
     const renderSingleItems = options => options.map((item, i) => renderSingleItem(item, i))
@@ -269,8 +273,15 @@ PopupItems.propTypes = {
     iconFieldId: PropTypes.string,
     imageFieldId: PropTypes.string,
     groupFieldId: PropTypes.string,
-    badgeFieldId: PropTypes.string,
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.shape({
+        fieldId: PropTypes.string,
+        colorFieldId: PropTypes.string,
+        position: PropTypes.string,
+        shape: PropTypes.string,
+        imageFieldId: PropTypes.string,
+        imagePosition: PropTypes.string,
+        imageShape: PropTypes.string,
+    }),
     disabledValues: PropTypes.array,
     onSelect: PropTypes.func,
     selected: PropTypes.array,

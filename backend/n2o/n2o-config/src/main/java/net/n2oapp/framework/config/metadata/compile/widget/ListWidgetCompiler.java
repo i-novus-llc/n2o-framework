@@ -6,9 +6,9 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.list.N2oListWidget;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.cell.AbstractCell;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -55,7 +55,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
                              MetaActions widgetActions, CompiledObject object) {
         if (source.getContent() == null) return;
 
-        Map<String, N2oAbstractCell> list = new HashMap<>();
+        Map<String, AbstractCell> list = new HashMap<>();
         for (N2oListWidget.ContentElement element : source.getContent()) {
             element.setId(element.getTextFieldId());
             list.put(element.getPlace(), p.compile(p.cast(element.getCell(), new N2oTextCell()), context,

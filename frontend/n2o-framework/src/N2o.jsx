@@ -18,11 +18,12 @@ import SecurityProvider from './core/auth/SecurityProvider'
 import Router from './components/core/Router'
 import Application from './components/core/Application'
 import { Template } from './components/core/templates'
-import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb'
+import { DefaultBreadcrumb } from './components/core/Breadcrumb/DefaultBreadcrumb'
 import globalFnDate from './utils/globalFnDate'
 import { errorTemplates } from './components/errors/errorTemplates'
 import locales from './locales'
 import { GlobalAlertsConnected } from './components/core/GlobalAlerts'
+import { Tooltip } from './components/snippets/Tooltip/Tooltip'
 
 const { version } = packageJson
 
@@ -135,6 +136,7 @@ const EnhancedN2O = compose(
         defaultBreadcrumb: DefaultBreadcrumb,
         defaultPage: 'StandardPage',
         defaultErrorPages: errorTemplates(),
+        defaultTooltip: Tooltip,
         formats: {
             dateFormat: 'YYYY-MM-DD',
             timeFormat: 'HH:mm:ss',
@@ -170,6 +172,7 @@ const EnhancedN2O = compose(
             defaultErrorPages: PropTypes.arrayOf(
                 PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
             ),
+            defaultTooltip: PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
             version: PropTypes.string,
         },
         props => ({
@@ -177,6 +180,7 @@ const EnhancedN2O = compose(
             defaultBreadcrumb: props.defaultBreadcrumb,
             defaultPage: props.defaultPage,
             defaultErrorPages: props.defaultErrorPages,
+            defaultTooltip: props.defaultTooltip,
             version,
         }),
     ),

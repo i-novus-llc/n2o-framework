@@ -39,7 +39,6 @@ public class FileUploadAT extends SandboxAutotestBase {
     protected void configure(N2oApplicationBuilder builder) {
         addRuntimeProperty("n2o.sandbox.url", getBaseUrl());
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Override
@@ -51,7 +50,7 @@ public class FileUploadAT extends SandboxAutotestBase {
     public void oneFileUploadTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница загрузки файлов");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница загрузки файлов");
         FileUploadControl fileUpload = page.widget(FormWidget.class).fields().field("Загрузка файлов").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
 
@@ -69,7 +68,7 @@ public class FileUploadAT extends SandboxAutotestBase {
     public void twoFileUploadTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница загрузки файлов");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница загрузки файлов");
         FileUploadControl fileUpload = page.widget(FormWidget.class).fields().field("Загрузка файлов").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
 

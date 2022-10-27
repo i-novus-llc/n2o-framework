@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.control.ValidationReference;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
@@ -58,7 +57,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack(),
-                new N2oWidgetsPack(), new N2oRegionsPack())
+                        new N2oWidgetsPack(), new N2oRegionsPack())
                 .ios(new SimplePageElementIOv4(), new SimplePageElementIOv3(), new StandardPageElementIOv3(), new SimplePageElementIOv3(), new StandardPageElementIOv3())
                 .compilers(new SimplePageCompiler(), new StandardPageCompiler(), new StandardDatasourceCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
@@ -85,7 +84,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidget().getDatasource(), notNullValue());
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get(page.getWidget().getDatasource());
         assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesMode.query));
-        assertThat(datasource.getSize(), is(1));
+        assertThat(datasource.getPaging().getSize(), is(1));
         QueryContext queryContext = (QueryContext) route("/testFormCompile2/main", CompiledQuery.class);
         assertThat(queryContext, notNullValue());
     }
@@ -164,7 +163,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.size(), is(1));
         MandatoryValidation validation = (MandatoryValidation) validations.get(0);
         assertThat(validation.getId(), is("testField"));
-        assertThat(validation.getTarget(), is(ValidationReference.Target.field));
         assertThat(validation.getMessage(), is("Поле обязательно для заполнения"));
     }
 
@@ -243,8 +241,8 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         data.put("id", 1);
         SimplePage detailPage = (SimplePage) read().compile().bind().get(detailContext, data);
         Form form = (Form) detailPage.getWidget();
-        assertThat(((StandardDatasource)detailPage.getDatasources().get(form.getDatasource())).getSubmit().getPathMapping().size(), is(1));
-        assertThat(((StandardDatasource)detailPage.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/main"));
+        assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getPathMapping().size(), is(1));
+        assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/main"));
         AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons().get(0);
         assertThat(closeBtn, notNullValue());
         assertThat(closeBtn.getConfirm(), nullValue());
@@ -253,7 +251,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFormAsFilter () {
+    public void testFormAsFilter() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.query.xml")
                 .get(new PageContext("testFormAsFilter"));
@@ -267,6 +265,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFormInlineDatasource"));
 
         assertThat(page.getDatasources().size(), is(1));
-        assertThat(((StandardDatasource)page.getDatasources().get("testFormInlineDatasource_main")).getSize(), is(1));
+        assertThat(((StandardDatasource) page.getDatasources().get("testFormInlineDatasource_main")).getPaging().getSize(), is(1));
     }
 }

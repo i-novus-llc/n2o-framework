@@ -3,8 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
+import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +17,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция ячейки c текстом
  */
 @Component
-public class BadgeCellCompiler extends AbstractCellCompiler<N2oBadgeCell, N2oBadgeCell> {
+public class BadgeCellCompiler extends AbstractCellCompiler<BadgeCell, N2oBadgeCell> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -22,8 +25,8 @@ public class BadgeCellCompiler extends AbstractCellCompiler<N2oBadgeCell, N2oBad
     }
 
     @Override
-    public N2oBadgeCell compile(N2oBadgeCell source, CompileContext<?, ?> context, CompileProcessor p) {
-        N2oBadgeCell cell = new N2oBadgeCell();
+    public BadgeCell compile(N2oBadgeCell source, CompileContext<?, ?> context, CompileProcessor p) {
+        BadgeCell cell = new BadgeCell();
         build(cell, source, context, p, property("n2o.api.cell.badge.src"));
         ComponentScope scope = p.getScope(ComponentScope.class);
         if (scope != null) {
@@ -45,6 +48,12 @@ public class BadgeCellCompiler extends AbstractCellCompiler<N2oBadgeCell, N2oBad
             cell.setColor(p.resolveJS(source.getColor()));
         if (source.getFormat() != null)
             cell.setFormat(source.getFormat());
+        if (source.getImageFieldId() != null) {
+            cell.setImageFieldId(source.getImageFieldId());
+            cell.setImageShape(p.cast(source.getImageShape(), p.resolve(property("n2o.api.cell.badge.image_shape"), ShapeType.class)));
+            cell.setImagePosition(p.cast(source.getImagePosition(), p.resolve(property("n2o.api.cell.badge.image_position"), Position.class)));
+        }
+        cell.setShape(p.cast(source.getShape(), p.resolve(property("n2o.api.cell.badge.shape"), ShapeType.class)));
         return cell;
     }
 }

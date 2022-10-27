@@ -36,8 +36,6 @@ public class MultiColumnAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         content = page.regions().region(0, SimpleRegion.class).content();
@@ -47,7 +45,8 @@ public class MultiColumnAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/test.query.xml"));
     }
 
     @Test

@@ -18,8 +18,8 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThrows;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -203,6 +203,9 @@ public class MappingProcessorTest {
         assertThat(MappingProcessor.normalizeValue(obj, "#this", data, parser, beanFactory), is("test"));
         assertThat(MappingProcessor.normalizeValue(obj, "#data['name']", data, parser, beanFactory), is("John"));
         assertThat(MappingProcessor.normalizeValue(obj, "@myBean.call()", data, parser, beanFactory), is("Doe"));
+
+        assertThrows(N2oSpelException.class,
+                () -> MappingProcessor.normalizeValue(obj, "#this + '100", data, parser, beanFactory));
     }
 
     @Test

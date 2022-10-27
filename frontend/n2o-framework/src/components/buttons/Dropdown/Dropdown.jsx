@@ -46,8 +46,10 @@ class DropdownButton extends React.Component {
             className,
             showToggleIcon,
             toolbar,
+            tooltipTriggerRef,
             ...rest
         } = this.props
+
         const { opened, popperKey } = this.state
         const storesSubMenu = get(toolbar, entityKey)
         let dropdownVisible = false
@@ -73,6 +75,7 @@ class DropdownButton extends React.Component {
                                 {...rest}
                                 onClick={this.toggle}
                                 innerRef={ref}
+                                tooltipTriggerRef={tooltipTriggerRef}
                                 className={classNames('n2o-dropdown-control', {
                                     className,
                                     'dropdown-toggle': showToggleIcon,
@@ -123,6 +126,7 @@ DropdownButton.propTypes = {
     toolbar: PropTypes.any,
     subMenu: PropTypes.array,
     showToggleIcon: PropTypes.bool,
+    tooltipTriggerRef: PropTypes.func,
 }
 
 DropdownButton.defaultProps = {

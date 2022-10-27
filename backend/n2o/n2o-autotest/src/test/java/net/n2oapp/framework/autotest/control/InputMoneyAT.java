@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.control.*;
+import net.n2oapp.framework.autotest.api.component.control.InputMoneyControl;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -28,9 +28,6 @@ public class InputMoneyAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/money/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
     }
@@ -40,6 +37,8 @@ public class InputMoneyAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oControlsV2IOPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/money/index.page.xml"));
     }
 
     @Test

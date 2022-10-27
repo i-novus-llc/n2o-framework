@@ -18,6 +18,8 @@ export enum ModelPrefix {
     edit = 'edit'
 }
 
+export type ModelPrefixes = 'resolve' | 'multi' | 'datasource' | 'filter' | 'edit'
+
 /**
  * @enum DependencyTypes Типы зависимостей
  */
@@ -28,22 +30,24 @@ export enum DependencyTypes {
 }
 
 export interface DataSourceDependencyBase {
-    type: DependencyTypes,
+    type: DependencyTypes
     on: string
+    applyOnInit: boolean
 }
 
 export interface DataSourceDependencyCopy extends DataSourceDependencyBase {
-    type: DependencyTypes.copy,
+    type: DependencyTypes.copy
     model: ModelPrefix
     field?: string
+    submit: boolean
 }
 
 export interface DataSourceDependencyFetch extends DataSourceDependencyBase {
-    type: DependencyTypes.fetch,
+    type: DependencyTypes.fetch
 }
 
 export interface DataSourceDependencyValidate extends DataSourceDependencyBase {
-    type: DependencyTypes.validate,
+    type: DependencyTypes.validate
 }
 
 export type DataSourceDependency = (
@@ -51,3 +55,11 @@ export type DataSourceDependency = (
     | DataSourceDependencyCopy
     | DataSourceDependencyValidate
 )
+
+export interface IDataSourceModels {
+    datasource: object[],
+    edit: object,
+    filter: object,
+    multi: object[],
+    resolve: object,
+}

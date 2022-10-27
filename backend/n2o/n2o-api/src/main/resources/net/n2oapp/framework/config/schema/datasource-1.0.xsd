@@ -299,6 +299,20 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="submit" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Вызов сохранения данных сразу после копирования
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="apply-on-init" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Срабатывание копирования при инициализации источника данных
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="fetchDefinition">
@@ -424,7 +438,7 @@
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Источник данных, по полю которого будет фильтрация.</xs:documentation>
+                <xs:documentation>Идентификатор источника данных, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="param" type="xs:string">
@@ -433,7 +447,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="act:clientModel">
+        <xs:attribute name="model" type="act:clientModel" default="resolve">
             <xs:annotation>
                 <xs:documentation>Модель для получения значения фильтра.</xs:documentation>
             </xs:annotation>

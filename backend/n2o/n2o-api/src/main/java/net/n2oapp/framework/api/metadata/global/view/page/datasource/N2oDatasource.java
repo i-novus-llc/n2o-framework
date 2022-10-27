@@ -38,5 +38,7 @@ public abstract class N2oDatasource extends N2oAbstractDatasource implements Nam
         private ReduxModel targetModel;
         private ReduxModel sourceModel;
         private String sourceFieldId;
+        private Boolean submit;
+        private Boolean applyOnInit;
     }
 }

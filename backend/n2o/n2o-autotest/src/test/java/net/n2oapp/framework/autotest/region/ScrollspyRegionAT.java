@@ -33,7 +33,6 @@ public class ScrollspyRegionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
@@ -41,7 +40,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Регион с автоматически прокручиваемым меню");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Регион с автоматически прокручиваемым меню");
 
         ScrollspyRegion region = page.regions().region(0, ScrollspyRegion.class);
         region.shouldExists();
@@ -73,7 +72,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/content/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование контента");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование контента");
 
         ScrollspyRegion scrollspy = page.regions().region(0, ScrollspyRegion.class);
         scrollspy.activeMenuItemShouldBe("Элемент1");
@@ -114,7 +113,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/tabs_in_scrollspy/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование табов внутри scrollspy");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование табов внутри scrollspy");
 
         ScrollspyRegion scrollspy = page.regions().region(0, ScrollspyRegion.class);
         scrollspy.activeMenuItemShouldBe("Элемент1");
@@ -138,7 +137,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/scrollspy_in_tabs/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование scrollspy внутри табов");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование scrollspy внутри табов");
 
         TabsRegion tabs = page.regions().region(0, TabsRegion.class);
         tabs.tab(0).shouldBeActive();
@@ -173,7 +172,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/active/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование активного элемента по умолчанию");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование активного элемента по умолчанию");
 
         ScrollspyRegion region = page.regions().region(0, TabsRegion.class).tab(0).content().region(ScrollspyRegion.class);
         region.shouldExists();

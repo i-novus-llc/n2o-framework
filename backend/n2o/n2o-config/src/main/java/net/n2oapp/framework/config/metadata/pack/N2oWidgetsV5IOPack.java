@@ -6,9 +6,9 @@ import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
 import net.n2oapp.framework.config.io.widget.v5.*;
 
-public class N2oWidgetsV5IOPack implements MetadataPack<XmlIOBuilder> {
+public class N2oWidgetsV5IOPack implements MetadataPack<XmlIOBuilder<?>> {
     @Override
-    public void build(XmlIOBuilder b) {
+    public void build(XmlIOBuilder<?> b) {
         b.ios(new FormElementIOV5(),
                 new TableElementIOV5(),
                 new ListWidgetElementIOv5(),

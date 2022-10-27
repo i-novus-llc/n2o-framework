@@ -78,6 +78,17 @@ public class PageBinderTest extends SourceCompileTestBase {
     }
 
     /**
+     * Если не удалось разрешить ссылку в биндере, то пробрасываем на клиент в JS виде
+     */
+    @Test
+    public void pageNameClientResolvingForwarding() {
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageNameClientResolvingForwarding.page.xml")
+                .get(new PageContext("testPageNameClientResolvingForwarding"), new DataSet());
+        assertThat(page.getPageProperty().getTitle(), is("`'title '+main`"));
+        assertThat(page.getPageProperty().getHtmlTitle(), is("`'title '+html`"));
+    }
+
+    /**
      * Разрешение имени страницы через процессор вложенных моделей в параметре в path
      */
     @Test

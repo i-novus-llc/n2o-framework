@@ -1,9 +1,10 @@
 package net.n2oapp.framework.config.io.control.v3;
 
 import net.n2oapp.framework.api.metadata.control.N2oImageField;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageStatusElement;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -23,16 +24,16 @@ public class ImageFieldIOv3 extends FieldIOv3<N2oImageField> {
         p.attribute(e, "title", m::getTitle, m::setTitle);
         p.attribute(e, "description", m::getDescription, m::setDescription);
         p.attributeEnum(e, "text-position", m::getTextPosition, m::setTextPosition, TextPosition.class);
-        p.attributeEnum(e, "shape", m::getShape, m::setShape, ImageShape.class);
+        p.attributeEnum(e, "shape", m::getShape, m::setShape, ShapeType.class);
         p.attribute(e, "width", m::getWidth, m::setWidth);
-        p.children(e, "statuses", "status", m::getStatuses, m::setStatuses, ImageStatusElement::new, this::statuses);
+        p.children(e, "statuses", "status", m::getStatuses, m::setStatuses, N2oImageStatusElement::new, this::statuses);
     }
 
-    private void statuses(Element e, ImageStatusElement c, IOProcessor p) {
+    private void statuses(Element e, N2oImageStatusElement c, IOProcessor p) {
         p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
-        p.attributeEnum(e, "place", c::getPlace, c::setPlace, ImageStatusElement.Place.class);
+        p.attributeEnum(e, "place", c::getPlace, c::setPlace, ImageStatusElementPlace.class);
     }
 
     @Override

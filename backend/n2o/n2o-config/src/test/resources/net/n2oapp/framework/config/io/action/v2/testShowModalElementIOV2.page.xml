@@ -8,9 +8,9 @@
                         refresh-on-close="false" refresh-datasources="testWidget"
                         modal-size="lg" scrollable="true"
                         submit-model="resolve"
-                        copy-model="edit" copy-datasource="table" copy-field-id="test"
-                        submit-action-type="copy" target-model="resolve" target-datasource="table"
-                        target-field-id="test" copy-mode="replace"
+                        copy-model="edit" copy-datasource="table" copy-field-id="test" copy-ref-page="parent"
+                        submit-action-type="copy" copy-mode="replace"
+                        target-model="resolve" target-datasource="table" target-field-id="test" target-ref-page="this"
                         has-header="false" class="n2o-custom-modal-dialog" backdrop="static" style="background : red"
                         submit-message-on-fail="true"
                         submit-message-on-success="false">
@@ -18,6 +18,9 @@
                     <path-param name="par1" value="{par1}" datasource="ds1" model="resolve"/>
                     <path-param name="par2" value="{par2}" datasource="ds2" model="resolve"/>
                 </params>
+                <breadcrumbs>
+                    <crumb label="Первая страница" path="/"/>
+                </breadcrumbs>
                 <datasources>
                     <datasource id="ds" query-id="test">
                         <filters>

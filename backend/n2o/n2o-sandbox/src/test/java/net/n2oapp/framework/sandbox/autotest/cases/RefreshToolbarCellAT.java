@@ -39,14 +39,13 @@ public class RefreshToolbarCellAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
     public void checkboxTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Динамическое обновление ячеек таблицы");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Динамическое обновление ячеек таблицы");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

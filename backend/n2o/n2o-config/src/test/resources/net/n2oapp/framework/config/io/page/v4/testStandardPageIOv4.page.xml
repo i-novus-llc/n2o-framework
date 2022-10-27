@@ -1,6 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="name" show-title="true" title="title" html-title="tab title">
+      name="name" show-title="true" title="title" html-title="tab title" datasource="ds1" model="datasource"
+      src="Page" class="testClass" route="/page" style="width:300px" modal-size="lg">
+    <breadcrumbs>
+        <crumb label="Первая страница" path="/"/>
+        <crumb label="Вторая страница" path="/page2"/>
+        <crumb label="Третья страница"/>
+    </breadcrumbs>
     <regions>
         <tabs>
             <tab>
@@ -42,7 +48,8 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
             <submit operation-id="create" route="/test" message-position="fixed"
                     message-placement="top" message-on-fail="true" message-on-success="true"
@@ -57,7 +64,8 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
         </browser-storage>
         <app-datasource id="test"/>
@@ -66,7 +74,8 @@
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
-                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
             </dependencies>
         </inherited-datasource>
     </datasources>

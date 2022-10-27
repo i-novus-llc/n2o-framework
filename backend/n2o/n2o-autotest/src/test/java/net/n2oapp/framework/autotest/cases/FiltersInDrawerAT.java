@@ -42,7 +42,7 @@ public class FiltersInDrawerAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/drawer/filters/data.query.xml"),
@@ -55,7 +55,7 @@ public class FiltersInDrawerAT extends AutoTestBase {
     public void searchOnFiltersChangeTest() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Фильтры в отдельном окне");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Фильтры в отдельном окне");
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.shouldExists();

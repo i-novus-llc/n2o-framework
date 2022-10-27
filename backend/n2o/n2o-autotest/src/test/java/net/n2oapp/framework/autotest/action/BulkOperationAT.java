@@ -41,10 +41,8 @@ public class BulkOperationAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
-    //wait https://jira.i-novus.ru/browse/NNO-7382
     @Test
     public void bulkOperationTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/index.page.xml"),
@@ -53,7 +51,7 @@ public class BulkOperationAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Bulk Операции");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Bulk Операции");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -95,7 +93,6 @@ public class BulkOperationAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(2);
     }
 
-    //wait https://jira.i-novus.ru/browse/NNO-7382
     @Test
     public void bulkOperationStringIdsTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/index.page.xml"),
@@ -104,7 +101,7 @@ public class BulkOperationAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Bulk Операции с разными типами id");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Bulk Операции с разными типами id");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -147,5 +144,4 @@ public class BulkOperationAT extends AutoTestBase {
         deleteManyButton.click();
         table.columns().rows().shouldHaveSize(1);
     }
-
 }

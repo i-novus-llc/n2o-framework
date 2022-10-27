@@ -18,6 +18,7 @@
     <xs:element name="refresh" type="refreshDefinition"/>
     <xs:element name="alert" type="alertDefinition"/>
     <xs:element name="submit" type="submitDatasourceDefinition"/>
+    <xs:element name="action" type="customActionDefinition"/>
 
     <xs:complexType name="actions">
         <xs:sequence>
@@ -36,6 +37,7 @@
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
             <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
+            <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -68,6 +70,7 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="params" type="paramsDefinition" minOccurs="0"/>
+                    <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
                     <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>
@@ -237,6 +240,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="copy-ref-page" type="refPageType" default="this">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ссылка на страницу, из источника данных которой будут копироваться данные
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="copy-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -256,6 +266,13 @@
                     <xs:annotation>
                         <xs:documentation>
                             Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-ref-page" type="refPageType" default="parent">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ссылка на страницу, в источник данных которой будут скопированы данные
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -411,6 +428,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="copy-ref-page" type="refPageType" default="this">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ссылка на страницу, из источника данных которой будут копироваться данные
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="copy-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -430,6 +454,13 @@
                     <xs:annotation>
                         <xs:documentation>
                             Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-ref-page" type="refPageType" default="parent">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ссылка на страницу, в источник данных которой будут скопированы данные
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -498,7 +529,7 @@
 
     <xs:complexType name="invokeActionDefinition">
         <xs:complexContent>
-            <xs:extension base="actionDefinition">
+            <xs:extension base="metaActionDefinition">
                 <xs:annotation>
                     <xs:documentation>Выполнить действие объекта.</xs:documentation>
                 </xs:annotation>
@@ -519,44 +550,9 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL для обращения к действию.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-url" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            URL адрес, на который произойдет переход сразу после успешного выполнения действия.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="redirect-target" type="redirectTargetType">
-                    <xs:annotation>
-                        <xs:documentation>Сценарий открытия ссылки сразу после успешного выполнения операции. По
-                            умолчанию self.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="refresh-datasources" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификаторы источников данных(перечисленные через запятую),
-                            которые необходимо обновить после успешного выполнения операции
-                            (по умолчанию datasource у button, а если нет, datasource текущего виджета).
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="refresh-on-success" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Обновить данные после успешного выполнения действия
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="message-on-success" type="xs:boolean" default="true">
@@ -708,12 +704,12 @@
                 </xs:annotation>
                 <xs:attribute name="source-model" type="clientModel">
                     <xs:annotation>
-                        <xs:documentation>Модель копипрования данных.</xs:documentation>
+                        <xs:documentation>Модель копирования данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="source-datasource" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Источник данных для копирвоания (по умолчанию текущий).</xs:documentation>
+                        <xs:documentation>Источник данных для копирования (по умолчанию текущий).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="source-field-id" type="xs:string">
@@ -727,24 +723,10 @@
                         <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-page" default="this">
+                <xs:attribute name="target-page" type="refPageType" default="this">
                     <xs:annotation>
                         <xs:documentation>Ссылка на страницу, в которую будет скопированы данные.</xs:documentation>
                     </xs:annotation>
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="this">
-                                <xs:annotation>
-                                    <xs:documentation>Текущая.</xs:documentation>
-                                </xs:annotation>
-                            </xs:enumeration>
-                            <xs:enumeration value="parent">
-                                <xs:annotation>
-                                    <xs:documentation>Родительская.</xs:documentation>
-                                </xs:annotation>
-                            </xs:enumeration>
-                        </xs:restriction>
-                    </xs:simpleType>
                 </xs:attribute>
                 <xs:attribute name="target-datasource" type="xs:string">
                     <xs:annotation>
@@ -897,7 +879,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
+
     <xs:simpleType name="printType">
         <xs:annotation>
             <xs:documentation>Тип для печати</xs:documentation>
@@ -1144,7 +1126,6 @@
             <xs:enumeration value="filter"/>
             <xs:enumeration value="resolve"/>
             <xs:enumeration value="edit"/>
-            <xs:enumeration value="selected"/>
             <xs:enumeration value="datasource"/>
             <xs:enumeration value="multi"/>
         </xs:restriction>
@@ -1256,4 +1237,121 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="refPageType">
+        <xs:annotation>
+            <xs:documentation>Тип используемой страницы</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="this">
+                <xs:annotation>
+                    <xs:documentation>Текущая страница</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="parent">
+                <xs:annotation>
+                    <xs:documentation>Родительская страница</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="customActionDefinition">
+        <xs:annotation>
+            <xs:documentation>Кастомное действие</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="metaActionDefinition">
+                <xs:sequence>
+                    <xs:element name="payload" type="payloadDef" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="type" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Redux тип действия</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="payloadDef">
+        <xs:annotation>
+            <xs:documentation>Полезная нагрузка кастомного действия</xs:documentation>
+        </xs:annotation>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Любые атрибуты</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="metaActionDefinition">
+        <xs:annotation>
+            <xs:documentation>Действие, содержащее стандартные саги</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="actionDefinition">
+                <xs:attribute name="redirect-url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            URL адрес, на который произойдет переход сразу после успешного выполнения действия.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="redirect-target" type="redirectTargetType">
+                    <xs:annotation>
+                        <xs:documentation>Сценарий открытия ссылки сразу после успешного выполнения операции. По
+                            умолчанию self.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-fail" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Закрыть окно после неудачного выполнения действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-on-success" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Обновить данные после успешного выполнения действия</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-datasources" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификаторы источников данных(перечисленные через запятую),
+                            которые необходимо обновить после успешного выполнения операции
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="breadcrumbsDefinition">
+        <xs:annotation>
+            <xs:documentation>Хлебные крошки страницы</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="crumb" type="crumbDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="crumbDefinition">
+        <xs:annotation>
+            <xs:documentation>Хлебная крошка страницы</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="label" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Название хлебной крошки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="path" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Путь для перехода по хлебной крошке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 </xs:schema>
