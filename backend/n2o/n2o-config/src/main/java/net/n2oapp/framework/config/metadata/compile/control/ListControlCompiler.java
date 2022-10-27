@@ -57,7 +57,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
         listControl.setEnabledFieldId(source.getEnabledFieldId());
         listControl.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
-        listControl.setSize(p.cast(listControl.getSize(), source.getSize(), 30));
+        listControl.setSize(p.cast(listControl.getSize(), source.getSize(),
+                p.resolve(property("n2o.api.control.list.size"), Integer.class)));
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
     }
