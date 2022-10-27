@@ -3,7 +3,9 @@ import { put, takeEvery } from 'redux-saga/effects'
 import { guid } from '../../utils/id'
 import { addMultiAlerts } from '../alerts/store'
 
-import { API_ALERTS_ADD } from './constants'
+import { API_PREFIX } from './constants'
+
+export const API_ALERTS_ADD = `${API_PREFIX}alerts/add`
 
 /**
  * @description Сага заменяет id алерта на новый.
@@ -25,6 +27,6 @@ function* mutateAlertId(action) {
     yield put(addMultiAlerts(key, preparedAlerts))
 }
 
-export const apiSagas = [
+export const sagas = [
     takeEvery(API_ALERTS_ADD, mutateAlertId),
 ]
