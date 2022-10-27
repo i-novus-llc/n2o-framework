@@ -706,7 +706,7 @@ SELECT * FROM mytable t WHERE t.name like '%'||:nameLike
 <sql>SELECT * FROM mytable ORDER BY name :nameDir</sql>
 ```
 В поле, поддерживающее сортировку, необходимо добавить атрибут `sorting`
-и указать маппинг плейсхолдера для задания направления сортировки.
+и указать маппинг плейсхолдера для задания направления сортировки с помощью `sorting-mapping`.
 
 ```xml {3} title="Сортировка данных SQL запроса"
 <field id="name"
@@ -889,31 +889,32 @@ n2o.engine.pageStartsWith0=false
 Для получения вложенных свойств используется символ "точка" `['field1.field2']`.
 
 Если свойство json не совпадает с идентификатором поля выборки, необходимо сделать маппинг.
-```xml title="Маппинг полей REST запроса"
-<field id="firstName">
-  <select mapping="['first_name']"/>
-</field>
+```xml {2} title="Маппинг полей REST запроса"
+<field id="firstName"
+       mapping="['first_name']"/>
 ```
 
 #### Фильтрация данных
 
-Для задания фильтров REST запроса нужно указать тип фильтра и идентификатор фильтра `filter-id`.
-```xml title="Фильтрация REST запроса"
-<field id="id">
-  <filters>
-    <eq filter-id="idEq"/> <!-- Плейсхолдер {idEq} -->
-  </filters>
-</field>
+Для задания фильтров REST запроса нужно указать тип фильтра, идентификатор фильтра `filter-id`
+и ссылку на поле выборки `field-id`.
+```xml {5} title="Фильтрация REST запроса"
+<fields>
+    <field id="id"/>
+</fields>
+<filters>
+    <eq field-id="id" filter-id="idEq"/> <!-- Плейсхолдер {idEq} -->
+</filters>
 ```
 В этом случае будет доступен плейсхолдер `{idEq}` равный значению `filter-id`.
 
 Если плейсхолдер нужно переименовать, можно использовать маппинг.
-```xml title="Маппинг плейсхолдера фильтрации REST запроса"
-<field id="gender.id">
-  <filters>
-    <eq filter-id="gender.id" mapping="['gender_id']"/> <!-- Плейсхолдер {gender_id} -->
-  </filters>
-</field>
+```xml {4} title="Маппинг плейсхолдера фильтрации REST запроса"
+<filters>
+    <eq field-id="gender.id"
+        filter-id="gender.id"
+        mapping="['gender_id']"/> <!-- Плейсхолдер {gender_id} -->
+</filters>
 ```
 
 Можно добавить специальный плейсхолдер `{filters}` в REST запрос, чтобы шаблонизировать фильтрацию выборки.
@@ -924,14 +925,14 @@ n2o.engine.pageStartsWith0=false
 ```
 Разделителем между разными фильтрами в параметрах запроса будет `&`, поэтому необходимо задать его атрибутом `filters-separator`.
 
-Плейсхолдер `{filters}` будет заменен на значения из элементов `<тип_фильтра>..</тип_фильтра>` в фильтрах выборки,
+Плейсхолдер `{filters}` будет заменен на значения из атрибутов `filter-expression` в фильтрах выборки,
 если значение фильтра не будет `null`.
-```xml
-<field id="name">
-  <filters>
-    <like filter-id="nameLike">name={nameLike}</like>
-  </filters>
-</field>
+```xml {4}
+<filters>
+    <like field-id="name"
+          filter-id="nameLike"
+          filter-expression="name={nameLike}"/>
+</filters>
 ```
 при наличии значения "Ноутбук" в `nameLike` итоговый запрос будет
 ```shell
@@ -953,27 +954,28 @@ n2o.engine.pageStartsWith0=false
 ```xml
 <rest>/mystore/goods?sort=name,{nameDir}</rest>
 ```
-В поле, поддерживающее сортировку, необходимо добавить элемент`<sorting>`
-и указать маппинг плейсхолдера для задания направления сортировки.
+В поле, поддерживающее сортировку, необходимо добавить атрибут `sorting`
+и указать маппинг плейсхолдера для задания направления сортировки с помощью `sorting-mapping`.
 
-```xml title="Сортировка данных REST запроса"
-<field id="name">
-  <sorting mapping="['nameDir']"/>
+```xml {3} title="Сортировка данных REST запроса"
+<field id="name"
+       sorting="true"
+       sorting-mapping="['nameDir']"/>
   <!-- Если будет сортировка по полю name
        в плейсхолдер {nameDir} попадет значение asc или desc -->
-</field>
 ```
 
 Можно добавить специальный плейсхолдер `{sorting}`, чтобы шаблонизировать выражение сортировки.
 ```xml
 <rest>/mystore/goods?{sorting}</rest>
 ```
-Плейсхолдер `{sorting}` будет заменен на значения из элементов `<sorting>..</sorting>` в полях выборки,
+Плейсхолдер `{sorting}` будет заменен на значения из атрибутов `sorting-expression` в полях выборки,
 если по этому полю будет задана сортировка.
-```xml
-<field id="name">
-  <sorting mapping="['nameDir']">sort=name,{nameDir}</sorting>
-</field>
+```xml {4}
+<field id="name"
+       sorting="true"
+       sorting-mapping="['nameDir']"
+       sorting-expression="sort=name,{nameDir}"/>
 ```
 при наличии сортировки `asc` по полю `name` итоговый запрос будет
 ```shell
