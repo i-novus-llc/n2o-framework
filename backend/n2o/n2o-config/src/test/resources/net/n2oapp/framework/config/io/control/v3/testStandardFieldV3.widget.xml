@@ -34,7 +34,7 @@
 
             <validations white-list="test1,test2,test3">
                 <constraint id="id" severity="danger" message="test message" side="client"
-                    result="#this == null">
+                    result="#this == null" title="title">
                     <invocation>
                         <sql>
                             select * from table

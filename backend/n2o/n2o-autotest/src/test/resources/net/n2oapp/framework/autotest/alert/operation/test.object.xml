@@ -11,6 +11,12 @@
             <in>
                 <field id="number" domain="integer"/>
             </in>
+            <validations>
+                <condition id="test" title="Заголовок валидации. Введенные данные: {number}"
+                           message="Сообщение валидации. Введенные данные: {number}">
+                    number == 2342
+                </condition>
+            </validations>
         </operation>
     </operations>
 </object>

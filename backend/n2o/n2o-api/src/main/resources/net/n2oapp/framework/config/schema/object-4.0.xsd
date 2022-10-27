@@ -496,6 +496,11 @@
                 <xs:documentation>Сообщение, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок сообщения, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="enabled" type="xs:string" default="true">
             <xs:annotation>
                 <xs:documentation>Включение валидации.</xs:documentation>

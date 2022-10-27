@@ -115,6 +115,7 @@ public class AlertMessageBuilder {
                 ResponseMessage resp = buildMessage(requestInfo, e.getSeverity());
                 resp.setField(message.getFieldId());
                 resp.setText(message.getMessage());
+                resp.setTitle(message.getMessageTitle());
                 messages.add(resp);
             }
         }

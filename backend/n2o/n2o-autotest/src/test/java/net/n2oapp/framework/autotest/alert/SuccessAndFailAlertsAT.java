@@ -62,4 +62,21 @@ public class SuccessAndFailAlertsAT extends AutoTestBase {
         alert.shouldHaveTitle("Заголовок ошибки. Введенные данные: строка");
         alert.shouldHaveText("Текст ошибки. Введенные данные: строка");
     }
+
+    @Test
+    public void testValidation() {
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        InputText inputText = page.widget(FormWidget.class).fields().field("Число").control(InputText.class);
+        inputText.val("1223");
+
+        StandardButton button = page.widget(FormWidget.class).toolbar().bottomLeft().button("Отправить");
+        button.click();
+
+        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldHaveColor(Colors.DANGER);
+        alert.shouldHaveTitle("Заголовок валидации. Введенные данные: 1223");
+        alert.shouldHaveText("Сообщение валидации. Введенные данные: 1223");
+    }
 }

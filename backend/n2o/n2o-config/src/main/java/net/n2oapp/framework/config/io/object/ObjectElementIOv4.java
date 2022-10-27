@@ -122,6 +122,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMoment.class);
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
+        p.attribute(e, "title", t::getTitle, t::setTitle);
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
         p.attribute(e, "side", t::getSide, t::setSide);
     }
@@ -157,7 +158,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         invocationValidation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
         p.attribute(e, "size", t::getSize, t::setSize);
-        p.attribute(e, "title", t::getTitle, t::setTitle);
         p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIOv2());
     }
 
