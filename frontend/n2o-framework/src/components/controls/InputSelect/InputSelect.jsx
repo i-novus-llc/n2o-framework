@@ -312,6 +312,10 @@ class InputSelect extends React.Component {
         if (stateInput !== input) {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
+
+            if (!input) {
+                this.clearSelected()
+            }
         }
     }
 
