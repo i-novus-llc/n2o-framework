@@ -58,12 +58,6 @@ public class AlertMessageBuilder {
                 : Collections.singletonList(build(e, requestInfo));
     }
 
-    public ResponseMessage buildSuccessMessage(String successText, RequestInfo requestInfo, DataSet data) {
-        ResponseMessage message = buildMessage(requestInfo, SeverityType.success);
-        message.setText(StringUtils.resolveLinks(successText, data));
-        return message;
-    }
-
     public ResponseMessage buildSuccessMessage(ActionRequestInfo<DataSet> requestInfo, DataSet data) {
         ResponseMessage message = buildMessage(requestInfo, SeverityType.success);
         message.setText(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessText(), data));
