@@ -35,14 +35,14 @@ function getQuery<
 >(provider: TProviderType): Query<TProvider> {
     switch (provider) {
         case undefined:
-        case ProviderType.service: { return serviceQuery as Query<IProvider> }
-        case ProviderType.storage: { return storageQuery as Query<IProvider> }
-        case ProviderType.inherited: { return inheritedQuery as Query<IProvider> }
+        case ProviderType.service: { return serviceQuery as unknown as Query<IProvider> }
+        case ProviderType.storage: { return storageQuery as unknown as Query<IProvider> }
+        case ProviderType.inherited: { return inheritedQuery as unknown as Query<IProvider> }
         default: { return () => { throw new Error(`hasn't implementation for provider type: "${provider}`) } }
     }
 }
 
-export function* dataRequest({ payload }: DataRequestAction) {
+export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknown) {
     const { id, options = {} } = payload
 
     try {
@@ -72,7 +72,8 @@ export function* dataRequest({ payload }: DataRequestAction) {
         }
 
         const query = getQuery(provider.type)
-        const response: QueryResult = yield query(id, provider, options)
+
+        const response: QueryResult = yield query(id, provider, options, apiProvider)
 
         yield put(setModel(ModelPrefix.source, id, response.list))
 

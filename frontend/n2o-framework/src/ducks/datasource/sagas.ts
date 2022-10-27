@@ -3,6 +3,7 @@ import {
     takeEvery,
     fork,
     cancel,
+    delay,
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
@@ -45,13 +46,23 @@ export function* removeSaga({ payload }: RemoveAction) {
         yield cancel(task)
     }
 
+    /**
+     * При переходе со страницы, у которой есть несколько datsource, они удаляются поочерёдо
+     * И, если делать удаление модели без задержки,
+     * то может стригериться зависимость на удаляемую модуль у другого удаляемого в этот же момент datasource,
+     * что в свою очередь может дёрнуть нежелаемый сабмит с пустой моделью
+     * (из интерессного: упирается в именование датасурсов и какой id за каким следует в списке %) )
+     *
+     * Поэтому закидываем небольшую задержку, чтобы избежать этой гонки
+     */
+    yield delay(50)
     yield put(removeAllModel(id))
 }
 
 // Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
-export function* dataRequestWrapper(action: DataRequestAction) {
+export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAction) {
     const { id } = action.payload
-    const task: Task = yield fork(query, action)
+    const task: Task = yield fork(query, action, apiProvider)
 
     activeTasks[id] = activeTasks[id] || []
     activeTasks[id].push(task)
@@ -63,7 +74,7 @@ export function* dataRequestWrapper(action: DataRequestAction) {
 
 export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
-    takeEvery(dataRequest, dataRequestWrapper),
+    takeEvery(dataRequest, dataRequestWrapper, apiProvider),
     takeEvery(DATA_REQUEST, function* remapRequest({ payload }) {
         const { datasource, options } = payload
 

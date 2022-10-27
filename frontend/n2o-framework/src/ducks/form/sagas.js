@@ -24,7 +24,7 @@ import { ModelPrefix } from '../../core/datasource/const'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { ValidationsKey } from '../../core/validation/IValidation'
 
-import { makeFormsByDatasourceSelector } from './selectors'
+import { makeFormsFiltersByDatasourceSelector, makeFormsByDatasourceSelector } from './selectors'
 import {
     setRequired,
     unsetRequired,
@@ -74,14 +74,18 @@ export function* copyAction({ payload }) {
             console.warn('Source or target is not an array!')
         }
 
-        sourceModel = Object.values(sourceModel)
+        if (!Array.isArray(sourceModel) && Array.isArray(targetModel)) {
+            newModel = targetModel.concat(sourceModel)
+        } else {
+            sourceModel = Object.values(sourceModel)
 
-        newModel = target.field
-            ? {
-                ...targetModel,
-                [target.field]: [...targetModelField, ...sourceModel],
-            }
-            : [...targetModelField, ...sourceModel]
+            newModel = target.field
+                ? {
+                    ...targetModel,
+                    [target.field]: [...targetModelField, ...sourceModel],
+                }
+                : [...targetModelField, ...sourceModel]
+        }
     } else if (treePath) {
         newModel = merge({}, targetModel)
         set(newModel, target.field, sourceModel)
@@ -129,7 +133,8 @@ export function* clearForm({ payload }) {
     * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
     */
     const { prefixes, key } = payload
-    const formWidgets = yield select(makeFormsByDatasourceSelector(payload.key))
+    const formWidgets = yield select(makeFormsByDatasourceSelector(key))
+    const widgetsWithFilter = yield select(makeFormsFiltersByDatasourceSelector(key))
 
     yield delay(50)
 
@@ -138,6 +143,15 @@ export function* clearForm({ payload }) {
 
         if (includes(prefixes, modelPrefix)) {
             yield put(reset(key))
+        }
+    }
+
+    /* костыль для очистки фильтров виджета через clear action */
+    for (const widgetFilter of widgetsWithFilter) {
+        const { datasource = null } = widgetFilter
+
+        if (datasource) {
+            yield put(reset(datasource))
         }
     }
 }

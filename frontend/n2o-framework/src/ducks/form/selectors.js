@@ -113,3 +113,8 @@ export const makeFormsByDatasourceSelector = datasource => createSelector(
     widgetsSelector,
     widgets => filter(widgets, widgetState => widgetState.datasource === datasource && widgetState.form),
 )
+
+export const makeFormsFiltersByDatasourceSelector = datasource => createSelector(
+    widgetsSelector,
+    widgets => filter(widgets, widgetState => widgetState.datasource === datasource && widgetState.filter),
+)
