@@ -425,12 +425,15 @@ __*Типы фильтраций*__
 :::note
 В случае, если данные для полей выборки находятся не в корне json объекта, например, вложены в объект "data"
 ```json
-{
-  "data": {
-    "id": 1,
-    "name": "test1"
-  }
-}
+[
+    {
+      "data": {
+        "id": 1,
+        "name": "test1"
+      }
+    },
+    ...
+]
 ```
 можно задать атрибут `result-mapping`, чтобы маппинг полей был более простым.
 ```xml
@@ -485,15 +488,16 @@ __*Типы фильтраций*__
 
 #### Фильтрация данных {#test_filters}
 
-Для задания фильтров тестового провайдера достаточно указать тип фильтра и `field-id`.
+Для задания фильтров тестового провайдера достаточно указать тип фильтра, идентификатор фильтра `filter-id`
+и ссылку на поле, к которому относится фильтр `field-id`.
 Фильтрация json файла произойдет автоматически.
 
-```xml {7,13} title="Фильтрация данных тестового провайдера"
+```xml {4,5} title="Фильтрация данных тестового провайдера"
 <query>
   ...
   <filters>
-    <eq field-id="id" filter-id="id"/>
-    <like field-id="name" filter-id="name"/>
+    <eq field-id="id" filter-id="idEq"/>
+    <like field-id="name" filter-id="nameLike"/>
   </filters>
 
   <fields>
@@ -508,7 +512,7 @@ __*Типы фильтраций*__
 Для сортировки списка тестового провайдера достаточно указать `sorting="true"` в простом поле поддерживающем сортировку.
 Сортировка произойдет автоматически.
 
-```xml {6,10} title="Сортировка данных тестового провайдера"
+```xml {4,5} title="Сортировка данных тестового провайдера"
 <query>
   ...
   <fields>
@@ -521,7 +525,7 @@ __*Типы фильтраций*__
 #### Операции над данными {#test_operations}
 
 Для добавления данных в json файл необходимо указать тип операции `create`.
-```xml {4-6} title="Операции над данными тестового провайдера"
+```xml {4} title="Операции над данными тестового провайдера"
 <operation id="create">
   <invocation>
     <test file="test.json"
@@ -606,15 +610,11 @@ spring.datasource.password=postgres
 ```xml
 <sql>SELECT :select FROM mytable t</sql>
 ```
-Плейсхолдер `:select` будет заменен на значения из элементов `<select>..</select>` в полях выборки.
-Разделителем между разными элементами select будет запятая `, `. Например, для полей
+Плейсхолдер `:select` будет заменен на значения из атрибута `select-expression` в полях выборки.
+Разделителем между разными элементами select-expression будет запятая `, `. Например, для полей
 ```xml
-<field id="id">
-  <select>t.id as id</select>
-</field>
-<field id="name">
-  <select>t.name as name</select>
-</field>
+<field id="id" select-expression="t.id as id"/>
+<field id="name" select-expression="t.name as name"/>
 ```
 итоговый запрос будет
 ```sql
@@ -643,29 +643,34 @@ SELECT t.id as id, t.name as name FROM mytable t
 где `String` алиас столбца запроса, а `Object` его значение.
 Если алиас столбца не совпадает с идентификатором поля выборки, необходимо сделать маппинг.
 ```xml title="Маппинг полей SQL запроса"
-<field id="firstName">
-  <select mapping="['first_name']">t.name as first_name</select>
-</field>
+<field id="firstName"
+       mapping="['first_name']"
+       select-expression="t.name as first_name"/>
 ```
 
 #### Фильтрация данных
 
-Для задания фильтров SQL запроса нужно указать тип фильтра и идентификатор фильтра `filter-id`.
-```xml title="Фильтрация SQL запроса"
-<field id="id">
-  <filters>
-    <eq filter-id="idEq"/> <!-- Плейсхолдер :idEq -->
-  </filters>
-</field>
+Для задания фильтров SQL запроса нужно указать тип фильтра, идентификатор фильтра `filter-id`
+и ссылку на поле, к которому относится фильтр `field-id`.
+```xml {5} title="Фильтрация SQL запроса"
+<fields>
+  <field id="id"/>
+</fields>
+<filters>
+  <eq field-id="id" filter-id="idEq"/> <!-- Плейсхолдер :idEq -->
+</filters>
 ```
 В этом случае будет доступен `PreparedStatement` плейсхолдер `:idEq` равный значению `filter-id`.
 Если плейсхолдер нужно переименовать, можно использовать маппинг.
-```xml title="Маппинг плейсхолдера фильтрации SQL запроса"
-<field id="gender.id">
-  <filters>
-    <eq filter-id="gender.id" mapping="['gender_id']"/> <!-- Плейсхолдер :gender_id -->
-  </filters>
-</field>
+```xml {7} title="Маппинг плейсхолдера фильтрации SQL запроса"
+<fields>
+  <field id="gender.id"/>
+</fields>
+<filters>
+  <eq field-id="gender.id"
+      filter-id="gender.id"
+      mapping="['gender_id']"/> <!-- Плейсхолдер :gender_id -->
+</filters>
 ```
 
 Можно добавить специальный плейсхолдер `:filters`, чтобы шаблонизировать фильтрацию выборки.
@@ -676,14 +681,14 @@ SELECT t.id as id, t.name as name FROM mytable t
 ```
 Разделителем между разными фильтрами обычно должен быть ` and `, поэтому необходимо задать его атрибутом `filters-separator`.
 
-Плейсхолдер `:filters` будет заменен на значения из элементов `<тип_фильтра>..</тип_фильтра>` в фильтрах выборки,
+Плейсхолдер `:filters` будет заменен на значения из атрибутов `filter-expression` в фильтрах выборки,
 если значение фильтра не будет `null`.
-```xml
-<field id="name">
-  <filters>
-    <like filter-id="nameLike">t.name like '%'||:nameLike</like>
-  </filters>
-</field>
+```xml {4}
+<filters>
+  <like field-id="name"
+        filter-id="nameLike"
+        filter-expression="t.name like '%'||:nameLike</like>"/>
+</filters>
 ```
 при наличии значения в `nameLike` итоговый запрос будет
 ```sql
@@ -700,27 +705,28 @@ SELECT * FROM mytable t WHERE t.name like '%'||:nameLike
 ```xml
 <sql>SELECT * FROM mytable ORDER BY name :nameDir</sql>
 ```
-В поле, поддерживающее сортировку, необходимо добавить элемент`<sorting>`
+В поле, поддерживающее сортировку, необходимо добавить атрибут `sorting`
 и указать маппинг плейсхолдера для задания направления сортировки.
 
-```xml {6,10} title="Сортировка данных SQL запроса"
-<field id="name">
-  <sorting mapping="['nameDir']"/>
+```xml {3} title="Сортировка данных SQL запроса"
+<field id="name"
+       sorting="true"
+       sorting-mapping="['nameDir']"/>
   <!-- Если будет сортировка по полю name
        в плейсхолдер :nameDir попадет значение asc или desc -->
-</field>
 ```
 
 Можно добавить специальный плейсхолдер `:sorting`, чтобы шаблонизировать выражение сортировки.
 ```xml
 <sql>SELECT * FROM mytable ORDER BY :sorting</sql>
 ```
-Плейсхолдер `:sorting` будет заменен на значения из элементов `<sorting>..</sorting>` в полях выборки,
+Плейсхолдер `:sorting` будет заменен на значения из атрибутов `sorting-expression` в полях выборки,
 если по этому полю будет задана сортировка.
-```xml
-<field id="name">
-  <sorting mapping="['nameDir']">name :nameDir</sorting>
-</field>
+```xml {4}
+<field id="name"
+       sorting="true"
+       sorting-mapping="['nameDir']"
+       sorting-expression="name :nameDir"/>
 ```
 при наличии сортировки `asc` по полю `name` итоговый запрос будет
 ```sql
