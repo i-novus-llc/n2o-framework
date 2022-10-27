@@ -102,6 +102,16 @@
                         <xs:documentation>Формат второго уровня текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="icon">
+                    <xs:annotation>
+                        <xs:documentation>Иконка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-position">
+                    <xs:annotation>
+                        <xs:documentation>Позиция иконки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
