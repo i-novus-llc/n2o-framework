@@ -5,5 +5,7 @@ package net.n2oapp.framework.api.metadata.aware;
  */
 public interface IdAware {
     String getId();
-    void setId(String id);
+
+    default void setId(String id) {
+    }
 }
