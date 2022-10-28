@@ -76,6 +76,18 @@ class Input extends React.Component {
         this.input = node
     }
 
+    handleKeyDown = (evt) => {
+        const { onKeyDown } = this.props
+
+        if (onKeyDown) {
+            onKeyDown(evt)
+        }
+
+        if (evt.target.tagName === 'INPUT' && evt.target.type === 'checkbox' && evt.key === 'Enter') {
+            this.handleChange(evt)
+        }
+    }
+
     render() {
         const {
             placeholder,
@@ -93,7 +105,6 @@ class Input extends React.Component {
             onBlur,
             onPaste,
             onClick,
-            onKeyDown,
             ...restProps
         } = this.props
 
@@ -113,10 +124,10 @@ class Input extends React.Component {
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onClick={onClick}
-                onKeyDown={onKeyDown}
+                onKeyDown={this.handleKeyDown}
                 placeholder={placeholder}
                 readOnly={readOnly}
-                {...omit(restProps, ['length', 'onChange'])}
+                {...omit(restProps, ['length', 'onChange', 'onKeyDown'])}
                 onChange={this.handleChange}
                 title={value}
             />

@@ -346,7 +346,7 @@
                         <xs:documentation>Кэшировать результаты выборки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="size" type="xs:integer" default="30">
+                <xs:attribute name="size" type="xs:integer" default="10">
                     <xs:annotation>
                         <xs:documentation>Количество вариантов выбора на одной странице</xs:documentation>
                     </xs:annotation>
@@ -1753,6 +1753,11 @@
                 <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
                     <xs:annotation>
                         <xs:documentation>Максимальная длина текста элемента (в режиме чекбоксов).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="size" type="xs:string" default="200">
+                    <xs:annotation>
+                        <xs:documentation>Количество узлов(включая дочерние) выводимых деревом</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

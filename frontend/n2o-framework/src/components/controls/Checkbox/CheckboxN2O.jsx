@@ -60,11 +60,6 @@ function CheckboxN2O({
                 onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
-                onKeyDown={(evt) => {
-                    if (evt.key === 'Enter') {
-                        evt.target.checked = !evt.target.checked
-                    }
-                }}
                 tabIndex={tabIndex}
             />
             <label className="custom-control-label" htmlFor={elementId}>
@@ -121,7 +116,7 @@ CheckboxN2O.propTypes = {
      * Подсказка в popover
      */
     help: PropTypes.string,
-    tabIndex: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+    tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 CheckboxN2O.defaultProps = {

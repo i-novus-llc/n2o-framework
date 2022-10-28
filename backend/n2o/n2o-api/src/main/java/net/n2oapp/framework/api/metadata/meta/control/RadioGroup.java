@@ -15,7 +15,4 @@ public class RadioGroup extends ListControl {
     private Boolean inline;
     @JsonProperty
     private N2oRadioGroup.RadioGroupType type;
-    @JsonProperty
-    private Integer size;
-
 }
