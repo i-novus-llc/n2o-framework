@@ -6,7 +6,7 @@
                 <text format="0,0.00" subtext-field-id="subtext" subtext-format="date DD.MM.YYYY" icon="icon"/>
             </column>
             <column text-field-id="text2">
-                <text format="0,0.00" subtext-field-id="subtext2" subtext-format="date DD.MM.YYYY">
+                <text format="0,0.00" subtext-field-id="subtext2" subtext-format="date DD.MM.YYYY" icon="icon" icon-position="right">
                     <switch value-field-id="test2">
                         <case value="1">a</case>
                         <case value="2">b</case>

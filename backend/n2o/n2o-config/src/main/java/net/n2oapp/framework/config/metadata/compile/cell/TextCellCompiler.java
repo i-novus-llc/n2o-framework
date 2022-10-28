@@ -30,7 +30,8 @@ public class TextCellCompiler extends AbstractCellCompiler<TextCell, N2oTextCell
         cell.setSubTextFieldKey(source.getSubTextFieldKey());
         cell.setSubTextFormat(source.getSubTextFormat());
         cell.setIcon(source.getIcon());
-        cell.setIconPosition(p.cast(source.getIconPosition(), Position.left));
+        cell.setIconPosition(p.cast(source.getIconPosition(),
+                p.resolve(property("n2o.api.cell.text.icon_position"), Position.class)));
         return cell;
     }
 }

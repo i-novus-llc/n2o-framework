@@ -19,6 +19,6 @@ public class TextCell extends AbstractCell {
     private String subTextFormat;
     @JsonProperty
     private String icon;
-    @JsonProperty("icon-position")
+    @JsonProperty
     private Position iconPosition;
 }

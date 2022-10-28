@@ -57,6 +57,6 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSubTextFieldKey(), is("subtext2"));
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
         assertThat(cell.getCssClass(), is("`test2 == 1 ? 'a' : test2 == 2 ? 'b' : test2 == 3 ? 'c' : null`"));
+        assertThat(cell.getIconPosition(), is(Position.right));
     }
-
 }
