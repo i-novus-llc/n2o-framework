@@ -5,9 +5,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -37,8 +35,8 @@ public class MapInvocationUtil {
                 String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
                 if (map.getValue().getChildMapping() != null && data != null) {
                     if (data instanceof Collection) {
-                        List list = new ArrayList();
-                        for (Object obj : (DataList) data)
+                        DataList list = new DataList();
+                        for (Object obj : (Collection<?>) data)
                             list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
                         MappingProcessor.inMap(result, fieldMapping, list);
                     } else if (data instanceof DataSet)
