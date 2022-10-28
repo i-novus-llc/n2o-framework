@@ -24,12 +24,16 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |badge-color          |Строка                                                                     |Цвет значка                     |                          |
 |badge-shape          |rounded, circle, square                                                    |Форма значка                    |circle                    |
 |badge-position       |left, right                                                                |Позиция значка                  |right                     |
-|badge-image          |Строка                                                                     |Картинка в значке                |                          |
+|badge-image          |Строка                                                                     |Картинка в значке               |                          |
 |badge-image-shape    |rounded, circle, square                                                    |Форма картинки в значке         |circle                    |
 |badge-image-position |left, right                                                                |Позиция картинки в значке       |left                      |
 |src                  |Строка                                                                     |Реализация кнопки.              |                          |
 |description          |Строка                                                                     |Описание при наведении на кнопку|                          |
 |tooltip-position     |left, right, top, bottom                                                   |Позиция подсказки.              |                          |
+|model                |resolve filter edit multi                                                  |Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована |resolve                    |
+|datasource           |Идентификатор [источника данных](../xml/page#datasource)                   |Идентификатор источника данных, над которым будет выполнена операция |Источник данных текущего виджета|
+|visible              |Строка                                                                     |Видимость по умолчанию.         |                          |
+|enabled              |Строка                                                                     |Доступность по умолчанию.       |                          |
 
 #### &lt;button2&gt; {#button_in_button}
 
@@ -51,10 +55,6 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |confirm-ok-color         |primary, secondary, success, danger, warning, info, light, dark, link |Цвет кнопки подтверждения.                                                                                                                                                                      |primary                         |
 |confirm-cancel-label     |Строка                                                                |Текст кнопки отмены.                                                                                                                                                                            |                                |
 |confirm-cancel-color     |primary, secondary, success, danger, warning, info, light, dark, link |Цвет кнопки отмены.                                                                                                                                                                             |secondary                       |
-|model                    |resolve filter edit multi                                             |Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.                                                                                                     |resolve                         |
-|visible                  |Строка                                                                |Видимость по умолчанию.                                                                                                                                                                         |                                |
-|enabled                  |Строка                                                                |Доступность по умолчанию.                                                                                                                                                                       |                                |
-|datasource               |Идентификатор [источника данных](../xml/page#datasource)              |Идентификатор источника данных, над которым будет выполнена операция                                                                                                                            |Источник данных текущего виджета|
 |disable-on-empty-model   |true false auto                                                       |Недоступность кнопки при пустой модели. `true` - всегда недоступна,`false` - всегда доступна, `auto` - недоступна только при пустой модели resolve, для всех остальных моделей доступна всегда. |auto                            |
 
 **Тело**
@@ -87,7 +87,6 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |----------------|----------|--------------------------------|---------------------|
 |generate        |Строка    |Генерация стандартных кнопок.   |                     |
 |show-toggle-icon|true false|Показывать иконку переключателя.|true                 |
-|visible         |true false|Условие видимости кнопки.       |true                 |
 
 **Пример**
 
