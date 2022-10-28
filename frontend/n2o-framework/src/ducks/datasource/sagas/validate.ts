@@ -5,12 +5,9 @@ import { dataSourceModelsSelector, dataSourceValidationSelector } from '../selec
 import { failValidate, resetValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { hasError, validateModel } from '../../../core/validation/validateModel'
-// @ts-ignore import from js file
-import { getFormFieldsByName } from '../../form/selectors'
 
 export function* validate({ payload, meta }: StartValidateAction) {
     const { id, validationsKey, prefix, fields = [] } = payload
-    const formFields: Record<string, { touched: boolean }> = yield select(getFormFieldsByName(id))
     let validation: ReturnType<ReturnType<typeof dataSourceValidationSelector>> =
         yield select(dataSourceValidationSelector(id, validationsKey))
 
@@ -29,7 +26,7 @@ export function* validate({ payload, meta }: StartValidateAction) {
     if (fields?.length) {
         validation = Object.fromEntries(
             Object.entries(validation)
-                .filter(([key]) => fields.includes(key) && (meta?.touched || formFields[key]?.touched)),
+                .filter(([key]) => fields.includes(key)),
         )
     }
 

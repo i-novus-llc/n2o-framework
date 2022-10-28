@@ -68,6 +68,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getClosePopupOnSelect(), is(false));
         assertThat(inputSelect.getEnabledFieldId(), is("isEnabled"));
         assertThat(inputSelect.getPlaceholder(), is("Введите"));
+        assertThat(inputSelect.getSize(), is(20));
         ClientDataProvider cdp = inputSelect.getDataProvider();
 
         inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
