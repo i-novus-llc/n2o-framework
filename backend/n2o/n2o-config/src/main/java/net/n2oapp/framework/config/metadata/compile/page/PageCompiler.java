@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.Models;
@@ -183,10 +184,10 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         if (context.getDatasources() != null) {
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
-                if (dataSourcesScope.containsKey(dsId))
+                if (dataSourcesScope.containsKey(dsId) && ctxDs instanceof N2oStandardDatasource)
                     dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
                 else {
-                    ctxDs.setId(dsId);//todo нужно клонировать ctxDs
+                    ctxDs.setId(dsId);
                     dataSourcesScope.put(dsId, ctxDs);
                 }
             }
