@@ -17,6 +17,22 @@
                 <button label="Открыть">
                     <show-modal page-id="testParentDatasourceModal2" route="/modal2"/>
                 </button>
+
+                <button label="Открыть">
+                    <show-modal page-id="testParentDatasourceModal2" route="/modal2_app">
+                        <datasources>
+                            <app-datasource id="ds1"/>
+                        </datasources>
+                    </show-modal>
+                </button>
+
+                <button label="Открыть">
+                    <show-modal page-id="testParentDatasourceModal2" route="/modal2_parent">
+                        <datasources>
+                            <parent-datasource id="ds3"/>
+                        </datasources>
+                    </show-modal>
+                </button>
             </toolbar>
         </form>
     </regions>

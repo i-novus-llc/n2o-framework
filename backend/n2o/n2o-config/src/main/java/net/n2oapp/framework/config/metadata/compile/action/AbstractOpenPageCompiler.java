@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -225,7 +224,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             if (entry.getValue() instanceof N2oParentDatasource) {
                 if (!((N2oParentDatasource) entry.getValue()).isFromParentPage())
                     parentDatasourceIdsMap.put(entry.getKey(), context.getParentDatasourceIdsMap().get(entry.getKey()));
-            } else if (!(entry.getValue() instanceof N2oApplicationDatasource))
+            } else
                 parentDatasourceIdsMap.put(entry.getKey(), getClientDatasourceId(entry.getKey(), p));
 
         return parentDatasourceIdsMap;

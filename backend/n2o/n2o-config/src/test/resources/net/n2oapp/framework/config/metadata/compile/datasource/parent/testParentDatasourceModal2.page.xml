@@ -10,5 +10,6 @@
 
     <regions>
         <table datasource="ds1"/>
+        <table datasource="ds3"/>
     </regions>
 </page>
