@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.global.dao.invocation.model;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.global.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
  * Аргумент метода
