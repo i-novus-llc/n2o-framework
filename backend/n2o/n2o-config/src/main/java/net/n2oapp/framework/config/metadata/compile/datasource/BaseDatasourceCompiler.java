@@ -35,6 +35,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
         compiled.setDependencies(initDependencies(source, context, p));
         compiled.setValidations(initValidations(source, p, ReduxModel.resolve));
         compiled.setFilterValidations(initValidations(source, p, ReduxModel.filter));
+        compiled.setSorting(source.getSorting());
     }
 
     protected Map<String, List<Validation>> initValidations(S source, CompileProcessor p, ReduxModel model) {

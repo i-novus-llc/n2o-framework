@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
@@ -426,6 +427,20 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(header.getCssClass(), is("my-multi-header"));
         assertThat(header.getStyle().get("color"), is("blue"));
         assertThat(header.getLabel(), is("Multi"));
+    }
+
+    @Test
+    public void testPassSortingToDatasource() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5PassSortingToDatasource.page.xml")
+                .get(new PageContext("testTable5PassSortingToDatasource"));
+
+        AbstractDatasource ds1 = page.getDatasources().get("testTable5PassSortingToDatasource_ds1");
+        assertThat(ds1.getSorting().size(), is(1));
+        assertThat(ds1.getSorting().get("name"), is("DESC"));
+
+        AbstractDatasource inlineDatasource = page.getDatasources().get("testTable5PassSortingToDatasource_w2");
+        assertThat(inlineDatasource.getSorting().size(), is(1));
+        assertThat(inlineDatasource.getSorting().get("age"), is("ASC"));
     }
 
     @Test

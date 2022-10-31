@@ -21,7 +21,6 @@ public abstract class N2oAbstractTable extends N2oAbstractListWidget {
     private Boolean textWrap;
     private Boolean checkboxes;
     private Boolean checkOnSelect;
-    private String cssClass;
 
     public enum PagingMode {
         on, off, lazy
