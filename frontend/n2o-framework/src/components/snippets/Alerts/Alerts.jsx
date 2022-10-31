@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { FactoryContext } from '../../../core/factory/context'
 import { SNIPPETS } from '../../../core/factory/factoryLevels'
 
+import DefaultAlert from './Alert'
+
 /**
  * Маппер для Alert
  * supported placements ['topLeft', 'top', 'topRight', 'bottomLeft', 'bottom', 'bottomRight']
@@ -14,7 +16,7 @@ function AlertsByPlacement({ alerts, placement }) {
 
     return alerts.filter(({ placement: alertPlacement }) => alertPlacement === placement)
         .map((props) => {
-            const Alert = getComponent('Alert', SNIPPETS)
+            const Alert = getComponent('Alert', SNIPPETS) || DefaultAlert
 
             return <Alert {...props} />
         })
