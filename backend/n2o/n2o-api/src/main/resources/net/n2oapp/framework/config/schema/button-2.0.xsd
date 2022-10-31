@@ -81,6 +81,29 @@
                         <xs:documentation>Стиль кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="model" type="acn:clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель источника данных, над которым выполнится действие. Если модель пустая,
+                            то кнопка будет заблокирована.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>С каким источником данных работает кнопка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие доступности кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Реализация кнопки (React компонент).</xs:documentation>
@@ -176,29 +199,6 @@
                         <xs:documentation>Цвет кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="model" type="acn:clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель источника данных, над которым выполнится действие. Если модель пустая,
-                            то кнопка будет заблокирована.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Условие доступности кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>С каким источником данных работает кнопка.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="disable-on-empty-model">
                     <xs:annotation>
                         <xs:documentation>Недоступность кнопки при пустой модели.</xs:documentation>
@@ -246,11 +246,6 @@
                 <xs:attribute name="generate" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-toggle-icon" type="xs:boolean" default="true">
