@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.cells;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.impl.component.cell.N2oTextCell;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Test;
  * Автотест ячейки с текстом
  */
 public class TextCellAT extends AutoTestBase {
-    private TableWidget.Rows rows;
 
     @BeforeAll
     public static void beforeClass() {
@@ -44,19 +44,19 @@ public class TextCellAT extends AutoTestBase {
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 
-        rows = simplePage.widget(TableWidget.class).columns().rows();
+        TableWidget.Rows rows = simplePage.widget(TableWidget.class).columns().rows();
         rows.shouldHaveSize(3);
 
         TextCell cell1 = rows.row(0).cell(1);
         cell1.textShouldHave("test1");
         cell1.subTextShouldHave("1,1");
         cell1.shouldHaveIcon("fa-plus");
-        cell1.shouldBeIconPosition("right");
+        cell1.shouldBeIconPosition(N2oTextCell.IconPosition.right);
 
         TextCell cell2 = rows.row(0).cell(2);
         cell2.textShouldHave("1,23");
         cell2.shouldHaveIcon("fa-plus");
-        cell2.shouldBeIconPosition("left");
+        cell2.shouldBeIconPosition(N2oTextCell.IconPosition.left);
 
         cell1 = rows.row(1).cell(1);
         cell1.textShouldHave("test1test2test3");

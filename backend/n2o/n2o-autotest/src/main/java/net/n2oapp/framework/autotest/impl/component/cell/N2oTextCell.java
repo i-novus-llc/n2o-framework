@@ -21,13 +21,17 @@ public class N2oTextCell extends N2oCell implements TextCell {
     }
 
     @Override
-    public void shouldBeIconPosition(String position) {
+    public void shouldBeIconPosition(IconPosition position) {
         SelenideElement iconContainer = element().$(".icon-cell-container");
         if (iconContainer.$(".n2o-icon").is(Condition.exist)) {
-            if (position.equals("left"))
+            if (position == IconPosition.left)
                 iconContainer.shouldNotHave(Condition.cssClass("icon-cell-container__text-left"));
-            if (position.equals("right"))
+            if (position == IconPosition.right)
                 iconContainer.shouldHave(Condition.cssClass("icon-cell-container__text-left"));
         }
+    }
+
+    public enum IconPosition {
+        left, right
     }
 }
