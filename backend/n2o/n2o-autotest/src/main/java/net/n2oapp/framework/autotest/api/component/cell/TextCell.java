@@ -7,4 +7,6 @@ public interface TextCell extends Cell {
     void textShouldHave(String text);
 
     void subTextShouldHave(String... text);
+
+    void shouldBeIconPosition(String position);
 }

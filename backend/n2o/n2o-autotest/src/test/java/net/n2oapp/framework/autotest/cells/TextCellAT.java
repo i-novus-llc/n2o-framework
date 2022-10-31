@@ -30,12 +30,6 @@ public class TextCellAT extends AutoTestBase {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/text/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/text/test.query.xml"));
-
-        SimplePage simplePage = open(SimplePage.class);
-        simplePage.shouldExists();
-
-        rows = simplePage.widget(TableWidget.class).columns().rows();
-        rows.shouldHaveSize(3);
     }
 
     @Override
@@ -47,11 +41,22 @@ public class TextCellAT extends AutoTestBase {
 
     @Test
     public void textCellTest() {
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        rows = simplePage.widget(TableWidget.class).columns().rows();
+        rows.shouldHaveSize(3);
+
         TextCell cell1 = rows.row(0).cell(1);
         cell1.textShouldHave("test1");
         cell1.subTextShouldHave("1,1");
+        cell1.shouldHaveIcon("fa-plus");
+        cell1.shouldBeIconPosition("right");
+
         TextCell cell2 = rows.row(0).cell(2);
         cell2.textShouldHave("1,23");
+        cell2.shouldHaveIcon("fa-plus");
+        cell2.shouldBeIconPosition("left");
 
         cell1 = rows.row(1).cell(1);
         cell1.textShouldHave("test1test2test3");
