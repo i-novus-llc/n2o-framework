@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -33,7 +34,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -162,34 +162,25 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         // copy
         pageContext.setCopyModel(source.getCopyModel());
         pageContext.setCopyDatasourceId(source.getCopyDatasourceId());
-        pageContext.setCopyPage(source.getCopyPage());
         pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetDatasourceId(computeTargetDatasource(source, pageScope, componentScope, widgetScope));
-        pageContext.setTargetPage(source.getTargetPage());
         pageContext.setTargetFieldId(source.getTargetFieldId());
         pageContext.setCopyMode(source.getCopyMode());
 
         if (source.getDatasources() != null)
             pageContext.setDatasources(Arrays.asList(source.getDatasources()));
-        pageContext.setParentDatasourceIdsMap(
-                p.getScope(DataSourcesScope.class).keySet().stream()
-        .collect(Collectors.toMap(Function.identity(), ds -> getClientDatasourceId(ds, p))));
-        // TODO - убрать
-        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-        if (dataSourcesScope != null)
-            pageContext.setParentDatasources(new HashMap<>(dataSourcesScope));
 
         String parentWidgetId = initWidgetId(p);
         pageContext.setParentWidgetId(parentWidgetId);
         pageContext.setParentClientWidgetId(currentClientWidgetId);
         String localDatasourceId = getLocalDatasourceId(p);
         pageContext.setParentLocalDatasourceId(localDatasourceId);
-        pageContext.setParentClientDatasourceId(getClientDatasourceId(localDatasourceId, p));
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         if (context instanceof PageContext) {
             pageContext.addParentRoute(pageContext.getParentRoute(), ((PageContext) context));
+            pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(p, (PageContext) context));
         }
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
@@ -224,6 +215,19 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
+    }
+
+    private Map<String, String> initParentDatasourceIdsMap(CompileProcessor p, PageContext context) {
+        Map<String, String> parentDatasourceIdsMap = new HashMap<>();
+
+        for (Map.Entry<String, N2oAbstractDatasource> entry : p.getScope(DataSourcesScope.class).entrySet())
+            if (entry.getValue() instanceof N2oParentDatasource) {
+                if (!((N2oParentDatasource) entry.getValue()).isFromParentPage())
+                    parentDatasourceIdsMap.put(entry.getKey(), context.getParentDatasourceIdsMap().get(entry.getKey()));
+            } else
+                parentDatasourceIdsMap.put(entry.getKey(), getClientDatasourceId(entry.getKey(), p));
+
+        return parentDatasourceIdsMap;
     }
 
     private String computeTargetDatasource(S source, PageScope pageScope, ComponentScope componentScope, WidgetScope widgetScope) {

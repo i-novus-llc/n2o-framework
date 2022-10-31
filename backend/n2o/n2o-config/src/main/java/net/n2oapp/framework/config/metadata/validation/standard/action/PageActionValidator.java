@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.validation.standard.action;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
@@ -42,8 +41,6 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         PageScope pageScope = p.getScope(PageScope.class);
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         checkRefreshWidgetDatasourceIds(source, pageScope, datasourceIdsScope);
-        checkTargetDatasource(source, datasourceIdsScope);
-        checkCopyDatasource(source, datasourceIdsScope);
 
         if (source.getDatasources() != null) {
             DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
@@ -80,36 +77,6 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                 ValidationUtils.checkForExistsDatasource(datasourceId, datasourceIdsScope,
                         String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных '%s'", datasourceId));
             }
-        }
-    }
-
-    /**
-     * Проверка существования источника данных для копирования в родительской странице при открытии модального окна
-     *
-     * @param source             Действие открытия страницы
-     * @param datasourceIdsScope Скоуп источников данных
-     */
-    private void checkTargetDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getTargetDatasourceId() != null && source.getTargetPage() != PageRef.THIS) {
-            String openPage = getIdOrEmptyString(source.getPageId());
-            ValidationUtils.checkForExistsDatasource(source.getTargetDatasourceId(), datasourceIdsScope,
-                    String.format("Атрибут 'target-datasource' действия открытия страницы '%s' ссылается на несуществующий источник данных '%s' родительской страницы",
-                            openPage, source.getTargetDatasourceId()));
-        }
-    }
-
-    /**
-     * Проверка существования копируемого источника данных в родительской странице при открытии модального окна
-     *
-     * @param source             Действие открытия страницы
-     * @param datasourceIdsScope Скоуп источников данных
-     */
-    private void checkCopyDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getCopyDatasourceId() != null && source.getCopyPage() == PageRef.PARENT) {
-            String openPage = getIdOrEmptyString(source.getPageId());
-            ValidationUtils.checkForExistsDatasource(source.getCopyDatasourceId(), datasourceIdsScope,
-                    String.format("Атрибут 'copy-datasource' действия открытия страницы '%s' ссылается на несуществующий источник данных '%s' родительской страницы",
-                            openPage, source.getCopyDatasourceId()));
         }
     }
 
