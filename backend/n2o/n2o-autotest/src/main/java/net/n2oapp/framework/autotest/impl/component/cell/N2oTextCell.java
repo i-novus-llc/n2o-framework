@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 
 /**
@@ -21,17 +22,13 @@ public class N2oTextCell extends N2oCell implements TextCell {
     }
 
     @Override
-    public void shouldBeIconPosition(IconPosition position) {
+    public void shouldBeIconPosition(Position position) {
         SelenideElement iconContainer = element().$(".icon-cell-container");
         if (iconContainer.$(".n2o-icon").is(Condition.exist)) {
-            if (position == IconPosition.left)
+            if (position == Position.left)
                 iconContainer.shouldNotHave(Condition.cssClass("icon-cell-container__text-left"));
-            if (position == IconPosition.right)
+            if (position == Position.right)
                 iconContainer.shouldHave(Condition.cssClass("icon-cell-container__text-left"));
         }
-    }
-
-    public enum IconPosition {
-        left, right
     }
 }
