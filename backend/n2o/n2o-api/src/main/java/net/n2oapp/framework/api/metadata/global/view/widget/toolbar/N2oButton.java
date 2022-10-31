@@ -36,10 +36,6 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
 
     private Dependency[] dependencies;
 
-    @Deprecated
-    private String enablingCondition;
-    @Deprecated
-    private String visibilityCondition;
 
     @Deprecated
     public String getValidateString() {

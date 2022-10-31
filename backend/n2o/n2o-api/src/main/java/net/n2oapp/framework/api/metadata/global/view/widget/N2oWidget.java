@@ -66,8 +66,6 @@ public abstract class N2oWidget extends N2oMetadata
     private UploadType upload;
     @Deprecated
     private String dependsOn;
-    @Deprecated
-    private String dependencyCondition;
     private String icon;
     @Deprecated
     private String masterFieldId;
@@ -97,7 +95,7 @@ public abstract class N2oWidget extends N2oMetadata
     public void adapterV4() {
         if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
-                getUpload() != null || getDependsOn() != null || getDependencyCondition() != null) {
+                getUpload() != null || getDependsOn() != null) {
             N2oStandardDatasource datasource = new N2oStandardDatasource();
             setDatasource(datasource);
             datasource.setQueryId(getQueryId());
@@ -151,12 +149,9 @@ public abstract class N2oWidget extends N2oMetadata
                 }
             }
             datasource.setSize(getSize());
-            if (getDependencyCondition() != null || getVisible() != null) {
+            if (getVisible() != null) {
                 N2oVisibilityDependency visibilityDependency = new N2oVisibilityDependency();
-                if (getDependencyCondition() == null)
-                    visibilityDependency.setValue(StringUtils.unwrapLink(getVisible()));
-                else
-                    visibilityDependency.setValue(getDependencyCondition());
+                visibilityDependency.setValue(StringUtils.unwrapLink(getVisible()));
                 if (getDependsOn() != null) {
                     visibilityDependency.setDatasource(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 }

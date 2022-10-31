@@ -27,7 +27,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
@@ -57,8 +56,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     public PerformButton compile(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
         initDefaults(source, context, p);
         PerformButton button = new PerformButton();
-        IndexScope idx = p.getScope(IndexScope.class);
-        compileBase(button, source, idx, context, p);
+        compileBase(button, source, context, p);
         button.setSrc(source.getSrc());
         button.setRounded(source.getRounded());
         button.setValidate(compileValidate(source, p));
@@ -75,7 +73,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         CompiledObject.Operation operation = null;
         if (action != null) {
             if (action instanceof InvokeAction) {
-
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
@@ -242,16 +239,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     protected void compileDependencies(N2oButton source, PerformButton button,
                                        CompileProcessor p) {
         String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
-        List<Condition> enabledConditions = new ArrayList<>();
-
-        if (source.getVisibilityCondition() != null)
-            button.getConditions().put(ValidationType.visible,
-                    compileCondition(source.getVisibilityCondition(), source.getModel(), clientDatasource));
-        if (source.getEnablingCondition() != null)
-            enabledConditions.addAll(compileCondition(source.getEnablingCondition(), source.getModel(), clientDatasource));
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
 
+        List<Condition> enabledConditions = new ArrayList<>();
         if (source.getDatasourceId() != null) {
             Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
             if (emptyModelCondition != null)
@@ -294,15 +285,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             return condition;
         }
         return null;
-    }
-
-    private List<Condition> compileCondition(String expression, ReduxModel model, String clientDatasource) {
-        List<Condition> result = new ArrayList<>();
-        Condition condition = new Condition();
-        condition.setExpression(expression.trim());
-        condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
-        result.add(condition);
-        return result;
     }
 
     private void compileDependencies(N2oButton.Dependency[] dependencies, PerformButton button, String clientDatasource,

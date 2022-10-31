@@ -31,7 +31,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
 public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
     private static final String PROPERTY_PREFIX = "n2o.api.control.button_field";
 
-    protected void compileBase(AbstractButton button, N2oAbstractButton source, IndexScope idx,
+    protected void compileBase(AbstractButton button, N2oAbstractButton source,
                                CompileContext<?, ?> context, CompileProcessor p) {
         button.setId(source.getId());
         button.setProperties(p.mapAttributes(source));
