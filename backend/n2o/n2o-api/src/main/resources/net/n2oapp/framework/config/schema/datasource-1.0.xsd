@@ -128,6 +128,7 @@
             <xs:extension base="baseDatasourceDefinition">
                 <xs:sequence>
                     <xs:element name="submit" type="inheritedDatasourceSubmit" minOccurs="0"/>
+                    <xs:element name="fetch-value" type="inheritedDatasourceFetchValue" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="source-datasource" type="xs:string" use="required">
                     <xs:annotation>
@@ -188,6 +189,9 @@
         <xs:annotation>
             <xs:documentation>Сохранение полей формы при их изменении</xs:documentation>
         </xs:annotation>
+        <xs:sequence>
+            <xs:element name="submit-value" type="inheritedDatasourceSubmitValue" minOccurs="0"/>
+        </xs:sequence>
         <xs:attribute name="auto" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Автоматически ли записывать при изменении данных?</xs:documentation>
@@ -457,5 +461,23 @@
                 <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="inheritedDatasourceFetchValue">
+        <xs:annotation>
+            <xs:documentation>
+                JS выражение, позволяющее производить изменения целевой модели при копировании в inherited-datasource
+                (Записывается в теле элемента)
+            </xs:documentation>
+        </xs:annotation>
+    </xs:complexType>
+
+    <xs:complexType name="inheritedDatasourceSubmitValue">
+        <xs:annotation>
+            <xs:documentation>
+                JS выражение, позволяющее производить изменения целевой модели при ее отправке
+                (Записывается в теле элемента)
+            </xs:documentation>
+        </xs:annotation>
     </xs:complexType>
 </xs:schema>

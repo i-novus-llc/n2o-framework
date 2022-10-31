@@ -31,6 +31,8 @@ public class InheritedDatasource extends AbstractDatasource {
         private ReduxModel sourceModel;
         @JsonProperty
         private String sourceField;
+        @JsonProperty
+        private String fetchValueExpression;
     }
 
     @Getter
@@ -48,5 +50,7 @@ public class InheritedDatasource extends AbstractDatasource {
         private String targetField;
         @JsonProperty
         private Boolean auto;
+        @JsonProperty
+        private String submitValueExpression;
     }
 }

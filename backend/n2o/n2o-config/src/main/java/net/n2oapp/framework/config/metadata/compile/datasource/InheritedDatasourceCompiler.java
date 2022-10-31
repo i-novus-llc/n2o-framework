@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
@@ -40,6 +41,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         submit.setTargetDs(getClientDatasourceId(p.cast(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), context, p));
         submit.setTargetModel(p.cast(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));
         submit.setTargetField(p.cast(sourceSubmit.getTargetFieldId(), source.getSourceFieldId()));
+        submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(source.getSubmit().getSubmitValue()));
         return submit;
     }
 
@@ -48,6 +50,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         provider.setSourceDs(getClientDatasourceId(source.getSourceDatasource(), context, p));
         provider.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
         provider.setSourceField(source.getSourceFieldId());
+        provider.setFetchValueExpression(ScriptProcessor.resolveFunction(source.getFetchValue()));
         return provider;
     }
 }
