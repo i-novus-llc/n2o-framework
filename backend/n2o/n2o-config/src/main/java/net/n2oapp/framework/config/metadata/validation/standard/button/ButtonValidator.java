@@ -44,7 +44,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
     private void checkDatasource(N2oButton source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getDatasourceId() != null) {
             String button = ValidationUtils.getIdOrEmptyString(source.getId());
-            ValidationUtils.checkForExistsDatasource(source.getDatasourceId(), datasourceIdsScope,
+            ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), datasourceIdsScope,
                     String.format("Кнопка %s ссылается на несуществующий источник данных '%s'",
                             button, source.getDatasourceId()));
         }
@@ -60,7 +60,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
         if (source.getValidateDatasourceIds() != null) {
             String button = ValidationUtils.getIdOrEmptyString(source.getId());
             for (String validateDs : source.getValidateDatasourceIds()) {
-                ValidationUtils.checkForExistsDatasource(validateDs, datasourceIdsScope,
+                ValidationUtils.checkDatasourceExistence(validateDs, datasourceIdsScope,
                         String.format("Атрибут \"validate-datasources\" кнопки %s содержит несуществующий источник данных '%s'",
                                 button, validateDs));
             }

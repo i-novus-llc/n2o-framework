@@ -44,7 +44,7 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
             String targetDatasource = source.getSubmit().getTargetDatasource();
             String msg = String.format("Атрибут 'target-datasource' элемента 'submit' источника данных '%s' ссылается на несуществующий источник '%s'",
                     source.getId(), targetDatasource);
-            ValidationUtils.checkForExistsDatasource(targetDatasource, ids, msg);
+            ValidationUtils.checkDatasourceExistence(targetDatasource, ids, msg);
         }
     }
 }

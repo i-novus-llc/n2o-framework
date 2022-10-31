@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.action.Perform;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -21,6 +22,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThrows;
 
 /**
  * Тестирование компиляции действия switch
@@ -42,7 +44,7 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSwitchAction() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/switch/testSwitchAction.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/switch_action/testSwitchAction.page.xml")
                 .get(new PageContext("testSwitchAction"));
 
         SwitchAction action = (SwitchAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
@@ -63,11 +65,17 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getType(), is("n2o/api/action/switch"));
         assertThat(action.getPayload().getDatasource(), is("ds2"));
         assertThat(action.getPayload().getModel(), is(ReduxModel.filter));
+
+        //Проверка использования датасорса страницы для switch в тулбаре (при отсутствии своего ds и ds у кнопки, для switch любой вложенности берется датасорс страницы)
+        action = (SwitchAction) page.getToolbar().getButton("b3").getAction();
+        assertThat(action.getPayload().getDatasource(), is("dsForPage"));
+        action = (SwitchAction) action.getPayload().getCases().get("A");
+        assertThat(action.getPayload().getDatasource(), is("dsForPage"));
     }
 
     @Test
     public void testBindSwitchAction() {
-        StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/switch/testBindSwitchAction.page.xml")
+        StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/switch_action/testBindSwitchAction.page.xml")
                 .get(new PageContext("testBindSwitchAction", "/p/w/:parent_id/modal"),
                         new DataSet("parent_id", 123));
         PerformButton button = (PerformButton) page.getToolbar().getButton("b1");
@@ -85,5 +93,13 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
                 is("n2o/data/p/w/123/modal/A_case2"));
         assertThat(((InvokeAction) ((SwitchAction) action.getPayload().getCases().get("C")).getPayload().getDefaultCase()).getPayload().getDataProvider().getUrl(),
                 is("n2o/data/p/w/123/modal/default_case_2"));
+    }
+
+    @Test
+    public void testNestedWithoutDatasource() {
+        N2oException e = assertThrows(N2oException.class,
+                () -> compile("net/n2oapp/framework/config/metadata/compile/action/switch_action/testNested.page.xml")
+                        .get(new PageContext("testNested")));
+        assertThat(e.getMessage(), is("Datasource is undefined for switch action with value-field-id=test2"));
     }
 }

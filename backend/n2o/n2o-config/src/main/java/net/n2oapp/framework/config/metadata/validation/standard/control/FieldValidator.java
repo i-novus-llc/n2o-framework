@@ -108,7 +108,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
      */
     private void checkRefDatasource(N2oField source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getRefDatasourceId() != null && PageRef.THIS.equals(source.getRefPage())) {
-            ValidationUtils.checkForExistsDatasource(source.getRefDatasourceId(), datasourceIdsScope,
+            ValidationUtils.checkDatasourceExistence(source.getRefDatasourceId(), datasourceIdsScope,
                     String.format("В ссылке на источник данных поля %s содержится несуществующий источник данных '%s'",
                             source.getId(), source.getRefDatasourceId()));
         }

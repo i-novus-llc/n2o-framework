@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -37,9 +38,9 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     }
 
     private void compilePayload(N2oSwitchAction source, SwitchActionPayload payload, CompileContext<?, ?> context, CompileProcessor p) {
-        payload.setDatasource(p.cast(source.getDatasourceId(), getLocalDatasourceId(p)));
-        payload.setModel(p.cast(source.getModel(), getLocalModel(p)));
         payload.setValueFieldId(source.getValueFieldId());
+        initDatasource(payload, source.getDatasourceId(), p);
+        payload.setModel(p.cast(source.getModel(), getLocalModel(p)));
 
         IndexScope indexScope = p.getScope(IndexScope.class);
         if (indexScope == null)
@@ -75,5 +76,13 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
         else
             caseId = "default_case_";
         abstractCase.setId(caseId + switchIndex);
+    }
+
+    private void initDatasource(SwitchActionPayload payload, String datasourceId, CompileProcessor p) {
+        payload.setDatasource(p.cast(datasourceId, getLocalDatasourceId(p)));
+        if (payload.getDatasource() == null) {
+            throw new N2oException(String.format("Datasource is undefined for switch action with value-field-id=%s",
+                    payload.getValueFieldId()));
+        }
     }
 }

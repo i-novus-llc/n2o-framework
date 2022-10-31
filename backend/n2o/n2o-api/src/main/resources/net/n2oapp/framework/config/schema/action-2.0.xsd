@@ -1371,7 +1371,7 @@
             <xs:element name="case" type="caseDefinition" minOccurs="0"/>
             <xs:element name="default" type="defaultCaseDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="value-field-id" type="xs:string">
+        <xs:attribute name="value-field-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>
                     Идентификатор поля, значение которого будет сравниваться с value в кейсах переключателя

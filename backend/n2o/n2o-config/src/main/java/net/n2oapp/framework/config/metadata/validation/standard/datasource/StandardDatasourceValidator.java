@@ -57,7 +57,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
             for (N2oStandardDatasource.Dependency d : datasource.getDependencies()) {
                 if (d.getOn() != null) {
                     String on = d.getOn();
-                    ValidationUtils.checkForExistsDatasource(on, scope,
+                    ValidationUtils.checkDatasourceExistence(on, scope,
                             String.format("Атрибут \"on\" в зависимости источника данных '%s' ссылается на несуществующий источник данных '%s'",
                                     datasource.getId(), on));
                 }
@@ -73,7 +73,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
     private void checkSubmit(N2oStandardDatasource datasource, DatasourceIdsScope scope) {
         if (datasource.getSubmit() != null && datasource.getSubmit().getRefreshDatasourceIds() != null) {
             for (String refreshDs : datasource.getSubmit().getRefreshDatasourceIds()) {
-                ValidationUtils.checkForExistsDatasource(refreshDs, scope,
+                ValidationUtils.checkDatasourceExistence(refreshDs, scope,
                         String.format("Тег <submit> источника данных '%s' содержит несуществующий источник данных '%s' в атрибуте \"refresh-datasources\"",
                                 datasource.getId(), refreshDs));
             }
@@ -105,7 +105,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
 
                 String queryId = ValidationUtils.getIdOrEmptyString(query.getId());
                 if (preFilter.getDatasourceId() != null)
-                    ValidationUtils.checkForExistsDatasource(preFilter.getDatasourceId(), scope,
+                    ValidationUtils.checkDatasourceExistence(preFilter.getDatasourceId(), scope,
                             String.format("В префильтре по полю '%s' указан несуществующий источник данных '%s'",
                                     preFilter.getFieldId(), preFilter.getDatasourceId()));
                 AbstractField exField = findExField(preFilter, query.getFields(), null);

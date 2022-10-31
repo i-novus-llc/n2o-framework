@@ -30,7 +30,7 @@ public abstract class AbstractMetaActionValidator<S extends N2oAbstractMetaActio
         if (source.getRefreshDatasourceIds() != null)
             for (String refreshDs : source.getRefreshDatasourceIds()) {
                 String operation = ValidationUtils.getIdOrEmptyString(source.getOperationId());
-                ValidationUtils.checkForExistsDatasource(refreshDs, datasourceIdsScope,
+                ValidationUtils.checkDatasourceExistence(refreshDs, datasourceIdsScope,
                         String.format("Атрибут \"refresh-datasources\" действия %s ссылается на несуществующий источник данных '%s'",
                                 operation, refreshDs));
             }

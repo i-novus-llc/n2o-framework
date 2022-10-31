@@ -22,10 +22,7 @@ import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationScope;
+import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
@@ -293,7 +290,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 breadcrumb, validationScope, datasourcesScope, appDatasourcesIdScope);
         compiled.setToolbar(compileToolbar(source, "n2o.api.page.toolbar.place", context, p, metaActions,
                 metaActions, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb, validationScope,
-                datasourcesScope, appDatasourcesIdScope));
+                datasourcesScope, appDatasourcesIdScope, new ComponentScope(source)));
     }
 
     private void initToolbarGenerate(S source, PageContext context, N2oWidget resultWidget) {
