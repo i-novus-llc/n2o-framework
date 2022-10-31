@@ -40,7 +40,7 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
     }
 
     @Override
-    protected String createId(String regionPlace, CompileProcessor p) {
-        return createId(regionPlace, "line", p);
+    protected String createId(CompileProcessor p) {
+        return createId("line", p);
     }
 }
