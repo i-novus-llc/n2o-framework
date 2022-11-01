@@ -24,16 +24,14 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
 
     protected D build(D compiled, S source, CompileProcessor p) {
         compileComponent(compiled, source, null, p);
-        compiled.setId(p.cast(source.getId(), createId(source.getPlace(), p)));
+        compiled.setId(p.cast(source.getId(), createId(p)));
         return compiled;
     }
 
-    protected abstract String createId(String regionPlace, CompileProcessor p);
+    protected abstract String createId(CompileProcessor p);
 
-    protected String createId(String regionPlace, String regionName, CompileProcessor p) {
+    protected String createId(String regionName, CompileProcessor p) {
         StringJoiner id = new StringJoiner("_");
-        if (regionPlace != null)
-            id.add(regionPlace);
         id.add(regionName);
 
         IndexScope index = p.getScope(IndexScope.class);

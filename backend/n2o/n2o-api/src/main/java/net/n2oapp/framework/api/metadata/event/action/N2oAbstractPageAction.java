@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -57,11 +56,9 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
 
     private CopyMode copyMode;
     private String copyDatasourceId;
-    private PageRef copyPage;
     private ReduxModel copyModel;
     private String copyFieldId;
     private String targetDatasourceId;
-    private PageRef targetPage;
     private ReduxModel targetModel;
     private String targetFieldId;
 

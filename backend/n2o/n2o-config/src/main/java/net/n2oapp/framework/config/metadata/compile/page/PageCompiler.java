@@ -6,6 +6,9 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.Models;
@@ -17,7 +20,9 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.ParentDatasourceIdsScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.List;
@@ -178,15 +183,20 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         return pageProperty;
     }
 
-    protected void initContextDatasources(DataSourcesScope dataSourcesScope, PageScope pageScope,
-                                          PageContext context, CompileProcessor p) {
+    protected void initContextDatasources(DataSourcesScope dataSourcesScope, ApplicationDatasourceIdsScope appDatasourceIdsScope,
+                                          ParentDatasourceIdsScope parentDatasourceIdsScope,
+                                          PageScope pageScope, PageContext context, CompileProcessor p) {
         if (context.getDatasources() != null) {
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
-                if (dataSourcesScope.containsKey(dsId))
+                if (dataSourcesScope.containsKey(dsId) && ctxDs instanceof N2oStandardDatasource)
                     dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
                 else {
-                    ctxDs.setId(dsId);//todo нужно клонировать ctxDs
+                    ctxDs.setId(dsId);
+                    if (ctxDs instanceof N2oApplicationDatasource)
+                        appDatasourceIdsScope.add(dsId);
+                    else if (ctxDs instanceof N2oParentDatasource && context.getParentDatasourceIdsMap().containsKey(dsId))
+                        parentDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(dsId));
                     dataSourcesScope.put(dsId, ctxDs);
                 }
             }
