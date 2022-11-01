@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.io.control.v2;
 
 import net.n2oapp.framework.api.metadata.control.N2oStatus;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 

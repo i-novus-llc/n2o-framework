@@ -1,10 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.cell.v2.TextCellElementIOv2;
+import net.n2oapp.framework.config.io.cell.v3.TextCellElementIOv3;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
@@ -30,7 +31,7 @@ public class TextCellCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
-        builder.ios(new TextCellElementIOv2());
+        builder.ios(new TextCellElementIOv3());
         builder.compilers(new TextCellCompiler());
     }
 
@@ -46,6 +47,8 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSubTextFieldKey(), is("subtext"));
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
         assertThat(cell.getTooltipFieldId(), is("tooltipId"));
+        assertThat(cell.getIcon(), is("icon"));
+        assertThat(cell.getIconPosition(), is(Position.left));
 
         cell = (TextCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("TextCell"));
@@ -54,6 +57,6 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSubTextFieldKey(), is("subtext2"));
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
         assertThat(cell.getCssClass(), is("`test2 == 1 ? 'a' : test2 == 2 ? 'b' : test2 == 3 ? 'c' : null`"));
+        assertThat(cell.getIconPosition(), is(Position.right));
     }
-
 }
