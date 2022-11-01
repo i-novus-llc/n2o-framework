@@ -34,6 +34,14 @@ public interface CompileProcessor {
     Map<String, Object> mapAttributes(ExtensionAttributesAware source);
 
     /**
+     * Собрать дополнительные атрибуты и превратить текст с ссылками в значениях в JS код
+     *
+     * @param source исходный объект с атрибутами
+     * @return собранные атрибуты
+     */
+    Map<String, Object> mapAndResolveAttributes(ExtensionAttributesAware source);
+
+    /**
      * Получить метаданную, оказывающую влияние на сборку
      *
      * @param scopeClass Класс метаданной
