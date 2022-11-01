@@ -25,6 +25,7 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
@@ -198,7 +199,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             List<Dependency> enableConditions = new ArrayList<>();
             for (N2oDependency dep : source.getDependencies()) {
                 Dependency condition = new Dependency();
-                String unwrapped = StringUtils.unwrapJs(dep.getValue());
+                String unwrapped = ScriptProcessor.resolveFunction(StringUtils.unwrapJs(dep.getValue()));
                 condition.setCondition(unwrapped);
                 ModelLink link = new ModelLink(
                         p.cast(dep.getModel(), ReduxModel.resolve),

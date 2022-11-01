@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -15,7 +14,6 @@ import org.junit.Test;
 import static net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode.query;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
 
 public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
 
@@ -33,7 +31,6 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
 
     @Test
     public void testWidgetV5adapterTransformer() {
-        N2oCompileProcessor p = mock(N2oCompileProcessor.class);
         N2oTable table = read("net/n2oapp/framework/config/metadata/transformer/testWidgetTransformer.widget.xml")
                 .merge().transform().get("testWidgetTransformer", N2oTable.class);
         assertThat(table.getDatasource().getQueryId(), is("test"));
@@ -47,10 +44,9 @@ public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(table.getDatasource().getSize(), is(10));
         assertThat(table.getDatasource().getDependencies().length, is(1));
         assertThat(((N2oStandardDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getModel(), is(ReduxModel.resolve));
-        assertThat(((N2oStandardDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getOn(), is("f1"));
+        assertThat(table.getDatasource().getDependencies()[0].getOn(), is("f1"));
         assertThat(table.getDependencies().length, is(1));
         assertThat(table.getDependencies()[0].getDatasource(), is("f1"));
-        assertThat(table.getDependencies()[0].getValue(), is("test==1"));
     }
 
     @Test

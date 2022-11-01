@@ -50,12 +50,11 @@ public class SubmitGenerator implements ButtonGenerator {
                 N2oCopyAction copyAction = new N2oCopyAction();
                 copyAction.setSourceModel(pageContext.getCopyModel());
                 copyAction.setSourceDatasourceId(pageContext.getCopyDatasourceId());
-                copyAction.setSourcePage(p.cast(pageContext.getCopyPage(), PageRef.THIS));
                 copyAction.setSourceFieldId(pageContext.getCopyFieldId());
                 copyAction.setTargetModel(pageContext.getTargetModel());
                 copyAction.setTargetDatasourceId(pageContext.getTargetDatasourceId());
-                copyAction.setTargetPage(p.cast(pageContext.getTargetPage(), PageRef.PARENT));
                 copyAction.setTargetFieldId(pageContext.getTargetFieldId());
+                copyAction.setTargetPage(PageRef.PARENT);
                 copyAction.setMode(pageContext.getCopyMode());
                 action = copyAction;
                 saveButtonModel = ((PageContext) context).getCopyModel();

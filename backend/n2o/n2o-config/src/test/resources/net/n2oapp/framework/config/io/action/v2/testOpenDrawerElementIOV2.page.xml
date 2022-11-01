@@ -9,9 +9,9 @@
                          closable="false" backdrop="false" width="10pt"
                          height="20pt" placement="left"
                          level="all" close-on-backdrop="true"
-                         copy-model="edit" copy-datasource="table" copy-field-id="test" copy-ref-page="parent"
+                         copy-model="edit" copy-datasource="table" copy-field-id="test"
                          submit-action-type="copy" copy-mode="replace" close-on-escape="false"
-                         target-model="resolve" target-datasource="table" target-field-id="test" target-ref-page="this"
+                         target-model="resolve" target-datasource="table" target-field-id="test"
                          submit-message-on-success="true" submit-message-on-fail="false">
                 <breadcrumbs>
                     <crumb label="Первая страница" path="/"/>

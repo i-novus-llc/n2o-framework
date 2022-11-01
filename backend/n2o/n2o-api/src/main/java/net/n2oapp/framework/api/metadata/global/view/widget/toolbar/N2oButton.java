@@ -23,10 +23,7 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
         ModelAware, ActionsAware {
     private String actionId;
     private Boolean rounded;
-    private String enabled;
     private Boolean validate;
-    private String datasourceId;
-    private ReduxModel model;
     private String[] validateDatasourceIds;
     private N2oAction[] actions;
 
@@ -42,20 +39,6 @@ public class N2oButton extends N2oAbstractButton implements GroupItem, Datasourc
 
     private Dependency[] dependencies;
 
-    @Deprecated
-    private String enablingCondition;
-    @Deprecated
-    private String visibilityCondition;
-
-    @Deprecated
-    public String getWidgetId() {
-        return datasourceId;
-    }
-
-    @Deprecated
-    public void setWidgetId(String widgetId) {
-        this.datasourceId = widgetId;
-    }
 
     @Deprecated
     public String getValidateString() {

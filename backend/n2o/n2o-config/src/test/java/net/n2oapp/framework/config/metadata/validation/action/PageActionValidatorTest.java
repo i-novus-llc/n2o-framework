@@ -15,9 +15,6 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-
 public class PageActionValidatorTest extends SourceValidationTestBase {
 
     @Override
@@ -116,19 +113,5 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
     @Test
     public void testPageActionValidationRefreshExistentWidget() {
         validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshExistentWidget.page.xml");
-    }
-
-    @Test
-    public void testPageActionValidationCopyDatasource() {
-        N2oMetadataValidationException exc = assertThrows(N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationCopyDatasource.page.xml"));
-        assertEquals("Атрибут 'copy-datasource' действия открытия страницы 'utBlank' ссылается на несуществующий источник данных 'ds2' родительской страницы", exc.getMessage());
-    }
-
-    @Test
-    public void testPageActionValidationTargetDatasource() {
-        N2oMetadataValidationException exc = assertThrows(N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationTargetDatasource.page.xml"));
-        assertEquals("Атрибут 'target-datasource' действия открытия страницы 'utBlank' ссылается на несуществующий источник данных 'ds2' родительской страницы", exc.getMessage());
     }
 }

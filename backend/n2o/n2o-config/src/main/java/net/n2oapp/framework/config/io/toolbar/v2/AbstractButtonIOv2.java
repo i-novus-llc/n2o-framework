@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.toolbar.v2;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -28,6 +29,10 @@ public abstract class AbstractButtonIOv2<T extends N2oAbstractButton> extends Co
         p.attribute(e, "color", mi::getColor, mi::setColor);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);
         p.attribute(e, "tooltip-position", mi::getTooltipPosition, mi::setTooltipPosition);
+        p.attributeEnum(e, "model", mi::getModel, mi::setModel, ReduxModel.class);
+        p.attribute(e, "datasource", mi::getDatasourceId, mi::setDatasourceId);
+        p.attribute(e, "visible", mi::getVisible, mi::setVisible);
+        p.attribute(e, "enabled", mi::getEnabled, mi::setEnabled);
         badge(e, mi, p);
     }
 
