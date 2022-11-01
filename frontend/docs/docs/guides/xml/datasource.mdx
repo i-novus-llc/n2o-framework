@@ -164,7 +164,8 @@ STOMP-источник данных
 **Тело**
 
 [Сохранение данных](#inherited_datasource_submit) <br/>
-[Зависимости источника данных](#dependencies)
+[Зависимости источника данных](#dependencies)<br/>
+[Изменения целевой модели при копировании](#inherited_datasource_fetch_value)
 
 #### &lt;submit&gt; {#inherited_datasource_submit}
 
@@ -180,18 +181,61 @@ STOMP-источник данных
 |target-model        |filter,resolve,edit,datasource|Модель источника данных, в которую производится сохранение            |resolve                 |
 |target-field-id     |Строка                        |Идентификатор поля, в которое производится сохранение                 |Вся модель              |
 
+**Тело**
+
+[Изменения целевой модели при отправке](#inherited_datasource_submit_value)
+
 **Пример**
 
 ```xml
 <datasources>
   <inherited-datasource id="ds" source-datasource="app-ds">
-    <submit target-model="false" target-field-id="name"/>
-    <dependencies>
-      <fetch on="ds2"/>
-      ...
-    </dependencies>
+    <submit target-model="false" target-field-id="name">
+      <submit-value>
+            ...
+      </submit-value>
+    </submit>
   </inherited-datasource>
 </datasources>
+```
+
+#### &lt;submit-value&gt; {#inherited_datasource_submit_value}
+
+JS выражение, позволяющее производить изменения целевой модели при ее отправке
+
+**Пример**
+
+```xml
+<submit-value>
+    var result = target
+    result.docGroups = source
+    result.docs = result.docs.map(obj =>
+        obj.groups.filter(it =>
+            source.find(g =>
+                g.id == it.id
+            ) != null
+        )
+    )
+    return result
+</submit-value>
+```
+
+#### &lt;fetch-value&gt; {#inherited_datasource_fetch_value}
+
+JS выражение, позволяющее производить изменения целевой модели при копировании в inherited-datasource
+
+**Пример**
+
+```xml
+<fetch-value>
+    return source.docGroups.map( obj => obj.docsCount =
+        source.docs.filter(it =>
+            it.groups.find(g =>
+                g.id == obj.id
+            ) != null
+        ).length
+    )
+</fetch-value>
 ```
 
 ### &lt;parent-datasource&gt; {#parent-datasource}

@@ -6,7 +6,16 @@
             <submit auto="false"/>
         </inherited-datasource>
         <inherited-datasource id="inh3" source-datasource="ds2" source-model="datasource" source-field-id="name" size="13">
-            <submit target-datasource="ds1" model="filter" target-model="filter" target-field-id="name2"/>
+            <fetch-value>
+                var result = source
+                return result
+            </fetch-value>
+            <submit target-datasource="ds1" model="filter" target-model="filter" target-field-id="name2">
+                <submit-value>
+                    var result = target
+                    return result
+                </submit-value>
+            </submit>
             <dependencies>
                 <fetch on="ds"/>
                 <copy on="ds" target-field-id="target" target-model="filter" source-model="filter"
