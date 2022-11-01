@@ -374,9 +374,12 @@ class InputSelect extends React.Component {
      */
     handleElementClear = () => {
         const { disabled } = this.props
+        const { isExpanded } = this.state
 
         if (!disabled) {
-            this.clearSearchField()
+            if (isExpanded) {
+                this.clearSearchField()
+            }
             this.clearSelected()
             this.setInputFocus(false)
         }

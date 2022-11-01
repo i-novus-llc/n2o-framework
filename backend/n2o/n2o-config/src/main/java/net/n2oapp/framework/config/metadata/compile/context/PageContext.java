@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
@@ -51,10 +50,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String copyDatasourceId;
     /**
-     * Ссылка на страницу из источника данных которой будут копироваться данные
-     */
-    private PageRef copyPage;
-    /**
      * Идентификатор копируемого поля источника
      */
     private String copyFieldId;
@@ -66,10 +61,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Идентификатор источника данных, в который будут скопированы данные
      */
     private String targetDatasourceId;
-    /**
-     *
-     */
-    private PageRef targetPage;
     /**
      * Идентификатор поля целевого виджета, в которое будут скопированы данные
      */
@@ -92,15 +83,11 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     @Deprecated
     private String parentClientWidgetId;
     /**
-     * Родительский глобальный источник данных, в котором находилось действие
-     */
-    private String parentClientDatasourceId;
-    /**
      * Родительский локальный источник данных, в котором находилось действие
      */
     private String parentLocalDatasourceId;
     /**
-     * Родительская страница (клиентский), в которой находилось действие
+     * Клиентский идентификатор родительской страницы, в которой находилось действие
      */
     private String parentClientPageId;
     /**
@@ -148,27 +135,21 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private List<N2oAbstractDatasource> datasources;
     /**
-     * Соответствия идентификаторов с клиентскими идентификаторами источников данных родительской страницы
+     * Соответствия идентификаторов источников данных родительской страницы с клиентскими идентификаторами
      */
     private Map<String, String> parentDatasourceIdsMap;
-
-    private Map<String, N2oAbstractDatasource> parentDatasources;
-
     /**
      * Клиентский идентификатор страницы
      */
     private String clientPageId;
-
     /**
      * Соответствия идентификаторов виджета с источником данных в родительском виджете
      */
     private Map<String, String> parentWidgetIdDatasourceMap;
-
     /**
      * Список идентификаторов таб регионов
      */
     private Set<String> parentTabIds;
-
     /**
      * Список всех родительских маршрутов
      */
