@@ -402,14 +402,6 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:simpleType name="textType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="icon"/>
-            <xs:enumeration value="text"/>
-            <xs:enumeration value="iconAndText"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:complexType name="badgeDefinition">
         <xs:complexContent>
             <xs:extension base="cellDefinition">
