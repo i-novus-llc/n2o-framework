@@ -3,7 +3,9 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -16,8 +18,8 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
 /**
  * Тестирование компиляции кнопки с выпадающим меню
@@ -41,10 +43,12 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testSubMenu.page.xml")
                 .get(new PageContext("testSubMenu"));
 
-        Submenu subMenu = (Submenu) ((Table)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("mi0");
+        Toolbar toolbar = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
+        Submenu subMenu = (Submenu) toolbar.getButton("mi0");
         assertThat(subMenu.getSrc(), is("DropdownButton"));
         assertThat(subMenu.getShowToggleIcon(), is(false));
-        assertThat(subMenu.getVisible().toString(), is("false"));
+        assertThat(subMenu.getVisible(), is(false));
+        assertThat(subMenu.getEnabled(), is(false));
 
         List<PerformButton> items = subMenu.getSubMenu();
         assertThat(items.size(), is(2));
@@ -59,8 +63,26 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(updateBtn.getConditions().get(ValidationType.enabled).size(), is(1));
 
 
-        subMenu = (Submenu) ((Table)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("mi3");
+        subMenu = (Submenu) toolbar.getButton("mi3");
         assertThat(subMenu.getShowToggleIcon(), is(true));
         assertThat(subMenu.getSubMenu(), nullValue());
+        assertThat(subMenu.getConditions().get(ValidationType.enabled).size(), is(1));
+        assertThat(subMenu.getConditions().get(ValidationType.visible).size(), is(1));
+        Condition condition = subMenu.getConditions().get(ValidationType.enabled).get(0);
+        assertThat(condition.getExpression(), is("name != null"));
+        assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
+        condition = subMenu.getConditions().get(ValidationType.visible).get(0);
+        assertThat(condition.getExpression(), is("name != null"));
+        assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
+
+        subMenu = (Submenu) toolbar.getButton("mi4");
+        assertThat(subMenu.getConditions().get(ValidationType.enabled).size(), is(1));
+        assertThat(subMenu.getConditions().get(ValidationType.visible).size(), is(1));
+        condition = subMenu.getConditions().get(ValidationType.enabled).get(0);
+        assertThat(condition.getExpression(), is("name != null"));
+        assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
+        condition = subMenu.getConditions().get(ValidationType.visible).get(0);
+        assertThat(condition.getExpression(), is("name != null"));
+        assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
     }
 }

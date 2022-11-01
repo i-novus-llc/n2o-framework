@@ -8,16 +8,18 @@
             <xs:element name="datasource" type="standardDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="stomp-datasource" type="stompDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="app-datasource" type="datasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="app-datasource" type="appDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="parent-datasource" type="parentDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:element name="datasource" type="standardDatasourceDefinition"/>
     <xs:element name="stomp-datasource" type="stompDatasourceDefinition"/>
     <xs:element name="browser-storage" type="browserStorageDatasourceDefinition"/>
-    <xs:element name="app-datasource" type="datasourceDefinition"/>
+    <xs:element name="app-datasource" type="appDatasourceDefinition"/>
     <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition"/>
+    <xs:element name="parent-datasource" type="parentDatasourceDefinition"/>
 
     <xs:complexType name="datasourceDefinition">
         <xs:attribute name="id" type="xs:string" use="required">
@@ -25,6 +27,21 @@
                 <xs:documentation>Идентификатор источника данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="parentDatasourceDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Источник данных, ссылающийся на источник из родительской страницы</xs:documentation>
+            </xs:annotation>
+            <xs:extension base="datasourceDefinition">
+                <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор источника данных родительской страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="baseDatasourceDefinition">
@@ -82,7 +99,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="applicationDatasourceDefinition">
+    <xs:complexType name="appDatasourceDefinition">
         <xs:complexContent>
             <xs:annotation>
                 <xs:documentation>Источник данных, ссылающийся на источник из application.xml</xs:documentation>

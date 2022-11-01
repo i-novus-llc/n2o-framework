@@ -26,28 +26,28 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
     public InheritedDatasource compile(N2oInheritedDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         InheritedDatasource compiled = new InheritedDatasource();
         compileDatasource(source, compiled, context, p);
-        compiled.setProvider(initProvider(source, context, p));
-        compiled.setSubmit(initSubmit(source, context, p));
+        compiled.setProvider(initProvider(source, p));
+        compiled.setSubmit(initSubmit(source, p));
         return compiled;
     }
 
-    private InheritedDatasource.Submit initSubmit(N2oInheritedDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
+    private InheritedDatasource.Submit initSubmit(N2oInheritedDatasource source, CompileProcessor p) {
         if (source.getSubmit() == null) return null;
 
         InheritedDatasource.Submit submit = new InheritedDatasource.Submit();
         N2oInheritedDatasource.Submit sourceSubmit = source.getSubmit();
         submit.setAuto(p.cast(sourceSubmit.getAuto(), true));
         submit.setModel(p.cast(sourceSubmit.getModel(), ReduxModel.resolve));
-        submit.setTargetDs(getClientDatasourceId(p.cast(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), context, p));
+        submit.setTargetDs(getClientDatasourceId(p.cast(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
         submit.setTargetModel(p.cast(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));
         submit.setTargetField(p.cast(sourceSubmit.getTargetFieldId(), source.getSourceFieldId()));
         submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(source.getSubmit().getSubmitValue()));
         return submit;
     }
 
-    private InheritedDatasource.Provider initProvider(N2oInheritedDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
+    private InheritedDatasource.Provider initProvider(N2oInheritedDatasource source, CompileProcessor p) {
         InheritedDatasource.Provider provider = new InheritedDatasource.Provider();
-        provider.setSourceDs(getClientDatasourceId(source.getSourceDatasource(), context, p));
+        provider.setSourceDs(getClientDatasourceId(source.getSourceDatasource(), p));
         provider.setSourceModel(p.cast(source.getSourceModel(), ReduxModel.resolve));
         provider.setSourceField(source.getSourceFieldId());
         provider.setFetchValueExpression(ScriptProcessor.resolveFunction(source.getFetchValue()));
