@@ -121,7 +121,7 @@ public class BadgeAT extends AutoTestBase {
         BadgeCell cell = rows.row(0).cell(col, BadgeCell.class);
         cell.badgeShouldBeExists();
         cell.badgeShouldHaveShape(BadgeShape.ROUNDED);
-        cell.badgeShouldHaveText("Проект 1");
+        cell.badgeShouldHaveText("Проект 3");
         cell.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
         cell.badgeImageShouldHavePosition(BadgePosition.RIGHT);
         cell.badgeImageShouldHaveShape(BadgeShape.ROUNDED);

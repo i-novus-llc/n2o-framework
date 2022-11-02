@@ -6,7 +6,7 @@
         <columns>
             <column text-field-id="id" label="№"/>
             <column text-field-id="fio" label="Фамилия И.О." sorting-direction="desc"/>
-            <column text-field-id="birthdate" label="Дата рождения" sorting-direction="desc"/>
+            <column text-field-id="birthdate" label="Дата рождения"/>
             <column text-field-id="project" label="Проект">
                 <badge text="test"
                        image-field-id="image"
