@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.cell.v3;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,8 @@ public class TextCellElementIOv3 extends AbstractCellElementIOv3<N2oTextCell> {
         p.attribute(e, "format", c::getFormat, c::setFormat);
         p.attribute(e, "subtext-field-id", c::getSubTextFieldKey, c::setSubTextFieldKey);
         p.attribute(e, "subtext-format", c::getSubTextFormat, c::setSubTextFormat);
+        p.attribute(e, "icon", c::getIcon, c::setIcon);
+        p.attributeEnum(e, "icon-position", c::getIconPosition, c::setIconPosition, Position.class);
         p.child(e, null, "switch", c::getClassSwitch, c::setClassSwitch, new SwitchIOv3());
     }
 
