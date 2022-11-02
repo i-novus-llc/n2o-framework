@@ -1,9 +1,10 @@
 package net.n2oapp.framework.api.metadata.global.dao.invocation.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.global.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
  * Аргумент метода
@@ -32,8 +33,14 @@ public class Argument implements Source {
         }
 
         @Override
+        @JsonValue
         public String getId() {
-            return xmlName;
+            return this.xmlName;
+        }
+
+        @Override
+        public void setId(String id) {
+            throw new UnsupportedOperationException();
         }
     }
 }

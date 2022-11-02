@@ -408,11 +408,6 @@
                 <xs:documentation>Иконка заголовка столбца.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="type" type="textType">
-            <xs:annotation>
-                <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="sorting-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Поле, по которому сортируется столбец.</xs:documentation>
@@ -1371,18 +1366,6 @@
             <xs:enumeration value="close"/>
         </xs:restriction>
     </xs:simpleType>
-
-    <xs:simpleType name="textType">
-        <xs:annotation>
-            <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="icon"/>
-            <xs:enumeration value="text"/>
-            <xs:enumeration value="iconAndText"/>
-        </xs:restriction>
-    </xs:simpleType>
-
 
     <xs:simpleType name="placeType">
         <xs:annotation>

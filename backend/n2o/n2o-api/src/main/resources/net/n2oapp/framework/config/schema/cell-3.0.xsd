@@ -120,6 +120,16 @@
                         <xs:documentation>Формат второго уровня текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-position" type="positionType" use="optional" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция иконки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -366,14 +376,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
-    <xs:simpleType name="textType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="icon"/>
-            <xs:enumeration value="text"/>
-            <xs:enumeration value="iconAndText"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:complexType name="badgeDefinition">
         <xs:complexContent>

@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,5 +48,6 @@ public class BaseFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSet.getLabelWidth(), is("30"));
         assertThat(fieldSet.getVisible(), is(true));
         assertThat(fieldSet.getEnabled(), is(false));
+        assertThat(fieldSet.getJsonProperties().get("codeVerified"), CoreMatchers.is("`emailSender.status=='send'`"));
     }
 }

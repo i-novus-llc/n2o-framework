@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oStatus;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.control.Status;
 import org.springframework.stereotype.Component;
 

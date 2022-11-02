@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;

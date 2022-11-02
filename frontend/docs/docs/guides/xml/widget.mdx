@@ -140,7 +140,7 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |confirm-title       |Строка                                                                     |Заголовок окна предупреждения                                                              |                                                 |
 |confirm-ok-label    |Строка                                                                     |Текст кнопки подтверждения                                                                 |                                                 |
 |confirm-cancel-label|Строка                                                                     |Текст кнопки отмены                                                                        |                                                 |
-|type                |text, icon, textAndIcon                                                    |Кнопка с иконкой или без                                                                   |Если задан `icon`, то `iconAndText`, иначе `text`|
+|type                |text icon textAndIcon                                                      |Кнопка с иконкой или без                                                                   |Если задан `icon`, то `iconAndText`, иначе `text`|
 |rounded             |true false                                                                 |Круглая форма кнопки                                                                       |false                                            |
 |badge               |Строка                                                                     |Значок кнопки                                                                              |                                                 |
 |badge-color         |Строка                                                                     |Цвет значка                                                                                |                                                 |
@@ -227,7 +227,7 @@ Java Script выражение
 |--------------------|---------------------------------------------------------------------------|-------------------------|------------------------------------------------|
 |label               |Строка                                                                     |Заголовок кнопки         |Вычисляется из действия кнопки                  |
 |icon                |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка                   |                                                |
-|type                |text, icon, textAndIcon                                                    |Кнопка с иконкой или без |Еслизадан `icon`, то `iconAndText`, иначе `text`|
+|type                |text icon textAndIcon                                                      |Кнопка с иконкой или без |Если задан `icon`, то `iconAndText`, иначе `text`|
 |class               |[CSS класс](https://getbootstrap.com/docs/4.0/components/buttons/#examples)|Стиль кнопки             |                                                |
 |badge               |Строка                                                                     |Значок кнопки            |                                                |
 |badge-color         |Строка                                                                     |Цвет значка              |                                                |
@@ -397,7 +397,6 @@ Java Script выражение
 |resizable        |true false                               |Можно ли изменить ширину столбца                  |false                                                       |
 |label            |Строка                                   |Наименование заголовка столбца                    |Из наименования поля выборки `text-field-id`                |
 |icon             |[CSS класс](http://fontawesome.io/icons/)|Иконка заголовка столбца                          |                                                            |
-|type             |text icon textAndIcon                    |Заголовок с иконкой или без                       |Если задан `icon`, то `iconAndText`, иначе `text`           |
 |sorting-field-id |Ссылка на поле выборки                   |Поле, по которому сортируется столбец             |Эквивалентно `text-field-id`                                |
 |sorting-direction|asc, desc                                |Направление сортировки по умолчанию               |                                                            |
 |fixed            |left right                               |Прилипание столбца к краю                         |                                                            |
@@ -481,7 +480,6 @@ Java Script выражение
 |resizable        |true false                               |Можно ли изменить ширину столбца                  |false                                            |
 |label            |Строка                                   |Наименование заголовка столбца                    |Из наименования поля выборки `text-field-id`     |
 |icon             |[CSS класс](http://fontawesome.io/icons/)|Иконка заголовка столбца                          |                                                 |
-|type             |text icon textAndIcon                    |Заголовок с иконкой или без                       |Если задан `icon`, то `iconAndText`, иначе `text`|
 |sorting-field-id |Ссылка на поле выборки                   |Поле, по которому сортируется столбец             |Эквивалентно `text-field-id`                     |
 |sorting-direction|asc, desc                                |Направление сортировки по умолчанию               |                                                 |
 |fixed            |left right                               |Прилипание столбца к краю                         |                                                 |

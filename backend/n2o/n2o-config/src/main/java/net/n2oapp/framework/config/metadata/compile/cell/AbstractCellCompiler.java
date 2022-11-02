@@ -43,7 +43,7 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
         compiled.setCssClass(p.resolveJS(source.getCssClass()));
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-        compiled.setProperties(p.mapAttributes(source));
+        compiled.setProperties(p.mapAndResolveAttributes(source));
         return compiled;
     }
 

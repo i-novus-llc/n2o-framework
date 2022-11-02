@@ -65,7 +65,6 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "visible", c::getVisible, c::setVisible);
         p.attribute(e, "label", c::getLabelName, c::setLabelName);
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
-        p.attributeEnum(e, "type", c::getLabelType, c::setLabelType, LabelType.class);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
         p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, DirectionType.class);
         p.attribute(e, "width", c::getWidth, c::setWidth);
