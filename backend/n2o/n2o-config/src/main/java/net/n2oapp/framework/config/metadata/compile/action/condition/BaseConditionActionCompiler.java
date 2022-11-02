@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action.condition;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
+import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseBranchAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPayload;
@@ -24,7 +25,7 @@ public abstract class BaseConditionActionCompiler<S extends N2oConditionBranch>
         IndexScope indexScope = p.getScope(IndexScope.class);
         if (indexScope == null)
             indexScope = new IndexScope();
-        source.setId("condition_" + indexScope.get());
+        setBranchId(source, indexScope);
         ConditionAction conditionAction = new ConditionAction();
         conditionAction.setType(p.resolve(property("n2o.api.action.condition.type"), String.class));
 
@@ -52,13 +53,27 @@ public abstract class BaseConditionActionCompiler<S extends N2oConditionBranch>
         N2oConditionBranch branch = failBranchesScope.pop();
         if (branch == null)
             return null;
+        if (branch instanceof N2oElseBranchAction) {
+            setBranchId(branch, indexScope);
+            return compileActionAware(branch, context, p, indexScope);
+        }
+
         return p.compile(branch, context,
                 new ConditionBranchesScope(failBranchesScope, compiled.getDatasource(), compiled.getModel()),
                 indexScope);
     }
 
     private Action compileSuccess(N2oConditionBranch source, CompileContext<?, ?> context, CompileProcessor p, IndexScope indexScope) {
+        return compileActionAware(source, context, p, indexScope);
+    }
+
+    private Action compileActionAware(N2oConditionBranch source, CompileContext<?, ?> context, CompileProcessor p,
+                                      IndexScope indexScope) {
         ActionCompileStaticProcessor.initActions(source, p);
         return ActionCompileStaticProcessor.compileAction(source, context, p, null, indexScope);
+    }
+
+    private void setBranchId(N2oConditionBranch branch, IndexScope indexScope) {
+        branch.setId("condition_" + indexScope.get());
     }
 }
