@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
+import isEqual from 'lodash/isEqual'
 import { connect } from 'react-redux'
 
 import { alertsByKeySelector } from '../../ducks/alerts/store'
@@ -41,6 +42,8 @@ function withListContainer(WrappedComponent) {
         valueFieldId,
         ...rest
     }) => {
+        const [lastSearchParams, setLastSearchParams] = useState({})
+
         /**
          * Совершает вызов апи с параметрами
          * @param optionalParams {object} - дополнительные параметра запроса
@@ -56,15 +59,18 @@ function withListContainer(WrappedComponent) {
                 ...optionalParams,
             }
 
-            _fetchData(params, concat)
+            if (!isEqual(params, lastSearchParams)) {
+                _fetchData(params, concat)
+                setLastSearchParams(params)
+            }
         }
 
         /**
          * Обрабатывает открытие попапа
          * @private
          */
-        const handleOpen = () => {
-            callApiWithParams({ page: 1 })
+        const handleOpen = (valueObj) => {
+            callApiWithParams({ page: 1, ...valueObj })
 
             if (onOpen) {
                 onOpen()

@@ -227,6 +227,8 @@ class InputSelect extends React.Component {
             onChange(this.getValue())
             onBlur(this.getValue())
         })
+
+        this.setActiveValueId(null)
     }
 
     /**
@@ -244,7 +246,9 @@ class InputSelect extends React.Component {
      * @private
      */
     setIsExpanded = (isExpanded) => {
-        const { disabled, onToggle, onOpen } = this.props
+        const { disabled, onToggle, onOpen, labelFieldId, multiSelect } = this.props
+
+        const { value } = this.state
 
         if (!isExpanded || disabled) {
             return null
@@ -253,8 +257,13 @@ class InputSelect extends React.Component {
         this.setState({
             isExpanded,
             inputFocus: isExpanded,
-        },
-        onOpen)
+        }, () => {
+            if (multiSelect || value.length < 1) {
+                onOpen()
+            } else {
+                onOpen({ [labelFieldId]: value[0][labelFieldId] })
+            }
+        })
 
         onToggle(isExpanded)
 
