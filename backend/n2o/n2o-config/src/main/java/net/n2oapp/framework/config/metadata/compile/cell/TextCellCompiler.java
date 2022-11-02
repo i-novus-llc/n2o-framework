@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,9 @@ public class TextCellCompiler extends AbstractCellCompiler<TextCell, N2oTextCell
         cell.setFormat(source.getFormat());
         cell.setSubTextFieldKey(source.getSubTextFieldKey());
         cell.setSubTextFormat(source.getSubTextFormat());
+        cell.setIcon(source.getIcon());
+        cell.setIconPosition(p.cast(source.getIconPosition(),
+                p.resolve(property("n2o.api.cell.text.icon_position"), Position.class)));
         return cell;
     }
 }

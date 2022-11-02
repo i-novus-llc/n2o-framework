@@ -1293,7 +1293,7 @@
                         <xs:documentation>Иконка с текстом или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="position" type="positionType">
+                <xs:attribute name="position" type="positionType" default="left">
                     <xs:annotation>
                         <xs:documentation>Расположение иконки относительно текста.</xs:documentation>
                     </xs:annotation>

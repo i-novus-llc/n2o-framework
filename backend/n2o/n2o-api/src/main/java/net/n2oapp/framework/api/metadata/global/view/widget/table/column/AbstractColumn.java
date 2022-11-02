@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.Map;
@@ -29,7 +28,6 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
     private String width;
     private String labelName;
     private String labelIcon;
-    private LabelType labelType;
     private String visible;
     private Boolean resizable;
     private String sortingFieldId;
