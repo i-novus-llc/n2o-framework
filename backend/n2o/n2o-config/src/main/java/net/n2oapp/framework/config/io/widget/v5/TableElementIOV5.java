@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.io.widget.v5;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
@@ -61,7 +60,6 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
         p.attribute(e, "visible", c::getVisible, c::setVisible);
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
-        p.attributeEnum(e, "type", c::getLabelType, c::setLabelType, LabelType.class);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
         p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, DirectionType.class);
         p.attribute(e, "width", c::getWidth, c::setWidth);

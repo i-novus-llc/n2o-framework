@@ -28,7 +28,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         compiled.setDescription(source.getDescription());
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        compiled.setProperties(p.mapAttributes(source));
+        compiled.setProperties(p.mapAndResolveAttributes(source));
         compiled.setHelp(p.resolveJS(source.getHelp()));
 
         if (source.getFieldLabelLocation() != null) {

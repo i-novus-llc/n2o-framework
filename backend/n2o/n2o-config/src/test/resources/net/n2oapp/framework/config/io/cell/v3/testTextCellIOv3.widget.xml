@@ -3,7 +3,7 @@
     <columns>
         <column text-field-id="test">
             <text src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
-                  format="0,0.00" subtext-field-id="test" subtext-format="0,0.00">
+                  format="0,0.00" subtext-field-id="test" subtext-format="0,0.00" icon="icon" icon-position="left">
                 <switch value-field-id="field">
                     <case value="1">a</case>
                     <case value="2">b</case>
