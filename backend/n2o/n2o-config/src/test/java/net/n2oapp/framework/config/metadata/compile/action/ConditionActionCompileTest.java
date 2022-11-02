@@ -52,7 +52,7 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
         ConditionAction condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(0);
         assertThat(condition.getType(), is("n2o/api/action/condition"));
-        assertThat(condition.getPayload().getDatasource(), is("ds1"));
+        assertThat(condition.getPayload().getDatasource(), is("testConditionAction_ds1"));
         assertThat(condition.getPayload().getModel(), is(ReduxModel.edit));
         assertThat(condition.getPayload().getCondition(), is("code == 'A' && type == 1"));
 
@@ -63,21 +63,18 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
 
         //вложенный if success-a if-а верхнего уровня
         ConditionAction successCondition = (ConditionAction) success.getPayload().getActions().get(1);
-        assertThat(successCondition.getPayload().getDatasource(), is("ds1"));
+        assertThat(successCondition.getPayload().getDatasource(), is("testConditionAction_ds1"));
         assertThat(successCondition.getPayload().getModel(), is(ReduxModel.edit));
         assertThat(successCondition.getPayload().getCondition(), is("name == 'test1'"));
         assertThat(successCondition.getPayload().getSuccess(), instanceOf(MultiAction.class));
 
         //вложенный else success-a if-а верхнего уровня
-        ConditionAction successConditionFail = (ConditionAction) successCondition.getPayload().getFail();
-        assertThat(successConditionFail.getPayload().getCondition(), nullValue());
-        assertThat(successConditionFail.getPayload().getSuccess(), instanceOf(LinkAction.class));
-        assertThat(successConditionFail.getPayload().getFail(), nullValue());
+        assertThat(successCondition.getPayload().getFail(), instanceOf(LinkAction.class));
 
 
         //else-if верхнего уровня, он же - fail if-а верхнего уровня
         ConditionAction fail = (ConditionAction) condition.getPayload().getFail();
-        assertThat(fail.getPayload().getDatasource(), is("ds1"));
+        assertThat(fail.getPayload().getDatasource(), is("testConditionAction_ds1"));
         assertThat(fail.getPayload().getModel(), is(ReduxModel.edit));
         assertThat(fail.getPayload().getCondition(), is("code == 'A' && type == 2"));
         assertThat(fail.getPayload().getSuccess(), instanceOf(MultiAction.class));
@@ -89,30 +86,24 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
 
         //вложенный if success-a else-if-a верхнего уровня
         ConditionAction failSuccessCondition = (ConditionAction) failSuccess.getPayload().getActions().get(0);
-        assertThat(failSuccessCondition.getPayload().getDatasource(), is("ds2"));
+        assertThat(failSuccessCondition.getPayload().getDatasource(), is("testConditionAction_ds2"));
         assertThat(failSuccessCondition.getPayload().getModel(), is(ReduxModel.filter));
         assertThat(failSuccessCondition.getPayload().getCondition(), is("name == 'test2'"));
         assertThat(failSuccessCondition.getPayload().getSuccess(), instanceOf(Perform.class));
 
         //вложенный else success-a else-if-a верхнего уровня
-        ConditionAction failSuccessConditionFail = (ConditionAction) failSuccessCondition.getPayload().getFail();
-        assertThat(failSuccessConditionFail.getPayload().getCondition(), nullValue());
-        assertThat(failSuccessConditionFail.getPayload().getSuccess(), instanceOf(LinkAction.class));
-        assertThat(failSuccessConditionFail.getPayload().getFail(), nullValue());
+        assertThat(failSuccessCondition.getPayload().getFail(), instanceOf(LinkAction.class));
 
 
         //else верхнего уровня, он же - fail else-if-а верхнего уровня
-        ConditionAction failFail = (ConditionAction) fail.getPayload().getFail();
-        assertThat(failFail.getPayload().getCondition(), nullValue());
-        assertThat(failFail.getPayload().getSuccess(), instanceOf(AlertAction.class));
-        assertThat(failFail.getPayload().getFail(), nullValue());
+        assertThat(fail.getPayload().getFail(), instanceOf(AlertAction.class));
 
 
         //Следующий if в кнопке b1
         condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(1);
         assertThat(condition.getType(), is("n2o/api/action/condition"));
-        assertThat(condition.getPayload().getDatasource(), is("ds1"));
+        assertThat(condition.getPayload().getDatasource(), is("testConditionAction_ds1"));
         assertThat(condition.getPayload().getModel(), is(ReduxModel.edit));
         assertThat(condition.getPayload().getCondition(), is("code == 'B'"));
         assertThat(condition.getPayload().getSuccess(), instanceOf(AlertAction.class));
@@ -120,9 +111,9 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
 
         //Проверка использования датасорса страницы для if-else в тулбаре (при отсутствии своего ds и ds у кнопки, для if-else любой вложенности берется датасорс страницы)
         condition = (ConditionAction) page.getToolbar().getButton("b2").getAction();
-        assertThat(condition.getPayload().getDatasource(), is("dsForPage"));
+        assertThat(condition.getPayload().getDatasource(), is("testConditionAction_dsForPage"));
         condition = (ConditionAction) condition.getPayload().getSuccess();
-        assertThat(condition.getPayload().getDatasource(), is("dsForPage"));
+        assertThat(condition.getPayload().getDatasource(), is("testConditionAction_dsForPage"));
     }
 
     @Test
@@ -145,8 +136,7 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
                 .getPayload().getDataProvider().getUrl();
         assertThat(invokeUrl3, is("n2o/data/p/w/123/modal/condition_4"));
 
-        ConditionAction elseAction = ((ConditionAction) elseIfAction2.getPayload().getFail());
-        String invokeUrl4 = ((InvokeAction) elseAction.getPayload().getSuccess()).getPayload().getDataProvider().getUrl();
+        String invokeUrl4 = ((InvokeAction) elseIfAction2.getPayload().getFail()).getPayload().getDataProvider().getUrl();
         assertThat(invokeUrl4, is("n2o/data/p/w/123/modal/condition_5"));
     }
 

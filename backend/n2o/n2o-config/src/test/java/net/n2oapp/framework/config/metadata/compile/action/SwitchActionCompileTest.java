@@ -50,27 +50,27 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
         SwitchAction action = (SwitchAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("b1").getAction();
         assertThat(action.getType(), is("n2o/api/action/switch"));
-        assertThat(action.getPayload().getDatasource(), is("ds1"));
+        assertThat(action.getPayload().getDatasource(), is("testSwitchAction_ds1"));
         assertThat(action.getPayload().getModel(), is(ReduxModel.multi));
         assertThat(action.getPayload().getValueFieldId(), is("test1"));
         assertThat(action.getPayload().getCases().size(), is(2));
         assertThat(action.getPayload().getCases().get("A"), instanceOf(MultiAction.class));
         assertThat(action.getPayload().getCases().get("B"), instanceOf(SwitchAction.class));
-        assertThat(((SwitchAction) action.getPayload().getCases().get("B")).getPayload().getDatasource(), is("ds2"));
+        assertThat(((SwitchAction) action.getPayload().getCases().get("B")).getPayload().getDatasource(), is("testSwitchAction_ds2"));
         assertThat(((SwitchAction) action.getPayload().getCases().get("B")).getPayload().getModel(), is(ReduxModel.edit));
         assertThat(action.getPayload().getDefaultCase(), instanceOf(Perform.class));
 
         action = (SwitchAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("b2").getAction();
         assertThat(action.getType(), is("n2o/api/action/switch"));
-        assertThat(action.getPayload().getDatasource(), is("ds2"));
+        assertThat(action.getPayload().getDatasource(), is("testSwitchAction_ds2"));
         assertThat(action.getPayload().getModel(), is(ReduxModel.filter));
 
         //Проверка использования датасорса страницы для switch в тулбаре (при отсутствии своего ds и ds у кнопки, для switch любой вложенности берется датасорс страницы)
         action = (SwitchAction) page.getToolbar().getButton("b3").getAction();
-        assertThat(action.getPayload().getDatasource(), is("dsForPage"));
+        assertThat(action.getPayload().getDatasource(), is("testSwitchAction_dsForPage"));
         action = (SwitchAction) action.getPayload().getCases().get("A");
-        assertThat(action.getPayload().getDatasource(), is("dsForPage"));
+        assertThat(action.getPayload().getDatasource(), is("testSwitchAction_dsForPage"));
     }
 
     @Test

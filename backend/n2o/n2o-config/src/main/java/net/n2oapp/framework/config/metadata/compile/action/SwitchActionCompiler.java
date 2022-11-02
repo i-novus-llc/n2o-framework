@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция действия switch
@@ -79,7 +80,7 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     }
 
     private void initDatasource(SwitchActionPayload payload, String datasourceId, CompileProcessor p) {
-        payload.setDatasource(p.cast(datasourceId, getLocalDatasourceId(p)));
+        payload.setDatasource(getClientDatasourceId(p.cast(datasourceId, getLocalDatasourceId(p)), p));
         if (payload.getDatasource() == null) {
             throw new N2oException(String.format("Datasource is undefined for switch action with value-field-id=%s",
                     payload.getValueFieldId()));
