@@ -40,6 +40,7 @@ module.exports = {
                 'guides/xml/object',
                 'guides/xml/query',
                 'guides/xml/dataprovider',
+                'guides/xml/datasource',
                 'guides/xml/menu',
                 'guides/xml/button',
                 'guides/xml/access',

@@ -31,6 +31,10 @@
             }
         }
     }
+
+    .modal-body {
+        overflow-x: auto;
+    }
 }
 
 .simple-modal-dialog {

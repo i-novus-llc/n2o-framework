@@ -18,8 +18,6 @@ public class PageScope {
     private String resultWidgetId;
     @Deprecated
     private Set<String> widgetIds;
-    @Deprecated
-    private Map<String, String> widgetIdQueryIdMap;
     private Map<String, String> widgetIdSourceDatasourceMap = new StrictMap<>();
     //fixme избавиться со временем возможно, сейчас нужна потому что много где есть ссылки на widgetId , которые превратились в datasource
     @Deprecated

@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.cell.v3;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
