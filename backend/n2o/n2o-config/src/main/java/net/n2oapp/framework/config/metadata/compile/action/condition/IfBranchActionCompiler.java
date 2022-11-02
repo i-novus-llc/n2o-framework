@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPa
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+
 /**
  * Компиляция ветки if условного оператора if-else
  */
@@ -30,7 +32,7 @@ public class IfBranchActionCompiler extends BaseConditionActionCompiler<N2oIfBra
     }
 
     private void initDatasource(ConditionActionPayload payload, N2oIfBranchAction source, CompileProcessor p) {
-        payload.setDatasource(p.cast(source.getDatasourceId(), getLocalDatasourceId(p)));
+        payload.setDatasource(getClientDatasourceId(p.cast(source.getDatasourceId(), getLocalDatasourceId(p)), p));
         if (payload.getDatasource() == null) {
             throw new N2oException(String.format("Datasource is undefined for if-branch with test=\"%s\"",
                     source.getTest()));
