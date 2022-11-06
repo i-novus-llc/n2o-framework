@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -158,13 +157,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         PageScope pageScope = p.getScope(PageScope.class);
         String sourceDatasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(source.getId());
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-
-        N2oAbstractDatasource datasource = dataSourcesScope.get(sourceDatasourceId);
-        if (datasource == null)
-            throw new N2oException(String.format("No datasource specified for sorting in table column %s",
-                    sortings.keySet().stream().findAny().orElse("")));
-
-        datasource.setSorting(sortings);
+        dataSourcesScope.get(sourceDatasourceId).setSorting(sortings);
     }
 
     private void initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,

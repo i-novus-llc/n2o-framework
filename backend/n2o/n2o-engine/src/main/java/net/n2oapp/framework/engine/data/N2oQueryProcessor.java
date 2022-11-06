@@ -142,7 +142,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getCounts(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException(String.format("В %s.query.xml не найден <count> запрос необходимый для паджинации", query.getId()));
+            throw new N2oException(String.format("В %s.query.xml не найден <count> запрос необходимый для пагинации", query.getId()));
         return selection;
     }
 
@@ -375,11 +375,10 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         });
     }
 
-    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, Set<String> filterFields, String
-            queryId) {
-        if (selections == null) {
+    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, Set<String> filterFields, String queryId) {
+        if (selections == null)
             return null;
-        }
+
         if (filterFields == null) {
             N2oQuery.Selection result = findBaseSelection(selections);
             if (result == null) {
@@ -406,7 +405,8 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
             Set<String> filters = new HashSet<>();
             Collections.addAll(filters, selection.getFilters().split("\\s*,\\s*"));
-            if (filterFields.size() == filters.size()) {
+            // TODO - проще через сравнение коллекций сделать
+            if (filters.size() == filterFields.size()) {
                 filterFields.forEach(filters::remove);
                 if (filters.isEmpty()) {
                     return selection;
@@ -473,8 +473,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 for (int i = 0; i < list.size(); i++)
                     list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(((QueryListField) field).getFields())));
                 target.put(field.getId(), list);
-            }
-            else if (target.get(field.getId()) != null)
+            } else if (target.get(field.getId()) != null)
                 target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(((QueryReferenceField) field).getFields())));
         }
     }
