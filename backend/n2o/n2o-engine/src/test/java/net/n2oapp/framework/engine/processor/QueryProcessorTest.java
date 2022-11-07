@@ -38,10 +38,7 @@ import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -553,5 +550,24 @@ public class QueryProcessorTest {
         selection.setDescExpression("DESC");
         queryProcessor.prepareMapForQuery(map, selection, query, criteria);
         assertThat(map.get("nameDirection"), is("DESC"));
+    }
+
+    @Test
+    public void testDataInFilterNormalize() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testDataInFilterNormalize.query.xml"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testDataInFilterNormalize"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        Filter nameFilter = new Filter("abc", FilterType.eq);
+        criteria.addRestriction(new Restriction("name", nameFilter));
+        Filter upperCaseFilter = new Filter("true", FilterType.eq);
+        criteria.addRestriction(new Restriction("upperCase", upperCaseFilter));
+
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        Collection<DataSet> collection = result.getCollection();
+
+        assertThat(collection.size(), is(1));
+        assertThat(collection.iterator().next().getString("name"), is("ABC"));
     }
 }
