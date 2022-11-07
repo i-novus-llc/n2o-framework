@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.action.editlist.EditListActionPayl
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Компиляция действия редактирования записи списка
@@ -31,8 +32,8 @@ public class EditListActionCompiler extends AbstractActionCompiler<EditListActio
 
         action.getPayload().setOperation(source.getOperation());
         action.getPayload().setPrimaryKey(source.getPrimaryKey());
-        action.getPayload().setItem(constructEditInfo(source.getItemDatasourceId(), source.getItemModel(), source.getItemFieldId()));
-        action.getPayload().setList(constructEditInfo(source.getDatasourceId(), source.getModel(), source.getListFieldId()));
+        action.getPayload().setItem(constructEditInfo(source.getItemDatasourceId(), source.getItemModel(), source.getItemFieldId(), p));
+        action.getPayload().setList(constructEditInfo(source.getDatasourceId(), source.getModel(), source.getListFieldId(), p));
         return action;
     }
 
@@ -51,7 +52,7 @@ public class EditListActionCompiler extends AbstractActionCompiler<EditListActio
         source.setModel(p.cast(source.getModel(), source.getItemModel()));
     }
 
-    private EditListActionPayload.EditInfo constructEditInfo(String datasourceId, ReduxModel model, String fieldId) {
-        return new EditListActionPayload.EditInfo(datasourceId, model, fieldId);
+    private EditListActionPayload.EditInfo constructEditInfo(String datasourceId, ReduxModel model, String fieldId, CompileProcessor p) {
+        return new EditListActionPayload.EditInfo(getClientDatasourceId(datasourceId, p), model, fieldId);
     }
 }

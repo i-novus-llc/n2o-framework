@@ -46,10 +46,10 @@ public class EditListActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getType(), is("n2o/api/models/edit_list"));
         assertThat(action.getPayload().getOperation(), is(ListOperationType.create));
         assertThat(action.getPayload().getPrimaryKey(), is("name"));
-        assertThat(action.getPayload().getList().getDatasource(), is("ds1"));
+        assertThat(action.getPayload().getList().getDatasource(), is("testEditListAction_ds1"));
         assertThat(action.getPayload().getList().getModel(), is(ReduxModel.multi));
         assertThat(action.getPayload().getList().getField(), is("test1"));
-        assertThat(action.getPayload().getItem().getDatasource(), is("ds2"));
+        assertThat(action.getPayload().getItem().getDatasource(), is("testEditListAction_ds2"));
         assertThat(action.getPayload().getItem().getModel(), is(ReduxModel.filter));
         assertThat(action.getPayload().getItem().getField(), is("test2"));
 
@@ -57,10 +57,10 @@ public class EditListActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getType(), is("n2o/api/models/edit_list"));
         assertThat(action.getPayload().getOperation(), is(ListOperationType.delete));
         assertThat(action.getPayload().getPrimaryKey(), is("id"));
-        assertThat(action.getPayload().getList().getDatasource(), is("ds2"));
+        assertThat(action.getPayload().getList().getDatasource(), is("testEditListAction_ds2"));
         assertThat(action.getPayload().getList().getModel(), is(ReduxModel.resolve));
         assertThat(action.getPayload().getList().getField(), nullValue());
-        assertThat(action.getPayload().getItem().getDatasource(), is("ds2"));
+        assertThat(action.getPayload().getItem().getDatasource(), is("testEditListAction_ds2"));
         assertThat(action.getPayload().getItem().getModel(), is(ReduxModel.resolve));
         assertThat(action.getPayload().getItem().getField(), nullValue());
     }
