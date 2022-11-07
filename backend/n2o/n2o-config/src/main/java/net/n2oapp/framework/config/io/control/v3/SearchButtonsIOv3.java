@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.io.control.v3;
 
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.control.v2.FieldIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +21,7 @@ public class SearchButtonsIOv3 extends FieldIOv3<N2oSearchButtons>{
         p.attribute(e, "search-label", m::getSearchLabel, m::setSearchLabel);
         p.attribute(e, "reset-label", m::getResetLabel, m::setResetLabel);
         p.attribute(e, "clear-ignore", m::getClearIgnore, m::setClearIgnore);
+        p.attributeBoolean(e, "fetch-on-clear", m::getFetchOnClear, m::setFetchOnClear);
     }
 
     @Override

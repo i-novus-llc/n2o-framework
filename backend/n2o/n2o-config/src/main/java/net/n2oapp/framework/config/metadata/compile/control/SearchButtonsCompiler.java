@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 
 /**
  * Компиляция компонента SearchButtons (кнопки фильтра)
@@ -26,6 +28,8 @@ public class SearchButtonsCompiler extends StandardFieldCompiler<SearchButtons, 
 
         field.setResetLabel(source.getResetLabel());
         field.setSearchLabel(source.getSearchLabel());
+        field.setFetchOnClear(p.cast(source.getFetchOnClear(), p.resolve(
+                property("n2o.api.control.searchButtons.fetch_on_clear"), Boolean.class)));
         if (source.getNoLabel() == null) {
             source.setNoLabel(true);
         }
