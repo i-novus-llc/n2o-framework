@@ -1,9 +1,8 @@
 package net.n2oapp.framework.config.reader.util;
 
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.global.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.reader.ElementReader;
-import net.n2oapp.framework.api.metadata.reader.ElementReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.reader.MetadataReaderException;

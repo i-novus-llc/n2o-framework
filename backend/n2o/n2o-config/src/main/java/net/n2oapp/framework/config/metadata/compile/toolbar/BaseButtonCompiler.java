@@ -1,19 +1,29 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
+import java.util.ArrayList;
+
+import static net.n2oapp.framework.api.StringUtils.isLink;
+import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Базовая компиляция кнопки
@@ -21,7 +31,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
     private static final String PROPERTY_PREFIX = "n2o.api.control.button_field";
 
-    protected void compileBase(AbstractButton button, N2oAbstractButton source, IndexScope idx,
+    protected void compileBase(AbstractButton button, N2oAbstractButton source,
                                CompileContext<?, ?> context, CompileProcessor p) {
         button.setId(source.getId());
         button.setProperties(p.mapAttributes(source));
@@ -90,6 +100,10 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         source.setType(initType(source));
         source.setTooltipPosition(initTooltipPosition(source, p));
         source.setColor(initColor(source, p));
+
+        String datasource = initDatasource(source, p);
+        source.setDatasourceId(datasource);
+        source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
     }
 
     private String initTooltipPosition(S source, CompileProcessor p) {
@@ -108,5 +122,42 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         if (source.getLabel() != null)
             return LabelType.text;
         return LabelType.text;
+    }
+
+    protected void compileCondition(N2oAbstractButton source, AbstractButton button, CompileProcessor p, ComponentScope componentScope) {
+        if (componentScope != null && componentScope.unwrap(N2oCell.class) != null) {
+            button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+            button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+        } else {
+            String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
+            if (isLink(source.getVisible()))
+                compileLinkCondition(button, clientDatasource, ValidationType.visible, source.getVisible(), source.getModel());
+            else
+                button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+
+            if (isLink(source.getEnabled()))
+                compileLinkCondition(button, clientDatasource, ValidationType.enabled, source.getEnabled(), source.getModel());
+            else
+                button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+        }
+    }
+
+    private void compileLinkCondition(AbstractButton button, String clientDatasource, ValidationType type,
+                                      String linkCondition, ReduxModel model) {
+        Condition condition = new Condition();
+        condition.setExpression(unwrapLink(linkCondition));
+        condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
+        if (!button.getConditions().containsKey(type))
+            button.getConditions().put(type, new ArrayList<>());
+        button.getConditions().get(type).add(condition);
+    }
+
+    protected String initDatasource(N2oAbstractButton source, CompileProcessor p) {
+        if (source.getDatasourceId() != null)
+            return source.getDatasourceId();
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getDatasourceId();
+        return null;
     }
 }

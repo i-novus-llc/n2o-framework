@@ -7,6 +7,12 @@ import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 
 public class N2oDropdownButton extends N2oButton implements DropdownButton {
+
+    @Override
+    public void shouldBeEnabled() {
+        element().shouldNotBe(Condition.disabled);
+    }
+
     @Override
     public void shouldHaveItems(int count) {
         menuItems().shouldHaveSize(count);

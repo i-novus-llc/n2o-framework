@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Клиенсткая модель компонента таблицы
@@ -37,8 +36,6 @@ public class TableWidgetComponent extends WidgetComponent {
     private List<Cell> cells;
     @JsonProperty
     private List<ColumnHeader> headers;
-    @JsonProperty
-    private Map<String, String> sorting;
     @JsonProperty
     private RowClick rowClick;
     @JsonProperty

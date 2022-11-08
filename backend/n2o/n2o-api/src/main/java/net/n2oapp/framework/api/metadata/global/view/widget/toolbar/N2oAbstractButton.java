@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
@@ -29,5 +30,18 @@ public abstract class N2oAbstractButton extends N2oComponent implements IdAware,
     private String color;
     private String description;
     private String tooltipPosition;
+    private ReduxModel model;
+    private String datasourceId;
     private String visible;
+    private String enabled;
+
+    @Deprecated
+    public String getWidgetId() {
+        return datasourceId;
+    }
+
+    @Deprecated
+    public void setWidgetId(String widgetId) {
+        this.datasourceId = widgetId;
+    }
 }

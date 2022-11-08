@@ -48,10 +48,10 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     }
 
     @Override
-    protected String createId(String regionPlace, CompileProcessor p) {
+    protected String createId(CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         String regionName = pageScope == null ? "tabs" : pageScope.getPageId() + "_tabs";
-        return createId(regionPlace, regionName, p);
+        return createId(regionName, p);
     }
 
 
@@ -75,7 +75,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     private String createTabId(String regionId, String alias, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         String regionName = pageScope == null ? alias : pageScope.getPageId() + "_" + alias;
-        String id = p.cast(regionId, createId(null, regionName, p));
+        String id = p.cast(regionId, createId(regionName, p));
         //проверяем id на уникальность
         if (pageScope != null) {
             if (pageScope.getTabIds() == null) {

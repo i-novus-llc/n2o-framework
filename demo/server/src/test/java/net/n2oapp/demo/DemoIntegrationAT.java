@@ -197,16 +197,15 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testVipCellUpdate() {
-        int row = 1;
-        protoPage.vipCellShouldBeChecked(row);
-        protoPage.setVipCellNotChecked(row);
+        protoPage.vipCellShouldBeChecked(2);
+        protoPage.setVipCellNotChecked(2);
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией");
-        protoPage.vipCellShouldNotBeChecked(row);
-        protoPage.setVipCellChecked(row);
+        protoPage.vipCellShouldNotBeChecked(2);
+        protoPage.setVipCellChecked(2);
         protoPage.alertColorShouldBe(Colors.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией");
-        protoPage.vipCellShouldBeChecked(row);
+        protoPage.vipCellShouldBeChecked(2);
     }
 
     /**
@@ -214,8 +213,8 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testCellBirthdayUpdate() {
-        int row = 2;
-        String testDate = "01.01.1984";
+        int row = 0;
+        String testDate = "15.12.1900";
         String exDate = protoPage.getBirthdayCell(row).val();
 
         protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
@@ -365,7 +364,7 @@ public class DemoIntegrationAT {
         modalClientCard.firstName().val("Геннадий");
         modalClientCard.patronymic().val("Юрьевич");
         modalClientCard.gender().check("Мужской");
-        modalClientCard.birthdayValue("02.05.1930");
+        modalClientCard.birthdayValue("17.11.1932");
         modalClientCard.save();
 
         protoPage.shouldDialogClosed("Карточка клиента:");
@@ -376,7 +375,7 @@ public class DemoIntegrationAT {
         protoPage.tableCellShouldHaveText(row, 1, "Жуков");
         protoPage.tableCellShouldHaveText(row, 2, "Геннадий");
         protoPage.tableCellShouldHaveText(row, 3, "Юрьевич");
-        protoPage.tableCellShouldHaveText(row, 4, "02.05.1930");
+        protoPage.tableCellShouldHaveText(row, 4, "17.11.1932");
         protoPage.tableCellShouldHaveText(row, 5, "Мужской");
     }
 
@@ -573,22 +572,19 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testMasterDetail() {
-        protoPage.selectClient(1);
-        protoPage.tableCellShouldHaveText(1, 1, "Яблочкин");
-        protoPage.contactsListShouldHaveSize(1);
-        protoPage.contactsListShouldHaveText(0, "+79047610032");
-        protoPage.getSurnameCard().shouldHaveValue("Яблочкин");
-        protoPage.getFirstnameCard().shouldHaveValue("Федот");
-        protoPage.getGenderCard().shouldBeChecked("Мужской");
+        protoPage.selectClient(6);
+        protoPage.tableCellShouldHaveText(6, 1, "Чуканова");
+        protoPage.contactsListShouldHaveText(0, "3333333");
+        protoPage.getSurnameCard().shouldHaveValue("Чуканова");
+        protoPage.getFirstnameCard().shouldHaveValue("Изольда");
+        protoPage.getGenderCard().shouldBeChecked("Женский");
         protoPage.getVIPCard().shouldBeChecked();
 
-        protoPage.selectClient(0);
-        protoPage.tableCellShouldHaveText(0, 1, "Михалёва");
-        protoPage.contactsListShouldHaveSize(2);
-        protoPage.contactsListShouldHaveText(0, "+79655000000");
-        protoPage.contactsListShouldHaveText(1, "aa@example.com");
-        protoPage.getSurnameCard().shouldHaveValue("Михалёва");
-        protoPage.getFirstnameCard().shouldHaveValue("Эмма");
+        protoPage.selectClient(5);
+        protoPage.tableCellShouldHaveText(5, 1, "Сергеева");
+        protoPage.contactsListShouldHaveText(0, "+7950267859");
+        protoPage.getSurnameCard().shouldHaveValue("Сергеева");
+        protoPage.getFirstnameCard().shouldHaveValue("Анастасия");
         protoPage.getGenderCard().shouldBeChecked("Женский");
         protoPage.getVIPCard().shouldBeChecked();
     }

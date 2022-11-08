@@ -13,11 +13,6 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 public class N2oStandardButton extends N2oButton implements StandardButton {
 
     @Override
-    public void shouldBeDisabled() {
-        element().shouldBe(Condition.attribute("disabled"));
-    }
-
-    @Override
     public void shouldBeEnabled() {
         element().shouldBe(Condition.enabled);
     }

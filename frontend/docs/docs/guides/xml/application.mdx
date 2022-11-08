@@ -40,7 +40,7 @@ http://n2oapp.net/framework/config/schema/application-3.0
 
 **Тело**
 
-[Источники данных](../xml/page#datasources),
+[Источники данных](../xml/datasource#datasources),
 [События](../xml/application#events),
 [Шапка(header)](../xml/application#header),
 [Боковые панели](../xml/application#sidebars),
@@ -151,7 +151,7 @@ http://n2oapp.net/framework/config/schema/application-3.0
 |title           |Строка         |Название в заголовке боковой панели             |                     |
 |ref-id          |Строка         |Ссылка на родительский файл боковой панели      |                     |
 |subtitle        |Строка         |Название в подзаголовке боковой панели          |                     |
-|datasource      |Строка         |Источник данных боковой панели                  |                     |
+|datasource      |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных боковой панели   |                     |
 |path            |Строка         |URL по которому будет отображаться боковая панель                           |                     |
 |style           |CSS свойства   |Список CSS свойств                              |                     |
 |class           |CSS класс      |CSS класс боковой панели                        |                     |
@@ -168,7 +168,8 @@ http://n2oapp.net/framework/config/schema/application-3.0
 
 **Тело**
 
-[Стандартный источник данных](../xml/page#datasource), [Навигационная панель](../xml/application#navigation)
+[Стандартный источник данных](../xml/datasource#datasource) <br/>
+[Навигационная панель](../xml/application#navigation)
 
 **Пример**
 

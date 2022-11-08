@@ -4,8 +4,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,9 +19,7 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
 
     @Override
     public void validate(N2oInheritedDatasource source, SourceProcessor p) {
-        DatasourceIdsScope ids = p.getScope(DatasourceIdsScope.class);
         checkSourceDatasource(source);
-        checkSubmitTargetDatasource(source, ids);
     }
 
     private void checkSourceDatasource(N2oInheritedDatasource source) {
@@ -37,14 +33,5 @@ public class InheritedDatasourceValidator extends AbstractDataSourceValidator<N2
                     String.format("Атрибут 'source-datasource' источника данных '%s' совпадает с 'id'",
                             source.getId())
             );
-    }
-
-    private void checkSubmitTargetDatasource(N2oInheritedDatasource source, DatasourceIdsScope ids) {
-        if (source.getSubmit() != null) {
-            String targetDatasource = source.getSubmit().getTargetDatasource();
-            String msg = String.format("Атрибут 'target-datasource' элемента 'submit' источника данных '%s' ссылается на несуществующий источник '%s'",
-                    source.getId(), targetDatasource);
-            ValidationUtils.checkForExistsDatasource(targetDatasource, ids, msg);
-        }
     }
 }

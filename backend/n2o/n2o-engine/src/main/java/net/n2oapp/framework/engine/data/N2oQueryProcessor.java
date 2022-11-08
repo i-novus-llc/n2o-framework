@@ -142,7 +142,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getCounts(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException(String.format("В %s.query.xml не найден <count> запрос необходимый для паджинации", query.getId()));
+            throw new N2oException(String.format("В %s.query.xml не найден <count> запрос необходимый для пагинации", query.getId()));
         return selection;
     }
 
@@ -254,7 +254,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         for (Map.Entry<String, Map<FilterType, N2oQuery.Filter>> entry : query.getFiltersMap().entrySet()) {
             for (N2oQuery.Filter filter : entry.getValue().values()) {
                 if (filter.getCompiledDefaultValue() != null && !criteria.containsRestriction(entry.getKey())) {
-                    Object value = prepareValue(filter.getCompiledDefaultValue(), filter);
+                    Object value = prepareValue(filter.getCompiledDefaultValue(), filter, null);
                     if (value != null) {
                         Restriction defaultRestriction = new Restriction(entry.getKey(), value, filter.getType());
                         criteria.addRestriction(defaultRestriction);
@@ -325,11 +325,11 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         map.put("page", pageStartsWith0 ? criteria.getPage() - 1 : criteria.getPage());
     }
 
-    private Object prepareValue(Object value, N2oQuery.Filter filter) {
+    private Object prepareValue(Object value, N2oQuery.Filter filter, DataSet data) {
         Object result = value;
         result = contextProcessor.resolve(result);
         result = domainProcessor.deserialize(result, filter == null ? null : filter.getDomain());
-        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), null, parser, applicationContext);
+        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), data, parser, applicationContext);
         return result;
     }
 
@@ -375,11 +375,10 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         });
     }
 
-    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, Set<String> filterFields, String
-            queryId) {
-        if (selections == null) {
+    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, Set<String> filterFields, String queryId) {
+        if (selections == null)
             return null;
-        }
+
         if (filterFields == null) {
             N2oQuery.Selection result = findBaseSelection(selections);
             if (result == null) {
@@ -406,7 +405,8 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             }
             Set<String> filters = new HashSet<>();
             Collections.addAll(filters, selection.getFilters().split("\\s*,\\s*"));
-            if (filterFields.size() == filters.size()) {
+            // TODO - проще через сравнение коллекций сделать
+            if (filters.size() == filterFields.size()) {
                 filterFields.forEach(filters::remove);
                 if (filters.isEmpty()) {
                     return selection;
@@ -421,9 +421,14 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
      */
     private void resolveRestriction(CompiledQuery query, N2oPreparedCriteria criteria) {
         Set<String> restrictionsForRemove = null;
+        DataSet data = new DataSet();
+        for (Restriction restriction : criteria.getRestrictions()) {
+            data.put(restriction.getFieldId(), restriction.getValue());
+        }
+
         for (Restriction restriction : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(restriction.getFieldId()).get(restriction.getType());
-            Object value = prepareValue(restriction.getValue(), filter);
+            Object value = prepareValue(restriction.getValue(), filter, data);
             if (value != null) {
                 restriction.setValue(value);
             } else if (FilterType.Arity.nullary == restriction.getType().arity) {
@@ -473,8 +478,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 for (int i = 0; i < list.size(); i++)
                     list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(((QueryListField) field).getFields())));
                 target.put(field.getId(), list);
-            }
-            else if (target.get(field.getId()) != null)
+            } else if (target.get(field.getId()) != null)
                 target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(((QueryReferenceField) field).getFields())));
         }
     }

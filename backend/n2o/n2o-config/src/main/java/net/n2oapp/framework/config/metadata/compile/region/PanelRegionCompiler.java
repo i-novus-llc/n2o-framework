@@ -44,7 +44,7 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     }
 
     @Override
-    protected String createId(String regionPlace, CompileProcessor p) {
-        return createId(regionPlace, "panel", p);
+    protected String createId(CompileProcessor p) {
+        return createId("panel", p);
     }
 }

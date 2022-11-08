@@ -30,7 +30,6 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attribute(e, "depends-on", m::getDependsOn, m::setDependsOn);
         p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
         p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
-        p.attribute(e, "visibility-condition", m::getDependencyCondition, m::setDependencyCondition);
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);

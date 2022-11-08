@@ -31,7 +31,7 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
     }
 
     @Override
-    protected String createId(String regionPlace, CompileProcessor p) {
-        return createId(regionPlace, "region", p);
+    protected String createId(CompileProcessor p) {
+        return createId("region", p);
     }
 }

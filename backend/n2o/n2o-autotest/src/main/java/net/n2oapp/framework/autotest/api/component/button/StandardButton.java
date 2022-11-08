@@ -8,10 +8,6 @@ import net.n2oapp.framework.autotest.api.component.Tooltip;
  */
 public interface StandardButton extends Button {
 
-    void shouldBeDisabled();
-
-    void shouldBeEnabled();
-
     void shouldHaveLabel(String label);
 
     void shouldHaveIcon(String name);
