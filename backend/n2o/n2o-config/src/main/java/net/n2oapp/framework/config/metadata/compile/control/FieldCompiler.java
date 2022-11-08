@@ -138,7 +138,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (source.getDependsOn() != null) {
             ControlDependency dependency = new ControlDependency();
             List<String> ons = Arrays.asList(source.getDependsOn());
-            ons.replaceAll(String::trim);
             dependency.setOn(ons);
             dependency.setType(ValidationType.reRender);
             field.addDependency(dependency);
@@ -149,7 +148,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         compiled.setApplyOnInit(p.cast(source.getApplyOnInit(), true));
         if (source.getOn() != null) {
             List<String> ons = Arrays.asList(source.getOn());
-            ons.replaceAll(String::trim);
             compiled.getOn().addAll(ons);
         }
         field.addDependency(compiled);

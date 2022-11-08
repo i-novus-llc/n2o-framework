@@ -25,7 +25,7 @@
             <close src="test"/>
         </action>
     </actions>
-    <toolbar place="bottomRight" generate="submit, close">
+    <toolbar place="bottomRight" generate="submit,close">
         <button action-id="testId" model="filter"/>
         <sub-menu>
             <menu-item action-id="miTestId"/>

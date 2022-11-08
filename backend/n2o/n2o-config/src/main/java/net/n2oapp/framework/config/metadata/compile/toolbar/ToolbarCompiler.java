@@ -67,7 +67,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                 N2oGroup group = (N2oGroup) item;
                 if (group.getGenerate() != null) {
                     for (String generate : group.getGenerate()) {
-                        buttonGeneratorFactory.generate(generate.trim(), source, context, p)
+                        buttonGeneratorFactory.generate(generate, source, context, p)
                                 .forEach(j -> buttons.add(getButton(source, j, context, p, indexScope)));
                     }
                 } else {
@@ -91,7 +91,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
     protected void initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getGenerate() != null) {
             for (String generate : source.getGenerate()) {
-                buttonGeneratorFactory.generate(generate.trim(), source, context, p)
+                buttonGeneratorFactory.generate(generate, source, context, p)
                         .forEach(i -> source.setItems(push(source, (N2oButton) i)));
             }
         }
