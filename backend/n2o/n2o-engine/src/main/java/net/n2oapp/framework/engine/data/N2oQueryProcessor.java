@@ -28,6 +28,7 @@ import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
@@ -390,28 +391,20 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private N2oQuery.Selection findBaseSelection(N2oQuery.Selection[] lists) {
-        for (N2oQuery.Selection selection : lists) {
-            if (selection.getFilters() == null || selection.getFilters().isEmpty()) {
+        for (N2oQuery.Selection selection : lists)
+            if (ArrayUtils.isEmpty(selection.getFilters()))
                 return selection;
-            }
-        }
         return null;
     }
 
     private N2oQuery.Selection findSelectionByFilters(N2oQuery.Selection[] selections, Set<String> filterFields) {
         for (N2oQuery.Selection selection : selections) {
-            if (selection.getFilters() == null || selection.getFilters().isEmpty()) {
+            if (ArrayUtils.isEmpty(selection.getFilters()))
                 continue;
-            }
-            Set<String> filters = new HashSet<>();
-            Collections.addAll(filters, selection.getFilters().split("\\s*,\\s*"));
-            // TODO - проще через сравнение коллекций сделать
-            if (filters.size() == filterFields.size()) {
-                filterFields.forEach(filters::remove);
-                if (filters.isEmpty()) {
-                    return selection;
-                }
-            }
+
+            Set<String> filters = Arrays.stream(selection.getFilters()).collect(Collectors.toSet());
+            if (filters.equals(filterFields))
+                return selection;
         }
         return findBaseSelection(selections);
     }
