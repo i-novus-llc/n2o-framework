@@ -40,7 +40,6 @@ public class SearchButtonsCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testSearchButtons.page.xml")
                 .get(new PageContext("testSearchButtons"));
 
-        //((TableWidgetComponent) page.getWidget().getComponent());
         SearchButtons searchButtons = (SearchButtons) ((StandardField) ((Table<?>) page.getWidget()).getFilter()
                 .getFilterFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl();
 
