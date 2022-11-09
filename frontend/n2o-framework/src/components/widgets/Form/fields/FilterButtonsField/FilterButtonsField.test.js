@@ -7,6 +7,6 @@ const setup = propsOverride => mount(<FilterButtonsField {...propsOverride} />)
 describe('Проверка FilterButtonsFiled', () => {
     it('visible = false', () => {
         const wrapper = setup({ visible: false })
-        expect(wrapper.children().exists()).toEqual(false)
+        expect(wrapper.find('Buttons').children().exists()).toEqual(false)
     })
 })
