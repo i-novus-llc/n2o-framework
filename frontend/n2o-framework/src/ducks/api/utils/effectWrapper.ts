@@ -9,9 +9,9 @@ import { failOperation, startOperation, successOperation } from '../Operation'
  */
 export function EffectWrapper<
     TAction extends Action
->(effect: (action: TAction) => unknown) {
+>(effect: (action: TAction, ...rest: unknown[]) => unknown) {
     return function* wrappedEffect(...args: Parameters<typeof effect>) {
-        const action = args[args.length - 1] as TAction
+        const [action] = args
         const { meta, type } = action
         const operationId = meta?.operationId
 

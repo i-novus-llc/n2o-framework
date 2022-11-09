@@ -8,6 +8,7 @@ import {
 import type { Task } from 'redux-saga'
 
 import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
+import { EffectWrapper } from '../api/utils/effectWrapper'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -62,12 +63,12 @@ export function* removeSaga({ payload }: RemoveAction) {
 // Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
 export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAction) {
     const { id } = action.payload
-    const task: Task = yield fork(query, action, apiProvider)
+    const task: Task = yield fork(EffectWrapper(query), action, apiProvider)
 
     activeTasks[id] = activeTasks[id] || []
     activeTasks[id].push(task)
     // фильтр завершенных задач, чтобы память не текла
-    task.toPromise().finally(() => {
+    yield task.toPromise().finally(() => {
         activeTasks[id] = activeTasks[id].filter(activeTask => activeTask !== task)
     })
 }
@@ -75,14 +76,14 @@ export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAct
 export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     takeEvery(dataRequest, dataRequestWrapper, apiProvider),
-    takeEvery(DATA_REQUEST, function* remapRequest({ payload }) {
+    takeEvery(DATA_REQUEST, EffectWrapper(function* remapRequest({ payload }) {
         const { datasource, options } = payload
 
         yield put(dataRequest(datasource, options))
-    }),
+    })),
     takeEvery(startValidate, validateSaga),
     // @ts-ignore хер знает как затипизировать
-    takeEvery(submit, submitSaga, apiProvider),
+    takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
     takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
     takeEvery(register, applyOnInitDependencies),

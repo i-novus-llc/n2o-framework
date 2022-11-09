@@ -10,7 +10,7 @@ interface N2OAction<
     TMeta extends N2OMeta = N2OMeta
 > extends ReduxAction<TType> {
     payload: TPayload,
-    meta: TMeta,
+    meta?: TMeta,
     error?: string
 }
 
