@@ -1,10 +1,11 @@
 import { createAction } from '@reduxjs/toolkit'
-import { put, take } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
 
+import { Action, ErrorAction, Meta } from '../../Action'
 import { guid } from '../../../utils/id'
 import { ACTIONS_PREFIX } from '../constants'
-
-import { Action, mergeMeta } from './util'
+import { mergeMeta } from '../utils/mergeMeta'
+import { waitOperation } from '../utils/waitOperation'
 
 export type Payload = {
     actions: Action[]
@@ -12,7 +13,7 @@ export type Payload = {
 
 export const creator = createAction(
     `${ACTIONS_PREFIX}sequence`,
-    (payload: Payload, meta: object) => ({
+    (payload: Payload, meta: Meta) => ({
         payload,
         meta,
     }),
@@ -20,14 +21,18 @@ export const creator = createAction(
 
 export function* effect({ payload }: ReturnType<typeof creator>) {
     const { actions } = payload
-    const id = guid()
 
     for (const action of actions) {
-        const sequenceAction = mergeMeta(action, {
-            sequence_id: id,
-        })
+        const operationId = guid()
 
-        yield put(sequenceAction)
-        yield take()
+        yield put(mergeMeta(action, {
+            operationId,
+        }))
+
+        const resultAction: Action | ErrorAction = yield waitOperation(operationId)
+
+        if (!resultAction.error) {
+            throw new Error(resultAction.error)
+        }
     }
 }
