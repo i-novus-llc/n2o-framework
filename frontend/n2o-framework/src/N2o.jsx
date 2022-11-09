@@ -70,6 +70,7 @@ class N2o extends Component {
                         locales={locales}
                         customLocales={customLocales}
                         realTimeConfig={realTimeConfig}
+                        config={config}
                         render={() => (
                             <FactoryProvider config={config} securityBlackList={['actions']}>
                                 <>

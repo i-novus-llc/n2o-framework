@@ -29,9 +29,7 @@ import {
 } from '../../ducks/global/store'
 // @ts-ignore ignore import error from js file
 import { errorController } from '../errors/errorController'
-
-// @ts-ignore ignore import error from js file
-import { GlobalAlertsConnected } from './GlobalAlerts'
+import { ApplicationErrorAlerts } from '../snippets/Alerts/ApplicationErrorAlerts'
 
 export interface IApplicationProps {
     i18n: i18n
@@ -44,6 +42,7 @@ export interface IApplicationProps {
     }
     error: Record<string, DataSourceState>
     defaultErrorPages: React.ReactNode[]
+    config: object
     render(): React.ReactNode
 }
 
@@ -56,6 +55,7 @@ function Application(props: IApplicationProps) {
         error,
         defaultErrorPages,
         render,
+        config,
     } = props
 
     numeral.locale(locale)
@@ -64,19 +64,16 @@ function Application(props: IApplicationProps) {
         const { status } = error
         const errorPage = errorController(status, defaultErrorPages)
 
-        if (errorPage) {
-            return (
-                <>
-                    <GlobalAlertsConnected />
-                    {React.createElement(errorPage)}
-                </>
-            )
-        }
+        return (
+            <>
+                <ApplicationErrorAlerts config={config} />
+                {errorPage && React.createElement(errorPage)}
+            </>
+        )
     }
 
     return (
         <>
-            {error && <GlobalAlertsConnected />}
             <Block disabled={loading}>
                 {ready && render()}
             </Block>
