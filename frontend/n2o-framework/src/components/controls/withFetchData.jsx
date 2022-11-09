@@ -163,18 +163,19 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * @param merge
          * @private
          */
-        setResponseToData({ list, count, size, page }, merge = false) {
+        setResponseToData({ list, count, size, page, paging }, merge = false) {
             const { valueFieldId } = this.props
             const { data } = this.state
+            const { count: pagingCount, size: pagingSize, page: pagingPage } = paging || {}
 
             this.setState({
                 data: merge
                     ? unionBy(data, list, valueFieldId || 'id')
                     : list,
                 isLoading: false,
-                count,
-                size,
-                page,
+                count: count || pagingCount,
+                size: size || pagingSize,
+                page: page || pagingPage,
             })
         }
 

@@ -1,11 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <table id="table" object-id="utBlank">
+            <table id="table">
+                <datasource object-id="utBlank"/>
                 <toolbar>
-                    <sub-menu generate="create, update" show-toggle-icon="false" visible="false"/>
-                    <sub-menu/>
+                    <sub-menu generate="create, update" show-toggle-icon="false" visible="false" enabled="false"/>
+                    <sub-menu enabled="{name != null}" visible="{name != null}" datasource="form" model="filter"/>
+                    <sub-menu enabled="{name != null}" visible="{name != null}"/>
                 </toolbar>
             </table>
         </region>

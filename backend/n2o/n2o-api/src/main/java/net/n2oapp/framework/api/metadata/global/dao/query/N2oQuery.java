@@ -136,7 +136,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
     @Getter
     @Setter
     public static class Selection implements Source, Compiled {
-        private String filters;
+        private String[] filters;
         private String resultMapping;
         private String resultNormalize;
         private String countMapping;

@@ -16,17 +16,34 @@ import { LinkCellType } from './linkCellTypes'
 function LinkCell(props) {
     const {
         widgetId,
-        model,
+        model = {},
         className,
         fieldKey,
         id,
         icon,
         type,
-        url,
+        url: propsUrl,
         disabled,
         onResolve,
         ...rest
     } = props
+
+    const { url: modelUrl = '' } = model
+
+    const createUrl = () => {
+        if (propsUrl) {
+            return propsUrl
+        }
+
+        /* ready url from the model */
+        if (modelUrl && modelUrl.startsWith('http')) {
+            return modelUrl
+        }
+
+        return propsUrl
+    }
+
+    const url = createUrl()
 
     const submitType = useMemo(() => {
         let content = {

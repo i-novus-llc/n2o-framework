@@ -63,8 +63,8 @@ function withListContainer(WrappedComponent) {
          * Обрабатывает открытие попапа
          * @private
          */
-        const handleOpen = () => {
-            callApiWithParams({ page: 1 })
+        const handleOpen = (valueObj) => {
+            callApiWithParams({ page: 1, ...valueObj })
 
             if (onOpen) {
                 onOpen()

@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import org.springframework.stereotype.Component;
 
@@ -43,12 +44,13 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         initDefaults(source, context, p);
         Submenu submenu = new Submenu();
         IndexScope idx = p.getScope(IndexScope.class);
-        compileBase(submenu, source, idx, context, p);
+        compileBase(submenu, source, context, p);
         submenu.setId(source.getId() == null ? "subMenu" + idx.get() : source.getId());
         source.setId(submenu.getId());
         submenu.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.submenu.src"), String.class)));
         submenu.setShowToggleIcon(p.cast(source.getShowToggleIcon(), true));
-        submenu.setVisible(source.getVisible());
+
+        compileCondition(source, submenu, p, p.getScope(ComponentScope.class));
 
         initMenuItems(source, submenu, idx, context, p);
         initGenerate(source, submenu, idx, context, p);
@@ -77,7 +79,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
             }
             for (String generate : sub.getGenerate()) {
                 N2oToolbar source = p.getScope(N2oToolbar.class);
-                for (ToolbarItem toolbarItem : buttonGeneratorFactory.generate(generate.trim(), source, context, p)) {
+                for (ToolbarItem toolbarItem : buttonGeneratorFactory.generate(generate, source, context, p)) {
                     PerformButton menuItem = p.compile(toolbarItem, context, p, idx);
                     menuItem.setColor(null);
                     button.getSubMenu().add(menuItem);

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <regions>
+        <table datasource="ds1">
+            <columns>
+                <column text-field-id="name" sorting-direction="desc"/>
+            </columns>
+        </table>
+        <table>
+            <datasource/>
+            <columns>
+                <column text-field-id="age" sorting-direction="asc"/>
+            </columns>
+        </table>
+    </regions>
+</page>

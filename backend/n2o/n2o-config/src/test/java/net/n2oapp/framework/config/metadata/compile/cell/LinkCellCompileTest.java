@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,6 +65,7 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getId(), is("test4"));
         assertThat(cell.getIcon(), is("`id`"));
         assertThat(cell.getType(), is(IconType.iconAndText));
+        assertThat(cell.getJsonProperties().get("codeVerified"), CoreMatchers.is("`emailSender.status=='send'`"));
 
         cell = (LinkCell) table.getComponent().getCells().get(4);
         assertThat(cell.getId(), is("test5"));
