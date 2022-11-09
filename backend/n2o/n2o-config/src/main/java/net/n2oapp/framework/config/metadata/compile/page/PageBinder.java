@@ -151,6 +151,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     .forEach(ds -> BindUtil.bindDataProvider(ds.getProvider(), p));
             datasources.stream().filter(ds -> ds.getSubmit() != null)
                     .forEach(ds -> BindUtil.bindDataProvider(ds.getSubmit(), p));
+            page.getDatasources().values().forEach(p::bind);
         }
     }
 }
