@@ -1,9 +1,26 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { MouseEventHandler } from 'react'
 import { ButtonGroup, Button } from 'reactstrap'
 import { useTranslation } from 'react-i18next'
 
-function Buttons({ visible, disabled, searchLabel, resetLabel, onSearch, onReset, className }) {
+import { BaseComponentProps } from '../../types'
+
+export interface ButtonsProps extends BaseComponentProps {
+    searchLabel?: string
+    resetLabel?: string
+    onSearch: MouseEventHandler<HTMLButtonElement> | undefined
+    onReset: MouseEventHandler<HTMLButtonElement> | undefined
+}
+
+export function Buttons(props: ButtonsProps) {
+    const {
+        className,
+        visible = true,
+        disabled,
+        searchLabel,
+        resetLabel,
+        onSearch,
+        onReset,
+    } = props
     const { t } = useTranslation()
 
     return visible ? (
@@ -16,22 +33,6 @@ function Buttons({ visible, disabled, searchLabel, resetLabel, onSearch, onReset
             </Button>
         </ButtonGroup>
     ) : null
-}
-
-Buttons.propTypes = {
-    className: PropTypes.string,
-    onSearch: PropTypes.func,
-    onReset: PropTypes.func,
-    searchLabel: PropTypes.string,
-    resetLabel: PropTypes.string,
-    visible: PropTypes.bool,
-    disabled: PropTypes.bool,
-}
-
-Buttons.defaultProps = {
-    onSearch: () => {},
-    onReset: () => {},
-    visible: true,
 }
 
 export default Buttons

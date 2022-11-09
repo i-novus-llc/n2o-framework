@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect, ReactReduxContext } from 'react-redux'
+import { connect } from 'react-redux'
 import { getFormValues, reset } from 'redux-form'
 import isEqual from 'lodash/isEqual'
 import difference from 'lodash/difference'
@@ -12,6 +12,7 @@ import { createStructuredSelector } from 'reselect'
 
 import { Filter } from '../snippets/Filter/Filter'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
+import { setModel } from '../../ducks/models/store'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -20,6 +21,7 @@ import { ValidationsKey } from '../../core/validation/IValidation'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
+import { WidgetFiltersContext } from './WidgetFiltersContext'
 
 /**
  * Компонент WidgetFilters
@@ -43,15 +45,11 @@ class WidgetFilters extends React.Component {
         this.handleFilter = this.handleFilter.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.debouncedHandleFilter = debounce(this.handleFilter, FILTER_DELAY)
-    }
 
-    getChildContext() {
-        return {
-            _widgetFilter: {
-                formName: this.formName,
-                filter: this.handleFilter,
-                reset: this.handleReset,
-            },
+        this.contextValue = {
+            formName: this.formName,
+            filter: this.handleFilter.bind(this),
+            reset: this.handleReset.bind(this),
         }
     }
 
@@ -85,13 +83,14 @@ class WidgetFilters extends React.Component {
         fetchData({ page: 1 })
     }
 
-    handleReset() {
+    handleReset(fetchOnClear = true) {
         const {
             filterFieldsets,
             blackResetList,
             reduxFormFilter,
             resetFilterModel,
             setFilter,
+            clearModel,
         } = this.props
         const newReduxForm = cloneDeep(reduxFormFilter)
         const toReset = difference(
@@ -122,7 +121,12 @@ class WidgetFilters extends React.Component {
                 () => {
                     resetFilterModel(this.formName)
                     setFilter(newReduxForm)
-                    this.handleFilter()
+
+                    if (fetchOnClear) {
+                        this.handleFilter()
+                    } else {
+                        clearModel()
+                    }
                 },
             ))
     }
@@ -158,24 +162,26 @@ class WidgetFilters extends React.Component {
         const { defaultValues, fieldsets, fields } = this.state
 
         return (
-            <Filter
-                style={{ display: !visible ? 'none' : '' }}
-                hideButtons={hideButtons}
-                onSearch={this.handleFilter}
-                onReset={this.handleReset}
-            >
-                <ReduxForm
-                    form={this.formName}
-                    fieldsets={fieldsets}
-                    fields={fields}
-                    activeModel={filterModel}
-                    initialValues={defaultValues}
-                    validation={validation}
-                    modelPrefix={ModelPrefix.filter}
-                    handleChange={this.validateField}
-                    handleBlur={this.validateField}
-                />
-            </Filter>
+            <WidgetFiltersContext.Provider value={this.contextValue}>
+                <Filter
+                    visible={visible}
+                    hideButtons={hideButtons}
+                    onSearch={this.handleFilter}
+                    onReset={this.handleReset}
+                >
+                    <ReduxForm
+                        form={this.formName}
+                        fieldsets={fieldsets}
+                        fields={fields}
+                        activeModel={filterModel}
+                        initialValues={defaultValues}
+                        validation={validation}
+                        modelPrefix={ModelPrefix.filter}
+                        handleChange={this.validateField}
+                        handleBlur={this.validateField}
+                    />
+                </Filter>
+            </WidgetFiltersContext.Provider>
         )
     }
 }
@@ -194,17 +200,12 @@ WidgetFilters.propTypes = {
     searchOnChange: PropTypes.bool,
     validate: PropTypes.func,
     resetFilterModel: PropTypes.func,
+    clearModel: PropTypes.func,
 }
 
 WidgetFilters.defaultProps = {
     hideButtons: false,
     searchOnChange: false,
-}
-
-WidgetFilters.contextType = ReactReduxContext
-
-WidgetFilters.childContextTypes = {
-    _widgetFilter: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -218,6 +219,7 @@ const mapDispatchToProps = (dispatch, { datasource }) => ({
     validate: field => dispatch(
         startValidate(datasource, ValidationsKey.FilterValidations, ModelPrefix.filter, [field]),
     ),
+    clearModel: () => dispatch(setModel(ModelPrefix.source, datasource, [])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetFilters)
