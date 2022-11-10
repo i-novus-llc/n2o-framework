@@ -11,7 +11,7 @@ export const mergeMeta = <
     TType extends string = string,
     TPayload = unknown
 >(
-    action: Action<TType, TPayload, TMeta | void>,
+    action: Action<TType, TPayload, TMeta>,
     meta: TAdditionalMeta,
 ): Action<TType, TPayload, TMeta> => ({
     ...action,
