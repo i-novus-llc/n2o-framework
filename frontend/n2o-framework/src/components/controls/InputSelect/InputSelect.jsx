@@ -285,7 +285,6 @@ class InputSelect extends React.Component {
      */
     handleDataSearch = (input, delay = 400, callback) => {
         const { onSearch, filter, labelFieldId, options } = this.props
-        const { value } = this.state
 
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
             const filterFunc = item => String.prototype[filter].call(item, input)
@@ -294,13 +293,7 @@ class InputSelect extends React.Component {
             this.setState({ options: filteredData })
         } else {
             // серверная фильтрация
-            const labels = value.map(item => item[labelFieldId])
-
-            if (labels.some(label => label === input)) {
-                onSearch('', delay, callback)
-            } else {
-                onSearch(input, delay, callback)
-            }
+            onSearch(input, delay, callback)
         }
     }
 
