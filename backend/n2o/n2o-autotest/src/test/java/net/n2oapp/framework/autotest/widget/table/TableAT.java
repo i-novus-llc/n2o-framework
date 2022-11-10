@@ -257,8 +257,6 @@ public class TableAT extends AutoTestBase {
     @Test
     public void testSortOfColumn() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/test.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/test.query.xml"));
 
         SimplePage page = open(SimplePage.class);

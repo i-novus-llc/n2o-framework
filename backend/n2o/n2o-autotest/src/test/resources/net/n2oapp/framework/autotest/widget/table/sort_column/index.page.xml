@@ -7,6 +7,5 @@
             <column text-field-id="id"/>
             <column text-field-id="name" sorting-direction="desc"/>
         </columns>
-        <toolbar generate="crud"/>
     </table>
 </simple-page>
