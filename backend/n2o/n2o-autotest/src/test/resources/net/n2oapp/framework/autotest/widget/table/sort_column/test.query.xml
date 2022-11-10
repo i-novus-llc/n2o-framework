@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
+       object-id="test">
+    <list>
+        <test file="net/n2oapp/framework/autotest/widget/table/sort_column/test.json" operation="findAll"/>
+    </list>
+
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+    </filters>
+
+    <fields>
+        <field id="id" domain="integer"/>
+        <field id="name"  sorting="true"/>
+    </fields>
+</query>
