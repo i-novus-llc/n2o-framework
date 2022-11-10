@@ -3,10 +3,9 @@ import { put, takeEvery } from 'redux-saga/effects'
 import { guid } from '../../utils/id'
 import { addMultiAlerts } from '../alerts/store'
 
-import { API_PREFIX } from './constants'
+import { ALERTS_PREFIX } from './constants'
 
-export const API_ALERTS_ADD = `${API_PREFIX}alerts/add`
-
+export const API_ALERTS_ADD = `${ALERTS_PREFIX}add`
 /**
  * @description Сага заменяет id алерта на новый.
  * Когда это необходимо:

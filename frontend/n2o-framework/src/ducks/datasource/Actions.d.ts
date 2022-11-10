@@ -2,6 +2,7 @@ import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import type { IValidationResult } from '../../core/validation/IValidation'
 import { IActionMeta } from '../../sagas/types'
 import { ValidationsKey } from '../../core/validation/IValidation'
+import { Action, Meta } from '../Action'
 
 import type { DataSourceState } from './DataSource'
 import type { IProvider, ISubmit, QueryResult } from './Provider'
@@ -10,14 +11,10 @@ export interface DatasourcePayload {
     id: string
 }
 
-export interface DatasourceAction<
+export type DatasourceAction<
     TPayload extends DatasourcePayload,
-    TMeta extends object = object
-> {
-    type: string
-    payload: TPayload
-    meta?: TMeta
-}
+    TMeta extends Meta = Meta
+> = Action<string, TPayload, TMeta>
 
 export type RegisterAction = DatasourceAction<{
     id: string
