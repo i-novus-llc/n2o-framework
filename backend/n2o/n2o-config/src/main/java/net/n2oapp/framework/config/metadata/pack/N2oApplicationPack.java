@@ -12,6 +12,7 @@ import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv2;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
+import net.n2oapp.framework.config.metadata.compile.N2oComponentMerger;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationBinder;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationCompiler;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.N2oSidebarMerger;
@@ -32,6 +33,6 @@ public class N2oApplicationPack implements MetadataPack<N2oApplicationBuilder> {
         b.compilers(new ApplicationCompiler(), new SimpleMenuCompiler(), new SearchBarCompiler(),
                 new StompEventCompiler(), new SidebarCompiler());
         b.binders(new ApplicationBinder());
-        b.mergers(new N2oSidebarMerger());
+        b.mergers(new N2oSidebarMerger<>(), new N2oComponentMerger<>());
     }
 }

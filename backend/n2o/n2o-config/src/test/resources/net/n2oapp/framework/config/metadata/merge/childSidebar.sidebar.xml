@@ -2,7 +2,10 @@
          subtitle="Simple subtitle"
          path="/hello"
          toggle-on-hover="true"
-         home-page-url="/home">
+         home-page-url="/home"
+         src="default"
+         style="default"
+         class="default">
     <nav>
         <menu-item name="test"/>
     </nav>
