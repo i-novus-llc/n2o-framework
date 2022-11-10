@@ -247,9 +247,9 @@ export function* handleInvoke(apiProvider, action) {
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
     takeEvery(START_INVOKE, EffectWrapper(handleInvoke), apiProvider),
-    takeEvery(SUBMIT, EffectWrapper(function* submitSaga({ meta = {}, payload = {} }) {
+    takeEvery(SUBMIT, function* submitSaga({ meta = {}, payload = {} }) {
         const { datasource } = payload
 
         yield put(submit(datasource, null, meta))
-    })),
+    }),
 ]

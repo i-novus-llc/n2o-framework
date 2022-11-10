@@ -38,7 +38,7 @@ export type DataRequestAction = DatasourceAction<{
     options: {
         // FIXME
     }
-}>
+}, Meta>
 
 export type ResolveRequestAction = DatasourceAction<{
     id: string

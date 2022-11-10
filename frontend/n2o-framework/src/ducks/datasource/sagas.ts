@@ -75,12 +75,13 @@ export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAct
 
 export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
+    // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(dataRequest, dataRequestWrapper, apiProvider),
-    takeEvery(DATA_REQUEST, EffectWrapper(function* remapRequest({ payload }) {
+    takeEvery(DATA_REQUEST, function* remapRequest({ payload, meta }) {
         const { datasource, options } = payload
 
-        yield put(dataRequest(datasource, options))
-    })),
+        yield put(dataRequest(datasource, options, meta))
+    }),
     takeEvery(startValidate, validateSaga),
     // @ts-ignore хер знает как затипизировать
     takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
