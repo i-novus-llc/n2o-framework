@@ -43,6 +43,7 @@
                 </text>
             </column>
             <column text-field-id="name"/>
+            <column label="bell"/>
         </columns>
         <rows class="red"/>
         <filters place="left" default-values-query-id="utBlank">
