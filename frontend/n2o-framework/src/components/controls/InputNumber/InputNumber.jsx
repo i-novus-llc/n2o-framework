@@ -62,6 +62,10 @@ export class InputNumber extends React.Component {
     componentDidUpdate(prevProps) {
         const { value } = this.props
 
+        if (isNaN(value)) {
+            return
+        }
+
         if (prevProps.value !== value && !isNil(value)) {
             this.setState({ value: this.resolveValue(value) })
         } else if (

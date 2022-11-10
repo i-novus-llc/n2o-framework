@@ -28,6 +28,7 @@ import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.exception.N2oUniqueRequestNotFoundException;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.ExpressionParser;
@@ -254,7 +255,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         for (Map.Entry<String, Map<FilterType, N2oQuery.Filter>> entry : query.getFiltersMap().entrySet()) {
             for (N2oQuery.Filter filter : entry.getValue().values()) {
                 if (filter.getCompiledDefaultValue() != null && !criteria.containsRestriction(entry.getKey())) {
-                    Object value = prepareValue(filter.getCompiledDefaultValue(), filter);
+                    Object value = prepareValue(filter.getCompiledDefaultValue(), filter, null);
                     if (value != null) {
                         Restriction defaultRestriction = new Restriction(entry.getKey(), value, filter.getType());
                         criteria.addRestriction(defaultRestriction);
@@ -325,11 +326,11 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         map.put("page", pageStartsWith0 ? criteria.getPage() - 1 : criteria.getPage());
     }
 
-    private Object prepareValue(Object value, N2oQuery.Filter filter) {
+    private Object prepareValue(Object value, N2oQuery.Filter filter, DataSet data) {
         Object result = value;
         result = contextProcessor.resolve(result);
         result = domainProcessor.deserialize(result, filter == null ? null : filter.getDomain());
-        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), null, parser, applicationContext);
+        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), data, parser, applicationContext);
         return result;
     }
 
@@ -390,28 +391,20 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private N2oQuery.Selection findBaseSelection(N2oQuery.Selection[] lists) {
-        for (N2oQuery.Selection selection : lists) {
-            if (selection.getFilters() == null || selection.getFilters().isEmpty()) {
+        for (N2oQuery.Selection selection : lists)
+            if (ArrayUtils.isEmpty(selection.getFilters()))
                 return selection;
-            }
-        }
         return null;
     }
 
     private N2oQuery.Selection findSelectionByFilters(N2oQuery.Selection[] selections, Set<String> filterFields) {
         for (N2oQuery.Selection selection : selections) {
-            if (selection.getFilters() == null || selection.getFilters().isEmpty()) {
+            if (ArrayUtils.isEmpty(selection.getFilters()))
                 continue;
-            }
-            Set<String> filters = new HashSet<>();
-            Collections.addAll(filters, selection.getFilters().split("\\s*,\\s*"));
-            // TODO - проще через сравнение коллекций сделать
-            if (filters.size() == filterFields.size()) {
-                filterFields.forEach(filters::remove);
-                if (filters.isEmpty()) {
-                    return selection;
-                }
-            }
+
+            Set<String> filters = Arrays.stream(selection.getFilters()).collect(Collectors.toSet());
+            if (filters.equals(filterFields))
+                return selection;
         }
         return findBaseSelection(selections);
     }
@@ -421,9 +414,14 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
      */
     private void resolveRestriction(CompiledQuery query, N2oPreparedCriteria criteria) {
         Set<String> restrictionsForRemove = null;
+        DataSet data = new DataSet();
+        for (Restriction restriction : criteria.getRestrictions()) {
+            data.put(restriction.getFieldId(), restriction.getValue());
+        }
+
         for (Restriction restriction : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(restriction.getFieldId()).get(restriction.getType());
-            Object value = prepareValue(restriction.getValue(), filter);
+            Object value = prepareValue(restriction.getValue(), filter, data);
             if (value != null) {
                 restriction.setValue(value);
             } else if (FilterType.Arity.nullary == restriction.getType().arity) {

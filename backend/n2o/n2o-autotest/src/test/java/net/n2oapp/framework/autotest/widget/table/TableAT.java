@@ -58,7 +58,7 @@ public class TableAT extends AutoTestBase {
         TableWidget table = page.widget(TableWidget.class);
         table.filters().shouldBeVisible();
         table.filters().toolbar().button("searchLabel").shouldBeEnabled();
-        table.filters().toolbar().button("resetLabel").shouldBeEnabled();
+        table.filters().toolbar().button("resetLabel").shouldBeDisabled();
         table.filters().fields().field("Имя").control(InputText.class).val("test");
         table.filters().fields().field("Пол").control(Select.class).select(Condition.text("Мужской"));
         table.filters().toolbar().button("resetLabel").click();
