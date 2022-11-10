@@ -22,6 +22,7 @@ export function EffectWrapper<
         try {
             yield put(startOperation(type, operationId))
 
+            // TODO тут скорее всего надо удалить текущий operationId перед вызовом
             const result: ReturnType<typeof effect> = yield effect(...args)
 
             yield put(successOperation(type, operationId))
