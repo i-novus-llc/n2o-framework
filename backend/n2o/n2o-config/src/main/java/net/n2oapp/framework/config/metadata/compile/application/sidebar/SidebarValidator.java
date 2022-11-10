@@ -32,13 +32,13 @@ public class SidebarValidator extends TypedMetadataValidator<N2oSidebar> {
         if (sidebar.getDatasource() != null) {
             if (sidebar.getDatasourceId() != null)
                 throw new N2oMetadataValidationException(
-                        String.format("Сайдбар использует внутренний источник данных и ссылку на источник данных '%s' из скоупа application.xml одновременно",
+                        String.format("Сайдбар использует внутренний источник данных и ссылку на источник данных '%s' одновременно",
                                 sidebar.getDatasourceId()));
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             N2oStandardDatasource datasource = sidebar.getDatasource();
             if (dataSourcesScope.containsKey(datasource.getId()))
                 throw new N2oMetadataValidationException(
-                        String.format("Идентификатор '%s' внутреннего источника данных сайдбара уже используется источником данных из скоупа application.xml",
+                        String.format("Идентификатор '%s' внутреннего источника данных сайдбара уже используется другим источником данных",
                                 datasource.getId()));
         }
         if (sidebar.getDatasourceId() != null) {
