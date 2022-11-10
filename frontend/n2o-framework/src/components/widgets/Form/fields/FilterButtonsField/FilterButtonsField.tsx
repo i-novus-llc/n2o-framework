@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 
+import { isEmptyModel } from '../../../../../utils/isEmptyModel'
 import { Buttons, ButtonsProps } from '../../../../snippets/Filter/Buttons'
 import { WidgetFiltersContext } from '../../../WidgetFiltersContext'
 import { FieldProps } from '../types'
@@ -17,18 +18,21 @@ export function FilterButtonsField(props: FilterButtonsFieldProps) {
     const {
         className,
         visible = true,
-        disabled = false,
+        disabled: searchDisabled = false,
         searchLabel,
         resetLabel,
         fetchOnClear = true,
+        model = {},
     } = props
     const { filter, reset } = useContext(WidgetFiltersContext)
+    const clearDisabled = isEmptyModel(model)
 
     return (
         <Buttons
             className={className}
             visible={visible}
-            disabled={disabled}
+            searchDisabled={searchDisabled}
+            clearDisabled={clearDisabled}
             searchLabel={searchLabel}
             resetLabel={resetLabel}
             onSearch={filter}

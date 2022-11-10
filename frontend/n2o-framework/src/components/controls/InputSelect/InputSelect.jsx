@@ -534,7 +534,7 @@ class InputSelect extends React.Component {
                 })}
             >
                 <Dropdown
-                    isOpen={isExpanded}
+                    isOpen={!loading && isExpanded}
                     toggle={this.toggle}
                 >
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">
