@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <sidebars>
+        <sidebar datasource="ds"/>
+    </sidebars>
+</application>
