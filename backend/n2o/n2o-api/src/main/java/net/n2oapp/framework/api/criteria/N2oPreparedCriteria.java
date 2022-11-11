@@ -68,10 +68,7 @@ public class N2oPreparedCriteria extends Criteria {
 
     public void removeFilterForField(String fieldId) {
         if (restrictions != null) {
-            for (Restriction restriction : new ArrayList<>(restrictions)) {
-                if (restriction.getFieldId().equals(fieldId))
-                    restrictions.remove(restriction);
-            }
+            restrictions.removeIf(restriction -> restriction.getFieldId().equals(fieldId));
         }
     }
 

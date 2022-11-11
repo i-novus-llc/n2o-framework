@@ -31,8 +31,8 @@
             <close src="test"/>
         </action>
     </actions>
-    <toolbar class="my-toolbar" place="bottomRight" generate="submit, close">
-        <button action-id="ac1" model="filter"/>
+    <toolbar class="my-toolbar" place="bottomRight" generate="submit,close">
+        <button action-id="testId" model="filter"/>
         <sub-menu>
             <menu-item action-id="ac1"/>
         </sub-menu>

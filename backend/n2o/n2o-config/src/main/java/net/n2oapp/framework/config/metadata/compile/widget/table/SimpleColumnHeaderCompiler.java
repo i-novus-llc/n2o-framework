@@ -24,8 +24,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-import static net.n2oapp.framework.api.StringUtils.isLink;
-import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -66,19 +64,6 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         header.setAlignment(source.getAlignment());
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-
-        if (isLink(source.getVisible())) {
-            Condition condition = new Condition();
-            condition.setExpression(unwrapLink(source.getVisible()));
-            String datasourceId = widgetScope.getClientDatasourceId();
-            condition.setModelLink(new ModelLink(ReduxModel.filter, datasourceId).getBindLink());
-            if (!header.getConditions().containsKey(ValidationType.visible)) {
-                header.getConditions().put(ValidationType.visible, new ArrayList<>());
-            }
-            header.getConditions().get(ValidationType.visible).add(condition);
-        } else {
-            header.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-        }
         if (source.getColumnVisibilities() != null) {
             for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
                 String datasourceId = getClientDatasourceId(p.cast(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);

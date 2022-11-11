@@ -5,6 +5,8 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
+import java.util.Map;
+
 /**
  * Абстрактная модель источника данных
  */
@@ -14,4 +16,5 @@ public abstract class N2oAbstractDatasource implements Source, IdAware, Namespac
     private String id;
     private String namespaceUri;
     private Integer size;
+    private Map<String, String> sorting;
 }

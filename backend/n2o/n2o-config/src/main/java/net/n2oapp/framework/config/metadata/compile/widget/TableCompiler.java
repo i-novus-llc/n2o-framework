@@ -26,6 +26,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -36,6 +37,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static org.apache.commons.collections.MapUtils.isNotEmpty;
 
 /**
  * Компиляция таблицы
@@ -131,7 +133,8 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             }
             component.setHeaders(headers);
             component.setCells(cellsScope.getCells());
-            component.setSorting(sortings);
+            if (isNotEmpty(sortings))
+                passSortingToDatasource(sortings, source, p);
 
             RowSelectionEnum rowSelection = p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
             switch (rowSelection) {
@@ -149,6 +152,13 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                     break;
             }
         }
+    }
+
+    private void passSortingToDatasource(Map<String, String> sortings, N2oTable source, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        String sourceDatasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(source.getId());
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        dataSourcesScope.get(sourceDatasourceId).setSorting(sortings);
     }
 
     private void initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,

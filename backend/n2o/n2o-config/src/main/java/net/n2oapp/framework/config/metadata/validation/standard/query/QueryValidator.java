@@ -89,7 +89,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
         if (selections != null) {
             for (N2oQuery.Selection s : selections) {
                 if (s.getFilters() != null) {
-                    for (String filter : s.getFilters().split("\\s*,\\s*")) {
+                    for (String filter : s.getFilters()) {
                         if (!filterFields.contains(filter))
                             throw new N2oMetadataValidationException(String.format("<%s> ссылается на несуществующий фильтр %s", selectionType, filter));
                     }

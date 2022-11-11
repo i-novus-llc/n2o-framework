@@ -45,6 +45,10 @@ TextTableHeader.propTypes = {
 const enhance = compose(
     withHandlers({
         toggleVisibility: ({ dispatch, widgetId, columnId }) => (visible) => {
+            if (!dispatch) {
+                return
+            }
+
             dispatch(changeColumnVisibility(widgetId, columnId, visible))
             dispatch(changeFrozenColumn(widgetId, columnId))
         },

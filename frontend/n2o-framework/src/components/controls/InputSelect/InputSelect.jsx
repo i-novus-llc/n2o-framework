@@ -227,6 +227,8 @@ class InputSelect extends React.Component {
             onChange(this.getValue())
             onBlur(this.getValue())
         })
+
+        this.setActiveValueId(null)
     }
 
     /**
@@ -244,7 +246,9 @@ class InputSelect extends React.Component {
      * @private
      */
     setIsExpanded = (isExpanded) => {
-        const { disabled, onToggle, onOpen } = this.props
+        const { disabled, onToggle, onOpen, labelFieldId, multiSelect } = this.props
+
+        const { value } = this.state
 
         if (!isExpanded || disabled) {
             return null
@@ -253,8 +257,13 @@ class InputSelect extends React.Component {
         this.setState({
             isExpanded,
             inputFocus: isExpanded,
-        },
-        onOpen)
+        }, () => {
+            if (multiSelect || value.length < 1) {
+                onOpen()
+            } else {
+                onOpen({ [labelFieldId]: value[0][labelFieldId] })
+            }
+        })
 
         onToggle(isExpanded)
 
@@ -276,7 +285,6 @@ class InputSelect extends React.Component {
      */
     handleDataSearch = (input, delay = 400, callback) => {
         const { onSearch, filter, labelFieldId, options } = this.props
-        const { value } = this.state
 
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
             const filterFunc = item => String.prototype[filter].call(item, input)
@@ -285,13 +293,7 @@ class InputSelect extends React.Component {
             this.setState({ options: filteredData })
         } else {
             // серверная фильтрация
-            const labels = value.map(item => item[labelFieldId])
-
-            if (labels.some(label => label === input)) {
-                onSearch('', delay, callback)
-            } else {
-                onSearch(input, delay, callback)
-            }
+            onSearch(input, delay, callback)
         }
     }
 
@@ -525,7 +527,7 @@ class InputSelect extends React.Component {
                 })}
             >
                 <Dropdown
-                    isOpen={isExpanded}
+                    isOpen={!loading && isExpanded}
                     toggle={this.toggle}
                 >
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">

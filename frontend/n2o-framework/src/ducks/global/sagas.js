@@ -7,6 +7,7 @@ import {
     CHANGE_LOCALE as CHANGE_LOCALE_API,
 } from '../../core/api'
 import fetchSaga from '../../sagas/fetch'
+import { addAlert } from '../alerts/store'
 
 import {
     requestConfigSuccess,
@@ -37,6 +38,7 @@ export function* getConfig(apiProvider, action) {
         yield put(setReady())
     } catch ({ json, stack }) {
         const stacktrace = get(json, 'meta.alert.messages[0].stacktrace', stack)
+        const alert = get(json, 'meta.alert.messages[0]', null)
         const status = get(json, 'status')
 
         yield put(
@@ -49,6 +51,10 @@ export function* getConfig(apiProvider, action) {
                 status,
             }),
         )
+
+        if (alert) {
+            yield put(addAlert('top', alert))
+        }
     }
 }
 

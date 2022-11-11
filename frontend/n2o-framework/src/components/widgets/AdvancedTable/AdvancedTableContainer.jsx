@@ -113,7 +113,13 @@ class AdvancedTableContainer extends React.Component {
         let mappedChildren = null
 
         if (header.children || isChild) {
-            mappedChildren = this.mapHeaders(header.children || [], true)
+            const { multiHeader = false, visible = true } = header
+            const needHideChildren = multiHeader && !visible
+            const finalHeader = needHideChildren
+                ? header.children.map(child => ({ ...child, visible: false }))
+                : header.children
+
+            mappedChildren = this.mapHeaders(finalHeader || [], true)
 
             return {
                 ...header,
@@ -129,13 +135,25 @@ class AdvancedTableContainer extends React.Component {
     mapColumns() {
         const {
             cells,
-            headers,
+            headers: propsHeaders,
             id: widgetId,
             sorting,
             setSorting,
             registredColumns,
             filters,
         } = this.props
+
+        const headers = map(propsHeaders, (header) => {
+            const { multiHeader, visible, children } = header
+
+            if (multiHeader && visible === false && !isEmpty(children)) {
+                const newChildren = children.map(child => ({ ...child, visible: false }))
+
+                return { ...header, children: newChildren }
+            }
+
+            return header
+        })
 
         map(registredColumns, ({ frozen, visible }, key) => {
             if (frozen && !visible) {
@@ -146,11 +164,17 @@ class AdvancedTableContainer extends React.Component {
         })
 
         return this.mapHeaders(headers).map((header) => {
+            const { visible, multiHeader } = header
+
             const cell = find(cells, c => c.id === header.id) || {}
             const children = get(header, 'children', null)
-            const needRender = get(registredColumns, `${header.id}.visible`, true)
+            const needRender = visible === undefined ? get(registredColumns, `${header.id}.visible`, true) : visible
 
             const mapChildren = children => map(children, (child) => {
+                if (multiHeader && !needRender) {
+                    return []
+                }
+
                 if (!isEmpty(child.children)) {
                     child.children = mapChildren(child.children)
                 }
@@ -185,6 +209,7 @@ class AdvancedTableContainer extends React.Component {
 
             if (children) {
                 header = { ...header }
+
                 header.children = mapChildren(children)
             }
 

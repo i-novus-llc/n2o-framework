@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.application;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -8,7 +9,10 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarPathsScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 /**
  * Валидатор приложения
@@ -28,11 +32,13 @@ public class ApplicationValidator extends TypedMetadataValidator<N2oApplication>
 
         DataSourcesScope dataSourcesScope = new DataSourcesScope();
         p.safeStreamOf(application.getDatasources()).forEach(d -> dataSourcesScope.put(d.getId(), d));
+        DatasourceIdsScope datasourceIdsScope = new DatasourceIdsScope(
+                p.safeStreamOf(application.getDatasources()).map(N2oAbstractDatasource::getId).collect(Collectors.toSet()));
 
         if (application.getSidebars() != null) {
             SidebarPathsScope sidebarsPaths = new SidebarPathsScope();
             for (N2oSidebar sidebar : application.getSidebars())
-                p.validate(sidebar, sidebarsPaths, dataSourcesScope);
+                p.validate(sidebar, sidebarsPaths, dataSourcesScope, datasourceIdsScope);
         }
     }
 
