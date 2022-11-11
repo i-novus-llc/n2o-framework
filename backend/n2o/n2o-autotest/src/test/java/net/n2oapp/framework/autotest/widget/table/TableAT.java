@@ -80,24 +80,21 @@ public class TableAT extends AutoTestBase {
             table.columns().rows().row(i).cell(3).shouldBeVisible();
         }
 
-        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(0).shouldBeVisible();
+        table.columns().headers().header(0).shouldHaveTitle("Имя");
+        table.columns().headers().header(0).shouldHaveStyle("color: red");
         table.columns().headers().header(1).shouldBeVisible();
-        table.columns().headers().header(1).shouldHaveTitle("Имя");
-        table.columns().headers().header(1).shouldHaveStyle("color: red");
+        table.columns().headers().header(1).shouldHaveTitle("Фамилия");
+        table.columns().headers().header(1).shouldHaveCssClass("font-italic");
+        table.columns().headers().header(1).shouldHaveIcon("fa-plus");
         table.columns().headers().header(2).shouldBeVisible();
-        table.columns().headers().header(2).shouldHaveTitle("Фамилия");
-        table.columns().headers().header(2).shouldHaveCssClass("font-italic");
-        table.columns().headers().header(2).shouldHaveIcon("fa-plus");
-        table.columns().headers().header(3).shouldBeVisible();
-        table.columns().headers().header(3).shouldHaveTitle("Дата рождения");
+        table.columns().headers().header(2).shouldHaveTitle("Дата рождения");
 
         table.toolbar().topRight().button(1, DropdownButton.class).click();
         table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Фамилия").click();
 
-        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(0).shouldBeVisible();
         table.columns().headers().header(1).shouldBeVisible();
-        table.columns().headers().header(2).shouldBeHidden();
-        table.columns().headers().header(3).shouldBeVisible();
         for (int i = 0; i < 3; i++) {
             table.columns().rows().row(i).cell(0).shouldBeHidden();
             table.columns().rows().row(i).cell(1).shouldBeVisible();
@@ -108,11 +105,10 @@ public class TableAT extends AutoTestBase {
 
         table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Фамилия").click();
 
-        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(0).shouldBeVisible();
         table.columns().headers().header(1).shouldBeVisible();
+        table.columns().headers().header(1).shouldHaveIcon("fa-plus");
         table.columns().headers().header(2).shouldBeVisible();
-        table.columns().headers().header(2).shouldHaveIcon("fa-plus");
-        table.columns().headers().header(3).shouldBeVisible();
         for (int i = 0; i < 3; i++) {
             table.columns().rows().row(i).cell(0).shouldBeHidden();
             table.columns().rows().row(i).cell(1).shouldBeVisible();
