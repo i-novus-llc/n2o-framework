@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -40,7 +41,10 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
     @Override
     public ColumnHeader compile(T source, CompileContext<?, ?> context, CompileProcessor p) {
         ColumnHeader header = new ColumnHeader();
-        source.setId(p.cast(source.getId(), source.getTextFieldId()));
+        IndexScope idx = p.getScope(IndexScope.class);
+        int indexNumber = idx.get();
+
+        source.setId(p.cast(source.getId(), source.getTextFieldId(), "cell" + indexNumber));
         source.setSortingFieldId(p.cast(source.getSortingFieldId(), source.getTextFieldId()));
         source.setAlignment(p.cast(source.getAlignment(),
                 p.resolve(property("n2o.api.widget.column.alignment"), Alignment.class)));
@@ -50,7 +54,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (cell == null) {
             cell = new N2oTextCell();
         }
-        Cell compiledCell = p.compile(cell, context, new ComponentScope(source));
+        Cell compiledCell = p.compile(cell, context, new ComponentScope(source), new IndexScope());
         CellsScope cellsScope = p.getScope(CellsScope.class);
         if (cellsScope != null && cellsScope.getCells() != null)
             cellsScope.getCells().add(compiledCell);
