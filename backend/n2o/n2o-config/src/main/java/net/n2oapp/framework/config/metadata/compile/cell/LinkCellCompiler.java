@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
-import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.cell.LinkCell;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -32,11 +31,9 @@ public class LinkCellCompiler extends AbstractCellCompiler<LinkCell, N2oLinkCell
         if (source.getUrl() == null) {
             compileAction(cell, source, context, p);
         } else {
-            LinkActionImpl linkAction = new LinkActionImpl();
-            linkAction.setUrl(p.resolveJS(source.getUrl()));
+            cell.setUrl(p.resolveJS(source.getUrl()));
             Target defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? Target.application : Target.self;
-            linkAction.setTarget(p.cast(source.getTarget(), defaultTarget));
-            cell.setAction(linkAction);
+            cell.setTarget(p.cast(source.getTarget(), defaultTarget));
         }
 
         cell.setType(p.cast(source.getType(), p.resolve(Placeholders.property("n2o.api.cell.link.type"), IconType.class)));
