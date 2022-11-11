@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.StringUtils.hasLink;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 import static net.n2oapp.framework.config.util.FileSystemUtil.getContentByUri;
 
 /**

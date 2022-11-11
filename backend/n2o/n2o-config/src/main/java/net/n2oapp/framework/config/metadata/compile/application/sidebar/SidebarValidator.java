@@ -42,7 +42,7 @@ public class SidebarValidator extends TypedMetadataValidator<N2oSidebar> {
                                 datasource.getId()));
         }
         if (sidebar.getDatasourceId() != null) {
-            ValidationUtils.checkForExistsDatasource(sidebar.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
+            ValidationUtils.checkDatasourceExistence(sidebar.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
                 String.format("Сайдбар ссылается на несуществующий источник данных '%s'", sidebar.getDatasourceId()));
         }
         checkPath(sidebar, p.getScope(SidebarPathsScope.class));

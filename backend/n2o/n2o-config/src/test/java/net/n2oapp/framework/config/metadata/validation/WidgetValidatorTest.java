@@ -6,6 +6,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
+import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -33,7 +34,7 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
-        builder.validators(new PageValidator(), new WidgetValidator());
+        builder.validators(new PageValidator(), new BasePageValidator(), new WidgetValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank2.object.xml"),
@@ -64,5 +65,25 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     @Test
     public void testQueryParams() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters8.widget.xml");
+    }
+
+    /**
+     * Проверяется уникальность идентификаторов действий виджета
+     */
+    @Test
+    public void testActionIdsUnique() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Действие test встречается более чем один раз в метаданной виджета testActionIdsUnique");
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testActionIdsUnique.widget.xml");
+    }
+
+    /**
+     * Проверяется уникальность идентификаторов действий страницы и виджета
+     */
+    @Test
+    public void testPageAndWidgetActionIdsUnique() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Идентификатор действия 'test' дублируется на странице и в виджете 'main'");
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testPageAndWidgetActionIdsUnique.page.xml");
     }
 }

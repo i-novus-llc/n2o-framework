@@ -43,7 +43,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
                 invokeAction.setRoute(normalize("/" + widgetId + "/delete"));
                 button.setConfirm("true");
-                button.setAction(invokeAction);
+                button.setActions(new N2oInvokeAction[]{invokeAction});
             }
             break;
             case create: {
@@ -60,7 +60,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
                 modal.setRoute(normalize("/" + widgetId + "/create"));
-                button.setAction(modal);
+                button.setActions(new N2oShowModal[]{modal});
             }
             break;
             case update: {
@@ -87,7 +87,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setDatasources(new N2oStandardDatasource[]{datasource});
                 modal.setSubmitOperationId(action.name());
                 modal.setCloseAfterSubmit(true);
-                button.setAction(modal);
+                button.setActions(new N2oShowModal[]{modal});
             }
             break;
             default:

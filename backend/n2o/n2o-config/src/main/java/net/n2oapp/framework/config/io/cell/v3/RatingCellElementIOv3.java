@@ -1,9 +1,7 @@
 package net.n2oapp.framework.config.io.cell.v3;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oRatingCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись ячейки с рейтингом
  */
 @Component
-public class RatingCellElementIOv3 extends AbstractCellElementIOv3<N2oRatingCell> {
+public class RatingCellElementIOv3 extends AbstractActionCellElementIOv3<N2oRatingCell> {
     @Override
     public void io(Element e, N2oRatingCell c, IOProcessor p) {
         super.io(e, c, p);
@@ -19,8 +17,6 @@ public class RatingCellElementIOv3 extends AbstractCellElementIOv3<N2oRatingCell
         p.attributeBoolean(e, "half", c::getHalf, c::setHalf);
         p.attributeInteger(e, "max", c::getMax, c::setMax);
         p.attributeBoolean(e, "readonly", c::getReadonly, c::setReadonly);
-        p.attribute(e, "action-id", c::getActionId, c::setActionId);
-        p.anyChild(e, null, c::getN2oAction, c::setN2oAction, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
     }
 
     @Override

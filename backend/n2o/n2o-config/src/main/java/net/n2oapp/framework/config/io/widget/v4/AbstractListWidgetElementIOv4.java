@@ -54,6 +54,6 @@ public abstract class AbstractListWidgetElementIOv4<T extends N2oAbstractListWid
     private void rowClick(Element e, N2oRowClick m, IOProcessor p) {
         p.attribute(e, "action-id", m::getActionId, m::setActionId);
         p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
+        p.anyChildren(e, null, m::getActions, m::setActions, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 }

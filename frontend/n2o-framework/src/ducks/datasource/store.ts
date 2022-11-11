@@ -5,6 +5,7 @@ import merge from 'deepmerge'
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { IMeta } from '../../sagas/types'
 import { ValidationsKey } from '../../core/validation/IValidation'
+import { Meta } from '../Action'
 
 import type {
     AddComponentAction,
@@ -115,9 +116,10 @@ const datasource = createSlice({
         },
 
         dataRequest: {
-            prepare(id: string, options = {}) {
+            prepare(id: string, options = {}, meta: Meta = {}) {
                 return ({
                     payload: { id, options },
+                    meta,
                 })
             },
             reducer(state, action: DataRequestAction) {
@@ -303,9 +305,10 @@ const datasource = createSlice({
         },
         // eslint-disable-next-line @typescript-eslint/naming-convention
         DATA_REQUEST: {
-            prepare(datasource: string, options = {}) {
+            prepare(datasource: string, options = {}, meta: Meta = {}) {
                 return ({
                     payload: { datasource, options },
+                    meta,
                 })
             },
             reducer(state, action: { payload: { datasource: string, options: unknown } }) {

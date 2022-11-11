@@ -74,7 +74,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                         String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет '%s'", refreshDatasourceIds[0]));
         } else if (datasourceIdsScope != null) {
             for (String datasourceId : refreshDatasourceIds) {
-                ValidationUtils.checkForExistsDatasource(datasourceId, datasourceIdsScope,
+                ValidationUtils.checkDatasourceExistence(datasourceId, datasourceIdsScope,
                         String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных '%s'", datasourceId));
             }
         }

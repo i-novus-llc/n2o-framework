@@ -15,7 +15,6 @@ import org.jdom2.Element;
  */
 public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> implements ControlIOv3 {
 
-
     @Override
     public void io(Element e, T m, IOProcessor p) {
         super.io(e, m, p);

@@ -32,6 +32,7 @@ import { resolveButton } from '../ducks/toolbar/sagas'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
 import { failValidate, submit } from '../ducks/datasource/store'
+import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
 
 import fetchSaga from './fetch'
 
@@ -245,7 +246,7 @@ export function* handleInvoke(apiProvider, action) {
 
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
-    takeEvery(START_INVOKE, handleInvoke, apiProvider),
+    takeEvery(START_INVOKE, EffectWrapper(handleInvoke), apiProvider),
     takeEvery(SUBMIT, function* submitSaga({ meta = {}, payload = {} }) {
         const { datasource } = payload
 

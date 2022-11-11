@@ -18,6 +18,7 @@ import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
 /**
  * Компиляция виджета форма
