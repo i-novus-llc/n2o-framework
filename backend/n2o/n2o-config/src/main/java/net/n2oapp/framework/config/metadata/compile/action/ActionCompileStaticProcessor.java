@@ -17,7 +17,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.ActionAware;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
@@ -178,33 +177,6 @@ public class ActionCompileStaticProcessor {
            return new MultiAction(actions, p);
         }
         return actions.get(0);
-    }
-
-    /**
-     * Компиляция ссылки для компонента, содержащего ссылку
-     *
-     * @param actionAware Клиентская моедль компонента с действием
-     */
-    public static void compileLink(ActionAware actionAware) {
-        LinkAction linkAction = null;
-        Action action = actionAware.getAction();
-        if (action instanceof MultiAction)
-            linkAction = ((MultiAction) action).getPayload().getActions()
-                    .stream()
-                    .filter(LinkAction.class::isInstance)
-                    .map(LinkAction.class::cast)
-                    .findFirst().orElse(null);
-        else if (action instanceof LinkAction)
-            linkAction = ((LinkAction) action);
-
-        if (linkAction != null) {
-            actionAware.setUrl(linkAction.getUrl());
-            actionAware.setTarget(linkAction.getTarget());
-            if (linkAction.getPathMapping() != null)
-                actionAware.setPathMapping(new StrictMap<>(linkAction.getPathMapping()));
-            if (linkAction.getQueryMapping() != null)
-                actionAware.setQueryMapping(new StrictMap<>(linkAction.getQueryMapping()));
-        }
     }
 
     private static ConditionBranchesScope initFailConditionBranchesScope(N2oAction n2oAction, N2oAction[] n2oActions) {

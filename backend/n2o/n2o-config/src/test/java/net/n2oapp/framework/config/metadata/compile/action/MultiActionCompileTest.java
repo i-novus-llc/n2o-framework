@@ -48,8 +48,6 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testMultiAction"));
 
         PerformButton button = (PerformButton) page.getToolbar().getButton("test1");
-        assertThat(button.getUrl(), is("/test1"));
-        assertThat(button.getTarget(), is(Target.application));
         MultiAction action = (MultiAction) button.getAction();
         assertThat(action, instanceOf(MultiAction.class));
         assertThat(action.getType(), is("n2o/api/action/sequence"));
@@ -57,16 +55,18 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getActions().get(0), instanceOf(AlertAction.class));
         assertThat(action.getPayload().getActions().get(1), instanceOf(SetValueAction.class));
         assertThat(action.getPayload().getActions().get(2), instanceOf(LinkAction.class));
+        assertThat(((LinkAction) action.getPayload().getActions().get(2)).getUrl(), is("/test1"));
+        assertThat(((LinkAction) action.getPayload().getActions().get(2)).getTarget(), is(Target.application));
 
         button = (PerformButton) page.getToolbar().getButton("test2");
-        assertThat(button.getUrl(), is("/test2"));
-        assertThat(button.getTarget(), is(Target.application));
         action = (MultiAction) button.getAction();
         assertThat(action, instanceOf(MultiAction.class));
         assertThat(action.getType(), is("n2o/api/action/sequence"));
         assertThat(action.getPayload().getActions().size(), is(2));
         assertThat(action.getPayload().getActions().get(0), instanceOf(Perform.class));
         assertThat(action.getPayload().getActions().get(1), instanceOf(LinkAction.class));
+        assertThat(((LinkAction) action.getPayload().getActions().get(1)).getUrl(), is("/test2"));
+        assertThat(((LinkAction) action.getPayload().getActions().get(1)).getTarget(), is(Target.application));
     }
 
     @Test
@@ -75,7 +75,8 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testBindMultiAction", "/p/w/:parent_id/modal"),
                         new DataSet("parent_id", 123));
         PerformButton button = (PerformButton) page.getToolbar().getButton("test1");
-        assertThat(button.getUrl(), is("/p/w/123/modal/multi2"));
+        assertThat(((LinkAction) ((MultiAction) button.getAction()).getPayload().getActions().get(2)).getUrl(),
+                is("/p/w/123/modal/multi2"));
 
         MultiAction action = (MultiAction) button.getAction();
         assertThat(action.getPayload().getActions().size(), is(3));

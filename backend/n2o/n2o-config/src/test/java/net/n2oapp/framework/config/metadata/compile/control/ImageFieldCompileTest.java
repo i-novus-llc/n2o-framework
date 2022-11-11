@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
@@ -60,7 +61,7 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getStatuses()[1].getIcon(), Matchers.is(nullValue()));
         assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElementPlace.topLeft));
         assertThat(field.getAction(),  notNullValue());
-        assertThat(field.getUrl(), is("http://example.com"));
+        assertThat(((LinkAction) field.getAction()).getUrl(), is("http://example.com"));
 
         ControlDependency dependency = field.getDependencies().get(0);
         assertThat(dependency.getType(), is(ValidationType.reRender));

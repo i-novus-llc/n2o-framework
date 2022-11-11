@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.meta.control.ActionField;
 import net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileLink;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
 
 public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oActionField> extends FieldCompiler<D, S> {
@@ -23,7 +22,6 @@ public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oAc
     protected Action compileAction(N2oActionField source, ActionField field, CompileContext<?, ?> context, CompileProcessor p) {
         Action action = ActionCompileStaticProcessor.compileAction(source, context, p, null);
         field.setAction(action);
-        compileLink(field);
         return action;
     }
 
