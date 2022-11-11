@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
@@ -45,8 +46,8 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) pipeline.get(new PageContext("testButtonFieldCompile"), new DataSet().add("param2", "2"));
         Form form = (Form) page.getWidget();
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-        assertThat(field.getUrl(), Matchers.is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
-        assertThat(field.getPathMapping().size(), Matchers.is(2));
+        assertThat(((LinkAction) field.getAction()).getUrl(), Matchers.is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
+        assertThat(((LinkAction) field.getAction()).getPathMapping().size(), Matchers.is(2));
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
         assertThat(((ShowModal)field.getAction()).getPayload().getPageUrl(), is("/testButtonFieldCompile/test2/:param1/1?param3=:param3"));
         assertThat(((ShowModal)field.getAction()).getPayload().getPathMapping().size(), is(1));

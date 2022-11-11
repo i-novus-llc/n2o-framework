@@ -18,7 +18,6 @@ import net.n2oapp.framework.config.util.StylesResolver;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileLink;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
 
 
@@ -51,7 +50,6 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
         source.setActions(initActions(source, p));
         Action action = ActionCompileStaticProcessor.compileAction(source, context, p, null);
         compiled.setAction(action);
-        compileLink(compiled);
     }
 
     protected String compileSwitch(N2oSwitch n2oSwitch, CompileProcessor p) {

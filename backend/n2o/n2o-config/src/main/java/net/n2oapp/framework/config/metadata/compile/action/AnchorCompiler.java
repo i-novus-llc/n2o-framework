@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 
 /**
  * Компиляция ссылки
@@ -33,15 +35,18 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         initDefaults(source, context, p);
         LinkActionImpl linkAction = new LinkActionImpl();
         source.setSrc(p.cast(source.getSrc(), p.resolve(Placeholders.property("n2o.api.action.link.src"), String.class)));
+        linkAction.setType(p.resolve(property("n2o.api.action.link.type"), String.class));
         compileAction(linkAction, source, p);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         Target sourceTarget = source.getTarget();
         String path = source.getHref();
         if (Target.self.equals(sourceTarget) || Target.newWindow.equals(sourceTarget)) {
-            if (RouteUtil.isApplicationUrl(path))
+            if (RouteUtil.isApplicationUrl(path)) {
                 path = RouteUtil.normalize(path);
-        } else if (!source.getHref().startsWith("{"))
+            }
+        } else if (!source.getHref().startsWith("{")) {
             path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
+        }
         linkAction.setUrl(p.resolveJS(path));
         Target target = p.cast(source.getTarget(), Target.self);
         linkAction.setTarget(target);

@@ -62,7 +62,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         CompiledObject compiledObject = initObject(p, source);
         Action action = compileAction(source, context, p, compiledObject);
         button.setAction(action);
-        compileLink(button);
         button.setConfirm(compileConfirm(source, action, p, compiledObject));
         compileDependencies(source, button, p);
         return button;

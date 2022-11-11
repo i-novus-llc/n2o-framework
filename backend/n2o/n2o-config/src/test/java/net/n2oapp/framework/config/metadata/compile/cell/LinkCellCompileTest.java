@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.cell.LinkCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -69,9 +70,9 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
 
         cell = (LinkCell) table.getComponent().getCells().get(4);
         assertThat(cell.getId(), is("test5"));
-        assertThat(cell.getUrl(), is("`'/test/'+uid`"));
-        assertThat(cell.getTarget(), is(Target.newWindow));
-        assertThat(cell.getAction(), nullValue());
+        assertThat(cell.getAction(), instanceOf(LinkAction.class));
+        assertThat(((LinkAction) cell.getAction()).getUrl(), is("`'/test/'+uid`"));
+        assertThat(((LinkAction) cell.getAction()).getTarget(), is(Target.newWindow));
 
         cell = (LinkCell) table.getComponent().getCells().get(5);
         assertThat(cell.getId(), is("test6"));
