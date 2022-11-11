@@ -53,7 +53,8 @@
                 <text format="test" visible="true"/>
             </cell>
         </filter-column>
-        <multi-column label="test" src="MyTableHeader" class="my-table-header" style="color: red" alignment="right">
+        <multi-column label="test" src="MyTableHeader" class="my-table-header" style="color: red" alignment="right"
+            visible="true">
             <column text-field-id="test1">
                 <cell>
                     <close src="test"/>
