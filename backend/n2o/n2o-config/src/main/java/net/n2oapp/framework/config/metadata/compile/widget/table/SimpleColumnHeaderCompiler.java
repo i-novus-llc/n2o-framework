@@ -56,7 +56,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (cell == null) {
             cell = new N2oTextCell();
         }
-        Cell compiledCell = p.compile(cell, context, new ComponentScope(source));
+        Cell compiledCell = p.compile(cell, context, new ComponentScope(source), new IndexScope());
         CellsScope cellsScope = p.getScope(CellsScope.class);
         if (cellsScope != null && cellsScope.getCells() != null)
             cellsScope.getCells().add(compiledCell);
