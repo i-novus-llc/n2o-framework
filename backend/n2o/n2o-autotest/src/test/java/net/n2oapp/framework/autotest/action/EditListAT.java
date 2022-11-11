@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
+import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
@@ -56,7 +57,6 @@ public class EditListAT extends AutoTestBase {
         InputText url = modalPage.content(SimplePage.class).widget(FormWidget.class).fields().field("url").control(InputText.class);
         Button saveButton = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft().button("Сохранить");
 
-
         table.columns().rows().shouldHaveSize(0);
         addButton.click();
         modalPage.shouldExists();
@@ -82,24 +82,50 @@ public class EditListAT extends AutoTestBase {
         table.columns().rows().row(1).cell(0).textShouldHave("test1");
         table.columns().rows().row(1).cell(1).textShouldHave("test1url");
 
-        table.columns().rows().row(0).cell(2, ToolbarCell.class).toolbar().button("update").click();
+        table.columns().rows().row(1).cell(2, ToolbarCell.class).toolbar().button("update").click();
         modalPage.shouldExists();
-        description.shouldHaveValue("test2");
-        url.shouldHaveValue("test2url");
-        description.val("update-test2");
-        url.val("update-test2url");
+        description.shouldHaveValue("test1");
+        url.shouldHaveValue("test1url");
+        description.val("update-test1");
+        url.val("update-test1url");
         saveButton.click();
         modalPage.close();
 
         table.columns().rows().shouldHaveSize(2);
-        table.columns().rows().row(0).cell(0).textShouldHave("update-test2");
-        table.columns().rows().row(0).cell(1).textShouldHave("update-test2url");
-        table.columns().rows().row(1).cell(0).textShouldHave("test1");
-        table.columns().rows().row(1).cell(1).textShouldHave("test1url");
+        table.columns().rows().row(0).cell(0).textShouldHave("test2");
+        table.columns().rows().row(0).cell(1).textShouldHave("test2url");
+        table.columns().rows().row(1).cell(0).textShouldHave("update-test1");
+        table.columns().rows().row(1).cell(1).textShouldHave("update-test1url");
 
         table.columns().rows().row(1).cell(2, ToolbarCell.class).toolbar().button("delete").click();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).textShouldHave("update-test2");
-        table.columns().rows().row(0).cell(1).textShouldHave("update-test2url");
+        table.columns().rows().row(0).cell(0).textShouldHave("test2");
+        table.columns().rows().row(0).cell(1).textShouldHave("test2url");
+    }
+
+    @Test
+    public void testDeleteMany() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/delete_many/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/delete_many/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        Button deleteButton = page.toolbar().bottomLeft().button("Удалить");
+
+        table.columns().rows().shouldHaveSize(4);
+        table.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
+        table.columns().rows().row(3).cell(0, CheckboxCell.class).setChecked(true);
+        deleteButton.click();
+
+        table.columns().rows().shouldHaveSize(2);
+        table.columns().rows().row(0).cell(1).textShouldHave("test2");
+        table.columns().rows().row(1).cell(1).textShouldHave("test3");
+
+
+        table.columns().rows().row(1).cell(0, CheckboxCell.class).setChecked(true);
+        deleteButton.click();
+        table.columns().rows().shouldHaveSize(1);
     }
 }
