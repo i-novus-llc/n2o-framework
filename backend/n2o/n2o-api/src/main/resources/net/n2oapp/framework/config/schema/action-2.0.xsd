@@ -44,9 +44,9 @@
             <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
             <xs:element name="edit-list" type="editListDefinition" minOccurs="0"/>
-            <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
             <xs:element name="switch" type="switchActionDefinition" minOccurs="0"/>
             <xs:group ref="ifElseDefinition" minOccurs="0"/>
+            <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>

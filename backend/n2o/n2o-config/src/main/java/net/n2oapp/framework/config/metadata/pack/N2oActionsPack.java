@@ -64,11 +64,11 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new PrintActionCompiler(),
                 new AlertActionCompiler(),
                 new SubmitActionCompiler(),
+                new CustomActionCompiler(),
                 new SwitchActionCompiler(),
                 new IfBranchActionCompiler(),
                 new ElseIfBranchActionCompiler(),
                 new ElseBranchActionCompiler(),
-                new CustomActionCompiler(),
                 new EditListActionCompiler());
         b.binders(new InvokeActionBinder(),
                 new ReduxActionBinder(),
