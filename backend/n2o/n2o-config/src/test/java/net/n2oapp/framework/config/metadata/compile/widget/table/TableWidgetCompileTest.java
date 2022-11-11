@@ -85,12 +85,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeaders().get(1).getSrc(), is("TextTableHeader"));
         assertThat(table.getComponent().getHeaders().get(1).getCssClass(), is(nullValue()));
         assertThat(table.getComponent().getHeaders().get(1).getStyle(), is(nullValue()));
-        assertThat(table.getComponent().getCells().size(), is(2));
+        assertThat(table.getComponent().getCells().size(), is(4));
         assertThat(((AbstractCell) table.getComponent().getCells().get(0)).getStyle().get("marginLeft"), is("10px"));
-        assertThat(table.getComponent().getHeaders().size(), is(2));
+        assertThat(table.getComponent().getHeaders().size(), is(4));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getCssClass(), is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getFormat(), is("password"));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getHideOnBlur(), is(true));
+        assertThat(table.getComponent().getCells().get(2).getId(), is("cell2"));
+        assertThat(table.getComponent().getCells().get(3).getId(), is("cell3"));
         assertThat(table.getToolbar().getButton("but"), notNullValue());
         assertThat(table.getComponent().getRowClass(), is("red"));
         QueryContext queryContext = (QueryContext) route("/testTable4Compile/main", CompiledQuery.class);
