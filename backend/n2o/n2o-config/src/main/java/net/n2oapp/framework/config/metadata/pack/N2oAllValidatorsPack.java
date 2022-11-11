@@ -40,6 +40,6 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new FieldValidator(), new LineFieldSetValidator(), new MultiFieldSetValidator(),
                 new JavaDataProviderValidator(), new ButtonValidator(), new SubmitActionValidator(),
                 new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
-                new CustomActionValidator(), new EditListActionValidator());
+                new EditListActionValidator());
     }
 }
