@@ -307,17 +307,19 @@ http://n2oapp.net/framework/config/schema/page-4.0
 
 **Тело**
 
-[Обработчик действия](../xml/action)
+[Обработчики действий](../xml/action)
 
 **Пример**
 
 ```xml
 <action
   id="save">
+  <close/>
   <invoke
     operation-id="update"
     model="edit"
     confirm="false"/>
+  <open-page page-id="test"/>
 </action>
 ```
 

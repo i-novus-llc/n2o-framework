@@ -23,6 +23,7 @@ import { failValidate, startValidate, submit } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { ValidationsKey } from '../../core/validation/IValidation'
+import { EffectWrapper } from '../api/utils/effectWrapper'
 
 import { makeFormsFiltersByDatasourceSelector, makeFormsByDatasourceSelector } from './selectors'
 import {
@@ -180,7 +181,7 @@ let prevModel = {}
 export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
-    takeEvery(copyModel.type, copyAction),
+    takeEvery(copyModel.type, EffectWrapper(copyAction)),
     takeEvery(failValidate, function* touchOnFailValidate({ payload, meta }) {
         if (!meta?.touched) { return }
 

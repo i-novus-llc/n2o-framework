@@ -77,8 +77,8 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
         N2oToolbar toolbar = dialog.getToolbar();
         assertThat(toolbar.getItems().length, is(2));
         assertThat(((N2oButton) toolbar.getItems()[0]).getLabel(), is("Yes"));
-        assertThat(((N2oButton) toolbar.getItems()[0]).getAction(), instanceOf(N2oInvokeAction.class));
-        assertThat(((N2oButton) toolbar.getItems()[1]).getAction(), instanceOf(N2oCloseAction.class));
+        assertThat(((N2oButton) toolbar.getItems()[0]).getActions()[0], instanceOf(N2oInvokeAction.class));
+        assertThat(((N2oButton) toolbar.getItems()[1]).getActions()[0], instanceOf(N2oCloseAction.class));
 
 
         assertThat(validations.get(1).getId(), is("dialog2"));

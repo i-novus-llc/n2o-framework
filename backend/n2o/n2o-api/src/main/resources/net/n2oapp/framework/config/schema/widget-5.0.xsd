@@ -150,7 +150,8 @@
 
     <xs:complexType name="actionDefinition">
         <xs:annotation>
-            <xs:documentation>Обработчик действия.</xs:documentation>
+            <xs:documentation>Действие над виджетом
+                (допускает использование нескольких обработчиков действий в теле).</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="act:actions">
@@ -167,11 +168,6 @@
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Иконка действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="default" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Действие по умолчанию. Вызов по двойному клику или Enter.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:boolean">
@@ -1155,28 +1151,25 @@
         <xs:annotation>
             <xs:documentation>Клик по строке.</xs:documentation>
         </xs:annotation>
-
-        <xs:complexContent>
-            <xs:extension base="act:actions">
-                <xs:attribute name="action-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Условие доступности действия.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:anyAttribute>
-                    <xs:annotation>
-                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-                    </xs:annotation>
-                </xs:anyAttribute>
-            </xs:extension>
-        </xs:complexContent>
-
+        <xs:sequence>
+            <xs:group ref="act:actionsGroup"/>
+        </xs:sequence>
+        <xs:attribute name="action-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие доступности действия.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="paginationDefinition">

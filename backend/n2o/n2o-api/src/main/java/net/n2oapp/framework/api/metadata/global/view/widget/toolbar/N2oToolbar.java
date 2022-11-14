@@ -39,7 +39,7 @@ public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceId
         List<N2oAction> actions = new ArrayList<>();
         if (items != null) {
             for (ToolbarItem item : items) {
-                actions.addAll(item.getActions());
+                actions.addAll(item.getListActions());
             }
         }
         return actions;

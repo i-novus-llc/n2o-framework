@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.field;
 
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -63,6 +64,6 @@ public class N2oFieldCompileTest extends SourceCompileTestBase {
         assertThat(buttons.size(), is(1));
         assertThat(buttons.get(0), instanceOf(Submenu.class));
         Submenu submenu = (Submenu) buttons.get(0);
-        assertThat(submenu.getSubMenu().get(0).getUrl(), is("/testFieldToolbarCompile/n2o.i-novus.ru"));
+        assertThat(((LinkAction) submenu.getSubMenu().get(0).getAction()).getUrl(), is("/testFieldToolbarCompile/n2o.i-novus.ru"));
     }
 }

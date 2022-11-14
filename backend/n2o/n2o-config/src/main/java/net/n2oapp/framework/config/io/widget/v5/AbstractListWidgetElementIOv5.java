@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.io.widget.v5;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
+import net.n2oapp.framework.config.io.common.ActionsAwareIO;
 import org.jdom2.Element;
 
 /**
@@ -51,9 +51,8 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
     }
 
     private void rowClick(Element e, N2oRowClick m, IOProcessor p) {
-        p.attribute(e, "action-id", m::getActionId, m::setActionId);
+        ActionsAwareIO.action(e, m, null, ActionIOv2.NAMESPACE, p);
         p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 }

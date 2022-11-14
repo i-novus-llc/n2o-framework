@@ -7,7 +7,7 @@
                text-position="left"
                shape="circle"
                width="400px"
-               action-id="test"
+               action-id="test1"
         >
             <statuses>
                 <status
@@ -17,6 +17,10 @@
                         place="topLeft"
                 />
             </statuses>
+            <actions>
+                <invoke operation-id="op1"/>
+                <a href="/test"/>
+            </actions>
         </image>
     </fields>
 </form>

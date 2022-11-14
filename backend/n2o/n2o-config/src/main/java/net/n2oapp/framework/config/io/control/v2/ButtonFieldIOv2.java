@@ -41,7 +41,7 @@ public class ButtonFieldIOv2 extends FieldIOv2<N2oButtonField> implements Contro
         p.attribute(e, "confirm-cancel-label", m::getConfirmCancelLabel, m::setConfirmCancelLabel);
 
         p.attributeEnum(e, "type", m::getType, m::setType, LabelType.class);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
+        p.anyChildren(e, null, m::getActions, m::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
     }
 
     @Override
