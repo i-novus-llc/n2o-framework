@@ -182,7 +182,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             bindPipeline.get(compiled, context, params, subModelsProcessor, flattedScopes);
     }
 
-
     @Override
     public Map<String, Object> mapAttributes(ExtensionAttributesAware source) {
         if (source.getExtAttributes() == null || source.getExtAttributes().isEmpty())
@@ -520,9 +519,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     public void checkId(IdAware metadata, String errorMessage) {
         if (metadata == null || metadata.getId() == null)
             return;
-        Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
+        Pattern pattern = Pattern.compile("[a-zA-Z][a-zA-Z1-9_]*");
         Matcher matcher = pattern.matcher(metadata.getId());
-        if (metadata.getId().isBlank() || matcher.find() || forbiddenIds.contains(metadata.getId())) {
+        if (!matcher.matches() || forbiddenIds.contains(metadata.getId())) {
             throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
         }
     }
@@ -583,7 +582,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             return null;
     }
 
-
     private Object[] flatScopes(Object[] scopes) {
         if (scopes != null && Stream.of(scopes).filter(Objects::nonNull).anyMatch(o -> o.getClass().isArray()))
             return flatScopes(Stream.of(scopes)
@@ -592,7 +590,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
                     .filter(Objects::nonNull).toArray());
         else
             return scopes;
-
     }
 
     private boolean isBinding() {
