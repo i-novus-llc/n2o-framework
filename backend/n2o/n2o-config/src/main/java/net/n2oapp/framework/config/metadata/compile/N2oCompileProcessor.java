@@ -522,7 +522,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             return;
         Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
         Matcher matcher = pattern.matcher(metadata.getId());
-        if (matcher.find() || forbiddenIds.contains(metadata.getId())) {
+        if (metadata.getId().isBlank() || matcher.find() || forbiddenIds.contains(metadata.getId())) {
             throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
         }
     }

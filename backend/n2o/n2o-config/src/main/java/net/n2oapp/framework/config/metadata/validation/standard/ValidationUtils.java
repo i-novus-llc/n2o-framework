@@ -15,25 +15,37 @@ public final class ValidationUtils {
     }
 
     /**
-     * Проверить идентификаторов метаданных по соглашениям об именовании
+     * Проверить идентификаторы метаданных по соглашениям об именовании
+     *
      * @param items Метаданные
      * @param p     Процессор исходных метаданных
      */
     public static void checkIds(NamespaceUriAware[] items, SourceProcessor p) {
         if (items != null) {
             for (NamespaceUriAware item : items) {
-                if (item instanceof IdAware) {
-                    p.checkId((IdAware) item, "Идентификатор поля {0} является запрещенным именем");
-                }
+                checkId(item, p);
             }
         }
     }
 
     /**
+     * Проверить идентификатор метаданной по соглашениям об именовании
+     *
+     * @param item Метаданная
+     * @param p    Процессор исходных метаданных
+     */
+    public static void checkId(NamespaceUriAware item, SourceProcessor p) {
+        if (item instanceof IdAware) {
+            p.checkId((IdAware) item, "Идентификатор поля {0} является запрещенным именем");
+        }
+    }
+
+    /**
      * Проверка существования источника данных в скоупе
-     * @param dsId             Идентификатор проверямого источника данных
+     *
+     * @param dsId               Идентификатор проверямого источника данных
      * @param datasourceIdsScope Скоуп источников данных
-     * @param msg              Сообщение об ошибке
+     * @param msg                Сообщение об ошибке
      */
     public static void checkForExistsDatasource(String dsId, DatasourceIdsScope datasourceIdsScope, String msg) {
         if (datasourceIdsScope != null) {
@@ -44,8 +56,9 @@ public final class ValidationUtils {
 
     /**
      * Получение идентификатора метаданной для сообщения исключений
+     *
      * @param metadataId Идентификатор метаданной
-     * @return           Идентификатор метаданной в случае его существования, иначе пуста строка
+     * @return Идентификатор метаданной в случае его существования, иначе пуста строка
      */
     public static String getIdOrEmptyString(String metadataId) {
         return metadataId != null ? metadataId : "";

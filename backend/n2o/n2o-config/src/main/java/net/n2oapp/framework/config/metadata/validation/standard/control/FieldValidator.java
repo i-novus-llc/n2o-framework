@@ -21,6 +21,8 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Set;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkId;
+
 /**
  * Валидатор поля
  */
@@ -29,6 +31,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
 
     @Override
     public void validate(N2oField source, SourceProcessor p) {
+        checkId(source, p);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (p.getScope(FieldsScope.class) != null) {
             FieldsScope scope = p.getScope(FieldsScope.class);
