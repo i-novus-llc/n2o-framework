@@ -169,12 +169,11 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * Получение модели действия (из компонента или из его родителей)
      *
      * @param p Процессор сборки метаданных
-     * @return Модель действия
+     * @return Модель действия из ComponentScope или модель resolve, если модель из скоупа равна null
      */
     protected ReduxModel getLocalModel(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        return ComponentScope.getFirstNotNull(componentScope,
-                ModelAware.class, ModelAware::getModel);
+        return p.cast(ComponentScope.getFirstNotNull(componentScope, ModelAware.class, ModelAware::getModel), ReduxModel.resolve);
     }
 
     /**
