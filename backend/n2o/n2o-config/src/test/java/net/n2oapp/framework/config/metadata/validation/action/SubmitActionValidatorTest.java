@@ -40,22 +40,27 @@ public class SubmitActionValidatorTest extends SourceValidationTestBase {
     @Test
     public void testMissingSubmitInDatasource() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Действие <submit> ссылается на источник данных 'ds1', в котором не определен submit");
+        exception.expectMessage("Действие <submit> использует источник данных ds1, в котором не определен submit");
         validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingSubmit.page.xml");
     }
 
     @Test
     public void testMissingDatasourceAttribute() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("В действии <submit> не задан 'datasource'");
+        exception.expectMessage("Для действия <submit> не задан 'datasource'");
         validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationMissingDatasource.page.xml");
     }
 
     @Test
     public void testUnsupportedDatasource() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Действие <submit> ссылается на источник данных 'ds1', который не поддерживает submit");
+        exception.expectMessage("Действие <submit> использует источник данных ds1, который не поддерживает submit");
         validate("/net/n2oapp/framework/config/metadata/validation/action/testSubmitActionValidationUnsupport.page.xml");
+    }
+
+    @Test
+    public void testWidgetDatasourceUsing() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/testWidgetDatasourceUsing.page.xml");
     }
 
 }
