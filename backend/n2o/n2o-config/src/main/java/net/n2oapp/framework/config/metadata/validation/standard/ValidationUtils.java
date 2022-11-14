@@ -32,11 +32,9 @@ public final class ValidationUtils {
      * @param p     Процессор исходных метаданных
      */
     public static void checkIds(NamespaceUriAware[] items, SourceProcessor p) {
-        if (items != null) {
-            for (NamespaceUriAware item : items) {
+        if (items != null)
+            for (NamespaceUriAware item : items)
                 checkId(item, p);
-            }
-        }
     }
 
     /**
@@ -46,9 +44,8 @@ public final class ValidationUtils {
      * @param p    Процессор исходных метаданных
      */
     public static void checkId(NamespaceUriAware item, SourceProcessor p) {
-        if (item instanceof IdAware) {
-            p.checkId((IdAware) item, "Идентификатор поля {0} является запрещенным именем");
-        }
+        if (item instanceof IdAware)
+            p.checkId((IdAware) item, "Идентификатор поля '%s' является запрещенным именем");
     }
 
     /**

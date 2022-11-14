@@ -39,6 +39,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
     private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "", true);
+    private static final Pattern FIELD_ID_PATTERN = Pattern.compile("[a-zA-Z][\\w.]*");
 
     /**
      * Сервисы окружения
@@ -519,10 +520,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     public void checkId(IdAware metadata, String errorMessage) {
         if (metadata == null || metadata.getId() == null)
             return;
-        Pattern pattern = Pattern.compile("[a-zA-Z][a-zA-Z1-9_.]*");
-        Matcher matcher = pattern.matcher(metadata.getId());
+        Matcher matcher = FIELD_ID_PATTERN.matcher(metadata.getId());
         if (!matcher.matches() || forbiddenIds.contains(metadata.getId())) {
-            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
+            throw new N2oMetadataValidationException(String.format(errorMessage, metadata.getId()));
         }
     }
 
