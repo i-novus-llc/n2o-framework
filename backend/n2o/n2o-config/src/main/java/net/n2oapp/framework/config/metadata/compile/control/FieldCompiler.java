@@ -104,10 +104,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
             conditionSetter.accept(false);
-        } else if (conditionGetter.get() != null) {
-            dependency.setValue(conditionGetter.get());
-            source.addDependency(dependency);
-            conditionSetter.accept(defaultValue);
         } else {
             conditionSetter.accept(defaultValue);
         }

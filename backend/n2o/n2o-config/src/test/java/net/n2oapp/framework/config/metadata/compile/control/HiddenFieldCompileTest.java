@@ -1,13 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,9 +40,9 @@ public class HiddenFieldCompileTest extends SourceCompileTestBase {
 
         assertThat(hidden.getControl().getId(), is("testId"));
         assertThat(hidden.getControl().getSrc(), is("InputHidden"));
-        assertThat(hidden.getDependencies().size(), is(1));
-        assertThat(hidden.getDependencies().get(0).getType(), is(ValidationType.visible));
-        assertThat(hidden.getDependencies().get(0).getOn().isEmpty(), is(true));
-        assertThat(hidden.getDependencies().get(0).getExpression(), is("false"));
+        assertThat(hidden.getDependencies().size(), is(0));
+        assertThat(hidden.getVisible(), Matchers.is(false));
+        assertThat(hidden.getEnabled(), Matchers.is(true));
+        assertThat(hidden.getRequired(), Matchers.is(false));
     }
 }
