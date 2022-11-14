@@ -51,6 +51,7 @@ function ModalPage(props) {
         renderFromSrc,
         closeOverlay,
         metadata = {},
+        ...modalProps
     } = props
 
     const { page = {} } = metadata
@@ -65,6 +66,7 @@ function ModalPage(props) {
 
     return (
         <Modal
+            {...modalProps}
             isOpen={visible}
             toggle={() => closeOverlay(prompt)}
             size={size}
