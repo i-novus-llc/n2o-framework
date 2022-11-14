@@ -519,7 +519,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     public void checkId(IdAware metadata, String errorMessage) {
         if (metadata == null || metadata.getId() == null)
             return;
-        Pattern pattern = Pattern.compile("[a-zA-Z][a-zA-Z1-9_]*");
+        Pattern pattern = Pattern.compile("[a-zA-Z][a-zA-Z1-9_.]*");
         Matcher matcher = pattern.matcher(metadata.getId());
         if (!matcher.matches() || forbiddenIds.contains(metadata.getId())) {
             throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
