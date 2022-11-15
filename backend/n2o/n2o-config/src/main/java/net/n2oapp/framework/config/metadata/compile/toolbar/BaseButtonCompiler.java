@@ -20,6 +20,7 @@ import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
 
+import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -119,31 +120,42 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
             return LabelType.textAndIcon;
         if (source.getIcon() != null)
             return LabelType.icon;
-        if (source.getLabel() != null)
-            return LabelType.text;
         return LabelType.text;
     }
 
     protected void compileCondition(N2oAbstractButton source, AbstractButton button, CompileProcessor p, ComponentScope componentScope) {
         if (componentScope != null && componentScope.unwrap(N2oCell.class) != null) {
-            button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-            button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+            WidgetScope widgetScope = p.getScope(WidgetScope.class);
+            String widgetDs = nonNull(widgetScope) && nonNull(widgetScope.getDatasourceId()) ? widgetScope.getDatasourceId() : null;
+            if (widgetDs != null && !widgetDs.equals(source.getDatasourceId()))
+                compileLinkConditions(source, button, p);
+            else
+                resolveConditions(source, button, p);
         } else {
-            String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
-            if (isLink(source.getVisible()))
-                compileLinkCondition(button, clientDatasource, ValidationType.visible, source.getVisible(), source.getModel());
-            else
-                button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-
-            if (isLink(source.getEnabled()))
-                compileLinkCondition(button, clientDatasource, ValidationType.enabled, source.getEnabled(), source.getModel());
-            else
-                button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+            compileLinkConditions(source, button, p);
         }
     }
 
-    private void compileLinkCondition(AbstractButton button, String clientDatasource, ValidationType type,
-                                      String linkCondition, ReduxModel model) {
+    private void compileLinkConditions(N2oAbstractButton source, AbstractButton button, CompileProcessor p) {
+        String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
+        if (isLink(source.getVisible()))
+            compileLink(button, clientDatasource, ValidationType.visible, source.getVisible(), source.getModel());
+        else
+            button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+
+        if (isLink(source.getEnabled()))
+            compileLink(button, clientDatasource, ValidationType.enabled, source.getEnabled(), source.getModel());
+        else
+            button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+    }
+
+    private void resolveConditions(N2oAbstractButton source, AbstractButton button, CompileProcessor p) {
+        button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+    }
+
+    private void compileLink(AbstractButton button, String clientDatasource, ValidationType type,
+                             String linkCondition, ReduxModel model) {
         Condition condition = new Condition();
         condition.setExpression(unwrapLink(linkCondition));
         condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
