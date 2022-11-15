@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.action;
 
-import net.n2oapp.framework.api.metadata.event.action.MergeMode;
-import net.n2oapp.framework.api.metadata.event.action.N2oSetValueAction;
+import net.n2oapp.framework.api.metadata.action.MergeMode;
+import net.n2oapp.framework.api.metadata.action.N2oSetValueAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;

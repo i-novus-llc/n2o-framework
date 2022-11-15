@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.event;
 
-import net.n2oapp.framework.api.metadata.application.N2oAbstractEvent;
+import net.n2oapp.framework.api.metadata.event.N2oAbstractEvent;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import org.jdom2.Element;
