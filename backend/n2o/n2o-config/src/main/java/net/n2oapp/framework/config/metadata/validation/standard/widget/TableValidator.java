@@ -24,6 +24,7 @@ public class TableValidator implements SourceValidator<N2oTable>, SourceClassAwa
                 .filter(N2oActionCell.class::isInstance)
                 .flatMap(actionCell -> p.safeStreamOf(((N2oActionCell) actionCell).getActions()))
                 .forEach(p::validate);
+        p.safeStreamOf(source.getFilters()).forEach(p::validate);
     }
 
     @Override
