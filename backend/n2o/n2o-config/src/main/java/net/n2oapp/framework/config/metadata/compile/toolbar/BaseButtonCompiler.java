@@ -104,11 +104,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
 
         String datasource = initDatasource(source, p);
         source.setDatasourceId(datasource);
-
-        if (source.getModel() != null)
-            source.setUserDefinedModel(true);
-        else
-            source.setModel(ReduxModel.resolve);
+        source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
     }
 
     private String initTooltipPosition(S source, CompileProcessor p) {

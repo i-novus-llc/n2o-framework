@@ -34,7 +34,6 @@ public abstract class N2oAbstractButton extends N2oComponent implements IdAware,
     private String datasourceId;
     private String visible;
     private String enabled;
-    private Boolean userDefinedModel;
 
     @Deprecated
     public String getWidgetId() {
