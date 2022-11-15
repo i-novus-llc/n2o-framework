@@ -124,6 +124,16 @@ public final class ValidationUtils {
         return metadataId != null ? metadataId : "";
     }
 
+    /**
+     * Получение идентификатора метаданной для сообщения исключений
+     *
+     * @param metadataId Идентификатор метаданной
+     * @return           Пробел + идентификатор метаданной в случае существования идентификатора, иначе пуста строка
+     */
+    public static String getSpaceWithIdOrEmptyString(String metadataId) {
+        return metadataId != null ? " " + metadataId : "";
+    }
+
     private static void checkTest(N2oConditionBranch branch, SourceProcessor p, @Nonnull String tag) {
         p.checkNotNull(branch.getTest(),
                 String.format("В теге %s условного операторе if-else не задано условие 'test'", tag));

@@ -49,16 +49,16 @@ public class DataController extends AbstractController {
         ActionRequestInfo requestInfo = createActionRequestInfo(path, parameters, headers, body, user);
         ActionResponseInfo responseInfo = new ActionResponseInfo();
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
-        resolveMeta(requestInfo, result);
+        resolveMeta(requestInfo, result, responseInfo.getSuccess());
         return result;
     }
 
-    private void resolveMeta(ActionRequestInfo requestInfo, SetDataResponse response) {
+    private void resolveMeta(ActionRequestInfo requestInfo, SetDataResponse response, Boolean success) {
         if (requestInfo.getPollingEndCondition() != null && !resolveCondition(requestInfo.getPollingEndCondition(), response.getData())) {
             resolvePolling(requestInfo, response);
         } else {
             resolveRedirect(requestInfo, response);
-            resolveRefresh(requestInfo, response);
+            resolveRefresh(requestInfo, response, success);
             resolveLoading(requestInfo, response);
             resolveClear(requestInfo, response);
         }
@@ -109,8 +109,8 @@ public class DataController extends AbstractController {
         }
     }
 
-    private void resolveRefresh(ActionRequestInfo requestInfo, SetDataResponse response) {
-        if (requestInfo.getRefresh() != null) {
+    private void resolveRefresh(ActionRequestInfo requestInfo, SetDataResponse response, Boolean success) {
+        if (success && requestInfo.getRefresh() != null) {
             RefreshSaga resolvedRefresh = new RefreshSaga();
             resolvedRefresh.setDatasources(requestInfo.getRefresh().getDatasources());
             response.addRefresh(resolvedRefresh);
