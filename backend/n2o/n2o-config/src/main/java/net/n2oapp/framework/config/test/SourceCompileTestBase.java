@@ -21,12 +21,6 @@ public abstract class SourceCompileTestBase extends N2oTestBase {
         return builder.read();
     }
 
-    public ReadTerminalPipeline<ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>> merge(String... uri) {
-        if (uri != null)
-            Stream.of(uri).forEach(u -> builder.sources(new CompileInfo(u)));
-        return builder.read().merge();
-    }
-
     public ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> compile(String... uri) {
         if (uri != null)
             Stream.of(uri).forEach(u -> builder.sources(new CompileInfo(u)));
