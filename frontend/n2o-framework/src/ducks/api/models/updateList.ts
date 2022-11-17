@@ -1,6 +1,6 @@
 import { isEqual, isNil } from 'lodash'
 
-import { FOUND_MANY_MESSAGE, HAVE_NOT_PRIMARY_KEY, NOT_ARRAY, NOT_FOUND_MESSAGE, Operations, UKNOWK_OPERATION } from './const'
+import { FOUND_MANY_MESSAGE, HAVE_NOT_PRIMARY_KEY, NOT_ARRAY, NOT_FOUND_MESSAGE, Operations, UNKNOWN_OPERATION } from './const'
 
 function checkPrimaryKey<TItem extends object>(
     item: TItem,
@@ -11,8 +11,13 @@ function checkPrimaryKey<TItem extends object>(
     }
 }
 
-function create<TItem extends object>(list: TItem[], item: TItem): TItem[] {
-    return [...list, item]
+function create<TItem extends object>(list: TItem[], item: TItem | TItem[]): TItem[] {
+    const tail = Array.isArray(item) ? item : [item]
+
+    return [
+        ...list,
+        ...tail,
+    ]
 }
 
 function update<
@@ -96,16 +101,17 @@ function deleteMany<
 function updateList<TItem extends object>(
     list: TItem[],
     item: TItem | TItem[],
-    primarykey: keyof TItem,
+    primaryKey: keyof TItem,
     operation: Operations,
 ): TItem[] {
     switch (operation) {
-        case Operations.create: { return create(list, item as TItem) }
-        case Operations.update: { return update(list, item as TItem, primarykey) }
-        case Operations.delete: { return deleteItem(list, item as TItem, primarykey) }
-        case Operations.deleteMany: { return deleteMany(list, item as TItem[], primarykey) }
+        case Operations.createMany:
+        case Operations.create: { return create(list, item) }
+        case Operations.update: { return update(list, item as TItem, primaryKey) }
+        case Operations.delete: { return deleteItem(list, item as TItem, primaryKey) }
+        case Operations.deleteMany: { return deleteMany(list, item as TItem[], primaryKey) }
         default: {
-            throw new Error(UKNOWK_OPERATION)
+            throw new Error(UNKNOWN_OPERATION)
         }
     }
 }
