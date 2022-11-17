@@ -32,8 +32,8 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
 
     @Test
     public void testSetFieldsetMerge() {
-        N2oSetFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/parentSetFieldsetMerger.fieldset.xml",
-                "net/n2oapp/framework/config/metadata/merge/fieldset/childSetFieldsetMerger.fieldset.xml")
+        N2oSetFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/set/parentSetFieldsetMerger.fieldset.xml",
+                "net/n2oapp/framework/config/metadata/merge/fieldset/set/childSetFieldsetMerger.fieldset.xml")
                 .get("parentSetFieldsetMerger", N2oSetFieldSet.class);
 
         assertThat(fieldSet.getVisible(), is("false"));
@@ -54,8 +54,8 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
 
     @Test
     public void testLineFieldsetMerge() {
-        N2oLineFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/parentLineFieldsetMerger.fieldset.xml",
-                "net/n2oapp/framework/config/metadata/merge/fieldset/childLineFieldsetMerger.fieldset.xml")
+        N2oLineFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/line/parentLineFieldsetMerger.fieldset.xml",
+                "net/n2oapp/framework/config/metadata/merge/fieldset/line/childLineFieldsetMerger.fieldset.xml")
                 .get("parentLineFieldsetMerger", N2oLineFieldSet.class);
 
         assertThat(fieldSet.getVisible(), is("false"));
@@ -75,12 +75,22 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getExpand(), is(false));
         assertThat(fieldSet.getItems().length, is(1));
         assertThat(((N2oField) fieldSet.getItems()[0]).getId(), is("parentField"));
+
+        fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/line/parentLineFieldsetMerger2.fieldset.xml",
+                "net/n2oapp/framework/config/metadata/merge/fieldset/line/childLineFieldsetMerger2.fieldset.xml")
+                .get("parentLineFieldsetMerger2", N2oLineFieldSet.class);
+
+        assertThat(fieldSet.getCollapsible(), is(true));
+        assertThat(fieldSet.getHasSeparator(), is(true));
+        assertThat(fieldSet.getExpand(), is(true));
+        assertThat(fieldSet.getItems().length, is(1));
+        assertThat(((N2oField) fieldSet.getItems()[0]).getId(), is("parentField"));
     }
 
     @Test
     public void testMultiFieldsetMerge() {
-        N2oMultiFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/parentMultiFieldsetMerger.fieldset.xml",
-                "net/n2oapp/framework/config/metadata/merge/fieldset/childMultiFieldsetMerger.fieldset.xml")
+        N2oMultiFieldSet fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/multi/parentMultiFieldsetMerger.fieldset.xml",
+                "net/n2oapp/framework/config/metadata/merge/fieldset/multi/childMultiFieldsetMerger.fieldset.xml")
                 .get("parentMultiFieldsetMerger", N2oMultiFieldSet.class);
 
         assertThat(fieldSet.getVisible(), is("false"));
@@ -95,8 +105,31 @@ public class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
         assertThat(fieldSet.getSrc(), is("test"));
-//        assertThat(fieldSet.get);
+        assertThat(fieldSet.getAddButtonLabel(), is("addLabel"));
+        assertThat(fieldSet.getChildrenLabel(), is("childrenLabel"));
+        assertThat(fieldSet.getFirstChildrenLabel(), is("firstChildrenLabel"));
+        assertThat(fieldSet.getRemoveAllButtonLabel(), is("removeAllLabel"));
+        assertThat(fieldSet.getCanAdd(), is(false));
+        assertThat(fieldSet.getCanCopy(), is(false));
+        assertThat(fieldSet.getCanRemove(), is(false));
+        assertThat(fieldSet.getCanRemoveAll(), is(false));
+        assertThat(fieldSet.getCanRemoveFirst(), is(false));
+        assertThat(fieldSet.getItems().length, is(1));
+        assertThat(((N2oField) fieldSet.getItems()[0]).getId(), is("parentField"));
 
+        fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/multi/parentMultiFieldsetMerger2.fieldset.xml",
+                "net/n2oapp/framework/config/metadata/merge/fieldset/multi/childMultiFieldsetMerger2.fieldset.xml")
+                .get("parentMultiFieldsetMerger2", N2oMultiFieldSet.class);
+
+        assertThat(fieldSet.getAddButtonLabel(), is("p_addLabel"));
+        assertThat(fieldSet.getChildrenLabel(), is("p_childrenLabel"));
+        assertThat(fieldSet.getFirstChildrenLabel(), is("p_firstChildrenLabel"));
+        assertThat(fieldSet.getRemoveAllButtonLabel(), is("p_removeAllLabel"));
+        assertThat(fieldSet.getCanAdd(), is(true));
+        assertThat(fieldSet.getCanCopy(), is(true));
+        assertThat(fieldSet.getCanRemove(), is(true));
+        assertThat(fieldSet.getCanRemoveAll(), is(true));
+        assertThat(fieldSet.getCanRemoveFirst(), is(true));
         assertThat(fieldSet.getItems().length, is(1));
         assertThat(((N2oField) fieldSet.getItems()[0]).getId(), is("parentField"));
     }

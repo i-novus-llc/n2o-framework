@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<line xmlns="http://n2oapp.net/framework/config/schema/fieldset-5.0"
+     collapsible="true"
+     has-separator="true"
+     expand="true"
+     ref-id="childLineFieldsetMerger2"
+>
+    <input-text id="parentField"/>
+</line>

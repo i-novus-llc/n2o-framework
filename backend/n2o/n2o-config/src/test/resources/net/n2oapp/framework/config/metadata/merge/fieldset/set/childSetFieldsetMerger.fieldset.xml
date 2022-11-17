@@ -5,6 +5,7 @@
      field-label-width="100px"
      help="help"
      label="child-label"
-     src="test">
+     src="test"
+>
     <input-text id="childField"/>
 </set>
