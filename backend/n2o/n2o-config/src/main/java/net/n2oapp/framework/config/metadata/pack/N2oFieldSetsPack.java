@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.FieldSetBinder;
 import net.n2oapp.framework.config.metadata.compile.widget.StandardFieldBinder;
 import net.n2oapp.framework.config.metadata.merge.fieldset.N2oFieldSetMerger;
 import net.n2oapp.framework.config.metadata.merge.fieldset.N2oLineFieldSetMerger;
+import net.n2oapp.framework.config.metadata.merge.fieldset.N2oMultiFieldSetMerger;
 
 public class N2oFieldSetsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -17,7 +18,9 @@ public class N2oFieldSetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new MultiFieldSetCompiler(),
                 new FieldSetRowCompiler(),
                 new FieldSetColumnCompiler());
-        b.mergers(new N2oFieldSetMerger<>(), new N2oLineFieldSetMerger());
+        b.mergers(new N2oFieldSetMerger<>(),
+                new N2oLineFieldSetMerger(),
+                new N2oMultiFieldSetMerger());
         b.binders(new FieldSetBinder(),
                 new StandardFieldBinder());
     }

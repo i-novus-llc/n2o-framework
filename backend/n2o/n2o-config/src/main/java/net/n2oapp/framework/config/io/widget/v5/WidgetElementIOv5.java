@@ -18,7 +18,7 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 /**
- * Чтение\запись виджета  версии 5.0
+ * Чтение\запись виджета версии 5.0
  */
 public abstract class WidgetElementIOv5<T extends N2oWidget> implements NamespaceIO<T>, WidgetIOv5 {
     private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
