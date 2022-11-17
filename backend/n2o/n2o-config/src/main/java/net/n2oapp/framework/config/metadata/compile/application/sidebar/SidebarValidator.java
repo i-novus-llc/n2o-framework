@@ -8,8 +8,6 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,22 +27,24 @@ public class SidebarValidator extends TypedMetadataValidator<N2oSidebar> {
         if (sidebar.getExtraMenu() != null)
             p.checkForExists(sidebar.getExtraMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for sidebar");
 
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+
         if (sidebar.getDatasource() != null) {
             if (sidebar.getDatasourceId() != null)
                 throw new N2oMetadataValidationException(
                         String.format("Сайдбар использует внутренний источник данных и ссылку на источник данных '%s' одновременно",
                                 sidebar.getDatasourceId()));
-            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             N2oStandardDatasource datasource = sidebar.getDatasource();
-            if (dataSourcesScope.containsKey(datasource.getId()))
+            if (dataSourcesScope != null && dataSourcesScope.containsKey(datasource.getId()))
                 throw new N2oMetadataValidationException(
                         String.format("Идентификатор '%s' внутреннего источника данных сайдбара уже используется другим источником данных",
                                 datasource.getId()));
         }
-        if (sidebar.getDatasourceId() != null) {
-            ValidationUtils.checkDatasourceExistence(sidebar.getDatasourceId(), p.getScope(DatasourceIdsScope.class),
-                String.format("Сайдбар ссылается на несуществующий источник данных '%s'", sidebar.getDatasourceId()));
-        }
+        if (sidebar.getDatasourceId() != null &&
+                (dataSourcesScope == null || !dataSourcesScope.containsKey(sidebar.getDatasourceId())))
+            throw new N2oMetadataValidationException(String.format("Сайдбар ссылается на несуществующий источник данных '%s'",
+                    sidebar.getDatasourceId()));
+
         checkPath(sidebar, p.getScope(SidebarPathsScope.class));
     }
 

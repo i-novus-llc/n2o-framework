@@ -18,9 +18,10 @@ public interface SourceProcessor {
 
     /**
      * Провалидировать вложенную метаданную
+     *
      * @param metadata Исходная метаданная
-     * @param scope Объекты, влияющие на внутренние валидации. Должны быть разных классов.
-     * @param <T> Тип метаданной
+     * @param scope    Объекты, влияющие на внутренние валидации. Должны быть разных классов.
+     * @param <T>      Тип метаданной
      */
     <T extends Source> void validate(T metadata, Object... scope);
 
@@ -46,9 +47,10 @@ public interface SourceProcessor {
 
     /**
      * Получить исходную метаданную по идентификатору или бросить исключение, если метаданная невалидна
-     * @param id Идентификатор
+     *
+     * @param id            Идентификатор
      * @param metadataClass Класс метаданной
-     * @param <T> Тип метаданной
+     * @param <T>           Тип метаданной
      * @return Метаданная или null
      */
     <T extends SourceMetadata> T getOrThrow(String id, Class<T> metadataClass);
@@ -99,7 +101,8 @@ public interface SourceProcessor {
 
     /**
      * Проверить, что объект не null
-     * @param something Объект
+     *
+     * @param something    Объект
      * @param errorMessage Сообщение о том, какой объект не должен быть null
      */
     default void checkNotNull(Object something, String errorMessage) {
@@ -109,24 +112,27 @@ public interface SourceProcessor {
 
     /**
      * Проверить метаданную на существование
-     * @param id Идентификатор метаданной
+     *
+     * @param id            Идентификатор метаданной
      * @param metadataClass Класс метаданной
-     * @param errorMessage Сообщение о том, какой метаданной не существует
-     * @param <T> Тип метаданной
+     * @param errorMessage  Сообщение о том, какой метаданной не существует
+     * @param <T>           Тип метаданной
      */
     <T extends SourceMetadata> void checkForExists(String id, Class<T> metadataClass, String errorMessage);
 
     /**
      * Проверить идентификатор метаданной по соглашениям об именовании
-     * @param metadata Метаданная
+     *
+     * @param metadata     Метаданная
      * @param errorMessage Сообщение о том, какой идентификатор не соответствует соглашениям об именовании
      */
     void checkId(IdAware metadata, String errorMessage);
 
     /**
      * Получить поток значений из массива
+     *
      * @param values Массив значений
-     * @param <T> Тип значений
+     * @param <T>    Тип значений
      * @return Поток значений или пустой поток, если массив null
      */
     default <T> Stream<T> safeStreamOf(T[] values) {
@@ -135,8 +141,9 @@ public interface SourceProcessor {
 
     /**
      * Получить поток значений из коллекции
+     *
      * @param values Коллекция значений
-     * @param <T> Тип значений
+     * @param <T>    Тип значений
      * @return Поток значений или пустой поток, если коллекция null
      */
     default <T> Stream<T> safeStreamOf(Collection<T> values) {
@@ -145,6 +152,7 @@ public interface SourceProcessor {
 
     /**
      * Проверка, что у метаданной задан идентификатор
+     *
      * @param metadata     Валидируемая метаданная
      * @param errorMessage Сообщение об ошибке
      */
@@ -154,9 +162,10 @@ public interface SourceProcessor {
 
     /**
      * Проверить уникальность идентификаторов в массиве
-     * @param list Массив значений
+     *
+     * @param list         Массив значений
      * @param errorMessage Сообщение в случае не уникальности
-     * @param <T> Тип значений
+     * @param <T>          Тип значений
      */
     default <T extends IdAware> void checkIdsUnique(T[] list, String errorMessage) {
         if (list != null) {
@@ -166,9 +175,10 @@ public interface SourceProcessor {
 
     /**
      * Проверить уникальность идентификаторов в коллекции
-     * @param list Коллекция значений
+     *
+     * @param list         Коллекция значений
      * @param errorMessage Сообщение в случае не уникальности
-     * @param <T> Тип значений
+     * @param <T>          Тип значений
      */
     default <T extends IdAware> void checkIdsUnique(Collection<T> list, String errorMessage) {
         if (list == null)
