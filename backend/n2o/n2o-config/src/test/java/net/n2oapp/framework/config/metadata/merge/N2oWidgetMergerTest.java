@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.merge.widget;
+package net.n2oapp.framework.config.metadata.merge;
 
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.SourceComponent;
@@ -12,7 +12,9 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.v4.FormElementIOV4;
 import net.n2oapp.framework.config.io.widget.v4.TableElementIOV4;
 import net.n2oapp.framework.config.io.widget.v5.TableElementIOV5;
-import net.n2oapp.framework.config.metadata.compile.widget.*;
+import net.n2oapp.framework.config.metadata.merge.widget.N2oFormMerger;
+import net.n2oapp.framework.config.metadata.merge.widget.N2oTableMerger;
+import net.n2oapp.framework.config.metadata.merge.widget.N2oWidgetMerger;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
@@ -42,7 +44,6 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         super.configure(builder);
         builder.packs(new N2oActionsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack())
                 .ios(new FormElementIOV4(), new TableElementIOV4(), new TableElementIOV5())
-                .compilers(new FormCompiler(), new TableCompiler())
                 .mergers(new N2oWidgetMerger<>(), new N2oFormMerger(), new N2oTableMerger());
     }
 
