@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticPr
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
+import static org.apache.commons.lang3.ArrayUtils.getLength;
 
 public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oActionField> extends FieldCompiler<D, S> {
 
@@ -20,6 +21,8 @@ public abstract class ActionFieldCompiler<D extends ActionField, S extends N2oAc
     }
 
     protected Action compileAction(N2oActionField source, ActionField field, CompileContext<?, ?> context, CompileProcessor p) {
+        if (getLength(source.getActions()) == 1)
+            source.getActions()[0].setId(p.cast(source.getActions()[0].getId(), field.getId()));
         Action action = ActionCompileStaticProcessor.compileAction(source, context, p, null);
         field.setAction(action);
         return action;

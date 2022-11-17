@@ -228,6 +228,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
+    public <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass, CompileProcessor processor) {
+        return readPipeline.get(id, sourceClass, new N2oCompileProcessor((N2oCompileProcessor) processor));
+    }
+
+    @Override
     public <D extends Compiled> void addRoute(CompileContext<D, ?> context) {
         env.getRouteRegister().addRoute(context.getRoute(this), context);
     }
