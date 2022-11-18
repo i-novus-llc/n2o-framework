@@ -254,8 +254,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         List<Validation> validations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
         String fieldId = p.getScope(MultiFieldSetScope.class) == null ? field.getId() : p.getScope(MultiFieldSetScope.class).getId() + "[index]." + field.getId();
-        validations.addAll(initRequiredValidation(field, source, p, visibilityConditions, fieldId));
-        validations.addAll(initInlineValidations(fieldId, source, context, p, visibilityConditions));
+        validations.addAll(initRequiredValidation(fieldId, field, source, p, visibilityConditions));
+        validations.addAll(initInlineValidations(fieldId, field, source, context, p, visibilityConditions));
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ValidationScope validationScope = p.getScope(ValidationScope.class);
@@ -263,7 +263,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             validationScope.addAll(widgetScope.getDatasourceId(), widgetScope.getModel(), validations);
     }
 
-    private List<Validation> initRequiredValidation(Field field, S source, CompileProcessor p, Set<String> visibilityConditions, String fieldId) {
+    private List<Validation> initRequiredValidation(String fieldId, Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
         List<Validation> result = new ArrayList<>();
         MomentScope momentScope = p.getScope(MomentScope.class);
         String requiredMessage = momentScope != null
@@ -296,7 +296,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return result;
     }
 
-    private List<Validation> initInlineValidations(String fieldId,
+    private List<Validation> initInlineValidations(String fieldId, Field field,
                                                    S source,
                                                    CompileContext<?, ?> context, CompileProcessor p,
                                                    Set<String> visibilityConditions) {
