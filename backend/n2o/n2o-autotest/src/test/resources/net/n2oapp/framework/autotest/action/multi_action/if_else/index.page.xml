@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Первая страница">
+    <datasources>
+        <datasource id="ds" query-id="test"/>
+        <browser-storage id="ds2" key="bs">
+            <submit/>
+        </browser-storage>
+    </datasources>
+    <regions>
+        <table datasource="ds">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="type"/>
+            </columns>
+            <toolbar>
+                <button label="Открыть">
+                    <if test="type &lt;= 15">
+                        <copy source-model="resolve" target-datasource="ds2" target-model="resolve" source-datasource="ds"/>
+                        <submit datasource="ds2"/>
+                        <open-page page-id="page1" route="/open1" page-name="Меньше-равно 15"/>
+                    </if>
+                    <else-if test="type &gt; 15 &amp;&amp; type &lt;= 30">
+                        <copy source-model="resolve" target-datasource="ds2" target-model="resolve" source-datasource="ds"/>
+                        <submit datasource="ds2"/>
+                        <open-page page-id="page1" route="/open2" page-name="Больше 15 меньше-равно 30"/>
+                    </else-if>
+                    <else-if test="type &gt; 30 &amp;&amp; type &lt;= 60">
+                        <copy source-model="resolve" target-datasource="ds2" target-model="resolve" source-datasource="ds"/>
+                        <submit datasource="ds2"/>
+                        <open-page page-id="page1" route="/open3" page-name="Больше 30 меньше-равно 60"/>
+                    </else-if>
+                    <else>
+                        <copy source-model="resolve" target-datasource="ds2" target-model="resolve" source-datasource="ds"/>
+                        <submit datasource="ds2"/>
+                        <open-page page-id="page1" route="/open4" page-name="Больше 60"/>
+                    </else>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>
