@@ -12,14 +12,6 @@
                         <condition id="name_length">name.length>1</condition>
                     </validations>
                 </input-text>
-                <multi-set id="members">
-                    <input-text id="id" required="true"/>
-                    <input-text id="name">
-                        <validations>
-                            <condition id="name_length">name.length>3</condition>
-                        </validations>
-                    </input-text>
-                </multi-set>
             </fields>
         </form>
 
@@ -31,14 +23,6 @@
                         <condition id="name2_length">name2.length>1</condition>
                     </validations>
                 </input-text>
-                <multi-set id="members2">
-                    <input-text id="id2" required="true"/>
-                    <input-text id="name2">
-                        <validations>
-                            <condition id="name_length2">name2.length>3</condition>
-                        </validations>
-                    </input-text>
-                </multi-set>
             </filters>
             <columns>
                 <column text-field-id="id2"/>
