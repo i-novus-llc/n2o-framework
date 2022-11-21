@@ -8,7 +8,7 @@ import { FieldsetCol } from './FieldsetCol'
 
 function FieldsetRow({ rowId, row, ...rest }) {
     return (
-        <Row key={rowId} {...row.props} className={row.className}>
+        <Row key={rowId} {...row.props} className={row.className} style={row.style}>
             {row.cols &&
         row.cols.map((col, colId) => (
             // eslint-disable-next-line react/no-array-index-key
