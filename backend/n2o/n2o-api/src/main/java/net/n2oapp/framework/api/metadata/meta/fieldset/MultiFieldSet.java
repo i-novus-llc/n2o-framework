@@ -30,4 +30,8 @@ public class MultiFieldSet extends FieldSet {
     private Boolean needCopyButton;
     @JsonProperty
     private Boolean needRemoveAllButton;
+    @JsonProperty
+    private String primaryKey;
+    @JsonProperty
+    private Boolean generatePrimaryKey;
 }

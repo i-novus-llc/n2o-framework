@@ -23,6 +23,8 @@ public class MultiFieldsetElementIOv5 extends FieldsetElementIOv5<N2oMultiFieldS
         p.attributeBoolean(e, "can-remove", fs::getCanRemove, fs::setCanRemove);
         p.attributeBoolean(e, "can-remove-all", fs::getCanRemoveAll, fs::setCanRemoveAll);
         p.attributeBoolean(e, "can-copy", fs::getCanCopy, fs::setCanCopy);
+        p.attribute(e, "primary-key", fs::getPrimaryKey, fs::setPrimaryKey);
+        p.attributeBoolean(e, "generate-primary-key", fs::getGeneratePrimaryKey, fs::setGeneratePrimaryKey);
     }
 
     @Override

@@ -57,6 +57,8 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(multiFieldSet.getNeedRemoveAllButton(), is(true));
         assertThat(multiFieldSet.getNeedCopyButton(), is(true));
         assertThat(multiFieldSet.getDescription(), is("description"));
+        assertThat(multiFieldSet.getPrimaryKey(), is("pk"));
+        assertThat(multiFieldSet.getGeneratePrimaryKey(), is(true));
 
         MultiFieldSet multiFieldSet2 = (MultiFieldSet) fieldsets.get(1);
         assertThat(multiFieldSet2.getSrc(), is("test"));
@@ -68,5 +70,7 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(multiFieldSet2.getNeedRemoveAllButton(), is(false));
         assertThat(multiFieldSet2.getNeedCopyButton(), is(false));
         assertThat(multiFieldSet2.getDescription(), nullValue());
+        assertThat(multiFieldSet2.getPrimaryKey(), is("id"));
+        assertThat(multiFieldSet2.getGeneratePrimaryKey(), is(false));
     }
 }

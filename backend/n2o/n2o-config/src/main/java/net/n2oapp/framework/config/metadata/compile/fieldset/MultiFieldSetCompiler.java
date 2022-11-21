@@ -37,6 +37,8 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
                 p.resolve(property("n2o.api.fieldset.multi-set.can_copy"), Boolean.class)));
         fieldSet.setNeedRemoveAllButton(p.cast(source.getCanRemoveAll(),
                 p.resolve(property("n2o.api.fieldset.multi-set.can_remove_all"), Boolean.class)));
+        fieldSet.setPrimaryKey(p.cast(source.getPrimaryKey(), "id"));
+        fieldSet.setGeneratePrimaryKey(p.cast(source.getGeneratePrimaryKey(), false));
         return fieldSet;
     }
 
