@@ -48,7 +48,8 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/graphql/filters", getTestGraphqlQueryContext("testGraphqlFilters", "/test/graphql/filters")),
                 new RouteInfo("/test/graphql/pagination", getTestGraphqlQueryContext("testGraphqlPagination", "/test/graphql/pagination")),
                 new RouteInfo("/test/graphql/sorting", getTestGraphqlQueryContext("testGraphqlSorting", "/test/graphql/sorting")),
-                new RouteInfo("/test/graphql/hierarchicalSelect", getTestGraphqlQueryContext("testGraphqlHierarchicalSelect", "/test/graphql/hierarchicalSelect")));
+                new RouteInfo("/test/graphql/hierarchicalSelect", getTestGraphqlQueryContext("testGraphqlHierarchicalSelect", "/test/graphql/hierarchicalSelect")),
+                new RouteInfo("/test/graphql/enums", getTestGraphqlQueryContext("testGraphqlEnums", "/test/graphql/enums")));
     }
 
     private QueryContext getTestQueryContext(String testQuery, String s) {

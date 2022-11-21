@@ -10,7 +10,8 @@
          page-mapping="pageNum"
          size-mapping="sizeNum"
          forwarded-headers="testHeader"
-         forwarded-cookies="testCookie">
+         forwarded-cookies="testCookie"
+         enums="direction,type">
     query getAllPeople($first: Int, $last: Int) {
     allPeople(first: $first, last: $last) {
     people {
