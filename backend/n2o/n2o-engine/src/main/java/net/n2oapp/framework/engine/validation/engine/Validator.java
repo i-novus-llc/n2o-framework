@@ -1,5 +1,6 @@
 package net.n2oapp.framework.engine.validation.engine;
 
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.validation.*;
@@ -37,20 +38,53 @@ public class Validator implements Iterable<Validation> {
 
     private void handleValidation(Validation v, List<FailInfo> fails) {
         if (checkValidation(v)) {
-            v.validate(dataSet, serviceProvider, message -> {
-                FailInfo failInfo = new FailInfo();
-                failInfo.setMoment(v.getMoment());
-                failInfo.setValidationId(v.getId());
-                failInfo.setValidationClass(v.getClass().getSimpleName());
-                failInfo.setSeverity(v.getSeverity());
-                failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
-                failInfo.setMessage(message);
-                if (v instanceof ValidationDialog)
-                    failInfo.setDialog(((ValidationDialog) v).getDialog());
-                fails.add(failInfo);
-                afterFail(v);
-            });
+            if (v.getFieldId() != null && v.getFieldId().contains("[index]")) {
+                String commonFieldId = v.getFieldId();
+                String commonMessage = v.getMessage();
+                int count = getCountOfList(v.getFieldId());
+                for (int i = 0; i< count; i++) {
+                    v.setFieldId(commonFieldId.replaceAll("\\[index]","[" + i + "]"));
+                    v.setMessage(commonMessage.replaceAll("\\[index]","[" + i + "]"));
+                    dataSet.put("index", i);
+                    v.validate(dataSet, serviceProvider, message -> {
+                        FailInfo failInfo = new FailInfo();
+                        failInfo.setMoment(v.getMoment());
+                        failInfo.setValidationId(v.getId());
+                        failInfo.setValidationClass(v.getClass().getSimpleName());
+                        failInfo.setSeverity(v.getSeverity());
+                        failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
+                        failInfo.setMessage(message);
+                        if (v instanceof ValidationDialog)
+                            failInfo.setDialog(((ValidationDialog) v).getDialog());
+                        fails.add(failInfo);
+                        afterFail(v);
+                    });
+                }
+                dataSet.remove("index");
+                v.setMessage(commonMessage);
+                v.setFieldId(commonFieldId);
+            } else {
+                v.validate(dataSet, serviceProvider, message -> {
+                    FailInfo failInfo = new FailInfo();
+                    failInfo.setMoment(v.getMoment());
+                    failInfo.setValidationId(v.getId());
+                    failInfo.setValidationClass(v.getClass().getSimpleName());
+                    failInfo.setSeverity(v.getSeverity());
+                    failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
+                    failInfo.setMessage(message);
+                    if (v instanceof ValidationDialog)
+                        failInfo.setDialog(((ValidationDialog) v).getDialog());
+                    fails.add(failInfo);
+                    afterFail(v);
+                });
+            }
         }
+    }
+
+    private int getCountOfList(String fieldId) {
+        String[] fields = fieldId.split("\\[index\\].");
+        DataList dataList = (DataList) dataSet.get(fields[0]);
+        return dataList == null ? 0 : dataList.size();
     }
 
     private void afterFail(Validation v) {
