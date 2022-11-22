@@ -100,7 +100,6 @@ export function createContextFn(args: string[], code: string): ExpressionFunctio
     const expressionFunction = expressionCache.get(key)
 
     if (expressionFunction) { return expressionFunction }
-    console.log('Point!', code)
     // eslint-disable-next-line no-new-func
     const creator = new Function(
         'globalContext',
