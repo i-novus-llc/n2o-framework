@@ -8,34 +8,40 @@ import { failOperation, startOperation, successOperation } from '../Operation'
  * и запускающая экшены начала/конца работы операции
  */
 export function EffectWrapper<
-    TAction extends Action
->(effect: (action: TAction, ...rest: unknown[]) => unknown) {
+    TAction extends Action,
+    TAgs extends [...rest: unknown[], action: TAction]
+>(effect: (...args: TAgs) => unknown) {
+    // eslint-disable-next-line consistent-return
     return function* wrappedEffect(...args: Parameters<typeof effect>) {
-        const [action] = args
+        const action = args[args.length - 1] as TAction
         const { meta, type } = action
         const operationId = meta?.operationId
 
-        if (!operationId) {
-            return (yield effect(...args)) as ReturnType<typeof effect>
-        }
-
         try {
+            if (!operationId) {
+                return (yield effect(...args)) as ReturnType<typeof effect>
+            }
+
             yield put(startOperation(type, operationId))
 
             // TODO тут скорее всего надо удалить текущий operationId перед вызовом
             const result: ReturnType<typeof effect> = yield effect(...args)
 
-            yield put(successOperation(type, operationId))
+            yield put(successOperation(type, operationId, result))
 
             return result
         } catch (error) {
-            yield put(failOperation(
-                type,
-                operationId,
-                error instanceof Error ? error.message : error,
-            ))
+            const message = error instanceof Error ? error.message : error
 
-            throw error
+            if (operationId) {
+                yield put(failOperation(
+                    type,
+                    operationId,
+                    message,
+                ))
+            } else {
+                console.warn(`Saga effect<${action.type}> error: ${message}`)
+            }
         }
     }
 }

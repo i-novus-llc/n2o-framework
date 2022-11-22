@@ -60,10 +60,12 @@ export function* removeSaga({ payload }: RemoveAction) {
     yield put(removeAllModel(id))
 }
 
+const queryWrapper = EffectWrapper((apiProvider: unknown, action: DataRequestAction) => query(action, apiProvider))
+
 // Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
 export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAction) {
     const { id } = action.payload
-    const task: Task = yield fork(EffectWrapper(query), action, apiProvider)
+    const task: Task = yield fork(queryWrapper, apiProvider, action)
 
     activeTasks[id] = activeTasks[id] || []
     activeTasks[id].push(task)
