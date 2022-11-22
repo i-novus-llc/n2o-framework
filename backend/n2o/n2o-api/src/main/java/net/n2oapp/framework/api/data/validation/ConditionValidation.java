@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
@@ -12,9 +11,10 @@ import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import javax.script.ScriptException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -27,16 +27,22 @@ public class ConditionValidation extends Validation {
     @JsonProperty
     private String expression;
     private String expressionOn;
+    private DomainProcessor domainProcessor;
 
     public ConditionValidation(ConditionValidation validation) {
         super(validation);
         this.expression = validation.getExpression();
         this.expressionOn = validation.getExpressionOn();
+        this.domainProcessor = new DomainProcessor();
     }
 
     public void setExpression(String expression) {
         if (expression != null)
             this.expression = expression.replaceAll("\n|\r", "").trim();
+    }
+
+    public void setDomainProcessor(DomainProcessor domainProcessor) {
+        this.domainProcessor = domainProcessor;
     }
 
     private Set<String> getExpressionsOn() {
@@ -52,7 +58,7 @@ public class ConditionValidation extends Validation {
         getExpressionsOn().forEach(key -> {
             Object value = dataSet.get(key);
             copiedDataSet.put(key, (value instanceof Date) ?
-                DomainProcessor.getInstance().serialize(value) : value);
+                domainProcessor.serialize(value) : value);
         });
         return copiedDataSet;
     }
@@ -61,7 +67,7 @@ public class ConditionValidation extends Validation {
     public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
         try {
             DataSet copiedDataSet = getCopiedDataSet(dataSet);
-            if (!(boolean) ScriptProcessor.getInstance().eval(getExpression(), copiedDataSet))
+            if (!(boolean) ScriptProcessor.eval(getExpression(), copiedDataSet))
                 callback.onFail(StringUtils.resolveLinks(getMessage(), copiedDataSet));
         } catch (ScriptException e) {
             throw new RuntimeException(e);
