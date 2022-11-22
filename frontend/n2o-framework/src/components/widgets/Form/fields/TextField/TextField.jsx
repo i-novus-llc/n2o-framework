@@ -13,14 +13,17 @@ import parseFormatter from '../../../../../utils/parseFormatter'
  * @param {object} style - стили поля
  * @constructor
  */
-function TextField({ text, visible, format, className, style }) {
+function TextField({ text, visible, format, className, style = {} }) {
+    /* контроль переносов строк и пробелов осуществляется через xml */
+    const currentStyle = { ...style, whiteSpace: 'break-spaces' }
+
     return (
         visible && (
             <div
                 className={classNames('n2o-text-field n2o-snippet', {
                     [className]: className,
                 })}
-                style={style}
+                style={currentStyle}
             >
                 {format ? parseFormatter(text, format) : text}
             </div>
