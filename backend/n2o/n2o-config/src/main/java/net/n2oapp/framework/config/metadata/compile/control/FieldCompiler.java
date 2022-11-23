@@ -104,10 +104,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
             conditionSetter.accept(false);
-        } else if (conditionGetter.get() != null) {
-            dependency.setValue(conditionGetter.get());
-            source.addDependency(dependency);
-            conditionSetter.accept(defaultValue);
         } else {
             conditionSetter.accept(defaultValue);
         }
@@ -319,7 +315,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     if (dependency.getClass().equals(N2oField.VisibilityDependency.class))
                         fieldVisibilityConditions.add(dependency.getValue());
                 }
+            } else if ("false".equals(source.getVisible())) {
+                fieldVisibilityConditions.add(source.getVisible());
             }
+
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(field.getId());
                 Validation compiledValidation = p.compile(v, context);

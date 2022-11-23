@@ -79,6 +79,7 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMoment.class);
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
+        p.attribute(e, "title", t::getTitle, t::setTitle);
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
         if (t.getEnabled() == null)
             p.attribute(e, "mapping-condition", t::getEnabled, t::setEnabled);

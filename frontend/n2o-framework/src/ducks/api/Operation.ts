@@ -7,6 +7,7 @@ import { ACTIONS_PREFIX } from './constants'
 type Payload = {
     name: string
     uid: string
+    result?: unknown
 }
 
 export type OparationAction = Action<string, Payload>
@@ -19,7 +20,10 @@ const create = (type: string): Creator => createAction(
 )
 
 export const startOperation = create('start_operation')
-export const successOperation = create('success_operation')
+export const successOperation = createAction(
+    `${ACTIONS_PREFIX}success_operation`,
+    (name: string, uid: string, result?: unknown) => ({ payload: { name, uid, result }, meta: {} }),
+)
 export const failOperation = createAction(
     `${ACTIONS_PREFIX}fail_operation`,
     (name: string, uid: string, error) => ({ payload: { name, uid }, error, meta: {} }),

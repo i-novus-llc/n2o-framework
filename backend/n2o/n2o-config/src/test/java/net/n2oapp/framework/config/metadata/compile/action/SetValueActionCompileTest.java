@@ -52,7 +52,7 @@ public class SetValueActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getTarget().getPrefix(), is("filter"));
         assertThat(testAction.getPayload().getTarget().getField(), is("filedId"));
         assertThat(testAction.getPayload().getMode(), is(MergeMode.add));
-        assertThat(testAction.getPayload().getSourceMapper(), is("`return false;`"));
+        assertThat(testAction.getPayload().getSourceMapper(), is("(function(){return false;})()"));
 
         SetValueAction menuItem0action = (SetValueAction) table.getToolbar().getButton("test2").getAction();
         assertThat(menuItem0action.getType(), is("n2o/models/COPY"));
