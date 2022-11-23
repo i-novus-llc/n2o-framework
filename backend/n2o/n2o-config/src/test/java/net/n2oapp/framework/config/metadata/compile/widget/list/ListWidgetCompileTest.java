@@ -1,13 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.widget.list;
 
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.cell.CheckboxCell;
 import net.n2oapp.framework.api.metadata.meta.cell.LinkCell;
 import net.n2oapp.framework.api.metadata.meta.cell.ProgressBarCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
@@ -21,8 +22,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Тестирование компиляции виджета Список
@@ -62,7 +65,8 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((CheckboxCell) listWidget.getList().get("subHeader")).getDisabled(), is("`!(name!='Мария')`"));
 
         assertThat(listWidget.getList().get("rightTop").getSrc(), is("LinkCell"));
-        assertThat(((LinkCell) listWidget.getList().get("rightTop")).getUrl().endsWith("test"), is(true));
+        assertThat(((LinkAction) ((LinkCell) listWidget.getList().get("rightTop")).getAction()).getUrl().endsWith("test"),
+                is(true));
 
         assertThat(listWidget.getList().get("rightBottom").getSrc(), is("IconCell"));
         assertThat(listWidget.getList().get("rightBottom").getCssClass(), is("test"));

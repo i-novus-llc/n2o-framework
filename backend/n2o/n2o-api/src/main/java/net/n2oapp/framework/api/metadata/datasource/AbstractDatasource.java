@@ -29,4 +29,6 @@ public abstract class AbstractDatasource implements Compiled, IdAware {
     private Map<String, List<Validation>> filterValidations;
     @JsonProperty
     private Paging paging;
+    @JsonProperty
+    private Map<String, String> sorting;
 }

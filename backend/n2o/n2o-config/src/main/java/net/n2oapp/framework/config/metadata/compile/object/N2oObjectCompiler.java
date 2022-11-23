@@ -254,7 +254,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                                                      List<Validation> validationList, boolean activateAll) {
         List<Validation> whiteListValidations = new ArrayList<>();
         for (String name : whiteList) {
-            Validation validation = validationsMap.get(name.trim());
+            Validation validation = validationsMap.get(name);
             if (!Boolean.FALSE.equals(validation.getEnabled())) {
                 validationList.add(validation);
                 if (activateAll)
@@ -274,7 +274,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     private List<Validation> getBlackListValidations(String[] blackList, Map<String, Validation> validationsMap) {
         Map<String, Validation> blackListValidationsMap = new HashMap<>(validationsMap);
         for (String name : blackList)
-            blackListValidationsMap.remove(name.trim());
+            blackListValidationsMap.remove(name);
         return new ArrayList<>(blackListValidationsMap.values());
     }
 

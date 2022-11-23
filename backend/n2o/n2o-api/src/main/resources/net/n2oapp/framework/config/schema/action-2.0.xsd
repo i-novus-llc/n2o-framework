@@ -22,6 +22,12 @@
 
     <xs:complexType name="actions">
         <xs:sequence>
+            <xs:group ref="actionsGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:group name="actionsGroup">
+        <xs:sequence>
             <xs:element name="open-page" type="openPageDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="open-drawer" type="openDrawerDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="show-modal" type="showModalDefinition" maxOccurs="1" minOccurs="0"/>
@@ -37,6 +43,9 @@
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
             <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
+            <xs:element name="edit-list" type="editListDefinition" minOccurs="0"/>
+            <xs:element name="switch" type="switchActionDefinition" minOccurs="0"/>
+            <xs:group ref="ifElseDefinition" minOccurs="0"/>
             <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
@@ -44,7 +53,7 @@
                 </xs:annotation>
             </xs:any>
         </xs:sequence>
-    </xs:complexType>
+    </xs:group>
 
     <xs:complexType name="actionDefinition">
         <xs:annotation>
@@ -1277,6 +1286,11 @@
                         <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="double-close-on-success" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Закрыть два окна после успешного выполнения действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="close-on-fail" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Закрыть окно после неудачного выполнения действия.</xs:documentation>
@@ -1322,4 +1336,190 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
+    <xs:complexType name="switchActionDefinition">
+        <xs:annotation>
+            <xs:documentation>Переключатель действий</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" type="caseDefinition" minOccurs="0"/>
+            <xs:element name="default" type="defaultCaseDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="value-field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля, значение которого будет сравниваться с value в кейсах переключателя
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных, из которого будет взят value-field-id</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="clientModel" default="resolve">
+            <xs:annotation>
+                <xs:documentation>Модель источника данных, из которой будет взят value-field-id</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="caseDefinition">
+        <xs:annotation>
+            <xs:documentation>Кейс переключателя</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="value" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Значение, с которым сравнивается value-field-id</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="defaultCaseDefinition">
+        <xs:annotation>
+            <xs:documentation>Вариант действия по умолчанию</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:group name="ifElseDefinition">
+        <xs:annotation>
+            <xs:documentation>Условия if/else</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="if" type="ifDefinition" minOccurs="0"/>
+            <xs:element name="else-if" type="elseIfDefinition" minOccurs="0"/>
+            <xs:element name="else" type="elseDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:complexType name="ifDefinition">
+        <xs:annotation>
+            <xs:documentation>Условный оператор if</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="test" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Условие для выполнения действия условного оператора if</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор источника данных, из которого будут браться значения для test</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="clientModel" default="resolve">
+            <xs:annotation>
+                <xs:documentation>Модель источника данных, из которой будут браться значения для test</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="elseIfDefinition">
+        <xs:annotation>
+            <xs:documentation>Условный оператор else if</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="test" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Условие для выполнения действия условного оператора else if</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="elseDefinition">
+        <xs:annotation>
+            <xs:documentation>Условный оператор else</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="actionsGroup" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="editListDefinition">
+        <xs:annotation>
+            <xs:documentation>Редактирование записи таблицы в модальном окне без обращения к серверу</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="actionDefinition">
+                <xs:attribute name="operation" type="editListOperationType" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Тип операции</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="primary-key" type="xs:string" default="id">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Поле, которое будет искаться в массиве для изменения/удаления (по умолчанию id)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Источник данных, который будет обновлен (по умолчанию: значение item-datasource)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель источника данных, которая будет обновлена (по умолчанию: значение item-model)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="list-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Поле массива в источнике данных, которое будет обновлено
+                            (если не указано, то вся модель - это массив)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="item-datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Источник данных, который будет использован в качестве элемента массива (по умолчанию: текущий)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="item-model" type="clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель источника данных, которая будет использована в качестве элемента массива (по умолчанию: текущая)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="item-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Поле источника данных, которое будет использовано в качестве элемента массива
+                            (если не указано, то вся модель - это элемент массива)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="editListOperationType">
+        <xs:annotation>
+            <xs:documentation>Тип операции в edit-list</xs:documentation>
+        </xs:annotation>
+        <xs:restriction>
+            <xs:enumeration value="create"/>
+            <xs:enumeration value="update"/>
+            <xs:enumeration value="delete"/>
+            <xs:enumeration value="deleteMany"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

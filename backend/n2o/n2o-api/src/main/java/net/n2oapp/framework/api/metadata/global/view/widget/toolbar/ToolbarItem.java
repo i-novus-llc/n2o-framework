@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface ToolbarItem extends NamespaceUriAware, Source {
 
-    List<N2oAction> getActions();
+    List<N2oAction> getListActions();
 }

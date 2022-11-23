@@ -6,69 +6,93 @@
 
     <xs:element name="query" type="queryDefinition"/>
 
-    <!--определение выборки-->
     <xs:complexType name="queryDefinition">
         <xs:annotation>
-            <xs:documentation>Выборка query-5.0</xs:documentation>
+            <xs:documentation>
+                Выборка
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="list" type="listDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="count" type="countDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="unique" type="uniqueDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="fields" type="fieldList" maxOccurs="1" minOccurs="1"/>
-            <xs:element name="filters" type="filtersElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="count" type="countDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="fields" type="fieldList"/>
+            <xs:element name="filters" type="filtersElementDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="object-id" type="xs:string" use="optional" >
+        <xs:attribute name="object-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Объект выборки</xs:documentation>
+                <xs:documentation>
+                    Идентификатор объекта выборки
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="route" type="xs:string">
             <xs:annotation>
-                <xs:documentation>URL выборки. По умолчанию совпадает с идентификатором выборки.</xs:documentation>
+                <xs:documentation>
+                    URL выборки.
+                    По умолчанию: идентификатор выборки
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="listDefinition">
         <xs:annotation>
-            <xs:documentation>Получение списка записей по определенным фильтрам.</xs:documentation>
+            <xs:documentation>
+                Получение списка записей
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="selectionDefinition">
                 <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Маппинг списка результатов. Для каждого провайдера данных свои значения по умолчанию.</xs:documentation>
+                        <xs:documentation>
+                            Маппинг списка результатов.
+                            Для каждого провайдера данных свои значения по умолчанию
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="result-normalize" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Нормализация списка результатов.</xs:documentation>
+                        <xs:documentation>
+                            Нормализация списка результатов
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="count-mapping" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Маппинг общего количества записей. Для каждого провайдера данных свои значения по умолчанию.</xs:documentation>
+                        <xs:documentation>
+                            Маппинг общего количества записей.
+                            Для каждого провайдера данных свои значения по умолчанию
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="asc-expression" type="xs:string" default="asc">
                     <xs:annotation>
-                        <xs:documentation>Выражение ASC направления сортировки.</xs:documentation>
+                        <xs:documentation>
+                            Выражение ASC направления сортировки
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="desc-expression" type="xs:string" default="desc">
                     <xs:annotation>
-                        <xs:documentation>Выражение DESC направления сортировки.</xs:documentation>
+                        <xs:documentation>
+                            Выражение DESC направления сортировки
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="additional-mapping" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Маппинг дополнительной информации.</xs:documentation>
+                        <xs:documentation>
+                            Маппинг дополнительной информации
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -77,13 +101,17 @@
 
     <xs:complexType name="countDefinition">
         <xs:annotation>
-            <xs:documentation>Получение количества записей.</xs:documentation>
+            <xs:documentation>
+                Получение количества записей
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="selectionDefinition">
                 <xs:attribute name="count-mapping" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Маппинг получения количества записей.</xs:documentation>
+                        <xs:documentation>
+                            Маппинг количества записей
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -92,18 +120,24 @@
 
     <xs:complexType name="uniqueDefinition">
         <xs:annotation>
-            <xs:documentation>Получение уникальной записи по определенным фильтрам.</xs:documentation>
+            <xs:documentation>
+                Получение уникальной записи
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="selectionDefinition">
                 <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Маппинг результата уникальной записи.</xs:documentation>
+                        <xs:documentation>
+                            Маппинг результата
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="result-normalize" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Нормализация результата.</xs:documentation>
+                        <xs:documentation>
+                            Нормализация результата
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -112,22 +146,26 @@
 
     <xs:complexType name="selectionDefinition">
         <xs:sequence>
-            <xs:element name="sql" type="dp:sqlDefinition" minOccurs="0"/>
-            <xs:element name="rest" type="dp:restDefinition" minOccurs="0"/>
-            <xs:element name="java" type="dp:javaDefinition" minOccurs="0"/>
-            <xs:element name="test" type="dp:testDefinition" minOccurs="0"/>
-            <xs:element name="mongodb" type="dp:mongoDbDefinition" minOccurs="0"/>
-            <xs:element name="camunda" type="dp:camundaDefinition" minOccurs="0"/>
-            <xs:element name="graphql" type="dp:graphqlDefinition" minOccurs="0"/>
+            <xs:annotation>
+                <xs:documentation>
+                    Провайдер данных
+                </xs:documentation>
+            </xs:annotation>
+            <xs:group ref="dp:data-providers"/>
             <xs:any namespace="##other" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Провайдер данных.</xs:documentation>
+                    <xs:documentation>
+                        Возможность подключать любой провайдер данных
+                    </xs:documentation>
                 </xs:annotation>
             </xs:any>
         </xs:sequence>
         <xs:attribute name="filters" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификаторы фильтров (filter-id). При наличии хотя бы одного из фильтров сработает этот провайдер данных.</xs:documentation>
+                <xs:documentation>
+                    Идентификаторы фильтров через запятую.
+                    Вызов провайдера данных сработает только при наличии всех фильтров в запросе
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -135,7 +173,9 @@
 
     <xs:complexType name="fieldList">
         <xs:annotation>
-            <xs:documentation>Список полей выборки.</xs:documentation>
+            <xs:documentation>
+                Список полей выборки
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="field" type="fieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
@@ -146,23 +186,31 @@
 
     <xs:complexType name="fieldDefinition">
         <xs:annotation>
-            <xs:documentation>Простое поле выборки.</xs:documentation>
+            <xs:documentation>
+                Простое поле выборки
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
-                <xs:attribute name="name" type="xs:string" use="optional">
+                <xs:attribute name="name" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Наименование поля. По умолчанию наименование аналогичного поля в объекте.</xs:documentation>
+                        <xs:documentation>
+                            Наименование поля
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="domain" type="dmn:domainType" use="optional">
+                <xs:attribute name="domain" type="dmn:domainType" default="string">
                     <xs:annotation>
-                        <xs:documentation>Тип данных</xs:documentation>
+                        <xs:documentation>
+                            Тип данных
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="default-value" type="xs:string" use="optional">
+                <xs:attribute name="default-value" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
+                        <xs:documentation>
+                            Значение по умолчанию. Проставится в поле, если в провайдере оно не задано
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="sorting" type="xs:boolean" default="false">
@@ -170,14 +218,19 @@
                         <xs:documentation>Является ли поле сортируемым</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="sorting-mapping" type="xs:string" use="optional">
+                <xs:attribute name="sorting-mapping" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
+                        <xs:documentation>
+                            Маппинг направления сортировки поля.
+                            По умолчанию: [идентификатор_поля]Direction.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="sorting-expression" type="xs:string" use="optional">
+                <xs:attribute name="sorting-expression" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Выражение, определяющее как сортировать это поле выборки в провайдере.</xs:documentation>
+                        <xs:documentation>
+                            Выражение сортировки поля
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -186,7 +239,9 @@
 
     <xs:complexType name="filtersElementDefinition">
         <xs:annotation>
-            <xs:documentation>Способы фильтрации полей выборки.</xs:documentation>
+            <xs:documentation>
+                Способы фильтраций полей выборки
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="eq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
@@ -208,43 +263,58 @@
 
     <xs:complexType name="filterDef">
         <xs:annotation>
-            <xs:documentation>Фильтрация поля выборки.</xs:documentation>
+            <xs:documentation>
+                Фильтрация поля выборки
+            </xs:documentation>
         </xs:annotation>
-        <xs:attribute name="filter-id" type="xs:string" use="optional">
+        <xs:attribute name="filter-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор фильтра.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор фильтра
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="field-id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор поля фильтра.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор поля фильтра
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mapping" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Маппинг значения фильтра в параметры провайдера. По умолчанию эквивалентен id.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="domain" type="dmn:domainType" use="optional">
-            <xs:annotation>
-                <xs:documentation>Тип, в который будет конвертировано значение при отправке в провайдер.
-                    По умолчанию эквивалентен domain от field с преобразованием в список для множественных типов.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="default-value" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Значение, по которому будет идти постоянная фильтрация, если для этого фильтра не передано другое значение.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="normalize" type="dmn:domainType" use="optional">
-            <xs:annotation>
-                <xs:documentation>Выражение для предварительного преобразования входных данных.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="required" type="xs:boolean" use="optional">
+        <xs:attribute name="mapping" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Флаг обязательности фильтра выборки. По умолчанию false.
+                    Маппинг значения фильтра в поле провайдера.
+                    По умолчанию: идентификатор фильтра
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="domain" type="dmn:domainType">
+            <xs:annotation>
+                <xs:documentation>
+                    Тип, в который будет сконвертировано значение фильтра.
+                    По умолчанию: domain от field с преобразованием в список для множественных типов
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="default-value" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Значение, по которому будет идти постоянная фильтрация, если для фильтра не передано значение
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="normalize" type="dmn:domainType">
+            <xs:annotation>
+                <xs:documentation>
+                    Выражение для предварительной нормализации данных фильтра
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="required" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Обязательность фильтра выборки
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -252,38 +322,53 @@
 
     <xs:complexType name="baseFieldDefinition" abstract="true">
         <xs:annotation>
-            <xs:documentation>Базовое определение поля</xs:documentation>
+            <xs:documentation>
+                Базовое определение поля
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор поля</xs:documentation>
+                <xs:documentation>
+                    Идентификатор поля
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mapping" type="xs:string" use="optional">
+        <xs:attribute name="mapping" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Маппинг данных поля из провайдера. По умолчанию совпадает с id.</xs:documentation>
+                <xs:documentation>
+                    Маппинг данных поля из провайдера.
+                    По умолчанию: идентификатор поля
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="normalize" type="xs:string" use="optional">
+        <xs:attribute name="normalize" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Нормализация данных поля из провайдера.</xs:documentation>
+                <xs:documentation>
+                    Нормализация данных поля из провайдера
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="select" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Участвует ли поле в выборке</xs:documentation>
+                <xs:documentation>
+                    Участвует ли поле в выборке
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="select-expression" type="xs:string" use="optional">
+        <xs:attribute name="select-expression" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Выражение для подстановки на место плейсхолдера select в провайдере</xs:documentation>
+                <xs:documentation>
+                    Выражение для подстановки на место плейсхолдера select в провайдере
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="listFieldDefinition">
         <xs:annotation>
-            <xs:documentation>Списковое поле выборки</xs:documentation>
+            <xs:documentation>
+                Списковое поле выборки
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="referenceFieldDefinition"/>
@@ -292,7 +377,9 @@
 
     <xs:complexType name="referenceFieldDefinition">
         <xs:annotation>
-            <xs:documentation>Составное поле выборки</xs:documentation>
+            <xs:documentation>
+                Составное поле выборки
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseFieldDefinition">
@@ -303,7 +390,9 @@
                 </xs:sequence>
                 <xs:attribute name="select-key" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ключ для резолва плейсхолдера в select-expression</xs:documentation>
+                        <xs:documentation>
+                            Ключ для подстановки на место плейсхолдера в select-expression
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

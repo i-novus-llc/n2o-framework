@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { isEmptyModel } from '../../../../../utils/isEmptyModel'
 import Buttons from '../../../../snippets/Filter/Buttons'
 
 /**
@@ -14,13 +15,17 @@ import Buttons from '../../../../snippets/Filter/Buttons'
 // eslint-disable-next-line react/prefer-stateless-function
 class FilterButtonsField extends React.Component {
     render() {
-        const { visible, searchLabel, resetLabel, className, disabled } = this.props
+        const { visible, searchLabel, resetLabel, className, disabled: searchDisabled, model = {} } = this.props
+
+        const clearDisabled = isEmptyModel(model)
+
         const { _widgetFilter } = this.context
 
         return visible ? (
             <Buttons
                 className={className}
-                disabled={disabled}
+                searchDisabled={searchDisabled}
+                clearDisabled={clearDisabled}
                 searchLabel={searchLabel}
                 resetLabel={resetLabel}
                 onSearch={_widgetFilter.filter}
@@ -36,6 +41,7 @@ FilterButtonsField.propTypes = {
     resetLabel: PropTypes.string,
     visible: PropTypes.bool,
     disabled: PropTypes.bool,
+    model: PropTypes.object,
 }
 
 FilterButtonsField.defaultProps = {

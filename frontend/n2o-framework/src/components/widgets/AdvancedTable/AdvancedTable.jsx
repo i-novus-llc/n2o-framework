@@ -139,10 +139,6 @@ class AdvancedTable extends Component {
 
         const { checked, children } = this.state
 
-        if (!isEqual(prevProps.data, data) && !isEmpty(filters) && rowSelection === rowSelectionType.CHECKBOX) {
-            setSelected(data.filter(model => checked[model.id]))
-        }
-
         if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
             const id = selectedId || data[0].id
 
@@ -159,12 +155,17 @@ class AdvancedTable extends Component {
             if (isEqual(prevProps.filters, filters) && !isEmpty(prevProps.filters) && !isEmpty(filters)) {
                 this.closeAllRows()
             }
+
             if (data && !isEqual(prevProps.data, data)) {
                 const checked = this.mapChecked(multi)
 
                 state = {
                     data: isArray(data) ? mappingKeysIntoData(data) : mappingKeysIntoData([data]),
                     checked,
+                }
+
+                if (!isEmpty(filters) && rowSelection === rowSelectionType.CHECKBOX) {
+                    setSelected(data.filter(model => checked[model.id]))
                 }
 
                 this.dataStorage = this.getModelsFromData(data)

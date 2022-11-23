@@ -65,20 +65,20 @@ class N2o extends Component {
         return (
             <Provider store={this.store}>
                 <SecurityProvider {...security}>
-                    <Application
-                        i18n={i18n}
-                        locales={locales}
-                        customLocales={customLocales}
-                        realTimeConfig={realTimeConfig}
-                        render={() => (
-                            <FactoryProvider config={config} securityBlackList={['actions']}>
+                    <FactoryProvider config={config} securityBlackList={['actions']}>
+                        <Application
+                            i18n={i18n}
+                            locales={locales}
+                            customLocales={customLocales}
+                            realTimeConfig={realTimeConfig}
+                            render={() => (
                                 <>
                                     <GlobalAlertsConnected />
                                     <Router embeddedRouting={embeddedRouting}>{children}</Router>
                                 </>
-                            </FactoryProvider>
-                        )}
-                    />
+                            )}
+                        />
+                    </FactoryProvider>
                 </SecurityProvider>
             </Provider>
         )

@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
@@ -15,10 +14,12 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * Компиляция абстрактного спискового виджета
@@ -69,14 +70,9 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
             N2oRowClick rowClick = source.getRows().getRowClick();
             Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
             if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
-                N2oAction action = null;
-                if (rowClick.getActionId() != null && widgetActions.get(rowClick.getActionId()) != null) {
-                    action = widgetActions.get(rowClick.getActionId()).getAction();
-                } else if (rowClick.getAction() != null) {
-                    action = rowClick.getAction();
-                }
-                if (action != null) {
-                    Action compiledAction = p.compile(action, context, widgetScope, new ComponentScope(rowClick), object);
+                rowClick.setActions(initActions(rowClick, p));
+                if (isNotEmpty(rowClick.getActions())) {
+                    Action compiledAction = compileAction(rowClick, context, p, object, widgetScope);
                     rc = new RowClick(compiledAction);
                     rc.setProperties(p.mapAttributes(rowClick));
                     if (compiledAction != null && StringUtils.isJs(enabledCondition)) {

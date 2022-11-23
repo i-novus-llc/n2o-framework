@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.properties.test.TestUtil.assertOnException;
+import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 

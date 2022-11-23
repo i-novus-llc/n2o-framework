@@ -36,7 +36,12 @@ class TableCell extends React.Component {
             model,
             hideOnBlur,
             contentAlignment,
+            needRender = true,
         } = this.props
+
+        if (!needRender) {
+            return null
+        }
 
         const ElementType = getElementType(TableCell, this.props)
 
@@ -86,6 +91,7 @@ TableCell.propTypes = {
     model: PropTypes.object,
     colSpan: PropTypes.number,
     hideOnBlur: PropTypes.bool,
+    needRender: PropTypes.bool,
     contentAlignment: PropTypes.oneOf(['left', 'center', 'right']),
 }
 

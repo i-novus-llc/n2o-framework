@@ -75,7 +75,7 @@ public class SandboxOperationExceptionHandler implements OperationExceptionHandl
         registerNewParam.setValue("false");
         registerNewAction.setHeaderParams(new N2oParam[]{registerNewParam});
         registerNewAction.setFormParams(new N2oFormParam[]{nameParam});
-        registerNew.setAction(registerNewAction);
+        registerNew.setActions(new N2oInvokeAction[]{registerNewAction});
 
         N2oButton useExists = new N2oButton();
         useExists.setId("useExists");
@@ -91,14 +91,14 @@ public class SandboxOperationExceptionHandler implements OperationExceptionHandl
         useExistsParam.setValue("true");
         useExistsAction.setHeaderParams(new N2oParam[]{useExistsParam});
         useExistsAction.setFormParams(new N2oFormParam[]{nameParam});
-        useExists.setAction(useExistsAction);
+        useExists.setActions(new N2oInvokeAction[]{useExistsAction});
 
         N2oButton cancel = new N2oButton();
         cancel.setId("cancel");
         cancel.setSrc("StandardButton");
         cancel.setLabel("Отмена");
         cancel.setModel(ReduxModel.resolve);
-        cancel.setAction(new N2oCloseAction());
+        cancel.setActions(new N2oCloseAction[]{new N2oCloseAction()});
 
         dialog.setToolbar(new N2oToolbar());
         dialog.getToolbar().setItems(new N2oButton[]{registerNew, useExists, cancel});

@@ -10,6 +10,10 @@ import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScop
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+
 /**
  * Валидатор исходной модели кнопки
  */
@@ -27,8 +31,8 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
         checkDatasource(source, datasourceIdsScope);
         checkValidateDatasource(source, datasourceIdsScope);
 
-        if (source.getAction() != null)
-            p.validate(source.getAction(), new ComponentScope(source, p.getScope(ComponentScope.class)));
+        if (isNotEmpty(source.getActions()))
+            Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
     }
 
     /**
@@ -40,7 +44,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
     private void checkDatasource(N2oButton source, DatasourceIdsScope datasourceIdsScope) {
         if (source.getDatasourceId() != null) {
             String button = ValidationUtils.getIdOrEmptyString(source.getId());
-            ValidationUtils.checkForExistsDatasource(source.getDatasourceId(), datasourceIdsScope,
+            ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), datasourceIdsScope,
                     String.format("Кнопка %s ссылается на несуществующий источник данных '%s'",
                             button, source.getDatasourceId()));
         }
@@ -56,7 +60,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
         if (source.getValidateDatasourceIds() != null) {
             String button = ValidationUtils.getIdOrEmptyString(source.getId());
             for (String validateDs : source.getValidateDatasourceIds()) {
-                ValidationUtils.checkForExistsDatasource(validateDs, datasourceIdsScope,
+                ValidationUtils.checkDatasourceExistence(validateDs, datasourceIdsScope,
                         String.format("Атрибут \"validate-datasources\" кнопки %s содержит несуществующий источник данных '%s'",
                                 button, validateDs));
             }
