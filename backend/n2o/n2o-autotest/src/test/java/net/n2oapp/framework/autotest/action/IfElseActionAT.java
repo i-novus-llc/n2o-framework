@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.action;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -18,9 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Тестирование мультидействия
+ * Тестирование действия if-else
  */
-public class MultiActionAT extends AutoTestBase {
+public class IfElseActionAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -41,10 +40,10 @@ public class MultiActionAT extends AutoTestBase {
 
 
     @Test
-    public void testMulti() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/multi/page.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/multi/test.query.xml"));
+    public void testIfElse() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/if_else/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/if_else/page1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/if_else/test.query.xml"));
 
         StandardPage page = open(StandardPage.class);
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
@@ -53,14 +52,31 @@ public class MultiActionAT extends AutoTestBase {
         InputText name = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
                 .fields().field("name").control(InputText.class);
 
-        table.columns().rows().row(1).click();
+        table.columns().rows().row(0).click();
         button.click();
-        name.shouldHaveValue("test2");
-        Selenide.back();
+        page.breadcrumb().crumb(1).shouldHaveLabel("Меньше-равно 15");
+        page.urlShouldMatches(getBaseUrl() + "/#/open1");
+        name.shouldHaveValue("test1");
+        page.breadcrumb().crumb(0).click();
+
+        table.columns().rows().row(4).click();
+        button.click();
+        page.breadcrumb().crumb(1).shouldHaveLabel("Больше 30 меньше-равно 60");
+        page.urlShouldMatches(getBaseUrl() + "/#/open3");
+        name.shouldHaveValue("test5");
+        page.breadcrumb().crumb(0).click();
 
         table.columns().rows().row(3).click();
         button.click();
+        page.breadcrumb().crumb(1).shouldHaveLabel("Больше 60");
+        page.urlShouldMatches(getBaseUrl() + "/#/open4");
         name.shouldHaveValue("test4");
-        Selenide.back();
+        page.breadcrumb().crumb(0).click();
+
+        table.columns().rows().row(5).click();
+        button.click();
+        page.breadcrumb().crumb(1).shouldHaveLabel("Больше 15 меньше-равно 30");
+        page.urlShouldMatches(getBaseUrl() + "/#/open2");
+        name.shouldHaveValue("test6");
     }
 }
