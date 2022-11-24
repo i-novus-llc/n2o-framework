@@ -1286,6 +1286,11 @@
                         <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="double-close-on-success" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Закрыть два окна после успешного выполнения действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="close-on-fail" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Закрыть окно после неудачного выполнения действия.</xs:documentation>

@@ -118,6 +118,7 @@
 
 .n2o-alert-segment {
     font-size: 14px;
+    justify-content: space-between;
 
     .n2o-alert-segment__title {
         font-weight: bold;
@@ -145,10 +146,6 @@
             font-size: 12px;
             cursor: pointer;
         }
-    }
-
-    .n2o-alert-segment__icon-container.extended {
-        width: 100%;
     }
 
     .n2o-alert-segment__icon-container.text-empty {

@@ -90,7 +90,7 @@ public class OperationController extends SetController {
             response.setDialog(compileDialog(responseInfo.getDialog(), requestInfo));
         else if (requestInfo.isMessageOnSuccess())
             response.addResponseMessage(
-                    messageBuilder.buildSuccessMessage(requestInfo.getOperation().getSuccessText(), requestInfo, data),
+                    messageBuilder.buildSuccessMessage(requestInfo, data),
                     requestInfo.getMessagesForm());
         return response;
     }

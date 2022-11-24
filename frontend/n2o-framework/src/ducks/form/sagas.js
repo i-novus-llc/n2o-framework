@@ -17,7 +17,7 @@ import {
     modelsSelector,
 } from '../models/selectors'
 import { dataSourceByIdSelector } from '../datasource/selectors'
-import evalExpression, { parseExpression } from '../../utils/evalExpression'
+import evalExpression from '../../utils/evalExpression'
 import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -36,14 +36,13 @@ export function* addTouched({ payload: { form, name } }) {
 }
 
 export function* copyAction({ payload }) {
-    const { target, source, mode = 'replace', sourceMapper } = payload
+    const { target, source, mode = 'replace', sourceMapper: expression } = payload
     const state = yield select(modelsSelector)
     let sourceModel = get(state, values(source).join('.'))
     const selectedTargetModel = yield select(
         makeGetModelByPrefixSelector(target.prefix, target.key),
     )
     const targetModel = selectedTargetModel || []
-    const expression = parseExpression(sourceMapper)
     let newModel = {}
     const targetModelField = get(targetModel, [target.field], [])
     const treePath = includes(target.field, '.')

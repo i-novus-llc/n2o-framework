@@ -22,6 +22,8 @@ public class N2oOperationExceptionHandler implements OperationExceptionHandler {
             //вывод fail-text вместо внутренней ошибки
             n2oE.setUserMessage(StringUtils.resolveLinks(o.getFailText(), data));
         }
+        if (o.getFailTitle() != null)
+            n2oE.setUserMessageTitle(StringUtils.resolveLinks(o.getFailTitle(), data));
         return n2oE;
     }
 }

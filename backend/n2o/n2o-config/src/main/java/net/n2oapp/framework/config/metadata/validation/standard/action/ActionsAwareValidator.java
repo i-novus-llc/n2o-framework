@@ -37,7 +37,7 @@ public class ActionsAwareValidator extends TypedMetadataValidator<ActionsAware> 
         String actionId = source.getActionId();
 
         if (actionId != null) {
-            if (metaActions == null)
+            if (metaActions.isEmpty())
                 throw new N2oMetadataValidationException(
                         String.format("Для компонента с action-id=\"%s\" не найдены действия <actions>",
                                 actionId)
