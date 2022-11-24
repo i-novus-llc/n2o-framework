@@ -44,6 +44,8 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
         checkRefDatasource(source, datasourceIdsScope);
         if (widgetScope != null)
             checkWhiteListValidation(source, widgetScope, p);
+        if (source.getToolbar() != null)
+            p.safeStreamOf(source.getToolbar().getItems()).forEach(p::validate);
     }
 
     /**
