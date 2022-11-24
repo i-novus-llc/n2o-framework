@@ -18,6 +18,7 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
     private SeverityType severity;
     private ServerMoment serverMoment;
     private String message;
+    private String title;
     private String namespaceUri;
     private String enabled;
     private String side;

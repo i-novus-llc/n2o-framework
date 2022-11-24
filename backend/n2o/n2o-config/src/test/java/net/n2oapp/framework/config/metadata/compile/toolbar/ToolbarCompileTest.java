@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.Perform;
 import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
@@ -25,8 +26,10 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.nullValue;
 
 public class ToolbarCompileTest extends SourceCompileTestBase {
 
@@ -106,8 +109,8 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
         assertThat(b3.getSrc(), is("StandardButton"));
-        assertThat(((PerformButton)b3).getUrl(), is("http://example.com"));
-        assertThat(((PerformButton)b3).getTarget(), is(Target.self));
+        assertThat(((LinkAction) b3.getAction()).getUrl(), is("http://example.com"));
+        assertThat(((LinkAction) b3.getAction()).getTarget(), is(Target.self));
 
         AbstractButton b7 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
         assertThat(b7.getId(), is("testId4"));

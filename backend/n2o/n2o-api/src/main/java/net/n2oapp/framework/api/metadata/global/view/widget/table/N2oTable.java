@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 @Setter
 public class N2oTable extends N2oAbstractTable {
     private FilterPosition filterPosition;
-    private Boolean filterOpened;
     private SourceComponent[] filters;
     private String filtersDatasourceId;
     private N2oStandardDatasource filtersDatasource;

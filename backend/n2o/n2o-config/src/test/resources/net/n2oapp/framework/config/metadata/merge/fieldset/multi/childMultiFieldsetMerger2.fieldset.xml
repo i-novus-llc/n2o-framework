@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<multi-set xmlns="http://n2oapp.net/framework/config/schema/fieldset-5.0"
+           add-label="addLabel"
+           children-label="childrenLabel"
+           first-children-label="firstChildrenLabel"
+           remove-all-label="removeAllLabel"
+           can-add="false"
+           can-copy="false"
+           can-remove="false"
+           can-remove-all="false"
+           can-remove-first="false"
+>
+    <input-text id="childField"/>
+</multi-set>

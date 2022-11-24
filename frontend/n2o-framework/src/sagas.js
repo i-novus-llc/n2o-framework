@@ -20,7 +20,7 @@ import toolbarSagas from './ducks/toolbar/sagas'
 import { addComponent, removeComponent } from './ducks/datasource/store'
 import { requestConfigSuccess } from './ducks/global/store'
 import { updateModel } from './ducks/models/store'
-import { apiSagas } from './ducks/api/sagas'
+import { sagas as apiSagas } from './ducks/api/sagas'
 
 const webSocketConfig = {
     observables: [addComponent, removeComponent, requestConfigSuccess],

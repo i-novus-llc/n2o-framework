@@ -16,6 +16,7 @@ import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -80,24 +81,21 @@ public class TableAT extends AutoTestBase {
             table.columns().rows().row(i).cell(3).shouldBeVisible();
         }
 
-        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(0).shouldBeVisible();
+        table.columns().headers().header(0).shouldHaveTitle("Имя");
+        table.columns().headers().header(0).shouldHaveStyle("color: red");
         table.columns().headers().header(1).shouldBeVisible();
-        table.columns().headers().header(1).shouldHaveTitle("Имя");
-        table.columns().headers().header(1).shouldHaveStyle("color: red");
+        table.columns().headers().header(1).shouldHaveTitle("Фамилия");
+        table.columns().headers().header(1).shouldHaveCssClass("font-italic");
+        table.columns().headers().header(1).shouldHaveIcon("fa-plus");
         table.columns().headers().header(2).shouldBeVisible();
-        table.columns().headers().header(2).shouldHaveTitle("Фамилия");
-        table.columns().headers().header(2).shouldHaveCssClass("font-italic");
-        table.columns().headers().header(2).shouldHaveIcon("fa-plus");
-        table.columns().headers().header(3).shouldBeVisible();
-        table.columns().headers().header(3).shouldHaveTitle("Дата рождения");
+        table.columns().headers().header(2).shouldHaveTitle("Дата рождения");
 
         table.toolbar().topRight().button(1, DropdownButton.class).click();
         table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Фамилия").click();
 
-        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(0).shouldBeVisible();
         table.columns().headers().header(1).shouldBeVisible();
-        table.columns().headers().header(2).shouldBeHidden();
-        table.columns().headers().header(3).shouldBeVisible();
         for (int i = 0; i < 3; i++) {
             table.columns().rows().row(i).cell(0).shouldBeHidden();
             table.columns().rows().row(i).cell(1).shouldBeVisible();
@@ -108,11 +106,10 @@ public class TableAT extends AutoTestBase {
 
         table.toolbar().topRight().button(1, DropdownButton.class).menuItem("Фамилия").click();
 
-        table.columns().headers().header(0).shouldBeHidden();
+        table.columns().headers().header(0).shouldBeVisible();
         table.columns().headers().header(1).shouldBeVisible();
+        table.columns().headers().header(1).shouldHaveIcon("fa-plus");
         table.columns().headers().header(2).shouldBeVisible();
-        table.columns().headers().header(2).shouldHaveIcon("fa-plus");
-        table.columns().headers().header(3).shouldBeVisible();
         for (int i = 0; i < 3; i++) {
             table.columns().rows().row(i).cell(0).shouldBeHidden();
             table.columns().rows().row(i).cell(1).shouldBeVisible();
@@ -251,5 +248,43 @@ public class TableAT extends AutoTestBase {
         paging.activePageShouldBe("1");
         paging.selectLast();
         table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
+    }
+
+    @Test
+    public void testSortOfColumn() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/test.query.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        TableWidget.Rows rows = table.columns().rows();
+        TextCell cellFirst = rows.row(0).cell(1);
+        TextCell cellSecond = rows.row(1).cell(1);
+        TextCell cellThird = rows.row(2).cell(1);
+        TextCell cellFourth = rows.row(3).cell(1);
+
+        TableHeader secondHeader = table.columns().headers().header(1, TableHeader.class);
+        secondHeader.shouldBeSortedByDesc();
+
+        cellFirst.shouldBeVisible();
+        cellSecond.shouldBeVisible();
+        cellThird.shouldBeVisible();
+        cellFourth.shouldBeVisible();
+
+        cellFirst.textShouldHave("test4");
+        cellSecond.textShouldHave("test3");
+        cellThird.textShouldHave("test2");
+        cellFourth.textShouldHave("test1");
+
+        secondHeader.click();
+        secondHeader.click();
+        secondHeader.shouldBeSortedByAsc();
+
+        cellFirst.textShouldHave("test1");
+        cellSecond.textShouldHave("test2");
+        cellThird.textShouldHave("test3");
+        cellFourth.textShouldHave("test4");
     }
 }

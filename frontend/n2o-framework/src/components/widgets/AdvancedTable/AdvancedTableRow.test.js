@@ -4,7 +4,7 @@ import AdvancedTableRow from './AdvancedTableRow'
 
 const setup = (propsOverride) => {
     const props = {
-        children: [<td>test</td>],
+        children: [<td key={1}>test</td>],
         model: {
             id: 1,
         },

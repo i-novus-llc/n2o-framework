@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-5.0"
+     label="parent-label"
+     ref-id="childLineFieldsetMerger"
+>
+    <input-text id="parentField"/>
+</set>

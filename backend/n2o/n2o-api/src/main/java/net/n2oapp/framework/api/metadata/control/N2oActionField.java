@@ -2,11 +2,12 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 
 @Getter
 @Setter
-public class N2oActionField extends N2oField {
-    private N2oAction action;
+public abstract class N2oActionField extends N2oField implements ActionsAware {
     private String actionId;
+    private N2oAction[] actions;
 }

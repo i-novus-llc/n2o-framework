@@ -70,6 +70,17 @@ public interface CompileProcessor {
     <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass);
 
     /**
+     * Получить исходный объект по идентификатору
+     *
+     * @param id          Идентификатор
+     * @param sourceClass Класс исходного объекта
+     * @param <S>         Тип исходного объекта
+     * @param processor   Процессор исходных метаданных
+     * @return Исходный объект
+     */
+    <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass, CompileProcessor processor);
+
+    /**
      * Зарегистрировать новый маршрут метаданных под контекст
      *
      * @param context Контекст сборки

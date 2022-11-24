@@ -12,12 +12,11 @@ import org.springframework.stereotype.Component;
  * Чтение\запись ячейки с редактированием значения.
  */
 @Component
-public class EditCellElementIOv2 extends AbstractCellElementIOv2<N2oEditCell> {
+public class EditCellElementIOv2 extends AbstractActionCellElementIOv2<N2oEditCell> {
 
     @Override
     public void io(Element e, N2oEditCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.attribute(e, "action-id", c::getActionId, c::setActionId);
         p.attributeEnum(e, "type", c::getEditType, c::setEditType, EditType.class);
         p.attribute(e, "format", c::getFormat, c::setFormat);
         p.attribute(e, "enabled", c::getEnabled, c::setEnabled);

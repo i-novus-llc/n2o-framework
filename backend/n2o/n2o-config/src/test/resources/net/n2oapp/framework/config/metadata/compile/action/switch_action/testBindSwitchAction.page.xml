@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <toolbar>
+        <button id="b1" datasource="ds1">
+            <switch value-field-id="test1">
+                <case value="A">
+                    <invoke operation-id="op1" object-id="testBind"/>
+                </case>
+                <case value="B">
+                    <invoke operation-id="op2" object-id="testBind" redirect-url="/:parent_id/redirect"/>
+                </case>
+                <case value="C">
+                    <switch value-field-id="test1">
+                        <case value="A">
+                            <invoke operation-id="op2" object-id="testBind"/>
+                        </case>
+                        <default>
+                            <invoke operation-id="op2" object-id="testBind"/>
+                        </default>
+                    </switch>
+                </case>
+                <default>
+                    <invoke operation-id="op1" object-id="testBind"/>
+                </default>
+            </switch>
+        </button>
+    </toolbar>
+</page>

@@ -75,16 +75,13 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         CompiledObject.Operation operation = null;
         Action action = compileAction(source, button, context, p);
 
-        if (action != null) {
-            button.setAction(action);
-            if (action instanceof InvokeAction) {
-                String objectId = ((InvokeAction) action).getObjectId() == null ? source.getWidgetId() :
-                        ((InvokeAction) action).getObjectId();
-                CompiledObject compiledObject = getCompiledObject(p, objectId);
-                operation = compiledObject != null && compiledObject.getOperations() != null
-                        && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
-                        compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
-            }
+        if (action instanceof InvokeAction) {
+            String objectId = ((InvokeAction) action).getObjectId() == null ? source.getWidgetId() :
+                    ((InvokeAction) action).getObjectId();
+            CompiledObject compiledObject = getCompiledObject(p, objectId);
+            operation = compiledObject != null && compiledObject.getOperations() != null
+                    && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
+                    compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
         }
 
         String hint;

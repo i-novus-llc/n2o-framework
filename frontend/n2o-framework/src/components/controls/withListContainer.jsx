@@ -64,7 +64,11 @@ function withListContainer(WrappedComponent) {
          * @private
          */
         const handleOpen = (valueObj) => {
-            callApiWithParams({ page: 1, ...valueObj })
+            if (!valueObj || Object.keys(valueObj).length > 1) {
+                callApiWithParams({ page: 1 })
+            } else {
+                callApiWithParams({ page: 1, ...valueObj })
+            }
 
             if (onOpen) {
                 onOpen()

@@ -36,7 +36,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void closeModal() throws Exception {
+    public void closeModal() {
         ModalPageContext context = new ModalPageContext("testCloseAction", "/p/w/a");
         context.setClientPageId("p_w_a");
         context.setRefreshClientDataSourceIds(Arrays.asList("p_w"));
@@ -46,7 +46,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getType(), is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("p_w_a"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
-        assertThat(( testAction.getMeta()).getRefresh(), is(nullValue()));
+        assertThat(( testAction.getMeta()).getRefresh(), nullValue());
         CloseAction testCloseRefreshAction = (CloseAction) page.getWidget().getToolbar().getButton("testCloseRefresh").getAction();
         assertThat(( testCloseRefreshAction.getMeta()).getRefresh().getDatasources(), hasItem("p_w"));
 

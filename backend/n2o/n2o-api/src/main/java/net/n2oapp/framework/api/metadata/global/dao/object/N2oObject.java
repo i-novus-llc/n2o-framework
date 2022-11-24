@@ -54,7 +54,9 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private Boolean confirm;
         private String bulkConfirmationText;
         private String successText;
+        private String successTitle;
         private String failText;
+        private String failTitle;
         private String description;
 
         private N2oInvocation invocation;

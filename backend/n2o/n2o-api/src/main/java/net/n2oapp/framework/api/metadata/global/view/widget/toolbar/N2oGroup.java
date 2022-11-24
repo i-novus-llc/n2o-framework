@@ -18,11 +18,11 @@ public class N2oGroup implements ToolbarItem, GroupItems<GroupItem> {
     private String namespaceUri;
 
     @Override
-    public List<N2oAction> getActions() {
+    public List<N2oAction> getListActions() {
         List<N2oAction> actions = new ArrayList<>();
         if (items != null){
             for (GroupItem item : items) {
-                actions.addAll(item.getActions());
+                actions.addAll(item.getListActions());
             }
         }
         return actions;

@@ -14,7 +14,7 @@
                     <menu-item>
                         <a href="https://i-novus.ru/"/>
                     </menu-item>
-                    <menu-item action-id="testAction"/>
+                    <menu-item action-id="ac1"/>
                 </sub-menu>
             </toolbar>
         </input-text>
