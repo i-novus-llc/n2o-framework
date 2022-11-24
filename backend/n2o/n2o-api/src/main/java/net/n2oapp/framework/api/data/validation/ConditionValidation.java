@@ -33,7 +33,7 @@ public class ConditionValidation extends Validation {
         super(validation);
         this.expression = validation.getExpression();
         this.expressionOn = validation.getExpressionOn();
-        this.domainProcessor = new DomainProcessor();
+        this.domainProcessor = validation.getDomainProcessor();
     }
 
     public void setExpression(String expression) {

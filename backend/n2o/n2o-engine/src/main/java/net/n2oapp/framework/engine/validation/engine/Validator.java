@@ -38,53 +38,52 @@ public class Validator implements Iterable<Validation> {
 
     private void handleValidation(Validation v, List<FailInfo> fails) {
         if (checkValidation(v)) {
-            if (v.getFieldId() != null && v.getFieldId().contains("[index]")) {
+            if (isMultiSet(v.getFieldId())) {
                 String commonFieldId = v.getFieldId();
                 String commonMessage = v.getMessage();
-                int count = getCountOfList(v.getFieldId());
+                int count = ((DataList) dataSet.get(getMultiSetId(v.getFieldId()))).size();
                 for (int i = 0; i< count; i++) {
-                    v.setFieldId(commonFieldId.replaceAll("\\[index]","[" + i + "]"));
-                    v.setMessage(commonMessage.replaceAll("\\[index]","[" + i + "]"));
+                    v.setFieldId(replaceIndex(commonFieldId, i));
+                    v.setMessage(replaceIndex(commonMessage, i));
                     dataSet.put("index", i);
-                    v.validate(dataSet, serviceProvider, message -> {
-                        FailInfo failInfo = new FailInfo();
-                        failInfo.setMoment(v.getMoment());
-                        failInfo.setValidationId(v.getId());
-                        failInfo.setValidationClass(v.getClass().getSimpleName());
-                        failInfo.setSeverity(v.getSeverity());
-                        failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
-                        failInfo.setMessage(message);
-                        if (v instanceof ValidationDialog)
-                            failInfo.setDialog(((ValidationDialog) v).getDialog());
-                        fails.add(failInfo);
-                        afterFail(v);
-                    });
+                    validateField(v, fails);
                 }
                 dataSet.remove("index");
                 v.setMessage(commonMessage);
                 v.setFieldId(commonFieldId);
             } else {
-                v.validate(dataSet, serviceProvider, message -> {
-                    FailInfo failInfo = new FailInfo();
-                    failInfo.setMoment(v.getMoment());
-                    failInfo.setValidationId(v.getId());
-                    failInfo.setValidationClass(v.getClass().getSimpleName());
-                    failInfo.setSeverity(v.getSeverity());
-                    failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
-                    failInfo.setMessage(message);
-                    if (v instanceof ValidationDialog)
-                        failInfo.setDialog(((ValidationDialog) v).getDialog());
-                    fails.add(failInfo);
-                    afterFail(v);
-                });
+                validateField(v, fails);
             }
         }
     }
 
-    private int getCountOfList(String fieldId) {
+    private String replaceIndex(String commonFieldId, int i) {
+        return commonFieldId.replaceAll("\\[index]", "[" + i + "]");
+    }
+
+    private void validateField(Validation v, List<FailInfo> fails) {
+        v.validate(dataSet, serviceProvider, message -> {
+            FailInfo failInfo = new FailInfo();
+            failInfo.setMoment(v.getMoment());
+            failInfo.setValidationId(v.getId());
+            failInfo.setValidationClass(v.getClass().getSimpleName());
+            failInfo.setSeverity(v.getSeverity());
+            failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
+            failInfo.setMessage(message);
+            if (v instanceof ValidationDialog)
+                failInfo.setDialog(((ValidationDialog) v).getDialog());
+            fails.add(failInfo);
+            afterFail(v);
+        });
+    }
+
+    private String getMultiSetId(String fieldId) {
         String[] fields = fieldId.split("\\[index\\].");
-        DataList dataList = (DataList) dataSet.get(fields[0]);
-        return dataList == null ? 0 : dataList.size();
+        return fields[0];
+    }
+
+    private boolean isMultiSet(String fieldId) {
+        return fieldId != null && fieldId.contains("[index]");
     }
 
     private void afterFail(Validation v) {
