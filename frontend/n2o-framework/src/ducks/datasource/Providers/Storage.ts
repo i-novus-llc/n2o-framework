@@ -57,9 +57,9 @@ export function* query(id: string, { storage: storageType, key }: StorageProvide
     }
 
     const filtered = applyFilter(json)
-    const sorted = applySorting(filtered, sorting)
+    const sortered = applySorting(filtered, sorting)
     const { list, paging } = applyPaging(
-        sorted,
+        sortered,
         {
             size,
             page: typeof options.page === 'undefined' ? page : options.page,
