@@ -41,13 +41,16 @@ export function* effect({ payload, type }: ReturnType<typeof creator>) {
         const targetModel: object = yield select(makeGetModelByPrefixSelector(list.model, list.datasource))
         const sourceModel: object = yield select(makeGetModelByPrefixSelector(item.model, item.datasource))
 
-        const targetList = list.field ? get(targetModel, list.field) : targetModel
-        const element = item.field ? get(sourceModel, item.field) : sourceModel
+        let targetList = list.field ? get(targetModel, list.field) : targetModel
 
+        if (!targetList && (operation === Operations.create || operation === Operations.createMany)) {
+            targetList = []
+        }
         if (!Array.isArray(targetList)) {
             throw new Error(NOT_ARRAY)
         }
 
+        const element = item.field ? get(sourceModel, item.field) : sourceModel
         const newList = updateList(targetList, element, primaryKey, operation)
 
         let newModel
