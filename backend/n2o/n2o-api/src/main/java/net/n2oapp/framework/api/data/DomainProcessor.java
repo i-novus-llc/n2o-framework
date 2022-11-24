@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
 /**
  * Процессор приведения к типу
  */
-public class DomainProcessor {
+public class DomainProcessor implements Serializable {
     public static final String JAVA_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     private static DomainProcessor ourInstance = new DomainProcessor();
