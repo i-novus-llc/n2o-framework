@@ -218,7 +218,8 @@
                 </xs:attribute>
                 <xs:attribute name="generate-primary-key" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Генерация уникального ключа для каждого филдсета. Значение будет генеривроваться в primary-key. По умолчанию false</xs:documentation>
+                        <xs:documentation>Генерация уникального ключа для каждого филдсета.
+                            Значение guid будет генерироваться в primary-key. По умолчанию false</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
