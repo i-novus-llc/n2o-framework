@@ -1512,6 +1512,7 @@
         </xs:annotation>
         <xs:restriction>
             <xs:enumeration value="create"/>
+            <xs:enumeration value="createMany"/>
             <xs:enumeration value="update"/>
             <xs:enumeration value="delete"/>
             <xs:enumeration value="deleteMany"/>
