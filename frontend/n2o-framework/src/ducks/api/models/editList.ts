@@ -7,8 +7,11 @@ import { setModel } from '../../models/store'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { MODELS_PREFIX } from '../constants'
 
-import { NOT_ARRAY, Operations } from './const'
-import { updateList } from './updateList'
+import { NOT_ARRAY, Operations, UNKNOWN_OPERATION } from './const'
+import { create } from './editList/create'
+import { update } from './editList/update'
+import { deleteItem } from './editList/delete'
+import { deleteMany } from './editList/deleteMany'
 
 type ModelLink = {
     datasource: string
@@ -62,5 +65,23 @@ export function* effect({ payload, type }: ReturnType<typeof creator>) {
 
         // eslint-disable-next-line no-console
         console.warn(`Ошибка выполнения операции "${type}": ${message}`)
+    }
+}
+
+function updateList<TItem extends object>(
+    list: TItem[],
+    item: TItem | TItem[],
+    primaryKey: keyof TItem,
+    operation: Operations,
+): TItem[] {
+    switch (operation) {
+        case Operations.createMany:
+        case Operations.create: { return create(list, item) }
+        case Operations.update: { return update(list, item as TItem, primaryKey) }
+        case Operations.delete: { return deleteItem(list, item as TItem, primaryKey) }
+        case Operations.deleteMany: { return deleteMany(list, item as TItem[], primaryKey) }
+        default: {
+            throw new Error(UNKNOWN_OPERATION)
+        }
     }
 }
