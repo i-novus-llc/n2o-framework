@@ -3,22 +3,24 @@
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:element name="open-page" type="openPageDefinition"/>
-    <xs:element name="show-modal" type="showModalDefinition"/>
-    <xs:element name="open-drawer" type="openDrawerDefinition"/>
     <xs:element name="a" type="aDefinition"/>
-    <xs:element name="invoke" type="invokeActionDefinition"/>
-    <xs:element name="perform-validation" type="performValidationDefinition"/>
+    <xs:element name="action" type="customActionDefinition"/>
+    <xs:element name="alert" type="alertDefinition"/>
+    <xs:element name="clear" type="clearDefinition"/>
     <xs:element name="close" type="closeDefinition"/>
     <xs:element name="copy" type="copyDefinition"/>
-    <xs:element name="clear" type="clearDefinition"/>
-    <xs:element name="set-value" type="setValueDefinition"/>
+    <xs:element name="edit-list" type="editListDefinition"/>
+    <xs:element name="invoke" type="invokeActionDefinition"/>
+    <xs:element name="open-drawer" type="openDrawerDefinition"/>
+    <xs:element name="open-page" type="openPageDefinition"/>
     <xs:element name="perform" type="performDefinition"/>
+    <xs:element name="perform-validation" type="performValidationDefinition"/>
     <xs:element name="print" type="printDefinition"/>
     <xs:element name="refresh" type="refreshDefinition"/>
-    <xs:element name="alert" type="alertDefinition"/>
+    <xs:element name="set-value" type="setValueDefinition"/>
+    <xs:element name="show-modal" type="showModalDefinition"/>
     <xs:element name="submit" type="submitDatasourceDefinition"/>
-    <xs:element name="action" type="customActionDefinition"/>
+    <xs:element name="switch" type="switchActionDefinition"/>
 
     <xs:complexType name="actions">
         <xs:sequence>
@@ -28,28 +30,30 @@
 
     <xs:group name="actionsGroup">
         <xs:sequence>
-            <xs:element name="open-page" type="openPageDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="open-drawer" type="openDrawerDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="show-modal" type="showModalDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="a" type="aDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="invoke" type="invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="perform-validation" type="performValidationDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="close" type="closeDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="copy" type="copyDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="clear" type="clearDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="set-value" type="setValueDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="perform" type="performDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="open-page" type="openPageDefinition" minOccurs="0"/>
+            <xs:element name="open-drawer" type="openDrawerDefinition" minOccurs="0"/>
+            <xs:element name="show-modal" type="showModalDefinition" minOccurs="0"/>
+            <xs:element name="a" type="aDefinition" minOccurs="0"/>
+            <xs:element name="invoke" type="invokeActionDefinition" minOccurs="0"/>
+            <xs:element name="perform-validation" type="performValidationDefinition" minOccurs="0"/>
+            <xs:element name="close" type="closeDefinition" minOccurs="0"/>
+            <xs:element name="copy" type="copyDefinition" minOccurs="0"/>
+            <xs:element name="clear" type="clearDefinition" minOccurs="0"/>
+            <xs:element name="set-value" type="setValueDefinition" minOccurs="0"/>
+            <xs:element name="perform" type="performDefinition" minOccurs="0"/>
             <xs:element name="print" type="printDefinition" minOccurs="0"/>
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
-            <xs:element name="alert" type="alertDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="alert" type="alertDefinition" minOccurs="0"/>
             <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
             <xs:element name="edit-list" type="editListDefinition" minOccurs="0"/>
             <xs:element name="switch" type="switchActionDefinition" minOccurs="0"/>
             <xs:group ref="ifElseDefinition" minOccurs="0"/>
             <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
-            <xs:any namespace="##other" processContents="strict">
+            <xs:any namespace="##other">
                 <xs:annotation>
-                    <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
+                    <xs:documentation>
+                        Подключаемый через библиотеку обработчик действий
+                    </xs:documentation>
                 </xs:annotation>
             </xs:any>
         </xs:sequence>
@@ -57,16 +61,22 @@
 
     <xs:complexType name="actionDefinition">
         <xs:annotation>
-            <xs:documentation>Действия</xs:documentation>
+            <xs:documentation>
+                Действие
+            </xs:documentation>
         </xs:annotation>
-        <xs:attribute name="src" type="xs:string" use="optional">
+        <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Реализация действия.</xs:documentation>
+                <xs:documentation>
+                    Реализация действия
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
     </xs:complexType>
@@ -486,7 +496,9 @@
 
     <xs:complexType name="aDefinition">
         <xs:annotation>
-            <xs:documentation>Открыть страницу браузера.</xs:documentation>
+            <xs:documentation>
+                Действие открытия страницы браузера
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="actionDefinition">
@@ -496,12 +508,16 @@
                 </xs:sequence>
                 <xs:attribute name="href" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Адрес URL. Возможно использование плейсхолдеров {placeholder}</xs:documentation>
+                        <xs:documentation>
+                            Адрес URL. Возможно использование плейсхолдеров
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target" type="aType" use="optional">
+                <xs:attribute name="target" type="aType" default="self">
                     <xs:annotation>
-                        <xs:documentation>Cценарий открытия ссылки</xs:documentation>
+                        <xs:documentation>
+                            Сценарий открытия ссылки.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -929,12 +945,32 @@
 
     <xs:simpleType name="aType">
         <xs:annotation>
-            <xs:documentation>Тип сценария открытия ссылки.</xs:documentation>
+            <xs:documentation>
+                Сценарий открытия ссылки
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:enumeration value="newWindow"/>
-            <xs:enumeration value="self"/>
-            <xs:enumeration value="application"/>
+            <xs:enumeration value="newWindow">
+                <xs:annotation>
+                    <xs:documentation>
+                        В новой вкладке
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="self">
+                <xs:annotation>
+                    <xs:documentation>
+                        В текущей вкладке
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="application">
+                <xs:annotation>
+                    <xs:documentation>
+                        В текущем приложении (без обращения к серверу)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
 
