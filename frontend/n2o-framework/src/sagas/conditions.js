@@ -12,6 +12,7 @@ import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
 import find from 'lodash/find'
 import forOwn from 'lodash/forOwn'
+import { values } from 'lodash'
 
 import evalExpression from '../utils/evalExpression'
 import { setModel, clearModel, updateModel } from '../ducks/models/store'
@@ -34,6 +35,16 @@ const REMOVE_TO_ADD_ACTIONS_NAMES_DICT = {
     [removeButton.type]: registerButton.type,
 }
 
+function evalExpressionMulti(expression, context) {
+    const multiContext = Array.isArray(context) ? context : values(context)
+
+    if (isEmpty(multiContext)) {
+        return evalExpression(expression, multiContext, {})
+    }
+
+    return multiContext.every(item => evalExpression(expression, multiContext, item))
+}
+
 /**
  * резолв кондишена, резолв message из expression
  * @param conditions
@@ -48,9 +59,11 @@ export const resolveConditions = (conditions = [], state) => {
 
             const context = get(state, modelLink, {})
 
-            const type = modelLink.includes('multi') ? { mode: 'multi' } : { mode: 'single' }
+            const evalResult = modelLink.includes('multi')
+                ? evalExpressionMulti(expression, context)
+                : evalExpression(expression, context)
 
-            return !evalExpression(expression, context, type)
+            return !evalResult
                 ? acc.concat(condition)
                 : acc
         },
