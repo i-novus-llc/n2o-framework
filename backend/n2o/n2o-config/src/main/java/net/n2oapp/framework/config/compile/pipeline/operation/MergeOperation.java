@@ -6,12 +6,9 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
-import net.n2oapp.framework.api.metadata.compile.BindProcessor;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.SourceMergerFactory;
-import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.compile.*;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
 
 import java.util.function.Supplier;
 
@@ -47,7 +44,7 @@ public class MergeOperation<S> implements PipelineOperation<S, S>, PipelineOpera
         if (override instanceof RefIdAware && ((RefIdAware) override).getRefId() != null) {
             String refId = ((RefIdAware) override).getRefId();
             if (refId != null) {
-                S source = (S) compileProcessor.getSource(refId, (Class<SourceMetadata>)override.getClass());
+                S source = (S) compileProcessor.getSource(refId, (Class<SourceMetadata>) override.getClass(), compileProcessor);
                 return sourceMergerFactory.merge(source, override);
             }
         }

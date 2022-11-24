@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
 @Component
 public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oListWidget> {

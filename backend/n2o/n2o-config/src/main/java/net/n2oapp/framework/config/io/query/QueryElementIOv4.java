@@ -34,7 +34,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
     }
 
     private void selection(Element e, N2oQuery.Selection t, IOProcessor p) {
-        p.attribute(e, "filters", t::getFilters, t::setFilters);
+        p.attributeArray(e, "filters", ",", t::getFilters, t::setFilters);
         p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
         p.attribute(e, "result-mapping", t::getResultMapping, t::setResultMapping);
         p.anyChild(e, null, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), dataProviderDefaultNamespace);

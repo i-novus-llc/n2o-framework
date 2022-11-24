@@ -10,5 +10,4 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oCustomCell extends N2oActionCell {
-
 }

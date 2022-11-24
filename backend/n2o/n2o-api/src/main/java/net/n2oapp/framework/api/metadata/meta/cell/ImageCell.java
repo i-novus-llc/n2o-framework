@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.meta.cell;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.aware.UrlAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 
@@ -12,7 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
  */
 @Getter
 @Setter
-public class ImageCell extends ActionCell implements UrlAware {
+public class ImageCell extends ActionCell {
     @JsonProperty
     private String width;
     @JsonProperty

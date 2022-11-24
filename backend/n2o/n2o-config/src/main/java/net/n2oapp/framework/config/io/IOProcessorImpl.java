@@ -21,10 +21,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -933,15 +930,15 @@ public final class IOProcessorImpl implements IOProcessor {
         if (r) {
             Attribute attribute = element.getAttribute(name);
             if (attribute != null) {
-                setter.accept(process(attribute.getValue()).split(separator));
+                String value = process(attribute.getValue());
+                setter.accept(value.trim().split("\\s*" + separator + "\\s*"));
             }
         } else {
             if (getter.get() == null) return;
-            StringBuilder str = new StringBuilder();
-            for (String s : getter.get()) {
-                str.append(s).append(",");
-            }
-            element.setAttribute(new Attribute(name, str.toString().substring(0, str.length() - 1)));
+            StringJoiner str = new StringJoiner(",");
+            for (String s : getter.get())
+                str.add(s);
+            element.setAttribute(new Attribute(name, str.toString()));
         }
     }
 

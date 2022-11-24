@@ -10,9 +10,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Abstrac
 @Setter
 public abstract class N2oAbstractTable extends N2oAbstractListWidget {
     private AbstractColumn[] columns;
-    private PagingMode pagingMode;
-    private Boolean alwaysShowCount;
-    private Boolean hasCheckboxes;
     private Boolean autoSelect;
     private RowSelectionEnum selection;
     private Size tableSize;
@@ -21,7 +18,6 @@ public abstract class N2oAbstractTable extends N2oAbstractListWidget {
     private Boolean textWrap;
     private Boolean checkboxes;
     private Boolean checkOnSelect;
-    private String cssClass;
 
     public enum PagingMode {
         on, off, lazy

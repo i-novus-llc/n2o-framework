@@ -493,14 +493,14 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageWithPathParam", "/page"));
 
         PerformButton btn1 = (PerformButton) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("btn1");
-        assertThat(btn1.getPathMapping().size(), is(1));
-        assertThat(btn1.getPathMapping().get("client_id").getBindLink(), nullValue());
-        assertThat(btn1.getPathMapping().get("client_id").getValue(), is(123));
+        assertThat(((LinkAction) btn1.getAction()).getPathMapping().size(), is(1));
+        assertThat(((LinkAction) btn1.getAction()).getPathMapping().get("client_id").getBindLink(), nullValue());
+        assertThat(((LinkAction) btn1.getAction()).getPathMapping().get("client_id").getValue(), is(123));
 
         PerformButton btn2 = (PerformButton) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("btn2");
-        assertThat(btn2.getPathMapping().size(), is(1));
-        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master']"));
-        assertThat(btn2.getPathMapping().get("account_id").getValue(), is("`accountId`"));
+        assertThat(((LinkAction) btn2.getAction()).getPathMapping().size(), is(1));
+        assertThat(((LinkAction) btn2.getAction()).getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master']"));
+        assertThat(((LinkAction) btn2.getAction()).getPathMapping().get("account_id").getValue(), is("`accountId`"));
         ModelLink link = page.getModels().get("resolve['page_master'].accountId");
         assertThat(link.getBindLink(), is("models.resolve['page_master']"));
         assertThat(link.getValue(), is(111));

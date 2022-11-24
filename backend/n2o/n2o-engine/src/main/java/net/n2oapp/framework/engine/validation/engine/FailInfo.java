@@ -13,6 +13,7 @@ public class FailInfo {
     public N2oValidation.ServerMoment moment;
     public String fieldId;
     public String message;
+    public String messageTitle;
     public String validationId;
     public String validationClass;
     public String messageForm;

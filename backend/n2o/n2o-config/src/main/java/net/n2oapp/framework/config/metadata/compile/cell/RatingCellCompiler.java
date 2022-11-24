@@ -27,7 +27,8 @@ public class RatingCellCompiler extends AbstractCellCompiler<RatingCell, N2oRati
         cell.setHalf(p.cast(source.getHalf(), p.resolve(property("n2o.api.cell.rating.half"), Boolean.class)));
         cell.setMax(p.cast(source.getMax(), p.resolve(property("n2o.api.cell.rating.max"), Integer.class)));
         cell.setReadonly(p.cast(source.getReadonly(), p.resolve(property("n2o.api.cell.rating.readonly"), Boolean.class)));
-        if (Boolean.FALSE.equals(source.getReadonly())) compileAction(cell, source, context, p);
+        if (Boolean.FALSE.equals(source.getReadonly()))
+            compileAction(cell, source, context, p);
         return cell;
     }
 }

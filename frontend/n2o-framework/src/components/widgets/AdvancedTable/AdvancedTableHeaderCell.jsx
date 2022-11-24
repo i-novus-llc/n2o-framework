@@ -42,7 +42,24 @@ class AdvancedTableHeaderCell extends Component {
     }
 
     renderMultiCell() {
-        const { colSpan, rowSpan, className, id, label, sorting, component, alignment } = this.props
+        const {
+            colSpan,
+            rowSpan,
+            className,
+            id,
+            label,
+            sorting,
+            component,
+            alignment,
+            children = [],
+            visible = true,
+        } = this.props
+
+        if (!visible) {
+            return null
+        }
+
+        const calculatedColSpan = children.filter(({ visible }) => visible).length
 
         return (
             <th
@@ -55,7 +72,7 @@ class AdvancedTableHeaderCell extends Component {
                         [`alignment-${alignment}`]: alignment,
                     },
                 )}
-                colSpan={colSpan}
+                colSpan={calculatedColSpan || colSpan}
                 rowSpan={rowSpan}
             >
                 {React.createElement(component, {
@@ -122,6 +139,16 @@ class AdvancedTableHeaderCell extends Component {
 
         const ElementType = as || 'th'
 
+        if (!cellContent && children === undefined) {
+            return null
+        }
+
+        const visible = get(cellContent, 'props.visible', true)
+
+        if (!visible) {
+            return null
+        }
+
         return (
             <ElementType
                 title={label}
@@ -155,7 +182,11 @@ class AdvancedTableHeaderCell extends Component {
     }
 
     render() {
-        const { width, onResize, resizable } = this.props
+        const { width, onResize, resizable, needRender = true, visible = true } = this.props
+
+        if (!visible || !needRender) {
+            return null
+        }
 
         return (
             <>
@@ -197,6 +228,8 @@ AdvancedTableHeaderCell.propTypes = {
     selectionClass: PropTypes.string,
     filterControl: PropTypes.object,
     alignment: PropTypes.oneOf(['right', 'center', 'left']),
+    needRender: PropTypes.bool,
+    visible: PropTypes.bool,
 }
 
 AdvancedTableHeaderCell.defaultProps = {

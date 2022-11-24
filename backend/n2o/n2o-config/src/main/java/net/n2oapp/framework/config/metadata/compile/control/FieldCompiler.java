@@ -104,10 +104,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
             conditionSetter.accept(false);
-        } else if (conditionGetter.get() != null) {
-            dependency.setValue(conditionGetter.get());
-            source.addDependency(dependency);
-            conditionSetter.accept(defaultValue);
         } else {
             conditionSetter.accept(defaultValue);
         }
@@ -138,7 +134,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (source.getDependsOn() != null) {
             ControlDependency dependency = new ControlDependency();
             List<String> ons = Arrays.asList(source.getDependsOn());
-            ons.replaceAll(String::trim);
             dependency.setOn(ons);
             dependency.setType(ValidationType.reRender);
             field.addDependency(dependency);
@@ -149,7 +144,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         compiled.setApplyOnInit(p.cast(source.getApplyOnInit(), true));
         if (source.getOn() != null) {
             List<String> ons = Arrays.asList(source.getOn());
-            ons.replaceAll(String::trim);
             compiled.getOn().addAll(ons);
         }
         field.addDependency(compiled);
@@ -321,7 +315,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     if (dependency.getClass().equals(N2oField.VisibilityDependency.class))
                         fieldVisibilityConditions.add(dependency.getValue());
                 }
+            } else if ("false".equals(source.getVisible())) {
+                fieldVisibilityConditions.add(source.getVisible());
             }
+
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(field.getId());
                 Validation compiledValidation = p.compile(v, context);

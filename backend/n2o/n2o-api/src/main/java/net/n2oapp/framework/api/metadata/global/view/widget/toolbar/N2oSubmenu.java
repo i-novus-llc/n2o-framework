@@ -18,11 +18,11 @@ public class N2oSubmenu extends N2oAbstractButton implements GroupItem {
     private N2oButton[] menuItems;
 
     @Override
-    public List<N2oAction> getActions() {
+    public List<N2oAction> getListActions() {
         List<N2oAction> actions = new ArrayList<>();
         if (menuItems != null) {
             for (N2oButton item : menuItems) {
-                actions.add(item.getAction());
+                actions.addAll(item.getListActions());
             }
         }
         return actions;

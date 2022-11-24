@@ -1,14 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
@@ -17,7 +15,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oEnablingDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
@@ -25,24 +22,25 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
-import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.*;
+import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientWidgetId;
 
@@ -81,18 +79,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
         String src = p.cast(source.getSrc(), defaultWidgetSrc);
         return src;
-    }
-
-    protected MetaActions initMetaActions(S source, CompileProcessor p) {
-        MetaActions metaActions = p.getScope(MetaActions.class);
-        if (metaActions == null)
-            metaActions = new MetaActions();
-        if (source.getActions() != null) {
-            for (ActionsBar actionsBar : source.getActions()) {
-                metaActions.addAction(actionsBar.getId(), actionsBar);
-            }
-        }
-        return metaActions;
     }
 
     /**
@@ -140,11 +126,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
-                                           WidgetScope widgetScope, MetaActions widgetActions,
+                                           WidgetScope widgetScope, MetaActions metaActions,
                                            CompiledObject object, ValidationScope validationScope) {
-        actionsToToolbar(source);
-        compileActions(source, context, p, widgetActions, widgetScope, object, validationScope);
-        compileToolbar(compiled, source, context, p, object, widgetActions, widgetScope, validationScope);
+        actionsToToolbar(source, metaActions);
+        compileMetaActions(source, context, p, metaActions, widgetScope, object, validationScope);
+        compiled.setToolbar(compileToolbar(source, "n2o.api.widget.toolbar.place", context, p, object,
+                metaActions, widgetScope, validationScope));
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
@@ -165,79 +152,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
     }
 
-    private void compileActions(S source, CompileContext<?, ?> context, CompileProcessor p, MetaActions widgetActions,
-                                WidgetScope widgetScope, CompiledObject object, ValidationScope validationScope) {
-        if (source.getActions() != null) {
-            for (ActionsBar a : source.getActions()) {
-                a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
-                p.compile(a.getAction(), context, widgetScope, widgetActions, object, validationScope, new ComponentScope(a));
-            }
-        }
-    }
-
     private void compileAutoFocus(S source, D compiled, CompileProcessor p) {
         if (compiled.getComponent() == null)
             return;
         compiled.getComponent().setAutoFocus(p.cast(source.getAutoFocus(), p.resolve(property("n2o.api.widget.auto_focus"), Boolean.class), true));
-    }
-
-    private void actionsToToolbar(S source) {
-        if (source.getActions() == null || source.getToolbars() == null)
-            return;
-        Map<String, ActionsBar> actionMap = new HashMap<>();
-        Stream.of(source.getActions()).forEach(a -> actionMap.put(a.getId(), a));
-        for (N2oToolbar toolbar : source.getToolbars()) {
-            if (toolbar.getItems() == null) continue;
-            ToolbarItem[] toolbarItems = toolbar.getItems();
-            copyActionForToolbarItem(actionMap, toolbarItems);
-        }
-    }
-
-    private void copyActionForToolbarItem(Map<String, ActionsBar> actionMap, ToolbarItem[] toolbarItems) {
-        for (ToolbarItem item : toolbarItems) {
-            if (item instanceof N2oButton) {
-                copyAction((N2oButton) item, actionMap);
-            } else if (item instanceof N2oSubmenu) {
-                for (N2oButton subItem : ((N2oSubmenu) item).getMenuItems()) {
-                    copyAction(subItem, actionMap);
-                }
-            } else if (item instanceof N2oGroup) {
-                copyActionForToolbarItem(actionMap, ((N2oGroup) item).getItems());
-            }
-        }
-    }
-
-    private void copyAction(N2oButton item, Map<String, ActionsBar> actionMap) {
-        N2oButton mi = item;
-        if (mi.getAction() == null && mi.getActionId() != null) {
-            ActionsBar action = actionMap.get(mi.getActionId());
-            if (action == null) {
-                throw new N2oException(String.format("Toolbar has reference to nonexistent action by actionId %s!", mi.getAction()));
-            }
-            mi.setAction(action.getAction());//todo скорее всего не нужно
-            if (mi.getModel() == null)
-                mi.setModel(action.getModel());
-            if (mi.getDatasourceId() == null)
-                mi.setDatasourceId(action.getDatasourceId());
-            if (mi.getLabel() == null)
-                mi.setLabel(action.getLabel());
-            if (mi.getIcon() == null)
-                mi.setIcon(action.getIcon());
-        }
-    }
-
-    private void compileToolbar(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {
-        if (source.getToolbars() == null)
-            return;
-
-        Toolbar compiledToolbar = new Toolbar();
-        IndexScope index = new IndexScope();
-        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.widget.toolbar.place"), String.class));
-        for (N2oToolbar toolbar : source.getToolbars()) {
-            compiledToolbar.putAll(p.compile(toolbar, context,
-                    index, toolbarPlaceScope, scopes));
-        }
-        compiled.setToolbar(compiledToolbar);
     }
 
     /**
