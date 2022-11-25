@@ -39,7 +39,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
     private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "", true);
-    private static final Pattern FIELD_ID_PATTERN = Pattern.compile("[a-zA-Z][\\w.]*");
+    private static final Pattern FIELD_ID_PATTERN = Pattern.compile("[a-zA-Z_][\\w.\\[\\]*]*");
 
     /**
      * Сервисы окружения
