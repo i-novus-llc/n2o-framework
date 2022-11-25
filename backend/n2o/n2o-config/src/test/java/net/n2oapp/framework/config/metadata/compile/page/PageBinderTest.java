@@ -130,7 +130,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setBreadcrumbs(singletonList(new Breadcrumb("prev", "/page")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe"));
-        assertThat(page.getBreadcrumb().get(1).getLabel(), is("Hello, Joe"));
+        assertThat(page.getBreadcrumb().get(1).getLabel(), is("`'Hello, Joe '+code`"));
     }
 
     /**
