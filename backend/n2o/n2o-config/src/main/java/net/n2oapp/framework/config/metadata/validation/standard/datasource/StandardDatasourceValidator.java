@@ -113,12 +113,12 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                     throw new N2oMetadataValidationException(
                             String.format("В выборке '%s' нет поля '%s'!", queryId, preFilter.getFieldId()));
 
-                if (ArrayUtils.isEmpty(query.getFiltersList(exField.getId())))
+                if (ArrayUtils.isEmpty(query.getFiltersList(exField.getAbsoluteId())))
                     throw new N2oMetadataValidationException(
                             String.format("В выборке '%s' поле '%s' не содержит фильтров!", queryId, preFilter.getFieldId()));
 
                 N2oQuery.Filter exFilter = null;
-                for (N2oQuery.Filter filter : query.getFiltersList(exField.getId())) {
+                for (N2oQuery.Filter filter : query.getFiltersList(exField.getAbsoluteId())) {
                     if (preFilter.getType() == filter.getType()) {
                         exFilter = filter;
                         break;
@@ -146,10 +146,13 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
         for (AbstractField field : fields) {
             String computedId = isNull(parentFieldId) ? field.getId() : parentFieldId + "." + field.getId();
             if (field instanceof QueryReferenceField) {
-                return findExField(preFilter, ((QueryReferenceField) field).getFields(), computedId);
-            }
-            if (computedId.equals(preFilter.getFieldId()))
+                field = findExField(preFilter, ((QueryReferenceField) field).getFields(), computedId);
+                if (field != null)
+                    return field;
+            } else if (computedId.equals(preFilter.getFieldId())) {
+                field.setAbsoluteId(computedId);
                 return field;
+            }
         }
         return null;
     }
