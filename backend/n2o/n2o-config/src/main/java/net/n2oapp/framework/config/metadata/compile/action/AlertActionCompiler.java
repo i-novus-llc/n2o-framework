@@ -41,7 +41,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
 
     private AlertActionPayload initPayload(N2oAlertAction source, CompileProcessor p) {
         AlertActionPayload payload = new AlertActionPayload();
-        payload.setKey(p.cast(p.resolve(source.getPlacement(), MessagePlacement.class),
+        payload.setKey(p.cast(source.getPlacement(),
                 p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
         payload.setAlerts(initMessage(source, p));
         return payload;
@@ -57,7 +57,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
         message.setHref(source.getHref());
         message.setSeverity(p.cast(source.getColor(), p.resolve(property("n2o.api.action.alert.color"), String.class)));
         message.setCloseButton(p.cast(source.getCloseButton(), p.resolve(property("n2o.api.action.alert.close_button"), Boolean.class)));
-        message.setPlacement(p.cast(p.resolve(source.getPlacement(), MessagePlacement.class),
+        message.setPlacement(p.cast(source.getPlacement(),
                 p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));//fixme добавить резолв из контекста
         message.setTimeout(p.cast(p.resolve(source.getTimeout(), Integer.class),
                 p.resolve(property(String.format("n2o.api.message.%s.timeout", message.getSeverity())), Integer.class)));

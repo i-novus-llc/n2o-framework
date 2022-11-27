@@ -33,6 +33,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
 
         String defaultDatasource = getClientDatasourceId(getLocalDatasourceId(p), p);
         ReduxModel model = getModelFromComponentScope(p);
+
         String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getSourceDatasourceId(), p);
         SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(sourceDatasourceId,

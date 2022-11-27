@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAlertAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class AlertActionElementIOV2 extends AbstractActionElementIOV2<N2oAlertAc
         p.attribute(e, "class", a::getCssClass, a::setCssClass);
         p.attribute(e, "time", a::getTime, a::setTime);
         p.attribute(e, "timeout", a::getTimeout, a::setTimeout);
-        p.attribute(e, "placement", a::getPlacement, a::setPlacement);
+        p.attributeEnum(e, "placement", a::getPlacement, a::setPlacement, MessagePlacement.class);
         p.attributeBoolean(e, "close-button", a::getCloseButton, a::setCloseButton);
     }
 

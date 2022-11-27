@@ -14,7 +14,6 @@
     <xs:element name="open-drawer" type="openDrawerDefinition"/>
     <xs:element name="open-page" type="openPageDefinition"/>
     <xs:element name="perform" type="performDefinition"/>
-    <xs:element name="perform-validation" type="performValidationDefinition"/>
     <xs:element name="print" type="printDefinition"/>
     <xs:element name="refresh" type="refreshDefinition"/>
     <xs:element name="set-value" type="setValueDefinition"/>
@@ -35,7 +34,6 @@
             <xs:element name="show-modal" type="showModalDefinition" minOccurs="0"/>
             <xs:element name="a" type="aDefinition" minOccurs="0"/>
             <xs:element name="invoke" type="invokeActionDefinition" minOccurs="0"/>
-            <xs:element name="perform-validation" type="performValidationDefinition" minOccurs="0"/>
             <xs:element name="close" type="closeDefinition" minOccurs="0"/>
             <xs:element name="copy" type="copyDefinition" minOccurs="0"/>
             <xs:element name="clear" type="clearDefinition" minOccurs="0"/>
@@ -671,16 +669,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="performValidationDefinition">
-        <xs:complexContent>
-            <xs:extension base="actionDefinition">
-                <xs:annotation>
-                    <xs:documentation>Провалидировать виджет.</xs:documentation>
-                </xs:annotation>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
     <xs:complexType name="closeDefinition">
         <xs:complexContent>
             <xs:extension base="actionDefinition">
@@ -762,7 +750,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="mode" type="copyModeType" default="merge">
+                <xs:attribute name="mode" type="mergeType" default="merge">
                     <xs:annotation>
                         <xs:documentation>
                             Тип слияния данных
@@ -817,38 +805,48 @@
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:annotation>
-                    <xs:documentation>Установить значение в модель.</xs:documentation>
+                    <xs:documentation>
+                        Действие установки значения в модель
+                    </xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="target-field-id" type="xs:string" use="optional">
+                <xs:attribute name="source-datasource" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле модели, которое будет перезаписано значением, которое вернет функция в
-                            теле. При отсутствии, будет перезаписана вся модель.
+                        <xs:documentation>
+                            Идентификатор источника данных, из которого берется значение.
+                            По умолчанию: идентификатор источника данных родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-model" type="clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель, из которой берется значение.
+                            По умолчанию: модель родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных, в который будет записано значение.
+                            По умолчанию: идентификатор источника данных родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель, в которую будет записано значение.
+                            По умолчанию: модель родительского компонента
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="to" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле для записи значения, по умолчанию вся модель.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="source-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Источник данных, по умолчанию текущий.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="source-model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>Модель источника данных.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Целевой источник данных, по умолчанию текущий.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>Модель целевого источника данных.</xs:documentation>
+                        <xs:documentation>
+                            Поле, в которое будет записано значение.
+                            По умолчанию: вся модель
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="merge-mode" type="mergeType" default="replace"/>
@@ -860,11 +858,14 @@
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:annotation>
-                    <xs:documentation>Кастомное действие.</xs:documentation>
+                    <xs:documentation>
+                        Настраиваемое действие Redux с произвольными атрибутами
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="type" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Тип действия.
+                        <xs:documentation>
+                            Тип действия Redux
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -979,7 +980,8 @@
                 <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных
+                            Идентификатор источника данных.
+                            По умолчанию: идентификатор источника данных родительского компонента
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -987,7 +989,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:simpleType name="copyModeType">
+    <xs:simpleType name="mergeType">
         <xs:annotation>
             <xs:documentation>
                 Типы слияния данных
@@ -1198,14 +1200,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="mergeType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="merge"/>
-            <xs:enumeration value="replace"/>
-            <xs:enumeration value="add"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="clientModel">
         <xs:annotation>
             <xs:documentation>Модель, над которой выполняется действие на клиенте.</xs:documentation>
@@ -1259,56 +1253,78 @@
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:annotation>
-                    <xs:documentation>Действие уведомления.</xs:documentation>
+                    <xs:documentation>
+                        Действие уведомления
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Текст заголовка уведомления.</xs:documentation>
+                        <xs:documentation>
+                            Текст заголовка уведомления
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Текст уведомления.</xs:documentation>
+                        <xs:documentation>
+                            Текст сообщения уведомления
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Стиль уведомления.</xs:documentation>
+                        <xs:documentation>
+                            Стиль уведомления
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>CSS класс уведомления.</xs:documentation>
+                        <xs:documentation>
+                            CSS класс уведомления
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="color" type="xs:string" default="secondary">
                     <xs:annotation>
-                        <xs:documentation>Цвет уведомления.</xs:documentation>
+                        <xs:documentation>
+                            Цвет уведомления
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="href" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ссылка для перехода при клике по уведомлению.</xs:documentation>
+                        <xs:documentation>
+                            Ссылка для перехода при клике по уведомлению
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="close-button" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Наличие кнопки закрытия уведомления.</xs:documentation>
+                        <xs:documentation>
+                            Наличие кнопки закрытия уведомления
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="placement" type="xs:string" default="top">
+                <xs:attribute name="placement" type="messagePlacement" default="top">
                     <xs:annotation>
-                        <xs:documentation>Расположение уведомления.</xs:documentation>
+                        <xs:documentation>
+                            Расположение уведомления
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="timeout" type="xs:string" default="3000">
                     <xs:annotation>
-                        <xs:documentation>Длительность показа уведомления.</xs:documentation>
+                        <xs:documentation>
+                            Длительность показа уведомления (в мс)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="time" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Время отправки уведомления.</xs:documentation>
+                        <xs:documentation>
+                            Время отправки уведомления
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1345,7 +1361,9 @@
 
     <xs:complexType name="customActionDefinition">
         <xs:annotation>
-            <xs:documentation>Кастомное действие</xs:documentation>
+            <xs:documentation>
+                Настраиваемое действие
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="metaActionDefinition">
@@ -1354,7 +1372,9 @@
                 </xs:sequence>
                 <xs:attribute name="type" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Redux тип действия</xs:documentation>
+                        <xs:documentation>
+                            Тип Redux действия
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1363,7 +1383,7 @@
 
     <xs:complexType name="payloadDef">
         <xs:annotation>
-            <xs:documentation>Полезная нагрузка кастомного действия</xs:documentation>
+            <xs:documentation>Полезная нагрузка настраиваемого действия</xs:documentation>
         </xs:annotation>
         <xs:anyAttribute>
             <xs:annotation>
@@ -1426,7 +1446,8 @@
                     <xs:annotation>
                         <xs:documentation>
                             Идентификаторы источников данных (через запятую),
-                            которые необходимо обновить после успешного выполнения действия
+                            которые необходимо обновить после успешного выполнения действия.
+                            По умолчанию: идентификатор источника данных родительского компонента
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1461,48 +1482,62 @@
 
     <xs:complexType name="switchActionDefinition">
         <xs:annotation>
-            <xs:documentation>Переключатель действий</xs:documentation>
+            <xs:documentation>
+                Переключатель действий
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="case" type="caseDefinition" minOccurs="0"/>
             <xs:element name="default" type="defaultCaseDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="value-field-id" type="xs:string" use="required">
+        <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Идентификатор поля, значение которого будет сравниваться с value в кейсах переключателя
+                    Идентификатор источника данных, из которого будет взято значение
+                    По умолчанию: идентификатор источника данных родительского компонента
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="datasource" type="xs:string">
+        <xs:attribute name="model" type="clientModel">
             <xs:annotation>
-                <xs:documentation>Идентификатор источника данных, из которого будет взят value-field-id</xs:documentation>
+                <xs:documentation>
+                    Модель источника данных, из которой будет взято значение.
+                    По умолчанию: модель родительского компонента
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="clientModel" default="resolve">
+        <xs:attribute name="value-field-id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Модель источника данных, из которой будет взят value-field-id</xs:documentation>
+                <xs:documentation>
+                    Идентификатор поля, значение которого будет сравниваться с value в case
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="caseDefinition">
         <xs:annotation>
-            <xs:documentation>Кейс переключателя</xs:documentation>
+            <xs:documentation>
+                Действие по условию
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="actionsGroup" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="value" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Значение, с которым сравнивается value-field-id</xs:documentation>
+                <xs:documentation>
+                    Значение, с которым сравнивается value-field-id
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="defaultCaseDefinition">
         <xs:annotation>
-            <xs:documentation>Вариант действия по умолчанию</xs:documentation>
+            <xs:documentation>
+                Действие по умолчанию
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="actionsGroup" minOccurs="0"/>
@@ -1511,7 +1546,9 @@
 
     <xs:group name="ifElseDefinition">
         <xs:annotation>
-            <xs:documentation>Условия if/else</xs:documentation>
+            <xs:documentation>
+                Условный оператор if/else
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="if" type="ifDefinition" minOccurs="0"/>
@@ -1522,31 +1559,43 @@
 
     <xs:complexType name="ifDefinition">
         <xs:annotation>
-            <xs:documentation>Условный оператор if</xs:documentation>
+            <xs:documentation>
+                Условный оператор if
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="actionsGroup" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="test" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Условие для выполнения действия условного оператора if</xs:documentation>
+                <xs:documentation>
+                    Условие для выполнения действия оператора
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор источника данных, из которого будут браться значения для test</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных, из которого берется значения для test.
+                    По умолчанию: идентификатор источника данных родительского компонента
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="clientModel" default="resolve">
+        <xs:attribute name="model" type="clientModel">
             <xs:annotation>
-                <xs:documentation>Модель источника данных, из которой будут браться значения для test</xs:documentation>
+                <xs:documentation>
+                    Модель источника данных, из которой берется значения для test.
+                    По умолчанию: модель родительского компонента
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="elseIfDefinition">
         <xs:annotation>
-            <xs:documentation>Условный оператор else if</xs:documentation>
+            <xs:documentation>
+                Условный оператор else if
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="actionsGroup" minOccurs="0"/>
@@ -1560,7 +1609,9 @@
 
     <xs:complexType name="elseDefinition">
         <xs:annotation>
-            <xs:documentation>Условный оператор else</xs:documentation>
+            <xs:documentation>
+                Условный оператор else
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="actionsGroup" minOccurs="0"/>
@@ -1569,63 +1620,70 @@
 
     <xs:complexType name="editListDefinition">
         <xs:annotation>
-            <xs:documentation>Редактирование записи таблицы в модальном окне без обращения к серверу</xs:documentation>
+            <xs:documentation>
+                Действие редактирования записи списка без обращения к серверу
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:attribute name="operation" type="editListOperationType" use="required">
                     <xs:annotation>
-                        <xs:documentation>Тип операции</xs:documentation>
+                        <xs:documentation>
+                            Тип операции
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="primary-key" type="xs:string" default="id">
                     <xs:annotation>
                         <xs:documentation>
-                            Поле, которое будет искаться в массиве для изменения/удаления (по умолчанию id)
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Источник данных, который будет обновлен (по умолчанию: значение item-datasource)
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель источника данных, которая будет обновлена (по умолчанию: значение item-model)
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="list-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Поле массива в источнике данных, которое будет обновлено
-                            (если не указано, то вся модель - это массив)
+                            Поле, по которому будет искаться запись при изменении/удалении
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="item-datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Источник данных, который будет использован в качестве элемента массива (по умолчанию: текущий)
+                            Идентификатор источника данных, из которого будет взята запись.
+                            По умолчанию: идентификатор источника данных родительского компонента
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="item-model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Модель источника данных, которая будет использована в качестве элемента массива (по умолчанию: текущая)
+                            Модель, из которой будет взята запись.
+                            По умолчанию: модель родительского компонента
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="item-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Поле источника данных, которое будет использовано в качестве элемента массива
-                            (если не указано, то вся модель - это элемент массива)
+                            Поле, из которого будет взята запись.
+                            По умолчанию: вся модель
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных списка, который будет обновлен.
+                            (по умолчанию: значение item-datasource)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель данных списка, которая будет обновлена.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="list-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Поле списка, которое будет обновлено.
+                            По умолчанию: вся модель
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1635,10 +1693,13 @@
 
     <xs:simpleType name="editListOperationType">
         <xs:annotation>
-            <xs:documentation>Тип операции в edit-list</xs:documentation>
+            <xs:documentation>
+                Тип операции в edit-list
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction>
             <xs:enumeration value="create"/>
+            <xs:enumeration value="createMany"/>
             <xs:enumeration value="update"/>
             <xs:enumeration value="delete"/>
             <xs:enumeration value="deleteMany"/>
