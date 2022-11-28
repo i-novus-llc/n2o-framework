@@ -20,17 +20,11 @@ public abstract class InvocationValidation extends Validation {
     private N2oInvocation invocation;
     private List<AbstractParameter> inParametersList;
     private List<ObjectSimpleField> outParametersList;
-    private DomainProcessor domainProcessor;
 
     public InvocationValidation(InvocationValidation validation) {
         super(validation);
         this.invocation = validation.getInvocation();
         this.inParametersList = validation.getInParametersList();
         this.outParametersList = validation.getOutParametersList();
-        this.domainProcessor = new DomainProcessor();
-    }
-
-    public void setDomainProcessor(DomainProcessor domainProcessor) {
-        this.domainProcessor = domainProcessor;
     }
 }

@@ -27,22 +27,16 @@ public class ConditionValidation extends Validation {
     @JsonProperty
     private String expression;
     private String expressionOn;
-    private DomainProcessor domainProcessor;
 
     public ConditionValidation(ConditionValidation validation) {
         super(validation);
         this.expression = validation.getExpression();
         this.expressionOn = validation.getExpressionOn();
-        this.domainProcessor = validation.getDomainProcessor();
     }
 
     public void setExpression(String expression) {
         if (expression != null)
             this.expression = expression.replaceAll("\n|\r", "").trim();
-    }
-
-    public void setDomainProcessor(DomainProcessor domainProcessor) {
-        this.domainProcessor = domainProcessor;
     }
 
     private Set<String> getExpressionsOn() {
@@ -53,7 +47,7 @@ public class ConditionValidation extends Validation {
                 .collect(Collectors.toSet());
     }
 
-    private DataSet getCopiedDataSet (DataSet dataSet) {
+    private DataSet getCopiedDataSet (DataSet dataSet, DomainProcessor domainProcessor) {
         DataSet copiedDataSet = new DataSet(dataSet);
         getExpressionsOn().forEach(key -> {
             Object value = dataSet.get(key);
@@ -64,9 +58,10 @@ public class ConditionValidation extends Validation {
     }
 
     @Override
-    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
+    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback,
+                         DomainProcessor domainProcessor) {
         try {
-            DataSet copiedDataSet = getCopiedDataSet(dataSet);
+            DataSet copiedDataSet = getCopiedDataSet(dataSet, domainProcessor);
             if (!(boolean) ScriptProcessor.eval(getExpression(), copiedDataSet))
                 callback.onFail(StringUtils.resolveLinks(getMessage(), copiedDataSet));
         } catch (ScriptException e) {

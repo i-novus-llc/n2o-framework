@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 
@@ -35,7 +36,8 @@ public class MandatoryValidation extends Validation {
 
 
     @Override
-    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
+    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback,
+                         DomainProcessor domainProcessor) {
         Boolean success = null;
         if (dataSet.get(getFieldId()) != null) {
             if (dataSet.get(getFieldId()) instanceof String)

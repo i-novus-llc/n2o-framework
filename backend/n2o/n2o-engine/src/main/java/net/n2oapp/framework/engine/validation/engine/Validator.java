@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine.validation.engine;
 
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.validation.*;
 import net.n2oapp.framework.api.exception.SeverityType;
@@ -17,6 +18,7 @@ import java.util.*;
 public class Validator implements Iterable<Validation> {
 
     private InvocationProcessor serviceProvider;
+    private DomainProcessor domainProcessor;
     private DataSet dataSet;
     private List<Validation> validationList;
     private N2oValidation.ServerMoment moment;
@@ -74,7 +76,7 @@ public class Validator implements Iterable<Validation> {
                 failInfo.setDialog(((ValidationDialog) v).getDialog());
             fails.add(failInfo);
             afterFail(v);
-        });
+        }, domainProcessor);
     }
 
     private String getMultiSetId(String fieldId) {
@@ -197,6 +199,10 @@ public class Validator implements Iterable<Validation> {
             return this;
         }
 
+        public Builder addDomainProcessor(DomainProcessor processor) {
+            Validator.this.domainProcessor = processor;
+            return this;
+        }
 
         public Validator build() {
             sort();

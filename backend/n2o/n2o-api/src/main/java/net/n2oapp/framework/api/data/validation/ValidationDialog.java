@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
@@ -22,8 +23,9 @@ public class ValidationDialog extends InvocationValidation {
     private N2oDialog dialog;
 
     @Override
-    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
-        dataSet = getDomainProcessor().doDomainConversation(dataSet, getInParametersList());
+    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback,
+                         DomainProcessor domainProcessor) {
+        dataSet = domainProcessor.doDomainConversation(dataSet, getInParametersList());
         DataSet result;
         if (getInvocation() != null)
             result = serviceProvider.invoke(getInvocation(), dataSet, getInParametersList(), getOutParametersList());
