@@ -42,7 +42,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         checkRefreshWidgetDatasourceIds(source, pageScope, datasourceIdsScope);
 
-        if (source.getDatasources() != null) {
+        if (source.getDatasources() != null && datasourceIdsScope != null) {
             DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
             Arrays.stream(source.getDatasources())
                     .filter(datasource -> datasource.getId() != null)
