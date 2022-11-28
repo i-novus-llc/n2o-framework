@@ -179,13 +179,13 @@
     </xs:complexType>
 
     <xs:complexType name="paramsDefinition">
-            <xs:annotation>
-                <xs:documentation>Параметры в url открытия нового окна или страницы.</xs:documentation>
-            </xs:annotation>
-            <xs:sequence>
-                <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="query-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
+        <xs:annotation>
+            <xs:documentation>Параметры в url открытия нового окна или страницы.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="path-param" type="pathParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="query-param" type="queryParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="openPageDefinition">
@@ -501,8 +501,8 @@
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:sequence>
-                    <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="query-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="path-param" type="pathParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="query-param" type="queryParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="href" type="xs:string" use="required">
                     <xs:annotation>
@@ -532,8 +532,8 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="form-param" type="formParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="header-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="path-param" type="pathParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="header-param" type="headerParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="object-id" type="xs:string">
                     <xs:annotation>
@@ -882,8 +882,8 @@
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:sequence>
-                    <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="query-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="path-param" type="pathParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="query-param" type="queryParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="url" type="xs:string" use="required">
                     <xs:annotation>
@@ -1056,12 +1056,12 @@
             <xs:documentation>Отправка полей формы на сервер при их изменении.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="path-param" type="paramDefinition" minOccurs="0">
+            <xs:element name="path-param" type="pathParamDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Параметры URL.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="header-param" type="paramDefinition" minOccurs="0">
+            <xs:element name="header-param" type="headerParamDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Параметры заголовка запроса.</xs:documentation>
                 </xs:annotation>
@@ -1139,54 +1139,111 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="paramDefinition">
+    <xs:complexType name="baseParamDefinition">
         <xs:annotation>
-            <xs:documentation>Параметры url.</xs:documentation>
+            <xs:documentation>
+                Параметры url
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="name" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Название параметра, которое и попадет в url.</xs:documentation>
+                <xs:documentation>
+                    Имя параметра
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Источник данных, по полю которого будет фильтрация.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных, из которого будет взято значение.
+                    По умолчанию: идентификатор источника данных родительского компонента
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="clientModel">
             <xs:annotation>
-                <xs:documentation>Модель источника данных, по полю которого будет фильтрация.</xs:documentation>
+                <xs:documentation>
+                    Модель, из которой будет взято значение.
+                    По умолчанию: модель родительского компонента
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="value" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Значение параметра.</xs:documentation>
+                <xs:documentation>
+                    Значение параметра
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
+    <xs:complexType name="pathParamDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Параметр пути
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseParamDefinition"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="queryParamDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Параметр запроса
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseParamDefinition"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="headerParamDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Параметр заголовка запроса
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseParamDefinition"/>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="formParamDefinition">
         <xs:annotation>
-            <xs:documentation>Параметр тела запроса.</xs:documentation>
+            <xs:documentation>
+                Параметр тела запроса
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор параметра.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор параметра
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Источник данных, по полю которого будет фильтрация.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных, из которого будет взято значение.
+                    По умолчанию: идентификатор источника данных родительского компонента
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="clientModel">
             <xs:annotation>
-                <xs:documentation>Модель источника данных, по полю которой будет фильтрация.</xs:documentation>
+                <xs:documentation>
+                    Модель, из которой будет взято значение.
+                    По умолчанию: модель родительского компонента
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="value" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Значение параметра.</xs:documentation>
+                <xs:documentation>
+                    Значение параметра
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -1457,7 +1514,9 @@
 
     <xs:complexType name="breadcrumbsDefinition">
         <xs:annotation>
-            <xs:documentation>Хлебные крошки страницы</xs:documentation>
+            <xs:documentation>
+                Хлебные крошки страницы
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="crumb" type="crumbDefinition" minOccurs="0"/>
@@ -1466,16 +1525,22 @@
 
     <xs:complexType name="crumbDefinition">
         <xs:annotation>
-            <xs:documentation>Хлебная крошка страницы</xs:documentation>
+            <xs:documentation>
+                Хлебная крошка страницы
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="label" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Название хлебной крошки</xs:documentation>
+                <xs:documentation>
+                    Название хлебной крошки
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="path" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Путь для перехода по хлебной крошке</xs:documentation>
+                <xs:documentation>
+                    Путь для перехода по хлебной крошке
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
