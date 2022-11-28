@@ -589,7 +589,6 @@ public class ValidationProcessorTest {
     private ConditionValidation conditionValidation(String id, String fieldId, SeverityType severity,
                                                     N2oValidation.ServerMoment moment, String expression) {
         ConditionValidation condition = new ConditionValidation();
-        condition.setDomainProcessor(new DomainProcessor());
         condition.setId(id == null ? fieldId + "Required" : id);
         condition.setMoment(moment);
         condition.setSeverity(severity);
