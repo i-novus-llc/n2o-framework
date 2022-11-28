@@ -1,10 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.meta.cell.Cell;
+import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
-import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -14,6 +18,8 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -73,4 +79,41 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getColor(), is("link"));
     }
 
+    @Test
+    public void testExternalDatasources() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testToolbarCellExternalDatasources.page.xml")
+                .get(new PageContext("testToolbarCellExternalDatasources"));
+
+        List<Cell> cells = ((Table) page.getRegions().get("single").get(0)
+                .getContent().get(0)).getComponent().getCells();
+
+        Submenu submenu = (Submenu) ((ToolbarCell) cells.get(0)).getToolbar().get(0).getButtons().get(0);
+        assertThat(submenu.getConditions().size(), is(0));
+        assertThat(submenu.getEnabled(), is("`type == 1`"));
+
+        submenu = (Submenu) ((ToolbarCell) cells.get(1)).getToolbar().get(0).getButtons().get(0);
+        assertThat(submenu.getConditions().size(), is(1));
+        assertThat(submenu.getConditions().get(ValidationType.enabled).get(0).getModelLink(),
+                is("models.edit['testToolbarCellExternalDatasources_ds']"));
+        assertThat(submenu.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("value == 2"));
+        assertThat(submenu.getEnabled(), nullValue());
+
+        submenu = (Submenu) ((ToolbarCell) cells.get(2)).getToolbar().get(0).getButtons().get(0);
+        assertThat(submenu.getConditions().size(), is(0));
+        assertThat(submenu.getVisible(), is("`type == 1`"));
+
+        submenu = (Submenu) ((ToolbarCell) cells.get(3)).getToolbar().get(0).getButtons().get(0);
+        assertThat(submenu.getConditions().size(), is(1));
+        assertThat(submenu.getConditions().get(ValidationType.visible).get(0).getModelLink(),
+                is("models.resolve['testToolbarCellExternalDatasources_ds']"));
+        assertThat(submenu.getConditions().get(ValidationType.visible).get(0).getExpression(), is("value == 2"));
+        assertThat(submenu.getVisible(), nullValue());
+
+        PerformButton button = submenu.getSubMenu().get(0);
+        assertThat(button.getConditions().size(), is(1));
+        assertThat(button.getConditions().get(ValidationType.enabled).get(0).getModelLink(),
+                is("models.edit['testToolbarCellExternalDatasources_ds']"));
+        assertThat(button.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("value == 2"));
+        assertThat(button.getEnabled(), nullValue());
+    }
 }

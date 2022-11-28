@@ -159,7 +159,8 @@
                 <xs:attribute name="key" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Ключ, под которым будут хранится данные. По умолчанию глобальный идентификатор источника
+                            Ключ, под которым будут хранится данные.
+                            По умолчанию: глобальный идентификатор источника
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -238,7 +239,8 @@
         <xs:attribute name="key" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Ключ, под которым будут записываться данные. По умолчанию ключ источника данных
+                    Ключ, под которым будут записываться данные.
+                    По умолчанию: ключ источника данных
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

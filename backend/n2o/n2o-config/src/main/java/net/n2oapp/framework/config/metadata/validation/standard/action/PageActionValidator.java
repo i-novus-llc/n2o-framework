@@ -42,7 +42,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         checkRefreshWidgetDatasourceIds(source, pageScope, datasourceIdsScope);
 
-        if (source.getDatasources() != null) {
+        if (source.getDatasources() != null && datasourceIdsScope != null) {
             DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
             Arrays.stream(source.getDatasources())
                     .filter(datasource -> datasource.getId() != null)
@@ -74,7 +74,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                         String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет '%s'", refreshDatasourceIds[0]));
         } else if (datasourceIdsScope != null) {
             for (String datasourceId : refreshDatasourceIds) {
-                ValidationUtils.checkForExistsDatasource(datasourceId, datasourceIdsScope,
+                ValidationUtils.checkDatasourceExistence(datasourceId, datasourceIdsScope,
                         String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных '%s'", datasourceId));
             }
         }

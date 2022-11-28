@@ -12,6 +12,8 @@
 
 .n2o-radio-input {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 
     &.disabled {
         cursor: default;
@@ -28,8 +30,9 @@
             width: $n2o-radio-width;
             height: $n2o-radio-height;
             margin-right: 0.5rem;
-            background: $n2o-radio-background-color;
+            background: white;
             border-radius: 50%;
+            border: 1px solid $gray-400;
             display: inline-block;
         }
 
@@ -40,6 +43,7 @@
         }
 
         &.disabled::before {
+            background: $gray-100;
             box-shadow: none !important;
         }
 

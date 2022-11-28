@@ -28,6 +28,9 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
             for (Sidebar sidebar : compiled.getSidebars())
                 bindSidebar(p, sidebar);
         }
+
+        if (compiled.getDatasources() != null)
+            compiled.getDatasources().values().forEach(p::bind);
         return compiled;
     }
 

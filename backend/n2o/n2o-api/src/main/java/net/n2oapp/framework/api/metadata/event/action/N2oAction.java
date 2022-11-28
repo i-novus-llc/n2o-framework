@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.aware.SrcAware;
 
 /**
- * Сурс модель эвента
+ * Исходная модель действия
  */
 public interface N2oAction extends Source, SrcAware, IdAware, NamespaceUriAware, ExtensionAttributesAware {
 

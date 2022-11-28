@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Layout;
@@ -84,12 +85,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeaders().get(1).getSrc(), is("TextTableHeader"));
         assertThat(table.getComponent().getHeaders().get(1).getCssClass(), is(nullValue()));
         assertThat(table.getComponent().getHeaders().get(1).getStyle(), is(nullValue()));
-        assertThat(table.getComponent().getCells().size(), is(2));
+        assertThat(table.getComponent().getCells().size(), is(4));
         assertThat(((AbstractCell) table.getComponent().getCells().get(0)).getStyle().get("marginLeft"), is("10px"));
-        assertThat(table.getComponent().getHeaders().size(), is(2));
+        assertThat(table.getComponent().getHeaders().size(), is(4));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getCssClass(), is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getFormat(), is("password"));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getHideOnBlur(), is(true));
+        assertThat(table.getComponent().getCells().get(2).getId(), is("cell2"));
+        assertThat(table.getComponent().getCells().get(3).getId(), is("cell3"));
         assertThat(table.getToolbar().getButton("but"), notNullValue());
         assertThat(table.getComponent().getRowClass(), is("red"));
         QueryContext queryContext = (QueryContext) route("/testTable4Compile/main", CompiledQuery.class);
@@ -426,6 +429,20 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(header.getCssClass(), is("my-multi-header"));
         assertThat(header.getStyle().get("color"), is("blue"));
         assertThat(header.getLabel(), is("Multi"));
+    }
+
+    @Test
+    public void testPassSortingToDatasource() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5PassSortingToDatasource.page.xml")
+                .get(new PageContext("testTable5PassSortingToDatasource"));
+
+        AbstractDatasource ds1 = page.getDatasources().get("testTable5PassSortingToDatasource_ds1");
+        assertThat(ds1.getSorting().size(), is(1));
+        assertThat(ds1.getSorting().get("name"), is("DESC"));
+
+        AbstractDatasource inlineDatasource = page.getDatasources().get("testTable5PassSortingToDatasource_w2");
+        assertThat(inlineDatasource.getSorting().size(), is(1));
+        assertThat(inlineDatasource.getSorting().get("age"), is("ASC"));
     }
 
     @Test

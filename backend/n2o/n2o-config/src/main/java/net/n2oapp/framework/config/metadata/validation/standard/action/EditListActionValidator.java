@@ -26,12 +26,12 @@ public class EditListActionValidator extends TypedMetadataValidator<N2oEditListA
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
 
         if (source.getDatasourceId() != null)
-            ValidationUtils.checkForExistsDatasource(source.getDatasourceId(), datasourceIdsScope,
+            ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), datasourceIdsScope,
                 String.format("Действие <edit-list> ссылается на несуществующий источник данных '%s' в атрибуте 'datasource'",
                         source.getDatasourceId()));
 
         if (source.getItemDatasourceId() != null)
-            ValidationUtils.checkForExistsDatasource(source.getItemDatasourceId(), datasourceIdsScope,
+            ValidationUtils.checkDatasourceExistence(source.getItemDatasourceId(), datasourceIdsScope,
                     String.format("Действие <edit-list> ссылается на несуществующий источник данных '%s' в атрибуте 'item-datasource'",
                             source.getItemDatasourceId()));
     }

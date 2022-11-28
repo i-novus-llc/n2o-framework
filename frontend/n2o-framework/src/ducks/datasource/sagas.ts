@@ -8,6 +8,7 @@ import {
 import type { Task } from 'redux-saga'
 
 import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
+import { EffectWrapper } from '../api/utils/effectWrapper'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -59,30 +60,33 @@ export function* removeSaga({ payload }: RemoveAction) {
     yield put(removeAllModel(id))
 }
 
+const queryWrapper = EffectWrapper((apiProvider: unknown, action: DataRequestAction) => query(action, apiProvider))
+
 // Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
 export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAction) {
     const { id } = action.payload
-    const task: Task = yield fork(query, action, apiProvider)
+    const task: Task = yield fork(queryWrapper, apiProvider, action)
 
     activeTasks[id] = activeTasks[id] || []
     activeTasks[id].push(task)
     // фильтр завершенных задач, чтобы память не текла
-    task.toPromise().finally(() => {
+    yield task.toPromise().finally(() => {
         activeTasks[id] = activeTasks[id].filter(activeTask => activeTask !== task)
     })
 }
 
 export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
+    // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(dataRequest, dataRequestWrapper, apiProvider),
-    takeEvery(DATA_REQUEST, function* remapRequest({ payload }) {
+    takeEvery(DATA_REQUEST, function* remapRequest({ payload, meta }) {
         const { datasource, options } = payload
 
-        yield put(dataRequest(datasource, options))
+        yield put(dataRequest(datasource, options, meta))
     }),
     takeEvery(startValidate, validateSaga),
     // @ts-ignore хер знает как затипизировать
-    takeEvery(submit, submitSaga, apiProvider),
+    takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
     takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
     takeEvery(register, applyOnInitDependencies),

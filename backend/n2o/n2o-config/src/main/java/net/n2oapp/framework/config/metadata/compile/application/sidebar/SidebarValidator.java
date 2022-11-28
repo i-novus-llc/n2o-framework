@@ -26,12 +26,25 @@ public class SidebarValidator extends TypedMetadataValidator<N2oSidebar> {
             p.checkForExists(sidebar.getMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for sidebar");
         if (sidebar.getExtraMenu() != null)
             p.checkForExists(sidebar.getExtraMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for sidebar");
-        if (sidebar.getDatasourceId() == null && sidebar.getDatasource() != null) {
-            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+
+        if (sidebar.getDatasource() != null) {
+            if (sidebar.getDatasourceId() != null)
+                throw new N2oMetadataValidationException(
+                        String.format("Сайдбар использует внутренний источник данных и ссылку на источник данных '%s' одновременно",
+                                sidebar.getDatasourceId()));
             N2oStandardDatasource datasource = sidebar.getDatasource();
-            if (dataSourcesScope.containsKey(datasource.getId()))
-                throw new N2oMetadataValidationException(String.format("Datasource '%s' is already exists", datasource.getId()));
+            if (dataSourcesScope != null && dataSourcesScope.containsKey(datasource.getId()))
+                throw new N2oMetadataValidationException(
+                        String.format("Идентификатор '%s' внутреннего источника данных сайдбара уже используется другим источником данных",
+                                datasource.getId()));
         }
+        if (sidebar.getDatasourceId() != null &&
+                (dataSourcesScope == null || !dataSourcesScope.containsKey(sidebar.getDatasourceId())))
+            throw new N2oMetadataValidationException(String.format("Сайдбар ссылается на несуществующий источник данных '%s'",
+                    sidebar.getDatasourceId()));
+
         checkPath(sidebar, p.getScope(SidebarPathsScope.class));
     }
 

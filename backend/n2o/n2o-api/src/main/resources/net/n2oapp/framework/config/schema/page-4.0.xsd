@@ -76,7 +76,7 @@
                 <xs:documentation>Идентификатор источника данных страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="clientModel" default="resolve">
+        <xs:attribute name="model" type="ac:clientModel" default="resolve">
             <xs:annotation>
                 <xs:documentation>Модель данных страницы</xs:documentation>
             </xs:annotation>
@@ -325,11 +325,12 @@
 
     <xs:complexType name="actionDefinition">
         <xs:annotation>
-            <xs:documentation>Действие над страницей.</xs:documentation>
+            <xs:documentation>Действие над страницей
+                (допускает использование нескольких обработчиков действий в теле)</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="ac:actions">
-                <xs:attribute name="id" type="xs:string">
+                <xs:attribute name="id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Идентификатор действия.</xs:documentation>
                     </xs:annotation>

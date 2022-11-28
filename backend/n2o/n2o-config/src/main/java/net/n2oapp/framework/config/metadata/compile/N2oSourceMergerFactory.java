@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceMerger;
 import net.n2oapp.framework.api.metadata.compile.SourceMergerFactory;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
 import net.n2oapp.framework.config.factory.FactoryPredicates;
+import org.springframework.core.GenericTypeResolver;
 import org.springframework.util.SerializationUtils;
 
 import java.util.List;
@@ -25,9 +26,16 @@ public class N2oSourceMergerFactory extends BaseMetadataFactory<SourceMerger<?>>
         S result = (S) SerializationUtils.deserialize(SerializationUtils.serialize(source));
         for (SourceMerger<?> merger : mergers) {
             SourceMerger<S> castedMerger = (SourceMerger<S>) merger;
-            result = castedMerger.merge(result, override);
+            Class<?> mergerClass = getMergerClass(castedMerger);
+            // skip merger if its parametrized type not compatible with override class
+            if (mergerClass != null && mergerClass.isAssignableFrom(override.getClass()))
+                result = castedMerger.merge(result, override);
         }
         return result;
+    }
+
+    private Class<?> getMergerClass(SourceMerger<?> merger) {
+        return GenericTypeResolver.resolveTypeArgument(merger.getClass(), BaseSourceMerger.class);
     }
 
 }

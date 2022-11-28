@@ -22,6 +22,7 @@ public abstract class Validation implements Compiled {
     @JsonProperty("validationKey")
     private String id;
     private String message;
+    private String messageTitle;
     @JsonProperty("text")
     private String jsonMessage;
     private Set<String> fields;

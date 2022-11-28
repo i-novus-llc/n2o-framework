@@ -1,6 +1,4 @@
 import { runSaga } from 'redux-saga'
-import { put } from 'redux-saga/effects'
-import merge from 'lodash/merge'
 import fetchMock from 'fetch-mock'
 
 import {
@@ -8,18 +6,15 @@ import {
     FETCH_END,
 } from '../constants/fetch'
 import {
-    FAIL_INVOKE,
     START_INVOKE,
     SUCCESS_INVOKE,
 } from '../constants/actionImpls'
-import createActionHelper from '../actions/createActionHelper'
 
 import * as api from './fetch'
 import {
     handleInvoke,
     fetchInvoke,
     validate,
-    handleFailInvoke,
 } from './actionsImpl'
 
 /**
@@ -108,28 +103,6 @@ describe('Проверка саги actionsImpl', () => {
         expect(dispatched[0].type).toBe(FETCH_START)
         expect(dispatched[1].type).toBe(SUCCESS_INVOKE)
         expect(dispatched[2].type).toBe(FETCH_END)
-    })
-
-    it('Проверка генератора handleFetchInvoke', () => {
-        const action = {
-            meta: {
-                fail: {
-                    some: 'value',
-                },
-            },
-        }
-        const datasource = 'testId'
-        const err = {
-            meta: {
-                value: 'value',
-            },
-        }
-        const gen = handleFailInvoke(action.meta.fail, datasource, err.meta)
-        const meta = merge(action.meta.fail, err.meta)
-        expect(gen.next().value.payload.action).toEqual(
-            put(createActionHelper(FAIL_INVOKE)({ datasource }, meta)).payload.action,
-        )
-        expect(gen.next().done).toEqual(true)
     })
 
     it('Проверка генератора validate', async () => {
