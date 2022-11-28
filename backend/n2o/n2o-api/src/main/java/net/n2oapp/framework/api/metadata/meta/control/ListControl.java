@@ -46,6 +46,8 @@ public abstract class ListControl extends Control {
     private ClientDataProvider dataProvider;
     @JsonProperty
     private String statusFieldId;
+    @JsonProperty
+    private String datasource;
 
     @Override
     public boolean containsHimself(DataSet dataSet) {

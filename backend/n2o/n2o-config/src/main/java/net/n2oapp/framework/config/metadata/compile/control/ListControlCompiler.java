@@ -27,6 +27,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
     private static final String PROPERTY_PREFIX = "n2o.api.control.list";
@@ -43,6 +44,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setStatusFieldId(source.getStatusFieldId());
         if (source.getQueryId() != null)
             initDataProvider(listControl, source, context, p);
+        else if (source.getDatasourceId() !=null)
+            listControl.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
         else if (source.getOptions() != null) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (Map<String, String> option : source.getOptions()) {

@@ -42,6 +42,7 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     private Map<String, String> defValue;
     private String statusFieldId;
     private String enabledFieldId;
+    private String datasourceId;
 
     public abstract boolean isSingle();
 
