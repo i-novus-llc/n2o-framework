@@ -4,6 +4,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -21,6 +22,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для действия редактирования записи списка
+ */
 public class EditListAT extends AutoTestBase {
 
     @BeforeAll
@@ -104,15 +108,38 @@ public class EditListAT extends AutoTestBase {
     }
 
     @Test
-    public void testDeleteMany() {
+    public void testCreateDeleteMany() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/delete_many/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/delete_many/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/delete_many/add.page.xml"));
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        Button addButton = page.toolbar().bottomLeft().button("Добавить");
         Button deleteButton = page.toolbar().bottomLeft().button("Удалить");
+
+        Modal addModal = N2oSelenide.modal();
+        Button addButtonModal = addModal.toolbar().bottomRight().button("Добавить");
+        InputSelect items = addModal.content(StandardPage.class).regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields().field("items").control(InputSelect.class);
+
+        addButton.click();
+        addModal.shouldExists();
+        items.selectMulti(0, 2);
+        addButtonModal.click();
+        table.columns().rows().shouldHaveSize(2);
+        table.columns().rows().row(0).cell(1).textShouldHave("test1");
+        table.columns().rows().row(1).cell(1).textShouldHave("test3");
+
+        addButton.click();
+        addModal.shouldExists();
+        items.selectMulti(1, 3);
+        addButtonModal.click();
+        table.columns().rows().shouldHaveSize(4);
+        table.columns().rows().row(0).cell(1).textShouldHave("test1");
+        table.columns().rows().row(1).cell(1).textShouldHave("test3");
+        table.columns().rows().row(2).cell(1).textShouldHave("test2");
+        table.columns().rows().row(3).cell(1).textShouldHave("test4");
 
         table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
@@ -120,8 +147,8 @@ public class EditListAT extends AutoTestBase {
         deleteButton.click();
 
         table.columns().rows().shouldHaveSize(2);
-        table.columns().rows().row(0).cell(1).textShouldHave("test2");
-        table.columns().rows().row(1).cell(1).textShouldHave("test3");
+        table.columns().rows().row(0).cell(1).textShouldHave("test3");
+        table.columns().rows().row(1).cell(1).textShouldHave("test2");
 
 
         table.columns().rows().row(1).cell(0, CheckboxCell.class).setChecked(true);

@@ -1,28 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-<datasources>
-     <parent-datasource id="ds1"/>
-     <inherited-datasource source-datasource="ds1" id="ds2"/>
-</datasources>
-<regions>
-    <region>
-        <form datasource="ds2">
-            <fields> 
-                <hidden id="id"/>
-                <input-text id="description"/>
-                <input-text id="url"/>
-            </fields>
-            <toolbar>
-                <button label="Сохранить">
-                     <edit-list
-                        operation="update"
-                        datasource="ds1"
-                        model="datasource"
-                        item-datasource="ds2"
-                        item-model="resolve"/>
-                </button>
-            </toolbar>
-        </form>
-    </region>
-</regions>
+    <datasources>
+        <parent-datasource id="ds1"/>
+        <inherited-datasource source-datasource="ds1" id="ds2"/>
+    </datasources>
+    <regions>
+        <region>
+            <form datasource="ds2">
+                <fields>
+                    <hidden id="id"/>
+                    <input-text id="description"/>
+                    <input-text id="url"/>
+                </fields>
+                <toolbar>
+                    <button label="Сохранить">
+                        <edit-list
+                                operation="update"
+                                datasource="ds1"
+                                model="datasource"
+                                item-datasource="ds2"
+                                item-model="resolve"/>
+                    </button>
+                </toolbar>
+            </form>
+        </region>
+    </regions>
 </page>

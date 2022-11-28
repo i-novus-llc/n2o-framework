@@ -1,49 +1,49 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Редактирование таблицы через модальное окно">
-             <datasources>
-                   <browser-storage id="ds1" key="test.dosc">
-                        <submit auto="true" model="datasource" target-model="datasource"/>
-                    </browser-storage>
-            </datasources>
+      name="Редактирование таблицы через модальное окно">
+    <datasources>
+        <browser-storage id="ds1" key="test.dosc">
+            <submit auto="true" model="datasource"/>
+        </browser-storage>
+    </datasources>
     <regions>
-       <table datasource="ds1" selection="none" auto-select="false" table-size="5">
-        <columns>
-            <column text-field-id="description">
-                <text/>
-            </column>
-            <column text-field-id="url">
-                <text/>
-            </column>
-            <column>
-                <toolbar>
-                    <button label="delete">
-                        <edit-list
-                            operation="delete"
-                            datasource="ds1"
-                            model="datasource"
-                            item-datasource="ds1"
-                            item-model="resolve"
-                            primaryKey="id"/>
-                    </button>
-                    <button label="update">
-                        <show-modal page-id="update"  
-                            submit-label="Сохранить изменения"/>
-                    </button>
-                </toolbar>
-            </column>
-        </columns>
-    </table> 
-    <form mode="two-models">
-        <toolbar>
-            <button label="Добавить документ"
-                        color="tertiary"  disable-on-empty-model="false">
-                <show-modal page-id="modal"/>
-            </button>
-            <button label="Сохранить" disable-on-empty-model="false">
-                <submit datasource="ds1" model="datasource"/>
-            </button>
-        </toolbar>
-    </form>
+        <table datasource="ds1" selection="none" auto-select="false" table-size="5">
+            <columns>
+                <column text-field-id="description">
+                    <text/>
+                </column>
+                <column text-field-id="url">
+                    <text/>
+                </column>
+                <column>
+                    <toolbar>
+                        <button label="delete">
+                            <edit-list
+                                    operation="delete"
+                                    datasource="ds1"
+                                    model="datasource"
+                                    item-datasource="ds1"
+                                    item-model="resolve"
+                                    primaryKey="id"/>
+                        </button>
+                        <button label="update">
+                            <show-modal page-id="update"
+                                        submit-label="Сохранить изменения"/>
+                        </button>
+                    </toolbar>
+                </column>
+            </columns>
+        </table>
+        <form mode="two-models">
+            <toolbar>
+                <button label="Добавить документ"
+                        color="tertiary" disable-on-empty-model="false">
+                    <show-modal page-id="modal"/>
+                </button>
+                <button label="Сохранить" disable-on-empty-model="false">
+                    <submit datasource="ds1" model="datasource"/>
+                </button>
+            </toolbar>
+        </form>
     </regions>
 </page>
