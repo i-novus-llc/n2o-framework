@@ -27,8 +27,6 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
-import static java.util.Objects.isNull;
-import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -48,6 +46,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
 
     @Override
     public CompiledQuery compile(N2oQuery source, QueryContext context, CompileProcessor p) {
+        source.initAbsoluteIds();
         CompiledQuery query = new CompiledQuery();
         String queryId = context.getSourceId((N2oCompileProcessor) p);
         query.setId(queryId);
@@ -236,7 +235,6 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                                    Boolean defaultSorted) {
         for (AbstractField field : fields) {
             String computedId = isNull(parentFieldId) ? field.getId() : parentFieldId + "." + field.getId();
-            field.setAbsoluteId(computedId);
             field.setIsSelected(castDefault(field.getIsSelected(), defaultSelected));
 
             if (field.getIsSelected()) {

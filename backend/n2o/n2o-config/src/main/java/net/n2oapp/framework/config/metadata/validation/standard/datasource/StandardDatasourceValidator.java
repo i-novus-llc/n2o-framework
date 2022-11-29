@@ -6,15 +6,12 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
-
-import static java.util.Objects.isNull;
 
 /**
  * Валидатор исходного источника данных
@@ -108,7 +105,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                     ValidationUtils.checkDatasourceExistence(preFilter.getDatasourceId(), scope,
                             String.format("В префильтре по полю '%s' указан несуществующий источник данных '%s'",
                                     preFilter.getFieldId(), preFilter.getDatasourceId()));
-                AbstractField exField = findExField(preFilter, query.getFields(), null);
+                AbstractField exField = query.getSimpleFieldByAbsoluteId(preFilter.getFieldId());
                 if (exField == null)
                     throw new N2oMetadataValidationException(
                             String.format("В выборке '%s' нет поля '%s'!", queryId, preFilter.getFieldId()));
@@ -132,29 +129,6 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
                                     preFilter.getType()));
             }
         }
-    }
-
-    /**
-     * Поиск поля выборки, соответствующего префильтру
-     *
-     * @param preFilter      Префильтр
-     * @param fields         Список полей для поиска
-     * @param parentFieldId  Идентификатор родительского поля
-     * @return Поле выборки или null
-     */
-    private AbstractField findExField(N2oPreFilter preFilter, AbstractField[] fields, String parentFieldId) {
-        for (AbstractField field : fields) {
-            String computedId = isNull(parentFieldId) ? field.getId() : parentFieldId + "." + field.getId();
-            if (field instanceof QueryReferenceField) {
-                field = findExField(preFilter, ((QueryReferenceField) field).getFields(), computedId);
-                if (field != null)
-                    return field;
-            } else if (computedId.equals(preFilter.getFieldId())) {
-                field.setAbsoluteId(computedId);
-                return field;
-            }
-        }
-        return null;
     }
 
     /**
