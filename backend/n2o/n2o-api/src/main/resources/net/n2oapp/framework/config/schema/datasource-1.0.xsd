@@ -84,13 +84,10 @@
                     <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
                     <xs:element name="filters" type="datasourceFiltersDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="default-values-mode" type="act:defaultValuesMode" default="query">
+                <xs:attribute name="default-values-mode" type="defaultValuesMode" default="query">
                     <xs:annotation>
                         <xs:documentation>
-                            Подстановка значений по умолчанию.
-                            defaults - значения по умолчанию заполняются данными прописанными в полях
-                            query - значения по умолчанию заполняются данными из запроса
-                            merge - значения по умолчанию заполняются путем слияния данных прописанных в полях и полученных из запроса (полученные из запроса в приоритете), id игнорируется
+                            Подстановка значений по умолчанию
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -118,6 +115,39 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="defaultValuesMode">
+        <xs:annotation>
+            <xs:documentation>
+                Режим подстановки значений по умолчанию
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="defaults">
+                <xs:annotation>
+                    <xs:documentation>
+                        Значения по умолчанию заполняются данными прописанными в полях
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="query">
+                <xs:annotation>
+                    <xs:documentation>
+                        Значения по умолчанию заполняются данными из запроса
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="merge">
+                <xs:annotation>
+                    <xs:documentation>
+                        Значения по умолчанию заполняются путем слияния данных,
+                        прописанных в полях и полученных из запроса (id игнорируется).
+                        Полученные из запроса в приоритете
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:complexType name="appDatasourceDefinition">
         <xs:complexContent>
