@@ -151,6 +151,7 @@ const EnhancedN2O = compose(
         evalContext: {},
         locales: {},
         initialState: {},
+        markdownFieldMappers: {},
     }),
     withContext(
         {
@@ -174,6 +175,7 @@ const EnhancedN2O = compose(
             ),
             defaultTooltip: PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
             version: PropTypes.string,
+            markdownFieldMappers: PropTypes.object,
         },
         props => ({
             defaultTemplate: props.defaultTemplate,
@@ -181,6 +183,7 @@ const EnhancedN2O = compose(
             defaultPage: props.defaultPage,
             defaultErrorPages: props.defaultErrorPages,
             defaultTooltip: props.defaultTooltip,
+            markdownFieldMappers: props.markdownFieldMappers,
             version,
         }),
     ),
