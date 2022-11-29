@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.header.Header;
+import net.n2oapp.framework.api.metadata.meta.event.Event;
 
 import java.util.List;
 import java.util.Map;

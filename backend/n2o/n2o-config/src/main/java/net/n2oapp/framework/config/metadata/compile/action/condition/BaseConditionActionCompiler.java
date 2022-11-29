@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.action.condition;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseBranchAction;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseBranchAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPayload;
@@ -69,7 +69,7 @@ public abstract class BaseConditionActionCompiler<S extends N2oConditionBranch>
 
     private Action compileActionAware(N2oConditionBranch source, CompileContext<?, ?> context, CompileProcessor p,
                                       IndexScope indexScope) {
-        ActionCompileStaticProcessor.initActions(source, p);
+        source.setActions(ActionCompileStaticProcessor.initActions(source, p));
         return ActionCompileStaticProcessor.compileAction(source, context, p, null, indexScope);
     }
 

@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.validation.standard.action;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oEditListAction;
+import net.n2oapp.framework.api.metadata.action.N2oEditListAction;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;

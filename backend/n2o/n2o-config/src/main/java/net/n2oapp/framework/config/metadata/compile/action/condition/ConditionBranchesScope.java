@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.action.condition;
 
 import lombok.Getter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 
 import java.util.LinkedList;
 import java.util.List;
