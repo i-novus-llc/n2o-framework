@@ -35,6 +35,7 @@ public class XsdSchemaParser {
     private static final String CLOSE_TAG = ">";
     private static final String TYPE_ATTRIBUTE = "type=";
     private static final String BASE_ATTRIBUTE = "base=";
+    private static final String REF_ATTRIBUTE = "ref=";
     private static final String NAME_ATTRIBUTE = "name=";
     private static final Map<String, String> startEndDefinitionTags;
     private static final String GLOBAL_SCHEMA = "http://www.w3.org/2001/XMLSchema";
@@ -144,7 +145,7 @@ public class XsdSchemaParser {
                         else if (startEndDefinitionTags.values().stream().anyMatch(trimmedStr::startsWith))
                             defCount--;
 
-                        String typeValue = getAttributeValue(trimmedStr, BASE_ATTRIBUTE, TYPE_ATTRIBUTE);
+                        String typeValue = getAttributeValue(trimmedStr, BASE_ATTRIBUTE, TYPE_ATTRIBUTE, REF_ATTRIBUTE);
                         String line = linesList.get(i);
                         if (typeValue != null && !isExternalSchemeType(typeValue))
                             line = addPrefixToAttributeValue(line, typeValue, prefix);
@@ -239,7 +240,7 @@ public class XsdSchemaParser {
         List<String> mergedSchemaLines = new ArrayList<>();
         for (int i = 0; i < endSchemaIdx; i++) {
             String line = lines.get(i);
-            String typeValue = getAttributeValue(lines.get(i), BASE_ATTRIBUTE, TYPE_ATTRIBUTE);
+            String typeValue = getAttributeValue(lines.get(i), BASE_ATTRIBUTE, TYPE_ATTRIBUTE, REF_ATTRIBUTE);
             if (typeValue != null) {
                 String[] split = typeValue.split(":");
                 if (split.length == 2 && schemaNamespacesByAlias.containsKey(split[0]))
