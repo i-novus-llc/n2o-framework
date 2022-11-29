@@ -199,7 +199,8 @@
                 <xs:attribute name="refresh-datasources" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Список идентификаторов источников данных, которые будут обновлены после успешного выполнения операции.
+                            Список идентификаторов источников данных,
+                            которые будут обновлены после успешного выполнения операции.
                             По умолчанию: идентификатор источника данных родительского компонента
                         </xs:documentation>
                     </xs:annotation>
@@ -224,7 +225,9 @@
 
     <xs:complexType name="paramsDefinition">
         <xs:annotation>
-            <xs:documentation>Параметры в url открытия нового окна или страницы.</xs:documentation>
+            <xs:documentation>
+                Параметры url при открытии окна или страницы
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="path-param" type="pathParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
@@ -402,127 +405,138 @@
         <xs:complexContent>
             <xs:extension base="pageDefinition">
                 <xs:annotation>
-                    <xs:documentation>Открыть страницу в drawer окне.</xs:documentation>
+                    <xs:documentation>
+                        Действие открытия drawer окна
+                    </xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="refresh-datasources" type="xs:string">
+                <xs:attribute name="closable" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификаторы источников данных, которые необходимо обновить после успешного выполнения
-                            операции (по умолчанию datasource у button, а если нет, текущий datasource).
+                            Наличие крестика для закрытия drawer окна
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="refresh-on-close" type="xs:boolean" default="false">
+                <xs:attribute name="backdrop" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>
-                            Обновление виджета после закрытия drawer.
+                            Наличие фона
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-escape" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Закрыть окно при нажатии на Esc
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-backdrop" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Закрыть окно по клику на фон
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ширина окна
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Высота окна
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="placement" type="drawerPlacement" default="right">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция окна
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="level" type="xs:string" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Сдвиг элемента или группы элементов при открытии снизу
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fixed-footer" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Фиксирование подвала (footer)
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>
-                            Предупредить о несохраненных данных на форме при закрытии drawer?
+                            Предупредить о несохраненных данных на форме при закрытии drawer окна
                         </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="closable" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Есть ли крестик для закрытия</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="backdrop" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Включение маски(backdrop)</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="width" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Ширина компонента</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="height" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Высота компонента</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="placement" type="placementEnum">
-                    <xs:annotation>
-                        <xs:documentation>Позиция компонента</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="level" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Сдвиг элемента или группы элементов при открытии</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="close-on-backdrop" type="xs:boolean">
-                    <xs:annotation>
-                        <xs:documentation>Включение закрытия по клику на маску(backdrop)</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="fixed-footer" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Фиксирование footer внизу drawer</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
                     <xs:annotation>
-                        <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="copy-model" type="clientModel">
-                    <xs:annotation>
                         <xs:documentation>
-                            Модель данных открываемой страницы, которая будет скопирована.
+                            Действие при нажатии кнопки "Сохранить"
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="copy-datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных открываемой страницы, данные которого будут копироваться.
+                            Идентификатор источника данных открываемой страницы, из которого будет скопировано значение.
+                            По умолчанию: идентификатор источника данных родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-model" type="clientModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель открываемой страницы, из которой будет скопировано значение
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="copy-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по
-                            умолчанию вся модель).
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="target-model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель источника данных текущей страницы, в которую будут скопированы данные.
+                            Идентификатор поля открываемой страницы, из которого будет скопировано значение.
+                            По умолчанию: вся модель
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Источник данных текущей страницы, в который будут скопированы данные (по умолчанию текущий).
+                            Источник данных текущей страницы, в который будут скопированы данные.
+                            По умолчанию: идентификатор источника данных родительского виджета
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="clientModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель текущей страницы, в которую будут скопированы данные
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля виджета текущей страницы, в которое будут скопированы данные (по
-                            умолчанию вся модель).
+                            Идентификатор поля текущей страницы, в которое будут скопированы данные.
+                            По умолчанию: вся модель
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="copy-mode" type="copyModeType" default="merge">
+                <xs:attribute name="copy-mode" type="mergeType" default="merge">
                     <xs:annotation>
-                        <xs:documentation>Тип слияния.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="close-on-escape" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Закрывать окно при нажатии на Esc.</xs:documentation>
+                        <xs:documentation>
+                            Тип слияния
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -575,7 +589,7 @@
                 <xs:attribute name="target" type="targetType" default="self">
                     <xs:annotation>
                         <xs:documentation>
-                            Сценарий открытия ссылки.
+                            Сценарий открытия ссылки
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -799,8 +813,7 @@
                         <xs:documentation>
                             Идентификатор источника данных, в который производится копирование.
                             По умолчанию: идентификатор источника данных для копирования.
-                            Задайте <parent-datasource/>
-                            для ссылки на источник родительской страницы
+                            Задайте <parent-datasource/> для ссылки на источник родительской страницы
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -954,7 +967,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="printType" default="pdf">
+                <xs:attribute name="type" type="printDocumentType" default="pdf">
                     <xs:annotation>
                         <xs:documentation>
                             Тип документа для печати
@@ -1000,9 +1013,11 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:simpleType name="printType">
+    <xs:simpleType name="printDocumentType">
         <xs:annotation>
-            <xs:documentation>Тип для печати</xs:documentation>
+            <xs:documentation>
+                Тип документа для печати
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="pdf"/>
@@ -1114,40 +1129,55 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <!-- TODO: вынести в документацию виджетов и полей -->
     <xs:complexType name="submitDefinition" abstract="true">
         <xs:annotation>
-            <xs:documentation>Отправка полей формы на сервер при их изменении.</xs:documentation>
+            <xs:documentation>
+                Отправка полей формы на сервер при их изменении
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="path-param" type="pathParamDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Параметры URL.</xs:documentation>
+                    <xs:documentation>
+                        Параметры URL
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="header-param" type="headerParamDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Параметры заголовка запроса.</xs:documentation>
+                    <xs:documentation>
+                        Параметры заголовка запроса
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="form-param" type="formParamDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Параметры тела запроса.</xs:documentation>
+                    <xs:documentation>
+                        Параметры тела запроса
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
         <xs:attribute name="operation-id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор операции, которая должна вызваться.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор операции, которая должна вызваться
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="message-on-success" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Показать сообщение об успешном выполнении действия.</xs:documentation>
+                <xs:documentation>
+                    Показать сообщение об успешном выполнении действия
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="message-on-fail" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Показать сообщение о неудачном выполнении действия.</xs:documentation>
+                <xs:documentation>
+                    Показать сообщение о неудачном выполнении действия
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="message-position" type="messagePosition">
@@ -1178,26 +1208,38 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="auto-submit-on" type="submitOn">
-            <xs:annotation>
-                <xs:documentation>
-                    Отправить данные автоматически по событию
-                </xs:documentation>
-            </xs:annotation>
+        <xs:attribute name="auto-submit-on">
+            <xs:simpleType>
+                <xs:annotation>
+                    <xs:documentation>
+                        Отправка данных по событию
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="change"/>
+                    <xs:enumeration value="blur"/>
+                </xs:restriction>
+            </xs:simpleType>
         </xs:attribute>
         <xs:attribute name="route" type="xs:string">
             <xs:annotation>
-                <xs:documentation>URL запроса.</xs:documentation>
+                <xs:documentation>
+                    URL запроса
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="refresh-on-success" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Необходимо ли обновлять виджет (по умолчанию false)</xs:documentation>
+                <xs:documentation>
+                    Необходимо ли обновлять виджет
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="refresh-datasources" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ссылка на обновляемые источники данных.</xs:documentation>
+                <xs:documentation>
+                    Ссылка на обновляемые источники данных
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -1311,7 +1353,12 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:simpleType name="placementEnum">
+    <xs:simpleType name="drawerPlacement">
+        <xs:annotation>
+            <xs:documentation>
+                Позиция drawer окна
+            </xs:documentation>
+        </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="top"/>
             <xs:enumeration value="bottom"/>
@@ -1332,42 +1379,6 @@
             <xs:enumeration value="edit"/>
             <xs:enumeration value="datasource"/>
             <xs:enumeration value="multi"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="defaultValuesMode">
-        <xs:annotation>
-            <xs:documentation>Режим подстановки значений по умолчанию</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="defaults">
-                <xs:annotation>
-                    <xs:documentation>Значения по умолчанию заполняются данными прописанными в полях</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="query">
-                <xs:annotation>
-                    <xs:documentation>Значения по умолчанию заполняются данными из запроса</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="merge">
-                <xs:annotation>
-                    <xs:documentation>
-                        Значения по умолчанию заполняются путем слияния данных, прописанных в полях и
-                        полученных из запроса (полученные из запроса в приоритете)
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="submitOn">
-        <xs:annotation>
-            <xs:documentation>Отправка по событию.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="change"/>
-            <xs:enumeration value="blur"/>
         </xs:restriction>
     </xs:simpleType>
 

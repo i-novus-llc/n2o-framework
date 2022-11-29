@@ -18,6 +18,7 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
         super.io(e, od, p);
         p.attributeBoolean(e, "closable", od::getClosable, od::setClosable);
         p.attributeBoolean(e, "backdrop", od::getBackdrop, od::setBackdrop);
+        p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);
         p.attributeBoolean(e, "close-on-backdrop", od::getCloseOnBackdrop, od::setCloseOnBackdrop);
         p.attribute(e, "width", od::getWidth, od::setWidth);
         p.attribute(e, "height", od::getHeight, od::setHeight);
@@ -32,7 +33,6 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
         p.attribute(e, "target-datasource", od::getTargetDatasourceId, od::setTargetDatasourceId);
         p.attribute(e, "target-field-id", od::getTargetFieldId, od::setTargetFieldId);
         p.attributeEnum(e, "copy-mode", od::getCopyMode, od::setCopyMode, CopyMode.class);
-        p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);
     }
 
     @Override
