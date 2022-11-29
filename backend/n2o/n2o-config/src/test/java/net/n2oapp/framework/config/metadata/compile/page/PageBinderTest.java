@@ -73,7 +73,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe").add("param_type","22"));
-        assertThat(page.getPageProperty().getTitle(), is("Hello, Joe"));
+        assertThat(page.getPageProperty().getTitle(), is("`'Hello, Joe '+code`"));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].type") == null, is(true));
     }
 
@@ -115,7 +115,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setParentModelLinks(Collections.singletonList(modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("id_param", 123), subModelsProcessor);
-        assertThat(page.getPageProperty().getTitle(), is("Hello, Joe"));
+        assertThat(page.getPageProperty().getTitle(), is("`'Hello, Joe '+code`"));
     }
 
     @Test
