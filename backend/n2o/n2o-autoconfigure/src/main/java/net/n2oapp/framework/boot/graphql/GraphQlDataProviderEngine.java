@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.escapeJson;
 import static net.n2oapp.framework.boot.graphql.GraphQlUtil.toGraphQlString;
 import static net.n2oapp.framework.engine.data.QueryUtil.*;
-import static org.apache.commons.lang3.ArrayUtils.isEmpty;
+import static org.apache.commons.lang3.ArrayUtils.contains;
 
 /**
  * GraphQL провайдер данных
@@ -229,7 +229,6 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         }
 
         Set<String> placeholderKeys = extractPlaceholderKeys(query);
-        Set<String> enumValues = extractEnumValues(query, invocation.getEnums());
         Set<String> escapeStringPlaceholders = extractEscapeStringPlaceholder(query);
         for (Map.Entry<String, Object> entry : args.entrySet()) {
             String placeholder = "$$".concat(entry.getKey());
@@ -238,7 +237,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
                 placeholder = "$".concat(placeholder);
                 value = escapeJson(toGraphQlString(entry.getValue()));
             } else {
-                value = placeholderKeys.contains(entry.getKey()) || enumValues.contains(entry.getKey()) ?
+                value = placeholderKeys.contains(entry.getKey()) || contains(invocation.getEnums(),entry.getKey()) ?
                         (String) entry.getValue() :
                         toGraphQlString(entry.getValue());
             }
@@ -314,34 +313,6 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             result.add(variable, data.get(variable));
         }
         return result;
-    }
-
-
-    /**
-     * Получение множества значений переменных, которые являются перечислениями
-     *
-     * @param query Строка GraphQl запроса
-     * @param enums Массив переменных, имеющих тип перечислений
-     * @return Множество переменных, которые являются перечислениями
-     */
-    private Set<String> extractEnumValues(String query, String[] enums) {
-        Set<String> enumValues = new HashSet<>();
-        if (isEmpty(enums))
-            return enumValues;
-        for (String anEnum : enums) {
-            if (query.contains(anEnum)) {
-                Pattern pattern = Pattern.compile(anEnum + "\\s*:\\s*\\$\\$\\w+\\W");
-                Set<String> enumKeyValues = extract(query, pattern, (s, m) -> s.substring(m.start(), m.end()));
-                for (String enumKeyValue : enumKeyValues) {
-                    Optional<String> optionalValue = extract(enumKeyValue,
-                            selectKeyPattern, (s, m) -> s.substring(m.start() + 2, m.end() - 1))
-                            .stream()
-                            .findFirst();
-                    optionalValue.ifPresent(enumValues::add);
-                }
-            }
-        }
-        return enumValues;
     }
 
     /**
