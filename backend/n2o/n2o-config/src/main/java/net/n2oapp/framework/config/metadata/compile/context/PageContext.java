@@ -67,7 +67,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String targetFieldId;
     /**
-     * Страница в источник данных, которой будут скопированы данные
+     * Страница, в источник данных которой будут скопированы данные
      */
     private PageRef targetPage;
     /**
