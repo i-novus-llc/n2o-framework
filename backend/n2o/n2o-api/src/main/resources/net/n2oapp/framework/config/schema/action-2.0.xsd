@@ -465,13 +465,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="level" type="xs:string" default="false">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Сдвиг элемента или группы элементов при открытии снизу
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="fixed-footer" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
