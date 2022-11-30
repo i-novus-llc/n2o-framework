@@ -12,10 +12,15 @@ import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
+import org.springframework.lang.NonNull;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.ArrayUtils.isEmpty;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
  * Source модель запроса за данными
@@ -42,6 +47,30 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
     @Override
     public final Class<? extends N2oMetadata> getSourceBaseClass() {
         return N2oQuery.class;
+    }
+
+    public QuerySimpleField getSimpleFieldByAbsoluteId(@NonNull String absoluteId) {
+        if (isEmpty(fields))
+            return null;
+        if (fields[0].getAbsoluteId() == null)
+            initAbsoluteIds();
+
+        return getSimpleFields().stream().filter(f -> absoluteId.equals(f.getAbsoluteId())).findFirst().orElse(null);
+    }
+
+    public void initAbsoluteIds() {
+        if (isNotEmpty(fields))
+            initAbsoluteId(fields, null);
+    }
+
+    public void initAbsoluteId(AbstractField[] fields, String parentId) {
+        for (AbstractField field : fields) {
+            String computedId = isNull(parentId) ? field.getId() : parentId + "." + field.getId();
+            field.setAbsoluteId(computedId);
+
+            if (field instanceof QueryReferenceField && isNotEmpty(((QueryReferenceField) field).getFields()))
+                initAbsoluteId(((QueryReferenceField) field).getFields(), computedId);
+        }
     }
 
     public List<QuerySimpleField> getSimpleFields() {
