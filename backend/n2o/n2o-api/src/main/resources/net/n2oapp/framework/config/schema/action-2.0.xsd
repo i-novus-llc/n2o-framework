@@ -390,6 +390,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="target-page" type="refPageType" default="parent">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Страница, в источник данных которой будут скопированы данные
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="copy-mode" type="mergeType" default="merge">
                     <xs:annotation>
                         <xs:documentation>
@@ -529,6 +536,13 @@
                         <xs:documentation>
                             Идентификатор поля текущей страницы, в которое будут скопированы данные.
                             По умолчанию: вся модель
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-page" type="refPageType" default="parent">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Страница, в источник данных которой будут скопированы данные
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1490,17 +1504,23 @@
 
     <xs:simpleType name="refPageType">
         <xs:annotation>
-            <xs:documentation>Тип используемой страницы</xs:documentation>
+            <xs:documentation>
+                Тип используемой страницы
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="this">
                 <xs:annotation>
-                    <xs:documentation>Текущая страница</xs:documentation>
+                    <xs:documentation>
+                        Текущая страница
+                    </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="parent">
                 <xs:annotation>
-                    <xs:documentation>Родительская страница</xs:documentation>
+                    <xs:documentation>
+                        Родительская страница
+                    </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
         </xs:restriction>

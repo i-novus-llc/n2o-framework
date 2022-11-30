@@ -11,7 +11,7 @@
                          level="all" close-on-backdrop="true"
                          copy-model="edit" copy-datasource="table" copy-field-id="test"
                          submit-action-type="copy" copy-mode="replace" close-on-escape="false"
-                         target-model="resolve" target-datasource="table" target-field-id="test"
+                         target-model="resolve" target-datasource="table" target-field-id="test" target-page="this"
                          submit-message-on-success="true" submit-message-on-fail="false">
                 <breadcrumbs>
                     <crumb label="Первая страница" path="/"/>
