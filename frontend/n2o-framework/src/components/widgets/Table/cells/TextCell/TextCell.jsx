@@ -29,7 +29,7 @@ function TextCell({
 }) {
     const mainText = model && get(model, fieldKey || id)
 
-    if ((typeof mainText === 'string' && !mainText) || !visible) {
+    if ((!Number.isFinite(mainText) && !mainText) || !visible) {
         return null
     }
 
