@@ -515,6 +515,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |target-datasource             |Ссылка на [источник данных](../xml/datasource#datasources)               |Источник данных текущей страницы, в который будут скопированы данные                        |Идентификатор источника данных родительского виджета    |
 |target-model                  |resolve edit filter multi datasource                                     |Модель текущей страницы, в которую будут скопированы данные                                 |resolve                                                 |
 |target-field-id               |Строка                                                                   |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные             |Вся модель                                              |
+|target-page                   |parent this                                                              |Страница, в источник данных которой будут скопированы данные                                |parent                                                  |
 |copy-mode                     |merge replace add                                                        |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
 
 **Тело**
@@ -559,7 +560,6 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |width                        |Строка                                                     |Ширина окна                                                                                 |                                                        |
 |height                       |Строка                                                     |Высота окна                                                                                 |                                                        |
 |placement                    |left top right bottom                                      |Позиция окна                                                                                |right                                                   |
-|level                        |all false                                                  |Сдвиг элемента или группы элементов при открытии снизу                                      |false                                                   |
 |fixed-footer                 |true false                                                 |Фиксирование подвала (footer)                                                               |false                                                   |
 |unsaved-data-prompt-on-close |true false                                                 |Предупредить о несохраненных данных на форме при закрытии drawer окна                       |true                                                    |
 |submit-action-type           |invoke copy                                                |Действие при нажатии кнопки "Сохранить"                                                     |invoke                                                  |
@@ -569,6 +569,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |target-datasource            |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных текущей страницы, в который будут скопированы данные                        |Идентификатор источника данных родительского виджета    |
 |target-model                 |resolve edit filter multi datasource                       |Модель текущей страницы, в которую будут скопированы данные                                 |resolve                                                 |
 |target-field-id              |Строка                                                     |Идентификатор поля виджета текущей страницы, в которое будут скопированы данные             |Вся модель                                              |
+|target-page                  |parent this                                                |Страница, в источник данных которой будут скопированы данные                                |parent                                                  |
 |copy-mode                    |merge replace add                                          |Тип слияния данных:<br/>`merge` - за основу берется модель target, значения из source копируются с заменой<br/>`replace` - за основу берется модель source<br/>`add` - используется для массивов. За основу берется массив target, к нему добавляются все записи из source массива |merge |
 
 **Тело**
