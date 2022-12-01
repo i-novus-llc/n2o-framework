@@ -283,7 +283,9 @@
                 </xs:attribute>
                 <xs:attribute name="search-filter-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за поиск вариантов выбора</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="group-field-id" type="xs:string">
@@ -1268,7 +1270,7 @@
                 <xs:attribute name="search-filter-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор фильтра, используемого для поиска.
+                            Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

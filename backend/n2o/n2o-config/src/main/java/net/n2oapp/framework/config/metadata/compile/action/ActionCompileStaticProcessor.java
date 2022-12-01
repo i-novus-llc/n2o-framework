@@ -15,9 +15,7 @@ import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -96,10 +94,12 @@ public class ActionCompileStaticProcessor {
         if (source.getActions() != null) {
             for (ActionBar a : source.getActions()) {
                 a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
-                if (isNotEmpty(a.getN2oActions()))
+                if (isNotEmpty(a.getN2oActions())) {
+                    initMultiActionIds(a.getN2oActions(), "act_multi", p);
                     Arrays.stream(a.getN2oActions())
                             .forEach(n2oAction ->
                                     p.compile(n2oAction, context, new ComponentScope(a), scopes));
+                }
             }
         }
     }
@@ -143,7 +143,7 @@ public class ActionCompileStaticProcessor {
                     null : metaActions.get(source.getActionId()).getN2oActions());
         }
 
-        initMultiActionIds(actions, p);
+        initMultiActionIds(actions, "multi", p);
         return actions;
     }
 
@@ -202,11 +202,11 @@ public class ActionCompileStaticProcessor {
         return p.getScope(CompiledObject.class);
     }
 
-    private static void initMultiActionIds(N2oAction[] actions, CompileProcessor p) {
+    private static void initMultiActionIds(N2oAction[] actions, String prefix, CompileProcessor p) {
         if (ArrayUtils.getLength(actions) > 1) {
             IndexScope indexScope = new IndexScope();
             Arrays.stream(actions).filter(ActionCompileStaticProcessor::isNotFailConditions)
-                    .forEach(action -> action.setId(p.cast(action.getId(), "multi" + indexScope.get())));
+                    .forEach(action -> action.setId(p.cast(action.getId(), prefix + indexScope.get())));
         }
     }
 

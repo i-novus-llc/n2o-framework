@@ -368,6 +368,14 @@
                 <xs:documentation>Cookie, которые должны быть скопированы из запроса клиента</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="enums" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Список плейсхолдеров, которые имеют тип перечислений
+                    (Значения плейсхолдеров не будут обернуты в кавычки при подстановке в запрос)
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:simpleType name="operationEnum">

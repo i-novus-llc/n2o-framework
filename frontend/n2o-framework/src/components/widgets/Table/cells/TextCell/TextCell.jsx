@@ -27,7 +27,9 @@ function TextCell({
     visible,
     ...rest
 }) {
-    if (!visible) {
+    const mainText = model && get(model, fieldKey || id)
+
+    if ((!Number.isFinite(mainText) && !mainText) || !visible) {
         return null
     }
 
@@ -43,7 +45,7 @@ function TextCell({
             >
                 {icon && <Icon name={icon} />}
                 <Text
-                    text={model && get(model, fieldKey || id)}
+                    text={mainText}
                     preLine={preLine}
                     {...rest}
                 />

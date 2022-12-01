@@ -15,12 +15,11 @@ public class SetValueElementIOV2 extends AbstractActionElementIOV2<N2oSetValueAc
     @Override
     public void io(Element e, N2oSetValueAction sv, IOProcessor p) {
         super.io(e, sv, p);
-        p.attribute(e, "target-field-id", sv::getTargetFieldId, sv::setTargetFieldId);
-        p.attribute(e, "to", sv::getTo, sv::setTo);
         p.attribute(e, "source-datasource", sv::getSourceDatasourceId, sv::setSourceDatasourceId);
         p.attribute(e, "source-model", sv::getSourceModel, sv::setSourceModel);
         p.attribute(e, "target-datasource", sv::getTargetDatasourceId, sv::setTargetDatasourceId);
         p.attribute(e, "target-model", sv::getTargetModel, sv::setTargetModel);
+        p.attribute(e, "to", sv::getTo, sv::setTo);
         p.attributeEnum(e, "merge-mode", sv::getMergeMode, sv::setMergeMode, MergeMode.class);
         p.text(e, sv::getExpression, sv::setExpression);
     }

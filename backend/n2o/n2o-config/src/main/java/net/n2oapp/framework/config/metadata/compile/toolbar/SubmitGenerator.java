@@ -54,7 +54,7 @@ public class SubmitGenerator implements ButtonGenerator {
                 copyAction.setTargetModel(pageContext.getTargetModel());
                 copyAction.setTargetDatasourceId(pageContext.getTargetDatasourceId());
                 copyAction.setTargetFieldId(pageContext.getTargetFieldId());
-                copyAction.setTargetPage(PageRef.PARENT);
+                copyAction.setTargetPage(p.cast(pageContext.getTargetPage(), PageRef.PARENT));
                 copyAction.setMode(pageContext.getCopyMode());
                 action = copyAction;
                 saveButtonModel = ((PageContext) context).getCopyModel();
