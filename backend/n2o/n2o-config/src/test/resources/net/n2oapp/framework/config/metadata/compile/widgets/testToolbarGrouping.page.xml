@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <toolbar place="topLeft">
+            <button id="beforeGroup"/>
+            <group>
+                <button id="firstInGroup"/>
+                <button id="secondInGroup"/>
+            </group>
+            <button id="firstAfterGroup"/>
+            <button id="secondAfterGroup"/>
+        </toolbar>
+    </form>
+</simple-page>
