@@ -305,7 +305,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         actionContextData.setObjectId(object.getId());
         actionContextData.setOperationId(submit.getOperationId());
         actionContextData.setRoute(submit.getRoute());
-        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
+        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), true));
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), true));
         actionContextData.setMessagePosition(submit.getMessagePosition());
         actionContextData.setMessagePlacement(submit.getMessagePlacement());
