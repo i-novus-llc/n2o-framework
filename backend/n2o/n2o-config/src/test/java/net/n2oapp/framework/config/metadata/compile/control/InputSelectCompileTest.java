@@ -79,7 +79,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getStatusFieldId(), nullValue());
         assertThat(inputSelect.getMaxTagTextLength(), is(5));
         assertThat(inputSelect.getSearchMinLength(), is(0));
-        assertThat(inputSelect.getThrottleDelay(), is(500));
+        assertThat(inputSelect.getThrottleDelay(), is(300));
 
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));

@@ -59,6 +59,6 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getId(), is("defaults"));
         assertThat(ist.getParentFieldId(), is("testId"));
         assertThat(ist.getSearchMinLength(), is(0));
-        assertThat(ist.getThrottleDelay(), is(500));
+        assertThat(ist.getThrottleDelay(), is(300));
     }
 }

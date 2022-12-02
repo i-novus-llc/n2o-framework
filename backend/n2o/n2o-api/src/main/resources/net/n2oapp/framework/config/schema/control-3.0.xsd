@@ -1722,7 +1722,7 @@
                         <xs:documentation>Максимальная длина текста элемента</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="throttle-delay" type="xs:integer" default="500">
+                <xs:attribute name="throttle-delay" type="xs:integer" default="300">
                     <xs:annotation>
                         <xs:documentation>Задержка перед поиском в мс</xs:documentation>
                     </xs:annotation>
@@ -1790,7 +1790,7 @@
                         <xs:documentation>Количество узлов(включая дочерние) выводимых деревом</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="throttle-delay" type="xs:integer" default="500">
+                <xs:attribute name="throttle-delay" type="xs:integer" default="300">
                     <xs:annotation>
                         <xs:documentation>Задержка перед поиском в мс</xs:documentation>
                     </xs:annotation>
