@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -41,9 +42,9 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/myObject.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/myObject.object.xml"));
     }
 
     @Test
@@ -56,13 +57,13 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         dialog.shouldBeVisible();
         dialog.shouldHaveText("confirm-text");
         dialog.click("Нет");
-        page.alerts().alert(0).shouldNotExists();
+        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         button.click();
         dialog.shouldBeVisible();
         dialog.shouldHaveText("confirm-text");
         dialog.click("Да");
-        page.alerts().alert(0).shouldHaveText("success");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
     }
 
     @Test
@@ -75,13 +76,13 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         popover.shouldBeVisible();
         popover.shouldHaveText("confirm-text");
         popover.click("Нет");
-        page.alerts().alert(0).shouldNotExists();
+        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         button.click();
         popover.shouldBeVisible();
         popover.shouldHaveText("confirm-text");
         popover.click("Да");
-        page.alerts().alert(0).shouldHaveText("success");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
     }
 
     @Test
@@ -94,13 +95,13 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");
         popover.click("No no no");
-        page.alerts().alert(0).shouldNotExists();
+        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         button.click();
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");
         popover.click("Hell, yes");
-        page.alerts().alert(0).shouldHaveText("success");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
     }
 
 }

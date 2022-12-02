@@ -46,6 +46,31 @@
                         <xs:documentation>Цвет значка.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Позиция значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>CSS класс кнопки.</xs:documentation>
@@ -54,6 +79,29 @@
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Стиль кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="acn:clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель источника данных, над которым выполнится действие. Если модель пустая,
+                            то кнопка будет заблокирована.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>С каким источником данных работает кнопка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие доступности кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
@@ -141,27 +189,14 @@
                         <xs:documentation>Текст кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="model" type="acn:clientModel">
+                <xs:attribute name="confirm-ok-color" type="colorDefinition" default="primary">
                     <xs:annotation>
-                        <xs:documentation>
-                            Модель источника данных, над которым выполнится действие. Если модель пустая,
-                            то кнопка будет заблокирована.
-                        </xs:documentation>
+                        <xs:documentation>Цвет кнопки подтверждения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:string">
+                <xs:attribute name="confirm-cancel-color" type="colorDefinition" default="secondary">
                     <xs:annotation>
-                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Условие доступности кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>С каким источником данных работает кнопка.</xs:documentation>
+                        <xs:documentation>Цвет кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="disable-on-empty-model">
@@ -211,11 +246,6 @@
                 <xs:attribute name="generate" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-toggle-icon" type="xs:boolean" default="true">
@@ -318,6 +348,24 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="popover"/>
             <xs:enumeration value="modal"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="shapeType">
+        <xs:annotation>
+            <xs:documentation>Тип формы изображения.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
 

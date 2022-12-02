@@ -13,7 +13,8 @@ import getElementType from '../../../tools/getElementType'
  * @reactProps {string} as - Тип элемента для рендеринга
  * @reactProps {object} model - Модель строки
  * @reactProps {number} colSpan - colSpan таблицы
- * @reactprops {node} children - элемент потомок компонента TableCell
+ * @reactProps {node} children - элемент потомок компонента TableCell
+ * @reactProps {('left'|'center'|'right')} contentAlignment - выравнивание контента в ячейке
  */
 class TableCell extends React.Component {
     constructor(props) {
@@ -34,13 +35,25 @@ class TableCell extends React.Component {
             children,
             model,
             hideOnBlur,
+            contentAlignment,
+            needRender = true,
         } = this.props
+
+        if (!needRender) {
+            return null
+        }
+
         const ElementType = getElementType(TableCell, this.props)
+
+        const resolveClassname = config => classNames(className, {
+            [`content-alignment-${contentAlignment}`]: contentAlignment,
+            ...config,
+        })
 
         if (React.Children.count(children)) {
             return (
                 <ElementType
-                    className={className}
+                    className={resolveClassname()}
                     colSpan={colSpan}
                     model={model}
                     style={style}
@@ -52,15 +65,15 @@ class TableCell extends React.Component {
 
         return (
             <ElementType
-                className={classNames(className, { 'hide-on-blur': hideOnBlur })}
+                className={resolveClassname({ 'hide-on-blur': hideOnBlur })}
                 colSpan={colSpan}
                 style={style}
             >
                 {component &&
-          React.createElement(component, {
-              ...this.getPassProps(),
-              model,
-          })}
+                    React.createElement(component, {
+                        ...this.getPassProps(),
+                        model,
+                    })}
             </ElementType>
         )
     }
@@ -78,6 +91,8 @@ TableCell.propTypes = {
     model: PropTypes.object,
     colSpan: PropTypes.number,
     hideOnBlur: PropTypes.bool,
+    needRender: PropTypes.bool,
+    contentAlignment: PropTypes.oneOf(['left', 'center', 'right']),
 }
 
 TableCell.defaultProps = {

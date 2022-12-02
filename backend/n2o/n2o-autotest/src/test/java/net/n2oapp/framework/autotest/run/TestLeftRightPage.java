@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 import static net.n2oapp.framework.autotest.N2oSelenide.collection;
@@ -59,12 +60,12 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     }
 
     @Override
-    public Tooltip tooltip() {
+    public Alerts alerts() {
         return null;
     }
 
     @Override
-    public Alerts alerts() {
+    public Alerts alerts(Alert.Placement placement) {
         return null;
     }
 
@@ -85,11 +86,6 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
 
     @Override
     public void scrollDown() {
-
-    }
-
-    @Override
-    public void shouldHaveCssClass(String classname) {
 
     }
 

@@ -37,7 +37,7 @@ const PLACES = {
 class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
-        const { widgetId, toolbar, filter, setFilter, filterModel, fetchData } = this.props
+        const { widgetId, datasource, toolbar, filter, setFilter, filterModel, fetchData } = this.props
 
         const filterProps = {
             ...filter,
@@ -50,6 +50,7 @@ class StandardWidget extends React.Component {
             case PLACES.right: {
                 return (
                     <WidgetFilters
+                        datasource={datasource}
                         widgetId={widgetId}
                         setFilter={setFilter}
                         fetchData={fetchData}
@@ -177,6 +178,7 @@ StandardWidget.propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
     widgetId: PropTypes.string,
+    datasource: PropTypes.string,
     toolbar: PropTypes.object,
     filter: PropTypes.object,
     filterModel: PropTypes.object,

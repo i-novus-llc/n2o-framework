@@ -29,7 +29,6 @@ public class PlaceholderPropertiesAT extends SandboxAutotestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
@@ -38,7 +37,7 @@ public class PlaceholderPropertiesAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Placeholder properties");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Placeholder properties");
 
         page.widget(FormWidget.class).fields().field(0, Text.class).shouldHaveText("Hello, Joe!");
     }

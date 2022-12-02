@@ -27,21 +27,21 @@
               required="true">
             <field id="id" mapping="id"/>
             <field id="name" mapping="name"/>
-            <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
-            <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
-            <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+            <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3" normalize="norm"/>
+            <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone" normalize="norm"/>
+            <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address" normalize="norm"/>
         </list>
     </fields>
     <operations>
         <operation id="op" name="name" submit-label="f" description="description" success-text="test" fail-text="test"
-                   confirm-text="test">
+                   confirm-text="test" success-title="test" fail-title="test">
             <invocation>
                 <sql>select 1</sql>
             </invocation>
             <in>
                 <field id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string"/>
                 <field id="testSet" param="param" validation-fail-key="update.person.id" enabled="type=='type1'"/>
-                <reference id="ref" object-id="utBlank" mapping="ref2"
+                <reference id="ref" object-id="utBlank" mapping="ref2" normalize="norm"
                            entity-class="ref" required="true" enabled="type=='type1'">
                     <field id="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
@@ -49,14 +49,14 @@
                     <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
                 </reference>
                 <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
-                     required="true">
+                     required="true" normalize="norm">
                     <field id="id" mapping="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
                     <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
                     <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
                 </set>
                 <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list"
-                      required="true">
+                      required="true" normalize="norm">
                     <field id="id" mapping="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
                     <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
@@ -72,7 +72,7 @@
             </fail-out>
             <validations black-list="id2">
                 <condition id="id1" severity="danger" server-moment="after-success-operation"
-                           field-id="field" message="message" on="f" src="/test">test</condition>
+                           field-id="field" message="message" on="f" src="/test" title="title">test</condition>
             </validations>
         </operation>
     </operations>

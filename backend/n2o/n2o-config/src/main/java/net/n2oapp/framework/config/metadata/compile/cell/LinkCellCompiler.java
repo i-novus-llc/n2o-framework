@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
-import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.cell.LinkCell;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция ячейки иконка
  */
 @Component
-public class LinkCellCompiler extends AbstractCellCompiler<N2oLinkCell, N2oLinkCell> {
+public class LinkCellCompiler extends AbstractCellCompiler<LinkCell, N2oLinkCell> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -25,8 +25,8 @@ public class LinkCellCompiler extends AbstractCellCompiler<N2oLinkCell, N2oLinkC
     }
 
     @Override
-    public N2oLinkCell compile(N2oLinkCell source, CompileContext<?,?> context, CompileProcessor p) {
-        N2oLinkCell cell = new N2oLinkCell();
+    public LinkCell compile(N2oLinkCell source, CompileContext<?,?> context, CompileProcessor p) {
+        LinkCell cell = new LinkCell();
         build(cell, source, context, p, property("n2o.api.cell.link.src"));
         if (source.getUrl() == null) {
             compileAction(cell, source, context, p);

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.engine.data;
 
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.criteria.dataset.FieldMapping;
@@ -16,6 +17,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -55,7 +57,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         DataSet resolvedInDataSet = resolveInValuesMapping(inMapping, inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
         resolveOutValues(outParameters, resultDataSet);
-        inDataSet.merge(resultDataSet);
+        inDataSet.merge(resultDataSet, true);
         return inDataSet;
     }
 
@@ -88,7 +90,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 value = contextProcessor.resolve(parameter.getDefaultValue());
             }
             if (value != null && parameter.getNormalize() != null) {
-                value = normalizeValue(value, parameter.getNormalize(), resultDataSet, parser, applicationContext);
+                value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
             }
             resultDataSet.put(parameter.getId(), value);
         }
@@ -118,11 +120,15 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                                 Arrays.asList(refParameter.getFields()),
                                 (DataSet) inDataSet.get(parameter.getId())));
                     } else {
-                        for (Object dataSet : Objects.requireNonNullElse((Collection) inDataSet.get(parameter.getId()), Collections.emptyList()))
-                            ((DataSet) dataSet).putAll(resolveInValuesMapping(
-                                    mappingMap.get(parameter.getId()).getChildMapping(),
-                                    Arrays.asList(refParameter.getFields()),
-                                    (DataSet) dataSet));
+                        if (inDataSet.get(parameter.getId()) == null)
+                            inDataSet.put(parameter.getId(), new DataList());
+                        else {
+                            for (Object dataSet : (Collection<?>) inDataSet.get(parameter.getId()))
+                                ((DataSet) dataSet).putAll(resolveInValuesMapping(
+                                        mappingMap.get(parameter.getId()).getChildMapping(),
+                                        Arrays.asList(refParameter.getFields()),
+                                        (DataSet) dataSet));
+                        }
                     }
                     if (refParameter.getEntityClass() != null)
                         MappingProcessor.mapParameter(refParameter, inDataSet);
@@ -131,7 +137,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                 mappingMap.remove(parameter.getId());
             }
         }
-        return normalize(invocationParameters, inDataSet);
+        return normalize(invocationParameters, inDataSet);//TODO refactoring https://jira.i-novus.ru/browse/NNO-8596
     }
 
     /**
@@ -173,15 +179,28 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     private DataSet normalize(Collection<AbstractParameter> invocationParameters, DataSet inDataSet) {
         DataSet copiedDataSet = new DataSet(inDataSet);
         for (AbstractParameter parameter : invocationParameters) {
-            if (parameter instanceof ObjectSimpleField && ((ObjectSimpleField) parameter).getNormalize() != null) {
+            if (parameter.getNormalize() != null) {
                 Object value = inDataSet.get(parameter.getId());
                 if (value != null) {
-                    value = normalizeValue(value, ((ObjectSimpleField) parameter).getNormalize(), inDataSet, parser, applicationContext);
+                    value = tryToNormalize(value, parameter, inDataSet, applicationContext);
                     copiedDataSet.put(parameter.getId(), value);
                 }
             }
         }
         return copiedDataSet;
+    }
+
+    private Object tryToNormalize(Object value,
+                                  AbstractParameter parameter,
+                                  DataSet inDataSet,
+                                  ApplicationContext applicationContext) {
+        try {
+            value = normalizeValue(value, parameter.getNormalize(), inDataSet, parser, applicationContext);
+        } catch (N2oSpelException e) {
+            e.setFieldId(parameter.getId());
+            throw e;
+        }
+        return value;
     }
 
     private boolean isMappingEnabled(AbstractParameter inParam, DataSet inDataSet) {

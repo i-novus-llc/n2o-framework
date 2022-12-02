@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.button;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -36,12 +37,11 @@ public class ButtonEnabledAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
-    public void testEnabled() {
+    public void testEnabledButton() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -61,26 +61,59 @@ public class ButtonEnabledAT extends AutoTestBase {
 
         type.check("button and all menu items");
         button.shouldBeEnabled();
+        subMenu.shouldBeEnabled();
         subMenu.click();
         item1.shouldBeEnabled();
         item2.shouldBeEnabled();
 
         type.check("first menu item");
         button.shouldBeDisabled();
+        subMenu.shouldBeEnabled();
         subMenu.click();
         item1.shouldBeEnabled();
         item2.shouldBeDisabled();
 
         type.check("second menu item");
         button.shouldBeDisabled();
+        subMenu.shouldBeEnabled();
         subMenu.click();
         item1.shouldBeDisabled();
         item2.shouldBeEnabled();
 
         type.check("none");
         button.shouldBeDisabled();
+        subMenu.shouldBeEnabled();
         subMenu.click();
         item1.shouldBeDisabled();
         item2.shouldBeDisabled();
+    }
+
+    @Test
+    public void testEnabledSubMenu() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/submenu/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+        RadioGroup type = form.fields().field("type").control(RadioGroup.class);
+        Toolbar toolbar = form.toolbar().bottomLeft();
+        DropdownButton disabledSubMenu = toolbar.dropdown(Condition.text("Disabled submenu"));
+        DropdownButton subMenu = toolbar.dropdown(Condition.textCaseSensitive("SubMenu"));
+        StandardButton item1 = subMenu.menuItem("item1");
+        StandardButton item2 = subMenu.menuItem("item2");
+
+        type.shouldBeEmpty();
+        disabledSubMenu.shouldBeDisabled();
+        subMenu.shouldBeDisabled();
+
+        type.check("enable");
+        subMenu.shouldBeEnabled();
+        subMenu.click();
+        item1.shouldBeEnabled();
+        item2.shouldBeEnabled();
+
+        type.check("disable");
+        disabledSubMenu.shouldBeDisabled();
+        subMenu.shouldBeDisabled();
     }
 }

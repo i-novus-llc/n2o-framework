@@ -2,6 +2,8 @@ import { push } from 'connected-react-router'
 
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
+// TODO сделать единый redirect func для кнопок, ячеек, linkImpl, meta saga итд.
+//  разобраться с синтаксисом, прим. где-то _self, а где-то self
 export default function linkImpl({
     dispatch,
     state,

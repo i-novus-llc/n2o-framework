@@ -3,22 +3,29 @@ title: Миграция с 7.22 на 7.23
 description: ""
 ---
 
-### Изменения в сборке {#changes-build}
+## Изменения в сборке {#changes-build}
 
 - Добавлена поддержка Java 17
 - Версия Spring Boot изменена на 2.5.12
 
-### Изменения в XML API {#changes-xml-api}
+## Изменения в XML API {#changes-xml-api}
 
 - Упразднены устаревшие схемы: `page-2.0`, `region-1.0`
 
-- Появилась новая схема `application-3.0`. В данной схеме добавлены новые атрибуты `path` и `subtitle` для элемента `<sidebar>`.
-Также добавлен новый элемент `<sidebars>`.
-Чтобы перейти на новую схему нужно перенести элемент `<sidebar>` во внутрь элемента `<sidebars>`. Таким образом добавлена поддержка нескольких
-`<sidebar>`, которые будут отображаться в зависимости от url страницы, который должен соответствовать атрибуту `path`.
+- Добавлены новые схемы: `application-3.0` и `query-5.0`.
+
+- Атрибуты `ref-page` полей и `target-page` действия `<copy>` упразднены с сохранением обратной совместимости.
+Атрибут `target-page-id` действий `show-modal` / `open-drawer` был удален.
+Для обращения к источнику данных родительской страницы рекомендуется использовать `<parent-datasource>`.
+
+- Атрибуты `visibility-condition` и `enabling-condition` упразднены.
+
+### Переход на application-3.0 {#to_application_3_0}
+ - Необходимо перенести элемент `<sidebar>` во внутрь элемента `<sidebars>`.
+ Таким образом добавлена поддержка нескольких `<sidebar>`, отображающихся в зависимости от url страницы,
+ который должен соответствовать атрибуту `path`.
 
 *Пример как работало в схемах application-1.0 и application-2.0*
-
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-1.0">
@@ -48,9 +55,203 @@ description: ""
 </application>
 ```
 
-### Изменения в сборке Frontend {#changes-frontend-build}
+### Переход на query-5.0 {#to_query_5_0}
+
+- Все фильтры полей необходимо вынести в новый тэг `<filters>`,
+указав при этом в атрибуте `field-id` фильтра значение идентификатора поля, соответствующего данному фильтру.
+
+*Пример как работало в схеме query-4.0*
+```xml {8,14,15}
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <eq filter-id="nameEq"/>
+                <like filter-id="nameLike"/>
+            </filters>
+        </field>
+    </fields>
+</query>
+```
+
+*Пример как работает в схеме query-5.0*
+```xml {6-8}
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <!-- фильтры вынесены отдельно от полей -->
+    <!-- для привязки к полю укажите field-id -->
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+        <eq field-id="name" filter-id="nameEq"/>
+        <like field-id="name" filter-id="nameLike"/>
+    </filters>
+
+    <fields>
+        <field id="id"/>
+        <field id="name"/>
+    </fields>
+</query>
+```
+
+- Атрибуты `mapping`, `default-value` и `normalize` элемента `<select>` необходимо перенести в `<field>`.
+Тело элемента `<select>` переносится в атрибут `select-expression`.
+
+:::note
+В новой схеме все поля по умолчанию участвуют в выборке.
+Поэтому во всех элементах `<field>` с отсутствующим тегом `<select>` необходимо прописать `select="false"`.
+:::
+
+После указанных преобразований элемент `<select>` должен быть удален из поля.
+
+*Пример как работало в схеме query-4.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <fields>
+        <field id="personName">
+            <select mapping="['name']" default-value="unknown" normalize="#this.toUpperCase()">name: $$name</select>
+        </field>
+        <!-- поле не участвует в выборке -->
+        <field id="personAge"/>
+    </fields>
+</query>
+```
+
+*Пример как работает в схеме query-5.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <fields>
+        <field id="personName" mapping="['name']" select-expression="name: $$name"
+                    default-value="unknown" normalize="#this.toUpperCase()"/>
+        <!-- поле не участвует в выборке (задан select="false") -->
+        <field id="personAge" select="false"/>
+    </fields>
+</query>
+```
+
+- Значение атрибута `mapping` элемента `<sorting>` переносится в атрибут `sorting-mapping` тега `<field>`.
+Тело элемента `<sorting>` переносится в атрибут `sorting-expression`.
+
+:::note
+В новой схеме все поля по умолчанию не являются сортируемыми (как и раньше).
+Поэтому во всех элементах `<field>` с указанным тегом `<sorting>` необходимо прописать `sorting="true"`.
+:::
+
+После указанных преобразований элемент `<sorting>` должен быть удален из поля.
+
+*Пример как работало в схеме query-4.0*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <fields>
+        <field id="name">
+            <sorting/>
+        </field>
+        <field id="price" domain="integer">
+            <sorting mapping="['price']">$$price: price</sorting>
+        </field>
+    </fields>
+</query>
+```
+
+*Пример как работает в схеме query-5.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <fields>
+        <field id="name" sorting="true"/>
+        <field id="price" domain="integer" sorting="true" sorting-mapping="['price']" sorting-expression="$$price: price"/>
+    </fields>
+</query>
+```
+
+- Также в новой схеме введена возможность задавать иерархию полей с помощью элементов `<field>`, `<reference>`, `<list>`.
+Группы полей, использующих точку в `mapping` элемента `<select>` (или по умолчанию в идентификаторе), например
+`mapping="['employee.name']"` и `mapping="['employee.age']"` или `id="cars.id"` и `id="cars.price"` можно задавать как
+`<reference>` и `<list>` поля.
+
+*Пример как работало в схеме query-4.0*
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <fields>
+        <field id="readerId">
+            <select mapping="['reader.id']"/>
+        </field>
+        <field id="readerEmail">
+            <select mapping="['reader.email']"/>
+        </field>
+        <field id="booksTitle">
+            <select mapping="['reader.books.title']"/>
+        </field>
+        <field id="booksAuthor">
+            <select mapping="['reader.books.author']"/>
+        </field>
+    </fields>
+</query>
+```
+
+*Пример как работает в схеме query-5.0*
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <fields>
+        <reference id="reader" mapping="['reader']">
+            <field id="readerId" mapping="['id']"/>
+            <field id="readerEmail" mapping="['email']"/>
+            <list id="books" mapping="['books']">
+                <field id="booksTitle" mapping="['title']"/>
+                <field id="booksAuthor" mapping="['author']"/>
+            </list>
+        </reference>
+    </fields>
+</query>
+```
+
+- В `query-5.0` упразднены дочерние элементы `<expression>` и `<join>` тега `<fields>`.
+
+## Изменения в сборке Frontend {#changes-frontend-build}
 
 Удалены модули
     * n2o-auth - содержимое перенесено в n2o-framework/core/auth/
     * n2o-notifications - содержимое перенесено в n2o-framework/sagas/notifications/
     * n2o-ecp-plugin
+
+## Изменения в Java API {#changes-java-api}
+
+- Метод `setCriteriaResolver` класса `N2oQueryProcessor` был переименован в `setCriteriaConstructor`.
+- Изменилась сигнатура метода `buildSuccessMessage класса` класса `AlertMessageBuilder`:
+`buildSuccessMessage(String, RequestInfo, DataSet)` -> `buildSuccessMessage(ActionRequestInfo<DataSet>, DataSet)`
+
+## Изменения в API автотестов {#changes-autotest-api}
+
+- Интерфейс `Dropdown` переименован в `Expandable`
+- Метод `tooltip` был перемещен из интерфейса `Page` в интерфейсы,
+использующих его компонентов (`StandardButton`, `IconCell`, `TooltipListCell`)
+- Методы `expand` \ `collapse` компонентов `DateInput`, `DateInterval`, `Select`, `InputSelect`, `TimePicker`, `InputSelectTree` объявлены deprecated.
+Вместо них рекомендуется использовать методы `openPopup` \ `closePopup`
+- В автотестах теперь необязательно указывать application.xml файл, если он не используется явно.
+Как следствие этого, файл `net/n2oapp/framework/autotest/blank.application` был удален.
+Если он использовался в ваших автотестах, то необходимо удалить его из тестовых классов.
+- Обращение к алертам через `page.alerts().alert(0)` объявлено deprecated.
+Рекомендуется использовать следующий вызов `page.alerts(Alert.Placement.top).alert(0)`.
+- Методы `clickLink` \ `firstTitleShouldHaveText` \ `titleShouldHaveText` \ `titleByIndexShouldHaveText` компонента Breadcrumb объявлены deprecated.
+Для обращения к хлебным крошкам рекомендуется использовать следующий вызов `page.breadcrumb.crumb(0)`.

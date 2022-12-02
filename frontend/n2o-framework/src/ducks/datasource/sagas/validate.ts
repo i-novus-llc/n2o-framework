@@ -1,20 +1,27 @@
-import {
-    put,
-    select,
-} from 'redux-saga/effects'
+import { put, select, delay } from 'redux-saga/effects'
 import { isEmpty } from 'lodash'
 
 import { dataSourceModelsSelector, dataSourceValidationSelector } from '../selectors'
-import { failValidate } from '../store'
+import { failValidate, resetValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { hasError, validateModel } from '../../../core/validation/validateModel'
 
 export function* validate({ payload, meta }: StartValidateAction) {
-    const { id, fields, prefix } = payload
+    const { id, validationsKey, prefix, fields = [] } = payload
     let validation: ReturnType<ReturnType<typeof dataSourceValidationSelector>> =
-        yield select(dataSourceValidationSelector(id))
+        yield select(dataSourceValidationSelector(id, validationsKey))
+
+    if (!validation) {
+        return false
+    }
+
+    // TODO удалить после рефакторинга форм
+    // после blur валидация срабатывает раньше, чем сетится модель, поэтому тут временный костылек
+    yield delay(16)
     const models: ReturnType<ReturnType<typeof dataSourceModelsSelector>> = yield select(dataSourceModelsSelector(id))
     const model = models[prefix] || {}
+
+    yield put(resetValidation(id, fields, prefix))
 
     if (fields?.length) {
         validation = Object.fromEntries(

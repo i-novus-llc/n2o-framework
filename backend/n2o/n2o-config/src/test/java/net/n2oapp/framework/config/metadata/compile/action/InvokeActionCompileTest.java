@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.properties.test.TestUtil.assertOnException;
+import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -220,14 +220,22 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(provider1.getPathMapping().size(), is(1));
         assertThat(provider1.getHeadersMapping().size(), is(1));
 
-        assertThat(provider1.getFormMapping().get("fpName1").getValue(), is("fpValue1"));
-        assertThat(provider1.getPathMapping().get("ppName1").getValue(), is("ppValue1"));
         assertThat(provider1.getHeadersMapping().get("hpName1").getValue(), is("hpValue1"));
+        //setting datasource and model
+        assertThat(provider1.getFormMapping().get("fpName1").getValue(), is("`fpValue1`"));
+        assertThat(provider1.getFormMapping().get("fpName1").getModel(), is(ReduxModel.multi));
+        assertThat(provider1.getFormMapping().get("fpName1").getDatasource(), is("w_test"));
+        assertThat(provider1.getFormMapping().get("fpName1").getBindLink(), is("models.multi['w_test']"));
+        //default datasource and model
+        assertThat(provider1.getPathMapping().get("ppName1").getValue(), is("`ppValue1`"));
+        assertThat(provider1.getPathMapping().get("ppName1").getModel(), is(ReduxModel.filter));
+        assertThat(provider1.getPathMapping().get("ppName1").getDatasource(), is("w_main"));
+        assertThat(provider1.getPathMapping().get("ppName1").getBindLink(), is("models.filter['w_main']"));
 
         //resolve model
         InvokeAction menuItem0action = (InvokeAction) table.getToolbar().getButton("test2").getAction();
         ClientDataProvider provider2 = menuItem0action.getPayload().getDataProvider();
-        assertThat(provider2.getSubmitForm(), is(false));
+        assertThat(provider2.getSubmitForm(), is(true));
         assertThat(provider2.getFormMapping().size(), is(1));
         assertThat(provider2.getPathMapping().size(), is(1));
         assertThat(provider2.getHeadersMapping().size(), is(1));

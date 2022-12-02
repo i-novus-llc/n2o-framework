@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash'
 import propsResolver from '../../utils/propsResolver'
 import { libAsterisk } from '../Menu/helpers'
 
-const EXPRESSION_SYMBOL = ':'
+export const EXPRESSION_SYMBOL = ':'
 
 const resolveItem = (item, models) => {
     if (isEmpty(models.datasource)) { return item }

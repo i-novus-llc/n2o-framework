@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.validation.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.validation.*;
 import net.n2oapp.framework.api.exception.SeverityType;
@@ -45,6 +46,7 @@ public class Validator implements Iterable<Validation> {
                 failInfo.setSeverity(v.getSeverity());
                 failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
                 failInfo.setMessage(message);
+                failInfo.setMessageTitle(StringUtils.resolveLinks(v.getMessageTitle(), dataSet));
                 if (v instanceof ValidationDialog)
                     failInfo.setDialog(((ValidationDialog) v).getDialog());
                 fails.add(failInfo);

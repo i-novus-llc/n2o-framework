@@ -14,4 +14,5 @@ public class N2oSearchButtons extends N2oStandardField {
     private String searchLabel;
     private String resetLabel;
     private String clearIgnore;
+    private Boolean fetchOnClear;
 }

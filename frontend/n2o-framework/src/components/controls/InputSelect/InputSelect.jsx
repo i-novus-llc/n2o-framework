@@ -24,8 +24,7 @@ import { getValueArray } from './utils'
  * @reactProps {string} labelFieldId - значение ключа label в данных
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
- * @reactProps {string} badgeFieldId - поле для баджей
- * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {object} badge - данные для баджа
  * @reactProps {string} statusFieldId - поле для статуса
  * @reactProps {string} descriptionFieldId - поле для описания
  * @reactProps {boolean} disabled - флаг неактивности
@@ -228,6 +227,8 @@ class InputSelect extends React.Component {
             onChange(this.getValue())
             onBlur(this.getValue())
         })
+
+        this.setActiveValueId(null)
     }
 
     /**
@@ -245,7 +246,9 @@ class InputSelect extends React.Component {
      * @private
      */
     setIsExpanded = (isExpanded) => {
-        const { disabled, onToggle, onOpen } = this.props
+        const { disabled, onToggle, onOpen, labelFieldId, multiSelect } = this.props
+
+        const { value } = this.state
 
         if (!isExpanded || disabled) {
             return null
@@ -254,8 +257,13 @@ class InputSelect extends React.Component {
         this.setState({
             isExpanded,
             inputFocus: isExpanded,
-        },
-        onOpen)
+        }, () => {
+            if (multiSelect || value.length < 1) {
+                onOpen()
+            } else {
+                onOpen({ [labelFieldId]: value[0][labelFieldId] })
+            }
+        })
 
         onToggle(isExpanded)
 
@@ -277,7 +285,6 @@ class InputSelect extends React.Component {
      */
     handleDataSearch = (input, delay = 400, callback) => {
         const { onSearch, filter, labelFieldId, options } = this.props
-        const { value } = this.state
 
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
             const filterFunc = item => String.prototype[filter].call(item, input)
@@ -286,13 +293,7 @@ class InputSelect extends React.Component {
             this.setState({ options: filteredData })
         } else {
             // серверная фильтрация
-            const labels = value.map(item => item[labelFieldId])
-
-            if (labels.some(label => label === input)) {
-                onSearch('', delay, callback)
-            } else {
-                onSearch(input, delay, callback)
-            }
+            onSearch(input, delay, callback)
         }
     }
 
@@ -312,6 +313,10 @@ class InputSelect extends React.Component {
         if (stateInput !== input) {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
+
+            if (!input) {
+                this.clearSelected()
+            }
         }
     }
 
@@ -371,9 +376,12 @@ class InputSelect extends React.Component {
      */
     handleElementClear = () => {
         const { disabled } = this.props
+        const { isExpanded } = this.state
 
         if (!disabled) {
-            this.clearSearchField()
+            if (isExpanded) {
+                this.clearSearchField()
+            }
             this.clearSelected()
             this.setInputFocus(false)
         }
@@ -488,9 +496,8 @@ class InputSelect extends React.Component {
             enabledFieldId,
             hasCheckboxes,
             format,
-            badgeFieldId,
+            badge,
             statusFieldId,
-            badgeColorFieldId,
             onScrollEnd,
             style,
             alerts,
@@ -520,7 +527,7 @@ class InputSelect extends React.Component {
                 })}
             >
                 <Dropdown
-                    isOpen={isExpanded}
+                    isOpen={!loading && isExpanded}
                     toggle={this.toggle}
                 >
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">
@@ -595,10 +602,9 @@ class InputSelect extends React.Component {
                             labelFieldId={labelFieldId}
                             iconFieldId={iconFieldId}
                             imageFieldId={imageFieldId}
-                            badgeFieldId={badgeFieldId}
+                            badge={badge}
                             statusFieldId={statusFieldId}
                             descriptionFieldId={descriptionFieldId}
-                            badgeColorFieldId={badgeColorFieldId}
                             onSelect={(item) => {
                                 this.handleItemSelect(item)
                             }}
@@ -655,13 +661,9 @@ InputSelect.propTypes = {
      */
     imageFieldId: PropTypes.string,
     /**
-     * Ключ badge в данных
+     * Данные для badge
      */
-    badgeFieldId: PropTypes.string,
-    /**
-     * Ключ цвета badgeColor в данных
-     */
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.object,
     /**
      * Ключ сортировки в данных
      */
@@ -767,8 +769,9 @@ InputSelect.defaultProps = {
     valueFieldId: 'id',
     labelFieldId: 'name',
     iconFieldId: 'icon',
-    imageFieldId: 'image',
-    badgeFieldId: 'badge',
+    badge: {
+        fieldId: 'badge',
+    },
     loading: false,
     disabled: false,
     disabledValues: [],

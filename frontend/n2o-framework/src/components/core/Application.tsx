@@ -30,6 +30,9 @@ import {
 // @ts-ignore ignore import error from js file
 import { errorController } from '../errors/errorController'
 
+// @ts-ignore ignore import error from js file
+import { GlobalAlertsConnected } from './GlobalAlerts'
+
 export interface IApplicationProps {
     i18n: i18n
     ready: boolean
@@ -61,7 +64,12 @@ function Application(props: IApplicationProps) {
         const { status } = error
         const errorPage = errorController(status, defaultErrorPages)
 
-        return React.createElement(errorPage)
+        return (
+            <>
+                <GlobalAlertsConnected />
+                {errorPage && React.createElement(errorPage)}
+            </>
+        )
     }
 
     return (

@@ -1,14 +1,19 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import net.n2oapp.framework.autotest.impl.component.application.N2oFooter;
 import net.n2oapp.framework.autotest.impl.component.application.N2oSidebar;
@@ -45,6 +50,7 @@ public class N2oPage extends N2oComponent implements Page {
         return new N2oBreadcrumb(element().$(".breadcrumb"));
     }
 
+
     @Override
     public Dialog dialog(String title) {
         return new N2oDialog(element().$$(".modal-dialog").findBy(Condition.text(title)).parent());
@@ -56,13 +62,13 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public Tooltip tooltip() {
-        return new N2oTooltip(element().$(".list-text-cell__tooltip-container, .show.tooltip"));
+    public Alerts alerts() {
+        return N2oSelenide.collection(element().$$(".n2o-alerts-container .n2o-alert"), Alerts.class);
     }
 
     @Override
-    public Alerts alerts() {
-        return N2oSelenide.collection(element().$$(".n2o-alerts-container .n2o-alert"), Alerts.class);
+    public Alerts alerts(Alert.Placement placement) {
+        return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", placement.name())), Alerts.class);
     }
 
     @Override
@@ -106,17 +112,29 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public void shouldHaveError(int statusCode) {
-        if (statusCode == 404)
-            element().shouldHave(Condition.text("404\nСтраница не найдена"));
-        else
-            element().$(".n2o-alert-segment").shouldHave(Condition.text(String.valueOf(statusCode)));
+        switch (statusCode) {
+            case (404):
+                element().shouldHave(Condition.text("404\nСтраница не найдена"));
+                break;
+            case (500):
+                element().shouldHave(Condition.text("500\nВнутренняя ошибка приложения"));
+                break;
+            case (502):
+                element().shouldHave(Condition.text("502\nНеверный ответ от восходящего сервера"));
+                break;
+            case (403):
+                element().shouldHave(Condition.text("403\nДоступ запрещён"));
+                break;
+            default:
+                element().$(".n2o-alert-segment").shouldHave(Condition.text(String.valueOf(statusCode)));
+        }
     }
 
     public class N2oPageToolbar implements PageToolbar {
 
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions, .n2o-page-body").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
         }
 
         @Override
@@ -141,25 +159,71 @@ public class N2oPage extends N2oComponent implements Page {
             setElement(element);
         }
 
+        @Deprecated
         @Override
         public void clickLink(String text) {
             element().$$(".n2o-breadcrumb-link").findBy(Condition.text(text)).shouldBe(Condition.exist).click();
         }
 
+        @Deprecated
         @Override
         public void firstTitleShouldHaveText(String text) {
             element().$(".breadcrumb-item").shouldHave(Condition.text(text));
         }
 
+        @Deprecated
         @Override
         public void titleShouldHaveText(String text) {
-            element().$(".active.breadcrumb-item")
+            element().$$(".breadcrumb-item").last()
                     .shouldHave(Condition.text(text));
         }
 
+        @Deprecated
         @Override
         public void titleByIndexShouldHaveText(String text, Integer index) {
             element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(text));
+        }
+
+        @Override
+        public void shouldHaveSize(int size) {
+            element().$$(".breadcrumb-item").should(CollectionCondition.size(size));
+        }
+
+        @Override
+        public N2oCrumb crumb(int index) {
+            return new N2oCrumb(element().$$(".breadcrumb-item").get(index));
+        }
+
+        @Override
+        public N2oCrumb crumb(String label) {
+            return new N2oCrumb(element().$$(".breadcrumb-item").findBy(Condition.text(label)));
+        }
+
+        public class N2oCrumb extends N2oComponent implements Crumb {
+
+            public N2oCrumb(SelenideElement element) {
+                setElement(element);
+            }
+
+            @Override
+            public void click() {
+                element().click();
+            }
+
+            @Override
+            public void shouldHaveLabel(String text) {
+                element().lastChild().shouldHave(Condition.text(text));
+            }
+
+            @Override
+            public void shouldHaveLink(String link) {
+                element().$(".n2o-breadcrumb-link").shouldHave(Condition.href(link));
+            }
+
+            @Override
+            public void shouldNotHaveLink() {
+                element().$(".n2o-breadcrumb-link").shouldNot(Condition.exist);
+            }
         }
     }
 
@@ -186,9 +250,19 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
         @Override
+        public StandardButton button(String label) {
+            return N2oSelenide.component(element.$$(".btn").findBy(Condition.text(label)), StandardButton.class);
+        }
+
+        @Override
         public void shouldBeClosed(long timeOut) {
             if (element.$(".modal-header .modal-title").exists())
                 element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
+        }
+
+        @Override
+        public void shouldHaveReversedButtons() {
+            element.$(".btn-group").shouldHave(Condition.cssClass("flex-row-reverse"));
         }
     }
 
@@ -218,37 +292,6 @@ public class N2oPage extends N2oComponent implements Page {
         public void shouldBeClosed(long timeOut) {
             if (element.$(".popover-header .popover-body").exists())
                 element.$(".popover-header .popover-body").waitWhile(Condition.exist, timeOut);
-        }
-    }
-
-    public static class N2oTooltip implements Tooltip {
-        private final SelenideElement element;
-
-        public N2oTooltip(SelenideElement element) {
-            this.element = element;
-        }
-
-        @Override
-        public void shouldBeExist() {
-            element.shouldBe(Condition.exist);
-        }
-
-        @Override
-        public void shouldNotBeExist() {
-            element.shouldNotBe(Condition.exist);
-        }
-
-        @Override
-        public void shouldBeEmpty() {
-            element.shouldBe(Condition.empty);
-        }
-
-        @Override
-        public void shouldHaveText(String... text) {
-            ElementsCollection items = element.$$(".list-text-cell__tooltip-container__body, .tooltip-inner");
-            items.shouldHaveSize(text.length);
-            if (text.length != 0)
-                items.shouldHave(CollectionCondition.texts(text));
         }
     }
 

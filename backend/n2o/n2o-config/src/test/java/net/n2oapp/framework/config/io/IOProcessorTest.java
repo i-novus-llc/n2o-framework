@@ -525,12 +525,12 @@ public class IOProcessorTest {
         p.attributeArray(in, "att1", ",", arrayEntity::getArrayAttr, arrayEntity::setArrayAttr);
         Assert.assertEquals(3, arrayEntity.getArrayAttr().length);
         Assert.assertEquals("1", arrayEntity.getArrayAttr()[0]);
-        Assert.assertEquals(" 2", arrayEntity.getArrayAttr()[1]);
+        Assert.assertEquals("2", arrayEntity.getArrayAttr()[1]);
         Assert.assertEquals("3", arrayEntity.getArrayAttr()[2]);
         p = new IOProcessorImpl(false);
         Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
         p.attributeArray(out, "att1", ",", arrayEntity::getArrayAttr, arrayEntity::setArrayAttr);
-        assertThat(out.getAttributeValue("att1"), equalTo("1, 2,3"));
+        assertThat(out.getAttributeValue("att1"), equalTo("1,2,3"));
     }
 
 
@@ -629,8 +629,8 @@ public class IOProcessorTest {
         testElementWithProperty(p, "testProp1");
 
         //test params
-        HashMap<String, String> params = new HashMap<>();
-        params.put("testProp1", "testProp2");
+        HashMap<String, String[]> params = new HashMap<>();
+        params.put("testProp1", new String[]{"testProp2"});
         p = new IOProcessorImpl(readerFactory);
         try {
             MetadataParamHolder.setParams(params);

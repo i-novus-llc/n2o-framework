@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,14 +12,12 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class PageScope implements Serializable {
+public class PageScope {
     private String pageId;
     private String objectId;
     private String resultWidgetId;
     @Deprecated
     private Set<String> widgetIds;
-    @Deprecated
-    private Map<String, String> widgetIdQueryIdMap;
     private Map<String, String> widgetIdSourceDatasourceMap = new StrictMap<>();
     //fixme избавиться со временем возможно, сейчас нужна потому что много где есть ссылки на widgetId , которые превратились в datasource
     @Deprecated

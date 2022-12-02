@@ -42,17 +42,37 @@ class AdvancedTableHeaderCell extends Component {
     }
 
     renderMultiCell() {
-        const { colSpan, rowSpan, className, id, label, sorting, component } = this.props
+        const {
+            colSpan,
+            rowSpan,
+            className,
+            id,
+            label,
+            sorting,
+            component,
+            alignment,
+            children = [],
+            visible = true,
+        } = this.props
+
+        if (!visible) {
+            return null
+        }
+
+        const calculatedColSpan = children.filter(({ visible }) => visible).length
 
         return (
             <th
                 title={label}
                 className={classNames(
                     'n2o-advanced-table-header-cel',
-                    'n2o-advanced-table-header-text-center',
                     className,
+                    {
+                        'n2o-advanced-table-header-text-center': !alignment,
+                        [`alignment-${alignment}`]: alignment,
+                    },
                 )}
-                colSpan={colSpan}
+                colSpan={calculatedColSpan || colSpan}
                 rowSpan={rowSpan}
             >
                 {React.createElement(component, {
@@ -64,14 +84,17 @@ class AdvancedTableHeaderCell extends Component {
     }
 
     renderStringChild() {
-        const { className, children, colSpan, rowSpan } = this.props
+        const { className, children, colSpan, rowSpan, alignment } = this.props
 
         return (
             <th
                 className={classNames(
                     'n2o-advanced-table-header-cel',
-                    'n2o-advanced-table-header-text-center',
                     className,
+                    {
+                        'n2o-advanced-table-header-text-center': !alignment,
+                        [`alignment-${alignment}`]: alignment,
+                    },
                 )}
                 colSpan={colSpan}
                 rowSpan={rowSpan}
@@ -100,8 +123,8 @@ class AdvancedTableHeaderCell extends Component {
             as,
             style,
             className,
+            alignment,
         } = this.props
-
         let cellContent = null
 
         if (isString(title)) {
@@ -116,6 +139,16 @@ class AdvancedTableHeaderCell extends Component {
 
         const ElementType = as || 'th'
 
+        if (!cellContent && children === undefined) {
+            return null
+        }
+
+        const visible = get(cellContent, 'props.visible', true)
+
+        if (!visible) {
+            return null
+        }
+
         return (
             <ElementType
                 title={label}
@@ -124,13 +157,12 @@ class AdvancedTableHeaderCell extends Component {
                 style={style}
                 className={classNames('n2o-advanced-table-header-cel', {
                     [selectionClass]: selectionHead,
-                    'n2o-advanced-table-header-text-center': multiHeader,
+                    'n2o-advanced-table-header-text-center': multiHeader && !alignment,
                     'd-none': !get(children, 'props.needRender', true),
+                    [`alignment-${alignment}`]: alignment,
                 })}
             >
-                <div
-                    className={classNames('n2o-advanced-table-header-cell-content', className)}
-                >
+                <div className={classNames('n2o-advanced-table-header-cell-content', className)}>
                     {icon && <Icon name={icon} />}
                     {filterable ? (
                         <AdvancedTableFilter
@@ -150,17 +182,16 @@ class AdvancedTableHeaderCell extends Component {
     }
 
     render() {
-        const { width, onResize, resizable } = this.props
+        const { width, onResize, resizable, needRender = true, visible = true } = this.props
+
+        if (!visible || !needRender) {
+            return null
+        }
 
         return (
             <>
                 {resizable && width ? (
-                    <Resizable
-                        width={width}
-                        height={0}
-                        onResize={onResize}
-                        handleSize={[10, 10]}
-                    >
+                    <Resizable width={width} height={0} onResize={onResize} handleSize={[10, 10]}>
                         {this.renderCell()}
                     </Resizable>
                 ) : (
@@ -180,11 +211,7 @@ AdvancedTableHeaderCell.propTypes = {
     component: PropTypes.any,
     colSpan: PropTypes.any,
     rowSpan: PropTypes.any,
-    children: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.string,
-        PropTypes.object,
-    ]),
+    children: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.object]),
     className: PropTypes.string,
     id: PropTypes.string,
     label: PropTypes.string,
@@ -194,16 +221,15 @@ AdvancedTableHeaderCell.propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     onSort: PropTypes.func,
     sorting: PropTypes.object,
-    title: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func,
-        PropTypes.node,
-    ]),
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.func, PropTypes.node]),
     width: PropTypes.number,
     resizable: PropTypes.bool,
     selectionHead: PropTypes.bool,
     selectionClass: PropTypes.string,
     filterControl: PropTypes.object,
+    alignment: PropTypes.oneOf(['right', 'center', 'left']),
+    needRender: PropTypes.bool,
+    visible: PropTypes.bool,
 }
 
 AdvancedTableHeaderCell.defaultProps = {

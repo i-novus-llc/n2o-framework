@@ -12,6 +12,7 @@ import has from 'lodash/has'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import every from 'lodash/every'
 import merge from 'deepmerge'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
@@ -31,6 +32,7 @@ import { resolveButton } from '../ducks/toolbar/sagas'
 import { changeButtonDisabled, callActionImpl } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
 import { failValidate, submit } from '../ducks/datasource/store'
+import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
 
 import fetchSaga from './fetch'
 
@@ -47,6 +49,7 @@ export function* validate({ dispatch, validate }) {
             validateDatasource,
             state,
             datasourceId,
+            ModelPrefix.active,
             dispatch,
             true,
         ))
@@ -143,6 +146,36 @@ export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
 }
 
 /**
+ * @param {string} pageId
+ * @param {string[]} widgets
+ * @param {object[]} buttons
+ * @param {string[]} buttonIds
+ */
+function* enable(pageId, widgets, buttons, buttonIds) {
+    if (pageId) {
+        yield put(enablePage(pageId))
+
+        for (const buttonId of buttonIds) {
+            const button = buttons[buttonId]
+            const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
+
+            if (!isEmpty(button.conditions)) {
+                yield call(resolveButton, buttons[buttonId])
+            }
+
+            if (needUnDisableButton) {
+                yield put(changeButtonDisabled(pageId, buttonId, false))
+            }
+        }
+    }
+    if (widgets.length) {
+        for (const id of widgets) {
+            yield put(enableWidget(id))
+        }
+    }
+}
+
+/**
  * вызов экшена
  */
 // eslint-disable-next-line complexity
@@ -182,7 +215,7 @@ export function* handleInvoke(apiProvider, action) {
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
             : yield call(fetchInvoke, dataProvider, model, apiProvider)
 
-        const meta = merge(action.meta.success || {}, response.meta || {})
+        const meta = merge(action.meta?.success || {}, response.meta || {})
         const { submitForm } = dataProvider
 
         if (!optimistic && submitForm) {
@@ -195,6 +228,7 @@ export function* handleInvoke(apiProvider, action) {
             }
         }
         yield put(successInvoke(datasource, meta))
+        yield enable(pageId, widgets, buttons, buttonIds)
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
@@ -216,34 +250,19 @@ export function* handleInvoke(apiProvider, action) {
 
             yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
         }
-    } finally {
-        if (pageId) {
-            yield put(enablePage(pageId))
 
-            for (const buttonId of buttonIds) {
-                const button = buttons[buttonId]
+        yield enable(pageId, widgets, buttons, buttonIds)
 
-                if (!isEmpty(button.conditions)) {
-                    yield call(resolveButton, buttons[buttonId])
-                } else {
-                    yield put(changeButtonDisabled(pageId, buttonId, false))
-                }
-            }
-        }
-        if (widgets.length) {
-            for (const id of widgets) {
-                yield put(enableWidget(id))
-            }
-        }
+        throw err
     }
 }
 
 export default (apiProvider, factories) => [
     throttle(500, callActionImpl.type, handleAction, factories),
-    takeEvery(START_INVOKE, handleInvoke, apiProvider),
-    takeEvery(SUBMIT, function* submitSaga({ payload }) {
+    takeEvery(START_INVOKE, EffectWrapper(handleInvoke), apiProvider),
+    takeEvery(SUBMIT, function* submitSaga({ meta = {}, payload = {} }) {
         const { datasource } = payload
 
-        yield put(submit(datasource))
+        yield put(submit(datasource, null, meta))
     }),
 ]

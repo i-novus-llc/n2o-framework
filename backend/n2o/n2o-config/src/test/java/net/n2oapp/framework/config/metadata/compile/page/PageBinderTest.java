@@ -73,8 +73,19 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe").add("param_type","22"));
-        assertThat(page.getPageProperty().getTitle(), is("Hello, Joe"));
+        assertThat(page.getPageProperty().getTitle(), is("`'Hello, Joe '+code`"));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].type") == null, is(true));
+    }
+
+    /**
+     * Если не удалось разрешить ссылку в биндере, то пробрасываем на клиент в JS виде
+     */
+    @Test
+    public void pageNameClientResolvingForwarding() {
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageNameClientResolvingForwarding.page.xml")
+                .get(new PageContext("testPageNameClientResolvingForwarding"), new DataSet());
+        assertThat(page.getPageProperty().getTitle(), is("`'title '+main`"));
+        assertThat(page.getPageProperty().getHtmlTitle(), is("`'title '+html`"));
     }
 
     /**
@@ -104,7 +115,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setParentModelLinks(Collections.singletonList(modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("id_param", 123), subModelsProcessor);
-        assertThat(page.getPageProperty().getTitle(), is("Hello, Joe"));
+        assertThat(page.getPageProperty().getTitle(), is("`'Hello, Joe '+code`"));
     }
 
     @Test
@@ -119,7 +130,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setBreadcrumbs(singletonList(new Breadcrumb("prev", "/page")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe"));
-        assertThat(page.getBreadcrumb().get(1).getLabel(), is("Hello, Joe"));
+        assertThat(page.getBreadcrumb().get(1).getLabel(), is("`'Hello, Joe '+code`"));
     }
 
     /**

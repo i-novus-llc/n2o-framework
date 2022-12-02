@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -18,30 +17,27 @@ import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.context.*;
+import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
-import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
  * Сборка действия вызова операции
  */
 @Component
-public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N2oInvokeAction> {
+public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeAction, N2oInvokeAction> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oInvokeAction.class;
@@ -61,9 +57,24 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.getPayload().setPageId(getPageId(p));
 
         invokeAction.getMeta().setSuccess(initSuccessMeta(invokeAction, source, context, p));
-        invokeAction.getMeta().setFail(initFailMeta(invokeAction, source, context, p));
+        invokeAction.getMeta().setFail(initFailMeta(invokeAction, source, context));
         initDataProvider(invokeAction, source, context, p);
         return invokeAction;
+    }
+
+    @Override
+    protected MetaSaga initSuccessMeta(InvokeAction compiled, N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        MetaSaga metaSaga = super.initSuccessMeta(compiled, source, context, p);
+        metaSaga.setMessageWidgetId(getMessageWidgetId(compiled, context, source.getCloseOnSuccess() || source.getDoubleCloseOnSuccess()));
+        initClear(source, p, metaSaga);
+        return metaSaga;
+    }
+
+    @Override
+    protected MetaSaga initFailMeta(InvokeAction compiled, N2oInvokeAction source, CompileContext<?, ?> context) {
+        MetaSaga metaSaga = super.initFailMeta(compiled, source, context);
+        metaSaga.setMessageWidgetId(compiled.getPayload().getWidgetId());
+        return metaSaga;
     }
 
     private String getType(CompileProcessor p) {
@@ -72,11 +83,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
 
     protected void initDefaults(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setDoubleCloseOnSuccess(p.cast(source.getDoubleCloseOnSuccess(), false));
-        source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || p.cast(source.getCloseOnSuccess(), false));
-        source.setCloseOnFail(p.cast(source.getCloseOnFail(), false));
-        source.setRefreshOnSuccess(p.cast(source.getRefreshOnSuccess(), true));
-        source.setRefreshDatasourceIds(initRefreshDatasources(source, p));
         source.setRoute(p.cast(source.getRoute(), "/" + source.getId()));
         initSubmitMessageDefaults(source, p, context);
         source.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
@@ -94,98 +100,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         }
         source.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), submitOnSuccess, true));
         source.setMessageOnFail(p.cast(source.getMessageOnFail(), submitOnFail, true));
-    }
-
-    private String[] initRefreshDatasources(N2oInvokeAction source, CompileProcessor p) {
-        if (source.getRefreshDatasourceIds() != null)
-            return source.getRefreshDatasourceIds();
-        String localDatasource = getLocalDatasourceId(p);
-        if (localDatasource != null)
-            return new String[]{localDatasource};
-        return null;
-    }
-
-
-    private MetaSaga initFailMeta(InvokeAction compiled, N2oInvokeAction source,
-                                  CompileContext<?, ?> context, CompileProcessor p) {
-        MetaSaga metaSaga = new MetaSaga();
-        metaSaga.setMessageWidgetId(compiled.getPayload().getWidgetId());
-        boolean closeOnFail = source.getCloseOnFail();
-        if (closeOnFail) {
-            if (context instanceof ModalPageContext || context instanceof DialogContext)
-                metaSaga.setModalsToClose(1);
-        }
-        return metaSaga;
-    }
-
-    private MetaSaga initSuccessMeta(InvokeAction compiled, N2oInvokeAction source,
-                                     CompileContext<?, ?> context, CompileProcessor p) {
-        MetaSaga meta = new MetaSaga();
-        boolean redirect = source.getRedirectUrl() != null;
-        boolean doubleCloseOnSuccess = source.getDoubleCloseOnSuccess();
-        boolean closeOnSuccess = source.getCloseOnSuccess() || doubleCloseOnSuccess;
-        meta.setMessageWidgetId(getMessageWidgetId(compiled, context, closeOnSuccess));
-        initCloseOnSuccess(context, meta, redirect, doubleCloseOnSuccess, closeOnSuccess);
-        initRefreshOnClose(source, context, p, meta, closeOnSuccess);
-        initRedirect(source, context, p, meta, redirect, doubleCloseOnSuccess);
-        initClear(source, p, meta);
-        return meta;
-    }
-
-    private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
-        if (source.getClearOnSuccess())
-            meta.setClear(getClientDatasourceId(getLocalDatasourceId(p), p));
-    }
-
-    private void initRedirect(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess) {
-        if (redirect) {
-            if (context instanceof ModalPageContext || context instanceof DialogContext)
-                meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
-            if (context instanceof DialogContext) {
-                meta.setRedirect(((DialogContext) context).getParentRedirect());
-            } else {
-                meta.setRedirect(new RedirectSaga());
-                ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-                meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
-                meta.getRedirect().setTarget(source.getRedirectTarget());
-                meta.getRedirect().setServer(true);
-            }
-        }
-    }
-
-    private void initRefreshOnClose(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p, MetaSaga meta, boolean closeOnSuccess) {
-        if (source.getRefreshOnSuccess()) {
-            if (context instanceof DialogContext) {
-                meta.setRefresh(((DialogContext) context).getParentRefresh());
-            } else {
-                meta.setRefresh(new RefreshSaga());
-                if (!closeOnSuccess && source.getRefreshDatasourceIds() != null) {
-                    PageScope pageScope = p.getScope(PageScope.class);
-                    if (pageScope != null)
-                        meta.getRefresh().setDatasources(Arrays.stream(source.getRefreshDatasourceIds())
-                                .map(d -> getClientDatasourceId(d, p)).collect(Collectors.toList()));
-                } else if (closeOnSuccess && PageContext.class.isAssignableFrom(context.getClass()) && ((PageContext) context).getRefreshClientDataSourceIds() != null)
-                    meta.getRefresh().setDatasources(((PageContext) context).getRefreshClientDataSourceIds());
-            }
-        }
-    }
-
-    private void initCloseOnSuccess(CompileContext<?, ?> context, MetaSaga meta, boolean redirect, boolean doubleCloseOnSuccess, boolean closeOnSuccess) {
-        if (closeOnSuccess) {
-            if (context instanceof ModalPageContext || context instanceof DialogContext)
-                meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
-            else if (!redirect) {
-                String backRoute;
-                if (context instanceof PageContext) {
-                    backRoute = ((PageContext) context).getParentRoute();
-                } else {
-                    backRoute = "/";
-                }
-                meta.setRedirect(new RedirectSaga());
-                meta.getRedirect().setPath(backRoute);
-                meta.getRedirect().setTarget(Target.application);
-            }
-        }
     }
 
     private String getMessageWidgetId(InvokeAction compiled, CompileContext<?, ?> context, boolean closeOnSuccess) {
@@ -283,6 +197,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             if (routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
                 throw new N2oException(String.format("param \"%s\" duplicate in parent url ", pathParam.getName()));
         }
+    }
+
+    private void initClear(N2oInvokeAction source, CompileProcessor p, MetaSaga meta) {
+        if (source.getClearOnSuccess())
+            meta.setClear(getClientDatasourceId(getLocalDatasourceId(p), p));
     }
 
     private RedirectSaga initServerRedirect(AsyncMetaSaga meta) {

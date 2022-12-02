@@ -191,7 +191,7 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         if (!(systemProperties instanceof SimplePropertyResolver))
             throw new IllegalArgumentException("System properties is readonly");
         Stream.of(properties).forEach(p -> {
-            String[] split = p.contains("=") ? p.split("=") : p.split(":");
+            String[] split = p.contains("=") ? p.split("=", 2) : p.split(":");
             ((SimplePropertyResolver) systemProperties).setProperty(split[0], split[1]);
         });
         return this;
@@ -347,9 +347,13 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         if (clazz.isAnnotationPresent(ComponentType.class)) {
             ComponentType annotation = clazz.getAnnotation(ComponentType.class);
             environment.getComponentTypeRegister()
-                    .add(annotation.value() == null ? clazz.getSimpleName() : annotation.value(), clazz);
+                    .add(annotation.value() == null ? getFullClassName(clazz) : annotation.value(), clazz);
         } else {
-            environment.getComponentTypeRegister().add(clazz.getSimpleName(), clazz);
+            environment.getComponentTypeRegister().add(getFullClassName(clazz), clazz);
         }
+    }
+
+    private String getFullClassName(Class<? extends Source> clazz) {
+        return clazz.getName().substring(clazz.getName().lastIndexOf('.') + 1);
     }
 }

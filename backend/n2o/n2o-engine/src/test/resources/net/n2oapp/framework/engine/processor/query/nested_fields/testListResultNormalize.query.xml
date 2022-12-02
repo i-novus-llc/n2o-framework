@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+
+    <list result-normalize="T(net.n2oapp.framework.engine.processor.StaticInvocationTestClass).resultListNormalize(#this)">
+        <test file="net/n2oapp/framework/engine/processor/query/nested_fields/testListResultNormalize.json"/>
+    </list>
+
+    <fields>
+        <list id="ids">
+            <field id="id"/>
+        </list>
+        <list id="names">
+            <field id="name"/>
+        </list>
+    </fields>
+</query>

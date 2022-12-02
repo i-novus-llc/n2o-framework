@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.widget.v5;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись виджета дерево
  */
 @Component
-public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> {
+public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> implements BadgeAwareIO<N2oTree> {
 
     @Override
     public void io(Element e, N2oTree m, IOProcessor p) {
@@ -24,8 +25,7 @@ public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> {
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
         p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
-        p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
-        p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
+        refBadge(e, m, p);
     }
 
     @Override

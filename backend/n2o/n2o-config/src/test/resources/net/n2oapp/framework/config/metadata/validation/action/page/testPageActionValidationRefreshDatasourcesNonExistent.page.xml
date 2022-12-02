@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1" object-id="utBlank"/>
+        <datasource id="ds2" object-id="utBlank"/>
+    </datasources>
+    <regions>
+        <widget>
+            <toolbar>
+                <button>
+                    <show-modal page-id="utBlank" refresh-datasources="ds1,ds2,ds3"/>
+                </button>
+            </toolbar>
+        </widget>
+    </regions>
+</page>

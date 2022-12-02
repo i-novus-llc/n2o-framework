@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
-import net.n2oapp.framework.config.io.toolbar.ButtonIO;
+import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
@@ -42,7 +42,7 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oObjectsPack(), new N2oActionsPack());
-        builder.ios(new TestDataProviderIOv1(), new ButtonIO());
+        builder.ios(new TestDataProviderIOv1(), new ButtonIOv2());
     }
 
     @Test
@@ -77,8 +77,8 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
         N2oToolbar toolbar = dialog.getToolbar();
         assertThat(toolbar.getItems().length, is(2));
         assertThat(((N2oButton) toolbar.getItems()[0]).getLabel(), is("Yes"));
-        assertThat(((N2oButton) toolbar.getItems()[0]).getAction(), instanceOf(N2oInvokeAction.class));
-        assertThat(((N2oButton) toolbar.getItems()[1]).getAction(), instanceOf(N2oCloseAction.class));
+        assertThat(((N2oButton) toolbar.getItems()[0]).getActions()[0], instanceOf(N2oInvokeAction.class));
+        assertThat(((N2oButton) toolbar.getItems()[1]).getActions()[0], instanceOf(N2oCloseAction.class));
 
 
         assertThat(validations.get(1).getId(), is("dialog2"));

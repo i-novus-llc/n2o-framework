@@ -37,18 +37,12 @@
     </xs:complexType>
 
     <xs:complexType name="dropdownMenuDef">
+        <xs:annotation>
+            <xs:documentation>Выпадающее меню</xs:documentation>
+        </xs:annotation>
         <xs:sequence>
-            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Компонент меню</xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <!--            <xs:element name="divider" minOccurs="0" maxOccurs="unbounded">-->
-            <!--                <xs:annotation>-->
-            <!--                    <xs:documentation>Разделитель компонентов выпадающего меню</xs:documentation>-->
-            <!--                </xs:annotation>-->
-            <!--                <xs:complexType/>-->
-            <!--            </xs:element>-->
+            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
@@ -83,6 +77,9 @@
     </xs:complexType>
 
     <xs:complexType name="menuItemDef">
+        <xs:annotation>
+            <xs:documentation>Компонент меню</xs:documentation>
+        </xs:annotation>
         <xs:sequence>
             <xs:element name="open-page" type="act:openPageDefinition" minOccurs="0">
                 <xs:annotation>
@@ -123,6 +120,31 @@
         <xs:attribute name="badge-color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Цвет значка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-shape" type="shapeType" default="circle">
+            <xs:annotation>
+                <xs:documentation>Форма значка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-position" type="positionType" default="right">
+            <xs:annotation>
+                <xs:documentation>Позиция значка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-image" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-image-position" type="positionType" default="left">
+            <xs:annotation>
+                <xs:documentation>Позиция картинки в значке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+            <xs:annotation>
+                <xs:documentation>Форма картинки в значке</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="image" type="xs:string">
@@ -211,6 +233,13 @@
             <xs:enumeration value="square"/>
             <xs:enumeration value="circle"/>
             <xs:enumeration value="rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
 

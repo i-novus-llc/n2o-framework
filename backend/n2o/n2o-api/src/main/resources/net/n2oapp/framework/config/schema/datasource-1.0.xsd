@@ -8,29 +8,54 @@
             <xs:element name="datasource" type="standardDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="stomp-datasource" type="stompDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="app-datasource" type="datasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="app-datasource" type="appDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="parent-datasource" type="parentDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:element name="datasource" type="standardDatasourceDefinition"/>
     <xs:element name="stomp-datasource" type="stompDatasourceDefinition"/>
     <xs:element name="browser-storage" type="browserStorageDatasourceDefinition"/>
-    <xs:element name="app-datasource" type="datasourceDefinition"/>
+    <xs:element name="app-datasource" type="appDatasourceDefinition"/>
     <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition"/>
+    <xs:element name="parent-datasource" type="parentDatasourceDefinition"/>
 
     <xs:complexType name="datasourceDefinition">
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор источника данных.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="parentDatasourceDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>
+                    Источник данных, ссылающийся на источник из родительской страницы
+                </xs:documentation>
+            </xs:annotation>
+            <xs:extension base="datasourceDefinition">
+                <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных родительской страницы
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="baseDatasourceDefinition">
         <xs:complexContent>
             <xs:annotation>
-                <xs:documentation>Базовое определение источника данных</xs:documentation>
+                <xs:documentation>
+                    Базовое определение источника данных
+                </xs:documentation>
             </xs:annotation>
             <xs:extension base="datasourceDefinition">
                 <xs:sequence>
@@ -38,7 +63,9 @@
                 </xs:sequence>
                 <xs:attribute name="size" type="xs:integer" default="10">
                     <xs:annotation>
-                        <xs:documentation>Размер выборки</xs:documentation>
+                        <xs:documentation>
+                            Размер выборки
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -48,49 +75,93 @@
     <xs:complexType name="standardDatasourceDefinition">
         <xs:complexContent>
             <xs:annotation>
-                <xs:documentation>Стандартный источник данных</xs:documentation>
+                <xs:documentation>
+                    Стандартный источник данных
+                </xs:documentation>
             </xs:annotation>
             <xs:extension base="baseDatasourceDefinition">
                 <xs:sequence>
                     <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
                     <xs:element name="filters" type="datasourceFiltersDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="default-values-mode" type="act:defaultValuesMode" default="query">
+                <xs:attribute name="default-values-mode" type="defaultValuesMode" default="query">
                     <xs:annotation>
                         <xs:documentation>
-                            Подстановка значений по умолчанию, режим по умолчанию query
+                            Подстановка значений по умолчанию
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="object-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор объекта.</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор объекта
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="query-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор выборки, на основе которой происходит получение данных.
+                        <xs:documentation>
+                            Идентификатор выборки, на основе которой происходит получение данных
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>URL получения данных</xs:documentation>
+                        <xs:documentation>
+                            URL получения данных
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="applicationDatasourceDefinition">
+    <xs:simpleType name="defaultValuesMode">
+        <xs:annotation>
+            <xs:documentation>
+                Режим подстановки значений по умолчанию
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="defaults">
+                <xs:annotation>
+                    <xs:documentation>
+                        Значения по умолчанию заполняются данными прописанными в полях
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="query">
+                <xs:annotation>
+                    <xs:documentation>
+                        Значения по умолчанию заполняются данными из запроса
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="merge">
+                <xs:annotation>
+                    <xs:documentation>
+                        Значения по умолчанию заполняются путем слияния данных,
+                        прописанных в полях и полученных из запроса (id игнорируется).
+                        Полученные из запроса в приоритете
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="appDatasourceDefinition">
         <xs:complexContent>
             <xs:annotation>
-                <xs:documentation>Источник данных, ссылающийся на источник из application.xml</xs:documentation>
+                <xs:documentation>
+                    Источник данных, ссылающийся на источник из application.xml
+                </xs:documentation>
             </xs:annotation>
             <xs:extension base="datasourceDefinition">
                 <xs:attribute name="id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор источника данных из application.xml</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор источника данных из application.xml
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -100,7 +171,9 @@
     <xs:complexType name="browserStorageDatasourceDefinition">
         <xs:complexContent>
             <xs:annotation>
-                <xs:documentation>Источник, хранящий данные в браузере</xs:documentation>
+                <xs:documentation>
+                    Источник, хранящий данные в браузере
+                </xs:documentation>
             </xs:annotation>
             <xs:extension base="baseDatasourceDefinition">
                 <xs:sequence>
@@ -108,12 +181,17 @@
                 </xs:sequence>
                 <xs:attribute name="type" type="storageType" default="sessionStorage">
                     <xs:annotation>
-                        <xs:documentation>Тип хранилища в браузере</xs:documentation>
+                        <xs:documentation>
+                            Тип хранилища в браузере
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="key" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ключ, под которым будут хранится данные. По умолчанию глобальный идентификатор источника</xs:documentation>
+                        <xs:documentation>
+                            Ключ, под которым будут хранится данные.
+                            По умолчанию: глобальный идентификатор источника
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -123,7 +201,9 @@
     <xs:complexType name="inheritedDatasourceDefinition">
         <xs:complexContent>
             <xs:annotation>
-                <xs:documentation>Источник данных, получающий данные из другого источника данных</xs:documentation>
+                <xs:documentation>
+                    Источник данных, получающий данные из другого источника данных
+                </xs:documentation>
             </xs:annotation>
             <xs:extension base="baseDatasourceDefinition">
                 <xs:sequence>
@@ -131,17 +211,23 @@
                 </xs:sequence>
                 <xs:attribute name="source-datasource" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор источника данных, из которого будут скопированы данные</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор источника данных, из которого будут скопированы данные
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="source-model" type="act:clientModel">
                     <xs:annotation>
-                        <xs:documentation>Модель источника данных, из которой будут скопированы данные</xs:documentation>
+                        <xs:documentation>
+                            Модель источника данных, из которой будут скопированы данные
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="source-field-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор поля, из которого будут скопированы данные</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор поля, из которого будут скопированы данные
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -150,7 +236,9 @@
 
     <xs:simpleType name="storageType">
         <xs:annotation>
-            <xs:documentation>Тип хранилища</xs:documentation>
+            <xs:documentation>
+                Тип хранилища
+            </xs:documentation>
         </xs:annotation>
         <xs:restriction>
             <xs:enumeration value="sessionStorage"/>
@@ -160,57 +248,83 @@
 
     <xs:complexType name="browserStorageDatasourceSubmit">
         <xs:annotation>
-            <xs:documentation>Сохранение полей формы при их изменении</xs:documentation>
+            <xs:documentation>
+                Сохранение полей формы при их изменении
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="auto" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Автоматически ли записывать в хранилище при изменении данных?</xs:documentation>
+                <xs:documentation>
+                    Автоматически ли записывать в хранилище при изменении данных?
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="type" type="storageType">
             <xs:annotation>
-                <xs:documentation>Тип хранилища, в которое будут записываться данные</xs:documentation>
+                <xs:documentation>
+                    Тип хранилища, в которое будут записываться данные
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="key" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ключ, под которым будут записываться данные. По умолчанию ключ источника данных</xs:documentation>
+                <xs:documentation>
+                    Ключ, под которым будут записываться данные.
+                    По умолчанию: ключ источника данных
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="act:clientModel" default="resolve">
             <xs:annotation>
-                <xs:documentation>Модель текущего источника данных, которая будет сохранена</xs:documentation>
+                <xs:documentation>
+                    Модель текущего источника данных, которая будет сохранена
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="inheritedDatasourceSubmit">
         <xs:annotation>
-            <xs:documentation>Сохранение полей формы при их изменении</xs:documentation>
+            <xs:documentation>
+                Сохранение полей формы при их изменении
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="auto" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Автоматически ли записывать при изменении данных?</xs:documentation>
+                <xs:documentation>
+                    Автоматически ли записывать при изменении данных?
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="act:clientModel">
+        <xs:attribute name="model" type="act:clientModel" default="resolve">
             <xs:annotation>
-                <xs:documentation>Модель текущего источника данных, которая будет сохранена</xs:documentation>
+                <xs:documentation>
+                    Модель текущего источника данных, которая будет сохранена
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="target-datasource" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор источника данных, в который производится сохранение</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных, в который производится сохранение.
+                    По умолчанию: идентификатор источника данных, из которого будут скопированы данные
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="target-model" type="act:clientModel">
             <xs:annotation>
-                <xs:documentation>Модель источника данных, в которую производится сохранение</xs:documentation>
+                <xs:documentation>
+                    Модель источника данных, в которую производится сохранение.
+                    По умолчанию: модель источника данных, из которой будут скопированы данные
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="target-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор поля, в которое производится сохранение</xs:documentation>
+                <xs:documentation>
+                    Идентификатор поля, в которое производится сохранение.
+                    По умолчанию: идентификатор поля, из которого будут скопированы данные
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -221,13 +335,17 @@
                 <xs:sequence>
                     <xs:element name="values" type="valuesDefinition" minOccurs="0">
                         <xs:annotation>
-                            <xs:documentation>Значения на момент инициализации</xs:documentation>
+                            <xs:documentation>
+                                Значения на момент инициализации
+                            </xs:documentation>
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
                 <xs:attribute name="destination" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Место назначения</xs:documentation>
+                        <xs:documentation>
+                            Место назначения
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -238,7 +356,9 @@
         <xs:sequence>
             <xs:element name="value" type="valueDefinition" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
-                    <xs:documentation>Инициализирующее значение</xs:documentation>
+                    <xs:documentation>
+                        Инициализирующее значение
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -247,14 +367,18 @@
     <xs:complexType name="valueDefinition">
         <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Любой атрибут</xs:documentation>
+                <xs:documentation>
+                    Имя атрибута задается пользователем
+                </xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="dependenciesDefinition">
         <xs:annotation>
-            <xs:documentation>Зависимости источника данных.</xs:documentation>
+            <xs:documentation>
+                Зависимости источника данных
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="fetch" type="fetchDefinition" maxOccurs="unbounded" minOccurs="0"/>
@@ -264,24 +388,28 @@
 
     <xs:complexType name="copyDefinition">
         <xs:annotation>
-            <xs:documentation>Копирование части модели из другого источника.</xs:documentation>
+            <xs:documentation>
+                Копирование части модели из другого источника
+            </xs:documentation>
         </xs:annotation>
-        <xs:attribute name="on" type="xs:string">
+        <xs:attribute name="on" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>При изменении какого источника данных копировать.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных, из которого копируются данные
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="target-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Идентификатор поля текущего источника, в которое будут скопированы данные. Если не указано, то вся модель
+                    Идентификатор поля текущего источника данных, в которое будут скопированы данные. Если не указано, то вся модель
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="target-model" type="act:clientModel" default="resolve">
             <xs:annotation>
                 <xs:documentation>
-                    Модель текущего источника, в которую будут скопированы данные
+                    Модель текущего источника данных, в которую будут скопированы данные
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -299,27 +427,49 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="submit" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Вызов сохранения данных сразу после копирования
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="apply-on-init" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Срабатывание копирования при инициализации источника данных
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="fetchDefinition">
         <xs:annotation>
-            <xs:documentation>Обновление данных при изменении зависимых источников данных.</xs:documentation>
+            <xs:documentation>
+                Обновление данных при изменении зависимых источников данных
+            </xs:documentation>
         </xs:annotation>
-        <xs:attribute name="on" type="xs:string">
+        <xs:attribute name="on" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Иденитификатор источника данных.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор зависимого источника данных
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="act:clientModel">
             <xs:annotation>
-                <xs:documentation>Модель источника данных.</xs:documentation>
+                <xs:documentation>
+                    Модель зависимого источника данных
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="datasourceFiltersDefinition">
         <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
+            <xs:documentation>
+                Предустановленная фильтрация
+            </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="eq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
@@ -339,16 +489,22 @@
 
     <xs:complexType name="filterDefSimple">
         <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+            <xs:documentation>
+                Предустановленная фильтрация поля выборки
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="field-id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Поле в выборке, по которому будет фильтрация.</xs:documentation>
+                <xs:documentation>
+                    Поле в выборке, по которому будет фильтрация
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="required" type="xs:boolean">
             <xs:annotation>
-                <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
+                <xs:documentation>
+                    Обязательность предустановленного фильтра
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -357,16 +513,22 @@
         <xs:complexContent>
             <xs:extension base="filterDefBase">
                 <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                    <xs:documentation>
+                        Предустановленная фильтрация поля выборки
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="value" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
+                        <xs:documentation>
+                            Значение фильтра (одно значение)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="required" type="xs:boolean">
                     <xs:annotation>
-                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
+                        <xs:documentation>
+                            Обязательность предустановленного фильтра
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -377,16 +539,22 @@
         <xs:complexContent>
             <xs:extension base="filterDefBase">
                 <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                    <xs:documentation>
+                        Предустановленная фильтрация поля выборки
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="required" type="xs:boolean">
                     <xs:annotation>
-                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
+                        <xs:documentation>
+                            Обязательность предустановленного фильтра
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="values" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Значения фильтра (через запятую).</xs:documentation>
+                        <xs:documentation>
+                            Значения фильтра (через запятую)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -398,7 +566,7 @@
             <xs:extension base="filterDefBase">
                 <xs:annotation>
                     <xs:documentation>
-                        Предустановленная фильтрация поля выборки. Со возможностью задания списка значений в теле.
+                        Предустановленная фильтрация поля выборки. С возможностью задания списка значений в теле.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
@@ -406,7 +574,9 @@
                 </xs:sequence>
                 <xs:attribute name="values" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Значения фильтра (через запятую).</xs:documentation>
+                        <xs:documentation>
+                            Значения фильтра (через запятую)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -415,32 +585,43 @@
 
     <xs:complexType name="filterDefBase">
         <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+            <xs:documentation>
+                Предустановленная фильтрация поля выборки
+            </xs:documentation>
         </xs:annotation>
         <xs:attribute name="field-id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Поле, по которому будет фильтрация.</xs:documentation>
+                <xs:documentation>
+                    Поле, по которому будет фильтрация
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Источник данных, по полю которого будет фильтрация.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных, по полю которого будет фильтрация
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="param" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Имя параметра для фильтрации (в случае, если фильтрация по параметру из url).
+                <xs:documentation>
+                    Имя параметра для фильтрации (в случае, если фильтрация по параметру из url).
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="act:clientModel">
+        <xs:attribute name="model" type="act:clientModel" default="resolve">
             <xs:annotation>
-                <xs:documentation>Модель для получения значения фильтра.</xs:documentation>
+                <xs:documentation>
+                    Модель для получения значения фильтра
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="routable" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
+                <xs:documentation>
+                    Попадает ли фильтр в url
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

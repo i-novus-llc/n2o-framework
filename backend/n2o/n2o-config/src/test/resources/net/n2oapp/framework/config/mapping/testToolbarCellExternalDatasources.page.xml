@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds"/>
+        <datasource id="ds2"/>
+    </datasources>
+
+    <regions>
+        <table datasource="ds2">
+            <columns>
+                <column>
+                    <toolbar>
+                        <sub-menu enabled="{type == 1}"/>
+                    </toolbar>
+                </column>
+                <column>
+                    <toolbar>
+                        <sub-menu datasource="ds" model="edit" enabled="{value == 2}"/>
+                    </toolbar>
+                </column>
+                <column>
+                    <toolbar>
+                        <sub-menu visible="{type == 1}" datasource="ds2"/>
+                    </toolbar>
+                </column>
+                <column>
+                    <toolbar>
+                        <sub-menu datasource="ds" visible="{value == 2}">
+                            <menu-item datasource="ds" model="edit" enabled="{value == 2}"/>
+                        </sub-menu>
+                    </toolbar>
+                </column>
+            </columns>
+        </table>
+    </regions>
+</page>

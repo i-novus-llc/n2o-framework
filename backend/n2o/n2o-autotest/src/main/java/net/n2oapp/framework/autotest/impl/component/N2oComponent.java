@@ -28,4 +28,8 @@ public abstract class N2oComponent extends N2oElement implements Component {
         element().shouldBe(Condition.hidden);
     }
 
+    @Override
+    public void shouldHaveCssClass(String cssClass) {
+        element().shouldHave(Condition.cssClass(cssClass));
+    }
 }

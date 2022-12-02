@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -11,8 +13,10 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Тестирование компиляции ButtonField компонента
@@ -38,29 +42,27 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn1"));
-        assertThat(field.getAction(), notNullValue());
+        assertThat(field.getAction(), instanceOf(LinkAction.class));
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getLabel(), is("delete"));
         assertThat(field.getIcon(), nullValue());
         assertThat(field.getColor(), is("danger"));
-        assertThat(field.getBadge(), is("`badge`"));
-        assertThat(field.getBadgeColor(), is("`color`"));
         assertThat(field.getValidate().get(0), is("testButtonFieldCompile_main"));
 
-        assertThat(field.getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
-        assertThat(field.getTarget(), is(Target.application));
-        assertThat(field.getPathMapping().size(), is(2));
-        assertThat(field.getPathMapping().get("param1").getBindLink(), is("models.resolve['testButtonFieldCompile_main']"));
-        assertThat(field.getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(field.getPathMapping().get("param2").getValue(), is("1"));
-        assertThat(field.getQueryMapping().size(), is(1));
-        assertThat(field.getQueryMapping().get("param3").getBindLink(), is("models.resolve['testButtonFieldCompile_main']"));
-        assertThat(field.getQueryMapping().get("param3").getValue(), is("`field3`"));
+        assertThat(((LinkAction) field.getAction()).getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
+        assertThat(((LinkAction) field.getAction()).getTarget(), is(Target.application));
+        assertThat(((LinkAction) field.getAction()).getPathMapping().size(), is(2));
+        assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getBindLink(), is("models.resolve['testButtonFieldCompile_main']"));
+        assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getValue(), is("`field1`"));
+        assertThat(((LinkAction) field.getAction()).getPathMapping().get("param2").getValue(), is("1"));
+        assertThat(((LinkAction) field.getAction()).getQueryMapping().size(), is(1));
+        assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getBindLink(), is("models.resolve['testButtonFieldCompile_main']"));
+        assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn2"));
-        assertThat(field.getAction(), notNullValue());
-        assertThat(field.getUrl(), is("http://ya.ru"));
+        assertThat(field.getAction(), instanceOf(LinkAction.class));
+        assertThat(((LinkAction) field.getAction()).getUrl(), is("http://ya.ru"));
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getLabel(), nullValue());
         assertThat(field.getIcon(), is("fa fa-pencil"));
@@ -74,6 +76,27 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn5"));
         assertThat(field.getSrc(), is("ButtonField"));
-        assertThat(field.getUrl(), is("`url`"));
+
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(6).getCols().get(0).getFields().get(0);
+        assertThat(field.getConfirm().getText(), is("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие."));
+        assertThat(field.getConfirm().getTitle(), is("Предупреждение"));
+        assertThat(field.getConfirm().getOk().getLabel(), is("Да"));
+        assertThat(field.getConfirm().getOk().getColor(), is("primary"));
+        assertThat(field.getConfirm().getCancel().getLabel(), is("Нет"));
+        assertThat(field.getConfirm().getCancel().getColor(), is("secondary"));
+        assertThat(field.getConfirm().getReverseButtons(), is(false));
+        assertThat(field.getConfirm().getCloseButton(), is(false));
+        assertThat(field.getConfirm().getMode(), is(ConfirmType.modal));
+
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
+        assertThat(field.getConfirm().getText(), is("Зарегистрировать заявление?"));
+        assertThat(field.getConfirm().getTitle(), is("Предупреждение"));
+        assertThat(field.getConfirm().getOk().getLabel(), is("Зарегистрировать"));
+        assertThat(field.getConfirm().getOk().getColor(), is("dark"));
+        assertThat(field.getConfirm().getCancel().getLabel(), is("Отмена"));
+        assertThat(field.getConfirm().getCancel().getColor(), is("light"));
+        assertThat(field.getConfirm().getReverseButtons(), is(false));
+        assertThat(field.getConfirm().getCloseButton(), is(false));
+        assertThat(field.getConfirm().getMode(), is(ConfirmType.modal));
     }
 }

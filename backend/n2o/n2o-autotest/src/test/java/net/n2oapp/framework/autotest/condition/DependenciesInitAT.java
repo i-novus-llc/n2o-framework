@@ -35,7 +35,7 @@ public class DependenciesInitAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/init/index.page.xml"));
     }
 
@@ -43,7 +43,7 @@ public class DependenciesInitAT extends AutoTestBase {
     public void testApplyOnInit() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Инициализация зависимостей (apply-on-init)");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Инициализация зависимостей (apply-on-init)");
 
         FieldSets fieldsSets = page.widget(FormWidget.class).fieldsets();
 

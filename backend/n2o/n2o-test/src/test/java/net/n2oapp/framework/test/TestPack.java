@@ -38,14 +38,18 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/mongodb", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodb")),
                 new RouteInfo("/test/mongodbCount", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodbCount")),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()),
+                new RouteInfo("/test/testAdditionalInfo", new QueryContext("testAdditionalInfo", "/test/testAdditionalInfo")),
                 // graphql
                 new RouteInfo("/test/graphql/query/variables", getTestGraphqlQueryContext("testGraphqlVariables", "/test/graphql/query/variables")),
+                new RouteInfo("/test/graphql/query/headersForwarding", getTestGraphqlQueryContext("testGraphqlHeaderForwarding", "/test/graphql/query/headersForwarding")),
                 new RouteInfo("/test/graphql/mutationVariables", getTestInsertGraphqlContext("testVariables", "/test/graphql/mutationVariables")),
                 new RouteInfo("/test/graphql/mutationPlaceholders", getTestInsertGraphqlContext("testPlaceholders", "/test/graphql/mutationPlaceholders")),
                 new RouteInfo("/test/graphql/select", getTestGraphqlQueryContext("testGraphqlSelect", "/test/graphql/select")),
                 new RouteInfo("/test/graphql/filters", getTestGraphqlQueryContext("testGraphqlFilters", "/test/graphql/filters")),
                 new RouteInfo("/test/graphql/pagination", getTestGraphqlQueryContext("testGraphqlPagination", "/test/graphql/pagination")),
-                new RouteInfo("/test/graphql/sorting", getTestGraphqlQueryContext("testGraphqlSorting", "/test/graphql/sorting")));
+                new RouteInfo("/test/graphql/sorting", getTestGraphqlQueryContext("testGraphqlSorting", "/test/graphql/sorting")),
+                new RouteInfo("/test/graphql/hierarchicalSelect", getTestGraphqlQueryContext("testGraphqlHierarchicalSelect", "/test/graphql/hierarchicalSelect")),
+                new RouteInfo("/test/graphql/enums", getTestGraphqlQueryContext("testGraphqlEnums", "/test/graphql/enums")));
     }
 
     private QueryContext getTestQueryContext(String testQuery, String s) {

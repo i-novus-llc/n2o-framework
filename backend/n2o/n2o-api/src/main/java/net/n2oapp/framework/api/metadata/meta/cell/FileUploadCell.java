@@ -3,14 +3,13 @@ package net.n2oapp.framework.api.metadata.meta.cell;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 
 /**
  * Клиентская модель ячейки загрузки файлов
  */
 @Getter
 @Setter
-public class FileUploadCell extends N2oAbstractCell {
+public class FileUploadCell extends AbstractCell {
     @JsonProperty
     private String label;
     @JsonProperty

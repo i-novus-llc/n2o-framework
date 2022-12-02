@@ -6,17 +6,25 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 
 @Getter
 @Setter
-public class N2oButtonField extends N2oActionField implements ModelAware, DatasourceIdAware {
+public class N2oButtonField extends N2oActionField implements ModelAware, DatasourceIdAware, BadgeAware {
     private String title;
     private String titleFieldId;
     private String icon;
     private String iconFieldId;
     private String badge;
     private String badgeColor;
+    private Position badgePosition;
+    private ShapeType badgeShape;
+    private String badgeImage;
+    private Position badgeImagePosition;
+    private ShapeType badgeImageShape;
     private LabelType type;
     private String datasourceId;
     private ReduxModel model;
@@ -31,7 +39,9 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
     private String confirmText;
     private String confirmTitle;
     private String confirmOkLabel;
+    private String confirmOkColor;
     private String confirmCancelLabel;
+    private String confirmCancelColor;
 
     @Deprecated
     public String getWidgetId() {

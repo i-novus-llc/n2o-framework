@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2"/>
+    </datasources>
+    <toolbar>
+        <button id="b1">
+            <edit-list operation="create" datasource="ds1" model="multi" list-field-id="test1"
+                       item-datasource="ds2" item-model="filter" item-field-id="test2" primary-key="name"/>
+        </button>
+        <button id="b2" datasource="ds2">
+            <edit-list operation="delete"/>
+        </button>
+    </toolbar>
+</page>

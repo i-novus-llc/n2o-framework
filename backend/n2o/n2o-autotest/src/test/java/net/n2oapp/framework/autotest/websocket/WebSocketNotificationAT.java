@@ -54,7 +54,8 @@ public class WebSocketNotificationAT extends AutoTestBase {
         wsController.setPipeline(N2oPipelineSupport.readPipeline(environment));
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oActionsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/test.page.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/test.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/websocket/alert/app.application.xml"));
     }
@@ -64,7 +65,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
     public void testAlertNotification() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Отправка уведомлений по web-socket");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Отправка уведомлений по web-socket");
 
         Map<String, String> message = new HashMap<>();
         message.put("title", "Title");
@@ -74,12 +75,11 @@ public class WebSocketNotificationAT extends AutoTestBase {
 
         webSocketMessageController.sendAlert(DESTINATION, message);
         page.shouldBeVisible();
-        Alert alert = page.alerts().alert(0);
+        Alert alert = page.alerts(Alert.Placement.topLeft).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Title");
         alert.shouldHaveText("Text");
         alert.shouldHaveColor(Colors.PRIMARY);
-        alert.shouldHavePlacement(Alert.Placement.topLeft);
 
         message.clear();
 
@@ -90,11 +90,10 @@ public class WebSocketNotificationAT extends AutoTestBase {
 
         webSocketMessageController.sendAlert(DESTINATION, message);
         page.shouldBeVisible();
-        alert = page.alerts().alert(0);
+        alert = page.alerts(Alert.Placement.bottomRight).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Hello world");
         alert.shouldHaveText("Привет Мир");
         alert.shouldHaveColor(Colors.DANGER);
-        alert.shouldHavePlacement(Alert.Placement.bottomRight);
     }
 }

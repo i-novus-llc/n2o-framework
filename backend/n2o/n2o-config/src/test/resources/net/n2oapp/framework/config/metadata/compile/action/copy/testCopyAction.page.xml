@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <region>
+            <table id="table1">
+                <actions>
+                    <action id="test">
+                        <copy source-model="edit" target-model="filter"/>
+                    </action>
+                </actions>
+                <toolbar>
+                    <sub-menu>
+                        <menu-item id="item" action-id="test"/>
+                    </sub-menu>
+                    <button id="btn">
+                        <copy source-model="edit" source-widget-id="table1" source-field-id="id" mode="replace"
+                              target-model="edit" target-widget-id="table2" target-field-id="dictionary.id"/>
+                    </button>
+                </toolbar>
+            </table>
+            <table id="table2"/>
+        </region>
+    </regions>
+    <toolbar>
+        <button id="pageBtn" widget-id="table1">
+            <copy target-widget-id="form"/>
+        </button>
+    </toolbar>
+</page>

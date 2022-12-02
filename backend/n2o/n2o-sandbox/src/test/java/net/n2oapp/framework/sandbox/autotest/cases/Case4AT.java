@@ -33,14 +33,13 @@ public class Case4AT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
     public void hideButtonTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Скрытие кнопки dropdown при скрытии последнего подменю");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Скрытие кнопки dropdown при скрытии последнего подменю");
 
         InputText input = page.widget(FormWidget.class).fields().field("Введите 'test'").control(InputText.class);
         input.shouldBeEmpty();

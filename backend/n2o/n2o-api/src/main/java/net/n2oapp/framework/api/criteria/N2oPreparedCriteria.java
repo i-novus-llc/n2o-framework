@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.criteria;
 
 import net.n2oapp.criteria.api.Criteria;
-import net.n2oapp.criteria.dataset.DataSet;
 
 import java.util.*;
 
@@ -69,10 +68,7 @@ public class N2oPreparedCriteria extends Criteria {
 
     public void removeFilterForField(String fieldId) {
         if (restrictions != null) {
-            for (Restriction restriction : new ArrayList<>(restrictions)) {
-                if (restriction.getFieldId().equals(fieldId))
-                    restrictions.remove(restriction);
-            }
+            restrictions.removeIf(restriction -> restriction.getFieldId().equals(fieldId));
         }
     }
 
@@ -104,27 +100,5 @@ public class N2oPreparedCriteria extends Criteria {
         if (attributes == null)
             return null;
         return attributes.get(attribute);
-    }
-
-    public void putAttribute(String attribute, Object value) {
-        if (attributes == null)
-            attributes = new LinkedHashMap<>();
-        attributes.put(attribute, value);
-    }
-
-    //toDo спорный метод, нужен для процессинга
-    public DataSet toDataSet() {
-        DataSet dataSet = new DataSet();
-        for (Restriction restriction : getRestrictions()) {
-            dataSet.put(restriction.getFieldId(), restriction.getValue());
-        }
-        for (String field : getAdditionalFields().keySet()) {
-            try {
-                dataSet.put(field, getAdditionalFields().get(field));
-            } catch (Exception e) {
-                // этот метод вообще странный
-            }
-        }
-        return dataSet;
     }
 }

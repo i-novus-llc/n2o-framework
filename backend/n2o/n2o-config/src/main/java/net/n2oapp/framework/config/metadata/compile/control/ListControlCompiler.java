@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
+import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -28,6 +29,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.co
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
+    private static final String PROPERTY_PREFIX = "n2o.api.control.list";
 
     protected StandardField<T> compileListControl(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
         listControl.setFormat(p.resolveJS(source.getFormat()));
@@ -35,8 +37,6 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setSortFieldId(p.cast(source.getSortFieldId(), listControl.getLabelFieldId()));
         listControl.setValueFieldId(p.cast(p.resolveJS(source.getValueFieldId()), "id"));
         listControl.setIconFieldId(p.resolveJS(source.getIconFieldId()));
-        listControl.setBadgeFieldId(p.resolveJS(source.getBadgeFieldId()));
-        listControl.setBadgeColorFieldId(p.resolveJS(source.getBadgeColorFieldId()));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
         listControl.setHasSearch(source.getSearch());
@@ -56,6 +56,9 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
         listControl.setEnabledFieldId(source.getEnabledFieldId());
+        listControl.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
+        listControl.setSize(p.cast(listControl.getSize(), source.getSize(),
+                p.resolve(property("n2o.api.control.list.size"), Integer.class)));
         initSubModel(source, listControl.getData(), p);
         return compileStandardField(listControl, source, context, p);
     }

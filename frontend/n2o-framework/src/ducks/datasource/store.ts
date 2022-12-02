@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { isEmpty, omit } from 'lodash'
+import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
+import { IMeta } from '../../sagas/types'
+import { ValidationsKey } from '../../core/validation/IValidation'
+import { Meta } from '../Action'
 
 import type {
     AddComponentAction,
@@ -13,6 +18,7 @@ import type {
     RemoveAction,
     RemoveComponentAction,
     ResolveRequestAction,
+    SetAdditionalInfoAction,
     SetFieldSubmitAction,
     SetSortDirectionAction,
     StartValidateAction,
@@ -48,11 +54,7 @@ const datasource = createSlice({
                     }
                 }
 
-                const datasource = {
-                    ...DataSource.defaultState,
-                    ...initProps,
-                    provider,
-                }
+                const datasource = { ...merge(DataSource.defaultState, initProps), provider }
 
                 state[id] = datasource
             },
@@ -103,17 +105,21 @@ const datasource = createSlice({
 
                 const datasource = state[id]
 
-                state[id] = {
-                    ...datasource,
-                    components: datasource.components.filter(idFromDataSource => idFromDataSource !== componentId),
+                // После закрытия оверлея удаление компонента изds может прилететь позже удаления самого ds
+                if (datasource) {
+                    state[id] = {
+                        ...datasource,
+                        components: datasource.components.filter(idFromDataSource => idFromDataSource !== componentId),
+                    }
                 }
             },
         },
 
         dataRequest: {
-            prepare(id: string, options = {}) {
+            prepare(id: string, options = {}, meta: Meta = {}) {
                 return ({
                     payload: { id, options },
+                    meta,
                 })
             },
             reducer(state, action: DataRequestAction) {
@@ -143,8 +149,10 @@ const datasource = createSlice({
                 const { id, query } = action.payload
 
                 state[id].loading = false
-                state[id].page = query.page
-                state[id].count = query.count
+                state[id].paging = {
+                    ...state[id].paging,
+                    ...query.paging,
+                }
             },
         },
 
@@ -182,6 +190,23 @@ const datasource = createSlice({
             },
         },
 
+        setAdditionalInfo: {
+            prepare(id: string, additionalInfo: object) {
+                return ({
+                    payload: {
+                        id,
+                        additionalInfo,
+                    },
+                })
+            },
+
+            reducer(state, action: SetAdditionalInfoAction) {
+                const { id, additionalInfo } = action.payload
+
+                state[id].additionalInfo = additionalInfo
+            },
+        },
+
         changePage: {
             prepare(id: string, page: number) {
                 return ({
@@ -191,7 +216,7 @@ const datasource = createSlice({
             reducer(state, action: ChangePageAction) {
                 const { id, page } = action.payload
 
-                state[id].page = page
+                state[id].paging.page = page
             },
         },
 
@@ -204,23 +229,25 @@ const datasource = createSlice({
             reducer(state, action: ChangeSizeAction) {
                 const { id, size } = action.payload
 
-                state[id].size = size
+                state[id].paging.size = size
             },
         },
 
         startValidate: {
-            prepare(id: string, fields?: string[], prefix = ModelPrefix.active, meta = {}) {
+            prepare(
+                id: string,
+                validationsKey = ValidationsKey.Validations,
+                prefix = ModelPrefix.active,
+                fields?: [],
+                meta = {},
+            ) {
                 return ({
-                    payload: { id, prefix, fields },
+                    payload: { id, validationsKey, prefix, fields },
                     meta,
                 })
             },
             reducer(state, action: StartValidateAction) {
-                const { id, fields, prefix } = action.payload
-                const { errors, validations } = state[id]
-                const fieldList = fields?.length ? fields : Object.keys(validations || {})
-
-                fieldList.forEach((field) => { errors[prefix][field] = undefined })
+                // empty reducer, action for saga
             },
         },
 
@@ -238,6 +265,24 @@ const datasource = createSlice({
                 datasource.errors[prefix] = {
                     ...datasource.errors[prefix],
                     ...fields,
+                }
+            },
+        },
+
+        resetValidation: {
+            prepare(id, fields, prefix = ModelPrefix.active) {
+                return ({
+                    payload: { id, fields, prefix },
+                })
+            },
+            reducer(state, action: StartValidateAction) {
+                const { id, fields = [], prefix } = action.payload
+                const datasource = state[id]
+
+                if (datasource) {
+                    datasource.errors[prefix] = isEmpty(fields)
+                        ? {}
+                        : omit(datasource.errors[prefix], fields)
                 }
             },
         },
@@ -260,9 +305,10 @@ const datasource = createSlice({
         },
         // eslint-disable-next-line @typescript-eslint/naming-convention
         DATA_REQUEST: {
-            prepare(datasource: string, options = {}) {
+            prepare(datasource: string, options = {}, meta: Meta = {}) {
                 return ({
                     payload: { datasource, options },
+                    meta,
                 })
             },
             reducer(state, action: { payload: { datasource: string, options: unknown } }) {
@@ -271,13 +317,37 @@ const datasource = createSlice({
         },
 
         submit: {
-            prepare(id: string, provider, meta = {}) {
+            prepare(id: string, provider?, meta = {}) {
                 return ({
                     payload: { id, provider },
                     meta,
                 })
             },
             reducer(state, action: SubmitAction) {
+                // empty reducer, action for saga
+            },
+        },
+
+        submitSuccess: {
+            prepare(meta?: IMeta) {
+                return ({
+                    payload: {},
+                    meta,
+                })
+            },
+            reducer() {
+                // empty reducer, action for saga
+            },
+        },
+
+        submitFail: {
+            prepare(error: unknown, meta?: IMeta) {
+                return ({
+                    payload: error,
+                    meta,
+                })
+            },
+            reducer() {
                 // empty reducer, action for saga
             },
         },
@@ -294,7 +364,9 @@ export const {
     resolveRequest,
     rejectRequest,
     setSorting,
+    setAdditionalInfo,
     startValidate,
+    resetValidation,
     failValidate,
     changePage,
     changeSize,
@@ -303,4 +375,6 @@ export const {
     setFieldSubmit,
     DATA_REQUEST,
     submit,
+    submitSuccess,
+    submitFail,
 } = datasource.actions

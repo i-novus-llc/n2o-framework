@@ -1,24 +1,31 @@
 import { takeEvery, put, select, debounce, delay } from 'redux-saga/effects'
-import { touch, actionTypes, focus, reset } from 'redux-form'
+import { touch, actionTypes, focus, reset, change } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import values from 'lodash/values'
 import includes from 'lodash/includes'
 import merge from 'lodash/merge'
-import { isEmpty } from 'lodash'
+import entries from 'lodash/entries'
+import isEmpty from 'lodash/isEmpty'
+import isObject from 'lodash/isObject'
+import first from 'lodash/first'
+import isEqual from 'lodash/isEqual'
 
 import { setModel, copyModel, clearModel } from '../models/store'
 import {
     makeGetModelByPrefixSelector,
     modelsSelector,
 } from '../models/selectors'
-import { makeDatasourceIdSelector, makeWidgetByIdSelector, makeFormModelPrefixSelector } from '../widgets/selectors'
 import { dataSourceByIdSelector } from '../datasource/selectors'
-import evalExpression, { parseExpression } from '../../utils/evalExpression'
+import evalExpression from '../../utils/evalExpression'
 import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
+import { ModelPrefix } from '../../core/datasource/const'
+import { generateFormFilterId } from '../../utils/generateFormFilterId'
+import { ValidationsKey } from '../../core/validation/IValidation'
+import { EffectWrapper } from '../api/utils/effectWrapper'
 
-import { formsSelector } from './selectors'
+import { makeFormsFiltersByDatasourceSelector, makeFormsByDatasourceSelector } from './selectors'
 import {
     setRequired,
     unsetRequired,
@@ -29,14 +36,13 @@ export function* addTouched({ payload: { form, name } }) {
 }
 
 export function* copyAction({ payload }) {
-    const { target, source, mode = 'replace', sourceMapper } = payload
+    const { target, source, mode = 'replace', sourceMapper: expression } = payload
     const state = yield select(modelsSelector)
     let sourceModel = get(state, values(source).join('.'))
     const selectedTargetModel = yield select(
         makeGetModelByPrefixSelector(target.prefix, target.key),
     )
     const targetModel = selectedTargetModel || []
-    const expression = parseExpression(sourceMapper)
     let newModel = {}
     const targetModelField = get(targetModel, [target.field], [])
     const treePath = includes(target.field, '.')
@@ -46,29 +52,40 @@ export function* copyAction({ payload }) {
     }
 
     if (mode === 'merge') {
-        newModel = target.field
-            ? {
+        if (!target.field) {
+            newModel = { ...targetModel, ...sourceModel }
+        } else if (isObject(sourceModel) || Array.isArray(sourceModel)) {
+            newModel = {
                 ...targetModel,
                 [target.field]: {
                     ...targetModelField,
                     ...sourceModel,
                 },
             }
-            : { ...targetModel, ...sourceModel }
+        } else {
+            newModel = {
+                ...targetModel,
+                [target.field]: sourceModel,
+            }
+        }
     } else if (mode === 'add') {
         if (!Array.isArray(sourceModel) || !Array.isArray(targetModelField)) {
             // eslint-disable-next-line no-console
             console.warn('Source or target is not an array!')
         }
 
-        sourceModel = Object.values(sourceModel)
+        if (!Array.isArray(sourceModel) && Array.isArray(targetModel)) {
+            newModel = targetModel.concat(sourceModel)
+        } else {
+            sourceModel = Object.values(sourceModel)
 
-        newModel = target.field
-            ? {
-                ...targetModel,
-                [target.field]: [...targetModelField, ...sourceModel],
-            }
-            : [...targetModelField, ...sourceModel]
+            newModel = target.field
+                ? {
+                    ...targetModel,
+                    [target.field]: [...targetModelField, ...sourceModel],
+                }
+                : [...targetModelField, ...sourceModel]
+        }
     } else if (treePath) {
         newModel = merge({}, targetModel)
         set(newModel, target.field, sourceModel)
@@ -82,6 +99,20 @@ export function* copyAction({ payload }) {
     }
 
     yield put(setModel(target.prefix, target.key, newModel))
+
+    // костыль, тк я убрал резолв зависимостей на redux-form/INITIALIZE из-за беспорядочных вызовов,
+    // которые приводили к зацикливанию при applyOnInit: true и переинициализации, зависимости перестали вызываться
+    // после копирования
+    for (const [field, value] of entries(newModel)) {
+        if (get(targetModel, field) !== value) {
+            const form = target.prefix === ModelPrefix.filter ? generateFormFilterId(target.key) : target.key
+
+            yield put(change(form, field, {
+                keepDirty: true,
+                value,
+            }))
+        }
+    }
 }
 
 /* it uses in tabs region */
@@ -95,14 +126,34 @@ function* setFocus({ payload }) {
     }
 }
 
-export function* clearForm(action) {
+export function* clearForm({ payload }) {
     /*
     * FIXME: ХАК для быстрого фикса. Разобраться
     * если дёргать ресет формы разу после очистки модели, то форма сетает первый введёный в ней символ
     * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
     */
+    const { prefixes, key } = payload
+    const formWidgets = yield select(makeFormsByDatasourceSelector(key))
+    const widgetsWithFilter = yield select(makeFormsFiltersByDatasourceSelector(key))
+
     yield delay(50)
-    yield put(reset(action.payload.key))
+
+    for (const formWidget of formWidgets) {
+        const modelPrefix = get(formWidget, ['form', 'modelPrefix'], ModelPrefix.active)
+
+        if (includes(prefixes, modelPrefix)) {
+            yield put(reset(key))
+        }
+    }
+
+    /* костыль для очистки фильтров виджета через clear action */
+    for (const widgetFilter of widgetsWithFilter) {
+        const { datasource = null } = widgetFilter
+
+        if (datasource) {
+            yield put(reset(datasource))
+        }
+    }
 }
 
 /* TODO перенести в саги datasource
@@ -111,8 +162,7 @@ export function* clearForm(action) {
  */
 export function* autoSubmit({ meta }) {
     const { form, field } = meta
-    const datasourceId = yield select(makeDatasourceIdSelector(form))
-    const datasource = yield select(dataSourceByIdSelector(datasourceId))
+    const datasource = yield select(dataSourceByIdSelector(form))
 
     if (isEmpty(datasource)) { return }
 
@@ -121,28 +171,23 @@ export function* autoSubmit({ meta }) {
         : datasource.fieldsSubmit[field]
 
     if (!isEmpty(provider)) {
-        yield put(submit(datasourceId, provider))
+        yield put(submit(form, provider))
     }
 }
+
+let prevModel = {}
 
 export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
     takeEvery(action => action.meta && action.meta.isTouched, addTouched),
-    takeEvery(copyModel.type, copyAction),
+    takeEvery(copyModel.type, EffectWrapper(copyAction)),
     takeEvery(failValidate, function* touchOnFailValidate({ payload, meta }) {
         if (!meta?.touched) { return }
 
         const { id: datasource, fields } = payload
         const keys = Object.keys(fields)
-        const forms = yield select(formsSelector)
 
-        for (const formName of Object.keys(forms)) {
-            const widget = yield select(makeWidgetByIdSelector(formName))
-
-            if (datasource === widget?.datasource) {
-                yield put(touch(formName, ...keys))
-            }
-        }
+        yield put(touch(datasource, ...keys))
     }),
     debounce(100, [
         actionTypes.CHANGE,
@@ -150,14 +195,45 @@ export const formPluginSagas = [
         setRequired.type,
         unsetRequired.type,
     ], function* validateSaga({ meta }) {
-        const { form, field } = meta
-        const datasource = yield select(makeDatasourceIdSelector(form))
-        const currentFormPrefix = yield select(makeFormModelPrefixSelector(form))
+        const { form: datasource, field } = meta
+        const form = first(yield select(makeFormsByDatasourceSelector(datasource)))
+        const currentFormPrefix = get(form, ['form', 'modelPrefix'], ModelPrefix.active)
+        const model = yield select(makeGetModelByPrefixSelector(currentFormPrefix, datasource))
 
-        if (datasource) {
+        const findDifferentValues = () => {
+            const keys = [field]
+
+            if (!model) {
+                return keys
+            }
+
+            for (const [k] of Object.entries(model)) {
+                if (!isEqual(model[k], prevModel[k])) {
+                    keys.push(k)
+                }
+            }
+
+            return keys
+        }
+
+        if (form) {
+            const fields = findDifferentValues()
+
             /* blurValidation is used in the setFocus saga,
              this is needed to observing the field validation type */
-            yield put(startValidate(datasource, [field], currentFormPrefix, { blurValidation: true }))
+            yield put(
+                startValidate(
+                    datasource,
+                    ValidationsKey.Validations,
+                    currentFormPrefix,
+                    fields,
+                    { blurValidation: true },
+                ),
+            )
+        }
+
+        prevModel = {
+            ...model,
         }
     }),
     debounce(400, [

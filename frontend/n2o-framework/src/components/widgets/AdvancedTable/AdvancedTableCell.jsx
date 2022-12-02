@@ -29,11 +29,7 @@ function AdvancedTableCell({ children, hasSpan, record, textWrap, needRender }) 
     }
 
     return (
-        <td
-            className={classNames({ 'd-none': !needRender })}
-            colSpan={colSpan}
-            rowSpan={rowSpan}
-        >
+        <td className={classNames({ 'd-none': !needRender })} colSpan={colSpan} rowSpan={rowSpan}>
             <div
                 className={classNames('n2o-advanced-table-cell-expand', {
                     'text-no-wrap': textWrap === false,

@@ -42,25 +42,23 @@ public class DataController extends AbstractController {
     public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
         QueryRequestInfo requestInfo = createQueryRequestInfo(path, parameters, user);
         QueryResponseInfo responseInfo = new QueryResponseInfo();
-        responseInfo.setAlertMessageBuilder(getMessageBuilder());
         return controllerFactory.execute(requestInfo, responseInfo);
     }
 
     public SetDataResponse setData(String path, Map<String, String[]> parameters, Map<String, String[]> headers, Object body, UserContext user) {
         ActionRequestInfo requestInfo = createActionRequestInfo(path, parameters, headers, body, user);
         ActionResponseInfo responseInfo = new ActionResponseInfo();
-        responseInfo.setAlertMessageBuilder(getMessageBuilder());
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
-        resolveMeta(requestInfo, result);
+        resolveMeta(requestInfo, result, responseInfo.getSuccess());
         return result;
     }
 
-    private void resolveMeta(ActionRequestInfo requestInfo, SetDataResponse response) {
+    private void resolveMeta(ActionRequestInfo requestInfo, SetDataResponse response, Boolean success) {
         if (requestInfo.getPollingEndCondition() != null && !resolveCondition(requestInfo.getPollingEndCondition(), response.getData())) {
             resolvePolling(requestInfo, response);
         } else {
             resolveRedirect(requestInfo, response);
-            resolveRefresh(requestInfo, response);
+            resolveRefresh(requestInfo, response, success);
             resolveLoading(requestInfo, response);
             resolveClear(requestInfo, response);
         }
@@ -84,6 +82,7 @@ public class DataController extends AbstractController {
     private void resolvePolling(ActionRequestInfo requestInfo, SetDataResponse response) {
         PollingSaga resolvedPolling = new PollingSaga();
         resolvedPolling.setDelay(requestInfo.getPolling().getDelay());
+        resolvedPolling.setMaxAttempts(requestInfo.getPolling().getMaxAttempts());
         resolvedPolling.setDataProvider(requestInfo.getPolling().getDataProvider());
         resolvedPolling.setDatasource(requestInfo.getPolling().getDatasource());
         resolvedPolling.setModel(requestInfo.getPolling().getModel());
@@ -110,8 +109,8 @@ public class DataController extends AbstractController {
         }
     }
 
-    private void resolveRefresh(ActionRequestInfo requestInfo, SetDataResponse response) {
-        if (requestInfo.getRefresh() != null) {
+    private void resolveRefresh(ActionRequestInfo requestInfo, SetDataResponse response, Boolean success) {
+        if (success && requestInfo.getRefresh() != null) {
             RefreshSaga resolvedRefresh = new RefreshSaga();
             resolvedRefresh.setDatasources(requestInfo.getRefresh().getDatasources());
             response.addRefresh(resolvedRefresh);

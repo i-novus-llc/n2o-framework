@@ -38,23 +38,22 @@ public class InheritedDatasourceValidatorTest extends SourceValidationTestBase {
     }
 
     /**
-     * Проверяется наличие datasource, на который ссылается атрибут 'source-datasource'
+     * Проверяется наличие атрибута source-datasource
      */
     @Test
     public void testSourceDatasourceLink() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Атрибут 'source-datasource' источника данных 'inh1' ссылается на несуществующий источник 'ds1'");
+        exception.expectMessage("В источнике данных 'inh1' не задан атрибут 'source-datasource'");
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistSourceDatasource.page.xml");
     }
 
     /**
-     * Проверяется, что действие submit внутри источника данных ссылается на существующий источник данных
+     * Проверяется, что source-datasource не совпадает с id
      */
     @Test
-    public void testTargetDatasourceLink() {
+    public void testComparingSourceDatasourceAndId() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Атрибут 'target-datasource' элемента 'submit' источника данных 'inh1' ссылается на несуществующий источник 'ds2'");
-        validate("net/n2oapp/framework/config/metadata/validation/datasource/testNonExistTargetDatasource.page.xml");
+        exception.expectMessage("Атрибут 'source-datasource' источника данных 'ds1' совпадает с 'id'");
+        validate("net/n2oapp/framework/config/metadata/validation/datasource/testComparingSourceDatasourceAndId.page.xml");
     }
-
 }

@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -48,28 +47,18 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getHasChildrenFieldId(), is("testHasChildrenFieldId"));
         assertThat(ist.getCheckingStrategy(), is(CheckingStrategy.child));
         assertThat(ist.getMaxTagCount(), is(5));
-        assertThat(ist.getSize(), is(35));
+        assertThat(ist.getSize(), is(200));
         assertThat(ist.isHasCheckboxes(), is(true));
         assertThat(ist.getMaxTagTextLength(), is(20));
         assertThat(ist.getPlaceholder(), is("`select`"));
-    }
+        assertThat(ist.getSearchMinLength(), is(2));
+        assertThat(ist.getThrottleDelay(), is(100));
 
-    @Test
-    public void testInputSelectTreeV3() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelectTreeCompile.widget.xml")
-                .get(new WidgetContext("testInputSelectTreeCompile"));
-        StandardField field = (StandardField) form.getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0);
-        InputSelectTree inputSelect = (InputSelectTree) field.getControl();
-        assertThat(inputSelect.getSearchMinLength(), is(2));
-        assertThat(inputSelect.getThrottleDelay(), is(100));
-
-        field = (StandardField) form.getComponent().getFieldsets().get(0)
-                .getRows().get(1).getCols().get(0).getFields().get(0);
-        inputSelect = (InputSelectTree) field.getControl();
-        assertThat(inputSelect.getId(), is("defaults"));
-        assertThat(inputSelect.getParentFieldId(), is("testId"));
-        assertThat(inputSelect.getSearchMinLength(), is(0));
-        assertThat(inputSelect.getThrottleDelay(), is(500));
+        ist = (InputSelectTree) ((StandardField) form.getComponent().getFieldsets()
+                .get(0).getRows().get(1).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(ist.getId(), is("defaults"));
+        assertThat(ist.getParentFieldId(), is("testId"));
+        assertThat(ist.getSearchMinLength(), is(0));
+        assertThat(ist.getThrottleDelay(), is(500));
     }
 }

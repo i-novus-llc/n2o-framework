@@ -3,7 +3,8 @@
     <actions>
         <action>
             <copy source-model="edit" source-datasource="source" source-field-id="field"
-                  target-model="filter" target-page-id="page" target-datasource="target" target-field-id="field2"/>
+                  target-model="filter" target-datasource="target" target-field-id="field2"
+                  target-page="this" close-on-success="false"/>
         </action>
     </actions>
 </page>

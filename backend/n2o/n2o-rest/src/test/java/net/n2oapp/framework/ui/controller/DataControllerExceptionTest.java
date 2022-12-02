@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 
@@ -52,6 +53,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         SetDataResponse response = controller.setData("/page/create", null, null, new DataSet(), null);
 
         assertThat(response.getMeta().getAlert().getAlertKey(), is("page_main"));
+        assertThat(response.getMeta().getRefresh(), nullValue());
         assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is("danger"));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("net.n2oapp.framework.api.exception.N2oException: Message"));
 
@@ -61,6 +63,8 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         e = new N2oValidationException("Validation exception", "widget", messages, "messageForm");
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
         response = controller.setData("/page/create", null, null, new DataSet(), null);
+
+        assertThat(response.getMeta().getRefresh(), nullValue());
 
         assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));
@@ -111,7 +115,8 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
         N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory);
 
-        N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
+        N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor),
+                new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), builder.getEnvironment().getSystemProperties()));
         Map<String, DataProcessing> moduleMap = new HashMap<>();
         moduleMap.put("validationModule", validationModule);
 

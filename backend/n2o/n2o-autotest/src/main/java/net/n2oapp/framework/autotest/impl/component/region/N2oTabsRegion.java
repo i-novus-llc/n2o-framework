@@ -49,7 +49,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public RegionItems content() {
-            SelenideElement elm = element().parent().parent().parent().$$(".tab-pane")
+            SelenideElement elm = element().parent().parent().parent().parent().$$(".tab-pane")
                     .findBy(Condition.cssClass("active"));
 
             ElementsCollection nestingElements = elm.$$(".tab-pane.active .tab-pane.active > div > div");

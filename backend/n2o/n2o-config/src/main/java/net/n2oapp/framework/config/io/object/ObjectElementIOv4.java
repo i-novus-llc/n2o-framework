@@ -6,13 +6,13 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
-import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
+import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -53,7 +53,9 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "submit-label", t::getFormSubmitLabel, t::setFormSubmitLabel);
         p.attribute(e, "description", t::getDescription, t::setDescription);
         p.attribute(e, "success-text", t::getSuccessText, t::setSuccessText);
+        p.attribute(e, "success-title", t::getSuccessTitle, t::setSuccessTitle);
         p.attribute(e, "fail-text", t::getFailText, t::setFailText);
+        p.attribute(e, "fail-title", t::getFailTitle, t::setFailTitle);
         p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
         p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
@@ -81,6 +83,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
     private void abstractParameter(Element e, AbstractParameter t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
+        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
     }
 
@@ -88,7 +91,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         abstractParameter(e, t, p);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
-        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
     }
 
     private void inField(Element e, ObjectSimpleField t, IOProcessor p) {
@@ -120,6 +122,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMoment.class);
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
+        p.attribute(e, "title", t::getTitle, t::setTitle);
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
         p.attribute(e, "side", t::getSide, t::setSide);
     }
@@ -155,8 +158,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         invocationValidation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
         p.attribute(e, "size", t::getSize, t::setSize);
-        p.attribute(e, "title", t::getTitle, t::setTitle);
-        p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIO());
+        p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIOv2());
     }
 
     @Override

@@ -110,7 +110,7 @@ public class SandboxMetadataRetrievalTest {
 
         assertThat(((StandardDatasource) page.getDatasources().get("_main")).getDependencies().size(), is(0));
         assertThat(page.getDatasources().get("_main").getId(), is("_main"));
-        assertThat(((StandardDatasource) page.getDatasources().get("_main")).getSize(), is(1));
+        assertThat(((StandardDatasource) page.getDatasources().get("_main")).getPaging().getSize(), is(1));
         assertThat(((StandardDatasource) page.getDatasources().get("_main")).getValidations().size(), is(0));
 
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));

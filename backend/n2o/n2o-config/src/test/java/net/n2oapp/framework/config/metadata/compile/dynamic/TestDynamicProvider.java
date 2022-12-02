@@ -4,8 +4,9 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
@@ -50,7 +51,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
 
         selection.setInvocation(invocation);
         query.setLists(new N2oQuery.Selection[]{selection});
-        query.setFields(new N2oQuery.Field[]{new N2oQuery.Field("id")});
+        query.setFields(new QuerySimpleField[]{new QuerySimpleField("id")});
         query.setObjectId("testDynamic?Dummy");
 
         N2oTable table = new N2oTable();
@@ -68,14 +69,14 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         N2oShowModal showModal = new N2oShowModal();
         showModal.setPageId("testDynamic?Dummy");
         create.setModel(ReduxModel.filter);
-        create.setAction(showModal);
+        create.setActions(new N2oShowModal[]{showModal});
 
         N2oButton update = new N2oButton();
         update.setId("update");
         N2oShowModal updShowModal = new N2oShowModal();
         updShowModal.setPageId("testDynamic?Dummy");
         update.setModel(ReduxModel.resolve);
-        update.setAction(updShowModal);
+        update.setActions(new N2oShowModal[]{updShowModal});
 
 
 

@@ -40,8 +40,9 @@ export interface DataProvider {
  * параметрами от нескольких виджетов, использующих одну и ту же модель (datasource)
  * @param {string} datasource
  * @param {{ basePath: string, baseQuery: string , headersParams: object }} provider
+ * @param apiProvider
  */
-export function* fetch<TData = unknown>(datasource: string, provider: DataProvider) {
+export function* fetch<TData = unknown>(datasource: string, provider: DataProvider, apiProvider: unknown) {
     const cached = requestMap[datasource] as RequestInfo<TData> | void
 
     if (cached) {
@@ -60,7 +61,8 @@ export function* fetch<TData = unknown>(datasource: string, provider: DataProvid
         basePath,
         baseQuery,
         headers: headersParams,
-    })
+    },
+    apiProvider)
     const request: Promise<TData> = worker.toPromise()
     const requestInfo: RequestInfo<TData> = { request, provider, worker }
 

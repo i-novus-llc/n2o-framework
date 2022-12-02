@@ -30,7 +30,6 @@ public class CopyActionElementIOV1 extends AbstractActionElementIOV1<N2oCopyActi
         p.attribute(e, "source-widget-id", m::getSourceWidgetId, m::setSourceWidgetId);
         p.attribute(e, "source-field-id", m::getSourceFieldId, m::setSourceFieldId);
         p.attributeEnum(e, "target-model", m::getTargetModel, m::setTargetModel, ReduxModel.class);
-        p.attribute(e, "target-page-id", m::getTargetClientPageId, m::setTargetClientPageId);
         p.attribute(e, "target-widget-id", m::getTargetWidgetId, m::setTargetWidgetId);
         p.attribute(e, "target-field-id", m::getTargetFieldId, m::setTargetFieldId);
         p.attributeEnum(e, "mode", m::getMode, m::setMode, CopyMode.class);

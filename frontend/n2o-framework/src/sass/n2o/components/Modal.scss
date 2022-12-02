@@ -31,6 +31,10 @@
             }
         }
     }
+
+    .modal-body {
+        overflow-x: auto;
+    }
 }
 
 .simple-modal-dialog {
@@ -41,5 +45,13 @@
 
     .modal-content {
         width: max-content;
+    }
+}
+
+.n2o-modal-dialog {
+    .modal-footer {
+        .btn {
+            margin: 0;
+        }
     }
 }

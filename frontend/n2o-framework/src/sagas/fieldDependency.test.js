@@ -163,6 +163,7 @@ describe('Проверка саги dependency', () => {
             await runSaga(
                 fakeStore,
                 fetchValue,
+                {},
                 'testForm',
                 'testField',
                 {
@@ -172,11 +173,7 @@ describe('Проверка саги dependency', () => {
                     },
                     valueFieldId: 'name',
                 },
-                { name: 'old value' },
                 () => {},
-                {
-                    name: '',
-                },
             ).toPromise()
             expect(dispatched[0].type).toBe(setLoading.type)
             expect(dispatched[0].payload.loading).toBe(true)

@@ -1,21 +1,24 @@
 import {
-    delay,
     put,
+    call,
     select,
 } from 'redux-saga/effects'
-import { isEqual } from 'lodash'
 
 import { setModel } from '../../models/store'
 // @ts-ignore ignore import error from js file
 import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { IMeta, IValidationFieldMessage } from '../../../sagas/types'
+import { ValidationsKey } from '../../../core/validation/IValidation'
 import { dataSourceByIdSelector } from '../selectors'
 import {
+    failValidate,
     rejectRequest,
     resolveRequest,
+    startValidate,
+    setAdditionalInfo,
 } from '../store'
-import { makeGetModelByPrefixSelector } from '../../models/selectors'
 import type { IProvider, QueryResult, Query } from '../Provider'
 import { ProviderType } from '../Provider'
 import { query as serviceQuery } from '../Providers/Service'
@@ -24,20 +27,22 @@ import { query as inheritedQuery } from '../Providers/Inherited'
 import type { DataRequestAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
 
+import { validate } from './validate'
+
 function getQuery<
     TProvider extends IProvider,
     TProviderType extends ProviderType = TProvider['type']
 >(provider: TProviderType): Query<TProvider> {
     switch (provider) {
         case undefined:
-        case ProviderType.service: { return serviceQuery as Query<IProvider> }
-        case ProviderType.storage: { return storageQuery as Query<IProvider> }
-        case ProviderType.inherited: { return inheritedQuery as Query<IProvider> }
+        case ProviderType.service: { return serviceQuery as unknown as Query<IProvider> }
+        case ProviderType.storage: { return storageQuery as unknown as Query<IProvider> }
+        case ProviderType.inherited: { return inheritedQuery as unknown as Query<IProvider> }
         default: { return () => { throw new Error(`hasn't implementation for provider type: "${provider}`) } }
     }
 }
 
-export function* dataRequest({ payload }: DataRequestAction) {
+export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknown) {
     const { id, options = {} } = payload
 
     try {
@@ -46,30 +51,50 @@ export function* dataRequest({ payload }: DataRequestAction) {
         if (!provider) {
             throw new Error('Can\'t request data with empty provider')
         }
+
         if (!components.length) {
             throw new Error('Unnecessary request for datasource with empty components list ')
         }
 
+        const filtersIsValid: boolean = yield call(
+            validate,
+            startValidate(
+                id,
+                ValidationsKey.FilterValidations,
+                ModelPrefix.filter,
+                undefined,
+                { touched: true },
+            ),
+        )
+
+        if (!filtersIsValid) {
+            throw new Error('Invalid filters, request canceled')
+        }
+
         const query = getQuery(provider.type)
 
-        const response: QueryResult = yield query(id, provider, options)
-
-        const oldData = (yield select(makeGetModelByPrefixSelector(ModelPrefix.source, id))) as object[]
-
-        /*
-         * фикс, чтобы компонентам долетало, что данные обновились
-         * сбрасываем модель, делаем небольшую задержку для промежуточного рендера и только потом путим реальные данные
-         */
-        if (isEqual(oldData, response.list)) {
-            yield put(setModel(ModelPrefix.source, id, []))
-            yield delay(16)
-        }
+        const response: QueryResult = yield query(id, provider, options, apiProvider)
 
         yield put(setModel(ModelPrefix.source, id, response.list))
 
+        if (response.additionalInfo) {
+            yield put(setAdditionalInfo(id, response.additionalInfo))
+        }
+
         yield put(resolveRequest(id, response))
     } catch (error) {
-        const err = error as { message: string, stack: string, json?: { meta: unknown} }
+        const err = error as { message: string, stack: string, json?: { meta: IMeta} }
+        const errorMeta = err?.json?.meta || {}
+
+        if (errorMeta.messages) {
+            const fields: Record<string, IValidationFieldMessage[]> = {}
+
+            for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
+                fields[fieldName] = Array.isArray(error) ? error : [error]
+            }
+
+            yield put(failValidate(id, fields, ModelPrefix.filter, { touched: true }))
+        }
 
         // eslint-disable-next-line no-console
         console.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)

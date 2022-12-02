@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.event.action.MergeMode;
 import net.n2oapp.framework.api.metadata.event.action.N2oSetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueActionPayload;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -32,6 +33,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
 
         String defaultDatasource = getClientDatasourceId(getLocalDatasourceId(p), p);
         ReduxModel model = getModelFromComponentScope(p);
+
         String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getSourceDatasourceId(), p);
         SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(sourceDatasourceId,
@@ -44,13 +46,10 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         setValueAction.getPayload().setSource(sourceModel);
         setValueAction.getPayload().setTarget(targetModel);
 
-        setValueAction.getPayload().setSourceMapper(toJS(source.getExpression()));
+        setValueAction.getPayload().setSourceMapper(ScriptProcessor.resolveFunction(source.getExpression()));
         setValueAction.getPayload().setMode(p.cast(source.getMergeMode(), MergeMode.replace));
 
         return setValueAction;
     }
 
-    private String toJS(String value) {
-        return value == null ? null : "`" + value.trim() + "`";
-    }
 }

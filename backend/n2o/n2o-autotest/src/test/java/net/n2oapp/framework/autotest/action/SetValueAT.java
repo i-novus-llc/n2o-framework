@@ -40,14 +40,14 @@ public class SetValueAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/set_value/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/set_value/index.page.xml"));
     }
 
     @Test
     public void testSetValue() {
         SimplePage page = open(SimplePage.class);
-        page.breadcrumb().titleShouldHaveText("Действие set-value");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Действие set-value");
         page.shouldExists();
 
         // вычисление значения

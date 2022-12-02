@@ -33,7 +33,7 @@ public class AnchorAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor/test.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor/test.query.xml"));
@@ -44,14 +44,14 @@ public class AnchorAT extends AutoTestBase {
     public void testAnchorAction() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тестирование действия перехода по ссылке");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование действия перехода по ссылке");
 
         TableWidget table = page.widget(TableWidget.class);
         table.columns().rows().row(2).click();
         table.toolbar().topLeft().button("Открыть").click();
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         open.toolbar().bottomRight().button("Ссылка").click();
 
         open.urlShouldMatches(getBaseUrl() + "/link/3/");

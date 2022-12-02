@@ -15,7 +15,6 @@ export const defaultProps = {
     valueFieldId: 'id',
     labelFieldId: 'label',
     iconFieldId: 'icon',
-    imageFieldId: 'image',
     badgeFieldId: 'badge',
     badgeColorFieldId: 'color',
     hasCheckboxes: false,

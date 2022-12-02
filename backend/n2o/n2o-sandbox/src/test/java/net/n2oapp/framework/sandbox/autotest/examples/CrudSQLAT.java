@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -38,7 +39,6 @@ public class CrudSQLAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Список автомобилей");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -80,7 +80,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         Button save = modal.toolbar().bottomRight().button("Сохранить");
         save.shouldExists();
         save.click();
-        page.alerts().alert(0).shouldHaveText("Автомобиль добавлен в базу");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Автомобиль добавлен в базу");
         table.paging().totalElementsShouldBe(14);
         table.paging().selectPage("2");
         rows.row(3).cell(1).textShouldHave("test-value");
@@ -103,7 +103,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         Button save1 = modal1.toolbar().bottomRight().button("Сохранить");
         save1.shouldExists();
         save1.click();
-        page.alerts().alert(0).shouldHaveText("Данные об автомобиле изменены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные об автомобиле изменены");
         table.paging().totalElementsShouldBe(14);
         rows.row(0).cell(1).textShouldHave("change-test-value");
 
@@ -111,7 +111,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         delete.click();
         page.dialog("Предупреждение").shouldBeVisible();
         page.dialog("Предупреждение").click("Да");
-        page.alerts().alert(0).shouldHaveText("Данные об автомобиле удалены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные об автомобиле удалены");
         table.paging().totalElementsShouldBe(13);
     }
 
@@ -120,7 +120,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Список автомобилей");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -139,7 +139,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Список автомобилей");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();

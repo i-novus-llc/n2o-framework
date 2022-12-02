@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oCopyAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
@@ -52,8 +53,8 @@ public class SubmitGenerator implements ButtonGenerator {
                 copyAction.setSourceFieldId(pageContext.getCopyFieldId());
                 copyAction.setTargetModel(pageContext.getTargetModel());
                 copyAction.setTargetDatasourceId(pageContext.getTargetDatasourceId());
-                copyAction.setTargetClientPageId(pageContext.getParentClientPageId());
                 copyAction.setTargetFieldId(pageContext.getTargetFieldId());
+                copyAction.setTargetPage(p.cast(pageContext.getTargetPage(), PageRef.PARENT));
                 copyAction.setMode(pageContext.getCopyMode());
                 action = copyAction;
                 saveButtonModel = ((PageContext) context).getCopyModel();
@@ -81,7 +82,7 @@ public class SubmitGenerator implements ButtonGenerator {
         }
         saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
         saveButton.setDatasourceId(datasource);
-        saveButton.setAction(action);
+        saveButton.setActions(new N2oAction[]{action});
         saveButton.setDatasourceId(toolbar.getDatasourceId());
         saveButton.setModel(p.cast(saveButtonModel, ReduxModel.resolve));
         saveButton.setValidate(true);

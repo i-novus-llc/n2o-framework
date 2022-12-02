@@ -4,11 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
-import net.n2oapp.framework.api.ui.N2oAlertMessagesConstructor;
 import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import net.n2oapp.framework.sandbox.SandboxAlertMessagesConstructor;
 import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FileStorageController;
 import net.n2oapp.framework.sandbox.autotest.examples.fileupload.FilesRestController;
+import net.n2oapp.framework.sandbox.cases.alerts.AlertService;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
@@ -91,7 +92,7 @@ public class SandboxAutotestApplication {
 
     @Bean
     AlertMessagesConstructor messagesConstructor(AlertMessageBuilder messageBuilder) {
-        return new N2oAlertMessagesConstructor(messageBuilder);
+        return new SandboxAlertMessagesConstructor(messageBuilder);
     }
 
     @Bean
@@ -106,5 +107,10 @@ public class SandboxAutotestApplication {
     @Primary
     ObjectMapper objectMapper() {
         return ObjectMapperConstructor.metaObjectMapper();
+    }
+
+    @Bean
+    AlertService alertService() {
+        return new AlertService();
     }
 }

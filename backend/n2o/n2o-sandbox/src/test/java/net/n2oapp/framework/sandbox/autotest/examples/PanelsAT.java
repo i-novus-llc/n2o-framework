@@ -31,7 +31,6 @@ public class PanelsAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
@@ -39,7 +38,7 @@ public class PanelsAT extends SandboxAutotestBase {
         LeftRightPage page = open(LeftRightPage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Страница с двумя панелями");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с двумя панелями");
 
         Regions left = page.left();
         left.shouldHaveSize(1);

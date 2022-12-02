@@ -1,10 +1,11 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/object-4.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0"
-           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-2.0"
            xmlns:dp="http://n2oapp.net/framework/config/schema/data-provider-1.0"
-           xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0">
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0">
 
     <xs:element name="object" type="objectDefinition"/>
 
@@ -157,6 +158,11 @@
                 <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="normalize" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="operationListDefinition">
@@ -227,12 +233,22 @@
         </xs:attribute>
         <xs:attribute name="success-text" type="xs:string" default="Данные сохранены">
             <xs:annotation>
-                <xs:documentation>Текст в случае успеха.</xs:documentation>
+                <xs:documentation>Текст сообщения в случае успеха.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="success-title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок сообщения в случае успеха.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="fail-text" type="xs:string" default="Не удалось выполнить действие">
             <xs:annotation>
-                <xs:documentation>Текст в случае непредвиденной ошибки.</xs:documentation>
+                <xs:documentation>Текст сообщения в случае непредвиденной ошибки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="fail-title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок сообщения в случае непредвиденной ошибки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="confirm" type="xs:boolean">
@@ -480,6 +496,11 @@
                 <xs:documentation>Сообщение, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="title" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок сообщения, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="enabled" type="xs:string" default="true">
             <xs:annotation>
                 <xs:documentation>Включение валидации.</xs:documentation>
@@ -566,5 +587,4 @@
             <xs:enumeration value="after-success-operation"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

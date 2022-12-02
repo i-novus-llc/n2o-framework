@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.register.route;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -14,6 +15,7 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThrows;
 
 /**
  * Тестирование методов класса {@link RouteUtil}
@@ -65,14 +67,16 @@ public class RouteUtilTest {
     @Test
     public void parseQueryParams() {
         assertThat(RouteUtil.parseQueryParams("text"), nullValue());
-        Map<String, String> params = RouteUtil.parseQueryParams("id=123");
-        assertThat(params.get("id"), is("123"));
+        Map<String, String[]> params = RouteUtil.parseQueryParams("id=123");
+        assertThat(params.get("id"), is(new String[]{"123"}));
         params = RouteUtil.parseQueryParams("id=:a");
-        assertThat(params.get("id"), is(":a"));
+        assertThat(params.get("id"), is(new String[]{":a"}));
         params = RouteUtil.parseQueryParams("id=123&name=:b&surname=Ivanov");
-        assertThat(params.get("id"), is("123"));
-        assertThat(params.get("name"), is(":b"));
-        assertThat(params.get("surname"), is("Ivanov"));
+        assertThat(params.get("id"), is(new String[]{"123"}));
+        assertThat(params.get("name"), is(new String[]{":b"}));
+        assertThat(params.get("surname"), is(new String[]{"Ivanov"}));
+        params = RouteUtil.parseQueryParams("name=:b&name=Ivan");
+        assertThat(params.get("name"), is(new String[]{":b", "Ivan"}));
     }
 
     @Test
@@ -166,6 +170,7 @@ public class RouteUtilTest {
         assertThat(RouteUtil.absolute("../", "/parent/child"), is("/parent"));
         assertThat(RouteUtil.absolute("../../", "/parent/child"), is("/"));
         assertThat(RouteUtil.absolute("../", "/parent"), is("/"));
+        assertThat(RouteUtil.absolute("./test", "/parent"), is("./test"));
     }
 
     @Test
@@ -211,4 +216,22 @@ public class RouteUtilTest {
         assertThat(RouteUtil.parseQuery("/example"), nullValue());
     }
 
+    @Test
+    public void getNestingLevel() {
+        assertThat(RouteUtil.getRelativeLevel(""), is(0));
+        assertThat(RouteUtil.getRelativeLevel("/"), is(0));
+        assertThat(RouteUtil.getRelativeLevel("./"), is(0));
+        assertThat(RouteUtil.getRelativeLevel("/test/open"), is(0));
+        assertThat(RouteUtil.getRelativeLevel("../"), is(1));
+        assertThat(RouteUtil.getRelativeLevel("../../../"), is(3));
+        assertThrows(N2oException.class, () -> RouteUtil.getRelativeLevel(".../"));
+        assertThrows(N2oException.class, () -> RouteUtil.getRelativeLevel(".././"));
+    }
+
+    @Test
+    public void hasRelativity() {
+        assertThat(RouteUtil.hasRelativity("../"), is(true));
+        assertThat(RouteUtil.hasRelativity("../../../"), is(true));
+        assertThat(RouteUtil.hasRelativity("/test/:id"), is(false));
+    }
 }

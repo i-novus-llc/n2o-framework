@@ -21,10 +21,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -104,8 +101,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity != null) {
                 Element seqE = element;
                 if (sequences != null) {
-                    seqE = new Element(sequences, element.getNamespace());
-                    element.addContent(seqE);
+                    seqE = initSequenceElement(element, sequences);
                 }
                 Element childE = persist(io, entity, element.getNamespace());
                 installNamespace(childE, element.getNamespace());
@@ -193,8 +189,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -234,8 +229,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -276,8 +270,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -418,11 +411,7 @@ public final class IOProcessorImpl implements IOProcessor {
     private Element persistSequences(Element element, String sequences) {
         Element seqE;
         if (sequences != null) {
-            seqE = element.getChild(sequences, element.getNamespace());
-            if (seqE == null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
-            }
+            seqE = initSequenceElement(element, sequences);
         } else {
             seqE = element;
         }
@@ -540,8 +529,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entities == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -593,12 +581,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entities == null) return;
             Element seqE;
             if (sequences != null) {
-                if (element.getChild(sequences, element.getNamespace()) != null)
-                    seqE = element.getChild(sequences, element.getNamespace());
-                else {
-                    seqE = new Element(sequences, element.getNamespace());
-                    element.addContent(seqE);
-                }
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -645,8 +628,7 @@ public final class IOProcessorImpl implements IOProcessor {
             if (entity == null) return;
             Element seqE;
             if (sequences != null) {
-                seqE = new Element(sequences, element.getNamespace());
-                element.addContent(seqE);
+                seqE = initSequenceElement(element, sequences);
             } else {
                 seqE = element;
             }
@@ -948,15 +930,15 @@ public final class IOProcessorImpl implements IOProcessor {
         if (r) {
             Attribute attribute = element.getAttribute(name);
             if (attribute != null) {
-                setter.accept(process(attribute.getValue()).split(separator));
+                String value = process(attribute.getValue());
+                setter.accept(value.trim().split("\\s*" + separator + "\\s*"));
             }
         } else {
             if (getter.get() == null) return;
-            StringBuilder str = new StringBuilder();
-            for (String s : getter.get()) {
-                str.append(s).append(",");
-            }
-            element.setAttribute(new Attribute(name, str.toString().substring(0, str.length() - 1)));
+            StringJoiner str = new StringJoiner(",");
+            for (String s : getter.get())
+                str.add(s);
+            element.setAttribute(new Attribute(name, str.toString()));
         }
     }
 
@@ -1004,8 +986,10 @@ public final class IOProcessorImpl implements IOProcessor {
             setter.accept(child != null);
         } else {
             if (getter.get() == null || !getter.get()) return;
-            Element childElement = new Element(name, element.getNamespace());
-            element.addContent(childElement);
+            if (element.getChild(name, element.getNamespace()) == null) {
+                Element childElement = new Element(name, element.getNamespace());
+                element.addContent(childElement);
+            }
         }
     }
 
@@ -1186,6 +1170,15 @@ public final class IOProcessorImpl implements IOProcessor {
         if (isNull(element))
             return null;
         return nonNull(element.getParentElement()) ? element.getParentElement().getNamespacePrefix() : null;
+    }
+
+    private Element initSequenceElement(Element parent, String seqName) {
+        Element seqE = parent.getChild(seqName, parent.getNamespace());
+        if (seqE == null) {
+            seqE = new Element(seqName, parent.getNamespace());
+            parent.addContent(seqE);
+        }
+        return seqE;
     }
 
     public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {

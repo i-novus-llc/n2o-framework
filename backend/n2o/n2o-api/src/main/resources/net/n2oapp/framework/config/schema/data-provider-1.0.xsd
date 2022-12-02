@@ -2,6 +2,18 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/data-provider-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+    <xs:group name="data-providers">
+        <xs:sequence>
+            <xs:element name="sql" type="sqlDefinition"/>
+            <xs:element name="rest" type="restDefinition"/>
+            <xs:element name="java" type="javaDefinition"/>
+            <xs:element name="test" type="testDefinition"/>
+            <xs:element name="mongodb" type="mongoDbDefinition"/>
+            <xs:element name="camunda" type="camundaDefinition"/>
+            <xs:element name="graphql" type="graphqlDefinition"/>
+        </xs:sequence>
+    </xs:group>
+
     <xs:element name="sql" type="sqlDefinition"/>
     <xs:element name="rest" type="restDefinition"/>
     <xs:element name="java" type="javaDefinition"/>
@@ -88,6 +100,16 @@
         <xs:attribute name="proxy-port" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Порт прокси</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="forwarded-headers" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовки, которые должны быть скопированы из запроса клиента</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="forwarded-cookies" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Cookie, которые должны быть скопированы из запроса клиента</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -334,6 +356,24 @@
         <xs:attribute name="size-mapping" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Маппинг поля размера выборки в запросе</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="forwarded-headers" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовки, которые должны быть скопированы из запроса клиента</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="forwarded-cookies" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Cookie, которые должны быть скопированы из запроса клиента</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enums" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Список плейсхолдеров, которые имеют тип перечислений
+                    (Значения плейсхолдеров не будут обернуты в кавычки при подстановке в запрос)
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

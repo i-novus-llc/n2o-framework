@@ -2,17 +2,17 @@ import {
     call,
     put,
     select,
-    take,
     fork,
     takeEvery,
+    takeLatest,
     delay,
-    cancel,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import some from 'lodash/some'
 import includes from 'lodash/includes'
 import get from 'lodash/get'
+import keys from 'lodash/keys'
 import { actionTypes, change } from 'redux-form'
 
 import evalExpression from '../utils/evalExpression'
@@ -26,25 +26,38 @@ import {
     unsetRequired,
     setLoading,
     registerFieldExtra,
+    initializeDependencies,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
-import { startValidate } from '../ducks/datasource/store'
-import { makeDatasourceIdSelector, makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { resolveRequest, startValidate } from '../ducks/datasource/store'
+import { combineModels } from '../ducks/models/store'
+import { makeWidgetByIdSelector } from '../ducks/widgets/selectors'
+import { ValidationsKey } from '../core/validation/IValidation'
 
 import fetchSaga from './fetch'
 
-export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
+const FetchValueCache = new Map()
+
+export function* fetchValue(values, form, field, { dataProvider, valueFieldId }) {
+    const fetchValueKey = `${form}.${field}`
+
     try {
         yield delay(300)
         yield put(setLoading(form, field, true))
         const state = yield select()
-        const { url, headersParams } = yield call(
-            dataProviderResolver,
+        const { url, headersParams, baseQuery } = dataProviderResolver(
             state,
             dataProvider,
         )
+
+        if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) {
+            return
+        }
+
+        FetchValueCache.set(fetchValueKey, baseQuery)
+
         const response = yield call(fetchSaga, FETCH_VALUE, {
             url,
             headers: headersParams,
@@ -57,12 +70,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
             : get(response, 'list[0]', null)
 
         const currentModel = isMultiModel ? model : model[valueFieldId]
+        const prevFieldValue = get(values, field)
+        const nextFieldValue = valueFieldId ? currentModel : model
 
-        if (model) {
+        if (model && !isEqual(prevFieldValue, nextFieldValue)) {
             yield put(
                 change(form, field, {
                     keepDirty: true,
-                    value: valueFieldId ? currentModel : model,
+                    value: nextFieldValue,
                 }),
             )
         }
@@ -78,15 +93,21 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
         console.error(e)
     } finally {
         yield put(setLoading(form, field, false))
+        FetchValueCache.delete(fetchValueKey)
     }
 }
 
 // eslint-disable-next-line complexity
 export function* modify(values, formName, fieldName, dependency = {}, field) {
-    const { type, expression, on } = dependency
+    const { type, expression } = dependency
+    const { parentIndex } = field
+    const context = {
+        ...values,
+        index: typeof parentIndex === 'number' ? parentIndex : values.index,
+    }
 
     const evalResult = expression
-        ? evalExpression(expression, values)
+        ? evalExpression(expression, context)
         : undefined
 
     switch (type) {
@@ -155,32 +176,25 @@ export function* modify(values, formName, fieldName, dependency = {}, field) {
             break
         }
         case 'reRender': {
-            const datasource = yield select(makeDatasourceIdSelector(formName))
             const form = yield select(makeWidgetByIdSelector(formName))
-            const model = get(form, [
+            const prefix = get(form, [
                 'form',
                 'modelPrefix',
             ])
 
             yield delay(50)
-            yield put(startValidate(datasource, [fieldName], model, { touched: true }))
+            yield put(startValidate(formName, ValidationsKey.Validations, prefix, [fieldName], { touched: true }))
 
             break
         }
         case 'fetchValue': {
-            const watcher = yield fork(fetchValue, formName, fieldName, dependency)
-            const action = yield take((action) => {
-                if (action.type !== actionTypes.CHANGE) { return false }
-                // TODO Выяснить может ли fetch быть без зависимостей, если нет, то убрать
-                if (!on || !on.length) { return true }
-
-                return on.includes(get(action, 'meta.field'))
-            })
-
-            // TODO разобраться с этим условием, не уверен что актуально
-            if (get(action, 'meta.field') !== fieldName) {
-                yield cancel(watcher)
-            }
+            yield fork(
+                fetchValue,
+                values,
+                formName,
+                fieldName,
+                dependency,
+            )
 
             break
         }
@@ -201,23 +215,22 @@ export function* checkAndModify(
 
         if (field.dependency) {
             for (const dep of field.dependency) {
-                if (
-                    (
-                        dep.applyOnInit && (
-                            (actionType === actionTypes.INITIALIZE) ||
-                            ((actionType === registerFieldExtra.type) && (fieldName === fieldId))
-                        )
-                    ) ||
-                    (
-                        some(
-                            dep.on,
-                            field => (
-                                field === fieldName ||
-                                (includes(field, '.') && includes(field, fieldName))
-                            ),
-                        ) && actionType === actionTypes.CHANGE
-                    )
+                const needRunOnInit = dep.applyOnInit && (
+                    actionType === initializeDependencies.type ||
+                    (fieldName === fieldId &&
+                        actionType === registerFieldExtra.type)
+                )
+                const someDepNeedRun = some(
+                    dep.on,
+                    field => (
+                        field === fieldName ||
+                        (includes(field, '.') && includes(field, fieldName))
+                    ),
+                )
 
+                if (
+                    needRunOnInit ||
+                    (someDepNeedRun && (actionType === actionTypes.CHANGE || actionType === actionTypes.INITIALIZE))
                 ) {
                     yield fork(modify, values, formName, fieldId, dep, field)
                 }
@@ -226,27 +239,69 @@ export function* checkAndModify(
     }
 }
 
-export function* resolveDependency(action) {
+export function* resolveDependency({ type, meta, payload }) {
     try {
-        const { form: formName, field: fieldName } = action.meta
+        const { form: formName, field: fieldName } = meta
         const form = yield select(makeFormByName(formName))
+        const fieldKeys = type === actionTypes.INITIALIZE ? keys(form.registeredFields) : null
 
         if (isEmpty(form) || isEmpty(form.registeredFields)) {
             return
         }
 
-        yield call(
-            checkAndModify,
-            form.values || {},
-            form.registeredFields,
-            formName,
-            action.type === registerFieldExtra.type ? action.payload.name : fieldName,
-            action.type,
-        )
+        if (fieldKeys && meta.lastInitialValues) {
+            for (const field of fieldKeys) {
+                yield call(
+                    checkAndModify,
+                    form.values || {},
+                    form.registeredFields,
+                    formName,
+                    field,
+                    type,
+                )
+            }
+        } else {
+            yield call(
+                checkAndModify,
+                form.values || {},
+                form.registeredFields,
+                formName,
+                type === registerFieldExtra.type ? payload.name : fieldName,
+                type,
+            )
+        }
     } catch (e) {
         // todo: падает тут из-за отсутствия формы
         // eslint-disable-next-line no-console
         console.error(e)
+    }
+}
+
+export function* resolveDependencyOnInit({ payload }) {
+    const { id } = payload
+
+    yield call(resolveDependency, {
+        type: initializeDependencies.type,
+        meta: {
+            form: id,
+        },
+    })
+}
+
+export function* resolveDependencyDefaultModels({ payload }) {
+    const { combine = {} } = payload
+
+    yield delay(500)
+
+    for (const [, models] of Object.entries(combine)) {
+        for (const [datasource] of Object.entries(models)) {
+            yield call(resolveDependency, {
+                type: initializeDependencies.type,
+                meta: {
+                    form: datasource,
+                },
+            })
+        }
     }
 }
 
@@ -255,5 +310,8 @@ export const fieldDependencySagas = [
         actionTypes.INITIALIZE,
         registerFieldExtra.type,
         actionTypes.CHANGE,
+        initializeDependencies.type,
     ], resolveDependency),
+    takeEvery(resolveRequest, resolveDependencyOnInit),
+    takeLatest(combineModels, resolveDependencyDefaultModels),
 ]

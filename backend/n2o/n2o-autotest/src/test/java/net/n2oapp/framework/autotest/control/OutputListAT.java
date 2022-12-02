@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.n2oapp.framework.api.metadata.meta.control.OutputList.*;
+import static net.n2oapp.framework.api.metadata.meta.control.OutputList.Direction;
 
 /**
  * Автотест компонента вывода однострочного текста
@@ -31,10 +31,6 @@ public class OutputListAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_list/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/output_list/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         page = open(SimplePage.class);
         page.shouldExists();
     }
@@ -44,6 +40,9 @@ public class OutputListAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/output_list/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/output_list/test.query.xml"));
     }
 
     @Test

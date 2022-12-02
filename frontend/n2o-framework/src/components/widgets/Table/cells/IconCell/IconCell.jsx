@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import isUndefined from 'lodash/isUndefined'
+import get from 'lodash/get'
 
 import Text from '../../../../snippets/Text/Text'
 // eslint-disable-next-line import/no-named-as-default
@@ -19,7 +20,7 @@ import { iconCellTypes, textPlaceTypes } from './cellTypes'
  * @reactProps {string} textPlace - расположение текста
  */
 function IconCell({ id, model, visible, icon, type, textPlace }) {
-    const text = model[id]
+    const text = get(model, id)
 
     return (
         visible && (

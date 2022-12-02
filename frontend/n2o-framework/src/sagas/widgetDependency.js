@@ -41,7 +41,7 @@ export function* registerDependency({ payload }) {
     )
     yield call(
         resolveWidgetDependency,
-        prevState,
+        {},
         state,
         widgetsDependencies,
     )
@@ -117,7 +117,6 @@ export const widgetDependencySagas = [
             removeAllModel.type,
             copyModel.type,
             clearModel.type,
-            REGISTER_DEPENDENCY,
         ],
         function* noWidgetRecursion() {
             // Костыль, для сохранения предыдущего состояния, нужен чтобы не загнаться в рекурсивное обновление

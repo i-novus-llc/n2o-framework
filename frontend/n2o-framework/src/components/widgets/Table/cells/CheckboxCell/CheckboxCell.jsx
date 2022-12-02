@@ -11,6 +11,7 @@ import {
     withHandlers,
     setDisplayName,
 } from 'recompose'
+import { push } from 'connected-react-router'
 
 import withCell from '../../withCell'
 import withTooltip from '../../withTooltip'
@@ -82,8 +83,35 @@ export default compose(
         handleClick: () => (e) => {
             e.stopPropagation()
         },
-        handleChange: ({ callAction, setChecked, model, fieldKey, id }) => (e) => {
+        handleChange: ({
+            callAction,
+            setChecked,
+            model,
+            fieldKey,
+            id,
+            url,
+            target,
+            dispatch,
+        }) => (e) => {
             const { checked } = e.nativeEvent.target
+
+            // TODO сделать единый redirect func для кнопок, ячеек, linkImpl, meta saga итд.
+            //  разобраться с синтаксисом, прим. где-то _self, а где-то self
+            const direct = () => {
+                if (!url) {
+                    return null
+                }
+
+                if (target === 'application') {
+                    dispatch(push(url))
+                } else if (target === '_blank') {
+                    window.open(url)
+                } else {
+                    window.location = url
+                }
+
+                return null
+            }
 
             const data = set(
                 {
@@ -95,6 +123,7 @@ export default compose(
 
             setChecked(checked)
             callAction(data)
+            direct()
         },
     }),
     lifecycle({

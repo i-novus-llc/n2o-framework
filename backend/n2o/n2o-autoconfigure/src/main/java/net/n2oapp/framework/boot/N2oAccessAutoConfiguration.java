@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 @Configuration
 @ConditionalOnClass(SecurityProvider.class)
@@ -24,12 +25,12 @@ public class N2oAccessAutoConfiguration {
 
 
     @Bean
-    public SecurityProvider securityProvider(PermissionApi permissionApi) {
+    public SecurityProvider securityProvider(@Lazy PermissionApi permissionApi) {
         return new SecurityProvider(permissionApi, strictFiltering);
     }
 
     @Bean
-    public N2oSecurityModule n2oSecurityModule(PermissionApi permissionApi){
+    public N2oSecurityModule n2oSecurityModule(@Lazy PermissionApi permissionApi){
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, strictFiltering);
         return new N2oSecurityModule(securityProvider);
     }

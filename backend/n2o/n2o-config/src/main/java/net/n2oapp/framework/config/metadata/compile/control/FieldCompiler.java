@@ -12,9 +12,9 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -27,11 +27,9 @@ import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
+import net.n2oapp.framework.api.script.ScriptParserException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationScope;
+import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
@@ -59,11 +57,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setRefPage(p.cast(source.getRefPage(), N2oField.Page.THIS));
+        source.setRefPage(p.cast(source.getRefPage(), PageRef.THIS));
         source.setRefDatasourceId(p.cast(source.getRefDatasourceId(), () -> {
-            if (source.getRefPage().equals(N2oField.Page.THIS)) {
+            if (source.getRefPage().equals(PageRef.THIS)) {
                 return initLocalDatasourceId(p);
-            } else if (source.getRefPage().equals(N2oField.Page.PARENT)) {
+            } else if (source.getRefPage().equals(PageRef.PARENT)) {
                 if (context instanceof PageContext) {
                     return ((PageContext) context).getParentLocalDatasourceId();
                 } else {
@@ -73,7 +71,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             return null;
         }));
         source.setRefModel(p.cast(source.getRefModel(),
-                Optional.of(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
+                Optional.ofNullable(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
                 ReduxModel.resolve));
         initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !"false".equals(source.getVisible()));
         initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !"false".equals(source.getEnabled()));
@@ -84,7 +82,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         compileComponent(field, source, context, p);
 
         IndexScope idx = p.getScope(IndexScope.class);
-        field.setId(p.cast(source.getId(), "f" + Integer.toString(idx.get())));
+        field.setId(p.cast(source.getId(), "f" + idx.get()));
         field.setLabel(initLabel(source, p));
         field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
                 p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
@@ -102,15 +100,19 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private void initCondition(S source, Supplier<String> conditionGetter, N2oField.Dependency dependency,
                                Consumer<Boolean> conditionSetter, Boolean defaultValue) {
         if (StringUtils.isLink(conditionGetter.get())) {
-            Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
+            try {
+                Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
+                dependency.setOn(onFields.toArray(String[]::new));
+            } catch (ScriptParserException e) {
+                throw new N2oException(
+                        String.format("Unable to extract variables from expression '%s'. Try using field dependency " +
+                                        "with explicitly specifying variables in an attribute 'on'",
+                                StringUtils.unwrapLink(conditionGetter.get())));
+            }
+
             dependency.setValue(StringUtils.unwrapLink(conditionGetter.get()));
-            dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
             conditionSetter.accept(false);
-        } else if (conditionGetter.get() != null) {
-            dependency.setValue(conditionGetter.get());
-            source.addDependency(dependency);
-            conditionSetter.accept(defaultValue);
         } else {
             conditionSetter.accept(defaultValue);
         }
@@ -141,7 +143,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (source.getDependsOn() != null) {
             ControlDependency dependency = new ControlDependency();
             List<String> ons = Arrays.asList(source.getDependsOn());
-            ons.replaceAll(String::trim);
             dependency.setOn(ons);
             dependency.setType(ValidationType.reRender);
             field.addDependency(dependency);
@@ -152,7 +153,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         compiled.setApplyOnInit(p.cast(source.getApplyOnInit(), true));
         if (source.getOn() != null) {
             List<String> ons = Arrays.asList(source.getOn());
-            ons.replaceAll(String::trim);
             compiled.getOn().addAll(ons);
         }
         field.addDependency(compiled);
@@ -198,7 +198,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private FetchValueDependency compileFetchDependency(N2oField.Dependency d, CompileContext<?, ?> context, CompileProcessor p) {
         FetchValueDependency dependency = new FetchValueDependency();
         dependency.setType(ValidationType.fetchValue);
-        dependency.setValueFieldId(p.cast(((N2oField.FetchValueDependency) d).getValueFieldId(), "name"));
+        dependency.setValueFieldId(((N2oField.FetchValueDependency) d).getValueFieldId());
         dependency.setDataProvider(compileFetchDependencyDataProvider((N2oField.FetchValueDependency) d, context, p));
         return dependency;
     }
@@ -220,13 +220,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(source.getId(), query);
             filters.forEach(f -> {
                 Filter filter = new Filter();
-                filter.setFilterId(f.getFilterField());
+                filter.setFilterId(f.getFilterId());
                 filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.filter, widgetScope.getClientDatasourceId());
                 link.setSubModelQuery(subModelQuery);
-                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
+                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterId())));
                 link.setParam(filter.getParam());
                 link.setObserve(true);
                 filter.setLink(link);
@@ -259,9 +259,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
         validations.addAll(initRequiredValidation(field, source, p, visibilityConditions));
         validations.addAll(initInlineValidations(field, source, context, p, visibilityConditions));
+
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ValidationScope validationScope = p.getScope(ValidationScope.class);
-        if (validationScope != null)
-            validationScope.addAll(validations);
+        if (widgetScope != null && validationScope != null)
+            validationScope.addAll(widgetScope.getDatasourceId(), widgetScope.getModel(), validations);
     }
 
     private List<Validation> initRequiredValidation(Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
@@ -322,7 +324,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     if (dependency.getClass().equals(N2oField.VisibilityDependency.class))
                         fieldVisibilityConditions.add(dependency.getValue());
                 }
+            } else if ("false".equals(source.getVisible())) {
+                fieldVisibilityConditions.add(source.getVisible());
             }
+
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(field.getId());
                 Validation compiledValidation = p.compile(v, context);
@@ -413,15 +418,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected void compileDefaultValues(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        UploadScope uploadScope = p.getScope(UploadScope.class);
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
             compileParams(control, source, paramScope, p);
         }
 
-        if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()) &&
-                Boolean.TRUE.equals(source.getCopied()))
-            return;
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
         if (defaultValues != null && defaultValues.hasModels()) {
             Object defValue;
@@ -460,7 +461,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
-            } else if (N2oField.Page.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
+            } else if (PageRef.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
                 ModelLink modelLink = getDefaultValueModelLink(source, context, p);
                 modelLink.setParam(source.getParam());
                 defaultValues.add(control.getId(), modelLink);
@@ -514,7 +515,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 break;
             case PARENT:
                 if (context instanceof PageContext) {
-                    clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), ((PageContext) context).getParentClientPageId());
+                    clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), ((PageContext) context).getParentClientPageId(), p);
                 } else
                     throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
         }
@@ -526,7 +527,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             defaultValue.setValue(p.resolveJS(source.getDefaultValue()));
         }
 
-        if (N2oField.Page.THIS.equals(source.getRefPage()))
+        if (PageRef.THIS.equals(source.getRefPage()))
             defaultValue.setObserve(true);
 
         return defaultValue;

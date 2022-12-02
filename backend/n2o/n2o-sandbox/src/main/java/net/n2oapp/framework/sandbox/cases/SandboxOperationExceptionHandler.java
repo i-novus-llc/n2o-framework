@@ -1,6 +1,7 @@
 package net.n2oapp.framework.sandbox.cases;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
@@ -21,16 +22,25 @@ import javax.persistence.NonUniqueResultException;
 public class SandboxOperationExceptionHandler implements OperationExceptionHandler {
     @Override
     public N2oException handle(CompiledObject.Operation o, DataSet data, Exception e) {
-        if (e instanceof N2oGraphQlException) {
+        if (e instanceof N2oGraphQlException)
             return GraphQlUtil.constructErrorMessage((N2oGraphQlException) e);
-        }
+
         if (e instanceof N2oException) {
             if (e.getCause() instanceof NonUniqueResultException)
                 return notUniqueDialog(data);
             else
-                throw (N2oException) e;
+                return addFailInfo(o, data, (N2oException) e);
         } else
-            return new N2oException(e);
+            return addFailInfo(o, data, new N2oException(e));
+    }
+
+    private N2oException addFailInfo(CompiledObject.Operation o, DataSet data, N2oException e) {
+        if (o.getFailText() != null) {
+            e.setUserMessage(StringUtils.resolveLinks(o.getFailText(), data));
+        }
+        if (o.getFailTitle() != null)
+            e.setUserMessageTitle(StringUtils.resolveLinks(o.getFailTitle(), data));
+        return e;
     }
 
     private N2oException notUniqueDialog(DataSet data) {
@@ -65,7 +75,7 @@ public class SandboxOperationExceptionHandler implements OperationExceptionHandl
         registerNewParam.setValue("false");
         registerNewAction.setHeaderParams(new N2oParam[]{registerNewParam});
         registerNewAction.setFormParams(new N2oFormParam[]{nameParam});
-        registerNew.setAction(registerNewAction);
+        registerNew.setActions(new N2oInvokeAction[]{registerNewAction});
 
         N2oButton useExists = new N2oButton();
         useExists.setId("useExists");
@@ -81,14 +91,14 @@ public class SandboxOperationExceptionHandler implements OperationExceptionHandl
         useExistsParam.setValue("true");
         useExistsAction.setHeaderParams(new N2oParam[]{useExistsParam});
         useExistsAction.setFormParams(new N2oFormParam[]{nameParam});
-        useExists.setAction(useExistsAction);
+        useExists.setActions(new N2oInvokeAction[]{useExistsAction});
 
         N2oButton cancel = new N2oButton();
         cancel.setId("cancel");
         cancel.setSrc("StandardButton");
         cancel.setLabel("Отмена");
         cancel.setModel(ReduxModel.resolve);
-        cancel.setAction(new N2oCloseAction());
+        cancel.setActions(new N2oCloseAction[]{new N2oCloseAction()});
 
         dialog.setToolbar(new N2oToolbar());
         dialog.getToolbar().setItems(new N2oButton[]{registerNew, useExists, cancel});

@@ -59,6 +59,6 @@ public class SearchablePageValidator implements SourceValidator<N2oSearchablePag
      * @param errorMessage       Сообщение об ошибке
      */
     private void checkDatasourceLink(String datasourceId, DatasourceIdsScope datasourceIdsScope, String errorMessage) {
-        ValidationUtils.checkForExistsDatasource(datasourceId, datasourceIdsScope, errorMessage);
+        ValidationUtils.checkDatasourceExistence(datasourceId, datasourceIdsScope, errorMessage);
     }
 }

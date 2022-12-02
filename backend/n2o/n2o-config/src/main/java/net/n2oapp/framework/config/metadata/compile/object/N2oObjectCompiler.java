@@ -254,7 +254,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                                                      List<Validation> validationList, boolean activateAll) {
         List<Validation> whiteListValidations = new ArrayList<>();
         for (String name : whiteList) {
-            Validation validation = validationsMap.get(name.trim());
+            Validation validation = validationsMap.get(name);
             if (!Boolean.FALSE.equals(validation.getEnabled())) {
                 validationList.add(validation);
                 if (activateAll)
@@ -274,7 +274,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     private List<Validation> getBlackListValidations(String[] blackList, Map<String, Validation> validationsMap) {
         Map<String, Validation> blackListValidationsMap = new HashMap<>(validationsMap);
         for (String name : blackList)
-            blackListValidationsMap.remove(name.trim());
+            blackListValidationsMap.remove(name);
         return new ArrayList<>(blackListValidationsMap.values());
     }
 
@@ -413,7 +413,9 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 p.getMessage("n2o.confirm.group")));
         compiledOperation.setSuccessText(castDefault(operation.getSuccessText(),
                 p.getMessage("n2o.success")));
+        compiledOperation.setSuccessTitle(operation.getSuccessTitle());
         compiledOperation.setFailText(operation.getFailText());
+        compiledOperation.setFailTitle(operation.getFailTitle());
         compiledOperation.setInvocation(operation.getInvocation());
         compiledOperation.setValidations(operation.getValidations());
         DefaultActions defaultOperations = DefaultActions.get(operation.getId());
@@ -486,8 +488,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             parameter.setDomain(field.getDomain());
         if (parameter.getDefaultValue() == null)
             parameter.setDefaultValue(field.getDefaultValue());
-        if (parameter.getNormalize() == null)
-            parameter.setNormalize(field.getNormalize());
     }
 
     /**
@@ -517,6 +517,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             parameter.setRequired(field.getRequired());
         if (parameter.getMapping() == null)
             parameter.setMapping(field.getMapping());
+        if (parameter.getNormalize() == null)
+            parameter.setNormalize(field.getNormalize());
     }
 
     public boolean isNotEmpty(Object[] array) {

@@ -11,7 +11,7 @@ import org.junit.Test;
 public class OpenPageElementIOV2Test {
 
     @Test
-    public void testOpenPageElementIOV1Test() {
+    public void testOpenPageElementIOV2Test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new StandardDatasourceIO(), new StandardPageElementIOv4(), new OpenPageElementIOV2());
         assert tester.check("net/n2oapp/framework/config/io/action/v2/testOpenPageElementIOV2.page.xml");

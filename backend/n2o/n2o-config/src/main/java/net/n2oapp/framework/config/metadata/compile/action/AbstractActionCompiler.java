@@ -155,18 +155,25 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * @return Идентификатор локального источника данных действия
      */
     protected String getLocalDatasourceId(CompileProcessor p) {
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        while (componentScope != null) {
-            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
-                return datasourceIdAware.getDatasourceId();
-            }
-            componentScope = componentScope.getParentScope();
-        }
+        String datasourceId = ComponentScope.getFirstNotNull(p.getScope(ComponentScope.class),
+                DatasourceIdAware.class, DatasourceIdAware::getDatasourceId);
+        if (datasourceId != null)
+            return datasourceId;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null)
             return widgetScope.getDatasourceId();
         return null;
+    }
+
+    /**
+     * Получение модели действия (из компонента или из его родителей)
+     *
+     * @param p Процессор сборки метаданных
+     * @return Модель действия из ComponentScope или модель resolve, если модель из скоупа равна null
+     */
+    protected ReduxModel getLocalModel(CompileProcessor p) {
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        return p.cast(ComponentScope.getFirstNotNull(componentScope, ModelAware.class, ModelAware::getModel), ReduxModel.resolve);
     }
 
     /**
@@ -190,7 +197,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         } else {
             if (param.getDatasourceId() != null)
                 clientDatasourceId = getClientDatasourceId(param.getDatasourceId(), p);
-            else if (widgetId != null)
+            else if (widgetId != null && pageScope.getWidgetIdClientDatasourceMap().containsKey(widgetId))
                 clientDatasourceId = pageScope.getWidgetIdClientDatasourceMap().get(widgetId);
             else
                 clientDatasourceId = getClientDatasourceId(getLocalDatasourceId(p), p);

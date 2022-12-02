@@ -5,6 +5,7 @@ import { Col } from 'reactstrap'
 import get from 'lodash/get'
 
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'
+import { SecurityController } from '../../../core/auth/SecurityController'
 
 import ReduxField from './ReduxField'
 // eslint-disable-next-line import/no-cycle
@@ -27,58 +28,66 @@ function FieldsetColComponent({
     disabled,
     autoSubmit,
     activeField,
+    onChange,
+    onBlur,
 }) {
     if (!colVisible) { return null }
 
     return (
-        <Col xs={col.size || defaultCol} key={colId} className={col.className}>
-            {col.fields &&
-        col.fields.map((field, i) => {
-            const autoFocus = field.id && autoFocusId && field.id === autoFocusId
-            const key = `field${i}`
-            const name = parentName ? `${parentName}.${field.id}` : field.id
+        <SecurityController config={col.security}>
+            <Col xs={col.size || defaultCol} key={colId} className={col.className}>
+                {col.fields &&
+                    col.fields.map((field, i) => {
+                        const autoFocus = field.id && autoFocusId && field.id === autoFocusId
+                        const key = `field${i}`
+                        const name = parentName ? `${parentName}.${field.id}` : field.id
 
-            return (
-                <ReduxField
-                    labelPosition={labelPosition}
-                    labelWidth={labelWidth}
-                    labelAlignment={labelAlignment}
-                    key={key}
-                    autoFocus={autoFocus}
-                    form={form}
-                    modelPrefix={modelPrefix}
-                    name={name}
-                    parentName={parentName}
-                    parentIndex={parentIndex}
-                    disabled={disabled}
-                    autoSubmit={autoSubmit}
-                    active={activeField === field.id}
-                    {...field}
-                />
-            )
-        })}
-            {col.fieldsets &&
-        col.fieldsets.map((fieldset, i) => {
-            const { name: fieldsetName, ...rest } = fieldset
-            const key = `set${i}`
-            const name = parentName ? `${parentName}.${fieldsetName}` : fieldsetName
+                        return (
+                            <ReduxField
+                                labelPosition={labelPosition}
+                                labelWidth={labelWidth}
+                                labelAlignment={labelAlignment}
+                                key={key}
+                                autoFocus={autoFocus}
+                                form={form}
+                                modelPrefix={modelPrefix}
+                                name={name}
+                                parentName={parentName}
+                                parentIndex={parentIndex}
+                                disabled={disabled}
+                                autoSubmit={autoSubmit}
+                                active={activeField === field.id}
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                {...field}
+                            />
+                        )
+                    })}
+                {col.fieldsets &&
+                    col.fieldsets.map((fieldset, i) => {
+                        const { name: fieldsetName, ...rest } = fieldset
+                        const key = `set${i}`
+                        const name = parentName ? `${parentName}.${fieldsetName}` : fieldsetName
 
-            return (
-                <FieldsetContainer
-                    modelPrefix={modelPrefix}
-                    key={key}
-                    name={name}
-                    form={form}
-                    parentName={parentName}
-                    parentIndex={parentIndex}
-                    disabled={disabled}
-                    autoSubmit={autoSubmit}
-                    activeModel={activeModel}
-                    {...rest}
-                />
-            )
-        })}
-        </Col>
+                        return (
+                            <FieldsetContainer
+                                modelPrefix={modelPrefix}
+                                key={key}
+                                name={name}
+                                form={form}
+                                parentName={parentName}
+                                parentIndex={parentIndex}
+                                disabled={disabled}
+                                autoSubmit={autoSubmit}
+                                activeModel={activeModel}
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                {...rest}
+                            />
+                        )
+                    })}
+            </Col>
+        </SecurityController>
     )
 }
 
@@ -122,6 +131,8 @@ FieldsetColComponent.propTypes = {
     disabled: PropTypes.bool,
     autoSubmit: PropTypes.bool,
     activeField: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
 }
 
 const FieldsetCol = enhance(FieldsetColComponent)

@@ -11,7 +11,7 @@ function ButtonField({ className, style, visible, ...rest }) {
                 style={style}
                 className={classNames('n2o-button-field n2o-form-group', className)}
             >
-                <StandardButton {...rest} />
+                <StandardButton {...rest} className={className} />
             </div>
         )
     )

@@ -192,31 +192,11 @@
                 <xs:documentation>Ссылка на модель, в которой будет инициализация значения.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="ref-page" default="this">
-            <xs:annotation>
-                <xs:documentation>Ссылка на страницу, в которой будет инициализация значения.</xs:documentation>
-            </xs:annotation>
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:enumeration value="this">
-                        <xs:annotation>
-                            <xs:documentation>Текущая.</xs:documentation>
-                        </xs:annotation>
-                    </xs:enumeration>
-                    <xs:enumeration value="parent">
-                        <xs:annotation>
-                            <xs:documentation>Родительская.</xs:documentation>
-                        </xs:annotation>
-                    </xs:enumeration>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
         <xs:attribute name="ref-datasource" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
                     Ссылка на источник данных, в котором будет инициализация значения.
-                    По умолчанию для ref-page=this источник данных текущего виджета,
-                    для ref-page=parent источник данных виджета, из под которого открыта текущая страница.
+                    Задайте <parent-datasource/> для ссылки на источник родительской страницы.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -303,7 +283,9 @@
                 </xs:attribute>
                 <xs:attribute name="search-filter-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за поиск вариантов выбора</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="group-field-id" type="xs:string">
@@ -326,6 +308,31 @@
                         <xs:documentation>Поле выборки, отвечающее за цвет ячейки с текстом</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>Форма значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Позиция значка</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>Позиция картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>Форма картинки в значке</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="icon-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, отвечающее за иконку вариантов выбора</xs:documentation>
@@ -341,7 +348,7 @@
                         <xs:documentation>Кэшировать результаты выборки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="size" type="xs:integer" default="30">
+                <xs:attribute name="size" type="xs:integer" default="10">
                     <xs:annotation>
                         <xs:documentation>Количество вариантов выбора на одной странице</xs:documentation>
                     </xs:annotation>
@@ -445,6 +452,13 @@
                         <xs:documentation>Тип кнопок</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -462,6 +476,13 @@
                         <xs:documentation>Тип кнопок</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -479,6 +500,13 @@
                         <xs:documentation>Тип кнопок</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -637,10 +665,27 @@
     <xs:complexType name="controlSearchButtonsDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="search-label" type="xs:string"/>
-                <xs:attribute name="reset-label" type="xs:string"/>
+                <xs:attribute name="search-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Лейбл кнопки поиска</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="reset-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Лейбл кнопки сброса</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="clear-ignore" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поля, игнорируемые при сбросе фильтров</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fetch-on-clear" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Запуск обновления модели после сброса</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="no-label" type="xs:boolean" default="true"/>
-                <xs:attribute name="clear-ignore" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1040,6 +1085,7 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:sequence>
                     <xs:element name="statuses" type="statusesType" minOccurs="0"/>
+                    <xs:element name="actions" type="act:actions" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
@@ -1224,7 +1270,7 @@
                 <xs:attribute name="search-filter-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор фильтра, используемого для поиска.
+                            Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1621,6 +1667,13 @@
                         <xs:documentation>Шаг приращения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1633,6 +1686,13 @@
                         <xs:documentation>Тип выбора значения</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="badge-field-id" use="prohibited"/>
+                <xs:attribute name="badge-color-field-id" use="prohibited"/>
+                <xs:attribute name="badge-shape" use="prohibited"/>
+                <xs:attribute name="badge-position" use="prohibited"/>
+                <xs:attribute name="badge-image-field-id" use="prohibited"/>
+                <xs:attribute name="badge-image-position" use="prohibited"/>
+                <xs:attribute name="badge-image-shape" use="prohibited"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1723,6 +1783,11 @@
                 <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
                     <xs:annotation>
                         <xs:documentation>Максимальная длина текста элемента (в режиме чекбоксов).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="size" type="xs:string" default="200">
+                    <xs:annotation>
+                        <xs:documentation>Количество узлов(включая дочерние) выводимых деревом</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="throttle-delay" type="xs:integer" default="500">
@@ -1892,9 +1957,11 @@
                         <xs:documentation>Идентификатор выборки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="value-field-id" type="xs:string" use="optional">
+                <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, значение которого будет проставлено в модель поля ввода</xs:documentation>
+                        <xs:documentation>
+                            Поле выборки, значение которого будет проставлено в модель поля ввода (по умолчанию вся модель)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="size" type="xs:integer">

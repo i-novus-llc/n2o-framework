@@ -54,7 +54,7 @@ public class HeaderAT extends SandboxAutotestBase {
         page.shouldExists();
         page.header().brandNameShouldBe("Хедер");
         page.widget(FormWidget.class).shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
 
         page.header().nav().shouldHaveSize(3);
 
@@ -62,19 +62,19 @@ public class HeaderAT extends SandboxAutotestBase {
         menuItem0.labelShouldHave("Доступно всем");
         menuItem0.urlShouldHave(getBaseUrl() + "/#/mi1");
         menuItem0.click();
-        page.breadcrumb().titleShouldHaveText("Страница доступная всем");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная всем");
 
         AnchorMenuItem menuItem1 = page.header().nav().anchor(1);
         menuItem1.labelShouldHave("Требуется роль admin");
         menuItem1.urlShouldHave(getBaseUrl() + "/#/mi2");
         menuItem1.click();
-        page.breadcrumb().titleShouldHaveText("Страница доступная с ролью admin");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная с ролью admin");
 
         AnchorMenuItem menuItem2 = page.header().nav().anchor(2);
         menuItem2.labelShouldHave("Требуется право edit");
         menuItem2.urlShouldHave(getBaseUrl() + "/#/mi3");
         menuItem2.click();
-        page.breadcrumb().titleShouldHaveText("Страница доступная с правом edit");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная с правом edit");
 
         page.header().extra().shouldHaveSize(1);
         AnchorMenuItem extraLink = page.header().extra().item(0, AnchorMenuItem.class);
@@ -89,7 +89,7 @@ public class HeaderAT extends SandboxAutotestBase {
         page.shouldExists();
         page.header().brandNameShouldBe("Хедер");
         page.widget(FormWidget.class).shouldExists();
-        page.breadcrumb().titleShouldHaveText("Главная страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
 
         page.header().nav().shouldHaveSize(2);
 
@@ -97,13 +97,13 @@ public class HeaderAT extends SandboxAutotestBase {
         menuItem0.labelShouldHave("Доступно всем");
         menuItem0.urlShouldHave(getBaseUrl() + "/#/mi1");
         menuItem0.click();
-        page.breadcrumb().titleShouldHaveText("Страница доступная всем");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная всем");
 
         AnchorMenuItem menuItem3 = page.header().nav().anchor(1);
         menuItem3.labelShouldHave("Только анонимам");
         menuItem3.urlShouldHave(getBaseUrl() + "/#/mi4");
         menuItem3.click();
-        page.breadcrumb().titleShouldHaveText("Страница доступная только анонимам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная только анонимам");
     }
 
     @SneakyThrows

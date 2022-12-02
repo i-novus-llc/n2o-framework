@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
@@ -17,21 +16,17 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmp
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
-import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
@@ -41,10 +36,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.n2oapp.framework.api.StringUtils.isLink;
-import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
  * Компиляция кнопки
@@ -60,15 +55,13 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     public PerformButton compile(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
         initDefaults(source, context, p);
         PerformButton button = new PerformButton();
-        IndexScope idx = p.getScope(IndexScope.class);
-        compileBase(button, source, idx, context, p);
+        compileBase(button, source, context, p);
         button.setSrc(source.getSrc());
         button.setRounded(source.getRounded());
         button.setValidate(compileValidate(source, p));
         CompiledObject compiledObject = initObject(p, source);
         Action action = compileAction(source, context, p, compiledObject);
         button.setAction(action);
-        compileLink(button);
         button.setConfirm(compileConfirm(source, action, p, compiledObject));
         compileDependencies(source, button, p);
         return button;
@@ -78,7 +71,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         CompiledObject.Operation operation = null;
         if (action != null) {
             if (action instanceof InvokeAction) {
-
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
@@ -94,30 +86,16 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
         source.setRounded(p.cast(source.getRounded(), false));
         String datasource = initDatasource(source, p);
-        source.setDatasourceId(datasource);
         boolean validate = initValidate(source, p, datasource);
         source.setValidate(validate);
-        source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
         source.setValidateDatasourceIds(initValidateDatasources(source, validate, datasource));
-        source.setAction(initAction(source, p));
-
-        source.setConfirmType(p.cast(source.getConfirmType(), ConfirmType.modal));
-        source.setConfirmOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
-        source.setConfirmCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
+        source.setActions(initActions(source, p));
     }
 
     private Boolean initValidate(N2oButton source, CompileProcessor p, String datasource) {
-        if (source.getAction() == null)
+        if (isEmpty(source.getActions()))
             return p.cast(source.getValidate(), false);
         return p.cast(source.getValidate(), datasource != null || source.getValidateDatasourceIds() != null);
-    }
-
-    private N2oAction initAction(N2oButton source, CompileProcessor p) {
-        if (source.getAction() != null)
-            return source.getAction();
-        MetaActions metaActions = p.getScope(MetaActions.class);
-        return source.getActionId() == null ? null :
-                (metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction());
     }
 
     private List<String> compileValidate(N2oButton source, CompileProcessor p) {
@@ -156,18 +134,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return p.getScope(CompiledObject.class);
     }
 
-    private void compileLink(PerformButton button) {
-        if (button.getAction() instanceof LinkAction) {
-            LinkAction linkAction = ((LinkAction) button.getAction());
-            button.setUrl(linkAction.getUrl());
-            button.setTarget(linkAction.getTarget());
-            if (linkAction.getPathMapping() != null)
-                button.setPathMapping(new StrictMap<>(linkAction.getPathMapping()));
-            if (linkAction.getQueryMapping() != null)
-                button.setQueryMapping(new StrictMap<>(linkAction.getQueryMapping()));
-        }
-    }
-
     private Confirm compileConfirm(N2oButton source,
                                    Action action,
                                    CompileProcessor p, CompiledObject object) {
@@ -191,19 +157,23 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private Confirm initConfirm(N2oButton source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
-        confirm.setMode(source.getConfirmType());
+        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
         confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
-        confirm.setOkLabel(source.getConfirmOkLabel());
-        confirm.setCancelLabel(source.getConfirmCancelLabel());
+        confirm.setOk(new Confirm.Button(
+                p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")),
+                p.cast(source.getConfirmOkColor(), p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
+        confirm.setCancel(new Confirm.Button(
+                p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")),
+                p.cast(source.getConfirmCancelColor(), p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
         confirm.setText(initExpression(
                 p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
         confirm.setCondition(initConfirmCondition(condition));
-        confirm.setCloseButton(p.resolve(property("n2o.api.confirm.close_button"), Boolean.class));
+        confirm.setCloseButton(p.resolve(property("n2o.api.button.confirm.close_button"), Boolean.class));
+        confirm.setReverseButtons(p.resolve(property("n2o.api.button.confirm.reverse_buttons"), Boolean.class));
 
         if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
-            ReduxModel reduxModel = source.getModel();
-            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.resolve : reduxModel, clientDatasource).getBindLink());
+            confirm.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
         }
         return confirm;
     }
@@ -226,17 +196,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return attr;
     }
 
-    private Action compileAction(N2oButton source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject object) {
-        N2oAction butAction = source.getAction();
-        if (source.getAction() == null && source.getActionId() != null) {
-            MetaActions metaActions = p.getScope(MetaActions.class);
-            butAction = metaActions.get(source.getActionId()) == null ? null : metaActions.get(source.getActionId()).getAction();
-        }
-        if (butAction == null) return null;
-        butAction.setId(p.cast(butAction.getId(), source.getId()));
-        return p.compile(butAction, context, object, new ComponentScope(source, p.getScope(ComponentScope.class)));
-    }
-
     private String initDatasource(N2oButton source, CompileProcessor p) {
         if (source.getDatasourceId() != null)
             return source.getDatasourceId();
@@ -256,16 +215,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     protected void compileDependencies(N2oButton source, PerformButton button,
                                        CompileProcessor p) {
         String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
-        List<Condition> enabledConditions = new ArrayList<>();
-
-        if (source.getVisibilityCondition() != null)
-            button.getConditions().put(ValidationType.visible,
-                    compileCondition(source.getVisibilityCondition(), source.getModel(), clientDatasource));
-        if (source.getEnablingCondition() != null)
-            enabledConditions.addAll(compileCondition(source.getEnablingCondition(), source.getModel(), clientDatasource));
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
 
+        List<Condition> enabledConditions = new ArrayList<>();
         if (source.getDatasourceId() != null) {
             Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
             if (emptyModelCondition != null)
@@ -279,20 +232,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         if (source.getDependencies() != null)
             compileDependencies(source.getDependencies(), button, clientDatasource, source.getModel(), p);
 
-        if (componentScope != null && componentScope.unwrap(N2oCell.class) != null) {
-            button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-            button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
-        } else {
-            if (isLink(source.getVisible()))
-                compileLinkCondition(button, clientDatasource, ValidationType.visible, source.getVisible(), source.getModel());
-            else
-                button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-
-            if (isLink(source.getEnabled()))
-                compileLinkCondition(button, clientDatasource, ValidationType.enabled, source.getEnabled(), source.getModel());
-            else
-                button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
-        }
+        compileCondition(source, button, p, componentScope);
     }
 
     /**
@@ -316,30 +256,11 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
-            condition.setExpression("!_.isEmpty(this)");
+            condition.setExpression("!$.isEmptyModel(this)");
             condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
             return condition;
         }
         return null;
-    }
-
-    private List<Condition> compileCondition(String expression, ReduxModel model, String clientDatasource) {
-        List<Condition> result = new ArrayList<>();
-        Condition condition = new Condition();
-        condition.setExpression(expression.trim());
-        condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
-        result.add(condition);
-        return result;
-    }
-
-    private void compileLinkCondition(PerformButton button, String clientDatasource, ValidationType type,
-                                      String linkCondition, ReduxModel model) {
-        Condition condition = new Condition();
-        condition.setExpression(unwrapLink(linkCondition));
-        condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
-        if (!button.getConditions().containsKey(type))
-            button.getConditions().put(type, new ArrayList<>());
-        button.getConditions().get(type).add(condition);
     }
 
     private void compileDependencies(N2oButton.Dependency[] dependencies, PerformButton button, String clientDatasource,
@@ -351,12 +272,12 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             else if (d instanceof N2oButton.VisibilityDependency)
                 validationType = ValidationType.visible;
 
-            compileCondition(d, button, validationType, clientDatasource, buttonModel, p);
+            compileDependencyCondition(d, button, validationType, clientDatasource, buttonModel, p);
         }
     }
 
-    private void compileCondition(N2oButton.Dependency dependency, PerformButton button, ValidationType validationType,
-                                  String buttonDatasource, ReduxModel buttonModel, CompileProcessor p) {
+    private void compileDependencyCondition(N2oButton.Dependency dependency, PerformButton button, ValidationType validationType,
+                                            String buttonDatasource, ReduxModel buttonModel, CompileProcessor p) {
         ReduxModel refModel = p.cast(dependency.getModel(), buttonModel, ReduxModel.resolve);
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));

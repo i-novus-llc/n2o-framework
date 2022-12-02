@@ -30,7 +30,7 @@ export function Alerts({ alerts = [], placements }) {
         <div className="n2o-alerts-container">
             {placements.map(
                 placement => (
-                    <section className={`n2o-alerts ${placement}`}>
+                    <section key={`${placement}`} className={`n2o-alerts ${placement} ${placement.startsWith('bottom') ? 'n2o-alerts_reversed' : ''}`}>
                         <AlertsByPlacement
                             alerts={alerts}
                             placement={placement}

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
@@ -20,6 +21,11 @@ import java.util.*;
 public class PageContext extends BaseCompileContext<Page, N2oPage> {
 
     private List<Breadcrumb> breadcrumbs;
+
+    /**
+     * Задан ли бредкрамб на родительской странице
+     */
+    private Boolean breadcrumbFromParent;
     /**
      * Операция на кнопке отправки формы
      */
@@ -61,6 +67,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String targetFieldId;
     /**
+     * Страница, в источник данных которой будут скопированы данные
+     */
+    private PageRef targetPage;
+    /**
      * Тип слияния при копировании данных
      */
     private CopyMode copyMode;
@@ -78,15 +88,11 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     @Deprecated
     private String parentClientWidgetId;
     /**
-     * Родительский глобальный источник данных, в котором находилось действие
-     */
-    private String parentClientDatasourceId;
-    /**
      * Родительский локальный источник данных, в котором находилось действие
      */
     private String parentLocalDatasourceId;
     /**
-     * Родительская страница (клиентский), в которой находилось действие
+     * Клиентский идентификатор родительской страницы, в которой находилось действие
      */
     private String parentClientPageId;
     /**
@@ -134,24 +140,25 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private List<N2oAbstractDatasource> datasources;
     /**
-     * Множество источников данных родительской страницы
+     * Соответствия идентификаторов источников данных родительской страницы с клиентскими идентификаторами
      */
-    private Map<String, N2oAbstractDatasource> parentDatasources;
-
+    private Map<String, String> parentDatasourceIdsMap;
     /**
      * Клиентский идентификатор страницы
      */
     private String clientPageId;
-
     /**
-     * Сооответствия идентификаторов виджета с источником данных в родительском виджете
+     * Соответствия идентификаторов виджета с источником данных в родительском виджете
      */
     private Map<String, String> parentWidgetIdDatasourceMap;
-
     /**
      * Список идентификаторов таб регионов
      */
     private Set<String> parentTabIds;
+    /**
+     * Список всех родительских маршрутов
+     */
+    private List<String> parentRoutes;
 
     public PageContext(String sourcePageId) {
         super(sourcePageId, N2oPage.class, Page.class);
@@ -177,5 +184,14 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
                     .filter(N2oStandardDatasource.class::isInstance)
                     .forEach(ds -> filters.addAll(Arrays.asList(((N2oStandardDatasource) ds).getFilters())));
         return filters;
+    }
+
+    public void addParentRoute(String route, PageContext context) {
+        if (this.parentRoutes == null)
+            this.parentRoutes = new ArrayList<>();
+
+        if (context.getParentRoutes() != null)
+            this.parentRoutes.addAll(context.getParentRoutes());
+        this.parentRoutes.add(route);
     }
 }

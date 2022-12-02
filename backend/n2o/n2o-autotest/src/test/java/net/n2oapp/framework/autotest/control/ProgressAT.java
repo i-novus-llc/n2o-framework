@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.Colors;
-import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.control.Progress;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -29,10 +29,6 @@ public class ProgressAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/progress/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/progress/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
-
         page = open(SimplePage.class);
         page.shouldExists();
     }
@@ -42,6 +38,9 @@ public class ProgressAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oAllDataPack());
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/progress/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/progress/test.query.xml"));
     }
 
     @Test

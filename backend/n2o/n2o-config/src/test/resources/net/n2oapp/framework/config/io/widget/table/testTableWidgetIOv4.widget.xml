@@ -87,7 +87,7 @@
           </set>
       </filters>
       <actions>
-          <action id="test" default="false" enabled="false" icon="test" name="test"
+          <action id="test" enabled="false" icon="test" name="test"
                   visible="false">
               <close src="test"/>
           </action>
@@ -125,17 +125,17 @@
     </toolbar>
 
     <toolbar place="topLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test"
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabled="test"
                 confirm-type="popover"
-                visibility-condition="test">
+                visible="test">
             <close src="test"/>
         </button>
         <button action-id="test2" class="test" icon="test" label="test" type="icon">
             <close src="test"/>
         </button>
         <sub-menu>
-            <menu-item action-id="test1" icon="test" label="test" class="test" enabling-condition="test"
-                       visibility-condition="test"/>
+            <menu-item action-id="test1" icon="test" label="test" class="test" enabled="test"
+                       visible="test"/>
             <menu-item action-id="test2" icon="test" label="test" class="test"/>
             <menu-item action-id="test3" icon="test" label="test" class="test"/>
         </sub-menu>

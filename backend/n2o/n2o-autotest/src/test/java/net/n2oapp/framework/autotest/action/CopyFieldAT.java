@@ -32,7 +32,7 @@ public class CopyFieldAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/field/index.page.xml"));
     }
 
@@ -40,7 +40,7 @@ public class CopyFieldAT extends AutoTestBase {
     public void testCopyField() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Копирование значения поля");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Копирование значения поля");
         Button button = page.widget(FormWidget.class).toolbar().topLeft().button("Копировать");
         button.shouldExists();
 

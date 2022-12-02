@@ -10,6 +10,7 @@ public class CollectionPage<T> implements Serializable {
     protected Collection<Integer> ids;
     protected Criteria criteria;
     @Deprecated protected Class<T> entityClass;
+    protected Object additionalInfo;
 
     @Deprecated
     protected CollectionPage(Criteria criteria, Class<T> entityClass) {
@@ -106,5 +107,13 @@ public class CollectionPage<T> implements Serializable {
 
     public void setIds(Collection<Integer> ids) {
         this.ids = ids;
+    }
+
+    public Object getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(Object additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
 }

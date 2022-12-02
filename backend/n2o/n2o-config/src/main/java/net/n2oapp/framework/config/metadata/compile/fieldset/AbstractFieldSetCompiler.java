@@ -28,7 +28,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         compiled.setDescription(source.getDescription());
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        compiled.setProperties(p.mapAttributes(source));
+        compiled.setProperties(p.mapAndResolveAttributes(source));
         compiled.setHelp(p.resolveJS(source.getHelp()));
 
         if (source.getFieldLabelLocation() != null) {
@@ -47,7 +47,6 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
             ControlDependency dep = new ControlDependency();
             dep.setType(ValidationType.reRender);
             List<String> ons = Arrays.asList(source.getDependsOn());
-            ons.replaceAll(String::trim);
             dep.setOn(ons);
             dependency[0] = dep;
             compiled.setDependency(dependency);

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oRatingCell;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.cell.RatingCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,23 +41,22 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testRatingCell.page.xml")
                 .get(new PageContext("testRatingCell"));
         Table table = (Table) page.getWidget();
-        N2oRatingCell cell = (N2oRatingCell) table.getComponent().getCells().get(0);
+        RatingCell cell = (RatingCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("RatingCell"));
         assertThat(cell.getHalf(), is(true));
         assertThat(cell.getMax(), is(10));
         assertThat(cell.getShowTooltip(), is(true));
         assertThat(cell.getReadonly(), is(false));
-        assertThat(cell.getActionId(), is("testAction"));
         assertThat(cell.getAction(), instanceOf(InvokeAction.class));
 
-        cell = (N2oRatingCell) table.getComponent().getCells().get(1);
+        cell = (RatingCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("RatingCell"));
         assertThat(cell.getHalf(), is(false));
         assertThat(cell.getMax(), is(5));
         assertThat(cell.getShowTooltip(), is(false));
         assertThat(cell.getReadonly(), is(true));
 
-        cell = (N2oRatingCell) table.getComponent().getCells().get(2);
+        cell = (RatingCell) table.getComponent().getCells().get(2);
         assertThat(cell.getAction(), instanceOf(InvokeAction.class));
     }
 }

@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.io.widget.v5;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
@@ -55,16 +54,11 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
     }
 
     private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {
+        baseProperties(e, c, p);
         p.attribute(e, "id", c::getId, c::setId);
-        p.attribute(e, "src", c::getSrc, c::setSrc);
-        p.attribute(e, "class", c::getCssClass, c::setCssClass);
-        p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, "text-field-id", c::getTextFieldId, c::setTextFieldId);
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
-        p.attribute(e, "visible", c::getVisible, c::setVisible);
-        p.attribute(e, "label", c::getLabelName, c::setLabelName);
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
-        p.attributeEnum(e, "type", c::getLabelType, c::setLabelType, LabelType.class);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
         p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, DirectionType.class);
         p.attribute(e, "width", c::getWidth, c::setWidth);
@@ -101,10 +95,17 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
     }
 
     private void multiColumn(Element e, N2oMultiColumn c, IOProcessor p) {
+        baseProperties(e, c, p);
+        p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
+    }
+
+    private void baseProperties(Element e, AbstractColumn c, IOProcessor p) {
         p.attribute(e, "label", c::getLabelName, c::setLabelName);
         p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);
-        p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
+        p.attribute(e, "visible", c::getVisible, c::setVisible);
+        p.attributeEnum(e, "alignment", c::getAlignment, c::setAlignment, Alignment.class);
+        p.attributeEnum(e, "content-alignment", c::getContentAlignment, c::setContentAlignment, Alignment.class);
     }
 }

@@ -7,6 +7,12 @@ import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 
 public class N2oDropdownButton extends N2oButton implements DropdownButton {
+
+    @Override
+    public void shouldBeEnabled() {
+        element().shouldNotBe(Condition.disabled);
+    }
+
     @Override
     public void shouldHaveItems(int count) {
         menuItems().shouldHaveSize(count);
@@ -39,15 +45,15 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     @Override
     public void shouldBeExpanded() {
-        element().parent().$(".n2o-dropdown-menu").shouldNotBe(Condition.hidden);
+        element().parent().parent().$(".n2o-dropdown-menu").shouldNotBe(Condition.hidden);
     }
 
     @Override
     public void shouldBeCollapsed() {
-        element().parent().$(".n2o-dropdown-menu").shouldBe(Condition.hidden);
+        element().parent().parent().$(".n2o-dropdown-menu").shouldBe(Condition.hidden);
     }
 
     private ElementsCollection menuItems() {
-        return element().parent().$$("div.dropdown-menu .btn.btn-secondary,.dropdown-item");
+        return element().parent().parent().$$("div.dropdown-menu .btn.btn-secondary,.dropdown-item");
     }
 }

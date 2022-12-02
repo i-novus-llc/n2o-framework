@@ -2,9 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,13 +11,13 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class CellsScope implements Serializable {
-    private List<N2oCell> cells;
+public class CellsScope {
+    private List<Cell> cells;
 
     public CellsScope() {
     }
 
-    public CellsScope(List<N2oCell> cells) {
+    public CellsScope(List<Cell> cells) {
         this.cells = cells;
     }
 }

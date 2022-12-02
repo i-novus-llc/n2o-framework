@@ -1,6 +1,22 @@
-@keyframes alertAnimation {
+@keyframes alertAnimationDefault {
     0% {
         transform: translate(0, -400px);
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes alertAnimationReversed {
+    0% {
+        transform: translate(0, 400px);
         opacity: 0;
     }
 
@@ -21,8 +37,15 @@
 }
 
 .n2o-alert--animated {
-    animation-name: alertAnimation;
     animation-duration: 0.8s;
+}
+
+.n2o-alert--animated_default {
+    animation-name: alertAnimationDefault;
+}
+
+.n2o-alert--animated_reversed {
+    animation-name: alertAnimationReversed;
 }
 
 .n2o-alert.alert-light {
@@ -82,14 +105,20 @@
     flex-direction: column;
     width: 450px;
     z-index: 1200;
+    row-gap: 10px;
 
     .n2o-alert__divider {
         margin: 10px 0 10px 0;
     }
 }
 
+.n2o-alerts_reversed {
+    flex-direction: column-reverse;
+}
+
 .n2o-alert-segment {
     font-size: 14px;
+    justify-content: space-between;
 
     .n2o-alert-segment__title {
         font-weight: bold;
@@ -97,6 +126,7 @@
 
     .n2o-alert-segment__text {
         max-width: fit-content;
+        word-break: break-word;
     }
 
     .n2o-alert-segment__timestamp {
@@ -116,10 +146,6 @@
             font-size: 12px;
             cursor: pointer;
         }
-    }
-
-    .n2o-alert-segment__icon-container.extended {
-        width: 100%;
     }
 
     .n2o-alert-segment__icon-container.text-empty {

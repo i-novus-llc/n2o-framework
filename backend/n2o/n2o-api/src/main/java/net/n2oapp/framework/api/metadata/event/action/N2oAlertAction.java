@@ -20,5 +20,4 @@ public class N2oAlertAction extends N2oAbstractAction {
     private String timeout;
     private String placement;
     private Boolean closeButton;
-
 }

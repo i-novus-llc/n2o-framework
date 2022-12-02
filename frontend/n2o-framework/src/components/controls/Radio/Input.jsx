@@ -36,16 +36,7 @@ export function InputRadio({
     const [target] = useState(uniqueId('n2o-radio-'))
 
     return (
-        <label
-            id={target}
-            className={classNames('n2o-radio-input', `n2o-radio-input-${type}`, className, {
-                checked,
-                active: checked,
-                disabled,
-                invalid,
-            })}
-            htmlFor={elementId}
-        >
+        <div className="n2o-radio-input-wrapper">
             <Input
                 className="alt-radio"
                 disabled={disabled}
@@ -56,9 +47,20 @@ export function InputRadio({
                 name={name}
                 value={value}
             />
-            <span>{label}</span>
-            {tooltip && <UncontrolledTooltip target={target}>{tooltip}</UncontrolledTooltip>}
-        </label>
+            <label
+                id={target}
+                className={classNames('n2o-radio-input', `n2o-radio-input-${type}`, className, {
+                    checked,
+                    active: checked,
+                    disabled,
+                    invalid,
+                })}
+                htmlFor={elementId}
+            >
+                <span>{label}</span>
+                {tooltip && <UncontrolledTooltip target={target}>{tooltip}</UncontrolledTooltip>}
+            </label>
+        </div>
     )
 }
 

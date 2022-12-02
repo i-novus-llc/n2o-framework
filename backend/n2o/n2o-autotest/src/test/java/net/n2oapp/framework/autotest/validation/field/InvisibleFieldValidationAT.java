@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -38,7 +39,7 @@ public class InvisibleFieldValidationAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/field/invisible/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/field/invisible/test.object.xml"));
     }
@@ -68,6 +69,6 @@ public class InvisibleFieldValidationAT extends AutoTestBase {
 
         radio.check("Скрыть поля");
         validateBtn.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
     }
 }

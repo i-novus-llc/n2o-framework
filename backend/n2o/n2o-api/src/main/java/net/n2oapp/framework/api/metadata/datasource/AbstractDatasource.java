@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
+import net.n2oapp.framework.api.rest.Paging;
 
 import java.util.List;
 import java.util.Map;
@@ -25,5 +26,9 @@ public abstract class AbstractDatasource implements Compiled, IdAware {
     @JsonProperty
     private Map<String, List<Validation>> validations;
     @JsonProperty
-    private Integer size;
+    private Map<String, List<Validation>> filterValidations;
+    @JsonProperty
+    private Paging paging;
+    @JsonProperty
+    private Map<String, String> sorting;
 }

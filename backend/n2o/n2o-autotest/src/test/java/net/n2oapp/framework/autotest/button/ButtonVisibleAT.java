@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.button;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -36,24 +37,25 @@ public class ButtonVisibleAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/visible/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
     }
 
     @Test
-    public void testVisible() {
+    public void testVisibleButton() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/visible/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         FormWidget form = page.widget(FormWidget.class);
         RadioGroup type = form.fields().field("type").control(RadioGroup.class);
         Toolbar toolbar = form.toolbar().bottomLeft();
+        StandardButton hiddenButton = toolbar.button("Hidden button");
         StandardButton button = toolbar.button("Button");
         DropdownButton subMenu = toolbar.dropdown();
         StandardButton item1 = subMenu.menuItem("item1");
         StandardButton item2 = subMenu.menuItem("item2");
 
         type.shouldBeEmpty();
+        hiddenButton.shouldNotExists();
         button.shouldNotExists();
         subMenu.shouldExists();
         subMenu.shouldBeHidden();
@@ -82,5 +84,35 @@ public class ButtonVisibleAT extends AutoTestBase {
         button.shouldNotExists();
         subMenu.shouldExists();
         subMenu.shouldBeHidden();
+    }
+
+    @Test
+    public void testVisibleSubMenu() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/visible/submenu/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+        RadioGroup type = form.fields().field("type").control(RadioGroup.class);
+        Toolbar toolbar = form.toolbar().bottomLeft();
+        DropdownButton hiddenSubMenu = toolbar.dropdown(Condition.text("Hidden submenu"));
+        DropdownButton subMenu = toolbar.dropdown(Condition.textCaseSensitive("SubMenu"));
+        StandardButton item1 = subMenu.menuItem("item1");
+        StandardButton item2 = subMenu.menuItem("item2");
+
+        type.shouldBeEmpty();
+        hiddenSubMenu.shouldNotExists();
+        subMenu.shouldNotExists();
+
+        type.check("show");
+        subMenu.shouldExists();
+        subMenu.click();
+        subMenu.shouldHaveItems(2);
+        item1.shouldExists();
+        item2.shouldExists();
+
+        type.check("hide");
+        subMenu.shouldNotExists();
+        hiddenSubMenu.shouldNotExists();
     }
 }

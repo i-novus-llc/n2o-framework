@@ -14,7 +14,7 @@ import find from 'lodash/find'
 import forOwn from 'lodash/forOwn'
 
 import evalExpression from '../utils/evalExpression'
-import { setModel, clearModel } from '../ducks/models/store'
+import { setModel, clearModel, updateModel } from '../ducks/models/store'
 import { registerButton, removeButton } from '../ducks/toolbar/store'
 // eslint-disable-next-line import/no-cycle
 import { resolveColumn } from '../ducks/columns/sagas'
@@ -119,7 +119,7 @@ function* conditionWatchers() {
     const entities = {}
 
     yield takeEvery([registerButton.type, registerColumn.type], watchRegister, entities)
-    yield takeEvery([setModel, clearModel], watchModel, entities)
+    yield takeEvery([setModel, clearModel, updateModel], watchModel, entities)
     yield takeEvery(removeButton.type, watchRemove, entities)
 }
 

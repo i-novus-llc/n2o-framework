@@ -13,6 +13,7 @@ import buttons from '../../components/buttons'
 import snippets from '../../components/snippets'
 import overlays from '../../components/core/overlays'
 import * as templates from '../../components/core/templates/templates'
+import * as breadcrumbs from '../../components/core/Breadcrumb/breadcrumb'
 
 export const factories = {
     controls,
@@ -28,6 +29,7 @@ export const factories = {
     buttons,
     templates,
     overlays,
+    breadcrumbs,
 }
 
 export default function createFactoryConfig(customConfig = {}) {

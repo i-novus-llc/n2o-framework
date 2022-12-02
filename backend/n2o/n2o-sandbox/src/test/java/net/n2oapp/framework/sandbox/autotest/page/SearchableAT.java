@@ -4,7 +4,6 @@ import net.n2oapp.framework.autotest.api.component.page.SearchablePage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -33,14 +32,13 @@ public class SearchableAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test
     public void crudTest() {
         SearchablePage page = open(SearchablePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница с поисковой строкой");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с поисковой строкой");
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.columns().rows().shouldHaveSize(10);

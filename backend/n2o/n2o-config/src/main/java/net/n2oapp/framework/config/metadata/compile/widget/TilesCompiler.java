@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oBlock;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
 /**
  * Компиляция виджета Плитки
@@ -52,14 +54,14 @@ public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
         tiles.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.widget.tiles.width"), Integer.class)));
 
         List<Tiles.Tile> tls = new ArrayList<>(source.getContent().length);
-        for (N2oTiles.Block block : source.getContent())
+        for (N2oBlock block : source.getContent())
             tls.add(compileBlock(block, context, p, object, widgetScope, widgetActions));
         tiles.setTile(tls);
         tiles.setPaging(compilePaging(tiles, source, p.resolve(property("n2o.api.widget.tiles.size"), Integer.class), p));
         return tiles;
     }
 
-    private Tiles.Tile compileBlock(N2oTiles.Block source, CompileContext<?, ?> context, CompileProcessor p,
+    private Tiles.Tile compileBlock(N2oBlock source, CompileContext<?, ?> context, CompileProcessor p,
                                     Object... scopes) {
         Tiles.Tile tile = new Tiles.Tile();
         source.setId(p.cast(source.getId(), source.getTextFieldId()));

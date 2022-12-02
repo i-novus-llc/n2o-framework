@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -66,11 +65,12 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
 
         InputSelect inputSelect = (InputSelect) field.getControl();
         assertThat(inputSelect.getSortFieldId(), is("sortName"));
-        assertThat(inputSelect.getBadgeFieldId(), is("badgeFieldId"));
-        assertThat(inputSelect.getBadgeColorFieldId(), is("badgeColorFieldId"));
         assertThat(inputSelect.getClosePopupOnSelect(), is(false));
         assertThat(inputSelect.getEnabledFieldId(), is("isEnabled"));
         assertThat(inputSelect.getPlaceholder(), is("Введите"));
+        assertThat(inputSelect.getSize(), is(20));
+        assertThat(inputSelect.getSearchMinLength(), is(2));
+        assertThat(inputSelect.getThrottleDelay(), is(200));
         ClientDataProvider cdp = inputSelect.getDataProvider();
 
         inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
@@ -78,6 +78,8 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getDataProvider().getQuickSearchParam(), is("name"));
         assertThat(inputSelect.getStatusFieldId(), nullValue());
         assertThat(inputSelect.getMaxTagTextLength(), is(5));
+        assertThat(inputSelect.getSearchMinLength(), is(0));
+        assertThat(inputSelect.getThrottleDelay(), is(500));
 
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));
@@ -92,7 +94,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getBindLink(), is("models.resolve['testInputSelect_main']"));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getSize(), is(7));
-        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getValueFieldId(), is("name"));
+        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getValueFieldId(), nullValue());
         assertThat(field.getDependencies().get(0).getApplyOnInit(), is(true));
         assertThat(field.getDependencies().get(0).getType(), is(ValidationType.fetchValue));
 
@@ -107,25 +109,5 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(cdp.getQueryMapping().get("noRef").getBindLink(), is("models.filter['testInputSelect_main']"));
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
-    }
-
-    @Test
-    public void testInputSelectControlV3() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelectCompile.widget.xml")
-                .get(new WidgetContext("testInputSelectCompile"));
-        StandardField field = (StandardField) form.getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0);
-        InputSelect inputSelect = (InputSelect) field.getControl();
-        assertThat(field.getLabel(), is("Автосалоны"));
-        assertThat(inputSelect.getId(), is("showrooms"));
-        assertThat(inputSelect.getSearchMinLength(), is(2));
-        assertThat(inputSelect.getThrottleDelay(), is(200));
-
-        field = (StandardField) form.getComponent().getFieldsets().get(0)
-                .getRows().get(1).getCols().get(0).getFields().get(0);
-        inputSelect = (InputSelect) field.getControl();
-        assertThat(inputSelect.getId(), is("defaults"));
-        assertThat(inputSelect.getSearchMinLength(), is(0));
-        assertThat(inputSelect.getThrottleDelay(), is(500));
     }
 }

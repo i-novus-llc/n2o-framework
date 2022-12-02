@@ -1,5 +1,8 @@
 import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import type { IValidationResult } from '../../core/validation/IValidation'
+import { IActionMeta } from '../../sagas/types'
+import { ValidationsKey } from '../../core/validation/IValidation'
+import { Action, Meta } from '../Action'
 
 import type { DataSourceState } from './DataSource'
 import type { IProvider, ISubmit, QueryResult } from './Provider'
@@ -8,14 +11,10 @@ export interface DatasourcePayload {
     id: string
 }
 
-export interface DatasourceAction<
+export type DatasourceAction<
     TPayload extends DatasourcePayload,
-    TMeta extends object = object
-> {
-    type: string
-    payload: TPayload
-    meta?: TMeta
-}
+    TMeta extends Meta = Meta
+> = Action<string, TPayload, TMeta>
 
 export type RegisterAction = DatasourceAction<{
     id: string
@@ -39,7 +38,7 @@ export type DataRequestAction = DatasourceAction<{
     options: {
         // FIXME
     }
-}>
+}, Meta>
 
 export type ResolveRequestAction = DatasourceAction<{
     id: string
@@ -57,6 +56,11 @@ export type SetSortDirectionAction = DatasourceAction<{
     direction: SortDirection
 }>
 
+export type SetAdditionalInfoAction = DatasourceAction<{
+    id: string
+    additionalInfo: object
+}>
+
 export type ChangePageAction = DatasourceAction<{
     id: string
     page: number
@@ -69,13 +73,14 @@ export type ChangeSizeAction = DatasourceAction<{
 
 export type StartValidateAction = DatasourceAction<{
     id: string
-    prefix: ModelPrefix.active | ModelPrefix.edit
+    validationsKey?: ValidationsKey
+    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
     fields?: string[]
 }, { touched: boolean }>
 
 export type FailValidateAction = DatasourceAction<{
     id: string
-    prefix: ModelPrefix.active | ModelPrefix.edit
+    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
     fields: Record<string, IValidationResult[]>
 }, { touched: boolean }>
 
@@ -88,4 +93,4 @@ export type SetFieldSubmitAction = DatasourceAction<{
 export type SubmitAction = DatasourceAction<{
     id: string
     provider?: ISubmit
-}>
+}, IActionMeta>

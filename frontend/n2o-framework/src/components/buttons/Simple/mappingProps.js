@@ -19,5 +19,6 @@ export default function mappingProps(props) {
         children: props.children,
         badge: props.badge,
         badgeColor: props.badgeColor,
+        tooltipTriggerRef: props.tooltipTriggerRef,
     }
 }

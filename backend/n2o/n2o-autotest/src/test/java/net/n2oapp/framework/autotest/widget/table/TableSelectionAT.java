@@ -31,15 +31,15 @@ public class TableSelectionAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/test.query.xml"));
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/test.query.xml"));
     }
 
     @Test

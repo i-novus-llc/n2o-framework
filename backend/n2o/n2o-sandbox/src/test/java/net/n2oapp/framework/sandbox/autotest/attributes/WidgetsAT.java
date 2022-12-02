@@ -43,7 +43,7 @@ public class WidgetsAT extends SandboxAutotestBase {
         builder.packs(new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+        builder.sources(
                 new CompileInfo("META-INF/conf/default.access.xml"));
     }
 
@@ -54,7 +54,7 @@ public class WidgetsAT extends SandboxAutotestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к виджетам по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к виджетам по sec атрибутам");
 
         Regions regions = page.regions();
         regions.shouldHaveSize(2);
@@ -78,7 +78,7 @@ public class WidgetsAT extends SandboxAutotestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Доступ к виджетам по sec атрибутам");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к виджетам по sec атрибутам");
 
         Regions regions = page.regions();
         regions.shouldHaveSize(3);

@@ -39,16 +39,10 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                     " ссылается на несуществующую в объекте " + source.getObjectId() + " операцию " + source.getSubmitOperationId()));
         }
         PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getRefreshWidgetId() != null && pageScope != null
-                && !pageScope.getWidgetIds().contains(source.getRefreshWidgetId())) {
-            throw new N2oMetadataValidationException(p.getMessage(
-                    "Атрибут refresh-widget-id ссылается на несуществующий виджет " + source.getRefreshWidgetId()));
-        }
-
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
-        checkTargetDatasource(source, datasourceIdsScope);
+        checkRefreshWidgetDatasourceIds(source, pageScope, datasourceIdsScope);
 
-        if (source.getDatasources() != null) {
+        if (source.getDatasources() != null && datasourceIdsScope != null) {
             DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
             Arrays.stream(source.getDatasources())
                     .filter(datasource -> datasource.getId() != null)
@@ -60,17 +54,29 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
     }
 
     /**
-     * Проверка существования источника данных для копирования при открытии модального окна
+     * Проверка существования виджета\источника для рефреша при открытии модального окна
      *
-     * @param source           Действие открытия страницы
+     * @param source             Действие открытие страницы
+     * @param pageScope          Скоуп страницы
      * @param datasourceIdsScope Скоуп источников данных
      */
-    private void checkTargetDatasource(N2oAbstractPageAction source, DatasourceIdsScope datasourceIdsScope) {
-        if (source.getTargetDatasourceId() != null) {
-            String openPage = getIdOrEmptyString(source.getPageId());
-            ValidationUtils.checkForExistsDatasource(source.getTargetDatasourceId(), datasourceIdsScope,
-                    String.format("Атрибут \"target-datasource\" действия открытия страницы %s ссылается на несуществующий источник данных '%s'",
-                            openPage, source.getTargetDatasourceId()));
+    private void checkRefreshWidgetDatasourceIds(N2oAbstractPageAction source, PageScope pageScope,
+                                                 DatasourceIdsScope datasourceIdsScope) {
+        if (source.getRefreshDatasourceIds() == null)
+            return;
+        String[] refreshDatasourceIds = source.getRefreshDatasourceIds();
+        boolean isNotDatasource = false;
+        if (refreshDatasourceIds.length == 1) {
+            if (datasourceIdsScope != null && !datasourceIdsScope.contains(refreshDatasourceIds[0]))
+                isNotDatasource = true;
+            if (isNotDatasource && pageScope != null && !pageScope.getWidgetIds().contains(source.getRefreshWidgetId()))
+                throw new N2oMetadataValidationException(
+                        String.format("Атрибут 'refresh-datasources'\\'refresh-widget-id' ссылается на несуществующий источник\\виджет '%s'", refreshDatasourceIds[0]));
+        } else if (datasourceIdsScope != null) {
+            for (String datasourceId : refreshDatasourceIds) {
+                ValidationUtils.checkDatasourceExistence(datasourceId, datasourceIdsScope,
+                        String.format("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных '%s'", datasourceId));
+            }
         }
     }
 

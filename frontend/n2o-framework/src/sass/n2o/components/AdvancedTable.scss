@@ -13,6 +13,18 @@
     text-align: center;
 }
 
+@each $alignment, $inline-value in $table-alignments-inline {
+    .n2o-advanced-table-header-cel.alignment-#{$alignment} {
+        text-align: $inline-value;
+    }
+}
+
+@each $alignment, $flex-value in $table-alignments-flex {
+    .n2o-advanced-table-header-cel.alignment-#{$alignment} {
+        justify-content: $flex-value;
+    }
+}
+
 .n2o-advanced-table-filter-badge.badge {
     position: absolute;
     right: 3px;
@@ -157,6 +169,26 @@
 
     .n2o-input-select .n2o-input-control {
         padding: 0 5px;
+    }
+
+    div[class*="alignment-"] {
+        display: flex;
+        width: 100%;
+    }
+
+    @each $alignment, $flex-value in $table-alignments-flex {
+        .alignment-#{$alignment} {
+            .n2o-advanced-table-header-cell-content,
+            > .n2o-widget-list-cell {
+                justify-content: $flex-value;
+            }
+        }
+    }
+
+    @each $alignment, $flex-value in $table-alignments-flex {
+        .n2o-widget-list-cell.content-alignment-#{$alignment} {
+            justify-content: $flex-value;
+        }
     }
 }
 

@@ -11,6 +11,7 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -43,7 +44,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/tab/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/tab/form.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/tab/test.object.xml"));
@@ -52,7 +53,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
     @Test
     public void testValidationTabMessageInModal() {
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Подсветка невалидных полей в неактивных вкладках");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Подсветка невалидных полей в неактивных вкладках");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         StandardButton button = form.toolbar().bottomLeft().button("Модальное окно");
@@ -99,13 +100,13 @@ public class ValidationTabMessageAT extends AutoTestBase {
         inputText.val("unique");
         field.shouldHaveValidationMessage(Condition.empty);
         button.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
     }
 
     @Test
     public void testValidationTabMessageInPage() {
         StandardPage page = open(StandardPage.class);
-        page.breadcrumb().titleShouldHaveText("Подсветка невалидных полей в неактивных вкладках");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Подсветка невалидных полей в неактивных вкладках");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         StandardButton button = form.toolbar().bottomLeft().button("Новая страница");
@@ -113,7 +114,8 @@ public class ValidationTabMessageAT extends AutoTestBase {
         button.click();
 
         StandardPage newPage = N2oSelenide.page(StandardPage.class);
-        newPage.breadcrumb().titleShouldHaveText("Создание записи");
+        page.breadcrumb().shouldHaveSize(2);
+        page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
         button = newPage.toolbar().bottomRight().button("Сохранить");
         Fields fields = newPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         StandardField field = fields.field("Имя");
@@ -152,6 +154,6 @@ public class ValidationTabMessageAT extends AutoTestBase {
         inputText.val("unique");
         field.shouldHaveValidationMessage(Condition.empty);
         button.click();
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
     }
 }

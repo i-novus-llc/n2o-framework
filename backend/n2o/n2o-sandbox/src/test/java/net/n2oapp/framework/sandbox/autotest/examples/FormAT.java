@@ -36,13 +36,12 @@ public class FormAT extends SandboxAutotestBase {
         page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("N2O");
-        page.breadcrumb().titleShouldHaveText("Форма");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Форма");
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
     }
 
     @Test

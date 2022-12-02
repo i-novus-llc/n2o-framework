@@ -5,22 +5,6 @@
             <tab>
                 <form id="table" src="test" object-id="testJsonForm">
                     <toolbar>
-                        <sub-menu>
-                            <menu-item id="filter" label="Видимость" context="true"
-                                       visibility-condition="name !== 'Афанасий'">
-    <!--                                Скроется, если имя в выбранной записи Афанасий-->
-                                <invoke operation-id="testId"/>
-                            </menu-item>
-                            <menu-item id="enable" label="Блокировка" enabling-condition="name !== 'Иннокентий'">
-    <!--                                Заблокируется, если имя в выбранной записи Иннокентий-->
-                                <invoke operation-id="testId"/>
-                            </menu-item>
-                            <menu-item id="combo" label="Комбинация"
-                                       enabling-condition="name !== 'Людмила'" visibility-condition="surname !== 'Ревин'">
-    <!--                                Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин-->
-                                <invoke operation-id="testId"/>
-                            </menu-item>
-                        </sub-menu>
 
                         <button id="btn1" visible="false" enabled="false"/>
                         <button id="btn2" visible="{property1}" enabled="{property2}" disable-on-empty-model="false"/>

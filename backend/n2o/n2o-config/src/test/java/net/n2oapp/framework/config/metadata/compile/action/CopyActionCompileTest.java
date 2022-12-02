@@ -7,8 +7,6 @@ import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.action.CopyActionElementIOV1;
-import net.n2oapp.framework.config.io.action.v2.CopyActionElementIOV2;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -24,7 +22,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 /**
- * Проверка копиляции действия copy
+ * Проверка компиляции действия copy
  */
 public class CopyActionCompileTest extends SourceCompileTestBase {
 
@@ -38,9 +36,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oControlsPack(),
-                new N2oAllDataPack(), new N2oFieldSetsPack());
-        builder.ios(new CopyActionElementIOV1(), new CopyActionElementIOV2());
-        builder.compilers(new CopyActionCompiler());
+                new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oActionsPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.object.xml"));
     }
@@ -51,7 +47,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         HashMap<String, String> parentWidgetIdDatasourceMap = new HashMap<>();
         parentWidgetIdDatasourceMap.put("page_form", "page_form");
         modalPageContext.setParentWidgetIdDatasourceMap(parentWidgetIdDatasourceMap);
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyAction.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/copy/testCopyAction.page.xml")
                 .get(modalPageContext);
 
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
@@ -80,13 +76,15 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         action = (CopyAction) page.getToolbar().getButton("pageBtn").getAction();
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
-        assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
+        assertThat(action.getPayload().getTarget().getKey(), is("modal_form"));
     }
 
     @Test
     public void copyV2() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyActionV2.page.xml")
-                .get(new PageContext("testCopyActionV2", "/p"));
+        PageContext pageContext = new PageContext("testCopyActionV2", "/p");
+        pageContext.setParentClientPageId("page1");
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/copy/testCopyActionV2.page.xml")
+                .get(pageContext);
 
         CopyAction copyInPage = (CopyAction) page.findButton("copyInPage").getAction();
         assertThat(copyInPage.getType(), is("n2o/models/COPY"));
@@ -104,10 +102,10 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(copyInPage2.getPayload().getSource().getKey(), is("p_ds1"));
         assertThat(copyInPage2.getPayload().getSource().getField(), is("sourceId"));
         assertThat(copyInPage2.getPayload().getSource().getPrefix(), is("filter"));
-        assertThat(copyInPage2.getPayload().getTarget().getKey(), is("p_ds2"));
+        assertThat(copyInPage2.getPayload().getTarget().getKey(), is("page1_ds2"));
         assertThat(copyInPage2.getPayload().getTarget().getField(), is("targetId"));
         assertThat(copyInPage2.getPayload().getTarget().getPrefix(), is("resolve"));
         assertThat(copyInPage2.getPayload().getMode(), is(CopyMode.replace));
-        assertThat(copyInPage2.getMeta().getModalsToClose(), is(1));
+        assertThat(copyInPage2.getMeta().getModalsToClose(), is(0));
     }
 }

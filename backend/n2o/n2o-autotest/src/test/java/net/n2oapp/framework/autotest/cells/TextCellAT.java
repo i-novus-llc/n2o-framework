@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.cells;
 
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Test;
  * Автотест ячейки с текстом
  */
 public class TextCellAT extends AutoTestBase {
-    private TableWidget.Rows rows;
 
     @BeforeAll
     public static void beforeClass() {
@@ -27,15 +27,9 @@ public class TextCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/text/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/text/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/text/test.query.xml"));
-
-        SimplePage simplePage = open(SimplePage.class);
-        simplePage.shouldExists();
-
-        rows = simplePage.widget(TableWidget.class).columns().rows();
-        rows.shouldHaveSize(3);
     }
 
     @Override
@@ -47,11 +41,22 @@ public class TextCellAT extends AutoTestBase {
 
     @Test
     public void textCellTest() {
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        TableWidget.Rows rows = simplePage.widget(TableWidget.class).columns().rows();
+        rows.shouldHaveSize(3);
+
         TextCell cell1 = rows.row(0).cell(1);
         cell1.textShouldHave("test1");
         cell1.subTextShouldHave("1,1");
+        cell1.shouldHaveIcon("fa-plus");
+        cell1.shouldBeIconPosition(Position.right);
+
         TextCell cell2 = rows.row(0).cell(2);
         cell2.textShouldHave("1,23");
+        cell2.shouldHaveIcon("fa-plus");
+        cell2.shouldBeIconPosition(Position.left);
 
         cell1 = rows.row(1).cell(1);
         cell1.textShouldHave("test1test2test3");

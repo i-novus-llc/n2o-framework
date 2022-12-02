@@ -31,7 +31,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
                 count: 0,
                 size: props.size,
                 page: 1,
-                hasError: false,
             }
 
             this.fetchData = this.fetchData.bind(this)
@@ -76,14 +75,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * @private
          */
         addAlertMessage(messages) {
-            const { hasError } = this.state
-            const { addAlert, removeAlerts } = this.props
-
-            if (!hasError) {
-                this.setState({ hasError: true })
-            }
-
-            removeAlerts()
+            const { addAlert } = this.props
 
             if (isArray(messages)) {
                 messages.map(m => addAlert({ ...m, closeButton: false }))
@@ -99,7 +91,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * @private
          */
         async setErrorMessage({ response, body }) {
-            let errorMessage = null
+            let errorMessage
 
             if (response) {
                 errorMessage = await response.json()
@@ -171,31 +163,32 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * @param merge
          * @private
          */
-        setResponseToData({ list, count, size, page }, merge = false) {
+        setResponseToData({ list, count, size, page, paging }, merge = false) {
             const { valueFieldId } = this.props
             const { data } = this.state
+            const { count: pagingCount, size: pagingSize, page: pagingPage } = paging || {}
 
             this.setState({
                 data: merge
                     ? unionBy(data, list, valueFieldId || 'id')
                     : list,
                 isLoading: false,
-                count,
-                size,
-                page,
+                count: count || pagingCount,
+                size: size || pagingSize,
+                page: page || pagingPage,
             })
         }
 
         /**
          * Получает данные с сервера
          * @param extraParams - параметры запроса
-         * @param concat - флаг объединения данных
+         * @param merge - флаг объединения данных
          * @returns {Promise<void>}
          * @private
          */
         async fetchData(extraParams = {}, merge = false) {
-            const { dataProvider, removeAlerts, fetchError } = this.props
-            const { hasError, data } = this.state
+            const { dataProvider, fetchError } = this.props
+            const { data } = this.state
 
             if (!dataProvider) { return }
             this.setState({ loading: true })
@@ -209,10 +202,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
                 if (has(response, 'message')) { this.addAlertMessage(response.message) }
 
                 this.setResponseToData(response, merge)
-
-                if (hasError) {
-                    removeAlerts()
-                }
             } catch (err) {
                 await this.setErrorMessage(err)
                 fetchError(err)

@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.persister.util;
 
 import net.n2oapp.engine.factory.EngineNotFoundException;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.global.aware.IdAware;
 import net.n2oapp.framework.api.metadata.persister.ElementPersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;

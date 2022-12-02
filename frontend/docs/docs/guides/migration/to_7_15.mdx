@@ -3,15 +3,15 @@ title: Миграция с 7.14 на 7.15
 description: ""
 ---
 
-### Изменения в XML API {#changes-xml-api}
+## Изменения в XML API {#changes-xml-api}
 
 - Атрибут `mapping-condition` поля операции переименован в `enabled`.
 - Валидации полей теперь работают аналогично валидациям в object-4.0, а не object-3.0, как было раньше.
 Таким образом `<in-parameters>` и `<out-parameters>` переименованы в `<in>` и `<out>`, а `<param>` в `<field>`.
-- У всех кнопок упраздняются атрибуты `visibility-condition` и `enabled-condition`.
-Пока что только на уровне xml. Вместо них рекомендуется использовать атрибуты `visible` и `enabled`.
+- Атрибуты `visibility-condition` и `enabling-condition` объявлены deprecated.
+Вместо них рекомендуется использовать атрибуты `visible` и `enabled`.
 
-### Изменения в настройках {#changes-settings}
+## Изменения в настройках {#changes-settings}
 
 - Настройки n2o.engine.mongodb.connection_url, n2o.engine.mongodb.database_name будут упразднены в следующих версиях,
 рекомендуется использовать аналогичные org.springframework.boot.autoconfigure.mongo.MongoProperties

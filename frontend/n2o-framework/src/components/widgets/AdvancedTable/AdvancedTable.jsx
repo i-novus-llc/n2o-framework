@@ -18,7 +18,7 @@ import eq from 'lodash/eq'
 import get from 'lodash/get'
 
 import propsResolver from '../../../utils/propsResolver'
-import SecurityController from '../../../core/auth/SecurityController'
+import { SecurityController } from '../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
 import { InputRadio } from '../../controls/Radio/Input'
@@ -75,9 +75,7 @@ class AdvancedTable extends Component {
         super(props)
         this.state = {
             focusIndex: getFocusIndex(props),
-            selectIndex: props.hasSelect
-                ? getIndex(props.data, props.selectedId)
-                : -1,
+            selectIndex: props.hasSelect ? getIndex(props.data, props.selectedId) : -1,
             data: props.data || [],
             expandedRowKeys: [],
             columns: [],
@@ -104,21 +102,10 @@ class AdvancedTable extends Component {
 
     componentDidMount() {
         const { rowClick, columns } = this.props
-        const {
-            isAnyTableFocused,
-            isActive,
-            focusIndex,
-            selectIndex,
-            data,
-            autoFocus,
-            children,
-        } = this.state
+        const { isAnyTableFocused, isActive, focusIndex, selectIndex, data, autoFocus, children } = this.state
 
         if (!isAnyTableFocused && isActive && !rowClick && autoFocus) {
-            this.setSelectAndFocus(
-                get(data[selectIndex], 'id'),
-                get(data[focusIndex], 'id'),
-            )
+            this.setSelectAndFocus(get(data[selectIndex], 'id'), get(data[focusIndex], 'id'))
         }
 
         if (children === 'expand') {
@@ -152,14 +139,6 @@ class AdvancedTable extends Component {
 
         const { checked, children } = this.state
 
-        if (
-            !isEqual(prevProps.data, data) &&
-            !isEmpty(filters) &&
-            rowSelection === rowSelectionType.CHECKBOX
-        ) {
-            setSelected(data.filter(model => checked[model.id]))
-        }
-
         if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
             const id = selectedId || data[0].id
 
@@ -173,19 +152,20 @@ class AdvancedTable extends Component {
         if (!isEqual(prevProps, this.props)) {
             let state = {}
 
-            if (
-                isEqual(prevProps.filters, filters) &&
-                !isEmpty(prevProps.filters) &&
-                !isEmpty(filters)
-            ) {
+            if (isEqual(prevProps.filters, filters) && !isEmpty(prevProps.filters) && !isEmpty(filters)) {
                 this.closeAllRows()
             }
+
             if (data && !isEqual(prevProps.data, data)) {
                 const checked = this.mapChecked(multi)
 
                 state = {
                     data: isArray(data) ? mappingKeysIntoData(data) : mappingKeysIntoData([data]),
                     checked,
+                }
+
+                if (!isEmpty(filters) && rowSelection === rowSelectionType.CHECKBOX) {
+                    setSelected(data.filter(model => checked[model.id]))
                 }
 
                 this.dataStorage = this.getModelsFromData(data)
@@ -211,9 +191,7 @@ class AdvancedTable extends Component {
             rowSelection === rowSelectionType.CHECKBOX
         ) {
             // eslint-disable-next-line react/no-find-dom-node
-            const selectAllCheckbox = ReactDom.findDOMNode(
-                this.selectAllCheckbox,
-            ).querySelector('input')
+            const selectAllCheckbox = ReactDom.findDOMNode(this.selectAllCheckbox).querySelector('input')
 
             const isSomeOneChecked = data.some(item => checked[item.id])
             const isAllChecked = data.every(item => checked[item.id])
@@ -248,13 +226,17 @@ class AdvancedTable extends Component {
 
             return (
                 <SecurityController config={rows.security}>
-                    {({ hasAccess }) => (hasAccess
-                        ? <AdvancedTableRowWithAction {...props} />
-                        : <AdvancedTableRow {...props} />)}
+                    {({ hasAccess }) => {
+                        if (hasAccess) {
+                            return <AdvancedTableRowWithAction {...props} />
+                        }
+
+                        return <AdvancedTableRow {...props} />
+                    }}
                 </SecurityController>
             )
         }
-    }
+    };
 
     mapChecked = (multi = []) => {
         const checked = {}
@@ -264,7 +246,7 @@ class AdvancedTable extends Component {
         })
 
         return checked
-    }
+    };
 
     getModelsFromData = (data) => {
         const dataStorage = []
@@ -288,7 +270,7 @@ class AdvancedTable extends Component {
         })
 
         return dataStorage
-    }
+    };
 
     updateTableSize = (tableElement) => {
         const { height, width } = this.props
@@ -307,17 +289,17 @@ class AdvancedTable extends Component {
             tableBody.style.width = width
             tableBody.style.overflow = 'auto'
         }
-    }
+    };
 
     setSelectionRef = (el) => {
         this.selectAllCheckbox = el
-    }
+    };
 
     setRowRef = (ref, id) => {
         if (ref && ref !== this.rows[id]) {
             this.rows[id] = ref
         }
-    }
+    };
 
     // eslint-disable-next-line consistent-return
     handleKeyDown = (e, keyName) => {
@@ -328,11 +310,11 @@ class AdvancedTable extends Component {
 
         if (eq(keyName, KEY_CODES.UP) || eq(keyName, KEY_CODES.DOWN)) {
             if (!React.Children.count(children) && hasFocus) {
-                const newFocusIndex = eq(keyName, KEY_CODES.UP)
-                    ? modelIndex - 1
-                    : modelIndex + 1
+                const newFocusIndex = eq(keyName, KEY_CODES.UP) ? modelIndex - 1 : modelIndex + 1
 
-                if (newFocusIndex >= data.length || newFocusIndex < 0) { return false }
+                if (newFocusIndex >= data.length || newFocusIndex < 0) {
+                    return false
+                }
                 const nextData = data[newFocusIndex]
 
                 if (hasSelect && autoFocus) {
@@ -342,11 +324,11 @@ class AdvancedTable extends Component {
                     this.setNewFocusIndex(nextData.id)
                 }
             }
-        } else if (eq(keyName, KEY_CODES.SPACE) && (hasSelect && !autoFocus)) {
+        } else if (eq(keyName, KEY_CODES.SPACE) && hasSelect && !autoFocus) {
             setResolve(data[modelIndex])
             this.setNewSelectIndex(focusIndex)
         }
-    }
+    };
 
     handleFilter = (filter) => {
         const { onFilter } = this.props
@@ -354,16 +336,10 @@ class AdvancedTable extends Component {
         if (onFilter) {
             onFilter(filter)
         }
-    }
+    };
 
     handleRowClick(id, needReturn, noResolve, model) {
-        const {
-            hasFocus,
-            hasSelect,
-            setResolve,
-            isActive,
-            rowSelection,
-        } = this.props
+        const { hasFocus, hasSelect, setResolve, isActive, rowSelection } = this.props
 
         const needToReturn = isActive === needReturn
 
@@ -371,11 +347,12 @@ class AdvancedTable extends Component {
             setResolve(find(this.dataStorage, { id }))
         }
 
-        if (needToReturn) { return }
-        if (
-            rowSelection === rowSelectionType.RADIO ||
-            (!rowSelection && hasSelect)
-        ) { this.selectModel(model) }
+        if (needToReturn) {
+            return
+        }
+        if (rowSelection === rowSelectionType.RADIO || (!rowSelection && hasSelect)) {
+            this.selectModel(model)
+        }
 
         if (!noResolve && hasSelect && hasFocus) {
             this.setSelectAndFocus(id, id)
@@ -403,23 +380,20 @@ class AdvancedTable extends Component {
             setResolve(find(this.dataStorage, { id }))
         }
 
-        if (
-            !noResolve &&
-            rowClick &&
-            !(autoCheckboxOnSelect && rowSelection === rowSelectionType.CHECKBOX)
-        ) {
+        if (!noResolve && rowClick && !(autoCheckboxOnSelect && rowSelection === rowSelectionType.CHECKBOX)) {
             if (!hasSelect) {
                 setResolve(find(this.dataStorage, { id }))
             }
             onRowClickAction(model)
         }
 
-        if (
-            rowSelection === rowSelectionType.RADIO ||
-            (!rowSelection && hasSelect)
-        ) { this.selectModel(model) }
+        if (rowSelection === rowSelectionType.RADIO || (!rowSelection && hasSelect)) {
+            this.selectModel(model)
+        }
 
-        if (needToReturn) { return }
+        if (needToReturn) {
+            return
+        }
 
         if (!noResolve && hasSelect && hasFocus && !rowClick) {
             this.setSelectAndFocus(id, id)
@@ -466,19 +440,19 @@ class AdvancedTable extends Component {
         this.setState({
             expandedRowKeys: keys,
         })
-    }
+    };
 
     closeAllRows = () => {
         this.setState({
             expandedRowKeys: [],
         })
-    }
+    };
 
     handleExpandedRowsChange = (rows) => {
         this.setState({
             expandedRowKeys: rows,
         })
-    }
+    };
 
     checkAll = (status) => {
         const { setSelected, data } = this.props
@@ -496,7 +470,7 @@ class AdvancedTable extends Component {
         this.setState(() => ({
             checked: newChecked,
         }))
-    }
+    };
 
     handleChangeChecked = (model) => {
         const index = model.id
@@ -514,7 +488,7 @@ class AdvancedTable extends Component {
         this.setState(() => ({
             checked: newChecked,
         }))
-    }
+    };
 
     selectModel(model) {
         const { setSelected } = this.props
@@ -543,15 +517,7 @@ class AdvancedTable extends Component {
     }
 
     getRowProps = (model, index) => {
-        const {
-            rowClick,
-            rowClass,
-            rowSelection,
-            autoCheckboxOnSelect,
-            multi,
-            hasSelect,
-            resolveModel,
-        } = this.props
+        const { rowClick, rowClass, rowSelection, autoCheckboxOnSelect, multi, hasSelect, resolveModel } = this.props
         const isRowActive = () => {
             if (!hasSelect) {
                 return false
@@ -573,10 +539,7 @@ class AdvancedTable extends Component {
             setRef: this.setRowRef,
             handleRowClick: () => {
                 this.handleRowClick(model.id, false, false, model)
-                if (
-                    autoCheckboxOnSelect &&
-                    rowSelection === rowSelectionType.CHECKBOX
-                ) {
+                if (autoCheckboxOnSelect && rowSelection === rowSelectionType.CHECKBOX) {
                     this.handleChangeChecked(model)
                 }
             },
@@ -584,18 +547,14 @@ class AdvancedTable extends Component {
             clickWithAction: () => this.handleRowClickWithAction(model.id, false, false, model),
             clickFocusWithAction: () => this.handleRowClickWithAction(model.id, true, true, model),
         }
-    }
+    };
 
     createSelectionColumn(columns, rowSelection) {
         const isSomeFixed = some(columns, column => column.fixed)
-        const title = rowSelection === rowSelectionType.CHECKBOX
-            ? (
-                <AdvancedTableSelectionColumn
-                    setRef={this.setSelectionRef}
-                    onChange={this.checkAll}
-                />
-            )
-            : null
+        const title =
+            rowSelection === rowSelectionType.CHECKBOX ? (
+                <AdvancedTableSelectionColumn setRef={this.setSelectionRef} onChange={this.checkAll} />
+            ) : null
 
         return {
             title,
@@ -634,7 +593,7 @@ class AdvancedTable extends Component {
         }
     }
 
-    getRowKey = row => row.key
+    getRowKey = row => row.key;
 
     renderIcon = ({ record, expanded, onExpand }) => {
         const { expandedFieldId, expandedComponent } = this.props
@@ -648,13 +607,14 @@ class AdvancedTable extends Component {
                 expandedComponent={expandedComponent}
             />
         )
-    }
+    };
 
     renderExpandedRow = () => {
         const { expandable, expandedComponent, expandedFieldId } = this.props
 
         return (
-            expandable && (expandedComponent
+            expandable &&
+            (expandedComponent
                 ? (record, index, indent) => React.createElement(expandedComponent, {
                     record,
                     index,
@@ -670,7 +630,7 @@ class AdvancedTable extends Component {
                     />
                 ))
         )
-    }
+    };
 
     mapColumns = (columns = []) => {
         const { rowSelection, filters, textWrap } = this.props
@@ -691,18 +651,16 @@ class AdvancedTable extends Component {
                 hasSpan: col.hasSpan,
                 needRender: col.needRender,
                 textWrap,
+                alignment: col.alignment,
             }),
         }))
 
         if (rowSelection) {
-            newColumns = [
-                this.createSelectionColumn(columns, rowSelection),
-                ...newColumns,
-            ]
+            newColumns = [this.createSelectionColumn(columns, rowSelection), ...newColumns]
         }
 
         return newColumns
-    }
+    };
 
     render() {
         const {
@@ -725,10 +683,7 @@ class AdvancedTable extends Component {
         const currentData = errorComponent ? [] : data
 
         return (
-            <HotKeys
-                keyMap={{ events: values(KEY_CODES) }}
-                handlers={{ events: this.handleKeyDown }}
-            >
+            <HotKeys keyMap={{ events: values(KEY_CODES) }} handlers={{ events: this.handleKeyDown }}>
                 <div onFocus={!isActive ? onFocus : undefined}>
                     <Table
                         style={style}
@@ -853,7 +808,4 @@ AdvancedTable.defaultProps = {
 }
 
 export { AdvancedTable }
-export default compose(
-    setDisplayName('AdvancedTable'),
-    pure,
-)(AdvancedTable)
+export default compose(setDisplayName('AdvancedTable'), pure)(AdvancedTable)

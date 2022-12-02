@@ -55,9 +55,12 @@ public class OperationController extends SetController {
                                              ActionResponseInfo responseInfo) {
         try {
             DataSet data = handleActionRequest(requestInfo, responseInfo);
-            return constructSuccessSetDataResponse(data, requestInfo, responseInfo);
+            SetDataResponse response = constructSuccessSetDataResponse(data, requestInfo, responseInfo);
+            responseInfo.setSuccess(true);
+            return response;
         } catch (N2oException e) {
             SetDataResponse response = constructFailSetDataResponse(e, requestInfo);
+            responseInfo.setSuccess(false);
             logger.error(String.format("Error response %d %s: %s", response.getStatus(), e.getSeverity(),
                     e.getUserMessage() != null ? e.getUserMessage() : e.getMessage()), e);
             return response;
@@ -81,13 +84,13 @@ public class OperationController extends SetController {
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
         SetDataResponse response = new SetDataResponse();
-        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getMessagesForm(), responseInfo.isStackedMessages());
+        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getMessagesForm());
         response.setData(data);
         if (responseInfo.getDialog() != null)
             response.setDialog(compileDialog(responseInfo.getDialog(), requestInfo));
         else if (requestInfo.isMessageOnSuccess())
             response.addResponseMessage(
-                    messageBuilder.buildSuccessMessage(requestInfo.getOperation().getSuccessText(), requestInfo, data),
+                    messageBuilder.buildSuccessMessage(requestInfo, data),
                     requestInfo.getMessagesForm());
         return response;
     }

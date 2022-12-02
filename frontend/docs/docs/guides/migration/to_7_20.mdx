@@ -2,7 +2,7 @@
 title: Миграция с 7.19 на 7.20
 description: ""
 ---
-### Изменения в XML API {#changes-xml-api}
+ Изменения в XML API {#changes-xml-api}
 
 - Появилась новая схема `application-2.0` и `menu-3.0`.
 Чтобы перейти на новую схему, нужно:
@@ -15,9 +15,12 @@ description: ""
 
 - У полей `image` появился атрибут `action-id` для ссылки на действие, которое необходимо выполнить при клике на картинку.
 
-### Изменения в Java API
+## Изменения в Java API {#changes-java-api}
 
 - Класс `ValidateProcessor` переименован в `SourceProcessor`
 - Метод `SourceTransformer.transform(S source)` удален, вместо него используйте метод `SourceTransformer.transform(S source, SourceProcessor p)`
-- Изменено api автотестов. Метод для проверки имени первой страницы в бредкрамбе переименован с `parentTitleShouldHaveText`
+
+## Изменения в API автотестов {#changes-autotest-api}
+
+- Метод для проверки имени первой страницы в бредкрамбе переименован с `parentTitleShouldHaveText`
 на `firstTitleShouldHaveText`.

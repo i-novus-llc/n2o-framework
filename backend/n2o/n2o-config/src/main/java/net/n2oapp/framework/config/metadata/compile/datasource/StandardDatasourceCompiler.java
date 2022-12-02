@@ -16,7 +16,8 @@ import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
@@ -31,7 +32,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
@@ -50,6 +51,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.co
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
 /**
  * Компиляция источника данных
@@ -67,7 +69,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     @Override
     public StandardDatasource compile(N2oStandardDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StandardDatasource compiled = new StandardDatasource();
-        compileDatasource(source, compiled, p);
+        compileDatasource(source, compiled, context, p);
         initDefaults(source, p);
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
@@ -170,7 +172,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                     initMandatoryValidation(source, p, preFilter, queryFilter);
                     filter.setParam(p.cast(preFilter.getParam(), source.getId() + "_" + queryFilter.getParam()));
                     filter.setRoutable(p.cast(preFilter.getRoutable(), false));
-                    filter.setFilterId(queryFilter.getFilterField());
+                    filter.setFilterId(queryFilter.getFilterId());
                     Object prefilterValue = getPrefilterValue(preFilter);
                     ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
                     if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
@@ -178,7 +180,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
                         String clientDatasourceId = preFilter.getRefPageId() != null ?
-                                getClientDatasourceId(preFilter.getDatasourceId(), preFilter.getRefPageId()) :
+                                getClientDatasourceId(preFilter.getDatasourceId(), preFilter.getRefPageId(), p) :
                                 getClientDatasourceId(preFilter.getDatasourceId(), p);
                         ReduxModel model = p.cast(preFilter.getModel(), ReduxModel.resolve);
                         ModelLink link = new ModelLink(model, clientDatasourceId);
@@ -214,17 +216,17 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     private void initMandatoryValidation(N2oStandardDatasource source, CompileProcessor p,
                                          N2oPreFilter preFilter, N2oQuery.Filter queryFilter) {
         if (preFilter.getRequired() != null && preFilter.getRequired()) {
-            if (p.getScope(ValidationList.class) != null) {
+            if (p.getScope(ValidationScope.class) != null) {
                 MandatoryValidation v = new MandatoryValidation(
-                        queryFilter.getFilterField(),
+                        queryFilter.getFilterId(),
                         p.getMessage("n2o.required.filter"),
-                        queryFilter.getFilterField()
+                        queryFilter.getFilterId()
                 );
                 v.setMoment(N2oValidation.ServerMoment.beforeQuery);
                 v.setSeverity(SeverityType.danger);
 
-                ValidationList validationList = p.getScope(ValidationList.class);
-                validationList.add(source.getId(), ReduxModel.filter, v);
+                ValidationScope validationScope = p.getScope(ValidationScope.class);
+                validationScope.add(source.getId(), ReduxModel.filter, v);
             }
         }
     }
@@ -245,8 +247,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                                          List<Filter> filters,
                                          CompiledQuery query) {
         QueryContext queryContext = new QueryContext(source.getQueryId(), route, context.getUrlPattern());
-        ValidationList validationList = p.getScope(ValidationList.class);
-        List<Validation> validations = validationList == null ? null : validationList.get(source.getId(), ReduxModel.filter);
+        ValidationScope validationScope = p.getScope(ValidationScope.class);
+        List<Validation> validations = validationScope == null ? null : validationScope.get(source.getId(), ReduxModel.filter);
         queryContext.setValidations(validations);
         queryContext.setFilters(filters);
         if (source.getDefaultValuesMode() != null)
@@ -266,7 +268,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
 
     private Map<String, String> initSortingMap(CompiledQuery query) {
         Map<String, String> sortingMap = new HashMap<>();
-        for (N2oQuery.Field sortingField : query.getSortingFields()) {
+        for (QuerySimpleField sortingField : query.getSortingFields()) {
             sortingMap.put(SORTING + RouteUtil.normalizeParam(sortingField.getId()), sortingField.getId());
         }
         return sortingMap;
@@ -311,7 +313,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         if (submit.getRefreshOnSuccess() != null) {
             actionContextData.setRefresh(new RefreshSaga());
             if (submit.getRefreshDatasourceIds() != null)
-                actionContextData.getRefresh().setDatasources(Arrays.asList(submit.getRefreshDatasourceIds()));
+                actionContextData.getRefresh().setDatasources(getClientDatasourceIds(Arrays.asList(submit.getRefreshDatasourceIds()), p));
         }
         dataProvider.setActionContextData(actionContextData);
 
@@ -424,7 +426,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                         }
                         routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
                     });
-            for (N2oQuery.Field field : query.getSortingFields()) {
+            for (QuerySimpleField field : query.getSortingFields()) {
                 String sortParam = RouteUtil.normalizeParam(SORTING + source.getId() + "_" + field.getId());
                 BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
                 ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));

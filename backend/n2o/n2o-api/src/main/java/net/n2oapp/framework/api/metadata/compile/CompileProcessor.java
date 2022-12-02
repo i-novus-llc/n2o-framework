@@ -34,6 +34,14 @@ public interface CompileProcessor {
     Map<String, Object> mapAttributes(ExtensionAttributesAware source);
 
     /**
+     * Собрать дополнительные атрибуты и превратить текст с ссылками в значениях в JS код
+     *
+     * @param source исходный объект с атрибутами
+     * @return собранные атрибуты
+     */
+    Map<String, Object> mapAndResolveAttributes(ExtensionAttributesAware source);
+
+    /**
      * Получить метаданную, оказывающую влияние на сборку
      *
      * @param scopeClass Класс метаданной
@@ -60,6 +68,17 @@ public interface CompileProcessor {
      * @return Исходный объект
      */
     <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass);
+
+    /**
+     * Получить исходный объект по идентификатору
+     *
+     * @param id          Идентификатор
+     * @param sourceClass Класс исходного объекта
+     * @param <S>         Тип исходного объекта
+     * @param processor   Процессор исходных метаданных
+     * @return Исходный объект
+     */
+    <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass, CompileProcessor processor);
 
     /**
      * Зарегистрировать новый маршрут метаданных под контекст

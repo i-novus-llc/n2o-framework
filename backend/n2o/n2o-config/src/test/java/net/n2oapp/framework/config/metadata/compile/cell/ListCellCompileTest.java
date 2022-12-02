@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oListCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ListCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -39,12 +39,12 @@ public class ListCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testListCell.page.xml")
                 .get(new PageContext("testListCell"));
         Table table = (Table) page.getWidget();
-        N2oListCell cell = (N2oListCell) table.getComponent().getCells().get(0);
+        ListCell cell = (ListCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("CollapsedCell"));
         assertThat(cell.getSize(), is(3));
         assertThat(cell.getColor(), is("color"));
 
-        cell = (N2oListCell) table.getComponent().getCells().get(1);
+        cell = (ListCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("CollapsedCell"));
         assertThat(cell.getSize(), is(5));
         assertThat(cell.getColor(), is("`type.id == 1 ? 'success' : type.id == 2 ? 'danger' : 'info'`"));

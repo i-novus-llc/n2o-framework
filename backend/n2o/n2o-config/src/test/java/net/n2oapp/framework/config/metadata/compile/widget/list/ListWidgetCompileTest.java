@@ -1,13 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.widget.list;
 
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.cell.CheckboxCell;
+import net.n2oapp.framework.api.metadata.meta.cell.LinkCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ProgressBarCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
@@ -21,8 +22,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Тестирование компиляции виджета Список
@@ -53,16 +56,17 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(listWidget.getList().get("leftTop").getSrc(), is("TextCell"));
 
         assertThat(listWidget.getList().get("header").getSrc(), is("ProgressBarCell"));
-        assertThat(((N2oProgressBarCell) listWidget.getList().get("header")).getColor(), is("test"));
+        assertThat(((ProgressBarCell) listWidget.getList().get("header")).getColor(), is("test"));
 
         assertThat(listWidget.getList().get("body").getSrc(), is("BadgeCell"));
-        assertThat(listWidget.getList().get("body").getJsonVisible(), is("`1 == 2`"));
+        assertThat(listWidget.getList().get("body").getVisible(), is("`1 == 2`"));
 
         assertThat(listWidget.getList().get("subHeader").getSrc(), is("CheckboxCell"));
-        assertThat(((N2oCheckboxCell) listWidget.getList().get("subHeader")).getDisabled(), is("`!(name!='Мария')`"));
+        assertThat(((CheckboxCell) listWidget.getList().get("subHeader")).getDisabled(), is("`!(name!='Мария')`"));
 
         assertThat(listWidget.getList().get("rightTop").getSrc(), is("LinkCell"));
-        assertThat(((N2oLinkCell) listWidget.getList().get("rightTop")).getUrl().endsWith("test"), is(true));
+        assertThat(((LinkAction) ((LinkCell) listWidget.getList().get("rightTop")).getAction()).getUrl().endsWith("test"),
+                is(true));
 
         assertThat(listWidget.getList().get("rightBottom").getSrc(), is("IconCell"));
         assertThat(listWidget.getList().get("rightBottom").getCssClass(), is("test"));

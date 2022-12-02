@@ -1,11 +1,9 @@
 package net.n2oapp.criteria.filters;
 
-import java.io.Serializable;
-
 /**
  * Тип фильтра
  */
-public enum FilterType implements Serializable {
+public enum FilterType {
     @Deprecated simple, eq, notEq, more, less, eqOrIsNull,
     isNotNull(Arity.nullary), isNull(Arity.nullary),
     in(Arity.n_ary), notIn(Arity.n_ary), inOrIsNull(Arity.n_ary),
@@ -22,7 +20,7 @@ public enum FilterType implements Serializable {
         this.arity = Arity.unary;
     }
 
-    public enum Arity implements Serializable {
+    public enum Arity {
         unary, n_ary, nullary
     }
 

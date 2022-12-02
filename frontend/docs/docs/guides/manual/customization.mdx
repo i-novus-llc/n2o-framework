@@ -334,11 +334,11 @@ n2o.scss         // корневой файл всех стилей N2O
 variables.scss   // корневой файл всех css-переменных N2O
 ```
 
-Сборка стилей N2O выполняется с помощью библиотеки `node-sass`.
+Сборка стилей N2O выполняется с помощью библиотеки `sass`.
 Для ее подключения выполните команду:
 
 ```
-yarn add node-sass --dev
+yarn add sass --dev
 ```
 После этого файл `index.css`, расположенный в папке `src` проекта, необходимо переименовать в `index.scss`.
 
@@ -389,3 +389,168 @@ import './index.scss';                  // файл index.css необходим
 
 Если запустить проект в [режиме разработки](#dev_mode_start), все изменения в файлах стилей будут подхватываться и сразу отображаться.
 
+### Кастомное действие
+
+Кастомное действие позволяет расширить логику работы с n2o store.
+Для вызова с сервера, в реакт проекте не требуется дополнительных действий.
+Обработка кастомного действия зависит от бизнес-требования.
+
+Если необходимо расширить n2o store новыми ключами данных, следует написать reducer.
+
+:::note
+Хорошей практикой будет создать папку `reducers` в `frontend/src` для размещения в ней всех ваших reducers.
+Импорт в config вашего App (`app/src/App.jsx`) производить из общего файла импорта index.js
+:::
+
+Ключ в config должен быть customReducers
+
+```js title="index.js"
+import { customReducer1 } from './reducers/custom1/store'
+import { customReducer2 } from './reducers/custom2/store'
+
+export const customReducers = { custom1: customReducer, custom2: customReducer2 }
+```
+
+Если нет необходимости расширять n2o store,
+достаточно реализовать saga effect для манипуляции на кастомным действием.
+
+:::note
+Хорошей практикой будет создать папку `sagas` в `frontend/src` для размещения в ней всех ваших sagas.
+Импорт в config вашего App (`app/src/App.jsx`) производить из общего файла импорта index.js
+:::
+
+Ключ в config должен быть customSagas
+
+```js title="index.js"
+import { saga } from './sagas/action1/saga1'
+import { saga2 } from './sagas/action2/saga2'
+
+export const customSagas = [
+    saga,
+    saga2,
+]
+```
+
+Импорт в n2o config
+
+```jsx title="app/src/App.jsx"
+const config = createFactoryConfig({
+    // ... кастомизации
+    customReducers,
+    customSagas,
+})
+
+ReactDOM.render(
+  <React.StrictMode>
+    <N2O {...config} />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+Для расширения существующих объектов данных из n2o store необходимо использовать функцию
+
+```js
+export const reducersManager = (state, action, n2oSlice, customSlice) => {
+    const { type } = action
+    const { actions = {}, name } = customSlice
+
+    const customActions = Object.keys(actions).map(action => `${name}/${action}`)
+
+    if (customActions.includes(type)) {
+        return customSlice.reducer(state, action)
+    }
+
+    return n2oSlice(state, action)
+}
+```
+
+:::note
+Не является безопасной практикой.
+Мы не можем отвечать за работоспособность функционала при изменении данных из n2o-framework store.
+Рекомендуется только добавление новых ключей данных, а не мутации уже существующих.
+:::
+
+Пример.
+Чтобы расширить объект page, выполняем импорт pages reducers из n2o-framework.
+Создаем slice используя name из n2o (префикс n2o/ +  reducerName)
+Применяем reducersManager передав в него нужные данные.
+
+
+:::note
+Список reducers можно увидеть по пути `n2o-framework/lib/reducers`
+:::
+
+```js
+import pages from 'n2o-framework/lib/ducks/pages/store'
+
+const pagesSlice = createSlice({
+   name: 'n2o/pages',
+   initialState: {},
+   reducers: {
+    // ... ваша логика
+   }
+})
+
+export const pagesReducers = (state, action) => reducersManager(state, action, pages, pagesSlice)
+```
+
+При экспорте, в customReducers, необходимо использовать ключ reducer из n2o-framework.
+
+```js
+export const customReducers = { pages: pagesReducers }
+```
+
+:::note
+Клиентские действия реализуются идентично сервер/клиент действиям.
+:::
+
+Для конфигурации кастомного действия в xml используется [элемент](../xml/action/#custom-action) `<action>`.
+В данном теге необходимо указать Redux тип действия, а также можно настроить поведение приложения после выполнения действия.
+Полезная нагрузка Redux действия конфигурируется с помощью дочернего для `<action>` элемента `<payload>`.
+Тег `<payload>` поддерживает возможность использования любых атрибутов, а также возможность преобразованием в json-объекты
+атрибуты, использующие "дефис" в именовании.
+
+```xml title="xml конфигурация кастомного действия"
+<action type="n2o/actionImpl/START_INVOKE"
+    redirect-url="/test" redirect-target="application">
+    <payload dataProvider-url="n2o/data/mi2"
+             dataProvider-method="POST"
+             datasource="_main"
+             model="resolve"
+             pageId="_"
+             widgetId="_main"/>
+</action>
+```
+
+```json title="json, полученный в результате компиляции"
+"action": {
+    "type": "n2o/actionImpl/START_INVOKE",
+    "payload": {
+    "datasource": "_main",
+    "widgetId": "_main",
+    "model": "resolve",
+    "dataProvider": {
+        "method": "POST",
+        "url": "n2o/data/mi2"
+        },
+    "pageId": "_"
+    },
+    "meta": {
+        "success": {
+            "refresh": {
+                "datasources": [
+                    "_main"
+                    ]
+                },
+            "redirect": {
+                "path": "/test",
+                "pathMapping": {},
+                "queryMapping": {},
+                "target": "application"
+                }
+            },
+        "fail": {}
+    }
+}
+```

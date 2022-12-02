@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCustomCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.cell.CustomCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -43,7 +43,7 @@ public class CustomCellCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testCustomCell.page.xml")
                 .get(new PageContext("testCustomCell"));
         Table table = (Table) page.getWidget();
-        N2oCustomCell cell = (N2oCustomCell) table.getComponent().getCells().get(0);
+        CustomCell cell = (CustomCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("MyCell"));
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
     }

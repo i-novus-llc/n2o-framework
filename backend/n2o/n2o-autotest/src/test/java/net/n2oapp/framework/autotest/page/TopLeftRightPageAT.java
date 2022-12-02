@@ -35,16 +35,16 @@ public class TopLeftRightPageAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/top_left_right/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/top_left_right/openPage.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/simple/test.application.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/top_left_right/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/top_left_right/openPage.page.xml"));
     }
 
     @Test
     public void testTopLeftRightPage() {
         TopLeftRightPage page = open(TopLeftRightPage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница с тремя регионами");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с тремя регионами");
         page.shouldHaveCssClass("page_class");
         page.shouldHaveStyle("background: blue;");
 
@@ -75,7 +75,7 @@ public class TopLeftRightPageAT extends AutoTestBase {
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().firstTitleShouldHaveText("Страница с тремя регионами");
-        open.breadcrumb().titleShouldHaveText("Вторая страница");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница с тремя регионами");
+        page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
     }
 }

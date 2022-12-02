@@ -1,12 +1,14 @@
 package net.n2oapp.framework.autotest.api.component.page;
 
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
-import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 
 /**
  * Страница для автотестирования
@@ -27,9 +29,10 @@ public interface Page extends Component {
 
     Popover popover(String title);
 
-    Tooltip tooltip();
-
+    @Deprecated
     Alerts alerts();
+
+    Alerts alerts(Alert.Placement placement);
 
     void urlShouldMatches(String regexp);
 
@@ -38,8 +41,6 @@ public interface Page extends Component {
     void scrollUp();
 
     void scrollDown();
-
-    void shouldHaveCssClass(String classname);
 
     void shouldHaveStyle(String style);
 
@@ -66,6 +67,23 @@ public interface Page extends Component {
         void titleShouldHaveText(String text);
 
         void titleByIndexShouldHaveText(String text, Integer index);
+
+        void shouldHaveSize(int size);
+
+        Crumb crumb(int index);
+
+        Crumb crumb(String label);
+
+        interface Crumb {
+
+            void click();
+
+            void shouldHaveLabel(String text);
+
+            void shouldHaveLink(String link);
+
+            void shouldNotHaveLink();
+        }
     }
 
     interface Dialog {
@@ -73,9 +91,14 @@ public interface Page extends Component {
 
         void shouldHaveText(String text);
 
+        @Deprecated
         void click(String label);
 
+        <T extends Button> T button(String label);
+
         void shouldBeClosed(long timeOut);
+
+        void shouldHaveReversedButtons();
     }
 
     interface Popover {
@@ -86,16 +109,6 @@ public interface Page extends Component {
         void click(String label);
 
         void shouldBeClosed(long timeOut);
-    }
-
-    interface Tooltip {
-        void shouldBeExist();
-
-        void shouldNotBeExist();
-
-        void shouldBeEmpty();
-
-        void shouldHaveText(String... text);
     }
 
 }

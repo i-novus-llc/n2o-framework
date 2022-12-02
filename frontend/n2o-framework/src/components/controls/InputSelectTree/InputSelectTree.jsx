@@ -40,8 +40,7 @@ import { visiblePartPopup, getCheckedStrategy } from './until'
  * @param valueFieldId - значение ключа value в данных
  * @param labelFieldId - значение ключа label в данных
  * @param iconFieldId - значение ключа icon в данных
- * @param badgeFieldId - значение ключа badge в данных
- * @param badgeColorFieldId - значение ключа badgeColor в данных
+ * @param badge - данные для баджа
  * @param hasChildrenFieldId - значение ключа hasChildren в данных
  * @param format - формат
  * @param data - данные для построения дерева
@@ -76,8 +75,7 @@ function InputSelectTree({
     labelFieldId,
     iconFieldId,
     imageFieldId,
-    badgeFieldId,
-    badgeColorFieldId,
+    badge,
     hasChildrenFieldId,
     format,
     data,
@@ -109,8 +107,7 @@ function InputSelectTree({
         iconFieldId,
         imageFieldId,
         labelFieldId,
-        badgeFieldId,
-        badgeColorFieldId,
+        badge,
     }
 
     InputSelectTree.handleClickOutside = () => setSearchValue('')
@@ -314,11 +311,7 @@ function InputSelectTree({
         />
     )
 
-    const inputIcon = loading ? (
-        <InlineSpinner />
-    ) : (
-        <Icon name="fa fa-chevron-down" />
-    )
+    const inputIcon = <Icon name="fa fa-chevron-down" />
 
     const getPopupContainer = container => container
 
@@ -344,7 +337,6 @@ function InputSelectTree({
                 treeNodeFilterProp={labelFieldId}
                 treeNodeLabelProp={labelFieldId}
                 maxTagTextLength={maxTagTextLength}
-                removeIcon={clearIcon}
                 clearIcon={clearIcon}
                 onChange={handleChange}
                 onSelect={handleSelect}
@@ -380,9 +372,10 @@ InputSelectTree.defaultProps = {
     valueFieldId: 'id',
     labelFieldId: 'name',
     iconFieldId: 'icon',
-    imageFieldId: 'image',
-    badgeFieldId: 'badge',
-    badgeColorFieldId: 'color',
+    badge: {
+        fieldId: 'badge',
+        colorFieldId: 'color',
+    },
     sortFieldId: 'name',
     filter: 'startsWith',
     hasCheckboxes: false,
@@ -467,13 +460,9 @@ InputSelectTree.propTypes = {
      */
     imageFieldId: PropTypes.string,
     /**
-     * Значение ключа badge в данных
+     * Данные для badge
      */
-    badgeFieldId: PropTypes.string,
-    /**
-     * Значение ключа badgeColor в данных
-     */
-    badgeColorFieldId: PropTypes.string,
+    badge: PropTypes.object,
     /**
      * Значение ключа сортировки в данных
      */

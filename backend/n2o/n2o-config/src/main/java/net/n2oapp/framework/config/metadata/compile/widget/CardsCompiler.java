@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oBlock;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
 
 /**
  * Компиляция виджета Карточки
@@ -55,10 +57,10 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         return cards;
     }
 
-    private List<Cards.Card> compileCols(N2oCards.Col[] source, CompileContext<?, ?> context, CompileProcessor p,
+    private List<Cards.Card> compileCols(N2oCards.N2oCol[] source, CompileContext<?, ?> context, CompileProcessor p,
                                          CompiledObject object, WidgetScope widgetScope, MetaActions widgetActions) {
         List<Cards.Card> cards = new ArrayList<>(source.length);
-        for (N2oCards.Col col : source) {
+        for (N2oCards.N2oCol col : source) {
             Cards.Card card = new Cards.Card();
             card.setSize(col.getSize());
             if (col.getBlocks() != null)
@@ -68,10 +70,10 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         return cards;
     }
 
-    private List<Cards.Block> compileBlock(N2oCards.Block[] source, CompileContext<?, ?> context, CompileProcessor p,
-                                       Object... scopes) {
+    private List<Cards.Block> compileBlock(N2oBlock[] source, CompileContext<?, ?> context, CompileProcessor p,
+                                           Object... scopes) {
         List<Cards.Block> blocks = new ArrayList<>(source.length);
-        for (N2oCards.Block block : source) {
+        for (N2oBlock block : source) {
             Cards.Block clientBlock = new Cards.Block();
             block.setId(p.cast(block.getId(), block.getTextFieldId()));
             clientBlock.setId(block.getId());

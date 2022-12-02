@@ -42,12 +42,10 @@ public class TreeWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tree.getLabelFieldId(), is("test"));
         assertThat(tree.getIconFieldId(), is("test"));
         assertThat(tree.getImageFieldId(), is("test"));
-        assertThat(tree.getBadgeFieldId(), is("test"));
-        assertThat(tree.getBadgeColorFieldId(), is("test"));
         assertThat(tree.getAjax(), is(true));
         assertThat(tree.getHasCheckboxes(), is(true));
         assertThat(tree.getMultiselect(), is(false));
         assertThat(((StandardDatasource) page.getDatasources().get(tree.getDatasource())).getProvider().getUrl(), is("n2o/data/testTreeCompile/main"));
-        assertThat(((StandardDatasource) page.getDatasources().get(tree.getDatasource())).getSize(), is(200));
+        assertThat(((StandardDatasource) page.getDatasources().get(tree.getDatasource())).getPaging().getSize(), is(200));
     }
 }

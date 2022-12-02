@@ -58,9 +58,10 @@ public class AlertMessageBuilder {
                 : Collections.singletonList(build(e, requestInfo));
     }
 
-    public ResponseMessage buildSuccessMessage(String successText, RequestInfo requestInfo, DataSet data) {
+    public ResponseMessage buildSuccessMessage(ActionRequestInfo<DataSet> requestInfo, DataSet data) {
         ResponseMessage message = buildMessage(requestInfo, SeverityType.success);
-        message.setText(StringUtils.resolveLinks(successText, data));
+        message.setText(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessText(), data));
+        message.setTitle(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessTitle(), data));
         return message;
     }
 
@@ -76,6 +77,9 @@ public class AlertMessageBuilder {
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
         initDevMode(propertyResolver);
         resp.setText(buildText(e));
+
+        if (!devMode && e instanceof N2oException && ((N2oException) e).getUserMessageTitle() != null)
+            resp.setTitle(((N2oException) e).getUserMessageTitle());
 
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setPayload(initPayload(e));
@@ -104,13 +108,14 @@ public class AlertMessageBuilder {
         return message;
     }
 
-    private List<ResponseMessage> buildValidationMessages(N2oValidationException e, RequestInfo requestInfo) {
+    public List<ResponseMessage> buildValidationMessages(N2oValidationException e, RequestInfo requestInfo) {
         List<ResponseMessage> messages = new ArrayList<>();
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
                 ResponseMessage resp = buildMessage(requestInfo, e.getSeverity());
                 resp.setField(message.getFieldId());
                 resp.setText(message.getMessage());
+                resp.setTitle(message.getMessageTitle());
                 messages.add(resp);
             }
         }

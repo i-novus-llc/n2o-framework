@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -29,8 +30,8 @@ public class RatingCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/rating/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.application.xml"),
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/rating/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/rating/rating.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/rating/rating.object.xml"));
     }
@@ -58,7 +59,7 @@ public class RatingCellAT extends AutoTestBase {
 
         //проверка редактируемых ячеек
         rows.row(0).cell(1, RatingCell.class).maxShouldBe(10);
-        Alerts alerts = simplePage.alerts();
+        Alerts alerts = simplePage.alerts(Alert.Placement.top);
 
         rows.row(0).cell(1, RatingCell.class).value("5");
         rows.row(0).cell(1, RatingCell.class).shouldExists();

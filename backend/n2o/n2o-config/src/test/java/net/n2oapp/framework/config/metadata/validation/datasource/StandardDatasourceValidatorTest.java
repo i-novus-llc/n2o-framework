@@ -96,7 +96,7 @@ public class StandardDatasourceValidatorTest extends SourceValidationTestBase {
     @Test
     public void testReferenceQueryFieldExistence() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Источник данных 'ds1' имеет префильтры, но в выборке 'utDsBlank' нет fields");
+        exception.expectMessage("Источник данных 'ds1' имеет префильтры, но в выборке 'utDsBlank' нет filters!");
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testReferenceQueryFieldExistence.page.xml");
     }
 
@@ -138,5 +138,25 @@ public class StandardDatasourceValidatorTest extends SourceValidationTestBase {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("В выборке 'utDs' поле 'name' не содержит фильтр типа 'notEq'!");
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredReferenceForPrefiltersQueryFieldFilterType.page.xml");
+    }
+
+    /**
+     * Проверяется наличие обязательного атрибута field-id для префильтра
+     */
+    @Test
+    public void testRequiredPrefilterFieldId() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Источник данных 'ds1' содержит префильтр без указанного field-id!");
+        validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredPrefilterFieldId.page.xml");
+    }
+
+    /**
+     * Проверка случая корректного использования ссылок на фильтры выборки
+     */
+    @Test
+    public void testRightUseNestedQueryFields() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/testRightUseNestedQueryFields.query.xml"));
+        validate("net/n2oapp/framework/config/metadata/validation/datasource/testRightUseNestedQueryFields.page.xml");
     }
 }

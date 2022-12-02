@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -43,7 +43,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
                 invokeAction.setRoute(normalize("/" + widgetId + "/delete"));
                 button.setConfirm("true");
-                button.setAction(invokeAction);
+                button.setActions(new N2oInvokeAction[]{invokeAction});
             }
             break;
             case create: {
@@ -60,7 +60,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
                 modal.setRoute(normalize("/" + widgetId + "/create"));
-                button.setAction(modal);
+                button.setActions(new N2oShowModal[]{modal});
             }
             break;
             case update: {
@@ -71,23 +71,23 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
-                String paramName = widgetId + "_" + N2oQuery.Field.PK;
+                String paramName = widgetId + "_" + QuerySimpleField.PK;
                 modal.setRoute(normalize("/" + widgetId + "/:" + paramName + "/update"));
                 N2oPathParam pathParam = new N2oPathParam();
                 pathParam.setName(paramName);
-                pathParam.setValue(Placeholders.ref(N2oQuery.Field.PK));
+                pathParam.setValue(Placeholders.ref(QuerySimpleField.PK));
                 modal.addPathParams(new N2oPathParam[]{pathParam});
                 N2oStandardDatasource datasource = new N2oStandardDatasource();
                 datasource.setDefaultValuesMode(DefaultValuesMode.query);
                 N2oPreFilter masterDetailFilter = new N2oPreFilter();
                 masterDetailFilter.setType(FilterType.eq);
-                masterDetailFilter.setFieldId(N2oQuery.Field.PK);
+                masterDetailFilter.setFieldId(QuerySimpleField.PK);
                 masterDetailFilter.setParam(paramName);
                 datasource.setFilters(new N2oPreFilter[]{masterDetailFilter});
                 modal.setDatasources(new N2oStandardDatasource[]{datasource});
                 modal.setSubmitOperationId(action.name());
                 modal.setCloseAfterSubmit(true);
-                button.setAction(modal);
+                button.setActions(new N2oShowModal[]{modal});
             }
             break;
             default:
