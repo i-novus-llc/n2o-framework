@@ -39,6 +39,8 @@ function withListContainer(WrappedComponent) {
         labelFieldId,
         sortFieldId,
         valueFieldId,
+        searchMinLength,
+        throttleDelay = 300,
         ...rest
     }) => {
         /**
@@ -82,10 +84,14 @@ function withListContainer(WrappedComponent) {
          * @private
          */
         const handleSearch = debounce((value) => {
+            if (searchMinLength && value && value.length < searchMinLength) {
+                return
+            }
+
             const quickSearchParam = dataProvider?.quickSearchParam || 'search'
 
             callApiWithParams({ [quickSearchParam]: value, page: 1 })
-        }, 300)
+        }, throttleDelay)
 
         const handleItemOpen = (value) => {
             callApiWithParams({ 'filter.parent_id': value }, true)
@@ -150,6 +156,8 @@ function withListContainer(WrappedComponent) {
         dataProvider: PropTypes.object,
         page: PropTypes.number,
         count: PropTypes.number,
+        searchMinLength: PropTypes.number,
+        throttleDelay: PropTypes.number,
     }
 
     WithListContainer.defaultProps = {
