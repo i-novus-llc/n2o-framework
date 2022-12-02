@@ -20,7 +20,7 @@ public class StylesResolver {
 
         Map<String, String> result = new HashMap<>();
 
-        String[] lines = input.split(";");
+        String[] lines = input.trim().split(";");
         for (String line : lines) {
             String[] lineArr = line.split(":");
             if (lineArr.length != 2)
