@@ -7,3 +7,137 @@ description: ""
 Действия Redux меняют состояние React компонентов и отправляют запросы на сервер.
 
 ## Местоположение действий {#actions_place}
+
+Действия задаются на странице `<page>`, в компонентах страницы, а также в меню структуры приложения `<application>`.
+Подробнее о каждом из этих случаев будет рассказано далее.
+
+### Действия в меню {#actions_in_menu}
+
+Одним из вариантов использования действия является задание его в меню `<menu-item>` структуры приложения.
+В таком случае можно использовать только [действия открытия страницы](#open_page_actions).
+
+```xml title="Действие в меню приложения"
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <header title="Хедер">
+        <nav>
+            <menu-item name="Открыть страницу">
+                <open-page page-id="page" route="/login"/>
+            </menu-item>
+        </nav>
+    </header>
+</application>
+```
+
+### Действия в кнопках страницы {#actions_in_button}
+
+Пожалуй, самым частым вариантом является использование действий в кнопках страницы. <br/>
+В данном случае неважно, чем является кнопка: [стандартной кнопкой](../xml/button#button_in_button), [полем-кнопкой](../xml/field#button),
+кнопкой [в ячейке](../xml/cell#toolbar) или [в выпадающем меню](../xml/menu#menu-item).
+При клике по ней будет выполняться указанное действие.
+
+```xml title="Действие в кнопке"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    ...
+    <toolbar>
+        <button label="Сохранить документ">
+            <invoke operation-id="saveDocument"/>
+        </button>
+    </toolbar>
+</page>
+```
+
+### Действия на странице {#actions_in_page}
+
+При многократном использовании одного действия существует возможность вынести его в отдельный элемент `<actions>` при этом указав `id`.
+Для обращения к этому действию достаточно указать его идентификатор в атрибуте `action-id`.
+
+```xml title="Действие на странице"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    ...
+    <actions>
+        <!-- Указываем id действия -->
+        <action id="save">
+            <invoke operation-id="saveDocument"/>
+        </action>
+    </actions>
+
+    <toolbar>
+        <!-- Обращаемся к действию по его id -->
+        <button label="Сохранить документ" action-id="save"/>
+    </toolbar>
+</page>
+```
+
+### Действия в виджетах {#actions_in_widget}
+
+Аналогично страницам действия можно определить и внутри виджетов.
+
+```xml title="Действие в виджете"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <form>
+            ...
+            <actions>
+                <!-- Указываем id действия -->
+                <action id="save">
+                    <invoke operation-id="saveDocument"/>
+                </action>
+            </actions>
+
+            <toolbar>
+                <!-- Обращаемся к действию по его id -->
+                <button label="Сохранить документ" action-id="save"/>
+            </toolbar>
+        </form>
+    </regions>
+</page>
+```
+
+:::note
+Задание действия на странице или в виджете определяет область видимости.
+Кнопки виджета могут ссылаться на действия страницы, а вот кнопки страницы на действия виджета не могут.
+:::
+
+### Внутренние действия компонентов {#actions_in_component}
+
+Не только кнопки способны выполнять действие по клику.
+Это может быть клик по строке таблицы, клик по определенному полю или ячейке. <br/>
+Во всех этих компонентах также есть возможность либо описать действие внутри элемента, либо обратиться по его id.
+
+```xml title="Действия в компонентах таблицы"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <table>
+            <columns>
+                <column text-field-id="status">
+                    <!-- Отправка статуса при клике по чекбокс-ячейке таблицы -->
+                    <checkbox enabled="true">
+                        <invoke operation-id="checkStatus"/>
+                    </checkbox>
+                </column>
+            </columns>
+
+            <rows>
+                <!-- Открытие страницы при клике по строке таблицы -->
+                <click>
+                    <show-modal page-id="modal"/>
+                </click>
+            </rows>
+        </table>
+    </regions>
+</page>
+```
+
+## Действия открытия окон и страниц {#page_actions}
+
+### Отрытие окон {#open_window_actions}
+
+### Открытие страниц {#open_page_actions}
+
+## Последовательность действий и ветвления {#condition_and_multi_actions}
+
+### Мульти действия {#multi_actions}
+
+### Условный оператор if-else для действий {#if_else}
+
+### Переключатель действий switch/case {#switch_case}

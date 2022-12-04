@@ -590,6 +590,28 @@ SQL провайдер позволяет выполнять SQL запросы 
 SELECT * FROM mytable
 ```
 
+#### Подключение
+
+Задайте в pom.xml следующую зависимость Spring:
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-jdbc</artifactId>
+</dependency>
+```
+
+А также зависимость для драйвера базы данных. <br/>
+Например для PostgreSQL она будет выглядеть следующим образом:
+
+```xml
+<dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
 #### Настройки соединения
 
 Для соединения с БД необходимо добавить настройки приложения в файл `application.properties`
