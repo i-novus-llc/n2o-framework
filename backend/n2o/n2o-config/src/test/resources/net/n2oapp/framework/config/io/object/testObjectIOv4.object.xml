@@ -35,7 +35,7 @@
     <operations>
         <operation id="op" name="name" submit-label="f" description="description" success-text="test" fail-text="test"
                    confirm-text="test" success-title="test" fail-title="test">
-            <invocation>
+            <invocation result-mapping="['data']">
                 <sql>select 1</sql>
             </invocation>
             <in>
