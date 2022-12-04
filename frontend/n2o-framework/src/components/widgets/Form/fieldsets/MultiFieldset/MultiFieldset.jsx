@@ -5,11 +5,13 @@ import { createStructuredSelector } from 'reselect'
 import { change } from 'redux-form'
 import PropTypes from 'prop-types'
 
-import { registerFieldExtra } from '../../../../../ducks/form/store'
+import { registerFieldExtra, unregisterFieldExtra, untouchFieldExtra } from '../../../../../ducks/form/store'
 import {
     isInitSelector,
     formValueSelector,
 } from '../../../../../ducks/form/selectors'
+import { startValidate } from '../../../../../ducks/datasource/store'
+import { dataSourceErrors } from '../../../../../ducks/datasource/selectors'
 import evalExpression, {
     parseExpression,
 } from '../../../../../utils/evalExpression'
@@ -50,6 +52,7 @@ function MultiFieldset({
 const mapStateToProps = createStructuredSelector({
     fields: (state, props) => formValueSelector(props.form, props.name)(state),
     isInit: (state, props) => isInitSelector(props.form, props.name)(state),
+    errors: (state, props) => dataSourceErrors(props.form, props.modelPrefix)(state),
 })
 
 export const enhance = compose(
@@ -68,6 +71,21 @@ export const enhance = compose(
         },
     }),
     withHandlers({
+        getResetFields: ({ errors, name }) => (fields, newFields) => {
+            const resetFields = []
+
+            if (!errors) {
+                return resetFields
+            }
+
+            for (let i = fields.length - 1; i > newFields.length - 1; i--) {
+                resetFields.push(...Object.entries(errors).filter(([key]) => key.startsWith(`${name}[${i}]`)).map(([k]) => k))
+            }
+
+            return resetFields
+        },
+    }),
+    withHandlers({
         onAddField: ({ form, name, dispatch, fields }) => () => {
             if (fields === null) {
                 dispatch(change(form, name, [{}]))
@@ -79,12 +97,17 @@ export const enhance = compose(
             newValue.push({})
             dispatch(change(form, name, newValue))
         },
-        onRemoveField: ({ form, name, dispatch, fields }) => index => () => {
+        onRemoveField: ({ form, name, dispatch, fields, modelPrefix, getResetFields }) => index => () => {
             const newValue = fields.slice()
 
             newValue.splice(index, 1)
 
+            const resetFields = getResetFields(fields, newValue)
+
             dispatch(change(form, name, newValue))
+            dispatch(startValidate(form, undefined, modelPrefix, resetFields))
+            dispatch(unregisterFieldExtra(form, name, resetFields))
+            dispatch(untouchFieldExtra(form, resetFields))
         },
         onCopyField: ({ form, name, dispatch, fields }) => index => () => {
             const newValue = fields.slice()
@@ -99,12 +122,19 @@ export const enhance = compose(
             dispatch,
             canRemoveFirstItem,
             fields,
+            modelPrefix,
+            getResetFields,
         }) => () => {
             const newValue = fields.slice()
 
             newValue.splice(+!canRemoveFirstItem, fields.length)
 
+            const resetFields = getResetFields(fields, newValue)
+
             dispatch(change(form, name, newValue))
+            dispatch(startValidate(form, undefined, modelPrefix, resetFields))
+            dispatch(unregisterFieldExtra(form, name, resetFields))
+            dispatch(untouchFieldExtra(form, resetFields))
         },
         resolvePlaceholder: ({ childrenLabel, firstChildrenLabel, activeModel }) => (index) => {
             const context = { index }
