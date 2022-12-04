@@ -194,7 +194,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("test"));
         assertThat(context.isMessageOnFail(), is(true));
-        assertThat(context.isMessageOnSuccess(), is(false));
+        assertThat(context.isMessageOnSuccess(), is(true));
         assertThat(context.getMessagesForm(), is("form"));
         assertThat(context.getRefresh().getDatasources(), hasItem("testFormSubmit_form"));
 

@@ -148,7 +148,7 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getSubmit().getMethod(), is(RequestMethod.POST));
         ActionContext opCtx = ((ActionContext)route("/p/w/a/ds1", CompiledObject.class));
         assertThat(opCtx.getOperationId(), is("update"));
-        assertThat(opCtx.isMessageOnSuccess(), is(false));
+        assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
         assertThat(opCtx.getMessagePosition(), is(MessagePosition.fixed));
         assertThat(opCtx.getMessagePlacement(), is(MessagePlacement.top));
