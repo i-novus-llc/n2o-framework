@@ -162,7 +162,6 @@ public class ViewController {
             projectRouteRegister.clearAll();
             builder = getBuilder(projectId, null);
             addedValues.put("menu", getMenu(builder));
-            addedValues.put("user", getUserInfo());
 
             AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient, session);
             appConfigJsonWriter.setPropertyResolver(builder.getEnvironment().getSystemProperties());
@@ -441,15 +440,6 @@ public class ViewController {
         messageSource.setBasenames(messageBundleBasename.split(","));
         messageSource.setDefaultEncoding("UTF-8");
         return new MessageSourceAccessor(messageSource);
-    }
-
-    private Map<String, Object> getUserInfo() {
-        UserContext userContext = new UserContext(sandboxContext);
-        Map<String, Object> user = new HashMap<>();
-        user.put("username", userContext.get("username"));
-        user.put("roles", userContext.get("roles"));
-        user.put("permissions", userContext.get("permissions"));
-        return user;
     }
 
     private Map<String, String[]> getHeaders(HttpServletRequest req) {
