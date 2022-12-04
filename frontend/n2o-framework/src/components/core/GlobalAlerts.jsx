@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import moment from 'moment'
+import get from 'lodash/get'
 
 import { Alerts } from '../snippets/Alerts/Alerts'
 import { STORE_KEY_PATH, SUPPORTED_PLACEMENTS } from '../../ducks/alerts/constants'
 import { removeAlert, stopRemoving } from '../../ducks/alerts/store'
+import propsResolver from '../../utils/propsResolver'
 
 const getTimestamp = (time) => {
     if (!time) {
@@ -28,14 +30,24 @@ const getTimestamp = (time) => {
  * @param isoTime
  */
 
-export function GlobalAlerts({ alerts = [[]], onDismiss, stopRemoving }) {
+export function GlobalAlerts({ alerts = [[]], onDismiss, stopRemoving, getModel }) {
     const mappedAlerts = alerts.flat().map((alert) => {
-        const { time, id } = alert
+        const { time, id, modelLink } = alert
+
+        let resolvedAlert = null
+
+        if (modelLink) {
+            const model = getModel(modelLink)
+
+            resolvedAlert = propsResolver(alert, model)
+        } else {
+            resolvedAlert = alert
+        }
 
         const storeKey = alert[STORE_KEY_PATH]
 
         return {
-            ...alert,
+            ...resolvedAlert,
             key: id,
             onDismiss: () => id && onDismiss(storeKey, id),
             stopRemoving: () => id && stopRemoving(storeKey, id),
@@ -56,10 +68,12 @@ GlobalAlerts.propTypes = {
     alerts: PropTypes.array,
     onDismiss: PropTypes.func,
     stopRemoving: PropTypes.func,
+    getModel: PropTypes.func,
 }
 
 const mapStateToProps = createStructuredSelector({
     alerts: state => Object.values(state.alerts),
+    getModel: state => modelLink => get(state, modelLink),
 })
 
 const mapDispatchToProps = dispatch => ({
