@@ -44,12 +44,14 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         Target sourceTarget = source.getTarget();
         String path = source.getHref();
-        if (Target.self.equals(sourceTarget) || Target.newWindow.equals(sourceTarget)) {
-            if (RouteUtil.isApplicationUrl(path)) {
-                path = RouteUtil.normalize(path);
+        if (!StringUtils.isLink(source.getHref())) {
+            if (Target.self.equals(sourceTarget) || Target.newWindow.equals(sourceTarget)) {
+                if (RouteUtil.isApplicationUrl(path)) {
+                    path = RouteUtil.normalize(path);
+                }
+            } else {
+                path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
             }
-        } else if (!source.getHref().startsWith("{")) {
-            path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
         }
         initUrl(linkAction, path, source, routeScope, p);
 
