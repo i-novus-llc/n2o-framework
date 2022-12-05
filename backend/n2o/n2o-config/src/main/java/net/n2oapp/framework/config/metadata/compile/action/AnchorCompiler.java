@@ -45,7 +45,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         Target sourceTarget = source.getTarget();
         String path = source.getHref();
         if (Target.self.equals(sourceTarget) || Target.newWindow.equals(sourceTarget)) {
-            if (RouteUtil.isApplicationUrl(path)) {
+            if (RouteUtil.isApplicationUrl(path) && !source.getHref().startsWith("{")) {
                 path = RouteUtil.normalize(path);
             }
         } else if (!source.getHref().startsWith("{")) {
