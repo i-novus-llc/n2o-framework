@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.PageRef;
-import net.n2oapp.framework.api.metadata.event.action.N2oCopyAction;
+import net.n2oapp.framework.api.metadata.action.N2oCopyAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;

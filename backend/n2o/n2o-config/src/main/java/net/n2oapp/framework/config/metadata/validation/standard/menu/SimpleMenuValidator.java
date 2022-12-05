@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.validation.standard.menu;
 
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
+import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;

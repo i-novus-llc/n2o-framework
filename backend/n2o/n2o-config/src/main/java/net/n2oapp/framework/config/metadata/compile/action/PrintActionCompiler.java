@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.PrintType;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oPrintAction;
+import net.n2oapp.framework.api.metadata.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;

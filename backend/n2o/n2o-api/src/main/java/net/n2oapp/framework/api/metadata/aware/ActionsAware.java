@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.metadata.aware;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 
 /**
  * Знание об исходных действиях компонента
