@@ -94,10 +94,12 @@ public class ActionCompileStaticProcessor {
         if (source.getActions() != null) {
             for (ActionBar a : source.getActions()) {
                 a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
-                if (isNotEmpty(a.getN2oActions()))
+                if (isNotEmpty(a.getN2oActions())) {
+                    initMultiActionIds(a.getN2oActions(), "act_multi", p);
                     Arrays.stream(a.getN2oActions())
                             .forEach(n2oAction ->
                                     p.compile(n2oAction, context, new ComponentScope(a), scopes));
+                }
             }
         }
     }
@@ -141,7 +143,7 @@ public class ActionCompileStaticProcessor {
                     null : metaActions.get(source.getActionId()).getN2oActions());
         }
 
-        initMultiActionIds(actions, p);
+        initMultiActionIds(actions, "multi", p);
         return actions;
     }
 
@@ -200,11 +202,11 @@ public class ActionCompileStaticProcessor {
         return p.getScope(CompiledObject.class);
     }
 
-    private static void initMultiActionIds(N2oAction[] actions, CompileProcessor p) {
+    private static void initMultiActionIds(N2oAction[] actions, String prefix, CompileProcessor p) {
         if (ArrayUtils.getLength(actions) > 1) {
             IndexScope indexScope = new IndexScope();
             Arrays.stream(actions).filter(ActionCompileStaticProcessor::isNotFailConditions)
-                    .forEach(action -> action.setId(p.cast(action.getId(), "multi" + indexScope.get())));
+                    .forEach(action -> action.setId(p.cast(action.getId(), prefix + indexScope.get())));
         }
     }
 

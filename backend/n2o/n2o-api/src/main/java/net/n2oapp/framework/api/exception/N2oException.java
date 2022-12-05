@@ -28,6 +28,10 @@ public class N2oException extends RuntimeException {
      */
     private String userMessage;
     /**
+     * Заголовок сообщения для конечного пользователя
+     */
+    private String userMessageTitle;
+    /**
      * Статус http запроса
      */
     private int httpStatus = 500;

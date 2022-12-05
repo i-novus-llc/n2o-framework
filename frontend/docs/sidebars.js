@@ -10,6 +10,7 @@ module.exports = {
                 'guides/manual/components',
                 'guides/manual/datasources',
                 'guides/manual/data',
+                'guides/manual/actions',
                 'guides/manual/defaultvalue',
                 'guides/manual/dependency',
                 'guides/manual/filters',

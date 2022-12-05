@@ -66,7 +66,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
                         .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope)));
         p.safeStreamOf(toolbars).map(N2oToolbar::getItems).filter(Objects::nonNull)
                 .flatMap(Arrays::stream).forEach(button -> p.validate(button, datasourceIdsScope, dataSourcesScope,
-                new ComponentScope(page)));
+                actionBarScope, new ComponentScope(page)));
         p.safeStreamOf(actions).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
                 .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope));
 

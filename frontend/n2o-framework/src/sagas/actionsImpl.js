@@ -146,6 +146,36 @@ export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
 }
 
 /**
+ * @param {string} pageId
+ * @param {string[]} widgets
+ * @param {object[]} buttons
+ * @param {string[]} buttonIds
+ */
+function* enable(pageId, widgets, buttons, buttonIds) {
+    if (pageId) {
+        yield put(enablePage(pageId))
+
+        for (const buttonId of buttonIds) {
+            const button = buttons[buttonId]
+            const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
+
+            if (!isEmpty(button.conditions)) {
+                yield call(resolveButton, buttons[buttonId])
+            }
+
+            if (needUnDisableButton) {
+                yield put(changeButtonDisabled(pageId, buttonId, false))
+            }
+        }
+    }
+    if (widgets.length) {
+        for (const id of widgets) {
+            yield put(enableWidget(id))
+        }
+    }
+}
+
+/**
  * вызов экшена
  */
 // eslint-disable-next-line complexity
@@ -198,6 +228,7 @@ export function* handleInvoke(apiProvider, action) {
             }
         }
         yield put(successInvoke(datasource, meta))
+        yield enable(pageId, widgets, buttons, buttonIds)
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
@@ -219,28 +250,10 @@ export function* handleInvoke(apiProvider, action) {
 
             yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
         }
-    } finally {
-        if (pageId) {
-            yield put(enablePage(pageId))
 
-            for (const buttonId of buttonIds) {
-                const button = buttons[buttonId]
-                const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
+        yield enable(pageId, widgets, buttons, buttonIds)
 
-                if (!isEmpty(button.conditions)) {
-                    yield call(resolveButton, buttons[buttonId])
-                }
-
-                if (needUnDisableButton) {
-                    yield put(changeButtonDisabled(pageId, buttonId, false))
-                }
-            }
-        }
-        if (widgets.length) {
-            for (const id of widgets) {
-                yield put(enableWidget(id))
-            }
-        }
+        throw err
     }
 }
 

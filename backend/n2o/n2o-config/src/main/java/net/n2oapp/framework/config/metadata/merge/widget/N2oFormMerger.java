@@ -15,7 +15,6 @@ public class N2oFormMerger extends N2oWidgetMerger<N2oForm> {
         setIfNotNull(source::setPrompt, override::getPrompt);
         setIfNotNull(source::setDefaultValuesQueryId, override::getDefaultValuesQueryId);
         addIfNotNull(source, override, N2oForm::setItems, N2oForm::getItems);
-        addIfNotNull(source, override, N2oForm::setDependencies, N2oForm::getDependencies);
         return source;
     }
 

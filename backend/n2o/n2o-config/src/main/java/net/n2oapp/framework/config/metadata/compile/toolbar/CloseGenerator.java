@@ -35,9 +35,8 @@ public class CloseGenerator implements ButtonGenerator {
         cancelAction.setId(GenerateType.close.name());
         closeButton.setDatasourceId(datasource);
         closeButton.setModel(ReduxModel.filter);
-        if (context instanceof PageContext) {
-            cancelAction.setRefreshOnClose(((PageContext) context).getRefreshOnClose());
-        }
+        if (context instanceof PageContext)
+            cancelAction.setRefresh(((PageContext) context).getRefreshOnClose());
         closeButton.setActions(new N2oCloseAction[]{cancelAction});
         closeButton.setValidate(false);
         return Collections.singletonList(closeButton);

@@ -364,7 +364,7 @@ public class GraphQlDataProviderEngineTest {
     public void testMutationWithPlaceholders() {
         String queryPath = "/n2o/data/test/graphql/mutationPlaceholders";
         String url = "http://localhost:" + appPort + queryPath;
-        Request request = new Request("new \"Name\"", 99, List.of(new Address("address1")));
+        Request request = new Request("new \"Name\"", 1, 99, List.of(new Address("address1")));
 
         // mocked data
         Map<String, Object> data = new HashMap<>();
@@ -372,11 +372,12 @@ public class GraphQlDataProviderEngineTest {
         persons.put("createPerson",
                 new HashMap<>(Map.of("id", 1,
                         "name", request.getPersonName(),
+                        "nameId", request.getNameId(),
                         "age", request.getAge(),
                         "addresses", List.of(Map.of("street", "address1")))));
         data.put("data", persons);
 
-        String expectedQuery = "mutation { createPerson(name: \"new \\\"Name\\\"\", age: 99, " +
+        String expectedQuery = "mutation { createPerson(name: \"new \\\"Name\\\"\", nameId: 1, age: 99, " +
                 "addresses: [{street: \"address1\"}]) {id name age address: {street}} }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
@@ -533,16 +534,85 @@ public class GraphQlDataProviderEngineTest {
         assertEquals(expectedQuery, payloadValue.get("query"));
     }
 
+    @Test
+    public void testEnums() {
+        // MULTIPLE SORTS
+        String queryPath = "/n2o/data/test/graphql/enums?sorting.name=ASC&sorting.age=DESC";
+        String url = "http://localhost:" + appPort + queryPath;
+
+        // mocked data
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> persons = new HashMap<>();
+        persons.put("persons", Collections.singletonList(
+                Map.of("name", "test", "age", 20)));
+        data.put("data", persons);
+
+        String expectedQuery = "query persons( {nameDirection: ASC, sortProperty: prop}, {ageDirection: DESC, sortProperty: prop} ) { name age }";
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(url, GetDataResponse.class);
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Map<String, Object> payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
+
+        // graphql payload
+        assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
+        assertEquals(expectedQuery, payloadValue.get("query"));
+
+        // ONE SORT
+        queryPath = "/n2o/data/test/graphql/enums?sorting.name=ASC";
+        url = "http://localhost:" + appPort + queryPath;
+
+        expectedQuery = "query persons( {nameDirection: ASC, sortProperty: prop} ) { name age }";
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        response = restTemplate.getForEntity(url, GetDataResponse.class);
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
+
+        // graphql payload
+        assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
+        assertEquals(expectedQuery, payloadValue.get("query"));
+
+        // ONE SORT (another option)
+        queryPath = "/n2o/data/test/graphql/enums?sorting.age=ASC";
+        url = "http://localhost:" + appPort + queryPath;
+
+        expectedQuery = "query persons( {ageDirection: ASC, sortProperty: prop} ) { name age }";
+        when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
+                .thenReturn(new DataSet(data));
+
+        response = restTemplate.getForEntity(url, GetDataResponse.class);
+        verify(restTemplateMock, atLeastOnce()).postForObject(anyString(), httpEntityCaptor.capture(), eq(DataSet.class));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        payloadValue = (Map<String, Object>) httpEntityCaptor.getValue().getBody();
+
+        // graphql payload
+        assertEquals(Collections.emptyMap(), payloadValue.get("variables"));
+        assertEquals(expectedQuery, payloadValue.get("query"));
+    }
+
     @Getter
     @Setter
     public static class Request {
         private Integer id;
         private String personName;
+        private Integer nameId;
         private Integer age;
         private List<Address> addresses;
 
         public Request(String name, Integer age, List<Address> addresses) {
             this.personName = name;
+            this.age = age;
+            this.addresses = addresses;
+        }
+
+        public Request(String name, Integer nameId, Integer age, List<Address> addresses) {
+            this.personName = name;
+            this.nameId = nameId;
             this.age = age;
             this.addresses = addresses;
         }

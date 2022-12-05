@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="test" success-title="Заголовок успеха. Введенные данные: {number}"
+                   success-text="Текст успеха. Введенные данные: {number}"
+                   fail-title="Заголовок ошибки. Введенные данные: {number}"
+                   fail-text="Текст ошибки. Введенные данные: {number}">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="number" domain="integer"/>
+            </in>
+            <validations>
+                <condition id="test" title="Заголовок валидации. Введенные данные: {number}"
+                           message="Сообщение валидации. Введенные данные: {number}">
+                    number == 2342
+                </condition>
+            </validations>
+        </operation>
+    </operations>
+</object>

@@ -15,7 +15,6 @@ public class SetValueElementIOV1 extends AbstractActionElementIOV1<N2oSetValueAc
     @Override
     public void io(Element e, N2oSetValueAction sv, IOProcessor p) {
         super.io(e, sv, p);
-        p.attribute(e, "target-field-id", sv::getTargetFieldId, sv::setTargetFieldId);
         p.attribute(e, "to", sv::getTo, sv::setTo);
         p.attribute(e, "source-widget", sv::getSourceWidget, sv::setSourceWidget);
         p.attribute(e, "source-model", sv::getSourceModel, sv::setSourceModel);

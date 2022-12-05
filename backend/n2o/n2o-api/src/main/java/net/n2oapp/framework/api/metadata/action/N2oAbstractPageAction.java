@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -61,6 +62,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String targetDatasourceId;
     private ReduxModel targetModel;
     private String targetFieldId;
+    private PageRef targetPage;
 
     private Boolean createMore;
     private Boolean closeAfterSubmit;
