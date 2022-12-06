@@ -95,10 +95,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        PageIndexScope pageIndexScope = p.getScope(PageIndexScope.class);
-        String defaultId = "_".equals(pageIndexScope.getPageId()) ? "mi" + pageIndexScope.get()
-                : pageIndexScope.getPageId() + "_mi" + pageIndexScope.get();
-        source.setId(p.cast(source.getId(), defaultId));
+        source.setId(initId(source.getId(), p));
         if (p.resolve(property("n2o.api.button.generate-label"), Boolean.class))
             source.setLabel(p.cast(source.getLabel(), source.getId()));
         source.setType(initType(source));
@@ -108,6 +105,16 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         String datasource = initDatasource(source, p);
         source.setDatasourceId(datasource);
         source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
+    }
+
+    private String initId(String id, CompileProcessor p) {
+        if (id != null)
+            return id;
+
+        PageIndexScope pageIndexScope = p.getScope(PageIndexScope.class);
+        String pageId = pageIndexScope.getPageId();
+
+        return ("_".equals(pageId) ? "mi" : pageId + "_mi") + pageIndexScope.get();
     }
 
     private String initTooltipPosition(S source, CompileProcessor p) {
