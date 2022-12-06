@@ -53,9 +53,6 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         int i = 0;
         Boolean buttonGrouping = isGrouping(p);
 
-//        IndexScope scope = p.getScope(IndexScope.class);
-//        final IndexScope indexScope = scope == null ? new IndexScope() : scope;
-
         while (i < source.getItems().length) {
             Group gr = new Group(place + gi++);
             gr.setClassName(source.getCssClass());

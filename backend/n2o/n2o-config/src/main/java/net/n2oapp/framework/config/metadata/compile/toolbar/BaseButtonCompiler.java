@@ -96,7 +96,9 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageIndexScope pageIndexScope = p.getScope(PageIndexScope.class);
-        source.setId(p.cast(source.getId(), pageIndexScope.getPageId() + "_mi" + pageIndexScope.get()));
+        String defaultId = "_".equals(pageIndexScope.getPageId()) ? "mi" + pageIndexScope.get()
+                : pageIndexScope.getPageId() + "_mi" + pageIndexScope.get();
+        source.setId(p.cast(source.getId(), defaultId));
         if (p.resolve(property("n2o.api.button.generate-label"), Boolean.class))
             source.setLabel(p.cast(source.getLabel(), source.getId()));
         source.setType(initType(source));
