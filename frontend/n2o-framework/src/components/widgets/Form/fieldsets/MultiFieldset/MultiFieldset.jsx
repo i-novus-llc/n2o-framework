@@ -19,6 +19,7 @@ import { resolveExpression } from '../../utils'
 import propsResolver from '../../../../../utils/propsResolver'
 import HelpPopover from '../../fields/StandardField/HelpPopover'
 import { withFieldsetHeader } from '../withFieldsetHeader'
+import { id } from '../../../../../utils/id'
 
 import MultiFieldsetItem from './MultiFieldsetItem'
 
@@ -86,15 +87,23 @@ export const enhance = compose(
         },
     }),
     withHandlers({
-        onAddField: ({ form, name, dispatch, fields }) => () => {
+        onAddField: ({
+            form,
+            name,
+            dispatch,
+            fields,
+            generatePrimaryKey = false,
+            primaryKey = 'id',
+        }) => () => {
             if (fields === null) {
                 dispatch(change(form, name, [{}]))
 
                 return
             }
             const newValue = fields.slice()
+            const newField = generatePrimaryKey ? { [primaryKey]: id() } : {}
 
-            newValue.push({})
+            newValue.push(newField)
             dispatch(change(form, name, newValue))
         },
         onRemoveField: ({ form, name, dispatch, fields, modelPrefix, getResetFields }) => index => () => {
