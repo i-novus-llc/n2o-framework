@@ -144,13 +144,15 @@ export default (Field) => {
             }
         }
 
+        replaceIndex = (obj, index) => JSON.parse(
+            JSON.stringify(obj).replaceAll(INDEX_PLACEHOLDER, index),
+        )
+
         resolveControlIndexes = (control) => {
             const { parentIndex } = this.props
 
             if (control && control.dataProvider && !isNil(parentIndex)) {
-                const dataProvider = JSON.parse(
-                    JSON.stringify(control.dataProvider).replaceAll('index', parentIndex),
-                )
+                const dataProvider = this.replaceIndex(control.dataProvider, parentIndex)
 
                 return {
                     ...control,
@@ -161,19 +163,30 @@ export default (Field) => {
             return control
         }
 
+        resolveActionIndexes = (action) => {
+            const { parentIndex } = this.props
+
+            if (action && !isNil(parentIndex)) {
+                return this.replaceIndex(action, parentIndex)
+            }
+
+            return action
+        }
+
         /**
          * мэппинг сообщений
          * @returns {string}
          */
 
         render() {
-            const { mapProps, control } = this.props
+            const { mapProps, control, action } = this.props
             const props = mapProps(this.props)
 
             return (
                 <Field
                     {...props}
                     control={this.resolveControlIndexes(control)}
+                    action={this.resolveActionIndexes(action)}
                     onChange={this.onChange}
                     onBlur={this.onBlur}
                 />
@@ -198,6 +211,7 @@ export default (Field) => {
         parentIndex: PropTypes.number,
         validation: PropTypes.any,
         control: PropTypes.object,
+        action: PropTypes.object,
     }
 
     const mapStateToProps = (state, { modelPrefix, ...ownProps }) => {
