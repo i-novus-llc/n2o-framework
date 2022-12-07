@@ -46,6 +46,7 @@
     <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
     <xs:element name="number-picker" type="numberPickerFieldDefinition"/>
     <xs:element name="time-picker" type="controlTimePickerDefinition"/>
+    <xs:element name="markdown" type="controlMarkdownDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -87,6 +88,7 @@
             <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
             <xs:element name="number-picker" type="numberPickerFieldDefinition" minOccurs="0"/>
             <xs:element name="time-picker" type="controlTimePickerDefinition" minOccurs="0"/>
+            <xs:element name="markdown" type="controlMarkdownDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемое через библиотеку поле.</xs:documentation>
@@ -1857,6 +1859,21 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="length" type="xs:integer" use="optional"/>
                 <xs:attribute name="eye" type="xs:boolean" use="optional" default="true"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlMarkdownDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:attribute name="actions" type="xs:integer" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Список идентификаторов действий через запятую, которые используются внутри markdown.
+                            Действия должны быть описаны внутри формы, в разделе actions.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

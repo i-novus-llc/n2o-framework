@@ -105,6 +105,38 @@ public class ActionCompileStaticProcessor {
     }
 
     /**
+     * Компиляция метадействия
+     *
+     * @param source  Метадействие
+     * @param context Контекст сборки
+     * @param p       Процессор сборки метаданных
+     * @param scopes  Метаданные, влияющие на сборку. Должны быть разных классов
+     */
+    public static Action compileMetaAction(ActionBar source, CompileContext<?, ?> context, CompileProcessor p,
+                                         Object... scopes) {
+        if (source != null) {
+            source.setModel(p.cast(source.getModel(), ReduxModel.resolve));
+            if (isNotEmpty(source.getN2oActions())) {
+                initMultiActionIds(source.getN2oActions(), "act_multi", p);
+                List<Action> actions = Arrays.stream(source.getN2oActions())
+                        .filter(ActionCompileStaticProcessor::isNotFailConditions)
+                        .map(n2oAction -> (Action) p.compile(n2oAction, context,
+                                initActionObject(n2oAction, null, p),
+                                initFailConditionBranchesScope(n2oAction, source.getN2oActions()),
+                                new ComponentScope(source, p.getScope(ComponentScope.class)), scopes))
+                        .collect(Collectors.toList());
+                if (actions.size() == 0)
+                    return null;
+                if (actions.size() > 1) {
+                    return new MultiAction(actions, p);
+                }
+                return actions.get(0);
+            }
+        }
+        return null;
+    }
+
+    /**
      * Компиляция тулбара
      *
      * @param source               Компонент, содержащий тулбар
@@ -174,7 +206,7 @@ public class ActionCompileStaticProcessor {
         if (actions.size() == 0)
             return null;
         if (actions.size() > 1) {
-           return new MultiAction(actions, p);
+            return new MultiAction(actions, p);
         }
         return actions.get(0);
     }
@@ -183,7 +215,7 @@ public class ActionCompileStaticProcessor {
         if (!(n2oAction instanceof N2oIfBranchAction))
             return null;
         List<N2oConditionBranch> failBranches = new ArrayList<>();
-        for (N2oAction act: n2oActions) {
+        for (N2oAction act : n2oActions) {
             if (act instanceof N2oIfBranchAction && !act.equals(n2oAction))
                 break;
             if (act instanceof N2oElseIfBranchAction || act instanceof N2oElseBranchAction)
