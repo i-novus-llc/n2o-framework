@@ -92,8 +92,7 @@
                             Подстановка значений по умолчанию.
                             defaults - значения по умолчанию заполняются данными прописанными в полях
                             query - значения по умолчанию заполняются данными из запроса
-                            merge - значения по умолчанию заполняются путем слияния данных прописанных в полях и
-                            полученных из запроса (полученные из запроса в приоритете), id игнорируется
+                            merge - значения по умолчанию заполняются путем слияния данных прописанных в полях и полученных из запроса (полученные из запроса в приоритете), id игнорируется
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -181,7 +180,6 @@
             <xs:extension base="baseDatasourceDefinition">
                 <xs:sequence>
                     <xs:element name="submit" type="inheritedDatasourceSubmit" minOccurs="0"/>
-                    <xs:element name="filters" type="inheritedDatasourceFiltersDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="source-datasource" type="xs:string" use="required">
                     <xs:annotation>
@@ -376,8 +374,7 @@
         <xs:attribute name="target-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Идентификатор поля текущего источника данных, в которое будут скопированы данные. Если не указано,
-                    то вся модель
+                    Идентификатор поля текущего источника данных, в которое будут скопированы данные. Если не указано, то вся модель
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -398,8 +395,7 @@
         <xs:attribute name="source-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Идентификатор поля исходного источника данных, из которого будут скопированы данные. Если не
-                    указано, то вся модель
+                    Идентификатор поля исходного источника данных, из которого будут скопированы данные. Если не указано, то вся модель
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -439,18 +435,6 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-    </xs:complexType>
-
-<!-- после внедрения фильтров других типов в inherited-datasource, можно будет этот тип упразднить -->
-    <xs:complexType name="inheritedDatasourceFiltersDefinition">
-        <xs:annotation>
-            <xs:documentation>
-                Предустановленная фильтрация для inherited-datasource
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="eq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="datasourceFiltersDefinition">

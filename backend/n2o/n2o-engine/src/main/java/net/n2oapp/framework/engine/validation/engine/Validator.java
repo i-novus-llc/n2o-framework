@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine.validation.engine;
 
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.validation.*;
@@ -42,7 +43,7 @@ public class Validator implements Iterable<Validation> {
         if (checkValidation(v)) {
             if (isMultiSet(v.getFieldId())) {
                 String commonFieldId = v.getFieldId();
-                String commonMessage = v.getMessage();
+                String commonMessage = StringUtils.resolveLinks(v.getMessage(), dataSet);
                 int count = ((DataList) dataSet.get(getMultiSetId(v.getFieldId()))).size();
                 for (int i = 0; i< count; i++) {
                     v.setFieldId(replaceIndex(commonFieldId, i));
@@ -199,10 +200,6 @@ public class Validator implements Iterable<Validation> {
             return this;
         }
 
-        public Builder addDomainProcessor(DomainProcessor processor) {
-            Validator.this.domainProcessor = processor;
-            return this;
-        }
 
         public Validator build() {
             sort();

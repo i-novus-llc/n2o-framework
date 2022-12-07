@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.compile.pipeline;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -10,10 +9,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.register.MetaType;
-import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
-import net.n2oapp.framework.config.metadata.compile.context.BaseCompileContext;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.apache.commons.io.IOUtils;
@@ -22,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
 

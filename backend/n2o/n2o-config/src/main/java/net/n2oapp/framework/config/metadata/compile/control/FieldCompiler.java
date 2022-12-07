@@ -27,6 +27,7 @@ import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
+import net.n2oapp.framework.api.script.ScriptParserException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -100,15 +101,19 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private void initCondition(S source, Supplier<String> conditionGetter, N2oField.Dependency dependency,
                                Consumer<Boolean> conditionSetter, Boolean defaultValue) {
         if (StringUtils.isLink(conditionGetter.get())) {
-            Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
+            try {
+                Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
+                dependency.setOn(onFields.toArray(String[]::new));
+            } catch (ScriptParserException e) {
+                throw new N2oException(
+                        String.format("Unable to extract variables from expression '%s'. Try using field dependency " +
+                                        "with explicitly specifying variables in an attribute 'on'",
+                                StringUtils.unwrapLink(conditionGetter.get())));
+            }
+
             dependency.setValue(StringUtils.unwrapLink(conditionGetter.get()));
-            dependency.setOn(onFields.toArray(String[]::new));
             source.addDependency(dependency);
             conditionSetter.accept(false);
-        } else if (conditionGetter.get() != null) {
-            dependency.setValue(conditionGetter.get());
-            source.addDependency(dependency);
-            conditionSetter.accept(defaultValue);
         } else {
             conditionSetter.accept(defaultValue);
         }
@@ -321,7 +326,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     if (dependency.getClass().equals(N2oField.VisibilityDependency.class))
                         fieldVisibilityConditions.add(dependency.getValue());
                 }
+            } else if ("false".equals(source.getVisible())) {
+                fieldVisibilityConditions.add(source.getVisible());
             }
+
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(fieldId);
                 Validation compiledValidation = p.compile(v, context);

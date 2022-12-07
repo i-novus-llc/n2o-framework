@@ -82,9 +82,10 @@ public class ValidationProcessor {
         String userMessage = null;
         N2oDialog dialog = null;
         for (FailInfo fail : fails) {
-            messages.add(new ValidationMessage(fail.getMessage(), fail.getFieldId(), fail.getValidationId()));
-            if (fail.getFieldId() == null)
+            messages.add(new ValidationMessage(fail.getMessage(), fail.getMessageTitle(), fail.getFieldId(), fail.getValidationId()));
+            if (fail.getFieldId() == null) {
                 userMessage = fail.getMessage();
+            }
             if (fail.getDialog() != null)
                 dialog = fail.getDialog();
         }

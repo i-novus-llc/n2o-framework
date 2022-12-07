@@ -65,6 +65,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compileComponent(page, source, context, p);
 
+        PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
@@ -87,7 +88,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         IndexScope index = new IndexScope();
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
                 breadcrumb, validationScope, page.getModels(), pageRoutesScope, searchBarScope, subModelsScope,
-                copiedFieldScope, datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope, metaActions, filtersScope, index));
+                copiedFieldScope, datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope, metaActions,
+                filtersScope, index, pageIndexScope));
 
         //datasources
         Map<String, AbstractDatasource> compiledDatasources = compileDatasources(context, p,
@@ -103,7 +105,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         //toolbars
         initToolbarGenerate(source, context, resultWidget);
         compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object,
-                breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope);
+                breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourceIdsScope,
+                parentDatasourceIdsScope, pageIndexScope);
 
         if (source.getDatasourceId() != null)
             page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(), p));

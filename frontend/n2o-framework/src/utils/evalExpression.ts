@@ -16,7 +16,15 @@ export function parseExpression(value: unknown): false | string {
     if (typeof value !== 'string') { return false }
 
     if (value.startsWith('`') && value.endsWith('`')) {
-        return value.substring(1, value.length - 1)
+        const parsed = value.substring(1, value.length - 1)
+
+        if (parsed.includes('\n')) {
+            const exp = new RegExp('\\n', 'g')
+
+            return parsed.replace(exp, '\\n')
+        }
+
+        return parsed
     }
 
     return false
@@ -92,7 +100,6 @@ export function createContextFn(args: string[], code: string): ExpressionFunctio
     const expressionFunction = expressionCache.get(key)
 
     if (expressionFunction) { return expressionFunction }
-
     // eslint-disable-next-line no-new-func
     const creator = new Function(
         'globalContext',

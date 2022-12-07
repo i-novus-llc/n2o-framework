@@ -10,7 +10,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class N2oSidebarMergeTest extends SourceMergerTestBase {
+public class N2oSidebarMergerTest extends SourceMergerTestBase {
 
     @Override
     @Before
@@ -26,8 +26,8 @@ public class N2oSidebarMergeTest extends SourceMergerTestBase {
 
     @Test
     public void mergeSidebar() {
-        N2oSidebar sidebar = merge("net/n2oapp/framework/config/metadata/merge/parentSidebar.sidebar.xml",
-                "net/n2oapp/framework/config/metadata/merge/childSidebar.sidebar.xml")
+        N2oSidebar sidebar = merge("net/n2oapp/framework/config/metadata/merge/sidebar/parentSidebar.sidebar.xml",
+                "net/n2oapp/framework/config/metadata/merge/sidebar/childSidebar.sidebar.xml")
                 .get("parentSidebar", N2oSidebar.class);
         assertThat(sidebar.getTitle(), is("N2o"));
         assertThat(sidebar.getSubtitle(), is("Simple subtitle"));

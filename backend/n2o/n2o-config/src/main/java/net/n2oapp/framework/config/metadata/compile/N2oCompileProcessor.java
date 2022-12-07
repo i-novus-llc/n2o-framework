@@ -39,6 +39,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
     private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "", true);
+    private static final Pattern FIELD_ID_PATTERN = Pattern.compile("[a-zA-Z_][\\w.\\[\\]*]*");
 
     /**
      * Сервисы окружения
@@ -182,7 +183,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             bindPipeline.get(compiled, context, params, subModelsProcessor, flattedScopes);
     }
 
-
     @Override
     public Map<String, Object> mapAttributes(ExtensionAttributesAware source) {
         if (source.getExtAttributes() == null || source.getExtAttributes().isEmpty())
@@ -225,6 +225,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     @Override
     public <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass) {
         return readPipeline.get(id, sourceClass);
+    }
+
+    @Override
+    public <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass, CompileProcessor processor) {
+        return readPipeline.get(id, sourceClass, new N2oCompileProcessor((N2oCompileProcessor) processor));
     }
 
     @Override
@@ -520,10 +525,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     public void checkId(IdAware metadata, String errorMessage) {
         if (metadata == null || metadata.getId() == null)
             return;
-        Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
-        Matcher matcher = pattern.matcher(metadata.getId());
-        if (matcher.find() || forbiddenIds.contains(metadata.getId())) {
-            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
+        Matcher matcher = FIELD_ID_PATTERN.matcher(metadata.getId());
+        if (!matcher.matches() || forbiddenIds.contains(metadata.getId())) {
+            throw new N2oMetadataValidationException(String.format(errorMessage, metadata.getId()));
         }
     }
 
@@ -583,7 +587,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             return null;
     }
 
-
     private Object[] flatScopes(Object[] scopes) {
         if (scopes != null && Stream.of(scopes).filter(Objects::nonNull).anyMatch(o -> o.getClass().isArray()))
             return flatScopes(Stream.of(scopes)
@@ -592,7 +595,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
                     .filter(Objects::nonNull).toArray());
         else
             return scopes;
-
     }
 
     private boolean isBinding() {
