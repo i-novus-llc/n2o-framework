@@ -73,6 +73,7 @@ public class Validator implements Iterable<Validation> {
             failInfo.setSeverity(v.getSeverity());
             failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
             failInfo.setMessage(message);
+            failInfo.setMessageTitle(StringUtils.resolveLinks(v.getMessageTitle(), dataSet));
             if (v instanceof ValidationDialog)
                 failInfo.setDialog(((ValidationDialog) v).getDialog());
             fails.add(failInfo);
