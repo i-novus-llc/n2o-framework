@@ -44,7 +44,10 @@ export function* copyAction({ payload }) {
     )
     const targetModel = selectedTargetModel || []
     let newModel = {}
-    const targetModelField = get(targetModel, [target.field], [])
+
+    const { field = null } = target
+    const targetModelField = get(targetModel, field, [])
+
     const treePath = includes(target.field, '.')
 
     if (expression) {
@@ -74,8 +77,13 @@ export function* copyAction({ payload }) {
             console.warn('Source or target is not an array!')
         }
 
-        if (!Array.isArray(sourceModel) && Array.isArray(targetModel)) {
-            newModel = targetModel.concat(sourceModel)
+        if (!Array.isArray(sourceModel)) {
+            /* the key by which the data is copied to the target model */
+            if (field) {
+                newModel = { ...targetModel, [field]: targetModelField.concat(sourceModel) }
+            } else {
+                newModel = targetModel.concat(sourceModel)
+            }
         } else {
             sourceModel = Object.values(sourceModel)
 
