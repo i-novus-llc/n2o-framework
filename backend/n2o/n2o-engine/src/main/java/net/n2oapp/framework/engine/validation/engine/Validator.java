@@ -200,6 +200,10 @@ public class Validator implements Iterable<Validation> {
             return this;
         }
 
+        public Builder addDomainProcessor(DomainProcessor processor) {
+            Validator.this.domainProcessor = processor;
+            return this;
+        }
 
         public Validator build() {
             sort();
