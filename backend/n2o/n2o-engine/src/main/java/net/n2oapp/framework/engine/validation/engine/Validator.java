@@ -205,7 +205,6 @@ public class Validator implements Iterable<Validation> {
             return this;
         }
 
-
         public Validator build() {
             sort();
             return Validator.this;
