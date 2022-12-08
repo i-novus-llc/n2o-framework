@@ -63,8 +63,8 @@ public class Validator implements Iterable<Validation> {
         }
     }
 
-    private String replaceIndex(String commonFieldId, int i) {
-        return commonFieldId.replaceAll("\\[index]", "[" + i + "]");
+    private String replaceIndex(String text, int i) {
+        return text == null ? null : text.replaceAll("\\[index]", "[" + i + "]");
     }
 
     private void validateField(Validation v, List<FailInfo> fails) {
