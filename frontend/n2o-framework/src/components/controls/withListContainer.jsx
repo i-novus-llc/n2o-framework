@@ -128,6 +128,7 @@ function withListContainer(WrappedComponent) {
                 onSearch={handleSearch}
                 handleItemOpen={handleItemOpen}
                 _fetchData={_fetchData}
+                sortFieldId={sortFieldId}
             />
         )
     }
