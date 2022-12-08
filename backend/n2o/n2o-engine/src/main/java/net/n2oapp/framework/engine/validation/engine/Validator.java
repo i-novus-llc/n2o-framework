@@ -44,15 +44,18 @@ public class Validator implements Iterable<Validation> {
             if (isMultiSet(v.getFieldId())) {
                 String commonFieldId = v.getFieldId();
                 String commonMessage = StringUtils.resolveLinks(v.getMessage(), dataSet);
+                String commonMessageTitle = StringUtils.resolveLinks(v.getMessageTitle(), dataSet);
                 int count = ((DataList) dataSet.get(getMultiSetId(v.getFieldId()))).size();
                 for (int i = 0; i< count; i++) {
                     v.setFieldId(replaceIndex(commonFieldId, i));
                     v.setMessage(replaceIndex(commonMessage, i));
+                    v.setMessageTitle(replaceIndex(commonMessageTitle, i));
                     dataSet.put("index", i);
                     validateField(v, fails);
                 }
                 dataSet.remove("index");
                 v.setMessage(commonMessage);
+                v.setMessageTitle(commonMessageTitle);
                 v.setFieldId(commonFieldId);
             } else {
                 validateField(v, fails);
@@ -60,8 +63,8 @@ public class Validator implements Iterable<Validation> {
         }
     }
 
-    private String replaceIndex(String commonFieldId, int i) {
-        return commonFieldId.replaceAll("\\[index]", "[" + i + "]");
+    private String replaceIndex(String text, int i) {
+        return text == null ? null : text.replaceAll("\\[index]", "[" + i + "]");
     }
 
     private void validateField(Validation v, List<FailInfo> fails) {

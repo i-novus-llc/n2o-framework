@@ -62,7 +62,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         List<FieldSet.Row> rows = new ArrayList<>();
         for (SourceComponent item : source.getItems()) {
             if (item instanceof N2oFieldsetRow) {
-                rows.add(p.compile(item, context, visibilityScope));
+                rows.add(p.compile(item, context, visibilityScope, scopes));
             } else {
                 N2oFieldsetRow newRow = new N2oFieldsetRow();
                 newRow.setItems(new SourceComponent[]{item});
