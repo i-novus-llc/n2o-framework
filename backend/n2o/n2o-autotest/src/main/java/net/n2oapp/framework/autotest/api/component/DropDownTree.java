@@ -5,6 +5,8 @@ public interface DropDownTree extends Component {
 
     void shouldHaveItems(int size);
 
+    void val(String value);
+
     interface DropDownTreeItem extends Expandable, Component, DropDown.DropDownItem {
         void shouldHaveOption(String label);
     }

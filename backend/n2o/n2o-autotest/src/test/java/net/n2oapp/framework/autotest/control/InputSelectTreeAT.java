@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.CollectionCondition;
+import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -96,5 +97,29 @@ public class InputSelectTreeAT extends AutoTestBase {
 
         inputSelectTree.removeAllOptions();
         inputSelectTree.shouldBeUnselected();
+    }
+
+    @Test
+    public void testSearchMinLength() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/test.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        InputSelectTree inputSelectTree = simplePage.widget(FormWidget.class)
+                .fields().field("Input-select-tree min-length=4").control(InputSelectTree.class);
+        inputSelectTree.expand();
+        DropDownTree dropdown = inputSelectTree.dropdown();
+        dropdown.shouldHaveItems(3);
+
+        dropdown.val("a");
+        dropdown.shouldHaveItems(3);
+
+        dropdown.val("aud");
+        dropdown.shouldHaveItems(3);
+
+        dropdown.val("audi");
+        dropdown.shouldHaveItems(1);
     }
 }
