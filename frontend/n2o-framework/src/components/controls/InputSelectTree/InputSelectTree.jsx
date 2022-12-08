@@ -357,7 +357,7 @@ function InputSelectTree({
                 {children}
             </TreeSelect>
             {searchValue && isEmpty(value) &&
-            <Icon name="fa fa-times n2o-input-select-tree__search-clear-icon" onClick={clearSearch} />
+            <Icon name="fa fa-times n2o-input-select-tree__search-clear-icon custom-clear" onClick={clearSearch} />
             }
         </div>
     )
