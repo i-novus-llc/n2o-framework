@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 public class SetValueElementIOV2Test {
     @Test
-    public void testSetValueElementIOV1Test(){
+    public void testSetValueElementIOV2Test(){
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new StandardPageElementIOv4(), new SetValueElementIOV2());
         assert tester.check("net/n2oapp/framework/config/io/action/v2/testSetValueElementIOV2.page.xml");

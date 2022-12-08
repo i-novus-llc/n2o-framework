@@ -147,7 +147,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 
 Список операций над объектом.
 
-#### &lt;operation&gt;
+#### &lt;operation&gt; {#operation}
 
 Операция над объектом.
 
@@ -194,9 +194,21 @@ http://n2oapp.net/framework/config/schema/object-4.0
 
 Вызов операции.
 
+**Атрибуты**
+
+|Наименование   |Тип    |Описание                               |Значение по умолчанию|
+|---------------|-------|---------------------------------------|---------------------|
+|result-mapping |Строка |Маппинг результата выполнения операции |                     |
+
 **Тело**
 
 [Провайдер данных](../xml/dataprovider)
+
+```xml
+<invocation result-mapping="['data']">
+    <graphql>...</graphql>
+</invocation>
+```
 
 ##### &lt;in&gt;
 

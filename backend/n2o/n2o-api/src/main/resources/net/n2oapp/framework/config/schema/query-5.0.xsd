@@ -163,7 +163,7 @@
         <xs:attribute name="filters" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Идентификаторы фильтров через запятую.
+                    Идентификаторы фильтров (через запятую).
                     Вызов провайдера данных сработает только при наличии всех фильтров в запросе
                 </xs:documentation>
             </xs:annotation>

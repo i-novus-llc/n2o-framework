@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
@@ -65,6 +66,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Идентификатор поля целевого виджета, в которое будут скопированы данные
      */
     private String targetFieldId;
+    /**
+     * Страница, в источник данных которой будут скопированы данные
+     */
+    private PageRef targetPage;
     /**
      * Тип слияния при копировании данных
      */

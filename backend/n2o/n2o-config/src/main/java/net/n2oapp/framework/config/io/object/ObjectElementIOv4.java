@@ -59,7 +59,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "confirm-text", t::getConfirmationText, t::setConfirmationText);
         p.attributeBoolean(e, "confirm", t::getConfirm, t::setConfirm);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
-        p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
+        invocation(e, t, p);
         p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
                 .add("field", ObjectSimpleField.class, this::inField)
                 .add("reference", ObjectReferenceField.class, this::inReference)
@@ -68,6 +68,12 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.children(e, "out", "field", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outField);
         p.children(e, "fail-out", "field", t::getFailOutFields, t::setFailOutFields, ObjectSimpleField.class, this::outField);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
+    }
+
+    private void invocation(Element e, N2oObject.Operation t, IOProcessor p) {
+        p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
+        if (t.getInvocation() != null)
+            p.childAttribute(e, "invocation", "result-mapping", t.getInvocation()::getResultMapping, t.getInvocation()::setResultMapping);
     }
 
     private void operationInlineValidations(Element e, N2oObject.Operation.Validations t, IOProcessor p) {

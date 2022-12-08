@@ -35,7 +35,8 @@ public class AnchorCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
-                new N2oActionsPack(), new N2oApplicationPack(), new N2oAllDataPack())
+                new N2oActionsPack(), new N2oApplicationPack(), new N2oAllDataPack(),
+                new N2oControlsPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction2.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testAnchorMenuItem.query.xml"));
     }
@@ -79,6 +80,11 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(linkSecond.getPathMapping().size(), is(1));
         assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
+
+        LinkActionImpl linkWithParam = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
+                .getToolbar().getButton("withParam").getAction();
+
+        assertThat(linkWithParam.getUrl(), is("`url`"));
 
         //Modal page
         PageContext modalContext = (PageContext) route("/page/id4", Page.class);
@@ -136,5 +142,21 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("person"));
         assertThat(menuItem.getQueryMapping().get("name").getBindLink(), is("models.resolve['person']"));
         assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));
+    }
+
+    @Test
+    public void testLinkedHref() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testLinkedHref.page.xml")
+                .get(new PageContext("testLinkedHref"));
+
+        Toolbar toolbar = ((Widget<?>) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
+        LinkActionImpl link1 = (LinkActionImpl) toolbar.getButton("b1").getAction();
+        assertThat(link1.getUrl(), is("`url`"));
+        assertThat(link1.getPayload().getModelLink(), is("models.filter['testLinkedHref_ds1']"));
+
+        toolbar = page.getToolbar();
+        LinkActionImpl link2 = (LinkActionImpl) toolbar.getButton("b2").getAction();
+        assertThat(link2.getUrl(), is("`url`"));
+        assertThat(link2.getPayload().getModelLink(), is("models.resolve['testLinkedHref_ds1']"));
     }
 }

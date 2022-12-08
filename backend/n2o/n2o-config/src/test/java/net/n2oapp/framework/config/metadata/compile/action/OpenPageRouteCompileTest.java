@@ -180,7 +180,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testPageToolbarWithParams.page.xml")
                 .get(new PageContext("testPageToolbarWithParams", "/test"));
 
-        OpenDrawer action = (OpenDrawer) page.getToolbar().getButton("mi0").getAction();
+        OpenDrawer action = (OpenDrawer) page.getToolbar().getButton("test_mi0").getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));

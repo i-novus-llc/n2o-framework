@@ -171,6 +171,15 @@ N2O поддерживает провайдеры SQL, REST, GraphQl, Spring Bea
 </list>
 ```
 
+:::warning
+В выборке для таблицы обязательно должно быть поле id. <br/>
+Без id нельзя будет выбрать конкретную запись и совершить с ней какие-либо действия. <br/>
+Если в таблице записи будут иметь одинаковые id, то все они будут одновременно выделены. <br/>
+:::
+:::note
+id можно сгенерировать, используя `<field id="id" select="false"/>`.
+:::
+
 [Подробнее о выборках](../xml/query)
 
 ### Поля выборки {#query_fields}
@@ -579,6 +588,28 @@ SQL провайдер позволяет выполнять SQL запросы 
 ```
 ```sql title="/src/resources/sql/mytable.sql"
 SELECT * FROM mytable
+```
+
+#### Подключение
+
+Задайте в pom.xml следующую зависимость Spring:
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-jdbc</artifactId>
+</dependency>
+```
+
+А также зависимость для драйвера базы данных. <br/>
+Например для PostgreSQL она будет выглядеть следующим образом:
+
+```xml
+<dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <scope>runtime</scope>
+</dependency>
 ```
 
 #### Настройки соединения
