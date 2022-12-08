@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.control.Markdown;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileMetaAction;
 
@@ -38,11 +38,11 @@ public class MarkdownCompiler extends FieldCompiler<Markdown, N2oMarkdown> {
             MetaActions metaActions = p.getScope(MetaActions.class);
             if (metaActions == null)
                 throw new N2oException("Actions " + String.join(",", source.getActionIds()) + " are not init!");
-            field.setActions(new ArrayList<>());
+            field.setActions(new HashMap<>());
             for (String actionId : source.getActionIds()) {
                 if (!metaActions.containsKey(actionId))
                     throw new N2oException("Action " + actionId + " is not init on form!");
-                field.getActions().add(compileMetaAction(metaActions.get(actionId), context,p));
+                field.getActions().put(actionId, compileMetaAction(metaActions.get(actionId), context,p));
             }
         }
         initDefaults(source, context, p);

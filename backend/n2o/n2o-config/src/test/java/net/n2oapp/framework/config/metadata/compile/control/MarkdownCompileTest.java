@@ -47,8 +47,8 @@ public class MarkdownCompileTest extends SourceCompileTestBase {
         assertThat(field.getLabel(), is("markdownLabel"));
         assertThat(field.getRequired(), is(true));
         assertThat(field.getActions().size(), is(2));
-        assertThat(((LinkAction)field.getActions().get(0)).getUrl(), is("http://yandex.ru"));
-        assertThat(((LinkAction)field.getActions().get(1)).getUrl(), is("http://i-novus.ru"));
+        assertThat(((LinkAction)field.getActions().get("act1")).getUrl(), is("http://yandex.ru"));
+        assertThat(((LinkAction)field.getActions().get("act2")).getUrl(), is("http://i-novus.ru"));
     }
 
 }
