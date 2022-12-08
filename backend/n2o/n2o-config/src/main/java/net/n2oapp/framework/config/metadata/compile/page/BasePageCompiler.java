@@ -111,7 +111,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 parentDatasourceIdsScope, pageIndexScope);
 
         //events
-        page.setEvents(initEvents(source, context, p, metaActions, pageScope));
+        page.setEvents(initEvents(source, context, p, metaActions, pageScope, datasourcesScope));
 
         if (source.getDatasourceId() != null)
             page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(), p));
