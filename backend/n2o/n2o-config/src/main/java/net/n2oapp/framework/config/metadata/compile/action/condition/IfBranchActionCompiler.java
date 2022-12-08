@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPayload;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
@@ -24,7 +24,8 @@ public class IfBranchActionCompiler extends BaseConditionActionCompiler<N2oIfBra
 
     @Override
     protected void compilePayload(N2oConditionBranch source, ConditionActionPayload payload,
-                                  ConditionBranchesScope failBranchesScope, CompileContext<?, ?> context, CompileProcessor p, IndexScope indexScope) {
+                                  ConditionBranchesScope failBranchesScope, CompileContext<?, ?> context,
+                                  CompileProcessor p, PageIndexScope indexScope) {
         N2oIfBranchAction ifSource = (N2oIfBranchAction) source;
         initDatasource(payload, ifSource, p);
         payload.setModel(p.cast(ifSource.getModel(), getLocalModel(p)));

@@ -10,10 +10,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -61,9 +58,9 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
                     context.getPathRouteMapping(), context.getQueryRouteMapping());
             PageScope pageScope = new PageScope();
             pageScope.setPageId(context.getParentPageId());
-
+            PageIndexScope pageIndexScope = new PageIndexScope(source.getId());
             Toolbar toolbar = p.compile(source.getToolbar(), context, new IndexScope(), object,
-                    pageRouteScope, toolbarPlaceScope, pageScope);
+                    pageRouteScope, toolbarPlaceScope, pageScope, pageIndexScope);
             dialog.setToolbar(toolbar);
         }
         return dialog;

@@ -44,7 +44,7 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testSubMenu"));
 
         Toolbar toolbar = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
-        Submenu subMenu = (Submenu) toolbar.getButton("mi0");
+        Submenu subMenu = (Submenu) toolbar.getButton("testSubMenu_mi0");
         assertThat(subMenu.getSrc(), is("DropdownButton"));
         assertThat(subMenu.getShowToggleIcon(), is(false));
         assertThat(subMenu.getVisible(), is(false));
@@ -63,7 +63,7 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(updateBtn.getConditions().get(ValidationType.enabled).size(), is(1));
 
 
-        subMenu = (Submenu) toolbar.getButton("mi3");
+        subMenu = (Submenu) toolbar.getButton("testSubMenu_mi3");
         assertThat(subMenu.getShowToggleIcon(), is(true));
         assertThat(subMenu.getSubMenu(), nullValue());
         assertThat(subMenu.getConditions().get(ValidationType.enabled).size(), is(1));
@@ -75,7 +75,7 @@ public class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
 
-        subMenu = (Submenu) toolbar.getButton("mi4");
+        subMenu = (Submenu) toolbar.getButton("testSubMenu_mi4");
         assertThat(subMenu.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(subMenu.getConditions().get(ValidationType.visible).size(), is(1));
         condition = subMenu.getConditions().get(ValidationType.enabled).get(0);
