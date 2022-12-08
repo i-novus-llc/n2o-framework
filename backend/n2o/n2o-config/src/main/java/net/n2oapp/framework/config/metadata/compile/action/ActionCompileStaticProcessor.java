@@ -121,7 +121,7 @@ public class ActionCompileStaticProcessor {
         Toolbar toolbar = new Toolbar();
         ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property(defaultPlaceProperty), String.class));
         for (N2oToolbar n2oToolbar : source.getToolbars()) {
-            toolbar.putAll(p.compile(n2oToolbar, context, new IndexScope(), toolbarPlaceScope, scopes));
+            toolbar.putAll(p.compile(n2oToolbar, context, toolbarPlaceScope, scopes));
         }
         return toolbar;
     }

@@ -171,8 +171,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
-        ShowModal showModal = (ShowModal) modalPage.getWidget().getToolbar().getButton("mi0").getAction();
-        assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/mi0"));
+        ShowModal showModal = (ShowModal) modalPage.getWidget().getToolbar().getButton("p_update_mi0").getAction();
+        assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/p_update_mi0"));
         assertThat(((StandardDatasource) modalPage.getDatasources().get(modalPage.getWidget().getDatasource())).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
     }
 

@@ -10,13 +10,14 @@ import lombok.Setter;
 @Setter
 public class N2oSetValueAction extends N2oAbstractAction {
     private String expression;
-    private String targetFieldId;
 
-    private String to;
     private String sourceDatasourceId;
     private String sourceModel;
+
     private String targetDatasourceId;
     private String targetModel;
+    private String to;
+
     private MergeMode mergeMode;
 
     @Deprecated

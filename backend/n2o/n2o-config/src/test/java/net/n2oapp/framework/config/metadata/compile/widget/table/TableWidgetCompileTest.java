@@ -72,7 +72,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getId(), is("testAction"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("mi1"));
+        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("testTable4Compile_mi1"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getShowToggleIcon(), is(true));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));

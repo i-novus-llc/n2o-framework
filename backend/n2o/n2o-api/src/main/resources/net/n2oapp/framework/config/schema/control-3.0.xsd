@@ -283,7 +283,9 @@
                 </xs:attribute>
                 <xs:attribute name="search-filter-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за поиск вариантов выбора</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="group-field-id" type="xs:string">
@@ -670,10 +672,27 @@
     <xs:complexType name="controlSearchButtonsDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="search-label" type="xs:string"/>
-                <xs:attribute name="reset-label" type="xs:string"/>
+                <xs:attribute name="search-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Лейбл кнопки поиска</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="reset-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Лейбл кнопки сброса</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="clear-ignore" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поля, игнорируемые при сбросе фильтров</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fetch-on-clear" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Запуск обновления модели после сброса</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="no-label" type="xs:boolean" default="true"/>
-                <xs:attribute name="clear-ignore" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1258,7 +1277,7 @@
                 <xs:attribute name="search-filter-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор фильтра, используемого для поиска.
+                            Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

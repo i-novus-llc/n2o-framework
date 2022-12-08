@@ -20,6 +20,8 @@ public class LinkActionPayload implements ActionPayload, UrlAware {
     @JsonProperty
     private String url;
     @JsonProperty
+    private String modelLink;
+    @JsonProperty
     private Target target;
     @JsonProperty
     private Map<String, ModelLink> pathMapping = new StrictMap<>();
