@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import java.util.List;
 
 /**
- * Клиентская модель компонента вывода html
+ * Клиентская модель компонента markdown
  */
 @Getter
 @Setter
