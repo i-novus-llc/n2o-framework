@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oSwitchAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.switchaction.SwitchAction;
 import net.n2oapp.framework.api.metadata.meta.action.switchaction.SwitchActionPayload;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -43,15 +43,13 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
         initDatasource(payload, source.getDatasourceId(), p);
         payload.setModel(p.cast(source.getModel(), getLocalModel(p)));
 
-        IndexScope indexScope = p.getScope(IndexScope.class);
-        if (indexScope == null)
-            indexScope = new IndexScope();
+        PageIndexScope indexScope = p.getScope(PageIndexScope.class);
         int switchIndex = indexScope.get();
         payload.setCases(mapCases(source, context, p, indexScope, switchIndex));
         payload.setDefaultCase(compileActionCase(source.getDefaultCase(), context, p, indexScope, switchIndex));
     }
 
-    private Map<String, Action> mapCases(N2oSwitchAction source, CompileContext<?, ?> context, CompileProcessor p, IndexScope indexScope, int switchIndex) {
+    private Map<String, Action> mapCases(N2oSwitchAction source, CompileContext<?, ?> context, CompileProcessor p, PageIndexScope indexScope, int switchIndex) {
         List<N2oSwitchAction.Case> valueCases = source.getValueCases();
         Map<String, Action> cases = new HashMap<>();
         for (N2oSwitchAction.Case valueCase : valueCases) {
@@ -61,7 +59,7 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     }
 
     private Action compileActionCase(N2oSwitchAction.AbstractCase abstractCase, CompileContext<?, ?> context,
-                                     CompileProcessor p, IndexScope indexScope, int switchIndex) {
+                                     CompileProcessor p, PageIndexScope indexScope, int switchIndex) {
         if (abstractCase == null)
             return null;
         initCaseId(abstractCase, switchIndex);

@@ -10,7 +10,7 @@
                         submit-model="resolve"
                         copy-model="edit" copy-datasource="table" copy-field-id="test"
                         submit-action-type="copy" copy-mode="replace"
-                        target-model="resolve" target-datasource="table" target-field-id="test"
+                        target-model="resolve" target-datasource="table" target-field-id="test" target-page="this"
                         has-header="false" class="n2o-custom-modal-dialog" backdrop="static" style="background : red"
                         submit-message-on-fail="true"
                         submit-message-on-success="false">

@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
 import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseBranchAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPayload;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,7 +22,7 @@ public class ElseBranchActionCompiler extends BaseConditionActionCompiler<N2oEls
     @Override
     protected void compilePayload(N2oConditionBranch source, ConditionActionPayload payload,
                                   ConditionBranchesScope failBranchesScope, CompileContext<?, ?> context,
-                                  CompileProcessor p, IndexScope indexScope) {
+                                  CompileProcessor p, PageIndexScope indexScope) {
         setFromScope(payload, failBranchesScope);
         super.compilePayload(source, payload, failBranchesScope, context, p, indexScope);
     }

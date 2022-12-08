@@ -151,8 +151,8 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
-        OpenDrawer openDrawer = (OpenDrawer) drawerPage.getWidget().getToolbar().getButton("mi0").getAction();
-        assertThat(openDrawer.getPayload().getPageUrl(), is("/p/222/update/mi0"));
+        OpenDrawer openDrawer = (OpenDrawer) drawerPage.getWidget().getToolbar().getButton("p_update_mi0").getAction();
+        assertThat(openDrawer.getPayload().getPageUrl(), is("/p/222/update/p_update_mi0"));
         assertThat(((StandardDatasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId())).getProvider().getUrl(), is("n2o/data/p/222/update/main"));
     }
 

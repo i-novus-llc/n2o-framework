@@ -149,4 +149,14 @@ public class StandardDatasourceValidatorTest extends SourceValidationTestBase {
         exception.expectMessage("Источник данных 'ds1' содержит префильтр без указанного field-id!");
         validate("net/n2oapp/framework/config/metadata/validation/datasource/testRequiredPrefilterFieldId.page.xml");
     }
+
+    /**
+     * Проверка случая корректного использования ссылок на фильтры выборки
+     */
+    @Test
+    public void testRightUseNestedQueryFields() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/config/metadata/validation/datasource/testRightUseNestedQueryFields.query.xml"));
+        validate("net/n2oapp/framework/config/metadata/validation/datasource/testRightUseNestedQueryFields.page.xml");
+    }
 }
