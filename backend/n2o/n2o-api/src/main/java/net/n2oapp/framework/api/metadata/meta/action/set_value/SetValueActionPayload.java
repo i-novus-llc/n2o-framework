@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.event.action.MergeMode;
+import net.n2oapp.framework.api.metadata.action.MergeMode;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 
 /**

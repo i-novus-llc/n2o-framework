@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.io.application;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.application.N2oAbstractEvent;
+import net.n2oapp.framework.api.metadata.event.N2oAbstractEvent;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
-import net.n2oapp.framework.api.metadata.application.N2oStompEvent;
+import net.n2oapp.framework.api.metadata.event.N2oStompEvent;
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;

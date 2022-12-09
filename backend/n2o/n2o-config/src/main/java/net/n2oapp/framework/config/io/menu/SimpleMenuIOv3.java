@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.menu;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;

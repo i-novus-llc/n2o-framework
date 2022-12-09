@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.dynamic;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
-import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
+import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;

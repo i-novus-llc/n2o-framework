@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.validation.standard.action;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.event.action.N2oCustomAction;
+import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import org.springframework.stereotype.Component;
 
 /**

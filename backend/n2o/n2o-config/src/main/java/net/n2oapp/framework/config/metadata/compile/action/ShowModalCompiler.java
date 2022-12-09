@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
+import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModalPayload;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;

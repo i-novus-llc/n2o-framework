@@ -74,6 +74,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
                 actionBarScope));
 
         p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, datasourceIdsScope));
+        p.safeStreamOf(page.getEvents()).forEach(p::validate);
     }
 
     private void checkDuplicateWidgetIdsInDatasources(List<N2oWidget> widgets, DatasourceIdsScope datasourceIdsScope) {

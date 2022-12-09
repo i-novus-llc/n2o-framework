@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 
 import java.util.ArrayList;
 import java.util.List;

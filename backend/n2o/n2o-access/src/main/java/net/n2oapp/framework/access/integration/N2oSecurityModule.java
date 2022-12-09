@@ -7,7 +7,7 @@ import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;

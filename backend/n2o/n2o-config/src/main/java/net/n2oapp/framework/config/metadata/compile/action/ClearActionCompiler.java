@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oClearAction;
+import net.n2oapp.framework.api.metadata.action.N2oClearAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;

@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.aware.BaseElementClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractAction;
 import org.jdom2.Namespace;
 
 /**
