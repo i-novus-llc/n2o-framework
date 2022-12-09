@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarResource;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewType;
 

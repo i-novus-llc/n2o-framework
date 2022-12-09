@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.widget.v4;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCalendar;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarResource;

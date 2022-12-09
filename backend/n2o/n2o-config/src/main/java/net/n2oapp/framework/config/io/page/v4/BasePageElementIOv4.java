@@ -2,13 +2,15 @@ package net.n2oapp.framework.config.io.page.v4;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.event.N2oAbstractEvent;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import net.n2oapp.framework.config.io.datasource.DatasourceIOv1;
+import net.n2oapp.framework.config.io.event.AbstractEventIO;
 import net.n2oapp.framework.config.io.region.v3.RegionIOv3;
 import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
@@ -29,6 +31,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> extends Abstrac
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oAbstractDatasource.class), DatasourceIOv1.NAMESPACE);
+        p.anyChildren(e, "events", m::getEvents, m::setEvents, p.anyOf(N2oAbstractEvent.class), AbstractEventIO.NAMESPACE);
     }
 
     private void action(Element e, ActionBar a, IOProcessor p) {

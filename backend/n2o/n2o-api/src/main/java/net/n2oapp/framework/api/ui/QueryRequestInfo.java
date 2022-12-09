@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 
 /**
