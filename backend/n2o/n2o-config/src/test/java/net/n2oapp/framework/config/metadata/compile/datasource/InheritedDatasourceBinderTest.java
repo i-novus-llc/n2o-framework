@@ -41,7 +41,7 @@ public class InheritedDatasourceBinderTest extends SourceCompileTestBase {
                 .get(context, new DataSet().add("id", 222));
 
         InheritedDatasource ds1 = (InheritedDatasource) page.getDatasources().get("id_open_ds1");
-        assertThat(ds1.getFilters().get(0).getValue(), is(222));
-        assertThat(ds1.getFilters().get(1).getModelLink().normalizeLink(), is("models.resolve['id_open_ds0'].name"));
+        assertThat(ds1.getProvider().getFilters().get(0).getValue(), is(222));
+        assertThat(ds1.getProvider().getFilters().get(1).getModelLink().normalizeLink(), is("models.resolve['id_open_ds0'].name"));
     }
 }

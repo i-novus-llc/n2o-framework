@@ -87,8 +87,8 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(((CopyDependency) dependency).getSubmit(), is(true));
         assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
 
-        assertThat(inh3.getFilters().size(), is(2));
-        List<InheritedDatasource.Filter> filters = inh3.getFilters();
+        assertThat(inh3.getProvider().getFilters().size(), is(2));
+        List<InheritedDatasource.Filter> filters = inh3.getProvider().getFilters();
         assertThat(filters.get(0).getType(), is(FilterType.eq));
         assertThat(filters.get(0).getFieldId(), is("id"));
         assertThat(filters.get(0).getModelLink().getParam(), is("id"));
