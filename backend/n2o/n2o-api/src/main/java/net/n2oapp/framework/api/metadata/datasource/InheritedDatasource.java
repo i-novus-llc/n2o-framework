@@ -23,8 +23,6 @@ public class InheritedDatasource extends AbstractDatasource {
     private Provider provider;
     @JsonProperty
     private Submit submit;
-    @JsonProperty
-    private List<Filter> filters;
 
     @Getter
     @Setter
@@ -37,6 +35,8 @@ public class InheritedDatasource extends AbstractDatasource {
         private ReduxModel sourceModel;
         @JsonProperty
         private String sourceField;
+        @JsonProperty
+        private List<Filter> filters;
     }
 
     @Getter

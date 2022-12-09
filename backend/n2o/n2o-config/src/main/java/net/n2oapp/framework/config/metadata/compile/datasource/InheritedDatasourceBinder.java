@@ -19,8 +19,8 @@ public class InheritedDatasourceBinder implements BaseMetadataBinder<InheritedDa
 
     @Override
     public InheritedDatasource bind(InheritedDatasource compiled, BindProcessor p) {
-        if (compiled.getFilters() != null) {
-            compiled.getFilters().stream().filter(f -> f.getModelLink() != null)
+        if (compiled.getProvider() != null && compiled.getProvider().getFilters() != null) {
+            compiled.getProvider().getFilters().stream().filter(f -> f.getModelLink() != null)
                     .forEach(f -> {
                         ModelLink resolvedLink = (ModelLink) p.resolveLink(f.getModelLink(), true);
                         f.setModelLink(resolvedLink);
