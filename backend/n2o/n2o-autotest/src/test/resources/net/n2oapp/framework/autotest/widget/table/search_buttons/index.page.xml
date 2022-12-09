@@ -18,7 +18,7 @@
                     <input-text id="type"/>
                 </row>
                 <row>
-                    <search-buttons id="search" fetch-on-clear="true"/>
+                    <search-buttons id="search" fetch-on-clear="false"/>
                 </row>
             </filters>
         </table>

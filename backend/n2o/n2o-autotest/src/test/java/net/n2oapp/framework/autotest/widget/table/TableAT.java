@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
@@ -11,7 +10,6 @@ import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -30,12 +28,11 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.exceptions.verification.NeverWantedButInvoked;
+import org.mockito.exceptions.verification.TooManyActualInvocations;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Автотест для виджета Таблица
@@ -301,25 +298,33 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
-    public void testFetchOnClear() throws InterruptedException {
+    public void testFetchOnClear() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/test.query.xml"));
 
-        Configuration.headless=false;
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         TableWidget tableWidget = page.widget(TableWidget.class);
         tableWidget.filters().fields().field("name").control(InputText.class).val("test");
+//        tableWidget.filters().toolbar().button("Сбросить").click();
+//        verifyNeverGetDataInvocation("Запрос за данными таблицы при fetch-on-clear=false");
+//        tableWidget.columns().rows().shouldHaveSize(4);
+//        tableWidget.filters().fields().field("name").control(InputText.class).shouldHaveValue("");
+
+        tableWidget.filters().fields().field("name").control(InputText.class).val("test");
+        tableWidget.filters().toolbar().button("Найти").click();
+        tableWidget.columns().rows().shouldHaveSize(4);
+
         tableWidget.filters().toolbar().button("Сбросить").click();
-        verifyNeverGetDataInvocation("Запрос за данными таблицы при валидации фильтров");
         tableWidget.columns().rows().shouldHaveSize(0);
+        verifyNeverGetDataInvocation("Запрос за данными таблицы при fetch-on-clear=false");
     }
 
     private void verifyNeverGetDataInvocation(String errorMessage) {
         try {
-            verify(controller, never()).getData(any());
-        } catch (NeverWantedButInvoked e) {
+            verify(controller, times(1)).getData(any());
+        } catch (TooManyActualInvocations e) {
             throw new AssertionError(errorMessage);
         }
     }
