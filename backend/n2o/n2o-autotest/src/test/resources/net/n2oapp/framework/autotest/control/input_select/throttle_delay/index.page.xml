@@ -18,6 +18,7 @@
                     placeholder="Минимальная длина 4"
                     parent-field-id="parent"
                     query-id="test"
+                    search="true"
                     search-filter-id="nameLike"
                     search-min-length="4"
                     throttle-delay="500"/>
