@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;

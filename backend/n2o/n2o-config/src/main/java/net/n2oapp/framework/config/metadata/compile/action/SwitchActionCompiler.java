@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oSwitchAction;
+import net.n2oapp.framework.api.metadata.action.N2oSwitchAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.switchaction.SwitchAction;
 import net.n2oapp.framework.api.metadata.meta.action.switchaction.SwitchActionPayload;
@@ -64,7 +64,7 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
             return null;
         initCaseId(abstractCase, switchIndex);
 
-        ActionCompileStaticProcessor.initActions(abstractCase, p);
+        abstractCase.setActions(ActionCompileStaticProcessor.initActions(abstractCase, p));
         return ActionCompileStaticProcessor.compileAction(abstractCase, context, p, null, indexScope);
     }
 

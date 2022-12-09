@@ -6,6 +6,7 @@ import net.n2oapp.framework.config.metadata.compile.application.ApplicationValid
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.*;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.InheritedDatasourceValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEventValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.button.ButtonValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.control.FieldValidator;
@@ -40,6 +41,6 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new FieldValidator(), new LineFieldSetValidator(), new MultiFieldSetValidator(),
                 new JavaDataProviderValidator(), new ButtonValidator(), new SubmitActionValidator(),
                 new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
-                new EditListActionValidator());
+                new EditListActionValidator(), new OnChangeEventValidator());
     }
 }

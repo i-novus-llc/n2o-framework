@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
+import net.n2oapp.framework.api.metadata.meta.event.Event;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -27,6 +28,8 @@ public class StandardPage extends Page {
     private Map<String, List<Region>> regions;
     @JsonProperty
     private RegionWidth width;
+    @JsonProperty
+    private List<Event> events;
 
     /**
      * Найти виджет по клиентскому идентификатору

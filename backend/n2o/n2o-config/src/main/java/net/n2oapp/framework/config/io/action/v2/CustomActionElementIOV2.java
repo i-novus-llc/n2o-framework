@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.action.v2;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oCustomAction;
+import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
