@@ -22,7 +22,14 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
     @Override
     public void val(String value) {
         searchField().click();
-        searchField().sendKeys(Keys.chord(Keys.COMMAND, "a"), value);
+        clear();
+        searchField().sendKeys(value);
+    }
+
+    @Override
+    public void clear() {
+        searchField().sendKeys(Keys.COMMAND + "a");
+        searchField().sendKeys(Keys.BACK_SPACE);
     }
 
     private SelenideElement searchField() {
