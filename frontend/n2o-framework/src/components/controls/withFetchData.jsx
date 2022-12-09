@@ -8,6 +8,7 @@ import has from 'lodash/has'
 import unionBy from 'lodash/unionBy'
 import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
+import isEmpty from 'lodash/isEmpty'
 
 import cachingStore from '../../utils/cacher'
 import { fetchInputSelectData, FETCH_CONTROL_VALUE } from '../../core/api'
@@ -43,6 +44,20 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
             this.addAlertMessage = this.addAlertMessage.bind(this)
             this.setErrorMessage = this.setErrorMessage.bind(this)
             this.setResponseToData = this.setResponseToData.bind(this)
+        }
+
+        componentDidMount() {
+            const { data } = this.state
+            const { datasource } = this.props
+
+            if (datasource) {
+                const { models = {} } = this.props
+                const { datasource: dsModel } = models
+
+                if (isEmpty(data) && !isEmpty(dsModel)) {
+                    this.setState({ data: dsModel })
+                }
+            }
         }
 
         componentDidUpdate(prevProps) {
