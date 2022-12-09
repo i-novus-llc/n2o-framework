@@ -7,11 +7,12 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oMarkdown;
 import net.n2oapp.framework.api.metadata.meta.control.Markdown;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileMetaAction;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
 
 /**
  * Компиляция компонента markdown,
@@ -34,7 +35,7 @@ public class MarkdownCompiler extends FieldCompiler<Markdown, N2oMarkdown> {
     public Markdown compile(N2oMarkdown source, CompileContext<?, ?> context, CompileProcessor p) {
         Markdown field = new Markdown();
         field.setContent(p.resolveJS(source.getContent()));
-        if (source.getActionIds() != null && source.getActionIds().length > 0) {
+        if (!ArrayUtils.isEmpty(source.getActionIds())) {
             MetaActions metaActions = p.getScope(MetaActions.class);
             if (metaActions == null)
                 throw new N2oException("Actions " + String.join(",", source.getActionIds()) + " are not init!");
@@ -42,7 +43,7 @@ public class MarkdownCompiler extends FieldCompiler<Markdown, N2oMarkdown> {
             for (String actionId : source.getActionIds()) {
                 if (!metaActions.containsKey(actionId))
                     throw new N2oException("Action " + actionId + " is not init on form!");
-                field.getActions().put(actionId, compileMetaAction(metaActions.get(actionId), context,p));
+                field.getActions().put(actionId, compileAction(metaActions.get(actionId).getN2oActions(), null, context,p));
             }
         }
         initDefaults(source, context, p);
