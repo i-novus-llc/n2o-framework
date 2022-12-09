@@ -325,7 +325,7 @@ public class TableAT extends AutoTestBase {
 
     private void verifyNeverGetDataInvocation(String errorMessage) {
         try {
-            verify(controller, times(1)).getData(any());
+            verify(controller, times(2)).getData(any());
         } catch (TooManyActualInvocations e) {
             throw new AssertionError(errorMessage);
         }
