@@ -163,7 +163,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         String localDatasource = getLocalDatasourceId(p);
         if (compiledObject == null && localDatasource != null) {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-            if (dataSourcesScope != null) {
+            if (dataSourcesScope != null && dataSourcesScope.get(localDatasource) instanceof N2oStandardDatasource) {
                 String objectId = ((N2oStandardDatasource) dataSourcesScope.get(localDatasource)).getObjectId();
                 if (objectId != null) {
                     compiledObject = p.getCompiled(new ObjectContext(objectId));

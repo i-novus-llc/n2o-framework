@@ -42,9 +42,20 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
         listControl.setHasSearch(source.getSearch());
         listControl.setStatusFieldId(source.getStatusFieldId());
+        compileData(source, listControl, context, p);
+        listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
+        listControl.setEnabledFieldId(source.getEnabledFieldId());
+        listControl.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
+        listControl.setSize(p.cast(listControl.getSize(), source.getSize(),
+                p.resolve(property("n2o.api.control.list.size"), Integer.class)));
+        initSubModel(source, listControl.getData(), p);
+        return compileStandardField(listControl, source, context, p);
+    }
+
+    protected void compileData(S source, T listControl, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getQueryId() != null)
             initDataProvider(listControl, source, context, p);
-        else if (source.getDatasourceId() !=null)
+        else if (source.getDatasourceId() != null)
             listControl.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
         else if (source.getOptions() != null) {
             List<Map<String, Object>> list = new ArrayList<>();
@@ -55,15 +66,6 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             }
             listControl.setData(list);
         }
-        listControl.setValueFieldId(p.cast(p.resolveJS(listControl.getValueFieldId()), "id"));
-        listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
-        listControl.setCaching(p.cast(source.getCache(), p.resolve(property("n2o.api.control.list.cache"), Boolean.class)));
-        listControl.setEnabledFieldId(source.getEnabledFieldId());
-        listControl.setBadge(BadgeUtil.compileReferringBadge(source, PROPERTY_PREFIX, p));
-        listControl.setSize(p.cast(listControl.getSize(), source.getSize(),
-                p.resolve(property("n2o.api.control.list.size"), Integer.class)));
-        initSubModel(source, listControl.getData(), p);
-        return compileStandardField(listControl, source, context, p);
     }
 
     @Override
@@ -142,18 +144,22 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         N2oClientDataProvider dataProvider = N2oClientDataProviderUtil.initFromField(source.getPreFilters(), source.getQueryId(), p);
         source.addDependencies(FieldCompileUtil.getResetOnChangeDependency(source));
 
+        dataProvider.setQuickSearchParam(initQuickSearchParam(listControl, source, p));
+        listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
+    }
+
+    protected String initQuickSearchParam(T listControl, N2oListField source, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(source.getQueryId());
         CompiledQuery query = p.getCompiled(queryContext);
 
         if (listControl.getHasSearch() != null && listControl.getHasSearch()) {
             String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
-            if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
-                dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
-            } else if (searchFilterId != null && listControl.getHasSearch()) {
+            if (query.getFilterIdToParamMap().containsKey(searchFilterId))
+                return query.getFilterIdToParamMap().get(searchFilterId);
+            else if (searchFilterId != null && listControl.getHasSearch())
                 throw new N2oException(
                         String.format("For search field id [%s] is necessary this filter-id in query [%s]", searchFilterId, query.getId()));
-            }
         }
-        listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
+        return null;
     }
 }
