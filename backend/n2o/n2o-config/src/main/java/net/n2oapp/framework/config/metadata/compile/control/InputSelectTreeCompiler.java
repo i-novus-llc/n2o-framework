@@ -38,7 +38,7 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         control.setCheckingStrategy(source.getCheckingStrategy());
         control.setMaxTagCount(source.getMaxTagCount());
         if (control.isHasCheckboxes())
-            control.setMaxTagTextLength(p.cast(source.getMaxTagTextLength(), p.resolve(Placeholders.property("n2o.api.control.input.select.max_tag_text_length"), Integer.class)));
+            control.setMaxTagTextLength(p.cast(source.getMaxTagTextLength(), p.resolve(Placeholders.property("n2o.api.control.input.select.tree.max_tag_text_length"), Integer.class)));
         source.setQueryId(p.resolveJS(source.getQueryId()));
         source.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
         source.setIconFieldId(p.resolveJS(source.getIconFieldId()));
