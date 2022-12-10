@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.event.action.MergeMode;
+import net.n2oapp.framework.api.metadata.action.MergeMode;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;

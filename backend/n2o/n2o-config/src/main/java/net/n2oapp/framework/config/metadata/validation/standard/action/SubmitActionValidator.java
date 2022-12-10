@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
-import net.n2oapp.framework.api.metadata.event.action.N2oSubmitAction;
+import net.n2oapp.framework.api.metadata.action.N2oSubmitAction;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;

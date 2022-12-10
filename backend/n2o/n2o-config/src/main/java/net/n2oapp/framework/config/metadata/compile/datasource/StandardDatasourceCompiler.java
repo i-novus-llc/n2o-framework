@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;

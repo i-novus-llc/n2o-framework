@@ -1,6 +1,6 @@
 package net.n2oapp.framework.ui.controller;
 
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.rest.*;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
