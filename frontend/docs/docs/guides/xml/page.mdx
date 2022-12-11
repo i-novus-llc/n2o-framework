@@ -44,7 +44,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |route       |Строка                              |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
-|model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
@@ -66,7 +66,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
-|model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
@@ -106,7 +106,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
-|model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
@@ -166,7 +166,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |show-title       |true false                          |Показывать заголовок страницы?                                |false                                 |
 |scroll-top-button|true false                          |Показывается ли кнопка скролла в начало страницы              |false                                 |
 |datasource       |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
-|model            |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model            |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
@@ -231,7 +231,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
-|model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
@@ -306,7 +306,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |hotkey      |Сочетание клавиш                         |Горячая клавиша вызова                                   |Вычисляется, если `id` действия из списка стандартных действий. Например, для `save` горячая клавиша `Enter`.|
 |visible     |true false                               |Видимость действия                                       |true                                                                                                         |
 |enabled     |true false                               |Доступность действия                                     |true                                                                                                         |
-|model       |resolve filter edit multi datasource     |Модель, на которой выполнится действие                   |resolve                                                                                                         |
+|model       |resolve edit filter multi datasource     |Модель, на которой выполнится действие                   |resolve                                                                                                         |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для выполнения действия   |                                                                                                        |
 
 **Тело**
@@ -665,7 +665,7 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |------------|-----------------------------------------------------------|------------------------------------------------------------------|----------------------------------------------------------------|
 |id          |Строка                                                     |Идентификатор события                                             |                                                                |
 |field-id    |Строка                                                     |Поле источника данных, в котором будут отслеживаться изменения    |По умолчанию изменения будут отслеживаться во всех полях модели |
-|model       |resolve filter edit multi datasource                       |Модель источника данных, в которой будут отслеживаться изменения  |resolve                                                         |
+|model       |resolve edit filter multi datasource                       |Модель источника данных, в которой будут отслеживаться изменения  |resolve                                                         |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных, в котором будут отслеживаться изменения          |                                                                |
 |action-id   |Ссылка на [действие страницы](#actions)                    |Действие страницы, которое будет вызвано при изменении данных     |                                                                |
 
