@@ -28,7 +28,7 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
     @Override
     public void clear() {
-        searchField().sendKeys(Keys.COMMAND + "a");
+        searchField().sendKeys(Keys.CONTROL + "a");
         searchField().sendKeys(Keys.BACK_SPACE);
     }
 
