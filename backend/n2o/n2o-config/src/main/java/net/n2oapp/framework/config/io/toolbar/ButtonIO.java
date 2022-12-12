@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.toolbar;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;

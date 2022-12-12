@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;

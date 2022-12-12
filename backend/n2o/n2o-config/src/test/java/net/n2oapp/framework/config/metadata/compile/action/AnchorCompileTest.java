@@ -81,6 +81,11 @@ public class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
 
+        LinkActionImpl linkWithParam = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
+                .getToolbar().getButton("withParam").getAction();
+
+        assertThat(linkWithParam.getUrl(), is("`url`"));
+
         //Modal page
         PageContext modalContext = (PageContext) route("/page/id4", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);

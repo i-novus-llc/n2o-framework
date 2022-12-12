@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.common;
 
 import net.n2oapp.framework.api.metadata.aware.ActionsAware;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;

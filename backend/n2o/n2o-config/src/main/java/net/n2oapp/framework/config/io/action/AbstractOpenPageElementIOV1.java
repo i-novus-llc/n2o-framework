@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;

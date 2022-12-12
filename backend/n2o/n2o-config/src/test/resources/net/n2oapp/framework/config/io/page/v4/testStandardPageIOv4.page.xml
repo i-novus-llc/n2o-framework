@@ -7,6 +7,15 @@
         <crumb label="Вторая страница" path="/page2"/>
         <crumb label="Третья страница"/>
     </breadcrumbs>
+
+    <events>
+        <on-change datasource="ds2" model="edit" field-id="test" id="test1">
+            <invoke operation-id="test1"/>
+            <alert/>
+        </on-change>
+        <on-change datasource="ds2" model="filter" field-id="test" id="test2" action-id="test2"/>
+    </events>
+
     <regions>
         <tabs>
             <tab>

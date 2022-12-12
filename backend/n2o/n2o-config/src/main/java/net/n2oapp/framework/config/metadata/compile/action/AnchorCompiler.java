@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
+import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -44,12 +44,14 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         Target sourceTarget = source.getTarget();
         String path = source.getHref();
-        if (Target.self.equals(sourceTarget) || Target.newWindow.equals(sourceTarget)) {
-            if (RouteUtil.isApplicationUrl(path)) {
-                path = RouteUtil.normalize(path);
+        if (!StringUtils.isLink(source.getHref())) {
+            if (Target.self.equals(sourceTarget) || Target.newWindow.equals(sourceTarget)) {
+                if (RouteUtil.isApplicationUrl(path)) {
+                    path = RouteUtil.normalize(path);
+                }
+            } else {
+                path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
             }
-        } else if (!source.getHref().startsWith("{")) {
-            path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
         }
         initUrl(linkAction, path, source, routeScope, p);
 
