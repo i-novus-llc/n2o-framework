@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Автотест на события при изменении данных на странице">
+    <datasources>
+        <datasource id="ds1"/>
+        <datasource id="ds2"/>
+    </datasources>
+
+    <events>
+        <on-change datasource="ds1" model="resolve">
+            <alert text="Событие при изменение ds1" color="success"/>
+        </on-change>
+        <on-change datasource="ds2" model="resolve" field-id="target">
+            <alert text="Событие при изменение ds2" color="info"/>
+            <set-value to="test">
+                5
+            </set-value>
+        </on-change>
+    </events>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <radio-group id="rg1" inline="true"
+                             label="При изменении состояния поля будет показано success сообщение">
+                    <options>
+                        <option id="1" name="One"/>
+                        <option id="2" name="Two"/>
+                        <option id="3" name="Three"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+
+        <form datasource="ds2">
+            <fields>
+                <input-text id="test"/>
+                <radio-group id="target" inline="true"
+                             label="При изменении состояния поля будет показано info сообщение">
+                    <options>
+                        <option id="1" name="One"/>
+                        <option id="2" name="Two"/>
+                        <option id="3" name="Three"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+    </regions>
+</page>
