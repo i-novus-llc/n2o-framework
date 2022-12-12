@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.events;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.application.N2oStompEvent;
-import net.n2oapp.framework.api.metadata.application.StompEvent;
+import net.n2oapp.framework.api.metadata.event.N2oStompEvent;
+import net.n2oapp.framework.api.metadata.meta.event.StompEvent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import org.springframework.stereotype.Component;

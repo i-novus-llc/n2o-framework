@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.PrintType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oPrintAction;
+import net.n2oapp.framework.api.metadata.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;

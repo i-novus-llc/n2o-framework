@@ -37,6 +37,8 @@ public class ResponseMessage implements Compiled {
     @JsonProperty
     private String href;
     @JsonProperty
+    private String modelLink;
+    @JsonProperty
     private MessagePlacement placement;
     @JsonProperty
     private Map<String, String> style;

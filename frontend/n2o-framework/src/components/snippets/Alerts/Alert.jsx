@@ -23,8 +23,8 @@ import { AlertTypes } from './AlertsTypes'
 function Alert(props) {
     const {
         loader,
-        title,
-        text,
+        title: propsTitle,
+        text: propsText,
         severity,
         href,
         timestamp,
@@ -76,6 +76,9 @@ function Alert(props) {
             />
         )
     }
+
+    const title = propsTitle === 0 ? String(propsTitle) : propsTitle
+    const text = propsText === 0 ? String(propsText) : propsText
 
     return (
         <DefaultAlert

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.action.v2.ifelse;
 
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.v2.AbstractActionElementIOV2;
 import net.n2oapp.framework.config.io.common.ActionsAwareIO;

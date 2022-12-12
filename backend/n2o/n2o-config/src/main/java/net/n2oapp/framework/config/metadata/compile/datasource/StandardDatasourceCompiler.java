@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
@@ -305,8 +305,10 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         actionContextData.setObjectId(object.getId());
         actionContextData.setOperationId(submit.getOperationId());
         actionContextData.setRoute(submit.getRoute());
-        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
-        actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), true));
+        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(),
+                p.resolve(property("n2o.api.datasource.submit.message_on_success"), Boolean.class)));
+        actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(),
+                p.resolve(property("n2o.api.datasource.submit.message_on_fail"), Boolean.class)));
         actionContextData.setMessagePosition(submit.getMessagePosition());
         actionContextData.setMessagePlacement(submit.getMessagePlacement());
         actionContextData.setOperation(object.getOperations().get(submit.getOperationId()));

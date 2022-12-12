@@ -7,11 +7,11 @@ import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.ToolbarsAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseBranchAction;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseIfBranchAction;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oIfBranchAction;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseBranchAction;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseIfBranchAction;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -121,7 +121,7 @@ public class ActionCompileStaticProcessor {
         Toolbar toolbar = new Toolbar();
         ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property(defaultPlaceProperty), String.class));
         for (N2oToolbar n2oToolbar : source.getToolbars()) {
-            toolbar.putAll(p.compile(n2oToolbar, context, new IndexScope(), toolbarPlaceScope, scopes));
+            toolbar.putAll(p.compile(n2oToolbar, context, toolbarPlaceScope, scopes));
         }
         return toolbar;
     }

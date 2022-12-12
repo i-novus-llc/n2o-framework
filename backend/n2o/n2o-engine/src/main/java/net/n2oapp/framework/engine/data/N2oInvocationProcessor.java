@@ -31,6 +31,7 @@ import static java.util.Objects.isNull;
 import static net.n2oapp.framework.engine.util.ArgumentsInvocationUtil.mapToArgs;
 import static net.n2oapp.framework.engine.util.MapInvocationUtil.mapToMap;
 import static net.n2oapp.framework.engine.util.MappingProcessor.normalizeValue;
+import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
 
 /**
  * Процессор вызова процедур
@@ -55,7 +56,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         final Map<String, String> outMapping = MappingProcessor.extractOutFieldMapping(outParameters);
         prepareInValues(inParameters, inDataSet);
         DataSet resolvedInDataSet = resolveInValuesMapping(inMapping, inParameters, inDataSet);
-        DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
+        DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping, invocation.getResultMapping());
         resolveOutValues(outParameters, resultDataSet);
         inDataSet.merge(resultDataSet, true);
         return inDataSet;
@@ -63,7 +64,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
     private DataSet invoke(final N2oInvocation invocation, final DataSet inDataSet,
                            final Map<String, FieldMapping> inMapping,
-                           final Map<String, String> outMapping) {
+                           final Map<String, String> outMapping, String resultMapping) {
         final ActionInvocationEngine engine = invocationFactory.produce(invocation.getClass());
         Object result;
         if (engine instanceof ArgumentsInvocationEngine)
@@ -71,6 +72,9 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                     mapToArgs((N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor));
         else
             result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
+
+        if (resultMapping != null)
+            result = outMap(result, resultMapping, Object.class);
 
         return DataSetUtil.extract(result, outMapping);
     }

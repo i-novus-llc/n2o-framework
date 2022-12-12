@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.action.N2oOpenDrawer;
+import net.n2oapp.framework.api.metadata.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.control.PageRef;
-import net.n2oapp.framework.api.metadata.event.action.N2oOpenDrawer;
-import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;

@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
@@ -95,7 +95,10 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     }
 
     protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        source.setId(p.cast(source.getId(), "mi" + p.getScope(IndexScope.class).get()));
+        PageIndexScope pageIndexScope = p.getScope(PageIndexScope.class);
+        String defaultId = ("_".equals(pageIndexScope.getPageId()) ? "mi" : pageIndexScope.getPageId() + "_mi") + pageIndexScope.get();
+        source.setId(p.cast(source.getId(), defaultId));
+
         if (p.resolve(property("n2o.api.button.generate-label"), Boolean.class))
             source.setLabel(p.cast(source.getLabel(), source.getId()));
         source.setType(initType(source));

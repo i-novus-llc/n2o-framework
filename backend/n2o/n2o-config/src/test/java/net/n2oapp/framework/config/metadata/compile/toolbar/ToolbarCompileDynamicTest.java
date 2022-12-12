@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.pipeline.CompilePipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -62,13 +62,13 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
         CompileContext<?, ?> context = new WidgetContext("");
 
         //Add external scope
-        IndexScope indexScope = new IndexScope(5);
+        PageIndexScope indexScope = new PageIndexScope("test", 5);
         Toolbar filterField = pipeline.compile().get(toolbar, context, indexScope);
 
-        AbstractButton button = filterField.getButton("mi5");
+        AbstractButton button = filterField.getButton("test_mi5");
         assertThat(button, notNullValue());
 
-        AbstractButton button2 = filterField.getButton("mi6");
+        AbstractButton button2 = filterField.getButton("test_mi6");
         assertThat(button2, notNullValue());
     }
 
@@ -90,8 +90,8 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
         CompileContext<?, ?> context = new WidgetContext("");
 
         //Add Scope in ToolBarCompiler
-        Toolbar filterField = pipeline.compile().get(toolbar, context);
-        AbstractButton button = filterField.getButton("mi0");
+        Toolbar filterField = pipeline.compile().get(toolbar, context, new PageIndexScope("test"));
+        AbstractButton button = filterField.getButton("test_mi0");
 
         assertThat(button, notNullValue());
     }

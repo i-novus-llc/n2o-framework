@@ -10,6 +10,8 @@ import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -129,7 +131,7 @@ public abstract class QueryUtil {
         if (value != null) {
             clause = value.toString();
         }
-        return baseQuery.replace(placeholder, clause);
+        return baseQuery.replaceAll(Pattern.quote(placeholder) + "\\b", Matcher.quoteReplacement(clause));
     }
 
     public static String replaceListPlaceholder(String baseQuery, String placeholder, Object list, String defaultValue,
