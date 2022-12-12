@@ -74,7 +74,7 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |hotkey      |Сочетание клавиш                         |Горячая клавиша вызова                                   |Вычисляется, если `id` действия из списка стандартных действий. Например, для `create` горячая клавиша `Insert`.|
 |visible     |true false                               |Видимость действия                                       |true                                                                                                            |
 |enabled     |true false                               |Доступность действия                                     |true                                                                                                            |
-|model       |resolve filter edit multi datasource     |Модель, над которой выполнится действие                  |resolve                                                                                                         |
+|model       |resolve edit filter multi datasource     |Модель, над которой выполнится действие                  |resolve                                                                                                         |
 
 **Тело**
 
@@ -121,7 +121,7 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |id                  |Строка                                                                     |Идентификатор кнопки                                                                       |Вычисляется из `action-id`                       |
 |label               |Строка                                                                     |Заголовок кнопки                                                                           |Вычисляется из `action-id`                       |
 |datasource          |Ссылка на [источник данных](../xml/datasource#datasources)                 |Идентификатор источника данных, над которым будет выполнена операция                      |Источник данных текущего виджета                 |
-|model               |resolve filter edit multi datasource                                       |Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.|resolve                                          |
+|model               |resolve edit filter multi datasource                                       |Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.|resolve                                          |
 |icon                |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка кнопки                                                                              |Вычисляется из `action-id`                       |
 |color               |Строка                                                                     |Цвет кнопки                                                                                |                                                 |
 |visible             |true false                                                                 |Видимость кнопки                                                                           |Вычисляется из `action-id`                       |
@@ -186,7 +186,7 @@ http://n2oapp.net/framework/config/schema/widget-5.0
 |Наименование|Тип                                                                        |Описание             |Значение по умолчанию              |
 |------------|-----------------------------------------------------------|-------------------------------------|-----------------------------------|
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных вычисления условия   |Источник данных текущего виджета   |
-|model       |resolve filter edit multi datasource                       |Модель для вычисления условия        |resolve                            |
+|model       |resolve edit filter multi datasource                       |Модель для вычисления условия        |resolve                            |
 |message     |Строка                                                     |Сообщение о причине недоступности    |                                   |
 
 **Тело**
@@ -205,7 +205,7 @@ Java Script выражение
 |Наименование|Тип                                                                        |Описание             |Значение по умолчанию              |
 |------------|-----------------------------------------------------------|-------------------------------------|-----------------------------------|
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных вычисления условия   |Источник данных текущего виджета   |
-|model       |resolve filter edit multi datasource                       |Модель для вычисления условия        |resolve                            |
+|model       |resolve edit filter multi datasource                       |Модель для вычисления условия        |resolve                            |
 
 **Тело**
 
@@ -259,7 +259,7 @@ Java Script выражение
 |id                  |Строка                                                                     |Идентификатор пункта меню                                                                     |Вычисляется из `action-id`          |
 |label               |Строка                                                                     |Заголовок пункта меню                                                                         |Вычисляется из `action-id`          |
 |datasource          |Ссылка на [источник данных](../xml/datasource#datasources)                 |Идентификатор источника данных, над которым будет выполнена операция                          |Источник данных текущего виджета    |
-|model               |resolve filter edit multi datasource                                       |Модель, над которой выполнится действие. Если модель пустая, то пункт меню будет заблокирован.|resolve                             |
+|model               |resolve edit filter multi datasource                                       |Модель, над которой выполнится действие. Если модель пустая, то пункт меню будет заблокирован.|resolve                             |
 |icon                |[CSS класс](http://fontawesome.io/icons/)                                  |Иконка пункта меню                                                                            |Вычисляется из `action-id`          |
 |color               |Строка                                                                     |Цвет пункта меню                                                                              |                                    |
 |visible             |true false                                                                 |Видимость пункта меню                                                                         |Вычисляется из `action-id`          |
