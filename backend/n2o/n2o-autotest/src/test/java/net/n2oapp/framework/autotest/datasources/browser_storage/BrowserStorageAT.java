@@ -70,8 +70,7 @@ public class BrowserStorageAT extends AutoTestBase {
         page.shouldExists();
 
         FormWidget formWidget = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
-        StandardField test_submit = formWidget.fields().field("test submit");
-        InputText input = test_submit.control(InputText.class);
+        InputText input = formWidget.fields().field("test submit").control(InputText.class);
         Button button = formWidget.toolbar().bottomLeft().button("Submit");
 
         input.shouldBeEmpty();
@@ -80,7 +79,6 @@ public class BrowserStorageAT extends AutoTestBase {
 
         page.shouldExists();
         formWidget.shouldExists();
-        test_submit.shouldExists();
         input.shouldBeEmpty();
 
         input.val("test submit");
@@ -89,7 +87,6 @@ public class BrowserStorageAT extends AutoTestBase {
 
         page.shouldExists();
         formWidget.shouldExists();
-        test_submit.shouldExists();
         input.shouldHaveValue("test submit");
         Selenide.clearBrowserLocalStorage();
     }

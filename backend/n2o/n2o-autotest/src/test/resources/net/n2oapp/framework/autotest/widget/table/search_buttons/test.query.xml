@@ -6,7 +6,6 @@
 
     <filters>
         <like field-id="name" filter-id="name"/>
-        <like field-id="type" filter-id="type"/>
     </filters>
 
     <fields>
