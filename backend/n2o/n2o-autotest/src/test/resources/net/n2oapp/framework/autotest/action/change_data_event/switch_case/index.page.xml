@@ -1,0 +1,33 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Автотест на события изменения данных. Кейс: switch-case">
+    <datasources>
+        <datasource id="main"/>
+    </datasources>
+    <events>
+        <on-change datasource="main" model="resolve">
+            <switch value-field-id="target.id">
+                <case value="1">
+                    <alert text="1"/>
+                </case>
+                <case value="2">
+                    <alert text="2"/>
+                </case>
+                <case value="3">
+                    <alert text="3"/>
+                </case>
+            </switch>
+        </on-change>
+    </events>
+    <regions>
+        <form datasource="main">
+            <fields>
+                <radio-group id="target" label="target field" inline="true">
+                    <options>
+                        <option id="1" name="check 1"/>
+                        <option id="2" name="check 2"/>
+                        <option id="3" name="check 3"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+    </regions>
+</page>

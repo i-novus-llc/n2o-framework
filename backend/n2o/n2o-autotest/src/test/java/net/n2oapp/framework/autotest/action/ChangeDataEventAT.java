@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -39,12 +40,12 @@ public class ChangeDataEventAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/index.page.xml"));
     }
 
     @Test
     public void test() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -67,5 +68,46 @@ public class ChangeDataEventAT extends AutoTestBase {
         page.alerts(Alert.Placement.top).alert(0).shouldHaveColor(Colors.INFO);
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Событие при изменение ds2");
         text.shouldHaveValue("5");
+    }
+
+    @Test
+    public void testIfElseAndShowModal() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/if_else_and_show_modal/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/if_else_and_show_modal/modal.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText test = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("test").control(InputText.class);
+
+        test.val("5");
+        N2oSelenide.modal().shouldExists();
+        N2oSelenide.modal().close();
+        test.clear();
+        page.alerts(Alert.Placement.top).alert(0).shouldExists();
+    }
+
+    @Test
+    public void testSwitchCase() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/switch_case/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RadioGroup radioGroup = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("target field").control(RadioGroup.class);
+
+        radioGroup.check("check 2");
+        page.alerts(Alert.Placement.top).alert(0).shouldExists();
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("2");
+
+        radioGroup.check("check 3");
+        page.alerts(Alert.Placement.top).alert(0).shouldExists();
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("3");
+
+        radioGroup.check("check 1");
+        page.alerts(Alert.Placement.top).alert(0).shouldExists();
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("1");
     }
 }
