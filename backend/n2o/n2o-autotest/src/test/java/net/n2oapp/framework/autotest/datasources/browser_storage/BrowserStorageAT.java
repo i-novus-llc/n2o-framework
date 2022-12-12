@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -68,18 +69,27 @@ public class BrowserStorageAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        InputText input = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("test submit").control(InputText.class);
-        Button button = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .toolbar().bottomLeft().button("Submit");
+        FormWidget formWidget = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        StandardField test_submit = formWidget.fields().field("test submit");
+        InputText input = test_submit.control(InputText.class);
+        Button button = formWidget.toolbar().bottomLeft().button("Submit");
 
         input.shouldBeEmpty();
         input.val("test submit");
         Selenide.refresh();
+
+        page.shouldExists();
+        formWidget.shouldExists();
+        test_submit.shouldExists();
         input.shouldBeEmpty();
+
         input.val("test submit");
         button.click();
         Selenide.refresh();
+
+        page.shouldExists();
+        formWidget.shouldExists();
+        test_submit.shouldExists();
         input.shouldHaveValue("test submit");
         Selenide.clearBrowserLocalStorage();
     }
