@@ -1,34 +1,38 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <datasources>
+        <inherited-datasource id="itemDs"
+                              source-datasource="ds1"
+                              source-model="resolve"
+                              source-field-id="fl"
+        >
+            <filters>
+                <eq field-id="id" param="id" required="true"/>
+            </filters>
+
+        </inherited-datasource>
         <parent-datasource id="ds1"/>
-        <datasource id="add"/>
     </datasources>
+
     <regions>
-        <form datasource="add">
+        <form datasource="itemDs">
             <fields>
                 <row>
-                    <hidden id="id">
-                        <dependencies>
-                            <set-value>
-                                return $.uuid()
-                            </set-value>
-                        </dependencies>
-                    </hidden>
                     <input-text id="surname" label="Фамилия"/>
                     <input-text id="name" label="Имя"/>
                     <input-text id="patronymic" label="Отчество"/>
                 </row>
             </fields>
             <toolbar>
-                <button label="Добавить">
+                <button label="Изменить">
                     <edit-list
-                            operation="create"
+                            operation="update"
                             model="resolve"
+                            primary-key="id"
                             datasource="ds1"
                             list-field-id="fl"
                             item-model="resolve"
-                            item-datasource="add"
+                            item-datasource="itemDs"
                     />
                     <close/>
                 </button>

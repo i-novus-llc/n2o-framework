@@ -28,14 +28,22 @@
                         primary-key="id"
                 >
                     <row>
-                        <output-text id="surname" label="Фамилия"/>
                         <output-text id="name" label="Имя"/>
-                        <output-text id="patronymic" label="Отчество"/>
                         <button label="Изменить">
                             <set-value target-datasource="modal">fl[index]</set-value>
                             <show-modal page-id="update" route="/updateItem"/>
                         </button>
                     </row>
+                    <button icon="fa fa-trash danger" color="link">
+                        <edit-list operation="delete"
+                                   datasource="ds1"
+                                   model="resolve"
+                                   item-datasource="ds1"
+                                   item-model="resolve"
+                                   item-field-id="fl[index]"
+                                   list-field-id="fl"
+                        />
+                    </button>
                 </multi-set>
             </fields>
         </form>

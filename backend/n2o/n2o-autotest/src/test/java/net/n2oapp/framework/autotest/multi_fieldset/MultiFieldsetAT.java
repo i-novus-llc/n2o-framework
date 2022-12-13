@@ -25,14 +25,44 @@ public class MultiFieldsetAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
     }
 
     @Test
-    public void test() throws InterruptedException {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/add.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/update.page.xml"));
+    public void testModalToModal() throws InterruptedException {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/modal_to_modal/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/modal_to_modal/update.page.xml"));
+        Configuration.headless=false;
+
+        StandardPage open = open(StandardPage.class);
+        Thread.sleep(5000);
+    }
+
+    @Test
+    public void testFiltering() throws InterruptedException {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/filtering/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/filtering/test.query.xml"));
+        Configuration.headless=false;
+
+        StandardPage open = open(StandardPage.class);
+        Thread.sleep(5000);
+    }
+
+    @Test
+    public void testValidation() throws InterruptedException {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/validation/index.page.xml"));
+        Configuration.headless=false;
+
+        StandardPage open = open(StandardPage.class);
+        Thread.sleep(5000);
+    }
+
+    @Test
+    public void testCreateMany() throws InterruptedException {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/create_many/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/create_many/add.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/create_many/update.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/create_many/test.query.xml"));
         Configuration.headless=false;
 
         StandardPage open = open(StandardPage.class);
