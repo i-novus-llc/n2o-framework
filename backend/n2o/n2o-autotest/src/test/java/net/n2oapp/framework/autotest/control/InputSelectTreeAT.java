@@ -101,8 +101,8 @@ public class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     public void testSearchMinLength() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/test.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
