@@ -3,6 +3,8 @@ package net.n2oapp.framework.api.metadata.control.multi;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.VisualAttribute;
+import net.n2oapp.framework.api.metadata.VisualComponent;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.control.list.Inlineable;
 
@@ -11,8 +13,11 @@ import net.n2oapp.framework.api.metadata.control.list.Inlineable;
  */
 @Getter
 @Setter
+@VisualComponent
 public class N2oCheckboxGroup extends N2oMultiListFieldAbstract implements Inlineable {
+    @VisualAttribute
     private Boolean inline;
+    @VisualAttribute
     private CheckboxGroupType type;
 
     public enum CheckboxGroupType implements IdAware {

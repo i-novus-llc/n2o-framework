@@ -8,9 +8,10 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.VisualAttribute;
+import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.aware.*;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
@@ -64,16 +65,19 @@ public abstract class N2oWidget extends N2oMetadata
     private UploadType upload;
     @Deprecated
     private String dependsOn;
+    @VisualAttribute
     private String icon;
     @Deprecated
     private String masterFieldId;
     @Deprecated
     private String detailFieldId;
+    @VisualAttribute
     private String visible;
     @Deprecated
     private N2oPreFilter[] preFilters;
     private ActionBar[] actions;
     private GenerateType actionGenerate;
+    @VisualAttribute
     private N2oToolbar[] toolbars;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;

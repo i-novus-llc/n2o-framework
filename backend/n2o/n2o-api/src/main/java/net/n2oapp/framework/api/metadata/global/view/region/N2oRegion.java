@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
+import net.n2oapp.framework.api.metadata.VisualAttribute;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
@@ -17,10 +18,13 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oRegion extends N2oComponent implements SourceMetadata, RegionItem {
+    @VisualAttribute
     private String id;
+    @VisualAttribute
     private String width;
     private String activeParam;
     private Boolean routable;
+    @VisualAttribute
     private SourceComponent[] content;
 
     @Override

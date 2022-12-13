@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.page;
 
+import net.n2oapp.framework.api.metadata.VisualAttribute;
+import net.n2oapp.framework.api.metadata.VisualComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.Collections;
@@ -8,8 +10,10 @@ import java.util.List;
 /**
  * Модель страницы с единственным виджетом
  */
+@VisualComponent
 public class N2oSimplePage extends N2oPage {
 
+    @VisualAttribute
     private N2oWidget widget;
 
     @Override

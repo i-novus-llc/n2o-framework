@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.VisualAttribute;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
@@ -21,18 +22,25 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oPage extends N2oMetadata implements NameAware, ExtensionAttributesAware, SourceComponent {
+    @VisualAttribute
     private String name;
+    @VisualAttribute
     private String title;
+    @VisualAttribute
     private String htmlTitle;
     private String src;
     private String objectId;
     private String route;
     private String modalSize;
+    @VisualAttribute
     private Boolean showTitle;
+    @VisualAttribute
     private String cssClass;
+    @VisualAttribute
     private String style;
     private ReduxModel model;
     private Boolean hasBreadcrumbs;
+    @VisualAttribute
     private N2oBreadcrumb[] breadcrumbs;
     @ExtAttributesSerializer
     protected Map<N2oNamespace, Map<String, String>> extAttributes;

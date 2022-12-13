@@ -4,11 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.VisualAttribute;
+import net.n2oapp.framework.api.metadata.VisualComponent;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
-import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
-import net.n2oapp.framework.api.metadata.action.N2oAction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,22 +21,33 @@ import java.util.List;
  */
 @Getter
 @Setter
+@VisualComponent
 public class N2oButton extends N2oAbstractButton implements GroupItem, DatasourceIdAware, WidgetIdAware,
         ModelAware, ActionsAware {
     private String actionId;
+    @VisualAttribute
     private Boolean rounded;
     private Boolean validate;
     private String[] validateDatasourceIds;
     private N2oAction[] actions;
 
+    @VisualAttribute
     private String confirm;
+    @VisualAttribute
     private ConfirmType confirmType;
+    @VisualAttribute
     private String confirmText;
+    @VisualAttribute
     private String confirmTitle;
+    @VisualAttribute
     private String confirmOkLabel;
+    @VisualAttribute
     private String confirmOkColor;
+    @VisualAttribute
     private String confirmCancelLabel;
+    @VisualAttribute
     private String confirmCancelColor;
+    @VisualAttribute
     private DisableOnEmptyModelType disableOnEmptyModel;
 
     private Dependency[] dependencies;
