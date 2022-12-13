@@ -18,7 +18,8 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
     @Override
     public MultiFieldSet compile(N2oMultiFieldSet source, CompileContext<?, ?> context, CompileProcessor p) {
         MultiFieldSet fieldSet = new MultiFieldSet();
-        compileFieldSet(fieldSet, source, context, p);
+        MultiFieldSetScope multiFieldSetScope = new MultiFieldSetScope(source.getId());
+        compileFieldSet(fieldSet, source, context, p, multiFieldSetScope);
         fieldSet.setChildrenLabel(p.resolveJS(source.getChildrenLabel()));
         fieldSet.setFirstChildrenLabel(p.resolveJS(source.getFirstChildrenLabel()));
         fieldSet.setSrc(p.cast(source.getSrc(),
@@ -36,6 +37,8 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
                 p.resolve(property("n2o.api.fieldset.multi-set.can_copy"), Boolean.class)));
         fieldSet.setNeedRemoveAllButton(p.cast(source.getCanRemoveAll(),
                 p.resolve(property("n2o.api.fieldset.multi-set.can_remove_all"), Boolean.class)));
+        fieldSet.setPrimaryKey(p.cast(source.getPrimaryKey(), "id"));
+        fieldSet.setGeneratePrimaryKey(p.cast(source.getGeneratePrimaryKey(), false));
         return fieldSet;
     }
 

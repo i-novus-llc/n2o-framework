@@ -86,6 +86,10 @@
                 <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
                       submit="true" apply-on-init="true"/>
             </dependencies>
+            <filters>
+                <eq field-id="test" datasource="ds1" model="datasource" value="{id}" param="param" required="true"
+                    routable="true"/>
+            </filters>
         </inherited-datasource>
         <parent-datasource id="parent_ds"/>
     </datasources>

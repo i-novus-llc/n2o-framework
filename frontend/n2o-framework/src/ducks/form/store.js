@@ -64,6 +64,49 @@ const formSlice = createSlice({
             },
         },
 
+        UNREGISTER_FIELD_EXTRA: {
+            prepare(form, name, fields) {
+                return ({
+                    payload: {
+                        form,
+                        name,
+                        fields,
+                    },
+
+                    meta: { form },
+                })
+            },
+
+            reducer(state, action) {
+                const { fields } = action.payload
+
+                for (const field of fields) {
+                    delete state.registeredFields[field]
+                }
+            },
+        },
+
+        UNTOUCH_FIELD_EXTRA: {
+            prepare(form, fields) {
+                return ({
+                    payload: {
+                        form,
+                        fields,
+                    },
+                    meta: {
+                        form,
+                    },
+                })
+            },
+            reducer(state, action) {
+                const { fields } = action.payload
+
+                for (const field of fields) {
+                    set(state, `fields.${field}.touched`, false)
+                }
+            },
+        },
+
         DISABLE_FIELD: {
             /**
              * @param {string} form
@@ -583,6 +626,8 @@ export default formSlice.reducer
 
 export const {
     REGISTER_FIELD_EXTRA: registerFieldExtra,
+    UNREGISTER_FIELD_EXTRA: unregisterFieldExtra,
+    UNTOUCH_FIELD_EXTRA: untouchFieldExtra,
     DISABLE_FIELD: disableField,
     ENABLE_FIELD: enableField,
     SHOW_FIELD: showField,

@@ -210,4 +210,33 @@ public class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getFilterValidations().get("name2").get(0), instanceOf(ConditionValidation.class));
         assertThat(((ConditionValidation) ds.getFilterValidations().get("name2").get(0)).getExpression(), is("name2.length>1"));
     }
+
+    @Test
+    public void validationInMultiset() {
+        StandardPage page = (StandardPage)
+                compile("net/n2oapp/framework/config/metadata/compile/datasource/testDSValidationInMultiset.page.xml")
+                        .get(new PageContext("testDSValidationInMultiset", "/p/w/a"));
+
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds1");
+
+        //multi-set validations
+        assertThat(ds.getValidations().get("members[index].id"), notNullValue());
+        assertThat(ds.getValidations().get("members[index].id").size(), is(1));
+        assertThat(ds.getValidations().get("members[index].id").get(0), instanceOf(MandatoryValidation.class));
+
+        assertThat(ds.getValidations().get("members[index].name"), notNullValue());
+        assertThat(ds.getValidations().get("members[index].name").size(), is(1));
+        assertThat(ds.getValidations().get("members[index].name").get(0), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getValidations().get("members[index].name").get(0)).getExpression(), is("name.length>3"));
+
+        //multi-set filter validations
+        assertThat(ds.getFilterValidations().get("members2[index].id2"), notNullValue());
+        assertThat(ds.getFilterValidations().get("members2[index].id2").size(), is(1));
+        assertThat(ds.getFilterValidations().get("members2[index].id2").get(0), instanceOf(MandatoryValidation.class));
+
+        assertThat(ds.getFilterValidations().get("members2[index].name2"), notNullValue());
+        assertThat(ds.getFilterValidations().get("members2[index].name2").size(), is(1));
+        assertThat(ds.getFilterValidations().get("members2[index].name2").get(0), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getFilterValidations().get("members2[index].name2").get(0)).getExpression(), is("name2.length>3"));
+    }
 }

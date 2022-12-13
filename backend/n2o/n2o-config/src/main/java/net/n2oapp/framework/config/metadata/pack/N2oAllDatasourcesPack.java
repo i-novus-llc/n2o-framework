@@ -14,6 +14,7 @@ public class N2oAllDatasourcesPack implements MetadataPack<N2oApplicationBuilder
                 new StompDatasourceCompiler(),
                 new InheritedDatasourceCompiler());
         b.mergers(new N2oStandardDatasourceMerger());
-        b.binders(new BrowserStorageDatasourceBinder());
+        b.binders(new BrowserStorageDatasourceBinder(),
+                new InheritedDatasourceBinder());
     }
 }

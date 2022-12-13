@@ -11,7 +11,10 @@ import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import javax.script.ScriptException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -44,21 +47,22 @@ public class ConditionValidation extends Validation {
                 .collect(Collectors.toSet());
     }
 
-    private DataSet getCopiedDataSet (DataSet dataSet) {
+    private DataSet getCopiedDataSet (DataSet dataSet, DomainProcessor domainProcessor) {
         DataSet copiedDataSet = new DataSet(dataSet);
         getExpressionsOn().forEach(key -> {
             Object value = dataSet.get(key);
             copiedDataSet.put(key, (value instanceof Date) ?
-                DomainProcessor.getInstance().serialize(value) : value);
+                domainProcessor.serialize(value) : value);
         });
         return copiedDataSet;
     }
 
     @Override
-    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
+    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback,
+                         DomainProcessor domainProcessor) {
         try {
-            DataSet copiedDataSet = getCopiedDataSet(dataSet);
-            if (!(boolean) ScriptProcessor.getInstance().eval(getExpression(), copiedDataSet))
+            DataSet copiedDataSet = getCopiedDataSet(dataSet, domainProcessor);
+            if (!(boolean) ScriptProcessor.eval(getExpression(), copiedDataSet))
                 callback.onFail(StringUtils.resolveLinks(getMessage(), copiedDataSet));
         } catch (ScriptException e) {
             throw new RuntimeException(e);

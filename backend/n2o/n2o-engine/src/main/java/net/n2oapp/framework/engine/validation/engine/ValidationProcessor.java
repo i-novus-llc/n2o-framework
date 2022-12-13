@@ -1,5 +1,6 @@
 package net.n2oapp.framework.engine.validation.engine;
 
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.exception.N2oValidationException;
 import net.n2oapp.framework.api.exception.SeverityType;
@@ -17,9 +18,16 @@ import java.util.stream.Collectors;
 public class ValidationProcessor {
 
     private InvocationProcessor invocationProcessor;
+    private DomainProcessor domainProcessor;
 
     public ValidationProcessor(InvocationProcessor invocationProcessor) {
         this.invocationProcessor = invocationProcessor;
+        this.domainProcessor = new DomainProcessor();
+    }
+
+    public ValidationProcessor(InvocationProcessor invocationProcessor, DomainProcessor domainProcessor) {
+        this.invocationProcessor = invocationProcessor;
+        this.domainProcessor = domainProcessor;
     }
 
     public List<FailInfo> validate(ObjectValidationInfo info, N2oValidation.ServerMoment moment) {
@@ -45,6 +53,7 @@ public class ValidationProcessor {
         return Validator.newBuilder()
                 .addDataSet(info.getDataSet())
                 .addInvocationProcessor(invocationProcessor)
+                .addDomainProcessor(domainProcessor)
                 .addValidations(info.getValidations())
                 .addValidations(info.getObject() != null ? info.getObject().getValidations() : null)
                 .addMoment(moment)
@@ -55,6 +64,7 @@ public class ValidationProcessor {
         return Validator.newBuilder()
                 .addDataSet(info.getDataSet())
                 .addInvocationProcessor(invocationProcessor)
+                .addDomainProcessor(domainProcessor)
                 .addValidations(info.getValidations())
                 .addMoment(moment)
                 .build();

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.datasource;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -18,6 +19,18 @@ public abstract class BaseDatasourceIO<T extends N2oDatasource> extends Abstract
                 p.oneOf(N2oDatasource.Dependency.class)
                         .add("fetch", N2oDatasource.FetchDependency.class, this::fetch)
                         .add("copy", N2oDatasource.CopyDependency.class, this::copy));
+    }
+
+    protected void filters(Element e, N2oPreFilter pf, IOProcessor p) {
+        p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
+        p.attribute(e, "param", pf::getParam, pf::setParam);
+        p.attributeBoolean(e, "routable", pf::getRoutable, pf::setRoutable);
+        p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
+        p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
+        p.attribute(e, "datasource", pf::getDatasourceId, pf::setDatasourceId);
+        p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModel.class);
+        p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
+        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
     private void dependency(Element e, N2oDatasource.Dependency t, IOProcessor p) {

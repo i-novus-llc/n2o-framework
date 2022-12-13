@@ -23,8 +23,9 @@ public class ValidationDialog extends InvocationValidation {
     private N2oDialog dialog;
 
     @Override
-    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
-        dataSet = DomainProcessor.getInstance().doDomainConversation(dataSet, getInParametersList());
+    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback,
+                         DomainProcessor domainProcessor) {
+        dataSet = domainProcessor.doDomainConversation(dataSet, getInParametersList());
         DataSet result;
         if (getInvocation() != null)
             result = serviceProvider.invoke(getInvocation(), dataSet, getInParametersList(), getOutParametersList());

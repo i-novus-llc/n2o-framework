@@ -43,18 +43,6 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);
     }
 
-    private void filters(Element e, N2oPreFilter pf, IOProcessor p) {
-        p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
-        p.attribute(e, "param", pf::getParam, pf::setParam);
-        p.attributeBoolean(e, "routable", pf::getRoutable, pf::setRoutable);
-        p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
-        p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
-        p.attribute(e, "datasource", pf::getDatasourceId, pf::setDatasourceId);
-        p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModel.class);
-        p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
-        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
-    }
-
     private void submit(Element e, Submit t, IOProcessor p) {
         p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);

@@ -33,6 +33,7 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
+import net.n2oapp.framework.config.metadata.compile.fieldset.MultiFieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
@@ -257,8 +258,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {
         List<Validation> validations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class) != null ? p.getScope(FieldSetVisibilityScope.class).getConditions() : Collections.emptySet();
-        validations.addAll(initRequiredValidation(field, source, p, visibilityConditions));
-        validations.addAll(initInlineValidations(field, source, context, p, visibilityConditions));
+        String fieldId = p.getScope(MultiFieldSetScope.class) == null ? field.getId() : p.getScope(MultiFieldSetScope.class).getId() + "[index]." + field.getId();
+        validations.addAll(initRequiredValidation(fieldId, field, source, p, visibilityConditions));
+        validations.addAll(initInlineValidations(fieldId, field, source, context, p, visibilityConditions));
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ValidationScope validationScope = p.getScope(ValidationScope.class);
@@ -266,14 +268,14 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             validationScope.addAll(widgetScope.getDatasourceId(), widgetScope.getModel(), validations);
     }
 
-    private List<Validation> initRequiredValidation(Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
+    private List<Validation> initRequiredValidation(String fieldId, Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
         List<Validation> result = new ArrayList<>();
         MomentScope momentScope = p.getScope(MomentScope.class);
         String requiredMessage = momentScope != null
                 && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
                 ? "n2o.required.filter" : "n2o.required.field";
         if ("true".equals(source.getRequired())) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(requiredMessage), field.getId());
+            MandatoryValidation mandatory = new MandatoryValidation(fieldId, p.getMessage(requiredMessage), fieldId);
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(visibilityConditions);
@@ -281,7 +283,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             result.add(mandatory);
             field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(requiredMessage), field.getId());
+            MandatoryValidation mandatory = new MandatoryValidation(fieldId, p.getMessage(requiredMessage), fieldId);
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(visibilityConditions);
@@ -299,7 +301,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return result;
     }
 
-    private List<Validation> initInlineValidations(Field field,
+    private List<Validation> initInlineValidations(String fieldId, Field field,
                                                    S source,
                                                    CompileContext<?, ?> context, CompileProcessor p,
                                                    Set<String> visibilityConditions) {
@@ -309,7 +311,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (validations == null) return result;
         if (validations.getWhiteList() != null) {
             for (String validation : validations.getWhiteList()) {
-                Validation compiledValidation = initWhiteListValidation(field.getId(),
+                Validation compiledValidation = initWhiteListValidation(fieldId,
                         validation,
                         source, p,
                         visibilityConditions);
@@ -329,7 +331,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
 
             for (N2oValidation v : validations.getInlineValidations()) {
-                v.setFieldId(field.getId());
+                v.setFieldId(fieldId);
                 Validation compiledValidation = p.compile(v, context);
                 MomentScope momentScope = p.getScope(MomentScope.class);
                 if (momentScope != null)

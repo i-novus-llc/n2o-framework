@@ -144,17 +144,53 @@ export default (Field) => {
             }
         }
 
+        replaceIndex = (obj, index) => JSON.parse(
+            JSON.stringify(obj).replaceAll(INDEX_PLACEHOLDER, index),
+        )
+
+        resolveControlIndexes = (control) => {
+            const { parentIndex } = this.props
+
+            if (control && control.dataProvider && !isNil(parentIndex)) {
+                const dataProvider = this.replaceIndex(control.dataProvider, parentIndex)
+
+                return {
+                    ...control,
+                    dataProvider,
+                }
+            }
+
+            return control
+        }
+
+        resolveActionIndexes = (action) => {
+            const { parentIndex } = this.props
+
+            if (action && !isNil(parentIndex)) {
+                return this.replaceIndex(action, parentIndex)
+            }
+
+            return action
+        }
+
         /**
          * мэппинг сообщений
          * @returns {string}
          */
 
         render() {
-            const { mapProps } = this.props
-
+            const { mapProps, control, action } = this.props
             const props = mapProps(this.props)
 
-            return <Field {...props} onChange={this.onChange} onBlur={this.onBlur} />
+            return (
+                <Field
+                    {...props}
+                    control={this.resolveControlIndexes(control)}
+                    action={this.resolveActionIndexes(action)}
+                    onChange={this.onChange}
+                    onBlur={this.onBlur}
+                />
+            )
         }
     }
 
@@ -174,6 +210,8 @@ export default (Field) => {
         registerFieldExtra,
         parentIndex: PropTypes.number,
         validation: PropTypes.any,
+        control: PropTypes.object,
+        action: PropTypes.object,
     }
 
     const mapStateToProps = (state, { modelPrefix, ...ownProps }) => {
@@ -240,9 +278,9 @@ export default (Field) => {
         withProps(props => ({
             visibleToRegister: props.visible,
             disabledToRegister:
-        isBoolean(props.enabled) && !props.disabled
-            ? !props.enabled
-            : props.disabled,
+                isBoolean(props.enabled) && !props.disabled
+                    ? !props.enabled
+                    : props.disabled,
             requiredToRegister: props.required,
         })),
         connect(
@@ -266,15 +304,15 @@ export default (Field) => {
         ),
         shouldUpdate(
             (props, nextProps) => !isEqual(props.model, nextProps.model) ||
-            props.isInit !== nextProps.isInit ||
-            props.visible !== nextProps.visible ||
-            props.disabled !== nextProps.disabled ||
-            props.message !== nextProps.message ||
-            props.required !== nextProps.required ||
-            props.loading !== nextProps.loading ||
-            props.meta.touched !== nextProps.meta.touched ||
-            props.active !== nextProps.active ||
-            get(props, 'input.value', null) !== get(nextProps, 'input.value', null),
+                props.isInit !== nextProps.isInit ||
+                props.visible !== nextProps.visible ||
+                props.disabled !== nextProps.disabled ||
+                props.message !== nextProps.message ||
+                props.required !== nextProps.required ||
+                props.loading !== nextProps.loading ||
+                props.meta.touched !== nextProps.meta.touched ||
+                props.active !== nextProps.active ||
+                get(props, 'input.value', null) !== get(nextProps, 'input.value', null),
         ),
         withProps(props => ({
             ref: props.setReRenderRef,
