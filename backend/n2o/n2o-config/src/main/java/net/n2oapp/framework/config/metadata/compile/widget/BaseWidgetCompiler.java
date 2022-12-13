@@ -26,10 +26,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
-import net.n2oapp.framework.config.metadata.compile.ValidationScope;
+import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
@@ -129,7 +126,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            WidgetScope widgetScope, MetaActions metaActions,
                                            CompiledObject object, ValidationScope validationScope) {
         actionsToToolbar(source, metaActions);
-        compileMetaActions(source, context, p, metaActions, widgetScope, object, validationScope);
+        compileMetaActions(source, context, p, p.getScope(PageIndexScope.class), metaActions, widgetScope, object, validationScope);
         compiled.setToolbar(compileToolbar(source, "n2o.api.widget.toolbar.place", context, p, object,
                 metaActions, widgetScope, validationScope));
     }
