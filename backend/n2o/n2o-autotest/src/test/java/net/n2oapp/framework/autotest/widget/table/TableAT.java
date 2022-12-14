@@ -307,14 +307,6 @@ public class TableAT extends AutoTestBase {
 
         TableWidget tableWidget = page.widget(TableWidget.class);
         tableWidget.filters().fields().field("name").control(InputText.class).val("test");
-        /* TODO : раскоментировать, когда будет решен баг NNO-8869
-        tableWidget.filters().toolbar().button("Сбросить").click();
-        verifyNeverGetDataInvocation("Запрос за данными таблицы при fetch-on-clear=false");
-        tableWidget.columns().rows().shouldHaveSize(4);
-        tableWidget.filters().fields().field("name").control(InputText.class).shouldHaveValue("");
-        */
-
-        tableWidget.filters().fields().field("name").control(InputText.class).val("test");
         tableWidget.filters().toolbar().button("Найти").click();
         tableWidget.columns().rows().shouldHaveSize(4);
 
