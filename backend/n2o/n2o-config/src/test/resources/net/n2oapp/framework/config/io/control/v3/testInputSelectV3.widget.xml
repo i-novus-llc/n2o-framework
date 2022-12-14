@@ -6,7 +6,9 @@
                       description-field-id="descFieldId"
                       max-tag-text-length="5"
                       badge-shape="rounded" badge-position="right" badge-image-field-id="image"
-                      badge-image-position="right" badge-image-shape="square" >
+                      badge-image-position="right" badge-image-shape="square"
+                      throttle-delay="600"
+                      search-min-length="1">
             <dependencies>
                 <fetch-value query-id="testQuery" on="test" value-field-id="name" size="5">
                     <filters>

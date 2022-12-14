@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -255,4 +256,27 @@ public class InputSelectAT extends AutoTestBase {
         gender_with_const.shouldHaveOptions("Женский");
     }
 
+    @Test
+    public void testSearchMinLength() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/test.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        InputSelect inputSelect = simplePage.widget(FormWidget.class)
+                .fields().field("Input-select min-length=3").control(InputSelect.class);
+        inputSelect.expand();
+        DropDown dropdown = inputSelect.dropdown();
+        dropdown.shouldHaveItems(3);
+
+        inputSelect.val("a");
+        dropdown.shouldHaveItems(3);
+
+        inputSelect.val("au");
+        dropdown.shouldHaveItems(3);
+
+        inputSelect.val("aud");
+        dropdown.shouldHaveItems(1);
+    }
 }

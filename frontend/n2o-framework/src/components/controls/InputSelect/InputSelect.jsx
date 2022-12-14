@@ -303,18 +303,18 @@ class InputSelect extends React.Component {
      * @private
      */
     setNewInputValue = (input) => {
-        const { onInput } = this.props
+        const { onInput, throttleDelay } = this.props
         const { input: stateInput } = this.state
         const onSetNewInputValue = (input) => {
             onInput(input)
-            this.handleDataSearch(input)
+            this.handleDataSearch(input, throttleDelay)
         }
 
         if (stateInput !== input) {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
 
-            if (!input) {
+            if (!input && !throttleDelay) {
                 this.clearSelected()
             }
         }
@@ -763,6 +763,7 @@ InputSelect.propTypes = {
     statusFieldId: PropTypes.string,
     enabledFieldId: PropTypes.string,
     onDismiss: PropTypes.func,
+    throttleDelay: PropTypes.number,
 }
 
 InputSelect.defaultProps = {
