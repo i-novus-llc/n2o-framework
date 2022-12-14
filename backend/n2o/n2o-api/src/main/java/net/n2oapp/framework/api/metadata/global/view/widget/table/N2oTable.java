@@ -25,23 +25,6 @@ public class N2oTable extends N2oAbstractTable {
     @N2oAttribute
     private ChildrenToggle children;
 
-
-    public enum FilterPosition {
-        top, left;
-
-        public String getName() {
-            return this.name();
-        }
-    }
-
-    /**
-     * Виды отображения дочерних записей таблицы
-     */
-    public enum ChildrenToggle {
-        collapse,   // свернутый
-        expand      // раскрытый
-    }
-
     @Deprecated
     public void adapterV4() {
         super.adapterV4();

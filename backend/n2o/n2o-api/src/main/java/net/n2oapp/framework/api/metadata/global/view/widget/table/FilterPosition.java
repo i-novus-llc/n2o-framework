@@ -1,19 +1,15 @@
-package net.n2oapp.framework.api.metadata.global.view.action;
+package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
-/**
- * Тип отображения заголовка (с иконкой или без)
- */
-public enum LabelType implements IdAware {
-    TEXT("text"),
-    ICON("icon"),
-    TEXT_AND_ICON("textAndIcon");
+public enum FilterPosition implements IdAware {
+    TOP("top"),
+    LEFT("left");
 
     private final String value;
 
-    LabelType(String value) {
+    FilterPosition(String value) {
         this.value = value;
     }
 

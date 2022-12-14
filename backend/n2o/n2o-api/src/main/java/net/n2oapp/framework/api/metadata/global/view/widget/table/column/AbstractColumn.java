@@ -44,7 +44,7 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
     @N2oAttribute
     private String sortingFieldId;
     @N2oAttribute
-    private DirectionType sortingDirection;
+    private SortingDirection sortingDirection;
     @N2oAttribute
     private ColumnFixedPosition fixed;
     private ColumnVisibility[] columnVisibilities;

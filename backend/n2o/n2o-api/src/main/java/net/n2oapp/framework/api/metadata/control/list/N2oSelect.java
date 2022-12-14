@@ -29,6 +29,6 @@ public class N2oSelect extends N2oSingleListFieldAbstract {
 
     @Override
     public boolean isSingle() {
-        return !ListType.multi.equals(type) && !ListType.checkboxes.equals(type);
+        return !ListType.MULTI.equals(type) && !ListType.CHECKBOXES.equals(type);
     }
 }
