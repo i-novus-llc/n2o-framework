@@ -64,34 +64,14 @@ const formSlice = createSlice({
             },
         },
 
-        UNREGISTER_FIELD_EXTRA: {
-            prepare(form, name, fields) {
+        UNREGISTER_MULTISET_ITEM_EXTRA: {
+            prepare(form, multiField, fromIndex, deleteAll = false) {
                 return ({
                     payload: {
                         form,
-                        name,
-                        fields,
-                    },
-
-                    meta: { form },
-                })
-            },
-
-            reducer(state, action) {
-                const { fields } = action.payload
-
-                for (const field of fields) {
-                    delete state.registeredFields[field]
-                }
-            },
-        },
-
-        UNTOUCH_FIELD_EXTRA: {
-            prepare(form, fields) {
-                return ({
-                    payload: {
-                        form,
-                        fields,
+                        multiField,
+                        fromIndex,
+                        deleteAll,
                     },
                     meta: {
                         form,
@@ -99,10 +79,57 @@ const formSlice = createSlice({
                 })
             },
             reducer(state, action) {
-                const { fields } = action.payload
+                const { multiField, fromIndex, deleteAll } = action.payload
 
-                for (const field of fields) {
-                    set(state, `fields.${field}.touched`, false)
+                if (fromIndex >= 0) {
+                    // Чистим массив form[dsName].fields[fieldsetName]
+                    const fields = state.fields[multiField]
+
+                    if (fields) {
+                        fields.splice(fromIndex, deleteAll ? fields.length : 1)
+                    }
+
+                    // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
+                    const registredKeys = Object
+                        .keys(state.registeredFields)
+                        .filter(fieldName => fieldName.startsWith(`${multiField}[`))
+                        // Разделяем индекс и имя поля в строке мультифилдсета
+                        .map(fieldName => fieldName.match(/\[(\d+)]\.(.+)/))
+                        .filter(Boolean)
+                        .map(([, index, fieldName]) => ({
+                            index: +index,
+                            fieldName,
+                        }))
+                    const groupedFields = registredKeys.reduce((out, { index, fieldName }) => {
+                        out[index] = out[index] || []
+                        out[index].push(fieldName)
+
+                        return out
+                    }, [])
+
+                    const deleteCount = deleteAll ? groupedFields.length : 1
+                    let i = fromIndex
+
+                    for (; i < fromIndex + deleteCount; i += 1) {
+                        // eslint-disable-next-line no-loop-func
+                        groupedFields[i].forEach((fieldName) => {
+                            const sourceKey = `${multiField}[${i}].${fieldName}`
+
+                            delete state.registeredFields[sourceKey]
+                        })
+                    }
+
+                    for (; i < groupedFields.length; i += 1) {
+                        // eslint-disable-next-line no-loop-func
+                        groupedFields[i].forEach((fieldName) => {
+                            const sourceKey = `${multiField}[${i}].${fieldName}`
+                            const destKey = `${multiField}[${i - deleteCount}].${fieldName}`
+
+                            state.registeredFields[destKey] = state.registeredFields[sourceKey]
+
+                            delete state.registeredFields[sourceKey]
+                        })
+                    }
                 }
             },
         },
@@ -626,8 +653,7 @@ export default formSlice.reducer
 
 export const {
     REGISTER_FIELD_EXTRA: registerFieldExtra,
-    UNREGISTER_FIELD_EXTRA: unregisterFieldExtra,
-    UNTOUCH_FIELD_EXTRA: untouchFieldExtra,
+    UNREGISTER_MULTISET_ITEM_EXTRA: unregisterMultisetItemExtra,
     DISABLE_FIELD: disableField,
     ENABLE_FIELD: enableField,
     SHOW_FIELD: showField,

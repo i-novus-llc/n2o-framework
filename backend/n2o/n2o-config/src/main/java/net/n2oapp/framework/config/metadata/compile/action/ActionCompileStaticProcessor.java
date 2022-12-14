@@ -2,16 +2,16 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.aware.ActionBarAware;
-import net.n2oapp.framework.api.metadata.aware.ActionsAware;
-import net.n2oapp.framework.api.metadata.aware.ToolbarsAware;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseBranchAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseIfBranchAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
+import net.n2oapp.framework.api.metadata.aware.ActionBarAware;
+import net.n2oapp.framework.api.metadata.aware.ActionsAware;
+import net.n2oapp.framework.api.metadata.aware.ToolbarsAware;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -19,7 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.action.condition.ConditionBranchesScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
@@ -90,15 +90,15 @@ public class ActionCompileStaticProcessor {
      * @param scopes  Метаданные, влияющие на сборку. Должны быть разных классов
      */
     public static void compileMetaActions(ActionBarAware source, CompileContext<?, ?> context, CompileProcessor p,
-                                          Object... scopes) {
+                                          PageIndexScope pageIndexScope, Object... scopes) {
         if (source.getActions() != null) {
             for (ActionBar a : source.getActions()) {
                 a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
                 if (isNotEmpty(a.getN2oActions())) {
-                    initMultiActionIds(a.getN2oActions(), "act_multi", p);
+                    initMultiActionIds(a.getN2oActions(), "act_multi", p, pageIndexScope);
                     Arrays.stream(a.getN2oActions())
                             .forEach(n2oAction ->
-                                    p.compile(n2oAction, context, new ComponentScope(a), scopes));
+                                    p.compile(n2oAction, context, new ComponentScope(a), pageIndexScope, scopes));
                 }
             }
         }
@@ -143,7 +143,7 @@ public class ActionCompileStaticProcessor {
                     null : metaActions.get(source.getActionId()).getN2oActions());
         }
 
-        initMultiActionIds(actions, "multi", p);
+        initMultiActionIds(actions, "multi", p, null);
         return actions;
     }
 
@@ -202,9 +202,9 @@ public class ActionCompileStaticProcessor {
         return p.getScope(CompiledObject.class);
     }
 
-    private static void initMultiActionIds(N2oAction[] actions, String prefix, CompileProcessor p) {
+    private static void initMultiActionIds(N2oAction[] actions, String prefix, CompileProcessor p, PageIndexScope pageIndexScope) {
         if (ArrayUtils.getLength(actions) > 1) {
-            IndexScope indexScope = new IndexScope();
+            PageIndexScope indexScope = p.cast(pageIndexScope, p.getScope(PageIndexScope.class));
             Arrays.stream(actions).filter(ActionCompileStaticProcessor::isNotFailConditions)
                     .forEach(action -> action.setId(p.cast(action.getId(), prefix + indexScope.get())));
         }
