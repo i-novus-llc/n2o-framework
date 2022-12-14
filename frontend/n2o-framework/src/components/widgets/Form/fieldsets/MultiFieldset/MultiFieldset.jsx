@@ -118,10 +118,22 @@ export const enhance = compose(
             dispatch(unregisterFieldExtra(form, name, resetFields))
             dispatch(untouchFieldExtra(form, resetFields))
         },
-        onCopyField: ({ form, name, dispatch, fields }) => index => () => {
+        onCopyField: ({
+            form,
+            name,
+            dispatch,
+            fields,
+            generatePrimaryKey,
+            primaryKey,
+        }) => index => () => {
             const newValue = fields.slice()
+            const copyingRow = { ...fields[index] }
 
-            newValue.splice(fields.length, 0, fields[index])
+            if (generatePrimaryKey) {
+                copyingRow[primaryKey || 'id'] = id()
+            }
+
+            newValue.splice(fields.length, 0, copyingRow)
 
             dispatch(change(form, name, newValue))
         },
