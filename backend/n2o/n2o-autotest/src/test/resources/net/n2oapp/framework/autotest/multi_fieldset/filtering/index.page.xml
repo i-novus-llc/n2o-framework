@@ -3,8 +3,6 @@
              name="Филдсет с динамическим числом полей">
     <form>
         <fields>
-            <input-text id="chapter" description="Введите 1 или 2"/>
-
             <multi-set label="Сведения о ТСР"
                        id="zptsr_new.TSR"
                        children-label="ТСР {(index + 1)}"
@@ -21,15 +19,6 @@
                             <eq field-id="chapter" value="{zptsr_new.TSR[index].chapter}"/>
                         </filters>
                     </input-select>
-
-                    <!-- <input-select id="ChapterTSR"
-                                    label="Раздел ТСР"
-                                    query-id="test"
-                                    ps:icon="ps-icon-search">
-                        <filters>
-                            <eq field-id="type" value="1"/>
-                        </filters>
-                    </input-select> -->
                 </row>
             </multi-set>
         </fields>

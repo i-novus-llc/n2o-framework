@@ -6,4 +6,10 @@ package net.n2oapp.framework.autotest.api.component.control;
 public interface OutputText extends Control {
 
     void shouldHaveIcon(String icon);
+
+    void shouldNotBeEmpty();
+
+    void shouldNotHaveValue(String value);
+
+    String text();
 }

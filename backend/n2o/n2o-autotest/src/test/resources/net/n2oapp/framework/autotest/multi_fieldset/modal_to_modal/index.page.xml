@@ -9,18 +9,18 @@
         <form datasource="ds1">
             <fields>
                 <!-- новые атрибуты:
-                     primaty-key="id"
+                     primary-key="id"
                      generate-primary-key="true"-->
                 <multi-set
                         id="fl"
                         label="Проживание с мужем или женой, направленными работать за границу"
                         add-label="Добавить период"
                         can-add="true"
-                        can-copy="false"
-                        can-remove="false"
-                        can-remove-all="false"
-                        can-remove-first="false"
-                        primaty-key="id"
+                        can-copy="true"
+                        can-remove="true"
+                        can-remove-all="true"
+                        can-remove-first="true"
+                        primary-key="id"
                         generate-primary-key="true"
                 >
                     <row>

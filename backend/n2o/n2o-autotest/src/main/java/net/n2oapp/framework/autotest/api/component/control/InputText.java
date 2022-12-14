@@ -19,4 +19,10 @@ public interface InputText extends Control {
     void shouldHaveMeasure();
 
     void measureShouldHaveText(String text);
+
+    void shouldHaveValidationMessage(String text);
+
+    void shouldHaveNotValidationMessage();
+
+    void validationMessageShouldBe(String cssClassStatus);
 }

@@ -74,6 +74,21 @@ public class N2oInputText extends N2oControl implements InputText {
         inputMeasure().shouldHave(Condition.text(text));
     }
 
+    @Override
+    public void shouldHaveValidationMessage(String text) {
+        validationMessage().shouldHave(Condition.text(text));
+    }
+
+    @Override
+    public void shouldHaveNotValidationMessage() {
+        validationMessage().shouldNotBe(Condition.exist);
+    }
+
+    @Override
+    public void validationMessageShouldBe(String cssClassStatus) {
+        validationMessage().shouldHave(Condition.cssClass("text-danger"));
+    }
+
     private SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-input");
@@ -88,5 +103,9 @@ public class N2oInputText extends N2oControl implements InputText {
         if (elm.is(Condition.cssClass("n2o-input-number")))
             elm = elm.parent();
         return elm.$(".n2o-control-container-placeholder");
+    }
+
+    private SelenideElement validationMessage() {
+        return element().parent().parent().parent().parent().$(".n2o-validation-message");
     }
 }
