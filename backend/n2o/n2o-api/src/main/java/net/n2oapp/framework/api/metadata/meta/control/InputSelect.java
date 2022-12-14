@@ -24,6 +24,10 @@ public class InputSelect extends ListControl {
     private String descriptionFieldId;
     @JsonProperty
     private Integer maxTagTextLength;
+    @JsonProperty
+    private Integer throttleDelay;
+    @JsonProperty
+    private Integer searchMinLength;
 
     @Override
     public boolean containsHimself(DataSet dataSet) {

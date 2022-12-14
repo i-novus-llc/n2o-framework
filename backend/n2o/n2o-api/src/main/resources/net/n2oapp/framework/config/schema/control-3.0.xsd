@@ -1722,6 +1722,16 @@
                         <xs:documentation>Максимальная длина текста элемента</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="throttle-delay" type="xs:integer" default="300">
+                    <xs:annotation>
+                        <xs:documentation>Задержка перед поиском в мс</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-min-length" type="xs:integer" default="0">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное число символов для начала поиска</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1778,6 +1788,16 @@
                 <xs:attribute name="size" type="xs:string" default="200">
                     <xs:annotation>
                         <xs:documentation>Количество узлов(включая дочерние) выводимых деревом</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="throttle-delay" type="xs:integer" default="300">
+                    <xs:annotation>
+                        <xs:documentation>Задержка перед поиском в мс</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-min-length" type="xs:integer" default="0">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное число символов для начала поиска</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
