@@ -101,13 +101,15 @@ public class MultiFieldsetAT extends AutoTestBase {
         surnameMulti.shouldHaveValue("text2");
 
         itemCopy.fields().field("Фамилия").control(InputText.class).shouldHaveValue("textCopy");
-        item.removeButtonShouldExists();
-        item.clickRemoveButton();
-        item.shouldNotExists();
-        itemCopy.shouldExists();
+        itemCopy.removeButtonShouldExists();
+        itemCopy.clickRemoveButton();
+        itemCopy.shouldNotExists();
+        item.shouldExists();
 
+        fieldset.clickAddButton();
         fieldset.removeAllButtonShouldBeExist();
         fieldset.clickRemoveAllButton();
+        item.shouldNotExists();
         itemCopy.shouldNotExists();
     }
 
@@ -120,6 +122,7 @@ public class MultiFieldsetAT extends AutoTestBase {
         page.shouldExists();
 
         FormWidget formWidget = page.widget(FormWidget.class);
+        formWidget.shouldExists();
 
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(MultiFieldSet.class);
         fieldset.addButtonShouldBeExist();
@@ -127,11 +130,13 @@ public class MultiFieldsetAT extends AutoTestBase {
         fieldset.clickAddButton();
 
         MultiFieldSetItem item = fieldset.item(0);
+        item.shouldExists();
         InputText inputText = item.fields().field("chapter").control(InputText.class);
         InputSelect inputSelect = item.fields().field("Вид ТСР").control(InputSelect.class);
 
         inputText.val("1");
         inputSelect.click();
+        inputSelect.dropdown().shouldExists();
         inputSelect.dropdown().shouldHaveItems(1);
     }
 
@@ -151,6 +156,7 @@ public class MultiFieldsetAT extends AutoTestBase {
         fieldset.clickAddButton();
 
         MultiFieldSetItem itemFirst = fieldset.item(0);
+        itemFirst.shouldExists();
         InputText surnameFirst = itemFirst.fields().field("surname").control(InputText.class);
         InputText nameFirst = itemFirst.fields().field("name").control(InputText.class);
         InputText ageFirst = itemFirst.fields().field("age").control(InputText.class);
@@ -202,6 +208,7 @@ public class MultiFieldsetAT extends AutoTestBase {
         addBtn.click();
 
         Modal modal = N2oSelenide.modal();
+        modal.shouldExists();
         StandardPage standardPage = modal.content(StandardPage.class);
         standardPage.shouldExists();
 

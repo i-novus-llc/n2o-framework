@@ -81,7 +81,7 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void shouldHaveNotValidationMessage() {
-        validationMessage().shouldNotBe(Condition.exist);
+        validationMessage().shouldHave(Condition.text(" "));
     }
 
     @Override
