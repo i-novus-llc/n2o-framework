@@ -6,6 +6,7 @@ import type { QueryOptions, InheritedProvider, InheritedSubmit } from '../Provid
 import type { DataSourceState } from '../DataSource'
 import { makeGetModelByPrefixSelector } from '../../models/selectors'
 import { setModel } from '../../models/store'
+import { State } from '../../State'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
@@ -36,6 +37,7 @@ export function* query(id: string, {
     sourceDs: datasourceId,
     sourceModel: prefix,
     sourceField,
+    filters,
 }: InheritedProvider, options: QueryOptions) {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
     const { sorting, paging: { size, page } } = datasource
@@ -53,7 +55,12 @@ export function* query(id: string, {
         }
     }
 
-    const filtered = applyFilter(Array.isArray(data) ? data : [data])
+    const state: State = yield select()
+    const filtered: object[] = applyFilter(
+        state,
+        Array.isArray(data) ? data : [data],
+        filters,
+    )
     const sortered = applySorting(filtered, sorting)
     const { list, paging } = applyPaging(
         sortered,
