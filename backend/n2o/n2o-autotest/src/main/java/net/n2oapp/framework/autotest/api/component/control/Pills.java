@@ -11,4 +11,6 @@ public interface Pills extends Control {
     void shouldBeChecked(String label);
 
     void shouldBeUnchecked(String label);
+
+    void shouldHaveOptions(String... options);
 }

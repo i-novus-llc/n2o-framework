@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="CRUD Операции">
+    <datasources>
+        <datasource id="ds" query-id="test">
+            <filters>
+                <like field-id="name"/>
+            </filters>
+        </datasource>
+        <inherited-datasource source-datasource="ds" id="ds2" source-model="datasource">
+            <dependencies>
+                <fetch on="ds"/>
+            </dependencies>
+        </inherited-datasource>
+    </datasources>
+
+    <regions>         
+        <table auto-focus="true" datasource="ds">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+        <form>
+            <fields>
+                <row>
+                    <select id="select" datasource="ds" search-field-id="name">
+                        <default-value id="1" name="test1"/>
+                    </select>
+                    <input-select id="input_select" datasource="ds2" label-field-id="name"/>
+                    <auto-complete id="auto_complete" datasource="ds2" label-field-id="name"/>
+                </row>   
+               <row> 
+                    <checkbox-group id="chg" datasource="ds" label-field-id="name">
+                        <default-value id="1" name="test1"/>
+                    </checkbox-group>
+                    <radio-group id="rdg" datasource="ds2" search-field-id="name"/>
+               </row>
+                <pills id="pills" type="radio"  datasource="ds2"/>
+            </fields>
+        </form>
+    </regions>
+</page>
