@@ -130,7 +130,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
                 (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
             return;
         Confirm confirm = new Confirm();
-        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
+        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.MODAL));
         confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
         confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
         confirm.setOk(new Confirm.Button(

@@ -57,13 +57,13 @@ public class BadgeCellCompileTest extends SourceCompileTestBase {
         cell = (BadgeCell) table.getComponent().getCells().get(2);
         assertThat(cell.getShape(), is(ShapeType.rounded));
         assertThat(cell.getImageFieldId(), is("image"));
-        assertThat(cell.getImagePosition(), is(Position.right));
+        assertThat(cell.getImagePosition(), is(Position.RIGHT));
         assertThat(cell.getImageShape(), is(ShapeType.square));
 
         cell = (BadgeCell) table.getComponent().getCells().get(3);
         assertThat(cell.getShape(), is(ShapeType.square));
         assertThat(cell.getImageFieldId(), is("img"));
-        assertThat(cell.getImagePosition(), is(Position.left));
+        assertThat(cell.getImagePosition(), is(Position.LEFT));
         assertThat(cell.getImageShape(), is(ShapeType.circle));
     }
 }

@@ -55,11 +55,11 @@ public class BadgeCompileTest extends SourceCompileTestBase {
         Badge badge = ((ListControl) ((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl()).getBadge();
 
         assertThat(badge.getFieldId(), is("bfi1"));
-        assertThat(badge.getPosition(), is(Position.left));
+        assertThat(badge.getPosition(), is(Position.LEFT));
         assertThat(badge.getShape(), is(ShapeType.rounded));
         assertThat(badge.getColorFieldId(), is("bcfi1"));
         assertThat(badge.getImageFieldId(), is("bifi1"));
-        assertThat(badge.getImagePosition(), is(Position.right));
+        assertThat(badge.getImagePosition(), is(Position.RIGHT));
         assertThat(badge.getImageShape(), is(ShapeType.square));
         assertThat(badge.getText(), nullValue());
         assertThat(badge.getColor(), nullValue());
@@ -67,11 +67,11 @@ public class BadgeCompileTest extends SourceCompileTestBase {
 
         badge = ((ListControl) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl()).getBadge();
         assertThat(badge.getFieldId(), nullValue());
-        assertThat(badge.getPosition(), is(Position.right));
+        assertThat(badge.getPosition(), is(Position.RIGHT));
         assertThat(badge.getShape(), is(ShapeType.square));
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), is("bifi2"));
-        assertThat(badge.getImagePosition(), is(Position.left));
+        assertThat(badge.getImagePosition(), is(Position.LEFT));
         assertThat(badge.getImageShape(), is(ShapeType.circle));
         assertThat(badge.getText(), nullValue());
         assertThat(badge.getColor(), nullValue());
@@ -88,11 +88,11 @@ public class BadgeCompileTest extends SourceCompileTestBase {
 
         Badge badge = ((Tree) page.getRegions().get("single").get(0).getContent().get(0)).getBadge();
         assertThat(badge.getFieldId(), is("bfi1"));
-        assertThat(badge.getPosition(), is(Position.left));
+        assertThat(badge.getPosition(), is(Position.LEFT));
         assertThat(badge.getShape(), is(ShapeType.rounded));
         assertThat(badge.getColorFieldId(), is("bcfi1"));
         assertThat(badge.getImageFieldId(), is("bifi1"));
-        assertThat(badge.getImagePosition(), is(Position.right));
+        assertThat(badge.getImagePosition(), is(Position.RIGHT));
         assertThat(badge.getImageShape(), is(ShapeType.square));
         assertThat(badge.getText(), nullValue());
         assertThat(badge.getColor(), nullValue());
@@ -100,11 +100,11 @@ public class BadgeCompileTest extends SourceCompileTestBase {
 
         badge = ((Tree) page.getRegions().get("single").get(0).getContent().get(1)).getBadge();
         assertThat(badge.getFieldId(), nullValue());
-        assertThat(badge.getPosition(), is(Position.right));
+        assertThat(badge.getPosition(), is(Position.RIGHT));
         assertThat(badge.getShape(), is(ShapeType.square));
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), is("bifi2"));
-        assertThat(badge.getImagePosition(), is(Position.left));
+        assertThat(badge.getImagePosition(), is(Position.LEFT));
         assertThat(badge.getImageShape(), is(ShapeType.circle));
         assertThat(badge.getText(), nullValue());
         assertThat(badge.getColor(), nullValue());
@@ -119,11 +119,11 @@ public class BadgeCompileTest extends SourceCompileTestBase {
         Badge badge = ((ButtonField) ((FormWidgetComponent) page.getWidget().getComponent())
                 .getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getBadge();
         assertThat(badge.getText(), is("`bfi1`"));
-        assertThat(badge.getPosition(), is(Position.left));
+        assertThat(badge.getPosition(), is(Position.LEFT));
         assertThat(badge.getShape(), is(ShapeType.rounded));
         assertThat(badge.getColor(), is("danger"));
         assertThat(badge.getImage(), is("/static/candidate.png"));
-        assertThat(badge.getImagePosition(), is(Position.right));
+        assertThat(badge.getImagePosition(), is(Position.RIGHT));
         assertThat(badge.getImageShape(), is(ShapeType.square));
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getColorFieldId(), nullValue());
@@ -131,11 +131,11 @@ public class BadgeCompileTest extends SourceCompileTestBase {
 
         badge = page.getWidget().getToolbar().getButton("b2").getBadge();
         assertThat(badge.getText(), nullValue());
-        assertThat(badge.getPosition(), is(Position.right));
+        assertThat(badge.getPosition(), is(Position.RIGHT));
         assertThat(badge.getShape(), is(ShapeType.circle));
         assertThat(badge.getColor(), nullValue());
         assertThat(badge.getImage(), is("`img`"));
-        assertThat(badge.getImagePosition(), is(Position.left));
+        assertThat(badge.getImagePosition(), is(Position.LEFT));
         assertThat(badge.getImageShape(), is(ShapeType.circle));
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getColorFieldId(), nullValue());
@@ -152,11 +152,11 @@ public class BadgeCompileTest extends SourceCompileTestBase {
 
         Badge badge = application.getHeader().getMenu().getItems().get(0).getBadge();
         assertThat(badge.getText(), is("`badge`"));
-        assertThat(badge.getPosition(), is(Position.left));
+        assertThat(badge.getPosition(), is(Position.LEFT));
         assertThat(badge.getShape(), is(ShapeType.rounded));
         assertThat(badge.getColor(), is("warning"));
         assertThat(badge.getImage(), is("`img`"));
-        assertThat(badge.getImagePosition(), is(Position.right));
+        assertThat(badge.getImagePosition(), is(Position.RIGHT));
         assertThat(badge.getImageShape(), is(ShapeType.square));
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getColorFieldId(), nullValue());
@@ -164,11 +164,11 @@ public class BadgeCompileTest extends SourceCompileTestBase {
 
         badge = application.getHeader().getMenu().getItems().get(1).getBadge();
         assertThat(badge.getText(), nullValue());
-        assertThat(badge.getPosition(), is(Position.right));
+        assertThat(badge.getPosition(), is(Position.RIGHT));
         assertThat(badge.getShape(), is(ShapeType.circle));
         assertThat(badge.getColor(), nullValue());
         assertThat(badge.getImage(), is("/static/candidate.png"));
-        assertThat(badge.getImagePosition(), is(Position.left));
+        assertThat(badge.getImagePosition(), is(Position.LEFT));
         assertThat(badge.getImageShape(), is(ShapeType.circle));
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getColorFieldId(), nullValue());

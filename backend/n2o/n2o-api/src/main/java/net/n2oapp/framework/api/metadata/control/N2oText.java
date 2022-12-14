@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oText extends net.n2oapp.framework.api.metadata.control.N2oField {
+public class N2oText extends N2oField {
     private String text;
     private String format;
 }

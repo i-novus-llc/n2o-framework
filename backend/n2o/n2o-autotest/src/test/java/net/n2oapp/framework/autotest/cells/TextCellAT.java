@@ -51,12 +51,12 @@ public class TextCellAT extends AutoTestBase {
         cell1.textShouldHave("test1");
         cell1.subTextShouldHave("1,1");
         cell1.shouldHaveIcon("fa-plus");
-        cell1.shouldBeIconPosition(Position.right);
+        cell1.shouldBeIconPosition(Position.RIGHT);
 
         TextCell cell2 = rows.row(0).cell(2);
         cell2.textShouldHave("1,23");
         cell2.shouldHaveIcon("fa-plus");
-        cell2.shouldBeIconPosition(Position.left);
+        cell2.shouldBeIconPosition(Position.LEFT);
 
         cell1 = rows.row(1).cell(1);
         cell1.textShouldHave("test1test2test3");

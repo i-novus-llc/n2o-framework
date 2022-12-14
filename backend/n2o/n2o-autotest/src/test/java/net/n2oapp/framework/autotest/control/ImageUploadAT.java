@@ -100,7 +100,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldHaveSize(1);
 
         imageUpload.nameInfoShouldExist(0);
-        imageUpload.uploadAreaShapeShouldBe(ShapeType.circle);
+        imageUpload.uploadAreaShapeShouldBe(ShapeType.CIRCLE);
         imageUpload.nameShouldBe(0, "image.png");
         imageUpload.sizeShouldBe(0, "186");
         imageUpload.shouldHavePreview(0);

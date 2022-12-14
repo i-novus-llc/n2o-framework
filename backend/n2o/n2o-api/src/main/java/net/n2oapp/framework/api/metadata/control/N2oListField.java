@@ -19,7 +19,6 @@ import java.util.Map;
 public abstract class N2oListField extends N2oStandardField implements PreFiltersAware, BadgeAware {
     @N2oAttribute
     protected Boolean search;
-    @N2oAttribute
     protected Map<String, String>[] options;
     protected Boolean cache;
     @N2oAttribute
@@ -57,7 +56,6 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     private String sortFieldId;
     @N2oAttribute
     private String format;
-    @N2oAttribute
     private Map<String, String> defValue;
     @N2oAttribute
     private String statusFieldId;

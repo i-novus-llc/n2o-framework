@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
  */
 @Getter
 @Setter
-public class N2oStatus extends net.n2oapp.framework.api.metadata.control.N2oField {
+public class N2oStatus extends N2oField {
     private String color;
     private String text;
     private Position textPosition;

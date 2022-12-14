@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.control.plain;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.control.OutputList;
 
