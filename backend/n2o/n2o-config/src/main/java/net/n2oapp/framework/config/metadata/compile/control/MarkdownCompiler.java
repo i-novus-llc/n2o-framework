@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -37,12 +36,8 @@ public class MarkdownCompiler extends FieldCompiler<Markdown, N2oMarkdown> {
         field.setContent(p.resolveJS(source.getContent()));
         if (!ArrayUtils.isEmpty(source.getActionIds())) {
             MetaActions metaActions = p.getScope(MetaActions.class);
-            if (metaActions == null)
-                throw new N2oException("Actions " + String.join(",", source.getActionIds()) + " are not init!");
             field.setActions(new HashMap<>());
             for (String actionId : source.getActionIds()) {
-                if (!metaActions.containsKey(actionId))
-                    throw new N2oException("Action " + actionId + " is not init on form!");
                 field.getActions().put(actionId, compileAction(metaActions.get(actionId).getN2oActions(), null, context,p));
             }
         }
