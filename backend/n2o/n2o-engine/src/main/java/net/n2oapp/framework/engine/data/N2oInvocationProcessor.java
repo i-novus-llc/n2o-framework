@@ -1,9 +1,6 @@
 package net.n2oapp.framework.engine.data;
 
-import net.n2oapp.criteria.dataset.DataList;
-import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetUtil;
-import net.n2oapp.criteria.dataset.FieldMapping;
+import net.n2oapp.criteria.dataset.*;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.ActionInvocationEngine;
@@ -58,7 +55,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         DataSet resolvedInDataSet = resolveInValuesMapping(inMapping, inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping, invocation.getResultMapping());
         resolveOutValues(outParameters, resultDataSet);
-        inDataSet.merge(resultDataSet, true);
+        inDataSet.merge(resultDataSet, ArrayMergeStrategy.replace,true);
         return inDataSet;
     }
 
