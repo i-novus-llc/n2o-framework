@@ -179,8 +179,9 @@ export default (Field) => {
          */
 
         render() {
-            const { mapProps, control, action } = this.props
+            const { mapProps } = this.props
             const props = mapProps(this.props)
+            const { control, action } = props
 
             return (
                 <Field
