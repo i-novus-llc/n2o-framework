@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.multi_fieldset;
 
-import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
@@ -9,10 +8,10 @@ import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -21,6 +20,10 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+/**
+ * Автотест по проверке работы компонента Мультифилдсет
+ */
 
 public class MultiFieldsetAT extends AutoTestBase {
     @BeforeAll
@@ -41,10 +44,9 @@ public class MultiFieldsetAT extends AutoTestBase {
     }
 
     @Test
-    public void testModalToModal() throws InterruptedException {
+    public void testModalToModal() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/modal_to_modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/modal_to_modal/update.page.xml"));
-        Configuration.headless=false;
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -64,12 +66,15 @@ public class MultiFieldsetAT extends AutoTestBase {
 
         InputText surnameMulti = item.fields().field("Фамилия").control(InputText.class);
         surnameMulti.val("text");
+
         ButtonField changeBtnMulti = item.fields().field("Изменить", ButtonField.class);
         changeBtnMulti.click();
 
         StandardPage modalPage = N2oSelenide.modal().content(StandardPage.class);
         modalPage.shouldExists();
+
         FormWidget widgetModal = modalPage.regions().region(0, N2oSimpleRegion.class).content().widget(FormWidget.class);
+
         InputText surnameModal = widgetModal.fields().field("Фамилия").control(InputText.class);
         surnameModal.shouldHaveValue("text");
         surnameModal.val("text2");
@@ -80,51 +85,31 @@ public class MultiFieldsetAT extends AutoTestBase {
 
         item.copyButtonShouldExists();
         item.clickCopyButton();
+
         MultiFieldSetItem itemCopy = fieldset.item(1);
         OutputText idCopy = itemCopy.fields().field("id").control(OutputText.class);
         idCopy.shouldNotHaveValue(id.text());
 
         ButtonField changeBtnMultiCopy = itemCopy.fields().field("Изменить", ButtonField.class);
         changeBtnMultiCopy.click();
+
         modalPage.shouldExists();
+
         surnameModal.val("textCopy");
         changeBtnModal.click();
-        surnameMulti.shouldHaveValue("text2");
-        itemCopy.fields().field("Фамилия").control(InputText.class).shouldHaveValue("textCopy");
 
+        surnameMulti.shouldHaveValue("text2");
+
+        itemCopy.fields().field("Фамилия").control(InputText.class).shouldHaveValue("textCopy");
         item.removeButtonShouldExists();
         item.clickRemoveButton();
         item.shouldNotExists();
         itemCopy.shouldExists();
+
         fieldset.removeAllButtonShouldBeExist();
         fieldset.clickRemoveAllButton();
         itemCopy.shouldNotExists();
     }
-
-    /**
-     * 1. Клик по кнопке "Добавить период"
-     * - Проверить наличие id
-     * 2. Ввести что-то в поля
-     * 3. Кликнуть "Изменить"
-     * - поля в модалке сохранили значение
-     * 4. кликнуть "Изменить
-     * - значение не поменялось
-     * 5. Добавить еще строку
-     * 5. Кликкнуть снова "изменить"
-     * 6. ввести новое значение
-     * 7. поменять старое значение
-     * - Проверить, что значения поменялись
-     * 8. Скопировать строку
-     * - проверить что id тот же / либо другой
-     * - значения те же
-     * 9. Изменить что-то в скопированной строке
-     * - поменялось в ней
-     * - не поменялось в исходной
-     * 10. Удалить Исходную
-     * - првоерить что удалилась
-     * 11. Удалить все
-     * - проверить что все удалилось
-     */
 
     @Test
     public void testFiltering() {
@@ -150,17 +135,9 @@ public class MultiFieldsetAT extends AutoTestBase {
         inputSelect.dropdown().shouldHaveItems(1);
     }
 
-    /**
-     * 1. Добавить строку
-     * 2. Ввести 1 или 2
-     * - првоерить в что выпадающем списке соответствующее значение
-     * @throws InterruptedException
-     */
-
     @Test
-    public void testValidation() throws InterruptedException {
+    public void testValidation() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/validation/index.page.xml"));
-//        Configuration.headless=false;
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -189,7 +166,6 @@ public class MultiFieldsetAT extends AutoTestBase {
         ageFirst.validationMessageShouldBe("text-danger");
 
         fieldset.clickAddButton();
-
         itemFirst.clickRemoveButton();
 
         MultiFieldSetItem itemSecond = fieldset.item(0);
@@ -212,42 +188,33 @@ public class MultiFieldsetAT extends AutoTestBase {
         ageSecond.shouldHaveNotValidationMessage();
     }
 
-    /**
-     * 1. Добавить строку
-     * 2. Кликнуть на поле
-     * - проверить что загорелось красным
-     * 3. Ввести в тоже поле значение
-     * - проверить что валидация снялась
-     * 4. Добавить две новых строки
-     * 5. Кликнуть в каждое
-     * 6. Добавить две строки и ввести значения в те поля, где сработала валидация
-     * 7. Удалить две старые
-     * - проверить что валидация не перешла на новые поля со значениями
-     */
-
     @Test
     public void testCreateMany() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/create_many/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/create_many/add.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/create_many/update.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/multi_fieldset/create_many/test.query.xml"));
-        Configuration.headless=false;
 
-        StandardPage page = open(StandardPage.class);
+        SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         StandardButton addBtn = page.toolbar().bottomRight().button("Добавить");
         addBtn.click();
 
+        Modal modal = N2oSelenide.modal();
+        StandardPage standardPage = modal.content(StandardPage.class);
+        standardPage.shouldExists();
 
+        FormWidget formWidget = standardPage.regions().region(0, N2oSimpleRegion.class).content().widget(FormWidget.class);
+        InputSelect inputSelect = formWidget.fields().field("items").control(InputSelect.class);
+        inputSelect.click();
+        inputSelect.selectMulti(2, 3);
+        modal.toolbar().bottomRight().button("Добавить").click();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        fieldset.shouldHaveItems(2);
+        fieldset.item(0).fields().field("Имя").control(OutputText.class).shouldHaveValue("test3");
+        fieldset.item(1).fields().field("Имя").control(OutputText.class).shouldHaveValue("test4");
+        fieldset.item(0).fields().field("trash", ButtonField.class).click();
     }
-
-    /**
-     * 1. Нажать добавить
-     * 2. Выбрать итем
-     * 3. Добавить
-     * - првоерить что появился
-     * 4. кликнуть на мусорку
-     * - проверить что больше его нет
-     */
 }

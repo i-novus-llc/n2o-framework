@@ -26,8 +26,6 @@
                     <row>
                         <output-text id="id"/>
                         <input-text id="surname" label="Фамилия"/>
-                        <input-text id="name" label="Имя"/>
-                        <input-text id="patronymic" label="Отчество"/>
 
                         <button label="Изменить ">
                             <!--

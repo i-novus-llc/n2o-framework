@@ -19,8 +19,6 @@
             <fields>
                 <row>
                     <input-text id="surname" label="Фамилия"/>
-                    <input-text id="name" label="Имя"/>
-                    <input-text id="patronymic" label="Отчество"/>
                 </row>
             </fields>
             <toolbar>
