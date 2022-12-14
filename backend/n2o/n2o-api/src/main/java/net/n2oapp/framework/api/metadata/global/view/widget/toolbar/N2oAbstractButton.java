@@ -2,8 +2,8 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
@@ -17,39 +17,39 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
 @Getter
 @Setter
 public abstract class N2oAbstractButton extends N2oComponent implements IdAware, BadgeAware {
-    @VisualAttribute
+    @N2oAttribute
     private String id;
-    @VisualAttribute
+    @N2oAttribute
     private String label;
-    @VisualAttribute
+    @N2oAttribute
     private String icon;
-    @VisualAttribute
+    @N2oAttribute
     private LabelType type;
-    @VisualAttribute
+    @N2oAttribute
     private String badge;
-    @VisualAttribute
+    @N2oAttribute
     private String badgeColor;
-    @VisualAttribute
+    @N2oAttribute
     private Position badgePosition;
-    @VisualAttribute
+    @N2oAttribute
     private ShapeType badgeShape;
-    @VisualAttribute
+    @N2oAttribute
     private String badgeImage;
-    @VisualAttribute
+    @N2oAttribute
     private Position badgeImagePosition;
-    @VisualAttribute
+    @N2oAttribute
     private ShapeType badgeImageShape;
-    @VisualAttribute
+    @N2oAttribute
     private String color;
-    @VisualAttribute
+    @N2oAttribute
     private String description;
-    @VisualAttribute
+    @N2oAttribute
     private String tooltipPosition;
     private ReduxModel model;
     private String datasourceId;
-    @VisualAttribute
+    @N2oAttribute
     private String visible;
-    @VisualAttribute
+    @N2oAttribute
     private String enabled;
 
     @Deprecated

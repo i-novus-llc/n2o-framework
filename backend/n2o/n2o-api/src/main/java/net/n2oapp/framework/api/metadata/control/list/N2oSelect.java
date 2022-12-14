@@ -2,29 +2,29 @@ package net.n2oapp.framework.api.metadata.control.list;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
-import net.n2oapp.framework.api.metadata.VisualComponent;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
+import net.n2oapp.framework.api.metadata.N2oComponent;
 
 /**
  * Компонент выбора из выпадающего списка
  */
 @Getter
 @Setter
-@VisualComponent
+@N2oComponent
 public class N2oSelect extends N2oSingleListFieldAbstract {
-    @VisualAttribute
+    @N2oAttribute
     private ListType type;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean cleanable;
-    @VisualAttribute
+    @N2oAttribute
     private String selectFormat;
-    @VisualAttribute
+    @N2oAttribute
     private String selectFormatOne;
-    @VisualAttribute
+    @N2oAttribute
     private String selectFormatFew;
-    @VisualAttribute
+    @N2oAttribute
     private String selectFormatMany;
-    @VisualAttribute
+    @N2oAttribute
     private String descriptionFieldId;
 
     @Override

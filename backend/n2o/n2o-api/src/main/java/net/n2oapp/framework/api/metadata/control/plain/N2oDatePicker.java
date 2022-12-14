@@ -2,26 +2,26 @@ package net.n2oapp.framework.api.metadata.control.plain;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
-import net.n2oapp.framework.api.metadata.VisualComponent;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
+import net.n2oapp.framework.api.metadata.N2oComponent;
 
 /**
  * Компонент ввода даты
  */
 @Getter
 @Setter
-@VisualComponent
+@N2oComponent
 public class N2oDatePicker extends N2oPlainField {
-    @VisualAttribute
+    @N2oAttribute
     private String dateFormat;
-    @VisualAttribute
+    @N2oAttribute
     private String timeFormat;
-    @VisualAttribute
+    @N2oAttribute
     private String defaultTime;
-    @VisualAttribute
+    @N2oAttribute
     private String max;
-    @VisualAttribute
+    @N2oAttribute
     private String min;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean utc;
 }

@@ -2,9 +2,8 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
-import net.n2oapp.framework.api.metadata.VisualComponent;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
@@ -15,56 +14,33 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
 
 @Getter
 @Setter
-@VisualComponent
 public class N2oButtonField extends N2oActionField implements ModelAware, DatasourceIdAware, BadgeAware {
-    @VisualAttribute
     private String title;
-    @VisualAttribute
     private String titleFieldId;
-    @VisualAttribute
     private String icon;
-    @VisualAttribute
     private String iconFieldId;
-    @VisualAttribute
     private String badge;
-    @VisualAttribute
     private String badgeColor;
-    @VisualAttribute
     private Position badgePosition;
-    @VisualAttribute
     private ShapeType badgeShape;
-    @VisualAttribute
     private String badgeImage;
-    @VisualAttribute
     private Position badgeImagePosition;
-    @VisualAttribute
     private ShapeType badgeImageShape;
-    @VisualAttribute
     private LabelType type;
     private String datasourceId;
     private ReduxModel model;
-    @VisualAttribute
     private String color;
     private Boolean validate;
     private String[] validateDatasourceIds;
     private String tooltipPosition;
-    @VisualAttribute
     private Boolean rounded;
-    @VisualAttribute
     private Boolean confirm;
-    @VisualAttribute
     private ConfirmType confirmType;
-    @VisualAttribute
     private String confirmText;
-    @VisualAttribute
     private String confirmTitle;
-    @VisualAttribute
     private String confirmOkLabel;
-    @VisualAttribute
     private String confirmOkColor;
-    @VisualAttribute
     private String confirmCancelLabel;
-    @VisualAttribute
     private String confirmCancelColor;
 
     @Deprecated

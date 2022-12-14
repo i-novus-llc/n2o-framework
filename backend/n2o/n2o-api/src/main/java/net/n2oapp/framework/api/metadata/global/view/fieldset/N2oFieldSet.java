@@ -3,8 +3,8 @@ package net.n2oapp.framework.api.metadata.global.view.fieldset;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
@@ -18,30 +18,30 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, SourceComponent {
-    @VisualAttribute
+    @N2oAttribute
     private SourceComponent[] items;
-    @VisualAttribute
+    @N2oAttribute
     private String label;
-    @VisualAttribute
+    @N2oAttribute
     private String description;
     private String src;
-    @VisualAttribute
+    @N2oAttribute
     private String cssClass;
-    @VisualAttribute
+    @N2oAttribute
     private String style;
-    @VisualAttribute
+    @N2oAttribute
     private FieldLabelLocation fieldLabelLocation;
-    @VisualAttribute
+    @N2oAttribute
     private FieldLabelAlign fieldLabelAlign;
-    @VisualAttribute
+    @N2oAttribute
     private String fieldLabelWidth;
     private String dependencyCondition;
     private String[] dependsOn;
-    @VisualAttribute
+    @N2oAttribute
     private String visible;
-    @VisualAttribute
+    @N2oAttribute
     private String enabled;
-    @VisualAttribute
+    @N2oAttribute
     private String help;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;

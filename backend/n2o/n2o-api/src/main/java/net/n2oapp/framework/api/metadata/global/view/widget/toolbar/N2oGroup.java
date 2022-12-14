@@ -2,8 +2,6 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
-import net.n2oapp.framework.api.metadata.VisualComponent;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 
 import java.util.ArrayList;
@@ -14,9 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-@VisualComponent
 public class N2oGroup implements ToolbarItem, GroupItems<GroupItem> {
-    @VisualAttribute
     private GroupItem[] items;
     private String[] generate;
     private String namespaceUri;

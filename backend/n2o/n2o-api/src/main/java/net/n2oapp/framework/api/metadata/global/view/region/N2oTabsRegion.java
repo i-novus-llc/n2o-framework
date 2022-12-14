@@ -3,7 +3,9 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.metadata.*;
+import net.n2oapp.framework.api.metadata.RegionItem;
+import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
@@ -17,32 +19,21 @@ import java.util.Map;
  */
 @Getter
 @Setter
-@VisualComponent
 public class N2oTabsRegion extends N2oRegion implements RegionItem {
-    @VisualAttribute
     private Boolean alwaysRefresh;
-    @VisualAttribute
     private Boolean lazy;
     private String activeParam;
     private Boolean routable;
-    @VisualAttribute
     private Boolean hideSingleTab;
-    @VisualAttribute
     private String maxHeight;
-    @VisualAttribute
     private Boolean scrollbar;
-    @VisualAttribute
     private Tab[] tabs;
 
     @Getter
     @Setter
-    @VisualComponent
     public static class Tab implements Source, ExtensionAttributesAware, RegionItem {
-        @VisualAttribute
         private String id;
-        @VisualAttribute
         private String name;
-        @VisualAttribute
         private SourceComponent[] content;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;

@@ -2,10 +2,10 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
@@ -18,13 +18,13 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oRegion extends N2oComponent implements SourceMetadata, RegionItem {
-    @VisualAttribute
+    @N2oAttribute
     private String id;
-    @VisualAttribute
+    @N2oAttribute
     private String width;
     private String activeParam;
     private Boolean routable;
-    @VisualAttribute
+    @N2oAttribute
     private SourceComponent[] content;
 
     @Override

@@ -3,29 +3,29 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 
 @Getter
 @Setter
 public abstract class N2oAbstractTable extends N2oAbstractListWidget {
-    @VisualAttribute
+    @N2oAttribute
     private AbstractColumn[] columns;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean autoSelect;
-    @VisualAttribute
+    @N2oAttribute
     private RowSelectionEnum selection;
-    @VisualAttribute
+    @N2oAttribute
     private Size tableSize;
-    @VisualAttribute
+    @N2oAttribute
     private String width;
-    @VisualAttribute
+    @N2oAttribute
     private String height;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean textWrap;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean checkboxes;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean checkOnSelect;
 }

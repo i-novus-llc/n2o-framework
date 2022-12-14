@@ -2,9 +2,9 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -20,32 +20,32 @@ import java.util.Arrays;
 @Getter
 @Setter
 public abstract class N2oField extends N2oComponent implements IdAware {
-    @VisualAttribute
+    @N2oAttribute
     private String id;
-    @VisualAttribute
+    @N2oAttribute
     private String visible;
-    @VisualAttribute
+    @N2oAttribute
     private String required;
-    @VisualAttribute
+    @N2oAttribute
     private String enabled;
     private String[] dependsOn;
-    @VisualAttribute
+    @N2oAttribute
     private String label;
-    @VisualAttribute
+    @N2oAttribute
     private String labelClass;
-    @VisualAttribute
+    @N2oAttribute
     private String description;
-    @VisualAttribute
+    @N2oAttribute
     private String help;
-    @VisualAttribute
+    @N2oAttribute
     private String domain;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean noLabel;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean noLabelBlock;
     private Validations validations;
     private Boolean copied;
-    @VisualAttribute
+    @N2oAttribute
     private String defaultValue;
     private String param;
     private ReduxModel refModel;
@@ -53,7 +53,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private String refDatasourceId;
     private String refFieldId;
 
-    @VisualAttribute
+    @N2oAttribute
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
 

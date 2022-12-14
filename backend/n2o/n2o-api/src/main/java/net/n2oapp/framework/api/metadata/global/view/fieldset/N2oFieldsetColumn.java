@@ -2,22 +2,21 @@ package net.n2oapp.framework.api.metadata.global.view.fieldset;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
+import net.n2oapp.framework.api.metadata.N2oComponent;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
-import net.n2oapp.framework.api.metadata.VisualComponent;
-import net.n2oapp.framework.api.metadata.control.N2oComponent;
 
 /**
  * Исходная модель столбца филдсета
  */
 @Getter
 @Setter
-@VisualComponent
-public class N2oFieldsetColumn extends N2oComponent {
-    @VisualAttribute
+@N2oComponent
+public class N2oFieldsetColumn extends net.n2oapp.framework.api.metadata.control.N2oComponent {
+    @N2oAttribute
     private Integer size;
-    @VisualAttribute
+    @N2oAttribute
     private String visible;
-    @VisualAttribute
+    @N2oAttribute
     private SourceComponent[] items;
 }

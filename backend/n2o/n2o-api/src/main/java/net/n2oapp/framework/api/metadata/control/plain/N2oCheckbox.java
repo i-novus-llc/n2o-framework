@@ -2,13 +2,13 @@ package net.n2oapp.framework.api.metadata.control.plain;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
-import net.n2oapp.framework.api.metadata.VisualComponent;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
+import net.n2oapp.framework.api.metadata.N2oComponent;
 
 @Getter
 @Setter
-@VisualComponent
+@N2oComponent
 public class N2oCheckbox extends N2oPlainField {
-    @VisualAttribute
+    @N2oAttribute
     private CheckboxDefaultValueEnum unchecked;
 }

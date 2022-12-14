@@ -4,9 +4,9 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
@@ -20,39 +20,39 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class AbstractColumn implements IdAware, Source, ExtensionAttributesAware {
-    @VisualAttribute
+    @N2oAttribute
     private String id;
     private String src;
-    @VisualAttribute
+    @N2oAttribute
     private String cssClass;
-    @VisualAttribute
+    @N2oAttribute
     private String style;
-    @VisualAttribute
+    @N2oAttribute
     private String textFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String tooltipFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String width;
-    @VisualAttribute
+    @N2oAttribute
     private String labelName;
-    @VisualAttribute
+    @N2oAttribute
     private String labelIcon;
-    @VisualAttribute
+    @N2oAttribute
     private String visible;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean resizable;
-    @VisualAttribute
+    @N2oAttribute
     private String sortingFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private DirectionType sortingDirection;
-    @VisualAttribute
+    @N2oAttribute
     private ColumnFixedPosition fixed;
     private ColumnVisibility[] columnVisibilities;
-    @VisualAttribute
+    @N2oAttribute
     private Boolean hideOnBlur;
-    @VisualAttribute
+    @N2oAttribute
     private Alignment alignment;
-    @VisualAttribute
+    @N2oAttribute
     private Alignment contentAlignment;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;

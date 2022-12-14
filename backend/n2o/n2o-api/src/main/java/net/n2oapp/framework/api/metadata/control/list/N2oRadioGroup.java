@@ -3,8 +3,8 @@ package net.n2oapp.framework.api.metadata.control.list;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
-import net.n2oapp.framework.api.metadata.VisualComponent;
+import net.n2oapp.framework.api.metadata.N2oComponent;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
@@ -12,11 +12,11 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
  */
 @Getter
 @Setter
-@VisualComponent
+@N2oComponent
 public class N2oRadioGroup extends N2oSingleListFieldAbstract implements Inlineable {
-    @VisualAttribute
+    @N2oAttribute
     private Boolean inline;
-    @VisualAttribute
+    @N2oAttribute
     private RadioGroupType type;
 
     public enum RadioGroupType implements IdAware {

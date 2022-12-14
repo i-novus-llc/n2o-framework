@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
@@ -17,51 +17,51 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oListField extends N2oStandardField implements PreFiltersAware, BadgeAware {
-    @VisualAttribute
+    @N2oAttribute
     protected Boolean search;
-    @VisualAttribute
+    @N2oAttribute
     protected Map<String, String>[] options;
     protected Boolean cache;
-    @VisualAttribute
+    @N2oAttribute
     private Integer size;
-    @VisualAttribute
+    @N2oAttribute
     private String placeholder;
     private N2oPreFilter[] preFilters;
     private String queryId;
-    @VisualAttribute
+    @N2oAttribute
     private String iconFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String imageFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String badgeFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String badgeColorFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private Position badgePosition;
-    @VisualAttribute
+    @N2oAttribute
     private ShapeType badgeShape;
-    @VisualAttribute
+    @N2oAttribute
     private String badgeImageFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private Position badgeImagePosition;
-    @VisualAttribute
+    @N2oAttribute
     private ShapeType badgeImageShape;
-    @VisualAttribute
+    @N2oAttribute
     private String groupFieldId;
     private String searchFilterId;
-    @VisualAttribute
+    @N2oAttribute
     private String labelFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String valueFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String sortFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String format;
-    @VisualAttribute
+    @N2oAttribute
     private Map<String, String> defValue;
-    @VisualAttribute
+    @N2oAttribute
     private String statusFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String enabledFieldId;
 
     public abstract boolean isSingle();

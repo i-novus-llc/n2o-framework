@@ -2,33 +2,26 @@ package net.n2oapp.framework.api.metadata.control.plain;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
-import net.n2oapp.framework.api.metadata.VisualComponent;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
+import net.n2oapp.framework.api.metadata.N2oComponent;
 
 /**
  * Компонент ввода текста
  */
 @Getter
 @Setter
-@VisualComponent
+@N2oComponent
 public class N2oInputText extends N2oPlainField {
-    @VisualAttribute
+    @N2oAttribute
     private Integer length;
-    @VisualAttribute
+    @N2oAttribute
     private String max;
-    @VisualAttribute
+    @N2oAttribute
     private String min;
-    @VisualAttribute
+    @N2oAttribute
     private String step;
-    @VisualAttribute
+    @N2oAttribute
     private String measure;
-    @VisualAttribute
+    @N2oAttribute
     private Integer precision;
-
-    public N2oInputText() {
-    }
-
-    public N2oInputText(String id) {
-        setId(id);
-    }
 }

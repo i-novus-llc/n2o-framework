@@ -5,10 +5,10 @@ import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.VisualAttribute;
 import net.n2oapp.framework.api.metadata.action.UploadType;
 import net.n2oapp.framework.api.metadata.aware.*;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -65,19 +65,19 @@ public abstract class N2oWidget extends N2oMetadata
     private UploadType upload;
     @Deprecated
     private String dependsOn;
-    @VisualAttribute
+    @N2oAttribute
     private String icon;
     @Deprecated
     private String masterFieldId;
     @Deprecated
     private String detailFieldId;
-    @VisualAttribute
+    @N2oAttribute
     private String visible;
     @Deprecated
     private N2oPreFilter[] preFilters;
     private ActionBar[] actions;
     private GenerateType actionGenerate;
-    @VisualAttribute
+    @N2oAttribute
     private N2oToolbar[] toolbars;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
