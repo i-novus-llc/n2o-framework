@@ -183,6 +183,8 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 |can-remove            |true false|Возможность удаления новых филдсетов                                          |true                 |
 |can-remove-all        |true false|Возможность удаления всех добавленных филдсетов                               |false                |
 |can-copy              |true false|Возможность копирования филдсета в новый (вместе с данными)                   |false                |
+|primary-key           |Строка    |Уникальный ключ каждого филдсета.                                             |id                   |
+|generate-primary-key  |true false|Генеровать ли уникальный ключ для каждого филдсета. Значение guid будет генерироваться в primary-key. |false|
 
 **Пример**
 
@@ -190,7 +192,9 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 <multi-set label="Участник {index}"
     add-label="Добавить участника"
     remove-all-label="Удалить всех участников"
-    can-remove-all="true">
+    can-remove-all="true"
+    primary-key="pk"
+    generate-primary-key="true">
     ...
 </multi-set>
 ```

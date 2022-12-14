@@ -99,8 +99,8 @@ public class N2oEngineConfiguration {
     }
 
     @Bean
-    public ValidationProcessor validationProcessor(InvocationProcessor invocationProcessor) {
-        return new ValidationProcessor(invocationProcessor);
+    public ValidationProcessor validationProcessor(InvocationProcessor invocationProcessor, DomainProcessor domainProcessor) {
+        return new ValidationProcessor(invocationProcessor, domainProcessor);
     }
 
     @Bean

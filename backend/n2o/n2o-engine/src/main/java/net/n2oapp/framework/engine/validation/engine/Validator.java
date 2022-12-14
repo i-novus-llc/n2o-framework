@@ -1,7 +1,9 @@
 package net.n2oapp.framework.engine.validation.engine;
 
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.validation.*;
 import net.n2oapp.framework.api.exception.SeverityType;
@@ -17,6 +19,7 @@ import java.util.*;
 public class Validator implements Iterable<Validation> {
 
     private InvocationProcessor serviceProvider;
+    private DomainProcessor domainProcessor;
     private DataSet dataSet;
     private List<Validation> validationList;
     private N2oValidation.ServerMoment moment;
@@ -38,21 +41,56 @@ public class Validator implements Iterable<Validation> {
 
     private void handleValidation(Validation v, List<FailInfo> fails) {
         if (checkValidation(v)) {
-            v.validate(dataSet, serviceProvider, message -> {
-                FailInfo failInfo = new FailInfo();
-                failInfo.setMoment(v.getMoment());
-                failInfo.setValidationId(v.getId());
-                failInfo.setValidationClass(v.getClass().getSimpleName());
-                failInfo.setSeverity(v.getSeverity());
-                failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
-                failInfo.setMessage(message);
-                failInfo.setMessageTitle(StringUtils.resolveLinks(v.getMessageTitle(), dataSet));
-                if (v instanceof ValidationDialog)
-                    failInfo.setDialog(((ValidationDialog) v).getDialog());
-                fails.add(failInfo);
-                afterFail(v);
-            });
+            if (isMultiSet(v.getFieldId())) {
+                String commonFieldId = v.getFieldId();
+                String commonMessage = StringUtils.resolveLinks(v.getMessage(), dataSet);
+                String commonMessageTitle = StringUtils.resolveLinks(v.getMessageTitle(), dataSet);
+                int count = ((DataList) dataSet.get(getMultiSetId(v.getFieldId()))).size();
+                for (int i = 0; i< count; i++) {
+                    v.setFieldId(replaceIndex(commonFieldId, i));
+                    v.setMessage(replaceIndex(commonMessage, i));
+                    v.setMessageTitle(replaceIndex(commonMessageTitle, i));
+                    dataSet.put("index", i);
+                    validateField(v, fails);
+                }
+                dataSet.remove("index");
+                v.setMessage(commonMessage);
+                v.setMessageTitle(commonMessageTitle);
+                v.setFieldId(commonFieldId);
+            } else {
+                validateField(v, fails);
+            }
         }
+    }
+
+    private String replaceIndex(String text, int i) {
+        return text == null ? null : text.replaceAll("\\[index]", "[" + i + "]");
+    }
+
+    private void validateField(Validation v, List<FailInfo> fails) {
+        v.validate(dataSet, serviceProvider, message -> {
+            FailInfo failInfo = new FailInfo();
+            failInfo.setMoment(v.getMoment());
+            failInfo.setValidationId(v.getId());
+            failInfo.setValidationClass(v.getClass().getSimpleName());
+            failInfo.setSeverity(v.getSeverity());
+            failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
+            failInfo.setMessage(message);
+            failInfo.setMessageTitle(StringUtils.resolveLinks(v.getMessageTitle(), dataSet));
+            if (v instanceof ValidationDialog)
+                failInfo.setDialog(((ValidationDialog) v).getDialog());
+            fails.add(failInfo);
+            afterFail(v);
+        }, domainProcessor);
+    }
+
+    private String getMultiSetId(String fieldId) {
+        String[] fields = fieldId.split("\\[index\\].");
+        return fields[0];
+    }
+
+    private boolean isMultiSet(String fieldId) {
+        return fieldId != null && fieldId.contains("[index]");
     }
 
     private void afterFail(Validation v) {
@@ -166,6 +204,10 @@ public class Validator implements Iterable<Validation> {
             return this;
         }
 
+        public Builder addDomainProcessor(DomainProcessor processor) {
+            Validator.this.domainProcessor = processor;
+            return this;
+        }
 
         public Validator build() {
             sort();

@@ -106,9 +106,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
         //toolbars
         initToolbarGenerate(source, context, resultWidget);
-        compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object,
-                breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourceIdsScope,
-                parentDatasourceIdsScope, pageIndexScope);
+        compileToolbarAndAction(page, source, context, p, metaActions, pageIndexScope, pageScope, routeScope, pageRoutes,
+                object, breadcrumb, metaActions, validationScope, datasourcesScope, appDatasourceIdsScope,
+                parentDatasourceIdsScope);
 
         //events
         page.setEvents(initEvents(source, context, p, metaActions, pageScope, pageIndexScope,
@@ -325,11 +325,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     }
 
     private void compileToolbarAndAction(StandardPage compiled, S source, PageContext context, CompileProcessor p,
-                                         MetaActions metaActions, Object... scopes) {
+                                         MetaActions metaActions, PageIndexScope pageIndexScope, Object... scopes) {
         actionsToToolbar(source, metaActions);
-        compileMetaActions(source, context, p, metaActions, metaActions, scopes);
+        compileMetaActions(source, context, p, pageIndexScope, metaActions, scopes);
         compiled.setToolbar(compileToolbar(source, "n2o.api.page.toolbar.place", context, p, metaActions,
-                metaActions, metaActions, new ComponentScope(source), scopes));
+                metaActions, metaActions, new ComponentScope(source), pageIndexScope, scopes));
     }
 
     private void initToolbarGenerate(S source, PageContext context, N2oWidget resultWidget) {

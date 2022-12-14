@@ -7,9 +7,11 @@
         <xs:sequence>
             <xs:element name="datasource" type="standardDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="stomp-datasource" type="stompDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0"
+                        maxOccurs="unbounded"/>
             <xs:element name="app-datasource" type="appDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition" minOccurs="0"
+                        maxOccurs="unbounded"/>
             <xs:element name="parent-datasource" type="parentDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>

@@ -20,5 +20,17 @@
                 <invoke operation-id="op1" object-id="testBind"/>
             </else>
         </button>
+        <button id="b2" datasource="ds1">
+            <invoke operation-id="op1" object-id="testBind"/>
+            <if test="type == 1">
+                <invoke operation-id="op2" object-id="testBind"/>
+            </if>
+            <else>
+                <invoke operation-id="op2" object-id="testBind"/>
+                <if test="type == 3">
+                    <a href="http://i-novus.ru"/>
+                </if>
+            </else>
+        </button>
     </toolbar>
 </page>

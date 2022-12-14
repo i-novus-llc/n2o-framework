@@ -36,12 +36,6 @@ public class ScriptProcessor {
     private static volatile ScriptEngine scriptEngine;
     private static String MOMENT_JS;
 
-
-    @Deprecated
-    public static ScriptProcessor getInstance() {
-        return instance;
-    }
-
     public static String resolveLinks(String text) {
         if (text == null)
             return null;

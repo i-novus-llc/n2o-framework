@@ -211,6 +211,17 @@
                         <xs:documentation>Возможность копирования филдсета в новый (вместе с данными).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="primary-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Уникальный ключ каждого филдсета. По умолчанию id.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="generate-primary-key" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Генерация уникального ключа для каждого филдсета.
+                            Значение guid будет генерироваться в primary-key. По умолчанию false</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

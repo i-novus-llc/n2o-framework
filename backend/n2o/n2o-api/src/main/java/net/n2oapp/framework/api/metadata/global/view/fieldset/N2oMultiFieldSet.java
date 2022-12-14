@@ -18,4 +18,6 @@ public class N2oMultiFieldSet extends N2oFieldSet {
     private Boolean canRemove;
     private Boolean canRemoveAll;
     private Boolean canCopy;
+    private String primaryKey;
+    private Boolean generatePrimaryKey;
 }
