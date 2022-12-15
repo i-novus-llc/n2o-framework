@@ -19,6 +19,6 @@ public class N2oInputSelect extends N2oListField {
 
     @Override
     public boolean isSingle() {
-        return !ListType.multi.equals(type) && !ListType.checkboxes.equals(type);
+        return !ListType.MULTI.equals(type) && !ListType.CHECKBOXES.equals(type);
     }
 }

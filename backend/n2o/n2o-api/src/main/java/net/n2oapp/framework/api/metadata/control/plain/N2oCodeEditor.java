@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oCodeEditor extends N2oText {
+public class N2oCodeEditor extends N2oPlainText {
     private CodeLanguageEnum language;
     private Integer minLines;
     private Integer maxLines;

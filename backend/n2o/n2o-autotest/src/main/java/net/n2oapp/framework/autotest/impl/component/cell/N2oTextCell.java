@@ -25,9 +25,9 @@ public class N2oTextCell extends N2oCell implements TextCell {
     public void shouldBeIconPosition(Position position) {
         SelenideElement iconContainer = element().$(".icon-cell-container");
         if (iconContainer.$(".n2o-icon").is(Condition.exist)) {
-            if (position == Position.left)
+            if (position == Position.LEFT)
                 iconContainer.shouldNotHave(Condition.cssClass("icon-cell-container__text-left"));
-            if (position == Position.right)
+            if (position == Position.RIGHT)
                 iconContainer.shouldHave(Condition.cssClass("icon-cell-container__text-left"));
         }
     }

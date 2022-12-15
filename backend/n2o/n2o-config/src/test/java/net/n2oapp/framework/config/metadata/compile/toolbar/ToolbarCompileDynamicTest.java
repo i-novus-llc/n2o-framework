@@ -50,10 +50,10 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
         N2oToolbar toolbar = new N2oToolbar();
         N2oButton deleteButton = new N2oButton();
         N2oButton addButton = new N2oButton();
-        deleteButton.setType(LabelType.icon);
+        deleteButton.setType(LabelType.ICON);
         deleteButton.setIcon("fa fa-pencil");
         deleteButton.setColor("danger");
-        addButton.setType(LabelType.icon);
+        addButton.setType(LabelType.ICON);
         addButton.setIcon("fa fa-pencil");
         addButton.setColor("primary");
 
@@ -78,10 +78,10 @@ public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
         N2oToolbar toolbar = new N2oToolbar();
         N2oButton deleteButton = new N2oButton();
         N2oButton addButton = new N2oButton();
-        deleteButton.setType(LabelType.icon);
+        deleteButton.setType(LabelType.ICON);
         deleteButton.setIcon("fa fa-pencil");
         deleteButton.setColor("danger");
-        addButton.setType(LabelType.icon);
+        addButton.setType(LabelType.ICON);
         addButton.setIcon("fa fa-pencil");
         addButton.setColor("primary");
 

@@ -1,18 +1,18 @@
-package net.n2oapp.framework.api.metadata.meta.badge;
+package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
- * Позиция left/right
+ * Виды отображения дочерних записей таблицы
  */
-public enum Position implements IdAware {
-    LEFT("left"),
-    RIGHT("right");
+public enum ChildrenToggle implements IdAware {
+    COLLAPSE("collapse"),   // свернутый
+    EXPAND("expand");       // раскрытый
 
     private final String value;
 
-    Position(String value) {
+    ChildrenToggle(String value) {
         this.value = value;
     }
 

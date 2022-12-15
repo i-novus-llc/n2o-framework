@@ -54,7 +54,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getIcon(), is("icon"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getColor(), is("danger"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getVisible(), is("`test==1`"));
-        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConfirm().getMode(), is(ConfirmType.popover));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConfirm().getMode(), is(ConfirmType.POPOVER));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConditions().get(ValidationType.enabled), nullValue());
 
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getId(), is("testToolbarCell_mi1"));
@@ -62,7 +62,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getIcon(), is("icon"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getClassName(), is("class"));
         assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("linkAction"));
-        assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getConfirm().getMode(), is(ConfirmType.modal));
+        assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getConfirm().getMode(), is(ConfirmType.MODAL));
         assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getVisible(), is("`test==1`"));
 
         assertThat(toolbar.getToolbar().get(0).getButtons().get(2).getVisible(), is(false));

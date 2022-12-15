@@ -2,13 +2,15 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
+import net.n2oapp.framework.api.metadata.N2oComponent;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
-import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
-import net.n2oapp.framework.api.metadata.action.N2oAction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,22 +21,33 @@ import java.util.List;
  */
 @Getter
 @Setter
+@N2oComponent
 public class N2oButton extends N2oAbstractButton implements GroupItem, DatasourceIdAware, WidgetIdAware,
         ModelAware, ActionsAware {
     private String actionId;
+    @N2oAttribute
     private Boolean rounded;
     private Boolean validate;
     private String[] validateDatasourceIds;
     private N2oAction[] actions;
 
+    @N2oAttribute
     private String confirm;
+    @N2oAttribute
     private ConfirmType confirmType;
+    @N2oAttribute
     private String confirmText;
+    @N2oAttribute
     private String confirmTitle;
+    @N2oAttribute
     private String confirmOkLabel;
+    @N2oAttribute
     private String confirmOkColor;
+    @N2oAttribute
     private String confirmCancelLabel;
+    @N2oAttribute
     private String confirmCancelColor;
+    @N2oAttribute
     private DisableOnEmptyModelType disableOnEmptyModel;
 
     private Dependency[] dependencies;

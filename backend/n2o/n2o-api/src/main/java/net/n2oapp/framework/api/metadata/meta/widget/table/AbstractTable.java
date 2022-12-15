@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggle;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
@@ -21,7 +22,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
     @JsonProperty
     private Filter filter;
     @JsonProperty
-    private N2oTable.ChildrenToggle children;
+    private ChildrenToggle children;
 
     @JsonProperty("table")
     @Override
@@ -46,7 +47,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         @JsonProperty
         private List<String> blackResetList;
         @JsonProperty
-        private N2oTable.FilterPosition filterPlace;
+        private FilterPosition filterPlace;
         @JsonProperty
         private Boolean hideButtons;
         @JsonProperty
