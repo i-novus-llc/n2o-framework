@@ -63,10 +63,10 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
     protected void initItem(ButtonField button, N2oButtonField source,
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setProperties(p.mapAttributes(source));
-        if (source.getType() != null && source.getType() == LabelType.icon) {
+        if (source.getType() != null && source.getType() == LabelType.ICON) {
             button.setLabel(null);
             button.setIcon(source.getIcon());
-        } else if (source.getType() != null && source.getType() == LabelType.text) {
+        } else if (source.getType() != null && source.getType() == LabelType.TEXT) {
             button.setLabel(p.resolveJS(source.getLabel()));
         } else {
             button.setIcon(source.getIcon());
@@ -85,7 +85,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         }
 
         String hint;
-        if (LabelType.icon.equals(source.getType()))
+        if (LabelType.ICON.equals(source.getType()))
             hint = p.cast(source.getDescription(), p.resolveJS(source.getLabel()));
         else
             hint = source.getDescription();
@@ -130,7 +130,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
                 (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
             return;
         Confirm confirm = new Confirm();
-        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
+        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.MODAL));
         confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
         confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
         confirm.setOk(new Confirm.Button(

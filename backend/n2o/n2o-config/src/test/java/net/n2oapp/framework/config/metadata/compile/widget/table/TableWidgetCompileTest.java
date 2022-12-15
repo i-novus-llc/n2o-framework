@@ -72,7 +72,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getId(), is("testAction"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("mi1"));
+        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("testTable4Compile_mi1"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getShowToggleIcon(), is(true));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
@@ -103,7 +103,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
         assertThat(queryContext.getMessagesForm(), is("testTable4Compile_main"));
 
-        assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
+        assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.CHECKBOX));
         assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
         assertThat(table.getComponent().getAutoSelect(), is(true));
         assertThat(table.getComponent().getHeight(), is("200px"));
@@ -166,7 +166,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getSortingMap().get("sorting.id"), is("id"));
         assertThat(context.getSortingMap().get("sorting.name"), is("name"));
 
-        assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.radio));
+        assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.RADIO));
         assertThat(table.getComponent().getTextWrap(), is(true));
     }
 
@@ -413,19 +413,19 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         ColumnHeader header = table.getComponent().getHeaders().get(0);
         assertThat(header.getSrc(), is("MyTableHeader"));
-        assertThat(header.getAlignment(), is(Alignment.right));
+        assertThat(header.getAlignment(), is(Alignment.RIGHT));
         assertThat(header.getCssClass(), is("my-table-header"));
         assertThat(header.getStyle().get("color"), is("red"));
 
         header = table.getComponent().getHeaders().get(1);
         assertThat(header.getSrc(), is("MyFilterHeader"));
-        assertThat(header.getAlignment(), is(Alignment.left));
+        assertThat(header.getAlignment(), is(Alignment.LEFT));
         assertThat(header.getCssClass(), is("my-filter-header"));
         assertThat(header.getStyle().get("color"), is("green"));
 
         header = table.getComponent().getHeaders().get(2);
         assertThat(header.getSrc(), is("MyMultiHeader"));
-        assertThat(header.getAlignment(), is(Alignment.center));
+        assertThat(header.getAlignment(), is(Alignment.CENTER));
         assertThat(header.getCssClass(), is("my-multi-header"));
         assertThat(header.getStyle().get("color"), is("blue"));
         assertThat(header.getLabel(), is("Multi"));
@@ -452,66 +452,66 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         ColumnHeader header = table.getComponent().getHeaders().get(0);
         AbstractCell cell = (AbstractCell) table.getComponent().getCells().get(0);
         assertThat(header.getLabel(), is("simple1"));
-        assertThat(header.getAlignment(), is(Alignment.left));
+        assertThat(header.getAlignment(), is(Alignment.LEFT));
         assertThat(cell.getId(), is("simple1"));
-        assertThat(cell.getContentAlignment(), is(Alignment.left));
+        assertThat(cell.getContentAlignment(), is(Alignment.LEFT));
 
         header = table.getComponent().getHeaders().get(1);
         cell = (AbstractCell) table.getComponent().getCells().get(1);
         assertThat(header.getLabel(), is("simple2"));
-        assertThat(header.getAlignment(), is(Alignment.center));
+        assertThat(header.getAlignment(), is(Alignment.CENTER));
         assertThat(cell.getId(), is("simple2"));
-        assertThat(cell.getContentAlignment(), is(Alignment.center));
+        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
         header = table.getComponent().getHeaders().get(2);
         cell = (AbstractCell) table.getComponent().getCells().get(2);
         assertThat(header.getLabel(), is("filter1"));
-        assertThat(header.getAlignment(), is(Alignment.right));
+        assertThat(header.getAlignment(), is(Alignment.RIGHT));
         assertThat(cell.getId(), is("filter1"));
-        assertThat(cell.getContentAlignment(), is(Alignment.center));
+        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
 
         ColumnHeader multiHeader = table.getComponent().getHeaders().get(3);
         assertThat(multiHeader.getLabel(), is("multi1"));
-        assertThat(multiHeader.getAlignment(), is(Alignment.center));
+        assertThat(multiHeader.getAlignment(), is(Alignment.CENTER));
 
 
         multiHeader = table.getComponent().getHeaders().get(4);
         assertThat(multiHeader.getLabel(), is("multi2"));
-        assertThat(multiHeader.getAlignment(), is(Alignment.right));
+        assertThat(multiHeader.getAlignment(), is(Alignment.RIGHT));
 
         header = multiHeader.getChildren().get(0);
         cell = (AbstractCell) table.getComponent().getCells().get(3);
         assertThat(header.getLabel(), is("sub21"));
-        assertThat(header.getAlignment(), is(Alignment.center));
+        assertThat(header.getAlignment(), is(Alignment.CENTER));
         assertThat(cell.getId(), is("sub21"));
-        assertThat(cell.getContentAlignment(), is(Alignment.center));
+        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
 
         multiHeader = table.getComponent().getHeaders().get(5);
         assertThat(multiHeader.getLabel(), is("multi3"));
-        assertThat(multiHeader.getAlignment(), is(Alignment.right));
+        assertThat(multiHeader.getAlignment(), is(Alignment.RIGHT));
 
         header = multiHeader.getChildren().get(0);
         cell = (AbstractCell) table.getComponent().getCells().get(4);
         assertThat(header.getLabel(), is("sub31"));
-        assertThat(header.getAlignment(), is(Alignment.left));
+        assertThat(header.getAlignment(), is(Alignment.LEFT));
         assertThat(cell.getId(), is("sub31"));
-        assertThat(cell.getContentAlignment(), is(Alignment.center));
+        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
         header = multiHeader.getChildren().get(1);
         cell = (AbstractCell) table.getComponent().getCells().get(5);
         assertThat(header.getLabel(), is("sub32"));
-        assertThat(header.getAlignment(), is(Alignment.right));
+        assertThat(header.getAlignment(), is(Alignment.RIGHT));
         assertThat(cell.getId(), is("sub32"));
-        assertThat(cell.getContentAlignment(), is(Alignment.center));
+        assertThat(cell.getContentAlignment(), is(Alignment.CENTER));
 
         header = multiHeader.getChildren().get(2);
         cell = (AbstractCell) table.getComponent().getCells().get(6);
         assertThat(header.getLabel(), is("sub33"));
-        assertThat(header.getAlignment(), is(Alignment.left));
+        assertThat(header.getAlignment(), is(Alignment.LEFT));
         assertThat(cell.getId(), is("sub33"));
-        assertThat(cell.getContentAlignment(), is(Alignment.right));
+        assertThat(cell.getContentAlignment(), is(Alignment.RIGHT));
     }
 
 }

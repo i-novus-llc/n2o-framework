@@ -12,11 +12,14 @@ public class StylesResolverTest {
 
     @Test
     public void test() {
-        Map<String, String> result = StylesResolver.resolveStyles("box-shadow: 0 0 1px #fff,0 0 5px rgba(0,0,0,0.3);    padding: 3px 5px");
+        Map<String, String> oneStyle = StylesResolver.resolveStyles("margin-top: 16px; ");
+        assertThat(oneStyle.size(), is(1));
+        assertThat(oneStyle.get("marginTop"), is("16px"));
 
-        assertThat(result.size(), is(2));
-        assertThat(result.get("boxShadow"), is("0 0 1px #fff,0 0 5px rgba(0,0,0,0.3)"));
-        assertThat(result.get("padding"), is("3px 5px"));
+        Map<String, String> twoStyles = StylesResolver.resolveStyles("box-shadow: 0 0 1px #fff,0 0 5px rgba(0,0,0,0.3);    padding: 3px 5px");
+        assertThat(twoStyles.size(), is(2));
+        assertThat(twoStyles.get("boxShadow"), is("0 0 1px #fff,0 0 5px rgba(0,0,0,0.3)"));
+        assertThat(twoStyles.get("padding"), is("3px 5px"));
 
         assertThat(StylesResolver.resolveStyles(" "), nullValue());
         assertThat(StylesResolver.resolveStyles(null), nullValue());

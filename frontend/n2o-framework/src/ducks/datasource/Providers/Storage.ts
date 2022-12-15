@@ -6,6 +6,7 @@ import type { IProvider, QueryOptions, StorageProvider, StorageSubmit } from '..
 import { ProviderType, StorageType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { makeGetModelByPrefixSelector } from '../../models/selectors'
+import { State } from '../../State'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
@@ -56,7 +57,8 @@ export function* query(id: string, { storage: storageType, key }: StorageProvide
         throw new Error('invalid data format')
     }
 
-    const filtered = applyFilter(json)
+    const state: State = yield select()
+    const filtered: object[] = applyFilter(state, json)
     const sorted = applySorting(filtered, sorting)
     const { list, paging } = applyPaging(
         sorted,

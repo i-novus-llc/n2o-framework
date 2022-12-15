@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oOpenDrawer;
+import net.n2oapp.framework.api.metadata.action.N2oOpenDrawer;
 import net.n2oapp.framework.api.metadata.meta.action.modal.open_drawer.OpenDrawer;
 import net.n2oapp.framework.api.metadata.meta.action.modal.open_drawer.OpenDrawerPayload;
 import net.n2oapp.framework.config.metadata.compile.context.DrawerPageContext;
@@ -48,7 +48,6 @@ public class OpenDrawerCompiler extends AbstractModalCompiler<OpenDrawer, N2oOpe
         payload.setHeight(source.getHeight());
         payload.setPlacement(p.cast(source.getPlacement(),
                 p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
-        payload.setLevel(source.getLevel());
         payload.setCloseOnBackdrop(p.cast(source.getCloseOnBackdrop(),
                 p.resolve(property("n2o.api.action.open_drawer.close_on_backdrop"), Boolean.class), true));
         payload.setClosable(p.cast(source.getClosable(),

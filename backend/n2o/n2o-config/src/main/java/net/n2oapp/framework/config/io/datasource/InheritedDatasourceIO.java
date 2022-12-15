@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.io.datasource;
 
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -20,6 +22,8 @@ public class InheritedDatasourceIO extends BaseDatasourceIO<N2oInheritedDatasour
         p.attribute(e, "source-field-id", ds::getSourceFieldId, ds::setSourceFieldId);
         p.childrenText(e, "fetch-value", ds::getFetchValue, ds::setFetchValue);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, N2oInheritedDatasource.Submit::new, this::submit);
+        p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
+                N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);
     }
 
     private void submit(Element e, N2oInheritedDatasource.Submit t, IOProcessor p) {

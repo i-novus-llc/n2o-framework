@@ -49,7 +49,7 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getTitle(), is("`title`"));
         assertThat(field.getDescription(), is("`Description`"));
         assertThat(field.getTextPosition(), is(TextPosition.top));
-        assertThat(field.getShape(), is(ShapeType.circle));
+        assertThat(field.getShape(), is(ShapeType.CIRCLE));
         assertThat(field.getWidth(), is("500px"));
         assertThat(field.getStatuses().length, is(2));
         assertThat(field.getStatuses()[0].getSrc(), Matchers.is("testSrc"));
@@ -72,7 +72,7 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getId(), is("testId2"));
         assertThat(field.getSrc(), is("ImageField"));
         assertThat(field.getTextPosition(), is(TextPosition.right));
-        assertThat(field.getShape(), is(ShapeType.rounded));
+        assertThat(field.getShape(), is(ShapeType.ROUNDED));
 
         field = (ImageField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("testId3"));

@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 
 /**
  * Исходная модель источника данных, получающего данные из другого источника данных
@@ -18,6 +19,7 @@ public class N2oInheritedDatasource extends N2oDatasource implements Submittable
     private String sourceFieldId;
     private String fetchValue;
     private Submit submit;
+    private N2oPreFilter[] filters;
 
     @Getter
     @Setter

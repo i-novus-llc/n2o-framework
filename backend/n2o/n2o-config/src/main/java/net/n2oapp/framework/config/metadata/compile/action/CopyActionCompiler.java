@@ -5,13 +5,15 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.PageRef;
-import net.n2oapp.framework.api.metadata.event.action.N2oCopyAction;
+import net.n2oapp.framework.api.metadata.action.N2oCopyAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
@@ -68,8 +70,12 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String getClientTargetDatasourceId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getTargetPage() == PageRef.PARENT && context instanceof PageContext)
+        if (source.getTargetPage() == PageRef.PARENT && context instanceof PageContext) {
+            Map<String, String> parentDatasourceIdsMap = ((PageContext) context).getParentDatasourceIdsMap();
+            if (parentDatasourceIdsMap != null && parentDatasourceIdsMap.containsKey(source.getTargetDatasourceId()))
+                return parentDatasourceIdsMap.get(source.getTargetDatasourceId());
             return getClientDatasourceId(source.getTargetDatasourceId(), ((PageContext) context).getParentClientPageId());
+        }
         return getClientDatasourceId(source.getTargetDatasourceId(), p);
     }
 }

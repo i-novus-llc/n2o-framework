@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
+import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -35,9 +35,8 @@ public class CloseGenerator implements ButtonGenerator {
         cancelAction.setId(GenerateType.close.name());
         closeButton.setDatasourceId(datasource);
         closeButton.setModel(ReduxModel.filter);
-        if (context instanceof PageContext) {
-            cancelAction.setRefreshOnClose(((PageContext) context).getRefreshOnClose());
-        }
+        if (context instanceof PageContext)
+            cancelAction.setRefresh(((PageContext) context).getRefreshOnClose());
         closeButton.setActions(new N2oCloseAction[]{cancelAction});
         closeButton.setValidate(false);
         return Collections.singletonList(closeButton);

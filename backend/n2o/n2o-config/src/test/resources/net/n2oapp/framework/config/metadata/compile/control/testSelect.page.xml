@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <select id="select1" type="checkboxes" cleanable="false"
@@ -13,6 +13,12 @@
                 </options>
             </select>
             <select id="select4" query-id="test"/>
+            <select id="select5" datasource="test">
+                <options>
+                    <option id="type1" name="A"/>
+                    <option id="type2" name="B"/>
+                </options>
+            </select>
         </fields>
     </form>
 </simple-page>

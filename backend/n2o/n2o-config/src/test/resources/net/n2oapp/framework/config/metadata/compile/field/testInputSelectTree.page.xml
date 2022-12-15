@@ -1,12 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <input-select-tree id="inputSelectTree" checking-strategy="child"
                                max-tag-count="5"
                                checkboxes="true" max-tag-text-length="20"
                                placeholder="{select}" parent-field-id="testParentFieldId"
-                               has-children-field-id="testHasChildrenFieldId"/>
+                               has-children-field-id="testHasChildrenFieldId"
+                               search-min-length="2" throttle-delay="100"/>
+            <input-select-tree id="defaults" parent-field-id="testId"/>
         </fields>
     </form>
 </simple-page>

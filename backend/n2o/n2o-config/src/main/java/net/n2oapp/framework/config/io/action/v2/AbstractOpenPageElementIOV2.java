@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
@@ -35,6 +35,7 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attributeEnum(e, "redirect-target-after-submit", op::getRedirectTargetAfterSubmit, op::setRedirectTargetAfterSubmit, Target.class);
         p.attributeBoolean(e, "refresh-after-submit", op::getRefreshAfterSubmit, op::setRefreshAfterSubmit);
         p.attributeBoolean(e, "refresh-on-close", op::getRefreshOnClose, op::setRefreshOnClose);
+        p.attributeArray(e, "refresh-datasources", ",", op::getRefreshDatasourceIds, op::setRefreshDatasourceIds);
         p.attributeBoolean(e, "unsaved-data-prompt-on-close", op::getUnsavedDataPromptOnClose, op::setUnsavedDataPromptOnClose);
         p.attributeBoolean(e, "submit-message-on-success", op::getSubmitMessageOnSuccess, op::setSubmitMessageOnSuccess);
         p.attributeBoolean(e, "submit-message-on-fail", op::getSubmitMessageOnFail, op::setSubmitMessageOnFail);

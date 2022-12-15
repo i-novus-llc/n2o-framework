@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.action.UploadType;
 
 import java.util.HashMap;
 import java.util.Map;

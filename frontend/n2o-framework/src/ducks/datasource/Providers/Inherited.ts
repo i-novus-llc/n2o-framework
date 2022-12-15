@@ -7,6 +7,7 @@ import type { DataSourceState } from '../DataSource'
 import { makeGetModelByPrefixSelector } from '../../models/selectors'
 import { setModel, removeModel } from '../../models/store'
 import evalExpression from '../../../utils/evalExpression'
+import { State } from '../../State'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
@@ -51,6 +52,7 @@ export function* query(id: string, {
     sourceModel: prefix,
     sourceField,
     fetchValueExpression,
+    filters,
 }: InheritedProvider, options: QueryOptions) {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
     const { sorting, paging: { size, page } } = datasource
@@ -80,7 +82,12 @@ export function* query(id: string, {
         sourceList = normalized
     }
 
-    const filtered = applyFilter(sourceList)
+    const state: State = yield select()
+    const filtered: object[] = applyFilter(
+        state,
+        sourceList,
+        filters,
+    )
     const sorted = applySorting(filtered, sorting)
     const { list, paging } = applyPaging(
         sorted,

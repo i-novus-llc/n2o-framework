@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.MergeMode;
-import net.n2oapp.framework.api.metadata.event.action.N2oSetValueAction;
+import net.n2oapp.framework.api.metadata.action.MergeMode;
+import net.n2oapp.framework.api.metadata.action.N2oSetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueActionPayload;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -33,6 +33,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
 
         String defaultDatasource = getClientDatasourceId(getLocalDatasourceId(p), p);
         ReduxModel model = getModelFromComponentScope(p);
+
         String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getSourceDatasourceId(), p);
         SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(sourceDatasourceId,

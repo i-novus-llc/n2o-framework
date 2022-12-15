@@ -678,6 +678,48 @@ public class InvocationProcessorTest {
         assertThat(innerInnerObjSet.contains(new TestEntity.InnerEntity.InnerInnerEntity("code3")), is(true));
     }
 
+    @Test
+    public void testResultMapping() {
+        N2oTestDataProvider invocation = new N2oTestDataProvider();
+        invocation.setResultMapping("['organization']");
+        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+
+        //List
+        ObjectReferenceField refField = new ObjectReferenceField();
+        refField.setId("organization");
+
+        //Inner simple1
+        ObjectSimpleField childField1 = new ObjectSimpleField();
+        childField1.setId("id");
+
+        //Inner simple2
+        ObjectSimpleField childField2 = new ObjectSimpleField();
+        childField2.setId("name");
+
+        refField.setFields(new AbstractParameter[]{childField1, childField2});
+
+        //Out simple fields
+        ObjectSimpleField simpleOutId = new ObjectSimpleField();
+        simpleOutId.setId("myId");
+        simpleOutId.setMapping("['id']");
+        ObjectSimpleField simpleOutName = new ObjectSimpleField();
+        simpleOutName.setId("myName");
+        simpleOutName.setMapping("['name']");
+
+        //DATA
+        DataSet innerDataSet = new DataSet();
+        innerDataSet.put("id", 1);
+        innerDataSet.put("name", "test1");
+
+        DataSet dataSet = new DataSet("organization", innerDataSet);
+
+        DataSet result = invocationProcessor.invoke(invocation, dataSet, singletonList(refField),
+                Arrays.asList(simpleOutId, simpleOutName));
+
+        assertThat(result.getInteger("myId"), is(1));
+        assertThat(result.getString("myName"), is("test1"));
+    }
+
 
     public static class SqlInvocationEngine implements MapInvocationEngine<N2oSqlDataProvider> {
 

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
@@ -13,6 +14,8 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -87,5 +90,17 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
         assertThat(((CopyDependency) dependency).getSubmit(), is(true));
         assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
+
+        assertThat(inh3.getProvider().getFilters().size(), is(2));
+        List<InheritedDatasource.Filter> filters = inh3.getProvider().getFilters();
+        assertThat(filters.get(0).getType(), is(FilterType.eq));
+        assertThat(filters.get(0).getFieldId(), is("id"));
+        assertThat(filters.get(0).getModelLink().getParam(), is("id"));
+        assertThat(filters.get(0).getRequired(), is(false));
+        assertThat(filters.get(1).getType(), is(FilterType.eq));
+        assertThat(filters.get(1).getFieldId(), is("name"));
+        assertThat(filters.get(1).getLink(), is("models.filter['testInheritedDatasource_inh1']"));
+        assertThat(filters.get(1).getValue(), is("`name`"));
+        assertThat(filters.get(1).getRequired(), is(true));
     }
 }

@@ -25,9 +25,6 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
-import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
-import static java.util.Objects.isNull;
 import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
@@ -48,6 +45,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
 
     @Override
     public CompiledQuery compile(N2oQuery source, QueryContext context, CompileProcessor p) {
+        source.initAbsoluteIds();
         CompiledQuery query = new CompiledQuery();
         String queryId = context.getSourceId((N2oCompileProcessor) p);
         query.setId(queryId);
@@ -65,7 +63,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             query.setValidations(context.getValidations());
         List<AbstractField> fields = source.getFields() != null ? Arrays.asList(source.getFields()) : List.of();
         initDefaultFilters(source.getFilters(), p);
-        initDefaultFields(fields, null,
+        initDefaultFields(fields,
                 p.resolve(property(("n2o.api.query.field.is_selected")), Boolean.class),
                 p.resolve(property(("n2o.api.query.field.is_sorted")), Boolean.class));
 
@@ -232,11 +230,9 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         }
     }
 
-    private void initDefaultFields(List<AbstractField> fields, String parentFieldId, Boolean defaultSelected,
+    private void initDefaultFields(List<AbstractField> fields, Boolean defaultSelected,
                                    Boolean defaultSorted) {
         for (AbstractField field : fields) {
-            String computedId = isNull(parentFieldId) ? field.getId() : parentFieldId + "." + field.getId();
-            field.setAbsoluteId(computedId);
             field.setIsSelected(castDefault(field.getIsSelected(), defaultSelected));
 
             if (field.getIsSelected()) {
@@ -244,7 +240,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             }
             if (field instanceof QueryReferenceField) {
                 field.setMapping(castDefault(field.getMapping(), spel(field.getId())));
-                initDefaultFields(Arrays.asList(((QueryReferenceField) field).getFields()), computedId, defaultSelected, defaultSorted);
+                initDefaultFields(Arrays.asList(((QueryReferenceField) field).getFields()), defaultSelected, defaultSorted);
             } else
                 initDefaultSimpleField(((QuerySimpleField) field), defaultSorted);
         }

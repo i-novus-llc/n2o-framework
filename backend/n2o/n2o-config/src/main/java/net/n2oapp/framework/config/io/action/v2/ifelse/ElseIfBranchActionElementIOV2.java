@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.action.v2.ifelse;
 
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseIfBranchAction;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseIfBranchAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;

@@ -43,11 +43,11 @@ public class StatusFieldCompileTest extends SourceCompileTestBase {
         assertThat(status.getSrc(), is("StatusText"));
         assertThat(status.getColor(), is("success"));
         assertThat(status.getText(), is("Task completed"));
-        assertThat(status.getTextPosition(), is(Position.left));
+        assertThat(status.getTextPosition(), is(Position.LEFT));
 
         status = (Status) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(status.getSrc(), is("StatusText"));
         assertThat(status.getText(), is("test"));
-        assertThat(status.getTextPosition(), is(Position.right));
+        assertThat(status.getTextPosition(), is(Position.RIGHT));
     }
 }

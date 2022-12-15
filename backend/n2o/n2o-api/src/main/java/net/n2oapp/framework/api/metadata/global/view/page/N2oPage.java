@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
@@ -21,18 +22,25 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oPage extends N2oMetadata implements NameAware, ExtensionAttributesAware, SourceComponent {
+    @N2oAttribute
     private String name;
+    @N2oAttribute
     private String title;
+    @N2oAttribute
     private String htmlTitle;
     private String src;
     private String objectId;
     private String route;
     private String modalSize;
+    @N2oAttribute
     private Boolean showTitle;
+    @N2oAttribute
     private String cssClass;
+    @N2oAttribute
     private String style;
     private ReduxModel model;
     private Boolean hasBreadcrumbs;
+    @N2oAttribute
     private N2oBreadcrumb[] breadcrumbs;
     @ExtAttributesSerializer
     protected Map<N2oNamespace, Map<String, String>> extAttributes;

@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oMultiFieldSet;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FieldsScope;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,6 @@ public class MultiFieldSetValidator implements SourceValidator<N2oMultiFieldSet>
 
     @Override
     public void validate(N2oMultiFieldSet source, SourceProcessor p) {
-        ValidationUtils.checkIds(source.getItems(), p);
         validateItems(source, p);
     }
 

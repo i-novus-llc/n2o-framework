@@ -76,7 +76,6 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn5"));
         assertThat(field.getSrc(), is("ButtonField"));
-        assertThat(((LinkAction) field.getAction()).getUrl(), is("`url`"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(6).getCols().get(0).getFields().get(0);
         assertThat(field.getConfirm().getText(), is("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие."));
@@ -87,7 +86,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getConfirm().getCancel().getColor(), is("secondary"));
         assertThat(field.getConfirm().getReverseButtons(), is(false));
         assertThat(field.getConfirm().getCloseButton(), is(false));
-        assertThat(field.getConfirm().getMode(), is(ConfirmType.modal));
+        assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
         assertThat(field.getConfirm().getText(), is("Зарегистрировать заявление?"));
@@ -98,6 +97,6 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getConfirm().getCancel().getColor(), is("light"));
         assertThat(field.getConfirm().getReverseButtons(), is(false));
         assertThat(field.getConfirm().getCloseButton(), is(false));
-        assertThat(field.getConfirm().getMode(), is(ConfirmType.modal));
+        assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
     }
 }

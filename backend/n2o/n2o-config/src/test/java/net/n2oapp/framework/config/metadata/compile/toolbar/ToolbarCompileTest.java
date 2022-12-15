@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
@@ -52,9 +51,9 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testToolbarGrouping() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.widget.xml")
-                .get(new WidgetContext("testToolbarGrouping"));
-        List<Group> groupList = form.getToolbar().get("topLeft");
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.page.xml")
+                .get(new PageContext("testToolbarGrouping"));
+        List<Group> groupList = page.getWidget().getToolbar().get("topLeft");
         assertThat(groupList.size(), is(3));
         assertThat(groupList.get(0).getButtons().get(0).getId(), is("beforeGroup"));
         assertThat(groupList.get(1).getButtons().get(0).getId(), is("firstInGroup"));
@@ -65,9 +64,9 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.api.toolbar.grouping", "false");
 
-        form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.widget.xml")
-                .get(new WidgetContext("testToolbarGrouping"));
-        groupList = form.getToolbar().get("topLeft");
+        page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.page.xml")
+                .get(new PageContext("testToolbarGrouping"));
+        groupList = page.getWidget().getToolbar().get("topLeft");
         assertThat(groupList.size(), is(4));
         assertThat(groupList.get(0).getButtons().get(0).getId(), is("beforeGroup"));
         assertThat(groupList.get(1).getButtons().get(0).getId(), is("firstInGroup"));
@@ -105,7 +104,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b3.getId(), is("testId3"));
         assertThat(f.getToolbar().getButton("testId3"), notNullValue());
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
-        assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
+        assertThat(b3.getConfirm().getMode(), is(ConfirmType.POPOVER));
         assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
         assertThat(b3.getSrc(), is("StandardButton"));
@@ -133,7 +132,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         PerformButton item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
-        assertThat(item.getConfirm().getMode(), is(ConfirmType.modal));
+        assertThat(item.getConfirm().getMode(), is(ConfirmType.MODAL));
         assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }

@@ -24,4 +24,5 @@ public class N2oGraphQlDataProvider extends AbstractDataProvider implements N2oM
     private String accessToken;
     private String forwardedHeaders;
     private String forwardedCookies;
+    private String[] enums;
 }

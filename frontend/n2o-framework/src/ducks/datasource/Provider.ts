@@ -6,9 +6,21 @@ export enum ProviderType {
     inherited = 'inherited',
 }
 
+export enum FilterType {
+    Equal = 'eq'
+}
+
 export interface IProvider {
     type: ProviderType
 }
+
+export interface IFilter {
+    type: FilterType
+    fieldId: string
+    value: string
+    link?: string
+}
+
 export interface IMappingParam {
     link: string
     observe: boolean
@@ -41,6 +53,7 @@ export interface InheritedProvider extends IProvider {
     sourceDs: string
     sourceModel: ModelPrefix
     sourceField?: string
+    filters?: IFilter[]
     fetchValueExpression?: string
 }
 

@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.validation.standard.action;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -42,7 +42,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
         DatasourceIdsScope datasourceIdsScope = p.getScope(DatasourceIdsScope.class);
         checkRefreshWidgetDatasourceIds(source, pageScope, datasourceIdsScope);
 
-        if (source.getDatasources() != null) {
+        if (source.getDatasources() != null && datasourceIdsScope != null) {
             DatasourceIdsScope actionDatasourceScope = new DatasourceIdsScope(datasourceIdsScope);
             Arrays.stream(source.getDatasources())
                     .filter(datasource -> datasource.getId() != null)

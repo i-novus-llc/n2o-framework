@@ -3,10 +3,10 @@ package net.n2oapp.framework.config.metadata.validation.standard;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseBranchAction;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseIfBranchAction;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oIfBranchAction;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseBranchAction;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseIfBranchAction;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -26,19 +26,26 @@ public final class ValidationUtils {
     }
 
     /**
-     * Проверить идентификаторов метаданных по соглашениям об именовании
+     * Проверить идентификаторы метаданных по соглашениям об именовании
      *
      * @param items Метаданные
      * @param p     Процессор исходных метаданных
      */
     public static void checkIds(NamespaceUriAware[] items, SourceProcessor p) {
-        if (items != null) {
-            for (NamespaceUriAware item : items) {
-                if (item instanceof IdAware) {
-                    p.checkId((IdAware) item, "Идентификатор поля {0} является запрещенным именем");
-                }
-            }
-        }
+        if (items != null)
+            for (NamespaceUriAware item : items)
+                checkId(item, p);
+    }
+
+    /**
+     * Проверить идентификатор метаданной по соглашениям об именовании
+     *
+     * @param item Метаданная
+     * @param p    Процессор исходных метаданных
+     */
+    public static void checkId(NamespaceUriAware item, SourceProcessor p) {
+        if (item instanceof IdAware)
+            p.checkId((IdAware) item, "Идентификатор поля '%s' является запрещенным именем");
     }
 
     /**
@@ -118,7 +125,7 @@ public final class ValidationUtils {
      * Получение идентификатора метаданной для сообщения исключений
      *
      * @param metadataId Идентификатор метаданной
-     * @return           Идентификатор метаданной в случае его существования, иначе пуста строка
+     * @return Идентификатор метаданной в случае его существования, иначе пуста строка
      */
     public static String getIdOrEmptyString(String metadataId) {
         return metadataId != null ? metadataId : "";

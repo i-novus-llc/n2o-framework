@@ -4,8 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
+
+import java.util.List;
 
 /**
  * Клиентская модель источника данных, получающего данные из другого источника данных
@@ -33,6 +37,8 @@ public class InheritedDatasource extends AbstractDatasource {
         private String sourceField;
         @JsonProperty
         private String fetchValueExpression;
+        @JsonProperty
+        private List<Filter> filters;
     }
 
     @Getter
@@ -52,5 +58,27 @@ public class InheritedDatasource extends AbstractDatasource {
         private Boolean auto;
         @JsonProperty
         private String submitValueExpression;
+    }
+
+    @Getter
+    @Setter
+    public static class Filter implements Compiled {
+        @JsonProperty
+        private FilterType type;
+        @JsonProperty
+        private String fieldId;
+        @JsonProperty
+        private Boolean required;
+        private ModelLink modelLink;
+
+        @JsonProperty
+        public Object getValue() {
+            return modelLink.getValue();
+        }
+
+        @JsonProperty
+        public Object getLink() {
+            return modelLink.getBindLink();
+        }
     }
 }

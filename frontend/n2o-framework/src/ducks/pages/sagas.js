@@ -9,16 +9,19 @@ import {
 import isEmpty from 'lodash/isEmpty'
 import { getAction, getLocation } from 'connected-react-router'
 import queryString from 'query-string'
+import { get, isEqual, cloneDeep } from 'lodash'
 
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { setGlobalLoading, changeRootPage, rootPageSelector } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
+import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
+import { modelsSelector } from '../models/selectors'
 
 import { mapPageQueryToUrl } from './sagas/restoreFilters'
 import { mappingUrlToRedux } from './sagas/mapUrlToRedux'
-import { makePageRoutesByIdSelector } from './selectors'
+import { makePageRoutesByIdSelector, pagesSelector } from './selectors'
 import { MAP_URL } from './constants'
 import {
     metadataFail,
@@ -118,10 +121,51 @@ export function* getMetadata(apiProvider, action) {
 }
 
 /**
+ * Сага наблюдения за изменением моделей для отстреливания событий
+ * Повторяет логику наблюдения зависимостей из датасурсов
+ * FIXME вынести на общий механизм
+ * @param action
+ */
+let prevModels
+
+export function* watchEvents() {
+    const models = yield select(modelsSelector)
+    const pagesMap = yield select(pagesSelector)
+    const pagesList = Object.values(pagesMap)
+
+    for (const { metadata } of pagesList) {
+        const { events } = metadata
+
+        if (!events || !events.length) {
+            // eslint-disable-next-line no-continue
+            continue
+        }
+
+        for (const { datasource, model: prefix, field, action } of events) {
+            const modelLink = [prefix, datasource]
+
+            if (field) {
+                modelLink.push(field)
+            }
+
+            const model = get(models, modelLink)
+            const prevModel = get(prevModels, modelLink)
+
+            if (!isEqual(model, prevModel)) {
+                yield put(cloneDeep(action))
+            }
+        }
+    }
+
+    prevModels = models
+}
+
+/**
  * Сайд-эффекты для page редюсера
  * @ignore
  */
 export default apiProvider => [
     takeEvery(metadataRequest, getMetadata, apiProvider),
+    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchEvents),
     throttle(500, MAP_URL, processUrl),
 ]

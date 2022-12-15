@@ -21,6 +21,10 @@
                 <copy on="ds" target-field-id="target" target-model="filter" source-model="filter"
                       source-field-id="source" submit="true" apply-on-init="true"/>
             </dependencies>
+            <filters>
+                <eq field-id="id" param="id"/>
+                <eq field-id="name" value="{name}" datasource="inh1" model="filter" required="true"/>
+            </filters>
         </inherited-datasource>
     </datasources>
 

@@ -80,7 +80,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getCancel().getColor(), is("danger"));
         assertThat(confirm.getReverseButtons(), is(false));
         assertThat(confirm.getCloseButton(), is(false));
-        assertThat(confirm.getMode(), is(ConfirmType.popover));
+        assertThat(confirm.getMode(), is(ConfirmType.POPOVER));
         assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
 
         confirm = page.getWidget().getToolbar().getButton("btn3").getConfirm();
@@ -93,7 +93,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getCancel().getColor(), is("secondary"));
         assertThat(confirm.getReverseButtons(), is(false));
         assertThat(confirm.getCloseButton(), is(false));
-        assertThat(confirm.getMode(), is(ConfirmType.modal));
+        assertThat(confirm.getMode(), is(ConfirmType.MODAL));
         assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
 
         confirm = page.getWidget().getToolbar().getButton("btn4").getConfirm();
@@ -106,7 +106,7 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getCancel().getColor(), is("secondary"));
         assertThat(confirm.getReverseButtons(), is(false));
         assertThat(confirm.getCloseButton(), is(false));
-        assertThat(confirm.getMode(), is(ConfirmType.modal));
+        assertThat(confirm.getMode(), is(ConfirmType.MODAL));
         assertThat(confirm.getModelLink(), is("models.resolve['testButtonConfirm_main']"));
     }
 }

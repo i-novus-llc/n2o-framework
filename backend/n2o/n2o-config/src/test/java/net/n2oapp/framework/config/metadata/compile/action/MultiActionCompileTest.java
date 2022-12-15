@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -76,15 +77,33 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
                         new DataSet("parent_id", 123));
         PerformButton button = (PerformButton) page.getToolbar().getButton("test1");
         assertThat(((LinkAction) ((MultiAction) button.getAction()).getPayload().getActions().get(2)).getUrl(),
-                is("/p/w/123/modal/multi2"));
+                is("/p/w/123/modal/multi3"));
 
         MultiAction action = (MultiAction) button.getAction();
         assertThat(action.getPayload().getActions().size(), is(3));
         assertThat(((InvokeAction) action.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/123/modal/multi0"));
-        assertThat(((InvokeAction) action.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
                 is("n2o/data/p/w/123/modal/multi1"));
+        assertThat(((InvokeAction) action.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
+                is("n2o/data/p/w/123/modal/multi2"));
         assertThat(((InvokeAction) action.getPayload().getActions().get(1)).getMeta().getSuccess().getRedirect().getPath(),
                 is("/123/redirect"));
+    }
+
+    @Test
+    public void testDefaultDataproviderRoutes() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/multiaction/testDefaultDataproviderRoutes.page.xml")
+                .get(new PageContext("testDefaultDataproviderRoutes"));
+
+        MultiAction multiAction = (MultiAction) page.getWidget().getToolbar().getButton("b1").getAction();
+        assertThat(((InvokeAction) multiAction.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
+                is("n2o/data/testDefaultDataproviderRoutes/multi3"));
+        assertThat(((InvokeAction) multiAction.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
+                is("n2o/data/testDefaultDataproviderRoutes/multi4"));
+
+        multiAction = (MultiAction) page.getWidget().getToolbar().getButton("b2").getAction();
+        assertThat(((InvokeAction) multiAction.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
+                is("n2o/data/testDefaultDataproviderRoutes/act_multi0"));
+        assertThat(((InvokeAction) multiAction.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
+                is("n2o/data/testDefaultDataproviderRoutes/act_multi1"));
     }
 }

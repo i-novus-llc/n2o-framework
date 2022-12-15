@@ -2,9 +2,10 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,17 @@ import java.util.List;
 @Getter
 @Setter
 public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceIdAware {
+    @N2oAttribute
     private String cssClass;
+    @N2oAttribute
     private String style;
+    @N2oAttribute
     private String place;
     private String[] generate;
+    @N2oAttribute
     private ToolbarItem[] items;
-    @Deprecated private String targetWidgetId;
+    @Deprecated
+    private String targetWidgetId;
     private String datasourceId;
 
     public N2oToolbar(String[] generate, ToolbarItem[] items) {

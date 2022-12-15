@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
-import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
+import net.n2oapp.framework.api.metadata.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -15,10 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationScope;
+import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.ApplicationDatasourceIdsScope;
@@ -75,11 +72,12 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         ParentDatasourceIdsScope parentDatasourceIdsScope = new ParentDatasourceIdsScope();
         PageScope pageScope = initPageScope(page.getId(), widget, context, p);
 
+        PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
         FiltersScope filtersScope = new FiltersScope();
         SubModelsScope subModelsScope = new SubModelsScope();
         Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, pageRouteScope, breadcrumbs,
                 validationScope, page.getModels(), pageRoutesScope, datasourcesScope, appDatasourceIdsScope,
-                parentDatasourceIdsScope, filtersScope, copiedFieldScope, subModelsScope);
+                parentDatasourceIdsScope, filtersScope, copiedFieldScope, subModelsScope, pageIndexScope);
         initContextDatasources(datasourcesScope, appDatasourceIdsScope, parentDatasourceIdsScope, pageScope, context, p);
         page.setDatasources(initDatasources(datasourcesScope, context, p,
                 appDatasourceIdsScope, parentDatasourceIdsScope, pageScope, validationScope, routes,
@@ -95,7 +93,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
 
         page.setToolbar(compileToolbar(context, p, widget.getDatasourceId(), pageScope,
                 new MetaActions(), pageRouteScope, breadcrumbs, validationScope, datasourcesScope,
-                appDatasourceIdsScope, parentDatasourceIdsScope));
+                appDatasourceIdsScope, parentDatasourceIdsScope, pageIndexScope));
         return page;
     }
 

@@ -23,7 +23,7 @@ import java.util.Objects;
 public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2oFieldSet>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    protected void compileFieldSet(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileFieldSet(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {
         compiled.setLabel(p.resolveJS(source.getLabel()));
         compiled.setDescription(source.getDescription());
         compiled.setClassName(source.getCssClass());
@@ -52,21 +52,21 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
             compiled.setDependency(dependency);
         }
 
-        compileContent(compiled, source, context, p);
+        compileContent(compiled, source, context, p, scopes);
     }
 
-    private void compileContent(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
+    private void compileContent(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {
         if (source.getItems() == null)
             return;
-        FieldSetVisibilityScope scope = initVisibilityScope(source, p);
+        FieldSetVisibilityScope visibilityScope = initVisibilityScope(source, p);
         List<FieldSet.Row> rows = new ArrayList<>();
         for (SourceComponent item : source.getItems()) {
             if (item instanceof N2oFieldsetRow) {
-                rows.add(p.compile(item, context, scope));
+                rows.add(p.compile(item, context, visibilityScope, scopes));
             } else {
                 N2oFieldsetRow newRow = new N2oFieldsetRow();
                 newRow.setItems(new SourceComponent[]{item});
-                rows.add(p.compile(newRow, context, scope));
+                rows.add(p.compile(newRow, context, visibilityScope, scopes));
             }
         }
         compiled.setRows(rows);

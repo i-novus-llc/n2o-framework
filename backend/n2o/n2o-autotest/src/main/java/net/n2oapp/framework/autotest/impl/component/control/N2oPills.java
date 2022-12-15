@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.Pills;
@@ -39,6 +40,11 @@ public class N2oPills extends N2oControl implements Pills {
     @Override
     public void shouldBeUnchecked(String label) {
         itemLink(label).shouldNotHave(Condition.cssClass("active"));
+    }
+
+    @Override
+    public void shouldHaveOptions(String... options) {
+        element().$$(".nav-item").shouldHave(CollectionCondition.exactTexts(options));
     }
 
     private SelenideElement item(String label) {

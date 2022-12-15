@@ -27,6 +27,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
     name="Моя страница">
+    <breadcrumbs>...</breadcrumbs>
     <form>...</form>
 </simple-page>
 ```
@@ -43,7 +44,7 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |route       |Строка                              |URL страницы                                                  |Формируется из идентификатора страницы|
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
-|model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
@@ -65,12 +66,12 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
-|model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
 Список [регионов](#regions), Список [источников данных](../xml/datasource#datasources), Список [действий](#actions),
-Список [хлебных крошек](#breadcrumbs), [Меню](#toolbar) управляющих кнопок страницы
+Список [хлебных крошек](#breadcrumbs), [Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
 
 **Пример**
 
@@ -78,10 +79,12 @@ http://n2oapp.net/framework/config/schema/page-4.0
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
     name="Моя страница">
+    <breadcrumbs>...</breadcrumbs>
     <regions>...</regions>
     <actions>...</actions>
     <toolbar>...</toolbar>
     <datasources>...</datasources>
+    <events>...</events>
 </page>
 ```
 
@@ -103,12 +106,12 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
-|model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
 Регионы [left и right](#left-right-region), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
-[Меню](#toolbar) управляющих кнопок страницы
+[Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
 
 **Пример**
 
@@ -163,12 +166,12 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |show-title       |true false                          |Показывать заголовок страницы?                                |false                                 |
 |scroll-top-button|true false                          |Показывается ли кнопка скролла в начало страницы              |false                                 |
 |datasource       |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
-|model            |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model            |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
 Регионы [top, left и right](#top-left-right-region), Список [действий](#actions), Список [хлебных крошек](#breadcrumbs),
-[Меню](#toolbar) управляющих кнопок страницы
+[Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
 
 **Пример**
 
@@ -228,11 +231,12 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |modal-size  |sm lg                               |Размер модального окна, если страница открыта в модальном окне|                                      |
 |show-title  |true false                          |Показывать заголовок страницы?                                |false                                 |
 |datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных страницы                       |                                      |
-|model       |filter resolve edit datasource multi|Модель данных страницы                                        |resolve                               |
+|model       |resolve edit filter multi datasource|Модель данных страницы                                        |resolve                               |
 
 **Тело**
 
-[Поисковая строка](#search-bar), Список [регионов](#regions), Список [действий](#actions), [Меню](#toolbar) управляющих кнопок страницы
+[Поисковая строка](#search-bar), Список [регионов](#regions), Список [действий](#actions),
+[Меню](#toolbar) управляющих кнопок страницы, Список [событий](#events)
 
 **Пример**
 
@@ -302,8 +306,8 @@ http://n2oapp.net/framework/config/schema/page-4.0
 |hotkey      |Сочетание клавиш                         |Горячая клавиша вызова                                   |Вычисляется, если `id` действия из списка стандартных действий. Например, для `save` горячая клавиша `Enter`.|
 |visible     |true false                               |Видимость действия                                       |true                                                                                                         |
 |enabled     |true false                               |Доступность действия                                     |true                                                                                                         |
-|model       |resolve filter edit multi datasource     |Модель, на которой выполнится действие                   |resolve                                                                                                         |
-|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для выполнения действия   |true                                                                                                         |
+|model       |resolve edit filter multi datasource     |Модель, на которой выполнится действие                   |resolve                                                                                                         |
+|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных для выполнения действия   |                                                                                                        |
 
 **Тело**
 
@@ -639,3 +643,41 @@ http://n2oapp.net/framework/config/schema/region-3.0
 
 Список [элементов меню](#menu-item)
 Список [вложенных меню](#sub-menu)
+
+## События страницы {#events}
+
+**Пример**
+
+```xml
+<events>
+    <on-change>...</on-change>
+    <on-change>...</on-change>
+</events>
+```
+
+### &lt;on-change&gt; {#on_change_event}
+
+Событие изменения модели данных.
+
+**Атрибуты**
+
+|Наименование|Тип                                                        |Описание                                                          |Значение по умолчанию                                           |
+|------------|-----------------------------------------------------------|------------------------------------------------------------------|----------------------------------------------------------------|
+|id          |Строка                                                     |Идентификатор события                                             |                                                                |
+|field-id    |Строка                                                     |Поле источника данных, в котором будут отслеживаться изменения    |По умолчанию изменения будут отслеживаться во всех полях модели |
+|model       |resolve edit filter multi datasource                       |Модель источника данных, в которой будут отслеживаться изменения  |resolve                                                         |
+|datasource  |Ссылка на [источник данных](../xml/datasource#datasources) |Источник данных, в котором будут отслеживаться изменения          |                                                                |
+|action-id   |Ссылка на [действие страницы](#actions)                    |Действие страницы, которое будет вызвано при изменении данных     |                                                                |
+
+**Тело**
+
+[Обработчики действий](../xml/action)
+
+**Пример**
+
+```xml
+<on-change datasource="ds2" field-id="name">
+    <invoke>...</invoke>
+    <alert>...</alert>
+</on-change>
+```
