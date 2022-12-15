@@ -18,12 +18,20 @@ public class WidgetScope {
     private String clientDatasourceId;
     private ReduxModel model;
     private N2oStandardDatasource inLineDatasource;
+    private MetaActions actions;
 
 
     public WidgetScope(String widgetId, String datasourceId, N2oStandardDatasource inLineDatasource) {
         this.widgetId = widgetId;
         this.datasourceId = datasourceId;
         this.inLineDatasource = inLineDatasource;
+    }
+
+    public WidgetScope(String widgetId, String datasourceId, N2oStandardDatasource inLineDatasource, MetaActions actions) {
+        this.widgetId = widgetId;
+        this.datasourceId = datasourceId;
+        this.inLineDatasource = inLineDatasource;
+        this.actions = actions;
     }
 
     public WidgetScope(String widgetId, String datasourceId, ReduxModel model, CompileProcessor p) {
