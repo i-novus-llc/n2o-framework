@@ -75,7 +75,7 @@ public class SelectCompileTest extends SourceCompileTestBase {
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();
-        assertThat(select.getType(), is(ListType.single));
+        assertThat(select.getType(), is(ListType.SINGLE));
         assertThat(select.getDatasource(), is("testSelect_test"));
         assertThat(select.getData(), nullValue());
     }
