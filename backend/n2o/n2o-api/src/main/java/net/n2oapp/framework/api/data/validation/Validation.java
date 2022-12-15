@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Compiled;
@@ -66,7 +67,8 @@ public abstract class Validation implements Compiled {
         return getFields();
     }
 
-    public abstract void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback);
+    public abstract void validate(DataSet dataSet, InvocationProcessor serviceProvider,
+                                  ValidationFailureCallback callback, DomainProcessor domainProcessor);
 
     @JsonProperty("type")
     public abstract String getType();

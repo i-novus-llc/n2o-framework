@@ -1,5 +1,6 @@
 package net.n2oapp.framework.engine.validation.engine;
 
+import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
@@ -442,6 +443,43 @@ public class ValidationProcessorTest {
     }
 
     @Test
+    public void testMandatoryInMultiset() {
+        ValidationProcessor processor = new ValidationProcessor(null);
+        DataSet ds1 = new DataSet();
+        ds1.put("id", null);
+        ds1.put("name", "Ivan");
+        DataSet ds2 = new DataSet();
+        ds2.put("id", 1);
+        ds2.put("name", "Peter");
+        DataList dl = new DataList();
+        dl.add(ds1);
+        dl.add(ds2);
+        DataSet dataSet = new DataSet();
+        dataSet.put("members", dl);
+
+        StandardField f = new StandardField();
+        f.setControl(new InputText());
+        f.getControl().setId("id");
+        Validation mandatory1 = mandatoryValidation("members[index].id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        ((MandatoryValidation) mandatory1).setField(f);
+
+        StandardField f2 = new StandardField();
+        f2.setControl(new InputText());
+        f2.getControl().setId("name");
+        Validation mandatory2 = mandatoryValidation("members[index].name", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        ((MandatoryValidation) mandatory2).setField(f2);
+
+        CompiledObject.Operation operation = new CompiledObject.Operation();
+        operation.setValidationList(Arrays.asList(mandatory1, mandatory2));
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
+
+        List<FailInfo> fails = processor.validate(info, beforeOperation);
+        assertThat(fails.size(), is(1));
+        assertThat(fails.get(0).getFieldId(), is("members[0].id"));
+        assertThat(fails.get(0).getMessage(), is("Field members[0].id required"));
+    }
+
+    @Test
     public void testCondition() {
         ValidationProcessor processor = new ValidationProcessor(null);
         DataSet dataSet = new DataSet();
@@ -467,6 +505,39 @@ public class ValidationProcessorTest {
         List<FailInfo> fails = processor.validate(info, beforeOperation);
         assertThat(fails.size(), is(1));
         assertThat(fails.get(0).getFieldId(), is("id"));
+    }
+
+    @Test
+    public void testConditionInMultiset() {
+        ValidationProcessor processor = new ValidationProcessor(null);
+        DataSet ds1 = new DataSet();
+        ds1.put("id", null);
+        ds1.put("name", "Ivan");
+        DataSet ds2 = new DataSet();
+        ds2.put("id", 1);
+        ds2.put("name", "Peter");
+        DataList dl = new DataList();
+        dl.add(ds1);
+        dl.add(ds2);
+        DataSet dataSet = new DataSet();
+        dataSet.put("members", dl);
+
+        Validation condition1 = conditionValidation("id", "members[index].id",
+                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "members[index].id !== null");
+        Validation condition2 = conditionValidation("name", "members[index].name",
+                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "members[index].name === 'Ivan'");
+
+        CompiledObject.Operation operation = new CompiledObject.Operation();
+
+        operation.setValidationList(Arrays.asList(condition1, condition2));
+        ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null);
+
+        List<FailInfo> fails = processor.validate(info, beforeOperation);
+        assertThat(fails.size(), is(2));
+        assertThat(fails.get(0).getFieldId(), is("members[0].id"));
+        assertThat(fails.get(0).getMessage(), is("Field members[0].id validated"));
+        assertThat(fails.get(1).getFieldId(), is("members[1].name"));
+        assertThat(fails.get(1).getMessage(), is("Field members[1].name validated"));
     }
 
     @Test

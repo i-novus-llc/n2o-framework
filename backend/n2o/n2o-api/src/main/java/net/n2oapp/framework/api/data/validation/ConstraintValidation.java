@@ -38,8 +38,9 @@ public class ConstraintValidation extends InvocationValidation {
     }
 
     @Override
-    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
-        dataSet = DomainProcessor.getInstance().doDomainConversation(dataSet, getInParametersList());
+    public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback,
+                         DomainProcessor domainProcessor) {
+        dataSet = domainProcessor.doDomainConversation(dataSet, getInParametersList());
         DataSet result = serviceProvider.invoke(getInvocation(), dataSet, getInParametersList(), getOutParametersList());
         if (result.get(CompiledObject.VALIDATION_RESULT_PARAM) == null || !(boolean) result.get(CompiledObject.VALIDATION_RESULT_PARAM))
             callback.onFail(StringUtils.resolveLinks(getMessage(), result));

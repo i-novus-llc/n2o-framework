@@ -4,7 +4,7 @@
                 select-format="Объектов {size} шт" select-format-one="{size} объект"
                 select-format-few="{size} объекта" select-format-many="{size} объектов"
                 badge-shape="rounded" badge-position="right" badge-image-field-id="image"
-                badge-image-position="right" badge-image-shape="square"/>
+                badge-image-position="right" badge-image-shape="square" datasource="ds"/>
         <select id="select2">
             <options>
                 <option id="type1" name="A"/>

@@ -7,6 +7,15 @@
         <crumb label="Вторая страница" path="/page2"/>
         <crumb label="Третья страница"/>
     </breadcrumbs>
+
+    <events>
+        <on-change datasource="ds2" model="edit" field-id="test" id="test1">
+            <invoke operation-id="test1"/>
+            <alert/>
+        </on-change>
+        <on-change datasource="ds2" model="filter" field-id="test" id="test2" action-id="test2"/>
+    </events>
+
     <regions>
         <tabs>
             <tab>
@@ -77,6 +86,10 @@
                 <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
                       submit="true" apply-on-init="true"/>
             </dependencies>
+            <filters>
+                <eq field-id="test" datasource="ds1" model="datasource" value="{id}" param="param" required="true"
+                    routable="true"/>
+            </filters>
         </inherited-datasource>
         <parent-datasource id="parent_ds"/>
     </datasources>

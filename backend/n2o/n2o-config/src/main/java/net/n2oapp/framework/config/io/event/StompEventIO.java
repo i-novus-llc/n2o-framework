@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.event;
 
-import net.n2oapp.framework.api.metadata.application.N2oStompEvent;
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.event.N2oStompEvent;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;

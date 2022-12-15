@@ -7,6 +7,7 @@ import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap'
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import omit from 'lodash/omit'
 
 import Alert from '../../snippets/Alerts/Alert'
 
@@ -246,7 +247,7 @@ class InputSelect extends React.Component {
      * @private
      */
     setIsExpanded = (isExpanded) => {
-        const { disabled, onToggle, onOpen, labelFieldId, multiSelect } = this.props
+        const { disabled, onToggle, onOpen, labelFieldId, multiSelect, datasource } = this.props
 
         const { value } = this.state
 
@@ -258,7 +259,11 @@ class InputSelect extends React.Component {
             isExpanded,
             inputFocus: isExpanded,
         }, () => {
-            if (multiSelect || value.length < 1) {
+            if (datasource) {
+                return
+            }
+
+            if ((multiSelect || value.length < 1)) {
                 onOpen()
             } else {
                 onOpen({ [labelFieldId]: value[0][labelFieldId] })
@@ -303,18 +308,18 @@ class InputSelect extends React.Component {
      * @private
      */
     setNewInputValue = (input) => {
-        const { onInput } = this.props
+        const { onInput, throttleDelay } = this.props
         const { input: stateInput } = this.state
         const onSetNewInputValue = (input) => {
             onInput(input)
-            this.handleDataSearch(input)
+            this.handleDataSearch(input, throttleDelay)
         }
 
         if (stateInput !== input) {
             this.setSelected(false)
             this.setState({ input }, () => onSetNewInputValue(input))
 
-            if (!input) {
+            if (!input && !throttleDelay) {
                 this.clearSelected()
             }
         }
@@ -445,8 +450,18 @@ class InputSelect extends React.Component {
     }
 
     onInputBlur = () => {
-        const { onBlur } = this.props
+        const { onBlur, datasource, setFilter, sortFieldId, models = {} } = this.props
         const { isExpanded, value, isPopupFocused } = this.state
+
+        if (datasource && sortFieldId) {
+            const { filter } = models
+
+            if (!isEmpty(filter)) {
+                const newFilterModel = omit(filter, sortFieldId)
+
+                setFilter(newFilterModel)
+            }
+        }
 
         if (!isExpanded) {
             onBlur(this.getValue())
@@ -763,6 +778,10 @@ InputSelect.propTypes = {
     statusFieldId: PropTypes.string,
     enabledFieldId: PropTypes.string,
     onDismiss: PropTypes.func,
+    throttleDelay: PropTypes.number,
+    datasource: PropTypes.string,
+    setFilter: PropTypes.func,
+    models: PropTypes.object,
 }
 
 InputSelect.defaultProps = {

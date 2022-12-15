@@ -1,4 +1,4 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <form id="test">
             <fields>
@@ -7,18 +7,24 @@
         </form>
         <form id="main">
             <fields>
-                <auto-complete id="testId" label="Auto complete" query-id="testSelect" placeholder="{message}"
+                <auto-complete id="auto1" label="Auto complete" query-id="testSelect" placeholder="{message}"
                                tags="true" value-field-id="name" search-filter-id="search">
-                    <pre-filters>
-                        <eq field-id="id" value="{org_id}" reset-on-change="true" ref-model="resolve"
-                            ref-widget-id="test"/>
+                    <filters>
+                        <eq field-id="id" value="{org_id}" reset-on-change="true" model="resolve"
+                            datasource="test"/>
                         <contains field-id="name" param="org_name"/>
-                    </pre-filters>
+                    </filters>
                 </auto-complete>
-                <auto-complete id="testId" label="Auto complete" max-tag-text-length="15">
+                <auto-complete id="auto2" label="Auto complete" max-tag-text-length="15">
                     <options>
                         <option name="test1"/>
                         <option name="test2"/>
+                    </options>
+                </auto-complete>
+                <auto-complete id="auto3" datasource="test">
+                    <options>
+                        <option id="type1" name="A"/>
+                        <option id="type2" name="B"/>
                     </options>
                 </auto-complete>
             </fields>

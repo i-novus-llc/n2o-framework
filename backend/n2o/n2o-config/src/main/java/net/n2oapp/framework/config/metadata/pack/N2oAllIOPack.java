@@ -6,7 +6,6 @@ import net.n2oapp.framework.config.io.application.ApplicationIO;
 import net.n2oapp.framework.config.io.application.ApplicationIOv2;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
-import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv2;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv2;
@@ -23,8 +22,7 @@ public class N2oAllIOPack implements MetadataPack<XmlIOBuilder<? extends XmlIOBu
     @Override
     public void build(XmlIOBuilder<? extends XmlIOBuilder<?>> b) {
         b.ios(new ApplicationIO(), new ApplicationIOv2(), new NavMenuIOv2(), new ExtraMenuIOv2(),
-                new ApplicationIOv3(), new SidebarIOv3(), new NavMenuIOv3(), new ExtraMenuIOv3(),
-                new StompEventIO());
+                new ApplicationIOv3(), new SidebarIOv3(), new NavMenuIOv3(), new ExtraMenuIOv3());
 
         b.ios(new ObjectElementIOv3(), new ObjectElementIOv4());
 
@@ -36,6 +34,6 @@ public class N2oAllIOPack implements MetadataPack<XmlIOBuilder<? extends XmlIOBu
                 new N2oFieldSetsIOPack(), new N2oFieldSetsV5IOPack(), new N2oControlsV2IOPack(),
                 new N2oControlsV3IOPack(),
                 new N2oDataProvidersIOPack(), new N2oCellsIOPack(), new N2oCellsV3IOPack(),
-                new N2oChartsIOPack());
+                new N2oChartsIOPack(), new N2oEventsIOPack());
     }
 }

@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.action.condition;
 
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
+import net.n2oapp.framework.api.metadata.action.ifelse.N2oElseBranchAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oConditionBranch;
-import net.n2oapp.framework.api.metadata.event.action.ifelse.N2oElseBranchAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPayload;
@@ -14,7 +14,7 @@ import net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticPr
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- *  Базовая компиляция веток оператора if-else
+ * Базовая компиляция веток оператора if-else
  */
 public abstract class BaseConditionActionCompiler<S extends N2oConditionBranch>
         extends AbstractActionCompiler<ConditionAction, S> {

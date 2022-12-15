@@ -5,6 +5,7 @@
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:ac="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:reg="http://n2oapp.net/framework/config/schema/region-3.0"
+           xmlns:ev="http://n2oapp.net/framework/config/schema/event-3.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/page-4.0">
 
     <xs:element name="page" type="standardPageDefinition"/>
@@ -22,6 +23,7 @@
             <xs:element name="breadcrumbs" type="breadcrumbsDefinition" minOccurs="0"/>
             <xs:element name="datasources" type="datasourcesDefinition" minOccurs="0"/>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
+            <xs:element name="events" type="eventsDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string">
             <xs:annotation>
@@ -416,4 +418,19 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
+    <xs:complexType name="eventsDefinition">
+        <xs:annotation>
+            <xs:documentation>События, отслеживаемые на странице</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="eventsGroup" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:group name="eventsGroup">
+        <xs:sequence>
+            <xs:element ref="ev:on-change"/>
+        </xs:sequence>
+    </xs:group>
 </xs:schema>

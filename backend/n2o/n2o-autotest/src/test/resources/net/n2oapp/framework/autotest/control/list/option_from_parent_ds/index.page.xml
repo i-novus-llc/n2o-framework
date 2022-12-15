@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Документы">
+    <datasources>
+        <browser-storage id="ds3" key="test.group">
+            <submit>
+
+            </submit>
+        </browser-storage>
+        <inherited-datasource
+                source-datasource="ds3"
+                id="ds4"
+                source-field-id="docGroup"
+        >
+            <dependencies>
+                <fetch on="ds3"/>
+            </dependencies>
+        </inherited-datasource>
+    </datasources>
+    <regions>
+        <table auto-focus="false" selection="none" auto-select="false" datasource="ds4" name="Группы документов">
+            <columns>
+                <column id="name" label="Группа документов"/>
+            </columns>
+
+        </table>
+        <form datasource="ds3">
+            <fields>
+                <hidden id="docGroup">
+                    <dependencies>
+                        <set-value apply-on-init="true">
+                            return [{"id" : 1, "name" : "Документы, подтверждающие обучение", "del" : "none"}, {"id" :
+                            2, "name" : "Документы, подтверждающие размер заработной платы", "del" : "none"}];
+                        </set-value>
+                    </dependencies>
+                </hidden>
+            </fields>
+        </form>
+        <form mode="two-models">
+            <toolbar place="bottomLeft">
+                <button class="ButtonAddDocuments btn-small" label="Добавить документ"
+                        color="tertiary" icon="ps-icon-plus-circle" disable-on-empty-model="false">
+                    <show-modal page-id="createDoc"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

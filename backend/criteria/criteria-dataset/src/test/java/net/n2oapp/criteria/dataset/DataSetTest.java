@@ -1,18 +1,12 @@
 package net.n2oapp.criteria.dataset;
 
 import org.junit.Test;
-import net.n2oapp.criteria.dataset.DataSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * User: operhod
- * Date: 14.07.14
- * Time: 17:25
- */
 public class DataSetTest {
 
 
@@ -90,6 +84,52 @@ public class DataSetTest {
         assert mainDataSet.get("gender.name").equals("мужской");
 
 
+    }
+
+    @Test
+    public void testArrayMergeStrategy() {
+        DataSet mainDataSet = new DataSet();
+        mainDataSet.put("id", 1);
+        DataSet extendDataSet = new DataSet();
+        extendDataSet.put("name", "Ivan");
+        List<String> list = new ArrayList<>();
+        list.add("first");
+        list.add("second");
+        extendDataSet.put("persons", list);
+
+        //добавляем первый раз со стратегией merge
+        mainDataSet.merge(extendDataSet, ArrayMergeStrategy.merge, true);
+        assert mainDataSet.get("id").equals(1);
+        assert mainDataSet.get("name").equals("Ivan");
+        assert ((List)mainDataSet.get("persons")).size() == 2;
+
+        //добавляем второй раз со стратегией merge, список должен увеличиться
+        mainDataSet.merge(extendDataSet, ArrayMergeStrategy.merge, true);
+        assert ((List)mainDataSet.get("persons")).size() == 4;
+    }
+
+    @Test
+    public void testArrayReplaceStrategy() {
+        DataSet mainDataSet = new DataSet();
+        mainDataSet.put("id", 1);
+        List<String> list = new ArrayList<>();
+        list.add("first");
+        list.add("second");
+        mainDataSet.put("persons", list);
+
+        DataSet extendDataSet = new DataSet();
+        extendDataSet.put("name", "Ivan");
+        List<String> list2 = new ArrayList<>();
+        list2.add("third");
+        list2.add("fourth");
+        extendDataSet.put("persons", list2);
+
+        mainDataSet.merge(extendDataSet, ArrayMergeStrategy.replace, true);
+        assert mainDataSet.get("id").equals(1);
+        assert mainDataSet.get("name").equals("Ivan");
+        assert ((List)mainDataSet.get("persons")).size() == 2;
+        assert ((List)mainDataSet.get("persons")).get(0).equals("third");
+        assert ((List)mainDataSet.get("persons")).get(1).equals("fourth");
     }
 
     @Test
