@@ -370,6 +370,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных, из которого будут браться варианты для выбора
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1257,6 +1264,13 @@
                     <xs:annotation>
                         <xs:documentation>
                             Идентификатор запроса за данными для автоподбора.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных, из которого будут браться варианты для выбора
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

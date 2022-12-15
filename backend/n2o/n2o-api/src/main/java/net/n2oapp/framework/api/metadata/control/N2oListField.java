@@ -23,8 +23,6 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     protected Boolean cache;
     @N2oAttribute
     private Integer size;
-    @N2oAttribute
-    private String placeholder;
     private N2oPreFilter[] preFilters;
     private String queryId;
     @N2oAttribute
@@ -61,6 +59,7 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     private String statusFieldId;
     @N2oAttribute
     private String enabledFieldId;
+    private String datasourceId;
 
     public abstract boolean isSingle();
 

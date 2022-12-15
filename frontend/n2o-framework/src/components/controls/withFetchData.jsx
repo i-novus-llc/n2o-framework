@@ -1,16 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose, withProps } from 'recompose'
 import { connect, ReactReduxContext } from 'react-redux'
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
 import has from 'lodash/has'
 import unionBy from 'lodash/unionBy'
+import isEqual from 'lodash/isEqual'
+import omit from 'lodash/omit'
+import isEmpty from 'lodash/isEmpty'
 
 import cachingStore from '../../utils/cacher'
 import { fetchInputSelectData, FETCH_CONTROL_VALUE } from '../../core/api'
 import { addAlert, removeAllAlerts } from '../../ducks/alerts/store'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { fetchError } from '../../actions/fetch'
+import { WithDataSource } from '../../core/widget/WithDataSource'
 
 /**
  * HOC для работы с данными
@@ -39,6 +44,36 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
             this.addAlertMessage = this.addAlertMessage.bind(this)
             this.setErrorMessage = this.setErrorMessage.bind(this)
             this.setResponseToData = this.setResponseToData.bind(this)
+        }
+
+        componentDidMount() {
+            const { data } = this.state
+            const { datasource } = this.props
+
+            if (datasource) {
+                const { models = {} } = this.props
+                const { datasource: dsModel } = models
+
+                if (isEmpty(data) && !isEmpty(dsModel)) {
+                    this.setState({ data: dsModel })
+                }
+            }
+        }
+
+        componentDidUpdate(prevProps) {
+            const { datasource } = this.props
+
+            if (datasource) {
+                const { models = {} } = this.props
+                const { models: prevModels = {} } = prevProps
+
+                const { datasource: dsModel } = models
+                const { datasource: prevDsModel } = prevModels
+
+                if (!isEqual(dsModel, prevDsModel)) {
+                    this.setState({ data: dsModel })
+                }
+            }
         }
 
         static getDerivedStateFromProps(nextProps) {
@@ -187,8 +222,19 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
          * @private
          */
         async fetchData(extraParams = {}, merge = false) {
-            const { dataProvider, fetchError } = this.props
+            const { dataProvider, fetchError, datasource } = this.props
             const { data } = this.state
+
+            if (datasource) {
+                const { search } = extraParams
+                const { sortFieldId, setFilter, fetchData } = this.props
+
+                setFilter({ [sortFieldId]: search })
+
+                fetchData({ ...omit(extraParams, 'search'), [sortFieldId]: search })
+
+                return
+            }
 
             if (!dataProvider) { return }
             this.setState({ loading: true })
@@ -237,10 +283,15 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         size: PropTypes.number,
         data: PropTypes.array,
         addAlert: PropTypes.func,
+        setFilter: PropTypes.func,
+        fetchData: PropTypes.func,
         removeAlerts: PropTypes.func,
         fetchError: PropTypes.func,
         valueFieldId: PropTypes.string,
+        sortFieldId: PropTypes.string,
         dataProvider: PropTypes.object,
+        models: PropTypes.object,
+        datasource: PropTypes.string,
         setRef: PropTypes.oneOfType([
             PropTypes.func,
             PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
@@ -260,13 +311,20 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         fetchError: error => dispatch(fetchError(FETCH_CONTROL_VALUE, {}, error)),
     })
 
-    return connect(
-        null,
-        mapDispatchToProps,
-        null,
-        {
-            pure: false,
-        },
+    return compose(
+        connect(
+            null,
+            mapDispatchToProps,
+            null,
+            {
+                pure: false,
+            },
+        ),
+        withProps(props => ({
+            fetch: props.caching ? 'lazy' : 'always',
+            widget: false,
+        })),
+        WithDataSource,
     )(WithFetchData)
 }
 
