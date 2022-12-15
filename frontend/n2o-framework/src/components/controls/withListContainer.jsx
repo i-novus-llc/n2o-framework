@@ -138,6 +138,7 @@ function withListContainer(WrappedComponent) {
                 _fetchData={_fetchData}
                 throttleDelay={throttleDelay}
                 searchMinLength={searchMinLength}
+                sortFieldId={sortFieldId}
             />
         )
     }

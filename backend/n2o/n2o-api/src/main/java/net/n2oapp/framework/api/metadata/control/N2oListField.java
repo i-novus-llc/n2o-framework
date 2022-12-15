@@ -21,7 +21,6 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     protected Boolean cache;
     private PopupScaling popupScaling;
     private Integer size;
-    private String placeholder;
     private N2oPreFilter[] preFilters;
     private String queryId;
     private String iconFieldId;
@@ -42,6 +41,7 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     private Map<String, String> defValue;
     private String statusFieldId;
     private String enabledFieldId;
+    private String datasourceId;
 
     public abstract boolean isSingle();
 

@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -30,7 +31,7 @@ public class SelectCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.properties("n2o.api.control.list.cache=true");
-        builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack(), new N2oQueriesPack());
+        builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV3IOPack(), new N2oQueriesPack());
         builder.compilers(new SelectCompiler());
     }
 
@@ -71,5 +72,11 @@ public class SelectCompileTest extends SourceCompileTestBase {
         field = form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();
         assertThat(select.getCaching(), is(true));
+
+        field = form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
+        select = (Select) ((StandardField) field).getControl();
+        assertThat(select.getType(), is(ListType.single));
+        assertThat(select.getDatasource(), is("testSelect_test"));
+        assertThat(select.getData(), nullValue());
     }
 }

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Добавление документа">
+    <datasources>
+        <datasource id="modal"/>
+        <parent-datasource id="ds4"/>
+    </datasources>
+    <regions>
+        <region>
+            <form datasource="modal">
+                <fields>
+                    <input-select id="group" label="Группа документов" datasource="ds4" label-field-id="name"
+                                  type="multi">
+                    </input-select>
+                    <input-select id="group2" label="Поле чтобы выпадашка селекта вмещалась в модалку" datasource="ds4"
+                                  label-field-id="name" type="multi">
+                    </input-select>
+                </fields>
+            </form>
+        </region>
+    </regions>
+    <toolbar place="bottomLeft">
+        <button label="Отменить">
+            <close/>
+        </button>
+        <button label="Сохранить" color="primary" datasource="modal">
+            <close/>
+        </button>
+    </toolbar>
+</page>

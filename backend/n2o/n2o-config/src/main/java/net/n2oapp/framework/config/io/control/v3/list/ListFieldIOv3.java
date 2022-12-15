@@ -37,6 +37,7 @@ public abstract class ListFieldIOv3<T extends N2oListField> extends StandardFiel
         p.childrenByEnum(e, "filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
         p.attribute(e, "status-field-id", m::getStatusFieldId, m::setStatusFieldId);
+        p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
     }
 
     private void option(Element e, Map<String, String> map, IOProcessor p) {
