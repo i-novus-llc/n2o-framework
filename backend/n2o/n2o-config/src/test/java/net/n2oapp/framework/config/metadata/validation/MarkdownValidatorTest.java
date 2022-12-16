@@ -50,4 +50,14 @@ public class MarkdownValidatorTest extends SourceValidationTestBase {
         exception.expectMessage("Компонент с actions \"action2\" ссылается на несуществующее действие");
         validate("net/n2oapp/framework/config/metadata/validation/markdown/testExistenceMarkdownActions.page.xml");
     }
+
+    /**
+     * Проверка существования действия с идентификатором, указанным в actions
+     * когда сам action на странице или в виджете
+     */
+    @Test
+    public void testActionExist() {
+        validate("net/n2oapp/framework/config/metadata/validation/markdown/testActionInPageMarkdownActions.page.xml");
+        validate("net/n2oapp/framework/config/metadata/validation/markdown/testActionInWidgetMarkdownActions.page.xml");
+    }
 }
