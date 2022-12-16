@@ -15,8 +15,6 @@ import {
 } from 'recompose'
 import numeral from 'numeral'
 
-import 'numeral/locales/ru'
-
 import { Block } from '../snippets/Block/Block'
 import { State } from '../../ducks/State'
 import { DataSourceState } from '../../ducks/datasource/DataSource'
