@@ -13,7 +13,7 @@ import java.util.List;
 @N2oComponent
 public class N2oSimplePage extends N2oPage {
 
-    @N2oAttribute
+    @N2oAttribute("Виджет")
     private N2oWidget widget;
 
     @Override

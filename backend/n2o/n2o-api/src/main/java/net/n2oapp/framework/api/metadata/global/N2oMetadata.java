@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 @Setter
 public abstract class N2oMetadata implements SourceMetadata, IdAware, RefIdAware, NameAware {
     private String namespaceUri;
-    @N2oAttribute
+    @N2oAttribute("Идентификатор")
     private String id;
     private String refId;
 
