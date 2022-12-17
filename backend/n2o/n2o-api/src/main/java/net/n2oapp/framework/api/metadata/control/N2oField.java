@@ -53,6 +53,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private String refDatasourceId;
     private String refFieldId;
 
+    @N2oAttribute("Меню с кнопками")
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
 

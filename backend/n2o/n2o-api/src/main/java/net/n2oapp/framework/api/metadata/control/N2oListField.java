@@ -37,8 +37,11 @@ public abstract class N2oListField extends N2oStandardField implements PreFilter
     private Position badgePosition;
     @N2oAttribute("Форма значка")
     private ShapeType badgeShape;
+    @N2oAttribute("Поле, отвечающее за картинку в значке")
     private String badgeImageFieldId;
+    @N2oAttribute("Позиция картинки в значке")
     private Position badgeImagePosition;
+    @N2oAttribute("Форма картинки в значке")
     private ShapeType badgeImageShape;
     @N2oAttribute("Поле, отвечающее за группировку вариантов выбора")
     private String groupFieldId;
