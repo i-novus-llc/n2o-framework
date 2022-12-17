@@ -13,6 +13,6 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 @Setter
 @N2oComponent
 public class N2oFieldsetRow extends net.n2oapp.framework.api.metadata.control.N2oComponent {
-    @N2oAttribute
+    @N2oAttribute("Элементы строки филдсета")
     private SourceComponent[] items;
 }

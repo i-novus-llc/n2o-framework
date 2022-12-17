@@ -65,19 +65,19 @@ public abstract class N2oWidget extends N2oMetadata
     private UploadType upload;
     @Deprecated
     private String dependsOn;
-    @N2oAttribute
+    @N2oAttribute("Иконка")
     private String icon;
     @Deprecated
     private String masterFieldId;
     @Deprecated
     private String detailFieldId;
-    @N2oAttribute
+    @N2oAttribute("Условие видимости")
     private String visible;
     @Deprecated
     private N2oPreFilter[] preFilters;
     private ActionBar[] actions;
     private GenerateType actionGenerate;
-    @N2oAttribute
+    @N2oAttribute("Список меню управляющих кнопок")
     private N2oToolbar[] toolbars;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
