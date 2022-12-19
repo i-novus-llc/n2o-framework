@@ -26,6 +26,14 @@
                 <eq field-id="name" value="{name}" datasource="inh1" model="filter" required="true"/>
             </filters>
         </inherited-datasource>
+        <inherited-datasource id="inh4" source-datasource="ds2" source-model="datasource" source-field-id="name">
+            <submit target-datasource="ds1" >
+                <submit-value>
+                    var result = target
+                    return result
+                </submit-value>
+            </submit>
+        </inherited-datasource>
     </datasources>
 
 </page>

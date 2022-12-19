@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
@@ -49,7 +48,9 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         submit.setModel(p.cast(sourceSubmit.getModel(), ReduxModel.resolve));
         submit.setTargetDs(getClientDatasourceId(p.cast(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
         submit.setTargetModel(p.cast(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));
-        submit.setTargetField(p.cast(sourceSubmit.getTargetFieldId(), source.getSourceFieldId()));
+        String defaultTargetFieldId = submit.getTargetDs().equals(getClientDatasourceId(source.getSourceDatasource(), p)) ?
+                source.getSourceFieldId() : null;
+        submit.setTargetField(p.cast(sourceSubmit.getTargetFieldId(), defaultTargetFieldId));
         submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(source.getSubmit().getSubmitValue()));
         return submit;
     }
