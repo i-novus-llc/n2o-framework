@@ -962,6 +962,73 @@ HTML разметка с плейсхолдерами
 </hidden>
 ```
 
+### &lt;markdown&gt;
+
+Компонент, который позволяет задавать текст согласно markdown разметки, а отображать его в виде html.
+Текст внутри markdown поддерживает:
+- Плейсхолдеры данных, где name - поле формы
+```
+<markdown> Text {name} </markdown>
+```
+- Значение данных также может содержать маркдаун синтаксис
+```
+<markdown>{mymarkdown}</markdown>
+```
+- Жирный, курсив и моноширинный шрифты
+- Ссылки абсолютные и относительные
+- Автоматические url ссылки (https://www.markdownguide.org/extended-syntax/#automatic-url-linking)
+- Ссылки вызывающие экшен (открытие модального окна, дровера и любые другие), где в круглых скобках задается id экшена
+```
+<markdown actions="openNewPage">
+^[link](openNewPage)
+</markdown>
+```
+- Ненумерованные списки
+- Переход на новую строку
+- Переход на новую строку через символ "\"
+```
+Первая строка \ Вторая строка
+```
+- Внутри текста можно использовать тег n2o-button
+```
+<n2o-button id="openNewPage" />
+```
+
+**Атрибуты**
+
+|Наименование|Тип       |Описание           |Значение по умолчанию|
+|------------|----------|-------------------|---------------------|
+|actions     |Строка    |Список идентификаторов действий через запятую, которые используются внутри markdown. Действия должны быть описаны внутри формы, в разделе actions.||
+
+
+**Пример**
+
+```xml
+<markdown>
+    <![CDATA[
+    Text attributes _italic_, **bold**, `monospace`.
+
+    Paragraphs are separated
+    by a blank line.
+
+    Two spaces at the end of a line
+    produce a line break.
+
+    Bullet lists nested within numbered list:
+
+      1. fruits
+         * apple
+         * banana
+      2. vegetables
+         - carrot
+         - broccoli
+
+    A [link](http://example.com).
+
+    ]]>
+</markdown>
+```
+
 
 ## Списковые компоненты {#List_components}
 

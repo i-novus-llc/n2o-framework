@@ -57,11 +57,9 @@ public class ActionCompileStaticProcessor {
         MetaActions metaActions = p.getScope(MetaActions.class);
         if (metaActions == null)
             metaActions = new MetaActions();
-        if (source.getActions() != null) {
-            for (ActionBar actionBar : source.getActions()) {
+        if (source.getActions() != null)
+            for (ActionBar actionBar : source.getActions())
                 metaActions.addAction(actionBar.getId(), actionBar);
-            }
-        }
         return metaActions;
     }
 
@@ -94,14 +92,41 @@ public class ActionCompileStaticProcessor {
         if (source.getActions() != null) {
             for (ActionBar a : source.getActions()) {
                 a.setModel(p.cast(a.getModel(), ReduxModel.resolve));
-                if (isNotEmpty(a.getN2oActions())) {
-                    initMultiActionIds(a.getN2oActions(), "act_multi", p, pageIndexScope);
-                    Arrays.stream(a.getN2oActions())
-                            .forEach(n2oAction ->
-                                    p.compile(n2oAction, context, new ComponentScope(a), pageIndexScope, scopes));
-                }
+                initMultiActionIds(a.getN2oActions(), "act_multi", p, pageIndexScope);
+                // TODO - don't compile, only init id if necessary
+                compileAction(a.getN2oActions(), null, context, p, new ComponentScope(a), pageIndexScope, scopes);
             }
         }
+    }
+
+    /**
+     * Компиляция действия компонента.
+     * Если на входе больше одной модели действия (массив размера 2 и более),
+     * то клиентская модель будет мультидействием или действием по условию (if-else)
+     *
+     * @param n2oActions Список исходных моделей действий
+     * @param dsObject   Скомпилированный объект из источника данных, если равен null, то будет вычислен из object-id действия
+     * @param context    Контекст сборки
+     * @param p          Процессор сборки метаданных
+     * @param scopes     Метаданные, влияющие на сборку. Должны быть разных классов
+     * @return Скомпилированная клиентская модель действия
+     */
+    public static Action compileAction(N2oAction[] n2oActions, CompiledObject dsObject,
+                                       CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {
+        if (isNotEmpty(n2oActions)) {
+            List<Action> actions = Arrays.stream(n2oActions)
+                    .filter(ActionCompileStaticProcessor::isNotFailConditions)
+                    .map(n2oAction -> (Action) p.compile(n2oAction, context,
+                            initActionObject(n2oAction, dsObject, p),
+                            initFailConditionBranchesScope(n2oAction, n2oActions), scopes))
+                    .collect(Collectors.toList());
+
+            if (actions.size() > 1) {
+                return new MultiAction(actions, p);
+            }
+            return actions.get(0);
+        }
+        return null;
     }
 
     /**
@@ -163,20 +188,8 @@ public class ActionCompileStaticProcessor {
         if (n2oActions == null)
             return null;
 
-        List<Action> actions = Arrays.stream(n2oActions)
-                .filter(ActionCompileStaticProcessor::isNotFailConditions)
-                .map(n2oAction -> (Action) p.compile(n2oAction, context,
-                        initActionObject(n2oAction, dsObject, p),
-                        initFailConditionBranchesScope(n2oAction, n2oActions),
-                        new ComponentScope(source, p.getScope(ComponentScope.class)), scopes))
-                .collect(Collectors.toList());
-
-        if (actions.size() == 0)
-            return null;
-        if (actions.size() > 1) {
-            return new MultiAction(actions, p);
-        }
-        return actions.get(0);
+        return compileAction(source.getActions(), dsObject, context, p,
+                new ComponentScope(source, p.getScope(ComponentScope.class)), scopes);
     }
 
     private static ConditionBranchesScope initFailConditionBranchesScope(N2oAction n2oAction, N2oAction[] n2oActions) {

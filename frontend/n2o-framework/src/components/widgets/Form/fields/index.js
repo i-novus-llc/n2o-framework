@@ -6,6 +6,7 @@ import { AlertField } from './AlertField/AlertField'
 import ButtonField from './ButtonField/ButtonField'
 import ImageField from './ImageField/ImageField'
 import { HtmlField as Html } from './HtmlField/HtmlField'
+import { MarkdownField } from './MarkdownField/MarkdownField'
 
 export default {
     StandardField,
@@ -16,4 +17,5 @@ export default {
     ButtonField,
     ImageField,
     Html,
+    MarkdownField,
 }
