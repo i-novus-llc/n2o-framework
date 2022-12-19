@@ -174,7 +174,7 @@ public class ActionCompileStaticProcessor {
         if (actions.size() == 0)
             return null;
         if (actions.size() > 1) {
-           return new MultiAction(actions, p);
+            return new MultiAction(actions, p);
         }
         return actions.get(0);
     }
@@ -183,7 +183,7 @@ public class ActionCompileStaticProcessor {
         if (!(n2oAction instanceof N2oIfBranchAction))
             return null;
         List<N2oConditionBranch> failBranches = new ArrayList<>();
-        for (N2oAction act: n2oActions) {
+        for (N2oAction act : n2oActions) {
             if (act instanceof N2oIfBranchAction && !act.equals(n2oAction))
                 break;
             if (act instanceof N2oElseIfBranchAction || act instanceof N2oElseBranchAction)
