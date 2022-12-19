@@ -55,6 +55,7 @@ public class N2oControlsV3IOPack implements MetadataPack<XmlIOBuilder<?>> {
                 new IntervalFieldIOv3(),
                 new ImageFieldIOv3(),
                 new NumberPickerIOv3(),
-                new TimePickerIOv3());
+                new TimePickerIOv3(),
+                new MarkdownFieldIOv3());
     }
 }

@@ -45,7 +45,8 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new IntervalFieldCompiler<>(),
                 new ImageFieldCompiler(),
                 new NumberPickerCompiler(),
-                new TimePickerCompiler()
+                new TimePickerCompiler(),
+                new MarkdownCompiler()
         );
         b.binders(new ListControlBinder());
     }
