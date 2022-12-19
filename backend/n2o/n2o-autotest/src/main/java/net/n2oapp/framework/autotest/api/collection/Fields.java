@@ -14,8 +14,6 @@ public interface Fields extends ComponentsCollection {
 
     StandardField field(Condition findBy);
 
-    Markdown markdown();
-
     <T extends Snippet> T field(Class<T> componentClass);
 
     <T extends Field> T field(String label, Class<T> componentClass);

@@ -21,11 +21,6 @@ public class N2oFields extends N2oComponentsCollection implements Fields {
     }
 
     @Override
-    public Markdown markdown() {
-        return component(elements().findBy(Condition.cssClass("n2o-markdown-field")), Markdown.class);
-    }
-
-    @Override
     public <T extends Snippet> T field(Class<T> componentClass) {
         return field(0, componentClass);
     }

@@ -48,10 +48,10 @@ public class MarkdownAT extends AutoTestBase {
         FormWidget formWidget = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         formWidget.shouldExists();
 
-        Markdown markdown = formWidget.fields().markdown();
+        Markdown markdown = formWidget.fields().field(0, Markdown.class);
         markdown.shouldExists();
 
-        StandardButton markdownBtn = markdown.markdownBtn("n2o-button");
+        StandardButton markdownBtn = markdown.button("n2o-button");
         markdownBtn.shouldExists();
         markdownBtn.shouldBeVisible();
         markdownBtn.shouldBeEnabled();
