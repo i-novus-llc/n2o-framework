@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <form>
+            <actions>
+                <action id="action1">
+                    <a href="i-novus.ru"/>
+                </action>
+            </actions>
+            <fields>
+                <markdown actions="action1">
+                    markdown text
+                </markdown>
+            </fields>
+        </form>
+    </regions>
+</page>
