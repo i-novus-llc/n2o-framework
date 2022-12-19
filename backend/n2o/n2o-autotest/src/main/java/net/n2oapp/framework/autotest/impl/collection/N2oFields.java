@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.collection;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.Markdown;
 import net.n2oapp.framework.autotest.api.component.field.Field;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.snippet.Snippet;
@@ -17,6 +18,11 @@ public class N2oFields extends N2oComponentsCollection implements Fields {
     @Override
     public StandardField field(Condition findBy) {
         return field(findBy, StandardField.class);
+    }
+
+    @Override
+    public Markdown markdown() {
+        return component(elements().findBy(Condition.cssClass("n2o-markdown-field")), Markdown.class);
     }
 
     @Override
