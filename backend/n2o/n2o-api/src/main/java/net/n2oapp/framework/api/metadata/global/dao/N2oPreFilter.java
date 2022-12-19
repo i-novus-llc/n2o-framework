@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 
 import java.util.Objects;
 
-import static net.n2oapp.criteria.filters.FilterType.Arity.n_ary;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 
 
@@ -129,8 +128,7 @@ public class N2oPreFilter implements Source {
     }
 
     public boolean isArray() {
-        return (getValues() != null && getValues().length != 0)
-                || (type.arity.equals(n_ary) && valueAttr != null);
+        return getValues() != null && getValues().length != 0;
     }
 
     @Override
@@ -139,12 +137,7 @@ public class N2oPreFilter implements Source {
     }
 
     public String[] getValues() {
-        if (valueList != null && valueList.length > 0)
-            return valueList;
-        else if (type != null && type.arity.equals(n_ary) && valueAttr != null)
-            return new String[]{valueAttr};
-        else
-            return null;
+        return (valueList != null && valueList.length > 0) ? valueList : null;
     }
 
     public String getValue() {
