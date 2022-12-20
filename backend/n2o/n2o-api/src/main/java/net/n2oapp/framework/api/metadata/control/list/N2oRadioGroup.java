@@ -12,8 +12,8 @@ import net.n2oapp.framework.api.metadata.N2oComponent;
 @Setter
 @N2oComponent
 public class N2oRadioGroup extends N2oSingleListFieldAbstract implements Inlineable {
-    @N2oAttribute
+    @N2oAttribute("Отображение элементов на одной строке")
     private Boolean inline;
-    @N2oAttribute
+    @N2oAttribute("Тип кнопок")
     private RadioGroupType type;
 }

@@ -20,7 +20,7 @@ public abstract class N2oBasePage extends N2oPage implements ActionBarAware, Too
     private String datasourceId;
     private ActionBar[] actions;
     private GenerateType actionGenerate;
-    @N2oAttribute
+    @N2oAttribute("Список меню с кнопками")
     private N2oToolbar[] toolbars;
     private N2oAbstractDatasource[] datasources;
     private N2oAbstractEvent[] events;

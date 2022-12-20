@@ -13,10 +13,10 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 @Setter
 @N2oComponent
 public class N2oFieldsetColumn extends net.n2oapp.framework.api.metadata.control.N2oComponent {
-    @N2oAttribute
+    @N2oAttribute("Ширина столбца")
     private Integer size;
-    @N2oAttribute
+    @N2oAttribute("Условие видимости")
     private String visible;
-    @N2oAttribute
+    @N2oAttribute("Элементы столбца филдсета")
     private SourceComponent[] items;
 }

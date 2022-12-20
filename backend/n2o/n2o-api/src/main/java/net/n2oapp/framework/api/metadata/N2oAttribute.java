@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface N2oAttribute {
     /**
-     * @return Описание атрибута
+     * @return Значение, определяющее имя атрибута
      */
-    String label() default "";
+    String value() default "";
 }

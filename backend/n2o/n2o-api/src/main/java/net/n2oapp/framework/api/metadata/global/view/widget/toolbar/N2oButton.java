@@ -25,29 +25,21 @@ import java.util.List;
 public class N2oButton extends N2oAbstractButton implements GroupItem, DatasourceIdAware, WidgetIdAware,
         ModelAware, ActionsAware {
     private String actionId;
-    @N2oAttribute
+    @N2oAttribute("Круглая форма")
     private Boolean rounded;
     private Boolean validate;
     private String[] validateDatasourceIds;
     private N2oAction[] actions;
 
-    @N2oAttribute
     private String confirm;
-    @N2oAttribute
     private ConfirmType confirmType;
-    @N2oAttribute
     private String confirmText;
-    @N2oAttribute
     private String confirmTitle;
-    @N2oAttribute
     private String confirmOkLabel;
-    @N2oAttribute
     private String confirmOkColor;
-    @N2oAttribute
     private String confirmCancelLabel;
-    @N2oAttribute
     private String confirmCancelColor;
-    @N2oAttribute
+    @N2oAttribute("Недоступность кнопки при пустой модели")
     private DisableOnEmptyModelType disableOnEmptyModel;
 
     private Dependency[] dependencies;

@@ -17,47 +17,47 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oListField extends N2oStandardField implements PreFiltersAware, BadgeAware {
-    @N2oAttribute
+    @N2oAttribute("Возможность поиска по значению")
     protected Boolean search;
     protected Map<String, String>[] options;
     protected Boolean cache;
-    @N2oAttribute
+    @N2oAttribute("Размер запрашиваемых данных")
     private Integer size;
     private N2oPreFilter[] preFilters;
     private String queryId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за иконку варианта выбора")
     private String iconFieldId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за картинку варианта выбора")
     private String imageFieldId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за текст значка варианта выбора")
     private String badgeFieldId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за цвет значка варианта выбора")
     private String badgeColorFieldId;
-    @N2oAttribute
+    @N2oAttribute("Позиция значка")
     private Position badgePosition;
-    @N2oAttribute
+    @N2oAttribute("Форма значка")
     private ShapeType badgeShape;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за картинку в значке")
     private String badgeImageFieldId;
-    @N2oAttribute
+    @N2oAttribute("Позиция картинки в значке")
     private Position badgeImagePosition;
-    @N2oAttribute
+    @N2oAttribute("Форма картинки в значке")
     private ShapeType badgeImageShape;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за группировку вариантов выбора")
     private String groupFieldId;
     private String searchFilterId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за отображение имени варианта выбора")
     private String labelFieldId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за значение варианта выбора")
     private String valueFieldId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за сортировку вариантов выбора")
     private String sortFieldId;
-    @N2oAttribute
+    @N2oAttribute("Формат выводимого текста")
     private String format;
     private Map<String, String> defValue;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за статус варианта выбора")
     private String statusFieldId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за доступность варианта выбора")
     private String enabledFieldId;
     private String datasourceId;
 

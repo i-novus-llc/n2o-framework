@@ -46,6 +46,7 @@
     <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
     <xs:element name="number-picker" type="numberPickerFieldDefinition"/>
     <xs:element name="time-picker" type="controlTimePickerDefinition"/>
+    <xs:element name="markdown" type="controlMarkdownDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -87,6 +88,7 @@
             <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
             <xs:element name="number-picker" type="numberPickerFieldDefinition" minOccurs="0"/>
             <xs:element name="time-picker" type="controlTimePickerDefinition" minOccurs="0"/>
+            <xs:element name="markdown" type="controlMarkdownDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемое через библиотеку поле.</xs:documentation>
@@ -300,7 +302,7 @@
                 </xs:attribute>
                 <xs:attribute name="badge-field-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за значение в ячейке с текстом</xs:documentation>
+                        <xs:documentation>Поле выборки, отвечающее за значок вариантов выбора</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="badge-color-field-id" type="xs:string">
@@ -1405,7 +1407,7 @@
                         <xs:documentation>Поле выборки, содержащее ссылку элемента.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target" type="act:aType" default="newWindow">
+                <xs:attribute name="target" type="act:targetType" default="newWindow">
                     <xs:annotation>
                         <xs:documentation>Способ открытия ссылок.</xs:documentation>
                     </xs:annotation>
@@ -1515,7 +1517,7 @@
                 </xs:attribute>
                 <xs:attribute name="utc" type="xs:boolean" default="false" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Всемирное координированное время.</xs:documentation>
+                        <xs:documentation>Время в UTC</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1609,7 +1611,7 @@
                 </xs:attribute>
                 <xs:attribute name="cleanable" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Опция очистки компонента.</xs:documentation>
+                        <xs:documentation>Возможность очистки компонента.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="select-format" type="xs:string">
@@ -1894,10 +1896,10 @@
     <xs:complexType name="controlCheckboxDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="unchecked" type="uncheckedValue">
+                <xs:attribute name="unchecked" type="uncheckedValue" default="null">
                     <xs:annotation>
                         <xs:documentation>
-                            Значение, которое будет отправляться если чекбокс не отмечен. По умолчанию null.
+                            Значение при не выбранном состоянии
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1910,6 +1912,21 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="length" type="xs:integer" use="optional"/>
                 <xs:attribute name="eye" type="xs:boolean" use="optional" default="true"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlMarkdownDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:attribute name="actions" type="xs:integer" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Список идентификаторов действий через запятую, которые используются внутри markdown.
+                            Действия должны быть описаны внутри формы, в разделе actions.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

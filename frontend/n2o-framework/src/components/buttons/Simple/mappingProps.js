@@ -20,5 +20,6 @@ export default function mappingProps(props) {
         badge: props.badge,
         badgeColor: props.badgeColor,
         tooltipTriggerRef: props.tooltipTriggerRef,
+        hintPosition: props.placement,
     }
 }
