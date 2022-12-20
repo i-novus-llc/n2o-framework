@@ -4,9 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.action.SubmitActionType;
+import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
@@ -19,6 +20,8 @@ import java.util.*;
 @Getter
 @Setter
 public class PageContext extends BaseCompileContext<Page, N2oPage> {
+
+    private Map<String, ActionBar> actions;
 
     private List<Breadcrumb> breadcrumbs;
 

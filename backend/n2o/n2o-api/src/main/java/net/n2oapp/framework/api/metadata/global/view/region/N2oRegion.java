@@ -18,13 +18,13 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oRegion extends N2oComponent implements SourceMetadata, RegionItem {
-    @N2oAttribute
+    @N2oAttribute("Идентификатор")
     private String id;
-    @N2oAttribute
+    @N2oAttribute("Ширина")
     private String width;
     private String activeParam;
     private Boolean routable;
-    @N2oAttribute
+    @N2oAttribute("Элементы региона")
     private SourceComponent[] content;
 
     @Override

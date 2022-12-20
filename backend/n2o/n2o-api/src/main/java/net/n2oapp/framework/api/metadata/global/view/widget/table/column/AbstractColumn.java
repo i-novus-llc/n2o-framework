@@ -20,39 +20,39 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class AbstractColumn implements IdAware, Source, ExtensionAttributesAware {
-    @N2oAttribute
+    @N2oAttribute("Идентификатор")
     private String id;
     private String src;
-    @N2oAttribute
+    @N2oAttribute("Css класс")
     private String cssClass;
-    @N2oAttribute
+    @N2oAttribute("Стиль")
     private String style;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за значение ячейки")
     private String textFieldId;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за тултип ячейки")
     private String tooltipFieldId;
-    @N2oAttribute
+    @N2oAttribute("Ширина")
     private String width;
-    @N2oAttribute
+    @N2oAttribute("Имя")
     private String labelName;
-    @N2oAttribute
+    @N2oAttribute("Иконка")
     private String labelIcon;
-    @N2oAttribute
+    @N2oAttribute("Условие видимости")
     private String visible;
-    @N2oAttribute
+    @N2oAttribute("Возможность изменения ширины")
     private Boolean resizable;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за сортировку столбца")
     private String sortingFieldId;
-    @N2oAttribute
+    @N2oAttribute("Направление сортировки")
     private SortingDirection sortingDirection;
-    @N2oAttribute
+    @N2oAttribute("Прилипание столбца к краю")
     private ColumnFixedPosition fixed;
     private ColumnVisibility[] columnVisibilities;
-    @N2oAttribute
+    @N2oAttribute("Скрытие ячейки при наведении на строку")
     private Boolean hideOnBlur;
-    @N2oAttribute
+    @N2oAttribute("Выравнивание заголовка")
     private Alignment alignment;
-    @N2oAttribute
+    @N2oAttribute("Выравнивание содержимого в ячейках столбца")
     private Alignment contentAlignment;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;

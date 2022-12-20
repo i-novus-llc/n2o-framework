@@ -13,16 +13,16 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 @Setter
 @N2oComponent
 public class N2oTable extends N2oAbstractTable {
-    @N2oAttribute
+    @N2oAttribute("Позиция фильтров")
     private FilterPosition filterPosition;
-    @N2oAttribute
+    @N2oAttribute("Список фильтров")
     private SourceComponent[] filters;
     private String filtersDatasourceId;
     private N2oStandardDatasource filtersDatasource;
     @Deprecated
     private String filtersDefaultValuesQueryId;
     private Boolean searchOnChange;
-    @N2oAttribute
+    @N2oAttribute("Тип отображения дочерних строк таблицы")
     private ChildrenToggle children;
 
     @Deprecated

@@ -16,14 +16,14 @@ import java.util.List;
 @Getter
 @Setter
 public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceIdAware {
-    @N2oAttribute
+    @N2oAttribute("Css класс")
     private String cssClass;
-    @N2oAttribute
+    @N2oAttribute("Стиль")
     private String style;
-    @N2oAttribute
+    @N2oAttribute("Место расположения меню")
     private String place;
     private String[] generate;
-    @N2oAttribute
+    @N2oAttribute("Элементы меню")
     private ToolbarItem[] items;
     @Deprecated
     private String targetWidgetId;

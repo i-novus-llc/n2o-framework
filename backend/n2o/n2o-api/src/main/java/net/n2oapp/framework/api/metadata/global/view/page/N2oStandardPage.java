@@ -19,7 +19,7 @@ import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.co
 @Setter
 @N2oComponent
 public class N2oStandardPage extends N2oBasePage {
-    @N2oAttribute
+    @N2oAttribute("Элементы страницы")
     private SourceComponent[] items;
 
     @Override

@@ -60,7 +60,7 @@
         </xs:attribute>
         <xs:attribute name="show-title" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Отображать заголовок страницы?</xs:documentation>
+                <xs:documentation>Отображение заголовка страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">

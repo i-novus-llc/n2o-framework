@@ -12,8 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRow;
 @Getter
 @Setter
 public abstract class N2oAbstractListWidget extends N2oWidget {
-    @N2oAttribute
+    @N2oAttribute("Настройки строк таблицы")
     private N2oRow rows;
-    @N2oAttribute
     private N2oPagination pagination;
 }
