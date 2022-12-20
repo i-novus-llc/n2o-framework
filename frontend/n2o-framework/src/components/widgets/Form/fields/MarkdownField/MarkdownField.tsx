@@ -55,7 +55,7 @@ export function MarkdownFieldBody(props: IMarkdownField): ReactElement | null {
             components={components}
             rehypePlugins={[rehypeRaw]}
             remarkPlugins={[remarkGfm]}
-            className={classNames('n2o-markdown-field', className)}
+            className={classNames('n2o-markdown-field n2o-snippet', className)}
         />
     )
 }
