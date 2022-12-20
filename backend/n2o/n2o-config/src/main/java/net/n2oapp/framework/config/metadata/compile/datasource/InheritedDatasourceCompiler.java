@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
@@ -36,7 +35,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         compileDatasource(source, compiled, context, p);
         compiled.setProvider(initProvider(source, p));
         compiled.setSubmit(initSubmit(source, p));
-        compiled.getProvider().setFilters(initFilters(source, compiled, p));
+        compiled.getProvider().setFilters(initFilters(source, p));
         return compiled;
     }
 
@@ -49,7 +48,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         submit.setModel(p.cast(sourceSubmit.getModel(), ReduxModel.resolve));
         submit.setTargetDs(getClientDatasourceId(p.cast(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
         submit.setTargetModel(p.cast(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));
-        submit.setTargetField(p.cast(sourceSubmit.getTargetFieldId(), source.getSourceFieldId()));
+        submit.setTargetField(sourceSubmit.getTargetDatasource() != null ? sourceSubmit.getTargetFieldId() : source.getSourceFieldId());
         submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(source.getSubmit().getSubmitValue()));
         return submit;
     }
@@ -63,9 +62,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         return provider;
     }
 
-    private List<InheritedDatasource.Filter> initFilters(N2oInheritedDatasource source,
-                                                         InheritedDatasource compiled,
-                                                         CompileProcessor p) {
+    private List<InheritedDatasource.Filter> initFilters(N2oInheritedDatasource source, CompileProcessor p) {
         if (source.getFilters() == null) return null;
         List<InheritedDatasource.Filter> filters = new ArrayList<>();
         for (N2oPreFilter sourceFilter : source.getFilters()) {
