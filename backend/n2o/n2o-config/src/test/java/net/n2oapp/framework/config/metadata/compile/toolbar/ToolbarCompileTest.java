@@ -104,7 +104,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b3.getId(), is("testId3"));
         assertThat(f.getToolbar().getButton("testId3"), notNullValue());
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
-        assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
+        assertThat(b3.getConfirm().getMode(), is(ConfirmType.POPOVER));
         assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
         assertThat(b3.getSrc(), is("StandardButton"));
@@ -132,7 +132,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         PerformButton item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
-        assertThat(item.getConfirm().getMode(), is(ConfirmType.modal));
+        assertThat(item.getConfirm().getMode(), is(ConfirmType.MODAL));
         assertThat(item.getConfirm().getModelLink(), is("models.resolve['testToolbar_main']"));
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }

@@ -53,7 +53,7 @@ public class ImageCellAT extends AutoTestBase {
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.imageShouldBe(getBaseUrl() + "/favicon.ico");
         cell.widthShouldBe(15);
-        cell.shapeShouldBe(ShapeType.circle);
+        cell.shapeShouldBe(ShapeType.CIRCLE);
     }
 
     @Test

@@ -32,19 +32,19 @@ public class InputSelectCompiler extends ListControlCompiler<InputSelect, N2oInp
                 p.resolve(property("n2o.api.control.input_select.search_min_length"), Integer.class)));
         inputSelect.setMaxTagTextLength(p.cast(source.getMaxTagTextLength(),
                 p.resolve(property("n2o.api.control.input_select.max_tag_text_length"), Integer.class)));
-        ListType type = p.cast(source.getType(), ListType.single);
+        ListType type = p.cast(source.getType(), ListType.SINGLE);
         switch (type) {
-            case checkboxes:
+            case CHECKBOXES:
                 inputSelect.setClosePopupOnSelect(false);
                 inputSelect.setHasCheckboxes(true);
                 inputSelect.setMultiSelect(true);
                 break;
-            case multi:
+            case MULTI:
                 inputSelect.setClosePopupOnSelect(false);
                 inputSelect.setHasCheckboxes(false);
                 inputSelect.setMultiSelect(true);
                 break;
-            case single:
+            case SINGLE:
                 inputSelect.setHasCheckboxes(false);
                 inputSelect.setMultiSelect(false);
                 break;

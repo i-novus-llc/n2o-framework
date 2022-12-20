@@ -8,6 +8,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oTextEditor extends N2oText {
+public class N2oTextEditor extends N2oPlainText {
     private String toolbarUrl;
 }

@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки компонента markdown
  */
-
 public class MarkdownAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {

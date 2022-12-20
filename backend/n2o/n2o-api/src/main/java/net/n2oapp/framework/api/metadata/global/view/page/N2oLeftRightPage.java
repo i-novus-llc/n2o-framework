@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.collectWidgets;
 

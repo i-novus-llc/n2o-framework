@@ -44,7 +44,7 @@ public class SelectCompileTest extends SourceCompileTestBase {
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         Select select = (Select) ((StandardField) field).getControl();
         assertThat(select.getSrc(), is("N2OSelect"));
-        assertThat(select.getType(), is(ListType.checkboxes));
+        assertThat(select.getType(), is(ListType.CHECKBOXES));
         assertThat(select.getClosePopupOnSelect(), is(false));
         assertThat(select.getCleanable(), is(false));
         assertThat(select.getSelectFormatOne(), is("{size} объект"));
@@ -55,12 +55,12 @@ public class SelectCompileTest extends SourceCompileTestBase {
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();
-        assertThat(select.getType(), is(ListType.checkboxes));
+        assertThat(select.getType(), is(ListType.CHECKBOXES));
         assertThat(select.getSelectFormat(), is("Логичных примеров {size} шт"));
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();
-        assertThat(select.getType(), is(ListType.single));
+        assertThat(select.getType(), is(ListType.SINGLE));
         assertThat(select.getClosePopupOnSelect(), is(true));
         assertThat(select.getCleanable(), is(true));
         assertThat(select.getData().size(), is(2));
@@ -75,7 +75,7 @@ public class SelectCompileTest extends SourceCompileTestBase {
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();
-        assertThat(select.getType(), is(ListType.single));
+        assertThat(select.getType(), is(ListType.SINGLE));
         assertThat(select.getDatasource(), is("testSelect_test"));
         assertThat(select.getData(), nullValue());
     }

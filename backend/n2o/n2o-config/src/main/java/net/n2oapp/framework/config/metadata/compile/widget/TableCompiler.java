@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggle;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
@@ -100,12 +102,12 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         }
         table.setPaging(compilePaging(table, source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
         table.setChildren(p.cast(source.getChildren(),
-                p.resolve(property("n2o.api.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
+                p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class))
         );
         component.setAutoCheckboxOnSelect(p.cast(source.getCheckOnSelect(), p.resolve(property("n2o.api.widget.table.check_on_select"), Boolean.class)));
         component.setAutoSelect(p.cast(source.getAutoSelect(), p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
         if (Boolean.TRUE.equals(source.getCheckboxes()))
-            component.setRowSelection(RowSelectionEnum.checkbox);
+            component.setRowSelection(RowSelectionEnum.CHECKBOX);
 
         return table;
     }
@@ -138,16 +140,16 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
 
             RowSelectionEnum rowSelection = p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
             switch (rowSelection) {
-                case none:
+                case NONE:
                     component.setHasSelect(false);
                     component.setHasFocus(false);
                     break;
-                case active:
+                case ACTIVE:
                     component.setHasSelect(true);
                     component.setHasFocus(true);
                     break;
-                case radio:
-                case checkbox:
+                case RADIO:
+                case CHECKBOX:
                     component.setRowSelection(rowSelection);
                     break;
             }
@@ -177,7 +179,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 .map(String::trim)
                 .collect(Collectors.toSet())
         ));
-        filter.setFilterPlace(p.cast(source.getFilterPosition(), N2oTable.FilterPosition.top));
+        filter.setFilterPlace(p.cast(source.getFilterPosition(), FilterPosition.TOP));
         boolean hasSearchButtons = fieldSets.stream()
                 .flatMap(fs -> fs.getRows() != null ? fs.getRows().stream() : Stream.empty())
                 .flatMap(r -> r.getCols() != null ? r.getCols().stream() : Stream.empty())

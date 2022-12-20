@@ -1,18 +1,15 @@
-package net.n2oapp.framework.api.metadata.meta.badge;
+package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
-/**
- * Позиция left/right
- */
-public enum Position implements IdAware {
-    LEFT("left"),
-    RIGHT("right");
+public enum FilterPosition implements IdAware {
+    TOP("top"),
+    LEFT("left");
 
     private final String value;
 
-    Position(String value) {
+    FilterPosition(String value) {
         this.value = value;
     }
 

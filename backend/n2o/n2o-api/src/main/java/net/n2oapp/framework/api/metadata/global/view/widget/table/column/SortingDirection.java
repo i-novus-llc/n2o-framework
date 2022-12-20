@@ -1,18 +1,18 @@
-package net.n2oapp.framework.api.metadata.meta.badge;
+package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
- * Позиция left/right
+ * Направление сортировки по умолчанию
  */
-public enum Position implements IdAware {
-    LEFT("left"),
-    RIGHT("right");
+public enum SortingDirection implements IdAware {
+    ASC("asc"),
+    DESC("desc");
 
     private final String value;
 
-    Position(String value) {
+    SortingDirection(String value) {
         this.value = value;
     }
 

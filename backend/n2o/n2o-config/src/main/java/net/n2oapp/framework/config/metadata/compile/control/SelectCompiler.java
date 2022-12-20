@@ -31,8 +31,8 @@ public class SelectCompiler extends ListControlCompiler<Select, N2oSelect> {
     @Override
     public StandardField<Select> compile(N2oSelect source, CompileContext<?, ?> context, CompileProcessor p) {
         Select control = new Select();
-        control.setType(p.cast(source.getType(), ListType.single));
-        control.setClosePopupOnSelect(!ListType.checkboxes.equals(control.getType()));
+        control.setType(p.cast(source.getType(), ListType.SINGLE));
+        control.setClosePopupOnSelect(!ListType.CHECKBOXES.equals(control.getType()));
         control.setCleanable(p.cast(source.getCleanable(), p.resolve(property("n2o.api.control.select.cleanable"), Boolean.class)));
         control.setSelectFormat(source.getSelectFormat());
         control.setSelectFormatOne(source.getSelectFormatOne());

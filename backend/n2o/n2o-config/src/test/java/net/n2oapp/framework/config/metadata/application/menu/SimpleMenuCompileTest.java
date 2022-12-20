@@ -57,7 +57,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         menuItem = menu.getItems().get(1);
         assertThat(menuItem.getTitle(), nullValue());
         assertThat(menuItem.getImageSrc(), is("/static/users/ivan90.png"));
-        assertThat(menuItem.getImageShape(), is(ShapeType.square));
+        assertThat(menuItem.getImageShape(), is(ShapeType.SQUARE));
         assertThat(menuItem.getHref(), is("/logout"));
     }
 
@@ -72,7 +72,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(dropdownMenu.getType(), is("dropdown"));
         assertThat(dropdownMenu.getTitle(), is("Виктория"));
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
-        assertThat(dropdownMenu.getImageShape(), is(ShapeType.circle));
+        assertThat(dropdownMenu.getImageShape(), is(ShapeType.CIRCLE));
         assertThat(dropdownMenu.getSubItems().size(), is(2));
 
         // dropdown 1 -> dropdown

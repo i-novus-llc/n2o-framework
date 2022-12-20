@@ -47,7 +47,7 @@ public class OutputTextCompileTest extends SourceCompileTestBase {
         assertThat(outputText.getSrc(), is("OutputText"));
         assertThat(outputText.getIcon(), is("icon"));
         assertThat(outputText.getType(), is(IconType.iconAndText));
-        assertThat(outputText.getPosition(), is(Position.right));
+        assertThat(outputText.getPosition(), is(Position.RIGHT));
         assertThat(outputText.getFormat(), is("number 0,0.00"));
         assertThat(outputText.getEllipsis(), is(false));
         assertThat(outputText.getExpandable(), is(false));
@@ -56,7 +56,7 @@ public class OutputTextCompileTest extends SourceCompileTestBase {
                 .get(1).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputText.getIcon(), nullValue());
         assertThat(outputText.getType(), nullValue());
-        assertThat(outputText.getPosition(), is(Position.left));
+        assertThat(outputText.getPosition(), is(Position.LEFT));
         assertThat(outputText.getFormat(), nullValue());
         assertThat(outputText.getEllipsis(), is(false));
         assertThat(outputText.getExpandable(), is(false));
