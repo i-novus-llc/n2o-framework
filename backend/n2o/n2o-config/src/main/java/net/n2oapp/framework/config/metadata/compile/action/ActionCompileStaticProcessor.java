@@ -57,11 +57,9 @@ public class ActionCompileStaticProcessor {
         MetaActions metaActions = p.getScope(MetaActions.class);
         if (metaActions == null)
             metaActions = new MetaActions();
-        if (source.getActions() != null) {
-            for (ActionBar actionBar : source.getActions()) {
+        if (source.getActions() != null)
+            for (ActionBar actionBar : source.getActions())
                 metaActions.addAction(actionBar.getId(), actionBar);
-            }
-        }
         return metaActions;
     }
 
@@ -198,7 +196,7 @@ public class ActionCompileStaticProcessor {
         if (!(n2oAction instanceof N2oIfBranchAction))
             return null;
         List<N2oConditionBranch> failBranches = new ArrayList<>();
-        for (N2oAction act: n2oActions) {
+        for (N2oAction act : n2oActions) {
             if (act instanceof N2oIfBranchAction && !act.equals(n2oAction))
                 break;
             if (act instanceof N2oElseIfBranchAction || act instanceof N2oElseBranchAction)
