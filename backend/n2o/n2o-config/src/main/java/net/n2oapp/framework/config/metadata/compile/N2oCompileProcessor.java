@@ -366,15 +366,29 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     @Override
     public BindLink resolveLink(BindLink link, boolean observable) {
+        return resolveLink(link, observable, true);
+    }
+
+    @Override
+    public BindLink resolveLink(BindLink link, boolean observable, boolean strongCompare) {
         if (link == null)
             return null;
         Optional<String> res = Optional.empty();
         if (context != null) {
-            if (context.getQueryRouteMapping() != null) {
-                res = context.getQueryRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
-            }
-            if (res.isEmpty() && context.getPathRouteMapping() != null) {
-                res = context.getPathRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
+            if (strongCompare) {
+                if (context.getQueryRouteMapping() != null) {
+                    res = context.getQueryRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsNormalizedLink(link)).map(Map.Entry::getKey).findAny();
+                }
+                if (res.isEmpty() && context.getPathRouteMapping() != null) {
+                    res = context.getPathRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsNormalizedLink(link)).map(Map.Entry::getKey).findAny();
+                }
+            } else {
+                if (context.getQueryRouteMapping() != null) {
+                    res = context.getQueryRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
+                }
+                if (res.isEmpty() && context.getPathRouteMapping() != null) {
+                    res = context.getPathRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
+                }
             }
         }
         Object value = null;
