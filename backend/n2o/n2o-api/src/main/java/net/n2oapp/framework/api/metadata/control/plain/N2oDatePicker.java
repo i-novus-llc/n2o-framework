@@ -12,16 +12,16 @@ import net.n2oapp.framework.api.metadata.N2oComponent;
 @Setter
 @N2oComponent
 public class N2oDatePicker extends N2oPlainField {
-    @N2oAttribute
+    @N2oAttribute("Формат даты")
     private String dateFormat;
-    @N2oAttribute
+    @N2oAttribute("Формат времени")
     private String timeFormat;
-    @N2oAttribute
+    @N2oAttribute("Время по умолчанию")
     private String defaultTime;
-    @N2oAttribute
+    @N2oAttribute("Максимальная дата")
     private String max;
-    @N2oAttribute
+    @N2oAttribute("Минимальная дата")
     private String min;
-    @N2oAttribute
+    @N2oAttribute("Время в UTC")
     private Boolean utc;
 }

@@ -17,7 +17,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 @Setter
 @N2oComponent
 public class N2oForm extends N2oWidget implements Submittable {
-    @N2oAttribute
+    @N2oAttribute("Элементы формы")
     private SourceComponent[] items;
     private FormMode mode;
     private Boolean prompt;

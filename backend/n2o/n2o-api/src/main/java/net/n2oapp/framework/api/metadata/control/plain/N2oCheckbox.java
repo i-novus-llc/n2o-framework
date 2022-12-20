@@ -9,6 +9,6 @@ import net.n2oapp.framework.api.metadata.N2oComponent;
 @Setter
 @N2oComponent
 public class N2oCheckbox extends N2oPlainField {
-    @N2oAttribute
+    @N2oAttribute("Значение при не выбранном состоянии")
     private CheckboxDefaultValueEnum unchecked;
 }

@@ -13,6 +13,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 @Setter
 @N2oComponent
 public class N2oSimpleColumn extends AbstractColumn {
-    @N2oAttribute
+    @N2oAttribute("Ячейка")
     private N2oCell cell;
 }

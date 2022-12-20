@@ -12,16 +12,16 @@ import net.n2oapp.framework.api.metadata.N2oComponent;
 @Setter
 @N2oComponent
 public class N2oInputText extends N2oPlainField {
-    @N2oAttribute
-    private Integer length;
-    @N2oAttribute
-    private String max;
-    @N2oAttribute
+    @N2oAttribute("Минимальное значение")
     private String min;
-    @N2oAttribute
+    @N2oAttribute("Максимальное значение")
+    private String max;
+    @N2oAttribute("Шаг приращения")
     private String step;
-    @N2oAttribute
+    @N2oAttribute("Единица измерения")
     private String measure;
-    @N2oAttribute
+    @N2oAttribute("Максимальное количество символов для ввода")
+    private Integer length;
+    @N2oAttribute("Максимальная длина дробной части")
     private Integer precision;
 }

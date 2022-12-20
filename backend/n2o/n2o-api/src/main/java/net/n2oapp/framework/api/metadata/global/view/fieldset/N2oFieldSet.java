@@ -18,30 +18,27 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, SourceComponent {
-    @N2oAttribute
+    @N2oAttribute("Элементы филдсета")
     private SourceComponent[] items;
-    @N2oAttribute
+    @N2oAttribute("Заголовок")
     private String label;
-    @N2oAttribute
+    @N2oAttribute("Описание")
     private String description;
     private String src;
-    @N2oAttribute
+    @N2oAttribute("Css класс")
     private String cssClass;
-    @N2oAttribute
+    @N2oAttribute("Стиль")
     private String style;
-    @N2oAttribute
     private FieldLabelLocation fieldLabelLocation;
-    @N2oAttribute
     private FieldLabelAlign fieldLabelAlign;
-    @N2oAttribute
     private String fieldLabelWidth;
     private String dependencyCondition;
     private String[] dependsOn;
-    @N2oAttribute
+    @N2oAttribute("Условие видимости")
     private String visible;
-    @N2oAttribute
+    @N2oAttribute("Условие доступности")
     private String enabled;
-    @N2oAttribute
+    @N2oAttribute("Подсказка")
     private String help;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;

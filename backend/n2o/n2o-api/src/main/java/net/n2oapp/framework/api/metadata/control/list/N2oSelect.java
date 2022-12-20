@@ -12,19 +12,15 @@ import net.n2oapp.framework.api.metadata.N2oComponent;
 @Setter
 @N2oComponent
 public class N2oSelect extends N2oSingleListFieldAbstract {
-    @N2oAttribute
+    @N2oAttribute("Тип выбора в выпадающем списке")
     private ListType type;
-    @N2oAttribute
+    @N2oAttribute("Возможность очистки выбора")
     private Boolean cleanable;
-    @N2oAttribute
     private String selectFormat;
-    @N2oAttribute
     private String selectFormatOne;
-    @N2oAttribute
     private String selectFormatFew;
-    @N2oAttribute
     private String selectFormatMany;
-    @N2oAttribute
+    @N2oAttribute("Поле, отвечающее за описание варианта выбора")
     private String descriptionFieldId;
 
     @Override

@@ -13,8 +13,8 @@ import net.n2oapp.framework.api.metadata.N2oComponent;
 @Setter
 @N2oComponent
 public class N2oTextArea extends N2oPlainText {
-    @N2oAttribute
+    @N2oAttribute("Минимальная высота поля в строках")
     private Integer minRows;
-    @N2oAttribute
+    @N2oAttribute("Максимальная высота поля в строках")
     private Integer maxRows;
 }
