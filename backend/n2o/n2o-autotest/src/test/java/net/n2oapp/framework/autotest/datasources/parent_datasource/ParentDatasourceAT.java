@@ -62,7 +62,7 @@ public class ParentDatasourceAT extends AutoTestBase {
         modalPage.shouldExists();
         modalPage.shouldHaveTitle("История изменений");
         TableWidget.Rows rows = modalPage.content(StandardPage.class).regions().region(0, SimpleRegion.class).content()
-                .widget(0, TableWidget.class).columns().rows();
+                .widget(1, TableWidget.class).columns().rows();
         rows.shouldHaveSize(3);
         rows.row(0).cell(0).textShouldHave("1");
         rows.row(1).cell(0).textShouldHave("2");
