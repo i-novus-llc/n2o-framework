@@ -7,14 +7,12 @@
     <filters>
         <eq field-id="id" filter-id="id"/>
         <eq field-id="name" filter-id="name"/>
-        <eq field-id="type" filter-id="type"/>
         <eq field-id="chapter" filter-id="chapter"/>
     </filters>
 
     <fields>
         <field id="id"/>
         <field id="name"/>
-        <field id="type"/>
         <field id="chapter"/>
     </fields>
 </query>

@@ -11,13 +11,6 @@
                 <input-select id="items" query-id="test" type="multi"/>
             </fields>
         </form>
-
-        <!-- <table datasource="ds1">
-            <columns>
-                <column text-field-id="name"/>
-                <column text-field-id="type"/>
-            </columns>
-        </table> -->
     </regions>
 
     <toolbar place="bottomRight">
