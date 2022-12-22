@@ -14,9 +14,11 @@ public class N2oInputSelect extends N2oListField {
     private Boolean resetOnBlur;
     private String descriptionFieldId;
     private Integer maxTagTextLength;
+    private Integer throttleDelay;
+    private Integer searchMinLength;
 
     @Override
     public boolean isSingle() {
-        return !ListType.multi.equals(type) && !ListType.checkboxes.equals(type);
+        return !ListType.MULTI.equals(type) && !ListType.CHECKBOXES.equals(type);
     }
 }

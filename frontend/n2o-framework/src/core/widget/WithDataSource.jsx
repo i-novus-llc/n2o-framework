@@ -78,7 +78,7 @@ export const WithDataSource = (Component) => {
 
     return (props) => {
         // eslint-disable-next-line react/prop-types
-        const { datasource } = props
+        const { datasource, widget = true } = props
 
         if (datasource) {
             return <WithDataSource {...props} />
@@ -92,7 +92,13 @@ export const WithDataSource = (Component) => {
             filter: EMPTY_OBJECT,
         }
 
+        const extraProps = widget ? {
+            page: 1,
+            count: 0,
+            size: 0,
+        } : {}
+
         // without datasource
-        return <Component {...props} loading={false} page={1} count={0} size={0} models={models} {...METHODS} />
+        return <Component loading={false} {...props} {...extraProps} models={models} {...METHODS} />
     }
 }

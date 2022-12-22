@@ -1,3 +1,22 @@
+import numeral from 'numeral'
+
+numeral.register('locale', 'ru', {
+    delimiters: {
+        thousands: ' ',
+        decimal: ',',
+    },
+    abbreviations: {
+        thousand: 'тыс.',
+        million: 'млн.',
+        billion: 'млрд.',
+        trillion: 'трлн.',
+    },
+    ordinal: () => '.',
+    currency: {
+        symbol: '₽',
+    },
+})
+
 export default {
     defaultPromptMessage:
         'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',

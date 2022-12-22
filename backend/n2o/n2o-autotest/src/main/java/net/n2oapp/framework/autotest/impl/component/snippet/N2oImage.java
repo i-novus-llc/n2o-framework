@@ -22,7 +22,7 @@ public class N2oImage extends N2oSnippet implements Image {
 
     @Override
     public void shouldHaveShape(ShapeType shape) {
-        element().$(".n2o-image__image-container").should(Condition.cssClass(shape.name()));
+        element().$(".n2o-image__image-container").should(Condition.cssClass(shape.getId()));
     }
 
     @Override

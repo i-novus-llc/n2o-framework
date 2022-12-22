@@ -2,6 +2,8 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
+import net.n2oapp.framework.api.metadata.N2oComponent;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
@@ -9,32 +11,19 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 
 @Getter
 @Setter
+@N2oComponent
 public class N2oTable extends N2oAbstractTable {
+    @N2oAttribute("Позиция фильтров")
     private FilterPosition filterPosition;
+    @N2oAttribute("Список фильтров")
     private SourceComponent[] filters;
     private String filtersDatasourceId;
     private N2oStandardDatasource filtersDatasource;
     @Deprecated
     private String filtersDefaultValuesQueryId;
     private Boolean searchOnChange;
+    @N2oAttribute("Тип отображения дочерних строк таблицы")
     private ChildrenToggle children;
-
-
-    public enum FilterPosition {
-        top, left;
-
-        public String getName() {
-            return this.name();
-        }
-    }
-
-    /**
-     * Виды отображения дочерних записей таблицы
-     */
-    public enum ChildrenToggle {
-        collapse,   // свернутый
-        expand      // раскрытый
-    }
 
     @Deprecated
     public void adapterV4() {

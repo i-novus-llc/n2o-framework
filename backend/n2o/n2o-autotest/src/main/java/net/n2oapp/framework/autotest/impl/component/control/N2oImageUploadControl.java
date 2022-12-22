@@ -104,7 +104,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     public void uploadAreaShapeShouldBe(ShapeType shape) {
         // TODO дополнить после полной реализации shape у картинок
         switch (shape) {
-            case circle:
+            case CIRCLE:
                 element().shouldHave(Condition.cssClass("n2o-image-uploader-control--shape-circle"));
         }
     }

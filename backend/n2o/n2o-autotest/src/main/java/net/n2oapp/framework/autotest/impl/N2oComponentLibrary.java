@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.impl.collection.*;
 import net.n2oapp.framework.autotest.impl.component.N2oDropDown;
 import net.n2oapp.framework.autotest.impl.component.N2oDropDownTree;
+import net.n2oapp.framework.autotest.impl.component.N2oMarkdown;
 import net.n2oapp.framework.autotest.impl.component.N2oTooltip;
 import net.n2oapp.framework.autotest.impl.component.button.N2oDropdownButton;
 import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
@@ -87,7 +88,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oOutputText.class, N2oOutputList.class, N2oTextEditor.class, N2oCodeEditor.class, N2oHtml.class, N2oRating.class,
                 N2oSlider.class, N2oPills.class, N2oText.class, N2oAutoComplete.class, N2oProgress.class, N2oStatus.class, N2oAlert.class,
                 N2oInputMoney.class, N2oPasswordControl.class, N2oTextArea.class, N2oInputSelectTree.class, N2oFileUploadControl.class,
-                N2oImageUploadControl.class, N2oNumberPicker.class, N2oTimePicker.class,
+                N2oImageUploadControl.class, N2oNumberPicker.class, N2oTimePicker.class, N2oMarkdown.class,
                 // cells
                 N2oTextCell.class, N2oLinkCell.class, N2oEditCell.class, N2oCheckboxCell.class, N2oToolbarCell.class,
                 N2oBadgeCell.class, N2oIconCell.class, N2oImageCell.class, N2oProgressBarCell.class, N2oRatingCell.class,

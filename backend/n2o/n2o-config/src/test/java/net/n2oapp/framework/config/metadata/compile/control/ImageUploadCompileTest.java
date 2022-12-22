@@ -53,7 +53,7 @@ public class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload.getIcon(), is("fa fa-plus"));
         assertThat(imageUpload.getIconSize(), is(150));
         assertThat(imageUpload.getShowTooltip(), is(false));
-        assertThat(imageUpload.getShape(), is(ShapeType.circle));
+        assertThat(imageUpload.getShape(), is(ShapeType.CIRCLE));
         assertThat(imageUpload.getAjax(), is(false));
         assertThat(imageUpload.getMulti(), is(true));
         assertThat(imageUpload.getShowSize(), is(false));

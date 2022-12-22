@@ -157,7 +157,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private Confirm initConfirm(N2oButton source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
-        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
+        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.MODAL));
         confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
         confirm.setOk(new Confirm.Button(
                 p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")),

@@ -3,6 +3,8 @@ package net.n2oapp.criteria.dataset;
 import java.util.*;
 
 import static java.util.Objects.nonNull;
+import static net.n2oapp.criteria.dataset.ArrayMergeStrategy.merge;
+import static net.n2oapp.criteria.dataset.ArrayMergeStrategy.replace;
 
 /**
  * Данные объекта
@@ -31,19 +33,23 @@ public class DataSet extends NestedMap {
     }
 
     public void merge(DataSet dataSet) {
-        merge(this, dataSet, ALWAYS_EXTEND_VALUE, false);
+        merge(this, dataSet, ALWAYS_EXTEND_VALUE, merge, false);
     }
 
     public void merge(DataSet dataSet, Boolean addNullValues) {
-        merge(this, dataSet, ALWAYS_EXTEND_VALUE, addNullValues);
+        merge(this, dataSet, ALWAYS_EXTEND_VALUE, merge, addNullValues);
+    }
+
+    public void merge(DataSet dataSet, ArrayMergeStrategy mergeStrategy, Boolean addNullValues) {
+        merge(this, dataSet, ALWAYS_EXTEND_VALUE, mergeStrategy, addNullValues);
     }
 
     public void merge(DataSet dataSet, ValuePickUpStrategy strategy) {
-        merge(this, dataSet, strategy, false);
+        merge(this, dataSet, strategy, merge, false);
     }
 
     public void merge(DataSet dataSet, ValuePickUpStrategy strategy, Boolean addNullValues) {
-        merge(this, dataSet, strategy, addNullValues);
+        merge(this, dataSet, strategy, merge, addNullValues);
     }
 
     public Integer getInteger(String key) {
@@ -99,16 +105,17 @@ public class DataSet extends NestedMap {
     }
 
 
-    private static void merge(NestedMap main, NestedMap extend, ValuePickUpStrategy strategy, Boolean addNullValues) {
+    private static void merge(NestedMap main, NestedMap extend, ValuePickUpStrategy strategy,
+                              ArrayMergeStrategy mergeStrategy, Boolean addNullValues) {
         if (main == extend) return;
         if (extend == null) return;
         for (String fieldName : extend.keySet()) {
             Object mainValue = main.get(fieldName);
             Object extendValue = extend.get(fieldName);
             if (mainValue instanceof NestedMap && extendValue instanceof NestedMap) {
-                merge((NestedMap) mainValue, (NestedMap) extendValue, strategy, addNullValues);
+                merge((NestedMap) mainValue, (NestedMap) extendValue, strategy, mergeStrategy, addNullValues);
             } else if (mainValue instanceof List && extendValue instanceof List) {
-                mergeArrays((List) mainValue, (List) extendValue);
+                mergeArrays((List) mainValue, (List) extendValue, mergeStrategy);
             } else if (nonNull(strategy.pickUp(mainValue, extendValue))) {
                 main.put(fieldName, strategy.pickUp(mainValue, extendValue));
             } else if (addNullValues) {
@@ -154,7 +161,9 @@ public class DataSet extends NestedMap {
     }
 
 
-    private static void mergeArrays(List mainArray, List updateArray) {
+    private static void mergeArrays(List mainArray, List updateArray, ArrayMergeStrategy arrayMergeStrategy) {
+        if (replace.equals(arrayMergeStrategy))
+            mainArray.clear();
         mainArray.addAll(updateArray);
     }
 

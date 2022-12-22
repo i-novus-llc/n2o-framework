@@ -1,0 +1,25 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Автотест на события изменения данных. Кейс: if-else + show-modal">
+    <datasources>
+        <datasource id="main"/>
+    </datasources>
+    <events>
+        <on-change datasource="main" model="resolve">
+            <if test="test == 5">
+                <show-modal page-id="modal"/>
+            </if>
+            <else>
+                <alert text="Введите 5"/>
+            </else>
+        </on-change>
+    </events>
+    <regions>
+        <form datasource="main">
+            <fields>
+                <input-text id="test">
+
+                </input-text>
+            </fields>
+        </form>
+    </regions>
+</page>

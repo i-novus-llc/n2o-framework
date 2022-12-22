@@ -37,12 +37,12 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         button.setId(source.getId());
         button.setProperties(p.mapAttributes(source));
         switch (source.getType()) {
-            case icon:
+            case ICON:
                 button.setIcon(source.getIcon());
-            case text:
+            case TEXT:
                 button.setLabel(p.resolveJS(source.getLabel()));
                 break;
-            case textAndIcon: {
+            case TEXT_AND_ICON: {
                 button.setIcon(source.getIcon());
                 button.setLabel(p.resolveJS(source.getLabel()));
             }
@@ -64,7 +64,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
      */
     private void initHint(N2oAbstractButton source, AbstractButton button, CompileProcessor p) {
         String hint;
-        if (LabelType.icon.equals(source.getType()))
+        if (LabelType.ICON.equals(source.getType()))
             hint = p.cast(source.getDescription(), source.getLabel());
         else
             hint = source.getDescription();
@@ -120,10 +120,10 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
 
     private LabelType initType(S source) {
         if (source.getIcon() != null && source.getLabel() != null)
-            return LabelType.textAndIcon;
+            return LabelType.TEXT_AND_ICON;
         if (source.getIcon() != null)
-            return LabelType.icon;
-        return LabelType.text;
+            return LabelType.ICON;
+        return LabelType.TEXT;
     }
 
     protected void compileCondition(N2oAbstractButton source, AbstractButton button, CompileProcessor p, ComponentScope componentScope) {
