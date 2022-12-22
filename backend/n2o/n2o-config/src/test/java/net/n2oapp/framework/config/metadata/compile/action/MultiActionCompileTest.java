@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.action.Perform;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
+import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
@@ -64,7 +64,7 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action, instanceOf(MultiAction.class));
         assertThat(action.getType(), is("n2o/api/action/sequence"));
         assertThat(action.getPayload().getActions().size(), is(2));
-        assertThat(action.getPayload().getActions().get(0), instanceOf(Perform.class));
+        assertThat(action.getPayload().getActions().get(0), instanceOf(CustomAction.class));
         assertThat(action.getPayload().getActions().get(1), instanceOf(LinkAction.class));
         assertThat(((LinkAction) action.getPayload().getActions().get(1)).getUrl(), is("/test2"));
         assertThat(((LinkAction) action.getPayload().getActions().get(1)).getTarget(), is(Target.application));

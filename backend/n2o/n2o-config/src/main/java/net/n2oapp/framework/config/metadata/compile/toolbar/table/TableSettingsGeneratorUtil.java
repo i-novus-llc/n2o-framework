@@ -1,17 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar.table;
 
-import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oPerform;
+import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.action.N2oRefreshAction;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import org.jdom2.Namespace;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -39,12 +36,11 @@ public class TableSettingsGeneratorUtil {
         N2oButton filterButton = new N2oButton();
         filterButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.filter.description"));
         filterButton.setIcon("fa fa-filter");
-        N2oPerform filterAction = new N2oPerform();
+        N2oCustomAction filterAction = new N2oCustomAction();
         filterAction.setType(p.resolve(property("n2o.api.action.filters.type"), String.class));
-        Map<N2oNamespace, Map<String, String>> props = new HashMap<>();
-        props.put(new N2oNamespace(Namespace.NO_NAMESPACE), Collections.singletonMap("widgetId", widgetId));
-        filterAction.setExtAttributes(props);
-        filterButton.setActions(new N2oPerform[]{filterAction});
+        Map<String, String> payload = Collections.singletonMap("widgetId", widgetId);
+        filterAction.setPayload(payload);
+        filterButton.setActions(new N2oCustomAction[]{filterAction});
         filterButton.setModel(ReduxModel.filter);
         return filterButton;
     }

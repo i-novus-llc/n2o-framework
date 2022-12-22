@@ -7,9 +7,9 @@
     <toolbar>
         <button id="b1">
             <if test="code == 'A' &amp;&amp; type == 1" datasource="ds1">
-                <perform type="t1"/>
+                <action type="t1"/>
                 <if test="name == 'test1'">
-                    <perform type="t1"/>
+                    <action type="t1"/>
                     <a href="/test1"/>
                 </if>
                 <else>

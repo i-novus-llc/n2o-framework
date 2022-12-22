@@ -18,7 +18,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * Компиляция кастомного действия
+ * Компиляция настраиваемого действия
  */
 @Component
 public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomAction, N2oCustomAction> {

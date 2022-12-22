@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Чтение/запись кастомного действия версии 2.0
+ * Чтение/запись настраиваемого действия версии 2.0
  */
 @Component
 public class CustomActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oCustomAction> {

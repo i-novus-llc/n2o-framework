@@ -4,9 +4,9 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.action.Perform;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
+import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
@@ -23,7 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThrows;
 
 /**
@@ -59,7 +60,7 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
         //success if-а верхнего уровня
         MultiAction success = (MultiAction) condition.getPayload().getSuccess();
         assertThat(success.getPayload().getActions().size(), is(2));
-        assertThat(success.getPayload().getActions().get(0), instanceOf(Perform.class));
+        assertThat(success.getPayload().getActions().get(0), instanceOf(CustomAction.class));
 
         //вложенный if success-a if-а верхнего уровня
         ConditionAction successCondition = (ConditionAction) success.getPayload().getActions().get(1);
@@ -89,7 +90,7 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
         assertThat(failSuccessCondition.getPayload().getDatasource(), is("testConditionAction_ds2"));
         assertThat(failSuccessCondition.getPayload().getModel(), is(ReduxModel.filter));
         assertThat(failSuccessCondition.getPayload().getCondition(), is("name == 'test2'"));
-        assertThat(failSuccessCondition.getPayload().getSuccess(), instanceOf(Perform.class));
+        assertThat(failSuccessCondition.getPayload().getSuccess(), instanceOf(CustomAction.class));
 
         //вложенный else success-a else-if-a верхнего уровня
         assertThat(failSuccessCondition.getPayload().getFail(), instanceOf(LinkAction.class));
