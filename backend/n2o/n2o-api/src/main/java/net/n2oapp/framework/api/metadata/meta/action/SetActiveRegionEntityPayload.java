@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.action.custom.CustomActionPayload;
 
 /**
  * Действие установки активного элемента региона
@@ -14,7 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.action.custom.CustomActionPayload;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SetActiveRegionEntityPayload extends CustomActionPayload {
+public class SetActiveRegionEntityPayload extends PerformActionPayload {
     @JsonProperty
     private String regionId;
     @JsonProperty

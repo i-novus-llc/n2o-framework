@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.action.custom.CustomActionPayload;
 
 import java.util.Objects;
 
@@ -16,7 +15,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SortWidgetPayload extends CustomActionPayload {
+public class SortWidgetPayload extends PerformActionPayload {
     @JsonProperty
     private String widgetId;
     @JsonProperty
