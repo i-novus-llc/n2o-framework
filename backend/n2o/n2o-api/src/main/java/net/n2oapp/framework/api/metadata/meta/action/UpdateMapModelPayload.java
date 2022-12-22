@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.meta.action.custom.CustomActionPayload;
 
 import java.util.Objects;
 
@@ -15,20 +16,15 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateMapModelPayload extends PerformActionPayload {
-
+public class UpdateMapModelPayload extends CustomActionPayload {
     @JsonProperty
     private String prefix;
-
     @JsonProperty
     private String key;
-
     @JsonProperty
     private String field;
-
     @JsonProperty
     private Object value;
-
     @JsonProperty
     private String map;
 
