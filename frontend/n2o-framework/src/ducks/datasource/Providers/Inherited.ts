@@ -21,7 +21,7 @@ export function* submit(id: string, {
     submitValueExpression,
 }: InheritedSubmit) {
     const sourceModel = cloneDeep((yield select(makeGetModelByPrefixSelector(prefix, id))) as object)
-    const targetModel = cloneDeep((yield select(makeGetModelByPrefixSelector(prefix, id))) as object | void)
+    const targetModel = cloneDeep((yield select(makeGetModelByPrefixSelector(prefix, targetId))) as object | void)
     let source: void | object = sourceModel
 
     if (submitValueExpression) {
