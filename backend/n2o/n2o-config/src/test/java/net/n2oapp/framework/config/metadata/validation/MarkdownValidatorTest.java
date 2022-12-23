@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Тестирование валдитора {@link N2oMarkdown} компонентов
+ * Тестирование валидатора {@link N2oMarkdown} компонентов
  */
 public class MarkdownValidatorTest extends SourceValidationTestBase {
 
