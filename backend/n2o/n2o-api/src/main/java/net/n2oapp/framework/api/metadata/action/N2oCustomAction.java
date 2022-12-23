@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.Map;
 
 /**
- * Исходная модель кастомного действия
+ * Исходная модель настраиваемого действия
  */
 @Getter
 @Setter

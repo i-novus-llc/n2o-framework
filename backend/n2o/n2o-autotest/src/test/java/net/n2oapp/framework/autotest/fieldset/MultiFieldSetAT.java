@@ -24,7 +24,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -48,8 +47,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack(), new N2oAllDataPack());
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
     }
 
     @Test
@@ -332,50 +330,6 @@ public class MultiFieldSetAT extends AutoTestBase {
         age2.val("15");
         name1.shouldBeEnabled();
         name2.shouldBeDisabled();
-    }
-
-    @Test
-    @Disabled
-    public void testRequiring() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validations/index.page.xml"));
-
-        page = open(SimplePage.class);
-        page.shouldExists();
-
-        // поле вне мульти филдсета
-        StandardField name = page.widget(FormWidget.class).fields().field("name");
-        InputText nameInput = name.control(InputText.class);
-
-        MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
-        fieldset1.shouldExists();
-        fieldset1.clickAddButton();
-        MultiFieldSetItem item1 = fieldset1.item(0);
-        StandardField name1 = item1.fields().field("name");
-        InputText name1Input = name1.control(InputText.class);
-        StandardField age1 = item1.fields().field("age");
-        InputText age1Input = age1.control(InputText.class);
-
-        // у поля вне мульти филдсета не должно быть условия обязательности
-        nameInput.val("test");
-        nameInput.clear();
-        name.shouldHaveValidationMessage(Condition.empty);
-
-        age1Input.val("1");
-        name1Input.val("name");
-        // после фокуса на name у age не должно быть сообщения валидации
-        age1.shouldHaveValidationMessage(Condition.empty);
-        age1Input.clear();
-        // после фокуса на age у name не должно быть сообщения валидации
-        name1.shouldHaveValidationMessage(Condition.empty);
-        // после фокуса на name у age должно быть сообщение валидации
-        name1Input.clear();
-        age1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-
-        // проверяем, что оба сообщения отображаются
-        nameInput.val("test2");
-
-        name1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        age1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
     }
 
     @Test

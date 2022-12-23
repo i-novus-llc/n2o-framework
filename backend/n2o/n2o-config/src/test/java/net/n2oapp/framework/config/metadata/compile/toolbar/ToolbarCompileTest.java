@@ -3,8 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.action.Perform;
-import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
+import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -42,7 +41,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oWidgetsPack(), new N2oActionsPack(), new N2oAllDataPack(), new N2oPagesPack(),
-                new N2oFieldSetsPack(), new N2oControlsPack(), new N2oRegionsPack())
+                        new N2oFieldSetsPack(), new N2oControlsPack(), new N2oRegionsPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.widget.xml"),
@@ -115,11 +114,11 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b7.getId(), is("testId4"));
         assertThat(b7.getSrc(), is("MyCustomButton"));
         assertThat(b7.getAction(), notNullValue());
-        Perform performAction = (Perform)b7.getAction();
+        CustomAction performAction = (CustomAction) b7.getAction();
         assertThat(performAction.getType(), is("n2o/custom/ACTION"));
         assertThat(performAction.getPayload(), notNullValue());
-        assertThat(((PerformActionPayload)performAction.getPayload()).getParams().size(), is(1));
-        assertThat(((PerformActionPayload)performAction.getPayload()).getParams().get("prop2"), is("value2"));
+        assertThat(performAction.getPayload().getAttributes().size(), is(1));
+        assertThat(performAction.getPayload().getAttributes().get("prop2"), is("value2"));
     }
 
     @Test
@@ -128,7 +127,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testToolbar"))).getWidget();
 
         assertThat(f.getToolbar().size(), is(2));
-        Submenu button = (Submenu)f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
+        Submenu button = (Submenu) f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
         PerformButton item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
@@ -139,7 +138,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testGenerate() {
-         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.page.xml")
                 .get(new PageContext("testToolbarGenerate"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(t.getToolbar().size(), is(4));
@@ -162,6 +161,6 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         assertThat(t.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(3));
         assertThat(t.getToolbar().get("bottomLeft").get(1).getButtons().size(), is(1));
-        assertThat(((Submenu)t.getToolbar().get("bottomLeft").get(1).getButtons().get(0)).getSubMenu().size(), is(4));
+        assertThat(((Submenu) t.getToolbar().get("bottomLeft").get(1).getButtons().get(0)).getSubMenu().size(), is(4));
     }
 }

@@ -45,9 +45,7 @@
     </regions>
     <toolbar>
         <button label="Добавить">
-            <show-modal page-id="add" route="/addItem">
-
-            </show-modal>
+            <show-modal page-id="add" route="/addItem"/>
         </button>
     </toolbar>
 </page>

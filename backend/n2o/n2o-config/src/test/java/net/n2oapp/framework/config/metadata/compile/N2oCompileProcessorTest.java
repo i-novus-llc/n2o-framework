@@ -50,9 +50,15 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         ModelLink value = new ModelLink(ReduxModel.resolve, "widgetId");
         value.setValue("`testField`");
         routeInfos.put("paramName", value);
+        ModelLink m1 = new ModelLink(ReduxModel.resolve, "_zagsBirth");
+        m1.setValue("`id`");
+        SubModelQuery subModelM1 = new SubModelQuery("test");
+        m1.setSubModelQuery(subModelM1);
+        routeInfos.put("paramName2", m1);
         context.setQueryRouteMapping(routeInfos);
         DataSet data = new DataSet();
         data.put("paramName", "testValue");
+        data.put("paramName2", "testValue2");
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
         ModelLink testML = new ModelLink(ReduxModel.resolve, "widgetId");
         testML.setValue("`testField`");
@@ -63,6 +69,14 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         resultLink = processor.resolveLink(testML);
         //проверяем, что замена не произошла
         assertThat(resultLink.getBindLink(), is("models.resolve['widgetId']"));
+
+        //проверяем строгое и нестрогое сравнение ссылок
+        ModelLink m2 = new ModelLink(ReduxModel.resolve, "_zagsBirth");
+        m2.setValue("`persons.map(function(t){return t.value})`");
+        resultLink = processor.resolveLink(m2, false, true);
+        assertThat(resultLink.getValue(), is("`persons.map(function(t){return t.value})`"));
+        resultLink = processor.resolveLink(m2, false, false);
+        assertThat(resultLink.getValue(), is("testValue2"));
     }
 
     @Test

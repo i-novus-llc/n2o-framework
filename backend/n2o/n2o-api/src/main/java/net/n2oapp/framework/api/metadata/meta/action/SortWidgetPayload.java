@@ -16,13 +16,10 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SortWidgetPayload extends PerformActionPayload {
-
     @JsonProperty
     private String widgetId;
-
     @JsonProperty
     private String fieldKey;
-
     @JsonProperty
     private Object sortDirection;
 

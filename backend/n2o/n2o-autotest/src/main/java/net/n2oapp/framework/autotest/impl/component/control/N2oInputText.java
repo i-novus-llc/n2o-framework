@@ -89,8 +89,4 @@ public class N2oInputText extends N2oControl implements InputText {
             elm = elm.parent();
         return elm.$(".n2o-control-container-placeholder");
     }
-
-    private SelenideElement validationMessage() {
-        return element().parent().parent().parent().parent().$(".n2o-validation-message");
-    }
 }

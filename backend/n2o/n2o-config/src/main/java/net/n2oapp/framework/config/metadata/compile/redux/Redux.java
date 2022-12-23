@@ -87,18 +87,6 @@ public abstract class Redux {
     }
 
     /**
-     * Вызвать выделение записи в виджете
-     *
-     * @param widgetId Идентификатор виджета
-     * @param value    Значение
-     * @return Redux действие
-     */
-    public static ReduxAction dispatchSelectedWidget(String widgetId, Object value) {
-        SelectedWidgetPayload payload = new SelectedWidgetPayload(widgetId, value);
-        return new ReduxAction("n2o/widgets/CHANGE_SELECTED_ID", payload);
-    }
-
-    /**
      * Вызвать обновление поля в модели виджета
      *
      * @param widgetId Идентификатор виджета

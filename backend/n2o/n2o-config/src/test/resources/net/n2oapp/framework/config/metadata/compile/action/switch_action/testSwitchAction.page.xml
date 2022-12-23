@@ -11,30 +11,30 @@
                 <button id="b1" model="edit">
                     <switch value-field-id="test1" model="multi">
                         <case value="A">
-                            <perform type="t1"/>
+                            <action type="t1"/>
                             <a href="/test1"/>
                         </case>
                         <case value="B">
                             <switch datasource="ds2" value-field-id="test2">
                                 <case value="BA">
-                                    <perform type="t1"/>
+                                    <action type="t1"/>
                                     <a href="/test1"/>
                                 </case>
                                 <default>
-                                    <perform type="t1"/>
-                                    <perform type="t2"/>
+                                    <action type="t1"/>
+                                    <action type="t2"/>
                                 </default>
                             </switch>
                         </case>
                         <default>
-                            <perform type="t1"/>
+                            <action type="t1"/>
                         </default>
                     </switch>
                 </button>
                 <button id="b2" datasource="ds2" model="filter">
                     <switch value-field-id="test1">
                         <case value="A">
-                            <perform type="t1"/>
+                            <action type="t1"/>
                         </case>
                     </switch>
                 </button>
