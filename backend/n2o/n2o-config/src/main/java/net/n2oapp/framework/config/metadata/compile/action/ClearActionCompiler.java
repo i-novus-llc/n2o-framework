@@ -31,7 +31,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         clearAction.getPayload().setPrefixes(initPayloadPrefixes(source, p));
         PageScope pageScope = p.getScope(PageScope.class);
         String datasource = p.cast(source.getDatasourceId(), getLocalDatasourceId(p));
-        clearAction.getPayload().setKey(getClientDatasourceId(datasource, pageScope.getPageId(), p));
+        clearAction.getPayload().setKey(getClientDatasourceId(datasource, p));
         if (Boolean.TRUE.equals(source.getCloseOnSuccess())) {
             if (clearAction.getMeta() == null)
                 clearAction.setMeta(new MetaSaga());

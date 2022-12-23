@@ -1,13 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -55,23 +54,6 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
             }
         }
         return source.getId();
-    }
-
-    /**
-     * Инициализация целевого виджета действия
-     */
-    protected String initClientWidgetId(CompileProcessor p) {
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String targetWidgetId = getClientWidgetIdByComponentScope(p); //widget in component's link
-        if (targetWidgetId == null) {
-            if (widgetScope != null) {
-                //current widget
-                targetWidgetId = widgetScope.getClientWidgetId();
-            } else {
-                throw new N2oException("Unknown widgetId for invoke action!");
-            }
-        }
-        return targetWidgetId;
     }
 
     protected ReduxModel getModelFromComponentScope(CompileProcessor p) {
