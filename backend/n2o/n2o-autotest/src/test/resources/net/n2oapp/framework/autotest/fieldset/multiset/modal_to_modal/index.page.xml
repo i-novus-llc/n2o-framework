@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для проверки переноса данных в модальное окно для изменения">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <multi-set
+                        id="fl"
+                        label="Проживание с мужем или женой, направленными работать за границу"
+                        add-label="Добавить период"
+                        can-add="true"
+                        can-copy="true"
+                        can-remove="true"
+                        can-remove-all="true"
+                        can-remove-first="true"
+                        primary-key="id"
+                        generate-primary-key="true"
+                >
+                    <row>
+                        <output-text id="id"/>
+                        <input-text id="surname" label="Фамилия"/>
+
+                        <button label="Изменить ">
+                            <show-modal page-id="update" route="/:id/update">
+                                <params>
+                                    <path-param name="id" value="{fl[index].id}"/>
+                                </params>
+                            </show-modal>
+                        </button>
+                    </row>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+</page>
