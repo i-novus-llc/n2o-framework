@@ -16,16 +16,12 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateModelPayload extends PerformActionPayload {
-
     @JsonProperty
     private String prefix;
-
     @JsonProperty
     private String key;
-
     @JsonProperty
     private String field;
-
     @JsonProperty
     private Object value;
 

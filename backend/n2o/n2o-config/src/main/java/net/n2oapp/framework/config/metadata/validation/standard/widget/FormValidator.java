@@ -26,6 +26,7 @@ public class FormValidator implements SourceValidator<N2oForm>, SourceClassAware
                 p.safeStreamOf(source.getActions()).collect(Collectors.toMap(ActionBar::getId, Function.identity()))
         );
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), source.getDatasource(), actions);
+
         p.safeStreamOf(source.getItems()).forEach(item -> p.validate(item, fieldsScope, widgetScope));
     }
 

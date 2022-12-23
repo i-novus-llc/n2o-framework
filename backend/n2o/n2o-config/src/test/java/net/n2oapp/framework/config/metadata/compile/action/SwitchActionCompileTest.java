@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.meta.action.Perform;
+import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.action.switchaction.SwitchAction;
@@ -58,7 +58,7 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getCases().get("B"), instanceOf(SwitchAction.class));
         assertThat(((SwitchAction) action.getPayload().getCases().get("B")).getPayload().getDatasource(), is("testSwitchAction_ds2"));
         assertThat(((SwitchAction) action.getPayload().getCases().get("B")).getPayload().getModel(), is(ReduxModel.edit));
-        assertThat(action.getPayload().getDefaultCase(), instanceOf(Perform.class));
+        assertThat(action.getPayload().getDefaultCase(), instanceOf(CustomAction.class));
 
         action = (SwitchAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("b2").getAction();

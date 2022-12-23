@@ -16,19 +16,14 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateMapModelPayload extends PerformActionPayload {
-
     @JsonProperty
     private String prefix;
-
     @JsonProperty
     private String key;
-
     @JsonProperty
     private String field;
-
     @JsonProperty
     private Object value;
-
     @JsonProperty
     private String map;
 

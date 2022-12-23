@@ -10,7 +10,7 @@
     <toolbar>
         <button id="test1" action-id="ac1"/>
         <button id="test2">
-            <perform type="perform"/>
+            <action type="perform"/>
             <a href="/test2" target="application"/>
         </button>
     </toolbar>

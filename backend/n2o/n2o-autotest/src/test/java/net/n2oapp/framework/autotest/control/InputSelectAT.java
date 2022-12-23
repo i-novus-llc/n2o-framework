@@ -23,7 +23,6 @@ import static net.n2oapp.framework.autotest.N2oSelenide.page;
  */
 public class InputSelectAT extends AutoTestBase {
 
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -214,18 +213,18 @@ public class InputSelectAT extends AutoTestBase {
         open.shouldExists();
         open.click();
 
-        SimplePage new_page = page(SimplePage.class);
-        new_page.shouldExists();
+        SimplePage newPage = page(SimplePage.class);
+        newPage.shouldExists();
         FormWidget formWidget = page.widget(FormWidget.class);
         formWidget.shouldExists();
         InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
-        InputSelect gender_with_const = formWidget.fields().field("Gender with const").control(InputSelect.class);
+        InputSelect genderWithConst = formWidget.fields().field("Gender with const").control(InputSelect.class);
         gender.shouldExists();
         gender.shouldSelected("Мужской");
         gender.shouldHaveOptions("Мужской");
-        gender_with_const.shouldExists();
-        gender_with_const.shouldSelected("Женский");
-        gender_with_const.shouldHaveOptions("Женский");
+        genderWithConst.shouldExists();
+        genderWithConst.shouldSelected("Женский");
+        genderWithConst.shouldHaveOptions("Женский");
     }
 
     @Test
@@ -242,18 +241,18 @@ public class InputSelectAT extends AutoTestBase {
         open.shouldExists();
         open.click();
 
-        SimplePage new_page = page(SimplePage.class);
-        new_page.shouldExists();
+        SimplePage newPage = page(SimplePage.class);
+        newPage.shouldExists();
         FormWidget formWidget = page.widget(FormWidget.class);
         formWidget.shouldExists();
         InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
-        InputSelect gender_with_const = formWidget.fields().field("Gender with const").control(InputSelect.class);
+        InputSelect genderWithConst = formWidget.fields().field("Gender with const").control(InputSelect.class);
         gender.shouldExists();
         gender.shouldSelected("Мужской");
         gender.shouldHaveOptions("Мужской");
-        gender_with_const.shouldExists();
-        gender_with_const.shouldSelected("Женский");
-        gender_with_const.shouldHaveOptions("Женский");
+        genderWithConst.shouldExists();
+        genderWithConst.shouldSelected("Женский");
+        genderWithConst.shouldHaveOptions("Женский");
     }
 
     @Test
