@@ -21,12 +21,7 @@
                         <option name="test2"/>
                     </options>
                 </auto-complete>
-                <auto-complete id="auto3" datasource="test">
-                    <options>
-                        <option id="type1" name="A"/>
-                        <option id="type2" name="B"/>
-                    </options>
-                </auto-complete>
+                <auto-complete id="auto3" datasource="test"/>
             </fields>
         </form>
     </regions>
