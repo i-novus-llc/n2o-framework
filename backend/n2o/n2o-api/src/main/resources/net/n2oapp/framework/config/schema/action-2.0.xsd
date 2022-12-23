@@ -875,14 +875,16 @@
                 <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных, чья модель будет очищена
+                            Идентификатор источника данных, чья модель будет очищена.
+                            По умолчанию источник данных родительского компонента
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="model" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>
-                            Список моделей (через запятую), которые будут очищены
+                            Список моделей (через запятую), которые будут очищены.
+                            По умолчанию модель родительского компонента
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
