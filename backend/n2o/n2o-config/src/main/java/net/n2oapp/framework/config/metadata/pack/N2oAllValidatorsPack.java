@@ -22,7 +22,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.SearchableP
 import net.n2oapp.framework.config.metadata.validation.standard.page.SimplePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.ListFieldQueryValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.ListFieldValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 
@@ -34,7 +34,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
     public void build(N2oApplicationBuilder b) {
         b.validators(new ObjectValidator(), new QueryValidator(), new PageValidator(),
                 new ApplicationValidator(), new SimpleMenuValidator(), new SidebarValidator(),
-                new WidgetValidator(), new ListFieldQueryValidator(), new SetFieldSetValidator(),
+                new WidgetValidator(), new ListFieldValidator(), new SetFieldSetValidator(),
                 new FieldSetColumnValidator(), new FieldSetRowValidator(), new FormValidator(),
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(),
                 new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
