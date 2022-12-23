@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <inherited-datasource id="itemDs"
+                              source-datasource="ds1"
+                              source-model="resolve"
+                              source-field-id="fl"
+        >
+            <filters>
+                <eq field-id="id" param="id" required="true"/>
+            </filters>
+
+        </inherited-datasource>
+        <parent-datasource id="ds1"/>
+    </datasources>
+
+    <regions>
+        <form datasource="itemDs">
+            <fields>
+                <row>
+                    <input-text id="surname" label="Фамилия"/>
+                </row>
+            </fields>
+            <toolbar>
+                <button label="Изменить">
+                    <edit-list
+                            operation="update"
+                            model="resolve"
+                            primary-key="id"
+                            datasource="ds1"
+                            list-field-id="fl"
+                            item-model="resolve"
+                            item-datasource="itemDs"
+                    />
+                    <close/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

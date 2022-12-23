@@ -13,12 +13,7 @@
                 </options>
             </select>
             <select id="select4" query-id="test"/>
-            <select id="select5" datasource="test">
-                <options>
-                    <option id="type1" name="A"/>
-                    <option id="type2" name="B"/>
-                </options>
-            </select>
+            <select id="select5" datasource="test"/>
         </fields>
     </form>
 </simple-page>
