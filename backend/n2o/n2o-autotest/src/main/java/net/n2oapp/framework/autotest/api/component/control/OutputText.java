@@ -11,5 +11,5 @@ public interface OutputText extends Control {
 
     void shouldNotHaveValue(String value);
 
-    String text();
+    String getValue();
 }

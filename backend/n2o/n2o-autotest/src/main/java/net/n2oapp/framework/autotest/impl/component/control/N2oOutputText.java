@@ -41,7 +41,7 @@ public class N2oOutputText extends N2oControl implements OutputText {
     }
 
     @Override
-    public String text() {
+    public String getValue() {
         return element().$(".text").text();
     }
 }
