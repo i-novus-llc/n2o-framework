@@ -4,7 +4,10 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.junit.Test;
 
-import javax.script.*;
+import javax.script.Bindings;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 /**
  * @author iryabov
@@ -27,7 +30,7 @@ public class JavaScriptEngineTest {
     public void testScriptProcessor() throws ScriptException {
         DataSet dataSet = new DataSet();
         dataSet.put("org.id", 1);
-        Object value = ScriptProcessor.getInstance().eval("org.id == 1", dataSet);
+        Object value = ScriptProcessor.eval("org.id == 1", dataSet);
         System.out.println(value);
         assert (Boolean) value == true;
     }

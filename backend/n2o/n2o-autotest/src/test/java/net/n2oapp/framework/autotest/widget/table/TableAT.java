@@ -19,6 +19,7 @@ import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
+import net.n2oapp.framework.autotest.run.N2oController;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -27,11 +28,19 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.exceptions.verification.TooManyActualInvocations;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  * Автотест для виджета Таблица
  */
 public class TableAT extends AutoTestBase {
+    @SpyBean
+    private N2oController controller;
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -286,5 +295,31 @@ public class TableAT extends AutoTestBase {
         cellSecond.textShouldHave("test2");
         cellThird.textShouldHave("test3");
         cellFourth.textShouldHave("test4");
+    }
+
+    @Test
+    public void testFetchOnClear() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/search_buttons/test.query.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget tableWidget = page.widget(TableWidget.class);
+        tableWidget.filters().fields().field("name").control(InputText.class).val("test");
+        tableWidget.filters().toolbar().button("Найти").click();
+        tableWidget.columns().rows().shouldHaveSize(4);
+
+        tableWidget.filters().toolbar().button("Сбросить").click();
+        tableWidget.columns().rows().shouldHaveSize(0);
+        verifyNeverGetDataInvocation("Запрос за данными таблицы при fetch-on-clear=false");
+    }
+
+    private void verifyNeverGetDataInvocation(String errorMessage) {
+        try {
+            verify(controller, times(2)).getData(any());
+        } catch (TooManyActualInvocations e) {
+            throw new AssertionError(errorMessage);
+        }
     }
 }

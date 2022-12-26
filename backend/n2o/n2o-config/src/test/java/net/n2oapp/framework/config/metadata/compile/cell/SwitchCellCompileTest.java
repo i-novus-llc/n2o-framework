@@ -61,7 +61,7 @@ public class SwitchCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSwitchList().get("type2").getSrc(), is("IconCell"));
         assertThat(((IconCell) cell.getSwitchList().get("type2")).getText(), is("text"));
         assertThat(((IconCell) cell.getSwitchList().get("type2")).getIcon(), is("icon"));
-        assertThat(((IconCell) cell.getSwitchList().get("type2")).getPosition(), is(Position.right));
+        assertThat(((IconCell) cell.getSwitchList().get("type2")).getPosition(), is(Position.RIGHT));
 
         // проверка default ячейки
         assertThat(cell.getSwitchDefault(), instanceOf(TextCell.class));

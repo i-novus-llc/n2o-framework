@@ -8,34 +8,7 @@
     <regions>
         <form datasource="ds1">
             <toolbar>
-                <button id="b1" model="edit">
-                    <if test="code == 'A' &amp;&amp; type == 1">
-                        <perform type="t1"/>
-                        <if test="name == 'test1'">
-                            <perform type="t1"/>
-                            <a href="/test1"/>
-                        </if>
-                        <else>
-                            <a href="/test1"/>
-                        </else>
-                    </if>
-                    <else-if test="code == 'A' &amp;&amp; type == 2">
-                        <if test="name == 'test2'" datasource="ds2" model="filter">
-                            <perform type="t1"/>
-                        </if>
-                        <else>
-                            <a href="/test1"/>
-                        </else>
-                        <show-modal page-id="card"/>
-                    </else-if>
-                    <else>
-                        <alert text="Не выполнены условия"/>
-                    </else>
-
-                    <if test="code == 'B'">
-                        <alert text="Next"/>
-                    </if>
-                </button>
+                <button id="b1" model="edit" action-id="conditionAction"/>
             </toolbar>
         </form>
     </regions>
@@ -44,7 +17,7 @@
         <button id="b2">
             <if test="code == 'A' &amp;&amp; type == 1">
                 <if test="name == 'test1'">
-                    <perform type="t1"/>
+                    <action type="t1"/>
                 </if>
                 <else>
                     <a href="/test1"/>
@@ -55,4 +28,35 @@
             </else>
         </button>
     </toolbar>
+
+    <actions>
+        <action id="conditionAction">
+            <if datasource="ds1" test="code == 'A' &amp;&amp; type == 1">
+                <action type="t1"/>
+                <if datasource="ds1" test="name == 'test1'">
+                    <action type="t1"/>
+                    <a href="/test1"/>
+                </if>
+                <else>
+                    <a href="/test1"/>
+                </else>
+            </if>
+            <else-if test="code == 'A' &amp;&amp; type == 2">
+                <if test="name == 'test2'" datasource="ds2" model="filter">
+                    <action type="t1"/>
+                </if>
+                <else>
+                    <a href="/test1"/>
+                </else>
+                <show-modal page-id="card"/>
+            </else-if>
+            <else>
+                <alert text="Не выполнены условия"/>
+            </else>
+
+            <if datasource="ds1" test="code == 'B'">
+                <alert text="Next"/>
+            </if>
+        </action>
+    </actions>
 </page>

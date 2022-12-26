@@ -37,7 +37,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/field/testSelect.query.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/field/testSelectFetch.query.xml"));
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack(), new N2oCellsPack());
+                new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV3IOPack(), new N2oControlsV2IOPack(), new N2oCellsPack());
         builder.compilers(new InputSelectCompiler());
     }
 
@@ -69,6 +69,8 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getEnabledFieldId(), is("isEnabled"));
         assertThat(inputSelect.getPlaceholder(), is("Введите"));
         assertThat(inputSelect.getSize(), is(20));
+        assertThat(inputSelect.getSearchMinLength(), is(2));
+        assertThat(inputSelect.getThrottleDelay(), is(200));
         ClientDataProvider cdp = inputSelect.getDataProvider();
 
         inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
@@ -76,6 +78,8 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getDataProvider().getQuickSearchParam(), is("name"));
         assertThat(inputSelect.getStatusFieldId(), nullValue());
         assertThat(inputSelect.getMaxTagTextLength(), is(5));
+        assertThat(inputSelect.getSearchMinLength(), is(0));
+        assertThat(inputSelect.getThrottleDelay(), is(300));
 
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <multi-set id="members">
+                    <input-text id="id" required="true"/>
+                    <input-text id="name">
+                        <validations>
+                            <condition id="name_length">name.length>3</condition>
+                        </validations>
+                    </input-text>
+                </multi-set>
+            </fields>
+        </form>
+
+        <table datasource="ds1">
+            <filters>
+                <multi-set id="members2">
+                    <input-text id="id2" required="true"/>
+                    <input-text id="name2">
+                        <validations>
+                            <condition id="name_length2">name2.length>3</condition>
+                        </validations>
+                    </input-text>
+                </multi-set>
+            </filters>
+            <columns>
+                <column text-field-id="id2"/>
+                <column text-field-id="name2"/>
+            </columns>
+        </table>
+    </regions>
+</page>

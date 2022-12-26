@@ -4,9 +4,9 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.action.Perform;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
+import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
@@ -23,7 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThrows;
 
 /**
@@ -59,7 +60,7 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
         //success if-а верхнего уровня
         MultiAction success = (MultiAction) condition.getPayload().getSuccess();
         assertThat(success.getPayload().getActions().size(), is(2));
-        assertThat(success.getPayload().getActions().get(0), instanceOf(Perform.class));
+        assertThat(success.getPayload().getActions().get(0), instanceOf(CustomAction.class));
 
         //вложенный if success-a if-а верхнего уровня
         ConditionAction successCondition = (ConditionAction) success.getPayload().getActions().get(1);
@@ -89,7 +90,7 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
         assertThat(failSuccessCondition.getPayload().getDatasource(), is("testConditionAction_ds2"));
         assertThat(failSuccessCondition.getPayload().getModel(), is(ReduxModel.filter));
         assertThat(failSuccessCondition.getPayload().getCondition(), is("name == 'test2'"));
-        assertThat(failSuccessCondition.getPayload().getSuccess(), instanceOf(Perform.class));
+        assertThat(failSuccessCondition.getPayload().getSuccess(), instanceOf(CustomAction.class));
 
         //вложенный else success-a else-if-a верхнего уровня
         assertThat(failSuccessCondition.getPayload().getFail(), instanceOf(LinkAction.class));
@@ -125,19 +126,32 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
         //Все урлы должны быть уникальными
         ConditionAction ifAction = (ConditionAction) button.getAction();
         String invokeUrl1 = ((InvokeAction) ifAction.getPayload().getSuccess()).getPayload().getDataProvider().getUrl();
-        assertThat(invokeUrl1, is("n2o/data/p/w/123/modal/condition_1"));
+        assertThat(invokeUrl1, is("n2o/data/p/w/123/modal/condition_2"));
 
         ConditionAction elseIfAction1 = (ConditionAction) ifAction.getPayload().getFail();
         String invokeUrl2 = ((InvokeAction) elseIfAction1.getPayload().getSuccess()).getPayload().getDataProvider().getUrl();
-        assertThat(invokeUrl2, is("n2o/data/p/w/123/modal/condition_2"));
+        assertThat(invokeUrl2, is("n2o/data/p/w/123/modal/condition_3"));
 
         ConditionAction elseIfAction2 = (ConditionAction) elseIfAction1.getPayload().getFail();
         String invokeUrl3 = ((InvokeAction) ((ConditionAction) elseIfAction2.getPayload().getSuccess()).getPayload().getSuccess())
                 .getPayload().getDataProvider().getUrl();
-        assertThat(invokeUrl3, is("n2o/data/p/w/123/modal/condition_4"));
+        assertThat(invokeUrl3, is("n2o/data/p/w/123/modal/condition_5"));
 
         String invokeUrl4 = ((InvokeAction) elseIfAction2.getPayload().getFail()).getPayload().getDataProvider().getUrl();
-        assertThat(invokeUrl4, is("n2o/data/p/w/123/modal/condition_5"));
+        assertThat(invokeUrl4, is("n2o/data/p/w/123/modal/condition_6"));
+
+        //проверка кейса когда мультиэкшен внутри if или else
+        PerformButton button2 = (PerformButton) page.getToolbar().getButton("b2");
+        InvokeAction but2Action = (InvokeAction) ((MultiAction) button2.getAction()).getPayload().getActions().get(0);
+        String but2invokeUrl = but2Action.getPayload().getDataProvider().getUrl();
+        assertThat(but2invokeUrl, is("n2o/data/p/w/123/modal/multi8"));
+        ConditionAction but2ifAction = (ConditionAction) ((MultiAction) button2.getAction()).getPayload().getActions().get(1);
+        String but2invokeUrl1 = ((InvokeAction) but2ifAction.getPayload().getSuccess()).getPayload().getDataProvider().getUrl();
+        assertThat(but2invokeUrl1, is("n2o/data/p/w/123/modal/condition_10"));
+
+        InvokeAction but2elseIfAction1 = (InvokeAction) ((MultiAction) but2ifAction.getPayload().getFail()).getPayload().getActions().get(0);
+        String but2invokeUrl2 = but2elseIfAction1.getPayload().getDataProvider().getUrl();
+        assertThat(but2invokeUrl2, is("n2o/data/p/w/123/modal/multi12"));
     }
 
     @Test

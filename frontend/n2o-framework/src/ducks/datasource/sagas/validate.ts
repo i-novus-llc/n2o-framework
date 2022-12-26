@@ -6,6 +6,18 @@ import { failValidate, resetValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { hasError, validateModel } from '../../../core/validation/validateModel'
 
+export function validationIsMulti(key: string, fields: string[]): boolean {
+    const someFieldsIsMulti = fields.some((field) => {
+        if (!field || typeof field === 'object') {
+            return false
+        }
+
+        return field.match(/^(.)*\[(.)*]\.(.)*$/i)
+    })
+
+    return key.includes('index') && someFieldsIsMulti
+}
+
 export function* validate({ payload, meta }: StartValidateAction) {
     const { id, validationsKey, prefix, fields = [] } = payload
     let validation: ReturnType<ReturnType<typeof dataSourceValidationSelector>> =
@@ -26,7 +38,7 @@ export function* validate({ payload, meta }: StartValidateAction) {
     if (fields?.length) {
         validation = Object.fromEntries(
             Object.entries(validation)
-                .filter(([key]) => fields.includes(key)),
+                .filter(([key]) => fields.includes(key) || validationIsMulti(key, fields)),
         )
     }
 

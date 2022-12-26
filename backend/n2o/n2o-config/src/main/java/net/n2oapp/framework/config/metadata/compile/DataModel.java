@@ -73,6 +73,7 @@ public class DataModel {
      * @return Предыдущее значение по ссылке
      */
     private Object storeData(ModelLink widgetLink, String key, Object value) {
+        if (key.contains("[index]")) return null;
         DataSet data = store.get(widgetLink);
         if (data == null)
             data = new DataSet();

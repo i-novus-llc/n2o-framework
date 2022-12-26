@@ -31,13 +31,13 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     @Override
     public void shapeShouldBe(ShapeType shape) {
         switch (shape) {
-            case circle:
+            case CIRCLE:
                 imgShouldHaveCircleShape();
                 break;
-            case rounded:
+            case ROUNDED:
                 imgShouldHaveRoundedShape();
                 break;
-            case square:
+            case SQUARE:
                 imgShouldHaveSquareShape();
                 break;
         }

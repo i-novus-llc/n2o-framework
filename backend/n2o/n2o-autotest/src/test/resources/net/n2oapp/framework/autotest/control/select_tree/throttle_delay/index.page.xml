@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Страница для автотеста Input-select-tree с настраиваемым ожиданием ввода">
+    <form>
+        <fields>
+            <input-select-tree
+                    id="tree"
+                    label="Input-select-tree min-length=4"
+                    placeholder="Минимальная длина 4"
+                    parent-field-id="parent"
+                    query-id="test"
+                    search="true"
+                    search-filter-id="nameLike"
+                    search-min-length="4"
+                    throttle-delay="500"/>
+        </fields>
+    </form>
+</simple-page>

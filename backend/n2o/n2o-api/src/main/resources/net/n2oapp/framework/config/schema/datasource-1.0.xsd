@@ -7,9 +7,11 @@
         <xs:sequence>
             <xs:element name="datasource" type="standardDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="stomp-datasource" type="stompDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="browser-storage" type="browserStorageDatasourceDefinition" minOccurs="0"
+                        maxOccurs="unbounded"/>
             <xs:element name="app-datasource" type="appDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="inherited-datasource" type="inheritedDatasourceDefinition" minOccurs="0"
+                        maxOccurs="unbounded"/>
             <xs:element name="parent-datasource" type="parentDatasourceDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
@@ -208,6 +210,7 @@
             <xs:extension base="baseDatasourceDefinition">
                 <xs:sequence>
                     <xs:element name="submit" type="inheritedDatasourceSubmit" minOccurs="0"/>
+                    <xs:element name="filters" type="inheritedDatasourceFiltersDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="source-datasource" type="xs:string" use="required">
                     <xs:annotation>
@@ -232,6 +235,17 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="inheritedDatasourceFiltersDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Предустановленная клиентская фильтрация
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="eq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:simpleType name="storageType">

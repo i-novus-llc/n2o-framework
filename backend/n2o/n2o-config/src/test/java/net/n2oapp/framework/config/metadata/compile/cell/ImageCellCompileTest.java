@@ -46,7 +46,7 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         Table table = (Table) page.getWidget();
         ImageCell cell = (ImageCell) table.getComponent().getCells().get(0);
         assertThat(cell.getSrc(), is("ImageCell"));
-        assertThat(cell.getShape(), is(ShapeType.rounded));
+        assertThat(cell.getShape(), is(ShapeType.ROUNDED));
         assertThat(cell.getWidth(), is("20px"));
         assertThat(cell.getProperties().size(), is(1));
         assertThat(cell.getTitle(), is("`Title`"));
@@ -68,6 +68,6 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         cell = (ImageCell) table.getComponent().getCells().get(1);
         assertThat(cell.getWidth(), nullValue());
         assertThat(cell.getTextPosition(), is(N2oImageCell.Position.right));
-        assertThat(cell.getShape(), is(ShapeType.square));
+        assertThat(cell.getShape(), is(ShapeType.SQUARE));
     }
 }

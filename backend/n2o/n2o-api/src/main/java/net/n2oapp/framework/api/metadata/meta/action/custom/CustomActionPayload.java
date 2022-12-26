@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 import java.util.Map;
 
 /**
- * Полезная нагрузка кастомного действия
+ * Полезная нагрузка настраиваемого действия
  */
 @Getter
 @Setter

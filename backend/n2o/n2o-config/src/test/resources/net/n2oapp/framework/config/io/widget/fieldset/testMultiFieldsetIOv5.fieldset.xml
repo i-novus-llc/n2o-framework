@@ -5,7 +5,8 @@
            field-label-width="30" visible="true" enabled="true" depends-on="test"
            label="Заголовок" children-label="Участник {index}" first-children-label="Участник" description="description"
            add-label="Добавить участника" remove-all-label="Удалить всех участников"
-           can-remove-first="true" can-add="false" can-remove="false" can-remove-all="true" can-copy="true">
+           can-remove-first="true" can-add="false" can-remove="false" can-remove-all="true" can-copy="true"
+           primary-key="pk" generate-primary-key="true">
     <row class="test1" style="margin-left:10px;width:300px">
         <col class="test1" style="margin-left:10px;width:300px" visible="{a==b}">
             <input-text id="test"/>

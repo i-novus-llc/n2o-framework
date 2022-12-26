@@ -62,7 +62,7 @@ public class SidebarValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    public void testExisingSidebarInlineDatasource() {
+    public void testExistingSidebarInlineDatasource() {
         exception.expect(N2oMetadataValidationException.class);
         exception.expectMessage("Идентификатор 'person' внутреннего источника данных сайдбара уже используется другим источником данных");
         validate("net/n2oapp/framework/config/metadata/application/sidebarDatasourceDuplicate.application.xml");

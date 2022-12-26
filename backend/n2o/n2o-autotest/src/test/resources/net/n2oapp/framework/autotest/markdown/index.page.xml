@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Пример для автотеста по проверке работы компонента markdown-разметки">
+    <actions>
+        <action id="open-page">
+            <open-page page-id="page" route="/page"/>
+        </action>
+    </actions>
+    <regions>
+            <form>
+                <datasource query-id="test"/>
+                <fields>
+                    <markdown id="md" actions="open-page">
+<![CDATA[
+<n2o-button id="open-page" label="{text}" style="color: red" visible="1 == 1" enable="2 == 2" disable-on-empty-model="false"></n2o-button>
+]]>
+                    </markdown>
+                </fields>
+            </form>
+    </regions>
+</page>

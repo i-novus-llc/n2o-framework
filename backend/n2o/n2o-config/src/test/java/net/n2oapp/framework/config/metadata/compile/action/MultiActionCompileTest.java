@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.action.Perform;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
+import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
@@ -64,7 +64,7 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action, instanceOf(MultiAction.class));
         assertThat(action.getType(), is("n2o/api/action/sequence"));
         assertThat(action.getPayload().getActions().size(), is(2));
-        assertThat(action.getPayload().getActions().get(0), instanceOf(Perform.class));
+        assertThat(action.getPayload().getActions().get(0), instanceOf(CustomAction.class));
         assertThat(action.getPayload().getActions().get(1), instanceOf(LinkAction.class));
         assertThat(((LinkAction) action.getPayload().getActions().get(1)).getUrl(), is("/test2"));
         assertThat(((LinkAction) action.getPayload().getActions().get(1)).getTarget(), is(Target.application));
@@ -77,14 +77,14 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
                         new DataSet("parent_id", 123));
         PerformButton button = (PerformButton) page.getToolbar().getButton("test1");
         assertThat(((LinkAction) ((MultiAction) button.getAction()).getPayload().getActions().get(2)).getUrl(),
-                is("/p/w/123/modal/multi2"));
+                is("/p/w/123/modal/multi3"));
 
         MultiAction action = (MultiAction) button.getAction();
         assertThat(action.getPayload().getActions().size(), is(3));
         assertThat(((InvokeAction) action.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/123/modal/multi0"));
-        assertThat(((InvokeAction) action.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
                 is("n2o/data/p/w/123/modal/multi1"));
+        assertThat(((InvokeAction) action.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
+                is("n2o/data/p/w/123/modal/multi2"));
         assertThat(((InvokeAction) action.getPayload().getActions().get(1)).getMeta().getSuccess().getRedirect().getPath(),
                 is("/123/redirect"));
     }
@@ -96,9 +96,9 @@ public class MultiActionCompileTest extends SourceCompileTestBase {
 
         MultiAction multiAction = (MultiAction) page.getWidget().getToolbar().getButton("b1").getAction();
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/multi0"));
+                is("n2o/data/testDefaultDataproviderRoutes/multi3"));
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/multi1"));
+                is("n2o/data/testDefaultDataproviderRoutes/multi4"));
 
         multiAction = (MultiAction) page.getWidget().getToolbar().getButton("b2").getAction();
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),

@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.reader;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.SourceMetadata;
 
 public class MetaTypeNotFoundException extends N2oException {
 

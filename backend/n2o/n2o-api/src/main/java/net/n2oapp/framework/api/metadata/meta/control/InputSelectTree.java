@@ -29,4 +29,8 @@ public class InputSelectTree extends ListControl {
     private Integer maxTagCount;
     @JsonProperty
     private Integer maxTagTextLength;
+    @JsonProperty
+    private Integer throttleDelay;
+    @JsonProperty
+    private Integer searchMinLength;
 }

@@ -23,14 +23,14 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     @Override
     public void imageShouldHaveShape(ShapeType shape) {
         switch (shape) {
-            case square:
+            case SQUARE:
                 checkShape("mr-2 n2o-nav-image ");
                 break;
-            case rounded:
-                checkShape("mr-2 n2o-nav-image " + shape);
+            case ROUNDED:
+                checkShape("mr-2 n2o-nav-image " + shape.getId());
                 break;
-            case circle:
-                checkShape("mr-2 n2o-nav-image rounded-" + shape);
+            case CIRCLE:
+                checkShape("mr-2 n2o-nav-image rounded-" + shape.getId());
                 break;
         }
     }

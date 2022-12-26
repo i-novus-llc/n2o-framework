@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для проверки филдсет с добавлением полей через модальное окно">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <hidden id="fl">
+                    <dependencies>
+                        <set-value apply-on-init="true">
+                            return []
+                        </set-value>
+                    </dependencies>
+                </hidden>
+                <multi-set
+                        id="fl"
+                        label="Проживание с мужем или женой, направленными работать за границу"
+                        add-label="Добавить период"
+                        can-add="false"
+                        can-copy="false"
+                        can-remove="false"
+                        can-remove-all="false"
+                        can-remove-first="false"
+                        primary-key="id"
+                >
+                    <row>
+                        <output-text id="name" label="Имя"/>
+                    </row>
+                    <button icon="fa fa-trash danger" label="trash" color="link">
+                        <edit-list operation="delete"
+                                   datasource="ds1"
+                                   model="resolve"
+                                   item-datasource="ds1"
+                                   item-model="resolve"
+                                   item-field-id="fl[index]"
+                                   list-field-id="fl"
+                        />
+                    </button>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+    <toolbar>
+        <button label="Добавить">
+            <show-modal page-id="add" route="/addItem"/>
+        </button>
+    </toolbar>
+</page>

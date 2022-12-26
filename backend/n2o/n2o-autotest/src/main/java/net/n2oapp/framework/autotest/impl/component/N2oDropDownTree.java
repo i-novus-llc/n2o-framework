@@ -1,8 +1,10 @@
 package net.n2oapp.framework.autotest.impl.component;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
+import org.openqa.selenium.Keys;
 
 public class N2oDropDownTree extends N2oComponent implements DropDownTree {
     private static final String CSS_SELECTORS = ".n2o-select-tree-tree-treenode-switcher-open, .n2o-select-tree-tree-treenode-switcher-close";
@@ -14,7 +16,24 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
     @Override
     public void shouldHaveItems(int size) {
-        element().$$(CSS_SELECTORS).shouldHaveSize(size);
+        element().$$(CSS_SELECTORS).shouldHave(CollectionCondition.size(size));
+    }
+
+    @Override
+    public void val(String value) {
+        searchField().click();
+        clear();
+        searchField().sendKeys(value);
+    }
+
+    @Override
+    public void clear() {
+        searchField().sendKeys(Keys.CONTROL + "a");
+        searchField().sendKeys(Keys.BACK_SPACE);
+    }
+
+    private SelenideElement searchField() {
+        return element().$(".n2o-select-tree-search__field");
     }
 
     public class N2oDropDownTreeItem extends N2oComponent implements DropDownTreeItem {
@@ -48,6 +67,10 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
         @Override
         public void shouldBeCollapsed() {
             switcher().shouldHave(Condition.cssClass("n2o-select-tree-tree-switcher_close"));
+        }
+
+        public void shouldHaveValue(String value) {
+            element().shouldHave(Condition.text(value));
         }
 
         private Condition isExpanded() {
