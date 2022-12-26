@@ -6,6 +6,7 @@ import omit from 'lodash/omit'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
+import isObject from 'lodash/isObject'
 
 import { registerButton, removeButton } from '../../ducks/toolbar/store'
 import {
@@ -90,7 +91,7 @@ export default function withActionButton(options = {}) {
                     const resolvedText = linkResolver(state, { link: modelLink, value: text })
 
                     const getResolvedCondition = (condition) => {
-                        if (isEmpty(condition)) {
+                        if (isObject(condition) && isEmpty(condition)) {
                             return true
                         }
 
