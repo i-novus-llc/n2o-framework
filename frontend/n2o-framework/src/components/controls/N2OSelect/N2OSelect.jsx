@@ -191,7 +191,7 @@ class N2OSelect extends React.Component {
 
     /**
      * Изменение видимости попапа
-     * @param newState - новое значение видимости
+     * @param newIsExpanded - новое значение видимости
      * @private
      */
     changePopUpVision(newIsExpanded) {
@@ -270,7 +270,9 @@ class N2OSelect extends React.Component {
 
     /**
      * Выполняет поиск элементов для popUp, если установлен фильтр
-     * @param newValue - значение для поиска
+     * @param input - значение для поиска
+     * @param {boolean} delay
+     * @param {Function} callback
      * @private
      */
     handleDataSearch(input, delay = true, callback) {
@@ -397,11 +399,11 @@ class N2OSelect extends React.Component {
      */
     handleClickOutside() {
         const { onBlur } = this.props
-        const { isExpanded, selected } = this.state
+        const { isExpanded, value } = this.state
 
         if (isExpanded) {
             this.hideOptionsList()
-            onBlur(selected)
+            onBlur(value)
         }
     }
 
