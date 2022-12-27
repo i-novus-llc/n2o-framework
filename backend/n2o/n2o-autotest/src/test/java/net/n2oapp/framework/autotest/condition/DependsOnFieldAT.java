@@ -44,7 +44,8 @@ public class DependsOnFieldAT extends AutoTestBase {
 
     @Test
     public void dependsOnField() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/orgs.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         Fields fields = page.widget(FormWidget.class).fields();
@@ -63,6 +64,12 @@ public class DependsOnFieldAT extends AutoTestBase {
         dependent.shouldBeRequired();
         dependent.control(InputText.class).shouldBeEnabled();
         dependent.control(InputText.class).shouldHaveValue("test");
+
+        master.val("1");
+        master.shouldHaveValue("1");
+        StandardField dependentList = fields.field("Зависимый список");
+        dependentList.shouldExists();
+        dependentList.control(InputSelect.class).shouldSelectedMulti("orgs1", "orgs2");
     }
 
     @Test
