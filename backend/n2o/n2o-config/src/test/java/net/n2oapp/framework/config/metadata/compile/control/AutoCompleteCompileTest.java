@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -41,7 +42,7 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testAutoCompleteDataProvider() {
+    public void testAutoComplete() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testAutoComplete.page.xml")
                 .get(new PageContext("testAutoComplete"));
         Form form = (Form) page.getRegions().get("single").get(0).getContent().get(1);
@@ -78,5 +79,11 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(autoComplete.getValueFieldId(), is("name"));
         assertThat(autoComplete.getTags(), is(false));
         assertThat(autoComplete.getMaxTagTextLength(), is(15));
+
+
+        autoComplete = (AutoComplete) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(2)
+                .getCols().get(0).getFields().get(0)).getControl();
+        assertThat(autoComplete.getDatasource(), is("testAutoComplete_test"));
+        assertThat(autoComplete.getData(), nullValue());
     }
 }

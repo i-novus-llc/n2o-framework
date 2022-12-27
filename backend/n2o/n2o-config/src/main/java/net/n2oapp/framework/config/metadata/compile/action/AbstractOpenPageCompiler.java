@@ -32,6 +32,7 @@ import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -221,12 +222,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     private Map<String, String> initParentDatasourceIdsMap(CompileProcessor p, PageContext context) {
         Map<String, String> parentDatasourceIdsMap = new HashMap<>();
 
-        for (Map.Entry<String, N2oAbstractDatasource> entry : p.getScope(DataSourcesScope.class).entrySet())
-            if (entry.getValue() instanceof N2oParentDatasource) {
-                if (!((N2oParentDatasource) entry.getValue()).isFromParentPage())
-                    parentDatasourceIdsMap.put(entry.getKey(), context.getParentDatasourceIdsMap().get(entry.getKey()));
-            } else
-                parentDatasourceIdsMap.put(entry.getKey(), getClientDatasourceId(entry.getKey(), p));
+        DataSourcesScope scope = p.getScope(DataSourcesScope.class);
+        if (!CollectionUtils.isEmpty(scope))
+            for (Map.Entry<String, N2oAbstractDatasource> entry : scope.entrySet())
+                if (entry.getValue() instanceof N2oParentDatasource) {
+                    if (!((N2oParentDatasource) entry.getValue()).isFromParentPage())
+                        parentDatasourceIdsMap.put(entry.getKey(), context.getParentDatasourceIdsMap().get(entry.getKey()));
+                } else
+                    parentDatasourceIdsMap.put(entry.getKey(), getClientDatasourceId(entry.getKey(), p));
 
         return parentDatasourceIdsMap;
     }

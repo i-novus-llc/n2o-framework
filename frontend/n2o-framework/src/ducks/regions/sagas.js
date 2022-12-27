@@ -10,6 +10,7 @@ import every from 'lodash/every'
 import each from 'lodash/each'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
+import entries from 'lodash/entries'
 
 import { metadataSuccess as METADATA_SUCCESS } from '../pages/store'
 import { makePageRoutesByIdSelector } from '../pages/selectors'
@@ -17,9 +18,10 @@ import { rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
-import { makeDatasourceIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
+import { makeDatasourceIdSelector, makeWidgetVisibleSelector, widgetsSelector } from '../widgets/selectors'
 import { failValidate, startValidate, dataRequest } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
+import { hideWidget, showWidget } from '../widgets/store'
 
 import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from './store'
 import { MAP_URL } from './constants'
@@ -29,7 +31,7 @@ function* mapUrl(value) {
     const routes = yield select(makePageRoutesByIdSelector(rootPageId))
 
     if (routes) {
-        yield call(mapQueryToUrl, rootPageId)
+        yield call(mapQueryToUrl, rootPageId, null, true)
         yield call(lazyFetch, value.payload)
     }
 }
@@ -54,6 +56,40 @@ export function* tabTraversal(action, tabs, regionId, form, param = null, option
     }
 
     return isTargetFormInTabs
+}
+
+function* switchTabToFirstVisible() {
+    const regions = yield select(regionsSelector)
+    const tabsRegions = filter(values(regions), region => region.tabs)
+
+    if (!tabsRegions.length) {
+        return
+    }
+    const widgets = yield select(widgetsSelector)
+
+    const { tabs } = first(tabsRegions)
+    const regionId = get(first(tabsRegions), 'regionId')
+    let tabId
+
+    for (const [key, value] of entries(widgets)) {
+        if (value.dependency && value.visible) {
+            tabId = key
+
+            break
+        }
+    }
+
+    if (!tabId) {
+        return
+    }
+
+    const firstVisibleTab = find(tabs, tab => find(tab.content, prop => prop.id === tabId))
+    const firstVisibleTabId = get(firstVisibleTab, 'id')
+    const regionActiveEntity = get(first(values(regions)), 'activeEntity')
+
+    if (firstVisibleTabId !== regionActiveEntity) {
+        yield put(setActiveRegion(regionId, firstVisibleTabId))
+    }
 }
 
 function* switchTab(action) {
@@ -84,7 +120,8 @@ function* switchTab(action) {
     const atLeastOneVisibleWidget = content => some(content, (meta) => {
         if (meta.visible === false) {
             return false
-        } if (meta.content) {
+        }
+        if (meta.content) {
             return atLeastOneVisibleWidget(meta.content)
         }
 
@@ -268,6 +305,7 @@ function* validateTabs({ payload, meta }) {
 
 export default [
     takeEvery(MAP_URL, mapUrl),
+    takeEvery([hideWidget, showWidget], switchTabToFirstVisible),
     takeEvery([METADATA_SUCCESS, actionTypes.TOUCH, registerRegion], switchTab),
     takeEvery([failValidate, startValidate], validateTabs),
 ]

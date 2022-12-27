@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.N2oAttribute;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
@@ -19,20 +20,32 @@ import java.util.Arrays;
 @Getter
 @Setter
 public abstract class N2oField extends N2oComponent implements IdAware {
+    @N2oAttribute("Идентификатор")
     private String id;
+    @N2oAttribute("Условие видимости")
     private String visible;
+    @N2oAttribute("Условие обязательности")
     private String required;
+    @N2oAttribute("Условие доступности")
     private String enabled;
     private String[] dependsOn;
+    @N2oAttribute("Заголовок")
     private String label;
+    @N2oAttribute("Css класс заголовка")
     private String labelClass;
+    @N2oAttribute("Описание")
     private String description;
+    @N2oAttribute("Подсказка")
     private String help;
+    @N2oAttribute("Тип данных")
     private String domain;
+    @N2oAttribute("Отсутствие заголовка")
     private Boolean noLabel;
+    @N2oAttribute("Отсутствие блока заголовка")
     private Boolean noLabelBlock;
     private Validations validations;
     private Boolean copied;
+    @N2oAttribute("Значение по умолчанию")
     private String defaultValue;
     private String param;
     private ReduxModel refModel;
@@ -40,6 +53,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private String refDatasourceId;
     private String refFieldId;
 
+    @N2oAttribute("Меню с кнопками")
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
 

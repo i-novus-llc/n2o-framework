@@ -75,6 +75,20 @@ public class BindLink implements Compiled {
         this.value = Placeholders.js(field);
     }
 
+    /**
+     * Эквивалентны ли ссылки приведенные к строке
+     *
+     * @param o Ссылка
+     * @return true - эквивалентны, false - нет
+     */
+    public boolean equalsNormalizedLink(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof BindLink))
+            return false;
+        BindLink link = (BindLink) o;
+        return Objects.equals(normalizeLink(), link.normalizeLink());
+    }
 
     /**
      * Эквивалентны ли ссылки на модели без учёта значений и полей.

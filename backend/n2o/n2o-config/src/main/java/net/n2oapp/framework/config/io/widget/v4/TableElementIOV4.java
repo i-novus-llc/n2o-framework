@@ -3,20 +3,16 @@ package net.n2oapp.framework.config.io.widget.v4;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.ElementIOFactory;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
+import net.n2oapp.framework.config.io.cell.v2.CellIOv2;
 import net.n2oapp.framework.config.io.control.v2.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.v4.FieldsetIOv4;
-import net.n2oapp.framework.config.io.widget.v4.AbstractListWidgetElementIOv4;
-import net.n2oapp.framework.config.io.cell.v2.CellIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -47,11 +43,11 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attributeBoolean(e, "checkboxes", t::getCheckboxes, t::setCheckboxes);
         p.attributeBoolean(e, "check-on-select", t::getCheckOnSelect, t::setCheckOnSelect);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
-        p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, N2oTable.FilterPosition.class);
+        p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, FilterPosition.class);
         p.childAttribute(e, "filters", "default-values-query-id", t::getFiltersDefaultValuesQueryId, t::setFiltersDefaultValuesQueryId);
         p.childAttributeBoolean(e, "filters", "search-on-change", t::getSearchOnChange, t::setSearchOnChange);
         p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
-        p.attributeEnum(e, "children", t::getChildren, t::setChildren, N2oTable.ChildrenToggle.class);
+        p.attributeEnum(e, "children", t::getChildren, t::setChildren, ChildrenToggle.class);
         t.adapterV4();
     }
 
@@ -66,7 +62,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "label", c::getLabelName, c::setLabelName);
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
-        p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, DirectionType.class);
+        p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, SortingDirection.class);
         p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);

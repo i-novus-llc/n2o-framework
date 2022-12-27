@@ -88,15 +88,15 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         N2oTable table = merge("net/n2oapp/framework/config/metadata/merge/widget/parentTableMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childTableMerger.widget.xml")
                 .get("parentTableMerger", N2oTable.class);
-        assertThat(table.getSelection(), is(RowSelectionEnum.checkbox));
+        assertThat(table.getSelection(), is(RowSelectionEnum.CHECKBOX));
         assertThat(table.getHeight(), is("100px"));
         assertThat(table.getWidth(), is("200px"));
         assertThat(table.getTextWrap(), is(true));
-        assertThat(table.getTableSize(), is(Size.lg));
-        assertThat(table.getChildren(), is(N2oTable.ChildrenToggle.expand));
+        assertThat(table.getTableSize(), is(Size.LG));
+        assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
         assertThat(table.getSearchOnChange(), is(true));
         assertThat(table.getFiltersDatasource().getQueryId(), is("test"));
-        assertThat(table.getFilterPosition(), is(N2oTable.FilterPosition.left));
+        assertThat(table.getFilterPosition(), is(FilterPosition.LEFT));
 
         AbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));
@@ -125,16 +125,16 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         N2oTable table = merge("net/n2oapp/framework/config/metadata/merge/widget/parentTableV5Merger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childTableV5Merger.widget.xml")
                 .get("parentTableV5Merger", N2oTable.class);
-        assertThat(table.getSelection(), is(RowSelectionEnum.checkbox));
+        assertThat(table.getSelection(), is(RowSelectionEnum.CHECKBOX));
         assertThat(table.getHeight(), is("100px"));
         assertThat(table.getWidth(), is("200px"));
         assertThat(table.getTextWrap(), is(true));
-        assertThat(table.getTableSize(), is(Size.lg));
-        assertThat(table.getChildren(), is(N2oTable.ChildrenToggle.expand));
+        assertThat(table.getTableSize(), is(Size.LG));
+        assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
         assertThat(table.getSearchOnChange(), is(true));
         assertThat(table.getDatasourceId(), is("ds"));
         assertThat(table.getFiltersDatasourceId(), is("ds_filter"));
-        assertThat(table.getFilterPosition(), is(N2oTable.FilterPosition.left));
+        assertThat(table.getFilterPosition(), is(FilterPosition.LEFT));
 
         AbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));

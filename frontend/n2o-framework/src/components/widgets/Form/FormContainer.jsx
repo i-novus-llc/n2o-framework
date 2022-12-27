@@ -42,7 +42,7 @@ class Container extends React.Component {
     componentWillUnmount() {
         const { dispatch, datasource: datasourceId, id, formsByDatasource } = this.props
 
-        if (formsByDatasource.length === 1) {
+        if (formsByDatasource.length) {
             dispatch(destroy(datasourceId || id))
         }
     }

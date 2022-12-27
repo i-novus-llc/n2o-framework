@@ -816,11 +816,13 @@ public final class IOProcessorImpl implements IOProcessor {
             Element childElement = element.getChild(childName, element.getNamespace());
             if (childElement == null) {
                 childElement = new Element(childName, element.getNamespace());
-                childElement.setAttribute(new Attribute(name, getter.get().toString()));
                 element.addContent(childElement);
-            } else {
-                childElement.setAttribute(new Attribute(name, getter.get().toString()));
             }
+
+            if (IdAware.class.isAssignableFrom(enumClass))
+                childElement.setAttribute(new Attribute(name, ((IdAware) getter.get()).getId()));
+            else
+                childElement.setAttribute(new Attribute(name, getter.get().name()));
         }
     }
 
@@ -837,7 +839,7 @@ public final class IOProcessorImpl implements IOProcessor {
             for (Object o : element.getAttributes()) {
                 Attribute attribute = (Attribute) o;
                 if (attribute.getNamespace().equals(namespace)) {
-                    if (attribute.getValue() instanceof String){
+                    if (attribute.getValue() instanceof String) {
                         map.put(attribute.getName(), process(attribute.getValue()));
                     } else {
                         map.put(attribute.getName(), attribute.getValue());

@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 
@@ -46,9 +45,6 @@ public abstract class ListControl extends Control {
     private ClientDataProvider dataProvider;
     @JsonProperty
     private String statusFieldId;
-
-    @Override
-    public boolean containsHimself(DataSet dataSet) {
-        return dataSet.containsKey(getId() + "." + getValueFieldId()) && dataSet.get(getId() + "." + getValueFieldId()) != null;
-    }
+    @JsonProperty
+    private String datasource;
 }

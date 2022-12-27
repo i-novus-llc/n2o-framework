@@ -98,7 +98,7 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.circle);
+        menuItem.imageShouldHaveShape(ShapeType.CIRCLE);
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
@@ -121,7 +121,7 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.circle);
+        menuItem.imageShouldHaveShape(ShapeType.CIRCLE);
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("2");
@@ -146,7 +146,7 @@ public class MenuAT extends AutoTestBase {
         dropdown.labelShouldHave("Виктория");
         dropdown.shouldHaveImage();
         dropdown.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        dropdown.imageShouldHaveShape(ShapeType.circle);
+        dropdown.imageShouldHaveShape(ShapeType.CIRCLE);
         dropdown.click();
 
         AnchorMenuItem menuItem = dropdown.item(0);
@@ -206,13 +206,13 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.rounded);
+        menuItem.imageShouldHaveShape(ShapeType.ROUNDED);
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
 
         sidebar.clickToggleBtn();
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.rounded);
+        menuItem.imageShouldHaveShape(ShapeType.ROUNDED);
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
         menuItem.labelShouldHave("Профиль");
 
@@ -235,7 +235,7 @@ public class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.square);
+        menuItem.imageShouldHaveShape(ShapeType.SQUARE);
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");
         menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
@@ -243,7 +243,7 @@ public class MenuAT extends AutoTestBase {
 
         menuItem.shouldHaveImage();
         menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.square);
+        menuItem.imageShouldHaveShape(ShapeType.SQUARE);
         menuItem.labelShouldHave("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.badgeShouldHaveValue("3");

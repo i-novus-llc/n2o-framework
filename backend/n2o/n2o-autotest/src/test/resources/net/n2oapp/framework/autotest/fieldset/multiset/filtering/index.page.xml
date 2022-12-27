@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Страница для проверки фильтрации в филдсете с динамическим числом полей">
+    <form>
+        <fields>
+            <multi-set label="Сведения о ТСР"
+                       id="zptsr_new.TSR"
+                       children-label="ТСР {(index + 1)}"
+                       can-remove-first="true"
+                       add-label="Добавить ТСР"
+            >
+                <row>
+                    <input-text id="chapter" description="Введите 1 или 2"/>
+                    <input-select id="TypeTSR"
+                                  label="Вид ТСР"
+                                  description="Должен фильтроваться по chapter"
+                                  query-id="test">
+                        <filters>
+                            <eq field-id="chapter" value="{zptsr_new.TSR[index].chapter}"/>
+                        </filters>
+                    </input-select>
+                </row>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>

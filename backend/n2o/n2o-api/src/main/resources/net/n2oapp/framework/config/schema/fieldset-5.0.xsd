@@ -261,7 +261,7 @@
                 </xs:sequence>
                 <xs:attribute name="size" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина столбца.</xs:documentation>
+                        <xs:documentation>Ширина столбца</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">

@@ -25,6 +25,7 @@ import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -366,15 +367,19 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     @Override
     public BindLink resolveLink(BindLink link, boolean observable) {
+        return resolveLink(link, observable, true);
+    }
+
+    @Override
+    public BindLink resolveLink(BindLink link, boolean observable, boolean strongCompare) {
         if (link == null)
             return null;
         Optional<String> res = Optional.empty();
         if (context != null) {
-            if (context.getQueryRouteMapping() != null) {
-                res = context.getQueryRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
-            }
-            if (res.isEmpty() && context.getPathRouteMapping() != null) {
-                res = context.getPathRouteMapping().entrySet().stream().filter(kv -> kv.getValue().equalsLink(link)).map(Map.Entry::getKey).findAny();
+            if (strongCompare) {
+                res = getValueIfPossible(link, res, kv -> kv.getValue().equalsNormalizedLink(link));
+            } else {
+                res = getValueIfPossible(link, res, kv -> kv.getValue().equalsLink(link));
             }
         }
         Object value = null;
@@ -387,6 +392,17 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         if (value == null)
             return link;
         return createLink(link, value);
+    }
+
+    private Optional<String> getValueIfPossible(BindLink link, Optional<String> res,
+                                                Predicate<Map.Entry<String, ModelLink>> filter) {
+        if (context.getQueryRouteMapping() != null) {
+            res = context.getQueryRouteMapping().entrySet().stream().filter(filter).map(Map.Entry::getKey).findAny();
+        }
+        if (res.isEmpty() && context.getPathRouteMapping() != null) {
+            res = context.getPathRouteMapping().entrySet().stream().filter(filter).map(Map.Entry::getKey).findAny();
+        }
+        return res;
     }
 
     @Override

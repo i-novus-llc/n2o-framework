@@ -16,10 +16,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SelectedWidgetPayload extends PerformActionPayload {
-
     @JsonProperty
     private String widgetId;
-
     @JsonProperty
     private Object value;
 

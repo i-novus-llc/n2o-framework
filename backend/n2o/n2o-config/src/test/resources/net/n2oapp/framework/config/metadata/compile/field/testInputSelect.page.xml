@@ -1,4 +1,4 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
             <form id="main">
@@ -9,24 +9,25 @@
                                   badge-field-id="badgeFieldId" badge-color-field-id="badgeColorFieldId"
                                   format="`id+' '+id`" sort-field-id="sortName"
                                   description-field-id="descFieldId"
+                                  search-min-length="2" throttle-delay="200"
                                   enabled-field-id="isEnabled" status-field-id="testStatus" size="20">
                         <default-value id="1" name="test" isTest="true"/>
-                            <pre-filters>
-                                <notEq field-id="ref" value="{someField}" param="test" reset-on-change="true"/>
-                                <contains field-id="country">
-                                    <value>1</value>
-                                    <value>2</value>
-                                    <value>3</value>
-                                </contains>
-                            </pre-filters>
+                        <filters>
+                            <notEq field-id="ref" value="{someField}" param="test" reset-on-change="true"/>
+                            <contains field-id="country">
+                                <value>1</value>
+                                <value>2</value>
+                                <value>3</value>
+                            </contains>
+                        </filters>
                     </input-select>
                     <input-select id="testId2" query-id="testSelect" max-tag-text-length="5"/>
                     <input-select id="testFetch">
                         <dependencies>
                             <fetch-value on="testId2" query-id="testSelectFetch" size="7">
-                                <pre-filters>
+                                <filters>
                                     <eq field-id="ref" value="{testId2}"/>
-                                </pre-filters>
+                                </filters>
                             </fetch-value>
                         </dependencies>
                     </input-select>
@@ -41,14 +42,14 @@
                                   icon-field-id="icon" image-field-id="image" group-field-id="country"
                                   format="`id+' '+id`">
                         <default-value id="1" name="test" isTest="true"/>
-                        <pre-filters>
-                            <notEq field-id="ref" value="{someField}" ref-widget-id="main" ref-model="filter"/>
+                        <filters>
+                            <notEq field-id="ref" value="{someField}" datasource="main" model="filter"/>
                             <contains field-id="country">
                                 <value>1</value>
                                 <value>2</value>
                                 <value>3</value>
                             </contains>
-                        </pre-filters>
+                        </filters>
                     </input-select>
                 </filters>
                 <columns>

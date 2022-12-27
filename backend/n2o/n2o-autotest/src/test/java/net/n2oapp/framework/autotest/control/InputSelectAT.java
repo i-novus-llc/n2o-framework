@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -21,7 +22,6 @@ import static net.n2oapp.framework.autotest.N2oSelenide.page;
  * Автотест компонента ввода текста с выбором из выпадающего списка
  */
 public class InputSelectAT extends AutoTestBase {
-
 
     @BeforeAll
     public static void beforeClass() {
@@ -213,18 +213,18 @@ public class InputSelectAT extends AutoTestBase {
         open.shouldExists();
         open.click();
 
-        SimplePage new_page = page(SimplePage.class);
-        new_page.shouldExists();
+        SimplePage newPage = page(SimplePage.class);
+        newPage.shouldExists();
         FormWidget formWidget = page.widget(FormWidget.class);
         formWidget.shouldExists();
         InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
-        InputSelect gender_with_const = formWidget.fields().field("Gender with const").control(InputSelect.class);
+        InputSelect genderWithConst = formWidget.fields().field("Gender with const").control(InputSelect.class);
         gender.shouldExists();
         gender.shouldSelected("Мужской");
         gender.shouldHaveOptions("Мужской");
-        gender_with_const.shouldExists();
-        gender_with_const.shouldSelected("Женский");
-        gender_with_const.shouldHaveOptions("Женский");
+        genderWithConst.shouldExists();
+        genderWithConst.shouldSelected("Женский");
+        genderWithConst.shouldHaveOptions("Женский");
     }
 
     @Test
@@ -241,18 +241,41 @@ public class InputSelectAT extends AutoTestBase {
         open.shouldExists();
         open.click();
 
-        SimplePage new_page = page(SimplePage.class);
-        new_page.shouldExists();
+        SimplePage newPage = page(SimplePage.class);
+        newPage.shouldExists();
         FormWidget formWidget = page.widget(FormWidget.class);
         formWidget.shouldExists();
         InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
-        InputSelect gender_with_const = formWidget.fields().field("Gender with const").control(InputSelect.class);
+        InputSelect genderWithConst = formWidget.fields().field("Gender with const").control(InputSelect.class);
         gender.shouldExists();
         gender.shouldSelected("Мужской");
         gender.shouldHaveOptions("Мужской");
-        gender_with_const.shouldExists();
-        gender_with_const.shouldSelected("Женский");
-        gender_with_const.shouldHaveOptions("Женский");
+        genderWithConst.shouldExists();
+        genderWithConst.shouldSelected("Женский");
+        genderWithConst.shouldHaveOptions("Женский");
     }
 
+    @Test
+    public void testSearchMinLength() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/test.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        InputSelect inputSelect = simplePage.widget(FormWidget.class)
+                .fields().field("Input-select min-length=3").control(InputSelect.class);
+        inputSelect.expand();
+        DropDown dropdown = inputSelect.dropdown();
+        dropdown.shouldHaveItems(3);
+
+        inputSelect.val("a");
+        dropdown.shouldHaveItems(3);
+
+        inputSelect.val("au");
+        dropdown.shouldHaveItems(3);
+
+        inputSelect.val("aud");
+        dropdown.shouldHaveItems(1);
+    }
 }

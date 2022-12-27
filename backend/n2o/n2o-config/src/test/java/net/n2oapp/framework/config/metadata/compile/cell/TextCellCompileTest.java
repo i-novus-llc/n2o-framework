@@ -48,7 +48,7 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
         assertThat(cell.getTooltipFieldId(), is("tooltipId"));
         assertThat(cell.getIcon(), is("icon"));
-        assertThat(cell.getIconPosition(), is(Position.left));
+        assertThat(cell.getIconPosition(), is(Position.LEFT));
 
         cell = (TextCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("TextCell"));
@@ -57,6 +57,6 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSubTextFieldKey(), is("subtext2"));
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
         assertThat(cell.getCssClass(), is("`test2 == 1 ? 'a' : test2 == 2 ? 'b' : test2 == 3 ? 'c' : null`"));
-        assertThat(cell.getIconPosition(), is(Position.right));
+        assertThat(cell.getIconPosition(), is(Position.RIGHT));
     }
 }

@@ -14,11 +14,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SetActiveRegionEntityPayload extends PerformActionPayload {
-
     @JsonProperty
     private String regionId;
-
     @JsonProperty
     private String activeEntity;
-
 }

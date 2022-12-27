@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 /**
- * Тестирование компиляции кастомного действия
+ * Тестирование компиляции настраиваемого действия
  */
 public class CustomActionCompileTest extends SourceCompileTestBase {
 

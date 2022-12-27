@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 
 /**
  * Клиентская модель кастомного действия
