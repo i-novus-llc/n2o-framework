@@ -48,6 +48,11 @@ public class N2oParam implements Source {
      */
     private String refPageId;
 
+    /**
+     * Обзятельность параметра, может появится только из фильтра, в xml такого параметра нет
+     */
+    private Boolean required;
+
 
     public N2oParam(N2oParam param) {
         this.name = param.name;
@@ -55,6 +60,7 @@ public class N2oParam implements Source {
         this.model = param.model;
         this.refPageId = param.refPageId;
         this.datasourceId = param.datasourceId;
+        this.required = param.required;
     }
 
     @Deprecated
