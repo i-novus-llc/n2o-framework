@@ -243,7 +243,6 @@ function InputSelectTree({
      */
     const handleChange = (value) => {
         onChange(getItemByValue(value))
-        onBlur(getItemByValue(value))
     }
 
     /**
@@ -257,7 +256,6 @@ function InputSelectTree({
             // eslint-disable-next-line react/no-find-dom-node
             findDOMNode(_control).focus()
         }
-        onBlur()
     }
 
     /**
@@ -332,7 +330,7 @@ function InputSelectTree({
                 ref={setControlRef}
                 /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
                 tabIndex={1}
-                {...value && { value: setValue(value) }}
+                value={setValue(value)}
                 open={dropdownExpanded}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 className={cx('n2o form-control', 'n2o-input-select-tree', className, {
