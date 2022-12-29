@@ -206,4 +206,50 @@ public class CopyActionAT extends AutoTestBase {
 
         address.shouldHaveValue("Broadway");
     }
+
+    /**
+     * Тест, проверяющий copy-mode=add c вложенными полями
+     */
+    @Test
+    public void testCopyNestedFields() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/head_add.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        table.shouldExists();
+
+        StandardButton addBtn = table.toolbar().topLeft().button("Добавить");
+
+        TableWidget.Rows rows = table.columns().rows();
+        rows.shouldHaveSize(0);
+
+        addBtn.click();
+
+        Modal modal = N2oSelenide.modal();
+        modal.shouldExists();
+
+        FormWidget form = modal.content(StandardPage.class)
+                .regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        form.shouldExists();
+
+        InputText inputText = form.fields().field("rpu.name").control(InputText.class);
+        inputText.val("val1");
+
+        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
+        saveBtn.shouldExists();
+        saveBtn.click();
+
+        rows.shouldHaveSize(1);
+        rows.row(0).cell(1).textShouldHave("val1");
+
+        addBtn.click();
+        modal.shouldExists();
+        inputText.val("val2");
+        saveBtn.click();
+        rows.shouldHaveSize(2);
+        rows.row(1).cell(1).textShouldHave("val2");
+    }
 }
