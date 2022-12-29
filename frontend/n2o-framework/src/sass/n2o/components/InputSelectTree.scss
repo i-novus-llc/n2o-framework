@@ -7,6 +7,42 @@
     .n2o-select-tree-selection__clear {
         right: 10px !important;
     }
+
+    &.n2o-loading {
+        .n2o-select-tree-dropdown {
+            &::after {
+                content: '';
+                position: absolute;
+                display: inline-block;
+                width: 2rem;
+                height: 2rem;
+                vertical-align: text-bottom;
+                border: 0.25em solid currentColor;
+                border-right-color: transparent;
+                border-radius: 50%;
+                animation: spinner-border 0.75s linear infinite;
+                left: calc(50% - 1rem);
+                top: calc(50% - 1rem);
+                z-index: 2;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-color: #fff;
+                opacity: 0.6;
+                z-index: 1;
+            }
+        }
+
+        .n2o-select-stub {
+            height: 2.5rem;
+        }
+    }
 }
 
 .n2o-input-select-tree__search-clear-icon {
