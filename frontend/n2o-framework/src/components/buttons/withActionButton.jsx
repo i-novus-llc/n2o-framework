@@ -278,53 +278,57 @@ export default function withActionButton(options = {}) {
                 const resolvedConfirmProps = this.mapConfirmProps(confirm)
 
                 return (
-                    <div id={this.generatedTooltipId}>
-                        <SimpleTooltip
-                            id={this.generatedTooltipId}
-                            message={currentMessage}
-                            placement={hintPosition}
-                        />
-                        <WrappedComponent
-                            {...omit(this.props, [
-                                'isInit',
-                                'targetTooltip',
-                                'initialProps',
-                                'registerButton',
-                                'uid',
-                            ])}
-                            url={permittedUrl}
-                            disabled={currentDisabled}
-                            visible={currentVisible}
-                            onClick={this.handleClick}
-                            id={this.generatedButtonId}
-                        />
-                        {
-                            confirmMode === ConfirmMode.POPOVER
-                                ? (
-                                    <PopoverConfirm
-                                        {...resolvedConfirmProps}
-                                        isOpen={confirmVisible}
-                                        onConfirm={this.handleConfirm}
-                                        onDeny={this.handleCloseConfirmModal}
-                                        target={this.generatedButtonId}
-                                    />
-                                )
-                                : null
-                        }
-                        {
-                            confirmMode === ConfirmMode.MODAL
-                                ? (
-                                    <ModalDialog
-                                        {...resolvedConfirmProps}
-                                        visible={confirmVisible}
-                                        onConfirm={this.handleConfirm}
-                                        onDeny={this.handleCloseConfirmModal}
-                                        close={this.handleCloseConfirmModal}
-                                    />
-                                )
-                                : null
-                        }
-                    </div>
+                    ('visible' in this.props) && !visible
+                        ? null
+                        : (
+                            <div id={this.generatedTooltipId}>
+                                <SimpleTooltip
+                                    id={this.generatedTooltipId}
+                                    message={currentMessage}
+                                    placement={hintPosition}
+                                />
+                                <WrappedComponent
+                                    {...omit(this.props, [
+                                        'isInit',
+                                        'targetTooltip',
+                                        'initialProps',
+                                        'registerButton',
+                                        'uid',
+                                    ])}
+                                    url={permittedUrl}
+                                    disabled={currentDisabled}
+                                    visible={currentVisible}
+                                    onClick={this.handleClick}
+                                    id={this.generatedButtonId}
+                                />
+                                {
+                                    confirmMode === ConfirmMode.POPOVER
+                                        ? (
+                                            <PopoverConfirm
+                                                {...resolvedConfirmProps}
+                                                isOpen={confirmVisible}
+                                                onConfirm={this.handleConfirm}
+                                                onDeny={this.handleCloseConfirmModal}
+                                                target={this.generatedButtonId}
+                                            />
+                                        )
+                                        : null
+                                }
+                                {
+                                    confirmMode === ConfirmMode.MODAL
+                                        ? (
+                                            <ModalDialog
+                                                {...resolvedConfirmProps}
+                                                visible={confirmVisible}
+                                                onConfirm={this.handleConfirm}
+                                                onDeny={this.handleCloseConfirmModal}
+                                                close={this.handleCloseConfirmModal}
+                                            />
+                                        )
+                                        : null
+                                }
+                            </div>
+                        )
                 )
             }
         }
