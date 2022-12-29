@@ -334,7 +334,7 @@ function InputSelectTree({
                 open={dropdownExpanded}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 className={cx('n2o form-control', 'n2o-input-select-tree', className, {
-                    loading,
+                    'n2o-loading': loading && data.length,
                     'n2o-disabled': disabled,
                 })}
                 switcherIcon={renderSwitcherIcon}
@@ -357,7 +357,7 @@ function InputSelectTree({
                 prefixCls="n2o-select-tree"
                 showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
                 getPopupContainer={getPopupContainer}
-                notFoundContent={loading ? <InlineSpinner /> : notFoundContent}
+                notFoundContent={loading ? <div className="n2o-select-stub" /> : notFoundContent}
                 placeholder={placeholder}
                 searchPlaceholder={searchPlaceholder}
                 disabled={disabled}
