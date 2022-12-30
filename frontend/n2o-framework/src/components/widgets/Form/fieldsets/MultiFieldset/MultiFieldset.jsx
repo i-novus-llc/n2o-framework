@@ -81,7 +81,9 @@ export const enhance = compose(
             primaryKey = 'id',
         }) => () => {
             if (fields === null) {
-                dispatch(change(form, name, [{}]))
+                const fieldData = generatePrimaryKey ? { [primaryKey]: id() } : {}
+
+                dispatch(change(form, name, [fieldData]))
 
                 return
             }
