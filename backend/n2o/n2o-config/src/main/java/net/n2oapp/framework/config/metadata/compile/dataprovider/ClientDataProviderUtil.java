@@ -104,6 +104,9 @@ public class ClientDataProviderUtil {
             } else {
                 link = getModelLinkByParam(context, param);
             }
+            if (param.getRequired() != null && param.getRequired()) {
+                link.setRequired(true);
+            }
             result.put(param.getName(), link);
         }
         return result;

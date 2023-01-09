@@ -10,7 +10,6 @@ import every from 'lodash/every'
 import each from 'lodash/each'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
-import entries from 'lodash/entries'
 
 import { metadataSuccess as METADATA_SUCCESS } from '../pages/store'
 import { makePageRoutesByIdSelector } from '../pages/selectors'
@@ -58,6 +57,14 @@ export function* tabTraversal(action, tabs, regionId, form, param = null, option
     return isTargetFormInTabs
 }
 
+/*
+    TODO: Отрефакторить функцию или же решить проблему другим путём
+    Временное решение, не оптимальное
+    У первого таба захардкожено свойство "opened", берём его и проверяем, если оно видимое, то сетим в редакс,
+    если же невидимое, то берем следующий видимый таб и сетим его
+    А если в URL имеется query, то сетим в редакс query
+ */
+
 function* switchTabToFirstVisible() {
     const regions = yield select(regionsSelector)
     const tabsRegions = filter(values(regions), region => region.tabs)
@@ -65,30 +72,47 @@ function* switchTabToFirstVisible() {
     if (!tabsRegions.length) {
         return
     }
+
     const widgets = yield select(widgetsSelector)
 
     const { tabs } = first(tabsRegions)
     const regionId = get(first(tabsRegions), 'regionId')
-    let tabId
+    const appHistory = yield select(state => state.router || null)
+    const query = get(appHistory, `location.query.${regionId}`)
 
-    for (const [key, value] of entries(widgets)) {
-        if (value.dependency && value.visible) {
-            tabId = key
-
-            break
-        }
-    }
-
-    if (!tabId) {
-        return
-    }
-
-    const firstVisibleTab = find(tabs, tab => find(tab.content, prop => prop.id === tabId))
-    const firstVisibleTabId = get(firstVisibleTab, 'id')
     const regionActiveEntity = get(first(values(regions)), 'activeEntity')
 
-    if (firstVisibleTabId !== regionActiveEntity) {
-        yield put(setActiveRegion(regionId, firstVisibleTabId))
+    const openedTabId = get(find(tabs, tab => tab.opened), 'content[0].id')
+
+    const openedTabIdInWidget = get(find(widgets, widget => widget.id === openedTabId), 'id')
+    const isVisibleOpenedTabId = get(openedTabIdInWidget, 'visible')
+
+    const sortedWidgets = Object.entries(widgets).sort((a, b) => {
+        if (a[0] > b[0]) {
+            return 1
+        }
+
+        if (a[0] < b[0]) {
+            return -1
+        }
+
+        return 0
+    })
+
+    const firstVisibleWidgetId = first(find(sortedWidgets, ([, widget]) => widget.visible && widget.id?.includes('tab')))
+
+    const firstVisibleTab = find(tabs, tab => find(tab.content, (prop) => {
+        const resolveId = (isVisibleOpenedTabId ? openedTabIdInWidget : firstVisibleWidgetId)
+
+        return (prop.id === resolveId)
+    }))
+
+    const firstVisibleTabId = get(firstVisibleTab, 'id')
+
+    const resolveActiveEntity = query || firstVisibleTabId
+
+    if (resolveActiveEntity !== regionActiveEntity) {
+        yield put(setActiveRegion(regionId, resolveActiveEntity))
     }
 }
 

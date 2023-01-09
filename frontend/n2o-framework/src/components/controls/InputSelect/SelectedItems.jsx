@@ -106,17 +106,30 @@ function InputElements({
         )
     }
 
-    const list = map(selected, (item, index) => (
-        <ItemWrapper
-            id={item.id || index}
-            title={item[labelFieldId] || item}
-            maxTagTextLength={maxTagTextLength}
-            disabled={disabled}
-            item={item}
-            index={index}
-            onRemoveItem={onRemoveItem}
-        />
-    ))
+    const getTitle = (item, labelFieldId) => {
+        if (typeof item === 'string') {
+            return item
+        }
+
+        return item[labelFieldId] || ''
+    }
+
+    const list = map(selected, (item, index) => {
+        const title = getTitle(item, labelFieldId)
+        const id = item.id || index
+
+        return (
+            <ItemWrapper
+                id={id}
+                title={title}
+                maxTagTextLength={maxTagTextLength}
+                disabled={disabled}
+                item={item}
+                index={index}
+                onRemoveItem={onRemoveItem}
+            />
+        )
+    })
 
     return <>{list}</>
 }

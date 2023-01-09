@@ -63,6 +63,7 @@ public class N2oClientDataProviderUtil {
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 N2oParam queryParam = new N2oParam();
                 queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterId()));
+                queryParam.setRequired(preFilter.getRequired());
                 if (preFilter.getParam() == null) {
                     queryParam.setValueList(getPrefilterValue(preFilter));
                     queryParam.setModel(preFilter.getModel());
@@ -75,8 +76,6 @@ public class N2oClientDataProviderUtil {
                     queryParam.setValueParam(preFilter.getParam());
                 }
                 queryParams[i] = queryParam;
-
-
             }
             dataProvider.setQueryParams(queryParams);
         }
