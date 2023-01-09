@@ -31,20 +31,22 @@ public class MapInvocationUtil {
 
         for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
             Object data = dataSet.get(map.getKey());
-            if (map.getValue() != null) {
-                String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
-                if (map.getValue().getChildMapping() != null && data != null) {
-                    if (data instanceof Collection) {
-                        DataList list = new DataList();
-                        for (Object obj : (Collection<?>) data)
-                            list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
-                        MappingProcessor.inMap(result, fieldMapping, list);
-                    } else if (data instanceof DataSet)
-                        MappingProcessor.inMap(result, fieldMapping, mapToMap((DataSet) data, map.getValue().getChildMapping()));
-                } else
-                    MappingProcessor.inMap(result, fieldMapping, data);
-            } else {
-                MappingProcessor.inMap(result, Placeholders.spel(map.getKey()), data);
+            if (data != null) {
+                if (map.getValue() != null) {
+                    String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
+                    if (map.getValue().getChildMapping() != null) {
+                        if (data instanceof Collection) {
+                            DataList list = new DataList();
+                            for (Object obj : (Collection<?>) data)
+                                list.add(mapToMap((DataSet) obj, map.getValue().getChildMapping()));
+                            MappingProcessor.inMap(result, fieldMapping, list);
+                        } else if (data instanceof DataSet)
+                            MappingProcessor.inMap(result, fieldMapping, mapToMap((DataSet) data, map.getValue().getChildMapping()));
+                    } else
+                        MappingProcessor.inMap(result, fieldMapping, data);
+                } else {
+                    MappingProcessor.inMap(result, Placeholders.spel(map.getKey()), data);
+                }
             }
         }
         return result;
