@@ -1,4 +1,4 @@
-import { call, fork, put, select, take, takeEvery, cancel } from 'redux-saga/effects'
+import { call, fork, put, select, take, takeEvery, cancel, delay } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
@@ -274,6 +274,12 @@ export function* runResolve(action) {
 }
 
 export function* clearForm(action) {
+    /*
+     * FIXME: ХАК (from 7.23) для быстрого фикса. Разобраться
+     * если дёргать ресет формы разу после очистки модели, то форма сетает первый введёный в ней символ
+     * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
+*/
+    yield delay(50)
     yield put(reset(action.payload.key))
 }
 
