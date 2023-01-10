@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.datasources.inherited_datasource;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
@@ -190,7 +191,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
         rate.shouldHaveValue("2");
         dollar.shouldHaveValue("40");
         submit.click();
-        rub.val("40");
+        rub.shouldHaveValue("40");
         rate.shouldHaveValue("2");
         dollar.shouldHaveValue("80");
 
