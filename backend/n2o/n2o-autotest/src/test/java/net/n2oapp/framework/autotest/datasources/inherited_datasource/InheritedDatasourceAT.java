@@ -1,7 +1,11 @@
 package net.n2oapp.framework.autotest.datasources.inherited_datasource;
 
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -157,6 +161,85 @@ public class InheritedDatasourceAT extends AutoTestBase {
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
         table.columns().rows().columnShouldHaveTexts(0, List.of("Иванов И.И.", "Петров П.П.", "Кузнецов А.И."));
+    }
+
+    @Test
+    public void testFetchAndSubmitValue() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_submit_value/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText rub = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).fields()
+                .field("rub").control(InputText.class);
+        InputText rate = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).fields()
+                .field("rate").control(InputText.class);
+        InputText dollar = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class).fields()
+                .field("dollar").control(InputText.class);
+
+        Button submit = page.toolbar().bottomRight().button("submit");
+
+        rub.val("5");
+        rate.shouldHaveValue("2");
+        dollar.shouldHaveValue("10");
+        rub.val("10");
+        rate.shouldHaveValue("2");
+        dollar.shouldHaveValue("20");
+
+        submit.click();
+        rub.val("20");
+        rate.shouldHaveValue("2");
+        dollar.shouldHaveValue("40");
+        submit.click();
+        rub.val("40");
+        rate.shouldHaveValue("2");
+        dollar.shouldHaveValue("80");
+
+        rate.val("3");
+        rub.shouldHaveValue("40");
+        dollar.shouldHaveValue("120");
+
+        rub.clear();
+        dollar.shouldHaveValue("0");
+    }
+
+    @Test
+    public void testFetchValueSourceFiledID() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/fetch_value/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText rub = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).fields()
+                .field("rub").control(InputText.class);
+        InputText dollar = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class).fields()
+                .field("dollar").control(InputText.class);
+
+        rub.val("5");
+        dollar.shouldHaveValue("10");
+        rub.val("10");
+        dollar.shouldHaveValue("20");
+        rub.clear();
+        dollar.shouldHaveValue("0");
+    }
+
+    @Test
+    public void testSubmitTargetFiledID() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/submit/target_field/submit_value/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText rub = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).fields()
+                .field("rub").control(InputText.class);
+        InputText other = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).fields()
+                .field("other").control(InputText.class);
+        InputText dollar = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class).fields()
+                .field("dollar").control(InputText.class);
+
+        Button submit = page.toolbar().bottomRight().button("submit");
+
+        rub.val("10");
+        dollar.shouldHaveValue("20");
+        submit.click();
+        other.shouldHaveValue("4");
     }
 }
 
