@@ -29,7 +29,7 @@ describe('Проверка саги widgets', () => {
         })
         const value = gen.next()
 
-        expect(value.value.type).toBe('PUT')
+        expect(value.value.type).toBe('CALL')
     })
     it('handleFetch должен выпасть с ошибкой', async () => {
         const delay = ms => new Promise(res => setTimeout(res, ms))
