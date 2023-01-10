@@ -73,7 +73,7 @@ export function* query(id: string, {
     let sourceList = Array.isArray(sourceData) ? sourceData : [sourceData]
 
     if (fetchValueExpression) {
-        const normalized = evalExpression(fetchValueExpression, { source: sourceList })
+        const normalized = evalExpression(fetchValueExpression, { source: sourceData })
 
         if (!Array.isArray(normalized)) {
             throw new Error('Ошибка нормализации данных')
