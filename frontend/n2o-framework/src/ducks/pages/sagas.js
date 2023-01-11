@@ -103,7 +103,7 @@ export function* getMetadata(apiProvider, action) {
                 {
                     title: err.status ? err.status : 'Ошибка',
                     status: err.status,
-                    text: err.message,
+                    text: err.message || err.status,
                     closeButton: false,
                     severity: 'danger',
                 },
