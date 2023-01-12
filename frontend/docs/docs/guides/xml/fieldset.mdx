@@ -168,7 +168,7 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 
 ### &lt;multi-set&gt;
 
-Филдсет с динамическим числом полей.
+Филдсет с динамическим числом групп полей.
 
 **Атрибуты**
 
@@ -189,7 +189,8 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
 **Пример**
 
 ```xml
-<multi-set label="Участник {index}"
+<multi-set id="members"
+    label="Участник {index}"
     add-label="Добавить участника"
     remove-all-label="Удалить всех участников"
     can-remove-all="true"
@@ -198,3 +199,40 @@ http://n2oapp.net/framework/config/schema/fieldset-5.0
     ...
 </multi-set>
 ```
+
+:::note
+Идентификатор мультифилдсета `id` задает название спискового поля, в котором будут храниться все добавленные группы полей.
+
+```xml
+<multi-set id="members">
+   <input-text id="name"/>
+   ...
+</multi-set>
+```
+в модели данных:
+```json
+"members": [
+  { "name": "one", ... },  //первая группа полей
+  { "name": "two", ... },  //вторая группа полей
+  ...
+]
+```
+:::
+
+:::note
+Любые зависимости и валидации полей внутри мульти филдсета необходимо задавать с помощью переменной `index`.
+Индекс определяет текущую группу полей мультифилдсета.
+
+```xml
+<multi-set id="members">
+   <input-text id="firstName"/>
+   <input-text id="lastName">
+      <dependencies>
+          <visibility on="members[index].firstName">members[index].firstName != null</visibility>
+      </dependencies>
+   </input-text>
+   ...
+</multi-set>
+```
+
+:::

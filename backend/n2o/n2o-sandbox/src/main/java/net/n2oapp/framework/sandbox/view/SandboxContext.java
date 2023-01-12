@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -86,8 +85,9 @@ public class SandboxContext implements ContextEngine {
         Properties props = new Properties();
         String userProperties = restClient.getFile(projectId, USER_PROPERTIES, session);
         if (userProperties != null) {
-            try (InputStream inputStream = new ByteArrayInputStream(userProperties.getBytes())) {
-                props.load(inputStream);
+            try (InputStream inputStream = new ByteArrayInputStream(userProperties.getBytes());
+                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                props.load(bufferedReader);
             } catch (IOException e) {
                 throw new N2oException(e);
             }

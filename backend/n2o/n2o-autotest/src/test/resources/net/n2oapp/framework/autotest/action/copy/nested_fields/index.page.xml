@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+name="Страница для автотеста, проверяющего copy-mode=add с вложенными полями">
+    <datasources>
+        <datasource id="ds"/>
+        <inherited-datasource id="head_ds"
+                              source-datasource="ds"
+                              source-model="resolve"
+                              source-field-id="heads">
+            <dependencies>
+                <fetch on="ds"/>
+            </dependencies>
+        </inherited-datasource>
+    </datasources>
+
+    <regions>
+        <table auto-select="false"
+               datasource="head_ds"
+               fetch-on-init="true">
+            <toolbar>
+                <button label="Добавить" color="secondary"
+                        enabled="true">
+                    <show-modal page-id="head_add"
+                                route="/add"
+                                submit-action-type="copy"
+                                copy-mode="add"
+                                target-field-id="heads"
+                                target-datasource="ds"
+                                target-model="resolve"
+                    />
+                </button>
+            </toolbar>
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="rpu.name"/>
+            </columns>
+        </table>
+    </regions>
+</page>
