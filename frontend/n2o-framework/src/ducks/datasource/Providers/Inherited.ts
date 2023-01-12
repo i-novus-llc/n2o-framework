@@ -5,7 +5,8 @@ import { dataSourceByIdSelector } from '../selectors'
 import type { QueryOptions, InheritedProvider, InheritedSubmit } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { makeGetModelByPrefixSelector } from '../../models/selectors'
-import { setModel } from '../../models/store'
+import { setModel, removeModel } from '../../models/store'
+import evalExpression from '../../../utils/evalExpression'
 import { State } from '../../State'
 
 import { applyFilter } from './storage/applyFilter'
@@ -14,38 +15,52 @@ import { applyPaging } from './storage/applyPaging'
 
 export function* submit(id: string, {
     model: prefix,
-    targetDs: tagetId,
+    targetDs: targetId,
     targetModel: targetPrefix,
     targetField,
+    submitValueExpression,
 }: InheritedSubmit) {
-    const model: object = yield select(makeGetModelByPrefixSelector(prefix, id))
-    let data
+    const sourceModel = cloneDeep((yield select(makeGetModelByPrefixSelector(prefix, id))) as object)
+    const targetModel = cloneDeep((yield select(makeGetModelByPrefixSelector(prefix, targetId))) as object | void)
+    let source: void | object = sourceModel
 
-    if (targetField) {
-        const targetModel: object | void = yield select(makeGetModelByPrefixSelector(targetPrefix, tagetId))
+    if (submitValueExpression) {
+        const target = targetField ? get(targetModel, targetField) : targetModel
 
-        data = cloneDeep(targetModel) || {}
-        set(data, targetField, cloneDeep(model))
-    } else {
-        data = cloneDeep(model)
+        source = evalExpression<object | void>(submitValueExpression, {
+            source: sourceModel,
+            target,
+        })
     }
 
-    yield put(setModel(targetPrefix, tagetId, data))
+    let resultModel = source
+
+    if (targetField) {
+        resultModel = cloneDeep(targetModel) || {}
+        set(resultModel, targetField, source)
+    }
+
+    if (resultModel) {
+        yield put(setModel(targetPrefix, targetId, resultModel))
+    } else {
+        yield put(removeModel(targetPrefix, targetId))
+    }
 }
 
 export function* query(id: string, {
     sourceDs: datasourceId,
     sourceModel: prefix,
     sourceField,
+    fetchValueExpression,
     filters,
 }: InheritedProvider, options: QueryOptions) {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
     const { sorting, paging: { size, page } } = datasource
 
-    const model: object | void = yield select(makeGetModelByPrefixSelector(prefix, datasourceId))
-    const data = cloneDeep(sourceField ? get(model, sourceField) : model)
+    const sourceModel: object | void = yield select(makeGetModelByPrefixSelector(prefix, datasourceId))
+    const sourceData = cloneDeep(sourceField ? get(sourceModel, sourceField) : sourceModel)
 
-    if (!data) {
+    if (!sourceData) {
         return {
             list: [],
             paging: {
@@ -55,15 +70,27 @@ export function* query(id: string, {
         }
     }
 
+    let sourceList = Array.isArray(sourceData) ? sourceData : [sourceData]
+
+    if (fetchValueExpression) {
+        const normalized = evalExpression(fetchValueExpression, { source: sourceData })
+
+        if (!Array.isArray(normalized)) {
+            throw new Error('Ошибка нормализации данных')
+        }
+
+        sourceList = normalized
+    }
+
     const state: State = yield select()
     const filtered: object[] = applyFilter(
         state,
-        Array.isArray(data) ? data : [data],
+        sourceList,
         filters,
     )
-    const sortered = applySorting(filtered, sorting)
+    const sorted = applySorting(filtered, sorting)
     const { list, paging } = applyPaging(
-        sortered,
+        sorted,
         {
             size,
             page: typeof options.page === 'undefined' ? page : options.page,

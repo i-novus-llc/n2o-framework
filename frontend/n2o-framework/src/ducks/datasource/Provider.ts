@@ -54,6 +54,7 @@ export interface InheritedProvider extends IProvider {
     sourceModel: ModelPrefix
     sourceField?: string
     filters?: IFilter[]
+    fetchValueExpression?: string
 }
 
 export interface Paging {
@@ -106,6 +107,7 @@ export interface InheritedSubmit extends ISubmitBase {
     targetDs: string,
     targetModel: ModelPrefix
     targetField?: string
+    submitValueExpression?: string
 }
 
 export type ISubmit = StorageSubmit | InheritedSubmit | ServiceSubmit

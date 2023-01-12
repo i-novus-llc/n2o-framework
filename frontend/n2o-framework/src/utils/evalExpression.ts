@@ -1,4 +1,4 @@
-import { isPlainObject, values, isEmpty } from 'lodash'
+import { isPlainObject } from 'lodash'
 
 // @ts-ignore ignore import error from js file
 import functions from './functions'
@@ -114,12 +114,33 @@ export function createContextFn(args: string[], code: string): ExpressionFunctio
     return func
 }
 
+type ResultType<
+    TExpression extends string,
+    TExpectedResult,
+> = (TExpression extends ('true' | 'false') ? boolean : TExpectedResult)
+
+/**
+ * Выполняет JS выражение
+ * @param expression {String} - Выражение, которое нужно выполнить
+ * @param context - {Object} - Аргумент вызова (будет обогощен либами, типа lodash, moment и пр.)
+ * @param type - {Object} - настройка evalExpression (mode = multi || mode = single default)
+ * @returns {*} - результат вычисления
+ */
 // eslint-disable-next-line consistent-return
-function evalExpressionSingle(expression: string, context: object = {}, args = context) {
+export function evalExpression<
+    TExpectedResult = unknown,
+    TExpression extends string = string
+>(
+    expression: string,
+    context: object = {},
+    args = context,
+): ResultType<TExpression, TExpectedResult> | void {
     if (expression === 'false') {
+        // @ts-ignore Тут ts чутка не догоняет, что тип expression это 'false', а не просто строка, поэтому ругается что не ожидал boolean
         return false
     }
     if (expression === 'true') {
+        // @ts-ignore Тут ts чутка не догоняет, что тип expression это 'true', а не просто строка, поэтому ругается что не ожидал boolean
         return true
     }
 
@@ -136,7 +157,7 @@ function evalExpressionSingle(expression: string, context: object = {}, args = c
 
         const fn = createContextFn(keys, expression)
 
-        return fn.apply(context, values)
+        return fn.apply(context, values) as ResultType<TExpression, TExpectedResult> | void
     } catch (error) {
         warning(
             true,
@@ -147,32 +168,4 @@ function evalExpressionSingle(expression: string, context: object = {}, args = c
     }
 }
 
-function evalExpressionMulti(expression: string, context: object | object[]) {
-    const multiContext = Array.isArray(context) ? context : values(context)
-
-    if (isEmpty(multiContext)) {
-        return evalExpressionSingle(expression, multiContext, {})
-    }
-
-    return multiContext.every(item => evalExpressionSingle(expression, multiContext, item))
-}
-
-// TODO вынести отсюда мульти в отдельный файл. Вообще не понятно зачем он тут, нужен для конкретного кейса
-/**
- * Выполняет JS выражение
- * @param expression {String} - Выражение, которое нужно выполнить
- * @param context - {Object} - Аргумент вызова (будет обогощен либами, типа lodash, moment и пр.)
- * @param type - {Object} - настройка evalExpression (mode = multi || mode = single default)
- * @returns {*} - результат вычисления
- */
-export default function evalExpression(
-    expression: string,
-    context: object,
-    type = { mode: 'single' },
-) {
-    const { mode } = type
-
-    return mode === 'multi'
-        ? evalExpressionMulti(expression, context)
-        : evalExpressionSingle(expression, context)
-}
+export default evalExpression

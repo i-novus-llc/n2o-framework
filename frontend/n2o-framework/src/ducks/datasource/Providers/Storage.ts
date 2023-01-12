@@ -59,9 +59,9 @@ export function* query(id: string, { storage: storageType, key }: StorageProvide
 
     const state: State = yield select()
     const filtered: object[] = applyFilter(state, json)
-    const sortered = applySorting(filtered, sorting)
+    const sorted = applySorting(filtered, sorting)
     const { list, paging } = applyPaging(
-        sortered,
+        sorted,
         {
             size,
             page: typeof options.page === 'undefined' ? page : options.page,

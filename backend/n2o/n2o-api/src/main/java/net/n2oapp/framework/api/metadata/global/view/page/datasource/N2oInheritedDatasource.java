@@ -17,6 +17,7 @@ public class N2oInheritedDatasource extends N2oDatasource implements Submittable
     private String sourceDatasource;
     private ReduxModel sourceModel;
     private String sourceFieldId;
+    private String fetchValue;
     private Submit submit;
     private N2oPreFilter[] filters;
 
@@ -28,6 +29,7 @@ public class N2oInheritedDatasource extends N2oDatasource implements Submittable
         private String targetDatasource;
         private ReduxModel targetModel;
         private String targetFieldId;
+        private String submitValue;
     }
 
 }

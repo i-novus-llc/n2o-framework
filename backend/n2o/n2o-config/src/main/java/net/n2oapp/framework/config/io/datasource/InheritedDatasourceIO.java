@@ -20,6 +20,7 @@ public class InheritedDatasourceIO extends BaseDatasourceIO<N2oInheritedDatasour
         p.attribute(e, "source-datasource", ds::getSourceDatasource, ds::setSourceDatasource);
         p.attributeEnum(e, "source-model", ds::getSourceModel, ds::setSourceModel, ReduxModel.class);
         p.attribute(e, "source-field-id", ds::getSourceFieldId, ds::setSourceFieldId);
+        p.childrenText(e, "fetch-value", ds::getFetchValue, ds::setFetchValue);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, N2oInheritedDatasource.Submit::new, this::submit);
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);
@@ -31,6 +32,7 @@ public class InheritedDatasourceIO extends BaseDatasourceIO<N2oInheritedDatasour
         p.attribute(e, "target-datasource", t::getTargetDatasource, t::setTargetDatasource);
         p.attributeEnum(e, "target-model", t::getTargetModel, t::setTargetModel, ReduxModel.class);
         p.attribute(e, "target-field-id", t::getTargetFieldId, t::setTargetFieldId);
+        p.childrenText(e, "submit-value", t::getSubmitValue, t::setSubmitValue);
     }
 
     @Override

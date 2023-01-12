@@ -36,6 +36,8 @@ public class InheritedDatasource extends AbstractDatasource {
         @JsonProperty
         private String sourceField;
         @JsonProperty
+        private String fetchValueExpression;
+        @JsonProperty
         private List<Filter> filters;
     }
 
@@ -54,6 +56,8 @@ public class InheritedDatasource extends AbstractDatasource {
         private String targetField;
         @JsonProperty
         private Boolean auto;
+        @JsonProperty
+        private String submitValueExpression;
     }
 
     @Getter

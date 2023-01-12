@@ -18,6 +18,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -69,12 +70,16 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(inh3.getProvider().getSourceDs(), is("testInheritedDatasource_ds2"));
         assertThat(inh3.getProvider().getSourceModel(), is(ReduxModel.datasource));
         assertThat(inh3.getProvider().getSourceField(), is("name"));
+        assertThat(inh3.getProvider().getFetchValueExpression(), is("(function(){var result = source\n" +
+                "                return result})()"));
         assertThat(inh3.getSubmit().getType(), is("inherited"));
         assertThat(inh3.getSubmit().getAuto(), is(true));
         assertThat(inh3.getSubmit().getModel(), is(ReduxModel.filter));
         assertThat(inh3.getSubmit().getTargetDs(), is("testInheritedDatasource_ds1"));
         assertThat(inh3.getSubmit().getTargetModel(), is(ReduxModel.filter));
         assertThat(inh3.getSubmit().getTargetField(), is("name2"));
+        assertThat(inh3.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\n" +
+                "                    return result})()"));
 
         assertThat(inh3.getDependencies().size(), is(2));
         Dependency dependency = inh3.getDependencies().get(0);
@@ -98,5 +103,15 @@ public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(1).getLink(), is("models.filter['testInheritedDatasource_inh1']"));
         assertThat(filters.get(1).getValue(), is("`name`"));
         assertThat(filters.get(1).getRequired(), is(true));
+
+        InheritedDatasource inh4 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh4");
+        assertThat(inh4.getSubmit().getType(), is("inherited"));
+        assertThat(inh4.getSubmit().getAuto(), is(true));
+        assertThat(inh4.getSubmit().getModel(), is(ReduxModel.resolve));
+        assertThat(inh4.getSubmit().getTargetDs(), is("testInheritedDatasource_ds1"));
+        assertThat(inh4.getSubmit().getTargetModel(), is(ReduxModel.datasource));
+        assertThat(inh4.getSubmit().getTargetField(), nullValue());
+        assertThat(inh4.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\n" +
+                "                    return result})()"));
     }
 }
