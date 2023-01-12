@@ -43,13 +43,14 @@ public abstract class FieldSet extends Component implements Compiled {
 
     @Getter
     @Setter
-    public static class Row implements Compiled {
+    public static class Row implements Compiled, JsonPropertiesAware {
         @JsonProperty
         private String className;
         @JsonProperty
         private Map<String, String> style;
         @JsonProperty
         private List<Column> cols;
+        private Map<String, Object> properties;
     }
 
     @Getter

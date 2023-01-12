@@ -21,6 +21,7 @@ public class RowElementIO4 implements NamespaceIO<N2oFieldsetRow> {
     public void io(Element e, N2oFieldsetRow row, IOProcessor p) {
         p.attribute(e, "class", row::getCssClass, row::setCssClass);
         p.attribute(e, "style", row::getStyle, row::setStyle);
+        p.anyAttributes(e, row::getExtAttributes, row::setExtAttributes);
         p.anyChildren(e, null, row::getItems, row::setItems, p.anyOf(SourceComponent.class), DEFAULT_NAMESPACE, controlDefaultNamespace);
     }
 

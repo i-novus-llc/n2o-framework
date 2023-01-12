@@ -75,6 +75,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(rows.size(), is(2));
 
         FieldSet.Row row = rows.get(0);
+        assertThat(row.getProperties().get("attr"), is("extAttr"));;
         assertThat(row.getCols().size(), is(2));
         assertThat(row.getCols().get(0).getFields().size(), is(1));
         assertThat(row.getCols().get(0).getFields().get(0).getId(), is("id1"));

@@ -25,6 +25,7 @@ public class FieldSetRowCompiler implements BaseSourceCompiler<FieldSet.Row, N2o
         FieldSet.Row row = new FieldSet.Row();
         row.setClassName(source.getCssClass());
         row.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        row.setProperties(p.mapAndResolveAttributes(source));
         if (source.getItems() != null) {
             List<FieldSet.Column> columns = new ArrayList<>();
             for (SourceComponent item : source.getItems()) {
