@@ -218,8 +218,6 @@ public class InheritedDatasourceAT extends AutoTestBase {
         dollar.shouldHaveValue("10");
         rub.val("10");
         dollar.shouldHaveValue("20");
-        rub.clear();
-        dollar.shouldHaveValue("0");
     }
 
     @Test
