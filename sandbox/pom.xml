@@ -5,13 +5,13 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>framework</artifactId>
-        <version>7.23.53</version>
+        <version>7.23.54-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>sandbox</artifactId>
     <packaging>pom</packaging>
-    <version>7.23.53</version>
+    <version>7.23.54-SNAPSHOT</version>
 
     <modules>
         <module>server</module>
