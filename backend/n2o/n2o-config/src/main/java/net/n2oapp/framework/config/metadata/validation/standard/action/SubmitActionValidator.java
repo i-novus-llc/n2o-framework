@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
 import net.n2oapp.framework.api.metadata.action.N2oSubmitAction;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -59,6 +61,8 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
     }
 
     private void checkDatasourceByInstance(@Nonnull N2oAbstractDatasource datasource) {
+        if (datasource instanceof N2oParentDatasource || datasource instanceof N2oApplicationDatasource)
+            return;
         if (datasource instanceof Submittable) {
             if (((Submittable) datasource).getSubmit() == null)
                 throw new N2oMetadataValidationException(String.format(
