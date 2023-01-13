@@ -18,11 +18,13 @@ public class TabsRegionIOv3 extends AbstractRegionIOv3<N2oTabsRegion> {
         super.io(e, r, p);
         p.attributeBoolean(e, "always-refresh", r::getAlwaysRefresh, r::setAlwaysRefresh);
         p.attributeBoolean(e, "lazy", r::getLazy, r::setLazy);
-        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
-        p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
         p.attributeBoolean(e, "hide-single-tab", r::getHideSingleTab, r::setHideSingleTab);
         p.attribute(e, "max-height", r::getMaxHeight, r::setMaxHeight);
         p.attributeBoolean(e, "scrollbar", r::getScrollbar, r::setScrollbar);
+        p.attribute(e, "datasource", r::getDatasourceId, r::setDatasourceId);
+        p.attribute(e, "active-tab-field-id", r::getActiveTabFieldId, r::setActiveTabFieldId);
+        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
+        p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
         p.children(e, null, "tab", r::getTabs, r::setTabs, N2oTabsRegion.Tab::new, this::tabs);
         p.anyAttributes(e, r::getExtAttributes, r::setExtAttributes);
     }

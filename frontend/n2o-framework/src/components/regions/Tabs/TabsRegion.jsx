@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import some from 'lodash/some'
-import { compose, setDisplayName } from 'recompose'
+import { compose, setDisplayName, withProps } from 'recompose'
 import classNames from 'classnames'
 
 import { makeRegionTabsSelector } from '../../../ducks/regions/store'
@@ -13,6 +13,7 @@ import { SecurityController, Behavior } from '../../../core/auth/SecurityControl
 import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
+import { WithDataSource } from '../../../core/widget/WithDataSource'
 
 import Tabs from './Tabs'
 import { Tab } from './Tab'
@@ -34,6 +35,47 @@ class TabRegion extends React.Component {
             permissionsVisibleTabs: {},
         }
         this.handleChangeActive = this.handleChangeActive.bind(this)
+    }
+
+    componentDidMount() {
+        const { datasource, activeTabFieldId } = this.props
+
+        if (datasource && activeTabFieldId) {
+            const { setResolve, activeEntity, models = {} } = this.props
+            const { resolve } = models
+
+            setResolve({ ...resolve, [activeTabFieldId]: activeEntity })
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { activeEntity: prevActiveEntity } = prevProps
+        const { activeEntity, datasource, changeActiveEntity } = this.props
+
+        if (datasource) {
+            const { setResolve, activeTabFieldId, models = {} } = this.props
+
+            if (!activeTabFieldId) {
+                // eslint-disable-next-line no-console
+                console.warn(`TabsRegion Error: datasource with id equal to ${datasource} does not contain activeTabFieldId`)
+
+                return
+            }
+
+            const { resolve } = models
+
+            if (activeEntity !== prevActiveEntity) {
+                setResolve({ ...resolve, [activeTabFieldId]: activeEntity })
+
+                return
+            }
+
+            const activeFromResolve = get(resolve, activeTabFieldId, null)
+
+            if (activeFromResolve !== activeEntity) {
+                changeActiveEntity(activeFromResolve)
+            }
+        }
     }
 
     componentWillUnmount() {
@@ -206,6 +248,10 @@ TabRegion.propTypes = {
     title: PropTypes.string,
     maxHeight: PropTypes.number,
     scrollbar: PropTypes.any,
+    datasource: PropTypes.string,
+    activeTabFieldId: PropTypes.string,
+    setResolve: PropTypes.func,
+    models: PropTypes.object,
 }
 
 TabRegion.defaultProps = {
@@ -225,4 +271,8 @@ export default compose(
     withRegionContainer({ listKey: 'tabs' }),
     connect(mapStateToProps),
     withWidgetProps,
+    withProps(() => ({
+        widget: false,
+    })),
+    WithDataSource,
 )(TabRegion)

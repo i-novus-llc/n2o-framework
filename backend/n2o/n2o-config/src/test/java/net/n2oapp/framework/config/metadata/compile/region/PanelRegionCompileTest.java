@@ -69,7 +69,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
 
         // PANEL1
         assertThat(regions.get(0), instanceOf(PanelRegion.class));
-        assertThat(regions.get(0).getId(), is("panel_0"));
+        assertThat(regions.get(0).getId(), is("panel0"));
         assertThat(regions.get(0).getSrc(), is("PanelRegion"));
         assertThat(((PanelRegion) regions.get(0)).getHeaderTitle(), is("Panel1"));
         assertThat(((PanelRegion) regions.get(0)).getCollapsible(), is(false));
@@ -81,7 +81,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(0)).getName(), is("form1"));
         // panel panel
         assertThat(content.get(1), instanceOf(PanelRegion.class));
-        assertThat(((PanelRegion) content.get(1)).getId(), is("panel_1"));
+        assertThat(((PanelRegion) content.get(1)).getId(), is("panel1"));
         assertThat(((PanelRegion) content.get(1)).getCollapsible(), is(true));
         assertThat(((PanelRegion) content.get(1)).getContent().size(), is(2));
         List<CompiledRegionItem> panel1Content = ((PanelRegion) content.get(1)).getContent();
@@ -92,7 +92,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) panel1Content.get(0)).getName(), is("form2"));
         // panel panel panel
         assertThat(panel1Content.get(1), instanceOf(PanelRegion.class));
-        assertThat(((PanelRegion) panel1Content.get(1)).getId(), is("panel_2"));
+        assertThat(((PanelRegion) panel1Content.get(1)).getId(), is("panel2"));
         List<CompiledRegionItem> panel2Content = ((PanelRegion) panel1Content.get(1)).getContent();
         assertThat(panel2Content.size(), is(1));
         // panel panel panel form3
@@ -106,7 +106,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
 
         // PANEL2
         assertThat(regions.get(1), instanceOf(PanelRegion.class));
-        assertThat(regions.get(1).getId(), is("panel_3"));
+        assertThat(regions.get(1).getId(), is("panel3"));
         assertThat(regions.get(1).getSrc(), is("PanelRegion"));
         content = regions.get(1).getContent();
         assertThat(content.size(), is(2));
@@ -121,7 +121,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
 
         // PANEL3
         assertThat(regions.get(2), instanceOf(PanelRegion.class));
-        assertThat(regions.get(2).getId(), is("panel_4"));
+        assertThat(regions.get(2).getId(), is("panel4"));
         assertThat(regions.get(2).getContent(), nullValue());
     }
 }

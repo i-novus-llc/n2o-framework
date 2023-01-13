@@ -198,9 +198,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                     PageContext context, CompileProcessor p) {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(pageId);
-        if (context.getParentTabIds() != null) {
+        if (context.getParentTabIds() != null)
             pageScope.setTabIds(context.getParentTabIds());
-        }
         pageScope.setObjectId(source.getObjectId());
         pageScope.setResultWidgetId(resultWidget == null ? null : resultWidget.getId());
         pageScope.getWidgetIdSourceDatasourceMap().putAll(sourceWidgets.stream()

@@ -20,6 +20,8 @@ public class ScrollspyRegionIOv3 extends AbstractRegionIOv3<N2oScrollspyRegion> 
         p.attribute(e, "placement", r::getPlacement, r::setPlacement);
         p.attribute(e, "title", r::getTitle, r::setTitle);
         p.attributeBoolean(e, "headlines", r::getHeadlines, r::setHeadlines);
+        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
+        p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
         p.anyChildren(e, null, r::getMenu, r::setMenu, p.oneOf(N2oScrollspyRegion.AbstractMenuItem.class)
             .add("menu-item", N2oScrollspyRegion.MenuItem.class, this::menuItem)
             .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu));
