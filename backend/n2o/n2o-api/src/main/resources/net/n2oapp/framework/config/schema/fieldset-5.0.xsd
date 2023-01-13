@@ -246,6 +246,11 @@
                         <xs:documentation>Стиль строки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
