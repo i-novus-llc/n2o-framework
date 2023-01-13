@@ -15,12 +15,13 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class N2oScrollspyRegion extends N2oRegion {
-
+public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
     private String title;
     private String active;
     private String placement;
     private Boolean headlines;
+    private String activeParam;
+    private Boolean routable;
     private AbstractMenuItem[] menu;
 
     @Override

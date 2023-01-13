@@ -25,6 +25,10 @@ public class TabsRegion extends Region implements CompiledRegionItem {
     private String maxHeight;
     @JsonProperty
     private Boolean scrollbar;
+    @JsonProperty
+    private String datasource;
+    @JsonProperty
+    private String activeTabFieldId;
 
     @JsonProperty("tabs")
     private List<Tab> items;

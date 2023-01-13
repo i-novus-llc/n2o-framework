@@ -73,7 +73,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
 
         // LINE1
         assertThat(regions.get(0), instanceOf(LineRegion.class));
-        assertThat(regions.get(0).getId(), is("line_0"));
+        assertThat(regions.get(0).getId(), is("line0"));
         assertThat(((LineRegion) regions.get(0)).getLabel(), is("Line1"));
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
         List<CompiledRegionItem> content = regions.get(0).getContent();
@@ -84,7 +84,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(0)).getName(), is("form1"));
         // line line
         assertThat(content.get(1), instanceOf(LineRegion.class));
-        assertThat(((LineRegion) content.get(1)).getId(), is("line_1"));
+        assertThat(((LineRegion) content.get(1)).getId(), is("line1"));
         assertThat(((LineRegion) content.get(1)).getCollapsible(), is(true));
         assertThat(((LineRegion) content.get(1)).getContent().size(), is(2));
         List<CompiledRegionItem> line1Content = ((LineRegion) content.get(1)).getContent();
@@ -95,7 +95,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) line1Content.get(0)).getName(), is("form2"));
         // line line line
         assertThat(line1Content.get(1), instanceOf(LineRegion.class));
-        assertThat(((LineRegion) line1Content.get(1)).getId(), is("line_2"));
+        assertThat(((LineRegion) line1Content.get(1)).getId(), is("line2"));
         List<CompiledRegionItem> line2Content = ((LineRegion) line1Content.get(1)).getContent();
         assertThat(line2Content.size(), is(1));
         // line line line form3
@@ -109,7 +109,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
 
         // LINE2
         assertThat(regions.get(1), instanceOf(LineRegion.class));
-        assertThat(regions.get(1).getId(), is("line_3"));
+        assertThat(regions.get(1).getId(), is("line3"));
         content = regions.get(1).getContent();
         assertThat(content.size(), is(2));
         // line table1
@@ -123,7 +123,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
 
         // LINE 3
         assertThat(regions.get(2), instanceOf(LineRegion.class));
-        assertThat(regions.get(2).getId(), is("line_4"));
+        assertThat(regions.get(2).getId(), is("line4"));
         assertThat(regions.get(2).getContent(), nullValue());
     }
 }

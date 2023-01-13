@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { call, put, select, takeEvery, cancel } from 'redux-saga/effects'
 import { actionTypes } from 'redux-form'
 import values from 'lodash/values'
 import filter from 'lodash/filter'
@@ -17,10 +17,10 @@ import { rootPageSelector } from '../global/store'
 import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
-import { makeDatasourceIdSelector, makeWidgetVisibleSelector, widgetsSelector } from '../widgets/selectors'
+import { makeDatasourceIdSelector } from '../widgets/selectors'
+import { registerWidget } from '../widgets/store'
 import { failValidate, startValidate, dataRequest } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
-import { hideWidget, showWidget } from '../widgets/store'
 
 import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from './store'
 import { MAP_URL } from './constants'
@@ -30,7 +30,7 @@ function* mapUrl(value) {
     const routes = yield select(makePageRoutesByIdSelector(rootPageId))
 
     if (routes) {
-        yield call(mapQueryToUrl, rootPageId, null, true)
+        yield call(mapQueryToUrl, rootPageId)
         yield call(lazyFetch, value.payload)
     }
 }
@@ -57,67 +57,16 @@ export function* tabTraversal(action, tabs, regionId, form, param = null, option
     return isTargetFormInTabs
 }
 
-/*
-    TODO: Отрефакторить функцию или же решить проблему другим путём
-    Временное решение, не оптимальное
-    У первого таба захардкожено свойство "opened", берём его и проверяем, если оно видимое, то сетим в редакс,
-    если же невидимое, то берем следующий видимый таб и сетим его
-    А если в URL имеется query, то сетим в редакс query
- */
-
-function* switchTabToFirstVisible() {
-    const regions = yield select(regionsSelector)
-    const tabsRegions = filter(values(regions), region => region.tabs)
-
-    if (!tabsRegions.length) {
-        return
-    }
-
-    const widgets = yield select(widgetsSelector)
-
-    const { tabs } = first(tabsRegions)
-    const regionId = get(first(tabsRegions), 'regionId')
-    const appHistory = yield select(state => state.router || null)
-    const query = get(appHistory, `location.query.${regionId}`)
-
-    const regionActiveEntity = get(first(values(regions)), 'activeEntity')
-
-    const openedTabId = get(find(tabs, tab => tab.opened), 'content[0].id')
-
-    const openedTabIdInWidget = get(find(widgets, widget => widget.id === openedTabId), 'id')
-    const isVisibleOpenedTabId = get(openedTabIdInWidget, 'visible')
-
-    const sortedWidgets = Object.entries(widgets).sort((a, b) => {
-        if (a[0] > b[0]) {
-            return 1
-        }
-
-        if (a[0] < b[0]) {
-            return -1
-        }
-
-        return 0
-    })
-
-    const firstVisibleWidgetId = first(find(sortedWidgets, ([, widget]) => widget.visible && widget.id?.includes('tab')))
-
-    const firstVisibleTab = find(tabs, tab => find(tab.content, (prop) => {
-        const resolveId = (isVisibleOpenedTabId ? openedTabIdInWidget : firstVisibleWidgetId)
-
-        return (prop.id === resolveId)
-    }))
-
-    const firstVisibleTabId = get(firstVisibleTab, 'id')
-
-    const resolveActiveEntity = query || firstVisibleTabId
-
-    if (resolveActiveEntity !== regionActiveEntity) {
-        yield put(setActiveRegion(regionId, resolveActiveEntity))
-    }
-}
-
 function* switchTab(action) {
-    const { type, meta } = action
+    const { type, meta, payload } = action
+    const { regionId } = payload
+
+    const regions = yield select(regionsSelector)
+
+    if (regionId && get(regions, `${regionId}.datasource`)) {
+        /* no switch logic if a datasource is passed */
+        yield cancel()
+    }
 
     if (type === actionTypes.TOUCH) {
         const regions = yield select(regionsSelector)
@@ -132,24 +81,25 @@ function* switchTab(action) {
     }
 
     const state = yield select()
-    const regions = yield select(regionsSelector)
+    const { widgets = {} } = state
+
     const tabsRegions = filter(values(regions), region => region.tabs)
 
     const auth = authSelector(state)
     const userPermissions = get(auth, 'permissions')
     const userRoles = get(auth, 'roles')
 
-    const hasActiveEntity = some(tabsRegions, region => region.activeEntity)
-
-    const atLeastOneVisibleWidget = content => some(content, (meta) => {
+    const atLeastOneVisibleWidget = (content, widgets) => some(content, (meta) => {
         if (meta.visible === false) {
             return false
         }
         if (meta.content) {
-            return atLeastOneVisibleWidget(meta.content)
+            return atLeastOneVisibleWidget(meta.content, widgets)
         }
 
-        return makeWidgetVisibleSelector(meta.id)
+        const { id } = meta
+
+        return get(widgets, `${id}.visible`, true)
     })
 
     const visibleEntities = reduce(
@@ -180,7 +130,7 @@ function* switchTab(action) {
                         isPassed(tabSecurityPermissions, userPermissions) &&
                         isPassed(tabSecurityRoles, userRoles)
                 }
-                if (isPassedSecurity && atLeastOneVisibleWidget(content)) {
+                if (isPassedSecurity && atLeastOneVisibleWidget(content, widgets)) {
                     widgetsIds.push(tab.id)
                 }
             })
@@ -195,16 +145,27 @@ function* switchTab(action) {
     for (let index = 0; index <= visibleEntities.length - 1; index += 1) {
         const visibleEntity = visibleEntities[index]
 
-        if (!hasActiveEntity) {
-            for (let index = 0; index <= tabsRegions.length - 1; index += 1) {
-                const { regionId } = tabsRegions[index]
-                const activeEntity = first(visibleEntity[regionId])
+        for (let index = 0; index <= tabsRegions.length - 1; index += 1) {
+            const { regionId } = tabsRegions[index]
+            const state = yield select()
 
-                yield put(setActiveRegion(regionId, activeEntity))
+            /* active from url */
+            const active = get(state, `regions.${regionId}.activeEntity`)
+
+            /* list of visible tabs of the region */
+            const passedEntities = get(visibleEntity, regionId, [])
+
+            if (passedEntities.includes(active)) {
+                yield mapUrl(active)
+                yield cancel()
             }
+
+            const activeEntity = first(visibleEntity[regionId])
+
+            yield put(setActiveRegion(regionId, activeEntity))
+            yield mapUrl(activeEntity)
         }
     }
-    mapUrl()
 }
 
 function* lazyFetch(id) {
@@ -329,7 +290,12 @@ function* validateTabs({ payload, meta }) {
 
 export default [
     takeEvery(MAP_URL, mapUrl),
-    takeEvery([hideWidget, showWidget], switchTabToFirstVisible),
-    takeEvery([METADATA_SUCCESS, actionTypes.TOUCH, registerRegion], switchTab),
+    takeEvery([
+        METADATA_SUCCESS,
+        actionTypes.TOUCH,
+        registerRegion,
+        registerWidget,
+        setActiveRegion,
+    ], switchTab),
     takeEvery([failValidate, startValidate], validateTabs),
 ]

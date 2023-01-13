@@ -48,7 +48,7 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
 
         // REGION1
         assertThat(regions.get(0), instanceOf(CustomRegion.class));
-        assertThat(regions.get(0).getId(), is("region_0"));
+        assertThat(regions.get(0).getId(), is("region0"));
         assertThat(regions.get(0).getSrc(), is("NoneRegion"));
         List<CompiledRegionItem> content = regions.get(0).getContent();
         assertThat(content.size(), is(2));
@@ -63,7 +63,7 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
 
         // REGION2
         assertThat(regions.get(1), instanceOf(CustomRegion.class));
-        assertThat(regions.get(1).getId(), is("region_1"));
+        assertThat(regions.get(1).getId(), is("region1"));
         assertThat(regions.get(1).getSrc(), is("NoneRegion"));
         content = regions.get(1).getContent();
         assertThat(content.size(), is(3));
@@ -74,7 +74,7 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
 
         //region region
         assertThat(content.get(1), instanceOf(CustomRegion.class));
-        assertThat(((CustomRegion) content.get(1)).getId(), is("region_2"));
+        assertThat(((CustomRegion) content.get(1)).getId(), is("region2"));
         assertThat(((CustomRegion) content.get(1)).getSrc(), is("NoneRegion"));
         List<CompiledRegionItem> regionContent = ((CustomRegion) content.get(1)).getContent();
         assertThat(regionContent.size(), is(1));
@@ -90,7 +90,7 @@ public class CustomRegionCompileTest extends SourceCompileTestBase {
 
         // REGION3
         assertThat(regions.get(2), instanceOf(CustomRegion.class));
-        assertThat(regions.get(2).getId(), is("region_3"));
+        assertThat(regions.get(2).getId(), is("region3"));
         assertThat(regions.get(2).getSrc(), is("NoneRegion"));
         content = regions.get(2).getContent();
         assertThat(content.size(), is(2));

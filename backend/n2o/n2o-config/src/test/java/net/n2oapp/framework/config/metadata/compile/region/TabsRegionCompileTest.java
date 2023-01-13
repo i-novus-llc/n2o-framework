@@ -24,7 +24,7 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 /**
  * Тестирование компиляции региона в виде вкладок
@@ -56,11 +56,11 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabs.getScrollbar(), is(false));
         List<TabsRegion.Tab> items = tabs.getItems();
         assertThat(items.size(), is(3));
-        assertThat(items.get(0).getId(), is("testTabsRegion_tab_1"));
+        assertThat(items.get(0).getId(), is("testTabsRegion_tab1"));
         assertThat(items.get(0).getOpened(), is(true));
         assertThat(items.get(1).getId(), is("tab2"));
         assertThat(items.get(1).getOpened(), is(false));
-        assertThat(items.get(2).getId(), is("testTabsRegion_tab_3"));
+        assertThat(items.get(2).getId(), is("testTabsRegion_tab3"));
         assertThat(items.get(2).getOpened(), is(false));
 
         tabs = (TabsRegion) page.getRegions().get("single").get(1);
@@ -69,6 +69,8 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabs.getHideSingleTab(), is(true));
         assertThat(tabs.getScrollbar(), is(true));
         assertThat(tabs.getMaxHeight(), is("300px"));
+        assertThat(tabs.getDatasource(), is("testTabsRegion_ds"));
+        assertThat(tabs.getActiveTabFieldId(), is("activeTab"));
     }
 
     @Test
@@ -82,7 +84,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
         // TABS1
         assertThat(regions.get(0), instanceOf(TabsRegion.class));
-        assertThat(regions.get(0).getId(), is("testTabsRegionNesting_tabs_0"));
+        assertThat(regions.get(0).getId(), is("testTabsRegionNesting_tabs0"));
         assertThat(regions.get(0).getSrc(), is("TabsRegion"));
         List<TabsRegion.Tab> items = ((TabsRegion) regions.get(0)).getItems();
         assertThat(items.size(), is(1));
@@ -110,9 +112,9 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
         // TABS2
         TabsRegion region = (TabsRegion) regions.get(1);
-        assertThat(region.getId(), is("testTabsRegionNesting_tabs_4"));
+        assertThat(region.getId(), is("testTabsRegionNesting_tabs4"));
         assertThat(region.getItems().size(), is(1));
-        assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab_5"));
+        assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab5"));
         content = region.getItems().get(0).getContent();
         assertThat(content.size(), is(2));
         assertThat(content.get(0), instanceOf(Table.class));
@@ -124,9 +126,9 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
         // TABS3
         region = (TabsRegion) regions.get(2);
-        assertThat(region.getId(), is("testTabsRegionNesting_tabs_6"));
+        assertThat(region.getId(), is("testTabsRegionNesting_tabs6"));
         assertThat(region.getItems().size(), is(1));
-        assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab_7"));
+        assertThat(region.getItems().get(0).getId(), is("testTabsRegionNesting_tab7"));
         assertThat(region.getItems().get(0).getContent(), nullValue());
     }
 
@@ -136,14 +138,14 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTabsRegion"));
 
         Map<String, PageRoutes.Query> queryMapping = page.getRoutes().getQueryMapping();
-        assertThat(queryMapping.containsKey("testTabsRegion_tabs_0"), is(true));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegion_tabs_0").getOnGet().getPayload()).getRegionId(), is("testTabsRegion_tabs_0"));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegion_tabs_0").getOnGet().getPayload()).getActiveEntity(), is(":testTabsRegion_tabs_0"));
-        assertThat(queryMapping.get("testTabsRegion_tabs_0").getOnSet().getBindLink(), is("regions.testTabsRegion_tabs_0.activeEntity"));
+        assertThat(queryMapping.containsKey("testTabsRegion_tabs0"), is(true));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegion_tabs0").getOnGet().getPayload()).getRegionId(), is("testTabsRegion_tabs0"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("testTabsRegion_tabs0").getOnGet().getPayload()).getActiveEntity(), is(":testTabsRegion_tabs0"));
+        assertThat(queryMapping.get("testTabsRegion_tabs0").getOnSet().getBindLink(), is("regions.testTabsRegion_tabs0.activeEntity"));
         assertThat(queryMapping.containsKey("param1"), is(true));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("testTabsRegion_tabs_4"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("testTabsRegion_tabs4"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getActiveEntity(), is(":param1"));
-        assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.testTabsRegion_tabs_4.activeEntity"));
+        assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.testTabsRegion_tabs4.activeEntity"));
         assertThat(queryMapping.containsKey("param2"), is(true));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param2").getOnGet().getPayload()).getRegionId(), is("tabId"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param2").getOnGet().getPayload()).getActiveEntity(), is(":param2"));
@@ -152,15 +154,16 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testTabIdUnique() {
-        //неуникальные id  на одной странице
+        //неуникальные id на одной странице
         try {
             compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegionUniqueId.page.xml")
                     .get(new PageContext("testTabsRegionUniqueId"));
-            assertFalse(true);
+            fail();
         } catch (N2oException e) {
-            assertThat(e.getMessage(), is("test tab is already exist"));
+            assertThat(e.getMessage(), is("Вкладка с идентификатором 'test' уже существует"));
         }
-        //неуникальные id  на родительской и открываемой странице
+
+        //неуникальные id на родительской и открываемой странице
         try {
             PageContext pageContext = new PageContext("testTabsRegionUniqueId2");
             HashSet<String> tabIds = new HashSet<>();
@@ -168,9 +171,9 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
             pageContext.setParentTabIds(tabIds);
             compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegionUniqueId2.page.xml")
                     .get(pageContext);
-            assertFalse(true);
+            fail();
         } catch (N2oException e) {
-            assertThat(e.getMessage(), is("test tab is already exist"));
+            assertThat(e.getMessage(), is("Вкладка с идентификатором 'test' уже существует"));
         }
     }
 }

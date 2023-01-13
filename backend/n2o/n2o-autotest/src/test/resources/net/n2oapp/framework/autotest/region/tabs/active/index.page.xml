@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Вкладки">
+    <datasources>
+        <datasource id="tabsDs"/>
+        <datasource id="formDs"/>
+    </datasources>
+
+    <regions>
+        <form datasource="formDs">
+            <fields>
+                <radio-group id="radio" label="Вкладки">
+                    <options>
+                        <option id="1" name="Первая"/>
+                        <option id="2" name="Вторая"/>
+                    </options>
+                </radio-group>
+            </fields>
+        </form>
+
+        <!-- НОВЫЕ АТРИБУТЫ ДЛЯ ВЫБРАННОЙ ВКЛАДКИ -->
+        <tabs datasource="tabsDs" active-tab-field-id="activeTab">
+            <!-- 1. Видим при выбранном radio.id === 1 -->
+            <tab id="tab1" name="Первая">
+                <form>
+                    <dependencies>
+                        <visibility datasource="formDs" model="resolve">
+                            radio.id === 1
+                        </visibility>
+                    </dependencies>
+                </form>
+            </tab>
+
+            <!-- 2. Видим при выбранном radio.id === 2 -->
+            <tab id="tab2" name="Вторая">
+                <form>
+                    <dependencies>
+                        <visibility datasource="formDs" model="resolve">
+                            radio.id === 2
+                        </visibility>
+                    </dependencies>
+                </form>
+            </tab>
+
+            <!-- 3. Всегда видим -->
+            <tab id="tab3" name="Третья">
+                <form/>
+            </tab>
+        </tabs>
+
+        <!-- Кнопка в форме -->
+        <form datasource="tabsDs">
+            <fields>
+                <input-text id="name" default-value="Ivan"/>
+                <input-text id="activeTab"/>
+            </fields>
+            <toolbar>
+                <button visible="{activeTab === 'tab1'}" label="Кнопка на форме для первой вкладки"/>
+            </toolbar>
+        </form>
+    </regions>
+
+    <!-- Кнопка на странице -->
+    <toolbar>
+        <button label="Кнока на странице для второй вкладки">
+            <dependencies>
+                <visibility datasource="tabsDs" model="resolve">
+                    activeTab === 'tab2'
+                </visibility>
+            </dependencies>
+        </button>
+    </toolbar>
+</page>

@@ -20,6 +20,7 @@ const createRegionContainer = config => (WrappedComponent) => {
     const mapStateToProps = createStructuredSelector({
         isInit: (state, props) => makeRegionIsInitSelector(props.id)(state),
         activeEntity: (state, props) => makeRegionActiveEntitySelector(props.id)(state),
+        resolveModel: state => get(state, 'models.resolve', {}),
     })
 
     const mapDispatchToProps = dispatch => ({
@@ -40,15 +41,27 @@ const createRegionContainer = config => (WrappedComponent) => {
                     lazy,
                     alwaysRefresh,
                     active,
+                    datasource = null,
+                    resolveModel,
+                    activeTabFieldId,
                 } = props
+                let currentActiveEntity = activeEntity || active
 
+                if (datasource && activeTabFieldId) {
+                    const activeFromResolve = get(resolveModel, `${datasource}.${activeTabFieldId}`, null)
+
+                    if (activeFromResolve) {
+                        currentActiveEntity = activeFromResolve
+                    }
+                }
                 dispatch(registerRegion(id, {
                     regionId: id,
-                    activeEntity: activeEntity || active,
+                    activeEntity: currentActiveEntity,
                     isInit: true,
                     lazy,
                     alwaysRefresh,
                     [listKey]: get(props, listKey, []),
+                    datasource,
                 }))
             },
             changeActiveEntity: props => (value) => {

@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oPanelRegion extends N2oRegion {
+public class N2oPanelRegion extends N2oRegion implements RoutableRegion {
     private String title;
     private Boolean collapsible;
     private Boolean header;

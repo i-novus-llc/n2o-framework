@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.RoutableRegion;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -16,7 +17,6 @@ import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -31,13 +31,8 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
     protected abstract String createId(CompileProcessor p);
 
     protected String createId(String regionName, CompileProcessor p) {
-        StringJoiner id = new StringJoiner("_");
-        id.add(regionName);
-
         IndexScope index = p.getScope(IndexScope.class);
-        if (index != null)
-            id.add("" + index.get());
-        return id.toString();
+        return regionName + (index != null ? index.get() : "");
     }
 
     protected List<CompiledRegionItem> initContent(SourceComponent[] items,
@@ -55,13 +50,13 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         return content;
     }
 
-    protected void compileRoute(N2oRegion source, String regionId, String property, CompileProcessor p) {
-        String activeParam = p.cast(source.getActiveParam(), regionId);
+    protected void compileRoute(RoutableRegion source, String regionId, String property, CompileProcessor p) {
         Boolean routable = p.cast(source.getRoutable(), p.resolve(property(property), Boolean.class));
-
         PageRoutes routes = p.getScope(PageRoutes.class);
         if (routes == null || !Boolean.TRUE.equals(routable))
             return;
+
+        String activeParam = p.cast(source.getActiveParam(), regionId);
 
         routes.addQueryMapping(
                 activeParam,

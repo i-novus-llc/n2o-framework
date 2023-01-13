@@ -32,6 +32,7 @@ module.exports = {
             items: [
                 'guides/xml/application',
                 'guides/xml/page',
+                'guides/xml/region',
                 'guides/xml/widget',
                 'guides/xml/fieldset',
                 'guides/xml/field',
