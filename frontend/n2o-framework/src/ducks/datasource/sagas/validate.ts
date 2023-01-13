@@ -7,13 +7,7 @@ import type { StartValidateAction } from '../Actions'
 import { hasError, validateModel } from '../../../core/validation/validateModel'
 
 export function validationIsMulti(key: string, fields: string[]): boolean {
-    const someFieldsIsMulti = fields.some((field) => {
-        if (!field || typeof field === 'object') {
-            return false
-        }
-
-        return field.match(/^(.)*\[(.)*]\.(.)*$/i)
-    })
+    const someFieldsIsMulti = fields.some(field => field.match(/^(.)*\[(.)*]\.(.)*$/i))
 
     return key.includes('index') && someFieldsIsMulti
 }

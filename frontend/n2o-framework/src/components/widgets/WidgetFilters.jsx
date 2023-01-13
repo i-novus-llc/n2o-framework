@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getFormValues, reset } from 'redux-form'
+import { destroy, getFormValues, reset } from 'redux-form'
 import isEqual from 'lodash/isEqual'
 import difference from 'lodash/difference'
 import map from 'lodash/map'
@@ -16,8 +16,6 @@ import { setModel } from '../../ducks/models/store'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { FILTER_DELAY } from '../../constants/time'
 import { ModelPrefix } from '../../core/datasource/const'
-import { startValidate } from '../../ducks/datasource/store'
-import { ValidationsKey } from '../../core/validation/IValidation'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
@@ -77,6 +75,12 @@ class WidgetFilters extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        const { dispatch, datasource } = this.props
+
+        dispatch(destroy(datasource))
+    }
+
     handleFilter() {
         const { fetchData } = this.props
 
@@ -131,12 +135,6 @@ class WidgetFilters extends React.Component {
             ))
     }
 
-    validateField = (e, field) => {
-        const { validate } = this.props
-
-        validate(field)
-    }
-
     static getDerivedStateFromProps(props, state) {
         const { filterFieldsets } = props
 
@@ -177,8 +175,6 @@ class WidgetFilters extends React.Component {
                         initialValues={defaultValues}
                         validation={validation}
                         modelPrefix={ModelPrefix.filter}
-                        handleChange={this.validateField}
-                        handleBlur={this.validateField}
                     />
                 </Filter>
             </WidgetFiltersContext.Provider>
@@ -198,9 +194,9 @@ WidgetFilters.propTypes = {
     fetchData: PropTypes.func,
     hideButtons: PropTypes.bool,
     searchOnChange: PropTypes.bool,
-    validate: PropTypes.func,
     resetFilterModel: PropTypes.func,
     clearModel: PropTypes.func,
+    dispatch: PropTypes.func,
 }
 
 WidgetFilters.defaultProps = {
@@ -216,9 +212,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch, { datasource }) => ({
     dispatch,
     resetFilterModel: formName => dispatch(reset(formName)),
-    validate: field => dispatch(
-        startValidate(datasource, ValidationsKey.FilterValidations, ModelPrefix.filter, [field]),
-    ),
     clearModel: () => dispatch(setModel(ModelPrefix.source, datasource, [])),
 })
 

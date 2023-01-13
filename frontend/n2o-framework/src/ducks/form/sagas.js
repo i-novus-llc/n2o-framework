@@ -8,9 +8,10 @@ import merge from 'lodash/merge'
 import entries from 'lodash/entries'
 import isEmpty from 'lodash/isEmpty'
 import isObject from 'lodash/isObject'
-import first from 'lodash/first'
+import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 
+import { widgetsSelector } from '../widgets/selectors'
 import { setModel, copyModel, clearModel } from '../models/store'
 import {
     makeGetModelByPrefixSelector,
@@ -204,9 +205,20 @@ export const formPluginSagas = [
         unsetRequired.type,
     ], function* validateSaga({ meta }) {
         const { form: datasource, field } = meta
-        const form = first(yield select(makeFormsByDatasourceSelector(datasource)))
-        const currentFormPrefix = get(form, ['form', 'modelPrefix'], ModelPrefix.active)
-        const model = yield select(makeGetModelByPrefixSelector(currentFormPrefix, datasource))
+        const allWidgets = yield select(widgetsSelector)
+
+        const widget = find(allWidgets, { datasource })
+
+        if (isEmpty(widget)) {
+            // eslint-disable-next-line no-console
+            console.warn(`Не найден виджет для формы: ${datasource}`)
+
+            return
+        }
+
+        const isFilter = !widget.form
+        const prefix = isFilter ? ModelPrefix.filter : get(widget, ['form', 'modelPrefix'], ModelPrefix.active)
+        const model = yield select(makeGetModelByPrefixSelector(prefix, datasource))
 
         const findDifferentValues = () => {
             const keys = [field]
@@ -224,21 +236,19 @@ export const formPluginSagas = [
             return keys
         }
 
-        if (form) {
-            const fields = findDifferentValues()
+        const fields = findDifferentValues()
 
-            /* blurValidation is used in the setFocus saga,
-             this is needed to observing the field validation type */
-            yield put(
-                startValidate(
-                    datasource,
-                    ValidationsKey.Validations,
-                    currentFormPrefix,
-                    fields,
-                    { blurValidation: true },
-                ),
-            )
-        }
+        /* blurValidation is used in the setFocus saga,
+         this is needed to observing the field validation type */
+        yield put(
+            startValidate(
+                datasource,
+                isFilter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
+                prefix,
+                fields,
+                { blurValidation: true },
+            ),
+        )
 
         prevModel = {
             ...model,
