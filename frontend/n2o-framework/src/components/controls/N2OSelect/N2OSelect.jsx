@@ -126,9 +126,9 @@ class N2OSelect extends React.Component {
             ...option,
             ...{
                 [valueFieldId]:
-            type === 'number'
-                ? Number(option[valueFieldId])
-                : String(option[valueFieldId]),
+                    type === 'number'
+                        ? Number(option[valueFieldId])
+                        : String(option[valueFieldId]),
             },
         }))
 
@@ -398,8 +398,8 @@ class N2OSelect extends React.Component {
      * вызывается библиотекой react-onclickoutside
      */
     handleClickOutside() {
-        const { onBlur } = this.props
-        const { isExpanded, value } = this.state
+        const { onBlur, value } = this.props
+        const { isExpanded } = this.state
 
         if (isExpanded) {
             this.hideOptionsList()
