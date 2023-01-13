@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.control.list.ListType;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.Select;
@@ -78,5 +79,12 @@ public class SelectCompileTest extends SourceCompileTestBase {
         assertThat(select.getType(), is(ListType.SINGLE));
         assertThat(select.getDatasource(), is("testSelect_test"));
         assertThat(select.getData(), nullValue());
+    }
+
+    @Test(expected = N2oException.class)
+    public void testSelectCheckPrefilter() {
+        compile("net/n2oapp/framework/config/metadata/compile/control/testSelectPrefilter.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/control/test.query.xml")
+                .get(new PageContext("testSelectPrefilter"));
     }
 }
