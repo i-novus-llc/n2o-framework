@@ -83,11 +83,11 @@ public class InputSelectTreeAT extends AutoTestBase {
         inputSelectTree.expandOptions();
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(2));
         inputSelectTree.expandParentOptions(0);
-        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(4));
+        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(5));
 
-        inputSelectTree.selectOption(0);
-        inputSelectTree.selectOption(2);
         inputSelectTree.selectOption(1);
+        inputSelectTree.selectOption(3);
+        inputSelectTree.selectOption(2);
 
         inputSelectTree.shouldBeSelected(0, "one");
         inputSelectTree.shouldBeSelected(1, "message");

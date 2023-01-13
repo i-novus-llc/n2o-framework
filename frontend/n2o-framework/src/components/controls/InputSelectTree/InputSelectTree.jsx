@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import TreeSelect from 'rc-tree-select'
 import { findDOMNode } from 'react-dom'
 import difference from 'lodash/difference'
@@ -97,7 +97,7 @@ function InputSelectTree({
     disabled,
     ...rest
 }) {
-    const [treeExpandedKeys, setTreeExpandedKeys] = useState([])
+    const treeExpandedKeys = useRef([])
     const [dropdownExpanded, setDropdownExpanded] = useState(false)
     const [_control, setControlRef] = useState(null)
     const [searchValue, setSearchValue] = useState('')
@@ -283,7 +283,7 @@ function InputSelectTree({
         } else {
             onClose()
         }
-        if (ajax) { setTreeExpandedKeys([]) }
+        if (ajax) { treeExpandedKeys.current = [] }
 
         return false
     }
@@ -293,12 +293,12 @@ function InputSelectTree({
      * @param keys
      */
     const onTreeExpand = async (keys) => {
-        const currentKey = difference(keys, treeExpandedKeys)
+        const currentKey = difference(keys, treeExpandedKeys.current)
 
         if (ajax) {
             await handleItemOpen(currentKey[0])
         }
-        setTreeExpandedKeys(keys)
+        treeExpandedKeys.current = keys
     }
 
     // eslint-disable-next-line react/prop-types
@@ -341,7 +341,6 @@ function InputSelectTree({
                 onChange={handleChange}
                 onSelect={handleSelect}
                 onSearch={handleSearch}
-                treeExpandedKeys={treeExpandedKeys}
                 onTreeExpand={onTreeExpand}
                 dropdownPopupAlign={dropdownPopupAlign}
                 prefixCls="n2o-select-tree"
@@ -422,9 +421,7 @@ InputSelectTree.propTypes = {
     _control: PropTypes.any,
     dropdownExpanded: PropTypes.bool,
     setDropdownExpanded: PropTypes.func,
-    setTreeExpandedKeys: PropTypes.func,
     notFoundContent: PropTypes.any,
-    treeExpandedKeys: PropTypes.any,
 
     children: PropTypes.node,
     /**
