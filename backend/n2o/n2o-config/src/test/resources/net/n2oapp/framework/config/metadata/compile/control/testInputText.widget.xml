@@ -14,6 +14,6 @@
         <input-text id="test4" domain="short"/>
         <input-text id="test5" domain="integer"/>
         <input-text id="test6" domain="integer[]"/>
-        <input-text id="test7" domain="numeric" step="0.00"/>
+        <input-text id="test7" domain="numeric" step="0.00" min="10.01"/>
     </fields>
 </form>
