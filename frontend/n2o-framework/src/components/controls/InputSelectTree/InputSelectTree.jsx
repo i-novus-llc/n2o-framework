@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import TreeSelect from 'rc-tree-select'
 import { findDOMNode } from 'react-dom'
 import difference from 'lodash/difference'
@@ -32,12 +32,8 @@ import { visiblePartPopup, getCheckedStrategy } from './until'
  * @reactProps {function} onBlur
  * @reactProps {any} searchPlaceholder
  * @reactProps {string} placeholder
- * @reactProps {function} setTreeExpandedKeys
- * @reactProps {array} treeExpandedKeys
- * @reactProps {function} closePopupOnSelect
  * @reactProps {node} children
- * @reactProps {function} closePopupOnSelect
- * @param loading -  флаг анимации загрузки
+ * @param isLoading -  флаг анимации загрузки
  * @param parentFieldId - значение ключа parent в данных
  * @param valueFieldId - значение ключа value в данных
  * @param labelFieldId - значение ключа label в данных
@@ -62,7 +58,6 @@ import { visiblePartPopup, getCheckedStrategy } from './until'
  * @returns {*}
  * @constructor
  */
-// TODO переделать в класс
 function InputSelectTree({
     t,
     onOpen,
@@ -72,8 +67,6 @@ function InputSelectTree({
     searchPlaceholder,
     placeholder,
     notFoundContent = t('noData'),
-    closePopupOnSelect,
-    loading,
     isLoading,
     parentFieldId,
     valueFieldId,
@@ -103,10 +96,10 @@ function InputSelectTree({
     disabled,
     ...rest
 }) {
-    const [treeExpandedKeys, setTreeExpandedKeys] = useState([])
+    const treeExpandedKeys = useRef([])
     const [dropdownExpanded, setDropdownExpanded] = useState(false)
-    const [_control, setControlRef] = useState(null)
     const [searchValue, setSearchValue] = useState('')
+    const elemRef = useRef(null)
 
     const popupProps = {
         prefixCls: 'n2o-select-tree',
@@ -147,8 +140,7 @@ function InputSelectTree({
         keys(itemsByID).forEach((key) => {
             if (
                 itemsByID[key][parentFieldId] &&
-                itemsByID[itemsByID[key][parentFieldId]] &&
-                itemsByID[itemsByID[key][parentFieldId]].children
+                itemsByID[itemsByID[key][parentFieldId]]?.children
             ) {
                 itemsByID[itemsByID[key][parentFieldId]].children.push({
                     ...itemsByID[key],
@@ -161,15 +153,12 @@ function InputSelectTree({
                 if (!itemsByID[key][parentFieldId]) {
                     return true
                 }
-                if (
+
+                return (
                     itemsByID[key][parentFieldId] &&
                     // eslint-disable-next-line no-prototype-builtins
                     !itemsByID.hasOwnProperty(itemsByID[key][parentFieldId])
-                ) {
-                    return true
-                }
-
-                return false
+                )
             })
             .reduce((acc, key) => [...acc, { ...itemsByID[key] }], [])
     })
@@ -252,9 +241,9 @@ function InputSelectTree({
     const handleSelect = (value) => {
         onSelect(getItemByValue(value))
 
-        if (_control) {
+        if (elemRef.current) {
             // eslint-disable-next-line react/no-find-dom-node
-            findDOMNode(_control).focus()
+            elemRef.current.focus()
         }
     }
 
@@ -288,7 +277,7 @@ function InputSelectTree({
         } else {
             onClose()
         }
-        if (ajax) { setTreeExpandedKeys([]) }
+        if (ajax) { treeExpandedKeys.current = [] }
 
         return false
     }
@@ -298,12 +287,12 @@ function InputSelectTree({
      * @param keys
      */
     const onTreeExpand = async (keys) => {
-        const currentKey = difference(keys, treeExpandedKeys)
+        const currentKey = difference(keys, treeExpandedKeys.current)
 
         if (ajax) {
             await handleItemOpen(currentKey[0])
         }
-        setTreeExpandedKeys(keys)
+        treeExpandedKeys.current = keys
     }
 
     // eslint-disable-next-line react/prop-types
@@ -316,7 +305,7 @@ function InputSelectTree({
         />
     )
 
-    const inputIcon = loading ? (
+    const inputIcon = isLoading ? (
         <InlineSpinner />
     ) : (
         <Icon name="fa fa-chevron-down" />
@@ -324,17 +313,26 @@ function InputSelectTree({
 
     const getPopupContainer = container => container
 
+    const loadingIcon = useMemo(() => (
+        isLoading && data.length
+            ? <div className="n2o-select-stub" />
+            : <InlineSpinner />
+    ), [isLoading, data.length])
+
     return (
         <div className="w-100 d-flex position-relative">
             <TreeSelect
-                ref={setControlRef}
+                ref={(elem) => {
+                    // eslint-disable-next-line react/no-find-dom-node
+                    elemRef.current = findDOMNode(elem)
+                }}
                 /* eslint-disable-next-line jsx-a11y/tabindex-no-positive */
                 tabIndex={1}
                 value={setValue(value)}
                 open={dropdownExpanded}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 className={cx('n2o form-control', 'n2o-input-select-tree', className, {
-                    'n2o-loading': loading && data.length,
+                    'n2o-loading': isLoading && data.length,
                     'n2o-disabled': disabled,
                 })}
                 switcherIcon={renderSwitcherIcon}
@@ -351,13 +349,12 @@ function InputSelectTree({
                 onChange={handleChange}
                 onSelect={handleSelect}
                 onSearch={handleSearch}
-                treeExpandedKeys={treeExpandedKeys}
                 onTreeExpand={onTreeExpand}
                 dropdownPopupAlign={dropdownPopupAlign}
                 prefixCls="n2o-select-tree"
                 showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
                 getPopupContainer={getPopupContainer}
-                notFoundContent={loading ? <div className="n2o-select-stub" /> : notFoundContent}
+                notFoundContent={isLoading ? loadingIcon : notFoundContent}
                 placeholder={placeholder}
                 searchPlaceholder={searchPlaceholder}
                 disabled={disabled}
@@ -377,7 +374,6 @@ InputSelectTree.defaultProps = {
     children: null,
     hasChildrenFieldId: 'hasChildren',
     disabled: false,
-    loading: false,
     parentFieldId: 'parentId',
     valueFieldId: 'id',
     labelFieldId: 'name',
@@ -389,7 +385,6 @@ InputSelectTree.defaultProps = {
     filter: 'startsWith',
     hasCheckboxes: false,
     multiSelect: false,
-    closePopupOnSelect: false,
     data: [],
     searchPlaceholder: '',
     // eslint-disable-next-line react/default-props-match-prop-types
@@ -433,9 +428,7 @@ InputSelectTree.propTypes = {
     _control: PropTypes.any,
     dropdownExpanded: PropTypes.bool,
     setDropdownExpanded: PropTypes.func,
-    setTreeExpandedKeys: PropTypes.func,
     notFoundContent: PropTypes.any,
-    treeExpandedKeys: PropTypes.any,
 
     children: PropTypes.node,
     /**
@@ -446,10 +439,6 @@ InputSelectTree.propTypes = {
      * Значение ключа parent в данных
      */
     parentFieldId: PropTypes.string,
-    /**
-     * Флаг анимации загрузки
-     */
-    loading: PropTypes.bool,
     /**
      * Данные для построения дерева
      */
@@ -520,10 +509,6 @@ InputSelectTree.propTypes = {
      * Мульти выбор значений
      */
     multiSelect: PropTypes.bool,
-    /**
-     * Флаг закрытия попапа при выборе элемента
-     */
-    closePopupOnSelect: PropTypes.bool,
     /**
      * Флаг для показа чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим
      */

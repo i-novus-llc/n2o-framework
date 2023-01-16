@@ -32,7 +32,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void expandParentOptions(int parentId) {
-        element().$$(".n2o-select-tree-dropdown .n2o-select-tree-tree-treenode-switcher-close i").get(parentId).click();
+        element().$$(".n2o-select-tree-dropdown [role=\"treeitem\"] i").get(parentId).click();
     }
 
     @Override
@@ -42,12 +42,12 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldDisplayedOptions(CollectionCondition condition) {
-        element().$$(".n2o-select-tree-dropdown .n2o-select-tree-tree-treenode-switcher-close").shouldHave(condition);
+        element().$$(".n2o-select-tree-dropdown [role=\"treeitem\"]").shouldHave(condition);
     }
 
     @Override
     public void selectOption(int index) {
-        element().$$(".n2o-select-tree-dropdown .n2o-select-tree-tree-treenode-switcher-close").get(index)
+        element().$$(".n2o-select-tree-dropdown [role=\"treeitem\"]").get(index)
                 .hover().shouldBe(Condition.visible).click();
     }
 
