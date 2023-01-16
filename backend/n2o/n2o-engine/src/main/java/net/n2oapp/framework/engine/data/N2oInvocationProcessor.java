@@ -119,15 +119,14 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                                           DataSet inDataSet) {
         DataSet resultDataSet = new DataSet();
         // normalize values
-        invocationParameters.forEach(parameter -> {
-            Object value = inDataSet.get(parameter.getId());
-            if (value != null) {
-                if (parameter.getNormalize() != null) {
-                    value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
-                }
-                resultDataSet.put(parameter.getId(), value);
-            }
-        });
+        invocationParameters.stream().filter(parameter -> inDataSet.containsKey(parameter.getId()))
+                .forEach(parameter -> {
+                    Object value = inDataSet.get(parameter.getId());
+                    if (value != null && parameter.getNormalize() != null) {
+                        value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
+                    }
+                    resultDataSet.put(parameter.getId(), value);
+                });
         // remove not enabled data
         invocationParameters.stream().filter(parameter -> !isMappingEnabled(parameter, inDataSet))
                 .forEach(parameter -> resultDataSet.remove(parameter.getId()));
