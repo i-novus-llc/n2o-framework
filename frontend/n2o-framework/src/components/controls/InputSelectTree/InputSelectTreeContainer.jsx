@@ -61,13 +61,11 @@ class InputSelectTreeContainer extends Component {
 
     render() {
         const { data } = this.state
-        const { isLoading } = this.props
 
         return (
             <InputSelectTree
                 {...this.props}
                 data={data}
-                loading={isLoading}
             />
         )
     }
