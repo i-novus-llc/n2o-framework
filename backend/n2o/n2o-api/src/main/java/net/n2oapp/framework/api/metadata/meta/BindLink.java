@@ -87,6 +87,8 @@ public class BindLink implements Compiled {
         if (!(o instanceof BindLink))
             return false;
         BindLink link = (BindLink) o;
+        if (getBindLink() == null || link.getBindLink() == null)
+            return false;
         return Objects.equals(normalizeLink(), link.normalizeLink());
     }
 
