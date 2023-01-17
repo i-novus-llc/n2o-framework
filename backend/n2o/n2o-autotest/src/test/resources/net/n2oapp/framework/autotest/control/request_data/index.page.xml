@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автоматическое сохранение формы">
+    <form>
+        <datasource query-id="test" object-id="test">
+            <submit operation-id="update"/>
+        </datasource>
+        <fields>
+            <row>
+                <col>
+                    <select id="select" query-id="select"/>
+                    <input-select id="input_select" query-id="select" search="false"/>
+                    <auto-complete id="auto" query-id="select"/>
+                    <select id="select_multi" query-id="select" type="multi"/>
+                    <input-select id="input_select_multi" query-id="select" type="multi" search="false"/>
+                </col>
+                <col>
+                    <auto-complete id="auto_multi" query-id="select" tags="true"/>
+                </col>
+            </row>
+        </fields>
+        <toolbar>
+            <button label="Сохранить">
+                <submit operation-id="update"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
