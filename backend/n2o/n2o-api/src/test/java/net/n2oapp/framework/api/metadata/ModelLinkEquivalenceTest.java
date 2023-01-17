@@ -15,6 +15,7 @@ public class ModelLinkEquivalenceTest {
         link2.setValue("`id`");
         assertTrue(link1.equalsLink(link2));
     }
+
     @Test
     public void testEquals() {
         ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.resolve, "widget", "field.id");
@@ -83,5 +84,23 @@ public class ModelLinkEquivalenceTest {
 
         assertFalse(withSubModelQuery1.equalsLink(null));
         assertFalse(withSubModelQuery1.equalsLink(new Object()));
+    }
+
+    @Test
+    public void testEqualsNormalizedLink() {
+        ModelLink link1 = new ModelLink(ReduxModel.resolve, "widget", "id");
+        ModelLink link2 = new ModelLink(ReduxModel.resolve, "widget");
+        link2.setValue("`id`");
+        assertTrue(link1.equalsLink(link2));
+
+        link1 = new ModelLink(ReduxModel.resolve, "widget", "person.id");
+        link2 = new ModelLink(ReduxModel.resolve, "widget", "person");
+        link2.setValue("`id`");
+        assertTrue(link1.equalsLink(link2));
+
+        link1 = new ModelLink(":rec_id");
+        link2 = new ModelLink();
+        link2.setParam("superrec_id");
+        assertFalse(link1.equalsLink(link2));
     }
 }
