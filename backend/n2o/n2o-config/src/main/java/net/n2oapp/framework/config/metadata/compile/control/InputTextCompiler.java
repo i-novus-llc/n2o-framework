@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
@@ -66,8 +68,8 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 return;
             case NUMERIC:
-                inputText.setMin(p.cast(p.resolveJS(source.getMin(), Long.class), "-999999999"));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Long.class), "999999999"));
+                inputText.setMin(p.cast(p.resolveJS(source.getMin(), BigDecimal.class), "-999999999"));
+                inputText.setMax(p.cast(p.resolveJS(source.getMax(), BigDecimal.class), "999999999"));
                 inputText.setStep(castDefault(source.getStep(), "0.01"));
                 inputText.setPrecision(p.cast(source.getPrecision(), p.resolve(property("n2o.api.control.input.text.precision"), Integer.class)));
                 return;
