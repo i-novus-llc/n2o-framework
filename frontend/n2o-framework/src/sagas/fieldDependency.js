@@ -246,6 +246,7 @@ export function* checkAndModify(
                     (
                         dep.applyOnInit && (
                             (actionType === actionTypes.INITIALIZE) ||
+                            (actionType === actionTypes.RESET) ||
                             ((actionType === registerFieldExtra.type) && (fieldName === fieldId))
                         )
                     ) ||
@@ -295,6 +296,7 @@ export function* catchAction() {
     yield takeEvery(actionTypes.INITIALIZE, resolveDependency)
     yield takeEvery(registerFieldExtra.type, resolveDependency)
     yield takeEvery(actionTypes.CHANGE, resolveDependency)
+    yield takeEvery(actionTypes.RESET, resolveDependency)
 }
 
 export const fieldDependencySagas = [catchAction]
