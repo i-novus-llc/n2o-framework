@@ -62,9 +62,13 @@ class TabRegion extends React.Component {
     }
 
     atLeastOneVisibleWidget(content) {
+        const nestedMetaKeys = ['content', 'menu', 'tabs']
+
         return some(content, (meta) => {
-            if (meta.content) {
-                return this.atLeastOneVisibleWidget(meta.content)
+            for (const key of nestedMetaKeys) {
+                if (meta[key]) {
+                    return this.atLeastOneVisibleWidget(meta[key])
+                }
             }
 
             return this.isVisibleWidget(meta.id)
