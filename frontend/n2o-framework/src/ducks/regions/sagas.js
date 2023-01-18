@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { actionTypes } from 'redux-form'
 import values from 'lodash/values'
 import filter from 'lodash/filter'
@@ -19,7 +19,7 @@ import { modelsSelector } from '../models/selectors'
 import { authSelector } from '../user/selectors'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
 import { makeModelIdSelector, makeWidgetVisibleSelector } from '../widgets/selectors'
-import { dataRequestWidget } from '../widgets/store'
+import { dataRequestWidget, registerWidget } from '../widgets/store'
 import { addMessage, removeMessage } from '../form/constants'
 import { getFieldsKeys } from '../../components/widgets/Form/utils'
 
@@ -259,5 +259,6 @@ function* validateTabs({ payload, type }) {
 export default [
     takeEvery(MAP_URL, mapUrl),
     takeEvery([METADATA_SUCCESS, actionTypes.TOUCH], switchTab),
+    takeLatest(registerWidget, switchTab),
     takeEvery([addMessage, removeMessage], validateTabs),
 ]
