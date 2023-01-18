@@ -4,11 +4,11 @@
     <form>
         <datasource query-id="test"/>
         <fields>
-            <set help="{setHelp}">
+            <set label="Простой филдсет" help="{setHelp}">
                 <input-text id="series" label="Серия" help="{seriesHelp}"/>
                 <input-text id="number" label="Номер" help="{numberHelp}"/>
             </set>
-            <line help="{lineHelp}">
+            <line label="Филдсет с линией" help="{lineHelp}">
                 <row>
                     <input-select id="select" label="Выпадающий список"/>
                     <input-select id="selectMulti" label="Множественный выбор" type="checkboxes"/>

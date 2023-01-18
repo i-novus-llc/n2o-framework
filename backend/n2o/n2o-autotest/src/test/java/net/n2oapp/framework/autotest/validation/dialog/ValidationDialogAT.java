@@ -105,7 +105,10 @@ public class ValidationDialogAT extends AutoTestBase {
         name.val("Ann");
         modalSaveBtn.click();
         dialog = page.dialog("Вы не заполнили возраст.");
+        dialog.shouldBeVisible();
         dialog.shouldHaveText("Заполнить его значением по умолчанию?");
+        closeBtn.shouldExists();
+        closeBtn.shouldBeEnabled();
         closeBtn.click();
         modalSaveBtn.click();
         agreeBnt.click();
