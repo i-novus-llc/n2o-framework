@@ -1,11 +1,14 @@
 package net.n2oapp.framework.autotest.validation.dialog;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -39,15 +42,15 @@ public class ValidationDialogAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+    }
+
+    @Test
+    public void testDialog() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/test.object.xml"));
-    }
-
-    @Test
-    public void testDialog() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -84,9 +87,11 @@ public class ValidationDialogAT extends AutoTestBase {
         modalSaveBtn.click();
         Page.Dialog dialog = page.dialog("Вы не заполнили имя.");
         dialog.shouldHaveText("Заполнить его значением по умолчанию?");
-        dialog.click("Close");
+        Button closeBtn = dialog.button("Close");
+        closeBtn.click();
         modalSaveBtn.click();
-        dialog.click("Yes");
+        Button agreeBnt = dialog.button("Yes");
+        agreeBnt.click();
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(4);
@@ -101,14 +106,41 @@ public class ValidationDialogAT extends AutoTestBase {
         modalSaveBtn.click();
         dialog = page.dialog("Вы не заполнили возраст.");
         dialog.shouldHaveText("Заполнить его значением по умолчанию?");
-        dialog.click("Close");
+        closeBtn.click();
         modalSaveBtn.click();
-        dialog.click("Yes");
+        agreeBnt.click();
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(5);
         tableRows.row(4).cell(0).textShouldHave("5");
         tableRows.row(4).cell(1).textShouldHave("Ann");
         tableRows.row(4).cell(2).textShouldHave("0");
+    }
+
+    /**
+     * Тест проверяет резолвится ли значение в заголовке диалога
+     */
+    @Test
+    public void test() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/validation/resolve_dialog_title/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/resolve_dialog_title/test.object.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget form = page
+                .regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(FormWidget.class);
+
+        InputText inputText = form.fields().field("text").control(InputText.class);
+        inputText.shouldExists();
+        inputText.val("test resolve title");
+
+        form.toolbar().topLeft().button("open").click();
+        Modal modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Resolve input: test resolve title");
     }
 }

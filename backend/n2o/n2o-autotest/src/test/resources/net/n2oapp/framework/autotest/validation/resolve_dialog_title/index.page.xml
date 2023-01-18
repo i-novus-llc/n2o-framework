@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для автотеста по проверке resolve в заголовке модального окна">
+    <datasources>
+        <datasource id="test1" object-id="test"/>
+    </datasources>
+    <regions>
+        <form datasource="test1">
+            <fields>
+                <input-text id="input" label="text"/>
+            </fields>
+
+            <toolbar place="topLeft">
+                <button id="save" label="Open">
+                    <invoke operation-id="confirm"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>
