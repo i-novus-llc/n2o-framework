@@ -22,6 +22,63 @@ export function parseExpression(value) {
 }
 
 /**
+ * Получение глобального контекста
+ */
+export function getGlobal() {
+    // eslint-disable-next-line no-undef
+    if (typeof globalThis !== 'undefined') { return globalThis }
+    // eslint-disable-next-line no-restricted-globals
+    if (typeof self !== 'undefined') { return self }
+    if (typeof window !== 'undefined') { return window }
+    // @ts-ignore FIXME: скорее всего уже можно обойтись одним globalThis
+    if (typeof global !== 'undefined') { return global }
+
+    // @ts-ignore FIXME: скорее всего уже можно обойтись одним globalThis
+    return (function getThis() { return this }())
+}
+
+/**
+ * Получение обёртки над глобальым контекстом для контроля доступа к пропертям
+ */
+export const createGlobalContext = (() => {
+    let context
+    const allowList = [
+        'undefined', 'null', 'NaN', 'Infinity', 'console', 'JSON', 'crypto', 'Math',
+        // тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
+        'location', 'history', 'navigator',
+    ]
+    const selfKeys = ['window', 'self', 'global', 'globalThis']
+
+    return function createGlobalContext() {
+        if (context) { return context }
+
+        const self = getGlobal()
+
+        context = new Proxy(self, {
+            has() { return true },
+            set() { return false },
+            get(target, key) {
+                // @ts-ignore FIXME проставить нормальный тип для контекста
+                const value = target[key]
+
+                if (typeof value === 'function' || allowList.includes(key)) {
+                    return value
+                }
+                if (selfKeys.includes(key)) {
+                    return context
+                }
+
+                return undefined
+            },
+        })
+
+        return context
+    }
+})()
+
+const expressionCache = new Map()
+
+/**
  * Создает функцию из текста
  * @param args {String[]} - массив имен переменных
  * @param code {String} - код для выполнения
@@ -31,19 +88,22 @@ export function createContextFn(args, code) {
     const joinedArgs = args.join(',')
     const key = `${joinedArgs}|||${code}`
 
-    if (!fooCache[key]) {
-        // eslint-disable-next-line no-new-func
-        fooCache[key] = new Function(
-            windowKeys,
-            `return function (${joinedArgs}) { return (${code}) }`,
-        )()
-    }
+    const expressionFunction = expressionCache.get(key)
 
-    return fooCache[key]
+    if (expressionFunction) { return expressionFunction }
+    // eslint-disable-next-line no-new-func
+    const creator = new Function(
+        'globalContext',
+        `with(globalContext) {
+            return function (${joinedArgs}) { return (${code}) }
+        }`,
+    )
+    const func = creator(createGlobalContext())
+
+    expressionCache.set(key, func)
+
+    return func
 }
-
-const windowKeys = Object.keys(window).filter(v => !v.includes('-'))
-const fooCache = {}
 
 // eslint-disable-next-line consistent-return
 function evalExpressionSingle(expression, context, args = context) {
