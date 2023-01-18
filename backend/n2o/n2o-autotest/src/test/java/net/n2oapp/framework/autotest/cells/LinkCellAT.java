@@ -11,14 +11,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 /**
  * Автотест ячеек таблицы
  */
 public class LinkCellAT extends AutoTestBase {
-
-    private TableWidget.Rows rows;
 
     @BeforeAll
     public static void beforeClass() {
@@ -33,12 +29,6 @@ public class LinkCellAT extends AutoTestBase {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/link/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/link/test.query.xml"));
-
-        SimplePage simplePage = open(SimplePage.class);
-        simplePage.shouldExists();
-
-        rows = simplePage.widget(TableWidget.class).columns().rows();
-        rows.shouldHaveSize(1);
     }
 
     @Override
@@ -50,6 +40,14 @@ public class LinkCellAT extends AutoTestBase {
 
     @Test
     public void linkCellTest() {
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        TableWidget widget = simplePage.widget(TableWidget.class);
+        widget.shouldExists();
+        TableWidget.Rows rows = widget.columns().rows();
+        rows.shouldHaveSize(1);
+
         LinkCell cell = rows.row(0).cell(0, LinkCell.class);
         cell.textShouldHave("Text");
         cell.hrefShouldHave(getBaseUrl() + "/123");
@@ -64,5 +62,8 @@ public class LinkCellAT extends AutoTestBase {
         cell.shouldNotHaveText();
         cell.hrefShouldHave(getBaseUrl() + "/123");
         cell.shouldHaveIcon("fa-plus");
+
+        cell.click();
+        simplePage.urlShouldMatches(getBaseUrl() + "/#/123");
     }
 }
