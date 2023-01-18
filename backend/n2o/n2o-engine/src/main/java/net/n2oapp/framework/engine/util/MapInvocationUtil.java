@@ -31,10 +31,10 @@ public class MapInvocationUtil {
         Map<String, Object> result = new DataSet();
 
         for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
-            if (map.getValue().getEnabled() != null && !ScriptProcessor.evalForBoolean(map.getValue().getEnabled(), dataSet))
-                continue;
             Object data = dataSet.get(map.getKey());
             if (map.getValue() != null) {
+                if (!(map.getValue().getEnabled() == null || ScriptProcessor.evalForBoolean(map.getValue().getEnabled(), dataSet)))
+                    continue;
                 String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
                 if (map.getValue().getChildMapping() != null) {
                     if (data instanceof Collection) {
