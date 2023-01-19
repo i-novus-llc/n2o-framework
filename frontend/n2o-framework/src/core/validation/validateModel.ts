@@ -1,7 +1,9 @@
+import { get } from 'lodash'
+
 import type { IValidation, IValidationResult } from './IValidation'
 import { validateField, hasError as checkErrors } from './validateField'
 
-const findIndexRegexp = /\[index(.)*]/ig
+const findIndexRegexp = /\[index]/ig
 
 export const validateAndSetMessages = async (
     allMessages: Record<string, IValidationResult[]>,
@@ -32,9 +34,9 @@ export const validateModel = async (
             await validateAndSetMessages(allMessages, model, field, validationList)
         } else {
             const fieldArrayName: string = field.split(findIndexRegexp)?.[0]
-            const arrayFieldValue = (model as Record<string, unknown>)[fieldArrayName]
+            const arrayFieldValue: object[] = get(model, fieldArrayName, [])
 
-            for (let i = 0; i < (arrayFieldValue as []).length; i++) {
+            for (let i = 0; i < arrayFieldValue.length; i++) {
                 const fieldName = field.replaceAll('index', i.toString())
 
                 await validateAndSetMessages(
