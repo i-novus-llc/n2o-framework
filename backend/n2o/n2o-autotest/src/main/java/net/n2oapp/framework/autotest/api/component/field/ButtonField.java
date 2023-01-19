@@ -5,4 +5,8 @@ package net.n2oapp.framework.autotest.api.component.field;
  */
 public interface ButtonField extends Field {
     void click();
+
+    void shouldBeEnabled();
+
+    void shouldNotBeEnabled();
 }

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для проверки резолва атрибута href">
+    <datasources>
+        <datasource id="ds1" query-id="test"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <button label="Кнопка тулбара формы" datasource="ds1" disable-on-empty-model="false">
+                    <a href="{url}"/>
+                </button>
+            </fields>
+        </form>
+    </regions>
+    <toolbar place="topLeft">
+        <button label="Кнопка тулбара страницы" datasource="ds1" disable-on-empty-model="false">
+            <a href="{url}"/>
+        </button>
+    </toolbar>
+</page>
