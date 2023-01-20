@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
     <list result-mapping="['data.persons']">
-        <graphql>query Persons($name: String, $age: Int, $salary: Float, $addresses: [Address!]) { persons(name: $name, age: $age, salary: $salary, addresses: $addresses) {id name age salary} }</graphql>
+        <graphql>query Persons($name: String, $age: Int, $addresses: [Address!]) { persons(name: $name, age: $age, addresses: $addresses) {id name age} }</graphql>
     </list>
 
     <fields>
@@ -27,13 +27,6 @@
             <select/>
             <filters>
                 <in filter-id="address.name" mapping="['addresses']"/>
-            </filters>
-        </field>
-
-        <field id="salary">
-            <select mapping="['salary']"/>
-            <filters>
-                <eq filter-id="salary"/>
             </filters>
         </field>
     </fields>

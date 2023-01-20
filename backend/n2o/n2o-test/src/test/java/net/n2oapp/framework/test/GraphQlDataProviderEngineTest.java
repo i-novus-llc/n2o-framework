@@ -62,7 +62,7 @@ public class GraphQlDataProviderEngineTest {
      */
     @Test
     public void testQueryWithVariables() {
-        String queryPath = "/n2o/data/test/graphql/query/variables?personName=t\"es\"t&age=20&address.name=address1&address.name=address2&salary=123.55";
+        String queryPath = "/n2o/data/test/graphql/query/variables?personName=t\"es\"t&age=20&address.name=address1&address.name=address2";
         String url = "http://localhost:" + appPort + queryPath;
 
         // mocked data
@@ -72,12 +72,11 @@ public class GraphQlDataProviderEngineTest {
                 new HashMap<>(Map.of("id", 2,
                         "name", "t\"es\"t",
                         "age", 20,
-                        "salary", 123.55,
                         "addresses", List.of(Map.of("street", "address1"), Map.of("street", "address2"))))));
         data.put("data", persons);
 
-        String expectedQuery = "query Persons($name: String, $age: Int, $salary: Float, $addresses: [Address!])" +
-                " { persons(name: $name, age: $age, salary: $salary, addresses: $addresses) {id name age salary} }";
+        String expectedQuery = "query Persons($name: String, $age: Int, $addresses: [Address!])" +
+                " { persons(name: $name, age: $age, addresses: $addresses) {id name age} }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -89,7 +88,6 @@ public class GraphQlDataProviderEngineTest {
         // graphql payload
         assertEquals("t\"es\"t", ((DataSet) payloadValue.get("variables")).get("name"));
         assertEquals(20, ((DataSet) payloadValue.get("variables")).get("age"));
-        assertEquals("123.55", ((DataSet) payloadValue.get("variables")).get("salary"));
         DataList addresses = (DataList) ((DataSet) payloadValue.get("variables")).get("addresses");
         assertEquals(2, addresses.size());
         assertEquals("address1", addresses.get(0));
@@ -273,18 +271,18 @@ public class GraphQlDataProviderEngineTest {
     @Test
     public void testFiltersPlaceholder() {
         // TWO FILTERS
-        String queryPath = "/n2o/data/test/graphql/filters?personName=t\"es\"t&age=20";
+        String queryPath = "/n2o/data/test/graphql/filters?personName=t\"es\"t&age=20&salary=123.55";
         String url = "http://localhost:" + appPort + queryPath;
 
         // mocked data
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> persons = new HashMap<>();
         persons.put("persons", Collections.singletonList(
-                Map.of("name", "t\"es\"t", "age", 20)));
+                Map.of("name", "t\"es\"t", "age", 20, "salary", 123.55)));
         data.put("data", persons);
 
         String expectedQuery = "query persons(" +
-                "filter: { [{ name: {like: \"\\\"t\\\\\\\"es\\\\\\\"t\\\"\" } }] AND [{ age: {ge: 20 } }] }) " +
+                "filter: { [{ name: {like: \"\\\"t\\\\\\\"es\\\\\\\"t\\\"\" } }] AND [{ age: {ge: 20 } }] AND [{ salary: {ge: \"123.55\" } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
