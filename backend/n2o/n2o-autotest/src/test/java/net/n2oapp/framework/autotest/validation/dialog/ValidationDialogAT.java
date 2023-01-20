@@ -51,19 +51,23 @@ public class ValidationDialogAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/test.object.xml"));
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
+
         TableWidget.Rows tableRows = table.columns().rows();
         tableRows.shouldHaveSize(2);
+
         StandardButton create = table.toolbar().topLeft().button("Create");
         create.shouldExists();
         create.click();
 
         Modal modal = N2oSelenide.modal();
         modal.shouldExists();
+
         FormWidget modalForm = modal.content(SimplePage.class).widget(FormWidget.class);
         StandardButton modalSaveBtn = modal.toolbar().bottomRight().button("Save");
         InputText name = modalForm.fields().field("name").control(InputText.class);
@@ -73,6 +77,7 @@ public class ValidationDialogAT extends AutoTestBase {
         name.val("Mark");
         age.val("20");
         modalSaveBtn.click();
+
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(3);
@@ -83,15 +88,23 @@ public class ValidationDialogAT extends AutoTestBase {
         // save without name (calling dialog 'nameCheck')
         create.click();
         modal.shouldExists();
+
         age.val("25");
         modalSaveBtn.click();
+
         Page.Dialog dialog = page.dialog("Вы не заполнили имя.");
         dialog.shouldHaveText("Заполнить его значением по умолчанию?");
+
         Button closeBtn = dialog.button("Close");
+        closeBtn.shouldExists();
+        closeBtn.shouldBeVisible();
         closeBtn.click();
+
         modalSaveBtn.click();
+
         Button agreeBnt = dialog.button("Yes");
         agreeBnt.click();
+
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(4);
@@ -102,16 +115,24 @@ public class ValidationDialogAT extends AutoTestBase {
         // save without age (calling dialog 'ageCheck')
         create.click();
         modal.shouldExists();
+
         name.val("Ann");
         modalSaveBtn.click();
+
         dialog = page.dialog("Вы не заполнили возраст.");
         dialog.shouldBeVisible();
         dialog.shouldHaveText("Заполнить его значением по умолчанию?");
+
+        closeBtn = dialog.button("Close");
         closeBtn.shouldExists();
         closeBtn.shouldBeEnabled();
         closeBtn.click();
+
         modalSaveBtn.click();
+
+        agreeBnt = dialog.button("Yes");
         agreeBnt.click();
+
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(5);
