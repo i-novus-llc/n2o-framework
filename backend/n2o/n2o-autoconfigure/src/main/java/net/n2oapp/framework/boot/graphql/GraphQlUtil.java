@@ -1,5 +1,6 @@
 package net.n2oapp.framework.boot.graphql;
 
+import java.math.BigDecimal;
 import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.List;
@@ -31,10 +32,10 @@ public class GraphQlUtil {
             for (Object item : ((List) obj))
                 joiner.add(toGraphQlString(item));
             return joiner.toString();
-        } else if (obj instanceof Temporal || obj instanceof Date) {
+        } else if (obj instanceof Temporal || obj instanceof Date || obj instanceof BigDecimal) {
             return "\"" + obj + "\"";
         } else if (obj instanceof String) {
-            return "\"" + escapeJson((String)obj) + "\"";
+            return "\"" + escapeJson((String) obj) + "\"";
         } else
             return obj.toString();
     }

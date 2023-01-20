@@ -34,5 +34,12 @@
                 <in filter-id="address.name" mapping="['addresses']"/>
             </filters>
         </field>
+
+        <field id="salary">
+            <select mapping="['salary']"/>
+            <filters>
+                <eq filter-id="salary" domain="numeric">{ salary: {ge: $$salary } }</eq>
+            </filters>
+        </field>
     </fields>
 </query>
