@@ -1,11 +1,14 @@
 [ {
   "id" : 1,
-  "select" : null,
+  "select" : {
+    "id" : 4,
+    "name" : "test4"
+  },
   "input_select" : {
     "id" : 4,
     "name" : "test4"
   },
-  "auto" : "test5",
+  "auto" : null,
   "select_multi" : [ ],
   "input_select_multi" : [ ],
   "auto_multi" : [ ]
