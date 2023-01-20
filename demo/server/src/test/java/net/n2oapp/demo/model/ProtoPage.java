@@ -240,7 +240,7 @@ public class ProtoPage {
     }
 
     public void acceptDialog(String title) {
-        leftRightPage.dialog(title).click("Да");
+        leftRightPage.dialog(title).button("Да").click();
     }
 
     public void contactsListShouldHaveText(int index, String text) {
