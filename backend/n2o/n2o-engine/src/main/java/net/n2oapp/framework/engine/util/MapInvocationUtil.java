@@ -4,6 +4,7 @@ import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.Collection;
 import java.util.Map;
@@ -32,6 +33,8 @@ public class MapInvocationUtil {
         for (Map.Entry<String, FieldMapping> map : mapping.entrySet()) {
             Object data = dataSet.get(map.getKey());
             if (map.getValue() != null) {
+                if (!(map.getValue().getEnabled() == null || ScriptProcessor.evalForBoolean(map.getValue().getEnabled(), dataSet)))
+                    continue;
                 String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
                 if (map.getValue().getChildMapping() != null) {
                     if (data instanceof Collection) {
