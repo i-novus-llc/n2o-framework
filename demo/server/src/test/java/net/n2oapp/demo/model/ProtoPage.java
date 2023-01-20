@@ -265,7 +265,7 @@ public class ProtoPage {
     public void deleteContact(int index) {
         ListCell cell = getContacts().content(index).extra(ListCell.class);
         cell.element().$$(".btn").findBy(Condition.text("Удалить")).click();
-        leftRightPage.dialog("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.").click("Да");
+        leftRightPage.dialog("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.").button("Да").click();
     }
 
     public void alertTextShouldBe(String text) {
