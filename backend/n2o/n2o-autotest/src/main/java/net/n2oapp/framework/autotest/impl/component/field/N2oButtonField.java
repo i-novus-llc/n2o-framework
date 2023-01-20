@@ -1,11 +1,27 @@
 package net.n2oapp.framework.autotest.impl.component.field;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 
 public class N2oButtonField extends N2oField implements ButtonField {
     @Override
     public void click() {
-        element().$(".btn").shouldBe(Condition.exist).click();
+        btn().click();
     }
+
+    @Override
+    public void shouldBeEnabled() {
+        btn().shouldBe(Condition.enabled);
+    }
+
+    @Override
+    public void shouldNotBeEnabled() {
+        btn().shouldBe(Condition.disabled);
+    }
+
+    private SelenideElement btn() {
+        return element().$(".btn");
+    }
+
 }
