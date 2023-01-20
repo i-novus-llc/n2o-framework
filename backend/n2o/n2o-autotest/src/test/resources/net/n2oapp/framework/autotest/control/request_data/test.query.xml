@@ -17,9 +17,6 @@
         <field id="auto">
             <select/>
         </field>
-        <field id="select_multi">
-            <select/>
-        </field>
         <field id="input_select_multi">
             <select/>
         </field>

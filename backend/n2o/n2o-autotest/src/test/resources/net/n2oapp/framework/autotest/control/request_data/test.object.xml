@@ -10,7 +10,6 @@
                 <field id="select"/>
                 <field id="input_select"/>
                 <field id="auto"/>
-                <field id="select_multi" domain="object[]"/>
                 <field id="input_select_multi" domain="object[]"/>
                 <field id="auto_multi" domain="object[]"/>
             </in>
