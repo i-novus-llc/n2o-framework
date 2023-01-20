@@ -186,9 +186,9 @@ function* setFocus({ payload }) {
 
             const firstInvalidForm = tabs
                 .find(({ invalid }) => invalid)
-                .content
+                ?.content
                 .find(({ id }) => {
-                    const { registeredFields } = forms[id]
+                    const { registeredFields = {} } = forms?.[id] || {}
 
                     return keys(registeredFields).some((currentFieldName) => {
                         const { message } = registeredFields[currentFieldName]
@@ -203,7 +203,7 @@ function* setFocus({ payload }) {
                     })
                 })
 
-            if (firstInvalidForm.id) {
+            if (firstInvalidForm?.id) {
                 yield put(focus(firstInvalidForm.id, fieldName))
 
                 return

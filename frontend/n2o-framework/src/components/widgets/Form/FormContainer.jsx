@@ -9,7 +9,7 @@ import { getFormValues, initialize } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { createContext } from 'react'
 
 import widgetContainer from '../WidgetContainer'
 import { FORM } from '../widgetTypes'
@@ -17,6 +17,7 @@ import createValidator from '../../../core/validation/createValidator'
 import { PREFIXES } from '../../../ducks/models/constants'
 
 import { getFieldsKeys } from './utils'
+// eslint-disable-next-line import/no-cycle
 import ReduxForm from './ReduxForm'
 
 export const withWidgetContainer = widgetContainer(
@@ -57,6 +58,10 @@ const additionalMerge = (target, source) => merge(
 )
 
 const mergeInitial = (target, source) => additionalMerge(additionalMerge({}, target), source)
+
+export const formContainerContext = createContext({
+    onBlur: () => {},
+})
 
 class Container extends React.Component {
     constructor(props) {
@@ -112,6 +117,14 @@ class Container extends React.Component {
         }
     }
 
+    // Тригер валидации
+    onBlur = (dispatch) => {
+        const { validators } = this.state
+        const { reduxFormValues } = this.props
+
+        validators.asyncValidate(reduxFormValues, dispatch)
+    }
+
     onChange = (values, dispatch, options, prevValues) => {
         const {
             setActive, modelPrefix, reduxFormValues,
@@ -156,18 +169,19 @@ class Container extends React.Component {
     }
 
     render() {
-        const { initialValues, validators, fields } = this.state
+        const { initialValues, fields } = this.state
         const { modelId, widgetId } = this.props
 
         return (
-            <ReduxForm
-                form={modelId || widgetId}
-                fields={fields}
-                {...validators}
-                {...this.props}
-                initialValues={initialValues}
-                onChange={this.onChange}
-            />
+            <formContainerContext.Provider value={{ onBlur: this.onBlur }}>
+                <ReduxForm
+                    form={modelId || widgetId}
+                    fields={fields}
+                    {...this.props}
+                    initialValues={initialValues}
+                    onChange={this.onChange}
+                />
+            </formContainerContext.Provider>
         )
     }
 }
@@ -189,6 +203,8 @@ Container.propTypes = {
     store: PropTypes.any,
     dispatch: PropTypes.func,
 }
+
+Container.displayName = 'FormContainer'
 
 /**
  * Обертка в widgetContainer, мэппинг пропсов
