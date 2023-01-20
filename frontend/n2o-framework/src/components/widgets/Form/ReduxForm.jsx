@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
+// eslint-disable-next-line import/no-cycle
 import Form from './Form'
 import ReduxField from './ReduxField'
 

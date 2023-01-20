@@ -6,6 +6,7 @@ import { pure } from 'recompose'
 import { makeFormByName } from '../../../ducks/form/selectors'
 
 import { getAutoFocusId, flatFields } from './utils'
+// eslint-disable-next-line import/no-cycle
 import Fieldset from './Fieldset'
 import Field from './Field'
 
