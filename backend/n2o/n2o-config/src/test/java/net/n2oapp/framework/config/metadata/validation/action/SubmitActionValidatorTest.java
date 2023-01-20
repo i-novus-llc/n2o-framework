@@ -63,4 +63,9 @@ public class SubmitActionValidatorTest extends SourceValidationTestBase {
         validate("net/n2oapp/framework/config/metadata/validation/action/testWidgetDatasourceUsing.page.xml");
     }
 
+    @Test
+    public void testParentDatasourceUsing() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/testParentDatasourceUsing.page.xml");
+    }
+
 }

@@ -12,8 +12,8 @@ export function withFieldsetHeader(Component) {
         needLabel,
         needDescription,
         description,
-        resolvedLabel,
-        resolvedHelp,
+        label,
+        help,
         type,
         childrenLabel,
         enabled,
@@ -30,10 +30,10 @@ export function withFieldsetHeader(Component) {
                                 className={classNames(
                                     'n2o-fieldset__label', { 'with-description': description },
                                 )}
-                                value={resolvedLabel}
+                                value={label}
                             />
                         )}
-                        {resolvedHelp && <HelpPopover help={resolvedHelp} />}
+                        {help && <HelpPopover help={help} />}
                         {needDescription && (
                             <Label
                                 className={classNames(
@@ -47,13 +47,13 @@ export function withFieldsetHeader(Component) {
                 <Component
                     childrenLabel={childrenLabel}
                     enabled={enabled}
-                    label={resolvedLabel}
+                    label={label}
                     type={type}
                     activeModel={activeModel}
                     description={description}
                     {...rest}
                     render={render}
-                    help={resolvedHelp}
+                    help={help}
                 />
             </div>
         )
@@ -65,8 +65,8 @@ export function withFieldsetHeader(Component) {
         needLabel: PropTypes.bool,
         needDescription: PropTypes.bool,
         description: PropTypes.string,
-        resolvedLabel: PropTypes.string,
-        resolvedHelp: PropTypes.string,
+        label: PropTypes.string,
+        help: PropTypes.string,
         type: PropTypes.string,
         childrenLabel: PropTypes.string,
         enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

@@ -277,8 +277,6 @@ class Fieldset extends React.Component {
                 style={style}
                 needLabel={needLabel}
                 needDescription={needDescription}
-                resolvedLabel={resolvedLabel}
-                resolvedHelp={resolvedHelp}
                 childrenLabel={childrenLabel}
                 enabled={enabled}
                 label={resolvedLabel}

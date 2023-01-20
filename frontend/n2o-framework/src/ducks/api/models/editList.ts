@@ -7,7 +7,7 @@ import { setModel } from '../../models/store'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { MODELS_PREFIX } from '../constants'
 
-import { NOT_ARRAY, Operations, UNKNOWN_OPERATION } from './const'
+import { EMPTY_ELEMENT, NOT_ARRAY, Operations, UNKNOWN_OPERATION } from './const'
 import { create } from './editList/create'
 import { update } from './editList/update'
 import { deleteItem } from './editList/delete'
@@ -46,11 +46,17 @@ export function* effect({ payload, type }: ReturnType<typeof creator>) {
         if (!targetList && (operation === Operations.create || operation === Operations.createMany)) {
             targetList = []
         }
+
         if (!Array.isArray(targetList)) {
             throw new Error(NOT_ARRAY)
         }
 
         const element = item.field ? get(sourceModel, item.field) : sourceModel
+
+        if (!element) {
+            throw new Error(EMPTY_ELEMENT)
+        }
+
         const newList = updateList(targetList, element, primaryKey, operation)
 
         let newModel
