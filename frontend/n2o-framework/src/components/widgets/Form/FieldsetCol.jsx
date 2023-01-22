@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers, pure, mapProps } from 'recompose'
 import { Col } from 'reactstrap'
@@ -7,8 +7,6 @@ import get from 'lodash/get'
 import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 
 import ReduxField from './ReduxField'
-// eslint-disable-next-line import/no-cycle
-import { formContainerContext } from './FormContainer'
 // eslint-disable-next-line import/no-cycle
 import FieldsetContainer from './Fieldset'
 
@@ -30,8 +28,6 @@ function FieldsetColComponent({
     autoSubmit,
     activeField,
 }) {
-    const { onBlur } = useContext(formContainerContext)
-
     if (!colVisible) { return null }
 
     return (
@@ -57,7 +53,6 @@ function FieldsetColComponent({
                     disabled={disabled}
                     autoSubmit={autoSubmit}
                     active={activeField === field.id}
-                    onBlur={onBlur}
                     {...field}
                 />
             )

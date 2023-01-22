@@ -9,7 +9,7 @@ import { getFormValues, initialize } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React, { createContext } from 'react'
+import React from 'react'
 
 import widgetContainer from '../WidgetContainer'
 import { FORM } from '../widgetTypes'
@@ -17,8 +17,8 @@ import createValidator from '../../../core/validation/createValidator'
 import { PREFIXES } from '../../../ducks/models/constants'
 
 import { getFieldsKeys } from './utils'
-// eslint-disable-next-line import/no-cycle
 import ReduxForm from './ReduxForm'
+import { FormContainerProvider } from './provider/FormContainerProvider'
 
 export const withWidgetContainer = widgetContainer(
     {
@@ -58,10 +58,6 @@ const additionalMerge = (target, source) => merge(
 )
 
 const mergeInitial = (target, source) => additionalMerge(additionalMerge({}, target), source)
-
-export const formContainerContext = createContext({
-    onBlur: () => {},
-})
 
 class Container extends React.Component {
     constructor(props) {
@@ -173,7 +169,7 @@ class Container extends React.Component {
         const { modelId, widgetId } = this.props
 
         return (
-            <formContainerContext.Provider value={{ onBlur: this.onBlur }}>
+            <FormContainerProvider onBlur={this.onBlur}>
                 <ReduxForm
                     form={modelId || widgetId}
                     fields={fields}
@@ -181,7 +177,7 @@ class Container extends React.Component {
                     initialValues={initialValues}
                     onChange={this.onChange}
                 />
-            </formContainerContext.Provider>
+            </FormContainerProvider>
         )
     }
 }

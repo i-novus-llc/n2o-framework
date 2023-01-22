@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -11,6 +11,7 @@ import { loadingSelector } from '../../../ducks/form/selectors'
 
 import withFieldContainer from './fields/withFieldContainer'
 import StandardField from './fields/StandardField/StandardField'
+import { useFormContainerContext } from './provider/FormContainerProvider'
 
 const config = {
     onChange({ dependency }, dependencyType) {
@@ -55,26 +56,48 @@ class ReduxField extends React.Component {
         this.controlRef = el
     }
 
-    onBlur = () => {
-        const { onBlur } = this.props
-        const { store } = this.context
-
-        onBlur(store.dispatch)
-    }
-
     render() {
         const { id } = this.props
+        const { store } = this.context
 
         return (
-            <ReduxFormField
-                name={id}
+            <Field
+                id={id}
                 {...this.props}
                 component={this.Field}
-                onBlur={this.onBlur}
                 setRef={this.setRef}
+                dispatch={store.dispatch}
             />
         )
     }
+}
+
+const Field = ({ id, component, setRef, dispatch, ...otherProps }) => {
+    const { onBlur } = useFormContainerContext()
+    const handleBlur = useCallback(() => {
+        onBlur(dispatch)
+    }, [onBlur, dispatch])
+
+    return (
+        <ReduxFormField
+            name={id}
+            {...otherProps}
+            component={component}
+            onBlur={handleBlur}
+            setRef={setRef}
+        />
+    )
+}
+
+Field.propTypes = {
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    component: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.node,
+    ]),
+    setRef: PropTypes.func,
+    dispatch: PropTypes.func,
 }
 
 ReduxField.contextTypes = {
@@ -93,7 +116,6 @@ ReduxField.propTypes = {
         PropTypes.node,
     ]),
     setReRenderRef: PropTypes.func,
-    onBlur: PropTypes.object,
 }
 
 const mapStateToProps = createStructuredSelector({
