@@ -85,7 +85,7 @@ public class RequestDataAT extends AutoTestBase {
         autoComplete.val("test5");
         autoComplete.shouldHaveValue("test5");
 
-        inputSelectMulti.valMulti("test3", "test5");
+        inputSelectMulti.selectMulti(2, 4);
         inputSelectMulti.closePopup();
         inputSelectMulti.shouldSelectedMulti("test3", "test5");
 
