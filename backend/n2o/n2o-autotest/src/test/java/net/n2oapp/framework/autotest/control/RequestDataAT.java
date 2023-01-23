@@ -86,28 +86,23 @@ public class RequestDataAT extends AutoTestBase {
         autoComplete.shouldHaveValue("test5");
 
         inputSelectMulti.valMulti("test3", "test5");
-        inputSelectMulti.shouldHaveValue("test3");
-        inputSelectMulti.shouldHaveValue("test5");
+        inputSelectMulti.shouldSelectedMulti("test3", "test5");
 
-        autoCompleteMulti.click();
-        autoCompleteMulti.chooseDropdownOption("test1");
-        autoCompleteMulti.click();
-        autoCompleteMulti.chooseDropdownOption("test6");
-        autoCompleteMulti.shouldHaveValue("test1");
-        autoCompleteMulti.shouldHaveValue("test6");
+        autoCompleteMulti.addTag("test1");
+        autoCompleteMulti.addTag("test6");
+        autoCompleteMulti.shouldHaveTags("test1", "test6");
 
         save.click();
+        System.out.println("Next command refresh");
         Selenide.refresh();
 
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Автоматическое сохранение формы");
+        page.breadcrumb().titleShouldHaveText("Страница для автотеста проверяющего отправку запроса данных на сохранение");
 
         select.shouldBeEmpty();
         inputSelect.shouldHaveValue("test6");
         autoComplete.shouldHaveValue("test5");
-        inputSelectMulti.shouldHaveValue("test3");
-        inputSelectMulti.shouldHaveValue("test5");
-        autoCompleteMulti.shouldHaveValue("test1");
-        autoCompleteMulti.shouldHaveValue("test6");
+        inputSelectMulti.shouldSelectedMulti("test3", "test5");
+        autoCompleteMulti.shouldHaveTags("test1", "test6");
     }
 }
