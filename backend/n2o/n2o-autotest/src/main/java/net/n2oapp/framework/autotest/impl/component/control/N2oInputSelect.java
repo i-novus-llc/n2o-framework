@@ -35,7 +35,8 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     public void valMulti(String... values) {
         Arrays.stream(values).forEach(s -> {
-            element().$(".n2o-inp--multi").sendKeys(Keys.chord(Keys.CONTROL, "a"), s);
+            input().click();
+            element().$(".n2o-inp--multi").sendKeys(Keys.chord(Keys.COMMAND, "a"), s);
             element().$(".n2o-inp--multi").pressEnter();
         });
     }
@@ -86,7 +87,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     @Override
     public void shouldSelectedMulti(String... values) {
         ElementsCollection selectedItems = element().$$(".selected-item");
-        selectedItems.shouldHaveSize(values.length);
+        selectedItems.shouldHave(CollectionCondition.size(values.length));
         if (values.length != 0)
             selectedItems.shouldHave(CollectionCondition.textsInAnyOrder(values));
     }

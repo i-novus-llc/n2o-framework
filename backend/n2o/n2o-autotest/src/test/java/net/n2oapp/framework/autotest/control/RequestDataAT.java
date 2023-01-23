@@ -86,6 +86,7 @@ public class RequestDataAT extends AutoTestBase {
         autoComplete.shouldHaveValue("test5");
 
         inputSelectMulti.valMulti("test3", "test5");
+        inputSelectMulti.closePopup();
         inputSelectMulti.shouldSelectedMulti("test3", "test5");
 
         autoCompleteMulti.addTag("test1");
@@ -93,7 +94,6 @@ public class RequestDataAT extends AutoTestBase {
         autoCompleteMulti.shouldHaveTags("test1", "test6");
 
         save.click();
-        System.out.println("Next command refresh");
         Selenide.refresh();
 
         page.shouldExists();
