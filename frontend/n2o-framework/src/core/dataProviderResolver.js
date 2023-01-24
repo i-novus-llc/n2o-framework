@@ -50,7 +50,7 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     let basePath = pathToRegexp.compile(path)(pathParams)
     let compiledUrl = basePath
 
-    if (!isEmpty(queryParams) || !isEmpty(query) || !isEmpty(queryFromUrl)) {
+    if (!isEmpty(queryParams) || !isEmpty(query) || !isEmpty(queryFromUrl) || size) {
         compiledUrl = `${compiledUrl}?${queryString.stringify({
             ...queryParams,
             ...query,
