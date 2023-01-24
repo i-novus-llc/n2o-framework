@@ -75,8 +75,8 @@ public class GraphQlDataProviderEngineTest {
                         "addresses", List.of(Map.of("street", "address1"), Map.of("street", "address2"))))));
         data.put("data", persons);
 
-        String expectedQuery = "query Persons($name: String, $age: Int, $addresses: [Address!]) " +
-                "{ persons(name: $name, age: $age, addresses: $addresses) {id name age} }";
+        String expectedQuery = "query Persons($name: String, $age: Int, $addresses: [Address!])" +
+                " { persons(name: $name, age: $age, addresses: $addresses) {id name age} }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -271,18 +271,18 @@ public class GraphQlDataProviderEngineTest {
     @Test
     public void testFiltersPlaceholder() {
         // TWO FILTERS
-        String queryPath = "/n2o/data/test/graphql/filters?personName=t\"es\"t&age=20";
+        String queryPath = "/n2o/data/test/graphql/filters?personName=t\"es\"t&age=20&salary=123.55";
         String url = "http://localhost:" + appPort + queryPath;
 
         // mocked data
         Map<String, Object> data = new HashMap<>();
         Map<String, Object> persons = new HashMap<>();
         persons.put("persons", Collections.singletonList(
-                Map.of("name", "t\"es\"t", "age", 20)));
+                Map.of("name", "t\"es\"t", "age", 20, "salary", 123.55)));
         data.put("data", persons);
 
         String expectedQuery = "query persons(" +
-                "filter: { [{ name: {like: \"\\\"t\\\\\\\"es\\\\\\\"t\\\"\" } }] AND [{ age: {ge: 20 } }] }) " +
+                "filter: { [{ name: {like: \"\\\"t\\\\\\\"es\\\\\\\"t\\\"\" } }] AND [{ age: {ge: 20 } }] AND [{ salary: {ge: \"123.55\" } }] }) " +
                 "{id name age}";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
