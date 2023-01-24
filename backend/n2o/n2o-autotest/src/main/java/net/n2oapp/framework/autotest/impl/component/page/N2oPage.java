@@ -21,6 +21,8 @@ import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
+
 /**
  * Страница для автотестирования
  */
@@ -159,31 +161,6 @@ public class N2oPage extends N2oComponent implements Page {
             setElement(element);
         }
 
-        @Deprecated
-        @Override
-        public void clickLink(String text) {
-            element().$$(".n2o-breadcrumb-link").findBy(Condition.text(text)).shouldBe(Condition.exist).click();
-        }
-
-        @Deprecated
-        @Override
-        public void firstTitleShouldHaveText(String text) {
-            element().$(".breadcrumb-item").shouldHave(Condition.text(text));
-        }
-
-        @Deprecated
-        @Override
-        public void titleShouldHaveText(String text) {
-            element().$$(".breadcrumb-item").last()
-                    .shouldHave(Condition.text(text));
-        }
-
-        @Deprecated
-        @Override
-        public void titleByIndexShouldHaveText(String text, Integer index) {
-            element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(text));
-        }
-
         @Override
         public void shouldHaveSize(int size) {
             element().$$(".breadcrumb-item").should(CollectionCondition.size(size));
@@ -257,7 +234,7 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void shouldBeClosed(long timeOut) {
             if (element.$(".modal-header .modal-title").exists())
-                element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
+                element.$(".modal-header .modal-title").shouldBe(Condition.exist, Duration.ofMillis(timeOut));
         }
 
         @Override
@@ -291,7 +268,7 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void shouldBeClosed(long timeOut) {
             if (element.$(".popover-header .popover-body").exists())
-                element.$(".popover-header .popover-body").waitWhile(Condition.exist, timeOut);
+                element.$(".popover-header .popover-body").shouldBe(Condition.exist, Duration.ofMillis(timeOut));
         }
     }
 
