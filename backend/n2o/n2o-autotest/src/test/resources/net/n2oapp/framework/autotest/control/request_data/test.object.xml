@@ -11,7 +11,7 @@
                 <field id="input_select"/>
                 <field id="auto"/>
                 <field id="input_select_multi" domain="object[]"/>
-                <field id="auto_multi" domain="object[]"/>
+                <field id="auto_multi" domain="string[]"/>
             </in>
         </operation>
     </operations>
