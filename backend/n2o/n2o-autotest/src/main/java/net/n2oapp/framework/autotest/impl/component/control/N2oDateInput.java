@@ -33,11 +33,13 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void val(String value) {
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
-        if (element().is(Condition.cssClass("n2o-editable-cell")))
-            inputElement().sendKeys(Keys.chord(Keys.ENTER));
-        else
+        boolean isEditableCell = element().is(Condition.cssClass("n2o-editable-cell"));
+
+        if (!inputElement().exists() && isEditableCell)
             element().click();
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        if (isEditableCell)
+            inputElement().sendKeys(Keys.chord(Keys.ENTER));
     }
 
     @Override
