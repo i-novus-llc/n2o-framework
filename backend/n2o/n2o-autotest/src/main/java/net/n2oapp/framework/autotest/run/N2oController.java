@@ -123,6 +123,7 @@ public class N2oController {
 
     @ExceptionHandler(N2oException.class)
     public ResponseEntity<N2oResponse> sendErrorMessage(N2oException e) {
+
         return ResponseEntity.status(e.getHttpStatus()).body(new N2oResponse());
     }
 

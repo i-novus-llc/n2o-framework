@@ -45,13 +45,45 @@ public class TableFiltersValidationAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
+
     }
 
     @Test
-    public void test() {
+    public void testView() {
+        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget tableWidget = page.widget(TableWidget.class);
+        StandardField id = tableWidget.filters().fields().field("Фильтр по id");
+        StandardField like = tableWidget.filters().fields().field("Фильтр по имени like");
+        StandardField eq = tableWidget.filters().fields().field("Фильтр по имени eq");
+
+        like.shouldBeHidden();
+        id.control(InputText.class).shouldHaveValue("3");
+        id.shouldHaveValidationMessage(Condition.text("поле должно быть равным 1 или 2"));
+        eq.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+
+        id.control(InputText.class).val("1");
+        id.shouldHaveValidationMessage(Condition.text(" "));
+        like.control(InputText.class).shouldExists();
+        like.shouldHaveValidationMessage(Condition.text(" "));
+        like.control(InputText.class).clear();
+        like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        like.control(InputText.class).val("test");
+        like.shouldHaveValidationMessage(Condition.text(" "));
+
+        eq.control(InputText.class).val("test1");
+        eq.shouldHaveValidationMessage(Condition.text(" "));
+    }
+
+    @Test
+    public void testValidationFetch() {
+        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
