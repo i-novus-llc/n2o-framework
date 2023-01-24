@@ -162,8 +162,10 @@ function* switchTab(action) {
 
             const activeEntity = first(visibleEntity[regionId])
 
-            yield put(setActiveRegion(regionId, activeEntity))
-            yield mapUrl(activeEntity)
+            if (regionId && activeEntity) {
+                yield put(setActiveRegion(regionId, activeEntity))
+                yield mapUrl(activeEntity)
+            }
         }
     }
 }
