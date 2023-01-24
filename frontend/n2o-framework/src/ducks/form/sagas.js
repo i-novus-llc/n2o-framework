@@ -1,5 +1,5 @@
 import { takeEvery, put, select, debounce, delay } from 'redux-saga/effects'
-import { touch, actionTypes, focus, reset, change } from 'redux-form'
+import { touch, actionTypes, reset, change } from 'redux-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import values from 'lodash/values'
@@ -9,7 +9,6 @@ import entries from 'lodash/entries'
 import isEmpty from 'lodash/isEmpty'
 import isObject from 'lodash/isObject'
 import find from 'lodash/find'
-import isEqual from 'lodash/isEqual'
 
 import { widgetsSelector } from '../widgets/selectors'
 import { setModel, copyModel, clearModel } from '../models/store'
@@ -19,7 +18,6 @@ import {
 } from '../models/selectors'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import evalExpression from '../../utils/evalExpression'
-import { setTabInvalid } from '../regions/store'
 import { failValidate, startValidate, submit } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
 import { generateFormFilterId } from '../../utils/generateFormFilterId'
@@ -124,17 +122,6 @@ export function* copyAction({ payload }) {
     }
 }
 
-/* it uses in tabs region */
-function* setFocus({ payload }) {
-    const { validation } = payload
-    const { form, fields, blurValidation } = validation
-
-    if (!blurValidation) {
-        /* set focus to first invalid field */
-        yield put(focus(form, Object.keys(fields)[0]))
-    }
-}
-
 export function* clearForm({ payload }) {
     /*
     * FIXME: ХАК для быстрого фикса. Разобраться
@@ -184,7 +171,7 @@ export function* autoSubmit({ meta }) {
     }
 }
 
-let prevModel = {}
+const validateFields = {}
 
 export const formPluginSagas = [
     takeEvery(clearModel, clearForm),
@@ -198,13 +185,27 @@ export const formPluginSagas = [
 
         yield put(touch(datasource, ...keys))
     }),
-    debounce(100, [
+    takeEvery([
+        actionTypes.CHANGE,
+        actionTypes.BLUR,
+        setRequired.type,
+        unsetRequired.type,
+    ], ({ meta }) => {
+        const { form: datasource, field } = meta
+
+        if (!validateFields[datasource]) {
+            validateFields[datasource] = []
+        }
+
+        validateFields[datasource].push(field)
+    }),
+    debounce(200, [
         actionTypes.CHANGE,
         actionTypes.BLUR,
         setRequired.type,
         unsetRequired.type,
     ], function* validateSaga({ meta }) {
-        const { form: datasource, field } = meta
+        const { form: datasource } = meta
         const allWidgets = yield select(widgetsSelector)
 
         const widget = find(allWidgets, { datasource })
@@ -218,45 +219,24 @@ export const formPluginSagas = [
 
         const isFilter = !widget.form
         const prefix = isFilter ? ModelPrefix.filter : get(widget, ['form', 'modelPrefix'], ModelPrefix.active)
-        const model = yield select(makeGetModelByPrefixSelector(prefix, datasource))
+        const fields = validateFields[datasource]
 
-        const findDifferentValues = () => {
-            const keys = [field]
+        validateFields[datasource] = undefined
 
-            if (!model) {
-                return keys
-            }
-
-            for (const [k] of Object.entries(model)) {
-                if (!isEqual(model[k], prevModel[k])) {
-                    keys.push(k)
-                }
-            }
-
-            return keys
-        }
-
-        const fields = findDifferentValues()
-
-        /* blurValidation is used in the setFocus saga,
-         this is needed to observing the field validation type */
-        yield put(
-            startValidate(
-                datasource,
-                isFilter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
-                prefix,
-                fields,
-                { blurValidation: true },
-            ),
-        )
-
-        prevModel = {
-            ...model,
+        if (!isEmpty(fields)) {
+            yield put(
+                startValidate(
+                    datasource,
+                    isFilter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
+                    prefix,
+                    fields,
+                    { blurValidation: true },
+                ),
+            )
         }
     }),
     debounce(400, [
         actionTypes.CHANGE,
         // actionTypes.BLUR,
     ], autoSubmit),
-    debounce(100, setTabInvalid, setFocus),
 ]

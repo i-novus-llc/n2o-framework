@@ -1,5 +1,4 @@
 import { call, put, select, takeEvery, cancel } from 'redux-saga/effects'
-import { actionTypes } from 'redux-form'
 import values from 'lodash/values'
 import filter from 'lodash/filter'
 import get from 'lodash/get'
@@ -19,11 +18,12 @@ import { authSelector } from '../user/selectors'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
 import { makeDatasourceIdSelector } from '../widgets/selectors'
 import { registerWidget } from '../widgets/store'
-import { failValidate, startValidate, dataRequest } from '../datasource/store'
+import { failValidate, dataRequest, resetValidation } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
 
 import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from './store'
 import { MAP_URL } from './constants'
+import { getTabsRegions, checkTabErrors, activeTabHasErrors } from './utils'
 
 function* mapUrl(value) {
     const rootPageId = yield select(rootPageSelector)
@@ -35,30 +35,8 @@ function* mapUrl(value) {
     }
 }
 
-export function* tabTraversal(action, tabs, regionId, form, param = null, options = {}) {
-    let isTargetFormInTabs = false
-
-    for (const { content, id: tabId } of tabs) {
-        for (const { datasource, tabs: childrenTabs } of content) {
-            if (childrenTabs) {
-                return tabTraversal(action, childrenTabs, regionId, form, param)
-            }
-
-            if (datasource === form) {
-                isTargetFormInTabs = true
-
-                if (action) {
-                    yield put(action(regionId, tabId, param, options))
-                }
-            }
-        }
-    }
-
-    return isTargetFormInTabs
-}
-
 function* switchTab(action) {
-    const { type, meta, payload } = action
+    const { payload } = action
     const { regionId } = payload
 
     const regions = yield select(regionsSelector)
@@ -66,18 +44,6 @@ function* switchTab(action) {
     if (regionId && get(regions, `${regionId}.datasource`)) {
         /* no switch logic if a datasource is passed */
         yield cancel()
-    }
-
-    if (type === actionTypes.TOUCH) {
-        const regions = yield select(regionsSelector)
-        const tabsRegions = filter(values(regions), region => region.tabs)
-
-        const { form } = meta
-
-        for (const { tabs, regionId } of tabsRegions) {
-            yield tabTraversal(setActiveRegion, tabs, regionId, form)
-            yield mapUrl(regionId)
-        }
     }
 
     const state = yield select()
@@ -260,33 +226,46 @@ export function* checkIdBeforeLazyFetch() {
     }
 }
 
-function* validateTabs({ payload, meta }) {
+function* switchToFirstInvalidTab(regionId, tabs) {
+    const firstInvalid = find(tabs, tab => get(tab, 'invalid'))
+
+    if (!firstInvalid) {
+        yield cancel()
+    }
+
+    const { id } = firstInvalid
+
+    yield put(setActiveRegion(regionId, id))
+}
+
+function* validateTabs({ payload, meta, type }) {
     const { id } = payload
     const { blurValidation = false } = meta
 
-    const { regions = {}, widgets = {} } = yield select()
+    const state = yield select()
+    const tabsRegions = getTabsRegions(state)
+
     const errors = yield select(dataSourceErrors(id)) || {}
+    const fieldsWithErrors = Object.keys(errors)
 
-    const form = find(Object.keys(widgets), widgetId => get(widgets, `${widgetId}.datasource`) === id)
+    for (const { regionId, tabs } of tabsRegions) {
+        for (const { id: tabId, content } of tabs) {
+            const invalid = checkTabErrors(content, fieldsWithErrors)
 
-    if (!form || isEmpty(regions)) {
-        return
+            yield put(setTabInvalid(regionId, tabId, invalid))
+        }
     }
 
-    const invalid = Object.values(errors).some(error => error)
+    if (type === failValidate.type && !blurValidation) {
+        const newState = yield select()
+        const tabsRegions = getTabsRegions(newState)
 
-    const tabsRegions = Object.values(regions)
-        .filter(region => region.tabs)
-
-    for (const { tabs, regionId } of tabsRegions) {
-        yield tabTraversal(
-            setTabInvalid,
-            tabs,
-            regionId,
-            form,
-            invalid,
-            { ...payload, blurValidation, form },
-        )
+        for (const { regionId, activeEntity, tabs } of tabsRegions) {
+            /* if there are no errors on the active tab, switching the tab to the first invalid */
+            if (!activeTabHasErrors(activeEntity, tabs)) {
+                yield switchToFirstInvalidTab(regionId, tabs)
+            }
+        }
     }
 }
 
@@ -294,10 +273,9 @@ export default [
     takeEvery(MAP_URL, mapUrl),
     takeEvery([
         METADATA_SUCCESS,
-        actionTypes.TOUCH,
         registerRegion,
         registerWidget,
         setActiveRegion,
     ], switchTab),
-    takeEvery([failValidate, startValidate], validateTabs),
+    takeEvery([failValidate, resetValidation], validateTabs),
 ]
