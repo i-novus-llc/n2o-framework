@@ -92,8 +92,8 @@ public class ValidationTabMessageAT extends AutoTestBase {
         tabs.tab(0).click();
         button.click();
 
-        tabs.tab(0).shouldBeActive();
         tabs.tab(0).shouldBeValid();
+        tabs.tab(1).shouldBeActive();
         tabs.tab(1).shouldBeInvalid();
         tabs.tab(1).click();
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));

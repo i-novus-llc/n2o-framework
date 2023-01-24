@@ -1,16 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Создание записи">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Создание записи">
+    <datasources>
+        <datasource id="ds1" object-id="test"/>
+    </datasources>
+
     <toolbar>
-        <button id="create" widget-id="main" label="Сохранить" validate="page">
+        <button label="Сохранить" validate="true" datasource="ds1" validate-datasources="ds1">
             <invoke operation-id="create" object-id="test" close-on-success="true" disable-on-empty="false">
-                <form-param id="name" ref-widget-id="main" value="{name}"/>
-                <form-param id="address" ref-widget-id="address" value="{address}"/>
-                <form-param id="org" ref-widget-id="org" value="{org}"/>
+                <form-param id="name" value="{name}" datasource="ds1"/>
+                <form-param id="address" value="{address}" datasource="ds1"/>
+                <form-param id="org" value="{org}" datasource="ds1"/>
             </invoke>
         </button>
     </toolbar>
     <regions>
-        <form id="main" name="Клиент" object-id="test">
+        <form name="Клиент" object-id="test" datasource="ds1">
             <fields>
                 <input-text id="name" label="Имя" required="true" description="Введите 'test' для проверки валидации">
                     <validations white-list="uniqueName"/>
@@ -19,14 +24,14 @@
         </form>
         <tabs lazy="false">
             <tab name="Адрес">
-                <form id="address" object-id="test">
+                <form object-id="test" datasource="ds1">
                     <fields>
                         <input-text id="address" label="Адрес"/>
                     </fields>
                 </form>
             </tab>
             <tab name="Организация">
-                <form id="org" object-id="test">
+                <form object-id="test" datasource="ds1">
                     <fields>
                         <input-text id="org" label="Название организации" required="true" description="Введите 'test' для проверки валидации">
                             <validations white-list="uniqueOrg"/>
