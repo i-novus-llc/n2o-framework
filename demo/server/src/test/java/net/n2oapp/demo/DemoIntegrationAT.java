@@ -20,6 +20,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -158,7 +159,20 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testTableSorting() {
-        List<String> unsortedSurnameColumn = protoPage.getSurnameColumn();
+        List<String> unsortedSurnameColumn = new ArrayList<>(
+                List.of(new String[]{
+                        "Михалёва",
+                        "Яблочкин",
+                        "Яшнова",
+                        "Глоба",
+                        "Суходолина",
+                        "Барсова",
+                        "Оленева",
+                        "Меркушев",
+                        "Летова",
+                        "Чечин",
+                })
+        );
 
         protoPage.getSurnameHeader().shouldNotBeSorted();
         protoPage.getSurnameHeader().click();
