@@ -3,6 +3,7 @@ package net.n2oapp.demo.model;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.SortingDirection;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
@@ -18,7 +19,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Страница "Список контактов" ProtoPage.page.xml
@@ -109,6 +109,14 @@ public class ProtoPage {
 
     public List<String> getSurnameColumn() {
         return getTable().columns().rows().columnTexts(1);
+    }
+
+    public void surnameColumnShouldBeSortedBy(SortingDirection direction) {
+        getTable().columns().rows().columnShouldBeSortedBy(1, direction, null);
+    }
+
+    public void surnameColumnShouldNotBeSorted(List<String> unsortedColumn) {
+        getTable().columns().rows().columnShouldBeSortedBy(1, SortingDirection.NO, unsortedColumn);
     }
 
     public void currentPageShouldBe(String label) {
@@ -240,7 +248,7 @@ public class ProtoPage {
     }
 
     public void acceptDialog(String title) {
-        leftRightPage.dialog(title).click("Да");
+        leftRightPage.dialog(title).button("Да").click();
     }
 
     public void contactsListShouldHaveText(int index, String text) {
@@ -265,7 +273,7 @@ public class ProtoPage {
     public void deleteContact(int index) {
         ListCell cell = getContacts().content(index).extra(ListCell.class);
         cell.element().$$(".btn").findBy(Condition.text("Удалить")).click();
-        leftRightPage.dialog("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.").click("Да");
+        leftRightPage.dialog("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.").button("Да").click();
     }
 
     public void alertTextShouldBe(String text) {
