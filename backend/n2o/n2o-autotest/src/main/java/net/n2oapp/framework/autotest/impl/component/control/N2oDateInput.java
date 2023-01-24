@@ -37,7 +37,7 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
         if (!inputElement().exists() && isEditableCell)
             element().click();
-        inputElement().sendKeys(Keys.chord(Keys.COMMAND, "a"), value);
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
         if (isEditableCell)
             inputElement().sendKeys(Keys.chord(Keys.ENTER));
         else
