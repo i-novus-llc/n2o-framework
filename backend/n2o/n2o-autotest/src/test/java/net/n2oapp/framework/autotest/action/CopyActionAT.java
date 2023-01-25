@@ -88,23 +88,36 @@ public class CopyActionAT extends AutoTestBase {
         name.shouldBeEmpty();
 
         StandardButton btn = form.toolbar().topLeft().button("Открыть");
+        btn.click();
 
         // копирование второй строки
-        btn.click();
+
         Modal modal = N2oSelenide.modal();
-        TableWidget table = modal.content(SimplePage.class).widget(TableWidget.class);
+        modal.shouldExists();
+
+        SimplePage modalPage = modal.content(SimplePage.class);
+        modalPage.shouldExists();
+
+        TableWidget table = modalPage.widget(TableWidget.class);
+        table.shouldExists();
+
         StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
 
+        table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(1).click();
         saveBtn.click();
         modal.shouldNotExists();
 
+        form.shouldExists();
+        id.shouldExists();
         id.shouldHaveValue("2");
         name.shouldHaveValue("test2");
 
         // копирование четвертой строки
         btn.click();
         modal = N2oSelenide.modal();
+        modal.shouldBeVisible();
+        table.shouldBeVisible();
         table.columns().rows().row(3).click();
         saveBtn.click();
         modal.shouldNotExists();
@@ -199,7 +212,7 @@ public class CopyActionAT extends AutoTestBase {
 
         // копируем только улицу
         btn.click();
-        modal = N2oSelenide.modal();
+
         city.shouldBeEmpty();
         street.val("Broadway");
         saveBtn.click();

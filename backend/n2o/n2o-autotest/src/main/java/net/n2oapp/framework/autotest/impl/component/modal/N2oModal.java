@@ -13,7 +13,7 @@ public class N2oModal extends N2oComponent implements Modal {
 
     @Override
     public void shouldHaveTitle(String text) {
-        element().$(".modal-header .modal-title")
+        element().$(".modal-header .modal-title, .white-space-pre-line")
                 .shouldHave(Condition.text(text));
     }
 

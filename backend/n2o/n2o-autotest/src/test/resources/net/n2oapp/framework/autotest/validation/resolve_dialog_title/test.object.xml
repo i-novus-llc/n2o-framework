@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="confirm">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <validations>
+                <dialog id="confirm1"
+                        size="xs"
+                        server-moment="before-operation"
+                        result="false"
+                        message="Resolve input: {input}">
+                </dialog>
+            </validations>
+        </operation>
+    </operations>
+</object>

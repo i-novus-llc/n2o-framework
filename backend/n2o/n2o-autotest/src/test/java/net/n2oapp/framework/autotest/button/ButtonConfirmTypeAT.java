@@ -56,13 +56,13 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         Page.Dialog dialog = page.dialog("Предупреждение");
         dialog.shouldBeVisible();
         dialog.shouldHaveText("confirm-text");
-        dialog.click("Нет");
+        dialog.button("Нет").click();
         page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         button.click();
         dialog.shouldBeVisible();
         dialog.shouldHaveText("confirm-text");
-        dialog.click("Да");
+        dialog.button("Да").click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
     }
 

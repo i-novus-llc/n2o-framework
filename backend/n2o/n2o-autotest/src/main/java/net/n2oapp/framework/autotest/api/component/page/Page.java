@@ -91,9 +91,6 @@ public interface Page extends Component {
 
         void shouldHaveText(String text);
 
-        @Deprecated
-        void click(String label);
-
         <T extends Button> T button(String label);
 
         void shouldBeClosed(long timeOut);

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для автотеста по проверке clear">
+    <datasources>
+        <datasource id="ds1" query-id="test"/>
+    </datasources>
+
+    <regions>
+        <table datasource="ds1">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Открыть">
+                    <show-modal page-id="modal" route="/modal">
+                        <datasources>
+                            <inherited-datasource
+                                    id="ds2"
+                                    source-datasource="ds1"
+                                    source-model="resolve">
+                            </inherited-datasource>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

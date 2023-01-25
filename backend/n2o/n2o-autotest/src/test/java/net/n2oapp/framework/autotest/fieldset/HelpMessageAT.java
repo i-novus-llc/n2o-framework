@@ -46,7 +46,7 @@ public class HelpMessageAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Филдсеты и поля с подсказками");
 
-        SimpleFieldSet simpleFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(SimpleFieldSet.class);
+        SimpleFieldSet simpleFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class);
         simpleFieldSet.shouldHaveHelp();
         simpleFieldSet.clickHelp();
         page.popover("Этот филдсет содержит поля: Серия и Номер").shouldBeVisible();
@@ -63,7 +63,7 @@ public class HelpMessageAT extends AutoTestBase {
         field.clickHelp();
         page.popover("Номер паспорта").shouldBeVisible();
 
-        LineFieldSet lineFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(LineFieldSet.class);
+        LineFieldSet lineFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(1, LineFieldSet.class);
         lineFieldSet.shouldHaveHelp();
         lineFieldSet.clickHelp();
         page.popover("Этот филдсет содержит поля: Выпадающий список и Множественный выбор").shouldBeVisible();
