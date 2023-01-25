@@ -8,6 +8,7 @@ import java.util.Map;
  */
 public class FieldMapping {
     private String mapping;
+    private String enabled;
     private Map<String, FieldMapping> childMapping;
 
     public FieldMapping() {
@@ -23,6 +24,14 @@ public class FieldMapping {
 
     public void setMapping(String mapping) {
         this.mapping = mapping;
+    }
+
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
     }
 
     public Map<String, FieldMapping> getChildMapping() {
