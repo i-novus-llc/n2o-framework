@@ -13,6 +13,8 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdInQuotesOrEmptyString;
+
 /**
  * Валидатор исходного источника данных
  */
@@ -36,6 +38,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
 
     /**
      * Проверка существования объекта источника данных
+     *
      * @param datasource Источник данных
      * @param p          Процессор исходных метаданных
      */
@@ -46,6 +49,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
 
     /**
      * Проверка существования источников данных, указанных в зависимостях
+     *
      * @param datasource Источник данных, зависимости которого проверяются
      * @param scope      Скоуп источников данных
      */
@@ -64,6 +68,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
 
     /**
      * Проверка существования источников данных, содержащихся в сабмите
+     *
      * @param datasource Источник данных, сабмит которого исследуется
      * @param scope      Скоуп источников данных
      */
@@ -79,6 +84,7 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
 
     /**
      * Проверка валидации префильтров источника данных
+     *
      * @param datasource Источник данных
      * @param query      Запрос за данными
      * @param scope      Скоуп источников данных
@@ -88,15 +94,15 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
         if (datasource.getFilters() != null) {
             if (query == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных '%s' имеет префильтры, но не задана выборка", datasource.getId()));
+                        String.format("Источник данных %s имеет префильтры, но не задана выборка", getIdInQuotesOrEmptyString(datasource.getId())));
             if (query.getFilters() == null)
                 throw new N2oMetadataValidationException(
-                        String.format("Источник данных '%s' имеет префильтры, но в выборке '%s' нет filters!", datasource.getId(), query.getId()));
+                        String.format("Источник данных %s имеет префильтры, но в выборке '%s' нет filters!", getIdInQuotesOrEmptyString(datasource.getId()), query.getId()));
 
             for (N2oPreFilter preFilter : datasource.getFilters()) {
                 if (preFilter.getFieldId() == null) {
                     throw new N2oMetadataValidationException(
-                            String.format("Источник данных '%s' содержит префильтр без указанного field-id!", datasource.getId())
+                            String.format("Источник данных %s содержит префильтр без указанного field-id!", getIdInQuotesOrEmptyString(datasource.getId()))
                     );
                 }
 
@@ -133,14 +139,16 @@ public class StandardDatasourceValidator extends AbstractDataSourceValidator<N2o
 
     /**
      * Проверка сущестования выборки источника данных
+     *
      * @param datasource Источник данных
      * @param p          Процессор исходных метаданных
-     * @return           Метаданная выборки если она существует, иначе null
+     * @return Метаданная выборки если она существует, иначе null
      */
     private N2oQuery checkQueryExists(N2oStandardDatasource datasource, SourceProcessor p) {
         if (datasource.getQueryId() != null) {
             p.checkForExists(datasource.getQueryId(), N2oQuery.class,
-                    String.format("Источник данных '%s' ссылается на несуществующую выборку '%s'", datasource.getId(), datasource.getQueryId()));
+                    String.format("Источник данных %s ссылается на несуществующую выборку '%s'",
+                            getIdInQuotesOrEmptyString(datasource.getId()), datasource.getQueryId()));
             return p.getOrThrow(datasource.getQueryId(), N2oQuery.class);
         }
         return null;
