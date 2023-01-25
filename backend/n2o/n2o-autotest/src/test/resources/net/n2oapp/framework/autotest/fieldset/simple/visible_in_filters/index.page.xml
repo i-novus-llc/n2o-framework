@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Страница для автотеста, проверяющего работу параметра visible у просто филдсета в фильтрах">
+    <table>
+        <datasource query-id="test"/>
+        <columns>
+            <column text-field-id="name"/>
+            <column text-field-id="type"/>
+        </columns>
+        <filters>
+            <set label="set1" visible="{checkbox[0].id == 1 || checkbox[1].id == 1}" depends-on="checkbox">
+                <input-text id="id" label="first_input">
+
+                </input-text>
+            </set>
+            <set label="set2" visible="{checkbox[0].id == 2 || checkbox[1].id == 2}"  depends-on="checkbox">
+                <input-text id="name" label="second_input">
+
+                </input-text>
+            </set>
+            <checkbox-group id="checkbox" label="checkbox-group">
+                <options>
+                    <option id="1" name="set1"/>
+                    <option id="2" name="set2"/>
+                </options>
+            </checkbox-group>
+        </filters>
+    </table>
+</simple-page>
