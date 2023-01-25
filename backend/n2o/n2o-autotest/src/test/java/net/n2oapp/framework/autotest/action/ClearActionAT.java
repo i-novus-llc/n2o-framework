@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест проверяет работу clear
  */
-public class ClearAT extends AutoTestBase {
+public class ClearActionAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
