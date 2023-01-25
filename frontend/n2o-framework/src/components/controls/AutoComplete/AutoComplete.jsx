@@ -75,10 +75,7 @@ class AutoComplete extends React.Component {
                 const currentValue = isArray(value) ? value : [value]
 
                 state.value = value ? currentValue : []
-
-                if (isEmpty(state.value)) {
-                    state.input = value && !tags ? value : ''
-                }
+                state.input = value && !tags ? value : ''
             }
 
             if (!isEmpty(state)) {
