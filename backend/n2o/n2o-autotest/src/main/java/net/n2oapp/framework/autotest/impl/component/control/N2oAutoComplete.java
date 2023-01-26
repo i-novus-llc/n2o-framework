@@ -30,6 +30,11 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     @Override
+    public void clear() {
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+    }
+
+    @Override
     public void addTag(String value) {
         val(value);
         inputElement().sendKeys(Keys.chord(Keys.ENTER));
@@ -48,7 +53,7 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     @Override
     public void shouldHaveTags(String... tags) {
         ElementsCollection items = element().$$(".selected-item");
-        items.shouldHaveSize(tags.length);
+        items.shouldHave(CollectionCondition.size(tags.length));
         items.shouldHave(CollectionCondition.texts(tags));
     }
 
@@ -59,7 +64,7 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void shouldNotHaveDropdownOptions() {
-        element().parent().$$(".n2o-dropdown-control .text-cropped").shouldHaveSize(0);
+        element().parent().$$(".n2o-dropdown-control .text-cropped").shouldHave(CollectionCondition.size(0));
     }
 
     @Override
