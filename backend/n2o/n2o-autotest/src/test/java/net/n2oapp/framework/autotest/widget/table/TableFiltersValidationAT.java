@@ -67,16 +67,30 @@ public class TableFiltersValidationAT extends AutoTestBase {
         eq.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
         id.control(InputText.class).val("1");
-        id.shouldHaveValidationMessage(Condition.text(" "));
+        id.shouldHaveValidationMessage(Condition.empty);
         like.control(InputText.class).shouldExists();
-        like.shouldHaveValidationMessage(Condition.text(" "));
+        like.shouldBeRequired();
+        like.shouldHaveValidationMessage(Condition.empty);
         like.control(InputText.class).clear();
         like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         like.control(InputText.class).val("test");
-        like.shouldHaveValidationMessage(Condition.text(" "));
+        like.shouldHaveValidationMessage(Condition.empty);
+
+        id.control(InputText.class).val("2");
+        like.control(InputText.class).shouldBeDisabled();
+        like.shouldHaveValidationMessage(Condition.empty);
+        tableWidget.filters().search();
+        like.shouldHaveValidationMessage(Condition.empty);
+        tableWidget.filters().clear();
+        id.control(InputText.class).val("2");
+        like.control(InputText.class).shouldBeDisabled();
+        like.shouldHaveValidationMessage(Condition.empty);
+        tableWidget.filters().search();
+        like.control(InputText.class).shouldBeDisabled();
+        like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
         eq.control(InputText.class).val("test1");
-        eq.shouldHaveValidationMessage(Condition.text(" "));
+        eq.shouldHaveValidationMessage(Condition.empty);
     }
 
     @Test
