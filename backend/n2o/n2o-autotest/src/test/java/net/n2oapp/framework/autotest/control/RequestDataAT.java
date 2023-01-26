@@ -71,8 +71,8 @@ public class RequestDataAT extends AutoTestBase {
 
         select.click();
         select.shouldBeOpened();
-        select.clear();
-        select.shouldBeEmpty();
+        select.select(Condition.text("test5"));
+        select.shouldSelected("test5");
         select.closePopup();
 
         inputSelect.click();
@@ -99,10 +99,45 @@ public class RequestDataAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Страница для автотеста проверяющего отправку запроса данных на сохранение");
 
-        select.shouldBeEmpty();
+        select.shouldSelected("test5");
         inputSelect.shouldHaveValue("test6");
-        autoComplete.shouldBeEmpty(); //TODO поменять на shoudHaveValue("test5") после изменения Розалины в sandbox или в задаче
+        autoComplete.shouldHaveValue("test5");
         inputSelectMulti.shouldSelectedMulti("test3", "test5");
         autoCompleteMulti.shouldHaveTags("test1", "test6");
+
+        select.openPopup();
+        select.clear();
+        select.closePopup();
+        select.shouldBeEmpty();
+
+        inputSelect.click();
+        inputSelect.shouldBeOpened();
+        inputSelect.clear();
+        inputSelect.shouldBeEmpty();
+
+        autoComplete.click();
+        autoComplete.clear();
+        autoComplete.shouldBeEmpty();
+
+        select.click();
+
+        inputSelectMulti.clearItems("test3", "test5");
+        inputSelectMulti.shouldBeEmpty();
+
+        autoCompleteMulti.removeTag("test1");
+        autoCompleteMulti.removeTag("test6");
+        autoCompleteMulti.shouldBeEmpty();
+
+        save.click();
+        Selenide.refresh();
+
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+
+        select.shouldBeEmpty();
+        inputSelect.shouldBeEmpty();
+        autoComplete.shouldBeEmpty();
+        inputSelectMulti.shouldBeEmpty();
+        autoCompleteMulti.shouldBeEmpty();
     }
 }
