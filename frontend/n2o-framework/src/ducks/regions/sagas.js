@@ -30,7 +30,7 @@ function* mapUrl(value) {
     const routes = yield select(makePageRoutesByIdSelector(rootPageId))
 
     if (routes) {
-        yield call(mapQueryToUrl, rootPageId)
+        yield call(mapQueryToUrl, rootPageId, null, true)
         yield call(lazyFetch, value.payload)
     }
 }
