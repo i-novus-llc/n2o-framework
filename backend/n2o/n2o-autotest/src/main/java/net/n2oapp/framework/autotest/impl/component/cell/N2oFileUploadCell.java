@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.cell;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.cell.FileUploadCell;
 
@@ -34,7 +35,7 @@ public class N2oFileUploadCell extends N2oCell implements FileUploadCell {
 
     @Override
     public void uploadFilesShouldBe(int size) {
-        element().parent().$$(".n2o-file-uploader-files-item").shouldHaveSize(size);
+        element().parent().$$(".n2o-file-uploader-files-item").shouldHave(CollectionCondition.size(size));
     }
 
     @Override

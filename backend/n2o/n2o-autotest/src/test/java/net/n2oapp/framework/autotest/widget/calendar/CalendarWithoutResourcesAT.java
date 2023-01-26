@@ -96,7 +96,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         Fields fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         DateInterval date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("07.07.2020 13:00:00");
         date.endShouldHaveValue("07.07.2020 15:00:00");
         modal.close();
@@ -108,7 +108,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("15.07.2020 00:00:00");
         date.endShouldHaveValue("16.07.2020 00:00:00");
         modal.close();
@@ -151,7 +151,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         Fields fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         DateInterval date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("06.07.2020 00:00:00");
         date.endShouldHaveValue("07.07.2020 00:00:00");
         modal.close();
@@ -178,7 +178,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("07.07.2020 13:00:00");
         date.endShouldHaveValue("07.07.2020 15:00:00");
         modal.close();
@@ -194,7 +194,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
         date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("07.07.2020 00:00:00");
         date.endShouldHaveValue("08.07.2020 00:00:00");
         modal.close();
@@ -206,7 +206,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("07.07.2020 04:30:00");
         date.endShouldHaveValue("07.07.2020 05:00:00");
 
@@ -277,7 +277,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         Fields fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         DateInterval date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("09.07.2020 00:00:00");
         date.endShouldHaveValue("10.07.2020 00:00:00");
         modal.close();
@@ -289,7 +289,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("09.07.2020 03:00:00");
         date.endShouldHaveValue("09.07.2020 03:30:00");
         modal.close();
@@ -315,7 +315,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("07.07.2020 13:00:00");
         date.endShouldHaveValue("07.07.2020 15:00:00");
         modal.close();
@@ -331,7 +331,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
         date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.beginShouldHaveValue("07.07.2020 00:00:00");
         date.endShouldHaveValue("08.07.2020 00:00:00");
         modal.close();

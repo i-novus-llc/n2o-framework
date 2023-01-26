@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Driver;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.api.metadata.application.NavigationLayout;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
@@ -21,7 +18,11 @@ import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nonnull;
 import java.time.Duration;
+
+import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;
+import static com.codeborne.selenide.CheckResult.Verdict.REJECT;
 
 /**
  * Страница для автотестирования
@@ -300,14 +301,11 @@ public class N2oPage extends N2oComponent implements Page {
             this.regex = regex;
         }
 
+        @Nonnull
         @Override
-        public boolean apply(Driver driver, WebElement element) {
-            return driver.url().matches(regex);
-        }
-
-        @Override
-        public String actualValue(Driver driver, WebElement element) {
-            return driver.url();
+        public CheckResult check(Driver driver, WebElement element) {
+            boolean result = driver.url().matches(regex);
+            return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
         @Override

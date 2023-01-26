@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget.calendar.view;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
@@ -13,7 +14,7 @@ public class N2oCalendarAgendaView extends N2oComponent implements CalendarAgend
 
     @Override
     public void shouldHaveSize(int size) {
-        rows().shouldHaveSize(size);
+        rows().shouldHave(CollectionCondition.size(size));
     }
 
     @Override

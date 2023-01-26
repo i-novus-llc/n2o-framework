@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget.calendar.view;
 
+import com.codeborne.selenide.ClickOptions;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarWeekView;
 
@@ -22,7 +23,7 @@ public class N2oCalendarWeekView extends N2oCalendarTimeView implements Calendar
         }
 
         element().$$(".rbc-time-content .rbc-day-slot").get(resourceIndex * 7 + dayOfWeekIndex)
-                .$$(".calendar__cell").get(cellIdx).click(0, 0);
+                .$$(".calendar__cell").get(cellIdx).click(ClickOptions.usingDefaultMethod());
     }
 
     @Override

@@ -98,12 +98,12 @@ public class FilterColumnAT extends AutoTestBase {
         header4.openFilterDropdown();
         DateInterval header4Input = header4.filterControl(DateInterval.class);
 
-        header4Input.shouldBeCollapsed();
+        header4Input.shouldBeClosed();
         header4Input.beginVal("01.01.2019");
         header4Input.endVal("01.01.2021");
-        header4Input.shouldBeExpanded();
+        header4Input.shouldBeOpened();
         header4.clickSearchButton();
-        header4Input.shouldBeCollapsed();
+        header4Input.shouldBeClosed();
         rows.shouldHaveSize(2);
         rows.row(0).cell(0).textShouldHave("2");
         rows.row(1).cell(0).textShouldHave("3");

@@ -50,9 +50,9 @@ public class DatePickerAT extends AutoTestBase {
         date.shouldExists();
         date.shouldBeEmpty();
         date.shouldHavePlaceholder("Введите дату");
-        date.shouldBeCollapsed();
-        date.expand();
-        date.shouldBeExpanded();
+        date.shouldBeClosed();
+        date.openPopup();
+        date.shouldBeOpened();
         date.val("15.02.2020");
         date.shouldHaveValue("15.02.2020");
         date.clickCalendarButton();
@@ -64,11 +64,11 @@ public class DatePickerAT extends AutoTestBase {
         date.shouldNotBeDisableDay("20");
         // проверка клика по дню
         date.clickDay("12");
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.shouldHaveValue("12.02.2020");
         // проверка месяцев и переход к предыдущему/следующему месяцу
         date.clickCalendarButton();
-        date.shouldBeExpanded();
+        date.shouldBeOpened();
         date.shouldHaveCurrentMonth("Февраль");
         date.shouldHaveCurrentYear("2020");
         date.clickPreviousMonthButton();
@@ -89,10 +89,10 @@ public class DatePickerAT extends AutoTestBase {
         DateInput date = page.widget(FormWidget.class).fields().field("Date2")
                 .control(DateInput.class);
         date.shouldExists();
-        date.shouldBeCollapsed();
+        date.shouldBeClosed();
         date.shouldHaveValue("01/01/2020 00:00:00");
-        date.expand();
-        date.shouldBeExpanded();
+        date.openPopup();
+        date.shouldBeOpened();
         date.val("15/02/2020 10:20:15");
         date.shouldHaveValue("15/02/2020 10:20:15");
         date.clickCalendarButton();

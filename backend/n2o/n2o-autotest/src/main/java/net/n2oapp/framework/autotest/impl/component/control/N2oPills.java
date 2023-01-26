@@ -12,7 +12,7 @@ public class N2oPills extends N2oControl implements Pills {
 
     @Override
     public void shouldBeEmpty() {
-        element().$$(".nav-link.active").shouldHaveSize(0);
+        element().$$(".nav-link.active").shouldHave(CollectionCondition.size(0));
     }
 
     @Override

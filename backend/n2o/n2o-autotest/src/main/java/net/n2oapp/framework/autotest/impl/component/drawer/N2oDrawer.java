@@ -8,6 +8,11 @@ import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nonnull;
+
+import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;
+import static com.codeborne.selenide.CheckResult.Verdict.REJECT;
+
 /**
  * Окно drawer для автотестирования
  */
@@ -68,14 +73,11 @@ public class N2oDrawer extends N2oComponent implements Drawer {
             this.expectedAttributeValue = expectedAttributeValue;
         }
 
+        @Nonnull
         @Override
-        public boolean apply(Driver driver, WebElement element) {
-            return getAttributeValue(element).contains(attributeName + ": " + expectedAttributeValue);
-        }
-
-        @Override
-        public String actualValue(Driver driver, WebElement element) {
-            return String.format("style=\"%s\"", getAttributeValue(element));
+        public CheckResult check(Driver driver, WebElement element) {
+            boolean result = getAttributeValue(element).contains(attributeName + ": " + expectedAttributeValue);
+            return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
         @Override

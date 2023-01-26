@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget.cards;
 
+import com.codeborne.selenide.CollectionCondition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.cards.Card;
@@ -18,7 +19,7 @@ public class N2oCardsWidget extends N2oStandardWidget implements CardsWidget {
 
     @Override
     public void shouldHaveItems(int count) {
-        element().$$(".n2o-cards").shouldHaveSize(count);
+        element().$$(".n2o-cards").shouldHave(CollectionCondition.size(count));
     }
 
     @Override

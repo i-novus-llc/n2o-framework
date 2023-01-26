@@ -46,16 +46,16 @@ public class SelectAT extends AutoTestBase {
         input.shouldExists();
 
         // close popup by icon
-        input.expand();
-        input.shouldBeExpanded();
-        input.collapse();
-        input.shouldBeCollapsed();
+        input.openPopup();
+        input.shouldBeOpened();
+        input.closePopup();
+        input.shouldBeClosed();
 
         // close popup by click on input area
         input.click();
-        input.shouldBeExpanded();
+        input.shouldBeOpened();
         input.click();
-        input.shouldBeCollapsed();
+        input.shouldBeClosed();
 
         input.shouldHaveOptions("One", "Two", "Three");
         input.shouldBeEmpty();
@@ -73,9 +73,9 @@ public class SelectAT extends AutoTestBase {
 
         // close popup by click on outside area
         input2.click();
-        input2.shouldBeExpanded();
+        input2.shouldBeOpened();
         input.click();
-        input2.shouldBeCollapsed();
+        input2.shouldBeClosed();
     }
 
     @Test
@@ -162,7 +162,7 @@ public class SelectAT extends AutoTestBase {
         input.clear();
         input.shouldBeEmpty();
         // сворачиваем popup, чтобы не накладывался на нижний контрол
-        input.collapse();
+        input.closePopup();
 
 
         Select input2 = page.widget(FormWidget.class).fields().field("Select2")

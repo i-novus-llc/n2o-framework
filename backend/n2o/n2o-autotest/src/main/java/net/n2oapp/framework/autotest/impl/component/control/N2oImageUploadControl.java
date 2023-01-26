@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
@@ -67,7 +68,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void shouldHaveSize(int size) {
-        getFilesItems().shouldHaveSize(size);
+        getFilesItems().shouldHave(CollectionCondition.size(size));
     }
 
     @Override

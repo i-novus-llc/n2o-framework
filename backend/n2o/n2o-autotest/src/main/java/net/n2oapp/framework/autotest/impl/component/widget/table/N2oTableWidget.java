@@ -96,7 +96,9 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public void shouldHaveSize(int size) {
-            element().$$(".n2o-advanced-table-tbody .n2o-table-row").shouldHaveSize(size);
+            element()
+                    .$$(".n2o-advanced-table-tbody .n2o-table-row")
+                    .shouldHave(CollectionCondition.size(size));
         }
 
         @Override
@@ -111,7 +113,9 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public void shouldNotHaveSelectedRows() {
-            element().$$(".n2o-table-row.table-active").shouldHaveSize(0);
+            element()
+                    .$$(".n2o-table-row.table-active")
+                    .shouldHave(CollectionCondition.size(0));
         }
 
         @Override

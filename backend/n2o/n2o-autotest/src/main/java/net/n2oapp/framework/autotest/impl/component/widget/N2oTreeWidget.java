@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.TreeWidget;
@@ -15,7 +16,7 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
 
     @Override
     public void shouldHaveItems(int size) {
-        element().$$(treeItem).shouldHaveSize(size);
+        element().$$(treeItem).shouldHave(CollectionCondition.size(size));
     }
 
     public class N2oTreeItem extends N2oComponent implements TreeWidget.TreeItem {

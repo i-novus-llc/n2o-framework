@@ -109,7 +109,7 @@ public class InputSelectTreeAT extends AutoTestBase {
 
         InputSelectTree inputSelectTree = simplePage.widget(FormWidget.class)
                 .fields().field("Input-select-tree min-length=4").control(InputSelectTree.class);
-        inputSelectTree.expand();
+        inputSelectTree.openPopup();
         DropDownTree dropdown = inputSelectTree.dropdown();
         dropdown.shouldHaveItems(3);
 

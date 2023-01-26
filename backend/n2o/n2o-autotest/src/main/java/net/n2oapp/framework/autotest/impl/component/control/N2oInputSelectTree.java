@@ -73,7 +73,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldBeUnselected() {
-        element().$$(".n2o-select-tree-selection__choice").shouldHaveSize(0);
+        element().$$(".n2o-select-tree-selection__choice").shouldHave(CollectionCondition.size(0));
     }
 
     @Override
