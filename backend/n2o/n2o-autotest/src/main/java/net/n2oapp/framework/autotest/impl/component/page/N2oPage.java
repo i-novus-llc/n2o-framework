@@ -21,6 +21,8 @@ import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
+
 /**
  * Страница для автотестирования
  */
@@ -236,17 +238,12 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldBeVisible() {
-            element.isDisplayed();
+            element.shouldBe(Condition.visible);
         }
 
         @Override
         public void shouldHaveText(String text) {
             element.$(".modal-body").shouldHave(Condition.text(text));
-        }
-
-        @Override
-        public void click(String label) {
-            element.$$(".btn").findBy(Condition.text(label)).click();
         }
 
         @Override
@@ -257,7 +254,7 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void shouldBeClosed(long timeOut) {
             if (element.$(".modal-header .modal-title").exists())
-                element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
+                element.$(".modal-header .modal-title").shouldBe(Condition.exist, Duration.ofMillis(timeOut));
         }
 
         @Override
@@ -275,7 +272,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldBeVisible() {
-            element.isDisplayed();
+            element.shouldBe(Condition.visible);
         }
 
         @Override
@@ -291,7 +288,7 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void shouldBeClosed(long timeOut) {
             if (element.$(".popover-header .popover-body").exists())
-                element.$(".popover-header .popover-body").waitWhile(Condition.exist, timeOut);
+                element.$(".popover-header .popover-body").shouldBe(Condition.exist, Duration.ofMillis(timeOut));
         }
     }
 

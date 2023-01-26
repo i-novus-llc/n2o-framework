@@ -3,13 +3,17 @@ package net.n2oapp.framework.autotest.fieldset;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.cell.CheckboxCellCompiler;
+import net.n2oapp.framework.config.metadata.compile.cell.TextCellCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,7 +40,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
-                new N2oFieldSetsPack(), new N2oControlsPack());
+                new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack(), new N2oCellsPack());
     }
 
     @Test
@@ -110,5 +114,65 @@ public class SimpleFieldSetAT extends AutoTestBase {
         inputText.val("test");
         set1Field.shouldBeDisabled();
         set2Field.shouldBeEnabled();
+    }
+
+    /**
+     * Тест проверяет работу параметра visible у просто филдсета в фильтрах
+     */
+    @Test
+    public void testVisibilityConditionsInFilters() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        table.shouldExists();
+
+        CheckboxGroup checkboxGroup = table
+                .filters()
+                .fieldsets()
+                .fieldset(2, SimpleFieldSet.class)
+                .fields()
+                .field("checkbox-group")
+                .control(CheckboxGroup.class);
+        checkboxGroup.shouldExists();
+
+        checkboxGroup.shouldBeUnchecked("set1");
+        checkboxGroup.shouldBeUnchecked("set2");
+
+        InputText firstInput = table
+                .filters()
+                .fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("first_input")
+                .control(InputText.class);
+        firstInput.shouldNotExists();
+
+        InputText secondInput = table
+                .filters()
+                .fieldsets()
+                .fieldset(1, SimpleFieldSet.class)
+                .fields()
+                .field("second_input")
+                .control(InputText.class);
+        secondInput.shouldNotExists();
+
+        checkboxGroup.check("set1");
+        firstInput.shouldExists();
+        secondInput.shouldNotExists();
+
+        checkboxGroup.check("set2");
+        firstInput.shouldExists();
+        secondInput.shouldExists();
+
+        checkboxGroup.uncheck("set1");
+        firstInput.shouldNotExists();
+        secondInput.shouldExists();
+
+        checkboxGroup.uncheck("set2");
+        firstInput.shouldNotExists();
+        secondInput.shouldNotExists();
     }
 }

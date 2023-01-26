@@ -379,6 +379,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="value-field-id" type="xs:string" default="id">
+                    <xs:annotation>
+                        <xs:documentation>Поле, отвечающее за идентификатор варианта выбора</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

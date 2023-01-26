@@ -63,7 +63,7 @@ export function* fetchValue(values, form, field, { dataProvider, valueFieldId })
             headers: headersParams,
         })
 
-        const isMultiModel = get(response, 'list').length > 1
+        const isMultiModel = get(response, 'list', []).length > 1
 
         const model = isMultiModel
             ? get(response, 'list', null)

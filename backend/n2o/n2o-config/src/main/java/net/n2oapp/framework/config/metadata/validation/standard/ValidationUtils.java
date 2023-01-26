@@ -135,6 +135,16 @@ public final class ValidationUtils {
      * Получение идентификатора метаданной для сообщения исключений
      *
      * @param metadataId Идентификатор метаданной
+     * @return Идентификатор метаданной в случае его существования, иначе пуста строка
+     */
+    public static String getIdInQuotesOrEmptyString(String metadataId) {
+        return metadataId != null ? "'" + metadataId + "'" : "";
+    }
+
+    /**
+     * Получение идентификатора метаданной для сообщения исключений
+     *
+     * @param metadataId Идентификатор метаданной
      * @return           Пробел + идентификатор метаданной в случае существования идентификатора, иначе пуста строка
      */
     public static String getSpaceWithIdOrEmptyString(String metadataId) {

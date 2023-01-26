@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -86,6 +87,12 @@ public class ButtonEnabledAT extends AutoTestBase {
         subMenu.click();
         item1.shouldBeDisabled();
         item2.shouldBeDisabled();
+
+        StandardButton btnWithDependency = toolbar.button("btnWithDependency");
+        btnWithDependency.shouldExists();
+        btnWithDependency.shouldBeDisabled();
+        form.fields().field("Condition").control(InputText.class).val("enable");
+        btnWithDependency.shouldBeEnabled();
     }
 
     @Test

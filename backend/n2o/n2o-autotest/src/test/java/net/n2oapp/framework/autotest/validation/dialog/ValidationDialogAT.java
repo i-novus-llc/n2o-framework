@@ -1,11 +1,14 @@
 package net.n2oapp.framework.autotest.validation.dialog;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -39,28 +42,32 @@ public class ValidationDialogAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+    }
+
+    @Test
+    public void testDialog() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/test.object.xml"));
-    }
 
-    @Test
-    public void testDialog() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
+
         TableWidget.Rows tableRows = table.columns().rows();
         tableRows.shouldHaveSize(2);
+
         StandardButton create = table.toolbar().topLeft().button("Create");
         create.shouldExists();
         create.click();
 
         Modal modal = N2oSelenide.modal();
         modal.shouldExists();
+
         FormWidget modalForm = modal.content(SimplePage.class).widget(FormWidget.class);
         StandardButton modalSaveBtn = modal.toolbar().bottomRight().button("Save");
         InputText name = modalForm.fields().field("name").control(InputText.class);
@@ -70,6 +77,7 @@ public class ValidationDialogAT extends AutoTestBase {
         name.val("Mark");
         age.val("20");
         modalSaveBtn.click();
+
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(3);
@@ -80,13 +88,23 @@ public class ValidationDialogAT extends AutoTestBase {
         // save without name (calling dialog 'nameCheck')
         create.click();
         modal.shouldExists();
+
         age.val("25");
         modalSaveBtn.click();
+
         Page.Dialog dialog = page.dialog("Вы не заполнили имя.");
         dialog.shouldHaveText("Заполнить его значением по умолчанию?");
-        dialog.click("Close");
+
+        Button closeBtn = dialog.button("Close");
+        closeBtn.shouldExists();
+        closeBtn.shouldBeVisible();
+        closeBtn.click();
+
         modalSaveBtn.click();
-        dialog.click("Yes");
+
+        Button agreeBnt = dialog.button("Yes");
+        agreeBnt.click();
+
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(4);
@@ -97,18 +115,56 @@ public class ValidationDialogAT extends AutoTestBase {
         // save without age (calling dialog 'ageCheck')
         create.click();
         modal.shouldExists();
+
         name.val("Ann");
         modalSaveBtn.click();
+
         dialog = page.dialog("Вы не заполнили возраст.");
+        dialog.shouldBeVisible();
         dialog.shouldHaveText("Заполнить его значением по умолчанию?");
-        dialog.click("Close");
+
+        closeBtn = dialog.button("Close");
+        closeBtn.shouldExists();
+        closeBtn.shouldBeEnabled();
+        closeBtn.click();
+
         modalSaveBtn.click();
-        dialog.click("Yes");
+
+        agreeBnt = dialog.button("Yes");
+        agreeBnt.click();
+
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(5);
         tableRows.row(4).cell(0).textShouldHave("5");
         tableRows.row(4).cell(1).textShouldHave("Ann");
         tableRows.row(4).cell(2).textShouldHave("0");
+    }
+
+    /**
+     * Тест проверяет резолвится ли значение в заголовке диалога
+     */
+    @Test
+    public void test() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/validation/resolve_dialog_title/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/resolve_dialog_title/test.object.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget form = page
+                .regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(FormWidget.class);
+
+        InputText inputText = form.fields().field("text").control(InputText.class);
+        inputText.shouldExists();
+        inputText.val("test resolve title");
+
+        form.toolbar().topLeft().button("open").click();
+        Modal modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Resolve input: test resolve title");
     }
 }

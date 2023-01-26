@@ -110,7 +110,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         rows.shouldBeSelected(0);
         delete.click();
         page.dialog("Предупреждение").shouldBeVisible();
-        page.dialog("Предупреждение").click("Да");
+        page.dialog("Предупреждение").button("Да").click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные об автомобиле удалены");
         table.paging().totalElementsShouldBe(13);
     }
