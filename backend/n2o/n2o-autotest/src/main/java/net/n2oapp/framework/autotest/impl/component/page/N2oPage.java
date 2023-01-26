@@ -157,6 +157,30 @@ public class N2oPage extends N2oComponent implements Page {
 
     public class N2oBreadcrumb extends N2oComponent implements Breadcrumb {
 
+        @Deprecated
+        @Override
+        public void clickLink(String text) {
+            element().$$(".n2o-breadcrumb-link").findBy(Condition.text(text)).shouldBe(Condition.exist).click();
+        }
+
+        @Deprecated
+        @Override
+        public void firstTitleShouldHaveText(String text) {
+            element().$(".breadcrumb-item").shouldHave(Condition.text(text));
+        }
+
+        @Deprecated
+        @Override
+        public void titleShouldHaveText(String text) {
+            element().$$(".breadcrumb-item").last()
+                    .shouldHave(Condition.text(text));
+        }
+
+        @Deprecated
+        @Override
+        public void titleByIndexShouldHaveText(String text, Integer index) {
+            element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(text));
+        }
         public N2oBreadcrumb(SelenideElement element) {
             setElement(element);
         }

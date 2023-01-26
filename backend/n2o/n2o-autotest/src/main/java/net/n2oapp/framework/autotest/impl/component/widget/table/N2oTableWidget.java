@@ -3,8 +3,8 @@ package net.n2oapp.framework.autotest.impl.component.widget.table;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.SortingDirection;
 import net.n2oapp.framework.autotest.api.collection.*;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -132,19 +132,20 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
-        public void columnShouldBeSortedBy(int columnIndex, SortingDirection direction, List<String> unsorted) {
+        public void columnShouldBeSortedBy(int columnIndex, SortingDirection direction) {
             ElementsCollection elements = element().should(Condition.exist).$$(".n2o-table-row td:nth-child(" + (++columnIndex) + ")");
 
-            if (direction.equals(SortingDirection.ASC)) {
-                elements.should(CollectionCondition.exactTexts(
-                        elements.texts().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
-                ));
-            } else if (direction.equals(SortingDirection.DESC)) {
-                elements.should(CollectionCondition.exactTexts(
-                        elements.texts().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
-                ));
-            } else {
-                elements.should(CollectionCondition.exactTexts(unsorted));
+            switch (direction.getId()) {
+                case ("asc"):
+                    elements.should(CollectionCondition.exactTexts(
+                            elements.texts().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+                    ));
+                    break;
+                case ("desc"):
+                    elements.should(CollectionCondition.exactTexts(
+                            elements.texts().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+                    ));
+                    break;
             }
         }
     }

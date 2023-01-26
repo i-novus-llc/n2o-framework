@@ -1,9 +1,9 @@
 package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.SortingDirection;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
@@ -113,11 +113,11 @@ public class ProtoPage {
     }
 
     public void surnameColumnShouldBeSortedBy(SortingDirection direction) {
-        getTable().columns().rows().columnShouldBeSortedBy(1, direction, null);
+        getTable().columns().rows().columnShouldBeSortedBy(1, direction);
     }
 
-    public void surnameColumnShouldNotBeSorted(List<String> unsortedColumn) {
-        getTable().columns().rows().columnShouldBeSortedBy(1, SortingDirection.NO, unsortedColumn);
+    public void surnameColumnShouldNotBeSorted(List<String> text) {
+        getTable().columns().rows().columnShouldHaveTexts(1, text);
     }
 
     public void currentPageShouldBe(String label) {

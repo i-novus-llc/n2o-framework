@@ -60,6 +60,14 @@ public interface Page extends Component {
 
     interface Breadcrumb extends Component {
 
+        void clickLink(String text);
+
+        void firstTitleShouldHaveText(String text);
+
+        void titleShouldHaveText(String text);
+
+        void titleByIndexShouldHaveText(String text, Integer index);
+
         void shouldHaveSize(int size);
 
         Crumb crumb(int index);
