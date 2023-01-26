@@ -49,6 +49,9 @@
                 </toolbar>
             </column>
             <column label="bell"/>
+            <column label="label" text-field-id="textFieldId"/>
+            <column id="id" text-field-id="textFieldId"/>
+            <column label="label" id="id" text-field-id="textFieldId"/>
         </columns>
         <rows class="red"/>
         <filters place="left" default-values-query-id="utBlank">

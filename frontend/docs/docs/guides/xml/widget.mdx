@@ -395,7 +395,7 @@ Java Script выражение
 |visible          |true / false                             |Столбец видимый по умолчанию?                     |true                                                        |
 |width            |Число                                    |Ширина столбца (px)                               |                                                            |
 |resizable        |true false                               |Можно ли изменить ширину столбца                  |false                                                       |
-|label            |Строка                                   |Наименование заголовка столбца                    |Из наименования поля выборки `text-field-id`                |
+|label            |Строка                                   |Наименование заголовка столбца                    |Из наименования поля выборки `id`                           |
 |icon             |[CSS класс](http://fontawesome.io/icons/)|Иконка заголовка столбца                          |                                                            |
 |sorting-field-id |Ссылка на поле выборки                   |Поле, по которому сортируется столбец             |Эквивалентно `text-field-id`                                |
 |sorting-direction|asc, desc                                |Направление сортировки по умолчанию               |                                                            |
@@ -569,7 +569,8 @@ Java Script выражение
 
 ```xml
 <rows class="{type==1?'text-muted':''}"/>
-
+```
+```xml
 <rows>
     <switch value-field-id="type">
         ...
