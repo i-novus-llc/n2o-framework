@@ -65,7 +65,11 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add("reference", ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
-        p.children(e, "out", "field", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outField);
+        p.anyChildren(e, "out", t::getOutFields, t::setOutFields, p.oneOf(AbstractParameter.class)
+                .add("field", ObjectSimpleField.class, this::inField)
+                .add("reference", ObjectReferenceField.class, this::inReference)
+                .add("list", ObjectListField.class, this::inReference)
+                .add("set", ObjectSetField.class, this::inReference));
         p.children(e, "fail-out", "field", t::getFailOutFields, t::setFailOutFields, ObjectSimpleField.class, this::outField);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }

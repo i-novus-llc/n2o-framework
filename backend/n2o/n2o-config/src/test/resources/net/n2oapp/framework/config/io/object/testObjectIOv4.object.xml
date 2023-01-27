@@ -66,6 +66,27 @@
             <out>
                 <field id="id" mapping="mapping" default-value="val2" normalize="norm"
                        domain="boolean[]"/>
+                <reference id="ref" object-id="utBlank" mapping="ref2" normalize="norm"
+                           entity-class="ref" required="true" enabled="type=='type1'">
+                    <field id="id"/>
+                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                </reference>
+                <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
+                     required="true" normalize="norm">
+                    <field id="id" mapping="id"/>
+                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                </set>
+                <list id="testSet2" object-id="utBlank" mapping="birth_date" entity-class="list"
+                      required="true" normalize="norm">
+                    <field id="id" mapping="id"/>
+                    <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
+                    <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
+                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                </list>
             </out>
             <fail-out>
                 <field id="message" mapping="#this.getMessage()"/>

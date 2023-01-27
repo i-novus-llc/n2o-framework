@@ -80,7 +80,8 @@ public class ObjectElementIOv3 implements NamespaceIO<N2oObject> {
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         p.anyChildren(e, "in-parameters", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
                 .add("param", ObjectSimpleField.class, this::param));
-        p.children(e, "out-parameters", "param", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::param);
+        p.anyChildren(e, "out-parameters", t::getOutFields, t::setOutFields, p.oneOf(AbstractParameter.class)
+                .add("param", ObjectSimpleField.class, this::param));
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
 

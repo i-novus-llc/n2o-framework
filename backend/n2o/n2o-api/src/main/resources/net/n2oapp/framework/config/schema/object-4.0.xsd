@@ -203,8 +203,8 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="invocation" type="operationInvocationDefinition"/>
-            <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0"/>
-            <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"/>
+            <xs:element name="in" type="operationParameterListDefinition" minOccurs="0"/>
+            <xs:element name="out" type="operationParameterListDefinition" minOccurs="0"/>
             <xs:element name="fail-out" type="operationFailOutParameterListDefinition" minOccurs="0"/>
             <xs:element name="validations" type="operationValidationListDefinition" minOccurs="0">
                 <xs:annotation>
@@ -297,7 +297,7 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="operationInParameterListDefinition">
+    <xs:complexType name="operationParameterListDefinition">
         <xs:annotation>
             <xs:documentation>Входящие параметры операции.</xs:documentation>
         </xs:annotation>
@@ -306,15 +306,6 @@
             <xs:element name="reference" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="list" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="set" type="operationInParameterReference" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="operationOutParameterListDefinition">
-        <xs:annotation>
-            <xs:documentation>Исходящие параметры операции.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="field" type="operationOutParameterField"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -446,8 +437,8 @@
             <xs:extension base="validationDefinition">
                 <xs:sequence>
                     <xs:element name="invocation" type="operationInvocationDefinition"/>
-                    <xs:element name="in" type="operationInParameterListDefinition" maxOccurs="unbounded"/>
-                    <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"
+                    <xs:element name="in" type="operationParameterListDefinition" maxOccurs="unbounded"/>
+                    <xs:element name="out" type="operationParameterListDefinition" minOccurs="0"
                                 maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="result" type="xs:string">
@@ -480,7 +471,7 @@
                 <xs:documentation>Идентификатор валидации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="severity" type="severityDefinition" use="optional" default="danger">
+        <xs:attribute name="severity" type="severityDefinition" default="danger">
             <xs:annotation>
                 <xs:documentation>Уровень важности валидации.</xs:documentation>
             </xs:annotation>
@@ -523,8 +514,8 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="invocation" type="operationInvocationDefinition" minOccurs="0"/>
-            <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="in" type="operationParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="out" type="operationParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="toolbar" type="tool:toolbarDefinition"/>
         </xs:sequence>
         <xs:attribute name="id" use="required">
