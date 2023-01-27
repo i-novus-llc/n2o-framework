@@ -4,8 +4,6 @@ import formPlugin, {
     enableField,
     showField,
     registerFieldExtra,
-    addFieldMessage,
-    removeFieldMessage,
     registerFieldDependency,
     setFilterValue,
     setRequired,
@@ -122,66 +120,6 @@ describe('Тесты formPlugin reducer', () => {
                     ...FormPlugin.defaultState,
                     visible: false,
                     visible_field: false,
-                },
-            },
-        })
-    })
-
-    it('Проверка ADD_FIELD_MESSAGE', () => {
-        expect(
-            formPlugin(
-                {
-                    registeredFields: {
-                        testName: {
-                            ...FormPlugin.defaultState,
-                        },
-                    },
-                },
-                {
-                    type: addFieldMessage.type,
-                    payload: {
-                        message: ['message'],
-                        name: 'testName',
-                    },
-                },
-            ),
-        ).toEqual({
-            registeredFields: {
-                testName: {
-                    ...FormPlugin.defaultState,
-                    message: {
-                        0: 'message',
-                    }
-                },
-            },
-        })
-    })
-
-    it('Проверка REMOVE_FIELD_MESSAGE', () => {
-        expect(
-            formPlugin(
-                {
-                    registeredFields: {
-                        testName: {
-                            ...FormPlugin.defaultState,
-                            message: {
-                                0: 'message',
-                            }
-                        },
-                    },
-                },
-                {
-                    type: removeFieldMessage.type,
-                    payload: {
-                        message: ['message'],
-                        name: 'testName',
-                    },
-                },
-            ),
-        ).toEqual({
-            registeredFields: {
-                testName: {
-                    ...FormPlugin.defaultState,
                 },
             },
         })

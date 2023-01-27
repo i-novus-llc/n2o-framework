@@ -261,68 +261,6 @@ const formSlice = createSlice({
             },
         },
 
-        ADD_MESSAGE: {
-            /**
-             * @param {string} form
-             * @param {string} name
-             * @param {Object.<string, any>} message
-             * @param {boolean} isTouched
-             * @param asyncValidating
-             * @return {{payload: FormPluginStore.addFieldMessagePayload, meta: {form: string, isTouched: boolean}}}
-             */
-            prepare(form, name, message, isTouched, asyncValidating) {
-                return ({
-                    payload: { form, name, message, asyncValidating },
-                    meta: { form, isTouched },
-                })
-            },
-
-            /**
-             * Добавить сообщение (после валидации) к полю
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.addFieldMessagePayload} action.payload
-             */
-            reducer(state, action) {
-                const { name, message } = action.payload
-
-                if (!state.registeredFields[name].message) {
-                    state.registeredFields[name].message = {}
-                }
-
-                state.registeredFields[name].message = Object.assign(state.registeredFields[name].message, message)
-            },
-        },
-
-        REMOVE_MESSAGE: {
-            /**
-             * @param {string} form
-             * @param {string} name
-             * @return {{payload: FormPluginStore.removeFieldMessagePayload, meta: {form: string}}}
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, name) {
-                return ({
-                    payload: { form, name },
-                    meta: { form },
-                })
-            },
-
-            /**
-             * Удалить сообщение
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.removeFieldMessagePayload} action.payload
-             */
-            reducer(state, action) {
-                const { name } = action.payload
-
-                state.registeredFields[name].message = null
-            },
-        },
-
         REGISTER_DEPENDENCY: {
             /**
              * @param {string} form
@@ -658,8 +596,6 @@ export const {
     ENABLE_FIELD: enableField,
     SHOW_FIELD: showField,
     HIDE_FIELD: hideField,
-    ADD_MESSAGE: addFieldMessage,
-    REMOVE_MESSAGE: removeFieldMessage,
     REGISTER_DEPENDENCY: registerFieldDependency,
     SET_FIELD_FILTER: setFilterValue,
     SET_REQUIRED: setRequired,

@@ -7,8 +7,6 @@ import {
     showMultiFields,
     enableMultiFields,
     disableMultiFields,
-    addFieldMessage,
-    removeFieldMessage,
     registerFieldExtra,
     registerFieldDependency,
     setFilterValue,
@@ -122,31 +120,6 @@ describe('Тесты экшенов formPlugin', () => {
         })
         it('Проверяет правильность meta', () => {
             const action = hideMultiFields(form, names)
-            expect(action.meta.form).toEqual(form)
-        })
-    })
-
-    describe('Проверка экшена addFieldMessage', () => {
-        it('Проверяет правильность payload', () => {
-            const action = addFieldMessage(form, name, message)
-            expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
-            expect(action.payload.message).toEqual(message)
-        })
-        it('Проверяет правильность meta', () => {
-            const action = addFieldMessage(form, name, message)
-            expect(action.meta.form).toEqual(form)
-        })
-    })
-
-    describe('Проверка экшена removeFieldMessage', () => {
-        it('Проверяет правильность payload', () => {
-            const action = removeFieldMessage(form, name)
-            expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
-        })
-        it('Проверяет правильность meta', () => {
-            const action = removeFieldMessage(form, name)
             expect(action.meta.form).toEqual(form)
         })
     })
