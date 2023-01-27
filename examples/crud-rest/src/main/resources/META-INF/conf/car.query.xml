@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
        object-id="car">
 
     <list result-mapping="['_embedded.cars']" count-mapping="['page.totalElements']">
@@ -9,24 +9,15 @@
         <rest>/data/cars/{id}</rest>
     </unique>
 
+    <filters>
+        <eq field-id="id" filter-id="id">id={id}</eq>
+        <more field-id="minPrice" filter-id="minPrice">minPrice={minPrice}</more>
+        <less field-id="maxPrice" filter-id="maxPrice">maxPrice={maxPrice}</less>
+    </filters>
+
     <fields>
-        <field id="id" domain="long">
-            <select/>
-            <filters>
-                <eq filter-id="id">id={id}</eq>
-            </filters>
-        </field>
-
-        <field id="name" domain="string">
-            <select/>
-        </field>
-
-        <field id="price" domain="long">
-            <select/>
-            <filters>
-                <more filter-id="minPrice">minPrice={minPrice}</more>
-                <less filter-id="maxPrice">maxPrice={maxPrice}</less>
-            </filters>
-        </field>
+        <field id="id" domain="long"/>
+        <field id="name" domain="string"/>
+        <field id="price" domain="long"/>
     </fields>
 </query>
