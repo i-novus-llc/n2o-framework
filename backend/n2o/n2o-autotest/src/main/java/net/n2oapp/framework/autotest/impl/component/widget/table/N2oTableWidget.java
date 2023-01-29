@@ -135,13 +135,13 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         public void columnShouldBeSortedBy(int columnIndex, SortingDirection direction) {
             ElementsCollection elements = element().should(Condition.exist).$$(".n2o-table-row td:nth-child(" + (++columnIndex) + ")");
 
-            switch (direction.getId()) {
-                case ("asc"):
+            switch (direction) {
+                case ASC:
                     elements.should(CollectionCondition.exactTexts(
                             elements.texts().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
                     ));
                     break;
-                case ("desc"):
+                case DESC:
                     elements.should(CollectionCondition.exactTexts(
                             elements.texts().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
                     ));
