@@ -406,9 +406,9 @@
                 <xs:documentation>Прилипание столбца к краю.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="label" type="xs:string" default="id">
+        <xs:attribute name="label" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+                <xs:documentation>Наименование заголовка столбца. По умолчанию имеет значение атрибута id</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">

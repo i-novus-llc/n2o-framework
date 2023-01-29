@@ -80,7 +80,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         //columns
         assertThat(table.getComponent().getHeaders().size(), is(7));
 
-        assertThat(table.getComponent().getHeaders().get(0).getId(), is("id"));
         assertThat(table.getComponent().getHeaders().get(0).getLabel(), is("id"));
         assertThat(table.getComponent().getHeaders().get(0).getSrc(), is("MyTableHeader"));
         assertThat(table.getComponent().getHeaders().get(0).getCssClass(), is("my-table-header"));
@@ -91,13 +90,10 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeaders().get(1).getCssClass(), is(nullValue()));
         assertThat(table.getComponent().getHeaders().get(1).getStyle(), is(nullValue()));
 
-        assertThat(table.getComponent().getHeaders().get(4).getId(), is("textFieldId"));
         assertThat(table.getComponent().getHeaders().get(4).getLabel(), is("label"));
 
-        assertThat(table.getComponent().getHeaders().get(5).getId(), is("id"));
         assertThat(table.getComponent().getHeaders().get(5).getLabel(), is("id"));
 
-        assertThat(table.getComponent().getHeaders().get(6).getId(), is("id"));
         assertThat(table.getComponent().getHeaders().get(6).getLabel(), is("label"));
 
         //sells

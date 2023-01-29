@@ -99,8 +99,8 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
     private String initLabel(T source, CompiledQuery query) {
         if (source.getLabelName() != null)
             return source.getLabelName();
-        if (query != null && query.getSimpleFieldsMap().containsKey(source.getId()))
-            return query.getSimpleFieldsMap().get(source.getId()).getName();
+        if (query != null && query.getSimpleFieldsMap().containsKey(source.getTextFieldId()))
+            return query.getSimpleFieldsMap().get(source.getTextFieldId()).getName();
         return source.getId();
     }
 }
