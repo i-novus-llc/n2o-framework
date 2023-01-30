@@ -155,10 +155,6 @@ public class N2oPage extends N2oComponent implements Page {
 
     public class N2oBreadcrumb extends N2oComponent implements Breadcrumb {
 
-        public N2oBreadcrumb(SelenideElement element) {
-            setElement(element);
-        }
-
         @Deprecated
         @Override
         public void clickLink(String text) {
@@ -182,6 +178,9 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void titleByIndexShouldHaveText(String text, Integer index) {
             element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(text));
+        }
+        public N2oBreadcrumb(SelenideElement element) {
+            setElement(element);
         }
 
         @Override

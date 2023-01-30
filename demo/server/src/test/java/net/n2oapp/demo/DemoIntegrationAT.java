@@ -6,6 +6,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.demo.model.ProtoClient;
 import net.n2oapp.demo.model.ProtoContacts;
 import net.n2oapp.demo.model.ProtoPage;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.Colors;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
@@ -19,13 +20,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static com.codeborne.selenide.Configuration.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DemoApplication.class, properties = {"n2o.i18n.enabled=false", "n2o.i18n.default-locale=ru"},
@@ -158,20 +159,33 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testTableSorting() {
+        List<String> unsortedSurnameColumn = new ArrayList<>(
+                List.of(new String[]{
+                        "Михалёва",
+                        "Яблочкин",
+                        "Яшнова",
+                        "Глоба",
+                        "Суходолина",
+                        "Барсова",
+                        "Оленева",
+                        "Меркушев",
+                        "Летова",
+                        "Чечин",
+                })
+        );
+
         protoPage.getSurnameHeader().shouldNotBeSorted();
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldBeSortedByAsc();
-        assertThat(isSorted(protoPage.getSurnameColumn(), true), is(true));
+        protoPage.surnameColumnShouldBeSortedBy(SortingDirection.ASC);
 
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldBeSortedByDesc();
-        assertThat(isSorted(protoPage.getSurnameColumn(), false), is(true));
+        protoPage.surnameColumnShouldBeSortedBy(SortingDirection.DESC);
 
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldNotBeSorted();
-        List<String> list = protoPage.getSurnameColumn();
-        assertThat(isSorted(list, true), is(false));
-        assertThat(isSorted(list, false), is(false));
+        protoPage.surnameColumnShouldNotBeSorted(unsortedSurnameColumn);
     }
 
     /**
@@ -631,13 +645,5 @@ public class DemoIntegrationAT {
 
         protoPage.deleteContact(0);
         protoPage.contactsListShouldHaveSize(0);
-    }
-
-    private boolean isSorted(List<String> list, Boolean dir) {
-        for (int i = 0; i < list.size() - 1; i++) {
-            if ((dir && list.get(i).compareTo(list.get(i + 1)) >= 0)
-                    || (!dir && list.get(i).compareTo(list.get(i + 1)) <= 0)) return false;
-        }
-        return true;
     }
 }

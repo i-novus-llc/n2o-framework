@@ -1,6 +1,7 @@
 package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
@@ -18,7 +19,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Страница "Список контактов" ProtoPage.page.xml
@@ -32,7 +32,8 @@ public class ProtoPage {
     }
 
     public void shouldBeClientsPage() {
-        leftRightPage.breadcrumb().titleShouldHaveText("Список контактов");
+        leftRightPage.shouldExists();
+        leftRightPage.breadcrumb().crumb(0).shouldHaveLabel("Список контактов");
     }
 
     public void tableShouldHaveSize(int size) {
@@ -109,6 +110,14 @@ public class ProtoPage {
 
     public List<String> getSurnameColumn() {
         return getTable().columns().rows().columnTexts(1);
+    }
+
+    public void surnameColumnShouldBeSortedBy(SortingDirection direction) {
+        getTable().columns().rows().columnShouldBeSortedBy(1, direction);
+    }
+
+    public void surnameColumnShouldNotBeSorted(List<String> text) {
+        getTable().columns().rows().columnShouldHaveTexts(1, text);
     }
 
     public void currentPageShouldBe(String label) {

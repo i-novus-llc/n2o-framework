@@ -25,7 +25,7 @@ public abstract class BaseSimplePage {
 
     public void shouldHaveTitle(String text) {
         if (simplePage != null)
-            simplePage.breadcrumb().titleShouldHaveText(text);
+            simplePage.breadcrumb().crumb(1).shouldHaveLabel(text);
         else
             modal.shouldHaveTitle(text);
     }
