@@ -50,7 +50,6 @@ public class RequestDataAT extends AutoTestBase {
      * Тест проверяет сохранение изменений, после сохранения и обновления страницы
      */
     @Test
-    @Disabled
     public void testDataRequest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
