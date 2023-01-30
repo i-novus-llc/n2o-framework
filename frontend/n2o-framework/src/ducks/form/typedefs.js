@@ -57,14 +57,6 @@
  */
 
 /**
- * Payload для экшена SET_FIELD_FILTER
- * @typedef FormPluginStore.setFilterValuePayload
- * @property {string} form
- * @property {string} name
- * @property {object} filter
- */
-
-/**
  * Payload для экшена SET_REQUIRED
  * @typedef FormPluginStore.setRequiredPayload
  * @property {string} form

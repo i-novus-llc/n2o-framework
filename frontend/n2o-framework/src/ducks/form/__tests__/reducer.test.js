@@ -5,7 +5,6 @@ import formPlugin, {
     showField,
     registerFieldExtra,
     registerFieldDependency,
-    setFilterValue,
     setRequired,
     unsetRequired,
     setLoading
@@ -180,42 +179,6 @@ describe('Тесты formPlugin reducer', () => {
                 testName: {
                     ...FormPlugin.defaultState,
                     dependency: 'dependency',
-                },
-            },
-        })
-    })
-
-    it('Проверка SET_FIELD_FILTER', () => {
-        expect(
-            formPlugin(
-                {
-                    registeredFields: {
-                        testName: {
-                            ...FormPlugin.defaultState,
-                        },
-                    },
-                },
-                {
-                    type: setFilterValue.type,
-                    payload: {
-                        name: 'testName',
-                        filter: [
-                            {
-                                'filter.name': 'Oleg',
-                            },
-                        ],
-                    },
-                },
-            ),
-        ).toEqual({
-            registeredFields: {
-                testName: {
-                    ...FormPlugin.defaultState,
-                    filter: [
-                        {
-                            'filter.name': 'Oleg',
-                        },
-                    ],
                 },
             },
         })

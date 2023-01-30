@@ -289,37 +289,6 @@ const formSlice = createSlice({
             },
         },
 
-        SET_FIELD_FILTER: {
-            /**
-             * @param {string} form
-             * @param {string} name
-             * @param {object} filter
-             * @return {{payload: FormPluginStore.setFilterValuePayload, meta: {form: string}}}
-             */
-            prepare(form, name, filter) {
-                return ({
-                    payload: { form, name, filter },
-                    meta: { form },
-                })
-            },
-
-            /**
-             * Установить значениек для поля filter
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.setFilterValuePayload} action.payload
-             */
-            reducer(state, action) {
-                const { name, filter } = action.payload
-
-                state.registeredFields[name].filter =
-                    state.registeredFields[name].filter
-                        .filter(f => f.filterId !== filter.filterId)
-                        .concat(filter)
-            },
-        },
-
         SET_REQUIRED: {
             /**
              * @param {string} form
@@ -597,7 +566,6 @@ export const {
     SHOW_FIELD: showField,
     HIDE_FIELD: hideField,
     REGISTER_DEPENDENCY: registerFieldDependency,
-    SET_FIELD_FILTER: setFilterValue,
     SET_REQUIRED: setRequired,
     UNSET_REQUIRED: unsetRequired,
     SET_LOADING: setLoading,

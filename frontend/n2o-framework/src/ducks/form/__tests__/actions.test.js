@@ -9,7 +9,6 @@ import {
     disableMultiFields,
     registerFieldExtra,
     registerFieldDependency,
-    setFilterValue,
     setLoading,
 } from '../store'
 
@@ -152,19 +151,6 @@ describe('Тесты экшенов formPlugin', () => {
         })
         it('Проверяет правильность meta', () => {
             const action = registerFieldDependency(form, name, dependency)
-            expect(action.meta.form).toEqual(form)
-        })
-    })
-
-    describe('Проверка экшена setFilterValue', () => {
-        it('Проверяет правильность payload', () => {
-            const action = setFilterValue(form, name, filter)
-            expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
-            expect(action.payload.filter).toEqual(filter)
-        })
-        it('Проверяет правильность meta', () => {
-            const action = setFilterValue(form, name, filter)
             expect(action.meta.form).toEqual(form)
         })
     })
