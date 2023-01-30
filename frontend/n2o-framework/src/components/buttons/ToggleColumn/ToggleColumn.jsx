@@ -24,7 +24,7 @@ function ToggleColumnComponent(props) {
     const columnsArray = map(columns || {}, (value, key) => ({ key, value }))
     const filteredColumns = filter(
         columnsArray,
-        ({ value }) => value.frozen !== true,
+        ({ key, value }) => key && value.frozen !== true,
     )
 
     return (
