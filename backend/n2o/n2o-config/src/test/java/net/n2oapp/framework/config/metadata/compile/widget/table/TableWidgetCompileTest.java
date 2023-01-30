@@ -78,21 +78,34 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
+        assertThat(table.getComponent().getHeaders().size(), is(7));
+
+        assertThat(table.getComponent().getHeaders().get(0).getLabel(), is("id"));
         assertThat(table.getComponent().getHeaders().get(0).getSrc(), is("MyTableHeader"));
         assertThat(table.getComponent().getHeaders().get(0).getCssClass(), is("my-table-header"));
         assertThat(table.getComponent().getHeaders().get(0).getStyle().size(), is(1));
         assertThat(table.getComponent().getHeaders().get(0).getStyle().get("color"), is("red"));
+
         assertThat(table.getComponent().getHeaders().get(1).getSrc(), is("TextTableHeader"));
         assertThat(table.getComponent().getHeaders().get(1).getCssClass(), is(nullValue()));
         assertThat(table.getComponent().getHeaders().get(1).getStyle(), is(nullValue()));
-        assertThat(table.getComponent().getCells().size(), is(4));
+
+        assertThat(table.getComponent().getHeaders().get(4).getLabel(), is("label"));
+
+        assertThat(table.getComponent().getHeaders().get(5).getLabel(), is("id"));
+
+        assertThat(table.getComponent().getHeaders().get(6).getLabel(), is("label"));
+
+        //sells
+        assertThat(table.getComponent().getCells().size(), is(7));
+
         assertThat(((AbstractCell) table.getComponent().getCells().get(0)).getStyle().get("marginLeft"), is("10px"));
-        assertThat(table.getComponent().getHeaders().size(), is(4));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getCssClass(), is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getFormat(), is("password"));
         assertThat(((TextCell) table.getComponent().getCells().get(0)).getHideOnBlur(), is(true));
         assertThat(table.getComponent().getCells().get(2).getId(), is("cell2"));
         assertThat(table.getComponent().getCells().get(3).getId(), is("cell3"));
+
         assertThat(table.getToolbar().getButton("but"), notNullValue());
         assertThat(table.getComponent().getRowClass(), is("red"));
         QueryContext queryContext = (QueryContext) route("/testTable4Compile/main", CompiledQuery.class);
