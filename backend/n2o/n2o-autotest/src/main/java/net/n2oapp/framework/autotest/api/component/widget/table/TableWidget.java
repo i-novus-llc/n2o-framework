@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.widget.table;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.api.collection.*;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
@@ -54,7 +55,8 @@ public interface TableWidget extends StandardWidget {
         void shouldNotHaveSelectedRows();
 
         void columnShouldHaveTexts(int index, List<String> text);
-
         List<String> columnTexts(int index);
+
+        void columnShouldBeSortedBy(int columnIndex, SortingDirection direction);
     }
 }

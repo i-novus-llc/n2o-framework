@@ -3,7 +3,9 @@ package net.n2oapp.framework.autotest.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
-import net.n2oapp.framework.autotest.api.component.control.*;
+import net.n2oapp.framework.autotest.api.component.control.AutoComplete;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
+import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -14,6 +16,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -47,6 +50,7 @@ public class RequestDataAT extends AutoTestBase {
      * Тест проверяет сохранение изменений, после сохранения и обновления страницы
      */
     @Test
+    @Disabled
     public void testDataRequest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

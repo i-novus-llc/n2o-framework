@@ -8,3 +8,5 @@ export const VALIDATION_SEVERITY_PRIORITY = {
     [Severity.warning]: 1,
     [Severity.success]: 2,
 }
+
+export const INDEX_REGEXP = /\[index]/ig
