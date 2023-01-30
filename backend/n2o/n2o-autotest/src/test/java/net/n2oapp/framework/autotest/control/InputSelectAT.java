@@ -151,7 +151,7 @@ public class InputSelectAT extends AutoTestBase {
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
 
-        input.collapse();
+        input.closePopup();
         input = page.widget(FormWidget.class).fields().field("InputSelect3")
                 .control(InputSelect.class);
         input.itemShouldBeEnabled(true, "One");
@@ -182,7 +182,7 @@ public class InputSelectAT extends AutoTestBase {
         input.val("name3");
         input.shouldHaveValue("name3");
         // сворачиваем popup, чтобы не накладывался на нижний контрол
-        input.collapse();
+        input.closePopup();
 
 
         InputSelect input2 = page.widget(FormWidget.class).fields().field("InputSelect2")
@@ -265,7 +265,7 @@ public class InputSelectAT extends AutoTestBase {
 
         InputSelect inputSelect = simplePage.widget(FormWidget.class)
                 .fields().field("Input-select min-length=3").control(InputSelect.class);
-        inputSelect.expand();
+        inputSelect.openPopup();
         DropDown dropdown = inputSelect.dropdown();
         dropdown.shouldHaveItems(3);
 

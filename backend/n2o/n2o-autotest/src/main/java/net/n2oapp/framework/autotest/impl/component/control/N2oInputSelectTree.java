@@ -8,6 +8,8 @@ import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
 import org.openqa.selenium.Keys;
 
+import java.util.Objects;
+
 /**
  * Компонент ввода с выбором в выпадающем списке в виде дерева для автотестирования
  */
@@ -81,26 +83,6 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         return N2oSelenide.component(element().$(".n2o-select-tree-dropdown"), DropDownTree.class);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
     @Override
     public void openPopup() {
         if (!isOpened())
@@ -124,7 +106,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     private boolean isOpened() {
-        return element().getAttribute("aria-expanded").equals("true");
+        return Objects.equals(element().getAttribute("aria-expanded"), "true");
     }
 
     private SelenideElement switcher() {

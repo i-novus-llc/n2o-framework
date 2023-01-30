@@ -18,7 +18,7 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
 
     @Override
     public void val(String value) {
-        element().parent().$(".n2o-input").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        element().parent().$(".n2o-input").setValue(value);
         element().parent().$(".n2o-input").pressEnter();
     }
 

@@ -37,7 +37,7 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
         if (!inputElement().exists() && isEditableCell)
             element().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().setValue(value);
         if (isEditableCell)
             inputElement().sendKeys(Keys.chord(Keys.ENTER));
         else
@@ -115,19 +115,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
         else cellInputElement().shouldHave(condition);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
     @Override
     public void openPopup() {
         element().$(".n2o-date-input").should(Condition.exist).click();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
     }
 
     @Override
@@ -135,19 +125,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
         throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
     }
 
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
     @Override
     public void shouldBeOpened() {
         popUp().shouldBe(Condition.exist);
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
     }
 
     @Override
