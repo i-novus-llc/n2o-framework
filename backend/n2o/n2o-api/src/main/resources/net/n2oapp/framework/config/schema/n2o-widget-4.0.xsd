@@ -361,9 +361,12 @@
         <xs:annotation>
             <xs:documentation>Базовое определение столбца таблицы.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="id" type="xs:string" default="text-field-id">
+        <xs:attribute name="id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор столбца.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор столбца.
+                    По умолчанию: значение `text-field-id`
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
@@ -408,7 +411,10 @@
         </xs:attribute>
         <xs:attribute name="label" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Наименование заголовка столбца. По умолчанию имеет значение атрибута id</xs:documentation>
+                <xs:documentation>
+                    Наименование заголовка столбца.
+                    По умолчанию: значение `id`
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">
