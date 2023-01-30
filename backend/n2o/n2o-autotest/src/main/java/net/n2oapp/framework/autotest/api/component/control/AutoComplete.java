@@ -8,6 +8,8 @@ public interface AutoComplete extends Control {
 
     void click();
 
+    void clear();
+
     void addTag(String value);
 
     void removeTag(String value);

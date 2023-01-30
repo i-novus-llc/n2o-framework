@@ -375,11 +375,10 @@ class AutoComplete extends React.Component {
                             modifiers={MODIFIERS}
                             strategy="fixed"
                         >
-                            {({ ref, style, placement, scheduleUpdate }) => (
+                            {({ ref, placement, scheduleUpdate }) => (
                                 <div
                                     ref={ref}
                                     style={{
-                                        ...style,
                                         minWidth: this.calcPopperWidth(),
                                         maxWidth: 600,
                                     }}
