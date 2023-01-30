@@ -101,6 +101,6 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             return source.getLabelName();
         if (query != null && query.getSimpleFieldsMap().containsKey(source.getTextFieldId()))
             return query.getSimpleFieldsMap().get(source.getTextFieldId()).getName();
-        return source.getTextFieldId();
+        return source.getId();
     }
 }

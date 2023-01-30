@@ -355,7 +355,10 @@
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Идентификатор столбца.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор столбца.
+                    По умолчанию: значение `text-field-id`
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
@@ -398,9 +401,12 @@
                 <xs:documentation>Прилипание столбца к краю.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="label" type="xs:string">
+        <xs:attribute name="label" type="xs:string" default="id">
             <xs:annotation>
-                <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+                <xs:documentation>
+                    Наименование заголовка столбца.
+                    По умолчанию: значение `id`
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="icon" type="xs:string">

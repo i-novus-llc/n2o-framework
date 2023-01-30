@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
        object-id="test">
     <list>
         <test file="test.json" operation="findAll"/>
@@ -10,16 +10,12 @@
     <unique filters="id">
         <test file="test.json" operation="findOne"/>
     </unique>
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+    </filters>
 
     <fields>
-        <field id="id">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="name">
-            <select/>
-        </field>
+        <field id="id"/>
+        <field id="name"/>
     </fields>
 </query>

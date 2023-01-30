@@ -35,6 +35,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     public void valMulti(String... values) {
         Arrays.stream(values).forEach(s -> {
+            input().click();
             element().$(".n2o-inp--multi").setValue(s);
             element().$(".n2o-inp--multi").pressEnter();
         });

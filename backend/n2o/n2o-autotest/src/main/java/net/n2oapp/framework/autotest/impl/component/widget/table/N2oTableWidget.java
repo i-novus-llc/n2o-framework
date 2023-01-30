@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.impl.component.widget.table;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.*;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
@@ -9,7 +11,9 @@ import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oPaging;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Виджет таблица для автотестирования
@@ -129,6 +133,24 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         @Override
         public List<String> columnTexts(int index) {
             return element().should(Condition.exist).$$(".n2o-table-row td:nth-child(" + (++index) + ")").texts();
+        }
+
+        @Override
+        public void columnShouldBeSortedBy(int columnIndex, SortingDirection direction) {
+            ElementsCollection elements = element().should(Condition.exist).$$(".n2o-table-row td:nth-child(" + (++columnIndex) + ")");
+
+            switch (direction) {
+                case ASC:
+                    elements.should(CollectionCondition.exactTexts(
+                            elements.texts().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+                    ));
+                    break;
+                case DESC:
+                    elements.should(CollectionCondition.exactTexts(
+                            elements.texts().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+                    ));
+                    break;
+            }
         }
     }
 }

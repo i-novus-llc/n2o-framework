@@ -30,6 +30,11 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     @Override
+    public void clear() {
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+    }
+
+    @Override
     public void addTag(String value) {
         val(value);
         inputElement().sendKeys(Keys.chord(Keys.ENTER));
