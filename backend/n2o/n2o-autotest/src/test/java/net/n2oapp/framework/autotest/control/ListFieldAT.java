@@ -4,6 +4,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.*;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -116,5 +117,33 @@ public class ListFieldAT extends AutoTestBase {
                 .region(0, SimpleRegion.class).content().widget(FormWidget.class).fields().field("Группа документов").control(InputSelect.class);
 
         inputSelect.shouldHaveOptions("Документы, подтверждающие обучение", "Документы, подтверждающие размер заработной платы");
+    }
+
+    @Test
+    public void testFetchValueDependencies() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/list/fetch_value/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/list/fetch_value/test.query.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        Fields fields = page.widget(FormWidget.class).fields();
+        fields.field("size 1").control(InputSelect.class).shouldBeEmpty();
+        fields.field("size 2").control(InputSelect.class).shouldBeEmpty();
+        fields.field("size 3").control(InputSelect.class).shouldBeEmpty();
+        fields.field("size 4").control(InputSelect.class).shouldBeEmpty();
+        fields.field("size 5").control(InputSelect.class).shouldBeEmpty();
+
+        fields.field("def 1").control(InputSelect.class).shouldSelectedMulti("test1");
+        fields.field("def 2").control(InputSelect.class).shouldSelectedMulti("test1", "test2");
+        fields.field("def 3").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3");
+        fields.field("def 4").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3", "test4");
+        fields.field("def 5").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3", "test4");
+
+        fields.field("check").control(Checkbox.class).setChecked(true);
+        fields.field("size 1").control(InputSelect.class).shouldSelectedMulti("test1");
+        fields.field("size 2").control(InputSelect.class).shouldSelectedMulti("test1", "test2");
+        fields.field("size 3").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3");
+        fields.field("size 4").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3", "test4");
+        fields.field("size 5").control(InputSelect.class).shouldSelectedMulti("test1", "test2", "test3", "test4");
     }
 }
