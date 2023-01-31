@@ -99,7 +99,7 @@ const formSlice = createSlice({
                     return out
                 }, [])
 
-                const deleteCount = deleteAll ? groupedFields.length : 1
+                const deleteCount = deleteAll ? groupedFields.length - fromIndex : 1
                 let i = fromIndex
 
                 for (; i < fromIndex + deleteCount; i += 1) {
