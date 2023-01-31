@@ -12,12 +12,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.7.RELEASE</version>
+        <version>2.5.12</version>
         <relativePath/>
     </parent>
 
     <properties>
-        <n2o.version>7.16.0</n2o.version>
+        <n2o.version>7.23.54</n2o.version>
     </properties>
 
     <dependencies>
