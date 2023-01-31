@@ -13,8 +13,18 @@ import { LinkTarget } from '../../../constants/linkTarget'
 import { NavItemImage } from '../../../components/snippets/NavItemImage/NavItemImage'
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { resolveItem } from '../../../utils/propsResolver'
+import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
-export const getFromSource = (props, datasources, datasource, models) => {
+export const getFromSource = (itemProps, datasources, datasource, models) => {
+    const props = { ...itemProps }
+    const { href, pathMapping = {}, queryMapping = {} } = props
+
+    if (!isEmpty(pathMapping) || !isEmpty(queryMapping)) {
+        const { url } = dataProviderResolver(props, { url: href, pathMapping, queryMapping })
+
+        props.href = url
+    }
+
     if (!datasource) {
         return props
     }
