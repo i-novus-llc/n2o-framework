@@ -86,7 +86,7 @@ const formSlice = createSlice({
                     .keys(state.registeredFields)
                     .filter(fieldName => fieldName.startsWith(`${multiField}[`))
                 // Разделяем индекс и имя поля в строке мультифилдсета
-                    .map(fieldName => fieldName.match(/\[(\d+)]\.(.+)/))
+                    .map(fieldName => fieldName.replace(multiField, '').match(/\[(\d+)]\.(.+)/))
                     .filter(Boolean)
                     .map(([, index, fieldName]) => ({
                         index: +index,
