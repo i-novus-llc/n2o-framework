@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
+import org.openqa.selenium.Keys;
 
 /**
  * Компонент ввода даты для автотестирования
@@ -36,7 +37,11 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
         if (!inputElement().exists() && isEditableCell)
             element().click();
-        inputElement().setValue(value);
+        inputElement().sendKeys(value);
+        if (isEditableCell)
+            inputElement().sendKeys(Keys.chord(Keys.ENTER));
+        else
+            inputElement().click();
     }
 
     @Override
