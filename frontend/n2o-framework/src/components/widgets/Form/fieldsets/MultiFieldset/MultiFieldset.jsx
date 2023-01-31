@@ -98,9 +98,9 @@ export const enhance = compose(
 
             newValue.splice(index, 1)
 
+            dispatch(unregisterMultisetItemExtra(form, name, index))
             dispatch(change(form, name, newValue))
             dispatch(startValidate(form, undefined, modelPrefix, [name]))
-            dispatch(unregisterMultisetItemExtra(form, name, index))
         },
         onCopyField: ({
             form,
@@ -134,9 +134,9 @@ export const enhance = compose(
 
             newValue.splice(deleteFrom, fields.length)
 
+            dispatch(unregisterMultisetItemExtra(form, name, deleteFrom, true))
             dispatch(change(form, name, newValue))
             dispatch(startValidate(form, undefined, modelPrefix, [name]))
-            dispatch(unregisterMultisetItemExtra(form, name, deleteFrom, true))
         },
         resolvePlaceholder: ({ childrenLabel, firstChildrenLabel, activeModel }) => (index) => {
             const context = { index }
