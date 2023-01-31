@@ -55,9 +55,12 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
     }
 
     private void initDatasource(Sidebar compiled, N2oSidebar source, CompileProcessor p) {
+        if (source.getDatasourceId() == null && source.getDatasource() == null)
+            return;
+
         String datasourceId = source.getDatasourceId();
         N2oAbstractDatasource datasource;
-        if (source.getDatasourceId() == null && source.getDatasource() != null) {
+        if (source.getDatasourceId() == null) {
             datasource = source.getDatasource();
             datasourceId = datasource.getId();
             source.setDatasourceId(datasourceId);
