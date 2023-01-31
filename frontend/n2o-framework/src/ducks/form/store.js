@@ -81,55 +81,46 @@ const formSlice = createSlice({
             reducer(state, action) {
                 const { multiField, fromIndex, deleteAll } = action.payload
 
-                if (fromIndex >= 0) {
-                    // Чистим массив form[dsName].fields[fieldsetName]
-                    const fields = state.fields[multiField]
+                // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
+                const registredKeys = Object
+                    .keys(state.registeredFields)
+                    .filter(fieldName => fieldName.startsWith(`${multiField}[`))
+                // Разделяем индекс и имя поля в строке мультифилдсета
+                    .map(fieldName => fieldName.match(/\[(\d+)]\.(.+)/))
+                    .filter(Boolean)
+                    .map(([, index, fieldName]) => ({
+                        index: +index,
+                        fieldName,
+                    }))
+                const groupedFields = registredKeys.reduce((out, { index, fieldName }) => {
+                    out[index] = out[index] || []
+                    out[index].push(fieldName)
 
-                    if (fields) {
-                        fields.splice(fromIndex, deleteAll ? fields.length : 1)
-                    }
+                    return out
+                }, [])
 
-                    // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
-                    const registredKeys = Object
-                        .keys(state.registeredFields)
-                        .filter(fieldName => fieldName.startsWith(`${multiField}[`))
-                        // Разделяем индекс и имя поля в строке мультифилдсета
-                        .map(fieldName => fieldName.match(/\[(\d+)]\.(.+)/))
-                        .filter(Boolean)
-                        .map(([, index, fieldName]) => ({
-                            index: +index,
-                            fieldName,
-                        }))
-                    const groupedFields = registredKeys.reduce((out, { index, fieldName }) => {
-                        out[index] = out[index] || []
-                        out[index].push(fieldName)
+                const deleteCount = deleteAll ? groupedFields.length : 1
+                let i = fromIndex
 
-                        return out
-                    }, [])
+                for (; i < fromIndex + deleteCount; i += 1) {
+                    // eslint-disable-next-line no-loop-func
+                    groupedFields[i].forEach((fieldName) => {
+                        const sourceKey = `${multiField}[${i}].${fieldName}`
 
-                    const deleteCount = deleteAll ? groupedFields.length : 1
-                    let i = fromIndex
+                        delete state.registeredFields[sourceKey]
+                    })
+                }
 
-                    for (; i < fromIndex + deleteCount; i += 1) {
-                        // eslint-disable-next-line no-loop-func
-                        groupedFields[i].forEach((fieldName) => {
-                            const sourceKey = `${multiField}[${i}].${fieldName}`
+                for (; i < groupedFields.length; i += 1) {
+                    // eslint-disable-next-line no-loop-func
+                    groupedFields[i].forEach((fieldName) => {
+                        const sourceKey = `${multiField}[${i}].${fieldName}`
+                        const destKey = `${multiField}[${i - deleteCount}].${fieldName}`
 
-                            delete state.registeredFields[sourceKey]
-                        })
-                    }
+                        state.registeredFields[destKey] = state.registeredFields[sourceKey]
 
-                    for (; i < groupedFields.length; i += 1) {
-                        // eslint-disable-next-line no-loop-func
-                        groupedFields[i].forEach((fieldName) => {
-                            const sourceKey = `${multiField}[${i}].${fieldName}`
-                            const destKey = `${multiField}[${i - deleteCount}].${fieldName}`
-
-                            state.registeredFields[destKey] = state.registeredFields[sourceKey]
-
-                            delete state.registeredFields[sourceKey]
-                        })
-                    }
+                        delete state.registeredFields[sourceKey]
+                    })
                 }
             },
         },
