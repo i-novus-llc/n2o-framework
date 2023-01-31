@@ -3,7 +3,6 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
-import org.openqa.selenium.Keys;
 
 /**
  * Компонент ввода текста для автотестирования
