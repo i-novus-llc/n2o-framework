@@ -78,10 +78,12 @@ public class DatePickerAT extends AutoTestBase {
         date.clickNextMonthButton();
         date.shouldHaveCurrentMonth("Январь");
         // проверка, что значения, выходящие за границы min/max, не вводятся
-        date.val("05.02.2020");
-        date.shouldHaveValue("12.02.2020");
+        date.val("05.02.2021");
+        date.click();
+        date.shouldBeEmpty();
         date.val("25.02.2020");
-        date.shouldHaveValue("12.02.2020");
+        date.click();
+        date.shouldBeEmpty();
     }
 
     @Test
