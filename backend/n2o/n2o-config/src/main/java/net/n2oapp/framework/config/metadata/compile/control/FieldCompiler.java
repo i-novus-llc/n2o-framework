@@ -42,6 +42,7 @@ import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -51,6 +52,8 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  * Абстрактная реализация компиляции поля ввода
  */
 public abstract class FieldCompiler<D extends Field, S extends N2oField> extends ComponentCompiler<D, S, CompileContext<?, ?>> {
+
+    private final Pattern EXT_EXPRESSION_PATTERN = Pattern.compile(".*\\(.*\\).*");
 
     @Override
     protected String getSrcProperty() {
@@ -441,6 +444,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     ModelLink defaultValue = getDefaultValueModelLink(source, context, p);
                     if (source.getRefFieldId() == null)
                         defaultValue.setValue(defValue);
+                    if (isExternalExpression((String) defValue))
+                        defaultValue.setObserve(false);
                     defaultValue.setParam(source.getParam());
                     defaultValues.add(control.getId(), defaultValue);
                 } else {
@@ -533,6 +538,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             defaultValue.setObserve(true);
 
         return defaultValue;
+    }
+
+    private boolean isExternalExpression(String expression) {
+        return EXT_EXPRESSION_PATTERN.matcher(expression).find();
     }
 
     protected String initLocalDatasourceId(CompileProcessor p) {

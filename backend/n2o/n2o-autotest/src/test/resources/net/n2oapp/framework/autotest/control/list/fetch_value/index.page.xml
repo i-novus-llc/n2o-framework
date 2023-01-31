@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Поля">
+    <form>
+        <fields>
+            <checkbox id="check"/>
+            <row>
+                <col>
+                    <input-select id="select1" type="multi" label="size 1" query-id="test">                    
+                        <dependencies>
+                            <fetch-value on="check" query-id="test" size="1" apply-on-init="false"/>
+                        </dependencies>
+                    </input-select>     
+                    <input-select id="select2" type="multi" label="size 2" query-id="test">                    
+                        <dependencies>
+                            <fetch-value on="check" query-id="test" size="2" apply-on-init="false"/>
+                        </dependencies>
+                    </input-select>        
+                    <input-select id="select3" type="multi" label="size 3" query-id="test">                    
+                        <dependencies>
+                            <fetch-value on="check" query-id="test" size="3" apply-on-init="false"/>
+                        </dependencies>
+                    </input-select> 
+                    <input-select id="select4" type="multi" label="size 4" query-id="test">                    
+                        <dependencies>
+                            <fetch-value on="check" query-id="test" size="4" apply-on-init="false"/>
+                        </dependencies>
+                    </input-select> 
+                    <input-select id="select5" type="multi" label="size 5" query-id="test">                    
+                        <dependencies>
+                            <fetch-value on="check" query-id="test" size="5" apply-on-init="false"/>
+                        </dependencies>
+                    </input-select>       
+                </col>  
+                <col>   
+                    <input-select id="def1" type="multi" label="def 1" query-id="test">                    
+                        <dependencies>
+                            <fetch-value query-id="test" size="1" apply-on-init="true"/>
+                        </dependencies>
+                    </input-select>     
+                    <input-select id="def2" type="multi" label="def 2" query-id="test">                    
+                        <dependencies>
+                            <fetch-value query-id="test" size="2" apply-on-init="true"/>
+                        </dependencies>
+                    </input-select>        
+                    <input-select id="def3" type="multi" label="def 3" query-id="test">                    
+                        <dependencies>
+                            <fetch-value query-id="test" size="3" apply-on-init="true"/>
+                        </dependencies>
+                    </input-select> 
+                    <input-select id="def4" type="multi" label="def 4" query-id="test">                    
+                        <dependencies>
+                            <fetch-value query-id="test" size="4" apply-on-init="true"/>
+                        </dependencies>
+                    </input-select> 
+                    <input-select id="def5" type="multi" label="def 5" query-id="test">                    
+                        <dependencies>
+                            <fetch-value query-id="test" size="5" apply-on-init="true"/>
+                        </dependencies>
+                    </input-select>       
+                </col>
+            </row>
+           
+        </fields>
+    </form>
+</simple-page>
