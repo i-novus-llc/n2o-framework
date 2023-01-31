@@ -139,15 +139,15 @@ export const enhance = compose(
             dispatch(unregisterMultisetItemExtra(form, name, deleteFrom, true))
         },
         resolvePlaceholder: ({ childrenLabel, firstChildrenLabel, activeModel }) => (index) => {
-            const context = { index }
             const expression = parseExpression(childrenLabel)
+            const fnProps = { ...activeModel, index }
 
             if (firstChildrenLabel && index === 0) {
-                return propsResolver(firstChildrenLabel, activeModel)
+                return propsResolver(firstChildrenLabel, fnProps)
             }
 
             if (expression) {
-                return evalExpression(expression, context)
+                return evalExpression(expression, fnProps)
             }
 
             return childrenLabel

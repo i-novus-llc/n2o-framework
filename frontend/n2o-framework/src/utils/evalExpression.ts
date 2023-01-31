@@ -161,7 +161,7 @@ export function evalExpression<
     } catch (error) {
         warning(
             true,
-            `Ошибка при выполнение evalExpression! ${error instanceof Error ? error.message : error}.
+            `Ошибка при выполнении evalExpression! ${error instanceof Error ? error.message : error}.
       \nВыражение: ${expression}
       \nКонтекст: ${JSON.stringify(context)}`,
         )
