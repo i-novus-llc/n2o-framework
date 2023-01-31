@@ -8,4 +8,16 @@ public interface PopupControl extends Element {
     void shouldBeOpened();
 
     void shouldBeClosed();
+
+    @Deprecated
+    void expand();
+
+    @Deprecated
+    void collapse();
+
+    @Deprecated
+    void shouldBeExpanded();
+
+    @Deprecated
+    void shouldBeCollapsed();
 }

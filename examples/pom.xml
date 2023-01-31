@@ -8,27 +8,27 @@
     <version>1.0.-SNAPSHOT</version>
 
     <modules>
-<!--        <module>hello-world</module>-->
-<!--        <module>header-menu</module>-->
-<!--        <module>tabs</module>-->
-<!--        <module>panels</module>-->
-<!--        <module>form</module>-->
-<!--        <module>table</module>-->
-<!--        <module>buttons</module>-->
-<!--        <module>fields</module>-->
-<!--        <module>fields-visibility</module>-->
-<!--        <module>fields-enabling</module>-->
-<!--        <module>buttons-visibility</module>-->
-<!--        <module>buttons-enabling</module>-->
-<!--        <module>modal-window</module>-->
-<!--        <module>open-page</module>-->
-<!--        <module>external-links</module>-->
-<!--        <module>master-detail</module>-->
-<!--        <module>crud</module>-->
-<!--        <module>crud-sql</module>-->
-<!--        <module>crud-rest</module>-->
-<!--        <module>file-upload</module>-->
-<!--        <module>customization</module>-->
-<!--        <module>greeting</module>-->
+        <module>hello-world</module>
+        <module>header-menu</module>
+        <module>tabs</module>
+        <module>panels</module>
+        <module>form</module>
+        <module>table</module>
+        <module>buttons</module>
+        <module>fields</module>
+        <module>fields-visibility</module>
+        <module>fields-enabling</module>
+        <module>buttons-visibility</module>
+        <module>buttons-enabling</module>
+        <module>modal-window</module>
+        <module>open-page</module>
+        <module>external-links</module>
+        <module>master-detail</module>
+        <module>crud</module>
+        <module>crud-sql</module>
+        <module>crud-rest</module>
+        <module>file-upload</module>
+        <module>customization</module>
+        <module>greeting</module>
     </modules>
 </project>

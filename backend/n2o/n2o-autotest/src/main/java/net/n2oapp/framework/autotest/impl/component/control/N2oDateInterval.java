@@ -182,6 +182,26 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         lastInputElement().shouldBe(Condition.disabled);
     }
 
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
     private void timeVal(SelenideElement element, String hours, String minutes, String seconds) {
         element.$(".n2o-calendar-time-container").click();
         element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();

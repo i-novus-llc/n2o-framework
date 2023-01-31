@@ -105,6 +105,26 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         element().shouldHave(Condition.attribute("aria-expanded", "false"));
     }
 
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
     private boolean isOpened() {
         return Objects.equals(element().getAttribute("aria-expanded"), "true");
     }
