@@ -66,10 +66,10 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
         p.anyChildren(e, "out", t::getOutFields, t::setOutFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::inField)
-                .add("reference", ObjectReferenceField.class, this::inReference)
-                .add("list", ObjectListField.class, this::inReference)
-                .add("set", ObjectSetField.class, this::inReference));
+                .add("field", ObjectSimpleField.class, this::outField)
+                .add("reference", ObjectReferenceField.class, this::outReference)
+                .add("list", ObjectListField.class, this::outReference)
+                .add("set", ObjectSetField.class, this::outReference));
         p.children(e, "fail-out", "field", t::getFailOutFields, t::setFailOutFields, ObjectSimpleField.class, this::outField);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
@@ -103,6 +103,14 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
     }
 
+    private void outField(Element e, ObjectSimpleField t, IOProcessor p) {
+        p.attribute(e, "id", t::getId, t::setId);
+        p.attribute(e, "mapping", t::getMapping, t::setMapping);
+        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
+        p.attribute(e, "domain", t::getDomain, t::setDomain);
+        p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
+    }
+
     private void inField(Element e, ObjectSimpleField t, IOProcessor p) {
         field(e, t, p);
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
@@ -122,8 +130,15 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
     }
 
-    private void outField(Element e, ObjectSimpleField t, IOProcessor p) {
-        field(e, t, p);
+    private void outReference(Element e, ObjectReferenceField t, IOProcessor p) {
+        abstractParameter(e, t, p);
+        p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
+        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
+        p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
+                .add("field", ObjectSimpleField.class, this::outField)
+                .add("reference", ObjectReferenceField.class, this::outReference)
+                .add("list", ObjectListField.class, this::outReference)
+                .add("set", ObjectSetField.class, this::outReference));
     }
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {
