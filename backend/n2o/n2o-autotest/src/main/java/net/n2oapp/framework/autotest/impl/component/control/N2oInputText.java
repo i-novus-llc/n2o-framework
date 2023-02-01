@@ -30,6 +30,7 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void clear() {
+        inputElement().click();
         inputElement().clear();
     }
 
