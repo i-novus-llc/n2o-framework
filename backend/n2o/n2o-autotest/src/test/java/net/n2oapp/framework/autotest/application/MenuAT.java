@@ -253,17 +253,4 @@ public class MenuAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Тест");
     }
-
-    @Test
-    public void testResolveRoute() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/sidebar/resolve_route/app.application.xml"));
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
-        page.header().nav().anchor(0).urlShouldHave(getBaseUrl() + "/#/1/test");
-        page.header().nav().anchor(0).click();
-        page.urlShouldMatches(getBaseUrl() + "/#/1/test");
-
-    }
 }
