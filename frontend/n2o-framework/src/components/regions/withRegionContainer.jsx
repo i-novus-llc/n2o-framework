@@ -62,6 +62,7 @@ const createRegionContainer = config => (WrappedComponent) => {
                     alwaysRefresh,
                     [listKey]: get(props, listKey, []),
                     datasource,
+                    activeTabFieldId,
                 }))
             },
             changeActiveEntity: props => (value) => {

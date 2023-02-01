@@ -26,6 +26,9 @@ import { Tab } from './Tab'
  * @reactProps {function} resolveVisibleDependency - резол видимости таба
  * @reactProps {function} hideSingleTab - скрывать / не скрывать навигацию таба, если он единственный
  */
+
+/* TODO компоненту требуется рефакторинг */
+
 class TabRegion extends React.Component {
     constructor(props) {
         super(props)
@@ -52,8 +55,12 @@ class TabRegion extends React.Component {
         const { activeEntity: prevActiveEntity } = prevProps
         const { activeEntity, datasource, changeActiveEntity } = this.props
 
+        if (activeEntity !== prevActiveEntity) {
+            return
+        }
+
         if (datasource) {
-            const { setResolve, activeTabFieldId, models = {} } = this.props
+            const { activeTabFieldId, models = {} } = this.props
 
             if (!activeTabFieldId) {
                 // eslint-disable-next-line no-console
@@ -64,14 +71,12 @@ class TabRegion extends React.Component {
 
             const { resolve } = models
 
-            if (activeEntity !== prevActiveEntity) {
-                setResolve({ ...resolve, [activeTabFieldId]: activeEntity })
-
-                return
-            }
-
             const activeFromResolve = get(resolve, activeTabFieldId, null)
 
+            /* FIXME
+               нужно пересмотреть зависимость activeEntity от resolve model,
+               существуют конфликты с авто переключением
+            */
             if (activeFromResolve !== activeEntity) {
                 changeActiveEntity(activeFromResolve)
             }
@@ -94,9 +99,16 @@ class TabRegion extends React.Component {
     }
 
     handleChangeActive(event, id) {
-        const { changeActiveEntity } = this.props
+        const { changeActiveEntity, datasource, activeTabFieldId } = this.props
 
         changeActiveEntity(id)
+
+        if (datasource && activeTabFieldId) {
+            const { setResolve, models = {} } = this.props
+            const { resolve } = models
+
+            setResolve({ ...resolve, [activeTabFieldId]: id })
+        }
     }
 
     findReadyTabs() {
