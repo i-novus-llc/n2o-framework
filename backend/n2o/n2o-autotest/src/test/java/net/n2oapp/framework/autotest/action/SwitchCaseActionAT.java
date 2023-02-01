@@ -72,6 +72,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
+        page.shouldExists();
         TableWidget table = page.widget(TableWidget.class);
 
         table.shouldExists();
@@ -79,11 +80,13 @@ public class SwitchCaseActionAT extends AutoTestBase {
         page.urlShouldMatches(getBaseUrl() + "/#/type1");
         page.breadcrumb().crumb(0).click();
 
+        page.shouldExists();
         table.shouldExists();
         table.columns().rows().row(3).click();
         page.urlShouldMatches(getBaseUrl() + "/#/type2");
         page.breadcrumb().crumb(0).click();
 
+        page.shouldExists();
         table.shouldExists();
         table.columns().rows().row(2).click();
         page.urlShouldMatches("https://example.com/");
