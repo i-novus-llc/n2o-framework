@@ -6,8 +6,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
-import java.util.Map;
-
 /**
  * Клиентская модель источника данных
  */
