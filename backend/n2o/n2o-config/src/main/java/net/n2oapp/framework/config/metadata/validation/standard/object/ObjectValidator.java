@@ -1,13 +1,19 @@
 package net.n2oapp.framework.config.metadata.validation.standard.object;
 
+import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
+
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdInQuotesOrEmptyString;
 
 /**
  * Валидатор объекта
@@ -35,6 +41,26 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                     checkForExistsReferenceObject(object.getId(), operation.getInFields(), p);
                 if (operation.getInvocation() != null)
                     p.validate(operation.getInvocation());
+                checkValidationSide(object.getId(), operation);
+            }
+    }
+
+    /**
+     * Проверка атрибута side в валидации операции
+     *
+     * @param objectId Идентификатор текущего объекта
+     * @param operation  Операция текущего объекта
+     */
+    private void checkValidationSide(String objectId, N2oObject.Operation operation) {
+        if (operation.getValidations() != null)
+            for (N2oValidation validation : operation.getValidations().getInlineValidations()) {
+                if (validation.getSide() != null)
+                    if (validation.getSide().contains("client"))
+                        throw new N2oMetadataValidationException(
+                                String.format("Атрибут side='client' в валидации %s операции %s объекта %s недопустим",
+                                        getIdInQuotesOrEmptyString(validation.getId()),
+                                        getIdInQuotesOrEmptyString(operation.getId()),
+                                        getIdInQuotesOrEmptyString(objectId)));
             }
     }
 

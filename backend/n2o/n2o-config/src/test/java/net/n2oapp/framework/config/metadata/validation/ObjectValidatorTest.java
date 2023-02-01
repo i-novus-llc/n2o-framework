@@ -65,4 +65,11 @@ public class ObjectValidatorTest extends SourceValidationTestBase {
         exception.expectMessage("Поле inRef2 в объекте checkForExistsReferenceObject2 ссылается на несуществующий объект nonExistantObject");
         validate("net/n2oapp/framework/config/metadata/validation/object/checkForExistsReferenceObject2.object.xml");
     }
+
+    @Test
+    public void testCheckValidationSide() {
+        exception.expect(N2oMetadataValidationException.class);
+        exception.expectMessage("Атрибут side='client' в валидации 'test' операции 'op' объекта 'checkValidationSide' недопустим");
+        validate("net/n2oapp/framework/config/metadata/validation/object/checkValidationSide.object.xml");
+    }
 }
