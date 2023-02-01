@@ -8,3 +8,5 @@ export const rowSelectionType = {
     CHECKBOX: 'checkbox',
     RADIO: 'radio',
 }
+
+export const NATIVE_CHECKED_PARAM = 'checked'
