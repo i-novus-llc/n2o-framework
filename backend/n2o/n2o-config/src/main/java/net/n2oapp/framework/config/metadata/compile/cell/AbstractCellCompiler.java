@@ -31,12 +31,14 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
         ComponentScope columnScope = p.getScope(ComponentScope.class);
         if (columnScope != null) {
             AbstractColumn column = columnScope.unwrap(AbstractColumn.class);
-            source.setId(column.getId());
-            compiled.setId(column.getId());
-            compiled.setFieldKey(column.getTextFieldId());
-            compiled.setTooltipFieldId(column.getTooltipFieldId());
-            compiled.setHideOnBlur(column.getHideOnBlur());
-            compiled.setContentAlignment(column.getContentAlignment());
+            if (column != null) {
+                source.setId(column.getId());
+                compiled.setId(column.getId());
+                compiled.setFieldKey(column.getTextFieldId());
+                compiled.setTooltipFieldId(column.getTooltipFieldId());
+                compiled.setHideOnBlur(column.getHideOnBlur());
+                compiled.setContentAlignment(column.getContentAlignment());
+            }
         }
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));
         compiled.setCssClass(p.resolveJS(source.getCssClass()));
