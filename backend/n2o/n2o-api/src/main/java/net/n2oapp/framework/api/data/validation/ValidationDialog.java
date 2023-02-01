@@ -31,9 +31,9 @@ public class ValidationDialog extends InvocationValidation {
             result = serviceProvider.invoke(getInvocation(), dataSet, getInParametersList(), getOutParametersList());
         else {
             Map<String, String> outMapping = new LinkedHashMap<>();
-            if (getOutParametersList() != null)
-                for (ObjectSimpleField parameter : getOutParametersList())
-                    outMapping.put(parameter.getId(), parameter.getMapping());
+//            if (getOutParametersList() != null)
+//                for (ObjectSimpleField parameter : getOutParametersList())
+//                    outMapping.put(parameter.getId(), parameter.getMapping());
             result = DataSetUtil.extract(dataSet, outMapping);
         }
 

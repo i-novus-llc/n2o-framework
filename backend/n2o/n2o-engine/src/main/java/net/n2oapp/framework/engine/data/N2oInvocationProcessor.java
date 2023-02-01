@@ -1,6 +1,9 @@
 package net.n2oapp.framework.engine.data;
 
-import net.n2oapp.criteria.dataset.*;
+import net.n2oapp.criteria.dataset.ArrayMergeStrategy;
+import net.n2oapp.criteria.dataset.DataList;
+import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.ActionInvocationEngine;
@@ -8,6 +11,7 @@ import net.n2oapp.framework.api.data.ArgumentsInvocationEngine;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
@@ -16,15 +20,18 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReference
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryListField;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.util.MappingProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
+import javax.xml.crypto.Data;
 import java.util.*;
 
 import static java.util.Objects.isNull;
@@ -51,9 +58,9 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     @Override
     public DataSet invoke(N2oInvocation invocation, DataSet inDataSet,
                           Collection<AbstractParameter> inParameters,
-                          Collection<ObjectSimpleField> outParameters) {
-        final Map<String, FieldMapping> inMapping = MappingProcessor.extractInFieldMapping(inParameters);
-        final Map<String, String> outMapping = MappingProcessor.extractOutFieldMapping(outParameters);
+                          Collection<AbstractParameter> outParameters) {
+        final Map<String, FieldMapping> inMapping = MappingProcessor.extractFieldMapping(inParameters);
+        final Map<String, FieldMapping> outMapping = MappingProcessor.extractFieldMapping(outParameters);
         prepareInValues(inParameters, inDataSet);
         DataSet resolvedInDataSet = resolveInValuesMapping(inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping, invocation.getResultMapping());
@@ -64,7 +71,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
     private DataSet invoke(final N2oInvocation invocation, final DataSet inDataSet,
                            final Map<String, FieldMapping> inMapping,
-                           final Map<String, String> outMapping, String resultMapping) {
+                           final Map<String, FieldMapping> outMapping, String resultMapping) {
         final ActionInvocationEngine engine = invocationFactory.produce(invocation.getClass());
         Object result;
         if (engine instanceof ArgumentsInvocationEngine)
@@ -76,28 +83,43 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         if (resultMapping != null)
             result = outMap(result, resultMapping, Object.class);
 
-        return DataSetUtil.extract(result, outMapping);
+        return extractFields(result, outMapping);
     }
 
     /**
      * Преобразование исходящих данных вызова
      *
-     * @param invocationParameters Исходящие поля операции
+     * @param parameters Исходящие поля операции
      * @param resultDataSet        Исходящие данные вызова
      */
-    protected void resolveOutValues(Collection<ObjectSimpleField> invocationParameters, DataSet resultDataSet) {
-        if (invocationParameters == null) return;
-
-        for (ObjectSimpleField parameter : invocationParameters) {
+    protected void resolveOutValues(Collection<AbstractParameter> parameters, DataSet resultDataSet) {
+        if (parameters == null) return;
+        for (AbstractParameter parameter : parameters) {
             Object value = resultDataSet.get(parameter.getId());
-            if (value == null && parameter.getDefaultValue() != null && parameter.getMapping() == null) {
-                value = contextProcessor.resolve(parameter.getDefaultValue());
+            if (parameter instanceof ObjectReferenceField) {
+                if (value != null) {
+                    ObjectReferenceField referenceField = (ObjectReferenceField) parameter;
+                    if (value instanceof Collection) {
+                        for (Object obj : (Collection<?>) value)
+                            resolveOutValues(List.of(referenceField.getFields()), (DataSet) obj);
+                    } else if (value instanceof DataSet)
+                        resolveOutValues(List.of(referenceField.getFields()), (DataSet) value);
+                }
+            } else {
+                ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
+                resolveOutField(simpleField, resultDataSet, value);
             }
-            if (value != null && parameter.getNormalize() != null) {
-                value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
-            }
-            resultDataSet.put(parameter.getId(), value);
         }
+    }
+
+    private void resolveOutField(ObjectSimpleField simpleField, DataSet resultDataSet, Object value) {
+        if (value == null && simpleField.getDefaultValue() != null && simpleField.getMapping() == null) {
+            value = contextProcessor.resolve(simpleField.getDefaultValue());
+        }
+        if (value != null && simpleField.getNormalize() != null) {
+            value = tryToNormalize(value, simpleField, resultDataSet, applicationContext);
+        }
+        resultDataSet.put(simpleField.getId(), value);
     }
 
     /**
@@ -229,5 +251,32 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    /**
+     * Построение набора данных по объекту с учетом маппинга полей
+     *
+     * @param source        Исходный объект
+     * @param fieldsMapping Маппинг полей
+     * @return Набор данных объекта
+     */
+    private DataSet extractFields(Object source, Map<String, FieldMapping> fieldsMapping) {
+        DataSet result = new DataSet();
+        for (Map.Entry<String, FieldMapping> map : fieldsMapping.entrySet()) {
+            String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
+            //Object value = outMap(source, fieldMapping, Object.class);
+            outMap(result, source, map.getKey(), fieldMapping, null, contextProcessor);
+            if (map.getValue().getChildMapping() != null) {
+                Object value = result.get(map.getKey());
+                if (value instanceof Collection) {
+                    DataList list = new DataList();
+                    for (Object obj : (Collection<?>) value)
+                        list.add(extractFields(obj, map.getValue().getChildMapping()));
+                    result.put(map.getKey(), list);
+                } else
+                    result.put(map.getKey(), extractFields(value, map.getValue().getChildMapping()));
+            }
+        }
+        return result;
     }
 }

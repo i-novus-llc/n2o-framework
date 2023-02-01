@@ -19,7 +19,7 @@ import java.util.List;
 public abstract class InvocationValidation extends Validation {
     private N2oInvocation invocation;
     private List<AbstractParameter> inParametersList;
-    private List<ObjectSimpleField> outParametersList;
+    private List<AbstractParameter> outParametersList;
 
     public InvocationValidation(InvocationValidation validation) {
         super(validation);

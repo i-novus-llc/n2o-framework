@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class MapInvocationUtilTest {
 
@@ -54,7 +54,7 @@ public class MapInvocationUtilTest {
         List listItemList = Arrays.asList(new DataSet("ratingValue", 2.34), new DataSet("ratingValue", 5.55));
         DataSet listItem = new DataSet("id", 1);
         listItem.add("ratings", listItemList);
-        List listDataSet = Arrays.asList(listItem);
+        List listDataSet = List.of(listItem);
         dataSet.put("personList", listDataSet);
         // set in list
         DataList listItemSet = new DataList();
