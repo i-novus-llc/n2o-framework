@@ -690,55 +690,6 @@ __*Виды кнопок*__
 |&lt;button&gt;  |PerformButton  |[Кнопка с действием](../xml/widget#button_in_widget)      |
 |&lt;sub-menu&gt;|DropdownButton |[Кнопка с вложенным меню](../xml/widget#sub-menu_in_widget)|
 
-#### Действие кнопки
-
-Кнопки вида `<button>` при нажатии выполняют определенное действие над виджетом.
-Большинство действий выполняется с помощью библиотеки [Redux](https://redux.js.org/).
-Действия Redux меняют состояние React компонентов и отправляют запросы на сервер.
-
-__*Виды действий*__
-
-|Вид                 |Redux действие             |Описание                                                                            |
-|--------------------|---------------------------|------------------------------------------------------------------------------------|
-|&lt;invoke&gt;      |n2o/actionImpl/START_INVOKE|[Отправка данных формы](../xml/action#invoke)                                       |
-|&lt;show-modal&gt;  |n2o/modals/INSERT          |[Открытие модального окна](../xml/action#show-modal)                                |
-|&lt;open-drawer&gt; |n2o/overlays/INSERT_DRAWER |[Открытие выдвижной панели](../xml/action#open-drawer)                              |
-|&lt;open-page&gt;   |                           |[Открытие вложенной страницы](../xml/action#open-page)                              |
-|&lt;a&gt;           |                           |[Открытие ссылки](../xml/action#a)                                                  |
-|&lt;close&gt;       |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)  |
-|&lt;refresh&gt;     |n2o/widgets/DATA_REQUEST   |[Обновление данных виджета](../xml/action#refresh)                                  |
-|&lt;clear&gt;       |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                       |
-|&lt;copy&gt;        |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)           |
-|&lt;print&gt;       |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
-
-Действие можно задать внутри кнопки:
-
-```xml title="Действие внутри кнопки"
-<button label="Изменить">
-  <invoke operation-id="update"/>
-</button>
-```
-
-Либо в элементе `<actions>` в теле виджета:
-
-```xml title="Действие, заданное отдельно от кнопок"
-<table>
-  <actions>
-    <action id="create" label="Создать">
-      <show-modal page-id="myForm"
-                  submit-operation-id="create"/>
-    </action>
-  </actions>
-</table>
-```
-
-На одно и тоже действие виджета можно ссылаться из различных мест,
-которые могут выполнять действия, например, из кнопок:
-
-```xml title="Ссылка на действие в кнопке"
-<button action-id="create"/>
-```
-
 ### Филдсеты
 
 Филдсеты группируют [поля](../xml/field)
