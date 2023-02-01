@@ -141,17 +141,17 @@ class AutoComplete extends React.Component {
     }
 
     handleDataSearch = (input, delay = 400, callback) => {
-        const { onSearch, filter, valueFieldId, options } = this.props
+        const { onSearch, filter, labelFieldId, options } = this.props
 
         if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
             const filterFunc = item => String.prototype[filter].call(item, input)
-            const filteredData = filter(options, item => filterFunc(item[valueFieldId]))
+            const filteredData = filter(options, item => filterFunc(item[labelFieldId]))
 
             this.setState({ options: filteredData })
         } else {
         // серверная фильтрация
             const { value } = this.state
-            const labels = map(value, item => item[valueFieldId])
+            const labels = map(value, item => item[labelFieldId])
 
             if (labels.some(label => label === input)) {
                 onSearch('', delay, callback)
@@ -206,14 +206,14 @@ class AutoComplete extends React.Component {
     }
 
     onSelect = (item) => {
-        const { valueFieldId, onChange, closePopupOnSelect, tags } = this.props
+        const { valueFieldId, onChange, closePopupOnSelect, tags, labelFieldId } = this.props
 
         const currentValue = isString(item) ? item : get(item, valueFieldId)
 
         this.setState(
             prevState => ({
                 value: tags ? [...prevState.value, currentValue] : [currentValue],
-                input: !tags ? currentValue : '',
+                input: !tags ? item[labelFieldId] : '',
             }),
             () => {
                 const { value, input } = this.state
@@ -284,6 +284,7 @@ class AutoComplete extends React.Component {
             loading,
             className,
             valueFieldId,
+            labelFieldId,
             iconFieldId,
             disabled,
             placeholder,
@@ -303,11 +304,11 @@ class AutoComplete extends React.Component {
             maxTagTextLength,
             onDismiss,
         } = this.props
-        const needAddFilter = !find(value, item => item[valueFieldId] === input)
+        const needAddFilter = !find(value, item => item[labelFieldId] === input)
         const optionsList = !isEmpty(data) ? data : options
         const filteredOptions = filter(
             optionsList,
-            item => includes(item[valueFieldId], input) || isEmpty(input),
+            item => includes(item[labelFieldId], input) || isEmpty(input),
         )
 
         return (
@@ -363,7 +364,7 @@ class AutoComplete extends React.Component {
                                     placeholder={placeholder}
                                     iconFieldId={iconFieldId}
                                     imageFieldId={imageFieldId}
-                                    labelFieldId={valueFieldId}
+                                    labelFieldId={labelFieldId}
                                     autoFocus={autoFocus}
                                 />
                             </InputSelectGroup>
@@ -395,7 +396,7 @@ class AutoComplete extends React.Component {
                                         needAddFilter={needAddFilter}
                                         options={filteredOptions}
                                         valueFieldId={valueFieldId}
-                                        labelFieldId={valueFieldId}
+                                        labelFieldId={labelFieldId}
                                         iconFieldId={iconFieldId}
                                         imageFieldId={imageFieldId}
                                         badge={badge}
@@ -445,6 +446,10 @@ AutoComplete.propTypes = {
      * Ключ значения
      */
     valueFieldId: PropTypes.string,
+    /**
+     * Ключ отображаемого значения
+     */
+    labelFieldId: PropTypes.string,
     /**
      * Ключ icon в данных
      */
@@ -555,6 +560,7 @@ AutoComplete.propTypes = {
 
 AutoComplete.defaultProps = {
     valueFieldId: 'label',
+    labelFieldId: 'name',
     iconFieldId: 'icon',
     imageFieldId: 'image',
     badge: {
