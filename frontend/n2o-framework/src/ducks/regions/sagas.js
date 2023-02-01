@@ -20,6 +20,8 @@ import { makeDatasourceIdSelector } from '../widgets/selectors'
 import { registerWidget } from '../widgets/store'
 import { failValidate, dataRequest, resetValidation } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
+import { evalExpression } from '../../utils/evalExpression'
+import { setModel } from '../models/store'
 
 import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from './store'
 import { MAP_URL } from './constants'
@@ -59,11 +61,30 @@ function* switchTab(action) {
         if (meta.visible === false) {
             return false
         }
+
         if (meta.content) {
             return atLeastOneVisibleWidget(meta.content, widgets)
         }
 
-        const { id } = meta
+        const { id, dependency = {} } = meta
+        const { visible } = dependency
+
+        /* FIXME
+           требуется рефакторинг,
+           если завязаться на show/hide widget
+           авто переключение конфликтует с регистрацией региона и resolve model
+        */
+        if (!isEmpty(visible)) {
+            for (const { on, condition } of visible) {
+                const model = get(state, on)
+
+                if (!evalExpression(condition, model)) {
+                    return false
+                }
+            }
+
+            return true
+        }
 
         return get(widgets, `${id}.visible`, true)
     })
@@ -122,7 +143,15 @@ function* switchTab(action) {
             const passedEntities = get(visibleEntity, regionId, [])
 
             if (passedEntities.includes(active)) {
+                const currentRegion = get(state, `regions.${regionId}`)
+                const { datasource, activeTabFieldId } = currentRegion
+
                 yield mapUrl(active)
+
+                if (datasource && activeTabFieldId) {
+                    yield put(setModel('resolve', datasource, { [activeTabFieldId]: active }))
+                }
+
                 yield cancel()
             }
 
@@ -131,6 +160,13 @@ function* switchTab(action) {
             if (regionId && activeEntity) {
                 yield put(setActiveRegion(regionId, activeEntity))
                 yield mapUrl(activeEntity)
+
+                const currentRegion = get(state, `regions.${regionId}`)
+                const { datasource, activeTabFieldId } = currentRegion
+
+                if (datasource && activeTabFieldId) {
+                    yield put(setModel('resolve', datasource, { [activeTabFieldId]: activeEntity }))
+                }
             }
         }
     }
