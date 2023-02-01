@@ -54,6 +54,8 @@
                 <input-select id="selectThisDefaults">
                     <default-value id="{address.id}" name="{address.name}"/>
                 </input-select>
+
+                <hidden id="id" default-value="{$.uuid()}"/>
             </fields>
         </form>
         <form id="testForm">
