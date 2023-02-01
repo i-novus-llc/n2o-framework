@@ -54,7 +54,8 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(autoComplete.getDataProvider().getUrl(), is("n2o/data/test"));
         assertThat(autoComplete.getDataProvider().getQuickSearchParam(), is("search"));
         assertThat(autoComplete.getPlaceholder(), is("`message`"));
-        assertThat(autoComplete.getValueFieldId(), is("name"));
+        assertThat(autoComplete.getValueFieldId(), is("id"));
+        assertThat(autoComplete.getLabelFieldId(), is("name"));
         assertThat(autoComplete.getTags(), is(true));
 
         Map<String, ModelLink> queryMapping = autoComplete.getDataProvider().getQueryMapping();

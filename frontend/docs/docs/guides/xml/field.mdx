@@ -302,34 +302,6 @@ Java Script выражение
 
 <Sandbox height={100} projectId="uxcomponents_fields_input" />
 
-### &lt;auto-complete&gt;
-
-Компонент ввода текста с автоподбором
-
-**Атрибуты**
-
-|Наименование       |Тип       |Описание                                                               |Значение по умолчанию|
-|-------------------|----------|-----------------------------------------------------------------------|---------------------|
-|query-id           |Строка    |Идентификатор запроса за данными для автоподбора                       |                     |
-|datasource         |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будут браться варианты для выбора |    |
-|value-field-id     |Строка    |Идентификатор поля выборки, отображаемого в автоподборе                |name                 |
-|search-filter-id   |Строка    |Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе |name                 |
-|tags               |true false|Отображение выбранных элементов тегами                                 |false                |
-|max-tag-text-length|Число     |Максимальная длина текста элемента                                     |10                   |
-
-**Тело**
-
-[Предустановленные фильтры](../xml/base#pre-filters)
-
-**Пример**
-
-```xml
-<auto-complete query-id="labels" value-field-id="surname"
-               search-filter-id="surnameLike" tags="true"/>
-```
-
-<Sandbox height={200} projectId="uxcomponents_fields_autocomplete" />
-
 ### &lt;input-money&gt;
 
 Компонент ввода денежных единиц
@@ -1174,8 +1146,6 @@ HTML разметка с плейсхолдерами
 
 <Sandbox height={300} projectId="uxcomponents_select_input_select" />
 
-### &lt;select-tree&gt;
-
 ### &lt;input-select-tree&gt;
 
 Компонент ввода с выбором в выпадающем списке в виде дерева
@@ -1207,6 +1177,35 @@ HTML разметка с плейсхолдерами
 ```
 
 <Sandbox height={400} projectId="uxcomponents_select_tree_tree" />
+
+### &lt;auto-complete&gt;
+
+Компонент ввода текста с автоподбором
+
+**Атрибуты**
+
+|Наименование       |Тип       |Описание                                                               |Значение по умолчанию|
+|-------------------|----------|-----------------------------------------------------------------------|---------------------|
+|query-id           |Строка    |Идентификатор запроса за данными для автоподбора                       |                     |
+|datasource         |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будут браться варианты для выбора |    |
+|value-field-id     |Строка    |Идентификатор поля выборки, отвечающего за идентификатор варианта выбора. |name                 |
+|label-field-id     |Строка    |Идентификатор поля выборки, отвечающего за отображение варианта выбора |Значение `value-field-id`, иначе name |
+|search-filter-id   |Строка    |Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе |name                 |
+|tags               |true false|Отображение выбранных элементов тегами                                 |false                |
+|max-tag-text-length|Число     |Максимальная длина текста элемента                                     |10                   |
+
+**Тело**
+
+[Предустановленные фильтры](../xml/base#pre-filters)
+
+**Пример**
+
+```xml
+<auto-complete query-id="labels" value-field-id="surname"
+               search-filter-id="surnameLike" tags="true"/>
+```
+
+<Sandbox height={200} projectId="uxcomponents_fields_autocomplete" />
 
 ### &lt;radio-group&gt;
 
