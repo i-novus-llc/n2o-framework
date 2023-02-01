@@ -32,9 +32,4 @@ public abstract class N2oComponent extends N2oElement implements Component {
     public void shouldHaveCssClass(String cssClass) {
         element().shouldHave(Condition.cssClass(cssClass));
     }
-
-    @Override
-    public void click() {
-        element().click();
-    }
 }

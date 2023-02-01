@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -216,24 +217,28 @@ public class DatasourceAT extends AutoTestBase {
         birthdayInput.val(formatter.format(LocalDate.now().plusDays(1)));
         createButton.click();
         Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        alert.shouldExists();
         alert.shouldHaveText("Дата рождения не может быть в будущем");
         table.columns().rows().shouldNotHaveRows();
 
         nameInput.val("Сергей");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
+        alert.shouldExists();
         alert.shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(1);
 
         nameInput.val("Сергей");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
+        alert.shouldExists();
         alert.shouldHaveText("Имя Сергей уже существует");
         table.columns().rows().shouldHaveSize(1);
 
         nameInput.val("Артем");
         birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
+        alert.shouldExists();
         alert.shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(2);
     }

@@ -14,6 +14,4 @@ public interface Component extends Element {
     void shouldBeHidden();
 
     void shouldHaveCssClass(String cssClass);
-
-    void click();
 }
