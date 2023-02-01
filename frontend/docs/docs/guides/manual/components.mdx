@@ -2,6 +2,7 @@
 title: Визуальные компоненты
 description: ""
 ---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 N2O - компонентно-ориентированный фреймворк.
 Визуальные компоненты разработаны на React.
@@ -52,6 +53,8 @@ N2O - компонентно-ориентированный фреймворк.
 </application>
 ```
 
+<Sandbox height={200} projectId="documentation_components_header" showHeader />
+
 #### Боковая панель
 
 Боковая панель - содержит меню навигации, может содержать логотип и название.
@@ -91,6 +94,8 @@ N2O - компонентно-ориентированный фреймворк.
 </application>
 ```
 
+<Sandbox height={350} projectId="documentation_components_sidebar" showHeader />
+
 На боковую панель, заданной в отдельном файле, можно ссылаться
 через атрибут `ref-id` в элементах `<sidebar>`:
 
@@ -108,7 +113,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 На странице отобразится та боковая панель, атрибут `path` которой совпадет с адресом этой страницы.
 
-```xml title="Пример множественных боковых панелей"
+```xml title="Множественные боковые панели"
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
@@ -129,7 +134,10 @@ N2O - компонентно-ориентированный фреймворк.
 </application>
 ```
 
+<Sandbox height={400} projectId="documentation_components_sidebars" showHeader />
+
 :::note
+На странице отобразится та боковая панель, атрибут `path` которой совпадет с адресом этой страницы.
 В случае, если `path` не указан, то боковая панель будет отображаться во всем приложении, кроме тех страниц, для которых заданы конкретные боковые панели.
 :::
 
@@ -147,7 +155,7 @@ N2O - компонентно-ориентированный фреймворк.
 кроме тех страниц, для которых заданы конкретные боковые панели.
 
 
-```xml title="Пример использования шаблонных путей"
+```xml title="Использование шаблонных путей"
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
@@ -176,6 +184,8 @@ N2O - компонентно-ориентированный фреймворк.
 </application>
 ```
 
+<Sandbox height={400} projectId="documentation_components_sidebarpath" showHeader />
+
 #### Подвал (footer)
 
 Подвал (footer) - информация, отображаемая внизу страницы.
@@ -186,6 +196,8 @@ N2O - компонентно-ориентированный фреймворк.
     <footer left-text="N2O ${n2o.version}"/>
 </application>
 ```
+
+<Sandbox height={200} projectId="documentation_components_footer" showHeader showFooter/>
 
 ### Меню навигации
 
@@ -203,6 +215,8 @@ N2O - компонентно-ориентированный фреймворк.
     ...
 </nav>
 ```
+
+<Sandbox height={350} projectId="documentation_components_mymenu" showHeader showFooter/>
 
 Либо перечисляется внутри элементов `<nav>` и `<extra-menu>` шапки или боковой панели:
 
@@ -234,6 +248,8 @@ N2O - компонентно-ориентированный фреймворк.
 </application>
 ```
 
+<Sandbox height={400} projectId="documentation_components_menu" showHeader />
+
 На меню навигации, заданному в отдельном файле, можно ссылаться
 через атрибут `ref-id` в элементах `<nav>` и `<extra-menu>` шапки или боковой панели:
 
@@ -242,6 +258,7 @@ N2O - компонентно-ориентированный фреймворк.
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Мое приложение">
         <nav ref-id="myMenu"/>
+    </header>
     <sidebars>
         <sidebar title="Мое приложение">
             <extra-menu ref-id="myMenu"/>
@@ -273,10 +290,9 @@ N2O - компонентно-ориентированный фреймворк.
 </simple-page>
 ```
 
-![](./images/page_simple.png)
+<Sandbox height={200} projectId="documentation_components_simplepage" showHeader />
 
-Сложные страницы поделены на регионы,
-которые могут располагаться в разных областях страницы.
+Сложные страницы поделены на регионы, которые могут располагаться в разных областях страницы.
 
 ```xml title="Стандартная страница"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -288,7 +304,7 @@ N2O - компонентно-ориентированный фреймворк.
 </page>
 ```
 
-![](./images/page_standard.png)
+<Sandbox height={450} projectId="documentation_components_page" showHeader />
 
 ```xml title="Страница с разметкой регионов "слева и справа""
 <?xml version='1.0' encoding='UTF-8'?>
@@ -300,10 +316,10 @@ N2O - компонентно-ориентированный фреймворк.
   <right>
     <panel>...</panel>
   </right>
-</page>
+</left-right-page>
 ```
 
-![](./images/page_left_right.png)
+<Sandbox height={450} projectId="documentation_components_lrpage" showHeader/>
 
 ```xml title="Страница с разметкой регионов "сверху, слева и справа""
 <?xml version='1.0' encoding='UTF-8'?>
@@ -318,10 +334,10 @@ N2O - компонентно-ориентированный фреймворк.
   <right width="70%">
     <panel>...</panel>
   </right>
-</page>
+</top-left-right-page>
 ```
 
-![](./images/page_top_left_right.png)
+<Sandbox height={550} projectId="documentation_components_toplrpage" showHeader />
 
 ```xml title="Страница с поисковой строкой"
 <?xml version='1.0' encoding='UTF-8'?>
@@ -334,7 +350,7 @@ N2O - компонентно-ориентированный фреймворк.
 </searchable-page>
 ```
 
-![](./images/page_searchable.png)
+<Sandbox height={700} projectId="documentation_components_searchablepage" showHeader />
 
 __*Виды страниц*__
 
@@ -453,7 +469,7 @@ N2O позволяет генерировать хлебные крошки дл
 </regions>
 ```
 
-![](./images/tabs.png)
+<Sandbox height={250} projectId="documentation_components_tabs" showHeader />
 
 __*Виды регионов*__
 
@@ -523,8 +539,8 @@ __*Виды основных виджетов*__
 ```xml title="Виджет таблица"
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
-       name="Моя таблица"
-       query-id="table">
+       name="Моя таблица">
+      <datasource query-id="table"/>
       <columns>
             <column text-field-id="firstName" label="Имя"/>
             <column text-field-id="lastName" label="Фамилия"/>
@@ -532,7 +548,7 @@ __*Виды основных виджетов*__
 </table>
 ```
 
-![](./images/table.png)
+<Sandbox height={350} projectId="documentation_components_table" showHeader />
 
 Столбцы таблицы задаются внутри элемента `<columns>`.
 
@@ -561,7 +577,7 @@ id можно сгенерировать, используя `<field id="id" sel
 </form>
 ```
 
-![](./images/widget_form.png)
+<Sandbox height={350} projectId="documentation_components_form" showHeader />
 
 Поля формы задаются внутри элемента `<fields>`.
 
