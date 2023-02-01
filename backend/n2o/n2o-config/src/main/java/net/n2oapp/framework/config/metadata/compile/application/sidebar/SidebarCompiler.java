@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.application.sidebar;
 
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.application.*;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -29,7 +29,7 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
     @Override
     public Sidebar compile(N2oSidebar source, ApplicationContext context, CompileProcessor p) {
         Sidebar sidebar = new Sidebar();
-        initInlineDatasource(sidebar, source, p);
+        initDatasource(sidebar, source, p);
         sidebar.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.sidebar.src"), String.class)));
         sidebar.setClassName(source.getCssClass());
         sidebar.setStyle(StylesResolver.resolveStyles(source.getStyle()));
@@ -54,17 +54,25 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
         return sidebar;
     }
 
-    private void initInlineDatasource(Sidebar compiled, N2oSidebar source, CompileProcessor p) {
+    private void initDatasource(Sidebar compiled, N2oSidebar source, CompileProcessor p) {
+        if (source.getDatasourceId() == null && source.getDatasource() == null)
+            return;
+
         String datasourceId = source.getDatasourceId();
-        if (source.getDatasourceId() == null && source.getDatasource() != null) {
-            N2oStandardDatasource datasource = source.getDatasource();
+        N2oAbstractDatasource datasource;
+        if (source.getDatasourceId() == null) {
+            datasource = source.getDatasource();
             datasourceId = datasource.getId();
             source.setDatasourceId(datasourceId);
             source.setDatasource(null);
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (dataSourcesScope != null)
                 dataSourcesScope.put(datasourceId, datasource);
+        } else {
+            DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+            datasource = dataSourcesScope.get(datasourceId);
         }
+        datasource.setSize(p.resolve(property("n2o.api.sidebar.size"), Integer.class));
         compiled.setDatasource(datasourceId);
     }
 }
