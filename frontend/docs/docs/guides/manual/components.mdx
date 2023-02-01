@@ -113,7 +113,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 На странице отобразится та боковая панель, атрибут `path` которой совпадет с адресом этой страницы.
 
-```xml title="Пример множественных боковых панелей"
+```xml title="Множественные боковые панели"
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
@@ -137,6 +137,7 @@ N2O - компонентно-ориентированный фреймворк.
 <Sandbox height={400} projectId="documentation_components_sidebars" showHeader />
 
 :::note
+На странице отобразится та боковая панель, атрибут `path` которой совпадет с адресом этой страницы.
 В случае, если `path` не указан, то боковая панель будет отображаться во всем приложении, кроме тех страниц, для которых заданы конкретные боковые панели.
 :::
 
@@ -154,7 +155,7 @@ N2O - компонентно-ориентированный фреймворк.
 кроме тех страниц, для которых заданы конкретные боковые панели.
 
 
-```xml title="Пример использования шаблонных путей"
+```xml title="Использование шаблонных путей"
 <?xml version='1.0' encoding='UTF-8'?>
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
@@ -257,6 +258,7 @@ N2O - компонентно-ориентированный фреймворк.
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Мое приложение">
         <nav ref-id="myMenu"/>
+    </header>
     <sidebars>
         <sidebar title="Мое приложение">
             <extra-menu ref-id="myMenu"/>
@@ -314,7 +316,7 @@ N2O - компонентно-ориентированный фреймворк.
   <right>
     <panel>...</panel>
   </right>
-</page>
+</left-right-page>
 ```
 
 <Sandbox height={450} projectId="documentation_components_lrpage" showHeader/>
@@ -332,7 +334,7 @@ N2O - компонентно-ориентированный фреймворк.
   <right width="70%">
     <panel>...</panel>
   </right>
-</page>
+</top-left-right-page>
 ```
 
 <Sandbox height={550} projectId="documentation_components_toplrpage" showHeader />
@@ -537,8 +539,8 @@ __*Виды основных виджетов*__
 ```xml title="Виджет таблица"
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
-       name="Моя таблица"
-       query-id="table">
+       name="Моя таблица">
+      <datasource query-id="table"/>
       <columns>
             <column text-field-id="firstName" label="Имя"/>
             <column text-field-id="lastName" label="Фамилия"/>
@@ -687,6 +689,55 @@ __*Виды кнопок*__
 |----------------|---------------|-----------------------------------------------------------------------------------|
 |&lt;button&gt;  |PerformButton  |[Кнопка с действием](../xml/widget#button_in_widget)      |
 |&lt;sub-menu&gt;|DropdownButton |[Кнопка с вложенным меню](../xml/widget#sub-menu_in_widget)|
+
+#### Действие кнопки
+
+Кнопки вида `<button>` при нажатии выполняют определенное действие над виджетом.
+Большинство действий выполняется с помощью библиотеки [Redux](https://redux.js.org/).
+Действия Redux меняют состояние React компонентов и отправляют запросы на сервер.
+
+__*Виды действий*__
+
+|Вид                 |Redux действие             |Описание                                                                            |
+|--------------------|---------------------------|------------------------------------------------------------------------------------|
+|&lt;invoke&gt;      |n2o/actionImpl/START_INVOKE|[Отправка данных формы](../xml/action#invoke)                                       |
+|&lt;show-modal&gt;  |n2o/modals/INSERT          |[Открытие модального окна](../xml/action#show-modal)                                |
+|&lt;open-drawer&gt; |n2o/overlays/INSERT_DRAWER |[Открытие выдвижной панели](../xml/action#open-drawer)                              |
+|&lt;open-page&gt;   |                           |[Открытие вложенной страницы](../xml/action#open-page)                              |
+|&lt;a&gt;           |                           |[Открытие ссылки](../xml/action#a)                                                  |
+|&lt;close&gt;       |n2o/modals/CLOSE           |[Закрытие модального окна или возврат на предыдущую страницу](../xml/action#close)  |
+|&lt;refresh&gt;     |n2o/widgets/DATA_REQUEST   |[Обновление данных виджета](../xml/action#refresh)                                  |
+|&lt;clear&gt;       |n2o/widgets/DATA_REQUEST   |[Очистка данных виджета](../xml/action#clear)                                       |
+|&lt;copy&gt;        |n2o/widgets/DATA_REQUEST   |[Копирование данных виджета из одной модели в другую](../xml/action#copy)           |
+|&lt;print&gt;       |n2o/toolbar/PRINT_BUTTON   |[Печать документа](../xml/action#print)                                             |
+
+Действие можно задать внутри кнопки:
+
+```xml title="Действие внутри кнопки"
+<button label="Изменить">
+  <invoke operation-id="update"/>
+</button>
+```
+
+Либо в элементе `<actions>` в теле виджета:
+
+```xml title="Действие, заданное отдельно от кнопок"
+<table>
+  <actions>
+    <action id="create" label="Создать">
+      <show-modal page-id="myForm"
+                  submit-operation-id="create"/>
+    </action>
+  </actions>
+</table>
+```
+
+На одно и тоже действие виджета можно ссылаться из различных мест,
+которые могут выполнять действия, например, из кнопок:
+
+```xml title="Ссылка на действие в кнопке"
+<button action-id="create"/>
+```
 
 ### Филдсеты
 
