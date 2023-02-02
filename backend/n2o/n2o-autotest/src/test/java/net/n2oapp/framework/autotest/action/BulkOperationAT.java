@@ -90,6 +90,8 @@ public class BulkOperationAT extends AutoTestBase {
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
+        name1.textShouldHave("test3");
+        name2.textShouldHave("test4");
         table.columns().rows().shouldHaveSize(2);
     }
 

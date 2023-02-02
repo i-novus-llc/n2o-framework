@@ -5,7 +5,6 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -49,7 +48,23 @@ public class BrowserStorageAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         testBrowserStorage(page);
+
         Selenide.clearBrowserLocalStorage();
+        Selenide.refresh();
+
+        InputText input = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Инпут").control(InputText.class);
+        InputText inputDef = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Инпут с default value").control(InputText.class);
+        Select select = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Ввод с выпадающим списком").control(Select.class);
+        CheckboxGroup checkboxGroup = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Чекбоксы").control(CheckboxGroup.class);
+
+        input.shouldBeEmpty();
+        inputDef.shouldHaveValue("test");
+        select.shouldBeEmpty();
+        checkboxGroup.shouldBeEmpty();
     }
 
     /**
@@ -60,7 +75,23 @@ public class BrowserStorageAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         testBrowserStorage(page);
-        Selenide.clearBrowserLocalStorage();
+
+        Selenide.sessionStorage().clear();
+        Selenide.refresh();
+
+        InputText input = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Инпут").control(InputText.class);
+        InputText inputDef = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Инпут с default value").control(InputText.class);
+        Select select = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Ввод с выпадающим списком").control(Select.class);
+        CheckboxGroup checkboxGroup = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
+                .fields().field("Чекбоксы").control(CheckboxGroup.class);
+
+        input.shouldBeEmpty();
+        inputDef.shouldHaveValue("test");
+        select.shouldBeEmpty();
+        checkboxGroup.shouldBeEmpty();
     }
 
     @Test
@@ -120,9 +151,9 @@ public class BrowserStorageAT extends AutoTestBase {
         page.shouldExists();
 
         input.shouldHaveValue("test browser-storage");
-        inputDef.shouldBeEmpty();
         select.shouldSelected("Иван Алексеев");
         checkboxGroup.shouldBeChecked("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
+        inputDef.shouldBeEmpty();
     }
 }
