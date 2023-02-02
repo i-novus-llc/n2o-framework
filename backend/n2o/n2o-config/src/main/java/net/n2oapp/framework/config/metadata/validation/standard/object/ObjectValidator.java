@@ -57,7 +57,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                 if (validation.getSide() != null)
                     if (validation.getSide().contains("client"))
                         throw new N2oMetadataValidationException(
-                                String.format("Атрибут side='client' в валидации %s операции %s объекта %s недопустим",
+                                String.format("Атрибут 'side' валидации %s операции %s объекта %s не может иметь значение client",
                                         getIdInQuotesOrEmptyString(validation.getId()),
                                         getIdInQuotesOrEmptyString(operation.getId()),
                                         getIdInQuotesOrEmptyString(objectId)));

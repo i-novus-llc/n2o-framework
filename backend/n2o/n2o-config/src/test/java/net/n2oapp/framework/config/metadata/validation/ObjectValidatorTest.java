@@ -69,7 +69,7 @@ public class ObjectValidatorTest extends SourceValidationTestBase {
     @Test
     public void testCheckValidationSide() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Атрибут side='client' в валидации 'test' операции 'op' объекта 'checkValidationSide' недопустим");
+        exception.expectMessage("Атрибут 'side' валидации 'test' операции 'op' объекта 'checkValidationSide' не может иметь значение client");
         validate("net/n2oapp/framework/config/metadata/validation/object/checkValidationSide.object.xml");
     }
 }
