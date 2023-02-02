@@ -62,11 +62,16 @@ function LinkCell(props) {
         return content
     }, [type, model, fieldKey, id, icon])
 
+    const onClick = (e) => {
+        e.stopPropagation()
+        onResolve(e)
+    }
+
     return (
         <DefaultCell
             tag="span"
             disabled={disabled}
-            onClick={onResolve}
+            onClick={onClick}
         >
             <StandardButton
                 id={id}
