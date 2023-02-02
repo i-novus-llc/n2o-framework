@@ -39,6 +39,11 @@
                     confirm-cancel-label="Отмена"
                     confirm-cancel-color="light"
             />
+            <button
+                    id="btn8"
+                    description="{description}">
+            </button>
+            <hidden id="description" default-value="test"/>
         </fields>
     </form>
 </simple-page>

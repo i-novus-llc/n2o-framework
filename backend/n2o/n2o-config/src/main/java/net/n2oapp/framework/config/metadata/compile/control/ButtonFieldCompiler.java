@@ -86,10 +86,9 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
 
         String hint;
         if (LabelType.ICON.equals(source.getType()))
-            hint = p.cast(source.getDescription(), p.resolveJS(source.getLabel()));
+            hint = p.cast(p.resolveJS(source.getDescription()), p.resolveJS(source.getLabel()));
         else
-            hint = source.getDescription();
-
+            hint = p.resolveJS(source.getDescription());
         if (hint != null) {
             button.setHint(hint.trim());
             button.setHintPosition(source.getTooltipPosition());
