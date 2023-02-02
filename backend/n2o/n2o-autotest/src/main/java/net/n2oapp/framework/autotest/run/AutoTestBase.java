@@ -36,7 +36,7 @@ public class AutoTestBase extends N2oTestBase {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
         headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
-        timeout = Long.parseLong(System.getProperty("selenide.timeout", "9000"));
+        timeout = Long.parseLong(System.getProperty("selenide.timeout", "15000"));
     }
 
     @Override
