@@ -12,9 +12,11 @@ const store = configureStore(
             someWidget: {
                 surname: {
                     visible: false,
+                    label: 'some',
                 },
                 name: {
                     visible: false,
+                    label: 'some',
                 },
             },
         },
