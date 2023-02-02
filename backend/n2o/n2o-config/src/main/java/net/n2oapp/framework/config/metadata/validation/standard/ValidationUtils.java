@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
@@ -138,7 +139,7 @@ public final class ValidationUtils {
      * @return Идентификатор метаданной в случае его существования, иначе пуста строка
      */
     public static String getIdInQuotesOrEmptyString(String metadataId) {
-        return metadataId != null ? "'" + metadataId + "'" : "";
+        return metadataId != null ? StringUtils.quote(metadataId) : "";
     }
 
     /**
