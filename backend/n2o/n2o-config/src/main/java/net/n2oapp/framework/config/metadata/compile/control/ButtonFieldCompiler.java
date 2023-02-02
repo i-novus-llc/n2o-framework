@@ -90,7 +90,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         else
             hint = source.getDescription();
         if (hint != null) {
-            button.setHint(p.resolveJS(hint).trim());
+            button.setHint(p.resolveJS(hint.trim()));
             button.setHintPosition(source.getTooltipPosition());
         }
 
