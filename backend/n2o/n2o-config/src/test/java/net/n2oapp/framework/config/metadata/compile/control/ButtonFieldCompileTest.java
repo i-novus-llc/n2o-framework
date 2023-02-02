@@ -98,5 +98,9 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getConfirm().getReverseButtons(), is(false));
         assertThat(field.getConfirm().getCloseButton(), is(false));
         assertThat(field.getConfirm().getMode(), is(ConfirmType.MODAL));
+
+        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(8).getCols().get(0).getFields().get(0);
+        assertThat(field.getDescription(), is("`description`"));
+        assertThat(field.getHint(), is("`description`"));
     }
 }
