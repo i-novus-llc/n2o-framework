@@ -78,6 +78,14 @@ export type StartValidateAction = DatasourceAction<{
     fields?: string[]
 }, { touched: boolean }>
 
+export type ResetValidateActionMulti = DatasourceAction<{
+    id: string
+    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
+    field: string
+    index: number
+    count: number
+}>
+
 export type FailValidateAction = DatasourceAction<{
     id: string
     prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter

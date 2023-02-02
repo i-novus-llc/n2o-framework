@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 import { createSlice } from '@reduxjs/toolkit'
 import { isEmpty, omit } from 'lodash'
 import merge from 'deepmerge'
@@ -17,6 +18,7 @@ import type {
     RegisterAction,
     RemoveAction,
     RemoveComponentAction,
+    ResetValidateActionMulti,
     ResolveRequestAction,
     SetAdditionalInfoAction,
     SetFieldSubmitAction,
@@ -287,6 +289,56 @@ const datasource = createSlice({
             },
         },
 
+        /**
+         * Удаление ошибок мультисета при удалении строк(и)
+         * FIXME подумать над более правильным решением с валидациями мультисетов
+         */
+        resetValidationMulti: {
+            prepare(id, field, index, count = 1, prefix = ModelPrefix.active) {
+                return ({
+                    payload: { id, field, count, index, prefix },
+                })
+            },
+            reducer(state, action: ResetValidateActionMulti) {
+                const { id, field, index, count, prefix } = action.payload
+                const datasource = state[id]
+                const errors: Partial<typeof datasource.errors[typeof prefix]> = {}
+
+                const mask = new RegExp(`${field}\\[(\\d+)]\\.(.+)`)
+
+                for (const [key, messages] of Object.entries(datasource.errors[prefix] || {})) {
+                    const match = key.match(mask)
+
+                    if (match) {
+                        const [, i, name] = match
+                        const matchedIndex = Number(i)
+
+                        // index before removed elements
+                        if (matchedIndex < index) {
+                            errors[key] = messages
+
+                            continue
+                        }
+
+                        // removed elements: ignore it
+                        if ((matchedIndex >= index) && (matchedIndex < index + count)) {
+                            continue
+                        }
+
+                        // after removed: shift index
+                        const newIndex = matchedIndex - count
+
+                        errors[`${field}[${newIndex}].${name}`] = messages
+                    } else {
+                        // not multi-set fields
+                        errors[key] = messages
+                    }
+                }
+
+                datasource.errors[prefix] = errors
+            },
+        },
+
         setFieldSubmit: {
             prepare(id: string, field: string, provider: IProvider) {
                 return ({
@@ -368,6 +420,7 @@ export const {
     startValidate,
     resetValidation,
     failValidate,
+    resetValidationMulti,
     changePage,
     changeSize,
     addComponent,

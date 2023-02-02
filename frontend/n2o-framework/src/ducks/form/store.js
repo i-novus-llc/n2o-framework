@@ -3,6 +3,7 @@ import merge from 'deepmerge'
 import { actionTypes } from 'redux-form'
 import has from 'lodash/has'
 import set from 'lodash/set'
+import get from 'lodash/get'
 
 import FormPlugin from './FormPlugin'
 
@@ -81,6 +82,10 @@ const formSlice = createSlice({
             reducer(state, action) {
                 const { multiField, fromIndex, deleteAll } = action.payload
 
+                if (!state.fields) {
+                    state.fields = {}
+                }
+
                 // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
                 const registredKeys = Object
                     .keys(state.registeredFields)
@@ -108,6 +113,8 @@ const formSlice = createSlice({
                         const sourceKey = `${multiField}[${i}].${fieldName}`
 
                         delete state.registeredFields[sourceKey]
+
+                        set(state.fields, sourceKey, undefined)
                     })
                 }
 
@@ -118,8 +125,10 @@ const formSlice = createSlice({
                         const destKey = `${multiField}[${i - deleteCount}].${fieldName}`
 
                         state.registeredFields[destKey] = state.registeredFields[sourceKey]
-
                         delete state.registeredFields[sourceKey]
+
+                        set(state.fields, destKey, get(state.fields, sourceKey))
+                        set(state.fields, sourceKey, undefined)
                     })
                 }
             },

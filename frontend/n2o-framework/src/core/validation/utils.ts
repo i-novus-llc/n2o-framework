@@ -2,7 +2,7 @@ import { INDEX_REGEXP } from './const'
 
 export const keyToRegexp = (validationKey: string) => new RegExp(validationKey.replace(
     INDEX_REGEXP,
-    '\\[(\\d)]',
+    '\\[(\\d+)]',
 ))
 
 export const isMulti = (validationKey: string) => validationKey.match(INDEX_REGEXP)
