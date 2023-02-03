@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { change, actionTypes } from 'redux-form'
+import { change } from 'redux-form'
 import pick from 'lodash/pick'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -14,7 +14,6 @@ import formPluginReducer, {
     enableField,
     disableField,
     registerFieldDependency,
-    setFilterValue,
     registerFieldExtra,
 } from '../../ducks/form/store'
 import { checkAndModify, modify } from '../../sagas/fieldDependency'
@@ -106,19 +105,6 @@ const actions = [
                     expression: 'field2 == \'test\'',
                 },
             ],
-        },
-        meta: { form: 'mockForm' },
-    },
-    {
-        type: setFilterValue.type,
-        payload: {
-            name: 'field1',
-            form: 'mockForm',
-            filter: {
-                filterId: 'test',
-                value: 'test',
-                resetMode: true,
-            },
         },
         meta: { form: 'mockForm' },
     },

@@ -4,10 +4,7 @@ import formPlugin, {
     enableField,
     showField,
     registerFieldExtra,
-    addFieldMessage,
-    removeFieldMessage,
     registerFieldDependency,
-    setFilterValue,
     setRequired,
     unsetRequired,
     setLoading
@@ -127,66 +124,6 @@ describe('Тесты formPlugin reducer', () => {
         })
     })
 
-    it('Проверка ADD_FIELD_MESSAGE', () => {
-        expect(
-            formPlugin(
-                {
-                    registeredFields: {
-                        testName: {
-                            ...FormPlugin.defaultState,
-                        },
-                    },
-                },
-                {
-                    type: addFieldMessage.type,
-                    payload: {
-                        message: ['message'],
-                        name: 'testName',
-                    },
-                },
-            ),
-        ).toEqual({
-            registeredFields: {
-                testName: {
-                    ...FormPlugin.defaultState,
-                    message: {
-                        0: 'message',
-                    }
-                },
-            },
-        })
-    })
-
-    it('Проверка REMOVE_FIELD_MESSAGE', () => {
-        expect(
-            formPlugin(
-                {
-                    registeredFields: {
-                        testName: {
-                            ...FormPlugin.defaultState,
-                            message: {
-                                0: 'message',
-                            }
-                        },
-                    },
-                },
-                {
-                    type: removeFieldMessage.type,
-                    payload: {
-                        message: ['message'],
-                        name: 'testName',
-                    },
-                },
-            ),
-        ).toEqual({
-            registeredFields: {
-                testName: {
-                    ...FormPlugin.defaultState,
-                },
-            },
-        })
-    })
-
     it('Проверка REGISTER_FIELD_EXTRA', () => {
         expect(
             formPlugin(
@@ -242,42 +179,6 @@ describe('Тесты formPlugin reducer', () => {
                 testName: {
                     ...FormPlugin.defaultState,
                     dependency: 'dependency',
-                },
-            },
-        })
-    })
-
-    it('Проверка SET_FIELD_FILTER', () => {
-        expect(
-            formPlugin(
-                {
-                    registeredFields: {
-                        testName: {
-                            ...FormPlugin.defaultState,
-                        },
-                    },
-                },
-                {
-                    type: setFilterValue.type,
-                    payload: {
-                        name: 'testName',
-                        filter: [
-                            {
-                                'filter.name': 'Oleg',
-                            },
-                        ],
-                    },
-                },
-            ),
-        ).toEqual({
-            registeredFields: {
-                testName: {
-                    ...FormPlugin.defaultState,
-                    filter: [
-                        {
-                            'filter.name': 'Oleg',
-                        },
-                    ],
                 },
             },
         })
