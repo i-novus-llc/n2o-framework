@@ -10,7 +10,7 @@ import {
     isInitSelector,
     formValueSelector,
 } from '../../../../../ducks/form/selectors'
-import { startValidate } from '../../../../../ducks/datasource/store'
+import { resetValidationMulti } from '../../../../../ducks/datasource/store'
 import { dataSourceErrors } from '../../../../../ducks/datasource/selectors'
 import evalExpression, {
     parseExpression,
@@ -98,9 +98,9 @@ export const enhance = compose(
 
             newValue.splice(index, 1)
 
-            dispatch(change(form, name, newValue))
-            dispatch(startValidate(form, undefined, modelPrefix, [name]))
             dispatch(unregisterMultisetItemExtra(form, name, index))
+            dispatch(change(form, name, newValue))
+            dispatch(resetValidationMulti(form, name, index, 1, modelPrefix))
         },
         onCopyField: ({
             form,
@@ -134,9 +134,9 @@ export const enhance = compose(
 
             newValue.splice(deleteFrom, fields.length)
 
-            dispatch(change(form, name, newValue))
-            dispatch(startValidate(form, undefined, modelPrefix, [name]))
             dispatch(unregisterMultisetItemExtra(form, name, deleteFrom, true))
+            dispatch(change(form, name, newValue))
+            dispatch(resetValidationMulti(form, name, deleteFrom, fields.length, modelPrefix))
         },
         resolvePlaceholder: ({ childrenLabel, firstChildrenLabel, activeModel }) => (index) => {
             const expression = parseExpression(childrenLabel)

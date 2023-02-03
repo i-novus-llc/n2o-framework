@@ -49,34 +49,11 @@
  */
 
 /**
- * Payload для экшена ADD_FIELD_MESSAGE
- * @typedef FormPluginStore.addFieldMessagePayload
- * @property {string} form
- * @property {string} name
- * @property {Object.<string, any>} message
- */
-
-/**
- * Payload для экшена REMOVE_FIELD_MESSAGE
- * @typedef FormPluginStore.removeFieldMessagePayload
- * @property {string} form
- * @property {string} name
- */
-
-/**
  * Payload для экшена REGISTER_DEPENDENCY
  * @typedef FormPluginStore.registerFieldDependencyPayload
  * @property {string} form
  * @property {string} name
  * @property {object} dependency
- */
-
-/**
- * Payload для экшена SET_FIELD_FILTER
- * @typedef FormPluginStore.setFilterValuePayload
- * @property {string} form
- * @property {string} name
- * @property {object} filter
  */
 
 /**

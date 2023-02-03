@@ -3,6 +3,7 @@ import merge from 'deepmerge'
 import { actionTypes } from 'redux-form'
 import has from 'lodash/has'
 import set from 'lodash/set'
+import get from 'lodash/get'
 
 import FormPlugin from './FormPlugin'
 
@@ -81,55 +82,54 @@ const formSlice = createSlice({
             reducer(state, action) {
                 const { multiField, fromIndex, deleteAll } = action.payload
 
-                if (fromIndex >= 0) {
-                    // Чистим массив form[dsName].fields[fieldsetName]
-                    const fields = state.fields[multiField]
+                if (!state.fields) {
+                    state.fields = {}
+                }
 
-                    if (fields) {
-                        fields.splice(fromIndex, deleteAll ? fields.length : 1)
-                    }
+                // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
+                const registredKeys = Object
+                    .keys(state.registeredFields)
+                    .filter(fieldName => fieldName.startsWith(`${multiField}[`))
+                // Разделяем индекс и имя поля в строке мультифилдсета
+                    .map(fieldName => fieldName.replace(multiField, '').match(/\[(\d+)]\.(.+)/))
+                    .filter(Boolean)
+                    .map(([, index, fieldName]) => ({
+                        index: +index,
+                        fieldName,
+                    }))
+                const groupedFields = registredKeys.reduce((out, { index, fieldName }) => {
+                    out[index] = out[index] || []
+                    out[index].push(fieldName)
 
-                    // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
-                    const registredKeys = Object
-                        .keys(state.registeredFields)
-                        .filter(fieldName => fieldName.startsWith(`${multiField}[`))
-                        // Разделяем индекс и имя поля в строке мультифилдсета
-                        .map(fieldName => fieldName.match(/\[(\d+)]\.(.+)/))
-                        .filter(Boolean)
-                        .map(([, index, fieldName]) => ({
-                            index: +index,
-                            fieldName,
-                        }))
-                    const groupedFields = registredKeys.reduce((out, { index, fieldName }) => {
-                        out[index] = out[index] || []
-                        out[index].push(fieldName)
+                    return out
+                }, [])
 
-                        return out
-                    }, [])
+                const deleteCount = deleteAll ? groupedFields.length - fromIndex : 1
+                let i = fromIndex
 
-                    const deleteCount = deleteAll ? groupedFields.length : 1
-                    let i = fromIndex
+                for (; i < fromIndex + deleteCount; i += 1) {
+                    // eslint-disable-next-line no-loop-func
+                    groupedFields[i].forEach((fieldName) => {
+                        const sourceKey = `${multiField}[${i}].${fieldName}`
 
-                    for (; i < fromIndex + deleteCount; i += 1) {
-                        // eslint-disable-next-line no-loop-func
-                        groupedFields[i].forEach((fieldName) => {
-                            const sourceKey = `${multiField}[${i}].${fieldName}`
+                        delete state.registeredFields[sourceKey]
 
-                            delete state.registeredFields[sourceKey]
-                        })
-                    }
+                        set(state.fields, sourceKey, undefined)
+                    })
+                }
 
-                    for (; i < groupedFields.length; i += 1) {
-                        // eslint-disable-next-line no-loop-func
-                        groupedFields[i].forEach((fieldName) => {
-                            const sourceKey = `${multiField}[${i}].${fieldName}`
-                            const destKey = `${multiField}[${i - deleteCount}].${fieldName}`
+                for (; i < groupedFields.length; i += 1) {
+                    // eslint-disable-next-line no-loop-func
+                    groupedFields[i].forEach((fieldName) => {
+                        const sourceKey = `${multiField}[${i}].${fieldName}`
+                        const destKey = `${multiField}[${i - deleteCount}].${fieldName}`
 
-                            state.registeredFields[destKey] = state.registeredFields[sourceKey]
+                        state.registeredFields[destKey] = state.registeredFields[sourceKey]
+                        delete state.registeredFields[sourceKey]
 
-                            delete state.registeredFields[sourceKey]
-                        })
-                    }
+                        set(state.fields, destKey, get(state.fields, sourceKey))
+                        set(state.fields, sourceKey, undefined)
+                    })
                 }
             },
         },
@@ -261,68 +261,6 @@ const formSlice = createSlice({
             },
         },
 
-        ADD_MESSAGE: {
-            /**
-             * @param {string} form
-             * @param {string} name
-             * @param {Object.<string, any>} message
-             * @param {boolean} isTouched
-             * @param asyncValidating
-             * @return {{payload: FormPluginStore.addFieldMessagePayload, meta: {form: string, isTouched: boolean}}}
-             */
-            prepare(form, name, message, isTouched, asyncValidating) {
-                return ({
-                    payload: { form, name, message, asyncValidating },
-                    meta: { form, isTouched },
-                })
-            },
-
-            /**
-             * Добавить сообщение (после валидации) к полю
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.addFieldMessagePayload} action.payload
-             */
-            reducer(state, action) {
-                const { name, message } = action.payload
-
-                if (!state.registeredFields[name].message) {
-                    state.registeredFields[name].message = {}
-                }
-
-                state.registeredFields[name].message = Object.assign(state.registeredFields[name].message, message)
-            },
-        },
-
-        REMOVE_MESSAGE: {
-            /**
-             * @param {string} form
-             * @param {string} name
-             * @return {{payload: FormPluginStore.removeFieldMessagePayload, meta: {form: string}}}
-             */
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, name) {
-                return ({
-                    payload: { form, name },
-                    meta: { form },
-                })
-            },
-
-            /**
-             * Удалить сообщение
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.removeFieldMessagePayload} action.payload
-             */
-            reducer(state, action) {
-                const { name } = action.payload
-
-                state.registeredFields[name].message = null
-            },
-        },
-
         REGISTER_DEPENDENCY: {
             /**
              * @param {string} form
@@ -348,37 +286,6 @@ const formSlice = createSlice({
                 const { name, dependency } = action.payload
 
                 state.registeredFields[name].dependency = dependency
-            },
-        },
-
-        SET_FIELD_FILTER: {
-            /**
-             * @param {string} form
-             * @param {string} name
-             * @param {object} filter
-             * @return {{payload: FormPluginStore.setFilterValuePayload, meta: {form: string}}}
-             */
-            prepare(form, name, filter) {
-                return ({
-                    payload: { form, name, filter },
-                    meta: { form },
-                })
-            },
-
-            /**
-             * Установить значениек для поля filter
-             * @param {FormPluginStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {FormPluginStore.setFilterValuePayload} action.payload
-             */
-            reducer(state, action) {
-                const { name, filter } = action.payload
-
-                state.registeredFields[name].filter =
-                    state.registeredFields[name].filter
-                        .filter(f => f.filterId !== filter.filterId)
-                        .concat(filter)
             },
         },
 
@@ -658,10 +565,7 @@ export const {
     ENABLE_FIELD: enableField,
     SHOW_FIELD: showField,
     HIDE_FIELD: hideField,
-    ADD_MESSAGE: addFieldMessage,
-    REMOVE_MESSAGE: removeFieldMessage,
     REGISTER_DEPENDENCY: registerFieldDependency,
-    SET_FIELD_FILTER: setFilterValue,
     SET_REQUIRED: setRequired,
     UNSET_REQUIRED: unsetRequired,
     SET_LOADING: setLoading,
