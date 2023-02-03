@@ -59,9 +59,9 @@ public class AutoFocusDatePopUpAT extends SandboxAutotestBase {
                 .field("Дата")
                 .control(DateInput.class);
         dateInput.shouldExists();
-        dateInput.shouldBeCollapsed();
-        dateInput.expand();
-        dateInput.shouldBeExpanded();
+        dateInput.shouldBeClosed();
+        dateInput.openPopup();
+        dateInput.shouldBeOpened();
         modal.close();
 
         StandardButton dateIntervalButton = indexPage.widget(FormWidget.class)
@@ -80,9 +80,9 @@ public class AutoFocusDatePopUpAT extends SandboxAutotestBase {
                 .field("Дата")
                 .control(DateInterval.class);
         dateInterval.shouldExists();
-        dateInterval.shouldBeCollapsed();
-        dateInterval.expand();
-        dateInterval.shouldBeExpanded();
+        dateInterval.shouldBeClosed();
+        dateInterval.openPopup();
+        dateInterval.shouldBeOpened();
         modal.close();
     }
 }

@@ -25,7 +25,7 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
 
     @Override
     public void val(String value) {
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().setValue(value);
         inputElement().pressEnter();
     }
 

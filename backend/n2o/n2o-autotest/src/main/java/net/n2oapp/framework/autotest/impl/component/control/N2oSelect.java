@@ -35,26 +35,26 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void shouldHaveOptions(String... options) {
-        expand();
+        openPopup();
         selectPopUp().$$("button .text-cropped,.custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
     }
 
     @Override
     public void select(int index) {
-        expand();
+        openPopup();
         selectPopUp().$$("button").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
     }
 
     @Override
     public void select(Condition by) {
-        expand();
+        openPopup();
         selectPopUp().$$("button").findBy(by).click();
     }
 
     @Override
     public void selectMulti(int... indexes) {
         if (element().$(".n2o-popup-control.isExpanded").is(Condition.not(Condition.exist)))
-            expand();
+            openPopup();
         for (int index : indexes)
             selectPopUp().$$(".n2o-input").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
     }
@@ -98,21 +98,11 @@ public class N2oSelect extends N2oControl implements Select {
         element().shouldHave(Condition.cssClass("disabled"));
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
     @Override
     public void openPopup() {
         SelenideElement elm = element().$(".n2o-popup-control");
         if (!elm.is(Condition.cssClass("isExpanded")))
             elm.click();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
     }
 
     @Override
@@ -122,19 +112,9 @@ public class N2oSelect extends N2oControl implements Select {
             elm.click();
     }
 
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
     @Override
     public void shouldBeOpened() {
         selectPopUp().shouldNotBe(Condition.hidden);
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
     }
 
     @Override
@@ -144,7 +124,7 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void optionShouldHaveDescription(String option, String description) {
-        expand();
+        openPopup();
         SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
                 .findBy(Condition.text(option)).parent();
         if (elm.is(Condition.cssClass("custom-checkbox")))
@@ -155,6 +135,26 @@ public class N2oSelect extends N2oControl implements Select {
     @Override
     public DropDown dropdown() {
         return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
+    }
+
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
     }
 
     private SelenideElement selectPopUp() {

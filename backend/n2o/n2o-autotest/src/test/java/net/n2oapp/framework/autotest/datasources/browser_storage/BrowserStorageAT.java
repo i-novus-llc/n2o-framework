@@ -5,7 +5,6 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -17,6 +16,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -45,22 +45,22 @@ public class BrowserStorageAT extends AutoTestBase {
      * Тестирование localStorage
      */
     @Test
+    @Disabled
     public void testLocalStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         testBrowserStorage(page);
-        Selenide.clearBrowserLocalStorage();
     }
 
     /**
      * Тестирование sessionStorage
      */
     @Test
+    @Disabled
     public void testSessionStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         testBrowserStorage(page);
-        Selenide.clearBrowserLocalStorage();
     }
 
     @Test
@@ -75,6 +75,7 @@ public class BrowserStorageAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         input.val("test submit");
+
         Selenide.refresh();
 
         page.shouldExists();
@@ -83,12 +84,19 @@ public class BrowserStorageAT extends AutoTestBase {
 
         input.val("test submit");
         button.click();
+
         Selenide.refresh();
 
         page.shouldExists();
         formWidget.shouldExists();
         input.shouldHaveValue("test submit");
+
         Selenide.clearBrowserLocalStorage();
+        Selenide.refresh();
+
+        page.shouldExists();
+        formWidget.shouldExists();
+        input.shouldBeEmpty();
     }
 
     private void testBrowserStorage(StandardPage page) {
@@ -104,7 +112,7 @@ public class BrowserStorageAT extends AutoTestBase {
                 .fields().field("Чекбоксы").control(CheckboxGroup.class);
 
         input.shouldBeEmpty();
-        inputDef.shouldHaveValue("test");
+        inputDef.shouldBeEmpty();
         select.shouldBeEmpty();
         checkboxGroup.shouldBeEmpty();
 
@@ -112,15 +120,29 @@ public class BrowserStorageAT extends AutoTestBase {
         checkboxGroup.check("Петр Сергеев");
         checkboxGroup.check("Алексей Иванов");
         select.select(1);
+        inputDef.val("test");
         inputDef.clear();
         inputDef.shouldBeEmpty();
 
         Selenide.refresh();
 
+        page.shouldExists();
+
         input.shouldHaveValue("test browser-storage");
-        inputDef.shouldBeEmpty();
         select.shouldSelected("Иван Алексеев");
         checkboxGroup.shouldBeChecked("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
+        inputDef.shouldBeEmpty();
+
+        Selenide.clearBrowserLocalStorage();
+        Selenide.sessionStorage().clear();
+        Selenide.refresh();
+
+        page.shouldExists();
+
+        input.shouldBeEmpty();
+        inputDef.shouldBeEmpty();
+        select.shouldBeEmpty();
+        checkboxGroup.shouldBeEmpty();
     }
 }

@@ -21,7 +21,7 @@ public class N2oTextArea extends N2oControl implements TextArea {
 
     @Override
     public void val(String value) {
-        element().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        element().setValue(value);
     }
 
     @Override

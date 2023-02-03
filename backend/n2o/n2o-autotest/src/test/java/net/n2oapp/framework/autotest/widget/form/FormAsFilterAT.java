@@ -136,6 +136,7 @@ public class FormAsFilterAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/test.query.xml"));
 
         StandardPage page = open(StandardPage.class);
+        page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Фильтрация по нажатию кнопки");
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);

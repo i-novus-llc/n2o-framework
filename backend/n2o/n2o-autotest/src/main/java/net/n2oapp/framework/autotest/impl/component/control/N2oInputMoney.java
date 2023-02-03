@@ -18,7 +18,7 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     @Override
     public void val(String value) {
-        element().parent().$(".n2o-input-money").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        element().parent().$(".n2o-input-money").setValue(value);
         element().parent().$(".n2o-input-money").pressEnter();
     }
 

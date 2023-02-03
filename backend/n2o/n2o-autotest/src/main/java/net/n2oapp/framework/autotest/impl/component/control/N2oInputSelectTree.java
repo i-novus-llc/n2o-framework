@@ -8,6 +8,8 @@ import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
 import org.openqa.selenium.Keys;
 
+import java.util.Objects;
+
 /**
  * Компонент ввода с выбором в выпадающем списке в виде дерева для автотестирования
  */
@@ -73,32 +75,12 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldBeUnselected() {
-        element().$$(".n2o-select-tree-selection__choice").shouldHaveSize(0);
+        element().$$(".n2o-select-tree-selection__choice").shouldHave(CollectionCondition.size(0));
     }
 
     @Override
     public DropDownTree dropdown() {
         return N2oSelenide.component(element().$(".n2o-select-tree-dropdown"), DropDownTree.class);
-    }
-
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
     }
 
     @Override
@@ -123,8 +105,28 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         element().shouldHave(Condition.attribute("aria-expanded", "false"));
     }
 
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
+    }
+
     private boolean isOpened() {
-        return element().getAttribute("aria-expanded").equals("true");
+        return Objects.equals(element().getAttribute("aria-expanded"), "true");
     }
 
     private SelenideElement switcher() {

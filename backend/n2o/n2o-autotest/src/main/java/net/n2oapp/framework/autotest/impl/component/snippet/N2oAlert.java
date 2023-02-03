@@ -34,11 +34,6 @@ public class N2oAlert extends N2oSnippet implements Alert {
     }
 
     @Override
-    public void shouldHavePlacement(Placement placement) {
-        element().parent().should(Condition.cssClass(placement.name()));
-    }
-
-    @Override
     public void shouldHaveStacktrace() {
         element().should(Condition.cssClass("with-details"));
     }

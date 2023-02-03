@@ -115,19 +115,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
         else cellInputElement().shouldHave(condition);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
     @Override
     public void openPopup() {
         element().$(".n2o-date-input").should(Condition.exist).click();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
     }
 
     @Override
@@ -135,24 +125,34 @@ public class N2oDateInput extends N2oControl implements DateInput {
         throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
     }
 
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
-    }
-
     @Override
     public void shouldBeOpened() {
         popUp().shouldBe(Condition.exist);
     }
 
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
     @Override
     public void shouldBeClosed() {
         popUp().shouldNotBe(Condition.exist);
+    }
+
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
     }
 
     private SelenideElement inputElement() {

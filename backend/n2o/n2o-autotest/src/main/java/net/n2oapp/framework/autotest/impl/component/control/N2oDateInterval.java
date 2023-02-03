@@ -33,13 +33,13 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void beginVal(String value) {
-        firstInputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        firstInputElement().setValue(value);
         element().click();
     }
 
     @Override
     public void endVal(String value) {
-        lastInputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        lastInputElement().setValue(value);
         element().click();
     }
 
@@ -150,19 +150,9 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         timeVal(lastCalendar(), hours, minutes, seconds);
     }
 
-    @Deprecated
-    public void expand() {
-        openPopup();
-    }
-
     @Override
     public void openPopup() {
         element().$(".n2o-date-input").should(Condition.exist).click();
-    }
-
-    @Deprecated
-    public void collapse() {
-        closePopup();
     }
 
     @Override
@@ -170,19 +160,9 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
     }
 
-    @Deprecated
-    public void shouldBeCollapsed() {
-        shouldBeClosed();
-    }
-
     @Override
     public void shouldBeClosed() {
         popUp().shouldNotBe(Condition.exist);
-    }
-
-    @Deprecated
-    public void shouldBeExpanded() {
-        shouldBeOpened();
     }
 
     @Override
@@ -200,6 +180,26 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     public void shouldBeDisabled() {
         firstInputElement().shouldBe(Condition.disabled);
         lastInputElement().shouldBe(Condition.disabled);
+    }
+
+    @Deprecated
+    public void expand() {
+        openPopup();
+    }
+
+    @Deprecated
+    public void collapse() {
+        closePopup();
+    }
+
+    @Deprecated
+    public void shouldBeExpanded() {
+        shouldBeOpened();
+    }
+
+    @Deprecated
+    public void shouldBeCollapsed() {
+        shouldBeClosed();
     }
 
     private void timeVal(SelenideElement element, String hours, String minutes, String seconds) {

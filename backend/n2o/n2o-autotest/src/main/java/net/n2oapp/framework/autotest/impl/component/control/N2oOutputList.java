@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.api.metadata.meta.control.OutputList.Direction;
@@ -42,7 +43,7 @@ public class N2oOutputList extends N2oControl implements OutputList {
     }
 
     private void check(ElementsCollection elements, String separator, String... values) {
-        elements.shouldHaveSize(values.length);
+        elements.shouldHave(CollectionCondition.size(values.length));
         for (int i = 0; i < values.length - 1; i++) {
             elements.get(i).shouldHave(Condition.text(values[i]));
             elements.get(i).parent().$(".white-space-pre").shouldHave(Condition.text(separator));

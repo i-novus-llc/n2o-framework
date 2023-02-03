@@ -18,7 +18,7 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     @Override
     public void val(String value) {
         inputElement().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().setValue(value);
         // focus out
         inputElement().pressTab();
     }
@@ -26,7 +26,7 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     @Override
     public void clear() {
         inputElement().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        inputElement().clear();
         // focus out
         inputElement().pressTab();
     }

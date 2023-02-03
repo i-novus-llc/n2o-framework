@@ -7,6 +7,8 @@ import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nonnull;
+
 /**
  * Регион в виде вкладок для автотестирования
  */
@@ -18,7 +20,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
     @Override
     public void shouldHaveSize(int size) {
-        element().$$(".n2o-tabs-nav-item").shouldHaveSize(size);
+        element().$$(".n2o-tabs-nav-item").shouldHave(CollectionCondition.size(size));
     }
 
     @Override
@@ -55,9 +57,11 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
             ElementsCollection nestingElements = elm.$$(".tab-pane.active .tab-pane.active > div > div");
             ElementsCollection firstLevelElements = elm.$$(".tab-pane.active > div > div")
                     .filter(new Condition("shouldBeFirstLevelElement") {
+                        @Nonnull
                         @Override
-                        public boolean apply(Driver driver, WebElement element) {
-                            return !nestingElements.contains(element);
+                        public CheckResult check(Driver driver, WebElement element) {
+                            boolean result = !nestingElements.contains(element);
+                            return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, (Object)null);
                         }
                     });
             return N2oSelenide.collection(firstLevelElements, RegionItems.class);

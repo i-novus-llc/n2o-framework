@@ -21,7 +21,7 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     @Override
     public void val(String value) {
         element().click();
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().setValue(value);
     }
 
     @Override
@@ -64,7 +64,10 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void shouldNotHaveDropdownOptions() {
-        element().parent().$$(".n2o-dropdown-control .text-cropped").shouldHave(CollectionCondition.size(0));
+        element()
+                .parent()
+                .$$(".n2o-dropdown-control .text-cropped")
+                .shouldHave(CollectionCondition.size(0));
     }
 
     @Override
