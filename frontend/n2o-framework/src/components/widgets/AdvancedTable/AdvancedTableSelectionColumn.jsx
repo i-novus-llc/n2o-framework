@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
-import get from 'lodash/get'
 
 import Checkbox from '../../controls/Checkbox/CheckboxN2O'
+
+import { NATIVE_CHECKED_PARAM } from './const'
 
 function AdvancedTableSelectionColumn({ onChange, checked, setRef }) {
     return (
@@ -28,10 +29,13 @@ const enhance = compose(
     withState('checked', 'setChecked', false),
     withHandlers({
         onChange: ({ onChange, setChecked }) => (event) => {
-            const checked = !get(event, 'target.checked', false)
+            const { target } = event.nativeEvent
+            const checked = target.getAttribute(NATIVE_CHECKED_PARAM) === 'false'
 
             setChecked(checked)
             onChange(checked)
+
+            target.setAttribute(NATIVE_CHECKED_PARAM, !checked)
         },
     }),
 )
