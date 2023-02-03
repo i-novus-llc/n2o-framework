@@ -36,7 +36,7 @@ public class MapInvocationUtil {
                 if (!(map.getValue().getEnabled() == null || ScriptProcessor.evalForBoolean(map.getValue().getEnabled(), dataSet)))
                     continue;
                 String fieldMapping = map.getValue().getMapping() != null ? map.getValue().getMapping() : Placeholders.spel(map.getKey());
-                if (map.getValue().getChildMapping() != null) {
+                if (map.getValue().getChildMapping() != null && data != null) {
                     if (data instanceof Collection) {
                         DataList list = new DataList();
                         for (Object obj : (Collection<?>) data)
