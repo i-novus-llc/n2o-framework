@@ -210,29 +210,115 @@ http://n2oapp.net/framework/config/schema/object-4.0
 </invocation>
 ```
 
-##### &lt;in&gt;
+### Параметры операций {#Operation_parameter}
 
-Входящие параметры операции.
+Базовые свойства параметров операций
+
+**Атрибуты**
+
+|Наименование |Тип       |Описание                                     |Значение по умолчанию|
+|-------------|----------|---------------------------------------------|---------------------|
+|id           |Строка    |Идентификатор параметра                      |                     |
+|default-value|Строка    |Значение по умолчанию                        |                     |
+|domain       |Домены    |Тип данных                                   |                     |
+|normalize    |Строка    |SpEL выражение, изменяющее значение параметра|                     |
+|mapping      |Строка    |Выражение маппинга                           |                     |
+
+#### Свойства входящих параметров
+
+В качестве входящих параметров могут быть, как простые поля &lt;field&gt;, так и составные: &lt;reference&gt;, &lt;list&gt;, &lt;set&gt;.
+
+**Атрибуты**
+
+|Наименование       |Тип   |Описание                                         |Значение по умолчанию|
+|-------------------|------|-------------------------------------------------|---------------------|
+|param              |Строка|Параметр содержащий url                          |                     |
+|validation-fail-key|Строка|Код ошибки валидации с сервера                   |                     |
+|entity-class       |Строка|Класс, которому соответствует параметр           |                     |
+|required           |true false|Обязательность параметра                     |false                |
+|enabled            |Строка|Условие, при котором должен быть выполнен маппинг|                     |
 
 **Тело**
 
-Список [параметров](../xml/base#Data_provider_parameter)
+Если составное поле, то может содержать список любых видов полей
 
-##### &lt;out&gt;
+**Пример**
+```xml
+<in>
+  <field id="gender*.id" domain="integer[]" mapping="genders" param="param"/>
+  <list id="ratings" mapping="ratings">
+    <field id="code" mapping="code"/>
+    <field id="name" mapping="name"/>
+  </list>
+  <reference id="address">
+    <field id="city"/>
+    <field id="street"/>
+    <field id="home"/>
+  </reference>
+</in>
+```
 
-Исходящие параметры операции.
+#### Свойства исходящих параметров
+
+В качестве исходящих параметров могут быть как простые поля &lt;field&gt;, так и составные: &lt;reference&gt;, &lt;list&gt;, &lt;set&gt;.
+В отличие от входящих не имеют дополнительных атрибутов.
+
+**Пример**
+
+```xml
+<out>
+    <field id="gender*.id" domain="integer[]" mapping="genders" param="param"/>
+    <reference id="address">
+        <field id="city" mapping="city"/>
+        <field id="street" mapping="street"/>
+        <field id="home" mapping="home"/>
+    </reference>
+    <list id="ratings" mapping="ratings">
+      <field id="code" mapping="code"/>
+      <field id="name" mapping="name"/>
+    </list>
+</out>
+```
+
+**Дополнение**
+
+Если в объекте определено поле в разделе &lt;fields&gt;, в параметре указано `id` поля, то не заполненные атрибуты в параметр будут скопированы из поля.
+
+**Пример**
+
+```xml
+<object>
+    <fields>
+        <reference id="address">
+            <field id="city" mapping="city"/>
+            <field id="street" mapping="street"/>
+            <field id="home" mapping="home"/>
+        </reference>
+        <list id="ratings" mapping="ratings">
+          <field id="code" mapping="code"/>
+          <field id="name" mapping="name"/>
+        </list>
+    </fields>
+<out>
+    <field id="gender*.id" domain="integer[]" mapping="genders" param="param"/>
+    <field id="address"/>
+    <field id="ratings"/>
+</out>
+</object>
+```
+
+Исходящие параметры в случае ошибки операции. Может быть только простое поле &lt;field&gt;
+
+```xml
+<fail-out>
+  <field id="message" mapping="#this.getMessage()"/>
+</fail-out>
+```
+
 
 **Тело**
 
-Список [параметров](../xml/base#Data_provider_parameter)
-
-##### &lt;fail-out&gt;
-
-Исходящие параметры в случае ошибки операции.
-
-**Тело**
-
-Список [параметров](../xml/base#Data_provider_parameter)
+Список [параметров](../xml/object#Operation_parameter)
 
 ##### &lt;validations&gt;
 
@@ -419,7 +505,7 @@ JavaScript выражение
 
 **Тело**
 
-Список [параметров](../xml/base#Data_provider_parameter)
+Список [параметров](../xml/object#Operation_parameter)
 
 ##### &lt;out&gt;
 
@@ -433,7 +519,7 @@ JavaScript выражение
 
 **Тело**
 
-Список [параметров](../xml/base#Data_provider_parameter)
+Список [параметров](../xml/object#Operation_parameter)
 
 ##### &lt;toolbar&gt;
 
