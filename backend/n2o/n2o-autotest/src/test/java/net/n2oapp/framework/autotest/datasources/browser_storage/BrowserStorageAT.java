@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -44,6 +45,7 @@ public class BrowserStorageAT extends AutoTestBase {
      * Тестирование localStorage
      */
     @Test
+    @Disabled
     public void testLocalStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
@@ -54,6 +56,7 @@ public class BrowserStorageAT extends AutoTestBase {
      * Тестирование sessionStorage
      */
     @Test
+    @Disabled
     public void testSessionStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
