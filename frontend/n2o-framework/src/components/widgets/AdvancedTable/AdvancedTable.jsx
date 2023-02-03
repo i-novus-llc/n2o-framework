@@ -34,7 +34,7 @@ import AdvancedTableCell from './AdvancedTableCell'
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow'
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn'
-import { KEY_CODES, rowSelectionType } from './const'
+import { KEY_CODES, rowSelectionType, NATIVE_CHECKED_PARAM } from './const'
 
 export const getIndex = (data, selectedId) => {
     const index = findIndex(data, model => model.id === selectedId)
@@ -198,6 +198,7 @@ class AdvancedTable extends Component {
 
             selectAllCheckbox.indeterminate = isSomeOneChecked && !isAllChecked
             selectAllCheckbox.checked = isAllChecked
+            selectAllCheckbox.setAttribute(NATIVE_CHECKED_PARAM, isAllChecked)
 
             this.setState({})
         }
