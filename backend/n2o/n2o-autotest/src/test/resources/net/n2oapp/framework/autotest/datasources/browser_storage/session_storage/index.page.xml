@@ -15,7 +15,7 @@
             <fields>
                 <alert text="Введите данные и обновите страницу"/>
                 <input-text id="input2" label="Инпут"/>
-                <input-text id="inputDef2" label="Инпут с default value" default-value="test"/>
+                <input-text id="inputDef2" label="Инпут с default value"/>
                 <select
                         id="select2"
                         placeholder="Введите значение"

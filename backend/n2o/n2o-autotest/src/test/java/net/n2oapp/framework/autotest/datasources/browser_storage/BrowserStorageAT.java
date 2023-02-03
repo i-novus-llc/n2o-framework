@@ -48,23 +48,6 @@ public class BrowserStorageAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         testBrowserStorage(page);
-
-        Selenide.clearBrowserLocalStorage();
-        Selenide.refresh();
-
-        InputText input = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Инпут").control(InputText.class);
-        InputText inputDef = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Инпут с default value").control(InputText.class);
-        Select select = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Ввод с выпадающим списком").control(Select.class);
-        CheckboxGroup checkboxGroup = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Чекбоксы").control(CheckboxGroup.class);
-
-        input.shouldBeEmpty();
-        inputDef.shouldHaveValue("test");
-        select.shouldBeEmpty();
-        checkboxGroup.shouldBeEmpty();
     }
 
     /**
@@ -75,23 +58,6 @@ public class BrowserStorageAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         testBrowserStorage(page);
-
-        Selenide.sessionStorage().clear();
-        Selenide.refresh();
-
-        InputText input = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Инпут").control(InputText.class);
-        InputText inputDef = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Инпут с default value").control(InputText.class);
-        Select select = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Ввод с выпадающим списком").control(Select.class);
-        CheckboxGroup checkboxGroup = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
-                .fields().field("Чекбоксы").control(CheckboxGroup.class);
-
-        input.shouldBeEmpty();
-        inputDef.shouldHaveValue("test");
-        select.shouldBeEmpty();
-        checkboxGroup.shouldBeEmpty();
     }
 
     @Test
@@ -106,6 +72,7 @@ public class BrowserStorageAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         input.val("test submit");
+
         Selenide.refresh();
 
         page.shouldExists();
@@ -114,12 +81,19 @@ public class BrowserStorageAT extends AutoTestBase {
 
         input.val("test submit");
         button.click();
+
         Selenide.refresh();
 
         page.shouldExists();
         formWidget.shouldExists();
         input.shouldHaveValue("test submit");
+
         Selenide.clearBrowserLocalStorage();
+        Selenide.refresh();
+
+        page.shouldExists();
+        formWidget.shouldExists();
+        input.shouldBeEmpty();
     }
 
     private void testBrowserStorage(StandardPage page) {
@@ -135,7 +109,7 @@ public class BrowserStorageAT extends AutoTestBase {
                 .fields().field("Чекбоксы").control(CheckboxGroup.class);
 
         input.shouldBeEmpty();
-        inputDef.shouldHaveValue("test");
+        inputDef.shouldBeEmpty();
         select.shouldBeEmpty();
         checkboxGroup.shouldBeEmpty();
 
@@ -143,6 +117,7 @@ public class BrowserStorageAT extends AutoTestBase {
         checkboxGroup.check("Петр Сергеев");
         checkboxGroup.check("Алексей Иванов");
         select.select(1);
+        inputDef.val("test");
         inputDef.clear();
         inputDef.shouldBeEmpty();
 
@@ -155,5 +130,16 @@ public class BrowserStorageAT extends AutoTestBase {
         checkboxGroup.shouldBeChecked("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
         inputDef.shouldBeEmpty();
+
+        Selenide.clearBrowserLocalStorage();
+        Selenide.sessionStorage().clear();
+        Selenide.refresh();
+
+        page.shouldExists();
+
+        input.shouldBeEmpty();
+        inputDef.shouldBeEmpty();
+        select.shouldBeEmpty();
+        checkboxGroup.shouldBeEmpty();
     }
 }
