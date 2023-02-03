@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -175,8 +174,8 @@ public class GraphQlDataProviderEngineTest {
                         "addresses", List.of(Map.of("street", "address1")))));
         data.put("data", persons);
 
-        String expectedQuery = "mutation CreatePerson($name: String!, $age: Int!, $addresses: [Address!], $nothing: String!) " +
-                "{ createPerson(name: $name, age: $age, addresses: $addresses, $nothing: nothing) {id name age address: {street}} }";
+        String expectedQuery = "mutation CreatePerson($name: String!, $age: Int!, $addresses: [Address!]) " +
+                "{ createPerson(name: $name, age: $age, addresses: $addresses) {id name age address: {street}} }";
         when(restTemplateMock.postForObject(anyString(), any(HttpEntity.class), eq(DataSet.class)))
                 .thenReturn(new DataSet(data));
 
@@ -190,7 +189,6 @@ public class GraphQlDataProviderEngineTest {
         assertEquals(request.getAge(), ((DataSet) payloadValue.get("variables")).get("age"));
         assertEquals(request.getAddresses().get(0).getStreet(),
                 ((DataSet) ((DataList) ((DataSet) payloadValue.get("variables")).get("addresses")).get(0)).get("street"));
-        assertFalse(((DataSet) payloadValue.get("variables")).containsKey("nothing"));
         assertEquals(expectedQuery, payloadValue.get("query"));
 
         // response

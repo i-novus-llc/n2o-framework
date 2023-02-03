@@ -308,8 +308,9 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             data.put(invocation.getSizeMapping(), data.get("limit"));
 
         for (String variable : variables) {
-            if (data.containsKey(variable))
-                result.add(variable, data.get(variable));
+            if (!data.containsKey(variable))
+                throw new N2oException(String.format("Значение переменной '%s' не задано", variable));
+            result.add(variable, data.get(variable));
         }
         return result;
     }
