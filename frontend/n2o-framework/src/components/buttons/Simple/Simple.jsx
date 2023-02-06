@@ -60,16 +60,16 @@ const SimpleButton = ({
                 {...rest}
             >
                 {icon && <Icon name={icon} className="n2o-btn-icon" />}
+                {(children || label) && <span>{children || label}</span>}
                 {needBadge && (
                     <Badge
                         {...badge}
                         text={text || convertCounter(count)}
                         hasMargin={false}
+                        color={badge?.color || 'primary'}
                         style={badgeStyle}
                         className="n2o-btn-badge"
-                    >
-                        <span>{children || label}</span>
-                    </Badge>
+                    />
                 )}
             </Button>
         </div>
@@ -108,9 +108,6 @@ SimpleButton.propTypes = {
 
 SimpleButton.defaultProps = {
     tag: 'button',
-    badge: {
-        color: 'primary',
-    },
     rounded: false,
     visible: true,
     onClick: () => {},
