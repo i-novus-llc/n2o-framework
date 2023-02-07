@@ -24,7 +24,6 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mock.web.MockHttpSession;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -68,7 +67,7 @@ public class SandboxAutotestApplication {
                 if (classPathResource.exists()) {
                     return classPathResource.getInputStream();
                 }
-                return new ByteArrayInputStream(restClient.getFile(projectId, invocation.getFile(), new MockHttpSession()).getBytes());
+                return new ByteArrayInputStream(restClient.getFile(projectId, invocation.getFile()).getBytes());
             }
 
             @Override

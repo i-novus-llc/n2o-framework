@@ -100,7 +100,7 @@ public class SandboxMetadataRetrievalTest {
         wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")
                 .withBody(StreamUtils.copyToString(new ClassPathResource("data/testMetadataRetrieval.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        Page page = viewController.getPage("myProjectId", request, null);
+        Page page = viewController.getPage("myProjectId", request);
 
         assertThat(page.getId(), is("_"));
         assertThat(page.getModels().size(), is(0));
@@ -108,10 +108,10 @@ public class SandboxMetadataRetrievalTest {
 
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("Моя первая страница"));
 
-        assertThat(((StandardDatasource) page.getDatasources().get("_main")).getDependencies().size(), is(0));
+        assertThat(page.getDatasources().get("_main").getDependencies().size(), is(0));
         assertThat(page.getDatasources().get("_main").getId(), is("_main"));
-        assertThat(((StandardDatasource) page.getDatasources().get("_main")).getPaging().getSize(), is(1));
-        assertThat(((StandardDatasource) page.getDatasources().get("_main")).getValidations().size(), is(0));
+        assertThat(page.getDatasources().get("_main").getPaging().getSize(), is(1));
+        assertThat(page.getDatasources().get("_main").getValidations().size(), is(0));
 
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));
 
