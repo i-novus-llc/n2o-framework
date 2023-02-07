@@ -323,7 +323,8 @@ class AutoComplete extends React.Component {
 
         const selectedItems = (options || [])
             .filter(option => value.includes(option[valueFieldId]))
-        const selectedLabels = value.map(option => (isString(option) ? option : option[labelFieldId]))
+        const selectedLabels = value.map(e => (options || []).find(option => option[valueFieldId] === e) ||
+            (isString(e) ? e : e[labelFieldId]))
 
         return (
             <div
