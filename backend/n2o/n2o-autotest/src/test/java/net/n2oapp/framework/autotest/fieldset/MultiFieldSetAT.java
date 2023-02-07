@@ -550,4 +550,30 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset.item(1).fields().field("trash", ButtonField.class).click();
         fieldset.item(1).shouldNotExists();
     }
+
+    @Test
+    public void testLabelResolve() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/label_resolve/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        InputText firstLabelDef = page.widget(FormWidget.class).fields().field("first label").control(InputText.class);
+        InputText labelDef = page.widget(FormWidget.class).fields().field("default label").control(InputText.class);
+
+        fieldset.clickAddButton();
+        fieldset.item(0).shouldHaveLabel("test first");
+        firstLabelDef.val("new first label");
+        fieldset.item(0).shouldHaveLabel("new first label");
+        fieldset.item(0).fields().field("Имя").control(InputText.class).val("Иван");
+        fieldset.item(0).shouldHaveLabel("Иван");
+
+        fieldset.clickAddButton();
+        fieldset.item(1).shouldHaveLabel("test");
+        labelDef.val("new label");
+        fieldset.item(1).shouldHaveLabel("new label");
+        fieldset.item(1).fields().field("Имя").control(InputText.class).val("Петр");
+        fieldset.item(1).shouldHaveLabel("Петр");
+    }
 }
