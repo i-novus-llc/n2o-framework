@@ -25,7 +25,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.util.StreamUtils;
 
 import java.nio.charset.Charset;
-import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,7 +36,7 @@ import static org.hamcrest.Matchers.is;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 SandboxContext.class, XsdSchemaParser.class},
-        properties = {"n2o.sandbox.url=http://${n2o.sandbox.host}:${n2o.sandbox.port}"})
+        properties = {"n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxPropertySettingTest {
@@ -46,10 +45,10 @@ public class SandboxPropertySettingTest {
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
             .enableBrowserProxying(true));
 
-    @Value("${n2o.sandbox.host}")
+    @Value("${n2o.sandbox.api.host}")
     private String host;
 
-    @Value("${n2o.sandbox.port}")
+    @Value("${n2o.sandbox.api.port}")
     private Integer port;
 
     @Autowired
@@ -81,7 +80,7 @@ public class SandboxPropertySettingTest {
         assertThat(config.getJSONObject("menu").getJSONObject("header").getString("src"), is("CustomHeader"));
         assertThat(config.getJSONObject("menu").getJSONObject("footer").getString("src"), is("CustomFooter"));
 
-        Page page = viewController.getPage("myProjectId", request, null);
+        Page page = viewController.getPage("myProjectId", request);
         assertThat(page.getSrc(), is("CustomPage"));
         assertThat(((SimplePage) page).getWidget().getSrc(), is("CustomForm"));
     }
@@ -92,7 +91,8 @@ public class SandboxPropertySettingTest {
         wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testPropertySetting.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("email=test@example.com\n" +
+        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody(
+                "email=test@example.com\n" +
                 "username=Joe\n" +
                 "roles=[USER,ADMIN]")));
 
@@ -105,8 +105,8 @@ public class SandboxPropertySettingTest {
         assertThat(config.getJSONObject("user").getString("surname"), is("null"));
         assertThat(config.getJSONObject("user").getString("username"), is("Joe"));
 
-        Page page = viewController.getPage("myProjectId", request, null);
-        assertThat(page.getModels().get("resolve['main'].email").getValue(), is("test@example.com"));
-        assertThat((page.getModels().get("resolve['main'].roles").getValue()), is("[USER, ADMIN]"));
+        Page page = viewController.getPage("myProjectId", request);
+        assertThat(page.getModels().get("resolve['_main'].email").getValue(), is("test@example.com"));
+        assertThat((page.getModels().get("resolve['_main'].roles").getValue()), is("[USER, ADMIN]"));
     }
 }

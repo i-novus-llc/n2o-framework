@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
@@ -28,12 +27,12 @@ public class SandboxRestClientImpl implements SandboxRestClient {
     }
 
     @Override
-    public ProjectModel getProject(String projectId, HttpSession session) {
+    public ProjectModel getProject(String projectId) {
         return restTemplate.getForObject(baseApiProjectUrl + normalize(projectId), ProjectModel.class);
     }
 
     @Override
-    public String getFile(String projectId, String file, HttpSession session) {
+    public String getFile(String projectId, String file) {
         return restTemplate.getForObject(baseApiProjectUrl + normalize(projectId) + normalize(file), String.class);
     }
 
@@ -44,7 +43,7 @@ public class SandboxRestClientImpl implements SandboxRestClient {
     }
 
     @Override
-    public void putFiles(String projectId, List<FileModel> files, HttpSession session) {
+    public void putFiles(String projectId, List<FileModel> files) {
         HttpEntity<List<FileModel>> requestUpdate = new HttpEntity<>(files);
         restTemplate.put(baseApiProjectUrl + normalize(projectId), requestUpdate);
     }

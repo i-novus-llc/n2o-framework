@@ -99,7 +99,7 @@ public class SandboxDataProviderTest {
                 "  }\n" +
                 "]")));
 
-        ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request, null);
+        ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody().getCount(), is(4));
         assertThat(response.getBody().getList().get(0).get("id"), is(1L));
@@ -142,7 +142,7 @@ public class SandboxDataProviderTest {
                 "  }\n" +
                 "]")));
 
-        ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId", new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request, null);
+        ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId", new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody().getData().get("id"), is(3));
         assertThat(response.getBody().getData().get("name"), is("name3"));

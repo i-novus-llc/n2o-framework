@@ -36,7 +36,7 @@ import static org.hamcrest.Matchers.is;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, XsdSchemaParser.class},
-        properties = {"n2o.sandbox.url=http://${n2o.sandbox.host}:${n2o.sandbox.port}"})
+        properties = {"n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxMetadataRetrievalTest {
@@ -45,10 +45,10 @@ public class SandboxMetadataRetrievalTest {
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
             .enableBrowserProxying(true));
 
-    @Value("${n2o.sandbox.host}")
+    @Value("${n2o.sandbox.api.host}")
     private String host;
 
-    @Value("${n2o.sandbox.port}")
+    @Value("${n2o.sandbox.api.port}")
     private Integer port;
 
     @Autowired
@@ -98,7 +98,7 @@ public class SandboxMetadataRetrievalTest {
         wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")
                 .withBody(StreamUtils.copyToString(new ClassPathResource("data/testMetadataRetrieval.json").getInputStream(), Charset.defaultCharset()))));
         wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        Page page = viewController.getPage("myProjectId", request, null);
+        Page page = viewController.getPage("myProjectId", request);
 
         assertThat(page.getId(), is("_"));
         assertThat(page.getModels().size(), is(0));
@@ -108,19 +108,19 @@ public class SandboxMetadataRetrievalTest {
 
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));
 
-        assertThat(page.getRoutes().getPathMapping().size(), is(1));
+        assertThat(page.getRoutes().getPathMapping().size(), is(0));
         assertThat(page.getRoutes().getQueryMapping().size(), is(0));
         assertThat(page.getRoutes().getList().get(0).getIsOtherPage(), is(false));
         assertThat(page.getRoutes().getList().get(0).getExact(), is(true));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/"));
 
-        assertThat(((SimplePage) page).getWidget().getId(), is("main"));
-        assertThat(((SimplePage) page).getWidget().getDatasource(), is("main"));
+        assertThat(((SimplePage) page).getWidget().getId(), is("_main"));
+        assertThat(((SimplePage) page).getWidget().getDatasource(), is("_main"));
         assertThat(((SimplePage) page).getWidget().getSrc(), is("FormWidget"));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(true));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(false));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getModelPrefix(), is("resolve"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getPrompt(), is(false));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(true));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(false));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getSrc(), is("StandardFieldset"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("hello"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getDependencies().size(), is(0));

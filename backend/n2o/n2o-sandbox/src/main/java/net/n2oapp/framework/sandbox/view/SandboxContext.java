@@ -84,7 +84,7 @@ public class SandboxContext implements ContextEngine {
 
     private Properties createProperties(String projectId) {
         Properties props = new Properties();
-        String userProperties = restClient.getFile(projectId, USER_PROPERTIES, session);
+        String userProperties = restClient.getFile(projectId, USER_PROPERTIES);
         if (userProperties != null) {
             try (InputStream inputStream = new ByteArrayInputStream(userProperties.getBytes())) {
                 props.load(inputStream);
