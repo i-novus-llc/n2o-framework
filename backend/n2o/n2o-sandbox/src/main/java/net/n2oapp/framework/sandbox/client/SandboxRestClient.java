@@ -3,7 +3,6 @@ package net.n2oapp.framework.sandbox.client;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -11,11 +10,11 @@ import java.util.List;
  */
 public interface SandboxRestClient {
 
-    ProjectModel getProject(String projectId, HttpSession session);
+    ProjectModel getProject(String projectId);
 
-    String getFile(String projectId, String file, HttpSession session);
+    String getFile(String projectId, String file);
 
     boolean isProjectExists(String projectId);
 
-    void putFiles(String projectId, List<FileModel> files, HttpSession session);
+    void putFiles(String projectId, List<FileModel> files);
 }
