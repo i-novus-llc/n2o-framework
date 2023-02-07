@@ -14,14 +14,12 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 /**
  * Тестирование browser-storage
  */
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class BrowserStorageAT extends AutoTestBase {
 
     @BeforeAll
@@ -45,7 +43,6 @@ public class BrowserStorageAT extends AutoTestBase {
      * Тестирование localStorage
      */
     @Test
-    @Disabled
     public void testLocalStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
@@ -56,7 +53,6 @@ public class BrowserStorageAT extends AutoTestBase {
      * Тестирование sessionStorage
      */
     @Test
-    @Disabled
     public void testSessionStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
@@ -112,7 +108,7 @@ public class BrowserStorageAT extends AutoTestBase {
                 .fields().field("Чекбоксы").control(CheckboxGroup.class);
 
         input.shouldBeEmpty();
-        inputDef.shouldBeEmpty();
+        inputDef.shouldHaveValue("text");
         select.shouldBeEmpty();
         checkboxGroup.shouldBeEmpty();
 
@@ -121,7 +117,9 @@ public class BrowserStorageAT extends AutoTestBase {
         checkboxGroup.check("Алексей Иванов");
         select.select(1);
         inputDef.val("test");
+        select.click();
         inputDef.clear();
+        select.click();
         inputDef.shouldBeEmpty();
 
         Selenide.refresh();
@@ -141,7 +139,7 @@ public class BrowserStorageAT extends AutoTestBase {
         page.shouldExists();
 
         input.shouldBeEmpty();
-        inputDef.shouldBeEmpty();
+        inputDef.shouldHaveValue("text");
         select.shouldBeEmpty();
         checkboxGroup.shouldBeEmpty();
     }
