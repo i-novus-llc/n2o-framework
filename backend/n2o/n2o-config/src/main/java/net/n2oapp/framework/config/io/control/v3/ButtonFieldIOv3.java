@@ -33,7 +33,7 @@ public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements 
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
         p.attributeBoolean(e, "rounded", m::getRounded, m::setRounded);
 
-        p.attributeBoolean(e, "confirm", m::getConfirm, m::setConfirm);
+        p.attribute(e, "confirm", m::getConfirm, m::setConfirm);
         p.attribute(e, "confirm-text", m::getConfirmText, m::setConfirmText);
         p.attributeEnum(e, "confirm-type", m::getConfirmType, m::setConfirmType, ConfirmType.class);
         p.attribute(e, "confirm-title", m::getConfirmTitle, m::setConfirmTitle);

@@ -208,12 +208,22 @@ class AutoComplete extends React.Component {
     onSelect = (item) => {
         const { valueFieldId, onChange, closePopupOnSelect, tags, labelFieldId } = this.props
 
-        const currentValue = isString(item) ? item : get(item, valueFieldId)
+        let currentValue = isString(item) ? item : get(item, valueFieldId)
+        let currentInputValue = isString(item) ? item : get(item, labelFieldId)
+
+        const isCustomUserValue = isArray(item) && item.length === 1
+
+        if (isCustomUserValue) {
+            const userValue = item[0]
+
+            currentValue = userValue
+            currentInputValue = userValue
+        }
 
         this.setState(
             prevState => ({
                 value: tags ? [...prevState.value, currentValue] : [currentValue],
-                input: !tags ? item[labelFieldId] : '',
+                input: !tags ? currentInputValue : '',
             }),
             () => {
                 const { value, input } = this.state
@@ -304,12 +314,17 @@ class AutoComplete extends React.Component {
             maxTagTextLength,
             onDismiss,
         } = this.props
-        const needAddFilter = !find(value, item => item[labelFieldId] === input)
+        const needAddFilter = !find(value, item => (item || {})[labelFieldId] === input)
         const optionsList = !isEmpty(data) ? data : options
         const filteredOptions = filter(
             optionsList,
             item => includes(item[labelFieldId], input) || isEmpty(input),
         )
+
+        const selectedItems = (options || [])
+            .filter(option => value.includes(option[valueFieldId]))
+        const selectedLabels = value.map(e => (options || []).find(option => option[valueFieldId] === e) ||
+            (isString(e) ? e : e[labelFieldId]))
 
         return (
             <div
@@ -327,7 +342,7 @@ class AutoComplete extends React.Component {
                                 isExpanded={isExpanded}
                                 setIsExpanded={this.setIsExpanded}
                                 loading={loading}
-                                selected={value}
+                                selected={selectedLabels}
                                 iconFieldId={iconFieldId}
                                 imageFieldId={imageFieldId}
                                 multiSelect={tags}
@@ -349,7 +364,7 @@ class AutoComplete extends React.Component {
                                     setActiveValueId={this.setActiveValueId}
                                     closePopUp={() => this.setIsExpanded(false)}
                                     openPopUp={() => this.setIsExpanded(true)}
-                                    selected={value}
+                                    selected={selectedLabels}
                                     value={input}
                                     onFocus={this.onFocus}
                                     onClick={this.onClick}
@@ -401,7 +416,7 @@ class AutoComplete extends React.Component {
                                         imageFieldId={imageFieldId}
                                         badge={badge}
                                         onSelect={this.onSelect}
-                                        selected={value}
+                                        selected={selectedItems}
                                         disabledValues={disabledValues}
                                         groupFieldId={groupFieldId}
                                         hasCheckboxes={hasCheckboxes}

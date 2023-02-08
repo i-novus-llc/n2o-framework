@@ -5,8 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Клиентская модель компонента ButtonField
@@ -31,4 +34,7 @@ public class ButtonField extends ActionField {
      */
     @JsonProperty
     private List<String> validate;
+
+    @JsonProperty
+    private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
 }

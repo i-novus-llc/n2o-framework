@@ -5,6 +5,7 @@ import {
     takeEvery,
     throttle,
     fork,
+    debounce,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import { getAction, getLocation } from 'connected-react-router'
@@ -143,15 +144,18 @@ export function* watchEvents() {
 
         for (const { datasource, model: prefix, field, action } of events) {
             const modelLink = [prefix, datasource]
-
-            if (field) {
-                modelLink.push(field)
-            }
-
             const model = get(models, modelLink)
             const prevModel = get(prevModels, modelLink)
 
-            if (!isEqual(model, prevModel)) {
+            let value = model
+            let prevValue = prevModel
+
+            if (field) {
+                value = get(value, field)
+                prevValue = get(prevValue, field)
+            }
+
+            if (!isEqual(value, prevValue)) {
                 yield put(cloneDeep(action))
             }
         }
@@ -166,6 +170,6 @@ export function* watchEvents() {
  */
 export default apiProvider => [
     takeEvery(metadataRequest, getMetadata, apiProvider),
-    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchEvents),
+    debounce(100, [setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchEvents),
     throttle(500, MAP_URL, processUrl),
 ]
