@@ -32,17 +32,17 @@ import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 ```xml
 <datasource id="ds1">
-  <filters>
-    <eq field-id="id" value="{id}"/>
-    ...
-  </filters>
-  <submit>
-    ...
-  </submit>
-  <dependencies>
-    <fetch on="ds2"/>
-    ...
-  </dependencies>
+    <filters>
+        <eq field-id="id" value="{id}"/>
+        ...
+    </filters>
+    <submit>
+        ...
+    </submit>
+    <dependencies>
+        <fetch on="ds2"/>
+        ...
+    </dependencies>
 </datasource>
 ```
 
@@ -194,11 +194,11 @@ STOMP-источник данных
 
 ```xml
 <datasources>
-  <inherited-datasource id="ds" source-datasource="app-ds">
-    <submit target-model="false" target-field-id="name">
-      <submit-value>...</submit-value>
-    </submit>
-  </inherited-datasource>
+    <inherited-datasource id="ds" source-datasource="app-ds">
+        <submit target-model="false" target-field-id="name">
+            <submit-value>...</submit-value>
+        </submit>
+    </inherited-datasource>
 </datasources>
 ```
 

@@ -31,25 +31,25 @@ http://n2oapp.net/framework/config/schema/query-5.0
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
        object-id="myObject">
-  <list>
-    <sql>
-         SELECT :select FROM mytable
-         WHERE :filters
-         ORDER BY :sorting
-         LIMIT :limit OFFSET :offset
-    </sql>
-  </list>
+    <list>
+        <sql>
+            SELECT :select FROM mytable
+            WHERE :filters
+            ORDER BY :sorting
+            LIMIT :limit OFFSET :offset
+        </sql>
+    </list>
 
-  <count>
-    <sql>
-         SELECT count(*) FROM mytable
-         WHERE :filters
-    </sql>
-  </count>
+    <count>
+        <sql>
+            SELECT count(*) FROM mytable
+            WHERE :filters
+        </sql>
+    </count>
 
-  <fields>
-    ...
-  </fields>
+    <fields>
+        ...
+    </fields>
 </query>
 ```
 
@@ -83,25 +83,13 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 ```xml
 <list filters="firstNameLike, lastNameLike">
-  <sql>
-       SELECT first_name, last_name
-       FROM mytable
-       WHERE first_name like '%'||:first_name
-          OR last_name '%'||:last_name
-  </sql>
+    <sql>
+        SELECT first_name, last_name
+        FROM mytable
+        WHERE first_name like '%'||:first_name
+        OR last_name '%'||:last_name
+    </sql>
 </list>
-```
-```xml
-<filters>
-  <like filter-id="firstNameLike" field-id="firstName" mapping="['first_name']"/>
-  <like filter-id="lastNameLike" field-id="lastName" mapping="['last_name']"/>
-</filters>
-```
-```xml
-<fields>
-  <field id="firstName"/>
-  <field id="lastName"/>
-</fields>
 ```
 
 ## &lt;unique&gt; {#unique}
@@ -130,20 +118,12 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 ```xml
 <unique filters="id">
-  <sql>
-       SELECT first_name, last_name
-       FROM mytable
-       WHERE id = :id
-  </sql>
-<unique>
-
-<filters>
-  <eq filter-id="id" field-id="id"/>
-</filters>
-
-<fields>
-  <field id="id"/>
-</fields>
+    <sql>
+        SELECT first_name, last_name
+        FROM mytable
+        WHERE id = :id
+    </sql>
+</unique>
 ```
 
 ## &lt;count&gt; {#count}
@@ -172,7 +152,9 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 ```xml
 <count filters="firstNameLike">
-  <sql>SELECT count(*) FROM mytable</sql>
+    <sql>
+        SELECT count(*) FROM mytable
+    </sql>
 </count>
 ```
 
@@ -311,10 +293,10 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 ```xml
 <filters>
-  <eq field-id="gender.id" mapping="gender_id"
-    default-value="1">gender_id = :gender_id</eq>
-  <in field-id="genders" filter-id="genders*.id"
-    domain="integer[]">gender_id in (:genders)</in>
-  <like field-id="gender.name" filter-id="gender.name" domain="string" normalize="#this.toLowerCase()"/>
+    <eq field-id="gender.id" mapping="gender_id"
+        default-value="1">gender_id = :gender_id</eq>
+    <in field-id="genders" filter-id="genders*.id"
+        domain="integer[]">gender_id in (:genders)</in>
+    <like field-id="gender.name" filter-id="gender.name" domain="string" normalize="#this.toLowerCase()"/>
 </filters>
 ```
