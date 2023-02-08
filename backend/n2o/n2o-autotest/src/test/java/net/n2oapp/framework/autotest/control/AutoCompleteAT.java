@@ -62,7 +62,8 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testTags() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -86,6 +87,17 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldHaveTags("abc");
         autoComplete.removeTag("abc");
         autoComplete.shouldBeEmpty();
+
+        autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete3")
+                .control(AutoComplete.class);
+        autoComplete.val("Ив");
+        autoComplete.chooseDropdownOption("Иванов П.И.");
+        autoComplete.val("К.Л.");
+        autoComplete.chooseDropdownOption("Иванченко К.Л.");
+        autoComplete.val("Иванов К.Л.");
+        autoComplete.chooseDropdownOption("Иванов К.Л.");
+        autoComplete.shouldHaveDropdownOptions("Иванов П.И.", "Иванченко К.Л.", "Иванов К.Л.");
+
     }
 
     @Test
