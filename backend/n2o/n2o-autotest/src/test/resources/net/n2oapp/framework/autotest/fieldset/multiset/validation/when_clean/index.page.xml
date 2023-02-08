@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест для проверки валидации полей в филдсете при удалении элементов">
+    <form id="ds">
+        <fields>
+            <input-text id="test" required="true"/>
+            <input-text id="test2" required="true"/>
+            <multi-set id="members"
+                       can-remove-first="false"
+                       can-remove-all="true"
+            >
+                <row>
+                    <input-text id="surname" required="true"/>
+                    <input-text id="name">
+                        <dependencies>
+                            <requiring>true</requiring>
+                        </dependencies>
+                    </input-text>
+                    <input-text id="age" domain="integer">
+                        <validations>
+                            <condition message="Не заполнено поле" severity="danger">
+                                members[index].age != null
+                            </condition>
+                        </validations>
+                    </input-text>
+                </row>
+            </multi-set>
+        </fields>
+
+        <toolbar>
+            <button label="Validate" disable-on-empty-model="false"
+                    validate-datasources="ds" validate="true"/>
+        </toolbar>
+    </form>
+</simple-page>

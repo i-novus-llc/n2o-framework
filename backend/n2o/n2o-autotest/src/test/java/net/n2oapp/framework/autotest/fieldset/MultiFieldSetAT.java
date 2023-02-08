@@ -521,6 +521,70 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
+    public void testValidationOnClear() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation/when_clean/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget formWidget = page.widget(FormWidget.class);
+        formWidget.shouldExists();
+;
+        StandardField test = formWidget.fields().field("test");
+        StandardField test2 = formWidget.fields().field("test");
+        MultiFieldSet fieldset = formWidget.fieldsets().fieldset(1, MultiFieldSet.class);
+        fieldset.addButtonShouldBeExist();
+        fieldset.addButtonShouldBeEnabled();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.item(0).fields().field("surname").control(InputText.class).val("test");
+        fieldset.item(1).fields().field("name").control(InputText.class).val("test");
+        fieldset.item(2).fields().field("age").control(InputText.class).val("3");
+        fieldset.item(3).fields().field("name").control(InputText.class).val("test");
+        formWidget.toolbar().topLeft().button("Validate").click();
+
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(2).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(2).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(3).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(3).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).clickRemoveButton();
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(0).fields().field("surname").control(InputText.class).shouldHaveValue("test");
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("age").control(InputText.class).shouldHaveValue("3");
+
+        fieldset.item(2).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(2).fields().field("name").control(InputText.class).shouldHaveValue("test");
+        fieldset.item(2).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.clickRemoveAllButton();
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.shouldHaveItems(1);
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+    }
+
+    @Test
     public void testCreateMany() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/add.page.xml"),
