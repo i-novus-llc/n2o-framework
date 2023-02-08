@@ -32,7 +32,7 @@
             </button>
             <button id="btn6" confirm="true"/>
             <button id="btn7"
-                    confirm="true"
+                    confirm="{test === '1'|| test === '2'}"
                     confirm-text="Зарегистрировать заявление?"
                     confirm-ok-label="Зарегистрировать"
                     confirm-ok-color="dark"

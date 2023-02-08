@@ -33,7 +33,7 @@ public class N2oButtonField extends N2oActionField implements ModelAware, Dataso
     private String[] validateDatasourceIds;
     private String tooltipPosition;
     private Boolean rounded;
-    private Boolean confirm;
+    private String confirm;
     private ConfirmType confirmType;
     private String confirmText;
     private String confirmTitle;
