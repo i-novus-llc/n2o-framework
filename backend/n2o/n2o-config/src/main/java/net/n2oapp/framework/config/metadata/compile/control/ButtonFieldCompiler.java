@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 
@@ -138,6 +138,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         confirm.setCancel(new Confirm.Button(
                 p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")),
                 p.cast(source.getConfirmCancelColor(), p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
+        Object condition = p.resolveJS(String.valueOf(source.getConfirm()), Boolean.class);
+        confirm.setCondition(initConfirmCondition(condition));
         confirm.setCloseButton(p.resolve(property("n2o.api.button.confirm.close_button"), Boolean.class));
         confirm.setReverseButtons(p.resolve(property("n2o.api.button.confirm.reverse_buttons"), Boolean.class));
 
@@ -149,7 +151,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             }
             confirm.setText(text);
         }
-        if (StringUtils.isJs(confirm.getText())) {
+        if (StringUtils.isJs(confirm.getText()) || StringUtils.isJs(confirm.getCondition())) {
             String datasource = initClientDatasourceId(source, p);
             confirm.setModelLink(new ModelLink(source.getModel(), datasource).getBindLink());
         }
@@ -165,5 +167,23 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
             return getClientDatasourceId(datasourceId, p);
         else
             throw new N2oException(String.format("Unknown datasource for submit in field %s!", source.getId()));
+    }
+
+    private String initConfirmCondition(Object condition) {
+        if (condition instanceof Boolean)
+            return Placeholders.js(Boolean.toString(true));
+        return initExpression((String) condition);
+    }
+
+    private String initExpression(String attr) {
+        if (StringUtils.hasLink(attr)) {
+            Set<String> links = StringUtils.collectLinks(attr);
+            String text = js("'" + attr + "'");
+            for (String link : links) {
+                text = text.replace(ref(link), "' + this." + link + " + '");
+            }
+            return text;
+        }
+        return attr;
     }
 }
