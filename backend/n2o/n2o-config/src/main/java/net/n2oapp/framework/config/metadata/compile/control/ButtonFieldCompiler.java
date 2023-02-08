@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -97,7 +98,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         if (source.getModel() == null)
             source.setModel(ReduxModel.resolve);
 
-        initConfirm(button, source, p, operation);
+        compileConfirm(button, source, p, operation);
 
         String datasource = initDatasource(source, p);
         button.setValidate(compileValidate(source, p, datasource));
@@ -124,21 +125,36 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         return null;
     }
 
-    private void initConfirm(ButtonField button, N2oButtonField source, CompileProcessor p, CompiledObject.Operation operation) {
-        if ((source.getConfirm() == null || !source.getConfirm()) &&
-                (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
-            return;
+    private void compileConfirm(ButtonField button, N2oButtonField source,
+                                   CompileProcessor p, CompiledObject.Operation operation) {
+        boolean operationConfirm = operation != null && operation.getConfirm() != null && operation.getConfirm();
+        if (source.getConfirm() != null) {
+            Object condition = p.resolveJS(source.getConfirm(), Boolean.class);
+            if (condition instanceof Boolean) {
+                if (!((Boolean) condition || operationConfirm))
+                    return;
+                initConfirm(button, source, p, operation, true);
+            }
+            if (condition instanceof String) {
+                 initConfirm(button, source, p, operation, condition);
+            }
+        }
+        if (operationConfirm)
+             initConfirm(button, source, p, operation, true);
+    }
+
+    private void initConfirm(ButtonField button, N2oButtonField source, CompileProcessor p, CompiledObject.Operation operation, Object condition) {
         Confirm confirm = new Confirm();
         confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.MODAL));
-        confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
-        confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
+        confirm.setTitle(p.cast(source.getConfirmTitle(), operation != null ? operation.getFormSubmitLabel() : null, p.getMessage("n2o.confirm.title")));
         confirm.setOk(new Confirm.Button(
                 p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")),
                 p.cast(source.getConfirmOkColor(), p.resolve(property("n2o.api.button.confirm.ok_color"), String.class))));
         confirm.setCancel(new Confirm.Button(
                 p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")),
                 p.cast(source.getConfirmCancelColor(), p.resolve(property("n2o.api.button.confirm.cancel_color"), String.class))));
-        Object condition = p.resolveJS(String.valueOf(source.getConfirm()), Boolean.class);
+        confirm.setText(initExpression(
+                p.cast(source.getConfirmText(), operation != null ? operation.getConfirmationText() : null, p.getMessage("n2o.confirm.text"))));
         confirm.setCondition(initConfirmCondition(condition));
         confirm.setCloseButton(p.resolve(property("n2o.api.button.confirm.close_button"), Boolean.class));
         confirm.setReverseButtons(p.resolve(property("n2o.api.button.confirm.reverse_buttons"), Boolean.class));
