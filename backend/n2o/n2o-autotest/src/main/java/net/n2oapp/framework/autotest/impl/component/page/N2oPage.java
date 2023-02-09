@@ -75,12 +75,12 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public void urlShouldMatches(String regexp) {
+    public void shouldHaveUrlLike(String regexp) {
         element().should(new UrlMatch(regexp));
     }
 
     @Override
-    public void titleShouldHaveText(String title) {
+    public void shouldHaveTitle(String title) {
         element().$(".n2o-page__title").shouldHave(Condition.text(title));
     }
 
@@ -166,21 +166,21 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Deprecated
         @Override
-        public void firstTitleShouldHaveText(String text) {
+        public void shouldHaveFirstTitleWithText(String text) {
             element().$(".breadcrumb-item").shouldHave(Condition.text(text));
         }
 
         @Deprecated
         @Override
-        public void titleShouldHaveText(String text) {
+        public void shouldHaveTitle(String title) {
             element().$$(".breadcrumb-item").last()
-                    .shouldHave(Condition.text(text));
+                    .shouldHave(Condition.text(title));
         }
 
         @Deprecated
         @Override
-        public void titleByIndexShouldHaveText(String text, Integer index) {
-            element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(text));
+        public void shouldHaveTitleByIndex(String title, Integer index) {
+            element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(title));
         }
         public N2oBreadcrumb(SelenideElement element) {
             setElement(element);
@@ -302,11 +302,12 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Nonnull
         @Override
-        public CheckResult check(Driver driver, WebElement element) {
+        public CheckResult check(Driver driver, @Nonnull WebElement element) {
             boolean result = driver.url().matches(regex);
             return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
+        @Nonnull
         @Override
         public String toString() {
             return String.format("%s '%s'", getName(), regex);

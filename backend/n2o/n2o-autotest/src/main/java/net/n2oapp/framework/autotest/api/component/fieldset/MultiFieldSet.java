@@ -8,23 +8,23 @@ public interface MultiFieldSet extends FieldSet {
 
     MultiFieldSetItem item(int index);
 
-    void addButtonShouldBeExist();
+    void shouldHaveAddButton();
 
-    void addButtonShouldNotBeExist();
+    void shouldNotHaveAddButton();
 
-    void addButtonShouldBeEnabled();
+    void shouldHaveEnabledAddButton();
 
-    void addButtonShouldBeDisabled();
+    void shouldHaveDisabledAddButton();
 
-    void addButtonShouldHaveLabel(String label);
+    void shouldHaveAddButtonLabel(String label);
 
     void clickAddButton();
 
-    void removeAllButtonShouldBeExist();
+    void shouldHaveRemoveAllButton();
 
-    void removeAllButtonShouldNotBeExist();
+    void shouldNotHaveRemoveAllButton();
 
-    void removeAllButtonShouldHaveLabel(String label);
+    void shouldHaveRemoveAllButtonLabel(String label);
 
     void clickRemoveAllButton();
 }

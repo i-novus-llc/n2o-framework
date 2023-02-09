@@ -7,8 +7,8 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface Footer extends Component {
 
-    void leftTextShouldBe(String brandName);
+    void shouldHaveLeftTextNamed(String brandName);
 
-    void rightTextShouldBe(String brandName);
+    void shouldHaveRightTextNamed(String brandName);
 
 }

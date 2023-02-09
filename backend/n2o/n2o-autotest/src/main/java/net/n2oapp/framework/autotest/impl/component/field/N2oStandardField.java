@@ -49,7 +49,7 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void messageShouldHave(Condition condition) {
+    public void shouldHaveMessage(Condition condition) {
         //реализовать, когда понадобится
         throw new UnsupportedOperationException();
     }

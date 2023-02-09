@@ -50,11 +50,11 @@ public class SidebarsAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().titleShouldBe("Лого");
-        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        page.sidebar().shouldHaveTitle("Лого");
+        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
     }
@@ -68,11 +68,11 @@ public class SidebarsAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().titleShouldBe("Лого");
-        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        page.sidebar().shouldHaveTitle("Лого");
+        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
         FormWidget form = page.widget(FormWidget.class);
@@ -84,12 +84,12 @@ public class SidebarsAT extends AutoTestBase {
         open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
-        openHeader.sidebarSwitcherShouldExists();
+        openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
-        open.urlShouldMatches(getBaseUrl() + "/#/persons");
+        open.shouldHaveUrlLike(getBaseUrl() + "/#/persons");
         open.sidebar().shouldExists();
-        open.sidebar().titleShouldBe("Боковая панель для страницы Persons");
-        open.sidebar().brandLogoShouldBe("images/logoPersons.png");
+        open.sidebar().shouldHaveTitle("Боковая панель для страницы Persons");
+        open.sidebar().shouldHaveBrandLogoNamed("images/logoPersons.png");
     }
 
     @Test
@@ -101,11 +101,11 @@ public class SidebarsAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().titleShouldBe("Лого");
-        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        page.sidebar().shouldHaveTitle("Лого");
+        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
         FormWidget form = page.widget(FormWidget.class);
@@ -117,12 +117,12 @@ public class SidebarsAT extends AutoTestBase {
         open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
-        openHeader.sidebarSwitcherShouldExists();
+        openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
-        open.urlShouldMatches(getBaseUrl() + "/#/persons/1/list");
+        open.shouldHaveUrlLike(getBaseUrl() + "/#/persons/1/list");
         open.sidebar().shouldExists();
-        open.sidebar().titleShouldBe("Лист");
-        open.sidebar().brandLogoShouldBe("images/logoList.png");
+        open.sidebar().shouldHaveTitle("Лист");
+        open.sidebar().shouldHaveBrandLogoNamed("images/logoList.png");
     }
 
     @Test
@@ -134,11 +134,11 @@ public class SidebarsAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().titleShouldBe("Лого");
-        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        page.sidebar().shouldHaveTitle("Лого");
+        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
         FormWidget form = page.widget(FormWidget.class);
@@ -150,12 +150,12 @@ public class SidebarsAT extends AutoTestBase {
         open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
-        openHeader.sidebarSwitcherShouldExists();
+        openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
-        open.urlShouldMatches(getBaseUrl() + "/#/persons/user");
+        open.shouldHaveUrlLike(getBaseUrl() + "/#/persons/user");
         open.sidebar().shouldExists();
-        open.sidebar().titleShouldBe("Пользователь");
-        open.sidebar().brandLogoShouldBe("images/logoUser.png");
+        open.sidebar().shouldHaveTitle("Пользователь");
+        open.sidebar().shouldHaveBrandLogoNamed("images/logoUser.png");
     }
 
     @Test
@@ -168,11 +168,11 @@ public class SidebarsAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().titleShouldBe("Лого");
-        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        page.sidebar().shouldHaveTitle("Лого");
+        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
         FormWidget form = page.widget(FormWidget.class);
@@ -184,12 +184,12 @@ public class SidebarsAT extends AutoTestBase {
         list.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         SimpleHeader openHeader = page.header();
         openHeader.shouldExists();
-        openHeader.sidebarSwitcherShouldExists();
+        openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
-        list.urlShouldMatches(getBaseUrl() + "/#/persons/1/list");
+        list.shouldHaveUrlLike(getBaseUrl() + "/#/persons/1/list");
         list.sidebar().shouldExists();
-        list.sidebar().titleShouldBe("Лист");
-        list.sidebar().brandLogoShouldBe("images/logoList.png");
+        list.sidebar().shouldHaveTitle("Лист");
+        list.sidebar().shouldHaveBrandLogoNamed("images/logoList.png");
         openHeader.switchSidebar();
         list.sidebar().shouldHaveState(SidebarState.none);
 
@@ -202,11 +202,11 @@ public class SidebarsAT extends AutoTestBase {
         open.breadcrumb().crumb(2).shouldHaveLabel("Третья страница");
         openHeader = page.header();
         openHeader.shouldExists();
-        openHeader.sidebarSwitcherShouldExists();
+        openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
         open.sidebar().shouldExists();
-        open.sidebar().titleShouldBe("Профиль");
-        open.sidebar().brandLogoShouldBe("images/logoPerson.png");
+        open.sidebar().shouldHaveTitle("Профиль");
+        open.sidebar().shouldHaveBrandLogoNamed("images/logoPerson.png");
     }
 
     @Test
@@ -230,22 +230,22 @@ public class SidebarsAT extends AutoTestBase {
         table.toolbar().topLeft().button("Открыть").click();
 
         page.shouldExists();
-        page.urlShouldMatches(getBaseUrl() + "/#/person/1/profile");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/person/1/profile");
         page.breadcrumb().crumb(1).shouldHaveLabel("Страница профиля");
         sidebar.shouldExists();
         sidebar.shouldHaveState(SidebarState.mini);
-        sidebar.titleShouldBe("test1");
-        sidebar.subtitleShouldBe("type11");
+        sidebar.shouldHaveTitle("test1");
+        sidebar.shouldHaveSubtitle("type11");
         sidebar.clickToggleBtn();
         AnchorMenuItem menuItem = sidebar.nav().anchor(0);
         menuItem.shouldExists();
-        menuItem.labelShouldHave("Документы");
+        menuItem.shouldHaveLabel("Документы");
         menuItem.click();
 
         page.shouldExists();
-        page.urlShouldMatches(getBaseUrl() + "/#/person/1/docs\\?name=test1");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/person/1/docs\\?name=test1");
         page.breadcrumb().crumb(0).shouldHaveLabel("Документы");
-        sidebar.titleShouldBe("test1");
-        sidebar.subtitleShouldBe("type11");
+        sidebar.shouldHaveTitle("test1");
+        sidebar.shouldHaveSubtitle("type11");
     }
 }

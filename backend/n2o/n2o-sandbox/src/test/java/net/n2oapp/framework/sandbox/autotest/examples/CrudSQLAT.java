@@ -10,7 +10,6 @@ import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,14 +44,14 @@ public class CrudSQLAT extends SandboxAutotestBase {
     public void crudTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
         TableWidget.Rows rows = table.columns().rows();
-        table.paging().totalElementsShouldBe(13);
+        table.paging().shouldHaveTotalElements(13);
 
         Button create = table.toolbar().topLeft().button("Создать");
         create.shouldExists();
@@ -81,9 +80,9 @@ public class CrudSQLAT extends SandboxAutotestBase {
         save.shouldExists();
         save.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Автомобиль добавлен в базу");
-        table.paging().totalElementsShouldBe(14);
+        table.paging().shouldHaveTotalElements(14);
         table.paging().selectPage("2");
-        rows.row(3).cell(1).textShouldHave("test-value");
+        rows.row(3).cell(1).shouldHaveText("test-value");
 
         rows.shouldBeSelected(0);
         update.click();
@@ -104,33 +103,33 @@ public class CrudSQLAT extends SandboxAutotestBase {
         save1.shouldExists();
         save1.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные об автомобиле изменены");
-        table.paging().totalElementsShouldBe(14);
-        rows.row(0).cell(1).textShouldHave("change-test-value");
+        table.paging().shouldHaveTotalElements(14);
+        rows.row(0).cell(1).shouldHaveText("change-test-value");
 
         rows.shouldBeSelected(0);
         delete.click();
         page.dialog("Предупреждение").shouldBeVisible();
         page.dialog("Предупреждение").button("Да").click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные об автомобиле удалены");
-        table.paging().totalElementsShouldBe(13);
+        table.paging().shouldHaveTotalElements(13);
     }
 
     @Test
     public void pagingTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
-        table.paging().totalElementsShouldBe(13);
-        table.paging().activePageShouldBe("1");
+        table.paging().shouldHaveTotalElements(13);
+        table.paging().shouldHaveActivePage("1");
         table.columns().rows().shouldHaveSize(10);
 
         table.paging().selectPage("2");
-        table.paging().activePageShouldBe("2");
+        table.paging().shouldHaveActivePage("2");
         table.columns().rows().shouldHaveSize(3);
     }
 
@@ -138,13 +137,13 @@ public class CrudSQLAT extends SandboxAutotestBase {
     public void filterTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Список автомобилей");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
-        table.paging().totalElementsShouldBe(13);
+        table.paging().shouldHaveTotalElements(13);
 
         table.filters().shouldBeVisible();
         InputText minPrice = table.filters().fields().field("Минимальная цена").control(InputText.class);
@@ -156,7 +155,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         minPrice.shouldHaveValue("160000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(2).textShouldHave("161 000");
+        table.columns().rows().row(0).cell(2).shouldHaveText("161 000");
         table.filters().clear();
         minPrice.shouldBeEmpty();
 
@@ -164,7 +163,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         maxPrice.shouldHaveValue("22000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(2).textShouldHave("21 000");
+        table.columns().rows().row(0).cell(2).shouldHaveText("21 000");
 
         maxPrice.val("34000");
         maxPrice.shouldHaveValue("34000");
@@ -172,7 +171,7 @@ public class CrudSQLAT extends SandboxAutotestBase {
         minPrice.shouldHaveValue("30000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(2).textShouldHave("32 000");
+        table.columns().rows().row(0).cell(2).shouldHaveText("32 000");
 
         table.filters().clear();
         minPrice.shouldBeEmpty();

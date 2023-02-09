@@ -52,14 +52,14 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
     }
 
     @Override
-    public void passwordShouldBeVisible() {
+    public void shouldHaveVisiblePassword() {
         SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.attribute("type", "text"));
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "text"));
     }
 
     @Override
-    public void passwordShouldNotBeVisible() {
+    public void shouldNotHaveVisiblePassword() {
         SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.attribute("type", "password"));
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "password"));

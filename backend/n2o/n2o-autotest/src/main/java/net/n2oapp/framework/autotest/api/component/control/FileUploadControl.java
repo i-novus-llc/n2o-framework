@@ -13,11 +13,11 @@ public interface FileUploadControl extends Control {
 
     void deleteFile(int index);
 
-    void uploadFilesShouldBe(int size);
+    void shouldHaveUploadFilesOfSize(int size);
 
-    void uploadFileNameShouldBe(int index, String fileName);
+    void shouldHaveUploadFileNamed(int index, String fileName);
 
-    void uploadFileSizeShouldBe(int index, String fileSize);
+    void shouldHaveUploadFileWithSize(int index, String fileSize);
 
-    void uploadFileShouldHaveLink(int index, String href);
+    void shouldHaveUploadFileWithLink(int index, String href);
 }

@@ -256,13 +256,13 @@ public class CopyActionAT extends AutoTestBase {
         saveBtn.click();
 
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("val1");
+        rows.row(0).cell(1).shouldHaveText("val1");
 
         addBtn.click();
         modal.shouldExists();
         inputText.val("val2");
         saveBtn.click();
         rows.shouldHaveSize(2);
-        rows.row(1).cell(1).textShouldHave("val2");
+        rows.row(1).cell(1).shouldHaveText("val2");
     }
 }

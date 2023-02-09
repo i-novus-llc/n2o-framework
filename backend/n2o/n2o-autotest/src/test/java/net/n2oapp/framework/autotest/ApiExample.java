@@ -58,6 +58,6 @@ public class ApiExample {
                 .rows()
                 .row(0)
                 .cell(0)
-                .textShouldHave("Joe");
+                .shouldHaveText("Joe");
     }
 }

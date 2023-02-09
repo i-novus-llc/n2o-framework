@@ -56,19 +56,19 @@ public class TilesAT extends AutoTestBase {
         Tile tile1 = tiles.tile(0);
         tile1.shouldHaveWidth(200);
         tile1.shouldHaveHeight(250);
-        tile1.blocks().cell(0, ImageCell.class).imageShouldBe(getBaseUrl() + "/favicon.ico");
-        tile1.blocks().cell(1, TextCell.class).textShouldHave("text1");
+        tile1.blocks().cell(0, ImageCell.class).shouldHaveImageByUrl(getBaseUrl() + "/favicon.ico");
+        tile1.blocks().cell(1, TextCell.class).shouldHaveText("text1");
         IconCell iconCell = tile1.blocks().cell(2, IconCell.class);
-        iconCell.iconShouldBe("fa-plus");
+        iconCell.shouldHaveIcon("fa-plus");
         iconCell.textShouldHave("icon1");
         iconCell.hover();
         iconCell.tooltip().shouldHaveText("icon1");
 
         BadgeCell badgeCell = tile1.blocks().cell(3, BadgeCell.class);
-        badgeCell.colorShouldBe(Colors.INFO);
-        badgeCell.textShouldHave("alert");
-        tile1.blocks().cell(4, ProgressBarCell.class).valueShouldBe("50");
-        tile1.blocks().cell(5, RatingCell.class).valueShouldBe("4");
+        badgeCell.shouldHaveColor(Colors.INFO);
+        badgeCell.shouldHaveText("alert");
+        tile1.blocks().cell(4, ProgressBarCell.class).shouldHaveValue("50");
+        tile1.blocks().cell(5, RatingCell.class).shouldHaveValue("4");
         tile1.blocks().cell(6, CheckboxCell.class).shouldBeChecked();
         StandardButton open = tile1.blocks().cell(7, ToolbarCell.class).toolbar().button("Open");
         open.click();
@@ -78,11 +78,11 @@ public class TilesAT extends AutoTestBase {
 
 
         Tile tile2 = tiles.tile(1);
-        tile2.blocks().cell(1, TextCell.class).textShouldHave("text2");
+        tile2.blocks().cell(1, TextCell.class).shouldHaveText("text2");
         iconCell = tile2.blocks().cell(2, IconCell.class);
-        iconCell.iconShouldBe("fa-minus");
+        iconCell.shouldHaveIcon("fa-minus");
         iconCell.textShouldHave("icon2");
-        tile2.blocks().cell(4, ProgressBarCell.class).valueShouldBe("70");
+        tile2.blocks().cell(4, ProgressBarCell.class).shouldHaveValue("70");
         tile2.blocks().cell(6, CheckboxCell.class).shouldBeUnchecked();
     }
 
@@ -96,55 +96,55 @@ public class TilesAT extends AutoTestBase {
         tiles.shouldExists();
 
         Paging paging = tiles.paging();
-        paging.totalElementsShouldBe(8);
+        paging.shouldHaveTotalElements(8);
         paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.prevShouldNotExist();
-        paging.nextShouldNotExist();
-        paging.firstShouldExist();
-        paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.lastShouldNotExist();
+        paging.shouldNotHavePrev();
+        paging.shouldNotHaveNext();
+        paging.shouldHaveFirst();
+        paging.shouldHaveFirstWithIcon("fa-angle-double-left");
+        paging.shouldNotHaveLast();
 
-        paging.activePageShouldBe("1");
-        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        tiles.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test1");
         tiles.shouldHaveItems(3);
         paging.selectPage("3");
-        paging.activePageShouldBe("3");
+        paging.shouldHaveActivePage("3");
         tiles.shouldHaveItems(2);
-        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test7");
+        tiles.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test7");
         paging.selectFirst();
-        paging.activePageShouldBe("1");
-        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        tiles.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test1");
 
 
         TilesWidget tiles2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TilesWidget.class);
         tiles2.shouldExists();
 
         paging = tiles2.paging();
-        paging.totalElementsShouldNotExist();
+        paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.SEPARATED_ROUNDED);
-        paging.prevShouldExist();
-        paging.prevShouldHaveLabel("Prev");
-        paging.prevShouldHaveIcon("fa-angle-down");
-        paging.nextShouldExist();
-        paging.nextShouldHaveLabel("Next");
-        paging.nextShouldHaveIcon("fa-angle-up");
-        paging.firstShouldExist();
-        paging.firstShouldHaveLabel("First");
-        paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.lastShouldExist();
-        paging.lastShouldHaveLabel("Last");
-        paging.lastShouldHaveIcon("fa-angle-double-up");
+        paging.shouldHavePrev();
+        paging.shouldHavePrevWithLabel("Prev");
+        paging.shouldHavePrevWithIcon("fa-angle-down");
+        paging.shouldHaveNext();
+        paging.shouldHaveNextWithLabel("Next");
+        paging.shouldHaveNextWithIcon("fa-angle-up");
+        paging.shouldHaveFirst();
+        paging.shouldHaveFirstWithLabel("First");
+        paging.shouldHaveFirstWithIcon("fa-angle-double-down");
+        paging.shouldHaveLast();
+        paging.shouldHaveLastWithLabel("Last");
+        paging.shouldHaveLastWithIcon("fa-angle-double-up");
 
-        paging.activePageShouldBe("1");
-        tiles2.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        tiles2.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test1");
         paging.selectNext();
-        paging.activePageShouldBe("2");
-        tiles2.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test4");
+        paging.shouldHaveActivePage("2");
+        tiles2.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test4");
         paging.selectPrev();
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
         paging.selectLast();
         tiles2.shouldHaveItems(2);
-        tiles2.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test7");
+        tiles2.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test7");
     }
 }
 

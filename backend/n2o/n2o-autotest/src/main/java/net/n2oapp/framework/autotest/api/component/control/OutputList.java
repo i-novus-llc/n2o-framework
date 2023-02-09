@@ -13,5 +13,5 @@ public interface OutputList extends Control {
 
     void shouldHaveDirection(Direction direction);
 
-    void linkShouldHaveValue(String itemValue, String link);
+    void shouldHaveLink(String itemValue, String link);
 }

@@ -11,11 +11,11 @@ public interface ScrollspyRegion extends Region {
 
     ContentItem contentItem(String title);
 
-    void activeContentItemShouldBe(String title);
+    void shouldHaveActiveContentItem(String title);
 
-    void activeMenuItemShouldBe(String title);
+    void shouldHaveActiveMenuItem(String title);
 
-    void menuShouldHavePosition(MenuPosition position);
+    void shouldHaveMenuOnPosition(MenuPosition position);
 
     Menu menu();
 

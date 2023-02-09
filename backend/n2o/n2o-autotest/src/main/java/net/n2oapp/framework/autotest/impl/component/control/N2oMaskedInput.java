@@ -53,7 +53,7 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
     }
 
     @Override
-    public void measureShouldHaveText(String text) {
+    public void shouldHaveMeasureText(String text) {
         inputMeasure().shouldHave(Condition.text(text));
     }
 

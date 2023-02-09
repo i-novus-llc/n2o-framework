@@ -51,9 +51,9 @@ public class ImageCellAT extends AutoTestBase {
         rows.shouldHaveSize(4);
 
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
-        cell.imageShouldBe(getBaseUrl() + "/favicon.ico");
-        cell.widthShouldBe(15);
-        cell.shapeShouldBe(ShapeType.CIRCLE);
+        cell.shouldHaveImageByUrl(getBaseUrl() + "/favicon.ico");
+        cell.shouldHaveWidth(15);
+        cell.shouldHaveShape(ShapeType.CIRCLE);
     }
 
     @Test
@@ -69,14 +69,14 @@ public class ImageCellAT extends AutoTestBase {
 
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldExists();
-        cell.imageShouldBe("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAlCAMAAAADS4u8AAAAnFBMVEX////ZbFrptDj////ptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFr////ptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFrptDj///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFr///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///90gGlOAAAAMHRSTlMAEBAQICAwMDAwQEBAQFBQUGBgcHCAgICAkJCQoKCgsLCwwMDAwNDQ0ODg4PDw8PDEXJ+/AAAA+UlEQVQYGc3B61aCQBSA0U/ICtGki4ZhGKmlYXI57/9uzbgwRqHF/KnV3hBl0rTxUHrL4mjeg1BaZX3gvajNIZN2D+AXph7ygxD8wuSTSrs7uCoMnxBIq40LzIvaFAiSdVPsok2XR7f8B7O8026CNsttTFB2uY0tSm4HZZvbeEO5yW0M0AaL1y6LS36TOzJQcYaKw6lIToRoT+XBysEQyZkQeCwrKwyZnEmBfXl0QU0agPLbkFoqZxLgo6zsHWqBnMo8YFxW7jGN4rUh9tCun1fKy5i/0B91cTlwY+kWoUViI0QRKymK2EFJxUaCEoiFzEPz4nWXuI/yBYSItStrEp20AAAAAElFTkSuQmCC");
-        cell.widthShouldBe(40);
+        cell.shouldHaveImageByUrl("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAlCAMAAAADS4u8AAAAnFBMVEX////ZbFrptDj////ptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFr////ptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFrptDj///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFr///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///90gGlOAAAAMHRSTlMAEBAQICAwMDAwQEBAQFBQUGBgcHCAgICAkJCQoKCgsLCwwMDAwNDQ0ODg4PDw8PDEXJ+/AAAA+UlEQVQYGc3B61aCQBSA0U/ICtGki4ZhGKmlYXI57/9uzbgwRqHF/KnV3hBl0rTxUHrL4mjeg1BaZX3gvajNIZN2D+AXph7ygxD8wuSTSrs7uCoMnxBIq40LzIvaFAiSdVPsok2XR7f8B7O8026CNsttTFB2uY0tSm4HZZvbeEO5yW0M0AaL1y6LS36TOzJQcYaKw6lIToRoT+XBysEQyZkQeCwrKwyZnEmBfXl0QU0agPLbkFoqZxLgo6zsHWqBnMo8YFxW7jGN4rUh9tCun1fKy5i/0B91cTlwY+kWoUViI0QRKymK2EFJxUaCEoiFzEPz4nWXuI/yBYSItStrEp20AAAAAElFTkSuQmCC");
+        cell.shouldHaveWidth(40);
         cell.shouldHaveTitle("Заголовок1");
         cell.shouldHaveDescription("Описание1");
         cell.shouldHaveTextPosition(TextPosition.left);
 
         cell = rows.row(1).cell(0, ImageCell.class);
-        cell.imageShouldBe(getBaseUrl() + "/images/hamburg-3846525__340.jpg");
+        cell.shouldHaveImageByUrl(getBaseUrl() + "/images/hamburg-3846525__340.jpg");
         cell.shouldHaveTitle("Заголовок2");
         cell.shouldHaveDescription("Описание2");
     }
@@ -97,7 +97,7 @@ public class ImageCellAT extends AutoTestBase {
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldExists();
         cell.shouldHaveStatus(ImageStatusElementPlace.topRight, "Статус1");
-        cell.statusShouldHaveIcon(ImageStatusElementPlace.topRight, ".fa.fa-plus");
+        cell.shouldHaveStatusWithIcon(ImageStatusElementPlace.topRight, ".fa.fa-plus");
 
         cell = rows.row(1).cell(0, ImageCell.class);
         cell.shouldHaveStatus(ImageStatusElementPlace.topRight, "Статус2");

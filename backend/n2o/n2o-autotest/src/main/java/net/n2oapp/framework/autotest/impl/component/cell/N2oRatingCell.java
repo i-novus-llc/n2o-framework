@@ -11,12 +11,12 @@ import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 public class N2oRatingCell extends N2oCell implements RatingCell {
 
     @Override
-    public void maxShouldBe(int max) {
+    public void shouldHaveMax(int max) {
         ratingInput().last().shouldHave(Condition.attribute("value", "" + max));
     }
 
     @Override
-    public void valueShouldBe(String value) {
+    public void shouldHaveValue(String value) {
         ratingInput().find(Condition.selected).shouldHave(Condition.value(value));
     }
 

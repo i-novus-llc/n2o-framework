@@ -71,10 +71,10 @@ public class InputSelectAT extends AutoTestBase {
         input.closePopup();
 
         InputSelect input2 = fields.field("InputSelect1").control(InputSelect.class);
-        input2.itemShouldBeEnabled(true, "One");
-        input2.itemShouldBeEnabled(true, "Two");
-        input2.itemShouldBeEnabled(false, "Three");
-        input2.itemShouldBeEnabled(true, "Four");
+        input2.shouldHaveEnableItem(true, "One");
+        input2.shouldHaveEnableItem(true, "Two");
+        input2.shouldHaveEnableItem(false, "Three");
+        input2.shouldHaveEnableItem(true, "Four");
 
         // close popup by click on outside area
         input2.openPopup();
@@ -93,9 +93,9 @@ public class InputSelectAT extends AutoTestBase {
                 .control(InputSelect.class);
         input.shouldExists();
 
-        input.itemShouldHaveStatusColor("One", Colors.SUCCESS);
-        input.itemShouldHaveStatusColor("Two", Colors.PRIMARY);
-        input.itemShouldHaveStatusColor("Three", Colors.DANGER);
+        input.shouldHaveItemWithStatusColor("One", Colors.SUCCESS);
+        input.shouldHaveItemWithStatusColor("Two", Colors.PRIMARY);
+        input.shouldHaveItemWithStatusColor("Three", Colors.DANGER);
     }
 
     @Test
@@ -154,10 +154,10 @@ public class InputSelectAT extends AutoTestBase {
         input.closePopup();
         input = page.widget(FormWidget.class).fields().field("InputSelect3")
                 .control(InputSelect.class);
-        input.itemShouldBeEnabled(true, "One");
-        input.itemShouldBeEnabled(true, "Two");
-        input.itemShouldBeEnabled(false, "Three");
-        input.itemShouldBeEnabled(true, "Four");
+        input.shouldHaveEnableItem(true, "One");
+        input.shouldHaveEnableItem(true, "Two");
+        input.shouldHaveEnableItem(false, "Three");
+        input.shouldHaveEnableItem(true, "Four");
     }
 
     @Test
@@ -173,8 +173,8 @@ public class InputSelectAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         input.shouldHaveOptions("name1", "name2", "name3");
-        input.optionShouldHaveDescription("name1", "desc1");
-        input.optionShouldHaveDescription("name3", "desc3");
+        input.shouldHaveOptionDescription("name1", "desc1");
+        input.shouldHaveOptionDescription("name3", "desc3");
         input.select(1);
         input.shouldSelected("name2");
         input.clear();
@@ -190,8 +190,8 @@ public class InputSelectAT extends AutoTestBase {
         input2.shouldExists();
 
         input2.shouldBeEmpty();
-        input2.optionShouldHaveDescription("name1", "desc1");
-        input2.optionShouldHaveDescription("name3", "desc3");
+        input2.shouldHaveOptionDescription("name1", "desc1");
+        input2.shouldHaveOptionDescription("name3", "desc3");
         input2.shouldHaveOptions("name1", "name2", "name3");
         input2.selectMulti(1, 2);
         input2.shouldSelectedMulti("name2", "name3");

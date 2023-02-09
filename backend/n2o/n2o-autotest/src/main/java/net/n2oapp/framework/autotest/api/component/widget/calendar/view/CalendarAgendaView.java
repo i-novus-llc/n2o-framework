@@ -9,9 +9,9 @@ public interface CalendarAgendaView extends Component {
 
     void shouldHaveSize(int size);
 
-    void eventShouldHaveDate(int index, String date);
+    void shouldHaveEventOnDate(int index, String date);
 
-    void eventShouldHaveTime(int index, String time);
+    void shouldHaveEventInTime(int index, String time);
 
-    void eventShouldHaveName(int index, String name);
+    void shouldHaveEventWithName(int index, String name);
 }

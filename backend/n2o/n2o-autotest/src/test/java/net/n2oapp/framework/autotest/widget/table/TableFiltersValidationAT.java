@@ -110,7 +110,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
         InputText inputText = field.control(InputText.class);
         inputText.val("test1");
         tableWidget.filters().toolbar().button("Найти").click();
-        tableWidget.columns().rows().row(0).cell(0).textShouldHave("test1");
+        tableWidget.columns().rows().row(0).cell(0).shouldHaveText("test1");
     }
 
     private void verifyNeverGetDataInvocation(String errorMessage) {

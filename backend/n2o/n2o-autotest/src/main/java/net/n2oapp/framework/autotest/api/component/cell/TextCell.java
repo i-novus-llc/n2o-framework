@@ -6,9 +6,9 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
  * Ячейка с текстом для автотестирования
  */
 public interface TextCell extends Cell {
-    void textShouldHave(String text);
+    void shouldHaveText(String text);
 
-    void subTextShouldHave(String... text);
+    void shouldHaveSubText(String... text);
 
-    void shouldBeIconPosition(Position position);
+    void shouldHaveIconPosition(Position position);
 }

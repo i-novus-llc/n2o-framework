@@ -3,7 +3,6 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.DateInterval;
-import org.openqa.selenium.Keys;
 
 /**
  * Компонент ввода интервала дат для автотестирования
@@ -17,17 +16,17 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void shouldBeEmpty() {
-        beginShouldBeEmpty();
-        endShouldBeEmpty();
+        shouldHaveEmptyBegin();
+        shouldHaveEmptyEnd();
     }
 
     @Override
-    public void beginShouldBeEmpty() {
+    public void shouldHaveEmptyBegin() {
         firstInputElement().shouldBe(Condition.empty);
     }
 
     @Override
-    public void endShouldBeEmpty() {
+    public void shouldHaveEmptyEnd() {
         lastInputElement().shouldBe(Condition.empty);
     }
 
@@ -44,13 +43,13 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void beginShouldHaveValue(String value) {
+    public void shouldHaveBeginWithValue(String value) {
         element().$(".n2o-date-input-first input").shouldHave(value == null || value.isEmpty() ?
                 Condition.empty : Condition.value(value));
     }
 
     @Override
-    public void endShouldHaveValue(String value) {
+    public void shouldHaveEndWithValue(String value) {
         element().$(".n2o-date-input-last input").shouldHave(value == null || value.isEmpty() ?
                 Condition.empty : Condition.value(value));
     }
@@ -61,32 +60,32 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void shouldBeBeginActiveDay(String day) {
+    public void shouldHaveActiveDayInBegin(String day) {
         shouldBeActiveDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldBeEndActiveDay(String day) {
+    public void shouldHaveActiveDayInEnd(String day) {
         shouldBeActiveDay(lastCalendar(), day);
     }
 
     @Override
-    public void shouldBeDisableBeginDay(String day) {
+    public void shouldHaveDisableDayInBegin(String day) {
         shouldBeDisableDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldBeDisableEndDay(String day) {
+    public void shouldHaveDisableDayInEnd(String day) {
         shouldBeDisableDay(lastCalendar(), day);
     }
 
     @Override
-    public void shouldBeEnableBeginDay(String day) {
+    public void shouldHaveEnableDayInBegin(String day) {
         shouldBeEnableDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldBeEnableEndDay(String day) {
+    public void shouldHaveEnableDayInEnd(String day) {
         shouldBeEnableDay(lastCalendar(), day);
     }
 
@@ -101,22 +100,22 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void beginShouldHaveCurrentMonth(String month) {
+    public void shouldHaveCurrentMonthInBegin(String month) {
         shouldHaveCurrentMonth(firstCalendar(), month);
     }
 
     @Override
-    public void endShouldHaveCurrentMonth(String month) {
+    public void shouldHaveCurrentMonthInEnd(String month) {
         shouldHaveCurrentMonth(lastCalendar(), month);
     }
 
     @Override
-    public void beginShouldHaveCurrentYear(String year) {
+    public void shouldHaveCurrentYearInBegin(String year) {
         shouldHaveCurrentYear(firstCalendar(), year);
     }
 
     @Override
-    public void endShouldHaveCurrentYear(String year) {
+    public void shouldHaveCurrentYearInEnd(String year) {
         shouldHaveCurrentYear(lastCalendar(), year);
     }
 

@@ -10,9 +10,9 @@ public interface NumberPicker extends Control {
 
     void clickMinusStepButton();
 
-    void minusStepButtonShouldBeEnabled();
+    void shouldHaveEnableMinusStepButton();
 
-    void minusStepButtonShouldBeDisabled();
+    void shouldHaveDisableMinusStepButton();
 
     void clickPlusStepButton();
 
@@ -20,9 +20,9 @@ public interface NumberPicker extends Control {
 
     void plusStepButtonShouldBeDisabled();
 
-    void minShouldBe(String val);
+    void shouldHaveMin(String min);
 
-    void maxShouldBe(String val);
+    void shouldHaveMax(String max);
 
-    void stepShouldBe(String val);
+    void shouldHaveStep(String step);
 }

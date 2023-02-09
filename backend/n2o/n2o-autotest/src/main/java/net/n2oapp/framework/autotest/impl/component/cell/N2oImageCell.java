@@ -13,23 +13,23 @@ import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 public class N2oImageCell extends N2oCell implements ImageCell {
 
     @Override
-    public void srcShouldBe(String src) {
+    public void shouldHaveSrc(String src) {
         img().shouldBe(Condition.attribute("src", src));
     }
 
     @Override
-    public void imageShouldBe(String url) {
+    public void shouldHaveImageByUrl(String url) {
         img().shouldHave(Condition.attribute("src", url));
     }
 
     @Override
-    public void widthShouldBe(int width) {
+    public void shouldHaveWidth(int width) {
         img().parent().shouldHave(Condition.attributeMatching(
                 "style", ".*max-width: " + width + "px;.*"));
     }
 
     @Override
-    public void shapeShouldBe(ShapeType shape) {
+    public void shouldHaveShape(ShapeType shape) {
         switch (shape) {
             case CIRCLE:
                 imgShouldHaveCircleShape();
@@ -68,7 +68,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon) {
+    public void shouldHaveStatusWithIcon(ImageStatusElementPlace position, int index, String icon) {
         if (icon != null && !icon.isEmpty()) {
             element().$(".n2o-image-statuses ." + position).$(".n2o-status__icon"+icon).should(Condition.exist);
         }

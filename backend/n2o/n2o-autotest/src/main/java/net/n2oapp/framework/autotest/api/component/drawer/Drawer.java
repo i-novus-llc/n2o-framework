@@ -15,11 +15,11 @@ public interface Drawer extends Component {
 
     void shouldHaveTitle(String text);
 
-    void placementShouldBe(Placement placement);
+    void shouldHavePlacement(Placement placement);
 
-    void widthShouldBe(String width);
+    void shouldHaveWidth(String width);
 
-    void heightShouldBe(String height);
+    void shouldHaveHeight(String height);
 
     void close();
 
@@ -27,9 +27,9 @@ public interface Drawer extends Component {
 
     void clickBackdrop();
 
-    void footerShouldBeFixed();
+    void shouldHaveFixedFooter();
 
-    void footerShouldNotBeFixed();
+    void shouldNotHaveFixedFooter();
 
     void scrollUp();
 

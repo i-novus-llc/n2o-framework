@@ -14,7 +14,7 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void activePageShouldBe(String label) {
+    public void shouldHaveActivePage(String label) {
         element().$(".n2o-pagination .page-item.active .page-link").shouldHave(Condition.text(label));
     }
 
@@ -24,7 +24,7 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void pagingShouldHave(String number) {
+    public void shouldHavePageNumber(String number) {
         pageNumberButton(number).shouldBe(Condition.exist);
     }
 
@@ -41,32 +41,32 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void totalElementsShouldBe(int count) {
+    public void shouldHaveTotalElements(int count) {
         paginationInfo().scrollTo().should(Condition.matchText("" + count));
     }
 
     @Override
-    public void totalElementsShouldNotExist() {
+    public void shouldNotHaveTotalElements() {
         paginationInfo().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void prevShouldNotExist() {
+    public void shouldNotHavePrev() {
         prevButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void prevShouldExist() {
+    public void shouldHavePrev() {
         prevButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void prevShouldHaveLabel(String label) {
+    public void shouldHavePrevWithLabel(String label) {
         prevButton().parent().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void prevShouldHaveIcon(String icon) {
+    public void shouldHavePrevWithIcon(String icon) {
         prevButton().shouldHave(Condition.cssClass(icon));
     }
 
@@ -76,22 +76,22 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void nextShouldNotExist() {
+    public void shouldNotHaveNext() {
         nextButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void nextShouldExist() {
+    public void shouldHaveNext() {
         nextButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void nextShouldHaveLabel(String label) {
+    public void shouldHaveNextWithLabel(String label) {
         nextButton().parent().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void nextShouldHaveIcon(String icon) {
+    public void shouldHaveNextWithIcon(String icon) {
         nextButton().shouldHave(Condition.cssClass(icon));
     }
 
@@ -101,22 +101,22 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void firstShouldNotExist() {
+    public void shouldNotHaveFirst() {
         firstButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void firstShouldExist() {
+    public void shouldHaveFirst() {
         firstButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void firstShouldHaveLabel(String label) {
+    public void shouldHaveFirstWithLabel(String label) {
         firstButton().parent().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void firstShouldHaveIcon(String icon) {
+    public void shouldHaveFirstWithIcon(String icon) {
         firstButton().shouldHave(Condition.cssClass(icon));
     }
 
@@ -126,22 +126,22 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void lastShouldNotExist() {
+    public void shouldNotHaveLast() {
         lastButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void lastShouldExist() {
+    public void shouldHaveLast() {
         lastButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void lastShouldHaveLabel(String label) {
+    public void shouldHaveLastWithLabel(String label) {
         lastButton().parent().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void lastShouldHaveIcon(String icon) {
+    public void shouldHaveLastWithIcon(String icon) {
         lastButton().shouldHave(Condition.cssClass(icon));
     }
 

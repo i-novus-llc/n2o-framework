@@ -57,17 +57,17 @@ public class WebSocketAT extends AutoTestBase {
     public void testWebSocketCount() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("1");
+        menuItem.shouldHaveBadgeWithText("1");
 
-        Integer exceptedCount = 10;
+        int exceptedCount = 10;
         webSocketMessageController.sendCount(DESTINATION, exceptedCount);
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue(exceptedCount.toString());
+        menuItem.shouldHaveBadgeWithText(String.valueOf(exceptedCount));
 
         exceptedCount = 7;
         webSocketMessageController.sendCount(DESTINATION, exceptedCount);
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue(exceptedCount.toString());
+        menuItem.shouldHaveBadgeWithText(String.valueOf(exceptedCount));
     }
 
     @Test
@@ -75,17 +75,17 @@ public class WebSocketAT extends AutoTestBase {
     public void testWebSocketColor() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveBadge();
-        menuItem.badgeColorShouldHaveValue("danger");
+        menuItem.shouldHaveBadgeWithColor("danger");
 
         BadgeColor exceptedColor = BadgeColor.primary;
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
         menuItem.shouldHaveBadge();
-        menuItem.badgeColorShouldHaveValue(exceptedColor.toString());
+        menuItem.shouldHaveBadgeWithColor(exceptedColor.toString());
 
         exceptedColor = BadgeColor.danger;
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
         menuItem.shouldHaveBadge();
-        menuItem.badgeColorShouldHaveValue(exceptedColor.toString());
+        menuItem.shouldHaveBadgeWithColor(exceptedColor.toString());
     }
 
 }

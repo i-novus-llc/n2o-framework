@@ -45,7 +45,7 @@ public class ProtoPage {
     }
 
     public void tableCellShouldHaveText(int row, int col, String text) {
-        getTable().columns().rows().row(row).cell(col).textShouldHave(text);
+        getTable().columns().rows().row(row).cell(col).shouldHaveText(text);
     }
 
     public void tableCellShouldHaveText(int col, String text) {
@@ -121,11 +121,11 @@ public class ProtoPage {
     }
 
     public void currentPageShouldBe(String label) {
-        getTable().paging().activePageShouldBe(label);
+        getTable().paging().shouldHaveActivePage(label);
     }
 
     public void tableShouldHavePage(String number) {
-        getTable().paging().pagingShouldHave(number);
+        getTable().paging().shouldHavePageNumber(number);
     }
 
     public void selectPage(String number) {
@@ -137,7 +137,7 @@ public class ProtoPage {
     }
 
     public void clientsCountShouldBe(int count) {
-        getTable().paging().totalElementsShouldBe(count);
+        getTable().paging().shouldHaveTotalElements(count);
     }
 
     public ProtoClient clickSurnameCell(int row) {
@@ -253,7 +253,7 @@ public class ProtoPage {
     }
 
     public void contactsListShouldHaveText(int index, String text) {
-        getContacts().content(index).body(TextCell.class).textShouldHave(text);
+        getContacts().content(index).body(TextCell.class).shouldHaveText(text);
     }
 
     public void contactsListShouldHaveSize(int size) {

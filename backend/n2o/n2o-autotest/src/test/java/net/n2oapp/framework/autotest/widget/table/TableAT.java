@@ -142,14 +142,14 @@ public class TableAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(4);
 
         Cells firstRow = table.columns().rows().row(0);
-        firstRow.cell(1).textShouldHave("1");
+        firstRow.cell(1).shouldHaveText("1");
         firstRow.shouldNotBeClickable();
         Modal modal = N2oSelenide.modal();
         firstRow.click();
         modal.shouldNotExists();
 
         Cells thirdRow = table.columns().rows().row(2);
-        thirdRow.cell(1).textShouldHave("2");
+        thirdRow.cell(1).shouldHaveText("2");
         thirdRow.shouldBeClickable();
         thirdRow.click();
         modal.shouldExists();
@@ -214,49 +214,49 @@ public class TableAT extends AutoTestBase {
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         Paging paging = table.paging();
-        paging.totalElementsShouldBe(8);
+        paging.shouldHaveTotalElements(8);
         paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.prevShouldNotExist();
-        paging.nextShouldNotExist();
-        paging.firstShouldExist();
-        paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.lastShouldNotExist();
+        paging.shouldNotHavePrev();
+        paging.shouldNotHaveNext();
+        paging.shouldHaveFirst();
+        paging.shouldHaveFirstWithIcon("fa-angle-double-left");
+        paging.shouldNotHaveLast();
 
-        paging.activePageShouldBe("1");
-        table.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
         paging.selectPage("3");
-        paging.activePageShouldBe("3");
-        table.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
+        paging.shouldHaveActivePage("3");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
         paging.selectFirst();
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
 
 
         TableWidget table2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
         paging = table2.paging();
-        paging.totalElementsShouldNotExist();
+        paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.FLAT);
-        paging.prevShouldExist();
-        paging.prevShouldHaveLabel("Prev");
-        paging.prevShouldHaveIcon("fa-angle-down");
-        paging.nextShouldExist();
-        paging.nextShouldHaveLabel("Next");
-        paging.nextShouldHaveIcon("fa-angle-up");
-        paging.firstShouldExist();
-        paging.firstShouldHaveLabel("First");
-        paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.lastShouldExist();
-        paging.lastShouldHaveLabel("Last");
-        paging.lastShouldHaveIcon("fa-angle-double-up");
+        paging.shouldHavePrev();
+        paging.shouldHavePrevWithLabel("Prev");
+        paging.shouldHavePrevWithIcon("fa-angle-down");
+        paging.shouldHaveNext();
+        paging.shouldHaveNextWithLabel("Next");
+        paging.shouldHaveNextWithIcon("fa-angle-up");
+        paging.shouldHaveFirst();
+        paging.shouldHaveFirstWithLabel("First");
+        paging.shouldHaveFirstWithIcon("fa-angle-double-down");
+        paging.shouldHaveLast();
+        paging.shouldHaveLastWithLabel("Last");
+        paging.shouldHaveLastWithIcon("fa-angle-double-up");
 
-        paging.activePageShouldBe("1");
-        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
         paging.selectNext();
-        paging.activePageShouldBe("2");
-        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test4");
+        paging.shouldHaveActivePage("2");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test4");
         paging.selectPrev();
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
         paging.selectLast();
-        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
     }
 
     @Test
@@ -282,19 +282,19 @@ public class TableAT extends AutoTestBase {
         cellThird.shouldBeVisible();
         cellFourth.shouldBeVisible();
 
-        cellFirst.textShouldHave("test4");
-        cellSecond.textShouldHave("test3");
-        cellThird.textShouldHave("test2");
-        cellFourth.textShouldHave("test1");
+        cellFirst.shouldHaveText("test4");
+        cellSecond.shouldHaveText("test3");
+        cellThird.shouldHaveText("test2");
+        cellFourth.shouldHaveText("test1");
 
         secondHeader.click();
         secondHeader.click();
         secondHeader.shouldBeSortedByAsc();
 
-        cellFirst.textShouldHave("test1");
-        cellSecond.textShouldHave("test2");
-        cellThird.textShouldHave("test3");
-        cellFourth.textShouldHave("test4");
+        cellFirst.shouldHaveText("test1");
+        cellSecond.shouldHaveText("test2");
+        cellThird.shouldHaveText("test3");
+        cellFourth.shouldHaveText("test4");
     }
 
     @Test

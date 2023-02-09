@@ -43,11 +43,11 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldExists();
-        page.sidebar().titleShouldBe("Лого");
-        page.sidebar().brandLogoShouldBe("images/logoWhite.png");
+        page.sidebar().shouldHaveTitle("Лого");
+        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
     }
@@ -60,7 +60,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.shouldHaveLayout(NavigationLayout.fullSizeSidebar);
     }
@@ -73,7 +73,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldBeFixed();
     }
@@ -86,7 +86,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldBeRight();
     }
@@ -99,7 +99,7 @@ public class SidebarAT extends AutoTestBase {
         page.shouldExists();
         SimpleHeader header = page.header();
         header.shouldExists();
-        header.sidebarSwitcherShouldExists();
+        header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
         page.sidebar().shouldBeOverlay();
     }

@@ -47,15 +47,15 @@ public class MenuAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
-        page.header().brandNameShouldBe("Хедер");
+        page.header().shouldHaveBrandName("Хедер");
         page.header().nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveCssClass("fa fa-bell");
+        menuItem.shouldHaveIconWithCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("2");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/test");
+        menuItem.shouldHaveBadgeWithText("2");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/test");
 
         menuItem.click();
         page.shouldExists();
@@ -69,16 +69,16 @@ public class MenuAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
-        page.header().brandNameShouldBe("Хедер");
+        page.header().shouldHaveBrandName("Хедер");
         page.header().nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveCssClass("fa fa-user");
-        menuItem.labelShouldHave("Профиль");
+        menuItem.shouldHaveIconWithCssClass("fa fa-user");
+        menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
 
         menuItem.click();
         page.shouldExists();
@@ -92,16 +92,16 @@ public class MenuAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
-        page.header().brandNameShouldBe("Хедер");
+        page.header().shouldHaveBrandName("Хедер");
         page.header().nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
-        menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.CIRCLE);
+        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageInShape(ShapeType.CIRCLE);
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
 
         menuItem.click();
         page.shouldExists();
@@ -115,17 +115,17 @@ public class MenuAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
-        page.header().brandNameShouldBe("Хедер");
+        page.header().shouldHaveBrandName("Хедер");
         page.header().nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
-        menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.CIRCLE);
-        menuItem.labelShouldHave("Профиль");
+        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageInShape(ShapeType.CIRCLE);
+        menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("2");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveBadgeWithText("2");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
 
         menuItem.click();
         page.shouldExists();
@@ -139,22 +139,22 @@ public class MenuAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
-        page.header().brandNameShouldBe("Хедер");
+        page.header().shouldHaveBrandName("Хедер");
         page.header().nav().shouldHaveSize(1);
 
         DropdownMenuItem dropdown = page.header().nav().dropdown(0);
-        dropdown.labelShouldHave("Виктория");
+        dropdown.shouldHaveLabel("Виктория");
         dropdown.shouldHaveImage();
-        dropdown.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        dropdown.imageShouldHaveShape(ShapeType.CIRCLE);
+        dropdown.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
+        dropdown.shouldHaveImageInShape(ShapeType.CIRCLE);
         dropdown.click();
 
         AnchorMenuItem menuItem = dropdown.item(0);
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveCssClass("fa fa-bell");
+        menuItem.shouldHaveIconWithCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("2");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveBadgeWithText("2");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
 
         menuItem.click();
         page.shouldExists();
@@ -174,18 +174,18 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveCssClass("fa fa-user");
+        menuItem.shouldHaveIconWithCssClass("fa fa-user");
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveIcon();
-        menuItem.iconShouldHaveCssClass("fa fa-user");
-        menuItem.labelShouldHave("Профиль");
+        menuItem.shouldHaveIconWithCssClass("fa fa-user");
+        menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
 
         menuItem.click();
         page.shouldExists();
@@ -205,16 +205,16 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
-        menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.ROUNDED);
-        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageInShape(ShapeType.ROUNDED);
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
 
         sidebar.clickToggleBtn();
         menuItem.shouldHaveImage();
-        menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.ROUNDED);
-        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
-        menuItem.labelShouldHave("Профиль");
+        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageInShape(ShapeType.ROUNDED);
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveLabel("Профиль");
 
         menuItem.click();
         page.shouldExists();
@@ -234,20 +234,20 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
-        menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.SQUARE);
+        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageInShape(ShapeType.SQUARE);
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveImage();
-        menuItem.imageSrcShouldBe(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.SQUARE);
-        menuItem.labelShouldHave("Профиль");
+        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageInShape(ShapeType.SQUARE);
+        menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
-        menuItem.badgeShouldHaveValue("3");
-        menuItem.urlShouldHave(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
 
         menuItem.click();
         page.shouldExists();

@@ -11,8 +11,8 @@ import net.n2oapp.framework.autotest.api.component.cell.IconCell;
  */
 public class N2oIconCell extends N2oCell implements IconCell {
     @Override
-    public void iconShouldBe(String icon) {
-        element().$(".n2o-icon").shouldBe(Condition.cssClass(icon));
+    public void shouldHaveIcon(String icon) {
+        element().$(".n2o-icon").shouldHave(Condition.cssClass(icon));
     }
 
     @Override

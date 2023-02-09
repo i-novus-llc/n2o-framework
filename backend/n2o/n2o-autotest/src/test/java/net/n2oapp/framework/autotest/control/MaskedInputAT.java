@@ -52,7 +52,7 @@ public class MaskedInputAT extends AutoTestBase {
         maskedInput.shouldHaveValue("+7 (783) 578-93-20");
         // проверка меры измерения
         maskedInput.shouldHaveMeasure();
-        maskedInput.measureShouldHaveText("тел.");
+        maskedInput.shouldHaveMeasureText("тел.");
 
         MaskedInput maskedInputWithoutClear = getFields().field("MaskedInputWithoutClear").control(MaskedInput.class);
         maskedInputWithoutClear.shouldBeEnabled();

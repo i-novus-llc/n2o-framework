@@ -61,8 +61,8 @@ public class StandardFieldSubmitAT extends AutoTestBase {
 
         DateInterval dateInterval = fields.field("Даты отпуска").control(DateInterval.class);
         dateInterval.shouldBeClosed();
-        dateInterval.beginShouldHaveValue("15.01.2020");
-        dateInterval.endShouldHaveValue("30.01.2020");
+        dateInterval.shouldHaveBeginWithValue("15.01.2020");
+        dateInterval.shouldHaveEndWithValue("30.01.2020");
 
         // изменяем обычное текстовое поле
         inputText.val("Ann");
@@ -74,8 +74,8 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Мужской");
         dateInterval.shouldBeClosed();
-        dateInterval.beginShouldHaveValue("15.01.2020");
-        dateInterval.endShouldHaveValue("30.01.2020");
+        dateInterval.shouldHaveBeginWithValue("15.01.2020");
+        dateInterval.shouldHaveEndWithValue("30.01.2020");
 
         // изменяем списковое поле
         select.select(1);
@@ -85,30 +85,30 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
         dateInterval.shouldBeClosed();
-        dateInterval.beginShouldHaveValue("15.01.2020");
-        dateInterval.endShouldHaveValue("30.01.2020");
+        dateInterval.shouldHaveBeginWithValue("15.01.2020");
+        dateInterval.shouldHaveEndWithValue("30.01.2020");
 
         // изменяем интервальное поле
         dateInterval.beginVal("18.01.2020");
         dateInterval.shouldBeOpened();
         Selenide.sleep(500);
-        dateInterval.beginShouldHaveValue("18.01.2020");
+        dateInterval.shouldHaveBeginWithValue("18.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
         dateInterval.shouldBeClosed();
-        dateInterval.beginShouldHaveValue("18.01.2020");
-        dateInterval.endShouldHaveValue("30.01.2020");
+        dateInterval.shouldHaveBeginWithValue("18.01.2020");
+        dateInterval.shouldHaveEndWithValue("30.01.2020");
 
         dateInterval.endVal("24.01.2020");
         dateInterval.shouldBeOpened();
         Selenide.sleep(500);
-        dateInterval.endShouldHaveValue("24.01.2020");
+        dateInterval.shouldHaveEndWithValue("24.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
         dateInterval.shouldBeClosed();
-        dateInterval.beginShouldHaveValue("18.01.2020");
-        dateInterval.endShouldHaveValue("24.01.2020");
+        dateInterval.shouldHaveBeginWithValue("18.01.2020");
+        dateInterval.shouldHaveEndWithValue("24.01.2020");
     }
 }

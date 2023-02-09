@@ -57,11 +57,11 @@ public class FileUploadAT extends AutoTestBase {
         FileUploadControl fileUpload = getFields().field("FileUpload1").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
-        fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFileNameShouldBe(0, "test1.json");
+        fileUpload.shouldHaveUploadFilesOfSize(1);
+        fileUpload.shouldHaveUploadFileNamed(0, "test1.json");
 //        fileUpload.uploadFileSizeShouldBe(0, "91 Б");//работает по разному на разных ОС, windows "105 Б", linux "91 Б"
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFilesOfSize(0);
     }
 
     @Test
@@ -71,21 +71,21 @@ public class FileUploadAT extends AutoTestBase {
         fileStoreController.clearFileStore();
 
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
-        fileUpload.uploadFilesShouldBe(1);
+        fileUpload.shouldHaveUploadFilesOfSize(1);
 
-        fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
-        fileUpload.uploadFileNameShouldBe(0, "test1.json");
+        fileUpload.shouldHaveUploadFileWithLink(0, "http://localhost:" + port + "/files/test1.json");
+        fileUpload.shouldHaveUploadFileNamed(0, "test1.json");
 //        fileUpload.uploadFileSizeShouldBe(0, "91 Б");//работает по разному на разных ОС, windows "105 Б", linux "91 Б"
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFilesOfSize(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
 
         // загрузка файла с неразрешенным расширением
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");
         // Есть вывод ошибки
-        fileUpload.uploadFilesShouldBe(1);
+        fileUpload.shouldHaveUploadFilesOfSize(1);
         // загрузка не произошла
         assertThat(fileStoreController.getFileStore().size(), is(0));
 
@@ -99,19 +99,19 @@ public class FileUploadAT extends AutoTestBase {
 
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json",
                 "net/n2oapp/framework/autotest/control/test2.json");
-        fileUpload.uploadFilesShouldBe(2);
+        fileUpload.shouldHaveUploadFilesOfSize(2);
 
-        fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
-        fileUpload.uploadFileNameShouldBe(0, "test1.json");
-        fileUpload.uploadFileSizeShouldBe(0, "105");
-        fileUpload.uploadFileShouldHaveLink(1, "http://localhost:" + port + "/files/test2.json");
-        fileUpload.uploadFileNameShouldBe(1, "test2.json");
+        fileUpload.shouldHaveUploadFileWithLink(0, "http://localhost:" + port + "/files/test1.json");
+        fileUpload.shouldHaveUploadFileNamed(0, "test1.json");
+        fileUpload.shouldHaveUploadFileWithSize(0, "105");
+        fileUpload.shouldHaveUploadFileWithLink(1, "http://localhost:" + port + "/files/test2.json");
+        fileUpload.shouldHaveUploadFileNamed(1, "test2.json");
 //        fileUpload.uploadFileSizeShouldBe(1, "91 Б");//работает по разному на разных ОС, windows "105 Б", linux "91 Б"
 
         assertThat(fileStoreController.getFileStore().size(), is(2));
         fileUpload.deleteFile(1);
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFilesOfSize(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
     }
 

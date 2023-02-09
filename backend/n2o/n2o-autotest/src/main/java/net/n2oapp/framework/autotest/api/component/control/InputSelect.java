@@ -3,7 +3,6 @@ package net.n2oapp.framework.autotest.api.component.control;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.DropDown;
-import net.n2oapp.framework.autotest.api.component.Expandable;
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
 /**
@@ -33,11 +32,11 @@ public interface InputSelect extends Control, PopupControl {
 
     void shouldSelectedMulti(String... values);
 
-    void optionShouldHaveDescription(String option, String description);
+    void shouldHaveOptionDescription(String option, String description);
 
-    void itemShouldHaveStatusColor(String value, Colors color);
+    void shouldHaveItemWithStatusColor(String value, Colors color);
 
-    void itemShouldBeEnabled(Boolean enabled, String itemValue);
+    void shouldHaveEnableItem(Boolean enabled, String itemValue);
 
     DropDown dropdown();
 }

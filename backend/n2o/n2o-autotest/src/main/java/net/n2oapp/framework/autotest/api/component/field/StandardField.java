@@ -21,7 +21,7 @@ public interface StandardField extends Field {
 
     void shouldHaveLabelLocation(FieldSet.LabelPosition position);
 
-    void messageShouldHave(Condition condition);
+    void shouldHaveMessage(Condition condition);
 
     void shouldHaveDescription(Condition condition);
 

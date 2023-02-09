@@ -58,29 +58,29 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(4);
 
-        page.urlShouldMatches(".*/#/");
+        page.shouldHaveUrlLike(".*/#/");
 
         Select select = form.fields().field("Period").control(Select.class);
         select.select(0);
         select.shouldSelected("Week");
 
         table.columns().rows().shouldHaveSize(1);
-        page.urlShouldMatches(".*/#/\\?period=WEEK");
+        page.shouldHaveUrlLike(".*/#/\\?period=WEEK");
 
         select.clear();
 
         table.columns().rows().shouldHaveSize(4);
-        page.urlShouldMatches(".*/#/");
+        page.shouldHaveUrlLike(".*/#/");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.val("1");
 
         table.columns().rows().shouldHaveSize(1);
-        page.urlShouldMatches(".*/#/\\?uid=1");
+        page.shouldHaveUrlLike(".*/#/\\?uid=1");
 
         inputText.clear();
         table.columns().rows().shouldHaveSize(4);
-        page.urlShouldMatches(".*/#/");
+        page.shouldHaveUrlLike(".*/#/");
     }
 
     @Test
@@ -97,7 +97,7 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-        page.urlShouldMatches(".*/#/\\?uid=3");
+        page.shouldHaveUrlLike(".*/#/\\?uid=3");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.shouldHaveValue("3");
@@ -119,7 +119,7 @@ public class FormAsFilterAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().shouldHaveSize(1);
 
-        page.urlShouldMatches(".*/#/\\?period=MONTH");
+        page.shouldHaveUrlLike(".*/#/\\?period=MONTH");
 
         InputText inputText = form.fields().field("Uid").control(InputText.class);
         inputText.shouldBeEmpty();
@@ -149,7 +149,7 @@ public class FormAsFilterAT extends AutoTestBase {
         searchField.val("test2");
         form.toolbar().topLeft().button("Найти").click();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).textShouldHave("test2");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test2");
 
         form.toolbar().topLeft().button("Очистить").click();
         searchField.shouldHaveValue("");

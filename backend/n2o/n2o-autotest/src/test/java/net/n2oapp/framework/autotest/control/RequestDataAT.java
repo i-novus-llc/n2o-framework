@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -100,7 +99,7 @@ public class RequestDataAT extends AutoTestBase {
         Selenide.refresh();
 
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+        page.breadcrumb().shouldHaveTitle("Страница для автотеста проверяющего отправку запроса данных на сохранение");
 
         select.shouldSelected("test5");
         inputSelect.shouldHaveValue("test6");
@@ -135,7 +134,7 @@ public class RequestDataAT extends AutoTestBase {
         Selenide.refresh();
 
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+        page.breadcrumb().shouldHaveTitle("Страница для автотеста проверяющего отправку запроса данных на сохранение");
 
         select.shouldBeEmpty();
         inputSelect.shouldBeEmpty();

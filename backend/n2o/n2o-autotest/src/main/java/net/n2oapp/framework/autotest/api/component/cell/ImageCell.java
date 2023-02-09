@@ -9,13 +9,13 @@ import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
  */
 public interface ImageCell extends Cell {
 
-    void srcShouldBe(String src);
+    void shouldHaveSrc(String src);
 
-    void imageShouldBe(String url);
+    void shouldHaveImageByUrl(String url);
 
-    void widthShouldBe(int width);
+    void shouldHaveWidth(int width);
 
-    void shapeShouldBe(ShapeType shape);
+    void shouldHaveShape(ShapeType shape);
 
     void shouldHaveTitle(String title);
 
@@ -29,10 +29,10 @@ public interface ImageCell extends Cell {
 
     void shouldHaveStatus(ImageStatusElementPlace position, int index, String title);
 
-    default void statusShouldHaveIcon(ImageStatusElementPlace position, String icon){
-        statusShouldHaveIcon(position, 0, icon);
+    default void shouldHaveStatusWithIcon(ImageStatusElementPlace position, String icon){
+        shouldHaveStatusWithIcon(position, 0, icon);
     }
 
-    void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon);
+    void shouldHaveStatusWithIcon(ImageStatusElementPlace position, int index, String icon);
 
 }

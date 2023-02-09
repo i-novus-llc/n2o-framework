@@ -7,9 +7,9 @@ import net.n2oapp.framework.autotest.Colors;
  */
 public interface Status extends Snippet {
 
-    void textShouldHaveLeftPosition();
+    void shouldHaveTextOnLeftPosition();
 
-    void textShouldHaveRightPosition();
+    void shouldHaveTextOnRightPosition();
 
     void shouldHaveColor(Colors color);
 }

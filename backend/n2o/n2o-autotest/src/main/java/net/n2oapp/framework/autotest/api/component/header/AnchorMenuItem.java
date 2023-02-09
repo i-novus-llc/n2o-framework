@@ -9,13 +9,13 @@ public interface AnchorMenuItem extends MenuItem, Badge {
 
     void shouldHaveIcon();
 
-    void iconShouldHaveCssClass(String clazz);
+    void shouldHaveIconWithCssClass(String cssClass);
 
     void shouldHaveBadge();
 
-    void badgeShouldHaveValue(String value);
+    void shouldHaveBadgeWithText(String text);
 
-    void badgeColorShouldHaveValue(String value);
+    void shouldHaveBadgeWithColor(String color);
 
-    void urlShouldHave(String url);
+    void shouldHaveUrl(String url);
 }

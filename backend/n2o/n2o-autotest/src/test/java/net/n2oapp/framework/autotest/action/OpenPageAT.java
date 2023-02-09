@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -60,7 +59,7 @@ public class OpenPageAT extends AutoTestBase {
         nameFilter.val("test3");
         table.filters().search();
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
 
         rows.row(0).click();
         StandardPage open = N2oSelenide.page(StandardPage.class);
@@ -82,7 +81,7 @@ public class OpenPageAT extends AutoTestBase {
         // preserving filters when going back
         nameFilter.shouldHaveValue("test3");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
         rows.row(0).click();
 
         // reset filters on return forward
@@ -151,7 +150,7 @@ public class OpenPageAT extends AutoTestBase {
         Selenide.switchTo().window(1);
         page.shouldExists();
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
-        page.urlShouldMatches(getBaseUrl() + "/#/1/open");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/open");
 
         page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
         page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
@@ -169,7 +168,7 @@ public class OpenPageAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование вложенных роутов с path-параметрами");
-        page.urlShouldMatches(getBaseUrl() + "/#/");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -177,7 +176,7 @@ public class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Open").click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("Первая вложенная страница");
-        page.urlShouldMatches(getBaseUrl() + "/#/1/reader");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/reader");
 
         table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -185,6 +184,6 @@ public class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Open").click();
 
         page.breadcrumb().crumb(2).shouldHaveLabel("Вторая вложенная страница");
-        page.urlShouldMatches(getBaseUrl() + "/#/1/reader/2/book");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/reader/2/book");
     }
 }

@@ -72,61 +72,63 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void nameInfoShouldExist(int index) {
+    public void shouldHaveNameInfo(int index) {
         getNameElement(index).shouldBe(Condition.exist);
     }
 
     @Override
-    public void nameInfoShouldNotExist(int index) {
+    public void shouldNotHaveNameInfo(int index) {
         getNameElement(index).shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void nameShouldBe(int index, String fileName) {
+    public void shouldHaveName(int index, String fileName) {
         getNameElement(index).shouldHave(Condition.text(fileName));
     }
 
     @Override
-    public void sizeInfoShouldBeVisible(int index) {
+    public void shouldHaveVisibleSizeInfo(int index) {
         getSizeElement(index).shouldBe(Condition.visible);
     }
 
     @Override
-    public void sizeInfoShouldNotBeVisible(int index) {
+    public void shouldNotHaveVisibleSizeInfo(int index) {
         getSizeElement(index).shouldNotBe(Condition.visible);
     }
 
     @Override
-    public void sizeShouldBe(int index, String fileSize) {
+    public void shouldHaveSize(int index, String fileSize) {
         getSizeElement(index).shouldHave(Condition.text(fileSize));
     }
 
     @Override
-    public void uploadAreaShapeShouldBe(ShapeType shape) {
-        // TODO дополнить после полной реализации shape у картинок
+    public void shouldHaveUploadAreaShape(ShapeType shape) {
+        //ToDo: NNO-9062
         switch (shape) {
             case CIRCLE:
                 element().shouldHave(Condition.cssClass("n2o-image-uploader-control--shape-circle"));
+            default:
+                element().shouldNotHave(Condition.cssClass("n2o-image-uploader-control--shape-circle"));
         }
     }
 
     @Override
-    public void uploadAreaShouldHaveIcon(String icon) {
+    public void shouldHaveUploadAreaIcon(String icon) {
         getUploadAreaElement().shouldHave(Condition.attribute("class", icon));
     }
 
     @Override
-    public void uploadAreaIconShouldHaveSize(int size) {
+    public void shouldHaveUploadAreaIconWithSize(int size) {
         getUploadAreaElement().shouldHave(Condition.attributeMatching("style", ".*font-size: " + size + "px.*"));
     }
 
     @Override
-    public void uploadAreaShouldHaveWidth(int width) {
+    public void shouldHaveUploadAreaWithWidth(int width) {
         element().shouldHave(Condition.attributeMatching("style", ".*max-width: " + width + "px.*"));
     }
 
     @Override
-    public void uploadAreaShouldHaveHeight(int height) {
+    public void shouldHaveUploadAreaWithHeight(int height) {
         element().shouldHave(Condition.attributeMatching("style", ".*max-height: " + height + "px.*"));
     }
 
@@ -156,7 +158,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     public static class PreviewDialogImpl implements PreviewDialog {
 
-        private SelenideElement element;
+        private final SelenideElement element;
 
         public PreviewDialogImpl(Page page) {
             element = page.element().$(".n2o-image-uploader__modal--body");

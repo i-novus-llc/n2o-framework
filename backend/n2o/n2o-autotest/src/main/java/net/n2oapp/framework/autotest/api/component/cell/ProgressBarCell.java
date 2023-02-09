@@ -8,11 +8,11 @@ import net.n2oapp.framework.autotest.Colors;
  */
 public interface ProgressBarCell extends Cell {
 
-    void colorShouldBe(Colors color);
+    void shouldHaveColor(Colors color);
 
-    void valueShouldBe(String value);
+    void shouldHaveValue(String value);
 
-    void sizeShouldBe(Size size);
+    void shouldHaveSize(Size size);
 
     void shouldBeAnimated();
 

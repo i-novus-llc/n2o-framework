@@ -60,8 +60,8 @@ public class BulkOperationAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         TextCell name1 = rows.row(0).cell(2, TextCell.class);
         TextCell name2 = rows.row(1).cell(2, TextCell.class);
-        name1.textShouldHave("test1");
-        name2.textShouldHave("test2");
+        name1.shouldHaveText("test1");
+        name2.shouldHaveText("test2");
 
         // выбор нескольких строк
         CheckboxCell cell1 = rows.row(0).cell(0, CheckboxCell.class);
@@ -84,14 +84,14 @@ public class BulkOperationAT extends AutoTestBase {
         saveButton.shouldExists();
         saveButton.click();
         modalPage.shouldNotExists();
-        name1.textShouldHave("new name");
-        name2.textShouldHave("new name");
+        name1.shouldHaveText("new name");
+        name2.shouldHaveText("new name");
 
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
-        name1.textShouldHave("test3");
-        name2.textShouldHave("test4");
+        name1.shouldHaveText("test3");
+        name2.shouldHaveText("test4");
         table.columns().rows().shouldHaveSize(2);
     }
 
@@ -112,8 +112,8 @@ public class BulkOperationAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         TextCell id1 = rows.row(0).cell(1, TextCell.class);
         TextCell id2 = rows.row(1).cell(1, TextCell.class);
-        id1.textShouldHave("8590e766-c120-4191-9bde-381d8ae83bf4");
-        id2.textShouldHave("7590e766-c120-4191-9bde-381d8ae83bf3");
+        id1.shouldHaveText("8590e766-c120-4191-9bde-381d8ae83bf4");
+        id2.shouldHaveText("7590e766-c120-4191-9bde-381d8ae83bf3");
 
         // выбор нескольких строк
         CheckboxCell cell1 = rows.row(0).cell(0, CheckboxCell.class);
@@ -138,8 +138,8 @@ public class BulkOperationAT extends AutoTestBase {
         modalPage.shouldNotExists();
         TextCell name1 = rows.row(0).cell(2, TextCell.class);
         TextCell name2 = rows.row(1).cell(2, TextCell.class);
-        name1.textShouldHave("new name");
-        name2.textShouldHave("new name");
+        name1.shouldHaveText("new name");
+        name2.shouldHaveText("new name");
 
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();

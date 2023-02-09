@@ -13,7 +13,7 @@ public interface Cell extends Component {
 
     void shouldNotBeExpanded();
 
-    void clickExpand();
+    void expand();
 
     void shouldHaveIcon(String icon);
 

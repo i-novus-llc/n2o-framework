@@ -10,15 +10,15 @@ import net.n2oapp.framework.autotest.api.component.Component;
 public interface MultiFieldSetItem extends Component {
     void shouldHaveLabel(String label);
 
-    void removeButtonShouldExists();
+    void shouldHaveRemoveButton();
 
-    void removeButtonShouldNotExists();
+    void shouldNotHaveRemoveButton();
 
     void clickRemoveButton();
 
-    void copyButtonShouldExists();
+    void shouldHaveCopyButton();
 
-    void copyButtonShouldNotExists();
+    void shouldNotHaveCopyButton();
 
     void clickCopyButton();
 

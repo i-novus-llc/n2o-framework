@@ -13,7 +13,7 @@ public interface PasswordControl extends Control {
 
     void clickEyeButton();
 
-    void passwordShouldBeVisible();
+    void shouldHaveVisiblePassword();
 
-    void passwordShouldNotBeVisible();
+    void shouldNotHaveVisiblePassword();
 }

@@ -20,8 +20,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.timeout;
-
 /**
  * Автотест для обновления виджета после закрытия модального окна
  */
@@ -77,7 +75,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         closeBtn.click();
 
         rows.shouldHaveSize(5);
-        rows.row(0).cell(1).textShouldHave("new1");
+        rows.row(0).cell(1).shouldHaveText("new1");
 
         // close by cross icon
         modalBtn.click();
@@ -87,7 +85,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         modalPage.close();
 
         rows.shouldHaveSize(6);
-        rows.row(0).cell(1).textShouldHave("new2");
+        rows.row(0).cell(1).shouldHaveText("new2");
 
         // close by ESC button
         modalBtn.click();
@@ -97,7 +95,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         modalPage.closeByEsc();
 
         rows.shouldHaveSize(7);
-        rows.row(0).cell(1).textShouldHave("new3");
+        rows.row(0).cell(1).shouldHaveText("new3");
 
         // close by click backdrop
         modalBtn.click();
@@ -107,7 +105,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         modalPage.clickBackdrop();
 
         rows.shouldHaveSize(8);
-        rows.row(0).cell(1).textShouldHave("new4");
+        rows.row(0).cell(1).shouldHaveText("new4");
     }
 
     @Test
@@ -140,7 +138,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         closeBtn.click();
 
         rows.shouldHaveSize(5);
-        rows.row(0).cell(1).textShouldHave("new1");
+        rows.row(0).cell(1).shouldHaveText("new1");
 
         // close by cross icon
         drawerBtn.click();
@@ -150,7 +148,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         drawerPage.close();
 
         rows.shouldHaveSize(6);
-        rows.row(0).cell(1).textShouldHave("new2");
+        rows.row(0).cell(1).shouldHaveText("new2");
 
         // close by ESC button
         drawerBtn.click();
@@ -160,7 +158,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         drawerPage.closeByEsc();
 
         rows.shouldHaveSize(7);
-        rows.row(0).cell(1).textShouldHave("new3");
+        rows.row(0).cell(1).shouldHaveText("new3");
 
         // close by click backdrop
         drawerBtn.click();
@@ -170,6 +168,6 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         drawerPage.clickBackdrop();
 
         rows.shouldHaveSize(8);
-        rows.row(0).cell(1).textShouldHave("new4");
+        rows.row(0).cell(1).shouldHaveText("new4");
     }
 }

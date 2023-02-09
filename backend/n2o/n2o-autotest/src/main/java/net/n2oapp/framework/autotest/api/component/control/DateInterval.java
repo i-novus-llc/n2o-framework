@@ -7,43 +7,43 @@ import net.n2oapp.framework.autotest.api.component.PopupControl;
  */
 public interface DateInterval extends Control, PopupControl {
 
-    void beginShouldBeEmpty();
+    void shouldHaveEmptyBegin();
 
-    void endShouldBeEmpty();
+    void shouldHaveEmptyEnd();
 
     void beginVal(String value);
 
     void endVal(String value);
 
-    void beginShouldHaveValue(String value);
+    void shouldHaveBeginWithValue(String value);
 
-    void endShouldHaveValue(String value);
+    void shouldHaveEndWithValue(String value);
 
     void clickCalendarButton();
 
-    void shouldBeBeginActiveDay(String day);
+    void shouldHaveActiveDayInBegin(String day);
 
-    void shouldBeEndActiveDay(String day);
+    void shouldHaveActiveDayInEnd(String day);
 
-    void shouldBeDisableEndDay(String day);
+    void shouldHaveDisableDayInEnd(String day);
 
-    void shouldBeDisableBeginDay(String day);
+    void shouldHaveDisableDayInBegin(String day);
 
-    void shouldBeEnableBeginDay(String day);
+    void shouldHaveEnableDayInBegin(String day);
 
-    void shouldBeEnableEndDay(String day);
+    void shouldHaveEnableDayInEnd(String day);
 
     void clickBeginDay(String day);
 
     void clickEndDay(String day);
 
-    void beginShouldHaveCurrentMonth(String month);
+    void shouldHaveCurrentMonthInBegin(String month);
 
-    void endShouldHaveCurrentMonth(String month);
+    void shouldHaveCurrentMonthInEnd(String month);
 
-    void beginShouldHaveCurrentYear(String year);
+    void shouldHaveCurrentYearInBegin(String year);
 
-    void endShouldHaveCurrentYear(String year);
+    void shouldHaveCurrentYearInEnd(String year);
 
     void clickBeginPreviousMonthButton();
 

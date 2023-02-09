@@ -4,7 +4,6 @@ import net.n2oapp.framework.autotest.api.component.control.FileUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -56,11 +55,11 @@ public class FileUploadAT extends SandboxAutotestBase {
 
         fileStoreController.clear();
         fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.query.xml");
-        fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFileNameShouldBe(0, "test.query.xml");
+        fileUpload.shouldHaveUploadFilesOfSize(1);
+        fileUpload.shouldHaveUploadFileNamed(0, "test.query.xml");
         assertEquals(1, fileStoreController.size());
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFilesOfSize(0);
         assertEquals(0, fileStoreController.size());
     }
 
@@ -74,22 +73,22 @@ public class FileUploadAT extends SandboxAutotestBase {
 
         fileStoreController.clear();
         fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.query.xml");
-        fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFileNameShouldBe(0, "test.query.xml");
+        fileUpload.shouldHaveUploadFilesOfSize(1);
+        fileUpload.shouldHaveUploadFileNamed(0, "test.query.xml");
         assertEquals(1, fileStoreController.size());
 
         page = open(SimplePage.class); //что бы очистить значение формы загрузки файлов
         page.shouldExists();
         fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.page.xml");
-        fileUpload.uploadFilesShouldBe(2);
-        fileUpload.uploadFileNameShouldBe(1, "test.page.xml");
+        fileUpload.shouldHaveUploadFilesOfSize(2);
+        fileUpload.shouldHaveUploadFileNamed(1, "test.page.xml");
         assertEquals(2, fileStoreController.size());
 
         fileUpload.deleteFile(1);
-        fileUpload.uploadFilesShouldBe(1);
+        fileUpload.shouldHaveUploadFilesOfSize(1);
         assertEquals(1, fileStoreController.size());
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFilesOfSize(0);
         assertEquals(0, fileStoreController.size());
     }
 }

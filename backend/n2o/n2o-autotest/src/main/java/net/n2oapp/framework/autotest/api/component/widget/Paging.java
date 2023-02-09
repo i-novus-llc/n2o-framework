@@ -6,57 +6,57 @@ import net.n2oapp.framework.autotest.api.component.Component;
  * Компонент пагинации для автотестирования
  */
 public interface Paging extends Component {
-    void activePageShouldBe(String number);
+    void shouldHaveActivePage(String number);
 
     void selectPage(String number);
 
-    void pagingShouldHave(String number);
+    void shouldHavePageNumber(String number);
 
     void shouldHaveLayout(Layout layout);
 
     int totalElements();
 
-    void totalElementsShouldBe(int count);
+    void shouldHaveTotalElements(int count);
 
-    void totalElementsShouldNotExist();
+    void shouldNotHaveTotalElements();
 
-    void prevShouldNotExist();
+    void shouldNotHavePrev();
 
-    void prevShouldExist();
+    void shouldHavePrev();
 
-    void prevShouldHaveLabel(String label);
+    void shouldHavePrevWithLabel(String label);
 
-    void prevShouldHaveIcon(String icon);
+    void shouldHavePrevWithIcon(String icon);
 
     void selectPrev();
 
-    void nextShouldNotExist();
+    void shouldNotHaveNext();
 
-    void nextShouldExist();
+    void shouldHaveNext();
 
-    void nextShouldHaveLabel(String label);
+    void shouldHaveNextWithLabel(String label);
 
-    void nextShouldHaveIcon(String icon);
+    void shouldHaveNextWithIcon(String icon);
 
     void selectNext();
 
-    void firstShouldNotExist();
+    void shouldNotHaveFirst();
 
-    void firstShouldExist();
+    void shouldHaveFirst();
 
-    void firstShouldHaveLabel(String label);
+    void shouldHaveFirstWithLabel(String label);
 
-    void firstShouldHaveIcon(String icon);
+    void shouldHaveFirstWithIcon(String icon);
 
     void selectFirst();
 
-    void lastShouldNotExist();
+    void shouldNotHaveLast();
 
-    void lastShouldExist();
+    void shouldHaveLast();
 
-    void lastShouldHaveLabel(String label);
+    void shouldHaveLastWithLabel(String label);
 
-    void lastShouldHaveIcon(String icon);
+    void shouldHaveLastWithIcon(String icon);
 
     void selectLast();
 
@@ -69,7 +69,7 @@ public interface Paging extends Component {
         FLAT_ROUNDED("flat-rounded"),
         SEPARATED_ROUNDED("separated-rounded");
 
-        private String title;
+        private final String title;
 
         Layout(String title) {
             this.title = title;

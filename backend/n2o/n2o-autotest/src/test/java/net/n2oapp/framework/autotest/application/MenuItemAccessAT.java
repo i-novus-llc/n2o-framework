@@ -53,15 +53,15 @@ public class MenuItemAccessAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldExists();
-        menuItem.labelShouldHave("Доступно всем пользователям");
+        menuItem.shouldHaveLabel("Доступно всем пользователям");
 
         menuItem = page.header().nav().anchor(1);
         menuItem.shouldExists();
-        menuItem.labelShouldHave("Доступно с ролью admin");
+        menuItem.shouldHaveLabel("Доступно с ролью admin");
 
         DropdownMenuItem dropdown = page.header().nav().dropdown(2);
         dropdown.shouldExists();
-        dropdown.labelShouldHave("Доступно с правом edit");
+        dropdown.shouldHaveLabel("Доступно с правом edit");
     }
 
     @Test
@@ -76,7 +76,7 @@ public class MenuItemAccessAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldExists();
-        menuItem.labelShouldHave("Доступно всем пользователям");
+        menuItem.shouldHaveLabel("Доступно всем пользователям");
     }
 
     private Map<String, Object> loadAdminInfo() {

@@ -56,7 +56,7 @@ public class PlaceholderContextAT extends AutoTestBase {//TODO работает 
     public void PlaceholderContextTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Placeholder context");
 
         OutputText email = page.widget(FormWidget.class).fields().field("email")

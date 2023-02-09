@@ -7,9 +7,9 @@ public interface LinkCell extends Cell {
 
     void click();
 
-    void hrefShouldHave(String href);
+    void shouldHaveHref(String href);
 
-    void textShouldHave(String text);
+    void shouldHaveText(String text);
 
     void shouldNotHaveText();
 }

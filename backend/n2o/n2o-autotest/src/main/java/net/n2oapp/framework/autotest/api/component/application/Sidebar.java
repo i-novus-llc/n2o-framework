@@ -9,11 +9,11 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface Sidebar extends Component {
 
-    void titleShouldBe(String title);
+    void shouldHaveTitle(String title);
 
-    void brandLogoShouldBe(String brandName);
+    void shouldHaveBrandLogoNamed(String brandName);
 
-    void subtitleShouldBe(String subtitle);
+    void shouldHaveSubtitle(String subtitle);
 
     void shouldBeFixed();
 

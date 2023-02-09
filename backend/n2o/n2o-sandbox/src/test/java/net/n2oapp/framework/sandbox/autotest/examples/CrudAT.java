@@ -10,7 +10,6 @@ import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,7 +44,7 @@ public class CrudAT extends SandboxAutotestBase {
     public void crudTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("CRUD Операции");
 
         TableWidget table = page.widget(TableWidget.class);
@@ -75,7 +74,7 @@ public class CrudAT extends SandboxAutotestBase {
         save.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         rows.shouldHaveSize(5);
-        rows.row(0).cell(1).textShouldHave("test-value");
+        rows.row(0).cell(1).shouldHaveText("test-value");
 
         rows.shouldBeSelected(0);
         update.click();
@@ -91,7 +90,7 @@ public class CrudAT extends SandboxAutotestBase {
         save1.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         rows.shouldHaveSize(5);
-        rows.row(0).cell(1).textShouldHave("change-test-value");
+        rows.row(0).cell(1).shouldHaveText("change-test-value");
 
         rows.shouldBeSelected(0);
         delete.click();

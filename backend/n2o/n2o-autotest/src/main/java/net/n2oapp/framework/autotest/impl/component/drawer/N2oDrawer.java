@@ -34,17 +34,17 @@ public class N2oDrawer extends N2oComponent implements Drawer {
     }
 
     @Override
-    public void placementShouldBe(Placement placement) {
+    public void shouldHavePlacement(Placement placement) {
         element().shouldHave(Condition.cssClass("drawer-" + placement.name()));
     }
 
     @Override
-    public void widthShouldBe(String width) {
+    public void shouldHaveWidth(String width) {
         element().$(".drawer-content-wrapper").shouldHave(new StyleAttribute("width", width));
     }
 
     @Override
-    public void heightShouldBe(String height) {
+    public void shouldHaveHeight(String height) {
         element().$(".drawer-content-wrapper").shouldHave(new StyleAttribute("height", height));
     }
 
@@ -75,11 +75,12 @@ public class N2oDrawer extends N2oComponent implements Drawer {
 
         @Nonnull
         @Override
-        public CheckResult check(Driver driver, WebElement element) {
+        public CheckResult check(@Nonnull Driver driver, @Nonnull WebElement element) {
             boolean result = getAttributeValue(element).contains(attributeName + ": " + expectedAttributeValue);
             return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
+        @Nonnull
         @Override
         public String toString() {
             return String.format("attribute style contains %s: %s", attributeName, expectedAttributeValue);
@@ -92,12 +93,12 @@ public class N2oDrawer extends N2oComponent implements Drawer {
     }
 
     @Override
-    public void footerShouldBeFixed() {
+    public void shouldHaveFixedFooter() {
         getFooter().shouldBe(Condition.cssClass("drawer-footer--fixed"));
     }
 
     @Override
-    public void footerShouldNotBeFixed() {
+    public void shouldNotHaveFixedFooter() {
         getFooter().shouldNotBe(Condition.cssClass("drawer-footer--fixed"));
     }
 

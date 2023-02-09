@@ -53,11 +53,11 @@ public class ListAT extends AutoTestBase {
 
         ListWidget listWidget = page.widget(ListWidget.class);
         listWidget.shouldHaveSize(10);
-        listWidget.content(0).body(TextCell.class).textShouldHave("body1");
-        listWidget.content(0).leftTop(ImageCell.class).srcShouldBe(getBaseUrl() + "/favicon.ico");
-        listWidget.content(0).leftBottom(TextCell.class).textShouldHave("leftBottom1");
-        listWidget.content(0).subHeader(BadgeCell.class).colorShouldBe(Colors.SUCCESS);
-        listWidget.paging().totalElementsShouldBe(11);
+        listWidget.content(0).body(TextCell.class).shouldHaveText("body1");
+        listWidget.content(0).leftTop(ImageCell.class).shouldHaveSrc(getBaseUrl() + "/favicon.ico");
+        listWidget.content(0).leftBottom(TextCell.class).shouldHaveText("leftBottom1");
+        listWidget.content(0).subHeader(BadgeCell.class).shouldHaveColor(Colors.SUCCESS);
+        listWidget.paging().shouldHaveTotalElements(11);
         listWidget.paging().selectNext();
         listWidget.shouldHaveSize(1);
         listWidget.paging().selectPrev();
@@ -80,48 +80,48 @@ public class ListAT extends AutoTestBase {
 
         ListWidget list = page.regions().region(0, SimpleRegion.class).content().widget(ListWidget.class);
         Paging paging = list.paging();
-        paging.totalElementsShouldBe(8);
+        paging.shouldHaveTotalElements(8);
         paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.prevShouldNotExist();
-        paging.nextShouldNotExist();
-        paging.firstShouldExist();
-        paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.lastShouldNotExist();
+        paging.shouldNotHavePrev();
+        paging.shouldNotHaveNext();
+        paging.shouldHaveFirst();
+        paging.shouldHaveFirstWithIcon("fa-angle-double-left");
+        paging.shouldNotHaveLast();
 
-        paging.activePageShouldBe("1");
-        list.content(0).body(TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        list.content(0).body(TextCell.class).shouldHaveText("test1");
         paging.selectPage("3");
-        paging.activePageShouldBe("3");
-        list.content(0).body(TextCell.class).textShouldHave("test7");
+        paging.shouldHaveActivePage("3");
+        list.content(0).body(TextCell.class).shouldHaveText("test7");
         paging.selectFirst();
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
 
 
         ListWidget list2 = page.regions().region(0, SimpleRegion.class).content().widget(1, ListWidget.class);
         paging = list2.paging();
-        paging.totalElementsShouldNotExist();
+        paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.BORDERED_ROUNDED);
-        paging.prevShouldExist();
-        paging.prevShouldHaveLabel("Prev");
-        paging.prevShouldHaveIcon("fa-angle-down");
-        paging.nextShouldExist();
-        paging.nextShouldHaveLabel("Next");
-        paging.nextShouldHaveIcon("fa-angle-up");
-        paging.firstShouldExist();
-        paging.firstShouldHaveLabel("First");
-        paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.lastShouldExist();
-        paging.lastShouldHaveLabel("Last");
-        paging.lastShouldHaveIcon("fa-angle-double-up");
+        paging.shouldHavePrev();
+        paging.shouldHavePrevWithLabel("Prev");
+        paging.shouldHavePrevWithIcon("fa-angle-down");
+        paging.shouldHaveNext();
+        paging.shouldHaveNextWithLabel("Next");
+        paging.shouldHaveNextWithIcon("fa-angle-up");
+        paging.shouldHaveFirst();
+        paging.shouldHaveFirstWithLabel("First");
+        paging.shouldHaveFirstWithIcon("fa-angle-double-down");
+        paging.shouldHaveLast();
+        paging.shouldHaveLastWithLabel("Last");
+        paging.shouldHaveLastWithIcon("fa-angle-double-up");
 
-        paging.activePageShouldBe("1");
-        list2.content(0).body(TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        list2.content(0).body(TextCell.class).shouldHaveText("test1");
         paging.selectNext();
-        paging.activePageShouldBe("2");
-        list2.content(0).body(TextCell.class).textShouldHave("test4");
+        paging.shouldHaveActivePage("2");
+        list2.content(0).body(TextCell.class).shouldHaveText("test4");
         paging.selectPrev();
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
         paging.selectLast();
-        list2.content(0).body(TextCell.class).textShouldHave("test7");
+        list2.content(0).body(TextCell.class).shouldHaveText("test7");
     }
 }

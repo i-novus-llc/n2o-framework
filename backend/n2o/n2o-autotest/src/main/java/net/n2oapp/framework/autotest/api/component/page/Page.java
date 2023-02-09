@@ -34,9 +34,9 @@ public interface Page extends Component {
 
     Alerts alerts(Alert.Placement placement);
 
-    void urlShouldMatches(String regexp);
+    void shouldHaveUrlLike(String regexp);
 
-    void titleShouldHaveText(String title);
+    void shouldHaveTitle(String title);
 
     void scrollUp();
 
@@ -62,11 +62,11 @@ public interface Page extends Component {
 
         void clickLink(String text);
 
-        void firstTitleShouldHaveText(String text);
+        void shouldHaveFirstTitleWithText(String text);
 
-        void titleShouldHaveText(String text);
+        void shouldHaveTitle(String title);
 
-        void titleByIndexShouldHaveText(String text, Integer index);
+        void shouldHaveTitleByIndex(String title, Integer index);
 
         void shouldHaveSize(int size);
 

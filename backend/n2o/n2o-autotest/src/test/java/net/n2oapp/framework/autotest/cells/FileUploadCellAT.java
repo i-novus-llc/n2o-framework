@@ -62,21 +62,21 @@ public class FileUploadCellAT extends AutoTestBase {
         // загрузка файла с неразрешенным расширением
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/cells/fileupload/simple/index.page.xml");
         // Есть вывод ошибки
-        fileUpload.uploadFilesShouldBe(1);
+        fileUpload.shouldHaveUploadFilesOfSize(1);
         // загрузка не произошла
         assertThat(fileStoreController.getFileStore().size(), is(0));
 
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFilesOfSize(0);
 
         // загрузка нормального файла
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
-        fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
-        fileUpload.uploadFileNameShouldBe(0, "test1.json");
+        fileUpload.shouldHaveUploadFilesOfSize(1);
+        fileUpload.shouldHaveUploadFileWithLink(0, "http://localhost:" + port + "/files/test1.json");
+        fileUpload.shouldHaveUploadFileNamed(0, "test1.json");
         assertThat(fileStoreController.getFileStore().size(), is(1));
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFilesOfSize(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
     }
 
@@ -95,14 +95,14 @@ public class FileUploadCellAT extends AutoTestBase {
         // загрузка нормального файла
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json",
                 "net/n2oapp/framework/autotest/control/test2.json");
-        fileUpload.uploadFilesShouldBe(2);
-        fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
-        fileUpload.uploadFileNameShouldBe(0, "test1.json");
-        fileUpload.uploadFileShouldHaveLink(1, "http://localhost:" + port + "/files/test2.json");
-        fileUpload.uploadFileNameShouldBe(1, "test2.json");
+        fileUpload.shouldHaveUploadFilesOfSize(2);
+        fileUpload.shouldHaveUploadFileWithLink(0, "http://localhost:" + port + "/files/test1.json");
+        fileUpload.shouldHaveUploadFileNamed(0, "test1.json");
+        fileUpload.shouldHaveUploadFileWithLink(1, "http://localhost:" + port + "/files/test2.json");
+        fileUpload.shouldHaveUploadFileNamed(1, "test2.json");
         assertThat(fileStoreController.getFileStore().size(), is(2));
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(1);
+        fileUpload.shouldHaveUploadFilesOfSize(1);
         assertThat(fileStoreController.getFileStore().size(), is(1));
     }
 

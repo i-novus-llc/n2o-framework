@@ -22,7 +22,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -74,8 +73,8 @@ public class DatasourceAT extends AutoTestBase {
         filterId.val("3");
         searchButton.click();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).textShouldHave("3");
-        table.columns().rows().row(0).cell(1).textShouldHave("test3");
+        table.columns().rows().row(0).cell(0).shouldHaveText("3");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test3");
         filterName.val("test1");
         searchButton.click();
         table.columns().rows().shouldHaveSize(0);
@@ -86,16 +85,16 @@ public class DatasourceAT extends AutoTestBase {
         filterName.val("test4");
         searchButton.click();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).textShouldHave("4");
-        table.columns().rows().row(0).cell(1).textShouldHave("test4");
+        table.columns().rows().row(0).cell(0).shouldHaveText("4");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test4");
         clearButton.click();
 
         filterId.val("1");
         filterName.val("test1");
         searchButton.click();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).textShouldHave("1");
-        table.columns().rows().row(0).cell(1).textShouldHave("test1");
+        table.columns().rows().row(0).cell(0).shouldHaveText("1");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test1");
         clearButton.click();
 
         filterId.val("1");
@@ -131,8 +130,8 @@ public class DatasourceAT extends AutoTestBase {
         CardsWidget cards = page.regions().region(0, SimpleRegion.class).content().widget(2, CardsWidget.class);
 
         table.columns().rows().shouldHaveSize(4);
-        tiles.paging().totalElementsShouldBe(4);
-        cards.paging().totalElementsShouldBe(4);
+        tiles.paging().shouldHaveTotalElements(4);
+        cards.paging().shouldHaveTotalElements(4);
     }
 
     /**
@@ -181,7 +180,7 @@ public class DatasourceAT extends AutoTestBase {
         page.breadcrumb().shouldHaveSize(1);
         page.breadcrumb().crumb(0).shouldHaveLabel("Сохранение нескольких форм одной кнопкой");
 
-        table.columns().rows().row(0).cell(0).textShouldHave("Сергей");
+        table.columns().rows().row(0).cell(0).shouldHaveText("Сергей");
         table.columns().rows().row(0).click();
 
         page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class)
@@ -316,6 +315,6 @@ public class DatasourceAT extends AutoTestBase {
 
         name.val("submit-test");
         button.click();
-        table.columns().rows().row(0).cell(1).textShouldHave("submit-test");
+        table.columns().rows().row(0).cell(1).shouldHaveText("submit-test");
     }
 }

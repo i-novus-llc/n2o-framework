@@ -71,10 +71,10 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
 
         open.toolbar().bottomRight().button("Сохранить").click();
 
-        tableWidget.columns().rows().row(0).cell(0).textShouldHave("Александр");
-        tableWidget.columns().rows().row(0).cell(1).textShouldHave("Цой");
-        tableWidget.columns().rows().row(0).cell(2).textShouldHave("г.Казань, ул.Качалова, д.75");
-        tableWidget.columns().rows().row(0).cell(3).textShouldHave("Ай-новус");
+        tableWidget.columns().rows().row(0).cell(0).shouldHaveText("Александр");
+        tableWidget.columns().rows().row(0).cell(1).shouldHaveText("Цой");
+        tableWidget.columns().rows().row(0).cell(2).shouldHaveText("г.Казань, ул.Качалова, д.75");
+        tableWidget.columns().rows().row(0).cell(3).shouldHaveText("Ай-новус");
         tableWidget.columns().rows().row(0).click();
 
         StandardButton updateButton = tableWidget.toolbar().topLeft().button("Изменить");
@@ -101,9 +101,9 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
 
         open.toolbar().bottomRight().button("Сохранить").click();
 
-        tableWidget.columns().rows().row(0).cell(0).textShouldHave("Иван");
-        tableWidget.columns().rows().row(0).cell(1).textShouldHave("Лебедев");
-        tableWidget.columns().rows().row(0).cell(2).textShouldHave("г.Казань, ул.Салимжанова, д.5");
-        tableWidget.columns().rows().row(0).cell(3).textShouldHave("КИР");
+        tableWidget.columns().rows().row(0).cell(0).shouldHaveText("Иван");
+        tableWidget.columns().rows().row(0).cell(1).shouldHaveText("Лебедев");
+        tableWidget.columns().rows().row(0).cell(2).shouldHaveText("г.Казань, ул.Салимжанова, д.5");
+        tableWidget.columns().rows().row(0).cell(3).shouldHaveText("КИР");
     }
 }

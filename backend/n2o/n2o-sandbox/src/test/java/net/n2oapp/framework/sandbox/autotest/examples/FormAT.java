@@ -8,7 +8,6 @@ import net.n2oapp.framework.autotest.api.component.control.TextArea;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,7 +34,7 @@ public class FormAT extends SandboxAutotestBase {
 
         page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Форма");
     }
 

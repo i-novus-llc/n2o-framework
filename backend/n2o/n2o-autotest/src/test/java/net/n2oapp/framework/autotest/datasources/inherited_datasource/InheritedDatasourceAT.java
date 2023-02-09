@@ -116,15 +116,15 @@ public class InheritedDatasourceAT extends AutoTestBase {
         childTable.columns().headers().header(1).shouldHaveTitle("name");
         sourceTable.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
 
-        childTable.columns().rows().row(0).cell(1).textShouldHave("test1");
+        childTable.columns().rows().row(0).cell(1).shouldHaveText("test1");
         sourceTable.columns().rows().row(1).cell(0, CheckboxCell.class).setChecked(true);
         sourceTable.columns().rows().row(2).cell(0, CheckboxCell.class).setChecked(true);
-        childTable.columns().rows().row(1).cell(1).textShouldHave("test2");
-        childTable.columns().rows().row(2).cell(1).textShouldHave("test3");
+        childTable.columns().rows().row(1).cell(1).shouldHaveText("test2");
+        childTable.columns().rows().row(2).cell(1).shouldHaveText("test3");
 
         sourceTable.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(false);
         sourceTable.columns().rows().row(1).cell(0, CheckboxCell.class).setChecked(false);
-        childTable.columns().rows().row(0).cell(1).textShouldHave("test3");
+        childTable.columns().rows().row(0).cell(1).shouldHaveText("test3");
     }
 
     /**

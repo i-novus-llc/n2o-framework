@@ -8,9 +8,9 @@ import net.n2oapp.framework.autotest.api.component.Tooltip;
 public interface TooltipListCell extends Cell {
     void shouldHaveText(String text);
 
-    void labelShouldBeDashed();
+    void shouldHaveDashedLabel();
 
-    void labelShouldNotBeDashed();
+    void shouldNotHaveDashedLabel();
 
     void hover();
 

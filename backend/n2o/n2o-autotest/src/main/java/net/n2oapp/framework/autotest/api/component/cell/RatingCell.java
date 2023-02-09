@@ -5,9 +5,9 @@ package net.n2oapp.framework.autotest.api.component.cell;
  */
 public interface RatingCell extends Cell {
 
-    void maxShouldBe(int max);
+    void shouldHaveMax(int max);
 
-    void valueShouldBe(String value);
+    void shouldHaveValue(String value);
 
     void value(String value);
 }

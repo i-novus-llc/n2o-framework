@@ -19,18 +19,18 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     }
 
     @Override
-    public void titleShouldBe(String title) {
+    public void shouldHaveTitle(String title) {
         element().$$(".navbar-brand").filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(0)
                 .shouldHave(Condition.text(title));
     }
 
     @Override
-    public void brandLogoShouldBe(String logo) {
+    public void shouldHaveBrandLogoNamed(String logo) {
         element().$(".n2o-brand__image").shouldHave(Condition.attributeMatching("src", ".*"+logo));
     }
 
     @Override
-    public void subtitleShouldBe(String subtitle) {
+    public void shouldHaveSubtitle(String subtitle) {
         element().$$(".navbar-brand").filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(1)
                 .shouldHave(Condition.text(subtitle));
     }
@@ -52,7 +52,7 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
 
     @Override
     public void shouldHaveState(SidebarState state) {
-        element().shouldHave(Condition.cssClass(state.name()));;
+        element().shouldHave(Condition.cssClass(state.name()));
     }
 
     @Override

@@ -8,7 +8,7 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface SimpleHeader extends Component {
 
-    void brandNameShouldBe(String brandName);
+    void shouldHaveBrandName(String brandName);
 
     Menu nav();
 
@@ -16,7 +16,7 @@ public interface SimpleHeader extends Component {
 
     SearchBar search();
 
-    void sidebarSwitcherShouldExists();
+    void shouldHaveSidebarSwitcher();
 
     void switchSidebar();
 

@@ -47,16 +47,16 @@ public class NumberPickerAT extends AutoTestBase {
         NumberPicker numberPicker = fields.field("limitedPicker").control(NumberPicker.class);
         numberPicker.shouldExists();
         numberPicker.shouldBeEnabled();
-        numberPicker.minShouldBe("-3");
-        numberPicker.maxShouldBe("3");
-        numberPicker.stepShouldBe("2");
-        numberPicker.minusStepButtonShouldBeEnabled();
+        numberPicker.shouldHaveMin("-3");
+        numberPicker.shouldHaveMax("3");
+        numberPicker.shouldHaveStep("2");
+        numberPicker.shouldHaveEnableMinusStepButton();
         numberPicker.plusStepButtonShouldBeEnabled();
         numberPicker.shouldHaveValue("2");
         numberPicker.clickPlusStepButton();
         // limit by max value
         numberPicker.shouldHaveValue("3");
-        numberPicker.minusStepButtonShouldBeEnabled();
+        numberPicker.shouldHaveEnableMinusStepButton();
         numberPicker.plusStepButtonShouldBeDisabled();
         numberPicker.clickMinusStepButton();
         numberPicker.shouldHaveValue("1");
@@ -67,11 +67,11 @@ public class NumberPickerAT extends AutoTestBase {
         numberPicker.clickMinusStepButton();
         // limit by min value
         numberPicker.shouldHaveValue("-3");
-        numberPicker.minusStepButtonShouldBeDisabled();
+        numberPicker.shouldHaveDisableMinusStepButton();
         numberPicker.plusStepButtonShouldBeEnabled();
         numberPicker.clickPlusStepButton();
         numberPicker.shouldHaveValue("-1");
-        numberPicker.minusStepButtonShouldBeEnabled();
+        numberPicker.shouldHaveEnableMinusStepButton();
 
         //check input
         // only minus

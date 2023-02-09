@@ -123,7 +123,7 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
-    public void optionShouldHaveDescription(String option, String description) {
+    public void shouldHaveOptionWithDescription(String option, String description) {
         openPopup();
         SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
                 .findBy(Condition.text(option)).parent();

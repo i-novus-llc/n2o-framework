@@ -55,7 +55,7 @@ public class InputTextAT extends AutoTestBase {
         input.shouldHaveValue("test1test2");
         // проверка меры измерения
         input.shouldHaveMeasure();
-        input.measureShouldHaveText("шт.");
+        input.shouldHaveMeasureText("шт.");
     }
 
     @Test
@@ -86,7 +86,7 @@ public class InputTextAT extends AutoTestBase {
         input.shouldHaveValue("-99");
         // проверка меры измерения
         input.shouldHaveMeasure();
-        input.measureShouldHaveText("cm");
+        input.shouldHaveMeasureText("cm");
     }
 
     @Test

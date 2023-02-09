@@ -81,9 +81,9 @@ public class ValidationDialogAT extends AutoTestBase {
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(3);
-        tableRows.row(2).cell(0).textShouldHave("3");
-        tableRows.row(2).cell(1).textShouldHave("Mark");
-        tableRows.row(2).cell(2).textShouldHave("20");
+        tableRows.row(2).cell(0).shouldHaveText("3");
+        tableRows.row(2).cell(1).shouldHaveText("Mark");
+        tableRows.row(2).cell(2).shouldHaveText("20");
 
         // save without name (calling dialog 'nameCheck')
         create.click();
@@ -108,9 +108,9 @@ public class ValidationDialogAT extends AutoTestBase {
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(4);
-        tableRows.row(3).cell(0).textShouldHave("4");
-        tableRows.row(3).cell(1).textShouldHave("default");
-        tableRows.row(3).cell(2).textShouldHave("25");
+        tableRows.row(3).cell(0).shouldHaveText("4");
+        tableRows.row(3).cell(1).shouldHaveText("default");
+        tableRows.row(3).cell(2).shouldHaveText("25");
 
         // save without age (calling dialog 'ageCheck')
         create.click();
@@ -136,9 +136,9 @@ public class ValidationDialogAT extends AutoTestBase {
         modal.shouldNotExists();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(5);
-        tableRows.row(4).cell(0).textShouldHave("5");
-        tableRows.row(4).cell(1).textShouldHave("Ann");
-        tableRows.row(4).cell(2).textShouldHave("0");
+        tableRows.row(4).cell(0).shouldHaveText("5");
+        tableRows.row(4).cell(1).shouldHaveText("Ann");
+        tableRows.row(4).cell(2).shouldHaveText("0");
     }
 
     /**

@@ -93,7 +93,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void itemShouldBeEnabled(Boolean enabled, String value) {
+    public void shouldHaveEnableItem(Boolean enabled, String value) {
         element().click();
         if (enabled)
             popUpButtons().findBy(Condition.text(value))
@@ -144,7 +144,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void optionShouldHaveDescription(String option, String description) {
+    public void shouldHaveOptionDescription(String option, String description) {
         openPopup();
         SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
                 .findBy(Condition.text(option)).parent();
@@ -154,7 +154,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void itemShouldHaveStatusColor(String value, Colors color) {
+    public void shouldHaveItemWithStatusColor(String value, Colors color) {
         element().click();
         popUpButtons().findBy(Condition.text(value))
                 .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")

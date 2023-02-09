@@ -42,7 +42,7 @@ public class FooterAT extends AutoTestBase {
     public void testFooter() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.footer().leftTextShouldBe("left text");
-        page.footer().rightTextShouldBe("right text");
+        page.footer().shouldHaveLeftTextNamed("left text");
+        page.footer().shouldHaveRightTextNamed("right text");
     }
 }

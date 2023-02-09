@@ -28,27 +28,27 @@ public interface ImageUploadControl extends Control {
 
     void shouldHaveSize(int size);
 
-    void nameInfoShouldExist(int index);
+    void shouldHaveNameInfo(int index);
 
-    void nameInfoShouldNotExist(int index);
+    void shouldNotHaveNameInfo(int index);
 
-    void nameShouldBe(int index, String fileName);
+    void shouldHaveName(int index, String fileName);
 
-    void sizeInfoShouldBeVisible(int index);
+    void shouldHaveVisibleSizeInfo(int index);
 
-    void sizeInfoShouldNotBeVisible(int index);
+    void shouldNotHaveVisibleSizeInfo(int index);
 
-    void sizeShouldBe(int index, String fileSize);
+    void shouldHaveSize(int index, String fileSize);
 
-    void uploadAreaShapeShouldBe(ShapeType shape);
+    void shouldHaveUploadAreaShape(ShapeType shape);
 
-    void uploadAreaShouldHaveIcon(String icon);
+    void shouldHaveUploadAreaIcon(String icon);
 
-    void uploadAreaIconShouldHaveSize(int size);
+    void shouldHaveUploadAreaIconWithSize(int size);
 
-    void uploadAreaShouldHaveWidth(int width);
+    void shouldHaveUploadAreaWithWidth(int width);
 
-    void uploadAreaShouldHaveHeight(int height);
+    void shouldHaveUploadAreaWithHeight(int height);
 
     interface PreviewDialog {
 

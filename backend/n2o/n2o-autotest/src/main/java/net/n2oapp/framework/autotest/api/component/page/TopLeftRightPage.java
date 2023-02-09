@@ -12,9 +12,9 @@ public interface TopLeftRightPage extends Page {
 
     Regions right();
 
-    void scrollToTopButtonShouldExists();
+    void shouldHaveScrollToTopButton();
 
-    void scrollToTopButtonShouldNotExists();
+    void shouldNotHaveScrollToTopButton();
 
     void clickScrollToTopButton();
 }

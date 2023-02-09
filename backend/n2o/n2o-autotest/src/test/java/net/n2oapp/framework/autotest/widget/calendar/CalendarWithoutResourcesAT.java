@@ -97,8 +97,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("07.07.2020 13:00:00");
-        date.endShouldHaveValue("07.07.2020 15:00:00");
+        date.shouldHaveBeginWithValue("07.07.2020 13:00:00");
+        date.shouldHaveEndWithValue("07.07.2020 15:00:00");
         modal.close();
 
         // проверка, что клик по ячейке открывает форму создания события с заполненным временем на весь день
@@ -109,8 +109,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("15.07.2020 00:00:00");
-        date.endShouldHaveValue("16.07.2020 00:00:00");
+        date.shouldHaveBeginWithValue("15.07.2020 00:00:00");
+        date.shouldHaveEndWithValue("16.07.2020 00:00:00");
         modal.close();
 
         // клик по числу в ячейке должен открывать выбранный день
@@ -152,8 +152,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("06.07.2020 00:00:00");
-        date.endShouldHaveValue("07.07.2020 00:00:00");
+        date.shouldHaveBeginWithValue("06.07.2020 00:00:00");
+        date.shouldHaveEndWithValue("07.07.2020 00:00:00");
         modal.close();
 
         // наличие событий
@@ -179,8 +179,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("07.07.2020 13:00:00");
-        date.endShouldHaveValue("07.07.2020 15:00:00");
+        date.shouldHaveBeginWithValue("07.07.2020 13:00:00");
+        date.shouldHaveEndWithValue("07.07.2020 15:00:00");
         modal.close();
 
         // проверка наличия события на весь день
@@ -195,8 +195,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("07.07.2020 00:00:00");
-        date.endShouldHaveValue("08.07.2020 00:00:00");
+        date.shouldHaveBeginWithValue("07.07.2020 00:00:00");
+        date.shouldHaveEndWithValue("08.07.2020 00:00:00");
         modal.close();
 
         // проверка, что клик по ячейке открывает форму создания события с заполненным временем
@@ -207,8 +207,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("07.07.2020 04:30:00");
-        date.endShouldHaveValue("07.07.2020 05:00:00");
+        date.shouldHaveBeginWithValue("07.07.2020 04:30:00");
+        date.shouldHaveEndWithValue("07.07.2020 05:00:00");
 
         // СОЗДАНИЕ события
         fields.field("Название события").control(InputText.class).val("Новое событие");
@@ -241,14 +241,14 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         toolbar.prevButton().click();
         // данные событий за период
         agendaView.shouldHaveSize(3);
-        agendaView.eventShouldHaveDate(0, "пн июль 06");
-        agendaView.eventShouldHaveTime(0, "15:00 — 16:00");
-        agendaView.eventShouldHaveName(0, "Событие1");
-        agendaView.eventShouldHaveDate(1, "вт июль 07");
-        agendaView.eventShouldHaveTime(1, "0:00");
-        agendaView.eventShouldHaveName(1, "All day event");
-        agendaView.eventShouldHaveTime(2, "13:00 — 15:00");
-        agendaView.eventShouldHaveName(2, "Событие2");
+        agendaView.shouldHaveEventOnDate(0, "пн июль 06");
+        agendaView.shouldHaveEventInTime(0, "15:00 — 16:00");
+        agendaView.shouldHaveEventWithName(0, "Событие1");
+        agendaView.shouldHaveEventOnDate(1, "вт июль 07");
+        agendaView.shouldHaveEventInTime(1, "0:00");
+        agendaView.shouldHaveEventWithName(1, "All day event");
+        agendaView.shouldHaveEventInTime(2, "13:00 — 15:00");
+        agendaView.shouldHaveEventWithName(2, "Событие2");
     }
 
     @Test
@@ -278,8 +278,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("09.07.2020 00:00:00");
-        date.endShouldHaveValue("10.07.2020 00:00:00");
+        date.shouldHaveBeginWithValue("09.07.2020 00:00:00");
+        date.shouldHaveEndWithValue("10.07.2020 00:00:00");
         modal.close();
 
         // проверка, что клик по ячейке открывает форму создания события с заполненным временем
@@ -290,8 +290,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("09.07.2020 03:00:00");
-        date.endShouldHaveValue("09.07.2020 03:30:00");
+        date.shouldHaveBeginWithValue("09.07.2020 03:00:00");
+        date.shouldHaveEndWithValue("09.07.2020 03:30:00");
         modal.close();
 
         // наличие событий
@@ -316,8 +316,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("07.07.2020 13:00:00");
-        date.endShouldHaveValue("07.07.2020 15:00:00");
+        date.shouldHaveBeginWithValue("07.07.2020 13:00:00");
+        date.shouldHaveEndWithValue("07.07.2020 15:00:00");
         modal.close();
 
         // проверка наличия события на весь день
@@ -332,8 +332,8 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.beginShouldHaveValue("07.07.2020 00:00:00");
-        date.endShouldHaveValue("08.07.2020 00:00:00");
+        date.shouldHaveBeginWithValue("07.07.2020 00:00:00");
+        date.shouldHaveEndWithValue("08.07.2020 00:00:00");
         modal.close();
 
         // клик по числу в хэдере должен открывать выбранный день

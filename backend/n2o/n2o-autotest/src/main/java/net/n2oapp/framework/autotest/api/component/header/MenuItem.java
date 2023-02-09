@@ -10,11 +10,11 @@ public interface MenuItem extends Component {
 
     void shouldHaveImage();
 
-    void imageShouldHaveShape(ShapeType shape);
+    void shouldHaveImageInShape(ShapeType shape);
 
-    void imageSrcShouldBe(String src);
+    void shouldHaveImageBySrc(String src);
 
-    void labelShouldHave(String text);
+    void shouldHaveLabel(String text);
 
     void click();
 }
