@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="edit-list. Создание, изменение, удаление записи таблицы">
+    <datasources>
+        <browser-storage id="ds1" key="test.docs">
+            <submit auto="true" model="datasource"/>
+        </browser-storage>
+    </datasources>
+
+    <regions>
+        <table datasource="ds1" selection="none">
+            <columns>
+                <column text-field-id="description" label="Описание"/>
+                <column text-field-id="url" label="Url"/>
+                <column label="Операции">
+                    <toolbar>
+                        <button icon="fa fa-trash">
+                            <edit-list
+                                    operation="delete"
+                                    datasource="ds1"
+                                    model="datasource"
+                                    item-datasource="ds1"
+                                    item-model="resolve"/>
+                        </button>
+                        <button icon="fa fa-pencil">
+                            <show-modal page-id="update"/>
+                        </button>
+                    </toolbar>
+                </column>
+            </columns>
+
+            <toolbar place="topRight">
+                <button label="Добавить документ" disable-on-empty-model="false">
+                    <show-modal page-id="add"/>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

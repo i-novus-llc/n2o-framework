@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Тулбар в ячейках таблицы">
+    <table query-id="test" object-id="test">
+        <columns>
+            <column text-field-id="name"/>
+            <column text-field-id="toolbar" width="100px">
+                <toolbar>
+                    <button id="update" label="Изменить" icon="fa fa-pencil" type="icon" color="light">
+                        <show-modal page-id="test" submit-operation-id="update" route="/:id/update">
+                            <path-param name="id" value="{id}"/>
+                        </show-modal>
+                    </button>
+                    <button id="delete" label="Удалить" icon="fa fa-trash">
+                        <invoke operation-id="delete"/>
+                    </button>
+                    <sub-menu>
+                        <menu-item label="Изменить" icon="fa fa-pencil" >
+                            <show-modal page-id="test" submit-operation-id="update" route="/:id/update">
+                                <path-param name="id" value="{id}"/>
+                            </show-modal>
+                        </menu-item>
+                        <menu-item label="Удалить" icon="fa fa-trash">
+                            <invoke operation-id="delete"/>
+                        </menu-item>
+                    </sub-menu>
+                </toolbar>
+            </column>
+        </columns>
+    </table>
+</simple-page>

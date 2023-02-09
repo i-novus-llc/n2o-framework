@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Кнопки в fields">
+    <regions>
+        <form id="main" object-id="greeting">
+            <actions>
+                <action id="act1">
+                    <a href="http://ya.ru"/>
+                </action>
+            </actions>
+            <fields>
+                <set field-label-location="left">
+                    <row>
+                        <input-text id="location" label="Search in maps:" default-value="Казань"/>
+                        <button id="g1" label="Goo">
+                            <a href="https://google.com/:param1">
+                                <query-param name="q" value="{location}"/>
+                                <path-param name="param1" value="maps"/>
+                            </a>
+                        </button>
+                    </row>
+                </set>
+
+                <button id="a1" label="Открыть ya.ru через action-id"
+                        action-id="act1"/>
+
+                <row>
+                    <input-text id="name" label="Имя" placeholder="Введите своё имя"/>
+                    <field id="ya">
+                        <controls>
+                            <button id="p1" label="invoke">
+                                <invoke operation-id="greeting"/>
+                            </button>
+                        </controls>
+                    </field>
+                    <hidden id="id" default-value="1"/>
+                </row>
+            </fields>
+        </form>
+    </regions>
+</page>

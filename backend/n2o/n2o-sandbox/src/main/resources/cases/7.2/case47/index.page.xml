@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                 name="Предупреждение о несохраненных данных">
+    <left>
+        <table id="tableLeft" query-id="test">
+            <toolbar>
+                <button id="l1" label="Изменить с предупреждением (модальное окно)">
+                    <show-modal page-id="modalWithPrompt" submit-operation-id="update"
+                                route="/:id/modal">
+                        <path-param name="id" value="{id}"/>
+                    </show-modal>
+                </button>
+                <button id="l2" label="Изменить с предупреждением">
+                    <open-page page-id="modalWithPrompt" submit-operation-id="update"
+                               route="/:id/open">
+                        <path-param name="id" value="{id}"/>
+                    </open-page>
+                </button>
+            </toolbar>
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </left>
+
+    <right>
+        <table id="tableRight" query-id="test">
+            <toolbar>
+                <button id="r1" label="Изменить без предупреждения (модальное окно)">
+                    <show-modal page-id="modalWithNoPrompt" submit-operation-id="update"
+                                unsaved-data-prompt-on-close="false" route="/:id/modal2">
+                        <path-param name="id" value="{id}"/>
+                    </show-modal>
+                </button>
+                <button id="r2" label="Изменить без предупреждения">
+                    <open-page page-id="modalWithNoPrompt" submit-operation-id="update"
+                               route="/:id/open2">
+                        <path-param name="id" value="{id}"/>
+                    </open-page>
+                </button>
+            </toolbar>
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </right>
+</left-right-page>

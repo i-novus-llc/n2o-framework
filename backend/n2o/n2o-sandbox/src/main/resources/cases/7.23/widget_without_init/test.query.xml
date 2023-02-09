@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="test.json"/>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select/>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <eq filter-id="name"/>
+            </filters>
+        </field>
+        <field id="type">
+            <select/>
+        </field>
+        <field id="surname">
+            <select/>
+            <filters>
+                <eq filter-id="surname"/>
+            </filters>
+        </field>
+    </fields>
+</query>

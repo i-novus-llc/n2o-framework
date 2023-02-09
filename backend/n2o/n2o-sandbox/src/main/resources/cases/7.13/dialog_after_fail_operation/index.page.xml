@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Диалог после выполнения операции с ошибкой">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="name" label="Имя"/>
+        </columns>
+        <toolbar>
+            <button label="Открыть">
+                <show-modal page-id="modal" submit-operation-id="register"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

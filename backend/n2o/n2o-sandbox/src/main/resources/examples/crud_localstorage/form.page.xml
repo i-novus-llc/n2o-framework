@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <browser-storage id="table">
+            <submit/>
+        </browser-storage>
+        <datasource id="form"/>
+    </datasources>
+    <regions>
+        <form datasource="form">
+            <fields>
+                <hidden id="id">
+                    <dependencies>
+                        <set-value>
+                            if (typeof id == 'undefined')
+                            return $.uuid();
+                        </set-value>
+                    </dependencies>
+                </hidden>
+                <input-text id="name"/>
+            </fields>
+        </form>
+    </regions>
+    <toolbar generate="close" place="bottomRight">
+        <button label="Сохранить"
+                datasource="form"
+                color="primary"
+                validate="true">
+            <edit-list operation="${operation}"
+                       datasource="table"
+                       model="datasource"
+                       item-datasource="form"
+                       item-model="resolve"/>
+            <close/>
+            <submit datasource="table"/>
+        </button>
+    </toolbar>
+</page>

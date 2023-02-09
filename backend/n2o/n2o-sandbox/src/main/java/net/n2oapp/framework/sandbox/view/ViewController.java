@@ -33,11 +33,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
-import net.n2oapp.framework.config.register.storage.Node;
-import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
-import net.n2oapp.framework.config.util.FileSystemUtil;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
@@ -77,6 +74,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
+
+import static net.n2oapp.framework.sandbox.utils.FileUtil.findFilesByUri;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
@@ -449,19 +448,5 @@ public class ViewController {
             result.put(name, new String[]{req.getHeader(name)});
         }
         return result;
-    }
-
-    private List<FileModel> findFilesByUri(String uri) {
-        List<FileModel> files = new ArrayList<>();
-        String pattern = PathUtil.convertUrlToPattern(uri, "*", "*");
-        List<Node> nodes = FileSystemUtil.getNodesByLocationPattern(pattern);
-        for (Node node : nodes) {
-            FileModel file = new FileModel().setFile(node.getLocalPath()).setSource(node.retrieveContent());
-            if (node.getLocalPath().endsWith("index.page.xml"))
-                files.add(0, file);//index page is first
-            else
-                files.add(file);
-        }
-        return files;
     }
 }

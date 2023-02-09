@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Scrollspy регион">
+    <regions>
+        <scrollspy>
+            <menu-item id="mi1" title="Форма 1">
+                <form>
+                    <fields>
+                        <text-area id="field1" label="Поле"/>
+                        <text-area id="field2" label="Поле"/>
+                    </fields>
+                </form>
+            </menu-item>
+            <menu-item id="mi2" title="Вкладки">
+                <tabs>
+                    <tab name="Один">
+                        <form>
+                            <fields>
+                                <text-area id="field3" label="Поле"/>
+                            </fields>
+                        </form>
+                    </tab>
+                    <tab name="Два">
+                        <form>
+                            <fields>
+                                <text-area id="field4" label="Поле"/>
+                            </fields>
+                        </form>
+                    </tab>
+                </tabs>
+            </menu-item>
+            <sub-menu id="mi3" title="Вложенные элементы">
+                <menu-item id="mi4" title="Форма 2">
+                    <form>
+                        <fields>
+                            <text-area id="field5" label="Поле"/>
+                            <text-area id="field6" label="Поле"/>
+                        </fields>
+                    </form>
+                </menu-item>
+                <menu-item id="mi5" title="Форма 3">
+                    <form>
+                        <fields>
+                            <text-area id="field7" label="Поле"/>
+                            <text-area id="field8" label="Поле"/>
+                        </fields>
+                    </form>
+                </menu-item>
+            </sub-menu>
+        </scrollspy>
+    </regions>
+</page>

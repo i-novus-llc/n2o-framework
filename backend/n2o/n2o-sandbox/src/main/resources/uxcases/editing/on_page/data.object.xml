@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="update" success-text="Данные изменены">
+            <invocation>
+                <test file="data.json" operation="update" />
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="requestDate"/>
+                <field id="status"/>
+                <field id="region"/>
+                <field id="department"/>
+                <field id="firstName"/>
+                <field id="secondName"/>
+                <field id="thirdName"/>
+                <field id="birthday"/>
+                <field id="birthplace"/>
+                <field id="gender"/>
+                <field id="snils"/>
+                <field id="phone"/>
+                <field id="document"/>
+                <field id="serial"/>
+                <field id="number"/>
+                <field id="documentDate"/>
+                <field id="code"/>
+                <field id="address"/>
+                <field id="matchAddress"/>
+                <field id="registerDate"/>
+                <field id="zagranType"/>
+                <field id="urgently"/>
+                <field id="hasForeignPassport"/>
+                <field id="oldSerial"/>
+                <field id="oldNumber"/>
+                <field id="oldRegisterDate"/>
+                <field id="oldCode"/>
+                <field id="file"/>
+            </in>
+        </operation>
+    </operations>
+</object>

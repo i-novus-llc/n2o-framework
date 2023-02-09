@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Выборка значений по умолчанию">
+    <datasources>
+        <datasource id="persons" query-id="persons" object-id="persons"/>
+    </datasources>
+    <regions>
+        <form>
+            <fields>
+                <alert id="text" text="Для вызова режима слияния откройте любую строку таблицы кнопкой Изменить. В пустое поле загрузится значение по умолчанию. Пол - женский, статус - новый."/>
+            </fields>
+        </form>
+        <table id="table" datasource="persons">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name" label="ФИО"/>
+                <column text-field-id="gender.name" label="Пол"/>
+                <column text-field-id="status.name" label="Статус заявки"/>
+            </columns>
+            <toolbar>
+                <group>
+                    <button label="Добавить">
+                        <show-modal page-id="modal" submit-operation-id="create"
+                                    submit-label="Сохранить" upload="defaults">
+                            <datasources>
+                                <datasource default-values-mode="defaults"/>
+                            </datasources>
+                        </show-modal>
+                    </button>
+                    <button label="Изменить">
+                        <show-modal page-id="modal" submit-operation-id="update"
+                                    route="/:id/update">
+                            <params>
+                                <path-param name="id" value="{id}"/>
+                            </params>
+                        </show-modal>
+                    </button>
+                </group>
+            </toolbar>
+        </table>
+    </regions>
+</page>
+

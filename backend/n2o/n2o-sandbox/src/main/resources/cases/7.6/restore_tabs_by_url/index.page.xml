@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Восстановление вкладок Tabs по url">
+    <regions>
+        <form>
+            <fields>
+                <text id="text">
+                    Добавьте в адресную строку параметр (например: ?param=tab2)
+                </text>
+            </fields>
+        </form>
+        <tabs id="tabs" active-param="param">
+            <tab id="tab1" name="Один">
+                <form/>
+            </tab>
+            <tab id="tab2" name="Два">
+                <form/>
+            </tab>
+            <tab id="tab3" name="Три">
+                <form/>
+            </tab>
+        </tabs>
+    </regions>
+</page>

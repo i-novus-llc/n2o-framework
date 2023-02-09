@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Линейный график">
+    <chart width="730" height="250" query-id="line">
+        <lines x-field-id="name" grid-stroke-dasharray="3 3">
+            <line field-id="uv" color="#8884d8" type="monotone"/>
+            <line field-id="pv" color="#82ca9d" type="monotone"/>
+        </lines>
+    </chart>
+</simple-page>

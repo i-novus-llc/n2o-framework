@@ -1,0 +1,22 @@
+mutation MyMutation {
+  addCar(input: [{name: "Honda", price: 161000},
+  				{name: "Ford", price: 77000},
+  				{name: "Chevrolet", price: 32000}
+  				{name: "Opel", price: 21000},
+  				{name: "Audi", price: 60000},
+  				{name: "Toyota", price: 94000},
+  				{name: "Mazda", price: 40000},
+  				{name: "Peugeot", price: 65000},
+  				{name: "Citroen", price: 67000},
+  				{name: "BMW", price: 64000},
+  				{name: "Mercedes Benz", price: 53000},
+  				{name: "Nissan", price: 64000},
+  				{name: "Lada", price: 23000},
+  				{name: "Renault", price: 36000}]) {
+    car {
+      id
+      name
+      price
+    }
+  }
+}

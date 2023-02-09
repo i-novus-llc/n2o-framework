@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="detail">
+        <fields>
+            <input-text id="parent_id" param="parent_id" default-value="naaa"
+                        label="Должен быть равен id мастер виджета на первой странице"/>
+            <date-interval id="birthDate" begin-param="birthDate"
+                           label="Начальная дата из мастер виджета на первой странице">
+                <default-value begin="2019-02-14T00:00:00"/>
+            </date-interval>
+            <input-select id="gender" query-id="gender" param="gender_id"
+                          label="Должен быть Мужской"/>
+        </fields>
+    </form>
+</simple-page>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="test.json"/>
+    </list>
+
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="name" field-id="name"/>
+        <eq filter-id="organization.id" field-id="organization.id"/>
+        <contains filter-id="resources*.id" field-id="resources.id"/>
+    </filters>
+
+    <fields>
+        <field id="id" domain="integer"/>
+        <field id="name"/>
+        <reference id="organization">
+            <field id="id" domain="integer"/>
+            <field id="name"/>
+        </reference>
+        <list id="resources">
+            <field id="id" domain="integer"/>
+            <field id="name"/>
+        </list>
+    </fields>
+</query>
