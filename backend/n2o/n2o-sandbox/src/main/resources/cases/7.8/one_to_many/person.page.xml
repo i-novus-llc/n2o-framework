@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form query-id="person" id="person">
+            <fields>
+                <input-text id="name" label="Имя"/>
+            </fields>
+            <pre-filters>
+                <eq field-id="id" param="person_id"/>
+            </pre-filters>
+        </form>
+
+        <table id="address" query-id="address"
+               depends-on="person" detail-field-id="person.id">
+            <toolbar>
+                <button id="create" label="Создать" model="filter">
+                    <dependencies>
+                        <enabling ref-model="resolve" ref-widget-id="person">id != null</enabling>
+                    </dependencies>
+                    <show-modal page-id="address" submit-operation-id="create" upload="defaults"
+                                route="/address/create">
+                        <query-param name="person_id" value="{id}" ref-widget-id="person" ref-model="resolve"/>
+                    </show-modal>
+                </button>
+                <button id="update" label="Изменить" model="resolve">
+                    <show-modal page-id="address" submit-operation-id="update"
+                                upload="query" route="/address/:address_id/update">
+                        <path-param name="address_id" value="{id}"/>
+                    </show-modal>
+                </button>
+                <button id="delete" label="Удалить">
+                    <invoke operation-id="delete" route="/address/delete"/>
+                </button>
+            </toolbar>
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+</page>

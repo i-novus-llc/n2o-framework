@@ -1,0 +1,36 @@
+[
+    {
+        "data": {
+            "method1": {
+                "application": {
+                    "applicationProperties": {
+                        "id": {
+                            "value": 1
+                        },
+                        "name": {
+                            "value": "test1"
+                        },
+                        "code": {
+                            "value": 1001
+                        }
+                    }
+                }
+            },
+            "method2": {
+                "application": {
+                    "applicationProperties": {
+                        "id": {
+                            "value": 2
+                        },
+                        "name": {
+                            "value": "test2"
+                        },
+                        "code": {
+                            "value": 2002
+                        }
+                    }
+                }
+            }
+        }
+    }
+]

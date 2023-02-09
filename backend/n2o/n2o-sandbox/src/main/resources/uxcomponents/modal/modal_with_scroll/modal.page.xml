@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Модальное окно">
+    <form>
+        <fields>
+            <input-text id="name" label="Поле1"/>
+            <input-text id="name" label="Поле2"/>
+            <input-text id="name" label="Поле3"/>
+            <input-text id="name" label="Поле4"/>
+            <input-text id="name" label="Поле5"/>
+            <input-text id="name" label="Поле6"/>
+            <input-text id="name" label="Поле7"/>
+            <input-text id="name" label="Поле8"/>
+            <input-text id="name" label="Поле9"/>
+            <input-text id="name" label="Поле10"/>
+        </fields>
+    </form>
+</simple-page>

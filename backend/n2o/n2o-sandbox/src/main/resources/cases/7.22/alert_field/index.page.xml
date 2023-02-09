@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Поле уведомления">
+    <form>
+        <fields>
+            <line>
+                <row>
+                    <alert id="info" text="Уведомление цвета info" color="info"/>
+                    <alert id="success" text="Уведомление цвета success" color="success"/>
+                    <alert id="danger" text="Уведомление цвета danger" color="danger"/>
+                    <alert id="warning" text="Уведомление цвета warning" color="warning"/>
+                </row>
+                <row>
+                    <alert id="light" text="Уведомление цвета light" color="light"/>
+                    <alert id="dark" text="Уведомление цвета dark" color="dark"/>
+                    <alert id="primary" text="Уведомление цвета primary" color="primary"/>
+                    <alert id="secondary" text="Уведомление цвета secondary" color="secondary"/>
+                </row>
+            </line>
+            <line>
+                <alert id="a1" text="Поле уведомления со ссылкой и стилем"
+                       href="http://example.org" style="font-family: verdana"/>
+                <alert id="a2" title="Заголовок" text="Поле уведомления с заголовком и кнопкой закрытия"
+                       close-button="true"/>
+            </line>
+        </fields>
+    </form>
+</simple-page>

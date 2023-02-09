@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Отдел тестирования",
+    "lead": "Алексей Иванов",
+    "badgeImage": "static/men.jfif"
+  },
+  {
+    "id": 2,
+    "name": "Отдел разработки",
+    "lead": "Иван Алексеев",
+    "badgeImage": "static/men2.jfif"
+  },
+  {
+    "id": 3,
+    "name": "Отдел аналитики",
+    "lead": "Павел Афанасьев",
+    "badgeImage": "static/men3.jfif"
+  }
+]

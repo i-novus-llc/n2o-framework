@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="case1" success-text="Если вы это видите, то это баг серверных валидаций">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="test"/>
+            </in>
+            <validations white-list="check1"/>
+        </operation>
+
+        <operation id="case2" success-text="Если вы это видите, то это баг серверных валидаций">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="test"/>
+            </in>
+            <validations>
+                <!--пустой список-->
+            </validations>
+        </operation>
+
+        <operation id="case3" success-text="Нет серверных валидаций">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="test"/>
+            </in>
+        </operation>
+    </operations>
+
+    <validations>
+        <condition id="check1" severity="danger" on="test"
+                   message="Сработала серверная валидация">false
+        </condition>
+    </validations>
+</object>

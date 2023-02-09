@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Алексей Иванов",
+    "status": "success",
+    "badge":"Проект 1"
+  },
+  {
+    "id": 2,
+    "name": "Иван Алексеев",
+    "status": "warning",
+    "badge":"Проект 2"
+  },
+  {
+    "id": 3,
+    "name": "Павел Афанасьев",
+    "status": "warning",
+    "badge":"Проект 2"
+  },
+  {
+    "id": 4,
+    "name": "Петр Сергеев",
+    "status": "danger",
+    "badge":"Проект 3"
+  }
+]

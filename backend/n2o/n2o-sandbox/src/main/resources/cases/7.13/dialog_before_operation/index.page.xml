@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Диалог перед выполнением операции с вызовом invocation">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="id" label="ID"/>
+            <column text-field-id="name" label="Имя"/>
+            <column text-field-id="option">
+                <toolbar>
+                    <button icon="fa fa-trash">
+                        <invoke operation-id="delete"/>
+                    </button>
+                </toolbar>
+            </column>
+        </columns>
+        <toolbar>
+            <button label="Добавить пользователя" disable-on-empty-model="false"
+                    description="Добавление 4-го и далее пользователей вызывает диалог">
+                <show-modal page-id="modal" submit-operation-id="create"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

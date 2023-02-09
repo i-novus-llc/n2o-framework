@@ -1,0 +1,32 @@
+[
+  {
+    "name": "January",
+    "income": 4000,
+    "expenses": 2400
+  },
+  {
+    "name": "February",
+    "income": 3000,
+    "expenses": 1398
+  },
+  {
+    "name": "March",
+    "income": 2000,
+    "expenses": 9800
+  },
+  {
+    "name": "April",
+    "income": 2780,
+    "expenses": 3908
+  },
+  {
+    "name": "May",
+    "income": 1890,
+    "expenses": 4800
+  },
+  {
+    "name": "June",
+    "income": 2390,
+    "expenses": 3800
+  }
+]

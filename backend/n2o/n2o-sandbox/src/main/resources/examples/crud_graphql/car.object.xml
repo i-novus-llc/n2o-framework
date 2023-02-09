@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <fields>
+        <list id="showrooms">
+            <field id="id"/>
+            <field id="name"/>
+        </list>
+    </fields>
+
+    <operations>
+        <operation id="create" success-text="Автомобиль добавлен в базу">
+            <invocation>
+                <graphql endpoint="${graphql.endpoint}">
+                    mutation MyMutation {
+                        addCar(input: {name: $$name, price: $$price, showrooms: $$showrooms}) {
+                            car {
+                                id
+                            }
+                        }
+                    }
+                </graphql>
+            </invocation>
+            <in>
+                <field id="name"/>
+                <field id="price"/>
+                <list id="showrooms"/>
+            </in>
+            <out>
+                <field id="id" mapping="['data.addCar.car[0].id']"/>
+            </out>
+        </operation>
+
+        <operation id="update" success-text="Данные об автомобиле изменены">
+            <invocation>
+                <graphql endpoint="${graphql.endpoint}">
+                    mutation MyMutation {
+                        deleteShowrooms:updateCar(input: {filter: {id: $$id},
+                            remove: {
+                                showrooms: [
+                                    {id: 1, name: "showroom1"},
+                                    {id: 2, name: "showroom2"},
+                                    {id: 3, name: "showroom3"},
+                                    {id: 4, name: "showroom4"}
+                                ]
+                            }})  {
+                            car {
+                                id
+                                name
+                                price
+                                showrooms {
+                                    id
+                                    name
+                                }
+                            }
+                        }
+                        updateCar(input: {filter: {id: $$id}, set: {name: $$name, price: $$price, showrooms: $$showrooms}}) {
+                            car {
+                                id
+                                name
+                                price
+                            }
+                        }
+                    }
+                </graphql>
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="name"/>
+                <field id="price"/>
+                <field id="showrooms"/>
+            </in>
+        </operation>
+
+        <operation id="delete" success-text="Данные об автомобиле удалены">
+            <invocation>
+                <graphql endpoint="${graphql.endpoint}">
+                    mutation MyMutation {
+                        deleteCar(filter: {id: $$id}) {
+                            msg
+                        }
+                    }
+                </graphql>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+        </operation>
+    </operations>
+</object>

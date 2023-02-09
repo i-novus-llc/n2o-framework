@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Филдсет с динамическим числом полей">
+    <form>
+        <fields>
+            <row>
+                <input-text id="name" label="Имя"/>
+                <input-text id="age" label="Возраст"/>
+            </row>
+
+            <multi-set id="members" children-label="Участник {index}" add-label="Добавить участника"
+                       can-remove-all="true" remove-all-label="Удалить всех участников" can-copy="true">
+                <row>
+                    <input-text id="name" label="1.2.({index}) Имя">
+                        <dependencies>
+                            <enabling on="members[index].age">
+                                members[index].age >= 18
+                            </enabling>
+                        </dependencies>
+                    </input-text>
+                    <input-text id="age" label="1.2.({index}) Возраст" domain="integer">
+                        <dependencies>
+                            <requiring>true</requiring>
+                        </dependencies>
+                    </input-text>
+                </row>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>

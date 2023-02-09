@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Выпадающий список-дерево с чекбоксами">
+    <form>
+        <fields>
+            <input-select-tree
+                id="inputSelectTreeWithCheckboxes" 
+                query-id="test" 
+                parent-field-id="parentId" 
+                placeholder="Введите значение"
+                no-label="true"
+                checkboxes="true"
+                max-tag-text-length="25"
+            />
+        </fields>
+    </form>
+</simple-page>

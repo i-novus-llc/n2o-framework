@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Москва",
+    "region": "Москва",
+    "population": 11.92,
+    "area": 2511,
+    "link": "https://moscow.ru/"
+  },
+  {
+    "id": 2,
+    "name": "Казань",
+    "region": "Татарстан",
+    "population": 1.25,
+    "area": 588.98,
+    "link": "https://kzn.ru/"
+  },
+  {
+    "id": 3,
+    "name": "Владимир",
+    "region": "Владимирская область",
+    "population": 0.352,
+    "area": 137.14,
+    "link": "https://vladimir.ru/"
+  }
+]

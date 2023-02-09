@@ -1,0 +1,24 @@
+{
+  "name": "Роутинг",
+  "sections": [
+    {
+      "templates": [
+        {
+          "templateId": "routing/header",
+          "name": "Хедер",
+          "since": "7.16"
+        },
+        {
+          "templateId": "routing/widget",
+          "name": "Виджет",
+          "since": "7.16"
+        },
+        {
+          "templateId": "routing/widget_master_detail",
+          "name": "Master-Detail",
+          "since": "7.16"
+        }
+      ]
+    }
+  ]
+}
