@@ -86,9 +86,11 @@ public class CrudRestAT extends SandboxAutotestBase {
         inputName.shouldExists();
         InputText inputPrice = modalFields.field("Цена").control(InputText.class);
         inputPrice.shouldExists();
-        inputName.val("test-value");
+        inputName.click();
+        inputName.setValue("test-value");
         inputName.shouldHaveValue("test-value");
-        inputPrice.val(((Long) 49999L).toString());
+        inputPrice.click();
+        inputPrice.setValue(((Long) 49999L).toString());
         inputPrice.shouldHaveValue(((Long) 49999L).toString());
         Button save = modal.toolbar().bottomRight().button("Сохранить");
         save.shouldExists();
@@ -107,9 +109,11 @@ public class CrudRestAT extends SandboxAutotestBase {
         inputName1.shouldExists();
         InputText inputPrice1 = modalFields.field("Цена").control(InputText.class);
         inputPrice1.shouldExists();
-        inputName1.val("change-test-value");
+        inputName1.click();
+        inputName1.setValue("change-test-value");
         inputName1.shouldHaveValue("change-test-value");
-        inputPrice1.val(((Long) 39999L).toString());
+        inputPrice1.click();
+        inputPrice1.setValue(((Long) 39999L).toString());
         inputPrice1.shouldHaveValue(((Long) 39999L).toString());
         Button save1 = modal.toolbar().bottomRight().button("Сохранить");
         save1.shouldExists();
@@ -163,7 +167,8 @@ public class CrudRestAT extends SandboxAutotestBase {
         InputText maxPrice = table.filters().fields().field("Максимальная цена").control(InputText.class);
         maxPrice.shouldExists();
 
-        minPrice.val("160000");
+        minPrice.click();
+        minPrice.setValue("160000");
         minPrice.shouldHaveValue("160000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);
@@ -171,15 +176,18 @@ public class CrudRestAT extends SandboxAutotestBase {
         table.filters().clear();
         minPrice.shouldBeEmpty();
 
-        maxPrice.val("22000");
+        maxPrice.click();
+        maxPrice.setValue("22000");
         maxPrice.shouldHaveValue("22000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(2).shouldHaveText("21000");
 
-        maxPrice.val("34000");
+        maxPrice.click();
+        maxPrice.setValue("34000");
         maxPrice.shouldHaveValue("34000");
-        minPrice.val("30000");
+        minPrice.click();
+        minPrice.setValue("30000");
         minPrice.shouldHaveValue("30000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);

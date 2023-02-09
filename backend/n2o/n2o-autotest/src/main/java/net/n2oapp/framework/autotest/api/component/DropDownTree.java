@@ -5,7 +5,7 @@ public interface DropDownTree extends Component {
 
     void shouldHaveItems(int size);
 
-    void val(String value);
+    void setValue(String value);
 
     void clear();
 

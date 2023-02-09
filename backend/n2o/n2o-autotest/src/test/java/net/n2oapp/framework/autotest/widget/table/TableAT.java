@@ -69,7 +69,8 @@ public class TableAT extends AutoTestBase {
         table.filters().shouldBeVisible();
         table.filters().toolbar().button("searchLabel").shouldBeEnabled();
         table.filters().toolbar().button("resetLabel").shouldBeDisabled();
-        table.filters().fields().field("Имя").control(InputText.class).val("test");
+        table.filters().fields().field("Имя").control(InputText.class).click();
+        table.filters().fields().field("Имя").control(InputText.class).setValue("test");
         table.filters().fields().field("Пол").control(Select.class).select(Condition.text("Мужской"));
         table.filters().toolbar().button("resetLabel").click();
         table.filters().fields().field("Имя").control(InputText.class).shouldHaveValue("test");
@@ -306,7 +307,8 @@ public class TableAT extends AutoTestBase {
         page.shouldExists();
 
         TableWidget tableWidget = page.widget(TableWidget.class);
-        tableWidget.filters().fields().field("name").control(InputText.class).val("test");
+        tableWidget.filters().fields().field("name").control(InputText.class).click();
+        tableWidget.filters().fields().field("name").control(InputText.class).setValue("test");
         tableWidget.filters().toolbar().button("Найти").click();
         tableWidget.columns().rows().shouldHaveSize(4);
 

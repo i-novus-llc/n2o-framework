@@ -74,8 +74,10 @@ public class ValidationDialogAT extends AutoTestBase {
         InputText age = modalForm.fields().field("age").control(InputText.class);
 
         // save with correct data (without dialog)
-        name.val("Mark");
-        age.val("20");
+        name.click();
+        name.setValue("Mark");
+        age.click();
+        age.setValue("20");
         modalSaveBtn.click();
 
         modal.shouldNotExists();
@@ -89,7 +91,8 @@ public class ValidationDialogAT extends AutoTestBase {
         create.click();
         modal.shouldExists();
 
-        age.val("25");
+        age.click();
+        age.setValue("25");
         modalSaveBtn.click();
 
         Page.Dialog dialog = page.dialog("Вы не заполнили имя.");
@@ -116,7 +119,8 @@ public class ValidationDialogAT extends AutoTestBase {
         create.click();
         modal.shouldExists();
 
-        name.val("Ann");
+        name.click();
+        name.setValue("Ann");
         modalSaveBtn.click();
 
         dialog = page.dialog("Вы не заполнили возраст.");
@@ -161,7 +165,8 @@ public class ValidationDialogAT extends AutoTestBase {
 
         InputText inputText = form.fields().field("text").control(InputText.class);
         inputText.shouldExists();
-        inputText.val("test resolve title");
+        inputText.click();
+        inputText.setValue("test resolve title");
 
         form.toolbar().topLeft().button("open").click();
         Modal modal = N2oSelenide.modal();

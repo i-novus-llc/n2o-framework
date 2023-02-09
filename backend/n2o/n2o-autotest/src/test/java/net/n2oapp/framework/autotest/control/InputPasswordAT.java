@@ -49,7 +49,7 @@ public class InputPasswordAT extends AutoTestBase {
         password.shouldHavePlaceholder("EnterPassword");
         password.shouldHaveValue("");
         password.shouldNotHaveVisiblePassword();
-        password.val("S!e@c#r&e*t5%$----");
+        password.setValue("S!e@c#r&e*t5%$----");
         password.shouldHaveValue("S!e@c#r&e*t5%$-");
         password.clickEyeButton();
         password.shouldHaveVisiblePassword();

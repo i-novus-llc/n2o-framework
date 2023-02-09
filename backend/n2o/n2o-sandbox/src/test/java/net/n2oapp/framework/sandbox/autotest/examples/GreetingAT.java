@@ -49,7 +49,8 @@ public class GreetingAT extends SandboxAutotestBase {
                 .control(InputText.class);
         inputText.shouldExists();
 
-        inputText.val("name");
+        inputText.click();
+        inputText.setValue("name");
         inputText.shouldHaveValue("name");
 
         button.click();

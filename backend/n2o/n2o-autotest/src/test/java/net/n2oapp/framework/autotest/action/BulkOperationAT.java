@@ -79,7 +79,8 @@ public class BulkOperationAT extends AutoTestBase {
         Fields fields = modalPage.content(SimplePage.class).widget(FormWidget.class).fields();
         InputText newValue = fields.field("Новое имя").control(InputText.class);
         newValue.shouldExists();
-        newValue.val("new name");
+        newValue.click();
+        newValue.setValue("new name");
         StandardButton saveButton = modalPage.toolbar().bottomRight().button("Сохранить");
         saveButton.shouldExists();
         saveButton.click();
@@ -131,7 +132,8 @@ public class BulkOperationAT extends AutoTestBase {
         Fields fields = modalPage.content(SimplePage.class).widget(FormWidget.class).fields();
         InputText newValue = fields.field("Новое имя").control(InputText.class);
         newValue.shouldExists();
-        newValue.val("new name");
+        newValue.click();
+        newValue.setValue("new name");
         StandardButton saveButton = modalPage.toolbar().bottomRight().button("Сохранить");
         saveButton.shouldExists();
         saveButton.click();

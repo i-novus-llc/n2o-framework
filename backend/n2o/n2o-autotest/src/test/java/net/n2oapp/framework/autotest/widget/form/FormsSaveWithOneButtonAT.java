@@ -57,17 +57,21 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
         StandardPage open = N2oSelenide.page(StandardPage.class);
         FormWidget mainForm = open.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         mainForm.shouldExists();
-        mainForm.fields().field("Имя").control(InputText.class).val("Александр");
-        mainForm.fields().field("Фамилия").control(InputText.class).val("Цой");
+        mainForm.fields().field("Имя").control(InputText.class).click();
+        mainForm.fields().field("Имя").control(InputText.class).setValue("Александр");
+        mainForm.fields().field("Фамилия").control(InputText.class).click();
+        mainForm.fields().field("Фамилия").control(InputText.class).setValue("Цой");
         TabsRegion tabs = open.regions().region(1, TabsRegion.class);
         FormWidget addressForm = tabs.tab(0).content().widget(FormWidget.class);
         addressForm.shouldExists();
-        addressForm.fields().field("Адрес").control(InputText.class).val("г.Казань, ул.Качалова, д.75");
+        addressForm.fields().field("Адрес").control(InputText.class).click();
+        addressForm.fields().field("Адрес").control(InputText.class).setValue("г.Казань, ул.Качалова, д.75");
 
         tabs.tab(1).click();
         FormWidget orgForm = tabs.tab(1).content().widget(FormWidget.class);
         orgForm.shouldExists();
-        orgForm.fields().field("Название организации").control(InputText.class).val("Ай-новус");
+        orgForm.fields().field("Название организации").control(InputText.class).click();
+        orgForm.fields().field("Название организации").control(InputText.class).setValue("Ай-новус");
 
         open.toolbar().bottomRight().button("Сохранить").click();
 
@@ -83,21 +87,25 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
         mainForm = open.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
         mainForm.shouldExists();
         mainForm.fields().field("Имя").control(InputText.class).shouldHaveValue("Александр");
-        mainForm.fields().field("Имя").control(InputText.class).val("Иван");
+        mainForm.fields().field("Имя").control(InputText.class).click();
+        mainForm.fields().field("Имя").control(InputText.class).setValue("Иван");
         mainForm.fields().field("Фамилия").control(InputText.class).shouldHaveValue("Цой");
-        mainForm.fields().field("Фамилия").control(InputText.class).val("Лебедев");
+        mainForm.fields().field("Фамилия").control(InputText.class).click();
+        mainForm.fields().field("Фамилия").control(InputText.class).setValue("Лебедев");
 
         tabs = open.regions().region(1, TabsRegion.class);
         addressForm = tabs.tab(0).content().widget(FormWidget.class);
         addressForm.shouldExists();
         addressForm.fields().field("Адрес").control(InputText.class).shouldHaveValue("г.Казань, ул.Качалова, д.75");
-        addressForm.fields().field("Адрес").control(InputText.class).val("г.Казань, ул.Салимжанова, д.5");
+        addressForm.fields().field("Адрес").control(InputText.class).click();
+        addressForm.fields().field("Адрес").control(InputText.class).setValue("г.Казань, ул.Салимжанова, д.5");
 
         tabs.tab(1).click();
         orgForm = tabs.tab(1).content().widget(FormWidget.class);
         orgForm.shouldExists();
         orgForm.fields().field("Название организации").control(InputText.class).shouldHaveValue("Ай-новус");
-        orgForm.fields().field("Название организации").control(InputText.class).val("КИР");
+        orgForm.fields().field("Название организации").control(InputText.class).click();
+        orgForm.fields().field("Название организации").control(InputText.class).setValue("КИР");
 
         open.toolbar().bottomRight().button("Сохранить").click();
 

@@ -28,12 +28,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
         input().setValue(value);
-        element().click();
     }
 
-    public void valMulti(String... values) {
+    public void setMultiValue(String... values) {
         Arrays.stream(values).forEach(s -> {
             input().click();
             element().$(".n2o-inp--multi").setValue(s);

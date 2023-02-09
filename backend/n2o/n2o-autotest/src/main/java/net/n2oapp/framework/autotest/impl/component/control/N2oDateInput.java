@@ -26,13 +26,13 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
-    public String val() {
+    public String getValue() {
         SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : cellInputElement().text();
+        return elm.exists() ? elm.getValue() : cellInputElement().text();
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
         boolean isEditableCell = element().is(Condition.cssClass("n2o-editable-cell"));
 
         if (!inputElement().exists() && isEditableCell)

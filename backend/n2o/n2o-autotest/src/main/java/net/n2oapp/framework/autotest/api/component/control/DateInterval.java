@@ -11,9 +11,9 @@ public interface DateInterval extends Control, PopupControl {
 
     void shouldHaveEmptyEnd();
 
-    void beginVal(String value);
+    void setValueInBegin(String value);
 
-    void endVal(String value);
+    void setValueInEnd(String value);
 
     void shouldHaveBeginWithValue(String value);
 
@@ -53,7 +53,7 @@ public interface DateInterval extends Control, PopupControl {
 
     void clickEndNextMonthButton();
 
-    void beginTimeVal(String hours, String minutes, String seconds);
+    void setValueInBeginTime(String hours, String minutes, String seconds);
 
-    void endTimeVal(String hours, String minutes, String seconds);
+    void setValueEndTime(String hours, String minutes, String seconds);
 }

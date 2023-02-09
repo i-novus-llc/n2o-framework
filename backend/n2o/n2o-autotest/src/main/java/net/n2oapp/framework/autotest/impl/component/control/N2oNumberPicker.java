@@ -16,16 +16,18 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     }
 
     @Override
-    public void val(String value) {
-        inputElement().click();
+    public void setValue(String value) {
         inputElement().setValue(value);
         // focus out
         inputElement().pressTab();
     }
 
+    public void click() {
+        inputElement().click();
+    }
+
     @Override
     public void clear() {
-        inputElement().click();
         inputElement().clear();
         // focus out
         inputElement().pressTab();

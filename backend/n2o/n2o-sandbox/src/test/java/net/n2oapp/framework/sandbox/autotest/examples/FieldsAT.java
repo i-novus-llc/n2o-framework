@@ -48,9 +48,11 @@ public class FieldsAT extends SandboxAutotestBase {
                 .control(InputText.class);
         inputText.shouldExists();
         inputText.shouldBeEmpty();
-        inputText.val("text");
+        inputText.click();
+        inputText.setValue("text");
         inputText.shouldHaveValue("text");
-        inputText.val("012345678910");
+        inputText.click();
+        inputText.setValue("012345678910");
         inputText.shouldHaveValue("0123456789");
     }
 
@@ -60,7 +62,8 @@ public class FieldsAT extends SandboxAutotestBase {
                 .control(InputText.class);
         inputNumbers.shouldExists();
         inputNumbers.shouldBeEmpty();
-        inputNumbers.val("0");
+        inputNumbers.click();
+        inputNumbers.setValue("0");
         inputNumbers.shouldHaveValue("0");
         inputNumbers.clickPlusStepButton();
         inputNumbers.shouldHaveValue("1");
@@ -68,7 +71,8 @@ public class FieldsAT extends SandboxAutotestBase {
         inputNumbers.shouldHaveValue("2");
         inputNumbers.clickMinusStepButton();
         inputNumbers.shouldHaveValue("1");
-        inputNumbers.val("835-#$7sd");
+        inputNumbers.click();
+        inputNumbers.setValue("835-#$7sd");
         inputNumbers.shouldHaveValue("8357");
     }
 
@@ -79,7 +83,7 @@ public class FieldsAT extends SandboxAutotestBase {
         dateInput.shouldExists();
 
         dateInput.shouldBeEmpty();
-        dateInput.val("15.02.2020");
+        dateInput.setValue("15.02.2020");
         dateInput.shouldHaveValue("15.02.2020");
         dateInput.clickCalendarButton();
         dateInput.shouldBeActiveDay("15");
@@ -96,13 +100,13 @@ public class FieldsAT extends SandboxAutotestBase {
         dateInput.shouldHaveCurrentYear("2019");
         dateInput.clickNextMonthButton();
         dateInput.shouldHaveCurrentMonth("Январь");
-        dateInput.val("15.02.2020");
+        dateInput.setValue("15.02.2020");
         dateInput.shouldHaveValue("15.02.2020");
-        dateInput.val("33.02.2020");
+        dateInput.setValue("33.02.2020");
         dateInput.shouldHaveValue("15.02.2020");
-        dateInput.val("15.24.2020");
+        dateInput.setValue("15.24.2020");
         dateInput.shouldHaveValue("15.02.2020");
-        dateInput.val("15.выап.2о2о");
+        dateInput.setValue("15.выап.2о2о");
         dateInput.shouldHaveValue("15.02.2020");
     }
 
@@ -114,7 +118,7 @@ public class FieldsAT extends SandboxAutotestBase {
         dateInput.shouldExists();
 
         dateInput.shouldBeEmpty();
-        dateInput.val("15.02.2020 00:00");
+        dateInput.setValue("15.02.2020 00:00");
         dateInput.shouldHaveValue("15.02.2020 00:00");
         dateInput.clickCalendarButton();
         dateInput.timeVal("23", "59", "58");
@@ -129,7 +133,7 @@ public class FieldsAT extends SandboxAutotestBase {
 
         maskedInput.shouldHavePlaceholder("+7");
         maskedInput.shouldHaveValue("");
-        maskedInput.val("A7$h-F835-#$7sd fr8!93+2~sr0");
+        maskedInput.setValue("A7$h-F835-#$7sd fr8!93+2~sr0");
         maskedInput.shouldHaveValue("+7 (783) 578-93-20");
     }
 
@@ -142,7 +146,7 @@ public class FieldsAT extends SandboxAutotestBase {
 
         moneyInput.shouldHaveValue("");
         moneyInput.shouldHavePlaceholder("");
-        moneyInput.val("100500,999");
+        moneyInput.setValue("100500,999");
         moneyInput.shouldHaveValue("100 500,99 руб.");
     }
 
@@ -185,11 +189,11 @@ public class FieldsAT extends SandboxAutotestBase {
         slider.shouldExists();
 
         slider.shouldHaveValue("0");
-        slider.val("10");
+        slider.setValue("10");
         slider.shouldHaveValue("10");
-        slider.val("5");
+        slider.setValue("5");
         slider.shouldHaveValue("5");
-        slider.val("0");
+        slider.setValue("0");
         slider.shouldHaveValue("0");
     }
 

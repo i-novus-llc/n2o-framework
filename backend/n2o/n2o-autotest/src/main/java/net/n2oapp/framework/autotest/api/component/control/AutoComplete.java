@@ -4,7 +4,7 @@ package net.n2oapp.framework.autotest.api.component.control;
  * Компонент ввода текста с автозаполнением для автотестирования
  */
 public interface AutoComplete extends Control {
-    void val(String value);
+    void setValue(String value);
 
     void click();
 

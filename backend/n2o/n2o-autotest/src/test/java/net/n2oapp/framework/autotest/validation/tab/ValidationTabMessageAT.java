@@ -66,10 +66,13 @@ public class ValidationTabMessageAT extends AutoTestBase {
         Fields fields = modal.content(StandardPage.class).regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         StandardField field = fields.field("Имя");
         InputText inputText = field.control(InputText.class);
-        inputText.val("unique");
+        inputText.click();
+        inputText.setValue("unique");
+        inputText.click();
         inputText.clear();
         field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        inputText.val("unique");
+        inputText.click();
+        inputText.setValue("unique");
         field.shouldHaveValidationMessage(Condition.empty);
 
         TabsRegion tabs = modal.content(StandardPage.class).regions().region(1, TabsRegion.class);
@@ -84,10 +87,12 @@ public class ValidationTabMessageAT extends AutoTestBase {
         fields = tabs.tab(1).content().widget(FormWidget.class).fields();
         field = fields.field("Название организации");
         inputText = field.control(InputText.class);
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         inputText.clear();
         field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
         tabs.tab(0).click();
         button.click();
@@ -97,7 +102,8 @@ public class ValidationTabMessageAT extends AutoTestBase {
         tabs.tab(1).shouldBeInvalid();
         tabs.tab(1).click();
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
-        inputText.val("unique");
+        inputText.click();
+        inputText.setValue("unique");
         field.shouldHaveValidationMessage(Condition.empty);
         button.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
@@ -120,10 +126,12 @@ public class ValidationTabMessageAT extends AutoTestBase {
         Fields fields = newPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         StandardField field = fields.field("Имя");
         InputText inputText = field.control(InputText.class);
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         inputText.clear();
         field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        inputText.val("unique");
+        inputText.click();
+        inputText.setValue("unique");
         field.shouldHaveValidationMessage(Condition.empty);
 
         TabsRegion tabs = newPage.regions().region(1, TabsRegion.class);
@@ -138,10 +146,12 @@ public class ValidationTabMessageAT extends AutoTestBase {
         fields = tabs.tab(1).content().widget(FormWidget.class).fields();
         field = fields.field("Название организации");
         inputText = field.control(InputText.class);
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         inputText.clear();
         field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
         tabs.tab(0).click();
         button.click();
@@ -151,7 +161,8 @@ public class ValidationTabMessageAT extends AutoTestBase {
         tabs.tab(1).click();
 
         field.shouldHaveValidationMessage(Condition.text("Организация test уже существует"));
-        inputText.val("unique");
+        inputText.click();
+        inputText.setValue("unique");
         field.shouldHaveValidationMessage(Condition.empty);
         button.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");

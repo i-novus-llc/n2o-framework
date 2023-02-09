@@ -67,7 +67,8 @@ public class CrudAT extends SandboxAutotestBase {
         Fields modalFields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         InputText inputText = modalFields.field("name").control(InputText.class);
         inputText.shouldExists();
-        inputText.val("test-value");
+        inputText.click();
+        inputText.setValue("test-value");
         inputText.shouldHaveValue("test-value");
         Button save = modal.toolbar().bottomRight().button("Сохранить");
         save.shouldExists();
@@ -83,7 +84,8 @@ public class CrudAT extends SandboxAutotestBase {
         modal.shouldHaveTitle("test - Изменение");
         InputText inputText1 = modalFields.field("name").control(InputText.class);
         inputText1.shouldExists();
-        inputText1.val("change-test-value");
+        inputText1.click();
+        inputText1.setValue("change-test-value");
         inputText1.shouldHaveValue("change-test-value");
         Button save1 = modal.toolbar().bottomRight().button("Сохранить");
         save1.shouldExists();

@@ -84,7 +84,8 @@ public class ActiveTabAT extends AutoTestBase {
         activeTabControl.shouldHaveValue("tab2");
         pageButton.shouldExists();
         // вводим в поле значение и проверяем, что вклдака переключится
-        activeTabControl.val("tab3");
+        activeTabControl.click();
+        activeTabControl.setValue("tab3");
         tabs.tab(1).shouldBeActive();
     }
 }

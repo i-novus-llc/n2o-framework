@@ -70,7 +70,8 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         InputText inputText = modalForm.fields().field("name").control(InputText.class);
 
         // close by button
-        inputText.val("new1");
+        inputText.click();
+        inputText.setValue("new1");
         saveBtn.click();
         closeBtn.click();
 
@@ -80,7 +81,8 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         // close by cross icon
         modalBtn.click();
         modalPage.shouldExists();
-        inputText.val("new2");
+        inputText.click();
+        inputText.setValue("new2");
         saveBtn.click();
         modalPage.close();
 
@@ -90,7 +92,8 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         // close by ESC button
         modalBtn.click();
         modalPage.shouldExists();
-        inputText.val("new3");
+        inputText.click();
+        inputText.setValue("new3");
         saveBtn.click();
         modalPage.closeByEsc();
 
@@ -100,7 +103,8 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         // close by click backdrop
         modalBtn.click();
         modalPage.shouldExists();
-        inputText.val("new4");
+        inputText.click();
+        inputText.setValue("new4");
         saveBtn.click();
         modalPage.clickBackdrop();
 
@@ -133,7 +137,8 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         InputText inputText = modalForm.fields().field("name").control(InputText.class);
 
         // close by button
-        inputText.val("new1");
+        inputText.click();
+        inputText.setValue("new1");
         saveBtn.click();
         closeBtn.click();
 
@@ -143,7 +148,8 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         // close by cross icon
         drawerBtn.click();
         drawerPage.shouldExists();
-        inputText.val("new2");
+        inputText.click();
+        inputText.setValue("new2");
         saveBtn.click();
         drawerPage.close();
 
@@ -153,7 +159,8 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         // close by ESC button
         drawerBtn.click();
         drawerPage.shouldExists();
-        inputText.val("new3");
+        inputText.click();
+        inputText.setValue("new3");
         saveBtn.click();
         drawerPage.closeByEsc();
 
@@ -163,7 +170,8 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
         // close by click backdrop
         drawerBtn.click();
         drawerPage.shouldExists();
-        inputText.val("new4");
+        inputText.click();
+        inputText.setValue("new4");
         saveBtn.click();
         drawerPage.clickBackdrop();
 

@@ -88,9 +88,11 @@ public class MultiFieldSetAT extends AutoTestBase {
         InputText age2 = item2.fields().field("age").control(InputText.class);
         age2.shouldExists();
         // задаем значения для полей первого элемента
-        name1.val("Joe");
+        name1.click();
+        name1.setValue("Joe");
         name1.shouldHaveValue("Joe");
-        age1.val("15");
+        age1.click();
+        age1.setValue("15");
         age1.shouldHaveValue("15");
         // проверяем, что значения не копируются в поля второго элемента
         name2.shouldBeEmpty();
@@ -131,9 +133,12 @@ public class MultiFieldSetAT extends AutoTestBase {
         item2.shouldHaveRemoveButton();
         item3.shouldHaveRemoveButton();
         // задаем значения чтобы различать элементы
-        name1.val("AAA");
-        name2.val("BBB");
-        name3.val("CCC");
+        name1.click();
+        name1.setValue("AAA");
+        name2.click();
+        name2.setValue("BBB");
+        name3.click();
+        name3.setValue("CCC");
         // проверяем, что при удалении второго у третьего изменится подпись
         item2.clickRemoveButton();
         fieldset2.shouldHaveItems(2);
@@ -150,7 +155,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset3.shouldHaveItems(3);
         // задаем значение только у первого элемента
         name1 = fieldset3.item(0).fields().field("name").control(InputText.class);
-        name1.val("AAA");
+        name1.setValue("AAA");
         // проверяем кнопку удалить всех
         fieldset3.shouldHaveRemoveAllButton();
         fieldset3.shouldHaveRemoveAllButtonLabel("Удалить всех участников");
@@ -196,14 +201,16 @@ public class MultiFieldSetAT extends AutoTestBase {
         // копируем второй элемент
         InputText name1 = item1.fields().field("name").control(InputText.class);
         InputText name2 = item2.fields().field("name").control(InputText.class);
-        name2.val("AAA");
+        name2.click();
+        name2.setValue("AAA");
         item2.clickCopyButton();
         fieldset2.shouldHaveItems(3);
         MultiFieldSetItem item3 = fieldset2.item(1);
         InputText name3 = item3.fields().field("name").control(InputText.class);
         name3.shouldHaveValue("AAA");
         // изменяем значение второго элемента и удаляем
-        name2.val("BBB");
+        name2.click();
+        name2.setValue("BBB");
         item2.clickRemoveButton();
         fieldset2.shouldHaveItems(2);
         // проверяем значение третьего элемента, который стал вторым
@@ -239,7 +246,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         item2.shouldHaveCopyButton();
         InputText name2 = item2.fields().field("name2").control(InputText.class);
         // copy
-        name2.val("AAA");
+        name2.click();
+        name2.setValue("AAA");
         item2.shouldHaveCopyButton();
         item2.clickCopyButton();
         fieldset2.shouldHaveItems(3);
@@ -293,7 +301,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         name3.shouldHaveValue("Joe");
         InputText age3 = item3.fields().field("1.2.(3) age").control(InputText.class);
         age3.shouldHaveValue("15");
-        age3.val("30");
+        age3.click();
+        age3.setValue("30");
         // удаляем первый элемент и проверяем, что у третьего (теперь второго) не поменялись значения
         item1.clickRemoveButton();
         name2.shouldHaveValue("Joe");
@@ -318,16 +327,20 @@ public class MultiFieldSetAT extends AutoTestBase {
         InputText age2 = item2.fields().field("age").control(InputText.class);
         name1.shouldBeDisabled();
         name2.shouldBeDisabled();
-        age1.val("2");
+        age1.click();
+        age1.setValue("2");
         name1.shouldBeDisabled();
         name2.shouldBeDisabled();
-        age2.val("20");
+        age2.click();
+        age2.setValue("20");
         name1.shouldBeDisabled();
         name2.shouldBeEnabled();
-        age1.val("50");
+        age1.click();
+        age1.setValue("50");
         name1.shouldBeEnabled();
         name2.shouldBeEnabled();
-        age2.val("15");
+        age2.click();
+        age2.setValue("15");
         name1.shouldBeEnabled();
         name2.shouldBeDisabled();
     }
@@ -348,7 +361,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         multiSet1.shouldBeHidden();
         multiSet2.shouldBeHidden();
 
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         multiSet1.shouldBeHidden();
         multiSet2.shouldBeVisible();
         multiSet2.shouldHaveAddButton();
@@ -370,7 +384,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         multiSet1.shouldHaveDisabledAddButton();
         multiSet2.shouldHaveDisabledAddButton();
 
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         multiSet1.shouldHaveDisabledAddButton();
         multiSet2.shouldHaveEnabledAddButton();
     }
@@ -397,7 +412,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         id.shouldNotBeEmpty();
 
         InputText surnameMulti = item.fields().field("Фамилия").control(InputText.class);
-        surnameMulti.val("text");
+        surnameMulti.click();
+        surnameMulti.setValue("text");
 
         ButtonField changeBtnMulti = item.fields().field("Изменить", ButtonField.class);
         changeBtnMulti.click();
@@ -409,7 +425,8 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         InputText surnameModal = widgetModal.fields().field("Фамилия").control(InputText.class);
         surnameModal.shouldHaveValue("text");
-        surnameModal.val("text2");
+        surnameModal.click();
+        surnameModal.setValue("text2");
         StandardButton changeBtnModal = widgetModal.toolbar().topLeft().button("Изменить");
         changeBtnModal.click();
 
@@ -427,7 +444,8 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         modalPage.shouldExists();
 
-        surnameModal.val("textCopy");
+        surnameModal.click();
+        surnameModal.setValue("textCopy");
         changeBtnModal.click();
 
         surnameMulti.shouldHaveValue("text2");
@@ -455,13 +473,15 @@ public class MultiFieldSetAT extends AutoTestBase {
         InputText inputText = item.fields().field("chapter").control(InputText.class);
         InputSelect inputSelect = item.fields().field("Вид ТСР").control(InputSelect.class);
 
-        inputText.val("1");
+        inputText.click();
+        inputText.setValue("1");
         inputSelect.click();
         inputSelect.dropdown().shouldExists();
         inputSelect.dropdown().shouldHaveItems(1);
         inputSelect.dropdown().item(0).shouldHaveValue("test1");
 
-        inputText.val("2");
+        inputText.click();
+        inputText.setValue("2");
         inputSelect.click();
         inputSelect.dropdown().shouldExists();
         inputSelect.dropdown().shouldHaveItems(1);
@@ -511,9 +531,12 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         validateBtn.click();
 
-        surnameSecond.control(InputText.class).val("1");
-        nameSecond.control(InputText.class).val("1");
-        ageSecond.control(InputText.class).val("1");
+        surnameSecond.control(InputText.class).click();
+        surnameSecond.control(InputText.class).setValue("1");
+        nameSecond.control(InputText.class).click();
+        nameSecond.control(InputText.class).setValue("1");
+        ageSecond.control(InputText.class).click();
+        ageSecond.control(InputText.class).setValue("1");
 
         surnameSecond.shouldHaveValidationMessage(Condition.empty);
         nameSecond.shouldHaveValidationMessage(Condition.empty);
@@ -564,16 +587,20 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         fieldset.clickAddButton();
         fieldset.item(0).shouldHaveLabel("test first");
-        firstLabelDef.val("new first label");
+        firstLabelDef.click();
+        firstLabelDef.setValue("new first label");
         fieldset.item(0).shouldHaveLabel("new first label");
-        fieldset.item(0).fields().field("Имя").control(InputText.class).val("Иван");
+        fieldset.item(0).fields().field("Имя").control(InputText.class).click();
+        fieldset.item(0).fields().field("Имя").control(InputText.class).setValue("Иван");
         fieldset.item(0).shouldHaveLabel("Иван");
 
         fieldset.clickAddButton();
         fieldset.item(1).shouldHaveLabel("test");
-        labelDef.val("new label");
+        labelDef.click();
+        labelDef.setValue("new label");
         fieldset.item(1).shouldHaveLabel("new label");
-        fieldset.item(1).fields().field("Имя").control(InputText.class).val("Петр");
+        fieldset.item(1).fields().field("Имя").control(InputText.class).click();
+        fieldset.item(1).fields().field("Имя").control(InputText.class).setValue("Петр");
         fieldset.item(1).shouldHaveLabel("Петр");
     }
 }

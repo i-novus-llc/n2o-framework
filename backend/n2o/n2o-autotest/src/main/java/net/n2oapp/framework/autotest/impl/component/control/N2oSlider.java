@@ -16,36 +16,36 @@ public class N2oSlider extends N2oControl implements Slider {
     }
 
     @Override
-    public void val(String value) {
-        val(sliderElement(0), value, 1);
+    public void setValue(String value) {
+        setValue(sliderElement(0), value, 1);
     }
 
     @Override
-    public void val(String value, int step) {
-        val(sliderElement(0), value, step);
+    public void setValue(String value, int step) {
+        setValue(sliderElement(0), value, step);
     }
 
     @Override
-    public void valLeft(String value) {
-        val(value);
+    public void setValueInLeft(String value) {
+        setValue(value);
     }
 
     @Override
-    public void valLeft(String value, int step) {
-        val(value, step);
+    public void setValueInLeft(String value, int step) {
+        setValue(value, step);
     }
 
     @Override
-    public void valRight(String value) {
-        val(sliderElement(1), value, 1);
+    public void setValueInRight(String value) {
+        setValue(sliderElement(1), value, 1);
     }
 
     @Override
-    public void valRight(String value, int step) {
-        val(sliderElement(1), value, step);
+    public void setValueInRight(String value, int step) {
+        setValue(sliderElement(1), value, step);
     }
 
-    private void val(SelenideElement element, String value, int step) {
+    private void setValue(SelenideElement element, String value, int step) {
         String current = element.getAttribute("aria-valuenow");
         int dif = (Integer.parseInt(current) - Integer.parseInt(value)) / step;
         Keys keys = dif > 0 ? Keys.ARROW_LEFT : Keys.ARROW_RIGHT;

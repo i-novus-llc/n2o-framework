@@ -81,7 +81,8 @@ public class DataBackFromModalAT extends AutoTestBase {
         StandardField inputField = modal.content(SimplePage.class).widget(FormWidget.class)
                 .fields().field("Поле ввода, данные из которого должны отобразиться на странице");
         inputField.shouldExists();
-        inputField.control(InputText.class).val("test message");
+        inputField.control(InputText.class).click();
+        inputField.control(InputText.class).setValue("test message");
         inputField.control(InputText.class).shouldHaveValue("test message");
         modal.toolbar().bottomLeft().button("Сохранить").click();
         testField.control(InputText.class).shouldHaveValue("test message");

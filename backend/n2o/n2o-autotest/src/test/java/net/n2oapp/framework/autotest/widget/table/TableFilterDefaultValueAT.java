@@ -55,7 +55,8 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).shouldHaveText("test2");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
         rows.row(0).cell(1).shouldHaveText("test4");
 
@@ -83,7 +84,8 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
         rows.row(0).cell(1).shouldHaveText("test4");
 
@@ -111,7 +113,8 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
         rows.row(0).cell(1).shouldHaveText("test4");
 
@@ -164,7 +167,8 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
         rows.row(0).cell(1).shouldHaveText("test4");
 

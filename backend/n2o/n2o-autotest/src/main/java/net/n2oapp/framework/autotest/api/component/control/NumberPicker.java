@@ -4,9 +4,11 @@ package net.n2oapp.framework.autotest.api.component.control;
  * Компонент ввода числа из диапазона
  */
 public interface NumberPicker extends Control {
-    void val(String value);
+    void setValue(String value);
 
     void clear();
+
+    void click();
 
     void clickMinusStepButton();
 

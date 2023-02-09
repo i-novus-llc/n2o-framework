@@ -19,8 +19,7 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     @Override
-    public void val(String value) {
-        element().click();
+    public void setValue(String value) {
         inputElement().setValue(value);
     }
 
@@ -31,12 +30,13 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void clear() {
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        inputElement().clear();
     }
 
     @Override
     public void addTag(String value) {
-        val(value);
+        click();
+        setValue(value);
         inputElement().sendKeys(Keys.chord(Keys.ENTER));
     }
 

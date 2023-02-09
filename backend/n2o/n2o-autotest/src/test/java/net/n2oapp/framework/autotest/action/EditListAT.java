@@ -64,8 +64,10 @@ public class EditListAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(0);
         addButton.click();
         modalPage.shouldExists();
-        description.val("test2");
-        url.val("test2url");
+        description.click();
+        description.setValue("test2");
+        url.click();
+        url.setValue("test2url");
         saveButton.click();
         modalPage.close();
 
@@ -75,8 +77,10 @@ public class EditListAT extends AutoTestBase {
 
         addButton.click();
         modalPage.shouldExists();
-        description.val("test1");
-        url.val("test1url");
+        description.click();
+        description.setValue("test1");
+        url.click();
+        url.setValue("test1url");
         saveButton.click();
         modalPage.close();
 
@@ -90,8 +94,10 @@ public class EditListAT extends AutoTestBase {
         modalPage.shouldExists();
         description.shouldHaveValue("test1");
         url.shouldHaveValue("test1url");
-        description.val("update-test1");
-        url.val("update-test1url");
+        description.click();
+        description.setValue("update-test1");
+        url.click();
+        url.setValue("update-test1url");
         saveButton.click();
         modalPage.close();
 

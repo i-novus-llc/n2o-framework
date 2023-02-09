@@ -7,9 +7,9 @@ import net.n2oapp.framework.autotest.api.component.PopupControl;
  */
 public interface DateInput extends Control, PopupControl {
 
-    String val();
+    String getValue();
 
-    void val(String value);
+    void setValue(String value);
 
     void shouldHavePlaceholder(String value);
 

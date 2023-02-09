@@ -5,5 +5,5 @@ package net.n2oapp.framework.autotest.api.component.control;
  */
 public interface Rating extends Control {
 
-    void val(String value);
+    void setValue(String value);
 }

@@ -46,9 +46,9 @@ public class SliderAT extends AutoTestBase {
         slider.shouldExists();
 
         slider.shouldHaveValue("-10");
-        slider.val("4", 2);
+        slider.setValue("4", 2);
         slider.shouldHaveValue("4");
-        slider.val("-8", 2);
+        slider.setValue("-8", 2);
         slider.shouldHaveValue("-8");
     }
 
@@ -59,9 +59,9 @@ public class SliderAT extends AutoTestBase {
         slider.shouldExists();
 
         slider.shouldHaveValue("-10");
-        slider.val("4");
+        slider.setValue("4");
         slider.shouldHaveValue("4");
-        slider.val("-8");
+        slider.setValue("-8");
         slider.shouldHaveValue("-8");
     }
 
@@ -73,14 +73,14 @@ public class SliderAT extends AutoTestBase {
 
         slider.shouldHaveLeftValue("-10");
         slider.shouldHaveRightValue("-10");
-        slider.valRight("8");
+        slider.setValueInRight("8");
         slider.shouldHaveRightValue("8");
-        slider.valLeft("-2");
+        slider.setValueInLeft("-2");
         slider.shouldHaveLeftValue("-2");
 
         // пересекаем ползунки
         // проверяем, что первый всегда будет наименьшим
-        slider.valRight("-3");
+        slider.setValueInRight("-3");
         slider.shouldHaveLeftValue("-3");
         slider.shouldHaveRightValue("-2");
     }

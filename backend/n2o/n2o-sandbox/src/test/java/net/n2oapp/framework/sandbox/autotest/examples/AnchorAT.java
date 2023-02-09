@@ -52,7 +52,8 @@ public class AnchorAT extends SandboxAutotestBase {
         inputText.shouldExists();
         inputText.shouldBeEmpty();
 
-        inputText.val("yandex");
+        inputText.click();
+        inputText.setValue("yandex");
         inputText.shouldHaveValue("yandex");
         button.click();
 

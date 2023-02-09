@@ -68,7 +68,8 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.shouldHaveEndWithValue("30.01.2020");
 
         // изменяем обычное текстовое поле
-        inputText.val("Ann");
+        inputText.click();
+        inputText.setValue("Ann");
         // обновляем страницу и проверяем значения всех полей
         // ожидание отправки поля
         Selenide.sleep(DELAY);
@@ -92,7 +93,7 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.shouldHaveEndWithValue("30.01.2020");
 
         // изменяем интервальное поле
-        dateInterval.beginVal("18.01.2020");
+        dateInterval.setValueInBegin("18.01.2020");
         dateInterval.shouldBeOpened();
         Selenide.sleep(DELAY);
         dateInterval.shouldHaveBeginWithValue("18.01.2020");
@@ -103,7 +104,7 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.shouldHaveBeginWithValue("18.01.2020");
         dateInterval.shouldHaveEndWithValue("30.01.2020");
 
-        dateInterval.endVal("24.01.2020");
+        dateInterval.setValueInEnd("24.01.2020");
         dateInterval.shouldBeOpened();
         Selenide.sleep(DELAY);
         dateInterval.shouldHaveEndWithValue("24.01.2020");
@@ -145,7 +146,8 @@ public class FormSubmitAT extends AutoTestBase {
         age.shouldHaveValue("20");
 
         // меняем имя и ждем отправки значения
-        name.val("test123");
+        name.click();
+        name.setValue("test123");
         Selenide.sleep(500);
         modalForm.toolbar().bottomRight().button("Закрыть").click();
 
@@ -157,7 +159,8 @@ public class FormSubmitAT extends AutoTestBase {
         btn.click();
 
         // меняем возраст и ждем отправки значения
-        age.val("99");
+        age.click();
+        age.setValue("99");
         Selenide.sleep(500);
         modalForm.toolbar().bottomRight().button("Закрыть").click();
 

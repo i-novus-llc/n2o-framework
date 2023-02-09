@@ -123,7 +123,8 @@ public class MultiColumnAT extends AutoTestBase {
 
         // проверка работы фильтруемого столбца внутри мульти-столбца
         header5.openFilterDropdown();
-        header5.filterControl(InputText.class).val("2");
+        header5.filterControl(InputText.class).click();
+        header5.filterControl(InputText.class).setValue("2");
         header5.clickSearchButton();
         rows.shouldHaveSize(1);
         rows.row(0).cell(0).shouldHaveText("2");

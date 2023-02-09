@@ -87,7 +87,8 @@ public class ValidationMessageAT extends AutoTestBase {
         field.shouldHaveValidationMessage(Condition.empty);
 
         InputText inputText = field.control(InputText.class);
-        inputText.val("");
+        inputText.click();
+        inputText.setValue("");
 
         StandardButton empty = form.toolbar().bottomLeft().button("Empty");
         empty.click();
@@ -96,19 +97,22 @@ public class ValidationMessageAT extends AutoTestBase {
 
         rg.check("No");
         field.shouldHaveValidationMessage(Condition.empty);
-        inputText.val("");
+        inputText.click();
+        inputText.setValue("");
         empty.click();
         field.shouldHaveValidationMessage(Condition.empty);
 
         rg.check("Yes");
         field.shouldHaveValidationMessage(Condition.text("Field is not valid"));
-        inputText.val("");
+        inputText.click();
+        inputText.setValue("");
         empty.click();
         field.shouldHaveValidationMessage(Condition.text("Field is not valid"));
 
         rg.check("No");
         field.shouldHaveValidationMessage(Condition.empty);
-        inputText.val("");
+        inputText.click();
+        inputText.setValue("");
         empty.click();
         field.shouldHaveValidationMessage(Condition.empty);
     }

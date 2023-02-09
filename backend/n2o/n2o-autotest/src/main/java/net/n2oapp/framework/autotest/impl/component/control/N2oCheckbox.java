@@ -25,7 +25,7 @@ public class N2oCheckbox extends N2oControl implements Checkbox {
 
     @Override
     public void setChecked(boolean val) {
-        //FIXME element().shouldBe(Condition.exist).setSelected(value);
+        //FIXME element().shouldBe(Condition.exist).setSelected(value); , but it not be possible now, because of input is invisible
         if (val != isChecked())
             element().shouldBe(Condition.exist).parent().$("label").click();
     }

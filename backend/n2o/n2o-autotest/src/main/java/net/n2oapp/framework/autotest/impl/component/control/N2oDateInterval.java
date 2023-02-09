@@ -31,13 +31,13 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void beginVal(String value) {
+    public void setValueInBegin(String value) {
         firstInputElement().setValue(value);
         element().click();
     }
 
     @Override
-    public void endVal(String value) {
+    public void setValueInEnd(String value) {
         lastInputElement().setValue(value);
         element().click();
     }
@@ -140,13 +140,13 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void beginTimeVal(String hours, String minutes, String seconds) {
-        timeVal(firstCalendar(), hours, minutes, seconds);
+    public void setValueInBeginTime(String hours, String minutes, String seconds) {
+        setTimeValue(firstCalendar(), hours, minutes, seconds);
     }
 
     @Override
-    public void endTimeVal(String hours, String minutes, String seconds) {
-        timeVal(lastCalendar(), hours, minutes, seconds);
+    public void setValueEndTime(String hours, String minutes, String seconds) {
+        setTimeValue(lastCalendar(), hours, minutes, seconds);
     }
 
     @Override
@@ -201,7 +201,7 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         shouldBeClosed();
     }
 
-    private void timeVal(SelenideElement element, String hours, String minutes, String seconds) {
+    private void setTimeValue(SelenideElement element, String hours, String minutes, String seconds) {
         element.$(".n2o-calendar-time-container").click();
         element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
         element.$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();

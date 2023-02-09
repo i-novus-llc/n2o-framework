@@ -46,7 +46,8 @@ public class SuccessAndFailAlertsAT extends AutoTestBase {
         page.shouldExists();
 
         InputText inputText = page.widget(FormWidget.class).fields().field("Число").control(InputText.class);
-        inputText.val("2342");
+        inputText.click();
+        inputText.setValue("2342");
 
         StandardButton button = page.widget(FormWidget.class).toolbar().bottomLeft().button("Отправить");
         button.click();
@@ -56,7 +57,8 @@ public class SuccessAndFailAlertsAT extends AutoTestBase {
         alert.shouldHaveTitle("Заголовок успеха. Введенные данные: 2342");
         alert.shouldHaveText("Текст успеха. Введенные данные: 2342");
 
-        inputText.val("строка");
+        inputText.click();
+        inputText.setValue("строка");
         button.click();
         alert.shouldHaveColor(Colors.DANGER);
         alert.shouldHaveTitle("Заголовок ошибки. Введенные данные: строка");
@@ -69,7 +71,8 @@ public class SuccessAndFailAlertsAT extends AutoTestBase {
         page.shouldExists();
 
         InputText inputText = page.widget(FormWidget.class).fields().field("Число").control(InputText.class);
-        inputText.val("1223");
+        inputText.click();
+        inputText.setValue("1223");
 
         StandardButton button = page.widget(FormWidget.class).toolbar().bottomLeft().button("Отправить");
         button.click();

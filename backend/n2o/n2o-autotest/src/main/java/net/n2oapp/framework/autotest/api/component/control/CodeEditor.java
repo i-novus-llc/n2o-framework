@@ -5,7 +5,7 @@ package net.n2oapp.framework.autotest.api.component.control;
  */
 public interface CodeEditor extends Control {
 
-    void val(String value);
+    void setValue(String value);
 
     void shouldHaveValue(String value, int line);
 }

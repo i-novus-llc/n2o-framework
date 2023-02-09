@@ -70,48 +70,60 @@ public class DatasourceAT extends AutoTestBase {
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
 
         table.columns().rows().shouldHaveSize(6);
-        filterId.val("3");
+        filterId.click();
+        filterId.setValue("3");
         searchButton.click();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(0).shouldHaveText("3");
         table.columns().rows().row(0).cell(1).shouldHaveText("test3");
-        filterName.val("test1");
+        filterName.click();
+        filterName.setValue("test1");
         searchButton.click();
         table.columns().rows().shouldHaveSize(0);
         clearButton.click();
         table.columns().rows().shouldHaveSize(6);
 
+        filterId.click();
         filterId.clear();
-        filterName.val("test4");
+        filterName.click();
+        filterName.setValue("test4");
         searchButton.click();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(0).shouldHaveText("4");
         table.columns().rows().row(0).cell(1).shouldHaveText("test4");
         clearButton.click();
 
-        filterId.val("1");
-        filterName.val("test1");
+        filterId.click();
+        filterId.setValue("1");
+        filterName.click();
+        filterName.setValue("test1");
         searchButton.click();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(0).shouldHaveText("1");
         table.columns().rows().row(0).cell(1).shouldHaveText("test1");
         clearButton.click();
 
-        filterId.val("1");
-        filterName.val("test2");
+        filterId.click();
+        filterId.setValue("1");
+        filterName.click();
+        filterName.setValue("test2");
         searchButton.click();
         table.columns().rows().shouldHaveSize(0);
         clearButton.click();
 
+        filterId.click();
         filterId.clear();
-        filterName.val("repeatTest");
+        filterName.click();
+        filterName.setValue("repeatTest");
         searchButton.click();
         table.columns().rows().shouldHaveSize(2);
         table.columns().rows().columnShouldHaveTexts(1, Arrays.asList("repeatTest", "repeatTest"));
         clearButton.click();
 
-        filterId.val("6");
-        filterName.val("repeatTest");
+        filterId.click();
+        filterId.setValue("6");
+        filterName.click();
+        filterName.setValue("repeatTest");
         searchButton.click();
         table.columns().rows().shouldHaveSize(1);
     }
@@ -164,9 +176,12 @@ public class DatasourceAT extends AutoTestBase {
         InputText organizationInput = tabs.tab(1).content().widget(FormWidget.class)
                 .fields().field("Название организации").control(InputText.class);
 
-        nameInput.val("Сергей");
-        surnameInput.val("Катеев");
-        addressInput.val("ул. Есенина 54");
+        nameInput.click();
+        nameInput.setValue("Сергей");
+        surnameInput.click();
+        surnameInput.setValue("Катеев");
+        addressInput.click();
+        addressInput.setValue("ул. Есенина 54");
         tabs.tab(1).click();
         tabs.tab(0).click();
         saveButton.click();
@@ -174,7 +189,8 @@ public class DatasourceAT extends AutoTestBase {
 
         tabs.tab(1).click();
         organizationInput.shouldBeEnabled();
-        organizationInput.val("Сбербанк");
+        organizationInput.click();
+        organizationInput.setValue("Сбербанк");
         saveButton.click();
 
         page.breadcrumb().shouldHaveSize(1);
@@ -212,30 +228,34 @@ public class DatasourceAT extends AutoTestBase {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        nameInput.val("Сергей");
-        birthdayInput.val(formatter.format(LocalDate.now().plusDays(1)));
+        nameInput.click();
+        nameInput.setValue("Сергей");
+        birthdayInput.setValue(formatter.format(LocalDate.now().plusDays(1)));
         createButton.click();
         Alert alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("Дата рождения не может быть в будущем");
         table.columns().rows().shouldNotHaveRows();
 
-        nameInput.val("Сергей");
-        birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
+        nameInput.click();
+        nameInput.setValue("Сергей");
+        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
         alert.shouldExists();
         alert.shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(1);
 
-        nameInput.val("Сергей");
-        birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
+        nameInput.click();
+        nameInput.setValue("Сергей");
+        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
         alert.shouldExists();
         alert.shouldHaveText("Имя Сергей уже существует");
         table.columns().rows().shouldHaveSize(1);
 
-        nameInput.val("Артем");
-        birthdayInput.val(formatter.format(LocalDate.now().minusDays(1)));
+        nameInput.click();
+        nameInput.setValue("Артем");
+        birthdayInput.setValue(formatter.format(LocalDate.now().minusDays(1)));
         createButton.click();
         alert.shouldExists();
         alert.shouldHaveText("Данные сохранены");
@@ -257,8 +277,10 @@ public class DatasourceAT extends AutoTestBase {
         OutputText copy = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, FormWidget.class).fields().field("text2").control(OutputText.class);
 
-        source.val("test");
+        source.click();
+        source.setValue("test");
         copy.shouldHaveValue("test");
+        source.click();
         source.clear();
         copy.shouldBeEmpty();
     }
@@ -313,7 +335,8 @@ public class DatasourceAT extends AutoTestBase {
         Button button = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, FormWidget.class).toolbar().bottomLeft().button("Создать");
 
-        name.val("submit-test");
+        name.click();
+        name.setValue("submit-test");
         button.click();
         table.columns().rows().row(0).cell(1).shouldHaveText("submit-test");
     }

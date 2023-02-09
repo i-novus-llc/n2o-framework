@@ -12,9 +12,9 @@ public interface InputSelect extends Control, PopupControl {
 
     void click();
 
-    void val(String value);
+    void setValue(String value);
 
-    void valMulti(String... values);
+    void setMultiValue(String... values);
 
     void shouldHaveOptions(String... options);
 

@@ -66,7 +66,7 @@ public class InputSelectAT extends AutoTestBase {
         input.clear();
         input.shouldBeEmpty();
 
-        input.val("Three");
+        input.setValue("Three");
         input.shouldHaveValue("Three");
         input.closePopup();
 
@@ -179,7 +179,7 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldSelected("name2");
         input.clear();
         input.shouldBeEmpty();
-        input.val("name3");
+        input.setValue("name3");
         input.shouldHaveValue("name3");
         // сворачиваем popup, чтобы не накладывался на нижний контрол
         input.closePopup();
@@ -269,13 +269,13 @@ public class InputSelectAT extends AutoTestBase {
         DropDown dropdown = inputSelect.dropdown();
         dropdown.shouldHaveItems(3);
 
-        inputSelect.val("a");
+        inputSelect.setValue("a");
         dropdown.shouldHaveItems(3);
 
-        inputSelect.val("au");
+        inputSelect.setValue("au");
         dropdown.shouldHaveItems(3);
 
-        inputSelect.val("aud");
+        inputSelect.setValue("aud");
         dropdown.shouldHaveItems(1);
     }
 }

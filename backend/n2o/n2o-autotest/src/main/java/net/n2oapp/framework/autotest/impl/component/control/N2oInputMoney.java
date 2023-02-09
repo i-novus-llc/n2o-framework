@@ -11,15 +11,14 @@ import org.openqa.selenium.Keys;
 public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     @Override
-    public String val() {
+    public String getValue() {
         SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
+        return elm.exists() ? elm.getValue() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
     }
 
     @Override
-    public void val(String value) {
-        element().parent().$(".n2o-input-money").setValue(value);
-        element().parent().$(".n2o-input-money").pressEnter();
+    public void setValue(String value) {
+        element().parent().$(".n2o-input-money").setValue(value).pressEnter();
     }
 
     @Override

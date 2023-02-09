@@ -5,9 +5,9 @@ package net.n2oapp.framework.autotest.api.component.control;
  */
 public interface PasswordControl extends Control {
 
-    String val();
+    String getValue();
 
-    void val(String value);
+    void setValue(String value);
 
     void shouldHavePlaceholder(String value);
 

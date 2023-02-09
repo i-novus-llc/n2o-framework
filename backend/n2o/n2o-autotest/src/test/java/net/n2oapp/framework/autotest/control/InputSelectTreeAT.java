@@ -113,13 +113,13 @@ public class InputSelectTreeAT extends AutoTestBase {
         DropDownTree dropdown = inputSelectTree.dropdown();
         dropdown.shouldHaveItems(3);
 
-        dropdown.val("a");
+        dropdown.setValue("a");
         dropdown.shouldHaveItems(3);
 
-        dropdown.val("aud");
+        dropdown.setValue("aud");
         dropdown.shouldHaveItems(3);
 
-        dropdown.val("audi");
+        dropdown.setValue("audi");
         dropdown.shouldHaveItems(1);
     }
 }

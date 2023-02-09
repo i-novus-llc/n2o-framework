@@ -62,7 +62,8 @@ public class NumberPickerAT extends AutoTestBase {
         numberPicker.shouldHaveValue("1");
         numberPicker.clickMinusStepButton();
         numberPicker.shouldHaveValue("-1");
-        numberPicker.val("-2");
+        numberPicker.click();
+        numberPicker.setValue("-2");
         numberPicker.shouldHaveValue("-2");
         numberPicker.clickMinusStepButton();
         // limit by min value
@@ -75,15 +76,19 @@ public class NumberPickerAT extends AutoTestBase {
 
         //check input
         // only minus
-        numberPicker.val("-");
+        numberPicker.click();
+        numberPicker.setValue("-");
         numberPicker.shouldHaveValue("-3");
+        numberPicker.click();
         numberPicker.clear();
         // default min value
         numberPicker.shouldHaveValue("-3");
-        numberPicker.val("10");
+        numberPicker.click();
+        numberPicker.setValue("10");
         // if more than max then set max value
         numberPicker.shouldHaveValue("3");
-        numberPicker.val("-10");
+        numberPicker.click();
+        numberPicker.setValue("-10");
         // if less than min then set min value
         numberPicker.shouldHaveValue("-3");
     }

@@ -50,9 +50,9 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.shouldBeClosed();
         dateInterval.openPopup();
         dateInterval.shouldBeOpened();
-        dateInterval.beginVal("12.02.2020");
+        dateInterval.setValueInBegin("12.02.2020");
         dateInterval.shouldHaveBeginWithValue("12.02.2020");
-        dateInterval.endVal("15.02.2020");
+        dateInterval.setValueInEnd("15.02.2020");
         dateInterval.shouldHaveEndWithValue("15.02.2020");
         // проверка, что активные дни выставлены верно
         dateInterval.clickCalendarButton();
@@ -97,14 +97,14 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.shouldBeClosed();
         dateInterval.openPopup();
         dateInterval.shouldBeOpened();
-        dateInterval.beginVal("12/02/2020 08:20:15");
+        dateInterval.setValueInBegin("12/02/2020 08:20:15");
         dateInterval.shouldHaveBeginWithValue("12/02/2020 08:20:15");
-        dateInterval.endVal("15/02/2020 12:34:56");
+        dateInterval.setValueInEnd("15/02/2020 12:34:56");
         dateInterval.shouldHaveEndWithValue("15/02/2020 12:34:56");
         // задание времени
-        dateInterval.beginTimeVal("1", "5", "9");
+        dateInterval.setValueInBeginTime("1", "5", "9");
         dateInterval.shouldHaveBeginWithValue("12/02/2020 01:05:09");
-        dateInterval.endTimeVal("23", "59", "58");
+        dateInterval.setValueEndTime("23", "59", "58");
         dateInterval.shouldHaveEndWithValue("15/02/2020 23:59:58");
     }
 
@@ -118,17 +118,17 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.openPopup();
         dateInterval.shouldBeOpened();
         // проверка, что значения, выходящие за границы min/max, не вводятся
-        dateInterval.beginVal("09.02.2020");
+        dateInterval.setValueInBegin("09.02.2020");
         dateInterval.shouldHaveEmptyBegin();
-        dateInterval.beginVal("21.02.2020");
+        dateInterval.setValueInBegin("21.02.2020");
         dateInterval.shouldHaveEmptyBegin();
-        dateInterval.endVal("09.02.2020");
+        dateInterval.setValueInEnd("09.02.2020");
         dateInterval.shouldHaveEmptyEnd();
-        dateInterval.endVal("21.02.2020");
+        dateInterval.setValueInEnd("21.02.2020");
         dateInterval.shouldHaveEmptyEnd();
-        dateInterval.beginVal("10.02.2020");
+        dateInterval.setValueInBegin("10.02.2020");
         dateInterval.shouldHaveBeginWithValue("10.02.2020");
-        dateInterval.endVal("20.02.2020");
+        dateInterval.setValueInEnd("20.02.2020");
         dateInterval.shouldHaveEndWithValue("20.02.2020");
         // проверка, что значения, выходящие за границы min/max, нельзя выбрать в календаре
         dateInterval.clickCalendarButton();

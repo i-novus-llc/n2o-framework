@@ -110,7 +110,8 @@ public class RefreshToolbarCellAT extends SandboxAutotestBase {
         modal.shouldHaveTitle("update");
 
         StandardField field = modal.content(SimplePage.class).widget(FormWidget.class).fields().field("name");
-        field.control(InputText.class).val(newName);
+        field.control(InputText.class).click();
+        field.control(InputText.class).setValue(newName);
 
         Button save = modal.toolbar().bottomRight().button("Сохранить");
         save.shouldExists();
