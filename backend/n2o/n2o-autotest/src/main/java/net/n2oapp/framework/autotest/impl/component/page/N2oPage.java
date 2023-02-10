@@ -137,22 +137,22 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions, .n2o-page-body").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_topLeft .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar topRight() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").first().$$(".btn-toolbar:last-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_topRight .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").last().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_bottomLeft .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomRight() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").last().$$(".btn-toolbar:last-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_bottomRight .btn"), Toolbar.class);
         }
     }
 
