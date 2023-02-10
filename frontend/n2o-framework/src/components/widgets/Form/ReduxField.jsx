@@ -52,6 +52,13 @@ class ReduxField extends React.Component {
         )(props.component)
     }
 
+    onBlur = () => {
+        const { onBlur } = this.props
+        const { store } = this.context
+
+        onBlur(store.dispatch)
+    }
+
     setRef(el) {
         this.controlRef = el
     }
@@ -65,6 +72,7 @@ class ReduxField extends React.Component {
                 id={id}
                 {...this.props}
                 component={this.Field}
+                onBlur={this.onBlur}
                 setRef={this.setRef}
                 dispatch={store.dispatch}
             />
@@ -116,6 +124,7 @@ ReduxField.propTypes = {
         PropTypes.node,
     ]),
     setReRenderRef: PropTypes.func,
+    onBlur: PropTypes.object,
 }
 
 const mapStateToProps = createStructuredSelector({
