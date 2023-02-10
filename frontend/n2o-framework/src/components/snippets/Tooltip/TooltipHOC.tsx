@@ -14,7 +14,11 @@ interface ITooltipHocProps extends Config {
      */
     isControlledTooltip?: boolean
     className?: string,
-    setTriggerRef?: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+    setTriggerRef?: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
+    /**
+    * Delay in showing the tooltip (ms)
+    */
+    delayShow?: number,
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -23,14 +27,18 @@ export function TooltipHOC<TProps extends ITooltipHocProps>(Component: Function)
         const { getComponent } = useContext(FactoryContext)
         const FactoryTooltip = getComponent('Tooltip', FactoryLevels.SNIPPETS)
 
-        const { hint, isControlledTooltip = false } = props
+        const { hint, isControlledTooltip = false, delayShow = 300 } = props
+
         const {
             getArrowProps,
             getTooltipProps,
             setTooltipRef,
             setTriggerRef,
             visible,
-        } = usePopperTooltip({ ...props })
+        } = usePopperTooltip({
+            ...props,
+            delayShow,
+        })
 
         if (!hint || !FactoryTooltip) {
             return <Component {...props} />
