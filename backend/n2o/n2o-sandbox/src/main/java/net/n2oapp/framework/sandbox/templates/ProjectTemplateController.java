@@ -2,10 +2,7 @@ package net.n2oapp.framework.sandbox.templates;
 
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +13,8 @@ import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 public class ProjectTemplateController {
     @Autowired
     private ProjectTemplateHolder templatesHolder;
+    @Autowired
+    private ProjectSearcher projectSearcher;
 
     @CrossOrigin(origins = "*")
     @GetMapping("/project")
@@ -36,6 +35,12 @@ public class ProjectTemplateController {
             project.setName(templateModel.getName());
             return project;
         }
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/project/search")
+    public List<SearchProjectModel> searchProjectMatches(@RequestParam(name = "q") String text) throws Exception {
+        return projectSearcher.search(text);
     }
 
 
