@@ -44,6 +44,7 @@ import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
+import net.n2oapp.framework.sandbox.utils.FileUtil;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
@@ -75,7 +76,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
 
-import static net.n2oapp.framework.sandbox.utils.ProjectUtil.findFilesByUri;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
@@ -290,7 +290,7 @@ public class ViewController {
     private String getTemplate(String fileName) {
         String type = getFileType(fileName);
         if (type != null) {
-            FileModel fileModel = findFilesByUri("/templates").stream()
+            FileModel fileModel = FileUtil.findFilesByUri("/templates").stream()
                     .filter(f -> type.equals(f.getFile())).findFirst().orElse(null);
             if (fileModel != null)
                 return fileModel.getSource();
