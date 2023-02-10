@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -91,6 +92,7 @@ public class BulkOperationAT extends AutoTestBase {
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         name1.shouldHaveText("test3");
         name2.shouldHaveText("test4");
         table.columns().rows().shouldHaveSize(2);
