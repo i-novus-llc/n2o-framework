@@ -1,4 +1,3 @@
-import isEqual from 'lodash/isEqual'
 import isArray from 'lodash/isArray'
 import isBoolean from 'lodash/isBoolean'
 import isFunction from 'lodash/isFunction'
@@ -229,21 +228,22 @@ export function validate(
         // eslint-disable-next-line consistent-return
         const messagesAction = map(errors, (messages, fieldId) => {
             if (!isEmpty(messages)) {
-                const message = findPriorityMessage(messages)
-                const nowTouched = get(registeredFields, [fieldId, 'touched'])
+                const fieldValidationMessage = findPriorityMessage(messages)
+                const fieldHasBeenVisited = formFields?.[fieldId]?.visited
+                const fieldHasBeenTouched = formFields?.[fieldId]?.touched
 
-                if (
-                    (isTouched && !nowTouched) ||
-                    !isEqual(message, get(registeredFields, [fieldId, 'message']))
-                ) {
-                    const finalMessage = { ...message }
-                    const expressionMessageText = parseExpression(finalMessage.text)
+                if (isTouched || fieldHasBeenVisited || fieldHasBeenTouched) {
+                    const validationMessageContainsJS = parseExpression(fieldValidationMessage.text)
 
-                    if (expressionMessageText) {
-                        finalMessage.text = evalExpression(expressionMessageText, { [fieldId]: values[fieldId] })
+                    if (validationMessageContainsJS) {
+                        const evaluatedFromJSMessage = evalExpression(validationMessageContainsJS, {
+                            [fieldId]: values[fieldId],
+                        })
+
+                        fieldValidationMessage.text = evaluatedFromJSMessage
                     }
 
-                    return addFieldMessage(formName, fieldId, finalMessage, isTouched, asyncValidating)
+                    return addFieldMessage(formName, fieldId, fieldValidationMessage, isTouched, asyncValidating)
                 }
             }
         }).filter(Boolean)

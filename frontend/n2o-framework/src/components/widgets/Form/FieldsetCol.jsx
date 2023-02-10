@@ -9,6 +9,7 @@ import evalExpression, { parseExpression } from '../../../utils/evalExpression'
 import ReduxField from './ReduxField'
 // eslint-disable-next-line import/no-cycle
 import FieldsetContainer from './Fieldset'
+import { useFormContainerContext } from './provider/FormContainerProvider'
 
 function FieldsetColComponent({
     col,
@@ -28,6 +29,8 @@ function FieldsetColComponent({
     autoSubmit,
     activeField,
 }) {
+    const { onBlur } = useFormContainerContext()
+
     if (!colVisible) { return null }
 
     return (
@@ -53,6 +56,7 @@ function FieldsetColComponent({
                     disabled={disabled}
                     autoSubmit={autoSubmit}
                     active={activeField === field.id}
+                    onBlur={onBlur}
                     {...field}
                 />
             )
