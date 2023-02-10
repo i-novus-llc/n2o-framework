@@ -36,6 +36,9 @@ public class NormalizerCollector {
                 List<Method> annotatedMethods = classInfo.getMethodInfo().filter(methodInfo -> methodInfo.getAnnotationInfo(Normalizer.class) != null).stream().map(MethodInfo::loadClassAndGetMethod).collect(Collectors.toList());
                 functions.addAll(filterPublicStaticMethods(annotatedMethods));
             }
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
         return functions.stream().collect(Collectors.toMap(NormalizerCollector::findAlias, Function.identity()));
