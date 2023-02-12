@@ -26,19 +26,20 @@ public class NormalizerCollector {
      */
     public static Map<String, Method> collect() {
         Set<Method> functions = new HashSet<>();
-        try (ScanResult scanResult = new ClassGraph().enableAllInfo().acceptPackages("*")
-                .scan()) {
+        try (ScanResult scanResult = new ClassGraph().enableAllInfo().acceptPackages("*").scan()) {
 
             for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(Normalizer.class))
                 functions.addAll(filterPublicStaticMethods(Arrays.asList(classInfo.loadClass().getDeclaredMethods())));
 
             for (ClassInfo classInfo : scanResult.getClassesWithMethodAnnotation(Normalizer.class)) {
-                List<Method> annotatedMethods = classInfo.getMethodInfo().filter(methodInfo -> methodInfo.getAnnotationInfo(Normalizer.class) != null).stream().map(MethodInfo::loadClassAndGetMethod).collect(Collectors.toList());
+                List<Method> annotatedMethods = classInfo.getMethodInfo()
+                        .filter(methodInfo -> methodInfo.getAnnotationInfo(Normalizer.class) != null)
+                        .stream().map(MethodInfo::loadClassAndGetMethod).collect(Collectors.toList());
                 functions.addAll(filterPublicStaticMethods(annotatedMethods));
             }
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
         }
 
         return functions.stream().collect(Collectors.toMap(NormalizerCollector::findAlias, Function.identity()));
