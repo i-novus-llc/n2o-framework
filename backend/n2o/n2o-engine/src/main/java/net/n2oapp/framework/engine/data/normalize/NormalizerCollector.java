@@ -4,6 +4,7 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.MethodInfo;
 import io.github.classgraph.ScanResult;
+import net.n2oapp.framework.engine.SpringApplicationContextProvider;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -13,11 +14,15 @@ import java.util.stream.Collectors;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Сборщик нормализующих функций
  */
 public class NormalizerCollector {
+
+    private static final String DEFAULT_N2O_NORMALIZER_PACKAGE = "net.n2oapp";
+    private static final String PACKAGES_PROPERTY = "n2o.engine.normalizer-packages";
 
     /**
      * Метод для поиска нормализующих функций и сборки в мапу<алиас-функция>
@@ -26,7 +31,7 @@ public class NormalizerCollector {
      */
     public static Map<String, Method> collect() {
         Set<Method> functions = new HashSet<>();
-        try (ScanResult scanResult = new ClassGraph().enableAllInfo().acceptPackages("*").scan()) {
+        try (ScanResult scanResult = new ClassGraph().enableAllInfo().acceptPackages(getPackagesToScan()).enableExternalClasses().scan()) {
 
             for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(Normalizer.class))
                 functions.addAll(filterPublicStaticMethods(Arrays.asList(classInfo.loadClass().getDeclaredMethods())));
@@ -56,5 +61,18 @@ public class NormalizerCollector {
         return methods.stream()
                 .filter(method -> isPublic(method.getModifiers()) && isStatic(method.getModifiers()))
                 .collect(Collectors.toSet());
+    }
+
+    private static String[] getPackagesToScan() {
+        String[] packagesToScan = SpringApplicationContextProvider.getEnvironmentProperty(PACKAGES_PROPERTY).trim().split(",");
+
+        Set<String> result = new HashSet<>();
+        result.add(DEFAULT_N2O_NORMALIZER_PACKAGE);
+        for (String forwardedHeaderName : packagesToScan) {
+            forwardedHeaderName = forwardedHeaderName.trim();
+            if (hasText(forwardedHeaderName))
+                result.add(forwardedHeaderName);
+        }
+        return result.toArray(new String[result.size()]);
     }
 }
