@@ -64,7 +64,11 @@ public class NormalizerCollector {
     }
 
     private static String[] getPackagesToScan() {
-        String[] packagesToScan = SpringApplicationContextProvider.getEnvironmentProperty(PACKAGES_PROPERTY).trim().split(",");
+        String packagesToScanProperty = SpringApplicationContextProvider.getEnvironmentProperty(PACKAGES_PROPERTY);
+        String[] packagesToScan;
+        if (packagesToScanProperty != null)
+            packagesToScan = packagesToScanProperty.trim().split(",");
+        else packagesToScan = new String[0];
 
         Set<String> result = new HashSet<>();
         result.add(DEFAULT_N2O_NORMALIZER_PACKAGE);
