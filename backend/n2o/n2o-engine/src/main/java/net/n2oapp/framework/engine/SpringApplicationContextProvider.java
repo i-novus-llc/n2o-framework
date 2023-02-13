@@ -8,11 +8,9 @@ public class SpringApplicationContextProvider implements ApplicationContextAware
     private static ApplicationContext applicationContext;
 
     public static String getEnvironmentProperty(String key) {
-        String value = null;
         if (applicationContext != null)
-            value = applicationContext.getEnvironment().getProperty(key);
-
-        return value;
+            return applicationContext.getEnvironment().getProperty(key);
+        return null;
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) {

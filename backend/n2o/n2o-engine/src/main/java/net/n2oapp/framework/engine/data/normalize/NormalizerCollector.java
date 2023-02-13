@@ -21,7 +21,6 @@ import static org.springframework.util.StringUtils.hasText;
  */
 public class NormalizerCollector {
 
-    private static final String DEFAULT_N2O_NORMALIZER_PACKAGE = "net.n2oapp";
     private static final String PACKAGES_PROPERTY = "n2o.engine.normalizer-packages";
 
     /**
@@ -42,9 +41,6 @@ public class NormalizerCollector {
                         .stream().map(MethodInfo::loadClassAndGetMethod).collect(Collectors.toList());
                 functions.addAll(filterPublicStaticMethods(annotatedMethods));
             }
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace(System.out);
         }
 
         return functions.stream().collect(Collectors.toMap(NormalizerCollector::findAlias, Function.identity()));
@@ -71,11 +67,10 @@ public class NormalizerCollector {
         else packagesToScan = new String[0];
 
         Set<String> result = new HashSet<>();
-        result.add(DEFAULT_N2O_NORMALIZER_PACKAGE);
-        for (String forwardedHeaderName : packagesToScan) {
-            forwardedHeaderName = forwardedHeaderName.trim();
-            if (hasText(forwardedHeaderName))
-                result.add(forwardedHeaderName);
+        for (String p : packagesToScan) {
+            p = p.trim();
+            if (hasText(p))
+                result.add(p);
         }
         return result.toArray(new String[result.size()]);
     }
