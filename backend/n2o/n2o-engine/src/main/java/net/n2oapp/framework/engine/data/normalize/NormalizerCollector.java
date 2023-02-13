@@ -21,7 +21,7 @@ import static org.springframework.util.StringUtils.hasText;
  */
 public class NormalizerCollector {
 
-    private static final String PACKAGES_PROPERTY = "n2o.engine.normalizer-packages";
+    private static final String PACKAGES_PROPERTY = "n2o.engine.normalizer.packages";
 
     /**
      * Метод для поиска нормализующих функций и сборки в мапу<алиас-функция>
@@ -64,7 +64,8 @@ public class NormalizerCollector {
         String[] packagesToScan;
         if (packagesToScanProperty != null)
             packagesToScan = packagesToScanProperty.trim().split(",");
-        else packagesToScan = new String[0];
+        else
+            return new String[0];
 
         Set<String> result = new HashSet<>();
         for (String p : packagesToScan) {
