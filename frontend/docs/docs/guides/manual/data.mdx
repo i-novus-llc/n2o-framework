@@ -2854,6 +2854,12 @@ public static String shorten(String text) {
 В таком случае в контекст будут добавлены все открытые статические методы этого класса.
 :::
 
+Наконец, переопределите настройку `n2o.engine.normalizer.packages` для указания пакетов,
+содержащих классы и методы, помеченные аннотацией @Normalizer.
+```properties
+n2o.engine.normalizer.packages=net.n2oapp, org.mypackage1, org.mypackage2
+```
+
 ### Нормализация вложенных полей {#normalize_nesting}
 
 При использовании вложенных полей следует учитывать порядок маппинга и нормализации
