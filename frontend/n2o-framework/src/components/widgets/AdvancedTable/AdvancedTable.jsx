@@ -156,8 +156,18 @@ class AdvancedTable extends Component {
                 this.closeAllRows()
             }
 
-            if (data && !isEqual(prevProps.data, data)) {
-                const checked = this.mapChecked(multi)
+            const isDataChanged = data && !isEqual(data, prevProps.data)
+            /* checking for an array here because of the multi init state = {} */
+            const isMultiModelHasBeenCleared = !Array.isArray(multi) && isEmpty(multi) && !isEmpty(prevProps.multi)
+
+            if (isDataChanged || isMultiModelHasBeenCleared) {
+                let checked = {}
+
+                if (isEmpty(multi)) {
+                    checked = this.mapChecked([])
+                } else {
+                    checked = this.mapChecked(multi)
+                }
 
                 state = {
                     data: isArray(data) ? mappingKeysIntoData(data) : mappingKeysIntoData([data]),
