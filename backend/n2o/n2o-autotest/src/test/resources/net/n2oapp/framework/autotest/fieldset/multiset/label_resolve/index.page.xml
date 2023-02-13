@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест к резолву лейблов в мультифилдсете">
+    <form>
+        <fields>
+            <row>
+                <input-text
+                        id="firstLabel"
+                        label="first label"
+                        default-value="test first"
+                />
+                <input-text
+                        id="label"
+                        label="default label"
+                        default-value="test"
+                />
+            </row>
+            <multi-set
+                    id="multi"
+                    separator="true"
+                    add-label="Добавить"
+                    can-add="true"
+                    can-remove="true"
+                    children-label="{multi[index].name ? multi[index].name : label}"
+                    first-children-label="{multi[index].name ? multi[index].name : firstLabel}"
+                    label="multi-set"
+            >
+                <row>
+                    <input-text
+                            id="lastname"
+                            required="{required}"
+                            label="Фамилия"
+                    />
+                    <input-text
+                            id="name"
+                            required="{required}"
+                            label="Имя"
+                    />
+                </row>
+                <input-text
+                        id="description"
+                />
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>

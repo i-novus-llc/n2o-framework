@@ -18,7 +18,7 @@ import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 |id                  |Строка                                   |Идентификатор источника данных                                        |                      |
 |query-id            |Ссылка на [выборку](../xml/query)        |Идентификатор выборки, на основе которой происходит получение данных  |                      |
 |object-id           |Ссылка на [объект](../xml/object)        |Идентификатор объекта                                                 |                      |
-|default-values-mode |defaults query merge                     |Подстановка значений по умолчанию.<br/>defaults - значения по умолчанию заполняются данными прописанными в полях<br/>query - значения по умолчанию заполняются данными из запроса<br/>merge - значения по умолчанию заполняются путем слияния данных прописанных в полях и полученных из запроса (полученные из запроса в приоритете), id игнорируется |query |
+|default-values-mode |defaults query merge                     |Подстановка значений по умолчанию.<br/>`defaults` - значения по умолчанию заполняются данными прописанными в полях<br/>`query` - значения по умолчанию заполняются данными из запроса<br/>`merge` - значения по умолчанию заполняются путем слияния данных прописанных в полях и полученных из запроса (полученные из запроса в приоритете), id игнорируется |query |
 |size                |Число                                    |Размер выборки                                                        |10                    |
 |route               |Строка                                   |URL получения данных                                                  |true                  |
 
@@ -32,17 +32,17 @@ import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 ```xml
 <datasource id="ds1">
-  <filters>
-    <eq field-id="id" value="{id}"/>
-    ...
-  </filters>
-  <submit>
-    ...
-  </submit>
-  <dependencies>
-    <fetch on="ds2"/>
-    ...
-  </dependencies>
+    <filters>
+        <eq field-id="id" value="{id}"/>
+        ...
+    </filters>
+    <submit>
+        ...
+    </submit>
+    <dependencies>
+        <fetch on="ds2"/>
+        ...
+    </dependencies>
 </datasource>
 ```
 
@@ -194,11 +194,11 @@ STOMP-источник данных
 
 ```xml
 <datasources>
-  <inherited-datasource id="ds" source-datasource="app-ds">
-    <submit target-model="false" target-field-id="name">
-      <submit-value>...</submit-value>
-    </submit>
-  </inherited-datasource>
+    <inherited-datasource id="ds" source-datasource="app-ds">
+        <submit target-model="false" target-field-id="name">
+            <submit-value>...</submit-value>
+        </submit>
+    </inherited-datasource>
 </datasources>
 ```
 

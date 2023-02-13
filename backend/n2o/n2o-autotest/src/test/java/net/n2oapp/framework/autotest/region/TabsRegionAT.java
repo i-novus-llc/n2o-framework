@@ -171,4 +171,13 @@ public class TabsRegionAT extends AutoTestBase {
         tabs.shouldHaveSize(2);
         tab1.shouldBeActive();
     }
+
+    @Test
+    public void testWidgetWithVisibleDepend() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        page.regions().region(1, TabsRegion.class).tab(0).shouldBeActive();
+        page.regions().region(1, TabsRegion.class).tab(1).shouldNotBeActive();
+    }
 }
