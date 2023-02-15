@@ -21,6 +21,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Configuration.timeout;
+
 /**
  * Автотест для групповых операций изменения и удаления
  */
@@ -29,6 +31,7 @@ public class BulkOperationAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
+        timeout = Long.parseLong(System.getProperty("selenide.timeout", "15000"));
     }
 
     @BeforeEach
