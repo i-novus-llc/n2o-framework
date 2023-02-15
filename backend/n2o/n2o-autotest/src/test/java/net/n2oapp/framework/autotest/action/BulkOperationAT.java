@@ -31,6 +31,7 @@ public class BulkOperationAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
+        timeout = Long.parseLong(System.getProperty("selenide.timeout", "15000"));
     }
 
     @BeforeEach
