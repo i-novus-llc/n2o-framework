@@ -1,33 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Модальное окно">
-<datasources>
-    <datasource id="ds" query-id="test">
-        
-    </datasource>
-</datasources>
+      name="Модальное окно">
+    <datasources>
+        <datasource id="ds" query-id="test"/>
+    </datasources>
     <regions>
-         <table datasource="ds"  auto-select="false"
-                   auto-focus="false"  selection="none">
-      
-        <columns>
-            <column text-field-id="id"/>
-            <column text-field-id="name"/>
-             <column>
-                        <link icon="fa fa-pencil" type="icon" >
-                        </link>
-                    </column>
-               <column>
-                        <link icon="fa fa-pencil" type="icon" >
+        <table datasource="ds" auto-select="false"
+               auto-focus="false" selection="none">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column>
+                    <toolbar>
+                        <button icon="fa fa-pencil" type="icon">
+                            <show-modal page-id="modal" route="/update" class="popup" modal-size="lg"/>
+                        </button>
+                    </toolbar>
+                </column>
+                <column>
+                    <link icon="fa fa-pencil" type="icon">
+                        <show-modal page-id="modal" route="/update" class="popup" modal-size="lg"/>
+                    </link>
+                </column>
+            </columns>
 
-                            <show-modal page-id="modal" route="/update" class="popup" modal-size="lg" >
-                            </show-modal>
-                        </link>
-                            
-                    </column>
-        </columns>
-       
-    </table>
+        </table>
     </regions>
-   
+
 </page>
