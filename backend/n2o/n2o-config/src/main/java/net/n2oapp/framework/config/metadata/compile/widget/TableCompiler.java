@@ -65,7 +65,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.filter, p);
-        SubModelsScope subModelsScope = new SubModelsScope();
+        SubModelsScope subModelsScope = p.cast(p.getScope(SubModelsScope.class), new SubModelsScope());
         ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         TableFiltersScope tableFiltersScope = null;
