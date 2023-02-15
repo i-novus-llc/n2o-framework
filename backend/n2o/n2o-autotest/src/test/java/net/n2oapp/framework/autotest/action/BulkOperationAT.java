@@ -31,7 +31,6 @@ public class BulkOperationAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-        timeout = Long.parseLong(System.getProperty("selenide.timeout", "15000"));
     }
 
     @BeforeEach
@@ -93,6 +92,7 @@ public class BulkOperationAT extends AutoTestBase {
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
+        table.columns().rows().row(3).cell(0).shouldNotExists();
         table.columns().rows().shouldHaveSize(2);
         name1.textShouldHave("test3");
         name2.textShouldHave("test4");
