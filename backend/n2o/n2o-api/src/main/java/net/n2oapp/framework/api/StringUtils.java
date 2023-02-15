@@ -343,4 +343,17 @@ public abstract class StringUtils {
     public static boolean isEmpty(@Nullable Object str) {
         return (str == null || "".equals(str));
     }
+
+    public static String unwrapSpel(String str) {
+        if (str == null || str.isEmpty())
+            return str;
+        String result;
+        if (str.contains("'")) {
+            result = str.substring(2, str.length() - 2);
+        }
+        else {
+            result = str.substring(1, str.length() - 1);
+        }
+        return result;
+    }
 }

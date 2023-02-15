@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+import static net.n2oapp.framework.api.StringUtils.unwrapSpel;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Трансформация query для тестового провайдера данных.
@@ -35,10 +38,16 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
         }
         if (source.getFilters() != null) {
             for (N2oQuery.Filter filter : source.getFilters()) {
-                if (filter.getFilterId() == null)
-                    filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
-                if (filter.getText() == null)
-                    filter.setText(filter.getFieldId() + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterId()));
+                if (filter.getMapping() != null) {
+                    if (isBlank(filter.getText())) {
+                        filter.setText(unwrapSpel(filter.getMapping()) + " " + colon(filter.getType().name()) + " " + colon(unwrapSpel(filter.getMapping())));}
+                }
+                else {
+                    if (filter.getFilterId() == null)
+                        filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
+                    if (isBlank(filter.getText()))
+                        filter.setText(filter.getFieldId() + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterId()));
+                }
             }
         }
         return source;
