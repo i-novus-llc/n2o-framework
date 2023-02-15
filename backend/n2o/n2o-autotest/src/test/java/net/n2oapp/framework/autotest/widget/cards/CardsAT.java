@@ -69,7 +69,7 @@ public class CardsAT extends AutoTestBase {
 
         ImageCell imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.shouldHaveImageByUrl(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
         BadgeCell badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
         badgeCell.shouldHaveText("Germany");
@@ -96,7 +96,7 @@ public class CardsAT extends AutoTestBase {
 
         imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.shouldHaveImageByUrl(getBaseUrl() +"/images/paris-3193674__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
         badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
         badgeCell.shouldHaveText("France");
@@ -131,7 +131,7 @@ public class CardsAT extends AutoTestBase {
 
         ImageCell imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.shouldHaveImageByUrl(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
         IconCell iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
         iconCell.textShouldHave("ship");
@@ -162,7 +162,7 @@ public class CardsAT extends AutoTestBase {
 
         imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.shouldHaveImageByUrl(getBaseUrl() +"/images/paris-3193674__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
         iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
         iconCell.textShouldHave("bicycle");

@@ -23,8 +23,8 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
     }
 
     @Override
-    public void shouldHaveIcon(String name) {
-        element().$(".n2o-icon").shouldHave(Condition.cssClass(name));
+    public void shouldHaveIcon(String iconName) {
+        element().$(".n2o-icon").shouldHave(Condition.cssClass(iconName));
     }
 
     @Override

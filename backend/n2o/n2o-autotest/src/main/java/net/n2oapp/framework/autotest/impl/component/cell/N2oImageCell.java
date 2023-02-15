@@ -14,12 +14,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
 
     @Override
     public void shouldHaveSrc(String src) {
-        img().shouldBe(Condition.attribute("src", src));
-    }
-
-    @Override
-    public void shouldHaveImageByUrl(String url) {
-        img().shouldHave(Condition.attribute("src", url));
+        img().shouldHave(Condition.attribute("src", src));
     }
 
     @Override

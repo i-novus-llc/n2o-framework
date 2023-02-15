@@ -8,14 +8,32 @@ import net.n2oapp.framework.autotest.Colors;
  */
 public interface ProgressBarCell extends Cell {
 
+    /**
+     * Проверка соответствия цвета ячейки
+     * @param color ожидаемый цвет
+     */
     void shouldHaveColor(Colors color);
 
+    /**
+     * Проверка соответствия текста внутри ячейки
+     * @param value ожидаемый текст
+     */
     void shouldHaveValue(String value);
 
+    /**
+     * Проверка соответствия размера ячейки
+     * @param size ожидаемый размер
+     */
     void shouldHaveSize(Size size);
 
+    /**
+     * Проверка того, что ячейка с анимацией загрузки
+     */
     void shouldBeAnimated();
 
+    /**
+     * Проверка того, что ячейка с полосками
+     */
     void shouldBeStriped();
 
     /**

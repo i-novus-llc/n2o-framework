@@ -11,10 +11,9 @@ import java.io.File;
  */
 public class N2oFileUploadCell extends N2oCell implements FileUploadCell {
 
-
     @Override
     public void shouldBeEmpty() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override

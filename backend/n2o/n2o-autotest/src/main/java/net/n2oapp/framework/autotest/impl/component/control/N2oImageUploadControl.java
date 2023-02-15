@@ -26,13 +26,13 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public File uploadImage(File... file) {
-        return element().$("input").uploadFile(file);
+    public File uploadImage(File... image) {
+        return element().$("input").uploadFile(image);
     }
 
     @Override
-    public File uploadFromClasspath(String... fileName) {
-        return element().$("input").uploadFromClasspath(fileName);
+    public File uploadFromClasspath(String... imageName) {
+        return element().$("input").uploadFromClasspath(imageName);
     }
 
     @Override

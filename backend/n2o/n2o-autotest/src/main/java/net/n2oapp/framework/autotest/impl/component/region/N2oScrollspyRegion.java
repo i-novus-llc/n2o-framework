@@ -39,10 +39,14 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
 
     @Override
     public void shouldHaveMenuOnPosition(MenuPosition position) {
-        if (MenuPosition.left.equals(position))
-            element().parent().$(".position-right").shouldNotBe(Condition.exist);
-        else
-            element().parent().$(".position-right").shouldHave(Condition.exist);
+        switch (position) {
+            case left:
+                element().parent().$(".position-right").shouldNotBe(Condition.exist);
+                break;
+            case right:
+                element().parent().$(".position-right").shouldHave(Condition.exist);
+                break;
+        }
     }
 
     public static class N2oContentItem extends N2oRegion implements ContentItem {
@@ -84,8 +88,8 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         }
 
         @Override
-        public DropdownMenuItem dropdownMenuItem(String title) {
-            return new N2oDropdownMenuItem(element().$$(".n2o-scroll-spy-region__dropdown-menu-items-wrapper").findBy(Condition.text(title)));
+        public DropdownMenuItem dropdownMenuItem(String label) {
+            return new N2oDropdownMenuItem(element().$$(".n2o-scroll-spy-region__dropdown-menu-items-wrapper").findBy(Condition.text(label)));
         }
     }
 

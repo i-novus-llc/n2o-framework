@@ -9,24 +9,61 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface Sidebar extends Component {
 
+    /**
+     * Проверка заголовка на соответствие ожидаемому значению
+     * @param title ожидаемый текст заголовка
+     */
     void shouldHaveTitle(String title);
 
+    /**
+     * Проверка пути к файлу с логотипом на соответствие ожидаемому значению
+     * @param brandName ожидаемый путь к логотипу
+     */
     void shouldHaveBrandLogoNamed(String brandName);
 
+    /**
+     * Проверка подзаголовка на соответствие ожидаемому значению
+     * @param subtitle ожидаемое значение заголовка
+     */
     void shouldHaveSubtitle(String subtitle);
 
+    /**
+     * Проверка зафиксированности сайдбара
+     */
     void shouldBeFixed();
 
+    /**
+     * Проверка того, что сайдбар находится на правой стороне страницы
+     */
     void shouldBeRight();
 
+    /**
+     * Проверка того, что сайдбар перекрывает страницу
+     */
     void shouldBeOverlay();
 
+    /**
+     * Проверяет состояние скрытости сайдбара по умолчанию
+     * @param state ожидаемое состояние
+     */
     void shouldHaveState(SidebarState state);
 
+
+    /**
+     * Клик по кнопке раскрытия сайдбара
+     */
     void clickToggleBtn();
 
+    /**
+     * Возвращает меню с элементами из nav
+     * @return Компонент меню для автотестирования
+     */
     Menu nav();
 
+    /**
+     * Возвращает меню с элементами из extra-menu
+     * @return Компонент меню для автотестирования
+     */
     Menu extra();
 
 }

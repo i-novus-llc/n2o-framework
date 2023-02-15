@@ -43,8 +43,8 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     }
 
     @Override
-    public void shouldHaveOptions(String... options) {
-        element().$$(".custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
+    public void shouldHaveOptions(String... labels) {
+        element().$$(".custom-control-label").shouldHave(CollectionCondition.exactTexts(labels));
     }
 
     private SelenideElement inputElement(String label) {

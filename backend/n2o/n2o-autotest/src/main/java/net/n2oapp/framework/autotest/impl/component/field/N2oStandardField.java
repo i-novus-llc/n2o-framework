@@ -39,7 +39,7 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void labelShouldHave(Condition condition) {
+    public void shouldHaveLabelBy(Condition condition) {
         element().$("label").shouldHave(condition);
     }
 

@@ -51,7 +51,7 @@ public class FormAT extends AutoTestBase {
         form.fields().shouldHaveSize(2);
 
         StandardField surname = form.fields().field("Фамилия");
-        surname.labelShouldHave(Condition.text("Фамилия"));
+        surname.shouldHaveLabelBy(Condition.text("Фамилия"));
         surname.control(InputText.class).click();
         surname.control(InputText.class).setValue("test");
 

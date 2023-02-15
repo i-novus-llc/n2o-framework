@@ -7,5 +7,8 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
  */
 public interface ToolbarCell extends Cell {
 
+    /**
+     * @return Панель кнопок для автотестирования
+     */
     Toolbar toolbar();
 }
