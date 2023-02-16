@@ -172,12 +172,4 @@ public class TableSelectionAT extends AutoTestBase {
         modal.shouldHaveTitle("Карточка клиента: 2");
         modal.close();
     }
-
-    @Test
-    void testSelectionNoneElResolved() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/index.page.xml"));
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-
-    }
 }
