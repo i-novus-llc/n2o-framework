@@ -20,8 +20,12 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
     }
 
     @Override
-    public void setValue(String value) {
+    public void clickOnSearchField() {
         searchField().click();
+    }
+
+    @Override
+    public void setValue(String value) {
         searchField().setValue(value);
     }
 

@@ -19,6 +19,11 @@ public interface DropDownTree extends Component {
     void shouldHaveItems(int size);
 
     /**
+     * Клик на поле поиска элементов
+     */
+    void clickOnSearchField();
+
+    /**
      * Ввод значение в поле поиска элементов
      * @param value вводимое значение
      */
