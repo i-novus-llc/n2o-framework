@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 import static net.n2oapp.framework.api.StringUtils.unwrapSpel;
-import static net.n2oapp.framework.api.StringUtils.unwrapSpelAndEscape;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -40,7 +39,7 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
             for (N2oQuery.Filter filter : source.getFilters()) {
                 if (filter.getMapping() != null) {
                     if (isBlank(filter.getText())) {
-                        String mapping = unwrapSpelAndEscape(filter.getMapping());
+                        String mapping = unwrapSpel(filter.getMapping());
                         filter.setText(mapping + " " + colon(filter.getType().name()) + " " + colon(mapping));}
                 }
                 else {

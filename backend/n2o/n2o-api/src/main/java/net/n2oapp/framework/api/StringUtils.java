@@ -366,15 +366,13 @@ public abstract class StringUtils {
     }
 
     public static boolean isSpel(String str) {
+        if (str == null)
+            return false;
         return str.startsWith("[") && str.endsWith("]");
     }
 
     public static String unwrapSpel(String str) {
-        return isSpel(str) ? str.substring(1, str.length() - 1) : str;
-    }
-
-    public static String unwrapSpelAndEscape(String str) {
-        str = unwrapSpel(str);
-        return isEscapedString(str) ? str.substring(1, str.length() - 1) : str;
+        int num = str.contains("'") ? 2 : 1;
+        return isSpel(str) ? str.substring(num, str.length() - num) : str;
     }
 }
