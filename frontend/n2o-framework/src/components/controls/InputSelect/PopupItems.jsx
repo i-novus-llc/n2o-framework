@@ -138,6 +138,7 @@ function PopupItems({
         if (!isNil(item[enabledFieldId])) {
             return !item[enabledFieldId]
         }
+
         if (isSelectedItem(selected, item) && !hasCheckboxes) {
             return true
         }
