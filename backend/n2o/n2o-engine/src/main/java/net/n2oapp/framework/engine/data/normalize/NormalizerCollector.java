@@ -1,8 +1,10 @@
 package net.n2oapp.framework.engine.data.normalize;
 
-import org.reflections.Reflections;
-import org.reflections.scanners.Scanners;
-import org.reflections.util.ConfigurationBuilder;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
+import io.github.classgraph.MethodInfo;
+import io.github.classgraph.ScanResult;
+import net.n2oapp.framework.engine.SpringApplicationContextProvider;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -12,15 +14,14 @@ import java.util.stream.Collectors;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Сборщик нормализующих функций
  */
 public class NormalizerCollector {
-    private static final String BASE_PACKAGE = ".";
-    private static final Reflections ref = new Reflections(new ConfigurationBuilder()
-            .forPackages(BASE_PACKAGE, "net", "org", "ru", "com")//TODO refactoring https://jira.i-novus.ru/browse/NNO-8550
-            .addScanners(Scanners.TypesAnnotated, Scanners.MethodsAnnotated));
+
+    private static final String PACKAGES_PROPERTY = "n2o.engine.normalizer.packages";
 
     /**
      * Метод для поиска нормализующих функций и сборки в мапу<алиас-функция>
@@ -29,10 +30,19 @@ public class NormalizerCollector {
      */
     public static Map<String, Method> collect() {
         Set<Method> functions = new HashSet<>();
-        for (Class<?> normClass : ref.getTypesAnnotatedWith(Normalizer.class))
-            functions.addAll(filterPublicStaticMethods(Arrays.asList(normClass.getDeclaredMethods())));
+        try (ScanResult scanResult = new ClassGraph().enableAllInfo().acceptPackages(getPackagesToScan()).enableExternalClasses().scan()) {
 
-        functions.addAll(filterPublicStaticMethods(ref.getMethodsAnnotatedWith(Normalizer.class)));
+            for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(Normalizer.class))
+                functions.addAll(filterPublicStaticMethods(Arrays.asList(classInfo.loadClass().getDeclaredMethods())));
+
+            for (ClassInfo classInfo : scanResult.getClassesWithMethodAnnotation(Normalizer.class)) {
+                List<Method> annotatedMethods = classInfo.getMethodInfo()
+                        .filter(methodInfo -> methodInfo.getAnnotationInfo(Normalizer.class) != null)
+                        .stream().map(MethodInfo::loadClassAndGetMethod).collect(Collectors.toList());
+                functions.addAll(filterPublicStaticMethods(annotatedMethods));
+            }
+        }
+
         return functions.stream().collect(Collectors.toMap(NormalizerCollector::findAlias, Function.identity()));
     }
 
@@ -47,5 +57,22 @@ public class NormalizerCollector {
         return methods.stream()
                 .filter(method -> isPublic(method.getModifiers()) && isStatic(method.getModifiers()))
                 .collect(Collectors.toSet());
+    }
+
+    private static String[] getPackagesToScan() {
+        String packagesToScanProperty = SpringApplicationContextProvider.getEnvironmentProperty(PACKAGES_PROPERTY);
+        String[] packagesToScan;
+        if (packagesToScanProperty != null)
+            packagesToScan = packagesToScanProperty.trim().split(",");
+        else
+            return new String[0];
+
+        Set<String> result = new HashSet<>();
+        for (String p : packagesToScan) {
+            p = p.trim();
+            if (hasText(p))
+                result.add(p);
+        }
+        return result.toArray(new String[result.size()]);
     }
 }

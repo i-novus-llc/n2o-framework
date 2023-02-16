@@ -92,7 +92,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 |redirect-url            |Строка                     |URL адрес, на который произойдет переход после успешного выполнения действия.<br/>Можно задавать относительный путь и плейсхолдеры, например, `redirect-url="../:id"`                             |                                                        |
 |redirect-target         |self newWindow application |Сценарий открытия ссылки после успешного выполнения операции:<br/>`self` - в текущей вкладке<br/>`newWindow` - в новой вкладке<br/>`application` - в текущем приложении (без обращения к серверу) |self                                                    |
 |refresh-on-success      |true false                 |Обновить данные после успешного выполнения действия                                                                                                                                               |true                                                    |
-|refresh-datasources     |Список ссылок на [источники данных](../xml/datasource#datasources) |Идентификаторы источников данных (через запятую), которые необходимо обновить после успешного выполнения действия                                         |Идентификатор источника данных родительского компонента |
+|refresh-datasources     |Список ссылок на [источники данных](../xml/datasource#datasources) |Список идентификаторов источников данных (через запятую), которые необходимо обновить после успешного выполнения действия                                 |Идентификатор источника данных родительского компонента |
 
 **Тело**
 
@@ -314,7 +314,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 ```xml
 <set-value target-datasource="users" target-model="resolve" to="fullname">
-  return firstName + ' ' + lastName;
+    return firstName + ' ' + lastName;
 </set-value>
 ```
 
@@ -369,7 +369,7 @@ http://n2oapp.net/framework/config/schema/action-1.0
 ```xml
 <switch value-field-id="code">
     <case value="A">
-       <open-page page-id="test"/>
+        <open-page page-id="test"/>
     </case>
     <case value="B">
         <invoke operation-id="create"/>
@@ -682,8 +682,8 @@ http://n2oapp.net/framework/config/schema/action-1.0
 
 ```xml
 <breadcrumbs>
-  <crumb label="Первая страница" path="/"/>
-  <crumb label="Вторая страница"/>
+    <crumb label="Первая страница" path="/"/>
+    <crumb label="Вторая страница"/>
 </breadcrumbs>
 ```
 
