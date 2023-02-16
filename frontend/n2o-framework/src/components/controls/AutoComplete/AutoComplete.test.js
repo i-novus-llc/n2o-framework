@@ -94,6 +94,7 @@ describe('<AutoCompelte />', () => {
         it('значение выбирается из списка', () => {
             const wrapper = setup({
                 tags: true,
+                options: ['a', 'abc'],
             })
             const textarea = wrapper.find('textarea')
             textarea.simulate('click')
@@ -124,7 +125,16 @@ describe('<AutoCompelte />', () => {
             textarea.simulate('click')
             buttons.last().simulate('click')
 
-            expect(wrapper.state().value).toEqual([1, 3])
+            expect(wrapper.state().value).toEqual([
+                {
+                    id: 1,
+                    name: 'a',
+                },
+                {
+                    id: 3,
+                    name: 'abc',
+                },
+            ])
         })
 
         it('значение удаляется', () => {
