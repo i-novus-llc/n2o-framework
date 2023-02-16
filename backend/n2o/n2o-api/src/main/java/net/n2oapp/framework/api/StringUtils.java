@@ -372,7 +372,9 @@ public abstract class StringUtils {
     }
 
     public static String unwrapSpel(String str) {
+        if (!isSpel(str))
+            return str;
         int num = str.contains("'") ? 2 : 1;
-        return isSpel(str) ? str.substring(num, str.length() - num) : str;
+        return str.substring(num, str.length() - num);
     }
 }
