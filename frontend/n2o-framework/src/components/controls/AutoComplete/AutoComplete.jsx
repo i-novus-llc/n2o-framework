@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
-import get from 'lodash/get'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import isArray from 'lodash/isArray'
-import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
 import pick from 'lodash/pick'
 import { compose, mapProps } from 'recompose'
@@ -85,9 +83,9 @@ class AutoComplete extends React.Component {
     };
 
     /**
-    * Обрабатывает клик за пределы компонента
-    * вызывается библиотекой react-onclickoutside
-    */
+     * Обрабатывает клик за пределы компонента
+     * вызывается библиотекой react-onclickoutside
+     */
     handleClickOutside = () => {
         const { isExpanded } = this.state
 
@@ -149,7 +147,7 @@ class AutoComplete extends React.Component {
 
             this.setState({ options: filteredData })
         } else {
-        // серверная фильтрация
+            // серверная фильтрация
             const { value } = this.state
             const labels = map(value, item => item[labelFieldId])
 
@@ -206,24 +204,12 @@ class AutoComplete extends React.Component {
     }
 
     onSelect = (item) => {
-        const { valueFieldId, onChange, closePopupOnSelect, tags, labelFieldId } = this.props
-
-        let currentValue = isString(item) ? item : get(item, valueFieldId)
-        let currentInputValue = isString(item) ? item : get(item, labelFieldId)
-
-        const isCustomUserValue = isArray(item) && item.length === 1
-
-        if (isCustomUserValue) {
-            const userValue = item[0]
-
-            currentValue = userValue
-            currentInputValue = userValue
-        }
+        const { onChange, closePopupOnSelect, tags, labelFieldId } = this.props
 
         this.setState(
             prevState => ({
-                value: tags ? [...prevState.value, currentValue] : [currentValue],
-                input: !tags ? currentInputValue : '',
+                value: tags ? [...prevState.value, item] : [item],
+                input: !tags ? item[labelFieldId] : '',
             }),
             () => {
                 const { value, input } = this.state
@@ -232,14 +218,17 @@ class AutoComplete extends React.Component {
                     this.setIsExpanded(false)
                 }
 
-                if (isString(currentValue)) {
+                if (typeof item === 'string') {
                     this.forceUpdate()
                 }
+
                 if (tags) {
                     onChange(value)
-                } else {
-                    onChange(input)
+
+                    return
                 }
+
+                onChange(input)
             },
         )
     }
@@ -314,17 +303,12 @@ class AutoComplete extends React.Component {
             maxTagTextLength,
             onDismiss,
         } = this.props
-        const needAddFilter = !find(value, item => (item || {})[labelFieldId] === input)
+        const needAddFilter = !find(value, item => item[labelFieldId] === input)
         const optionsList = !isEmpty(data) ? data : options
         const filteredOptions = filter(
             optionsList,
             item => includes(item[labelFieldId], input) || isEmpty(input),
         )
-
-        const selectedItems = (options || [])
-            .filter(option => value.includes(option[valueFieldId]))
-        const selectedLabels = value.map(e => (options || []).find(option => option[valueFieldId] === e) ||
-            (isString(e) ? e : e[labelFieldId]))
 
         return (
             <div
@@ -342,7 +326,7 @@ class AutoComplete extends React.Component {
                                 isExpanded={isExpanded}
                                 setIsExpanded={this.setIsExpanded}
                                 loading={loading}
-                                selected={selectedLabels}
+                                selected={value}
                                 iconFieldId={iconFieldId}
                                 imageFieldId={imageFieldId}
                                 multiSelect={tags}
@@ -364,7 +348,7 @@ class AutoComplete extends React.Component {
                                     setActiveValueId={this.setActiveValueId}
                                     closePopUp={() => this.setIsExpanded(false)}
                                     openPopUp={() => this.setIsExpanded(true)}
-                                    selected={selectedLabels}
+                                    selected={value}
                                     value={input}
                                     onFocus={this.onFocus}
                                     onClick={this.onClick}
@@ -416,7 +400,7 @@ class AutoComplete extends React.Component {
                                         imageFieldId={imageFieldId}
                                         badge={badge}
                                         onSelect={this.onSelect}
-                                        selected={selectedItems}
+                                        selected={value}
                                         disabledValues={disabledValues}
                                         groupFieldId={groupFieldId}
                                         hasCheckboxes={hasCheckboxes}
@@ -425,13 +409,13 @@ class AutoComplete extends React.Component {
                                     >
                                         <div className="n2o-alerts">
                                             {alerts &&
-                        alerts.map(alert => (
-                            <Alert
-                                key={alert.id}
-                                onDismiss={() => onDismiss(alert.id)}
-                                {...alert}
-                            />
-                        ))}
+                                            alerts.map(alert => (
+                                                <Alert
+                                                    key={alert.id}
+                                                    onDismiss={() => onDismiss(alert.id)}
+                                                    {...alert}
+                                                />
+                                            ))}
                                         </div>
                                     </PopupList>
                                 </div>
