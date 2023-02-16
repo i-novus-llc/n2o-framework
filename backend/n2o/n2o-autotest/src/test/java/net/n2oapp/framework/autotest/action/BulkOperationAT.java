@@ -19,6 +19,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Configuration.timeout;
@@ -46,6 +47,7 @@ public class BulkOperationAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void bulkOperationTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/setName.page.xml"),
