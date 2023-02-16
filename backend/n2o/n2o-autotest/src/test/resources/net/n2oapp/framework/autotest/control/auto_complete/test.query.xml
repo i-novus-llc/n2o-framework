@@ -14,7 +14,9 @@
         <field id="fio">
             <select/>
             <sorting/>
-
+            <filters>
+                <like filter-id="fio"/>
+            </filters>
         </field>
     </fields>
 </query>

@@ -95,8 +95,9 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.val("К.Л.");
         autoComplete.chooseDropdownOption("Иванченко К.Л.");
         autoComplete.val("Иванов К.Л.");
+        autoComplete.click();
         autoComplete.chooseDropdownOption("Иванов К.Л.");
-        autoComplete.shouldHaveDropdownOptions("Иванов П.И.", "Иванченко К.Л.", "Иванов К.Л.");
+        autoComplete.shouldHaveTags("Иванов П.И...", "Иванченко ...", "Иванов К.Л...");
 
     }
 

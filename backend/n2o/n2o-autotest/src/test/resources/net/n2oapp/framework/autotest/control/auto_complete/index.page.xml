@@ -16,7 +16,7 @@
                 </options>
             </auto-complete>
             <auto-complete id="autoComplete3"  tags="true" query-id="test"
-                           value-field-id="id"  label-field-id="fio"
+                           value-field-id="id"  label-field-id="fio" search-filter-id="fio"
                            placeholder="Введите имена"/>
         </fields>
     </form>
