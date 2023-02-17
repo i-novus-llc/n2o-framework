@@ -7,6 +7,8 @@ import rehypeRaw from 'rehype-raw'
 import { getContext } from 'recompose'
 import PropTypes from 'prop-types'
 
+import { useHtmlResolver } from '../../../../../utils/useHtmlResolver'
+
 import { markdownFieldMapper } from './markdownFieldMapper'
 import { IMarkdownFieldMappers, IActions, IModel } from './helpers'
 
@@ -34,7 +36,9 @@ export function MarkdownFieldBody(props: IMarkdownField): ReactElement | null {
         className,
     } = props
 
-    if (!visible || !content) {
+    const resolvedMarkdown = useHtmlResolver(content, model)
+
+    if (!visible || typeof resolvedMarkdown !== 'string') {
         return null
     }
 
@@ -50,13 +54,13 @@ export function MarkdownFieldBody(props: IMarkdownField): ReactElement | null {
 
     return (
         <ReactMarkdown
-            /* eslint-disable-next-line react/no-children-prop */
-            children={content}
             components={components}
             rehypePlugins={[rehypeRaw]}
             remarkPlugins={[remarkGfm]}
             className={classNames('n2o-markdown-field n2o-snippet', className)}
-        />
+        >
+            {resolvedMarkdown}
+        </ReactMarkdown>
     )
 }
 
