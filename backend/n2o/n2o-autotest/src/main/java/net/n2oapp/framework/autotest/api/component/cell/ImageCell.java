@@ -28,13 +28,13 @@ public interface ImageCell extends Cell {
     void shouldHaveShape(ShapeType shape);
 
     /**
-     * Проверка заголовка ячейки на соответствие ожидаемому значению
+     * Проверка заголовка ячейки на точное соответствие (без учета регистра) ожидаемому значению
      * @param title ожидаемый заголовок ячейки
      */
     void shouldHaveTitle(String title);
 
     /**
-     * Проверка описания ячейки на соответствие ожидаемому значению
+     * Проверка описания ячейки на точное соответствие (без учета регистра) ожидаемому значению
      * @param description ожидаемое описание ячейки
      */
     void shouldHaveDescription(String description);
@@ -59,6 +59,6 @@ public interface ImageCell extends Cell {
      * @param index номер иконки статуса
      * @param icon ожидаемое значение иконки статуса
      */
-    void shouldHaveStatusWithIcon(ImageStatusElementPlace position, int index, String icon);
+    void shouldHaveStatusIcon(ImageStatusElementPlace position, int index, String icon);
 
 }

@@ -16,12 +16,12 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     }
 
     @Override
-    public void shouldHaveImageBySrc(String src) {
+    public void shouldHaveImageSrc(String src) {
         element().$("img").shouldHave(Condition.attribute("src", src));
     }
 
     @Override
-    public void shouldHaveImageInShape(ShapeType shape) {
+    public void shouldHaveImageShape(ShapeType shape) {
         switch (shape) {
             case SQUARE:
                 checkShape("mr-2 n2o-nav-image ");

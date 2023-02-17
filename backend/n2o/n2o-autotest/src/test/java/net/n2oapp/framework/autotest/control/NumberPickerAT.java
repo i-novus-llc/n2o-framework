@@ -51,13 +51,13 @@ public class NumberPickerAT extends AutoTestBase {
         numberPicker.shouldHaveMax("3");
         numberPicker.shouldHaveStep("2");
         numberPicker.shouldHaveEnableMinusStepButton();
-        numberPicker.plusStepButtonShouldBeEnabled();
+        numberPicker.shouldHaveEnabledPlusStepButton();
         numberPicker.shouldHaveValue("2");
         numberPicker.clickPlusStepButton();
         // limit by max value
         numberPicker.shouldHaveValue("3");
         numberPicker.shouldHaveEnableMinusStepButton();
-        numberPicker.plusStepButtonShouldBeDisabled();
+        numberPicker.shouldHaveDisabledPlusStepButton();
         numberPicker.clickMinusStepButton();
         numberPicker.shouldHaveValue("1");
         numberPicker.clickMinusStepButton();
@@ -69,7 +69,7 @@ public class NumberPickerAT extends AutoTestBase {
         // limit by min value
         numberPicker.shouldHaveValue("-3");
         numberPicker.shouldHaveDisableMinusStepButton();
-        numberPicker.plusStepButtonShouldBeEnabled();
+        numberPicker.shouldHaveEnabledPlusStepButton();
         numberPicker.clickPlusStepButton();
         numberPicker.shouldHaveValue("-1");
         numberPicker.shouldHaveEnableMinusStepButton();

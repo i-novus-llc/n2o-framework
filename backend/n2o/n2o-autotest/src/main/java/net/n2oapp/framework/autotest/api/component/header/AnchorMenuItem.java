@@ -16,7 +16,7 @@ public interface AnchorMenuItem extends MenuItem, Badge {
      * Проверка иконки на соответствие
      * @param cssClass ожидаемый класс иконки
      */
-    void shouldHaveIconWithCssClass(String cssClass);
+    void shouldHaveIconCssClass(String cssClass);
 
     /**
      * Проверка наличия баджа внутри кнопки
@@ -27,13 +27,13 @@ public interface AnchorMenuItem extends MenuItem, Badge {
      * Проверка текста баджа на соответствие
      * @param text ожидаемый текст баджа
      */
-    void shouldHaveBadgeWithText(String text);
+    void shouldHaveBadgeText(String text);
 
     /**
      * Проверка цвета баджа на соответствие
      * @param color ожидаемый текст баджа
      */
-    void shouldHaveBadgeWithColor(String color);
+    void shouldHaveBadgeColor(String color);
 
     /**
      * Проверка ссылки на соответствие

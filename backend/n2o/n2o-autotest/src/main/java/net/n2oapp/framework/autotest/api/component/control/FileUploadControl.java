@@ -29,28 +29,28 @@ public interface FileUploadControl extends Control {
 
     /**
      * Проверка количества загруженных файлов
-     * @param size ожидаемое количество загруженных файлов
+     * @param count ожидаемое количество загруженных файлов
      */
-    void shouldHaveUploadFilesOfSize(int size);
+    void shouldHaveUploadFiles(int count);
 
     /**
      * Проверка названия загруженного файла
      * @param index номер проверяемого файла
      * @param fileName ожидаемое имя файла
      */
-    void shouldHaveUploadFileNamed(int index, String fileName);
+    void uploadFileShouldHaveName(int index, String fileName);
 
     /**
      * Проверка размера загруженного файлов
      * @param index номер проверяемого файла
      * @param fileSize ожидаемый размер файла
      */
-    void shouldHaveUploadFileWithSize(int index, String fileSize);
+    void uploadFileShouldHaveSize(int index, String fileSize);
 
     /**
      * Проверка ссылки загруженного файлов
      * @param index номер проверяемого файла
      * @param href ожидаемая ссылка файла
      */
-    void shouldHaveUploadFileWithLink(int index, String href);
+    void uploadFileShouldHaveLink(int index, String href);
 }

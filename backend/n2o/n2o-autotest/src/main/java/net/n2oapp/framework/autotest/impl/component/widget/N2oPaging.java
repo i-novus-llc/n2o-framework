@@ -61,12 +61,12 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void shouldHavePrevWithLabel(String label) {
+    public void shouldHavePrevLabel(String label) {
         prevButton().parent().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void shouldHavePrevWithIcon(String icon) {
+    public void shouldHavePrevIcon(String icon) {
         prevButton().shouldHave(Condition.cssClass(icon));
     }
 
@@ -86,12 +86,12 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void shouldHaveNextWithLabel(String label) {
+    public void shouldHaveNextLabel(String label) {
         nextButton().parent().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void shouldHaveNextWithIcon(String icon) {
+    public void shouldHaveNextIcon(String icon) {
         nextButton().shouldHave(Condition.cssClass(icon));
     }
 
@@ -111,12 +111,12 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void shouldHaveFirstWithLabel(String label) {
+    public void shouldHaveFirstLabel(String label) {
         firstButton().parent().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void shouldHaveFirstWithIcon(String icon) {
+    public void shouldHaveFirstIcon(String icon) {
         firstButton().shouldHave(Condition.cssClass(icon));
     }
 
@@ -136,12 +136,12 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void shouldHaveLastWithLabel(String label) {
+    public void shouldHaveLastLabel(String label) {
         lastButton().parent().shouldHave(Condition.text(label));
     }
 
     @Override
-    public void shouldHaveLastWithIcon(String icon) {
+    public void shouldHaveLastIcon(String icon) {
         lastButton().shouldHave(Condition.cssClass(icon));
     }
 

@@ -220,7 +220,7 @@ public class TableAT extends AutoTestBase {
         paging.shouldNotHavePrev();
         paging.shouldNotHaveNext();
         paging.shouldHaveFirst();
-        paging.shouldHaveFirstWithIcon("fa-angle-double-left");
+        paging.shouldHaveFirstIcon("fa-angle-double-left");
         paging.shouldNotHaveLast();
 
         paging.shouldHaveActivePage("1");
@@ -237,17 +237,17 @@ public class TableAT extends AutoTestBase {
         paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.FLAT);
         paging.shouldHavePrev();
-        paging.shouldHavePrevWithLabel("Prev");
-        paging.shouldHavePrevWithIcon("fa-angle-down");
+        paging.shouldHavePrevLabel("Prev");
+        paging.shouldHavePrevIcon("fa-angle-down");
         paging.shouldHaveNext();
-        paging.shouldHaveNextWithLabel("Next");
-        paging.shouldHaveNextWithIcon("fa-angle-up");
+        paging.shouldHaveNextLabel("Next");
+        paging.shouldHaveNextIcon("fa-angle-up");
         paging.shouldHaveFirst();
-        paging.shouldHaveFirstWithLabel("First");
-        paging.shouldHaveFirstWithIcon("fa-angle-double-down");
+        paging.shouldHaveFirstLabel("First");
+        paging.shouldHaveFirstIcon("fa-angle-double-down");
         paging.shouldHaveLast();
-        paging.shouldHaveLastWithLabel("Last");
-        paging.shouldHaveLastWithIcon("fa-angle-double-up");
+        paging.shouldHaveLastLabel("Last");
+        paging.shouldHaveLastIcon("fa-angle-double-up");
 
         paging.shouldHaveActivePage("1");
         table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");

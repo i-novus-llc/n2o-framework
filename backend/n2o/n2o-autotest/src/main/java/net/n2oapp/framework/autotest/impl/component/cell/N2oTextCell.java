@@ -13,7 +13,7 @@ public class N2oTextCell extends N2oCell implements TextCell {
 
     @Override
     public void shouldHaveText(String text) {
-        element().shouldHave(Condition.text(text));
+        element().shouldHave(Condition.exactText(text));
     }
 
     @Override

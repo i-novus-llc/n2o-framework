@@ -14,12 +14,12 @@ public class N2oStatus extends N2oSnippet implements Status {
     }
 
     @Override
-    public void shouldHaveTextOnLeftPosition() {
+    public void shouldHaveLeftPositionText() {
         element().shouldHave(Condition.cssClass("n2o-status-text__left"));
     }
 
     @Override
-    public void shouldHaveTextOnRightPosition() {
+    public void shouldHaveRightPositionText() {
         element().shouldHave(Condition.cssClass("n2o-status-text__right"));
     }
 

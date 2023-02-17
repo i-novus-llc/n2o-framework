@@ -38,7 +38,7 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
     }
 
     @Override
-    public void shouldHaveMenuOnPosition(MenuPosition position) {
+    public void shouldHaveMenuPosition(MenuPosition position) {
         switch (position) {
             case left:
                 element().parent().$(".position-right").shouldNotBe(Condition.exist);

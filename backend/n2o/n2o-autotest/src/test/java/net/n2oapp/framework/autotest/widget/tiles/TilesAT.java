@@ -60,7 +60,7 @@ public class TilesAT extends AutoTestBase {
         tile1.blocks().cell(1, TextCell.class).shouldHaveText("text1");
         IconCell iconCell = tile1.blocks().cell(2, IconCell.class);
         iconCell.shouldHaveIcon("fa-plus");
-        iconCell.textShouldHave("icon1");
+        iconCell.shouldHaveText("icon1");
         iconCell.hover();
         iconCell.tooltip().shouldHaveText("icon1");
 
@@ -81,7 +81,7 @@ public class TilesAT extends AutoTestBase {
         tile2.blocks().cell(1, TextCell.class).shouldHaveText("text2");
         iconCell = tile2.blocks().cell(2, IconCell.class);
         iconCell.shouldHaveIcon("fa-minus");
-        iconCell.textShouldHave("icon2");
+        iconCell.shouldHaveText("icon2");
         tile2.blocks().cell(4, ProgressBarCell.class).shouldHaveValue("70");
         tile2.blocks().cell(6, CheckboxCell.class).shouldBeUnchecked();
     }
@@ -101,7 +101,7 @@ public class TilesAT extends AutoTestBase {
         paging.shouldNotHavePrev();
         paging.shouldNotHaveNext();
         paging.shouldHaveFirst();
-        paging.shouldHaveFirstWithIcon("fa-angle-double-left");
+        paging.shouldHaveFirstIcon("fa-angle-double-left");
         paging.shouldNotHaveLast();
 
         paging.shouldHaveActivePage("1");
@@ -123,17 +123,17 @@ public class TilesAT extends AutoTestBase {
         paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.SEPARATED_ROUNDED);
         paging.shouldHavePrev();
-        paging.shouldHavePrevWithLabel("Prev");
-        paging.shouldHavePrevWithIcon("fa-angle-down");
+        paging.shouldHavePrevLabel("Prev");
+        paging.shouldHavePrevIcon("fa-angle-down");
         paging.shouldHaveNext();
-        paging.shouldHaveNextWithLabel("Next");
-        paging.shouldHaveNextWithIcon("fa-angle-up");
+        paging.shouldHaveNextLabel("Next");
+        paging.shouldHaveNextIcon("fa-angle-up");
         paging.shouldHaveFirst();
-        paging.shouldHaveFirstWithLabel("First");
-        paging.shouldHaveFirstWithIcon("fa-angle-double-down");
+        paging.shouldHaveFirstLabel("First");
+        paging.shouldHaveFirstIcon("fa-angle-double-down");
         paging.shouldHaveLast();
-        paging.shouldHaveLastWithLabel("Last");
-        paging.shouldHaveLastWithIcon("fa-angle-double-up");
+        paging.shouldHaveLastLabel("Last");
+        paging.shouldHaveLastIcon("fa-angle-double-up");
 
         paging.shouldHaveActivePage("1");
         tiles2.tile(0).blocks().cell(0, TextCell.class).shouldHaveText("test1");

@@ -21,7 +21,7 @@ public class N2oLinkCell extends N2oCell implements LinkCell {
 
     @Override
     public void shouldHaveText(String text) {
-        element().shouldHave(Condition.text(text));
+        element().shouldHave(Condition.exactText(text));
     }
 
     @Override

@@ -7,15 +7,15 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface Footer extends Component {
     /**
-     * Проверка значения текста в левой части компонента footer
-     * @param brandName ожидаемое значение текста
+     * Проверка точного соответствия текста (без учета регистра) в левой части компонента footer
+     * @param name ожидаемое значение текста
      */
-    void shouldHaveLeftTextNamed(String brandName);
+    void leftTextShouldHaveText(String name);
 
     /**
-     * Проверка значения текста в правой части компонента footer
-     * @param brandName ожидаемое значение текста
+     * Проверка точного соответствия текста (без учета регистра) в правой части компонента footer
+     * @param name ожидаемое значение текста
      */
-    void shouldHaveRightTextNamed(String brandName);
+    void rightTextShouldHaveText(String name);
 
 }

@@ -12,7 +12,8 @@ public class N2oRatingCell extends N2oCell implements RatingCell {
 
     @Override
     public void shouldHaveMax(int max) {
-        ratingInput().last().shouldHave(Condition.attribute("value", "" + max));
+        ratingInput().last()
+                .shouldHave(Condition.attribute("value", "" + max));
     }
 
     @Override

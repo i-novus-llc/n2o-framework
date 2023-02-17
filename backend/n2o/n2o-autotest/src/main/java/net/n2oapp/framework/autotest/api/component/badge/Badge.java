@@ -21,8 +21,9 @@ public interface Badge extends Component {
      * @param imageSrc ожидаемый путь к картинке
      */
     default void shouldHaveImage(String imageSrc) {
-        element().$(".n2o-badge").$(".n2o-badge-image").shouldBe(Condition.exist);
-        element().$(".n2o-badge").$(".n2o-badge-image").shouldBe(Condition.attributeMatching("src", ".*" + imageSrc));
+        element().$(".n2o-badge")
+                .$(".n2o-badge-image")
+                .shouldBe(Condition.exist, Condition.attributeMatching("src", ".*" + imageSrc));
     }
 
     /**
@@ -30,7 +31,8 @@ public interface Badge extends Component {
      * @param shape ожидаемая форма баджа
      */
     default void shouldHaveShape(BadgeShape shape) {
-        element().$(".n2o-badge").shouldHave(Condition.cssClass(shape.name("n2o-badge--")));
+        element().$(".n2o-badge")
+                .shouldHave(Condition.cssClass(shape.name("n2o-badge--")));
     }
 
     /**
@@ -38,7 +40,9 @@ public interface Badge extends Component {
      * @param shape ожидаемая форма картинки
      */
     default void shouldHaveImageOfShape(BadgeShape shape) {
-        element().$(".n2o-badge").$(".n2o-badge-image").shouldHave(Condition.cssClass(shape.name("n2o-badge-image--")));
+        element().$(".n2o-badge")
+                .$(".n2o-badge-image")
+                .shouldHave(Condition.cssClass(shape.name("n2o-badge-image--")));
     }
 
     /**
@@ -46,14 +50,16 @@ public interface Badge extends Component {
      * @param position ожидаемая позиция картинки
      */
     default void shouldHaveImageOfPosition(BadgePosition position) {
-        element().$(".n2o-badge").$(".n2o-badge-image").shouldHave(Condition.cssClass(position.name("n2o-badge-image--")));
+        element().$(".n2o-badge")
+                .$(".n2o-badge-image")
+                .shouldHave(Condition.cssClass(position.name("n2o-badge-image--")));
     }
 
     /**
-     * Проверка текста внутри баджа на соответствие ожидаемому тексту
+     * Проверка текста внутри баджа на точное соответствие (не учитывая регистр) ожидаемому тексту
      * @param text ожидаемый текст баджа
      */
     default void shouldHaveText(String text) {
-        element().$(".n2o-badge").shouldHave(Condition.text(text));
+        element().$(".n2o-badge").shouldHave(Condition.exactText(text));
     }
 }

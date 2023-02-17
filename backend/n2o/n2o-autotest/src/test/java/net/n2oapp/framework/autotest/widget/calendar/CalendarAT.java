@@ -98,8 +98,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("07.07.2020 13:00:00");
-        date.shouldHaveEndWithValue("07.07.2020 15:00:00");
+        date.shouldHaveBeginValue("07.07.2020 13:00:00");
+        date.shouldHaveEndValue("07.07.2020 15:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Переговорка");
         modal.close();
 
@@ -111,8 +111,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("15.07.2020 00:00:00");
-        date.shouldHaveEndWithValue("16.07.2020 00:00:00");
+        date.shouldHaveBeginValue("15.07.2020 00:00:00");
+        date.shouldHaveEndValue("16.07.2020 00:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeEmpty();
         modal.close();
 
@@ -158,8 +158,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("06.07.2020 00:00:00");
-        date.shouldHaveEndWithValue("07.07.2020 00:00:00");
+        date.shouldHaveBeginValue("06.07.2020 00:00:00");
+        date.shouldHaveEndValue("07.07.2020 00:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeEmpty();
         modal.close();
 
@@ -186,8 +186,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("07.07.2020 13:00:00");
-        date.shouldHaveEndWithValue("07.07.2020 15:00:00");
+        date.shouldHaveBeginValue("07.07.2020 13:00:00");
+        date.shouldHaveEndValue("07.07.2020 15:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Переговорка");
         modal.close();
 
@@ -203,8 +203,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("07.07.2020 00:00:00");
-        date.shouldHaveEndWithValue("08.07.2020 00:00:00");
+        date.shouldHaveBeginValue("07.07.2020 00:00:00");
+        date.shouldHaveEndValue("08.07.2020 00:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Конференц зал");
         modal.close();
 
@@ -216,8 +216,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("07.07.2020 04:30:00");
-        date.shouldHaveEndWithValue("07.07.2020 05:00:00");
+        date.shouldHaveBeginValue("07.07.2020 04:30:00");
+        date.shouldHaveEndValue("07.07.2020 05:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Переговорка");
 
         // СОЗДАНИЕ события
@@ -252,14 +252,14 @@ public class CalendarAT extends AutoTestBase {
         toolbar.prevButton().click();
         // данные событий за период
         agendaView.shouldHaveSize(3);
-        agendaView.shouldHaveEventOnDate(0, "пн июль 06");
-        agendaView.shouldHaveEventInTime(0, "15:00 — 16:00");
-        agendaView.shouldHaveEventWithName(0, "Событие1");
-        agendaView.shouldHaveEventOnDate(1, "вт июль 07");
-        agendaView.shouldHaveEventInTime(1, "0:00");
-        agendaView.shouldHaveEventWithName(1, "All day event");
-        agendaView.shouldHaveEventInTime(2, "13:00 — 15:00");
-        agendaView.shouldHaveEventWithName(2, "Событие2");
+        agendaView.shouldHaveEventDate(0, "пн июль 06");
+        agendaView.shouldHaveEventTime(0, "15:00 — 16:00");
+        agendaView.shouldHaveEventName(0, "Событие1");
+        agendaView.shouldHaveEventDate(1, "вт июль 07");
+        agendaView.shouldHaveEventTime(1, "0:00");
+        agendaView.shouldHaveEventName(1, "All day event");
+        agendaView.shouldHaveEventTime(2, "13:00 — 15:00");
+        agendaView.shouldHaveEventName(2, "Событие2");
     }
 
     @Test
@@ -292,8 +292,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("09.07.2020 00:00:00");
-        date.shouldHaveEndWithValue("10.07.2020 00:00:00");
+        date.shouldHaveBeginValue("09.07.2020 00:00:00");
+        date.shouldHaveEndValue("10.07.2020 00:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeEmpty();
         modal.close();
 
@@ -305,8 +305,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("09.07.2020 03:00:00");
-        date.shouldHaveEndWithValue("09.07.2020 03:30:00");
+        date.shouldHaveBeginValue("09.07.2020 03:00:00");
+        date.shouldHaveEndValue("09.07.2020 03:30:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Конференц зал");
         modal.close();
 
@@ -332,8 +332,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("07.07.2020 13:00:00");
-        date.shouldHaveEndWithValue("07.07.2020 15:00:00");
+        date.shouldHaveBeginValue("07.07.2020 13:00:00");
+        date.shouldHaveEndValue("07.07.2020 15:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Переговорка");
         modal.close();
 
@@ -349,8 +349,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
         date = fields.field("Дата").control(DateInterval.class);
         date.shouldBeClosed();
-        date.shouldHaveBeginWithValue("07.07.2020 00:00:00");
-        date.shouldHaveEndWithValue("08.07.2020 00:00:00");
+        date.shouldHaveBeginValue("07.07.2020 00:00:00");
+        date.shouldHaveEndValue("08.07.2020 00:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Конференц зал");
         modal.close();
 

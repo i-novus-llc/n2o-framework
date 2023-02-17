@@ -18,10 +18,6 @@ import java.util.stream.IntStream;
  */
 public class N2oInputSelect extends N2oControl implements InputSelect {
 
-    private boolean isMulti() {
-        return input().has(Condition.cssClass("n2o-inp--multi"));
-    }
-
     @Override
     public void click() {
         element().$(".n2o-input-items").click();
@@ -45,11 +41,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         input().shouldHave(Condition.value(value));
     }
 
-
     @Override
     public void shouldHaveOptions(String... options) {
         openPopup();
-        selectPopUp().$$("button .text-cropped,.custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
+        selectPopUp().$$("button .text-cropped,.custom-control-label")
+                .shouldHave(CollectionCondition.exactTexts(options));
     }
 
     @Override
@@ -68,7 +64,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     @Override
     public void selectMulti(int... indexes) {
         openPopup();
-        IntStream.of(indexes).forEach(i -> popUpButtons().shouldBe(CollectionCondition.sizeGreaterThan(i)).get(i).click());
+        IntStream.of(indexes)
+                .forEach(i -> popUpButtons()
+                        .shouldBe(CollectionCondition.sizeGreaterThan(i))
+                        .get(i)
+                        .click());
     }
 
     @Override
@@ -85,10 +85,10 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void shouldSelectedMulti(String... values) {
-        ElementsCollection selectedItems = element().$$(".selected-item");
-        selectedItems.shouldHave(CollectionCondition.size(values.length));
         if (values.length != 0)
-            selectedItems.shouldHave(CollectionCondition.textsInAnyOrder(values));
+            element().$$(".selected-item")
+                    .shouldHave(CollectionCondition.size(values.length),
+                            CollectionCondition.textsInAnyOrder(values));
     }
 
     @Override
@@ -110,7 +110,10 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     @Override
     public void clearItems(String... items) {
         ElementsCollection selectedItems = element().$$(".selected-item");
-        Arrays.stream(items).forEach(s -> selectedItems.find(Condition.text(s)).$("button").click());
+        Arrays.stream(items)
+                .forEach(s -> selectedItems.find(Condition.text(s))
+                        .$("button")
+                        .click());
     }
 
     @Override
@@ -145,15 +148,17 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     @Override
     public void shouldHaveOptionDescription(String option, String description) {
         openPopup();
-        SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
-                .findBy(Condition.text(option)).parent();
+        SelenideElement elm = selectPopUp()
+                .$$("button .text-cropped,.custom-control-label")
+                .findBy(Condition.text(option))
+                .parent();
         if (elm.is(Condition.cssClass("custom-checkbox")))
             elm = elm.parent();
         elm.$(".dropdown-header").shouldHave(Condition.text(description));
     }
 
     @Override
-    public void shouldHaveItemWithStatusColor(String value, Colors color) {
+    public void shouldHaveItemStatusColor(String value, Colors color) {
         element().click();
         popUpButtons().findBy(Condition.text(value))
                 .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
@@ -162,7 +167,8 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public DropDown dropdown() {
-        return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
+        return N2oSelenide.component(element().parent()
+                .parent().$(".n2o-dropdown-control"), DropDown.class);
     }
 
     @Deprecated
@@ -195,6 +201,10 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     private ElementsCollection popUpButtons() {
         return selectPopUp().$$("button");
+    }
+
+    private boolean isMulti() {
+        return input().has(Condition.cssClass("n2o-inp--multi"));
     }
 
 }

@@ -10,12 +10,12 @@ public interface Status extends Snippet {
     /**
      * Проверка того, что текст расположен слева
      */
-    void shouldHaveTextOnLeftPosition();
+    void shouldHaveLeftPositionText();
 
     /**
      * Проверка того, что текст расположен справа
      */
-    void shouldHaveTextOnRightPosition();
+    void shouldHaveRightPositionText();
 
     /**
      * Проверка соответствия текста

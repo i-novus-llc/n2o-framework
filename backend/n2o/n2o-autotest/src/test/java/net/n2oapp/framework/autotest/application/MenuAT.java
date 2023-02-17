@@ -52,9 +52,9 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconWithCssClass("fa fa-bell");
+        menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("2");
+        menuItem.shouldHaveBadgeText("2");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/test");
 
         menuItem.click();
@@ -74,10 +74,10 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconWithCssClass("fa fa-user");
+        menuItem.shouldHaveIconCssClass("fa fa-user");
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
 
         menuItem.click();
@@ -97,10 +97,10 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
-        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.shouldHaveImageInShape(ShapeType.CIRCLE);
+        menuItem.shouldHaveImageSrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageShape(ShapeType.CIRCLE);
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
 
         menuItem.click();
@@ -120,11 +120,11 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
-        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.shouldHaveImageInShape(ShapeType.CIRCLE);
+        menuItem.shouldHaveImageSrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageShape(ShapeType.CIRCLE);
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("2");
+        menuItem.shouldHaveBadgeText("2");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
 
         menuItem.click();
@@ -145,15 +145,15 @@ public class MenuAT extends AutoTestBase {
         DropdownMenuItem dropdown = page.header().nav().dropdown(0);
         dropdown.shouldHaveLabel("Виктория");
         dropdown.shouldHaveImage();
-        dropdown.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
-        dropdown.shouldHaveImageInShape(ShapeType.CIRCLE);
+        dropdown.shouldHaveImageSrc(getBaseUrl() + "/images/candidate2.jpg");
+        dropdown.shouldHaveImageShape(ShapeType.CIRCLE);
         dropdown.click();
 
         AnchorMenuItem menuItem = dropdown.item(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconWithCssClass("fa fa-bell");
+        menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("2");
+        menuItem.shouldHaveBadgeText("2");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
 
         menuItem.click();
@@ -174,17 +174,17 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconWithCssClass("fa fa-user");
+        menuItem.shouldHaveIconCssClass("fa fa-user");
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconWithCssClass("fa fa-user");
+        menuItem.shouldHaveIconCssClass("fa fa-user");
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
 
         menuItem.click();
@@ -205,14 +205,14 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
-        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.shouldHaveImageInShape(ShapeType.ROUNDED);
+        menuItem.shouldHaveImageSrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageShape(ShapeType.ROUNDED);
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
 
         sidebar.clickToggleBtn();
         menuItem.shouldHaveImage();
-        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.shouldHaveImageInShape(ShapeType.ROUNDED);
+        menuItem.shouldHaveImageSrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageShape(ShapeType.ROUNDED);
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
         menuItem.shouldHaveLabel("Профиль");
 
@@ -234,19 +234,19 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
-        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.shouldHaveImageInShape(ShapeType.SQUARE);
+        menuItem.shouldHaveImageSrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageShape(ShapeType.SQUARE);
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveImage();
-        menuItem.shouldHaveImageBySrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.shouldHaveImageInShape(ShapeType.SQUARE);
+        menuItem.shouldHaveImageSrc(getBaseUrl() + "/images/candidate2.jpg");
+        menuItem.shouldHaveImageShape(ShapeType.SQUARE);
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
-        menuItem.shouldHaveBadgeWithText("3");
+        menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
 
         menuItem.click();

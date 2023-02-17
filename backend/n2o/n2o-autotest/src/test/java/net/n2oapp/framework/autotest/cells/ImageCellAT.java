@@ -97,7 +97,7 @@ public class ImageCellAT extends AutoTestBase {
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldExists();
         cell.shouldHaveStatus(ImageStatusElementPlace.topRight, 0, "Статус1");
-        cell.shouldHaveStatusWithIcon(ImageStatusElementPlace.topRight, 0, ".fa.fa-plus");
+        cell.shouldHaveStatusIcon(ImageStatusElementPlace.topRight, 0, ".fa.fa-plus");
 
         cell = rows.row(1).cell(0, ImageCell.class);
         cell.shouldHaveStatus(ImageStatusElementPlace.topRight, 0, "Статус2");

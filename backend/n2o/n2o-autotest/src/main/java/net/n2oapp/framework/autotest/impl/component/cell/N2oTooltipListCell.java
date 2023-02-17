@@ -12,7 +12,7 @@ import net.n2oapp.framework.autotest.api.component.cell.TooltipListCell;
 public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
     @Override
     public void shouldHaveText(String text) {
-        element().shouldHave(Condition.text(text));
+        element().shouldHave(Condition.exactText(text));
     }
 
     @Override

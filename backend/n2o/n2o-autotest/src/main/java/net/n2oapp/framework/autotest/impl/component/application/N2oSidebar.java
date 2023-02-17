@@ -20,19 +20,24 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
 
     @Override
     public void shouldHaveTitle(String title) {
-        element().$$(".navbar-brand").filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(0)
-                .shouldHave(Condition.text(title));
+        element().$$(".navbar-brand")
+                .filterBy(Condition.not(Condition.cssClass("n2o-brand")))
+                .get(0)
+                .shouldHave(Condition.exactText(title));
     }
 
     @Override
-    public void shouldHaveBrandLogoNamed(String logo) {
-        element().$(".n2o-brand__image").shouldHave(Condition.attributeMatching("src", ".*"+logo));
+    public void shouldHaveBrandLogo(String src) {
+        element().$(".n2o-brand__image")
+                .shouldHave(Condition.attributeMatching("src", ".*" + src));
     }
 
     @Override
     public void shouldHaveSubtitle(String subtitle) {
-        element().$$(".navbar-brand").filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(1)
-                .shouldHave(Condition.text(subtitle));
+        element().$$(".navbar-brand")
+                .filterBy(Condition.not(Condition.cssClass("n2o-brand")))
+                .get(1)
+                .shouldHave(Condition.exactText(subtitle));
     }
 
     @Override
@@ -62,12 +67,15 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
 
     @Override
     public Menu nav() {
-        return N2oSelenide.collection(element().$$(".n2o-sidebar__nav .n2o-sidebar__nav-list>div"), N2oMenu.class);
+        return N2oSelenide.collection(element()
+                .$$(".n2o-sidebar__nav .n2o-sidebar__nav-list>div"), N2oMenu.class);
     }
 
     @Override
     public Menu extra() {
-        return N2oSelenide.collection(element().$$(".navbar-collapse .navbar-nav").get(1).$$("ul > li")
-                , N2oMenu.class);
+        return N2oSelenide.collection(element()
+                        .$$(".navbar-collapse .navbar-nav")
+                        .get(1)
+                        .$$("ul > li"), N2oMenu.class);
     }
 }

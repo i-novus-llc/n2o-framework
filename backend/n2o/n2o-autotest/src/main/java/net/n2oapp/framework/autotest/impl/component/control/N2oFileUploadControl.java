@@ -14,12 +14,12 @@ public class N2oFileUploadControl extends N2oControl implements FileUploadContro
 
     @Override
     public void shouldBeEmpty() {
-
+        //ToDo: реализовать
     }
 
     @Override
     public void shouldHaveValue(String value) {
-
+        //ToDo: реализовать
     }
 
     @Override
@@ -35,29 +35,37 @@ public class N2oFileUploadControl extends N2oControl implements FileUploadContro
     @Override
     public void deleteFile(int index) {
         element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-remove")
-                .get(index).hover().shouldBe(Condition.visible).click();
+                .get(index)
+                .hover()
+                .shouldBe(Condition.visible)
+                .click();
     }
 
     @Override
-    public void shouldHaveUploadFilesOfSize(int size) {
-        element().parent().$$(".n2o-file-uploader-files-item").shouldHave(CollectionCondition.size(size));
+    public void shouldHaveUploadFiles(int count) {
+        element().parent()
+                .$$(".n2o-file-uploader-files-item")
+                .shouldHave(CollectionCondition.size(count));
     }
 
     @Override
-    public void shouldHaveUploadFileNamed(int index, String fileName) {
+    public void uploadFileShouldHaveName(int index, String fileName) {
         element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-file-name")
-                .get(index).shouldHave(Condition.text(fileName));
+                .get(index)
+                .shouldHave(Condition.text(fileName));
     }
 
     @Override
-    public void shouldHaveUploadFileWithSize(int index, String fileSize) {
+    public void uploadFileShouldHaveSize(int index, String fileSize) {
         element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-item-size")
-                .get(index).shouldHave(Condition.text(fileSize));
+                .get(index)
+                .shouldHave(Condition.text(fileSize));
     }
 
     @Override
-    public void shouldHaveUploadFileWithLink(int index, String href) {
+    public void uploadFileShouldHaveLink(int index, String href) {
         element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-link")
-                .get(index).shouldHave(Condition.attribute("href", href));
+                .get(index)
+                .shouldHave(Condition.attribute("href", href));
     }
 }

@@ -8,7 +8,7 @@ import net.n2oapp.framework.autotest.api.component.Tooltip;
 public interface TooltipListCell extends Cell {
 
     /**
-     * Проверка соответствия текста
+     * Проверка точного соответствия (без учета регистра) текста
      * @param text ожидаемый текст
      */
     void shouldHaveText(String text);

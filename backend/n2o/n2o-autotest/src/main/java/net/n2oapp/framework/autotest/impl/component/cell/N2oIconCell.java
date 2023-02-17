@@ -16,8 +16,8 @@ public class N2oIconCell extends N2oCell implements IconCell {
     }
 
     @Override
-    public void textShouldHave(String text) {
-        element().$(".n2o-cell-text").shouldHave(Condition.text(text));
+    public void shouldHaveText(String text) {
+        element().$(".n2o-cell-text").shouldHave(Condition.exactText(text));
     }
 
     @Override

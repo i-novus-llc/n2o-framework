@@ -17,7 +17,7 @@ public interface LinkCell extends Cell {
     void shouldHaveHref(String href);
 
     /**
-     * Проверка того, что ячейка содержит ожидаемый текст
+     * Проверка того, что ячейка содержит точное значение ожидаемого текст (без учета регистра)
      * @param text ожидаемый текст
      */
     void shouldHaveText(String text);

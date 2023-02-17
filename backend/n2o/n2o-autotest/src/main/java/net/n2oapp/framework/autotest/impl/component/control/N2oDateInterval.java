@@ -43,49 +43,52 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void shouldHaveBeginWithValue(String value) {
-        element().$(".n2o-date-input-first input").shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
+    public void shouldHaveBeginValue(String value) {
+        element().$(".n2o-date-input-first input").shouldHave(value == null
+                || value.isEmpty() ? Condition.empty : Condition.value(value));
     }
 
     @Override
-    public void shouldHaveEndWithValue(String value) {
-        element().$(".n2o-date-input-last input").shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
+    public void shouldHaveEndValue(String value) {
+        element().$(".n2o-date-input-last input").shouldHave(value == null
+                || value.isEmpty() ? Condition.empty : Condition.value(value));
     }
 
     @Override
     public void clickCalendarButton() {
-        lastInputElement().parent().$(".btn.n2o-calendar-button").shouldBe(Condition.exist).click();
+        lastInputElement().parent()
+                .$(".btn.n2o-calendar-button")
+                .shouldBe(Condition.exist)
+                .click();
     }
 
     @Override
-    public void shouldHaveActiveDayInBegin(String day) {
+    public void shouldHaveBeginActiveDay(String day) {
         shouldBeActiveDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldHaveActiveDayInEnd(String day) {
+    public void shouldHaveEndActiveDay(String day) {
         shouldBeActiveDay(lastCalendar(), day);
     }
 
     @Override
-    public void shouldHaveDisableDayInBegin(String day) {
+    public void shouldHaveBeginDisabledDay(String day) {
         shouldBeDisableDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldHaveDisableDayInEnd(String day) {
+    public void shouldHaveEndDisabledDay(String day) {
         shouldBeDisableDay(lastCalendar(), day);
     }
 
     @Override
-    public void shouldHaveEnableDayInBegin(String day) {
+    public void shouldHaveBeginEnabledDay(String day) {
         shouldBeEnableDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldHaveEnableDayInEnd(String day) {
+    public void shouldHaveEndEnabledDay(String day) {
         shouldBeEnableDay(lastCalendar(), day);
     }
 
@@ -100,22 +103,22 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void shouldHaveCurrentMonthInBegin(String month) {
+    public void shouldHaveBeginCurrentMonth(String month) {
         shouldHaveCurrentMonth(firstCalendar(), month);
     }
 
     @Override
-    public void shouldHaveCurrentMonthInEnd(String month) {
+    public void shouldHaveEndCurrentMonth(String month) {
         shouldHaveCurrentMonth(lastCalendar(), month);
     }
 
     @Override
-    public void shouldHaveCurrentYearInBegin(String year) {
+    public void shouldHaveBeginCurrentYear(String year) {
         shouldHaveCurrentYear(firstCalendar(), year);
     }
 
     @Override
-    public void shouldHaveCurrentYearInEnd(String year) {
+    public void shouldHaveEndCurrentYear(String year) {
         shouldHaveCurrentYear(lastCalendar(), year);
     }
 
@@ -140,12 +143,12 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void setValueInBeginTime(String hours, String minutes, String seconds) {
+    public void setBeginTimeValue(String hours, String minutes, String seconds) {
         setTimeValue(firstCalendar(), hours, minutes, seconds);
     }
 
     @Override
-    public void setValueEndTime(String hours, String minutes, String seconds) {
+    public void setEndTimeValue(String hours, String minutes, String seconds) {
         setTimeValue(lastCalendar(), hours, minutes, seconds);
     }
 
@@ -202,6 +205,7 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     private void setTimeValue(SelenideElement element, String hours, String minutes, String seconds) {
+        //ToDo: можно ли разделить на отдельный функции?
         element.$(".n2o-calendar-time-container").click();
         element.$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
         element.$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
@@ -226,15 +230,20 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     private void shouldBeActiveDay(SelenideElement element, String day) {
-        element.$(".n2o-calendar-day.selected").shouldBe(Condition.exist).shouldHave(Condition.text(day));
+        element.$(".n2o-calendar-day.selected")
+                .shouldBe(Condition.exist).shouldHave(Condition.text(day));
     }
 
     private void shouldBeDisableDay(SelenideElement element, String day) {
-        element.$$(".n2o-calendar-day.disabled").find(Condition.text(day)).shouldBe(Condition.exist);
+        element.$$(".n2o-calendar-day.disabled")
+                .find(Condition.text(day))
+                .shouldBe(Condition.exist);
     }
 
     private void shouldBeEnableDay(SelenideElement element, String day) {
-        element.$$(".n2o-calendar-day.disabled").find(Condition.text(day)).shouldNotBe(Condition.exist);
+        element.$$(".n2o-calendar-day.disabled")
+                .find(Condition.text(day))
+                .shouldNotBe(Condition.exist);
     }
 
     private void clickDay(SelenideElement element, String day) {

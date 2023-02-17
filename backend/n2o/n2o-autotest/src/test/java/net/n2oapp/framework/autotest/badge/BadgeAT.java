@@ -206,7 +206,7 @@ public class BadgeAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = simplePage.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconWithCssClass("fa fa-bell");
+        menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.shouldBeExists();
         menuItem.shouldHaveShape(BadgeShape.SQUARE);
         menuItem.shouldHaveImage("static/hamburg-3846525__340.jpg");

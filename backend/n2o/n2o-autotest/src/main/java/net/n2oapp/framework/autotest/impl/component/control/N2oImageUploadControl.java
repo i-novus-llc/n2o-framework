@@ -17,11 +17,13 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void shouldBeEmpty() {
+        //ToDo: реализовать
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void shouldHaveValue(String value) {
+        //ToDo: реализовать
         throw new UnsupportedOperationException();
     }
 
@@ -103,7 +105,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void shouldHaveUploadAreaShape(ShapeType shape) {
-        //ToDo: NNO-9062
+        //ToDo: NNO-9062, также выделить в отдельное поле селектор
         switch (shape) {
             case CIRCLE:
                 element().shouldHave(Condition.cssClass("n2o-image-uploader-control--shape-circle"));
@@ -120,18 +122,20 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void shouldHaveUploadAreaIconWithSize(int size) {
+    public void shouldHaveUploadAreaIconSize(int size) {
         getUploadAreaElement().shouldHave(Condition.attributeMatching("style", ".*font-size: " + size + "px.*"));
     }
 
     @Override
-    public void shouldHaveUploadAreaWithWidth(int width) {
-        element().shouldHave(Condition.attributeMatching("style", ".*max-width: " + width + "px.*"));
+    public void shouldHaveUploadAreaWidth(int width) {
+        element().shouldHave(Condition.attributeMatching("style",
+                ".*max-width: " + width + "px.*"));
     }
 
     @Override
-    public void shouldHaveUploadAreaWithHeight(int height) {
-        element().shouldHave(Condition.attributeMatching("style", ".*max-height: " + height + "px.*"));
+    public void shouldHaveUploadAreaHeight(int height) {
+        element().shouldHave(Condition.attributeMatching("style",
+                ".*max-height: " + height + "px.*"));
     }
 
     private ElementsCollection getFilesItems() {
@@ -139,15 +143,18 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     private SelenideElement getPreviewElement(int index) {
-        return getFilesItems().get(index).$(".n2o-image-uploader__watch .n2o-image-uploader__watch--eye");
+        return getFilesItems().get(index)
+                .$(".n2o-image-uploader__watch .n2o-image-uploader__watch--eye");
     }
 
     private SelenideElement getNameElement(int index) {
-        return getFilesItems().get(index).$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-name");
+        return getFilesItems().get(index)
+                .$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-name");
     }
 
     private SelenideElement getSizeElement(int index) {
-        return getFilesItems().get(index).$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-size");
+        return getFilesItems().get(index)
+                .$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-size");
     }
 
     private SelenideElement getUploadAreaElement() {
@@ -155,7 +162,8 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     private SelenideElement getTrashElement(int index) {
-        return getFilesItems().get(index).$(".n2o-image-uploader__watch .n2o-image-uploader__watch--trash");
+        return getFilesItems().get(index)
+                .$(".n2o-image-uploader__watch .n2o-image-uploader__watch--trash");
     }
 
     public static class PreviewDialogImpl implements PreviewDialog {
@@ -173,12 +181,14 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
         @Override
         public void shouldHaveLink(String link) {
-            element.$(".n2o-image-uploader__modal--image").shouldHave(Condition.attribute("src", link));
+            element.$(".n2o-image-uploader__modal--image")
+                    .shouldHave(Condition.attribute("src", link));
         }
 
         @Override
         public void close() {
-            element.$(".n2o-image-uploader__modal--icon-close").click();
+            element.$(".n2o-image-uploader__modal--icon-close")
+                    .click();
         }
     }
 

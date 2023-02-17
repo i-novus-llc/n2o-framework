@@ -134,7 +134,7 @@ public class CardsAT extends AutoTestBase {
         imageCell.shouldHaveSrc(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
         IconCell iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
-        iconCell.textShouldHave("ship");
+        iconCell.shouldHaveText("ship");
 
         BadgeCell badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
         badgeCell.shouldHaveText("Germany");
@@ -165,7 +165,7 @@ public class CardsAT extends AutoTestBase {
         imageCell.shouldHaveSrc(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
         iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
-        iconCell.textShouldHave("bicycle");
+        iconCell.shouldHaveText("bicycle");
 
         badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
         badgeCell.shouldHaveText("France");
@@ -195,7 +195,7 @@ public class CardsAT extends AutoTestBase {
         paging.shouldNotHavePrev();
         paging.shouldNotHaveNext();
         paging.shouldHaveFirst();
-        paging.shouldHaveFirstWithIcon("fa-angle-double-left");
+        paging.shouldHaveFirstIcon("fa-angle-double-left");
         paging.shouldNotHaveLast();
 
         paging.shouldHaveActivePage("1");
@@ -215,17 +215,17 @@ public class CardsAT extends AutoTestBase {
         paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.BORDERED);
         paging.shouldHavePrev();
-        paging.shouldHavePrevWithLabel("Prev");
-        paging.shouldHavePrevWithIcon("fa-angle-down");
+        paging.shouldHavePrevLabel("Prev");
+        paging.shouldHavePrevIcon("fa-angle-down");
         paging.shouldHaveNext();
-        paging.shouldHaveNextWithLabel("Next");
-        paging.shouldHaveNextWithIcon("fa-angle-up");
+        paging.shouldHaveNextLabel("Next");
+        paging.shouldHaveNextIcon("fa-angle-up");
         paging.shouldHaveFirst();
-        paging.shouldHaveFirstWithLabel("First");
-        paging.shouldHaveFirstWithIcon("fa-angle-double-down");
+        paging.shouldHaveFirstLabel("First");
+        paging.shouldHaveFirstIcon("fa-angle-double-down");
         paging.shouldHaveLast();
-        paging.shouldHaveLastWithLabel("Last");
-        paging.shouldHaveLastWithIcon("fa-angle-double-up");
+        paging.shouldHaveLastLabel("Last");
+        paging.shouldHaveLastIcon("fa-angle-double-up");
 
         paging.shouldHaveActivePage("1");
         cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).shouldHaveText("test1");

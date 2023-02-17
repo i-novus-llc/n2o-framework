@@ -10,19 +10,19 @@ import net.n2oapp.framework.autotest.api.component.Component;
 public interface Sidebar extends Component {
 
     /**
-     * Проверка заголовка на соответствие ожидаемому значению
+     * Проверка точного соответствия текста заголовка (без учета регистра) ожидаемому значению
      * @param title ожидаемый текст заголовка
      */
     void shouldHaveTitle(String title);
 
     /**
      * Проверка пути к файлу с логотипом на соответствие ожидаемому значению
-     * @param brandName ожидаемый путь к логотипу
+     * @param src ожидаемый путь к логотипу
      */
-    void shouldHaveBrandLogoNamed(String brandName);
+    void shouldHaveBrandLogo(String src);
 
     /**
-     * Проверка подзаголовка на соответствие ожидаемому значению
+     * Проверка точного соответствия текста подзаголовка ожидаемому значению
      * @param subtitle ожидаемое значение заголовка
      */
     void shouldHaveSubtitle(String subtitle);

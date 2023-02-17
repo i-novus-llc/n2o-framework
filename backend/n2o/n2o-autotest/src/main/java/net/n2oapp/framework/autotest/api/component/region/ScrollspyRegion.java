@@ -37,7 +37,7 @@ public interface ScrollspyRegion extends Region {
      * Проверка соответствия позиции элемента меню
      * @param position ожидаемый заголовок
      */
-    void shouldHaveMenuOnPosition(MenuPosition position);
+    void shouldHaveMenuPosition(MenuPosition position);
 
     /**
      * @return возвращает компонент меню для автотестирования

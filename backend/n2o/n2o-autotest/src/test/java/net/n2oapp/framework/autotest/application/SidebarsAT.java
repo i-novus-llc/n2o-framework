@@ -54,7 +54,7 @@ public class SidebarsAT extends AutoTestBase {
         header.switchSidebar();
         page.sidebar().shouldExists();
         page.sidebar().shouldHaveTitle("Лого");
-        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
+        page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
     }
@@ -72,7 +72,7 @@ public class SidebarsAT extends AutoTestBase {
         header.switchSidebar();
         page.sidebar().shouldExists();
         page.sidebar().shouldHaveTitle("Лого");
-        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
+        page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
         FormWidget form = page.widget(FormWidget.class);
@@ -89,7 +89,7 @@ public class SidebarsAT extends AutoTestBase {
         open.shouldHaveUrlLike(getBaseUrl() + "/#/persons");
         open.sidebar().shouldExists();
         open.sidebar().shouldHaveTitle("Боковая панель для страницы Persons");
-        open.sidebar().shouldHaveBrandLogoNamed("images/logoPersons.png");
+        open.sidebar().shouldHaveBrandLogo("images/logoPersons.png");
     }
 
     @Test
@@ -105,7 +105,7 @@ public class SidebarsAT extends AutoTestBase {
         header.switchSidebar();
         page.sidebar().shouldExists();
         page.sidebar().shouldHaveTitle("Лого");
-        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
+        page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
         FormWidget form = page.widget(FormWidget.class);
@@ -122,7 +122,7 @@ public class SidebarsAT extends AutoTestBase {
         open.shouldHaveUrlLike(getBaseUrl() + "/#/persons/1/list");
         open.sidebar().shouldExists();
         open.sidebar().shouldHaveTitle("Лист");
-        open.sidebar().shouldHaveBrandLogoNamed("images/logoList.png");
+        open.sidebar().shouldHaveBrandLogo("images/logoList.png");
     }
 
     @Test
@@ -138,7 +138,7 @@ public class SidebarsAT extends AutoTestBase {
         header.switchSidebar();
         page.sidebar().shouldExists();
         page.sidebar().shouldHaveTitle("Лого");
-        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
+        page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
         FormWidget form = page.widget(FormWidget.class);
@@ -155,7 +155,7 @@ public class SidebarsAT extends AutoTestBase {
         open.shouldHaveUrlLike(getBaseUrl() + "/#/persons/user");
         open.sidebar().shouldExists();
         open.sidebar().shouldHaveTitle("Пользователь");
-        open.sidebar().shouldHaveBrandLogoNamed("images/logoUser.png");
+        open.sidebar().shouldHaveBrandLogo("images/logoUser.png");
     }
 
     @Test
@@ -172,7 +172,7 @@ public class SidebarsAT extends AutoTestBase {
         header.switchSidebar();
         page.sidebar().shouldExists();
         page.sidebar().shouldHaveTitle("Лого");
-        page.sidebar().shouldHaveBrandLogoNamed("images/logoWhite.png");
+        page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
         FormWidget form = page.widget(FormWidget.class);
@@ -189,7 +189,7 @@ public class SidebarsAT extends AutoTestBase {
         list.shouldHaveUrlLike(getBaseUrl() + "/#/persons/1/list");
         list.sidebar().shouldExists();
         list.sidebar().shouldHaveTitle("Лист");
-        list.sidebar().shouldHaveBrandLogoNamed("images/logoList.png");
+        list.sidebar().shouldHaveBrandLogo("images/logoList.png");
         openHeader.switchSidebar();
         list.sidebar().shouldHaveState(SidebarState.none);
 
@@ -206,7 +206,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.switchSidebar();
         open.sidebar().shouldExists();
         open.sidebar().shouldHaveTitle("Профиль");
-        open.sidebar().shouldHaveBrandLogoNamed("images/logoPerson.png");
+        open.sidebar().shouldHaveBrandLogo("images/logoPerson.png");
     }
 
     @Test

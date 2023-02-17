@@ -49,6 +49,7 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
 
     @Override
     public void shouldHaveMeasure() {
+        //ToDo: проверить на сходство с методом shouldHaveMeasureText
         inputMeasure().should(Condition.exist);
     }
 

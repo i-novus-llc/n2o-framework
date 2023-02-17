@@ -7,10 +7,10 @@ import net.n2oapp.framework.autotest.api.component.Tooltip;
  */
 public interface IconCell extends Cell {
     /**
-     * Проверка текста в ячейки на соответствие ожидаемому значению
+     * Проверка текста в ячейки на точное соответствие (без учета регистра) ожидаемому значению
      * @param text ожидаемый текст
      */
-    void textShouldHave(String text);
+    void shouldHaveText(String text);
 
     /**
      * Наведение мыши на ячейку

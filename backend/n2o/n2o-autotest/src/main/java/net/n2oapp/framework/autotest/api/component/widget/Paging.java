@@ -62,13 +62,13 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на предыдущую страницу
      * @param label ожидаемое значение метки
      */
-    void shouldHavePrevWithLabel(String label);
+    void shouldHavePrevLabel(String label);
 
     /**
      * Проверка иконки кнопки перехода на предыдущую страницу
      * @param icon ожидаемая иконка
      */
-    void shouldHavePrevWithIcon(String icon);
+    void shouldHavePrevIcon(String icon);
 
     /**
      * Переход на предыдущую страницу
@@ -89,13 +89,13 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на следующую страницу
      * @param label ожидаемое значение метки
      */
-    void shouldHaveNextWithLabel(String label);
+    void shouldHaveNextLabel(String label);
 
     /**
      * Проверка иконки кнопки перехода на следующую страницу
      * @param icon ожидаемая иконка
      */
-    void shouldHaveNextWithIcon(String icon);
+    void shouldHaveNextIcon(String icon);
 
     /**
      * Переход на следующую страницу
@@ -116,13 +116,13 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на первую страницу
      * @param label ожидаемое значение метки
      */
-    void shouldHaveFirstWithLabel(String label);
+    void shouldHaveFirstLabel(String label);
 
     /**
      * Проверка иконки кнопки перехода на первую страницу
      * @param icon ожидаемая иконка
      */
-    void shouldHaveFirstWithIcon(String icon);
+    void shouldHaveFirstIcon(String icon);
 
     /**
      * Переход на первую страницу
@@ -143,13 +143,13 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на последнюю страницу
      * @param label ожидаемое значение метки
      */
-    void shouldHaveLastWithLabel(String label);
+    void shouldHaveLastLabel(String label);
 
     /**
      * Проверка иконки кнопки перехода на последнюю страницу
      * @param icon ожидаемая иконка
      */
-    void shouldHaveLastWithIcon(String icon);
+    void shouldHaveLastIcon(String icon);
 
     /**
      * Переход на последнюю страницу

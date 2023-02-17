@@ -122,19 +122,19 @@ public interface ImageUploadControl extends Control {
      * Проверка размера поля для загрузки изображения
      * @param size ожидаемый размер в пикселях
      */
-    void shouldHaveUploadAreaIconWithSize(int size);
+    void shouldHaveUploadAreaIconSize(int size);
 
     /**
      * Проверка ширины поля для загрузки изображения
      * @param width ожидаемый размер в пикселях
      */
-    void shouldHaveUploadAreaWithWidth(int width);
+    void shouldHaveUploadAreaWidth(int width);
 
     /**
      * Проверка высоты поля для загрузки изображения
      * @param height ожидаемый размер в пикселях
      */
-    void shouldHaveUploadAreaWithHeight(int height);
+    void shouldHaveUploadAreaHeight(int height);
 
     /**
      * Компонент диалог предварительного просмотра для автотестирования

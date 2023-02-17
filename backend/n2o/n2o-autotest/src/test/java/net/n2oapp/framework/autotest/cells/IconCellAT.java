@@ -52,9 +52,9 @@ public class IconCellAT extends AutoTestBase {
         int col = 0;
 
         rows.row(0).cell(col, IconCell.class).shouldHaveIcon("fa-phone");
-        rows.row(0).cell(col, IconCell.class).textShouldHave("fa fa-phone");
+        rows.row(0).cell(col, IconCell.class).shouldHaveText("fa fa-phone");
         rows.row(3).cell(col, IconCell.class).shouldHaveIcon("fa-minus");
-        rows.row(3).cell(col, IconCell.class).textShouldHave("fa fa-minus");
+        rows.row(3).cell(col, IconCell.class).shouldHaveText("fa fa-minus");
     }
 
     @Test

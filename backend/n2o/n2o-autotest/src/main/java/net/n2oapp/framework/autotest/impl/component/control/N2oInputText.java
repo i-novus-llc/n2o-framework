@@ -67,6 +67,7 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void shouldHaveMeasure() {
+        //ToDo: проверить на сходство с методом shouldHaveMeasureText
         inputMeasure().should(Condition.exist);
     }
 

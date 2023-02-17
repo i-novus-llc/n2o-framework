@@ -57,11 +57,11 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
         element().parent().$$(".n2o-number-picker__button .fa-minus").get(0).click();
     }
 
-    public void plusStepButtonShouldBeEnabled() {
+    public void shouldHaveEnabledPlusStepButton() {
         plusButton().parent().shouldBe(Condition.enabled);
     }
 
-    public void plusStepButtonShouldBeDisabled() {
+    public void shouldHaveDisabledPlusStepButton() {
         plusButton().parent().shouldBe(Condition.disabled);
     }
 

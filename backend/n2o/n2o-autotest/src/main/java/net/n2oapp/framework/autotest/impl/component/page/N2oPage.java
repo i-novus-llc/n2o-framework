@@ -286,6 +286,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void click(String label) {
+            //ToDo: можно ли выделить в отдельный метод возвращающий Button?
             element.$$(".btn").findBy(Condition.text(label)).click();
         }
 

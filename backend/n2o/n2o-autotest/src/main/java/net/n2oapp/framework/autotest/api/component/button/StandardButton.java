@@ -9,7 +9,7 @@ import net.n2oapp.framework.autotest.api.component.Tooltip;
 public interface StandardButton extends Button {
 
     /**
-     * Проверка метки у кнопки на соответствие ожидаемому значению
+     * Проверка точного соответствия метки (без учета регистра) у кнопки
      * @param label ожидаемое значение метки
      */
     void shouldHaveLabel(String label);

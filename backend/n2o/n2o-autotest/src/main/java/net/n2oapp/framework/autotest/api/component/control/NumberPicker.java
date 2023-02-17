@@ -43,12 +43,12 @@ public interface NumberPicker extends Control {
     /**
      * Проверка доступности кнопки для увеличения значения
      */
-    void plusStepButtonShouldBeEnabled();
+    void shouldHaveEnabledPlusStepButton();
 
     /**
      * Проверка недоступности кнопки для увеличения значения
      */
-    void plusStepButtonShouldBeDisabled();
+    void shouldHaveDisabledPlusStepButton();
 
     /**
      * Проверка соответствия минимального значения

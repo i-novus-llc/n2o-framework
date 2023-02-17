@@ -20,9 +20,12 @@ public class N2oDateInput extends N2oControl implements DateInput {
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ? Condition.empty : Condition.value(value));
-        else cellInputElement().shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.text(value));
+        if (elm.exists())
+            elm.shouldHave(value == null
+                    || value.isEmpty() ? Condition.empty : Condition.value(value));
+        else
+            cellInputElement().shouldHave(value == null
+                    || value.isEmpty() ? Condition.empty : Condition.text(value));
     }
 
     @Override
@@ -46,11 +49,16 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void timeVal(String hours, String minutes, String seconds) {
+        //ToDo: Можно ли разделить это по отдельным функциям? Целесообразно ли?
         element().$(".n2o-calendar-time-container").click();
-        element().$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
-        element().$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
-        element().$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(seconds)).click();
-        element().$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
+        element().$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit")
+                .find(Condition.text(hours)).click();
+        element().$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit")
+                .find(Condition.text(minutes)).click();
+        element().$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit")
+                .find(Condition.text(seconds)).click();
+        element().$$(".n2o-calendar-time-buttons button")
+                .find(Condition.text("Выбрать")).click();
     }
 
     @Override
@@ -65,7 +73,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeActiveDay(String day) {
-        element().$(".n2o-calendar-day.selected").shouldBe(Condition.exist).shouldHave(Condition.text(day));
+        element().$(".n2o-calendar-day.selected")
+                .shouldBe(Condition.exist)
+                .shouldHave(Condition.text(day));
     }
 
     @Override
@@ -78,17 +88,22 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeDisableDay(String day) {
-        element().$$(".n2o-calendar-day.disabled").find(Condition.text(day)).shouldBe(Condition.exist);
+        element().$$(".n2o-calendar-day.disabled")
+                .find(Condition.text(day))
+                .shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeDisableDay(String day) {
-        element().$$(".n2o-calendar-day.disabled").find(Condition.text(day)).shouldNotBe(Condition.exist);
+        element().$$(".n2o-calendar-day.disabled")
+                .find(Condition.text(day))
+                .shouldNotBe(Condition.exist);
     }
 
     @Override
     public void shouldHaveCurrentMonth(String month) {
-        element().$(".n2o-calendar-header-month-title").shouldHave(Condition.text(month));
+        element().$(".n2o-calendar-header-month-title")
+                .shouldHave(Condition.text(month));
     }
 
     @Override

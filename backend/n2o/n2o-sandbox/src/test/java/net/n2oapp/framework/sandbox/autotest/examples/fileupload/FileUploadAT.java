@@ -55,11 +55,11 @@ public class FileUploadAT extends SandboxAutotestBase {
 
         fileStoreController.clear();
         fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.query.xml");
-        fileUpload.shouldHaveUploadFilesOfSize(1);
-        fileUpload.shouldHaveUploadFileNamed(0, "test.query.xml");
+        fileUpload.shouldHaveUploadFiles(1);
+        fileUpload.uploadFileShouldHaveName(0, "test.query.xml");
         assertEquals(1, fileStoreController.size());
         fileUpload.deleteFile(0);
-        fileUpload.shouldHaveUploadFilesOfSize(0);
+        fileUpload.shouldHaveUploadFiles(0);
         assertEquals(0, fileStoreController.size());
     }
 
@@ -73,22 +73,22 @@ public class FileUploadAT extends SandboxAutotestBase {
 
         fileStoreController.clear();
         fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.query.xml");
-        fileUpload.shouldHaveUploadFilesOfSize(1);
-        fileUpload.shouldHaveUploadFileNamed(0, "test.query.xml");
+        fileUpload.shouldHaveUploadFiles(1);
+        fileUpload.uploadFileShouldHaveName(0, "test.query.xml");
         assertEquals(1, fileStoreController.size());
 
         page = open(SimplePage.class); //что бы очистить значение формы загрузки файлов
         page.shouldExists();
         fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.page.xml");
-        fileUpload.shouldHaveUploadFilesOfSize(2);
-        fileUpload.shouldHaveUploadFileNamed(1, "test.page.xml");
+        fileUpload.shouldHaveUploadFiles(2);
+        fileUpload.uploadFileShouldHaveName(1, "test.page.xml");
         assertEquals(2, fileStoreController.size());
 
         fileUpload.deleteFile(1);
-        fileUpload.shouldHaveUploadFilesOfSize(1);
+        fileUpload.shouldHaveUploadFiles(1);
         assertEquals(1, fileStoreController.size());
         fileUpload.deleteFile(0);
-        fileUpload.shouldHaveUploadFilesOfSize(0);
+        fileUpload.shouldHaveUploadFiles(0);
         assertEquals(0, fileStoreController.size());
     }
 }

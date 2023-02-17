@@ -93,9 +93,9 @@ public class InputSelectAT extends AutoTestBase {
                 .control(InputSelect.class);
         input.shouldExists();
 
-        input.shouldHaveItemWithStatusColor("One", Colors.SUCCESS);
-        input.shouldHaveItemWithStatusColor("Two", Colors.PRIMARY);
-        input.shouldHaveItemWithStatusColor("Three", Colors.DANGER);
+        input.shouldHaveItemStatusColor("One", Colors.SUCCESS);
+        input.shouldHaveItemStatusColor("Two", Colors.PRIMARY);
+        input.shouldHaveItemStatusColor("Three", Colors.DANGER);
     }
 
     @Test

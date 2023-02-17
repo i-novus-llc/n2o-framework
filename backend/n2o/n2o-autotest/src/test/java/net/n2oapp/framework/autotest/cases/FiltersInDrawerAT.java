@@ -75,8 +75,8 @@ public class FiltersInDrawerAT extends AutoTestBase {
         dateField.shouldExists();
         dateField.setValueInBegin("28.02.2021");
         dateField.setValueInEnd("07.03.2021");
-        dateField.shouldHaveBeginWithValue("28.02.2021");
-        dateField.shouldHaveEndWithValue("07.03.2021");
+        dateField.shouldHaveBeginValue("28.02.2021");
+        dateField.shouldHaveEndValue("07.03.2021");
 
         InputText fioField = drawerForm.fields().field("Фамилия Имя Отчество").control(InputText.class);
         fioField.shouldExists();
@@ -109,8 +109,8 @@ public class FiltersInDrawerAT extends AutoTestBase {
         page.shouldExists();
 
         //проверка передачи данных в фильтры на главной странице и автообновление таблицы
-        filterFields.field("Интервал подачи заявки").control(DateInterval.class).shouldHaveBeginWithValue("28.02.2021");
-        filterFields.field("Интервал подачи заявки").control(DateInterval.class).shouldHaveEndWithValue("07.03.2021");
+        filterFields.field("Интервал подачи заявки").control(DateInterval.class).shouldHaveBeginValue("28.02.2021");
+        filterFields.field("Интервал подачи заявки").control(DateInterval.class).shouldHaveEndValue("07.03.2021");
         filterFields.field("Регион").control(Select.class).shouldSelected("Республика Татарстан");
         filterFields.field("Отделение").control(Select.class).shouldSelected("МФЦ Авиастроительный отдел");
         filterFields.field("Статус").control(Select.class).shouldSelected("Новая");
@@ -120,8 +120,8 @@ public class FiltersInDrawerAT extends AutoTestBase {
 
         //проверка сохранения параметров фильтрации в drawer
         table.filters().toolbar().button("Все фильтры").click();
-        dateField.shouldHaveBeginWithValue("28.02.2021");
-        dateField.shouldHaveEndWithValue("07.03.2021");
+        dateField.shouldHaveBeginValue("28.02.2021");
+        dateField.shouldHaveEndValue("07.03.2021");
         regionField.shouldSelected("Республика Татарстан");
         departmentField.shouldSelected("МФЦ Авиастроительный отдел");
         statusField.shouldSelected("Новая");

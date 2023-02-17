@@ -59,7 +59,7 @@ public class SwitchCellAT extends AutoTestBase {
         cell1.shouldHaveColor(Colors.INFO);
         IconCell cell2 = rows.row(1).cell(0, IconCell.class);
         cell2.shouldExists();
-        cell2.textShouldHave("test2");
+        cell2.shouldHaveText("test2");
         cell2.shouldHaveIcon("fa-plus");
         CheckboxCell cell3 = rows.row(2).cell(0, CheckboxCell.class);
         cell3.shouldExists();

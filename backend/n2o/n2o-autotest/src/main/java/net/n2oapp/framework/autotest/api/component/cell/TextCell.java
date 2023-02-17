@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
  */
 public interface TextCell extends Cell {
     /**
-     * Проверка соответствия текста
+     * Проверка точного соответствия (без учета регистра) текста
      * @param text ожидаемый текст
      */
     void shouldHaveText(String text);

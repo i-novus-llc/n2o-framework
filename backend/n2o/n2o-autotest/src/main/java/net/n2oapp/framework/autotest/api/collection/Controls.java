@@ -5,7 +5,9 @@ import net.n2oapp.framework.autotest.api.component.control.Control;
 /**
  * Компоненты ввода для автотестирования
  */
+//ToDo: используется ли
 public interface Controls extends ComponentsCollection {
+
     /**
      * <p>
      *     Возвращает компонент ввода типа, наследуемого от Control

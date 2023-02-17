@@ -86,7 +86,7 @@ public interface InputSelect extends Control, PopupControl {
      * @param value проверяемая опция
      * @param color ожидаемый цвет
      */
-    void shouldHaveItemWithStatusColor(String value, Colors color);
+    void shouldHaveItemStatusColor(String value, Colors color);
 
     /**
      * Проверка состояния доступности опции в выпадающем списке
