@@ -248,10 +248,24 @@ class AdvancedTableContainer extends React.Component {
         })
     }
 
-    mapData = datasource => datasource?.map(item => ({
-        ...item,
-        key: item.id,
-    }))
+    mapChildren = (children, parentId) => children.map(child => ({ ...child, key: `${parentId}_${child.id}` }))
+
+    mapData = datasource => datasource?.map((item = {}) => {
+        const { children, id } = item
+
+        if (children) {
+            return {
+                ...item,
+                key: id,
+                children: this.mapChildren(children, id),
+            }
+        }
+
+        return {
+            ...item,
+            key: id,
+        }
+    })
 
     getTableProps() {
         const props = omit(this.props, [
