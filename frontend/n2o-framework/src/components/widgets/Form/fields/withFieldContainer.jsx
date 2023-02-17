@@ -177,15 +177,26 @@ export default (Field) => {
          * мэппинг сообщений
          * @returns {string}
          */
-
         render() {
             const { mapProps } = this.props
-            const props = mapProps(this.props)
-            const { control, action } = props
+            const mappedProps = mapProps(this.props)
+            const { control, action, subMenu } = mappedProps
+
+            if (subMenu) {
+                mappedProps.subMenu = subMenu.map((option) => {
+                    const { action } = option
+
+                    if (action) {
+                        option.action = this.resolveActionIndexes(action)
+                    }
+
+                    return option
+                })
+            }
 
             return (
                 <Field
-                    {...props}
+                    {...mappedProps}
                     control={this.resolveControlIndexes(control)}
                     action={this.resolveActionIndexes(action)}
                     onChange={this.onChange}
