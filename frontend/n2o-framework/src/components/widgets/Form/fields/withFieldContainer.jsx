@@ -262,7 +262,7 @@ export default (Field) => {
                     return false
                 }
 
-                const { input, message, meta, model, html, ...rest } = props
+                const { input, message, meta, model, html, content, ...rest } = props
                 const pr = propsResolver(rest, model, ['toolbar'])
 
                 return {
@@ -271,6 +271,7 @@ export default (Field) => {
                     validationClass: getValidationState(message),
                     message,
                     html,
+                    content,
                     model,
                     ...input,
                 }

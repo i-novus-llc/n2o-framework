@@ -41,7 +41,7 @@ public class MarkdownCompileTest extends SourceCompileTestBase {
 
         Markdown field = (Markdown) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getSrc(), is("MarkdownField"));
-        assertThat(field.getContent(), containsString("markdown text '+name_param+' type '+param_type+'"));
+        assertThat(field.getContent(), containsString("`'markdown text '+name_param+' type '+param_type`"));
         assertThat(field.getVisible(), is(false));
         assertThat(field.getDependencies().get(0).getExpression(), is("name != null"));
         assertThat(field.getLabel(), is("markdownLabel"));
