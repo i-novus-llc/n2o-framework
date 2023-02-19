@@ -5,7 +5,10 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.query.MongodbEngineQueryTransformer;
 import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
+import net.n2oapp.framework.config.metadata.pack.N2oLoadersPack;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.scanner.JavaInfoScanner;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
@@ -47,16 +50,14 @@ public class SandboxAutotestBase extends AutoTestBase {
         MockHttpSession session = new MockHttpSession();
 
         SimplePropertyResolver defaultPropertyResolver = new SimplePropertyResolver(PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties"));
-        propertyResolver.configure(defaultPropertyResolver,
-                runtimeProperties, initProperties(session));
+        propertyResolver.configure(defaultPropertyResolver, runtimeProperties, initProperties());
         ((N2oEnvironment) builder.getEnvironment()).setSystemProperties(propertyResolver);
 
         builder.packs(new N2oAllDataPack(), new N2oAllPagesPack(),
                 new N2oApplicationPack(), new N2oLoadersPack());
         builder.scanners(
                 new JavaInfoScanner((N2oDynamicMetadataProviderFactory) builder.getEnvironment().getDynamicMetadataProviderFactory()),
-                new ProjectFileScanner(projectId, session,
-                        builder.getEnvironment().getSourceTypeRegister(), restClient));
+                new ProjectFileScanner(projectId, builder.getEnvironment().getSourceTypeRegister(), restClient));
         builder.loaders(new ProjectFileLoader(builder.getEnvironment().getNamespaceReaderFactory()));
         builder.transformers(new TestEngineQueryTransformer(), new MongodbEngineQueryTransformer());
         builder.scan();
@@ -66,11 +67,11 @@ public class SandboxAutotestBase extends AutoTestBase {
         runtimeProperties.put(key, value);
     }
 
-    private String initProperties(MockHttpSession session) {
+    private String initProperties() {
         StringBuilder builder = new StringBuilder();
-        builder.append(Optional.ofNullable(restClient.getFile(projectId, "application.properties", session)).orElse(""));
+        builder.append(Optional.ofNullable(restClient.getFile(projectId, "application.properties")).orElse(""));
         builder.append("\n");
-        builder.append(Optional.ofNullable(restClient.getFile(projectId, "user.properties", session)).orElse(""));
+        builder.append(Optional.ofNullable(restClient.getFile(projectId, "user.properties")).orElse(""));
         return builder.toString();
     }
 }

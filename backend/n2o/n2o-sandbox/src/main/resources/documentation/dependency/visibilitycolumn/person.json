@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "John Smith",
+    "shortName": "J.Smith"
+  },
+  {
+    "id": 2,
+    "name": "Mary Poppins",
+    "shortName": "M.Poppins"
+  },
+  {
+    "id": 3,
+    "name": "Harry Potter",
+    "shortName": "H.Potter"
+  },
+  {
+    "id": 4,
+    "name": "Katy Perry",
+    "shortName": "K.Perry"
+  }
+]

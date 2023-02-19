@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "text": "A picturesque place to travel along river channels. Lovely views will delight you",
+    "icon": "ship",
+    "name": "Germany, Hamburg",
+    "image": "static/hamburg-3846525__340.jpg",
+    "progress": 50,
+    "rating": 4,
+    "checkbox": true
+  },
+  {
+    "id": 2,
+    "text": "Cycling has never been so enjoyable. Beautiful streets of Paris will leave you with unforgettable emotions.",
+    "icon": "bicycle",
+    "name": "France, Paris",
+    "image": "static/paris-3193674__340.jpg",
+    "progress": 70,
+    "rating": 4.5,
+    "checkbox": false
+  }
+]

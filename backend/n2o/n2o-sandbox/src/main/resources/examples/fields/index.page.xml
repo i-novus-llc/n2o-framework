@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Поля">
+    <form>
+        <fields>
+            <hidden id="id" default-value="1"/>
+            <set label="Филдсет">
+                <row>
+                    <input-text id="input" label="Ввод текста" length="10"/>
+                    <input-text id="numbers" label="Ввод чисел" domain="integer"/>
+                </row>
+                <row>
+                    <date-time id="date" label="Дата" date-format="DD.MM.YYYY"/>
+                    <date-time id="time" label="Дата и время" date-format="DD.MM.YYYY" time-format="HH:mm"/>
+                </row>
+                <row>
+                    <masked-input id="mask" label="Телефон" mask="+7 (999) 999-99-99" placeholder="+7"/>
+                    <input-money id="money" label="Ввод денег" suffix=" руб."/>
+                </row>
+            </set>
+            <line label="Линия">
+                <row>
+                    <input-select id="select" label="Выпадающий список" query-id="test" />
+                    <input-select id="selectMulti" label="Множественный выбор" query-id="test" type="checkboxes"/>
+                </row>
+                <slider id="slider" label="Слайдер" measure="%" min="0" max="100" step="1"/>
+                <row>
+                    <radio-group id="radio" label="Радио кнопки">
+                        <options>
+                            <option id="1" name="Один"/>
+                            <option id="2" name="Два"/>
+                            <option id="3" name="Три"/>
+                        </options>
+                    </radio-group>
+                    <checkbox-group id="checks" label="Группа чекбоксов">
+                        <options>
+                            <option id="1" name="Один"/>
+                            <option id="2" name="Два"/>
+                            <option id="3" name="Три"/>
+                        </options>
+                    </checkbox-group>
+                </row>
+            </line>
+        </fields>
+    </form>
+</simple-page>

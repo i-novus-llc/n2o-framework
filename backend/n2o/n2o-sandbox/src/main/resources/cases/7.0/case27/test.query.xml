@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="test">
+    <list result-mapping="T(java.util.Collections).singletonList(#this)">
+        <test operation="echo"/>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select default-value="1"/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="time">
+            <select normalize="new java.util.Date()"/>
+        </field>
+    </fields>
+</query>

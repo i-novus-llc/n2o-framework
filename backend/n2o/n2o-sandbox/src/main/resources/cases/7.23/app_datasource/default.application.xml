@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <datasources>
+        <datasource id="ds" query-id="test">
+            <filters>
+                <eq field-id="id" value="1"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <sidebars>
+        <sidebar path="/*" datasource="ds" title="{id}" subtitle="{name}">
+            <nav>
+                <menu-item id="page1" name="Вкладка1">
+                    <open-page page-id="index" route="/"/>
+                </menu-item>
+
+                <menu-item id="page2" name="Вкладка2">
+                    <open-page page-id="page2" route="/page1"/>
+                </menu-item>
+
+                <menu-item id="page3" name="Вкладка3">
+                    <open-page page-id="page3" route="/page2"/>
+                </menu-item>
+
+                <menu-item id="page4" name="Вкладка4">
+                    <open-page page-id="page4" route="/page3"/>
+                </menu-item>
+            </nav>
+        </sidebar>
+    </sidebars>
+</application>

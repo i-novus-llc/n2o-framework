@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="update">
+            <invocation>
+                <test file="data.json" operation="update"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="name"/>
+                <field id="date"/>
+            </in>
+        </operation>
+    </operations>
+</object>

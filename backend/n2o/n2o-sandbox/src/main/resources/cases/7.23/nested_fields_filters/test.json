@@ -1,0 +1,168 @@
+[
+  {
+    "id": 1,
+    "name": "TEST1",
+    "organization": {
+      "id": 1,
+      "name": "org1"
+    },
+    "resources": [
+      {
+        "id": 1,
+        "name": "resource1"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "TEST2",
+    "organization": {
+      "id": 2,
+      "name": "org2"
+    },
+    "resources": [
+      {
+        "id": 1,
+        "name": "resource1"
+      },
+      {
+        "id": 2,
+        "name": "resource2"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "TEST3",
+    "organization": {
+      "id": 3,
+      "name": "org3"
+    },
+    "resources": [
+      {
+        "id": 1,
+        "name": "resource1"
+      },
+      {
+        "id": 3,
+        "name": "resource3"
+      },
+      {
+        "id": 4,
+        "name": "resource4"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "TEST4",
+    "organization": {
+      "id": 4,
+      "name": "org4"
+    },
+    "resources": [
+      {
+        "id": 3,
+        "name": "resource3"
+      },
+      {
+        "id": 4,
+        "name": "resource4"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "TEST5",
+    "organization": {
+      "id": 1,
+      "name": "org1"
+    },
+    "resources": [
+      {
+        "id": 2,
+        "name": "resource2"
+      },
+      {
+        "id": 3,
+        "name": "resource3"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "TEST6",
+    "organization": {
+      "id": 2,
+      "name": "org2"
+    },
+    "resources": [
+      {
+        "id": 4,
+        "name": "resource4"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "TEST7",
+    "organization": {
+      "id": 3,
+      "name": "org3"
+    },
+    "resources": [
+      {
+        "id": 1,
+        "name": "resource1"
+      },
+      {
+        "id": 4,
+        "name": "resource4"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "TEST8",
+    "organization": {
+      "id": 1,
+      "name": "org1"
+    },
+    "resources": [
+      {
+        "id": 1,
+        "name": "resource1"
+      },
+      {
+        "id": 2,
+        "name": "resource2"
+      },
+      {
+        "id": 4,
+        "name": "resource4"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "TEST9",
+    "organization": {
+      "id": 4,
+      "name": "org4"
+    },
+    "resources": [
+      {
+        "id": 1,
+        "name": "resource1"
+      },
+      {
+        "id": 2,
+        "name": "resource2"
+      },
+      {
+        "id": 3,
+        "name": "resource3"
+      }
+    ]
+  }
+]

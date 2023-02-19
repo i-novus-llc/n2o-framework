@@ -26,7 +26,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.util.StreamUtils;
 
 import java.nio.charset.Charset;
-import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -82,7 +81,7 @@ public class SandboxPropertySettingTest {
         assertThat(config.getJSONObject("menu").getJSONObject("header").getString("src"), is("CustomHeader"));
         assertThat(config.getJSONObject("menu").getJSONObject("footer").getString("src"), is("CustomFooter"));
 
-        Page page = viewController.getPage("myProjectId", request, null);
+        Page page = viewController.getPage("myProjectId", request);
         assertThat(page.getSrc(), is("CustomPage"));
         assertThat(((SimplePage) page).getWidget().getSrc(), is("CustomForm"));
     }
@@ -107,7 +106,7 @@ public class SandboxPropertySettingTest {
         assertThat(config.getJSONObject("user").getString("surname"), is("null"));
         assertThat(config.getJSONObject("user").getString("username"), is("Joe"));
 
-        Page page = viewController.getPage("myProjectId", request, null);
+        Page page = viewController.getPage("myProjectId", request);
         assertThat(page.getModels().get("resolve['_main'].email").getValue(), is("test@example.com"));
         assertThat((page.getModels().get("resolve['_main'].roles").getValue()), is("[USER, ADMIN]"));
     }

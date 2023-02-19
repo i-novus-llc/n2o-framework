@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "TEST1",
+    "organization": {
+      "code": 2,
+      "title": "org1"
+    },
+    "departments": [
+      {
+        "id": 3,
+        "name": "department3"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "TEST2",
+    "organization": {
+      "code": 2,
+      "title": "org2"
+    },
+    "departments": [
+      {
+        "id": 1,
+        "name": "department1"
+      },
+      {
+        "id": 2,
+        "name": "department2"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "TEST3",
+        "organization": {
+      "code": 3,
+      "title": "org3"
+    },
+    "departments": [
+      {
+        "id": 1,
+        "name": "department1"
+      },
+      {
+        "id": 3,
+        "name": "department3"
+      },
+      {
+        "id": 4,
+        "name": "department4"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "TEST4",
+    "organization": {
+      "code": 4,
+      "title": "org4"
+    },
+    "departments": [
+      {
+        "id": 3,
+        "name": "department3"
+      },
+      {
+        "id": 4,
+        "name": "department4"
+      }
+    ]
+  }
+]

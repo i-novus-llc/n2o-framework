@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        name="Автомобили">
+    <operations>
+        <operation id="create" success-text="Товар добавлен в базу">
+            <invocation>
+                <rest method="POST">/data/cars/</rest>
+            </invocation>
+            <in>
+                <field id="name"/>
+                <field id="price"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+
+        <operation id="update" success-text="Данные о товаре изменены">
+            <invocation>
+                <rest method="PUT">/data/cars/{id}</rest>
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="name"/>
+                <field id="price"/>
+            </in>
+        </operation>
+
+        <operation id="delete" success-text="Данные о товаре удалены">
+            <invocation>
+                <rest method="DELETE">/data/cars/{id}</rest>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+        </operation>
+    </operations>
+</object>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Сохранение данных">
+    <form>
+        <datasource object-id="test"/>
+        <fields>
+            <input-text id="name" label="Имя" default-value="Сергей"/>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="Сохранить">
+                <invoke operation-id="submit"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

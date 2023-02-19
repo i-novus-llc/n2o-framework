@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="sum" name="Сложить" success-text="Сумма A + B = {sum}">
+            <invocation>
+                <java class="net.n2oapp.framework.sandbox.cases.mapping_java.Calculator" method="sum">
+                    <arguments>
+                        <argument type="primitive" name="a"/>
+                        <argument type="primitive" name="b"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="a" mapping="['a']" domain="long"/>
+                <field id="b" mapping="['b']" domain="long"/>
+            </in>
+            <out>
+                <field id="sum" mapping="#this" domain="long"/>
+            </out>
+        </operation>
+    </operations>
+</object>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Установка значения в списковом поле">
+    <form>
+        <fields>
+            <input-text id="surname"
+                        description="Если фамилия заканчивается, на 'а', то устанавливается пол Женский, иначе значение не меняется."/>
+
+            <select id="gender" label="Пол">
+                <dependencies>
+                    <!-- Если фамилия заканчивается на "а", то устанавливается пол Женский,
+                         иначе значение не меняется. -->
+                    <set-value on="surname">
+                        var obj;
+                        if (surname[surname.length-1]=='а') {
+                        obj = {};
+                        obj.id = 2;
+                        obj.name = 'Женский';
+                        }
+                        return obj;
+                    </set-value>
+                </dependencies>
+            </select>
+        </fields>
+    </form>
+</simple-page>
