@@ -52,6 +52,6 @@ public class SearchableAT extends SandboxAutotestBase {
         page.searchBar().search("Иванов");
 
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(0).shouldHaveText("Иванов");
+        table.columns().rows().row(0).cell(0).shouldHaveText("Иванов И.И.");
     }
 }
