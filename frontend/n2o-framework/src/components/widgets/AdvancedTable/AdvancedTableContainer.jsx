@@ -251,44 +251,53 @@ class AdvancedTableContainer extends React.Component {
       })
   }
 
-  mapData = (datasource) => {
-      if (!datasource) { return }
+  mapChildren = (children, parentId) => children.map(child => ({ ...child, key: `${parentId}_${child.id}` }))
 
-      // eslint-disable-next-line consistent-return
-      return map(datasource, item => ({
-          ...item,
-          key: item.id,
-      }))
-  }
+    mapData = datasource => datasource?.map((item = {}) => {
+        const { children, id } = item
 
-  getTableProps() {
-      const props = omit(this.props, [
-          'cells',
-          'headers',
-          'datasource',
-          'dispatch',
-          'onActionImpl',
-          'onEdit',
-          'onFetch',
-          'pageId',
-          'redux',
-          'sorting',
-          'widgetId',
-      ])
-      const { columns, data } = this.state
+        if (children) {
+            return {
+                ...item,
+                key: id,
+                children: this.mapChildren(children, id),
+            }
+        }
 
-      return {
-          ...props,
-          onEdit: () => {},
-          columns,
-          data,
-          onFilter: this.handleSetFilter,
-      }
-  }
+        return {
+            ...item,
+            key: id,
+        }
+    })
 
-  render() {
-      return <AdvancedTable {...this.getTableProps()} />
-  }
+    getTableProps() {
+        const props = omit(this.props, [
+            'cells',
+            'headers',
+            'datasource',
+            'dispatch',
+            'onActionImpl',
+            'onEdit',
+            'onFetch',
+            'pageId',
+            'redux',
+            'sorting',
+            'widgetId',
+        ])
+        const { columns, data } = this.state
+
+        return {
+            ...props,
+            onEdit: () => {},
+            columns,
+            data,
+            onFilter: this.handleSetFilter,
+        }
+    }
+
+    render() {
+        return <AdvancedTable {...this.getTableProps()} />
+    }
 }
 
 AdvancedTableContainer.propTypes = {
