@@ -93,9 +93,9 @@ public class BulkOperationAT extends AutoTestBase {
         deleteManyButton.shouldExists();
         deleteManyButton.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
+        table.columns().rows().shouldHaveSize(2);
         name1.shouldHaveText("test3");
         name2.shouldHaveText("test4");
-        table.columns().rows().shouldHaveSize(2);
     }
 
     @Test
