@@ -48,7 +48,7 @@ public class TextCellAT extends AutoTestBase {
         rows.shouldHaveSize(3);
 
         TextCell cell1 = rows.row(0).cell(1);
-        cell1.shouldHaveText("test1");
+        cell1.shouldHaveText("test1 1,1");
         cell1.shouldHaveSubText("1,1");
         cell1.shouldHaveIcon("fa-plus");
         cell1.shouldHaveIconPosition(Position.RIGHT);
@@ -65,7 +65,7 @@ public class TextCellAT extends AutoTestBase {
         cell2.shouldHaveText("2,35");
 
         cell1 = rows.row(2).cell(1);
-        cell1.shouldHaveText("test3");
+        cell1.shouldHaveText("test3 1,1 2,2 3,3");
         cell1.shouldHaveSubText("1,1", "2,2", "3,3");
         cell2 = rows.row(2).cell(2);
         cell2.shouldHaveText("3,46");

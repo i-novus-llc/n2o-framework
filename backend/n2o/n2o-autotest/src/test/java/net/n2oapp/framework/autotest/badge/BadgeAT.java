@@ -98,7 +98,7 @@ public class BadgeAT extends AutoTestBase {
         thirdItemTree.shouldBeExpanded();
         dropDownTreeSelect.shouldHaveItems(5);
         DropDownTree.DropDownTreeItem fourthTreeItem = dropDownTreeSelect.item(2);
-        fourthTreeItem.shouldHaveText("Проект 1.1");
+        fourthTreeItem.shouldHaveText("Проект 1.1.1");
         fourthTreeItem.shouldBeExists();
         fourthTreeItem.shouldHaveShape(BadgeShape.CIRCLE);
         fourthTreeItem.shouldHaveImage("static/hamburg-3846525__340.jpg");

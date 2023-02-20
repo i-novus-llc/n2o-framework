@@ -224,7 +224,7 @@ public class DatasourceAT extends AutoTestBase {
                 .fields().field("Наименование").control(InputText.class);
         DateInput birthdayInput = page.regions().region(0, SimpleRegion.class).content().widget(2, FormWidget.class)
                 .fields().field("Дата рождения").control(DateInput.class);
-        Button createButton = page.toolbar().topLeft().button("Создать");
+        Button createButton = page.toolbar().bottomLeft().button("Создать");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
