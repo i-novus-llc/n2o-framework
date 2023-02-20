@@ -38,7 +38,8 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testAutoComplete() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
