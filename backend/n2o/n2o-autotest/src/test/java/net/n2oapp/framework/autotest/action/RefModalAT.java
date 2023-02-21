@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
@@ -66,7 +65,7 @@ public class RefModalAT extends AutoTestBase {
                 .widget(1, FormWidget.class).fields().field("Улица (значение должно копироваться в модальное окно, но не обратно)").control(InputText.class);
         street.shouldExists();
         street.shouldHaveValue("Качалова");
-        addressField.toolbar().button(0, Button.class).click();
+        addressField.toolbar().button("Open").click();
         Modal modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
         Fields fields = modalPage.content(SimplePage.class).widget(FormWidget.class).fields();
