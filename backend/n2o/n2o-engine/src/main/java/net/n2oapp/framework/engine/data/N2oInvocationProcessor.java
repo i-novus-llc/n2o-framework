@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryListField;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.util.MappingProcessor;
@@ -121,7 +120,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         // normalize values
         invocationParameters.forEach(parameter -> {
             Object value = inDataSet.get(parameter.getId());
-            if (value != null && parameter.getNormalize() != null) {
+            if (parameter.getNormalize() != null) {
                 value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
             }
             resultDataSet.put(parameter.getId(), value);
