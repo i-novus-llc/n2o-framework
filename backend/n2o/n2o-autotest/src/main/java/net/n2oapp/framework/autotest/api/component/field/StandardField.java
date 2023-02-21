@@ -44,11 +44,6 @@ public interface StandardField extends Field {
      */
     void shouldHaveLabelLocation(FieldSet.LabelPosition position);
 
-    void shouldHaveMessage(Condition condition);
-
-
-    void shouldHaveDescription(Condition condition);
-
     /**
      * Проверка сообщения валидации на соответствие условию
      * @param condition ожидаемое условие

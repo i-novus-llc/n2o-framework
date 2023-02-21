@@ -155,8 +155,8 @@ public class SelectAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         input.shouldHaveOptions("name1", "name2", "name3");
-        input.shouldHaveOptionDescription("name1", "desc1");
-        input.shouldHaveOptionDescription("name3", "desc3");
+        input.optionShouldHaveDescription("name1", "desc1");
+        input.optionShouldHaveDescription("name3", "desc3");
         input.select(1);
         input.shouldSelected("name2");
         input.clear();
@@ -171,8 +171,8 @@ public class SelectAT extends AutoTestBase {
 
         input2.shouldBeEmpty();
         input2.shouldHaveOptions("name1", "name2", "name3");
-        input2.shouldHaveOptionDescription("name1", "desc1");
-        input2.shouldHaveOptionDescription("name3", "desc3");
+        input2.optionShouldHaveDescription("name1", "desc1");
+        input2.optionShouldHaveDescription("name3", "desc3");
         input2.selectMulti(1, 2);
         input2.shouldBeChecked(1, 2);
         input2.shouldSelected("Объектов 2 шт");

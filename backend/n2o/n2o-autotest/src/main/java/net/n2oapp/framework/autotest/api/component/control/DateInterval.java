@@ -10,12 +10,12 @@ public interface DateInterval extends Control, PopupControl {
     /**
      * Проверка того, что дата начала не задана
      */
-    void shouldHaveEmptyBegin();
+    void beginShouldBeEmpty();
 
     /**
      * Проверка того, что дата конца не задана
      */
-    void shouldHaveEmptyEnd();
+    void endShouldBeEmpty();
 
     /**
      * Установка значения в поле даты начала
@@ -33,13 +33,13 @@ public interface DateInterval extends Control, PopupControl {
      * Провека того, что в поле даты начала установлено соответствующее значение
      * @param value ожидаемая дата в формате день.месяц.год
      */
-    void shouldHaveBeginValue(String value);
+    void beginShouldHaveValue(String value);
 
     /**
      * Провека того, что в поле даты конца установлено соответствующее значение
      * @param value ожидаемая дата в формате день.месяц.год
      */
-    void shouldHaveEndValue(String value);
+    void endShouldHaveValue(String value);
 
     /**
      * Клик по иконке календаря в поле ввода для открытия календаря
@@ -50,37 +50,37 @@ public interface DateInterval extends Control, PopupControl {
      * Проверка выбранности дня в календаре у поля ввода начала
      * @param day проверяемый день
      */
-    void shouldHaveBeginActiveDay(String day);
+    void beginDayShouldBeActive(String day);
 
     /**
      * Проверка выбранности дня в календаре у поля ввода конца
      * @param day проверяемый день
      */
-    void shouldHaveEndActiveDay(String day);
-
-    /**
-     * Проверка недоступности дня в календаре у поля ввода конца
-     * @param day проверяемый день
-     */
-    void shouldHaveEndDisabledDay(String day);
+    void endDayShouldBeActive(String day);
 
     /**
      * Проверка недоступности дня в календаре у поля ввода начала
      * @param day проверяемый день
      */
-    void shouldHaveBeginDisabledDay(String day);
+    void beginDayShouldBeDisabled(String day);
+
+    /**
+     * Проверка недоступности дня в календаре у поля ввода конца
+     * @param day проверяемый день
+     */
+    void endDayShouldBeDisabled(String day);
 
     /**
      * Проверка доступности дня в календаре у поля ввода начала
      * @param day проверяемый день
      */
-    void shouldHaveBeginEnabledDay(String day);
+    void beginDayShouldBeEnabled(String day);
 
     /**
      * Проверка доступности дня в календаре у поля ввода конца
      * @param day проверяемый день
      */
-    void shouldHaveEndEnabledDay(String day);
+    void endDayShouldBeEnabled(String day);
 
     /**
      * Клик по дню в календаре начала для выбора
@@ -98,45 +98,45 @@ public interface DateInterval extends Control, PopupControl {
      * Проверка текущего месяца в календаре начала
      * @param month ожидаемый текущий месяц
      */
-    void shouldHaveBeginCurrentMonth(String month);
+    void beginCurrentMonthShouldHaveValue(String month);
 
     /**
      * Проверка текущего месяца в календаре конца
      * @param month ожидаемый текущий месяц
      */
-    void shouldHaveEndCurrentMonth(String month);
+    void endCurrentMonthShouldHaveValue(String month);
 
     /**
      * Проверка текущего года в календаре начала
      * @param year ожидаемый текущий год
      */
-    void shouldHaveBeginCurrentYear(String year);
+    void beginCurrentYearShouldHaveValue(String year);
 
     /**
      * Проверка текущего года в календаре конца
      * @param year ожидаемый текущий год
      */
-    void shouldHaveEndCurrentYear(String year);
+    void endCurrentYearShouldHaveValue(String year);
 
     /**
      * Клик по кнопке для перехода к предыдущему месяцу в календаре начала
      */
-    void clickBeginPreviousMonthButton();
+    void clickBeginMonthPreviousButton();
 
     /**
      * Клик по кнопке для перехода к предыдущему месяцу в календаре конца
      */
-    void clickEndPreviousMonthButton();
+    void clickEndMonthPreviousButton();
 
     /**
      * Клик по кнопке для перехода к следующему месяцу в календаре начала
      */
-    void clickBeginNextMonthButton();
+    void clickBeginMonthNextButton();
 
     /**
      * Клик по кнопке для перехода к следующему месяцу в календаре конца
      */
-    void clickEndNextMonthButton();
+    void clickEndMonthNextButton();
 
     /**
      * Установка времени в поле ввода даты начала
@@ -145,7 +145,7 @@ public interface DateInterval extends Control, PopupControl {
      * @param minutes минуты
      * @param seconds секунды
      */
-    void setBeginTimeValue(String hours, String minutes, String seconds);
+    void beginTimeSetValue(String hours, String minutes, String seconds);
 
     /**
      * Установка времени в поле ввода даты конца
@@ -154,5 +154,5 @@ public interface DateInterval extends Control, PopupControl {
      * @param minutes минуты
      * @param seconds секунды
      */
-    void setEndTimeValue(String hours, String minutes, String seconds);
+    void endTimeSetValue(String hours, String minutes, String seconds);
 }

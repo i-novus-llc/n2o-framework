@@ -30,18 +30,18 @@ public interface MultiFieldSet extends FieldSet {
     /**
      * Проверка доступности кнопки добавления филдсетов
      */
-    void shouldHaveEnabledAddButton();
+    void addButtonShouldBeEnabled();
 
     /**
      * Проверка недоступности кнопки добавления филдсетов
      */
-    void shouldHaveDisabledAddButton();
+    void addButtonShouldBeDisabled();
 
     /**
      * Проверка метки кнопки добавления филдсетов
      * @param label ожидаемое значение метки
      */
-    void shouldHaveAddButtonLabel(String label);
+    void addButtonShouldHaveLabel(String label);
 
     /**
      * Клик на кнопку добавления филдсета
@@ -62,7 +62,7 @@ public interface MultiFieldSet extends FieldSet {
      * Проверка метки кнопки удаления всех филдсетов
      * @param label ожидаемое значение метки
      */
-    void shouldHaveRemoveAllButtonLabel(String label);
+    void removeAllButtonShouldHaveLabel(String label);
 
     /**
      * Клик на кнопку удаления всех филдсетов

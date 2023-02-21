@@ -62,7 +62,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
 
-        imageUpload.shouldHaveUploadAreaIcon("fa fa-upload");
+        imageUpload.uploadAreaShouldHaveIcon("fa fa-upload");
 
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);
@@ -85,10 +85,10 @@ public class ImageUploadAT extends AutoTestBase {
         fileStoreController.clearFileStore();
 
         imageUpload.shouldHaveSize(0);
-        imageUpload.shouldHaveUploadAreaIcon("fa fa-plus");
-        imageUpload.shouldHaveUploadAreaIconSize(100);
-        imageUpload.shouldHaveUploadAreaWidth(200);
-        imageUpload.shouldHaveUploadAreaHeight(200);
+        imageUpload.uploadAreaShouldHaveIcon("fa fa-plus");
+        imageUpload.uploadAreaShouldHaveIconSize(100);
+        imageUpload.uploadAreaShouldHaveWidth(200);
+        imageUpload.uploadAreaShouldHaveHeight(200);
 
         // загрузка файла с неразрешенным расширением
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");
@@ -100,7 +100,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldHaveSize(1);
 
         imageUpload.shouldHaveNameInfo(0);
-        imageUpload.shouldHaveUploadAreaShape(ShapeType.CIRCLE);
+        imageUpload.uploadAreaShouldHaveShape(ShapeType.CIRCLE);
         imageUpload.shouldHaveName(0, "image.png");
         imageUpload.shouldHaveSize(0, "186");
         imageUpload.shouldHavePreview(0);

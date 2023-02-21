@@ -79,21 +79,21 @@ public interface InputSelect extends Control, PopupControl {
      * @param option проверяемая опция
      * @param description ожидаемая дополнительная информация
      */
-    void shouldHaveOptionDescription(String option, String description);
+    void optionShouldHaveDescription(String option, String description);
 
     /**
      * Проверка соответствия цвета у опции
-     * @param value проверяемая опция
+     * @param option проверяемая опция
      * @param color ожидаемый цвет
      */
-    void shouldHaveItemStatusColor(String value, Colors color);
+    void optionShouldHaveStatusColor(String option, Colors color);
 
     /**
      * Проверка состояния доступности опции в выпадающем списке
      * @param enabled состояние
-     * @param itemValue проверяемая опция
+     * @param option проверяемая опция
      */
-    void shouldHaveEnableItem(Boolean enabled, String itemValue);
+    void optionShouldBeEnabled(Boolean enabled, String option);
 
     /**
      * @return выпадающий список для автотестирования

@@ -68,7 +68,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shouldHaveStatusIcon(ImageStatusElementPlace position, int index, String icon) {
+    public void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon) {
         if (icon != null && !icon.isEmpty()) {
             element().$(".n2o-image-statuses ." + position)
                     .$(".n2o-status__icon"+icon)

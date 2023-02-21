@@ -64,6 +64,7 @@ function LinkCell(props) {
 
     const onClick = (e) => {
         e.stopPropagation()
+
         onResolve(e)
     }
 
@@ -109,9 +110,17 @@ export default compose(
     withCell,
     withTooltip,
     withHandlers({
-        onResolve: ({ callAction, model, action }) => () => {
-            if (callAction && model && isEmpty(action)) {
+        onResolve: ({ callAction, model, action, resolveWidget }) => () => {
+            if (!model) {
+                return
+            }
+
+            if (callAction && isEmpty(action)) {
                 callAction(model)
+            }
+
+            if (resolveWidget) {
+                resolveWidget(model)
             }
         },
     }),

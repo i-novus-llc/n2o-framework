@@ -25,19 +25,19 @@ public interface ScrollspyRegion extends Region {
      * Проверка соответствия заголовка у активного элемента
      * @param title ожидаемый заголовок
      */
-    void shouldHaveActiveContentItem(String title);
+    void activeContentItemShouldHaveTitle(String title);
 
     /**
      * Проверка соответствия заголовка у активного элемента меню
      * @param title ожидаемый заголовок
      */
-    void shouldHaveActiveMenuItem(String title);
+    void activeMenuItemShouldHaveTitle(String title);
 
     /**
      * Проверка соответствия позиции элемента меню
      * @param position ожидаемый заголовок
      */
-    void shouldHaveMenuPosition(MenuPosition position);
+    void menuShouldHavePosition(MenuPosition position);
 
     /**
      * @return возвращает компонент меню для автотестирования

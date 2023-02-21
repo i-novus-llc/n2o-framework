@@ -17,13 +17,13 @@ public interface MenuItem extends Component {
      * Проверка формы изображения на соответствие
      * @param shape ожидаемая форма изображения
      */
-    void shouldHaveImageShape(ShapeType shape);
+    void imageShouldHaveShape(ShapeType shape);
 
     /**
      * Проверка источника изображения на соответствие
      * @param src ожидаемый источник изображения
      */
-    void shouldHaveImageSrc(String src);
+    void imageShouldHaveSrc(String src);
 
     /**
      * Проверка метки на соответствие

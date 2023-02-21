@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
@@ -7,10 +8,11 @@ import cn from 'classnames'
 import { Icon } from '../../snippets/Icon/Icon'
 import { Badge } from '../../snippets/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition } from '../../snippets/Badge/utils'
+import { dataSourceLoadingSelector } from '../../../ducks/datasource/selectors'
 
 const convertCounter = count => (count > 100 ? '99+' : count)
 
-const SimpleButton = ({
+const SimpleButtonBody = ({
     id,
     label,
     icon,
@@ -27,6 +29,7 @@ const SimpleButton = ({
     className,
     badge,
     tooltipTriggerRef,
+    dataSourceIsLoading,
     ...rest
 }) => {
     const { text, position } = badge || {}
@@ -37,6 +40,7 @@ const SimpleButton = ({
     }
 
     const needBadge = !isEmpty(badge) || typeof count === 'number'
+    const currentDisabled = dataSourceIsLoading || disabled
 
     return visible ? (
         <div ref={tooltipTriggerRef}>
@@ -47,7 +51,7 @@ const SimpleButton = ({
                 color={color}
                 outline={outline}
                 onClick={onClick}
-                disabled={disabled}
+                disabled={currentDisabled}
                 className={cn(className, {
                     'btn-rounded': rounded && !label,
                     'btn-disabled': disabled,
@@ -76,7 +80,7 @@ const SimpleButton = ({
     ) : null
 }
 
-SimpleButton.propTypes = {
+SimpleButtonBody.propTypes = {
     id: PropTypes.string,
     tag: PropTypes.oneOfType([
         PropTypes.func,
@@ -104,13 +108,21 @@ SimpleButton.propTypes = {
     children: PropTypes.node,
     badge: PropTypes.object,
     tooltipTriggerRef: PropTypes.func,
+    dataSourceIsLoading: PropTypes.func,
 }
 
-SimpleButton.defaultProps = {
+SimpleButtonBody.defaultProps = {
     tag: 'button',
     rounded: false,
     visible: true,
     onClick: () => {},
 }
 
-export default SimpleButton
+const mapStateToProps = (state, { datasource }) => ({
+    dataSourceIsLoading: datasource ? dataSourceLoadingSelector(datasource)(state) : false,
+})
+
+export { SimpleButtonBody }
+
+export default connect(mapStateToProps)(SimpleButtonBody)
+export const SimpleButton = connect(mapStateToProps)(SimpleButtonBody)

@@ -104,7 +104,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void shouldHaveUploadAreaShape(ShapeType shape) {
+    public void uploadAreaShouldHaveShape(ShapeType shape) {
         //ToDo: NNO-9062, также выделить в отдельное поле селектор
         switch (shape) {
             case CIRCLE:
@@ -117,23 +117,23 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void shouldHaveUploadAreaIcon(String icon) {
+    public void uploadAreaShouldHaveIcon(String icon) {
         getUploadAreaElement().shouldHave(Condition.attribute("class", icon));
     }
 
     @Override
-    public void shouldHaveUploadAreaIconSize(int size) {
+    public void uploadAreaShouldHaveIconSize(int size) {
         getUploadAreaElement().shouldHave(Condition.attributeMatching("style", ".*font-size: " + size + "px.*"));
     }
 
     @Override
-    public void shouldHaveUploadAreaWidth(int width) {
+    public void uploadAreaShouldHaveWidth(int width) {
         element().shouldHave(Condition.attributeMatching("style",
                 ".*max-width: " + width + "px.*"));
     }
 
     @Override
-    public void shouldHaveUploadAreaHeight(int height) {
+    public void uploadAreaShouldHaveHeight(int height) {
         element().shouldHave(Condition.attributeMatching("style",
                 ".*max-height: " + height + "px.*"));
     }

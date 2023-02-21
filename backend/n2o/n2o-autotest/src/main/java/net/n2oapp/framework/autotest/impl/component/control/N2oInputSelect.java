@@ -8,7 +8,6 @@ import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
-import org.openqa.selenium.Keys;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -92,13 +91,13 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldHaveEnableItem(Boolean enabled, String value) {
+    public void optionShouldBeEnabled(Boolean enabled, String option) {
         element().click();
         if (enabled)
-            popUpButtons().findBy(Condition.text(value))
+            popUpButtons().findBy(Condition.text(option))
                     .shouldNotHave(Condition.cssClass("disabled"));
         else
-            popUpButtons().findBy(Condition.text(value))
+            popUpButtons().findBy(Condition.text(option))
                     .shouldHave(Condition.cssClass("disabled"));
     }
 
@@ -146,7 +145,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldHaveOptionDescription(String option, String description) {
+    public void optionShouldHaveDescription(String option, String description) {
         openPopup();
         SelenideElement elm = selectPopUp()
                 .$$("button .text-cropped,.custom-control-label")
@@ -158,9 +157,9 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldHaveItemStatusColor(String value, Colors color) {
+    public void optionShouldHaveStatusColor(String option, Colors color) {
         element().click();
-        popUpButtons().findBy(Condition.text(value))
+        popUpButtons().findBy(Condition.text(option))
                 .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
                 .shouldHave(Condition.cssClass(color.name("bg-")));
     }

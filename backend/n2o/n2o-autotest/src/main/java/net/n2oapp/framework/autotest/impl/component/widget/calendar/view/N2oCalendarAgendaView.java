@@ -18,17 +18,17 @@ public class N2oCalendarAgendaView extends N2oComponent implements CalendarAgend
     }
 
     @Override
-    public void shouldHaveEventDate(int index, String date) {
+    public void eventShouldHaveDate(int index, String date) {
         dateCell(index).shouldHave(Condition.text(date));
     }
 
     @Override
-    public void shouldHaveEventTime(int index, String time) {
+    public void eventShouldHaveTime(int index, String time) {
         timeCell(index).shouldHave(Condition.text(time));
     }
 
     @Override
-    public void shouldHaveEventName(int index, String name) {
+    public void eventShouldHaveName(int index, String name) {
         eventCell(index).shouldHave(Condition.text(name));
     }
 

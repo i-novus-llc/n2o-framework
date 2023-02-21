@@ -62,13 +62,13 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на предыдущую страницу
      * @param label ожидаемое значение метки
      */
-    void shouldHavePrevLabel(String label);
+    void prevShouldHaveLabel(String label);
 
     /**
      * Проверка иконки кнопки перехода на предыдущую страницу
      * @param icon ожидаемая иконка
      */
-    void shouldHavePrevIcon(String icon);
+    void prevShouldHaveIcon(String icon);
 
     /**
      * Переход на предыдущую страницу
@@ -89,13 +89,13 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на следующую страницу
      * @param label ожидаемое значение метки
      */
-    void shouldHaveNextLabel(String label);
+    void nextShouldHaveLabel(String label);
 
     /**
      * Проверка иконки кнопки перехода на следующую страницу
      * @param icon ожидаемая иконка
      */
-    void shouldHaveNextIcon(String icon);
+    void nextShouldHaveIcon(String icon);
 
     /**
      * Переход на следующую страницу
@@ -116,13 +116,13 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на первую страницу
      * @param label ожидаемое значение метки
      */
-    void shouldHaveFirstLabel(String label);
+    void firstShouldHaveLabel(String label);
 
     /**
      * Проверка иконки кнопки перехода на первую страницу
      * @param icon ожидаемая иконка
      */
-    void shouldHaveFirstIcon(String icon);
+    void firstShouldHaveIcon(String icon);
 
     /**
      * Переход на первую страницу
@@ -143,13 +143,13 @@ public interface Paging extends Component {
      * Проверка метки кнопки перехода на последнюю страницу
      * @param label ожидаемое значение метки
      */
-    void shouldHaveLastLabel(String label);
+    void lastShouldHaveLabel(String label);
 
     /**
      * Проверка иконки кнопки перехода на последнюю страницу
      * @param icon ожидаемая иконка
      */
-    void shouldHaveLastIcon(String icon);
+    void lastShouldHaveIcon(String icon);
 
     /**
      * Переход на последнюю страницу

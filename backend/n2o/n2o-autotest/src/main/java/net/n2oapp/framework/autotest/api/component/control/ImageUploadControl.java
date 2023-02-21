@@ -110,31 +110,31 @@ public interface ImageUploadControl extends Control {
      * Проверка формы поля для загрузки изображения
      * @param shape ожидаемая форма
      */
-    void shouldHaveUploadAreaShape(ShapeType shape);
+    void uploadAreaShouldHaveShape(ShapeType shape);
 
     /**
      * Проверка иконки поля для загрузки изображения
      * @param icon ожидаемая иконка
      */
-    void shouldHaveUploadAreaIcon(String icon);
+    void uploadAreaShouldHaveIcon(String icon);
 
     /**
      * Проверка размера поля для загрузки изображения
      * @param size ожидаемый размер в пикселях
      */
-    void shouldHaveUploadAreaIconSize(int size);
+    void uploadAreaShouldHaveIconSize(int size);
 
     /**
      * Проверка ширины поля для загрузки изображения
      * @param width ожидаемый размер в пикселях
      */
-    void shouldHaveUploadAreaWidth(int width);
+    void uploadAreaShouldHaveWidth(int width);
 
     /**
      * Проверка высоты поля для загрузки изображения
      * @param height ожидаемый размер в пикселях
      */
-    void shouldHaveUploadAreaHeight(int height);
+    void uploadAreaShouldHaveHeight(int height);
 
     /**
      * Компонент диалог предварительного просмотра для автотестирования

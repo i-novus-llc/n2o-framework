@@ -39,7 +39,7 @@ public interface Badge extends Component {
      * Проверка картинки внутри баджа на соответствие ожидаемой форме
      * @param shape ожидаемая форма картинки
      */
-    default void shouldHaveImageOfShape(BadgeShape shape) {
+    default void shouldHaveImageShape(BadgeShape shape) {
         element().$(".n2o-badge")
                 .$(".n2o-badge-image")
                 .shouldHave(Condition.cssClass(shape.name("n2o-badge-image--")));
@@ -49,7 +49,7 @@ public interface Badge extends Component {
      * Проверка позиции картинки внутри баджа на соответствие ожидаемой позиции
      * @param position ожидаемая позиция картинки
      */
-    default void shouldHaveImageOfPosition(BadgePosition position) {
+    default void shouldHaveImagePosition(BadgePosition position) {
         element().$(".n2o-badge")
                 .$(".n2o-badge-image")
                 .shouldHave(Condition.cssClass(position.name("n2o-badge-image--")));

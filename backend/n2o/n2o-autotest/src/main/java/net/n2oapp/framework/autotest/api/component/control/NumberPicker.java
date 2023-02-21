@@ -26,29 +26,29 @@ public interface NumberPicker extends Control {
     void clickMinusStepButton();
 
     /**
-     * Проверка доступности кнопки для уменьшения значения
-     */
-    void shouldHaveEnableMinusStepButton();
-
-    /**
-     * Проверка недоступности кнопки для уменьшения значения
-     */
-    void shouldHaveDisableMinusStepButton();
-
-    /**
      * Увеличение значения
      */
     void clickPlusStepButton();
 
     /**
+     * Проверка доступности кнопки для уменьшения значения
+     */
+    void minusStepButtonShouldBeEnabled();
+
+    /**
      * Проверка доступности кнопки для увеличения значения
      */
-    void shouldHaveEnabledPlusStepButton();
+    void plusStepButtonShouldBeEnabled();
+
+    /**
+     * Проверка недоступности кнопки для уменьшения значения
+     */
+    void minusStepButtonShouldBeDisabled();
 
     /**
      * Проверка недоступности кнопки для увеличения значения
      */
-    void shouldHaveDisabledPlusStepButton();
+    void plusStepButtonShouldBeDisabled();
 
     /**
      * Проверка соответствия минимального значения

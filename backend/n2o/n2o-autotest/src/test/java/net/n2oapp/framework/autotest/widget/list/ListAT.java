@@ -85,7 +85,7 @@ public class ListAT extends AutoTestBase {
         paging.shouldNotHavePrev();
         paging.shouldNotHaveNext();
         paging.shouldHaveFirst();
-        paging.shouldHaveFirstIcon("fa-angle-double-left");
+        paging.firstShouldHaveIcon("fa-angle-double-left");
         paging.shouldNotHaveLast();
 
         paging.shouldHaveActivePage("1");
@@ -102,17 +102,17 @@ public class ListAT extends AutoTestBase {
         paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.BORDERED_ROUNDED);
         paging.shouldHavePrev();
-        paging.shouldHavePrevLabel("Prev");
-        paging.shouldHavePrevIcon("fa-angle-down");
+        paging.prevShouldHaveLabel("Prev");
+        paging.prevShouldHaveIcon("fa-angle-down");
         paging.shouldHaveNext();
-        paging.shouldHaveNextLabel("Next");
-        paging.shouldHaveNextIcon("fa-angle-up");
+        paging.nextShouldHaveLabel("Next");
+        paging.nextShouldHaveIcon("fa-angle-up");
         paging.shouldHaveFirst();
-        paging.shouldHaveFirstLabel("First");
-        paging.shouldHaveFirstIcon("fa-angle-double-down");
+        paging.firstShouldHaveLabel("First");
+        paging.firstShouldHaveIcon("fa-angle-double-down");
         paging.shouldHaveLast();
-        paging.shouldHaveLastLabel("Last");
-        paging.shouldHaveLastIcon("fa-angle-double-up");
+        paging.lastShouldHaveLabel("Last");
+        paging.lastShouldHaveIcon("fa-angle-double-up");
 
         paging.shouldHaveActivePage("1");
         list2.content(0).body(TextCell.class).shouldHaveText("test1");

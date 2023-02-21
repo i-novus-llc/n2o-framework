@@ -50,14 +50,14 @@ public class NumberPickerAT extends AutoTestBase {
         numberPicker.shouldHaveMin("-3");
         numberPicker.shouldHaveMax("3");
         numberPicker.shouldHaveStep("2");
-        numberPicker.shouldHaveEnableMinusStepButton();
-        numberPicker.shouldHaveEnabledPlusStepButton();
+        numberPicker.minusStepButtonShouldBeEnabled();
+        numberPicker.plusStepButtonShouldBeEnabled();
         numberPicker.shouldHaveValue("2");
         numberPicker.clickPlusStepButton();
         // limit by max value
         numberPicker.shouldHaveValue("3");
-        numberPicker.shouldHaveEnableMinusStepButton();
-        numberPicker.shouldHaveDisabledPlusStepButton();
+        numberPicker.minusStepButtonShouldBeEnabled();
+        numberPicker.plusStepButtonShouldBeDisabled();
         numberPicker.clickMinusStepButton();
         numberPicker.shouldHaveValue("1");
         numberPicker.clickMinusStepButton();
@@ -68,11 +68,11 @@ public class NumberPickerAT extends AutoTestBase {
         numberPicker.clickMinusStepButton();
         // limit by min value
         numberPicker.shouldHaveValue("-3");
-        numberPicker.shouldHaveDisableMinusStepButton();
-        numberPicker.shouldHaveEnabledPlusStepButton();
+        numberPicker.minusStepButtonShouldBeDisabled();
+        numberPicker.plusStepButtonShouldBeEnabled();
         numberPicker.clickPlusStepButton();
         numberPicker.shouldHaveValue("-1");
-        numberPicker.shouldHaveEnableMinusStepButton();
+        numberPicker.minusStepButtonShouldBeEnabled();
 
         //check input
         // only minus

@@ -23,12 +23,12 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
     }
 
     @Override
-    public void shouldHaveActiveContentItem(String title) {
+    public void activeContentItemShouldHaveTitle(String title) {
         element().$(".n2o-scroll-spy-region__content-wrapper.active").shouldHave(Condition.text(title));
     }
 
     @Override
-    public void shouldHaveActiveMenuItem(String title) {
+    public void activeMenuItemShouldHaveTitle(String title) {
         menu().element().$(".n2o-scroll-spy-region__menu-item.active").shouldHave(Condition.text(title));
     }
 
@@ -38,7 +38,7 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
     }
 
     @Override
-    public void shouldHaveMenuPosition(MenuPosition position) {
+    public void menuShouldHavePosition(MenuPosition position) {
         switch (position) {
             case left:
                 element().parent().$(".position-right").shouldNotBe(Condition.exist);

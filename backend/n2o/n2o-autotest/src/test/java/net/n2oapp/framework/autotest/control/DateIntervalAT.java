@@ -51,40 +51,40 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.openPopup();
         dateInterval.shouldBeOpened();
         dateInterval.setValueInBegin("12.02.2020");
-        dateInterval.shouldHaveBeginValue("12.02.2020");
+        dateInterval.beginShouldHaveValue("12.02.2020");
         dateInterval.setValueInEnd("15.02.2020");
-        dateInterval.shouldHaveEndValue("15.02.2020");
+        dateInterval.endShouldHaveValue("15.02.2020");
         // проверка, что активные дни выставлены верно
         dateInterval.clickCalendarButton();
-        dateInterval.shouldHaveBeginActiveDay("12");
-        dateInterval.shouldHaveEndActiveDay("15");
+        dateInterval.beginDayShouldBeActive("12");
+        dateInterval.endDayShouldBeActive("15");
         // проверка, что всегда begin <= end
-        dateInterval.shouldHaveEndDisabledDay("11");
-        dateInterval.shouldHaveEndEnabledDay("12");
+        dateInterval.endDayShouldBeDisabled("11");
+        dateInterval.endDayShouldBeEnabled("12");
         dateInterval.clickBeginDay("13");
-        dateInterval.shouldHaveBeginValue("13.02.2020");
-        dateInterval.shouldHaveEndDisabledDay("12");
+        dateInterval.beginShouldHaveValue("13.02.2020");
+        dateInterval.endDayShouldBeDisabled("12");
         // проверка, что при begin > end, значение end стирается
         dateInterval.clickBeginDay("16");
-        dateInterval.shouldHaveEmptyEnd();
+        dateInterval.endShouldBeEmpty();
         dateInterval.clickEndDay("18");
-        dateInterval.shouldHaveEndValue("18.02.2020");
+        dateInterval.endShouldHaveValue("18.02.2020");
         // проверка значений месяцев / годов
-        dateInterval.shouldHaveBeginCurrentMonth("Февраль");
-        dateInterval.shouldHaveEndCurrentMonth("Февраль");
-        dateInterval.shouldHaveBeginCurrentYear("2020");
-        dateInterval.shouldHaveEndCurrentYear("2020");
+        dateInterval.beginCurrentMonthShouldHaveValue("Февраль");
+        dateInterval.endCurrentMonthShouldHaveValue("Февраль");
+        dateInterval.beginCurrentYearShouldHaveValue("2020");
+        dateInterval.endCurrentYearShouldHaveValue("2020");
         // переход по месяцам, выборка даты из другого месяца/года
-        dateInterval.clickBeginPreviousMonthButton();
-        dateInterval.clickBeginPreviousMonthButton();
-        dateInterval.shouldHaveBeginCurrentMonth("Декабрь");
-        dateInterval.shouldHaveBeginCurrentYear("2019");
+        dateInterval.clickBeginMonthPreviousButton();
+        dateInterval.clickBeginMonthPreviousButton();
+        dateInterval.beginCurrentMonthShouldHaveValue("Декабрь");
+        dateInterval.beginCurrentYearShouldHaveValue("2019");
         dateInterval.clickBeginDay("25");
-        dateInterval.shouldHaveBeginValue("25.12.2019");
-        dateInterval.clickEndNextMonthButton();
+        dateInterval.beginShouldHaveValue("25.12.2019");
+        dateInterval.clickEndMonthNextButton();
         dateInterval.clickEndDay("1");
-        dateInterval.shouldHaveEndCurrentMonth("Март");
-        dateInterval.shouldHaveEndValue("01.03.2020");
+        dateInterval.endCurrentMonthShouldHaveValue("Март");
+        dateInterval.endShouldHaveValue("01.03.2020");
     }
 
     @Test
@@ -98,14 +98,14 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.openPopup();
         dateInterval.shouldBeOpened();
         dateInterval.setValueInBegin("12/02/2020 08:20:15");
-        dateInterval.shouldHaveBeginValue("12/02/2020 08:20:15");
+        dateInterval.beginShouldHaveValue("12/02/2020 08:20:15");
         dateInterval.setValueInEnd("15/02/2020 12:34:56");
-        dateInterval.shouldHaveEndValue("15/02/2020 12:34:56");
+        dateInterval.endShouldHaveValue("15/02/2020 12:34:56");
         // задание времени
-        dateInterval.setBeginTimeValue("1", "5", "9");
-        dateInterval.shouldHaveBeginValue("12/02/2020 01:05:09");
-        dateInterval.setEndTimeValue("23", "59", "58");
-        dateInterval.shouldHaveEndValue("15/02/2020 23:59:58");
+        dateInterval.beginTimeSetValue("1", "5", "9");
+        dateInterval.beginShouldHaveValue("12/02/2020 01:05:09");
+        dateInterval.endTimeSetValue("23", "59", "58");
+        dateInterval.endShouldHaveValue("15/02/2020 23:59:58");
     }
 
     @Test
@@ -119,26 +119,26 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.shouldBeOpened();
         // проверка, что значения, выходящие за границы min/max, не вводятся
         dateInterval.setValueInBegin("09.02.2020");
-        dateInterval.shouldHaveEmptyBegin();
+        dateInterval.beginShouldBeEmpty();
         dateInterval.setValueInBegin("21.02.2020");
-        dateInterval.shouldHaveEmptyBegin();
+        dateInterval.beginShouldBeEmpty();
         dateInterval.setValueInEnd("09.02.2020");
-        dateInterval.shouldHaveEmptyEnd();
+        dateInterval.endShouldBeEmpty();
         dateInterval.setValueInEnd("21.02.2020");
-        dateInterval.shouldHaveEmptyEnd();
+        dateInterval.endShouldBeEmpty();
         dateInterval.setValueInBegin("10.02.2020");
-        dateInterval.shouldHaveBeginValue("10.02.2020");
+        dateInterval.beginShouldHaveValue("10.02.2020");
         dateInterval.setValueInEnd("20.02.2020");
-        dateInterval.shouldHaveEndValue("20.02.2020");
+        dateInterval.endShouldHaveValue("20.02.2020");
         // проверка, что значения, выходящие за границы min/max, нельзя выбрать в календаре
         dateInterval.clickCalendarButton();
-        dateInterval.shouldHaveBeginDisabledDay("9");
-        dateInterval.shouldHaveBeginEnabledDay("10");
-        dateInterval.shouldHaveBeginEnabledDay("20");
-        dateInterval.shouldHaveBeginDisabledDay("21");
-        dateInterval.shouldHaveEndDisabledDay("9");
-        dateInterval.shouldHaveEndEnabledDay("10");
-        dateInterval.shouldHaveEndEnabledDay("20");
-        dateInterval.shouldHaveEndDisabledDay("21");
+        dateInterval.beginDayShouldBeDisabled("9");
+        dateInterval.beginDayShouldBeEnabled("10");
+        dateInterval.beginDayShouldBeEnabled("20");
+        dateInterval.beginDayShouldBeDisabled("21");
+        dateInterval.endDayShouldBeDisabled("9");
+        dateInterval.endDayShouldBeEnabled("10");
+        dateInterval.endDayShouldBeEnabled("20");
+        dateInterval.endDayShouldBeDisabled("21");
     }
 }

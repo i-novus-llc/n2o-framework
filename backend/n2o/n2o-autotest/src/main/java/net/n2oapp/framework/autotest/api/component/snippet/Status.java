@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.snippet;
 
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.autotest.Colors;
 
 /**
@@ -8,14 +9,11 @@ import net.n2oapp.framework.autotest.Colors;
 public interface Status extends Snippet {
 
     /**
-     * Проверка того, что текст расположен слева
+     * Проверка соответствия позиции текста
+     * @param position ожидаемая позиция текста
      */
-    void shouldHaveLeftPositionText();
+    void shouldHaveTextPosition(Position position);
 
-    /**
-     * Проверка того, что текст расположен справа
-     */
-    void shouldHaveRightPositionText();
 
     /**
      * Проверка соответствия текста

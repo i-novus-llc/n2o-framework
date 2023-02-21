@@ -16,17 +16,17 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void shouldBeEmpty() {
-        shouldHaveEmptyBegin();
-        shouldHaveEmptyEnd();
+        beginShouldBeEmpty();
+        endShouldBeEmpty();
     }
 
     @Override
-    public void shouldHaveEmptyBegin() {
+    public void beginShouldBeEmpty() {
         firstInputElement().shouldBe(Condition.empty);
     }
 
     @Override
-    public void shouldHaveEmptyEnd() {
+    public void endShouldBeEmpty() {
         lastInputElement().shouldBe(Condition.empty);
     }
 
@@ -43,13 +43,13 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void shouldHaveBeginValue(String value) {
+    public void beginShouldHaveValue(String value) {
         element().$(".n2o-date-input-first input").shouldHave(value == null
                 || value.isEmpty() ? Condition.empty : Condition.value(value));
     }
 
     @Override
-    public void shouldHaveEndValue(String value) {
+    public void endShouldHaveValue(String value) {
         element().$(".n2o-date-input-last input").shouldHave(value == null
                 || value.isEmpty() ? Condition.empty : Condition.value(value));
     }
@@ -63,32 +63,32 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void shouldHaveBeginActiveDay(String day) {
+    public void beginDayShouldBeActive(String day) {
         shouldBeActiveDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldHaveEndActiveDay(String day) {
+    public void endDayShouldBeActive(String day) {
         shouldBeActiveDay(lastCalendar(), day);
     }
 
     @Override
-    public void shouldHaveBeginDisabledDay(String day) {
+    public void beginDayShouldBeDisabled(String day) {
         shouldBeDisableDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldHaveEndDisabledDay(String day) {
+    public void endDayShouldBeDisabled(String day) {
         shouldBeDisableDay(lastCalendar(), day);
     }
 
     @Override
-    public void shouldHaveBeginEnabledDay(String day) {
+    public void beginDayShouldBeEnabled(String day) {
         shouldBeEnableDay(firstCalendar(), day);
     }
 
     @Override
-    public void shouldHaveEndEnabledDay(String day) {
+    public void endDayShouldBeEnabled(String day) {
         shouldBeEnableDay(lastCalendar(), day);
     }
 
@@ -103,52 +103,52 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
     }
 
     @Override
-    public void shouldHaveBeginCurrentMonth(String month) {
+    public void beginCurrentMonthShouldHaveValue(String month) {
         shouldHaveCurrentMonth(firstCalendar(), month);
     }
 
     @Override
-    public void shouldHaveEndCurrentMonth(String month) {
+    public void endCurrentMonthShouldHaveValue(String month) {
         shouldHaveCurrentMonth(lastCalendar(), month);
     }
 
     @Override
-    public void shouldHaveBeginCurrentYear(String year) {
+    public void beginCurrentYearShouldHaveValue(String year) {
         shouldHaveCurrentYear(firstCalendar(), year);
     }
 
     @Override
-    public void shouldHaveEndCurrentYear(String year) {
+    public void endCurrentYearShouldHaveValue(String year) {
         shouldHaveCurrentYear(lastCalendar(), year);
     }
 
     @Override
-    public void clickBeginPreviousMonthButton() {
+    public void clickBeginMonthPreviousButton() {
         clickPreviousMonthButton(firstCalendar());
     }
 
     @Override
-    public void clickEndPreviousMonthButton() {
+    public void clickEndMonthPreviousButton() {
         clickPreviousMonthButton(lastCalendar());
     }
 
     @Override
-    public void clickBeginNextMonthButton() {
+    public void clickBeginMonthNextButton() {
         clickNextMonthButton(firstCalendar());
     }
 
     @Override
-    public void clickEndNextMonthButton() {
+    public void clickEndMonthNextButton() {
         clickNextMonthButton(lastCalendar());
     }
 
     @Override
-    public void setBeginTimeValue(String hours, String minutes, String seconds) {
+    public void beginTimeSetValue(String hours, String minutes, String seconds) {
         setTimeValue(firstCalendar(), hours, minutes, seconds);
     }
 
     @Override
-    public void setEndTimeValue(String hours, String minutes, String seconds) {
+    public void endTimeSetValue(String hours, String minutes, String seconds) {
         setTimeValue(lastCalendar(), hours, minutes, seconds);
     }
 

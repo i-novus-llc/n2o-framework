@@ -53,17 +53,17 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
-    public void shouldHaveEnabledAddButton() {
+    public void addButtonShouldBeEnabled() {
         addButton().shouldBe(Condition.enabled);
     }
 
     @Override
-    public void shouldHaveDisabledAddButton() {
+    public void addButtonShouldBeDisabled() {
         addButton().shouldBe(Condition.disabled);
     }
 
     @Override
-    public void shouldHaveAddButtonLabel(String label) {
+    public void addButtonShouldHaveLabel(String label) {
         addButton().shouldHave(Condition.text(label));
     }
 
@@ -83,7 +83,7 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
-    public void shouldHaveRemoveAllButtonLabel(String label) {
+    public void removeAllButtonShouldHaveLabel(String label) {
         removeAllButton().shouldHave(Condition.text(label));
     }
 

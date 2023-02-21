@@ -31,26 +31,26 @@ public interface FileUploadCell extends Cell {
      * Проверка количества загруженных файлов на соответствие ожидаемому количеству
      * @param size ожидаемое количество загруженных файлов
      */
-    void shouldHaveUploadFilesOfSize(int size);
+    void uploadFileShouldHaveSize(int size);
 
     /**
      * Проверка того, что имя файла по индексу соответствует ожидаемому значению
      * @param index индекс проверяемого файла
      * @param fileName ожидаемое именя файла
      */
-    void shouldHaveUploadFileNamed(int index, String fileName);
+    void uploadFileShouldHaveName(int index, String fileName);
 
     /**
      * Проверка того, что размер файла по индексу соответствует ожидаемому значению
      * @param index индекс проверяемого файла
      * @param fileSize ожидаемый размер файла
      */
-    void shouldHaveUploadFileWithSize(int index, String fileSize);
+    void uploadFileShouldHaveSize(int index, String fileSize);
 
     /**
      * Проверка того, что ссылка на файл по индексу соответствует ожидаемому значению
      * @param index индекс проверяемого файла
      * @param href ожидаемая ссылка на файл
      */
-    void shouldHaveUploadFileWithLink(int index, String href);
+    void uploadFileShouldHaveLink(int index, String href);
 }

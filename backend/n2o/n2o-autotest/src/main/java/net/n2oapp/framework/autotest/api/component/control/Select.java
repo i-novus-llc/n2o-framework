@@ -79,7 +79,7 @@ public interface Select extends Control, PopupControl {
      * @param option проверяемая опция
      * @param description ожидаемая дополнительная информация
      */
-    void shouldHaveOptionDescription(String option, String description);
+    void optionShouldHaveDescription(String option, String description);
 
     /**
      * @return выпадающий список для автотестирования

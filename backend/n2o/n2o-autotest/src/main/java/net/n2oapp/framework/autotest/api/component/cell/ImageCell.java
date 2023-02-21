@@ -59,6 +59,6 @@ public interface ImageCell extends Cell {
      * @param index номер иконки статуса
      * @param icon ожидаемое значение иконки статуса
      */
-    void shouldHaveStatusIcon(ImageStatusElementPlace position, int index, String icon);
+    void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon);
 
 }

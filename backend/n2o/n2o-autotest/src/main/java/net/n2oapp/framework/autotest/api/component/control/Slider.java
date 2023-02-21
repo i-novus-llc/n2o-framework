@@ -22,27 +22,27 @@ public interface Slider extends Control {
      * Установка значения у левого ползунка
      * @param value значение
      */
-    void setValueInLeft(String value);
+    void setLeftValue(String value);
 
     /**
      * Установка значения с шагом у левого ползунка
      * @param value значение
      * @param step шаг
      */
-    void setValueInLeft(String value, int step);
+    void setLeftValue(String value, int step);
 
     /**
      * Установка значения у правого ползунка
      * @param value значение
      */
-    void setValueInRight(String value);
+    void setRightValue(String value);
 
     /**
      * Установка значения с шагом у правого ползунка
      * @param value значение
      * @param step шаг
      */
-    void setValueInRight(String value, int step);
+    void setRightValue(String value, int step);
 
     /**
      * Проверка значения у левого ползунка

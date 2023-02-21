@@ -1,9 +1,9 @@
 import React from 'react'
-import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 
 import { Html as HtmlSnippet } from '../../snippets/Html/Html'
-import evalExpression, { parseExpression } from '../../../utils/evalExpression'
+import { parseExpression } from '../../../utils/evalExpression'
+import { useHtmlResolver } from '../../../utils/useHtmlResolver'
 
 /**
  * Компонент встаквки html-кода производит резолв плейсхолдеров
@@ -15,37 +15,29 @@ import evalExpression, { parseExpression } from '../../../utils/evalExpression'
  */
 
 export const Html = (props) => {
-    const { html, data, loading = false, id, className } = props
+    const {
+        html,
+        data,
+        id,
+        className,
+        loading = false,
+    } = props
 
-    if (!html) {
+    const resolvedHtml = useHtmlResolver(html, data)
+
+    if (!resolvedHtml) {
         return null
     }
 
-    const htmlResolver = (html, data) => {
-        if (isEmpty(data)) {
-            return html
-        }
-
-        const parsedExpression = parseExpression(html)
-
-        if (parsedExpression) {
-            return evalExpression(parsedExpression.replace(/\n/g, ''), data)
-        }
-
-        return html
-    }
-
-    const finalHtml = htmlResolver(html, data)
-
     /* устраняет мерцания с плейсхолдерами */
-    if (parseExpression(finalHtml)) {
+    if (parseExpression(resolvedHtml)) {
         return null
     }
 
     return (
         !loading && (
             <HtmlSnippet
-                html={finalHtml}
+                html={resolvedHtml}
                 id={id}
                 className={className}
             />

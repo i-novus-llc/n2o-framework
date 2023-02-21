@@ -170,20 +170,20 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Deprecated
         @Override
-        public void shouldHaveFirstTitleWithText(String text) {
+        public void firstTitleShouldHaveText(String text) {
             element().$(".breadcrumb-item").shouldHave(Condition.text(text));
         }
 
         @Deprecated
         @Override
-        public void shouldHaveTitle(String title) {
+        public void lastTitleShouldHaveText(String title) {
             element().$$(".breadcrumb-item").last()
                     .shouldHave(Condition.text(title));
         }
 
         @Deprecated
         @Override
-        public void shouldHaveTitleByIndex(String title, Integer index) {
+        public void titleShouldHaveText(String title, Integer index) {
             element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(title));
         }
         public N2oBreadcrumb(SelenideElement element) {

@@ -73,14 +73,14 @@ public class SliderAT extends AutoTestBase {
 
         slider.shouldHaveLeftValue("-10");
         slider.shouldHaveRightValue("-10");
-        slider.setValueInRight("8");
+        slider.setRightValue("8");
         slider.shouldHaveRightValue("8");
-        slider.setValueInLeft("-2");
+        slider.setLeftValue("-2");
         slider.shouldHaveLeftValue("-2");
 
         // пересекаем ползунки
         // проверяем, что первый всегда будет наименьшим
-        slider.setValueInRight("-3");
+        slider.setRightValue("-3");
         slider.shouldHaveLeftValue("-3");
         slider.shouldHaveRightValue("-2");
     }

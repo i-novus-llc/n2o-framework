@@ -6,7 +6,6 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
-import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
@@ -152,14 +151,15 @@ public interface Page extends Component {
          * @param text ожидаемый текст
          */
         @Deprecated
-        void shouldHaveFirstTitleWithText(String text);
+        void firstTitleShouldHaveText(String text);
 
         /**
          * Проверка заголовка последней хлебной крошки на соответствие
          * Метод не поддерживаемый, следует класс Crumb и его метод shouldHaveLabel(String text);
          * @param title ожидаемый текст заголовка
          */
-        void shouldHaveTitle(String title);
+        @Deprecated
+        void lastTitleShouldHaveText(String title);
 
         /**
          * Проверка заголовка хлебной крошки соответствующей номеру
@@ -168,7 +168,7 @@ public interface Page extends Component {
          * @param index номер проверяемой крошки
          */
         @Deprecated
-        void shouldHaveTitleByIndex(String title, Integer index);
+        void titleShouldHaveText(String title, Integer index);
 
         /**
          * Проверка количества хлебных крошек

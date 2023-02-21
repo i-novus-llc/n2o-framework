@@ -18,19 +18,19 @@ public interface CalendarAgendaView extends Component {
      * @param index проверяемая ячейка
      * @param date ожидаемый текст события
      */
-    void shouldHaveEventDate(int index, String date);
+    void eventShouldHaveDate(int index, String date);
 
     /**
      * Проверка наличия события в ячейке времени по индексу
      * @param index проверяемая ячейка
      * @param time ожидаемый текст события
      */
-    void shouldHaveEventTime(int index, String time);
+    void eventShouldHaveTime(int index, String time);
 
     /**
      * Проверка наименования события в ячейке по индексу
      * @param index проверяемая ячейка
      * @param name ожидаемый текст события
      */
-    void shouldHaveEventName(int index, String name);
+    void eventShouldHaveName(int index, String name);
 }

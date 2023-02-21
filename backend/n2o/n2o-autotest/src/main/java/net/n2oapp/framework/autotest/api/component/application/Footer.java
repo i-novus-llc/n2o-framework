@@ -10,12 +10,12 @@ public interface Footer extends Component {
      * Проверка точного соответствия текста (без учета регистра) в левой части компонента footer
      * @param name ожидаемое значение текста
      */
-    void leftTextShouldHaveText(String name);
+    void leftTextShouldHaveValue(String name);
 
     /**
      * Проверка точного соответствия текста (без учета регистра) в правой части компонента footer
      * @param name ожидаемое значение текста
      */
-    void rightTextShouldHaveText(String name);
+    void rightTextShouldHaveValue(String name);
 
 }

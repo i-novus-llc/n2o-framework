@@ -100,7 +100,7 @@ public class RequestDataAT extends AutoTestBase {
         Selenide.refresh();
 
         page.shouldExists();
-        page.breadcrumb().shouldHaveTitle("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
 
         select.shouldSelected("test5");
         inputSelect.shouldHaveValue("test6");
@@ -135,7 +135,7 @@ public class RequestDataAT extends AutoTestBase {
         Selenide.refresh();
 
         page.shouldExists();
-        page.breadcrumb().shouldHaveTitle("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
 
         select.shouldBeEmpty();
         inputSelect.shouldBeEmpty();

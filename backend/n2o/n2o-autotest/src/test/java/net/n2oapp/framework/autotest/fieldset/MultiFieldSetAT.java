@@ -70,7 +70,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset2.shouldHaveLabel("Заголовок");
         fieldset2.shouldHaveDescription("Подзаголовок филдсета");
         fieldset2.shouldHaveAddButton();
-        fieldset2.shouldHaveAddButtonLabel("Добавить участника");
+        fieldset2.addButtonShouldHaveLabel("Добавить участника");
         fieldset2.clickAddButton();
         fieldset2.clickAddButton();
         fieldset2.shouldHaveItems(2);
@@ -158,7 +158,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         name1.setValue("AAA");
         // проверяем кнопку удалить всех
         fieldset3.shouldHaveRemoveAllButton();
-        fieldset3.shouldHaveRemoveAllButtonLabel("Удалить всех участников");
+        fieldset3.removeAllButtonShouldHaveLabel("Удалить всех участников");
         fieldset3.clickRemoveAllButton();
         fieldset3.shouldHaveItems(1);
         name1.shouldHaveValue("AAA");
@@ -233,7 +233,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         // проверяем функционал вложенного мультифилдсета
         // add
         fieldset2.shouldHaveAddButton();
-        fieldset2.shouldHaveAddButtonLabel("Добавить участника");
+        fieldset2.addButtonShouldHaveLabel("Добавить участника");
         fieldset2.clickAddButton();
         fieldset2.clickAddButton();
         MultiFieldSetItem item1 = fieldset2.item(0);
@@ -260,7 +260,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         item2.clickRemoveButton();
         fieldset2.shouldHaveItems(3);
         fieldset2.shouldHaveRemoveAllButton();
-        fieldset2.shouldHaveRemoveAllButtonLabel("Удалить всех участников");
+        fieldset2.removeAllButtonShouldHaveLabel("Удалить всех участников");
         fieldset2.clickRemoveAllButton();
         fieldset2.shouldHaveItems(1);
     }
@@ -381,13 +381,13 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         MultiFieldSet multiSet1 = fieldsets.fieldset(1, MultiFieldSet.class);
         MultiFieldSet multiSet2 = fieldsets.fieldset(2, MultiFieldSet.class);
-        multiSet1.shouldHaveDisabledAddButton();
-        multiSet2.shouldHaveDisabledAddButton();
+        multiSet1.addButtonShouldBeDisabled();
+        multiSet2.addButtonShouldBeDisabled();
 
         inputText.click();
         inputText.setValue("test");
-        multiSet1.shouldHaveDisabledAddButton();
-        multiSet2.shouldHaveEnabledAddButton();
+        multiSet1.addButtonShouldBeDisabled();
+        multiSet2.addButtonShouldBeEnabled();
     }
 
     @Test
@@ -403,7 +403,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(MultiFieldSet.class);
         fieldset.shouldHaveAddButton();
-        fieldset.shouldHaveEnabledAddButton();
+        fieldset.addButtonShouldBeEnabled();
         fieldset.clickAddButton();
 
         MultiFieldSetItem item = fieldset.item(0);
@@ -465,7 +465,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(MultiFieldSet.class);
         fieldset.shouldHaveAddButton();
-        fieldset.shouldHaveEnabledAddButton();
+        fieldset.addButtonShouldBeEnabled();
         fieldset.clickAddButton();
 
         MultiFieldSetItem item = fieldset.item(0);
@@ -501,7 +501,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(MultiFieldSet.class);
         fieldset.shouldHaveAddButton();
-        fieldset.shouldHaveEnabledAddButton();
+        fieldset.addButtonShouldBeEnabled();
         fieldset.clickAddButton();
 
         MultiFieldSetItem itemFirst = fieldset.item(0);
@@ -541,6 +541,70 @@ public class MultiFieldSetAT extends AutoTestBase {
         surnameSecond.shouldHaveValidationMessage(Condition.empty);
         nameSecond.shouldHaveValidationMessage(Condition.empty);
         ageSecond.shouldHaveValidationMessage(Condition.empty);
+    }
+
+    @Test
+    public void testValidationOnClear() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation/when_clean/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget formWidget = page.widget(FormWidget.class);
+        formWidget.shouldExists();
+;
+        StandardField test = formWidget.fields().field("test");
+        StandardField test2 = formWidget.fields().field("test");
+        MultiFieldSet fieldset = formWidget.fieldsets().fieldset(1, MultiFieldSet.class);
+        fieldset.shouldHaveAddButton();
+        fieldset.addButtonShouldBeEnabled();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.item(0).fields().field("surname").control(InputText.class).setValue("test");
+        fieldset.item(1).fields().field("name").control(InputText.class).setValue("test");
+        fieldset.item(2).fields().field("age").control(InputText.class).setValue("3");
+        fieldset.item(3).fields().field("name").control(InputText.class).setValue("test");
+        formWidget.toolbar().topLeft().button("Validate").click();
+
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(2).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(2).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(3).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(3).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).clickRemoveButton();
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(0).fields().field("surname").control(InputText.class).shouldHaveValue("test");
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.item(1).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(1).fields().field("age").control(InputText.class).shouldHaveValue("3");
+
+        fieldset.item(2).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(2).fields().field("name").control(InputText.class).shouldHaveValue("test");
+        fieldset.item(2).fields().field("age").shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.clickRemoveAllButton();
+        test.shouldHaveValidationMessage(Condition.exist);
+        test2.shouldHaveValidationMessage(Condition.exist);
+
+        fieldset.shouldHaveItems(1);
+        fieldset.item(0).fields().field("name").shouldHaveValidationMessage(Condition.exist);
+        fieldset.item(0).fields().field("age").shouldHaveValidationMessage(Condition.exist);
     }
 
     @Test

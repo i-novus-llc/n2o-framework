@@ -26,22 +26,22 @@ public class N2oSlider extends N2oControl implements Slider {
     }
 
     @Override
-    public void setValueInLeft(String value) {
+    public void setLeftValue(String value) {
         setValue(value);
     }
 
     @Override
-    public void setValueInLeft(String value, int step) {
+    public void setLeftValue(String value, int step) {
         setValue(value, step);
     }
 
     @Override
-    public void setValueInRight(String value) {
+    public void setRightValue(String value) {
         setValue(sliderElement(1), value, 1);
     }
 
     @Override
-    public void setValueInRight(String value, int step) {
+    public void setRightValue(String value, int step) {
         setValue(sliderElement(1), value, step);
     }
 
