@@ -121,7 +121,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         invocationParameters.forEach(parameter -> {
             Object value = inDataSet.get(parameter.getId());
             if (parameter.getNormalize() != null) {
-                value = tryToNormalize(value, parameter, resultDataSet, applicationContext);
+                value = tryToNormalize(value, parameter, inDataSet, applicationContext);
             }
             resultDataSet.put(parameter.getId(), value);
         });
@@ -179,27 +179,6 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                         prepareInValues(Arrays.asList(((ObjectReferenceField) parameter).getFields()), (DataSet) dataSet);
             }
         }
-    }
-
-    /**
-     * Нормализация входящих данных вызова
-     *
-     * @param invocationParameters Входящие поля операции
-     * @param inDataSet            Входящие данные вызова
-     * @return Нормализованные входящие данные вызова
-     */
-    private DataSet normalize(Collection<AbstractParameter> invocationParameters, DataSet inDataSet) {
-        DataSet copiedDataSet = new DataSet(inDataSet);
-        for (AbstractParameter parameter : invocationParameters) {
-            if (parameter.getNormalize() != null) {
-                Object value = inDataSet.get(parameter.getId());
-                if (value != null) {
-                    value = tryToNormalize(value, parameter, inDataSet, applicationContext);
-                    copiedDataSet.put(parameter.getId(), value);
-                }
-            }
-        }
-        return copiedDataSet;
     }
 
     private Object tryToNormalize(Object value,
