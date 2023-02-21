@@ -47,16 +47,20 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldExists();
 
         autoComplete.shouldBeEmpty();
-        autoComplete.val("c");
+        autoComplete.setValue("c");
         autoComplete.shouldHaveValue("c");
         autoComplete.shouldHaveDropdownOptions("abc", "ccc");
         autoComplete.chooseDropdownOption("ccc");
         autoComplete.shouldHaveValue("ccc");
-        autoComplete.val("ab");
+        autoComplete.click();
+        autoComplete.clear();
+        autoComplete.setValue("ab");
         autoComplete.shouldHaveDropdownOptions("abc");
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveValue("abc");
-        autoComplete.val("d");
+        autoComplete.click();
+        autoComplete.clear();
+        autoComplete.setValue("d");
         autoComplete.shouldNotHaveDropdownOptions();
     }
 
@@ -73,7 +77,7 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.addTag("item1");
         autoComplete.shouldHaveTags("item1");
 
-        autoComplete.val("ab");
+        autoComplete.setValue("ab");
         autoComplete.shouldHaveDropdownOptions("abc");
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveTags("item1", "abc");
@@ -104,18 +108,20 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldBeEmpty();
         autoComplete.click();
         autoComplete.shouldHaveDropdownOptions("test1", "test2", "test3");
-        autoComplete.val("2");
+        autoComplete.click();
+        autoComplete.setValue("2");
         autoComplete.shouldHaveDropdownOptions("test2");
 
         select.select(1);
         select.shouldHaveValue("type2");
-        autoComplete.val("test");
+        autoComplete.click();
+        autoComplete.setValue("test");
         autoComplete.shouldHaveDropdownOptions("test4", "test5");
 
         select.clear();
         autoComplete.click();
         autoComplete.shouldHaveDropdownOptions("test1", "test2", "test3", "test4", "test5", "test6");
-        autoComplete.val("3");
+        autoComplete.setValue("3");
         autoComplete.shouldHaveDropdownOptions("test3");
     }
 }

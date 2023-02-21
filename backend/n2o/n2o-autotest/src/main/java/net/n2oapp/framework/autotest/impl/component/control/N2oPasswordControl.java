@@ -11,15 +11,16 @@ import org.openqa.selenium.Keys;
 public class N2oPasswordControl extends N2oControl implements PasswordControl {
 
     @Override
-    public String val() {
+    public String getValue() {
         SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
+        return elm.exists() ? elm.getValue() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
     }
 
     @Override
-    public void val(String value) {
-        element().parent().$(".n2o-input").setValue(value);
-        element().parent().$(".n2o-input").pressEnter();
+    public void setValue(String value) {
+        SelenideElement input = element().parent().$(".n2o-input");
+        input.setValue(value);
+        input.pressEnter();
     }
 
     @Override
@@ -52,14 +53,14 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
     }
 
     @Override
-    public void passwordShouldBeVisible() {
+    public void shouldHaveVisiblePassword() {
         SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.attribute("type", "text"));
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "text"));
     }
 
     @Override
-    public void passwordShouldNotBeVisible() {
+    public void shouldNotHaveVisiblePassword() {
         SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.attribute("type", "password"));
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "password"));

@@ -17,20 +17,23 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     @Override
-    public String val() {
+    public String getValue() {
         SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : cellInputElement().text();
+        return elm.exists() ? elm.getValue() : cellInputElement().text();
     }
 
     @Override
-    public void val(String value) {
-        inputElement().click();
+    public void setValue(String value) {
         inputElement().setValue(value);
     }
 
     @Override
-    public void clear() {
+    public void click() {
         inputElement().click();
+    }
+
+    @Override
+    public void clear() {
         inputElement().clear();
     }
 
@@ -64,11 +67,12 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void shouldHaveMeasure() {
+        //ToDo: проверить на сходство с методом shouldHaveMeasureText
         inputMeasure().should(Condition.exist);
     }
 
     @Override
-    public void measureShouldHaveText(String text) {
+    public void shouldHaveMeasureText(String text) {
         inputMeasure().shouldHave(Condition.text(text));
     }
 

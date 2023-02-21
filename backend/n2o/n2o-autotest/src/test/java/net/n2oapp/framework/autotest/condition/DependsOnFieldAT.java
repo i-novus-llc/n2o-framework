@@ -57,7 +57,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         StandardField dependent = fields.field("Зависимое поле");
         dependent.shouldNotExists();
 
-        master.val("test");
+        master.click();
+        master.setValue("test");
         master.shouldHaveValue("test");
 
         dependent.shouldExists();
@@ -65,7 +66,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         dependent.control(InputText.class).shouldBeEnabled();
         dependent.control(InputText.class).shouldHaveValue("test");
 
-        master.val("1");
+        master.click();
+        master.setValue("1");
         master.shouldHaveValue("1");
         StandardField dependentList = fields.field("Зависимый список");
         dependentList.shouldExists();

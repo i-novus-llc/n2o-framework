@@ -84,7 +84,8 @@ public class RequestDataAT extends AutoTestBase {
         inputSelect.select(Condition.text("test6"));
         inputSelect.shouldHaveValue("test6");
 
-        autoComplete.val("test5");
+        autoComplete.click();
+        autoComplete.setValue("test5");
         autoComplete.shouldHaveValue("test5");
 
         inputSelectMulti.selectMulti(2, 4);
@@ -99,7 +100,7 @@ public class RequestDataAT extends AutoTestBase {
         Selenide.refresh();
 
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
 
         select.shouldSelected("test5");
         inputSelect.shouldHaveValue("test6");
@@ -134,7 +135,7 @@ public class RequestDataAT extends AutoTestBase {
         Selenide.refresh();
 
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
 
         select.shouldBeEmpty();
         inputSelect.shouldBeEmpty();

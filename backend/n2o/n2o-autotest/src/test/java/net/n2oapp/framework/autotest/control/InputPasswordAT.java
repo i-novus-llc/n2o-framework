@@ -48,13 +48,13 @@ public class InputPasswordAT extends AutoTestBase {
         password.shouldBeEnabled();
         password.shouldHavePlaceholder("EnterPassword");
         password.shouldHaveValue("");
-        password.passwordShouldNotBeVisible();
-        password.val("S!e@c#r&e*t5%$----");
+        password.shouldNotHaveVisiblePassword();
+        password.setValue("S!e@c#r&e*t5%$----");
         password.shouldHaveValue("S!e@c#r&e*t5%$-");
         password.clickEyeButton();
-        password.passwordShouldBeVisible();
+        password.shouldHaveVisiblePassword();
         password.clickEyeButton();
-        password.passwordShouldNotBeVisible();
+        password.shouldNotHaveVisiblePassword();
     }
 
     private Fields getFields() {

@@ -7,7 +7,7 @@
                 <fields>
                     <input-text id="address" label="Адрес (собирается из того, что ввели в модальном окне)">
                         <toolbar>
-                            <button model="filter" class="fa fa-plus">
+                            <button model="filter" label="Open" class="fa fa-plus">
                                 <show-modal page-id="modal"
                                             submit-action-type="copy"
                                             submit-label="Сохранить"

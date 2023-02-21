@@ -74,7 +74,7 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
 
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(1);
-        rows.row(0).cell(0, TextCell.class).textShouldHave("test1");
+        rows.row(0).cell(0, TextCell.class).shouldHaveText("test1");
 
         ToolbarCell toolbarCell = rows.row(0).cell(1, ToolbarCell.class);
         toolbarCell.toolbar().shouldHaveSize(1);
@@ -104,7 +104,7 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
 
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(1);
-        rows.row(0).cell(0, TextCell.class).textShouldHave("test1");
+        rows.row(0).cell(0, TextCell.class).shouldHaveText("test1");
 
         rows.row(0).cell(1, ToolbarCell.class).toolbar().shouldBeEmpty();
         rows.row(0).cell(2, ToolbarCell.class).toolbar().shouldBeEmpty();

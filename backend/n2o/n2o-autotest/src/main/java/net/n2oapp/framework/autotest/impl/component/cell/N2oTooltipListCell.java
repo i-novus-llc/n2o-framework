@@ -12,16 +12,16 @@ import net.n2oapp.framework.autotest.api.component.cell.TooltipListCell;
 public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
     @Override
     public void shouldHaveText(String text) {
-        element().shouldHave(Condition.text(text));
+        element().shouldHave(Condition.exactText(text));
     }
 
     @Override
-    public void labelShouldBeDashed() {
+    public void shouldHaveDashedLabel() {
         element().$(".list-text-cell__trigger_dashed").shouldBe(Condition.exist);
     }
 
     @Override
-    public void labelShouldNotBeDashed() {
+    public void shouldNotHaveDashedLabel() {
         element().$(".list-text-cell__trigger_dashed").shouldNotBe(Condition.exist);
     }
 

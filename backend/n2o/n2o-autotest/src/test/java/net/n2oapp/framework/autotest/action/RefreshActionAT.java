@@ -61,18 +61,20 @@ public class RefreshActionAT extends AutoTestBase {
         InputText name = nameField.control(InputText.class);
         name.shouldBeEmpty();
 
-        name.val("test3");
+        name.click();
+        name.setValue("test3");
         sendBtn.click();
         rows.shouldHaveSize(2);
         form.toolbar().bottomLeft().button("Refresh table").click();
         rows.shouldHaveSize(3);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
 
-        name.val("test4");
+        name.click();
+        name.setValue("test4");
         sendBtn.click();
         rows.shouldHaveSize(3);
         table.toolbar().topRight().button("Refresh").click();
         rows.shouldHaveSize(4);
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
     }
 }

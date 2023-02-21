@@ -65,7 +65,8 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем обычное текстовое поле
-        inputText.val("Ann");
+        inputText.click();
+        inputText.setValue("Ann");
         // обновляем страницу и проверяем значения всех полей
         // ожидание отправки поля
         Selenide.sleep(500);
@@ -89,7 +90,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем интервальное поле
-        dateInterval.beginVal("18.01.2020");
+        dateInterval.setValueInBegin("18.01.2020");
         dateInterval.shouldBeOpened();
         Selenide.sleep(500);
         dateInterval.beginShouldHaveValue("18.01.2020");
@@ -100,7 +101,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         dateInterval.beginShouldHaveValue("18.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
-        dateInterval.endVal("24.01.2020");
+        dateInterval.setValueInEnd("24.01.2020");
         dateInterval.shouldBeOpened();
         Selenide.sleep(500);
         dateInterval.endShouldHaveValue("24.01.2020");

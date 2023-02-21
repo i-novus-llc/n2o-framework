@@ -19,16 +19,17 @@ public class N2oListCell extends N2oCell implements ListCell {
     }
 
     @Override
-    public void shouldHaveCollapseExpand(boolean visible) {
-        if (visible) {
-            element().$(".collapsed-cell-control").shouldBe(Condition.exist);
-        } else {
-            element().$(".collapsed-cell-control").shouldNotBe(Condition.exist);
-        }
+    public void shouldNotBeExpandable() {
+        element().$(".collapsed-cell-control").shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void clickCollapseExpand() {
+    public void shouldBeExpandable() {
+        element().$(".collapsed-cell-control").shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void expand() {
         element().$(".collapsed-cell-control").click();
     }
 }

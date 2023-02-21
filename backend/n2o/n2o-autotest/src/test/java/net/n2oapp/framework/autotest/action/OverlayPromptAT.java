@@ -66,7 +66,8 @@ public class OverlayPromptAT extends AutoTestBase {
         InputText nameControl = modalPage.content(StandardPage.class).regions().region(0, SimpleRegion.class)
                 .content().widget(FormWidget.class).fields().field("name").control(InputText.class);
         nameControl.shouldHaveValue("test1");
-        nameControl.val("edited");
+        nameControl.click();
+        nameControl.setValue("edited");
         nameControl.shouldHaveValue("edited");
         modalPage.close();
         modalPage.shouldNotExists();
@@ -76,7 +77,8 @@ public class OverlayPromptAT extends AutoTestBase {
         modalPage = N2oSelenide.modal();
         modalPage.shouldHaveTitle("Overlay окно");
         nameControl.shouldHaveValue("test1");
-        nameControl.val("edited");
+        nameControl.click();
+        nameControl.setValue("edited");
         nameControl.shouldHaveValue("edited");
         modalPage.close();
         Selenide.dismiss();
@@ -95,7 +97,8 @@ public class OverlayPromptAT extends AutoTestBase {
         InputText nameControl = drawerPage.content(StandardPage.class).regions().region(0, SimpleRegion.class)
                 .content().widget(FormWidget.class).fields().field("name").control(InputText.class);
         nameControl.shouldHaveValue("test1");
-        nameControl.val("edited");
+        nameControl.click();
+        nameControl.setValue("edited");
         nameControl.shouldHaveValue("edited");
         drawerPage.close();
         drawerPage.shouldNotExists();
@@ -105,7 +108,8 @@ public class OverlayPromptAT extends AutoTestBase {
         drawerPage = N2oSelenide.drawer();
         drawerPage.shouldHaveTitle("Overlay окно");
         nameControl.shouldHaveValue("test1");
-        nameControl.val("edited");
+        nameControl.click();
+        nameControl.setValue("edited");
         nameControl.shouldHaveValue("edited");
         drawerPage.close();
         Selenide.dismiss();
@@ -126,7 +130,8 @@ public class OverlayPromptAT extends AutoTestBase {
         InputText nameControl = openPage.regions().region(0, SimpleRegion.class)
                 .content().widget(FormWidget.class).fields().field("name").control(InputText.class);
         nameControl.shouldHaveValue("test1");
-        nameControl.val("edited");
+        nameControl.click();
+        nameControl.setValue("edited");
         nameControl.shouldHaveValue("edited");
         breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
         breadcrumb.crumb(0).click();
@@ -137,7 +142,8 @@ public class OverlayPromptAT extends AutoTestBase {
         openBtn.click();
         breadcrumb.crumb(1).shouldHaveLabel("Overlay окно");
         nameControl.shouldHaveValue("test1");
-        nameControl.val("edited");
+        nameControl.click();
+        nameControl.setValue("edited");
         nameControl.shouldHaveValue("edited");
         breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
         breadcrumb.crumb(0).click();

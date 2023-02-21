@@ -55,7 +55,7 @@ public class TooltipListCellAT extends AutoTestBase {
         // проверяем снизу вверх, чтобы тултип не перекрывал ячейки
         TooltipListCell cell4 = rows.row(3).cell(0, TooltipListCell.class);
         cell4.shouldHaveText("Объектов 5 шт.");
-        cell4.labelShouldNotBeDashed();
+        cell4.shouldNotHaveDashedLabel();
         cell4.hover();
         Tooltip tooltip = cell4.tooltip();
         tooltip.shouldExists();
@@ -69,7 +69,7 @@ public class TooltipListCellAT extends AutoTestBase {
 
         TooltipListCell cell2 = rows.row(1).cell(0, TooltipListCell.class);
         cell2.shouldHaveText("Объектов 3 шт.");
-        cell2.labelShouldNotBeDashed();
+        cell2.shouldNotHaveDashedLabel();
         cell2.hover();
         tooltip = cell2.tooltip();
         tooltip.shouldExists();
@@ -78,7 +78,7 @@ public class TooltipListCellAT extends AutoTestBase {
         // если значение одно, то оно и отображается в поле без тултипа
         TooltipListCell cell1 = rows.row(0).cell(0, TooltipListCell.class);
         cell1.shouldHaveText("val1");
-        cell1.labelShouldNotBeDashed();
+        cell1.shouldNotHaveDashedLabel();
         cell1.hover();
         tooltip = cell1.tooltip();
         tooltip.shouldNotExists();
@@ -95,7 +95,7 @@ public class TooltipListCellAT extends AutoTestBase {
         // проверяем снизу вверх, чтобы тултип не перекрывал ячейки
         TooltipListCell cell4 = rows.row(3).cell(0, TooltipListCell.class);
         cell4.shouldHaveText("5 объектов");
-        cell4.labelShouldBeDashed();
+        cell4.shouldHaveDashedLabel();
         cell4.click();
         Tooltip tooltip = cell4.tooltip();
         tooltip.shouldExists();
@@ -113,7 +113,7 @@ public class TooltipListCellAT extends AutoTestBase {
 
         TooltipListCell cell2 = rows.row(1).cell(0, TooltipListCell.class);
         cell2.shouldHaveText("3 объекта");
-        cell2.labelShouldBeDashed();
+        cell2.shouldHaveDashedLabel();
         cell2.click();
         tooltip = cell2.tooltip();
         tooltip.shouldExists();
@@ -122,7 +122,7 @@ public class TooltipListCellAT extends AutoTestBase {
         // если значение одно, то оно и отображается в поле без тултипа
         TooltipListCell cell1 = rows.row(0).cell(0, TooltipListCell.class);
         cell1.shouldHaveText("val1");
-        cell1.labelShouldNotBeDashed();
+        cell1.shouldNotHaveDashedLabel();
         cell1.click();
         tooltip = cell1.tooltip();
         tooltip.shouldNotExists();
@@ -135,7 +135,7 @@ public class TooltipListCellAT extends AutoTestBase {
 
         TooltipListCell cell1 = rows.row(0).cell(0, TooltipListCell.class);
         cell1.shouldHaveText("val1");
-        cell1.labelShouldNotBeDashed();
+        cell1.shouldNotHaveDashedLabel();
         TooltipListCell cell2 = rows.row(1).cell(0, TooltipListCell.class);
         cell2.shouldBeEmpty();
     }

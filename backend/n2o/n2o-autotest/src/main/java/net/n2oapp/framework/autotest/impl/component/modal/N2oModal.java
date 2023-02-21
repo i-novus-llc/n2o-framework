@@ -72,12 +72,12 @@ public class N2oModal extends N2oComponent implements Modal {
 
         @Override
         public Toolbar bottomLeft() {
-            return N2oSelenide.collection(element().$$(".modal-footer .n2o-modal-actions").first().$$(".btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".modal-footer .n2o-modal-actions .toolbar_placement_bottomLeft .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomRight() {
-            return N2oSelenide.collection(element().$$(".modal-footer .n2o-modal-actions").last().$$(".btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".modal-footer .n2o-modal-actions .toolbar_placement_bottomRight .btn"), Toolbar.class);
         }
     }
 

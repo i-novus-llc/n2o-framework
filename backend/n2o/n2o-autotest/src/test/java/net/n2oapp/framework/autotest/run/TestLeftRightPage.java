@@ -70,12 +70,12 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     }
 
     @Override
-    public void urlShouldMatches(String regexp) {
+    public void shouldHaveUrlLike(String regexp) {
 
     }
 
     @Override
-    public void titleShouldHaveText(String title) {
+    public void shouldHaveTitle(String title) {
 
     }
 
