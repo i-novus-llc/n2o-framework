@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="net/n2oapp/framework/autotest/control/auto_complete/test.json"/>
+    </list>
+    <count>
+        <test file="net/n2oapp/framework/autotest/control/auto_complete/test.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="id">
+            <select/>
+        </field>
+        <field id="fio">
+            <select/>
+            <sorting/>
+            <filters>
+                <like filter-id="fio"/>
+            </filters>
+        </field>
+    </fields>
+</query>

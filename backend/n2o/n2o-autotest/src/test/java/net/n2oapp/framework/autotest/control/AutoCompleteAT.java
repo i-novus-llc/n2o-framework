@@ -38,7 +38,8 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testAutoComplete() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -66,7 +67,8 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testTags() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -77,6 +79,7 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.addTag("item1");
         autoComplete.shouldHaveTags("item1");
 
+        autoComplete.click();
         autoComplete.setValue("ab");
         autoComplete.shouldHaveDropdownOptions("abc");
         autoComplete.chooseDropdownOption("abc");
@@ -90,6 +93,20 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldHaveTags("abc");
         autoComplete.removeTag("abc");
         autoComplete.shouldBeEmpty();
+
+        autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete3")
+                .control(AutoComplete.class);
+        autoComplete.click();
+        autoComplete.setValue("Ив");
+        autoComplete.chooseDropdownOption("Иванов П.И.");
+        autoComplete.click();
+        autoComplete.setValue("К.Л.");
+        autoComplete.chooseDropdownOption("Иванченко К.Л.");
+        autoComplete.click();
+        autoComplete.setValue("Иванов К.Л.");
+        autoComplete.chooseDropdownOption("Иванов К.Л.");
+        autoComplete.shouldHaveTags("Иванов П.И...", "Иванченко ...", "Иванов К.Л...");
+
     }
 
     @Test

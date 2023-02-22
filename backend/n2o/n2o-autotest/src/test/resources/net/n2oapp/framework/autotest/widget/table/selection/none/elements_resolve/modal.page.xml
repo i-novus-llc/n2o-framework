@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Модальное окно">
-<datasources>
+      name="Модальное окно">
+    <datasources>
 
-    <parent-datasource id="ds">
-        
-    </parent-datasource>
+        <parent-datasource id="ds">
+
+        </parent-datasource>
         <inherited-datasource id="modal" source-datasource="ds"/>
-</datasources>
+    </datasources>
     <regions>
-         <form datasource="modal">
-       
-                <fields>
-                    <input-text id="id" enabled="false"/>
-                    <input-text id="name" enabled="false"/>
-                </fields>
+        <form datasource="modal">
+
+            <fields>
+                <input-text id="id" enabled="false"/>
+                <input-text id="name" enabled="false"/>
+            </fields>
         </form>
     </regions>
-   
+
 </page>
