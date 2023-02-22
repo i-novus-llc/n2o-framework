@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.autotest.api.component.button.Button;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.AutoComplete;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.Select;
@@ -63,7 +63,7 @@ public class RequestDataAT extends AutoTestBase {
                 .control(InputSelect.class);
         AutoComplete autoCompleteMulti = page.widget(FormWidget.class).fields().field("auto_multi")
                 .control(AutoComplete.class);
-        Button save = page.widget(FormWidget.class).toolbar().topLeft().button("Сохранить", Button.class);
+        StandardButton save = page.widget(FormWidget.class).toolbar().topLeft().button("Сохранить");
 
         select.shouldSelected("test4");
         inputSelect.shouldSelected("test4");
