@@ -10,7 +10,6 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
-import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -21,7 +20,9 @@ import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -685,9 +686,9 @@ public class MultiFieldSetAT extends AutoTestBase {
         OutputText outputInFieldset = item.fields().field("output").control(OutputText.class);
         InputText inputInFieldset = item.fields().field("input").control(InputText.class);
 
-        input.val("1234");
+        input.setValue("1234");
         outputInFieldset.shouldNotBeEmpty();
-        inputInFieldset.val("43553");
+        inputInFieldset.setValue("43553");
         outputInFieldset.shouldNotBeEmpty();
 
         item.clickRemoveButton();
