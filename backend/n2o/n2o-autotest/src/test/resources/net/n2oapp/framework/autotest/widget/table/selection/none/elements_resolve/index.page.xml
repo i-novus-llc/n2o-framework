@@ -4,6 +4,7 @@
     <datasources>
         <datasource id="ds" query-id="test"/>
     </datasources>
+
     <regions>
         <table datasource="ds" auto-select="false"
                auto-focus="false" selection="none">
@@ -13,18 +14,16 @@
                 <column>
                     <toolbar>
                         <button icon="fa fa-pencil" type="icon">
-                            <show-modal page-id="modal" route="/update" class="popup" modal-size="lg"/>
+                            <show-modal page-id="modal" route="/update"/>
                         </button>
                     </toolbar>
                 </column>
                 <column>
                     <link icon="fa fa-pencil" type="icon">
-                        <show-modal page-id="modal" route="/update" class="popup" modal-size="lg"/>
+                        <show-modal page-id="modal" route="/update"/>
                     </link>
                 </column>
             </columns>
-
         </table>
     </regions>
-
 </page>
