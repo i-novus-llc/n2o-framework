@@ -3,6 +3,34 @@
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
+
+    .n2o-icon.success {
+        color: $success;
+    }
+
+    .n2o-icon.danger {
+        color: $danger;
+    }
+
+    .n2o-icon.warning {
+        color: $warning;
+    }
+
+    .n2o-icon.info {
+        color: $info;
+    }
+
+    .n2o-icon.primary {
+        color: $primary;
+    }
+
+    .n2o-icon.dark {
+        color: $dark;
+    }
+
+    .n2o-icon.secondary {
+        color: $secondary;
+    }
 }
 
 .icon-cell-container__text-left {
