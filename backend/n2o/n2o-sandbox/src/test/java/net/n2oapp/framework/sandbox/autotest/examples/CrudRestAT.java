@@ -10,7 +10,6 @@ import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.engine.data.rest.SpringRestDataProviderEngine;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
@@ -62,14 +61,14 @@ public class CrudRestAT extends SandboxAutotestBase {
     public void crudTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Магазин");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
         TableWidget.Rows rows = table.columns().rows();
-        table.paging().totalElementsShouldBe(13);
+        table.paging().shouldHaveTotalElements(13);
 
         Button create = table.toolbar().topLeft().button("Создать");
         create.shouldExists();
@@ -87,17 +86,19 @@ public class CrudRestAT extends SandboxAutotestBase {
         inputName.shouldExists();
         InputText inputPrice = modalFields.field("Цена").control(InputText.class);
         inputPrice.shouldExists();
-        inputName.val("test-value");
+        inputName.click();
+        inputName.setValue("test-value");
         inputName.shouldHaveValue("test-value");
-        inputPrice.val(((Long) 49999L).toString());
+        inputPrice.click();
+        inputPrice.setValue(((Long) 49999L).toString());
         inputPrice.shouldHaveValue(((Long) 49999L).toString());
         Button save = modal.toolbar().bottomRight().button("Сохранить");
         save.shouldExists();
         save.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Товар добавлен в базу");
-        table.paging().totalElementsShouldBe(14);
+        table.paging().shouldHaveTotalElements(14);
         table.paging().selectPage("2");
-        rows.row(3).cell(1).textShouldHave("test-value");
+        rows.row(3).cell(1).shouldHaveText("test-value");
 
         rows.shouldBeSelected(0);
         update.click();
@@ -108,41 +109,43 @@ public class CrudRestAT extends SandboxAutotestBase {
         inputName1.shouldExists();
         InputText inputPrice1 = modalFields.field("Цена").control(InputText.class);
         inputPrice1.shouldExists();
-        inputName1.val("change-test-value");
+        inputName1.click();
+        inputName1.setValue("change-test-value");
         inputName1.shouldHaveValue("change-test-value");
-        inputPrice1.val(((Long) 39999L).toString());
+        inputPrice1.click();
+        inputPrice1.setValue(((Long) 39999L).toString());
         inputPrice1.shouldHaveValue(((Long) 39999L).toString());
         Button save1 = modal.toolbar().bottomRight().button("Сохранить");
         save1.shouldExists();
         save1.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные о товаре изменены");
-        table.paging().totalElementsShouldBe(14);
-        rows.row(0).cell(1).textShouldHave("change-test-value");
+        table.paging().shouldHaveTotalElements(14);
+        rows.row(0).cell(1).shouldHaveText("change-test-value");
 
         rows.shouldBeSelected(0);
         delete.click();
         page.dialog("Предупреждение").shouldBeVisible();
         page.dialog("Предупреждение").button("Да").click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные о товаре удалены");
-        table.paging().totalElementsShouldBe(13);
+        table.paging().shouldHaveTotalElements(13);
     }
 
     @Test
     public void pagingTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Магазин");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
-        table.paging().totalElementsShouldBe(13);
-        table.paging().activePageShouldBe("1");
+        table.paging().shouldHaveTotalElements(13);
+        table.paging().shouldHaveActivePage("1");
         table.columns().rows().shouldHaveSize(10);
 
         table.paging().selectPage("2");
-        table.paging().activePageShouldBe("2");
+        table.paging().shouldHaveActivePage("2");
         table.columns().rows().shouldHaveSize(3);
     }
 
@@ -150,13 +153,13 @@ public class CrudRestAT extends SandboxAutotestBase {
     public void filterTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Магазин");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
-        table.paging().totalElementsShouldBe(13);
+        table.paging().shouldHaveTotalElements(13);
 
         table.filters().shouldBeVisible();
         InputText minPrice = table.filters().fields().field("Минимальная цена").control(InputText.class);
@@ -164,27 +167,31 @@ public class CrudRestAT extends SandboxAutotestBase {
         InputText maxPrice = table.filters().fields().field("Максимальная цена").control(InputText.class);
         maxPrice.shouldExists();
 
-        minPrice.val("160000");
+        minPrice.click();
+        minPrice.setValue("160000");
         minPrice.shouldHaveValue("160000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(2).textShouldHave("161000");
+        table.columns().rows().row(0).cell(2).shouldHaveText("161000");
         table.filters().clear();
         minPrice.shouldBeEmpty();
 
-        maxPrice.val("22000");
+        maxPrice.click();
+        maxPrice.setValue("22000");
         maxPrice.shouldHaveValue("22000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(2).textShouldHave("21000");
+        table.columns().rows().row(0).cell(2).shouldHaveText("21000");
 
-        maxPrice.val("34000");
+        maxPrice.click();
+        maxPrice.setValue("34000");
         maxPrice.shouldHaveValue("34000");
-        minPrice.val("30000");
+        minPrice.click();
+        minPrice.setValue("30000");
         minPrice.shouldHaveValue("30000");
         table.filters().search();
         table.columns().rows().shouldHaveSize(1);
-        table.columns().rows().row(0).cell(2).textShouldHave("32000");
+        table.columns().rows().row(0).cell(2).shouldHaveText("32000");
 
         table.filters().clear();
         minPrice.shouldBeEmpty();

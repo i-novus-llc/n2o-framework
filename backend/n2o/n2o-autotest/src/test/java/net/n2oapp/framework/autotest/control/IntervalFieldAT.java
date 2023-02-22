@@ -74,7 +74,7 @@ public class IntervalFieldAT extends AutoTestBase {
         endDate.openPopup();
         beginDate.shouldBeClosed();
         endDate.shouldBeOpened();
-        endDate.val("29042020");
+        endDate.setValue("29042020");
         endDate.shouldHaveValue("29.04.2020");
         endDate.shouldBeActiveDay("29");
         endDate.clickNextMonthButton();

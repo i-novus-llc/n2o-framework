@@ -69,7 +69,8 @@ public class TableAT extends AutoTestBase {
         table.filters().shouldBeVisible();
         table.filters().toolbar().button("searchLabel").shouldBeEnabled();
         table.filters().toolbar().button("resetLabel").shouldBeDisabled();
-        table.filters().fields().field("Имя").control(InputText.class).val("test");
+        table.filters().fields().field("Имя").control(InputText.class).click();
+        table.filters().fields().field("Имя").control(InputText.class).setValue("test");
         table.filters().fields().field("Пол").control(Select.class).select(Condition.text("Мужской"));
         table.filters().toolbar().button("resetLabel").click();
         table.filters().fields().field("Имя").control(InputText.class).shouldHaveValue("test");
@@ -142,14 +143,14 @@ public class TableAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(4);
 
         Cells firstRow = table.columns().rows().row(0);
-        firstRow.cell(1).textShouldHave("1");
+        firstRow.cell(1).shouldHaveText("1");
         firstRow.shouldNotBeClickable();
         Modal modal = N2oSelenide.modal();
         firstRow.click();
         modal.shouldNotExists();
 
         Cells thirdRow = table.columns().rows().row(2);
-        thirdRow.cell(1).textShouldHave("2");
+        thirdRow.cell(1).shouldHaveText("2");
         thirdRow.shouldBeClickable();
         thirdRow.click();
         modal.shouldExists();
@@ -214,49 +215,49 @@ public class TableAT extends AutoTestBase {
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         Paging paging = table.paging();
-        paging.totalElementsShouldBe(8);
+        paging.shouldHaveTotalElements(8);
         paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.prevShouldNotExist();
-        paging.nextShouldNotExist();
-        paging.firstShouldExist();
+        paging.shouldNotHavePrev();
+        paging.shouldNotHaveNext();
+        paging.shouldHaveFirst();
         paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.lastShouldNotExist();
+        paging.shouldNotHaveLast();
 
-        paging.activePageShouldBe("1");
-        table.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
         paging.selectPage("3");
-        paging.activePageShouldBe("3");
-        table.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
+        paging.shouldHaveActivePage("3");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
         paging.selectFirst();
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
 
 
         TableWidget table2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
         paging = table2.paging();
-        paging.totalElementsShouldNotExist();
+        paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.FLAT);
-        paging.prevShouldExist();
+        paging.shouldHavePrev();
         paging.prevShouldHaveLabel("Prev");
         paging.prevShouldHaveIcon("fa-angle-down");
-        paging.nextShouldExist();
+        paging.shouldHaveNext();
         paging.nextShouldHaveLabel("Next");
         paging.nextShouldHaveIcon("fa-angle-up");
-        paging.firstShouldExist();
+        paging.shouldHaveFirst();
         paging.firstShouldHaveLabel("First");
         paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.lastShouldExist();
+        paging.shouldHaveLast();
         paging.lastShouldHaveLabel("Last");
         paging.lastShouldHaveIcon("fa-angle-double-up");
 
-        paging.activePageShouldBe("1");
-        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
         paging.selectNext();
-        paging.activePageShouldBe("2");
-        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test4");
+        paging.shouldHaveActivePage("2");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test4");
         paging.selectPrev();
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
         paging.selectLast();
-        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
     }
 
     @Test
@@ -282,19 +283,19 @@ public class TableAT extends AutoTestBase {
         cellThird.shouldBeVisible();
         cellFourth.shouldBeVisible();
 
-        cellFirst.textShouldHave("test4");
-        cellSecond.textShouldHave("test3");
-        cellThird.textShouldHave("test2");
-        cellFourth.textShouldHave("test1");
+        cellFirst.shouldHaveText("test4");
+        cellSecond.shouldHaveText("test3");
+        cellThird.shouldHaveText("test2");
+        cellFourth.shouldHaveText("test1");
 
         secondHeader.click();
         secondHeader.click();
         secondHeader.shouldBeSortedByAsc();
 
-        cellFirst.textShouldHave("test1");
-        cellSecond.textShouldHave("test2");
-        cellThird.textShouldHave("test3");
-        cellFourth.textShouldHave("test4");
+        cellFirst.shouldHaveText("test1");
+        cellSecond.shouldHaveText("test2");
+        cellThird.shouldHaveText("test3");
+        cellFourth.shouldHaveText("test4");
     }
 
     @Test
@@ -306,7 +307,8 @@ public class TableAT extends AutoTestBase {
         page.shouldExists();
 
         TableWidget tableWidget = page.widget(TableWidget.class);
-        tableWidget.filters().fields().field("name").control(InputText.class).val("test");
+        tableWidget.filters().fields().field("name").control(InputText.class).click();
+        tableWidget.filters().fields().field("name").control(InputText.class).setValue("test");
         tableWidget.filters().toolbar().button("Найти").click();
         tableWidget.columns().rows().shouldHaveSize(4);
 

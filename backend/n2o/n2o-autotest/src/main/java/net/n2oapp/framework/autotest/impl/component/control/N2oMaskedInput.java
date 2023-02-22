@@ -18,13 +18,13 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
     }
 
     @Override
-    public String val() {
+    public String getValue() {
         SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : cellInputElement().text();
+        return elm.exists() ? elm.getValue() : cellInputElement().text();
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
         inputElement().setValue(value);
         inputElement().pressEnter();
     }
@@ -49,11 +49,12 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
 
     @Override
     public void shouldHaveMeasure() {
+        //ToDo: проверить на сходство с методом shouldHaveMeasureText
         inputMeasure().should(Condition.exist);
     }
 
     @Override
-    public void measureShouldHaveText(String text) {
+    public void shouldHaveMeasureText(String text) {
         inputMeasure().shouldHave(Condition.text(text));
     }
 

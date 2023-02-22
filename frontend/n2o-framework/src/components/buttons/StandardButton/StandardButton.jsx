@@ -1,7 +1,7 @@
 import React from 'react'
 import { branch } from 'recompose'
 
-import SimpleButton from '../Simple/Simple'
+import { SimpleButton } from '../Simple/Simple'
 
 import { withLinkAction } from './withLinkAction'
 import { withPerformAction } from './withPerformAction'

@@ -9,13 +9,18 @@ import net.n2oapp.framework.autotest.api.component.cell.Cell;
  */
 public interface Card extends Component {
 
+    /**
+     * @return Список колонок из строки карточек для автотестирования
+     */
     Columns columns();
 
     interface Columns extends ComponentsCollection {
+
         Column column(int index);
     }
 
     interface Column extends Component {
+
         Blocks blocks();
 
         void shouldHaveWidth(int size);

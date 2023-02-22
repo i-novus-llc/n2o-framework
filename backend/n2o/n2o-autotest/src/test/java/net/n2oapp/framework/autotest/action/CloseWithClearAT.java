@@ -58,8 +58,9 @@ public class CloseWithClearAT extends AutoTestBase {
         StandardField valueField = modal.content(SimplePage.class).widget(FormWidget.class).fields().field("value");
         valueField.shouldExists();
         InputText inputText = valueField.control(InputText.class);
+        inputText.click();
         inputText.clear();
-        inputText.val("testValue1");
+        inputText.setValue("testValue1");
         inputText.shouldHaveValue("testValue1");
 
         Toolbar toolbar = modal.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft();
@@ -69,7 +70,8 @@ public class CloseWithClearAT extends AutoTestBase {
         modal.shouldHaveTitle("TestPage");
         inputText.shouldBeEmpty();
 
-        inputText.val("testValue2");
+        inputText.click();
+        inputText.setValue("testValue2");
         inputText.shouldHaveValue("testValue2");
 
         toolbar.button("CloseWithClear").shouldBeEnabled();
@@ -98,8 +100,9 @@ public class CloseWithClearAT extends AutoTestBase {
         StandardField valueField = drawer.content(SimplePage.class).widget(FormWidget.class).fields().field("value");
         valueField.shouldExists();
         InputText inputText = valueField.control(InputText.class);
+        inputText.click();
         inputText.clear();
-        inputText.val("testValue1");
+        inputText.setValue("testValue1");
         inputText.shouldHaveValue("testValue1");
 
         Toolbar toolbar = drawer.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft();
@@ -109,7 +112,8 @@ public class CloseWithClearAT extends AutoTestBase {
         drawer.shouldHaveTitle("TestPage");
         inputText.shouldBeEmpty();
 
-        inputText.val("testValue2");
+        inputText.click();
+        inputText.setValue("testValue2");
         inputText.shouldHaveValue("testValue2");
 
         toolbar.button("CloseWithClear").shouldBeEnabled();

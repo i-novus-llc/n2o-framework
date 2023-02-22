@@ -25,6 +25,7 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void find(String query) {
+        //ToDo: можно ли заменить на встроенный метод бзе sendKeys?
         element().$(".n2o-input-items input").sendKeys(query, Keys.ARROW_DOWN);
     }
 
@@ -35,18 +36,21 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void shouldHaveOptions(String... options) {
+        //ToDo: убрать openPopUp и вызывать отдельно
         openPopup();
         selectPopUp().$$("button .text-cropped,.custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
     }
 
     @Override
     public void select(int index) {
+        //ToDo: убрать openPopUp и вызывать отдельно
         openPopup();
         selectPopUp().$$("button").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
     }
 
     @Override
     public void select(Condition by) {
+        //ToDo: убрать openPopUp и вызывать отдельно
         openPopup();
         selectPopUp().$$("button").findBy(by).click();
     }

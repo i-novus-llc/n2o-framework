@@ -10,7 +10,7 @@ import classNames from 'classnames'
 
 import { Factory } from '../../../core/factory/Factory'
 import { BUTTONS } from '../../../core/factory/factoryLevels'
-import SimpleButton from '../Simple/Simple'
+import { SimpleButton } from '../Simple/Simple'
 import mappingProps from '../Simple/mappingProps'
 import withActionButton from '../withActionButton'
 

@@ -55,7 +55,7 @@ public class CardsAT extends AutoTestBase {
         CardsWidget cardsWidget = page.widget(CardsWidget.class);
         cardsWidget.shouldExists();
         cardsWidget.shouldHaveItems(2);
-        cardsWidget.paging().totalElementsShouldBe(2);
+        cardsWidget.paging().shouldHaveTotalElements(2);
 
         Card card = cardsWidget.card(0);
         card.shouldExists();
@@ -65,14 +65,14 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(0).blocks().shouldHaveSize(4);
 
         TextCell textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
-        textCell.textShouldHave("Hamburg");
+        textCell.shouldHaveText("Hamburg");
 
         ImageCell imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.imageShouldBe(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
         BadgeCell badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
-        badgeCell.textShouldHave("Germany");
+        badgeCell.shouldHaveText("Germany");
 
         ToolbarCell toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
         toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
@@ -92,14 +92,14 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(0).blocks().shouldHaveSize(4);
 
         textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
-        textCell.textShouldHave("Paris");
+        textCell.shouldHaveText("Paris");
 
         imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.imageShouldBe(getBaseUrl() +"/images/paris-3193674__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
         badgeCell = card.columns().column(0).blocks().block(2).cell(BadgeCell.class);
-        badgeCell.textShouldHave("France");
+        badgeCell.shouldHaveText("France");
 
         toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
         toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
@@ -115,7 +115,7 @@ public class CardsAT extends AutoTestBase {
         CardsWidget cardsWidget = page.widget(CardsWidget.class);
         cardsWidget.shouldExists();
         cardsWidget.shouldHaveItems(2);
-        cardsWidget.paging().totalElementsShouldBe(2);
+        cardsWidget.paging().shouldHaveTotalElements(2);
 
         Card card = cardsWidget.card(0);
         card.shouldExists();
@@ -127,23 +127,23 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(1).blocks().shouldHaveSize(5);
 
         TextCell textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
-        textCell.textShouldHave("Hamburg");
+        textCell.shouldHaveText("Hamburg");
 
         ImageCell imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.imageShouldBe(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
         IconCell iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
-        iconCell.textShouldHave("ship");
+        iconCell.shouldHaveText("ship");
 
         BadgeCell badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
-        badgeCell.textShouldHave("Germany");
+        badgeCell.shouldHaveText("Germany");
 
         ProgressBarCell progressBarCell = card.columns().column(1).blocks().block(2).cell(ProgressBarCell.class);
-        progressBarCell.valueShouldBe("50");
+        progressBarCell.shouldHaveValue("50");
 
         RatingCell ratingCell = card.columns().column(1).blocks().block(3).cell(RatingCell.class);
-        ratingCell.valueShouldBe("4");
+        ratingCell.shouldHaveValue("4");
 
         CheckboxCell checkboxCell = card.columns().column(1).blocks().block(4).cell(CheckboxCell.class);
         checkboxCell.shouldBeChecked();
@@ -158,23 +158,23 @@ public class CardsAT extends AutoTestBase {
         card.columns().column(1).blocks().shouldHaveSize(5);
 
         textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
-        textCell.textShouldHave("Paris");
+        textCell.shouldHaveText("Paris");
 
         imageCell = card.columns().column(0).blocks().block(1).cell(ImageCell.class);
         imageCell.shouldExists();
-        imageCell.imageShouldBe(getBaseUrl() +"/images/paris-3193674__340.jpg");
+        imageCell.shouldHaveSrc(getBaseUrl() +"/images/paris-3193674__340.jpg");
 
         iconCell = card.columns().column(1).blocks().block(0).cell(IconCell.class);
-        iconCell.textShouldHave("bicycle");
+        iconCell.shouldHaveText("bicycle");
 
         badgeCell = card.columns().column(1).blocks().block(1).cell(BadgeCell.class);
-        badgeCell.textShouldHave("France");
+        badgeCell.shouldHaveText("France");
 
         progressBarCell = card.columns().column(1).blocks().block(2).cell(ProgressBarCell.class);
-        progressBarCell.valueShouldBe("70");
+        progressBarCell.shouldHaveValue("70");
 
         ratingCell = card.columns().column(1).blocks().block(3).cell(RatingCell.class);
-        ratingCell.valueShouldBe("4.5");
+        ratingCell.shouldHaveValue("4.5");
 
         checkboxCell = card.columns().column(1).blocks().block(4).cell(CheckboxCell.class);
         checkboxCell.shouldBeUnchecked();
@@ -190,52 +190,52 @@ public class CardsAT extends AutoTestBase {
         cards.shouldExists();
 
         Paging paging = cards.paging();
-        paging.totalElementsShouldBe(8);
+        paging.shouldHaveTotalElements(8);
         paging.shouldHaveLayout(Paging.Layout.SEPARATED);
-        paging.prevShouldNotExist();
-        paging.nextShouldNotExist();
-        paging.firstShouldExist();
+        paging.shouldNotHavePrev();
+        paging.shouldNotHaveNext();
+        paging.shouldHaveFirst();
         paging.firstShouldHaveIcon("fa-angle-double-left");
-        paging.lastShouldNotExist();
+        paging.shouldNotHaveLast();
 
-        paging.activePageShouldBe("1");
-        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).shouldHaveText("test1");
         cards.shouldHaveItems(3);
         paging.selectPage("3");
-        paging.activePageShouldBe("3");
+        paging.shouldHaveActivePage("3");
         cards.shouldHaveItems(2);
-        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test7");
+        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).shouldHaveText("test7");
         paging.selectFirst();
-        paging.activePageShouldBe("1");
-        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        cards.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).shouldHaveText("test1");
 
 
         CardsWidget cards2 = page.regions().region(0, SimpleRegion.class).content().widget(1, CardsWidget.class);
         paging = cards2.paging();
-        paging.totalElementsShouldNotExist();
+        paging.shouldNotHaveTotalElements();
         paging.shouldHaveLayout(Paging.Layout.BORDERED);
-        paging.prevShouldExist();
+        paging.shouldHavePrev();
         paging.prevShouldHaveLabel("Prev");
         paging.prevShouldHaveIcon("fa-angle-down");
-        paging.nextShouldExist();
+        paging.shouldHaveNext();
         paging.nextShouldHaveLabel("Next");
         paging.nextShouldHaveIcon("fa-angle-up");
-        paging.firstShouldExist();
+        paging.shouldHaveFirst();
         paging.firstShouldHaveLabel("First");
         paging.firstShouldHaveIcon("fa-angle-double-down");
-        paging.lastShouldExist();
+        paging.shouldHaveLast();
         paging.lastShouldHaveLabel("Last");
         paging.lastShouldHaveIcon("fa-angle-double-up");
 
-        paging.activePageShouldBe("1");
-        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test1");
+        paging.shouldHaveActivePage("1");
+        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).shouldHaveText("test1");
         paging.selectNext();
-        paging.activePageShouldBe("2");
-        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test4");
+        paging.shouldHaveActivePage("2");
+        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).shouldHaveText("test4");
         paging.selectPrev();
-        paging.activePageShouldBe("1");
+        paging.shouldHaveActivePage("1");
         paging.selectLast();
         cards2.shouldHaveItems(2);
-        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).textShouldHave("test7");
+        cards2.card(0).columns().column(0).blocks().block(0).cell(TextCell.class).shouldHaveText("test7");
     }
 }

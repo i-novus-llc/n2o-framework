@@ -2,7 +2,7 @@ import React from 'react'
 import { mount, shallow } from 'enzyme'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import DefaultBreadcrumb from './DefaultBreadcrumb'
+import { SimpleBreadcrumb } from './DefaultBreadcrumb'
 
 const setup = (propsOverride) => {
     const props = {
@@ -20,7 +20,7 @@ const setup = (propsOverride) => {
 
     return mount(
         <Router>
-            <DefaultBreadcrumb {...props} {...propsOverride} />
+            <SimpleBreadcrumb {...props} {...propsOverride} />
         </Router>,
     )
 }
@@ -45,12 +45,12 @@ const setup2 = (propsOverride) => {
 
     return mount(
         <Router>
-            <DefaultBreadcrumb {...props} {...propsOverride} />
+            <SimpleBreadcrumb {...props} {...propsOverride} />
         </Router>,
     )
 }
 
-describe('<DefaultBreadcrumb />', () => {
+describe('<SimpleBreadcrumb />', () => {
     it('Компонент должен отрисоваться', () => {
         const wrapper = setup()
 

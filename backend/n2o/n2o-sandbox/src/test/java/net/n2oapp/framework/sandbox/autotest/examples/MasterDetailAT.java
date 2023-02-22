@@ -6,7 +6,6 @@ import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,14 +42,14 @@ public class MasterDetailAT extends SandboxAutotestBase {
     public void crudTest() {
         LeftRightPage page = open(LeftRightPage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Связь Master Detail");
 
         TableWidget table = page.left().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(2);
         TableWidget.Rows rows = table.columns().rows();
-        table.paging().totalElementsShouldBe(4);
+        table.paging().shouldHaveTotalElements(4);
         rows.columnShouldHaveTexts(0, Arrays.asList("1", "2", "3", "4"));
         rows.columnShouldHaveTexts(1, Arrays.asList("test1", "test2", "test3", "test4"));
 

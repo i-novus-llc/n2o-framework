@@ -58,6 +58,6 @@ public class MarkdownAT extends AutoTestBase {
 
         StandardPage page1 = N2oSelenide.page(StandardPage.class);
         page1.shouldExists();
-        page1.titleShouldHaveText("page");
+        page1.shouldHaveTitle("page");
     }
 }

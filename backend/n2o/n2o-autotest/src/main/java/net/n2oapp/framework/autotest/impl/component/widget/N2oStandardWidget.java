@@ -30,22 +30,22 @@ public class N2oStandardWidget extends N2oWidget implements StandardWidget {
 
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-standard-widget-layout-toolbar--left").first().$$(".btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".toolbar_placement_topLeft .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar topRight() {
-            return N2oSelenide.collection(element().$$(".n2o-standard-widget-layout-toolbar--right").first().$$(".btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".toolbar_placement_topRight .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-standard-widget-layout-toolbar--left").last().$$(".btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".toolbar_placement_bottomLeft .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomRight() {
-            return N2oSelenide.collection(element().$$(".n2o-standard-widget-layout-toolbar--right").last().$$(".btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".toolbar_placement_bottomRight .btn"), Toolbar.class);
         }
     }
 }
