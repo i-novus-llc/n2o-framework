@@ -5,18 +5,17 @@ import { libAsterisk } from '../Menu/helpers'
 
 export const EXPRESSION_SYMBOL = ':'
 
-const resolveItem = (item, models) => {
-    if (isEmpty(models.datasource)) { return item }
+const resolveItem = (item, datasourceModel) => {
+    if (isEmpty(datasourceModel)) { return item }
 
     let newHref = item.href
 
     if (newHref) {
-        const modelObj = models.datasource[0]
         const pathVariables = Object.entries(item.pathMapping)
 
         pathVariables.forEach(([key, valueObj]) => {
-            if (key in modelObj) {
-                newHref = newHref.replaceAll(valueObj.value, modelObj[key])
+            if (key in datasourceModel) {
+                newHref = newHref.replaceAll(valueObj.value, datasourceModel[key])
             }
         })
 
@@ -24,7 +23,7 @@ const resolveItem = (item, models) => {
         const queryVariables = Object.entries(item.queryMapping)
 
         queryVariables.forEach(([queryKey, queryValueObj]) => {
-            const queryObj = propsResolver({ [queryKey]: queryValueObj.value }, modelObj)
+            const queryObj = propsResolver({ [queryKey]: queryValueObj.value }, datasourceModel)
 
             Object.entries(queryObj).forEach(([key, value]) => {
                 newHref += `${hasQuery ? '&' : '?'}${key}=${value}`
@@ -36,7 +35,7 @@ const resolveItem = (item, models) => {
     let newItems = []
 
     if (item.items) {
-        newItems = item.items.map(i => resolveItem(i, models))
+        newItems = item.items.map(i => resolveItem(i, datasourceModel))
     }
 
     return { ...item, ...(item.items && { items: newItems }), ...(item.href && { href: newHref }) }

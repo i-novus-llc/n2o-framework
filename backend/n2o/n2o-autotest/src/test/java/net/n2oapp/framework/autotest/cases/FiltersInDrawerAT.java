@@ -73,14 +73,15 @@ public class FiltersInDrawerAT extends AutoTestBase {
 
         DateInterval dateField = drawerForm.fields().field("Дата подачи заявки").control(DateInterval.class);
         dateField.shouldExists();
-        dateField.beginVal("28.02.2021");
-        dateField.endVal("07.03.2021");
+        dateField.setValueInBegin("28.02.2021");
+        dateField.setValueInEnd("07.03.2021");
         dateField.beginShouldHaveValue("28.02.2021");
         dateField.endShouldHaveValue("07.03.2021");
 
         InputText fioField = drawerForm.fields().field("Фамилия Имя Отчество").control(InputText.class);
         fioField.shouldExists();
-        fioField.val("Вас");
+        fioField.click();
+        fioField.setValue("Вас");
         fioField.shouldHaveValue("Вас");
 
         Select regionField = drawerForm.fields().field("Регион").control(Select.class);
@@ -100,7 +101,7 @@ public class FiltersInDrawerAT extends AutoTestBase {
 
         MaskedInput snilsField = drawerForm.fields().field("СНИЛС").control(MaskedInput.class);
         snilsField.shouldExists();
-        snilsField.val("132-451-114 12");
+        snilsField.setValue("132-451-114 12");
         snilsField.shouldHaveValue("132-451-114 12");
 
         drawer.toolbar().bottomRight().button("Применить").shouldExists();
@@ -115,7 +116,7 @@ public class FiltersInDrawerAT extends AutoTestBase {
         filterFields.field("Статус").control(Select.class).shouldSelected("Новая");
 
         tableRows.shouldHaveSize(1);
-        tableRows.row(0).cell(0).textShouldHave("1");
+        tableRows.row(0).cell(0).shouldHaveText("1");
 
         //проверка сохранения параметров фильтрации в drawer
         table.filters().toolbar().button("Все фильтры").click();

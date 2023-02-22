@@ -13,27 +13,28 @@ public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
     }
 
     @Override
-    public void iconShouldHaveCssClass(String clazz) {
-        element().$("i").shouldHave(Condition.attributeMatching("class", ".*" + clazz));
+    public void shouldHaveIconCssClass(String cssClass) {
+        element().$("i").shouldHave(Condition.attributeMatching("class", ".*" + cssClass));
     }
 
     @Override
     public void shouldHaveBadge() {
+        //ToDo: можно ли использовать методы badge?
         element().$(".badge").shouldHave(Condition.exist);
     }
 
     @Override
-    public void badgeShouldHaveValue(String value) {
-        element().$(".badge").shouldHave(Condition.text(value));
+    public void shouldHaveBadgeText(String text) {
+        element().$(".badge").shouldHave(Condition.text(text));
     }
 
     @Override
-    public void badgeColorShouldHaveValue(String value) {
-        element().$(".badge").shouldHave(Condition.cssClass("badge-" + value));
+    public void shouldHaveBadgeColor(String color) {
+        element().$(".badge").shouldHave(Condition.cssClass("badge-" + color));
     }
 
     @Override
-    public void urlShouldHave(String url) {
+    public void shouldHaveUrl(String url) {
         element().$("a").shouldHave(Condition.attribute("href", url));
     }
 }

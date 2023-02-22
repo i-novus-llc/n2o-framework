@@ -83,12 +83,12 @@ public class SetValueAT extends AutoTestBase {
 
         phone1.shouldBeEmpty();
         phone2.shouldBeEmpty();
-        phone1.val("112233");
+        phone1.setValue("112233");
         phone1.shouldHaveValue("11-22-33");
         copyPhoneBtn.click();
         phone2.shouldHaveValue("11-22-33");
         // повторное копирование
-        phone1.val("998877");
+        phone1.setValue("998877");
         phone1.shouldHaveValue("99-88-77");
         copyPhoneBtn.click();
         phone2.shouldHaveValue("99-88-77");
@@ -102,7 +102,7 @@ public class SetValueAT extends AutoTestBase {
         resetPhoneBtn.click();
         phone.shouldBeEmpty();
         // повторный сброс
-        phone.val("111111");
+        phone.setValue("111111");
         phone.shouldHaveValue("11-11-11");
         resetPhoneBtn.click();
         phone.shouldBeEmpty();

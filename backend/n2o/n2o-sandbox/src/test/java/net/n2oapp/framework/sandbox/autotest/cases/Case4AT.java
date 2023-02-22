@@ -6,7 +6,6 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -49,12 +48,14 @@ public class Case4AT extends SandboxAutotestBase {
         toolbar.dropdown().shouldExists();
         toolbar.dropdown().element().shouldNotBe(Condition.visible);
 
-        input.val("test");
+        input.click();
+        input.setValue("test");
         toolbar.dropdown().element().shouldBe(Condition.visible);
         toolbar.dropdown().click();
         toolbar.dropdown().shouldHaveItems(1);
         toolbar.dropdown().menuItem("Внутреннее меню").shouldExists();
 
+        input.click();
         input.clear();
         toolbar.dropdown().element().shouldNotBe(Condition.visible);
     }

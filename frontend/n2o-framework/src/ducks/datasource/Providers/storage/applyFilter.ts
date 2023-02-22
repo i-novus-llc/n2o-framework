@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 
 import evalExpression, { parseExpression } from '../../../../utils/evalExpression'
-import { getModelSelector } from '../../../models/selectors'
+import { getModelFieldByPath } from '../../../models/selectors'
 import { State } from '../../../State'
 import { IFilter, FilterType } from '../../Provider'
 
@@ -21,7 +21,7 @@ export function resolveValueByFilter({ value, link }: IFilter, state: State): un
     }
 
     const expression = parseExpression(value)
-    const modelByLink: object = getModelSelector(link)(state)
+    const modelByLink: object = getModelFieldByPath(link)(state)
 
     return expression ? evalExpression(expression, modelByLink) : modelByLink
 }

@@ -11,7 +11,6 @@ import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -53,7 +52,7 @@ public class RefreshToolbarCellAT extends SandboxAutotestBase {
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(4);
 
-        table.columns().rows().row(0).cell(0).textShouldHave("test1");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test1");
         table.columns().rows().row(0).cell(1, ToolbarCell.class).toolbar().button("enabled for 'test1'").shouldBeEnabled();
         table.columns().rows().row(0).cell(2, CheckboxCell.class).shouldBeEnabled();
         table.columns().rows().row(0).cell(3, ToolbarCell.class).toolbar().dropdown().click();
@@ -71,7 +70,7 @@ public class RefreshToolbarCellAT extends SandboxAutotestBase {
 
         changeName(table.toolbar().topLeft().button("update"), "test22");
 
-        table.columns().rows().row(0).cell(0).textShouldHave("test22");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test22");
         table.columns().rows().row(0).cell(1, ToolbarCell.class).toolbar().button("enabled for 'test1'").shouldBeDisabled();
         table.columns().rows().row(0).cell(2, CheckboxCell.class).shouldBeDisabled();
         table.columns().rows().row(0).cell(3, ToolbarCell.class).toolbar().dropdown().click();
@@ -87,7 +86,7 @@ public class RefreshToolbarCellAT extends SandboxAutotestBase {
 
         changeName(table.toolbar().topLeft().button("update"), "test1");
 
-        table.columns().rows().row(0).cell(0).textShouldHave("test1");
+        table.columns().rows().row(0).cell(0).shouldHaveText("test1");
         table.columns().rows().row(0).cell(1, ToolbarCell.class).toolbar().button("enabled for 'test1'").shouldBeEnabled();
         table.columns().rows().row(0).cell(2, CheckboxCell.class).shouldBeEnabled();
         table.columns().rows().row(0).cell(3, ToolbarCell.class).toolbar().dropdown().click();
@@ -111,7 +110,8 @@ public class RefreshToolbarCellAT extends SandboxAutotestBase {
         modal.shouldHaveTitle("update");
 
         StandardField field = modal.content(SimplePage.class).widget(FormWidget.class).fields().field("name");
-        field.control(InputText.class).val(newName);
+        field.control(InputText.class).click();
+        field.control(InputText.class).setValue(newName);
 
         Button save = modal.toolbar().bottomRight().button("Сохранить");
         save.shouldExists();

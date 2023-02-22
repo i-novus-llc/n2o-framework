@@ -10,9 +10,9 @@ type Payload = {
     result?: unknown
 }
 
-export type OparationAction = Action<string, Payload>
+export type OperationAction = Action<string, Payload>
 
-type Creator = ((name: string, uid: string) => OparationAction) & { type: OparationAction['type'] }
+type Creator = ((name: string, uid: string) => OperationAction) & { type: OperationAction['type'] }
 
 const create = (type: string): Creator => createAction(
     `${ACTIONS_PREFIX}${type}`,

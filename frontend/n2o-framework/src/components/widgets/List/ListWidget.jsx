@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
-// eslint-disable-next-line import/no-named-as-default
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
@@ -9,7 +9,10 @@ import WidgetLayout from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { WithActiveModel } from '../Widget/WithActiveModel'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
+// eslint-disable-next-line import/no-named-as-default
 import ListContainer from './ListContainer'
 
 /**
@@ -37,12 +40,12 @@ function ListWidget(props) {
         rows,
         size,
         count,
-        models,
         page,
         setPage,
         loading,
     } = props
     const { place = 'bottomLeft' } = paging
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
     const pagination = {
         [place]: (
             <N2OPagination
@@ -50,7 +53,7 @@ function ListWidget(props) {
                 size={size}
                 count={count}
                 activePage={page}
-                datasource={models.datasource}
+                datasource={datasourceModel}
                 setPage={setPage}
             />
         ),

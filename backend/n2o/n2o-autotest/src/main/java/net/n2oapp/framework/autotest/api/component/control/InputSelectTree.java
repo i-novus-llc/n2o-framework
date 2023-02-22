@@ -9,25 +9,66 @@ import net.n2oapp.framework.autotest.api.component.PopupControl;
  */
 public interface InputSelectTree extends Control, PopupControl {
 
+    /**
+     * Проверка соответствия текста подсказки для ввода
+     * @param value ожидаемый текст
+     */
     void shouldHavePlaceholder(String value);
 
+    /**
+     * Раскрытие выпадающего списка
+     */
     void expandOptions();
 
+    /**
+     * Раскрытие списка у опции
+     * @param parentId номер родительской опции
+     */
     void expandParentOptions(int parentId);
 
+    /**
+     * Установка значения в поле ввода для поиска опции
+     * @param value значение
+     */
     void setFilter(String value);
 
+    /**
+     * Проверка того, что опция отображаемые опции соответствуют условию
+     * @param condition проверяемое условие
+     */
     void shouldDisplayedOptions(CollectionCondition condition);
 
+    /**
+     * Выбор опции по номеру
+     * @param index номер выбираемой опции
+     */
     void selectOption(int index);
 
+    /**
+     * Проверка соответствия значения у выбранной опции
+     * @param index номер проверяемой опции
+     * @param value ожидаемое значение
+     */
     void shouldBeSelected(int index, String value);
 
+    /**
+     * Удаление выбранной опции из поля ввода
+     * @param index номер удаляемой опции
+     */
     void removeOption(int index);
 
+    /**
+     * Удаление всех выбранных опций
+     */
     void removeAllOptions();
 
+    /**
+     * Проверка того, что ни одна опция не выбрана
+     */
     void shouldBeUnselected();
 
+    /**
+     * @return Выпадающий список в виде дерева для автотестирования
+     */
     DropDownTree dropdown();
 }

@@ -22,7 +22,7 @@ public class N2oRegion extends N2oComponent implements Region {
                 .filter(new Condition("shouldBeFirstLevelElement") {
                     @Nonnull
                     @Override
-                    public CheckResult check(Driver driver, WebElement element) {
+                    public CheckResult check(@Nonnull Driver driver, @Nonnull WebElement element) {
                         boolean result = !nestingElements.contains(element);
                         return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, (Object)null);
                     }

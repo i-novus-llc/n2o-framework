@@ -14,7 +14,7 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void activePageShouldBe(String label) {
+    public void shouldHaveActivePage(String label) {
         element().$(".n2o-pagination .page-item.active .page-link").shouldHave(Condition.text(label));
     }
 
@@ -24,7 +24,7 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void pagingShouldHave(String number) {
+    public void shouldHavePageNumber(String number) {
         pageNumberButton(number).shouldBe(Condition.exist);
     }
 
@@ -41,22 +41,22 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void totalElementsShouldBe(int count) {
+    public void shouldHaveTotalElements(int count) {
         paginationInfo().scrollTo().should(Condition.matchText("" + count));
     }
 
     @Override
-    public void totalElementsShouldNotExist() {
+    public void shouldNotHaveTotalElements() {
         paginationInfo().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void prevShouldNotExist() {
+    public void shouldNotHavePrev() {
         prevButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void prevShouldExist() {
+    public void shouldHavePrev() {
         prevButton().shouldBe(Condition.exist);
     }
 
@@ -76,12 +76,12 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void nextShouldNotExist() {
+    public void shouldNotHaveNext() {
         nextButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void nextShouldExist() {
+    public void shouldHaveNext() {
         nextButton().shouldBe(Condition.exist);
     }
 
@@ -101,12 +101,12 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void firstShouldNotExist() {
+    public void shouldNotHaveFirst() {
         firstButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void firstShouldExist() {
+    public void shouldHaveFirst() {
         firstButton().shouldBe(Condition.exist);
     }
 
@@ -126,12 +126,12 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void lastShouldNotExist() {
+    public void shouldNotHaveLast() {
         lastButton().shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void lastShouldExist() {
+    public void shouldHaveLast() {
         lastButton().shouldBe(Condition.exist);
     }
 

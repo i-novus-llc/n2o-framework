@@ -217,19 +217,19 @@ class ButtonContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state, { containerKey, id }) => ({
-    isInit: isInitSelector(state, containerKey, id),
-    visible: isVisibleSelector(state, containerKey, id),
-    disabled: isDisabledSelector(state, containerKey, id),
-    color: colorSelector(state, containerKey, id),
-    size: sizeSelector(state, containerKey, id),
-    title: titleSelector(state, containerKey, id),
-    count: countSelector(state, containerKey, id),
-    icon: iconSelector(state, containerKey, id),
-    hint: hintSelector(state, containerKey, id),
-    hintPosition: hintPositionSelector(state, containerKey, id),
-    className: classSelector(state, containerKey, id),
-    style: styleSelector(state, containerKey, id),
+const mapStateToProps = (state, { containerKey: containerId, id: buttonId }) => ({
+    isInit: isInitSelector(state, containerId, buttonId),
+    visible: isVisibleSelector(state, containerId, buttonId),
+    disabled: isDisabledSelector(state, containerId, buttonId),
+    color: colorSelector(state, containerId, buttonId),
+    size: sizeSelector(state, containerId, buttonId),
+    title: titleSelector(state, containerId, buttonId),
+    count: countSelector(state, containerId, buttonId),
+    icon: iconSelector(state, containerId, buttonId),
+    hint: hintSelector(state, containerId, buttonId),
+    hintPosition: hintPositionSelector(state, containerId, buttonId),
+    className: classSelector(state, containerId, buttonId),
+    style: styleSelector(state, containerId, buttonId),
 })
 
 ButtonContainer.propTypes = {

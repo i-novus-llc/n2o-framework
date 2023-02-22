@@ -1,15 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test/>
     </list>
+
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+        <like field-id="name" mapping="['personName']"/>
+        <eq field-id="test">
+        </eq>
+    </filters>
+
     <fields>
-        <field id="id">
-            <select/>
-            <sorting/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
+        <field id="id" sorting="true"/>
+        <field id="name"/>
+        <field id="test"/>
     </fields>
 </query>

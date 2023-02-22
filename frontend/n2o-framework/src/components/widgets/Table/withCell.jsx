@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 
-import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { setModel } from '../../../ducks/models/store'
@@ -23,7 +23,7 @@ export default function WithCell(WrappedComponent) {
     }) {
         const dispatch = useDispatch()
         const { setResolve } = useContext(DataSourceContext)
-        const list = useSelector(dataSourceModelsSelector(datasource)).datasource
+        const list = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
         const updateDatasource = useCallback((newModel) => {
             // TODO костыль для быстрого решения, по хорошему вынести в таблицу и ячейка ничего не должна знать о моделях
             const newList = list.map((model) => {

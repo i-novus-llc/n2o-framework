@@ -52,7 +52,8 @@ public class FieldEnabledAT extends AutoTestBase {
 
         type.check("enabled");
         field.shouldBeEnabled();
-        field.val("test");
+        field.click();
+        field.setValue("test");
         field.shouldHaveValue("test");
 
         type.check("disabled");

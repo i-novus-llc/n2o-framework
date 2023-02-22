@@ -6,7 +6,6 @@ import {
 } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
-import { reset } from 'redux-form'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
@@ -16,13 +15,13 @@ import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addAlert, addMultiAlerts } from '../ducks/alerts/store'
 import { GLOBAL_KEY, STORE_KEY_PATH } from '../ducks/alerts/constants'
-import { removeAllModel } from '../ducks/models/store'
+import { removeAllModel, setModel } from '../ducks/models/store'
 import { register } from '../ducks/datasource/store'
 import { requestConfigSuccess } from '../ducks/global/store'
 
 const mapMessage = message => ({
     ...message,
-    id: message.id || id(),
+    id: message?.id || id(),
 })
 
 const separateMessagesByPlacement = messages => messages.reduce((acc, message) => {
@@ -106,7 +105,7 @@ export function* redirectEffect(action) {
 }
 
 export function* clearFormEffect(action) {
-    yield put(reset(action.meta.clearForm))
+    yield put(setModel(action.meta.clearForm))
 }
 
 export function* userDialogEffect({ meta }) {

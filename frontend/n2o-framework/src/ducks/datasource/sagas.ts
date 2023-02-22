@@ -7,7 +7,18 @@ import {
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
-import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
+import {
+    clearModel,
+    modelInit,
+    removeAllModel,
+    removeModel,
+    setModel,
+    updateMapModel,
+    updateModel,
+    appendFieldToArray,
+    copyFieldArray,
+    removeFieldFromArray,
+} from '../models/store'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 
 import { dataRequest as query } from './sagas/query'
@@ -32,6 +43,7 @@ import { clear } from './Providers/Storage'
 export function* runDataRequest({ payload }: ChangePageAction) {
     const { id, page } = payload
 
+    // @ts-ignore поправить типы
     yield put(dataRequest(id, { page: page || 1 }))
 }
 
@@ -79,16 +91,29 @@ export default (apiProvider: unknown) => [
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(dataRequest, dataRequestWrapper, apiProvider),
+    // @ts-ignore поправить типы
     takeEvery(DATA_REQUEST, function* remapRequest({ payload, meta }) {
         const { datasource, options } = payload
 
+        // @ts-ignore поправить типы
         yield put(dataRequest(datasource, options, meta))
     }),
     takeEvery(startValidate, validateSaga),
     // @ts-ignore хер знает как затипизировать
     takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
-    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
+    takeEvery([
+        setModel,
+        removeModel,
+        removeAllModel,
+        clearModel,
+        updateModel,
+        updateMapModel,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
+        modelInit,
+    ], watchDependencies),
     takeEvery(register, applyOnInitDependencies),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.refresh?.datasources, function* refreshSaga({ meta }) {

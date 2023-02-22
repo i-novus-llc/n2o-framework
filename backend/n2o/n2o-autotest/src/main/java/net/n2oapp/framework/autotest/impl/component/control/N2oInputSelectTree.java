@@ -42,6 +42,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void setFilter(String value) {
+        //ToDo: заменить на setValue selenide
         element().$(".n2o-select-tree-search__field").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
     }
 

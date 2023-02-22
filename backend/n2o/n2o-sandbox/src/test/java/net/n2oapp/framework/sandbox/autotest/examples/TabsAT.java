@@ -3,7 +3,6 @@ package net.n2oapp.framework.sandbox.autotest.examples;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,7 +35,7 @@ public class TabsAT extends SandboxAutotestBase {
     public void testTabs() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Вкладки");
 
         TabsRegion tabs = page.regions().region(0, TabsRegion.class);

@@ -134,8 +134,8 @@ const withMetadata = (Component) => {
     }
 
     const mapStateToProps = createStructuredSelector({
-        metadata: (state, props) => makePageMetadataByIdSelector(props.pageId)(state, props),
-        loading: (state, props) => makePageLoadingByIdSelector(props.pageId)(state, props),
+        metadata: (state, { pageId }) => makePageMetadataByIdSelector(pageId)(state),
+        loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state),
         error: (state, { pageId }) => makePageErrorByIdSelector(pageId)(state),
         location: getLocation,
     })

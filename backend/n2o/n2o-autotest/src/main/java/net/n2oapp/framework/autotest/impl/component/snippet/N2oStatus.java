@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.snippet;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.snippet.Status;
 
@@ -14,13 +15,8 @@ public class N2oStatus extends N2oSnippet implements Status {
     }
 
     @Override
-    public void textShouldHaveLeftPosition() {
-        element().shouldHave(Condition.cssClass("n2o-status-text__left"));
-    }
-
-    @Override
-    public void textShouldHaveRightPosition() {
-        element().shouldHave(Condition.cssClass("n2o-status-text__right"));
+    public void shouldHaveTextPosition(Position position) {
+        element().shouldHave(Condition.cssClass("n2o-status-text__" + position.getId()));
     }
 
     @Override

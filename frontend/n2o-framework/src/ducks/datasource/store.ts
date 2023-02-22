@@ -1,12 +1,13 @@
-/* eslint-disable no-continue */
 import { createSlice } from '@reduxjs/toolkit'
-import { isEmpty, omit } from 'lodash'
+import { isEmpty, omit, omitBy } from 'lodash'
 import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { IMeta } from '../../sagas/types'
 import { ValidationsKey } from '../../core/validation/IValidation'
 import { Meta } from '../Action'
+import { removeFieldFromArray } from '../models/store'
+import { RemoveFieldFromArrayAction } from '../models/Actions'
 
 import type {
     AddComponentAction,
@@ -18,7 +19,6 @@ import type {
     RegisterAction,
     RemoveAction,
     RemoveComponentAction,
-    ResetValidateActionMulti,
     ResolveRequestAction,
     SetAdditionalInfoAction,
     SetFieldSubmitAction,
@@ -272,6 +272,7 @@ const datasource = createSlice({
         },
 
         resetValidation: {
+            // @ts-ignore поправить типы
             prepare(id, fields, prefix = ModelPrefix.active) {
                 return ({
                     payload: { id, fields, prefix },
@@ -286,56 +287,6 @@ const datasource = createSlice({
                         ? {}
                         : omit(datasource.errors[prefix], fields)
                 }
-            },
-        },
-
-        /**
-         * Удаление ошибок мультисета при удалении строк(и)
-         * FIXME подумать над более правильным решением с валидациями мультисетов
-         */
-        resetValidationMulti: {
-            prepare(id, field, index, count = 1, prefix = ModelPrefix.active) {
-                return ({
-                    payload: { id, field, count, index, prefix },
-                })
-            },
-            reducer(state, action: ResetValidateActionMulti) {
-                const { id, field, index, count, prefix } = action.payload
-                const datasource = state[id]
-                const errors: Partial<typeof datasource.errors[typeof prefix]> = {}
-
-                const mask = new RegExp(`${field}\\[(\\d+)]\\.(.+)`)
-
-                for (const [key, messages] of Object.entries(datasource.errors[prefix] || {})) {
-                    const match = key.match(mask)
-
-                    if (match) {
-                        const [, i, name] = match
-                        const matchedIndex = Number(i)
-
-                        // index before removed elements
-                        if (matchedIndex < index) {
-                            errors[key] = messages
-
-                            continue
-                        }
-
-                        // removed elements: ignore it
-                        if ((matchedIndex >= index) && (matchedIndex < index + count)) {
-                            continue
-                        }
-
-                        // after removed: shift index
-                        const newIndex = matchedIndex - count
-
-                        errors[`${field}[${newIndex}].${name}`] = messages
-                    } else {
-                        // not multi-set fields
-                        errors[key] = messages
-                    }
-                }
-
-                datasource.errors[prefix] = errors
             },
         },
 
@@ -404,6 +355,36 @@ const datasource = createSlice({
             },
         },
     },
+    extraReducers: {
+        [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
+            const { field, index, key, prefix } = action.payload
+
+            const FIRST_ELEM_INDEX = 0
+
+            const generateRegExp = (fieldName: string, index = '\\d') => new RegExp(`^${fieldName}(?=\\[${index})`, 'i')
+
+            if (!state?.[key]?.errors?.[prefix]) {
+                return
+            }
+
+            state[key].errors[prefix] = omitBy(state[key].errors[prefix], (_, key) => {
+                if (Array.isArray(index)) {
+                    // index является диапозон от куда и до какого элемента удалять. Если диапозон начинается с 0, удаляем все
+                    const removeAll = index[0] === FIRST_ELEM_INDEX
+                    const isMatch = generateRegExp(field).test(key)
+
+                    if (removeAll) {
+                        return isMatch
+                    }
+
+                    // Удаляем все, что не совпадает с первым элементом и все, что подходит под регулярное выражение
+                    return !generateRegExp(field, FIRST_ELEM_INDEX.toString()).test(key) && isMatch
+                }
+
+                return generateRegExp(field, index.toString()).test(key)
+            })
+        },
+    },
 })
 
 export default datasource.reducer
@@ -420,7 +401,6 @@ export const {
     startValidate,
     resetValidation,
     failValidate,
-    resetValidationMulti,
     changePage,
     changeSize,
     addComponent,
