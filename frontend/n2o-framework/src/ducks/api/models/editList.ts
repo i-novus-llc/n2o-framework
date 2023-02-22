@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit'
 import { cloneDeep, get, set } from 'lodash'
 import { put, select } from 'redux-saga/effects'
 
-import { makeGetModelByPrefixSelector } from '../../models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { setModel } from '../../models/store'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { MODELS_PREFIX } from '../constants'
@@ -37,9 +37,8 @@ export const creator = createAction(
 export function* effect({ payload, type }: ReturnType<typeof creator>) {
     try {
         const { operation, item, list, primaryKey } = payload
-
-        const targetModel: object = yield select(makeGetModelByPrefixSelector(list.model, list.datasource))
-        const sourceModel: object = yield select(makeGetModelByPrefixSelector(item.model, item.datasource))
+        const targetModel: object = yield select(getModelByPrefixAndNameSelector(list.model, list.datasource))
+        const sourceModel: object = yield select(getModelByPrefixAndNameSelector(item.model, item.datasource))
 
         let targetList = list.field ? get(targetModel, list.field) : targetModel
 

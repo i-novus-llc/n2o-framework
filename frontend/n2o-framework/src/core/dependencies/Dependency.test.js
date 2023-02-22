@@ -1,6 +1,5 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { change } from 'redux-form'
 import pick from 'lodash/pick'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
@@ -19,6 +18,8 @@ import formPluginReducer, {
 import { checkAndModify, modify } from '../../sagas/fieldDependency'
 
 import withDependency from './withDependency'
+import { ModelPrefix } from '../datasource/const'
+import { updateModel } from '../../ducks/models/store'
 
 const mockStore = configureMockStore()
 
@@ -62,41 +63,41 @@ const actions = [
         type: disableField.type,
         payload: {
             name: 'field1',
-            form: 'mockForm',
+            key: 'mockForm',
         },
-        meta: { form: 'mockForm' },
+        meta: { key: 'mockForm' },
     },
 
     {
         type: enableField.type,
         payload: {
             name: 'field1',
-            form: 'mockForm',
+            key: 'mockForm',
         },
-        meta: { form: 'mockForm' },
+        meta: { key: 'mockForm' },
     },
     {
         type: hideField.type,
         payload: {
             name: 'field1',
-            form: 'mockForm',
+            key: 'mockForm',
         },
-        meta: { form: 'mockForm' },
+        meta: { key: 'mockForm' },
     },
 
     {
         type: showField.type,
         payload: {
             name: 'field1',
-            form: 'mockForm',
+            key: 'mockForm',
         },
-        meta: { form: 'mockForm' },
+        meta: { key: 'mockForm' },
     },
     {
         type: registerFieldDependency.type,
         payload: {
             name: 'field1',
-            form: 'mockForm',
+            key: 'mockForm',
             dependency: [
                 {
                     applyOnInit: true,
@@ -106,13 +107,14 @@ const actions = [
                 },
             ],
         },
-        meta: { form: 'mockForm' },
+        meta: { key: 'mockForm' },
     },
 ]
 
-const REDUX_CHANGE = '@@redux-form/CHANGE'
+const REDUX_CHANGE = 'n2o/models/UPDATE'
 
 const setup = mockData => checkAndModify(
+    ModelPrefix.active,
     mockData.values,
     mockData.fields,
     mockData.formName,
@@ -121,6 +123,7 @@ const setup = mockData => checkAndModify(
 )
 
 const setupModify = mockData => modify(
+    ModelPrefix.active,
     mockData.values,
     mockData.formName,
     mockData.fields.field1.name,
@@ -131,15 +134,17 @@ const setupModify = mockData => modify(
 describe('Тестирование саги', () => {
     it('Тестирование вызова функции экшена на саге', () => {
         const gen = setup(mockData)
+
         expect(gen.next().value).toEqual(
             fork(
                 modify,
+                ModelPrefix.active,
                 mockData.values,
                 mockData.formName,
                 mockData.fields.field1.name,
                 mockData.fields.field1.dependency[0],
                 mockData.fields.field1,
-            ),
+            )
         )
         expect(gen.next().done).toBe(true)
     })
@@ -200,13 +205,9 @@ describe('Тестирование саги', () => {
         set(mockData, 'fields.field1.dependency[0].expression', 'field2')
         set(mockData, 'values.field2', 'test')
         gen = setupModify(mockData)
+
         expect(gen.next().value).toEqual(
-            put(
-                change(mockData.formName, mockData.fields.field1.name, {
-                    keepDirty: true,
-                    value: 'test',
-                }),
-            ),
+            put(updateModel(ModelPrefix.active, mockData.formName, mockData.fields.field1.name, 'test')),
         )
         expect(gen.next().done).toBe(true)
     })
@@ -216,13 +217,9 @@ describe('Тестирование саги', () => {
         set(mockData, 'fields.field1.dependency[0].type', 'reset')
         set(mockData, 'fields.field1.dependency[0].expression', 'field2 == "test"')
         gen = setupModify(mockData)
+
         expect(gen.next().value).toEqual(
-            put(
-                change(mockData.formName, mockData.fields.field1.name, {
-                    keepDirty: true,
-                    value: null,
-                }),
-            ),
+            put(updateModel(ModelPrefix.active, mockData.formName, mockData.fields.field1.name, null)),
         )
         expect(gen.next().done).toBe(true)
     })
@@ -230,15 +227,17 @@ describe('Тестирование саги', () => {
 
 describe('Тестирование редюсера', () => {
     const initialState = {
-        registeredFields: {
-            field1: mockData.fields.field1,
-        },
+        mockForm: {
+            registeredFields: {
+                field1: mockData.fields.field1,
+            },
+        }
     }
     it('Тестирование регистрации зависимости', () => {
         expect(
             get(
                 formPluginReducer(initialState, actions[4]),
-                'registeredFields.field1.dependency',
+                'mockForm.registeredFields.field1.dependency',
             ),
         ).toBeTruthy()
     })
@@ -247,13 +246,13 @@ describe('Тестирование редюсера', () => {
         expect(
             get(
                 formPluginReducer(initialState, actions[0]),
-                'registeredFields.field1.disabled',
+                'mockForm.registeredFields.field1.disabled',
             ),
         ).toBe(true)
         expect(
             get(
                 formPluginReducer(initialState, actions[1]),
-                'registeredFields.field1.disabled',
+                'mockForm.registeredFields.field1.disabled',
             ),
         ).toBe(false)
     })
@@ -261,13 +260,13 @@ describe('Тестирование редюсера', () => {
         expect(
             get(
                 formPluginReducer(initialState, actions[2]),
-                'registeredFields.field1.visible',
+                'mockForm.registeredFields.field1.visible',
             ),
         ).toBe(false)
         expect(
             get(
                 formPluginReducer(initialState, actions[3]),
-                'registeredFields.field1.visible',
+                'mockForm.registeredFields.field1.visible',
             ),
         ).toBe(true)
     })

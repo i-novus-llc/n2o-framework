@@ -25,6 +25,7 @@ import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell'
 // eslint-disable-next-line import/no-named-as-default
@@ -36,11 +37,10 @@ const ReduxCell = columnHOC(TableCell)
 class AdvancedTableContainer extends React.Component {
     constructor(props) {
         super(props)
-        const { models } = props
-        const { datasource } = models
+        const { datasourceModel } = props
 
         this.state = {
-            data: this.mapData(datasource),
+            data: this.mapData(datasourceModel),
             columns: this.mapColumns(),
         }
 
@@ -53,33 +53,30 @@ class AdvancedTableContainer extends React.Component {
 
     componentDidUpdate(prevProps) {
         const {
-            models: prevModels,
+            datasourceModel: prevDatasource,
             sorting: prevSorting,
         } = prevProps
-        const { models, registredColumns, sorting, headers } = this.props
-        const { datasource } = models
-        const { datasource: prevDatasource } = prevModels
+        const { datasourceModel, registredColumns, sorting, headers } = this.props
 
         if (
-            !isEqual(prevDatasource, datasource) ||
+            !isEqual(prevDatasource, datasourceModel) ||
             !isEqual(prevProps.registredColumns, registredColumns) ||
             !isEqual(sorting, prevSorting) ||
             !isEqual(prevProps.headers, headers)
         ) {
             this.setState({
-                data: this.mapData(datasource),
+                data: this.mapData(datasourceModel),
                 columns: this.mapColumns(),
             })
         }
     }
 
     componentDidMount() {
-        const { models } = this.props
-        const { datasource } = models
+        const { datasourceModel } = this.props
 
-        if (datasource) {
+        if (datasourceModel) {
             this.setState({
-                data: this.mapData(datasource),
+                data: this.mapData(datasourceModel),
                 columns: this.mapColumns(),
             })
         }
@@ -93,11 +90,10 @@ class AdvancedTableContainer extends React.Component {
     }
 
     handleSetFilter(filterData) {
-        const { setFilter, models, fetchData } = this.props
-        const { filter } = models
+        const { setFilter, filterModel, fetchData } = this.props
 
         const newFilter = {
-            ...filter,
+            ...filterModel,
             [filterData.id]: filterData.value,
         }
 
@@ -277,20 +273,22 @@ class AdvancedTableContainer extends React.Component {
             'pageId',
             'sorting',
             'widgetId',
-            'models',
+            'datasourceModel',
+            'filterModel',
+            'multiModel',
+            'resolveModel',
         ])
         const { columns, data } = this.state
-        const { models } = this.props
-        const { filter, multi } = models
+        const { filterModel, multiModel, resolveModel } = this.props
 
         return {
             ...props,
             columns,
             data,
-            multi,
-            filters: filter,
+            resolveModel,
+            multi: multiModel,
+            filters: filterModel,
             onFilter: this.handleSetFilter,
-            resolveModel: models.resolve,
         }
     }
 
@@ -306,10 +304,18 @@ AdvancedTableContainer.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.element),
     registredColumns: PropTypes.any,
     onRowClickAction: PropTypes.func,
+    datasourceModel: PropTypes.array,
+    filterModel: PropTypes.object,
+    multiModel: PropTypes.array,
+    resolveModel: PropTypes.object,
 }
 
 const mapStateToProps = (state, props) => ({
-    registredColumns: getContainerColumns(props.id)(state, props),
+    registredColumns: getContainerColumns(props.id)(state),
+    datasourceModel: dataSourceModelByPrefixSelector(props.datasource, ModelPrefix.source)(state),
+    filterModel: dataSourceModelByPrefixSelector(props.datasource, ModelPrefix.filter)(state),
+    multiModel: dataSourceModelByPrefixSelector(props.datasource, ModelPrefix.selected)(state),
+    resolveModel: dataSourceModelByPrefixSelector(props.datasource, ModelPrefix.active)(state),
 })
 
 export const withWidgetHandlers = (WrappedComponent) => {
@@ -371,10 +377,7 @@ export const withWidgetHandlers = (WrappedComponent) => {
 const enhance = compose(
     withTranslation(),
     withWidgetHandlers,
-    connect(
-        mapStateToProps,
-        null,
-    ),
+    connect(mapStateToProps),
 )
 
 export { AdvancedTableContainer }

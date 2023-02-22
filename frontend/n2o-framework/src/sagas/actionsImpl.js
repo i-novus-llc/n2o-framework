@@ -19,7 +19,7 @@ import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
 import {
     widgetsSelector,
 } from '../ducks/widgets/selectors'
-import { makeGetModelByPrefixSelector } from '../ducks/models/selectors'
+import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
 import { validate as validateDatasource } from '../core/validation/validate'
 import { actionResolver } from '../core/factory/actionResolver'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -191,7 +191,7 @@ export function* handleInvoke(apiProvider, action) {
     const optimistic = get(dataProvider, 'optimistic', false)
     const buttons = get(state, ['toolbar', pageId], [])
     const buttonIds = !optimistic && has(state, 'toolbar') ? keys(buttons) : []
-    const model = yield select(makeGetModelByPrefixSelector(modelPrefix, datasource))
+    const model = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
     const widgets = Object.entries(yield select(widgetsSelector))
         .filter(([, widget]) => (widget.datasource === datasource))
         .map(([key]) => key)

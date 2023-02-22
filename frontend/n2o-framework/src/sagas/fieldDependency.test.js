@@ -1,7 +1,6 @@
 import { runSaga } from 'redux-saga'
 import { put } from 'redux-saga/effects'
 import fetchMock from 'fetch-mock'
-import { actionTypes } from 'redux-form'
 
 import {
     showField,
@@ -13,8 +12,11 @@ import {
 import { FETCH_END, FETCH_START } from '../constants/fetch'
 
 import { modify, fetchValue } from './fieldDependency'
+import { ModelPrefix } from '../core/datasource/const'
+import { updateModel } from '../ducks/models/store'
 
 const setupModify = (
+    prefix,
     type,
     options,
     values = {
@@ -28,29 +30,34 @@ const setupModify = (
         disabled: true,
     }
 
-    return modify(values, formName, fieldName, { type, ...options }, field)
+    return modify(prefix, values, formName, fieldName, { type, ...options }, field)
 }
 
 describe('Проверка саги dependency', () => {
     describe('Проверка modify', () => {
         it('Проверка type enabled с ложным expression', () => {
-            const gen = setupModify('enabled', {
-                expression: 'testField === 0',
-            })
+            const gen = setupModify(
+                ModelPrefix.active,
+                'enabled',
+                {
+                    expression: 'testField === 0',
+                }
+            )
             let next = gen.next()
             expect(next.value.payload.action.type).toEqual(enableField.type)
             expect(next.value.payload.action.payload).toEqual({
                 name: 'testField',
-                form: 'testForm',
+                key: 'testForm',
             })
             expect(next.value.payload.action.meta).toEqual({
-                form: 'testForm',
+                key: 'testForm',
             })
             next = gen.next()
             expect(next.done).toEqual(true)
         })
         it('Проверка type enabled с истинным expression', () => {
             const gen = setupModify(
+                ModelPrefix.active,
                 'enabled',
                 {
                     expression: 'testField != 1',
@@ -62,7 +69,7 @@ describe('Проверка саги dependency', () => {
             expect(gen.next().done).toEqual(true)
         })
         it('Проверка type visible с ложным expression', () => {
-            const gen = setupModify('visible', {
+            const gen = setupModify(ModelPrefix.active, 'visible', {
                 expression: 'testField === 1',
             })
             const next = gen.next()
@@ -71,6 +78,7 @@ describe('Проверка саги dependency', () => {
         })
         it('Проверка type visible с истинным expression', () => {
             const gen = setupModify(
+                ModelPrefix.active,
                 'visible',
                 {
                     expression: 'testField === 1',
@@ -82,23 +90,26 @@ describe('Проверка саги dependency', () => {
             expect(gen.next().done).toEqual(true)
         })
         it('Проверка type setValue', () => {
-            const gen = setupModify('setValue', {
+            const gen = setupModify(ModelPrefix.active, 'setValue', {
                 expression: '10 + 2',
             })
             const next = gen.next()
             expect(next.value.payload.action.payload).toEqual({
-                keepDirty: true,
+                field: "testField",
+                key: "testForm",
+                prefix: "resolve",
                 value: 12,
             })
         })
         it('Проверка type reset с ложным expression', () => {
-            const gen = setupModify('reset', {
+            const gen = setupModify(ModelPrefix.active, 'reset', {
                 expression: 'testField != 0',
             })
             expect(gen.next().done).toEqual(true)
         })
         it('Проверка type reset с истинным expression', () => {
             const gen = setupModify(
+                ModelPrefix.active,
                 'reset',
                 {
                     expression: 'testField === 3',
@@ -107,13 +118,16 @@ describe('Проверка саги dependency', () => {
             )
             const next = gen.next()
             expect(next.value.payload.action.payload).toEqual({
-                keepDirty: true,
+                field: "testField",
+                key: "testForm",
+                prefix: "resolve",
                 value: null,
             })
             expect(gen.next().done).toEqual(true)
         })
         it('Проверка on c точкой', () => {
             const gen = modify(
+                ModelPrefix.active,
                 {
                     field: {
                         id: 0,
@@ -179,9 +193,11 @@ describe('Проверка саги dependency', () => {
             expect(dispatched[0].payload.loading).toBe(true)
             expect(dispatched[1].type).toBe(FETCH_START)
             expect(dispatched[2].type).toBe(FETCH_END)
-            expect(dispatched[3].type).toBe(actionTypes.CHANGE)
+            expect(dispatched[3].type).toBe(updateModel.type)
             expect(dispatched[3].payload).toEqual({
-                keepDirty: true,
+                field: "testField",
+                key: "testForm",
+                prefix: "resolve",
                 value: 'new name',
             })
             expect(dispatched[4].type).toBe(setLoading.type)

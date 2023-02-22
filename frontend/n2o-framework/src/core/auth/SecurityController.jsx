@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react'
+import { useStore } from 'react-redux'
 import isFunction from 'lodash/isFunction'
 import set from 'lodash/set'
 import omit from 'lodash/omit'
@@ -18,12 +18,12 @@ export const Behavior = {
 }
 
 const useSecurityController = ({ config = {}, onPermissionsSet, disabled, ...rest }) => {
-    const store = useSelector(state => state)
+    const { getState } = useStore()
     const prevResolvedConfig = useRef(null)
     const [hasAccess, setHasAccess] = useState(isEmpty(config) || null)
     const { user, checkSecurity, params } = useContext(SecurityContext)
 
-    const checkPermissions = async (config) => {
+    const checkPermissions = useCallback(async (config) => {
         const setPermissionsCallback = (hasAccess) => {
             if (isFunction(onPermissionsSet)) {
                 onPermissionsSet(hasAccess)
@@ -39,7 +39,7 @@ const useSecurityController = ({ config = {}, onPermissionsSet, disabled, ...res
             setHasAccess(false)
             setPermissionsCallback(false)
         }
-    }
+    }, [checkSecurity, onPermissionsSet])
 
     useEffect(() => {
         if (!isEmpty(config)) {
@@ -49,6 +49,7 @@ const useSecurityController = ({ config = {}, onPermissionsSet, disabled, ...res
 
     useEffect(() => {
         if (!isEmpty(config)) {
+            const store = getState()
             const resolvedConfig = resolveLinksRecursively(config, store)
 
             if (!isEqual(prevResolvedConfig.current, resolvedConfig)) {
@@ -57,7 +58,7 @@ const useSecurityController = ({ config = {}, onPermissionsSet, disabled, ...res
                 prevResolvedConfig.current = resolvedConfig
             }
         }
-    }, [store])
+    })
 
     const behaviorDisable = config.behavior === Behavior.DISABLE
 

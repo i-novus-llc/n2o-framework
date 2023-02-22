@@ -33,14 +33,12 @@ const props = {
             },
         ]),
     ),
-    models: {
-        datasource: [
-            {
-                id: 1,
-                name: 'first name',
-            },
-        ],
-    },
+    datasourceModel: [
+        {
+            id: 1,
+            name: 'first name',
+        },
+    ],
     sorting: {},
     setSorting: () => {},
     setFilter: () => {},

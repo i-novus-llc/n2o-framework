@@ -11,9 +11,9 @@ const withActions = (Component) => {
         }
     }
 
-    const mapStateToProps = (state, props) => ({
-        entityKey: props.pageId,
-        toolbar: makePageToolbarByIdSelector(props.pageId)(state),
+    const mapStateToProps = (state, { pageId }) => ({
+        entityKey: pageId,
+        toolbar: makePageToolbarByIdSelector(pageId)(state),
     })
 
     return compose(

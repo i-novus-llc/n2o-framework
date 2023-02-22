@@ -268,12 +268,12 @@ export default function withActionButton(options = {}) {
             }
         }
 
-        const mapStateToProps = (state, { entityKey, id }) => ({
-            isInit: isInitSelector(state, entityKey, id),
-            visibleFromState: isVisibleSelector(state, entityKey, id),
-            disabledFromState: isDisabledSelector(state, entityKey, id),
-            message: messageSelector(state, entityKey, id),
-            count: countSelector(state, entityKey, id),
+        const mapStateToProps = (state, { entityKey: containerId, id: buttonId }) => ({
+            isInit: isInitSelector(state, containerId, buttonId),
+            visibleFromState: isVisibleSelector(state, containerId, buttonId),
+            disabledFromState: isDisabledSelector(state, containerId, buttonId),
+            message: messageSelector(state, containerId, buttonId),
+            count: countSelector(state, containerId, buttonId),
             toolbar: toolbarSelector(state),
         })
 
