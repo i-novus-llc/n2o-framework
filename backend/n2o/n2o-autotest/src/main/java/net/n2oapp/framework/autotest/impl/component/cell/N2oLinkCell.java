@@ -15,13 +15,13 @@ public class N2oLinkCell extends N2oCell implements LinkCell {
     }
 
     @Override
-    public void hrefShouldHave(String href) {
+    public void shouldHaveHref(String href) {
         element().$("a").shouldHave(Condition.attribute("href", href));
     }
 
     @Override
-    public void textShouldHave(String text) {
-        element().shouldHave(Condition.text(text));
+    public void shouldHaveText(String text) {
+        element().shouldHave(Condition.exactText(text));
     }
 
     @Override

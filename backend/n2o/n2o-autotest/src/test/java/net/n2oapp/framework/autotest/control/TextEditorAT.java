@@ -44,7 +44,8 @@ public class TextEditorAT extends AutoTestBase {
         textEditor.shouldExists();
 
         textEditor.shouldBeEmpty();
-        textEditor.val("Test");
+        textEditor.click();
+        textEditor.setValue("Test");
         textEditor.shouldHaveValue("Test");
     }
 }

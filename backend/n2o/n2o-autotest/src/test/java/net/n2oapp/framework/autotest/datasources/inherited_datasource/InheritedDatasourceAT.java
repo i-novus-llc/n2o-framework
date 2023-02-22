@@ -55,12 +55,15 @@ public class InheritedDatasourceAT extends AutoTestBase {
         InputText inher = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, FormWidget.class).fields().field("test").control(InputText.class);
 
-        source.val("test");
+        source.click();
+        source.setValue("test");
         inher.shouldHaveValue("test");
+        source.click();
         source.clear();
         inher.shouldBeEmpty();
 
-        inher.val("test");
+        inher.click();
+        inher.setValue("test");
         source.shouldBeEmpty();
         inher.shouldHaveValue("test");
     }
@@ -116,15 +119,15 @@ public class InheritedDatasourceAT extends AutoTestBase {
         childTable.columns().headers().header(1).shouldHaveTitle("name");
         sourceTable.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
 
-        childTable.columns().rows().row(0).cell(1).textShouldHave("test1");
+        childTable.columns().rows().row(0).cell(1).shouldHaveText("test1");
         sourceTable.columns().rows().row(1).cell(0, CheckboxCell.class).setChecked(true);
         sourceTable.columns().rows().row(2).cell(0, CheckboxCell.class).setChecked(true);
-        childTable.columns().rows().row(1).cell(1).textShouldHave("test2");
-        childTable.columns().rows().row(2).cell(1).textShouldHave("test3");
+        childTable.columns().rows().row(1).cell(1).shouldHaveText("test2");
+        childTable.columns().rows().row(2).cell(1).shouldHaveText("test3");
 
         sourceTable.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(false);
         sourceTable.columns().rows().row(1).cell(0, CheckboxCell.class).setChecked(false);
-        childTable.columns().rows().row(0).cell(1).textShouldHave("test3");
+        childTable.columns().rows().row(0).cell(1).shouldHaveText("test3");
     }
 
     /**
@@ -175,15 +178,18 @@ public class InheritedDatasourceAT extends AutoTestBase {
 
         Button submit = page.toolbar().bottomRight().button("submit");
 
-        rub.val("5");
+        rub.click();
+        rub.setValue("5");
         rate.shouldHaveValue("2");
         dollar.shouldHaveValue("10");
-        rub.val("10");
+        rub.click();
+        rub.setValue("10");
         rate.shouldHaveValue("2");
         dollar.shouldHaveValue("20");
 
         submit.click();
-        rub.val("20");
+        rub.click();
+        rub.setValue("20");
         rate.shouldHaveValue("2");
         dollar.shouldHaveValue("40");
         submit.click();
@@ -191,10 +197,12 @@ public class InheritedDatasourceAT extends AutoTestBase {
         rate.shouldHaveValue("2");
         dollar.shouldHaveValue("80");
 
-        rate.val("3");
+        rate.click();
+        rate.setValue("3");
         rub.shouldHaveValue("40");
         dollar.shouldHaveValue("120");
 
+        rub.click();
         rub.clear();
         dollar.shouldHaveValue("0");
     }
@@ -210,9 +218,11 @@ public class InheritedDatasourceAT extends AutoTestBase {
         InputText dollar = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class).fields()
                 .field("dollar").control(InputText.class);
 
-        rub.val("5");
+        rub.click();
+        rub.setValue("5");
         dollar.shouldHaveValue("10");
-        rub.val("10");
+        rub.click();
+        rub.setValue("10");
         dollar.shouldHaveValue("20");
     }
 
@@ -231,7 +241,8 @@ public class InheritedDatasourceAT extends AutoTestBase {
 
         Button submit = page.toolbar().bottomRight().button("submit");
 
-        rub.val("10");
+        rub.click();
+        rub.setValue("10");
         dollar.shouldHaveValue("20");
         submit.click();
         other.shouldHaveValue("4");

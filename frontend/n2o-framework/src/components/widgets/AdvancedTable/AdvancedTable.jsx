@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose, pure, setDisplayName } from 'recompose'
+import { compose, setDisplayName } from 'recompose'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 import Table from 'rc-table'
@@ -16,12 +16,14 @@ import findIndex from 'lodash/findIndex'
 import values from 'lodash/values'
 import eq from 'lodash/eq'
 import get from 'lodash/get'
+import { ReactReduxContext } from 'react-redux'
 
 import propsResolver from '../../../utils/propsResolver'
 import { SecurityController } from '../../../core/auth/SecurityController'
 // eslint-disable-next-line import/no-named-as-default
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O'
 import { InputRadio } from '../../controls/Radio/Input'
+import { makeIsActiveSelector } from '../../../ducks/widgets/selectors'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableExpandIcon from './AdvancedTableExpandIcon'
@@ -374,17 +376,22 @@ class AdvancedTable extends Component {
         }
     }
 
+    // eslint-disable-next-line complexity
     handleRowClickWithAction(id, needReturn, noResolve, model) {
         const {
+            id: widgetId,
             hasFocus,
             hasSelect,
             rowClick,
             onRowClickAction,
             setResolve,
-            isActive,
             autoCheckboxOnSelect,
             rowSelection,
         } = this.props
+        const { store } = this?.context || {}
+        /* FIXME: Используется свойство isActive напрямую из стора.
+            На автотестах, значение не успевает измениться, тесты слишком быстро отрабатывают */
+        const isActive = store ? makeIsActiveSelector(widgetId)(store.getState()) : false
         const needToReturn = isActive === needReturn
 
         if (!needToReturn && hasSelect && !noResolve) {
@@ -726,7 +733,10 @@ class AdvancedTable extends Component {
     }
 }
 
+AdvancedTable.contextType = ReactReduxContext
+
 AdvancedTable.propTypes = {
+    id: PropTypes.string,
     children: PropTypes.any,
     selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     rowClass: PropTypes.string,
@@ -819,4 +829,4 @@ AdvancedTable.defaultProps = {
 }
 
 export { AdvancedTable }
-export default compose(setDisplayName('AdvancedTable'), pure)(AdvancedTable)
+export default compose(setDisplayName('AdvancedTable'))(AdvancedTable)

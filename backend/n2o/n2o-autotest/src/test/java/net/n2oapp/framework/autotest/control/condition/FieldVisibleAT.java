@@ -52,7 +52,8 @@ public class FieldVisibleAT extends AutoTestBase {
 
         type.check("visible");
         field.shouldExists();
-        field.val("test");
+        field.click();
+        field.setValue("test");
         field.shouldHaveValue("test");
 
         type.check("not visible");

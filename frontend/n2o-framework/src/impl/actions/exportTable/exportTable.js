@@ -1,5 +1,3 @@
-import { getFormValues } from 'redux-form'
-
 import { exportFormName } from '../../../components/widgets/Table/ExportModal'
 import {
     makeWidgetPageSelector,
@@ -7,6 +5,8 @@ import {
     makeWidgetCountSelector,
 } from '../../../ducks/widgets/selectors'
 import { destroyOverlay } from '../../../ducks/overlays/store'
+import { ModelPrefix } from '../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 
 /**
  * Функция для кодирования query
@@ -29,12 +29,10 @@ export function encodeQueryData(data) {
  * @param widgetId
  */
 export default function resolveExportTable({ dispatch, state, widgetId }) {
-    const values = getFormValues(exportFormName)(state)
-    const page =
-    values.size === 'all' ? 1 : makeWidgetPageSelector(widgetId)(state)
+    const values = getModelByPrefixAndNameSelector(ModelPrefix.active, exportFormName, {})(state)
+    const page = values.size === 'all' ? 1 : makeWidgetPageSelector(widgetId)(state)
     const size = makeWidgetSizeSelector(widgetId)(state)
-    const count =
-    values.size === 'all' ? makeWidgetCountSelector(widgetId)(state) : size
+    const count = values.size === 'all' ? makeWidgetCountSelector(widgetId)(state) : size
 
     window.open(
         encodeQueryData({

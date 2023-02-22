@@ -1,11 +1,14 @@
-import { compose, withHandlers, withProps } from 'recompose'
+import { compose, withHandlers } from 'recompose'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import some from 'lodash/some'
 import isArray from 'lodash/isArray'
 import toString from 'lodash/toString'
+import { connect } from 'react-redux'
 
 import Tree from '../component/Tree'
+import { ModelPrefix } from '../../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 
 import { propTypes, defaultProps } from './allProps'
 
@@ -45,16 +48,19 @@ export const withWidgetHandlers = withHandlers({
     },
 })
 
-const TreeContainer = compose(
-    withProps(({ models, ...rest }) => {
-        const { datasource, resolve } = models
+const mapStateToProps = (state, props) => {
+    const datasourceModel = getModelByPrefixAndNameSelector(ModelPrefix.source, props.datasource, [])(state)
+    const resolveModel = getModelByPrefixAndNameSelector(ModelPrefix.active, props.datasource, {})(state)
 
-        return {
-            datasource: mapToString(datasource, rest),
-            resolveModel: mapToString(resolve || {}, rest),
-            selectedId: resolve?.id,
-        }
-    }),
+    return ({
+        datasource: mapToString(datasourceModel, props),
+        resolveModel: mapToString(resolveModel, props),
+        selectedId: resolveModel.id,
+    })
+}
+
+const TreeContainer = compose(
+    connect(mapStateToProps),
     withWidgetHandlers,
 )(Tree)
 

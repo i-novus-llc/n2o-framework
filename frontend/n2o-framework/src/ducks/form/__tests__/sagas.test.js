@@ -1,8 +1,6 @@
 import { runSaga } from 'redux-saga'
-import { put } from 'redux-saga/effects'
-import { touch } from 'redux-form'
 
-import { addTouched, copyAction, clearForm } from '../sagas'
+import { copyAction, clearForm } from '../sagas'
 
 const state = {
     models: {
@@ -35,22 +33,6 @@ const state = {
 }
 
 describe('Проверка саги formPlugin', () => {
-    it('Проверка вызова touch при добавлении сообщения', () => {
-        const testData = {
-            payload: {
-                name: 'formField',
-                form: 'formName',
-            },
-        }
-
-        const genAddMessage = addTouched(testData)
-
-        expect(genAddMessage.next().value).toEqual(
-            put(touch(testData.payload.form, testData.payload.name)),
-        )
-        expect(genAddMessage.next().done).toEqual(true)
-    })
-
     it.skip('clearForm должен вызвать сброс формы', () => {
         const gen = clearForm({
             payload: {

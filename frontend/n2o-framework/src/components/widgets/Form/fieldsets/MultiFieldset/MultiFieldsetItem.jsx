@@ -41,7 +41,7 @@ function MultiFieldsetItem({
                                     className="n2o-multi-fieldset__copy"
                                     color="link"
                                     size="sm"
-                                    onClick={onCopyField(index)}
+                                    onClick={() => onCopyField(index)}
                                     disabled={!enabled}
                                 >
                                     <i className="fa fa-copy" />
@@ -52,7 +52,7 @@ function MultiFieldsetItem({
                                     className="n2o-multi-fieldset__remove"
                                     color="link"
                                     size="sm"
-                                    onClick={onRemoveField(index)}
+                                    onClick={() => onRemoveField(index)}
                                     disabled={!enabled}
                                 >
                                     <i className="fa fa-trash" />

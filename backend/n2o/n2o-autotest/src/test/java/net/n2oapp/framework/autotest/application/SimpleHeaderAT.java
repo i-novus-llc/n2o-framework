@@ -14,8 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.timeout;
-
 /**
  * Автотест шапки(header)
  */
@@ -48,30 +46,30 @@ public class  SimpleHeaderAT extends AutoTestBase {
                 String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("Лого");
+        page.header().shouldHaveBrandName("Лого");
         page.header().nav().shouldHaveSize(2);
         AnchorMenuItem link = page.header().nav().anchor(0);
-        link.labelShouldHave("ссылка");
-        link.urlShouldHave(rootUrl + "/");
+        link.shouldHaveLabel("ссылка");
+        link.shouldHaveUrl(rootUrl + "/");
 
         DropdownMenuItem dropdown = page.header().nav().dropdown(1);
-        dropdown.labelShouldHave("список");
+        dropdown.shouldHaveLabel("список");
         dropdown.click();
-        dropdown.item(0).labelShouldHave("Название страницы");
-        dropdown.item(0).urlShouldHave(rootUrl + "/#/pageRoute");
+        dropdown.item(0).shouldHaveLabel("Название страницы");
+        dropdown.item(0).shouldHaveUrl(rootUrl + "/#/pageRoute");
         dropdown.item(0).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Название страницы");
 
         dropdown.click();
-        dropdown.item(1).labelShouldHave("элемент списка №2");
-        dropdown.item(1).urlShouldHave(rootUrl + "/#/pageRoute1");
+        dropdown.item(1).shouldHaveLabel("элемент списка №2");
+        dropdown.item(1).shouldHaveUrl(rootUrl + "/#/pageRoute1");
         dropdown.item(1).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
 
         page.header().extra().shouldHaveSize(1);
         link = page.header().extra().item(0, AnchorMenuItem.class);
-        link.labelShouldHave("ссылка из extra-menu");
-        link.urlShouldHave(getBaseUrl() + "/");
+        link.shouldHaveLabel("ссылка из extra-menu");
+        link.shouldHaveUrl(getBaseUrl() + "/");
     }
 
     @Test
@@ -79,22 +77,22 @@ public class  SimpleHeaderAT extends AutoTestBase {
         String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("Лого");
+        page.header().shouldHaveBrandName("Лого");
         page.header().nav().shouldHaveSize(2);
 
         DropdownMenuItem dropdown = page.header().nav().dropdown(1);
-        dropdown.labelShouldHave("список");
+        dropdown.shouldHaveLabel("список");
         dropdown.click();
         DropdownMenuItem dropdownLevelTwo = dropdown.item(2, DropdownMenuItem.class);
-        dropdownLevelTwo.labelShouldHave("Многоуровневый список");
+        dropdownLevelTwo.shouldHaveLabel("Многоуровневый список");
         dropdownLevelTwo.click();
         dropdown.item(2, DropdownMenuItem.class).shouldHaveSize(2);
         page.breadcrumb().crumb(0).shouldHaveLabel("Название страницы");
 
-        dropdownLevelTwo.item(0).labelShouldHave("Название страницы");
-        dropdownLevelTwo.item(0).urlShouldHave(rootUrl + "/#/pageRoute");
-        dropdownLevelTwo.item(1).labelShouldHave("элемент многоуровнегосписка №2");
-        dropdownLevelTwo.item(1).urlShouldHave(rootUrl + "/#/pageRoute1");
+        dropdownLevelTwo.item(0).shouldHaveLabel("Название страницы");
+        dropdownLevelTwo.item(0).shouldHaveUrl(rootUrl + "/#/pageRoute");
+        dropdownLevelTwo.item(1).shouldHaveLabel("элемент многоуровнегосписка №2");
+        dropdownLevelTwo.item(1).shouldHaveUrl(rootUrl + "/#/pageRoute1");
         dropdownLevelTwo.item(1).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
     }

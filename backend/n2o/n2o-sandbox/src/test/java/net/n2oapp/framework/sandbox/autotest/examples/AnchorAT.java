@@ -6,7 +6,6 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,7 +40,7 @@ public class AnchorAT extends SandboxAutotestBase {
     public void externalLinkTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Поиск в яндексе");
 
         Button button = page.widget(FormWidget.class).toolbar().bottomLeft()
@@ -53,12 +52,13 @@ public class AnchorAT extends SandboxAutotestBase {
         inputText.shouldExists();
         inputText.shouldBeEmpty();
 
-        inputText.val("yandex");
+        inputText.click();
+        inputText.setValue("yandex");
         inputText.shouldHaveValue("yandex");
         button.click();
 
         Selenide.switchTo().window(1);
-        page.urlShouldMatches("https://yandex.ru.*");
+        page.shouldHaveUrlLike("https://yandex.ru.*");
         Selenide.closeWindow();
     }
 }

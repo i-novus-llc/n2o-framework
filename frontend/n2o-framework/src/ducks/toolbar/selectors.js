@@ -2,15 +2,19 @@ import { createSelector } from '@reduxjs/toolkit'
 
 /**
  * Получить slice toolbar'а
- * @param {Object.<string, any>} state стейт стора
- * @return {Toolbar.store}
+ * @param { GlobalState } state
+ * @return TToolbarState
  */
 export const toolbarSelector = state => state.toolbar
 
-// ToDo: Разобраться с сагой. Как то странно она работает
-export const getContainerButtons = containerKey => createSelector(
-    toolbarSelector,
-    toolbar => toolbar[containerKey] || {},
+/**
+ * Получение контейнера по id
+ */
+export const getContainerButtons = containerId => createSelector(
+    [
+        toolbarSelector,
+    ],
+    toolbar => toolbar[containerId] || {},
 )
 
 /**

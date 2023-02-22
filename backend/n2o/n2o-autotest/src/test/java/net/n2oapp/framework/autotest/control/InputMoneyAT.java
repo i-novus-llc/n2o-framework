@@ -48,7 +48,7 @@ public class InputMoneyAT extends AutoTestBase {
         inputMoney.shouldHaveValue("");
         inputMoney.shouldHavePlaceholder("");
 
-        inputMoney.val("100500,999");
+        inputMoney.setValue("100500,999");
         inputMoney.shouldHaveValue("100 500,99 rub");
     }
 

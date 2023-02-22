@@ -50,6 +50,7 @@ export function* submitSaga(apiProvider: unknown, { meta, payload }: SubmitActio
         yield submitMethod(id, submitProvider, apiProvider)
         yield put(submitSuccess(meta?.success))
     } catch (error) {
+        // @ts-ignore поправить типы
         yield put(submitFail(error, meta?.fail))
         // eslint-disable-next-line no-console
         console.warn(`JS Error: DataSource(${id}) submit saga. ${error instanceof Error ? error.message : error}`)

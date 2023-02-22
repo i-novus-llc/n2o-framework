@@ -15,12 +15,12 @@ public class N2oTextArea extends N2oControl implements TextArea {
     }
 
     @Override
-    public String val() {
+    public String getValue() {
         return element().text();
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
         element().setValue(value);
     }
 

@@ -12,8 +12,6 @@ import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.cell.CheckboxCellCompiler;
-import net.n2oapp.framework.config.metadata.compile.cell.TextCellCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
@@ -61,7 +59,8 @@ public class SimpleFieldSetAT extends AutoTestBase {
         fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
         fieldset.shouldHaveLabel("Заголовок test");
         fieldset.shouldHaveDescription("Подзаголовок филдсета");
-        field1.val("123");
+        field1.click();
+        field1.setValue("123");
         fieldset.shouldHaveLabel("Заголовок 123");
 
         fields = fieldset.fields();
@@ -87,7 +86,8 @@ public class SimpleFieldSetAT extends AutoTestBase {
         set1.shouldBeHidden();
         set2.shouldBeHidden();
 
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         set1.shouldBeHidden();
         set2.shouldBeVisible();
         set2.fields().field("field2").shouldExists();
@@ -111,7 +111,8 @@ public class SimpleFieldSetAT extends AutoTestBase {
         set1Field.shouldBeDisabled();
         set1Field.shouldBeDisabled();
 
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         set1Field.shouldBeDisabled();
         set2Field.shouldBeEnabled();
     }

@@ -1,11 +1,14 @@
 import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import ChartType from './ChartType'
 import LineChart from './LineChart'
@@ -31,7 +34,6 @@ function ChartWidget(props) {
         toolbar,
         disabled,
         chart,
-        models,
         filter,
         className,
         style,
@@ -39,6 +41,7 @@ function ChartWidget(props) {
     } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
 
     const { type } = chart
 
@@ -56,7 +59,7 @@ function ChartWidget(props) {
             loading={loading}
         >
             <div className="n2o-chart-widget">
-                <Component {...chart} data={models.datasource} />
+                <Component {...chart} data={datasourceModel} />
             </div>
         </WidgetLayout>
     )

@@ -53,11 +53,13 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public void search() {
+            //ToDo: можно ли выделить как методы возвращающий Button?
             element().$$(".n2o-filter .btn-group .btn").findBy(Condition.text("Найти")).click();
         }
 
         @Override
         public void clear() {
+            //ToDo: можно ли выделить как методы возвращающий Button?
             element().$$(".n2o-filter .btn-group .btn").findBy(Condition.text("Сбросить")).click();
         }
 

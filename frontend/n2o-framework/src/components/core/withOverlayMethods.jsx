@@ -91,7 +91,7 @@ function withOverlayMethods(WrappedComponent) {
         loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state),
         disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
         showPrompt: (state, { name }) => makeShowPromptByName(name)(state),
-        metadata: (state, props) => makePageMetadataByIdSelector(props.pageId)(state),
+        metadata: (state, { pageId }) => makePageMetadataByIdSelector(pageId)(state),
     })
 
     return compose(

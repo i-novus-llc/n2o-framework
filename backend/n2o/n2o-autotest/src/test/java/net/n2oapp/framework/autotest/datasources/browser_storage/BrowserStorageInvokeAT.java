@@ -75,10 +75,11 @@ public class BrowserStorageInvokeAT extends AutoTestBase {
         Button button = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
                 .toolbar().bottomLeft().button("Отправить");
 
-        input.val("test");
+        input.click();
+        input.setValue("test");
         button.click();
         input.shouldBeEmpty();
-        table.columns().rows().row(0).cell(0).textShouldHave("1");
-        table.columns().rows().row(0).cell(1).textShouldHave("test");
+        table.columns().rows().row(0).cell(0).shouldHaveText("1");
+        table.columns().rows().row(0).cell(1).shouldHaveText("test");
     }
 }

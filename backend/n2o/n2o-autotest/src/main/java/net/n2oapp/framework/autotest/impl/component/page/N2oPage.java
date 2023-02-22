@@ -75,12 +75,12 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public void urlShouldMatches(String regexp) {
+    public void shouldHaveUrlLike(String regexp) {
         element().should(new UrlMatch(regexp));
     }
 
     @Override
-    public void titleShouldHaveText(String title) {
+    public void shouldHaveTitle(String title) {
         element().$(".n2o-page__title").shouldHave(Condition.text(title));
     }
 
@@ -107,10 +107,14 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public void shouldHaveLayout(NavigationLayout layout) {
-        if (NavigationLayout.fullSizeHeader.equals(layout))
-            element().$(".n2o-layout-full-size-header").should(Condition.exist);
-        else if (NavigationLayout.fullSizeSidebar.equals(layout))
-            element().$(".n2o-layout-full-size-sidebar").should(Condition.exist);
+        switch (layout) {
+            case fullSizeHeader:
+                element().$(".n2o-layout-full-size-header").should(Condition.exist);
+                break;
+            case fullSizeSidebar:
+                element().$(".n2o-layout-full-size-sidebar").should(Condition.exist);
+                break;
+        }
     }
 
     @Override
@@ -137,22 +141,22 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions, .n2o-page-body").first().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_topLeft .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar topRight() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").first().$$(".btn-toolbar:last-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_topRight .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").last().$$(".btn-toolbar:first-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_bottomLeft .btn"), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomRight() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .n2o-page-actions").last().$$(".btn-toolbar:last-child .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_bottomRight .btn"), Toolbar.class);
         }
     }
 
@@ -172,15 +176,15 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Deprecated
         @Override
-        public void titleShouldHaveText(String text) {
+        public void lastTitleShouldHaveText(String title) {
             element().$$(".breadcrumb-item").last()
-                    .shouldHave(Condition.text(text));
+                    .shouldHave(Condition.text(title));
         }
 
         @Deprecated
         @Override
-        public void titleByIndexShouldHaveText(String text, Integer index) {
-            element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(text));
+        public void titleShouldHaveText(String title, Integer index) {
+            element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(title));
         }
         public N2oBreadcrumb(SelenideElement element) {
             setElement(element);
@@ -282,6 +286,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void click(String label) {
+            //ToDo: можно ли выделить в отдельный метод возвращающий Button?
             element.$$(".btn").findBy(Condition.text(label)).click();
         }
 
@@ -302,11 +307,12 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Nonnull
         @Override
-        public CheckResult check(Driver driver, WebElement element) {
+        public CheckResult check(Driver driver, @Nonnull WebElement element) {
             boolean result = driver.url().matches(regex);
             return new CheckResult(result ? ACCEPT : REJECT, null);
         }
 
+        @Nonnull
         @Override
         public String toString() {
             return String.format("%s '%s'", getName(), regex);

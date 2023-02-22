@@ -70,7 +70,8 @@ public class BrowserStorageAT extends AutoTestBase {
         Button button = formWidget.toolbar().bottomLeft().button("Submit");
 
         input.shouldBeEmpty();
-        input.val("test submit");
+        input.click();
+        input.setValue("test submit");
 
         Selenide.refresh();
 
@@ -78,7 +79,8 @@ public class BrowserStorageAT extends AutoTestBase {
         formWidget.shouldExists();
         input.shouldBeEmpty();
 
-        input.val("test submit");
+        input.click();
+        input.setValue("test submit");
         button.click();
 
         Selenide.refresh();
@@ -112,12 +114,15 @@ public class BrowserStorageAT extends AutoTestBase {
         select.shouldBeEmpty();
         checkboxGroup.shouldBeEmpty();
 
-        input.val("test browser-storage");
+        input.click();
+        input.setValue("test browser-storage");
         checkboxGroup.check("Петр Сергеев");
         checkboxGroup.check("Алексей Иванов");
         select.select(1);
-        inputDef.val("test");
+        inputDef.click();
+        inputDef.setValue("test");
         select.click();
+        inputDef.click();
         inputDef.clear();
         select.click();
         inputDef.shouldBeEmpty();

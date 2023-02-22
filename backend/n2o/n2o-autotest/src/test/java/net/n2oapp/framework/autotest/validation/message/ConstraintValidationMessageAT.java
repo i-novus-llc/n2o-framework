@@ -52,32 +52,39 @@ public class ConstraintValidationMessageAT extends AutoTestBase {
 
         StandardField firstName = fields.field("First name");
         InputText input1 = firstName.control(InputText.class);
-        input1.val("test");
+        input1.click();
+        input1.setValue("test");
 
         StandardField middleName = fields.field("Middle name");
         InputText input2 = middleName.control(InputText.class);
-        input2.val("test");
+        input2.click();
+        input2.setValue("test");
 
         StandardField lastName = fields.field("Last name");
         InputText input3 = lastName.control(InputText.class);
-        input3.val("test");
+        input3.click();
+        input3.setValue("test");
 
         form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
         middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
+        input1.click();
         input1.clear();
         firstName.shouldHaveValidationMessage(Condition.empty);
         middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
-        input1.val("name");
+        input1.click();
+        input1.setValue("name");
         form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.empty);
         middleName.shouldHaveValidationMessage(Condition.text("Имя test уже существует"));
 
+        input2.click();
         input2.clear();
         middleName.shouldHaveValidationMessage(Condition.empty);
-        input2.val("name");
+        input2.click();
+        input2.setValue("name");
         form.toolbar().bottomLeft().button("Create").click();
         firstName.shouldHaveValidationMessage(Condition.empty);
         middleName.shouldHaveValidationMessage(Condition.empty);

@@ -31,11 +31,11 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = hideField(form, name)
             expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
         })
         it('Проверяет правильность meta', () => {
             const action = hideField(form, name)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -43,11 +43,11 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = showField(form, name)
             expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
         })
         it('Проверяет правильность meta', () => {
             const action = showField(form, name)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -55,11 +55,11 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = enableField(form, name)
             expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
         })
         it('Проверяет правильность meta', () => {
             const action = enableField(form, name)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -67,11 +67,11 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = disableField(form, name)
             expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
         })
         it('Проверяет правильность meta', () => {
             const action = disableField(form, name)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -79,11 +79,11 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = enableMultiFields(form, names)
             expect(action.payload.names).toEqual(names)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
         })
         it('Проверяет правильность meta', () => {
             const action = enableMultiFields(form, names)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -91,11 +91,11 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = disableMultiFields(form, names)
             expect(action.payload.names).toEqual(names)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
         })
         it('Проверяет правильность meta', () => {
             const action = disableMultiFields(form, names)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -103,11 +103,11 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = showMultiFields(form, names)
             expect(action.payload.names).toEqual(names)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
         })
         it('Проверяет правильность meta', () => {
             const action = showMultiFields(form, names)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -115,11 +115,11 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = hideMultiFields(form, names)
             expect(action.payload.names).toEqual(names)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
         })
         it('Проверяет правильность meta', () => {
             const action = hideMultiFields(form, names)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -130,7 +130,7 @@ describe('Тесты экшенов formPlugin', () => {
                 disabled: true,
             })
             expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
             expect(action.payload.initialState).toEqual({
                 visible: false,
                 disabled: true,
@@ -138,7 +138,7 @@ describe('Тесты экшенов formPlugin', () => {
         })
         it('Проверяет правильность meta', () => {
             const action = registerFieldExtra(form, name)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
@@ -146,19 +146,19 @@ describe('Тесты экшенов formPlugin', () => {
         it('Проверяет правильность payload', () => {
             const action = registerFieldDependency(form, name, dependency)
             expect(action.payload.name).toEqual(name)
-            expect(action.payload.form).toEqual(form)
+            expect(action.payload.key).toEqual(form)
             expect(action.payload.dependency).toEqual(dependency)
         })
         it('Проверяет правильность meta', () => {
             const action = registerFieldDependency(form, name, dependency)
-            expect(action.meta.form).toEqual(form)
+            expect(action.meta.key).toEqual(form)
         })
     })
 
     describe('Проверка экшена setLoading', () => {
         it('Проверяет правильность payload', () => {
             let action = setLoading(form, name, true)
-            expect(action.payload.form).toBe(form)
+            expect(action.payload.key).toBe(form)
             expect(action.payload.name).toBe(name)
             expect(action.payload.loading).toBe(true)
 

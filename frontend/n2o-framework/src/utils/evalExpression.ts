@@ -154,7 +154,6 @@ export function evalExpression<
         const entries = Object.entries(argsExtended)
         const keys = entries.map(arr => arr[0])
         const values = entries.map(arr => arr[1])
-
         const fn = createContextFn(keys, expression)
 
         return fn.apply(context, values) as ResultType<TExpression, TExpectedResult> | void
