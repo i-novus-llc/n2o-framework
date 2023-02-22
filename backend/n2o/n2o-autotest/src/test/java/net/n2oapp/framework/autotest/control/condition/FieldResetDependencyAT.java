@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для reset зависимости полей
  */
-public class FieldResetAT extends AutoTestBase {
+public class FieldResetDependencyAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -53,9 +53,10 @@ public class FieldResetAT extends AutoTestBase {
 
         reset.shouldBeEmpty();
         inputText.shouldBeEmpty();
-        inputText.val("test reset");
+        inputText.click();
+        inputText.setValue("test reset");
         datePicker.shouldBeEmpty();
-        datePicker.val("02.02.2023");
+        datePicker.setValue("02.02.2023");
         select.shouldBeEmpty();
         select.select(1);
         inputSelect.shouldBeEmpty();
@@ -74,7 +75,8 @@ public class FieldResetAT extends AutoTestBase {
         checkboxGroup.shouldBeChecked("test1");
         checkboxGroup.shouldBeChecked("test3");
 
-        reset.val("2");
+        reset.click();
+        reset.setValue("2");
         inputText.shouldHaveValue("test reset");
         datePicker.shouldHaveValue("02.02.2023");
         select.shouldSelected("2");
@@ -83,7 +85,8 @@ public class FieldResetAT extends AutoTestBase {
         checkboxGroup.shouldBeChecked("test1");
         checkboxGroup.shouldBeChecked("test3");
 
-        reset.val("1");
+        reset.click();
+        reset.setValue("1");
         inputText.shouldBeEmpty();
         datePicker.shouldBeEmpty();
         select.shouldBeEmpty();
@@ -107,8 +110,9 @@ public class FieldResetAT extends AutoTestBase {
         reset.shouldHaveValue("test");
         initTrue.shouldBeEmpty();
         initFalse.shouldHaveValue("test");
+        reset.click();
         reset.clear();
-        reset.val("test");
+        reset.setValue("test");
         initFalse.shouldBeEmpty();
     }
 }
