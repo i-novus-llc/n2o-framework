@@ -1,9 +1,7 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.cell.LinkCell;
@@ -183,7 +181,7 @@ public class TableSelectionAT extends AutoTestBase {
     }
 
     @Test
-    void testSelectionNoneElResolved() {
+    void testSelectionNoneElementResolved() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/index.page.xml"),
                         new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/modal.page.xml"),
                         new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/test.query.xml"));
