@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect, ReactReduxContext } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { Field as ReduxFormField } from 'redux-form'
+import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import some from 'lodash/some'
 
 import withObserveDependency from '../../../core/dependencies/withObserveDependency'
-import { loadingSelector } from '../../../ducks/form/selectors'
+import { loadingSelector, touchedSelector } from '../../../ducks/form/selectors'
+import { Controller } from '../../core/FormProvider'
 
 import withFieldContainer from './fields/withFieldContainer'
 import StandardField from './fields/StandardField/StandardField'
@@ -28,38 +27,17 @@ const config = {
     },
 }
 
-/**
- * Поле для {@link ReduxForm}
- * @reactProps {number} id
- * @reactProps {node} component - компонент, который оборачивает поле. Дефолт: {@link StandardField}
- * @see https://redux-form.com/6.0.0-alpha.4/docs/api/field.md/
- * @example
- *
- */
 class ReduxField extends React.Component {
     constructor(props) {
         super(props)
 
-        const { validate, onChange, onBlur } = props
-
         this.setRef = this.setRef.bind(this)
-        const Field = compose(
+        this.Field = compose(
             withProps(() => ({
                 setReRenderRef: props.setReRenderRef,
             })),
             withFieldContainer,
         )(props.component)
-
-        // фикс для проброса валидации через redux-field, который ожидает function/function[], а мы используем это как string[] для валидации датасурсов
-        // eslint-disable-next-line react/destructuring-assignment, react/prop-types
-        this.Field = props => (
-            <Field
-                {...props}
-                validate={validate}
-                onChange={onChange}
-                onBlur={onBlur}
-            />
-        )
     }
 
     setRef(el) {
@@ -67,21 +45,25 @@ class ReduxField extends React.Component {
     }
 
     render() {
-        const { id } = this.props
+        const { name } = this.props
+        const Component = this.Field
 
         return (
-            <ReduxFormField
-                name={id}
-                {...this.props}
-                component={this.Field}
-                setRef={this.setRef}
-                validate={undefined}
+            <Controller
+                name={name}
+                render={({ field }) => (
+                    <Component
+                        {...this.props}
+                        {...field}
+                        setRef={this.setRef}
+                    />
+                )}
             />
         )
     }
 }
 
-ReduxField.contextType = ReactReduxContext
+ReduxField.displayName = 'ReduxField'
 
 ReduxField.defaultProps = {
     component: StandardField,
@@ -89,20 +71,23 @@ ReduxField.defaultProps = {
 
 ReduxField.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    name: PropTypes.string,
     component: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func,
         PropTypes.node,
     ]),
     setReRenderRef: PropTypes.func,
-    validate: PropTypes.func,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
 }
 
-const mapStateToProps = createStructuredSelector({
-    loading: (state, { form, id }) => loadingSelector(form, id)(state),
-})
+const mapStateToProps = (state, ownProps) => {
+    const { form: formName, name: fieldName } = ownProps
+
+    return ({
+        loading: loadingSelector(formName, fieldName)(state),
+        touched: touchedSelector(formName, fieldName)(state),
+    })
+}
 
 export default compose(
     connect(mapStateToProps),

@@ -39,25 +39,13 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void labelShouldHave(Condition condition) {
+    public void shouldHaveLabelBy(Condition condition) {
         element().$("label").shouldHave(condition);
     }
 
     @Override
     public void shouldHaveLabelLocation(FieldSet.LabelPosition position) {
         element().shouldHave(Condition.cssClass("label-" + position.getId()));
-    }
-
-    @Override
-    public void messageShouldHave(Condition condition) {
-        //реализовать, когда понадобится
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void shouldHaveDescription(Condition condition) {
-        //реализовать, когда понадобится
-        throw new UnsupportedOperationException();
     }
 
     @Override

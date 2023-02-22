@@ -1,4 +1,4 @@
-import { overlaysSelector, makeOverlaysbyName } from '../selectors'
+import { overlaysSelector, makeOverlayByIndex } from '../selectors'
 
 const state = {
     overlays: [
@@ -13,6 +13,6 @@ describe('Проверка селекторов overlays', () => {
         expect(overlaysSelector(state)).toEqual(state.overlays)
     })
     it('makeOverlaysByName должен вернуть оверлей по индексу', () => {
-        expect(makeOverlaysbyName(0)(state)).toEqual(state.overlays[0])
+        expect(makeOverlayByIndex(0)(state)).toEqual(state.overlays[0])
     })
 })

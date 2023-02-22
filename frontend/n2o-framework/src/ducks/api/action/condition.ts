@@ -5,7 +5,7 @@ import { select } from 'redux-saga/effects'
 import { Action, ErrorAction, Meta } from '../../Action'
 import { ModelPrefix } from '../../../core/datasource/const'
 import evalExpression from '../../../utils/evalExpression'
-import { makeGetModelByPrefixSelector } from '../../models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { ACTIONS_PREFIX } from '../constants'
 import { waitOperation } from '../utils/waitOperation'
 
@@ -27,7 +27,7 @@ export const creator = createAction(
 
 export function* effect({ payload }: Action<string, Payload>) {
     const { datasource, model: modelPrefix, condition, success, fail } = payload
-    const model: object = yield select(makeGetModelByPrefixSelector(modelPrefix, datasource))
+    const model: object = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
     const action = evalExpression(condition, model) ? success : fail
 
     if (!isEmpty(action)) {

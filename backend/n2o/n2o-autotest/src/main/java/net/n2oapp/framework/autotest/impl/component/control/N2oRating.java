@@ -14,7 +14,7 @@ public class N2oRating extends N2oControl implements Rating {
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
         String id = element().$$(".rating__input").find(Condition.value(value)).shouldBe(Condition.exist).getAttribute("id");
         element().$$(".rating__label").find(Condition.attribute("for", id)).shouldBe(Condition.exist).click();
     }

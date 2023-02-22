@@ -61,11 +61,11 @@ public class TopLeftRightPageAT extends AutoTestBase {
         rightRegions.region(4, PanelRegion.class).shouldHaveTitle("Справа");
 
         // проверка кнопки скролла в начало страницы
-        page.scrollToTopButtonShouldNotExists();
+        page.shouldNotHaveScrollToTopButton();
         page.scrollDown();
-        page.scrollToTopButtonShouldExists();
+        page.shouldHaveScrollToTopButton();
         page.clickScrollToTopButton();
-        page.scrollToTopButtonShouldNotExists();
+        page.shouldNotHaveScrollToTopButton();
 
         // открытие страницы с хлебными крошками
         FormWidget widget = topRegions.region(0, PanelRegion.class).content().widget(FormWidget.class);

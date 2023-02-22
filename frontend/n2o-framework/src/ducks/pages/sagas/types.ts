@@ -22,7 +22,7 @@ export interface IRoute {
 }
 
 // TODO наверно, надо будет куда то в root типы метаданных закинуть
-export interface IRoutes {
+export type IRoutes = {
     list: IRoute[]
     queryMapping: Record<string, {
         get: Action

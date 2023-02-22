@@ -7,6 +7,15 @@ import com.codeborne.selenide.SelenideElement;
  */
 public interface Element {
 
+    /**
+     * Возвращает селенидовский элемент
+     * @return SelenideElement
+     */
     SelenideElement element();
+
+    /**
+     * Устанавливает в атрибут element необходимый селенидовский элемент
+     * @param parentElement селенидовский элемент
+     */
     void setElement(SelenideElement parentElement);
 }

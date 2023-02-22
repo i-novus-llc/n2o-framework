@@ -10,7 +10,6 @@ import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,7 +44,7 @@ public class CrudAT extends SandboxAutotestBase {
     public void crudTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("CRUD Операции");
 
         TableWidget table = page.widget(TableWidget.class);
@@ -68,14 +67,15 @@ public class CrudAT extends SandboxAutotestBase {
         Fields modalFields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         InputText inputText = modalFields.field("name").control(InputText.class);
         inputText.shouldExists();
-        inputText.val("test-value");
+        inputText.click();
+        inputText.setValue("test-value");
         inputText.shouldHaveValue("test-value");
         Button save = modal.toolbar().bottomRight().button("Сохранить");
         save.shouldExists();
         save.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         rows.shouldHaveSize(5);
-        rows.row(0).cell(1).textShouldHave("test-value");
+        rows.row(0).cell(1).shouldHaveText("test-value");
 
         rows.shouldBeSelected(0);
         update.click();
@@ -84,14 +84,15 @@ public class CrudAT extends SandboxAutotestBase {
         modal.shouldHaveTitle("test - Изменение");
         InputText inputText1 = modalFields.field("name").control(InputText.class);
         inputText1.shouldExists();
-        inputText1.val("change-test-value");
+        inputText1.click();
+        inputText1.setValue("change-test-value");
         inputText1.shouldHaveValue("change-test-value");
         Button save1 = modal.toolbar().bottomRight().button("Сохранить");
         save1.shouldExists();
         save1.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         rows.shouldHaveSize(5);
-        rows.row(0).cell(1).textShouldHave("change-test-value");
+        rows.row(0).cell(1).shouldHaveText("change-test-value");
 
         rows.shouldBeSelected(0);
         delete.click();

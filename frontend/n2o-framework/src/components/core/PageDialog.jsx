@@ -6,13 +6,13 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
 
 import Toolbar from '../buttons/Toolbar'
-import { getModelSelector } from '../../ducks/models/selectors'
+import { getGlobalFieldByPath } from '../../ducks/models/selectors'
 import propsResolver from '../../utils/propsResolver'
 
 import withOverlayMethods from './withOverlayMethods'
 
 const usePageDialog = ({ modelLink, ...props }) => {
-    const model = useSelector(getModelSelector(modelLink))
+    const model = useSelector(getGlobalFieldByPath(modelLink))
 
     return model ? propsResolver(props, model) : props
 }

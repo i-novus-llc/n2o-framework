@@ -20,8 +20,10 @@ import { makeDatasourceIdSelector } from '../widgets/selectors'
 import { registerWidget } from '../widgets/store'
 import { failValidate, dataRequest, resetValidation } from '../datasource/store'
 import { dataSourceErrors } from '../datasource/selectors'
+import { handleTouch } from '../form/store'
 import { evalExpression } from '../../utils/evalExpression'
-import { setModel } from '../models/store'
+import { updateModel } from '../models/store'
+import { ModelPrefix } from '../../core/datasource/const'
 
 import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from './store'
 import { MAP_URL } from './constants'
@@ -149,7 +151,7 @@ function* switchTab(action) {
                 yield mapUrl(active)
 
                 if (datasource && activeTabFieldId) {
-                    yield put(setModel('resolve', datasource, { [activeTabFieldId]: active }))
+                    yield put(updateModel(ModelPrefix.active, datasource, activeTabFieldId, active))
                 }
 
                 yield cancel()
@@ -165,7 +167,7 @@ function* switchTab(action) {
                 const { datasource, activeTabFieldId } = currentRegion
 
                 if (datasource && activeTabFieldId) {
-                    yield put(setModel('resolve', datasource, { [activeTabFieldId]: activeEntity }))
+                    yield put(updateModel(ModelPrefix.active, datasource, activeTabFieldId, active))
                 }
             }
         }
@@ -280,8 +282,8 @@ function* validateTabs({ payload, meta, type }) {
 
     const state = yield select()
     const tabsRegions = getTabsRegions(state)
-
     const errors = yield select(dataSourceErrors(id)) || {}
+
     const fieldsWithErrors = Object.keys(errors)
 
     for (const { regionId, tabs } of tabsRegions) {
@@ -309,6 +311,7 @@ export default [
     takeEvery(MAP_URL, mapUrl),
     takeEvery([
         METADATA_SUCCESS,
+        handleTouch,
         registerRegion,
         registerWidget,
         setActiveRegion,

@@ -8,13 +8,31 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface MenuItem extends Component {
 
+    /**
+     * Проверка наличия изображения
+     */
     void shouldHaveImage();
 
+    /**
+     * Проверка формы изображения на соответствие
+     * @param shape ожидаемая форма изображения
+     */
     void imageShouldHaveShape(ShapeType shape);
 
-    void imageSrcShouldBe(String src);
+    /**
+     * Проверка источника изображения на соответствие
+     * @param src ожидаемый источник изображения
+     */
+    void imageShouldHaveSrc(String src);
 
-    void labelShouldHave(String text);
+    /**
+     * Проверка метки на соответствие
+     * @param text ожидаемое значение метки
+     */
+    void shouldHaveLabel(String text);
 
+    /**
+     * Клик по элементу
+     */
     void click();
 }

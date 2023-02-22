@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -19,7 +20,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -45,7 +45,6 @@ public class BulkOperationAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     public void bulkOperationTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/setName.page.xml"),
@@ -62,8 +61,8 @@ public class BulkOperationAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         TextCell name1 = rows.row(0).cell(2, TextCell.class);
         TextCell name2 = rows.row(1).cell(2, TextCell.class);
-        name1.textShouldHave("test1");
-        name2.textShouldHave("test2");
+        name1.shouldHaveText("test1");
+        name2.shouldHaveText("test2");
 
         // выбор нескольких строк
         CheckboxCell cell1 = rows.row(0).cell(0, CheckboxCell.class);
@@ -81,20 +80,22 @@ public class BulkOperationAT extends AutoTestBase {
         Fields fields = modalPage.content(SimplePage.class).widget(FormWidget.class).fields();
         InputText newValue = fields.field("Новое имя").control(InputText.class);
         newValue.shouldExists();
-        newValue.val("new name");
+        newValue.click();
+        newValue.setValue("new name");
         StandardButton saveButton = modalPage.toolbar().bottomRight().button("Сохранить");
         saveButton.shouldExists();
         saveButton.click();
         modalPage.shouldNotExists();
-        name1.textShouldHave("new name");
-        name2.textShouldHave("new name");
+        name1.shouldHaveText("new name");
+        name2.shouldHaveText("new name");
 
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(2);
-        name1.textShouldHave("test3");
-        name2.textShouldHave("test4");
+        name1.shouldHaveText("test3");
+        name2.shouldHaveText("test4");
     }
 
     @Test
@@ -114,8 +115,8 @@ public class BulkOperationAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         TextCell id1 = rows.row(0).cell(1, TextCell.class);
         TextCell id2 = rows.row(1).cell(1, TextCell.class);
-        id1.textShouldHave("8590e766-c120-4191-9bde-381d8ae83bf4");
-        id2.textShouldHave("7590e766-c120-4191-9bde-381d8ae83bf3");
+        id1.shouldHaveText("8590e766-c120-4191-9bde-381d8ae83bf4");
+        id2.shouldHaveText("7590e766-c120-4191-9bde-381d8ae83bf3");
 
         // выбор нескольких строк
         CheckboxCell cell1 = rows.row(0).cell(0, CheckboxCell.class);
@@ -133,19 +134,21 @@ public class BulkOperationAT extends AutoTestBase {
         Fields fields = modalPage.content(SimplePage.class).widget(FormWidget.class).fields();
         InputText newValue = fields.field("Новое имя").control(InputText.class);
         newValue.shouldExists();
-        newValue.val("new name");
+        newValue.click();
+        newValue.setValue("new name");
         StandardButton saveButton = modalPage.toolbar().bottomRight().button("Сохранить");
         saveButton.shouldExists();
         saveButton.click();
         modalPage.shouldNotExists();
         TextCell name1 = rows.row(0).cell(2, TextCell.class);
         TextCell name2 = rows.row(1).cell(2, TextCell.class);
-        name1.textShouldHave("new name");
-        name2.textShouldHave("new name");
+        name1.shouldHaveText("new name");
+        name2.shouldHaveText("new name");
 
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(1);
     }
 }

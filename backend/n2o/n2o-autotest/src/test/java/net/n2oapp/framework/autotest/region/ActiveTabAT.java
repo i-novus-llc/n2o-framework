@@ -60,7 +60,7 @@ public class ActiveTabAT extends AutoTestBase {
         TabsRegion tabs = page.regions().region(1, TabsRegion.class);
         tabs.shouldHaveSize(1);
         tabs.tab(0).shouldHaveName("Третья");
-        page.urlShouldMatches(".*tabs1=tab3");
+        page.shouldHaveUrlLike(".*tabs1=tab3");
 
         // проверяем что становится активна первая вклдака и кнопка в форме
         RadioGroup radioGroup = formWidget.fields().field("Вкладки").control(RadioGroup.class);
@@ -68,7 +68,7 @@ public class ActiveTabAT extends AutoTestBase {
         tabs.shouldHaveSize(2);
         tabs.tab(0).shouldHaveName("Первая");
         tabs.tab(0).click();
-        page.urlShouldMatches(".*tabs1=tab1");
+        page.shouldHaveUrlLike(".*tabs1=tab1");
         nameControl.shouldHaveValue("Ivan");
         activeTabControl.shouldHaveValue("tab1");
         StandardButton formButton = tabsDsForm.toolbar().topLeft().button("Кнопка на форме для первой вкладки");
@@ -79,12 +79,13 @@ public class ActiveTabAT extends AutoTestBase {
         tabs.tab(0).shouldHaveName("Вторая");
         tabs.tab(0).click();
         tabs.tab(0).shouldBeActive();
-        page.urlShouldMatches(".*tabs1=tab2");
+        page.shouldHaveUrlLike(".*tabs1=tab2");
         nameControl.shouldHaveValue("Ivan");
         activeTabControl.shouldHaveValue("tab2");
         pageButton.shouldExists();
         // вводим в поле значение и проверяем, что вклдака переключится
-        activeTabControl.val("tab3");
+        activeTabControl.click();
+        activeTabControl.setValue("tab3");
         tabs.tab(1).shouldBeActive();
     }
 }

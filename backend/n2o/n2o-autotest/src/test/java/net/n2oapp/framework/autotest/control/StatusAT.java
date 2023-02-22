@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Status;
@@ -47,13 +48,13 @@ public class StatusAT extends AutoTestBase {
         Status status1 = page.widget(FormWidget.class).fields().field(Status.class);
         status1.shouldExists();
         status1.shouldHaveText("Заявка принята");
-        status1.textShouldHaveRightPosition();
+        status1.shouldHaveTextPosition(Position.RIGHT);
         status1.shouldHaveColor(Colors.SUCCESS);
 
         Status status2 = page.widget(FormWidget.class).fields().field(1, Status.class);
         status2.shouldExists();
         status2.shouldHaveText("Заявка отклонена");
-        status2.textShouldHaveLeftPosition();
+        status2.shouldHaveTextPosition(Position.LEFT);
         status2.shouldHaveColor(Colors.DANGER);
     }
 }

@@ -8,16 +8,35 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface SimpleHeader extends Component {
 
-    void brandNameShouldBe(String brandName);
+    /**
+     * Проверка текста у бренда
+     * @param brandName ожидаемый текст
+     */
+    void shouldHaveBrandName(String brandName);
 
+    /**
+     * @return Меню для автотестирования
+     */
     Menu nav();
 
+    /**
+     * @return Меню для автотестирования
+     */
     Menu extra();
 
+    /**
+     * @return Панель поиска в шапке для автотестирования
+     */
     SearchBar search();
 
-    void sidebarSwitcherShouldExists();
+    /**
+     * Проверка наличия переключателя(иконки) боковой панели
+     */
+    void shouldHaveSidebarSwitcher();
 
+    /**
+     * Клик по иконки переключателя боковой панели
+     */
     void switchSidebar();
 
 }

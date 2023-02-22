@@ -13,23 +13,18 @@ import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 public class N2oImageCell extends N2oCell implements ImageCell {
 
     @Override
-    public void srcShouldBe(String src) {
-        img().shouldBe(Condition.attribute("src", src));
+    public void shouldHaveSrc(String src) {
+        img().shouldHave(Condition.attribute("src", src));
     }
 
     @Override
-    public void imageShouldBe(String url) {
-        img().shouldHave(Condition.attribute("src", url));
-    }
-
-    @Override
-    public void widthShouldBe(int width) {
+    public void shouldHaveWidth(int width) {
         img().parent().shouldHave(Condition.attributeMatching(
                 "style", ".*max-width: " + width + "px;.*"));
     }
 
     @Override
-    public void shapeShouldBe(ShapeType shape) {
+    public void shouldHaveShape(ShapeType shape) {
         switch (shape) {
             case CIRCLE:
                 imgShouldHaveCircleShape();
@@ -45,22 +40,27 @@ public class N2oImageCell extends N2oCell implements ImageCell {
 
     @Override
     public void shouldHaveTitle(String title) {
-        element().$(".n2o-image__info .n2o-image__info_label").shouldBe(Condition.text(title));
+        element().$(".n2o-image__info .n2o-image__info_label")
+                .shouldBe(Condition.exactText(title));
     }
 
     @Override
     public void shouldHaveDescription(String description) {
-        element().$(".n2o-image__info .n2o-image__info_description").shouldBe(Condition.text(description));
+        element().$(".n2o-image__info .n2o-image__info_description")
+                .shouldBe(Condition.exactText(description));
     }
 
     @Override
     public void shouldHaveTextPosition(TextPosition textPosition) {
-        element().$(".n2o-image__content").shouldBe(Condition.cssClass(textPosition.name()));
+        element().$(".n2o-image__content")
+                .shouldBe(Condition.cssClass(textPosition.name()));
     }
 
     @Override
     public void shouldHaveStatus(ImageStatusElementPlace position, int index, String title) {
-        getStatus(position, index).$(".n2o-status__text").shouldBe(Condition.text(title));
+        getStatus(position, index)
+                .$(".n2o-status__text")
+                .shouldBe(Condition.text(title));
     }
 
     private SelenideElement getStatus(ImageStatusElementPlace position, int index) {
@@ -70,7 +70,9 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     @Override
     public void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon) {
         if (icon != null && !icon.isEmpty()) {
-            element().$(".n2o-image-statuses ." + position).$(".n2o-status__icon"+icon).should(Condition.exist);
+            element().$(".n2o-image-statuses ." + position)
+                    .$(".n2o-status__icon"+icon)
+                    .should(Condition.exist);
         }
     }
 
@@ -83,6 +85,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     private void imgShouldHaveSquareShape() {
+        //ToDo: почему проверка на rounded внутри circle?
         img().parent().shouldNotHave(Condition.cssClass("circle"));
         img().parent().shouldNotHave(Condition.cssClass("rounded"));
     }

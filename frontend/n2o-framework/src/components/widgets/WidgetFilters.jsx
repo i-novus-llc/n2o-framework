@@ -1,218 +1,124 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { destroy, getFormValues, reset } from 'redux-form'
-import isEqual from 'lodash/isEqual'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import difference from 'lodash/difference'
 import map from 'lodash/map'
 import unset from 'lodash/unset'
-import cloneDeep from 'lodash/cloneDeep'
-import debounce from 'lodash/debounce'
-import { createStructuredSelector } from 'reselect'
+import clone from 'lodash/clone'
+import { createContext, useContext } from 'use-context-selector'
 
 import { Filter } from '../snippets/Filter/Filter'
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
-import { setModel } from '../../ducks/models/store'
-import { generateFormFilterId } from '../../utils/generateFormFilterId'
-import { FILTER_DELAY } from '../../constants/time'
+import propsResolver from '../../utils/propsResolver'
 import { ModelPrefix } from '../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
+import { setModel } from '../../ducks/models/store'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
-import { WidgetFiltersContext } from './WidgetFiltersContext'
 
-/**
- * Компонент WidgetFilters
- * @reactProps {string} widgetId
- * @reactProps {array} fieldsets
- * @reactProps {boolean} visible
- * @reactProps {boolean} hideButtons
- * @reactProps {array} blackResetList
- * @reactProps {object} filterModel
- * @reactProps {function} fetchWidget
- * @reactProps {function} clearFilterModel
- * @reactProps {function} reduxFormFilter
- */
-class WidgetFilters extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            defaultValues: props.filterModel,
-        }
-        this.formName = generateFormFilterId(props.datasource)
-        this.handleFilter = this.handleFilter.bind(this)
-        this.handleReset = this.handleReset.bind(this)
-        this.debouncedHandleFilter = debounce(this.handleFilter, FILTER_DELAY)
+export const WidgetFilterContext = createContext(null)
 
-        this.contextValue = {
-            formName: this.formName,
-            filter: this.handleFilter.bind(this),
-            reset: this.handleReset.bind(this),
-        }
-    }
+const WidgetFilters = (props) => {
+    const {
+        hideButtons = false,
+        widgetId,
+        fieldsets,
+        fetchData,
+        searchOnChange,
+        blackResetList,
+        filterFieldsets,
+        datasource: formName,
+    } = props
+    const dispatch = useDispatch()
+    const fieldsKeys = useMemo(() => {
+        const resolved = Object.values(propsResolver(fieldsets) || {})
 
-    componentDidUpdate(prevProps) {
-        const { filterModel, reduxFormFilter, setFilter, searchOnChange } = this.props
-        const { defaultValues } = this.state
+        return getFieldsKeys(resolved)
+    }, [fieldsets])
+    const visible = useSelector(makeWidgetFilterVisibilitySelector(widgetId))
+    const reduxFormFilter = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.filter, formName))
 
-        if (isEqual(reduxFormFilter, filterModel)) { return }
+    const clearDatasourceModel = useCallback(() => {
+        dispatch(setModel(ModelPrefix.source, formName, []))
+    }, [dispatch, formName])
 
-        if (
-            !isEqual(prevProps.filterModel, filterModel) &&
-            !isEqual(filterModel, defaultValues)
-        ) {
-            this.setState({
-                defaultValues: filterModel,
-            })
-            if (searchOnChange) {
-                this.handleFilter()
-            }
-        } else if (!isEqual(reduxFormFilter, prevProps.reduxFormFilter)) {
-            setFilter(reduxFormFilter)
-            if (searchOnChange) {
-                this.debouncedHandleFilter()
-            }
-        }
-    }
+    const [defaultValues, setDefaultValues] = useState(reduxFormFilter)
 
-    componentWillUnmount() {
-        const { dispatch, datasource } = this.props
-
-        dispatch(destroy(datasource))
-    }
-
-    handleFilter() {
-        const { fetchData } = this.props
-
+    const handleFilter = useCallback(() => {
         fetchData({ page: 1 })
-    }
+    }, [fetchData])
+    const handleReset = useCallback((fetchOnClear = true) => {
+        if (fetchOnClear) {
+            const newReduxForm = clone(reduxFormFilter)
+            const toReset = difference(
+                map(flatFields(fieldsets, []), 'id'),
+                blackResetList,
+            )
 
-    handleReset(fetchOnClear = true) {
-        const {
-            filterFieldsets,
-            blackResetList,
-            reduxFormFilter,
-            resetFilterModel,
-            setFilter,
-            clearModel,
-        } = this.props
-        const newReduxForm = cloneDeep(reduxFormFilter)
-        const toReset = difference(
-            map(flatFields(filterFieldsets, []), 'id'),
-            blackResetList,
-        )
+            toReset.forEach((field) => {
+                unset(newReduxForm, field)
+            })
 
-        toReset.forEach((field) => {
-            unset(newReduxForm, field)
-        })
-
-        /*
-          fakeDefaultValues HACK!
-          для button выполняющего redux-form/RESET
-          Если defaultValues = {} и newReduxForm = {}
-          redux-form не кидает reinitialize из за того что defaultValues не поменялись,
-          -> не срабатывают field dependency завязанные на actionTypes.INITIALIZE
-          (прим. не меняется enabled зависимого поля)
-        */
-
-        const fakeDefaultValues = Date.now()
-
-        this.setState({ defaultValues: fakeDefaultValues },
-            () => this.setState(
-                {
-                    defaultValues: newReduxForm,
-                },
-                () => {
-                    resetFilterModel(this.formName)
-                    setFilter(newReduxForm)
-
-                    if (fetchOnClear) {
-                        this.handleFilter()
-                    } else {
-                        clearModel()
-                    }
-                },
-            ))
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        const { filterFieldsets } = props
-
-        if (isEqual(filterFieldsets, state.fieldsets)) {
-            return null
+            setDefaultValues(newReduxForm)
+            handleFilter(newReduxForm)
+        } else {
+            clearDatasourceModel()
         }
+    }, [blackResetList, fieldsets, handleFilter, reduxFormFilter, clearDatasourceModel])
 
-        const fields = getFieldsKeys(filterFieldsets)
-
-        return {
-            fieldsets: filterFieldsets,
-            fields,
+    useEffect(() => {
+        if (searchOnChange && reduxFormFilter) {
+            handleFilter(reduxFormFilter)
         }
-    }
+    }, [handleFilter, reduxFormFilter, searchOnChange])
 
-    render() {
-        const {
-            visible,
-            hideButtons,
-            validation,
-            filterModel,
-        } = this.props
-        const { defaultValues, fieldsets, fields } = this.state
-
-        return (
-            <WidgetFiltersContext.Provider value={this.contextValue}>
-                <Filter
-                    visible={visible}
-                    hideButtons={hideButtons}
-                    onSearch={this.handleFilter}
-                    onReset={this.handleReset}
-                >
-                    <ReduxForm
-                        form={this.formName}
-                        fieldsets={fieldsets}
-                        fields={fields}
-                        activeModel={filterModel}
-                        initialValues={defaultValues}
-                        validation={validation}
-                        modelPrefix={ModelPrefix.filter}
-                    />
-                </Filter>
-            </WidgetFiltersContext.Provider>
-        )
-    }
+    return (
+        <WidgetFilterContext.Provider value={{
+            formName,
+            filter: handleFilter,
+            reset: handleReset,
+        }}
+        >
+            <Filter
+                style={{ display: visible ? '' : 'none' }}
+                visible={visible}
+                hideButtons={hideButtons}
+                onSearch={handleFilter}
+                onReset={handleReset}
+            >
+                <ReduxForm
+                    form={formName}
+                    fieldsets={filterFieldsets}
+                    fields={fieldsKeys}
+                    activeModel={reduxFormFilter}
+                    initialValues={defaultValues}
+                    modelPrefix={ModelPrefix.filter}
+                />
+            </Filter>
+        </WidgetFilterContext.Provider>
+    )
 }
 
 WidgetFilters.propTypes = {
-    datasource: PropTypes.string,
-    filterFieldsets: PropTypes.array,
-    visible: PropTypes.bool,
+    widgetId: PropTypes.string,
+    fieldsets: PropTypes.array,
     blackResetList: PropTypes.array,
-    filterModel: PropTypes.object,
-    validation: PropTypes.object,
-    reduxFormFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    setFilter: PropTypes.func,
     fetchData: PropTypes.func,
     hideButtons: PropTypes.bool,
     searchOnChange: PropTypes.bool,
-    resetFilterModel: PropTypes.func,
-    clearModel: PropTypes.func,
-    dispatch: PropTypes.func,
+    datasource: PropTypes.string,
+    filterFieldsets: PropTypes.array,
 }
 
-WidgetFilters.defaultProps = {
-    hideButtons: false,
-    searchOnChange: false,
+export const useWidgetFilterContext = () => {
+    const context = useContext(WidgetFilterContext)
+
+    if (!context) {
+        throw new Error('useWidgetFilterContext must be used with WidgetFilterContext')
+    }
+
+    return context
 }
 
-const mapStateToProps = createStructuredSelector({
-    visible: (state, props) => makeWidgetFilterVisibilitySelector(props.widgetId)(state, props),
-    reduxFormFilter: (state, props) => getFormValues(generateFormFilterId(props.datasource))(state) || {},
-})
-
-const mapDispatchToProps = (dispatch, { datasource }) => ({
-    dispatch,
-    resetFilterModel: formName => dispatch(reset(formName)),
-    clearModel: () => dispatch(setModel(ModelPrefix.source, datasource, [])),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(WidgetFilters)
+export default WidgetFilters

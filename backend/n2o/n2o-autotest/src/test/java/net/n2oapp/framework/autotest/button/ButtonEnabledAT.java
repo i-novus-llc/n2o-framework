@@ -91,7 +91,8 @@ public class ButtonEnabledAT extends AutoTestBase {
         StandardButton btnWithDependency = toolbar.button("btnWithDependency");
         btnWithDependency.shouldExists();
         btnWithDependency.shouldBeDisabled();
-        form.fields().field("Condition").control(InputText.class).val("enable");
+        form.fields().field("Condition").control(InputText.class).click();
+        form.fields().field("Condition").control(InputText.class).setValue("enable");
         btnWithDependency.shouldBeEnabled();
     }
 

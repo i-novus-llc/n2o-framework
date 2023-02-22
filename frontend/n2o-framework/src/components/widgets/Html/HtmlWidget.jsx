@@ -1,12 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import 'whatwg-fetch'
+import { useSelector } from 'react-redux'
 
 import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import { Html } from './Html'
-import 'whatwg-fetch'
 
 /**
  * HtmlWidget
@@ -27,9 +30,10 @@ function Widget(props) {
         style,
         url,
         html,
-        models,
         loading,
+        datasource,
     } = props
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))?.[0]
 
     return (
         <StandardWidget
@@ -43,7 +47,7 @@ function Widget(props) {
                 url={url}
                 id={id}
                 html={html}
-                data={models.datasource?.[0]}
+                data={datasourceModel}
             />
         </StandardWidget>
     )

@@ -12,4 +12,5 @@ export interface IBreadcrumbContainer {
     breadcrumb: breadcrumb
     models: IDataSourceModels,
     modelPrefix?: ModelPrefix
+    datasource: string
 }

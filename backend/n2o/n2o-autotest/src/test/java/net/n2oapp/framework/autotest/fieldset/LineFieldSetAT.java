@@ -67,7 +67,8 @@ public class LineFieldSetAT extends AutoTestBase {
         fieldset.shouldBeCollapsible();
         fieldset.shouldHaveLabel("Line3 test");
         fieldset.shouldHaveDescription("Подзаголовок филдсета");
-        masterField.val("123");
+        masterField.click();
+        masterField.setValue("123");
         fieldset.shouldHaveLabel("Line3 123");
 
         // not collapsible fieldset
@@ -95,7 +96,8 @@ public class LineFieldSetAT extends AutoTestBase {
         line1.shouldBeHidden();
         line2.shouldBeHidden();
 
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         line1.shouldBeHidden();
         line2.shouldBeVisible();
         line2.fields().field("field2").shouldExists();
@@ -119,7 +121,8 @@ public class LineFieldSetAT extends AutoTestBase {
         line1Field.shouldBeDisabled();
         line1Field.shouldBeDisabled();
 
-        inputText.val("test");
+        inputText.click();
+        inputText.setValue("test");
         line1Field.shouldBeDisabled();
         line2Field.shouldBeEnabled();
     }

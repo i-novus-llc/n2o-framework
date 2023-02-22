@@ -53,8 +53,8 @@ public class OutputListAT extends AutoTestBase {
         String separator = ",";
         outputList.shouldHaveValues(separator, "test2", "test4");
         outputList.shouldHaveLinkValues(separator, "test1", "test3");
-        outputList.linkShouldHaveValue("test1", "http://example.com/1");
-        outputList.linkShouldHaveValue("test3", "http://example.com/2");
+        outputList.shouldHaveLink("test1", "http://example.com/1");
+        outputList.shouldHaveLink("test3", "http://example.com/2");
         outputList.shouldHaveDirection(Direction.column);
 
         OutputList outputList2 = fields.field("output2").control(OutputList.class);
