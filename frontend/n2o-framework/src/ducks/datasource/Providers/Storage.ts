@@ -5,7 +5,7 @@ import { dataSourceByIdSelector, dataSourceProviderSelector } from '../selectors
 import type { IProvider, QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
 import { ProviderType, StorageType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
-import { makeGetModelByPrefixSelector } from '../../models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { State } from '../../State'
 
 import { applyFilter } from './storage/applyFilter'
@@ -17,7 +17,7 @@ const KEY_PREFIX = 'n2o/datasource/'
 const getFullKey = (key: string) => `${KEY_PREFIX}${key}`
 
 export function* submit(id: string, { key, model: prefix, storage: storageType }: StorageSubmit) {
-    const model: unknown = yield select(makeGetModelByPrefixSelector(prefix, id))
+    const model: unknown = yield select(getModelByPrefixAndNameSelector(prefix, id))
     const storage = storageType === StorageType.local ? localStorage : sessionStorage
 
     if (isNil(model)) {

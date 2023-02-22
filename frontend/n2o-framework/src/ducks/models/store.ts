@@ -1,24 +1,25 @@
-import { createSlice, createAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import {
-    isArray,
-    isObject,
     isString,
     map as mapFn,
     pick,
     merge,
     omit,
+    set,
+    get,
 } from 'lodash'
 
 // @ts-ignore ignore import error from js file
 import { setIn } from '../../tools/helpers'
-import type { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/datasource/const'
+import { id } from '../../utils/id'
 
-import { ALL_PREFIXES, COPY } from './constants'
 import type { State } from './Models'
 import type {
     ClearModelAction, CopyAction, MergeModelAction,
     RemoveAllModelAction, RemoveModelAction, SetModelAction,
-    UpdateMapModelAction, UpdateModelAction,
+    UpdateMapModelAction, UpdateModelAction, FormInitAction,
+    AppendFieldToArrayAction, CopyFieldArrayAction, RemoveFieldFromArrayAction,
 } from './Actions'
 
 const initialState: State = {
@@ -33,29 +34,24 @@ const modelsSlice = createSlice({
     name: 'n2o/models',
     initialState,
     reducers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         SET: {
             prepare(prefix: ModelPrefix, key: string, model: object) {
                 return ({
                     payload: { prefix, key, model },
+                    meta: { prefix, key, model },
                 })
             },
 
             /**
              * Установка значений модели по префиксу и ключу
-             * @param {ModelsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {ModelsStore.setModelPayload} action.payload
              */
             reducer(state, action: SetModelAction) {
                 const { key, model, prefix } = action.payload
 
-                state[prefix][key] = model
+                set(state, [prefix, key], model)
             },
         },
 
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         REMOVE: {
             prepare(prefix: ModelPrefix, key: string) {
                 return ({
@@ -65,10 +61,6 @@ const modelsSlice = createSlice({
 
             /**
              * Удаление модели
-             * @param {ModelsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {ModelsStore.removeModelPayload} action.payload
              */
             reducer(state, action: RemoveModelAction) {
                 const { key, prefix } = action.payload
@@ -77,32 +69,21 @@ const modelsSlice = createSlice({
             },
         },
 
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         UPDATE: {
             prepare(prefix: ModelPrefix, key: string, field: string, value: unknown) {
                 return ({
                     payload: { prefix, key, field, value },
+                    meta: { prefix, key, field },
                 })
             },
-            /**
-             * Обновление значения в модели
-             */
+
             reducer(state, action: UpdateModelAction) {
                 const { prefix, key, field, value } = action.payload
 
-                if (field) {
-                    const modelState = state[prefix][key]
-
-                    state[prefix][key] = setIn(
-                        isArray(modelState) || isObject(modelState)
-                            ? modelState
-                            : {}, field, value,
-                    )
-                }
+                set(state, `${prefix}.${key}.${field}`, value)
             },
         },
 
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         UPDATE_MAP: {
             prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, map: string) {
                 return ({
@@ -129,35 +110,25 @@ const modelsSlice = createSlice({
         /**
          * Очистка моделий. которая учивает список исключений (поля которые не нужно очищать)
          */
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         CLEAR(state, action: ClearModelAction) {
             const { prefixes, key, exclude } = action.payload
 
             prefixes.forEach((prefix) => {
                 if (state[prefix][key]) {
-                    state[prefix][key] = pick(state[prefix][key], [exclude])
+                    const clearableValue = pick(state[prefix][key], [exclude])
+
+                    set(state, [prefix, key], clearableValue)
                 }
             })
         },
 
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         MERGE: {
-            /**
-             * @param {any} combine
-             * @return {{payload: ModelsStore.combineModelsPayload}}
-             */
             prepare(combine: unknown) {
                 return ({
                     payload: { combine },
                 })
             },
 
-            /**
-             * @param {ModelsStore.state} state
-             * @param {Object} action
-             * @param {string} action.type
-             * @param {ModelsStore.combineModelsPayload} action.payload
-             */
             reducer(state, action: MergeModelAction) {
                 const { combine } = action.payload
 
@@ -165,7 +136,30 @@ const modelsSlice = createSlice({
             },
         },
 
-        // eslint-disable-next-line @typescript-eslint/naming-convention
+        /**
+         * Копирование модели по префиксу и ключу в другую модель, по префиксу и ключу
+         */
+        COPY: {
+            prepare(
+                source: CopyAction['payload']['source'],
+                target: CopyAction['payload']['target'],
+                { mode, sourceMapper }: Pick<CopyAction['payload'], 'mode' | 'sourceMapper'>,
+            ) {
+                return {
+                    payload: {
+                        sourceMapper,
+                        source,
+                        target,
+                        mode,
+                    },
+                }
+            },
+
+            reducer() {
+
+            },
+        },
+
         REMOVE_ALL: {
             prepare(key: string) {
                 return ({
@@ -179,9 +173,95 @@ const modelsSlice = createSlice({
             reducer(state, action: RemoveAllModelAction) {
                 const { key } = action.payload
 
-                ALL_PREFIXES.forEach((prefix) => {
+                Object.values(ModelPrefix).forEach((prefix) => {
                     delete state[prefix][key]
                 })
+            },
+        },
+
+        modelInit: {
+            prepare(prefix: ModelPrefix, key: string, model: object, formFirstInit = false) {
+                return ({
+                    meta: { prefix, key, model, formFirstInit },
+                    payload: { prefix, key, model, formFirstInit },
+                })
+            },
+
+            reducer(state, action: FormInitAction) {
+                const { key, model, prefix } = action.payload
+                let newState
+
+                if (Object.keys(model).length) {
+                    newState = merge(state[prefix][key], model)
+                } else {
+                    newState = {}
+                }
+
+                set(state, [prefix, key], newState)
+            },
+        },
+
+        appendFieldToArray: {
+            prepare({ key, fieldName, ...options }) {
+                return ({
+                    meta: { key, field: fieldName, ...options },
+                    payload: { key, field: fieldName, ...options },
+                })
+            },
+
+            reducer(state, action: AppendFieldToArrayAction) {
+                const { prefix, key, field, value = {}, primaryKey } = action.payload
+                const arrayValue = get(state, `${prefix}.${key}.${field}`)
+                const item = primaryKey ? { [primaryKey]: id(), ...value } : value
+
+                if (arrayValue) {
+                    arrayValue.push(item)
+                } else {
+                    set(state, `${prefix}.${key}.${field}`, [item])
+                }
+            },
+        },
+
+        removeFieldFromArray: {
+            prepare(prefix: ModelPrefix, key: string, field: string, index: number | [number, number]) {
+                return ({
+                    meta: { prefix, key, field },
+                    payload: { prefix, key, field, index },
+                })
+            },
+
+            reducer(state, action: RemoveFieldFromArrayAction) {
+                const { prefix, key, field, index } = action.payload
+                const arrayValue = get(state, `${prefix}.${key}.${field}`, [])
+
+                if (typeof index === 'number') {
+                    arrayValue.splice(index, 1)
+
+                    return
+                }
+
+                arrayValue.splice(...index)
+            },
+        },
+
+        copyFieldArray: {
+            prepare(prefix: ModelPrefix, key: string, field: string, index: number, primaryKey?: string) {
+                return ({
+                    meta: { prefix, key, field, primaryKey },
+                    payload: { prefix, key, field, index, primaryKey },
+                })
+            },
+
+            reducer(state, action: CopyFieldArrayAction) {
+                const { prefix, key, field, index, primaryKey } = action.payload
+                const arrayValue = get(state, `${prefix}.${key}.${field}`, [])
+                let item = arrayValue[index]
+
+                if (primaryKey) {
+                    item = { ...item, [primaryKey]: id() }
+                }
+
+                arrayValue.push(item)
             },
         },
     },
@@ -189,7 +269,6 @@ const modelsSlice = createSlice({
 
 export default modelsSlice.reducer
 
-// Actions
 export const {
     SET: setModel,
     REMOVE: removeModel,
@@ -197,33 +276,10 @@ export const {
     UPDATE_MAP: updateMapModel,
     CLEAR: clearModel,
     MERGE: combineModels,
+    COPY: copyModel,
     REMOVE_ALL: removeAllModel,
+    modelInit,
+    appendFieldToArray,
+    removeFieldFromArray,
+    copyFieldArray,
 } = modelsSlice.actions
-
-/**
- * Копирование модели по префиксу и ключу в другую модель, по префиксу и ключу
- * @param {Object} source
- * @param {string} source.prefix
- * @param {string} source.key
- * @param {Object} target
- * @param {string} target.prefix
- * @param {string} target.key
- * @param {Object} settings
- * @param {string} settings.mode
- * @param {any} settings.sourceMapper
- */
-export const copyModel = createAction(
-    COPY,
-    (
-        source: CopyAction['payload']['source'],
-        target: CopyAction['payload']['target'],
-        { mode, sourceMapper }: Pick<CopyAction['payload'], 'mode' | 'sourceMapper'>,
-    ) => ({
-        payload: {
-            sourceMapper,
-            source,
-            target,
-            mode,
-        },
-    }),
-)

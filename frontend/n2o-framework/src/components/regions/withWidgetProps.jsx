@@ -10,7 +10,6 @@ import isEmpty from 'lodash/isEmpty'
 import { makeModelIdSelector, widgetsSelector } from '../../ducks/widgets/selectors'
 import {
     makeModelsByPrefixSelector,
-    modelsSelector,
     getModelsByDependency,
 } from '../../ducks/models/selectors'
 import { pagesSelector, makePageMetadataByIdSelector } from '../../ducks/pages/selectors'
@@ -60,9 +59,7 @@ function withGetWidget(WrappedComponent) {
                 return true
             }
 
-            const model = getModelsByDependency(dependencies)(
-                store.getState(),
-            )
+            const model = getModelsByDependency(dependencies)(store.getState())
 
             return reduce(model, reduceFunction, true)
         }
@@ -102,12 +99,11 @@ function withGetWidget(WrappedComponent) {
 
     WithGetWidget.contextType = ReactReduxContext
 
-    const mapStateToProps = (state, props) => ({
+    const mapStateToProps = (state, { widgetId }) => ({
         pages: pagesSelector(state),
         widgets: widgetsSelector(state),
         widgetsDatasource: makeModelsByPrefixSelector(ModelPrefix.source)(state),
-        models: modelsSelector(state),
-        modelId: makeModelIdSelector(props.widgetId)(state),
+        modelId: makeModelIdSelector(widgetId)(state),
     })
 
     const mapDispatchToProps = dispatch => bindActionCreators(

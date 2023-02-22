@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
@@ -8,6 +9,8 @@ import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { FactoryContext } from '../../../core/factory/context'
 import { WithActiveModel } from '../Widget/WithActiveModel'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import TilesContainer from './TilesContainer'
 
@@ -26,7 +29,6 @@ function TilesWidget(props) {
         height,
         size,
         count,
-        models,
         setPage,
         page,
         loading,
@@ -34,6 +36,7 @@ function TilesWidget(props) {
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
     const { place = 'bottomLeft' } = paging
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
     const pagination = {
         [place]: (
             <N2OPagination
@@ -41,7 +44,7 @@ function TilesWidget(props) {
                 size={size}
                 count={count}
                 activePage={page}
-                datasource={models.datasource}
+                datasource={datasourceModel}
                 setPage={setPage}
             />
         ),

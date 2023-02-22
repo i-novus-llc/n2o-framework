@@ -1,13 +1,14 @@
 import React from 'react'
 import sinon from 'sinon'
-import { focus, blur, change } from 'redux-form'
 
 import setupFormTest, {
     toMathInCollection,
-    getField,
+    getField, isTouched,
 } from '../../../../test/formTestHelper'
 
 import { CheckboxGroupControl } from './CheckboxGroupControl'
+import { handleBlur, handleFocus } from '../../../ducks/form/store'
+import { updateModel } from '../../../ducks/models/store'
 
 const setup = (overrideProps) => {
     const props = {
@@ -58,10 +59,10 @@ describe('Работа с reduxForm', () => {
             .at(0)
             .simulate('focus')
 
-        expect(toMathInCollection(actions, focus('Page_Form', 'testControl'))).toBe(
+        expect(toMathInCollection(actions, handleFocus(undefined, 'Page_Form', 'testControl'))).toBe(
             true,
         )
-        expect(getField(store)).toEqual({ visited: true, active: true, touched: true })
+        expect(isTouched(store)).toEqual(true)
 
         wrapper
             .find('input[type="checkbox"]')
@@ -69,9 +70,9 @@ describe('Работа с reduxForm', () => {
             .simulate('blur')
 
         expect(
-            toMathInCollection(actions, blur('Page_Form', 'testControl', '', true)),
+            toMathInCollection(actions, handleBlur(undefined, 'Page_Form', 'testControl')),
         ).toBe(true)
-        expect(getField(store)).toEqual({ visited: true, touched: true })
+        expect(isTouched(store)).toEqual(true)
     })
     it('Эмуляция onChange', () => {
         const { wrapper, store, actions } = setupFormTest({
@@ -91,7 +92,8 @@ describe('Работа с reduxForm', () => {
         expect(
             toMathInCollection(
                 actions,
-                change(
+                updateModel(
+                    undefined,
                     'Page_Form',
                     'testControl',
                     [{ id: 1, label: 'test' }],

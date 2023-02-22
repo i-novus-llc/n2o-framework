@@ -1,7 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
-import get from 'lodash/get'
 
-import { FORM, TABLE } from '../../components/widgets/widgetTypes'
 import {
     dataSourceCountSelector,
     dataSourcePageSelector,
@@ -9,19 +7,7 @@ import {
     dataSourceSortingSelector,
 } from '../datasource/selectors'
 
-/*
-  Базовые селекторы
-*/
-
-/**
- * Базовый селектор всех виджетов
- * @param state
- */
 export const widgetsSelector = (state = {}) => state.widgets || {}
-
-/*
-  Селекторы генераторы
-*/
 
 /**
  * Селектор-генератор для получения виджета по ID
@@ -64,7 +50,33 @@ export const makeWidgetDisabledSelector = widgetId => createSelector(
     widgetState => widgetState.disabled,
 )
 
-// region from datasource
+export const makeModelIdSelector = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.modelId,
+)
+
+export const makeIsActiveSelector = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.isActive,
+)
+
+export const makeWidgetPageIdSelector = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.pageId,
+)
+
+/**
+ * Селектор-генератор для получения свойства виджета - isFilterVisible
+ * @param widgetId
+ */
+export const makeWidgetFilterVisibilitySelector = widgetId => createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.isFilterVisible,
+)
+export const makeFormModelPrefixSelector = formName => createSelector(
+    makeWidgetByIdSelector(formName),
+    widgetState => widgetState.form?.modelPrefix || 'resolve',
+)
 
 const makeDatasourceSelector = (widgetId, makeSelector) => (state) => {
     const sourceId = makeDatasourceIdSelector(widgetId)(state)
@@ -90,69 +102,8 @@ export const makeWidgetCountSelector = widgetId => makeDatasourceSelector(widget
  */
 export const makeWidgetPageSelector = widgetId => makeDatasourceSelector(widgetId, dataSourcePageSelector)
 
-// endregion from datasource
-
-export const makeWidgetPageIdSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.pageId,
-)
-
 /**
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
  */
 export const makeWidgetSortingSelector = widgetId => makeDatasourceSelector(widgetId, dataSourceSortingSelector)
-
-/**
- * Селектор-генератор для получения свойства виджета - isFilterVisible
- * @param widgetId
- */
-export const makeWidgetFilterVisibilitySelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isFilterVisible,
-)
-
-/**
- * Селектор-генератор для получения свойства виджета - sorting
- * @param widgetId
- */
-export const makeWidgetValidationSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.validation,
-)
-
-export const getWidgetFieldValidation = (state, widgetId, fieldId) => get(state, ['widgets', widgetId, 'validation', fieldId])
-
-export const makeModelIdSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.modelId,
-)
-
-export const makeIsActiveSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.isActive,
-)
-
-export const makeTypeSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.type,
-)
-
-export const makeWidgetDataProviderSelector = widgetId => createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState.dataProvider,
-)
-
-export const isAnyTableFocusedSelector = createSelector(
-    widgetsSelector,
-    widgetsState => Object.values(widgetsState).some(
-        widget => (widget.type === TABLE || widget.type === FORM) && widget.isActive,
-    ),
-)
-
-// region others
-export const makeFormModelPrefixSelector = formName => createSelector(
-    makeWidgetByIdSelector(formName),
-    widgetState => widgetState.form?.modelPrefix || 'resolve',
-)
-// endregion others

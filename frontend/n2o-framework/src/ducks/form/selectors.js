@@ -7,8 +7,6 @@ import { makeFormModelPrefixSelector, widgetsSelector } from '../widgets/selecto
 
 /**
  * селектор для редакс-форм
- * @param state
- * @returns {{}}
  */
 export const formsSelector = state => state.form || {}
 
@@ -66,6 +64,14 @@ export const isInitSelector = (formName, fieldName) => createSelector(
     field => field.isInit,
 )
 
+/**
+ * селектор для свойства dirty
+ */
+export const isDirtyForm = formName => createSelector(
+    makeFormByName(formName),
+    form => Boolean(form.dirty),
+)
+
 export const messageSelector = (datasourceId, fieldName, modelPrefix) => createSelector(
     makeFormModelPrefixSelector(datasourceId),
     state => state,
@@ -103,12 +109,16 @@ export const loadingSelector = (formName, fieldName) => createSelector(
     field => field.loading,
 )
 
+export const touchedSelector = (formName, fieldName) => createSelector(
+    makeFieldByName(formName, fieldName),
+    field => field.touched,
+)
+
 export const formValueSelector = (formName, fieldName) => createSelector(
     makeFormByName(formName),
     form => get(form, `values.${fieldName}`, []),
 )
 
-// Селектор получения всех форм по datasource
 export const makeFormsByDatasourceSelector = datasource => createSelector(
     widgetsSelector,
     widgets => filter(widgets, widgetState => widgetState.datasource === datasource && widgetState.form),
