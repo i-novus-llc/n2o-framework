@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест к reset зависимости полей">
+    <form>
+        <fields>
+            <input-text id="test"/>
+            <row>
+                <col>
+                    <input-text id="input">
+                        <dependencies>
+                            <reset on="test">
+                                test == 1
+                            </reset>
+                        </dependencies>
+                    </input-text>
+                    <date-time id="dateTime">
+                        <dependencies>
+                            <reset on="test">
+                                test == 1
+                            </reset>
+                        </dependencies>
+                    </date-time>
+                    <select id="select">
+                        <options>
+                            <option id="1" name="1"/>
+                            <option id="2" name="2"/>
+                            <option id="3" name="3"/>
+                        </options>
+                        <dependencies>
+                            <reset on="test">
+                                test == 1
+                            </reset>
+                        </dependencies>
+                    </select>
+                </col>
+                <col>
+                    <input-select id="inputSelect" type="checkboxes">
+                        <options>
+                            <option id="1" name="1"/>
+                            <option id="2" name="2"/>
+                            <option id="3" name="3"/>
+                        </options>
+                        <dependencies>
+                            <reset on="test">
+                                test == 1
+                            </reset>
+                        </dependencies>
+                    </input-select>
+                    <checkbox id="check">
+                        <dependencies>
+                            <reset on="test">
+                                test == 1
+                            </reset>
+                        </dependencies>
+                    </checkbox>
+                    <checkbox-group id="chgroup">
+                        <options>
+                            <option id="1" name="test1"/>
+                            <option id="2" name="test2"/>
+                            <option id="3" name="test3"/>
+                        </options>
+                        <dependencies>
+                            <reset on="test">
+                                test == 1
+                            </reset>
+                        </dependencies>
+                    </checkbox-group>
+                </col>
+            </row>
+        </fields>
+    </form>
+</simple-page>
