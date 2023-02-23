@@ -20,7 +20,9 @@ import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -551,7 +553,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         FormWidget formWidget = page.widget(FormWidget.class);
         formWidget.shouldExists();
-;
+
         StandardField test = formWidget.fields().field("test");
         StandardField test2 = formWidget.fields().field("test");
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(1, MultiFieldSet.class);
@@ -666,5 +668,32 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset.item(1).fields().field("Имя").control(InputText.class).click();
         fieldset.item(1).fields().field("Имя").control(InputText.class).setValue("Петр");
         fieldset.item(1).shouldHaveLabel("Петр");
+    }
+
+    @Test
+    public void deleteItemWithSetValue() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/set_value/index.page.xml"));
+
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        InputText input = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("input").control(InputText.class);
+
+        fieldset.clickAddButton();
+
+        MultiFieldSetItem item = fieldset.item(0);
+        OutputText outputInFieldset = item.fields().field("output").control(OutputText.class);
+        InputText inputInFieldset = item.fields().field("input").control(InputText.class);
+
+        input.setValue("1234");
+        outputInFieldset.shouldNotBeEmpty();
+        inputInFieldset.setValue("43553");
+        outputInFieldset.shouldNotBeEmpty();
+
+        item.clickRemoveButton();
+
+        fieldset.shouldHaveItems(0);
+        input.shouldHaveValue("1234");
     }
 }
