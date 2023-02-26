@@ -522,6 +522,20 @@ const formSlice = createSlice({
                 // empty reducer, action for saga
             },
         },
+
+        syncValues: {
+            prepare(form, model) {
+                return ({
+                    meta: { form },
+                    payload: { model },
+                })
+            },
+            reducer(state, { payload }) {
+                const { model } = payload
+
+                set(state, 'values', model)
+            },
+        },
     },
 
     extraReducers: {
@@ -574,4 +588,5 @@ export const {
     DISABLE_FIELDS: disableMultiFields,
     ENABLE_FIELDS: enableMultiFields,
     initializeDependencies,
+    syncValues,
 } = formSlice.actions

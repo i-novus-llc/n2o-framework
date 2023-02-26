@@ -18,7 +18,7 @@ import regions from './ducks/regions/store'
 const formHack = (state, action) => {
     state = formReducer(state, action)
 
-    const formName = action.meta ? action.meta.form : ''
+    const formName = action.meta?.form
     const formState = state[formName]
 
     if (formName) {

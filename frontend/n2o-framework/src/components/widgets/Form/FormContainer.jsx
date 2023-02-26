@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
-import { getFormValues, initialize, destroy } from 'redux-form'
+import { getFormValues, destroy } from 'redux-form'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -9,11 +9,10 @@ import React from 'react'
 
 import { ModelPrefix } from '../../../core/datasource/const'
 import { makeFormsByDatasourceSelector } from '../../../ducks/form/selectors'
+import { syncValues } from '../../../ducks/form/store'
 
 import { getFieldsKeys } from './utils'
 import ReduxForm from './ReduxForm'
-
-const fakeInitial = {}
 
 export const mapStateToProps = createStructuredSelector({
     reduxFormValues: (state, { datasource, id }) => getFormValues(datasource || id)(state) || {},
@@ -49,7 +48,6 @@ class Container extends React.Component {
 
     componentDidUpdate({ models: prevModels, reduxFormValues: prevValues }) {
         const { models, reduxFormValues, form, setResolve, dispatch, id, datasource: datasourceId } = this.props
-        const { initialValues } = this.state
         const { datasource } = models
         const { modelPrefix } = form
         const activeModel = this.getActiveModel(models)
@@ -82,11 +80,8 @@ class Container extends React.Component {
             })
         } else if (!isEqual(activeModel, prevModel) && !isEqual(activeModel, reduxFormValues)) {
             // поменялась активная модель и она отличается от того что в форме (copyActyon / setValue-dependency) - обновляем данные в форме
-            // костыль для того чтобы редакс-форма подхватила новую модель, даже если она совпадает с предыдущим initialValues
-            this.setState({ initialValues: fakeInitial })
-        } else if (initialValues === fakeInitial) {
-            this.setState({ initialValues: cloneDeep(activeModel) })
-            dispatch(initialize(datasourceId || id, initialValues))
+            dispatch(syncValues(datasourceId || id, activeModel))
+            // this.setState({ initialValues: cloneDeep(activeModel) })
         }
     }
 
