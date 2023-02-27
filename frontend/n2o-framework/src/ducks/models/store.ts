@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
     isString,
     map as mapFn,
-    pick,
     merge,
     omit,
     set,
@@ -111,13 +110,13 @@ const modelsSlice = createSlice({
          * Очистка моделий. которая учивает список исключений (поля которые не нужно очищать)
          */
         CLEAR(state, action: ClearModelAction) {
-            const { prefixes, key, exclude } = action.payload
+            const { prefixes, key } = action.payload
 
             prefixes.forEach((prefix) => {
-                if (state[prefix][key]) {
-                    const clearableValue = pick(state[prefix][key], [exclude])
+                const model = state[prefix][key]
 
-                    set(state, [prefix, key], clearableValue)
+                if (model) {
+                    state[prefix][key] = Array.isArray(model) ? [] : {}
                 }
             })
         },
