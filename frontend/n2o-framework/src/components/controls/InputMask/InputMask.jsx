@@ -162,7 +162,7 @@ class InputMask extends React.Component {
 
           this.setState(
               { value: newValue, guide: false },
-              () => value === '' && onChange(newValue),
+              () => newValue === '' && onChange(newValue),
           )
       }
   };
