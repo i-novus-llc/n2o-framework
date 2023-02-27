@@ -18,12 +18,12 @@ public interface Badge extends Component {
 
     /**
      * Проверка наличие картинки и ее соответствие ожидаемому значению
-     * @param imageSrc ожидаемый путь к картинке
+     * @param regex регулярное выражение соответствующее ожидаемому путю к картинке
      */
-    default void shouldHaveImage(String imageSrc) {
+    default void shouldHaveImageMatches(String regex) {
         element().$(".n2o-badge")
                 .$(".n2o-badge-image")
-                .shouldBe(Condition.exist, Condition.attributeMatching("src", ".*" + imageSrc));
+                .shouldBe(Condition.exist, Condition.attributeMatching("src", regex));
     }
 
     /**

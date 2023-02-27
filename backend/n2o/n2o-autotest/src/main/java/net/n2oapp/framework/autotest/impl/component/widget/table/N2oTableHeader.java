@@ -44,11 +44,11 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
     }
 
     @Override
-    public void shouldHaveStyle(String style) {
+    public void shouldHaveStyleMatches(String regex) {
         SelenideElement elm = element().$(".n2o-advanced-table-header-title");
         if (!elm.exists())
             elm = element().$("div.n2o-advanced-table-header-cel");
-        elm.shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
+        elm.shouldHave(Condition.attributeMatching("style", regex));
     }
 
     @Override

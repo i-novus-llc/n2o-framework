@@ -19,7 +19,7 @@ public interface RatingCell extends Cell {
 
     /**
      * Выбор значения рейтинга
-     * @param value значение рейтинга
+     * @param regex регулярное выражение соответствующее значению рейтинга
      */
-    void value(String value);
+    void clickOnValue(String regex);
 }

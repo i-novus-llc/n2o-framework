@@ -16,6 +16,7 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void shouldBeEmpty() {
+        //ToDo зачем такой метод, если есь две public проверки
         beginShouldBeEmpty();
         endShouldBeEmpty();
     }
@@ -32,12 +33,14 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void setValueInBegin(String value) {
+        //ToDo разделить в два разных метода
         firstInputElement().setValue(value);
         element().click();
     }
 
     @Override
     public void setValueInEnd(String value) {
+        //ToDo разделить в два разных метода
         lastInputElement().setValue(value);
         element().click();
     }
@@ -174,12 +177,14 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void shouldBeEnabled() {
+        //ToDo разделить в два разных метода, так как проверка содержащая две проверки ухудшает читабельность отчета при ошибке
         firstInputElement().shouldBe(Condition.enabled);
         lastInputElement().shouldBe(Condition.enabled);
     }
 
     @Override
     public void shouldBeDisabled() {
+        //ToDo разделить в два разных метода, так как проверка содержащая две проверки ухудшает читабельность отчета при ошибке
         firstInputElement().shouldBe(Condition.disabled);
         lastInputElement().shouldBe(Condition.disabled);
     }

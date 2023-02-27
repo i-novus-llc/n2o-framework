@@ -68,11 +68,11 @@ public class MultiColumnAT extends AutoTestBase {
         // столбцы первого уровня
         header1.shouldHaveTitle("ID");
         header2.shouldHaveTitle("Info");
-        header2.shouldHaveStyle("color: red");
+        header2.shouldHaveStyleMatches(".*color: red.*");
         header3.shouldHaveTitle("Birthday");
         // столбцы второго уровня
         header4.shouldHaveTitle("FirstName");
-        header4.shouldHaveStyle("color: green");
+        header4.shouldHaveStyleMatches(".*color: green.*");
         header5.shouldHaveTitle("LastName");
 
         // проверка, что все ячейки корректно заполнены

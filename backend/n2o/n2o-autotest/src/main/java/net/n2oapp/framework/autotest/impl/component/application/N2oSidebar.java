@@ -13,7 +13,6 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
  * Боковая панель для автотестирования
  */
 public class N2oSidebar extends N2oComponent implements Sidebar {
-
     public N2oSidebar(SelenideElement element) {
         setElement(element);
     }
@@ -27,9 +26,9 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     }
 
     @Override
-    public void shouldHaveBrandLogo(String src) {
+    public void shouldHaveBrandLogoMatches(String regex) {
         element().$(".n2o-brand__image")
-                .shouldHave(Condition.attributeMatching("src", ".*" + src));
+                .shouldHave(Condition.attributeMatching("src", regex));
     }
 
     @Override

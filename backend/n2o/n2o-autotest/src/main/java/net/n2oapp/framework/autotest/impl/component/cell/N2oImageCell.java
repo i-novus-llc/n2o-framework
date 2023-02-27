@@ -18,9 +18,9 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shouldHaveWidth(int width) {
+    public void shouldHaveWidthMatches(String regex) {
         img().parent().shouldHave(Condition.attributeMatching(
-                "style", ".*max-width: " + width + "px;.*"));
+                "style", regex));
     }
 
     @Override

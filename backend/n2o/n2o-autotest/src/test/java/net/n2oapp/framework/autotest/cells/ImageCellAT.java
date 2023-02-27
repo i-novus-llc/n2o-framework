@@ -52,7 +52,7 @@ public class ImageCellAT extends AutoTestBase {
 
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldHaveSrc(getBaseUrl() + "/favicon.ico");
-        cell.shouldHaveWidth(15);
+        cell.shouldHaveWidthMatches(".*max-width: 15px;.*");
         cell.shouldHaveShape(ShapeType.CIRCLE);
     }
 
@@ -70,7 +70,7 @@ public class ImageCellAT extends AutoTestBase {
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldExists();
         cell.shouldHaveSrc("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAlCAMAAAADS4u8AAAAnFBMVEX////ZbFrptDj////ptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFr////ptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFrptDj///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFr///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///90gGlOAAAAMHRSTlMAEBAQICAwMDAwQEBAQFBQUGBgcHCAgICAkJCQoKCgsLCwwMDAwNDQ0ODg4PDw8PDEXJ+/AAAA+UlEQVQYGc3B61aCQBSA0U/ICtGki4ZhGKmlYXI57/9uzbgwRqHF/KnV3hBl0rTxUHrL4mjeg1BaZX3gvajNIZN2D+AXph7ygxD8wuSTSrs7uCoMnxBIq40LzIvaFAiSdVPsok2XR7f8B7O8026CNsttTFB2uY0tSm4HZZvbeEO5yW0M0AaL1y6LS36TOzJQcYaKw6lIToRoT+XBysEQyZkQeCwrKwyZnEmBfXl0QU0agPLbkFoqZxLgo6zsHWqBnMo8YFxW7jGN4rUh9tCun1fKy5i/0B91cTlwY+kWoUViI0QRKymK2EFJxUaCEoiFzEPz4nWXuI/yBYSItStrEp20AAAAAElFTkSuQmCC");
-        cell.shouldHaveWidth(40);
+        cell.shouldHaveWidthMatches(".*max-width: 40px;.*");
         cell.shouldHaveTitle("Заголовок1");
         cell.shouldHaveDescription("Описание1");
         cell.shouldHaveTextPosition(TextPosition.left);

@@ -93,7 +93,7 @@ public class TableAT extends AutoTestBase {
 
         table.columns().headers().header(0).shouldBeVisible();
         table.columns().headers().header(0).shouldHaveTitle("Имя");
-        table.columns().headers().header(0).shouldHaveStyle("color: red");
+        table.columns().headers().header(0).shouldHaveStyleMatches(".*color: red.*");
         table.columns().headers().header(1).shouldBeVisible();
         table.columns().headers().header(1).shouldHaveTitle("Фамилия");
         table.columns().headers().header(1).shouldHaveCssClass("font-italic");

@@ -54,14 +54,14 @@ public class RatingCellAT extends AutoTestBase {
         //проверка не редактируемых ячеек
         rows.row(0).cell(0, RatingCell.class).shouldHaveMax(10);
         rows.row(0).cell(0, RatingCell.class).shouldHaveValue("8");
-        rows.row(0).cell(0, RatingCell.class).value("5");
+        rows.row(0).cell(0, RatingCell.class).clickOnValue("rating-5.*");
         rows.row(0).cell(0, RatingCell.class).shouldHaveValue("8");
 
         //проверка редактируемых ячеек
         rows.row(0).cell(1, RatingCell.class).shouldHaveMax(10);
         Alerts alerts = simplePage.alerts(Alert.Placement.top);
 
-        rows.row(0).cell(1, RatingCell.class).value("5");
+        rows.row(0).cell(1, RatingCell.class).clickOnValue("rating-5.*");
         rows.row(0).cell(1, RatingCell.class).shouldExists();
         rows.row(0).cell(1, RatingCell.class).shouldHaveValue("5");
         alerts.shouldHaveSize(1);

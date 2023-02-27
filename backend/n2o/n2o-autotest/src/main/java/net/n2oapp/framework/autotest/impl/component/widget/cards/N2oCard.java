@@ -59,8 +59,8 @@ public class N2oCard extends N2oComponent implements Card {
         }
 
         @Override
-        public void shouldHaveStyle(String style) {
-            element().shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
+        public void shouldHaveStyleMatches(String regex) {
+            element().shouldHave(Condition.attributeMatching("style", regex));
         }
     }
 }

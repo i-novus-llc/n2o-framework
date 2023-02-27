@@ -63,7 +63,7 @@ public class FilterColumnAT extends AutoTestBase {
         TableFilterHeader header4 = headers.header(3, TableFilterHeader.class);
         header1.shouldHaveTitle("id");
         header2.shouldHaveTitle("name");
-        header2.shouldHaveStyle("color: red");
+        header2.shouldHaveStyleMatches(".*color: red.*");
         header3.shouldHaveTitle("type");
         header3.shouldHaveCssClass("font-italic");
         header4.shouldHaveTitle("birthday");

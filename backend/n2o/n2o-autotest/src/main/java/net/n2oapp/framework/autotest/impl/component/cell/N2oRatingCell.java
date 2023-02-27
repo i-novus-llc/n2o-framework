@@ -22,9 +22,9 @@ public class N2oRatingCell extends N2oCell implements RatingCell {
     }
 
     @Override
-    public void value(String value) {
+    public void clickOnValue(String regex) {
         element().$$(".rating__label")
-                .find(Condition.attributeMatching("for", "rating-" + value + ".*"))
+                .find(Condition.attributeMatching("for", regex))
                 .click();
     }
 

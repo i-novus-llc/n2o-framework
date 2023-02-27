@@ -30,9 +30,9 @@ public interface TabsRegion extends Region {
 
     /**
      * Проверка максимальной высоты
-     * @param height ожидаемая максимальная высота в пикселях
+     * @param regex регулярное вырежние соответствующее ожидаемой максимальной высоте
      */
-    void shouldHaveMaxHeight(int height);
+    void shouldHaveMaxHeightMatches(String regex);
 
     /**
      * Проверка наличия полосы прокрутки
