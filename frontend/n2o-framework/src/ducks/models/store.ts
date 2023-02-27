@@ -4,7 +4,6 @@ import {
     isObject,
     isString,
     map as mapFn,
-    pick,
     merge,
     omit,
 } from 'lodash'
@@ -131,11 +130,13 @@ const modelsSlice = createSlice({
          */
         // eslint-disable-next-line @typescript-eslint/naming-convention
         CLEAR(state, action: ClearModelAction) {
-            const { prefixes, key, exclude } = action.payload
+            const { prefixes, key } = action.payload
 
             prefixes.forEach((prefix) => {
-                if (state[prefix][key]) {
-                    state[prefix][key] = pick(state[prefix][key], [exclude])
+                const model = state[prefix][key]
+
+                if (model) {
+                    state[prefix][key] = Array.isArray(model) ? [] : {}
                 }
             })
         },

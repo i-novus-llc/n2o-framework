@@ -44,7 +44,6 @@ export type RemoveAllModelAction = ModelsAction<{
 export type ClearModelAction = ModelsAction<{
     key: string
     prefixes: ModelPrefix[]
-    exclude: string
 }>
 
 export type MergeModelAction = ModelsAction<{
