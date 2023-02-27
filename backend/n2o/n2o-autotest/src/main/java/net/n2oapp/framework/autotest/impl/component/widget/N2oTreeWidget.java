@@ -56,7 +56,7 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
             return Condition.cssClass("n2o-rc-tree-switcher_open");
         }
 
-        private SelenideElement switcher() {
+        protected SelenideElement switcher() {
             return element().parent().$(".n2o-rc-tree-switcher");
         }
     }

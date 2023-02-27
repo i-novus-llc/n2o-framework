@@ -32,7 +32,7 @@ public class N2oTableFilterHeader extends N2oTableSimpleHeader implements TableF
         filterDropdown().$$(".n2o-advanced-table-filter-dropdown-buttons button").find(Condition.text("Сбросить")).click();
     }
 
-    private SelenideElement filterDropdown() {
+    protected SelenideElement filterDropdown() {
         return element().$(".n2o-advanced-table-filter-dropdown").shouldBe(Condition.exist);
     }
 }

@@ -92,15 +92,15 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
         removeAllButton().click();
     }
 
-    private SelenideElement label() {
+    protected SelenideElement label() {
         return element().parent().$(".n2o-fieldset__label");
     }
 
-    private SelenideElement addButton() {
+    protected SelenideElement addButton() {
         return element().$(".n2o-multi-fieldset__add.btn");
     }
 
-    private SelenideElement removeAllButton() {
+    protected SelenideElement removeAllButton() {
         return element().$(".n2o-multi-fieldset__remove-all.btn");
     }
 

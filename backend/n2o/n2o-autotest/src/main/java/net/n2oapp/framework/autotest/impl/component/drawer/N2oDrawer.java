@@ -126,7 +126,7 @@ public class N2oDrawer extends N2oComponent implements Drawer {
         }
     }
 
-    private SelenideElement getFooter() {
+    protected SelenideElement getFooter() {
         return element().$(".drawer-footer");
     }
 }

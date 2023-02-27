@@ -41,7 +41,7 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
         element().$(".n2o-search-bar__control .n2o-search-bar__clear-icon").should(Condition.exist).click();
     }
 
-    private SelenideElement input() {
+    protected SelenideElement input() {
         return element().$(".n2o-search-bar__control .n2o-input-text");
     }
 }

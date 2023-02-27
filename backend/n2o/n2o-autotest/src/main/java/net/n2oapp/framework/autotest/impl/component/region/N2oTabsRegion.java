@@ -113,7 +113,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
     }
 
-    private SelenideElement getTabsContent() {
+    protected SelenideElement getTabsContent() {
         return element().$(".tab-content");
     }
 }

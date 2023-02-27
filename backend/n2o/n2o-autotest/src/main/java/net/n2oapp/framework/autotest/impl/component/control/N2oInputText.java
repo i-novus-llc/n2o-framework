@@ -81,11 +81,11 @@ public class N2oInputText extends N2oControl implements InputText {
         return element().parent().$(".n2o-input");
     }
 
-    private SelenideElement cellInputElement() {
+    protected SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 
-    private SelenideElement inputMeasure() {
+    protected SelenideElement inputMeasure() {
         SelenideElement elm = element().parent();
         if (elm.is(Condition.cssClass("n2o-input-number")))
             elm = elm.parent();

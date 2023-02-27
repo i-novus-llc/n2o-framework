@@ -56,7 +56,7 @@ public class N2oCell extends N2oComponent implements Cell {
                 .shouldNotBe(Condition.exist);
     }
 
-    private SelenideElement expandIcon() {
+    protected SelenideElement expandIcon() {
         return element().$(EXPAND_ICON_SELECTOR);
     }
 }

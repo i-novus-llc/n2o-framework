@@ -42,7 +42,7 @@ public class N2oTopLeftRightPage extends N2oPage implements TopLeftRightPage {
         scrollToTopButton().click();
     }
 
-    private SelenideElement scrollToTopButton() {
+    protected SelenideElement scrollToTopButton() {
         return element().$(".n2o-page__scroll-to-top--show");
     }
 }

@@ -34,7 +34,7 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
         searchField().clear();
     }
 
-    private SelenideElement searchField() {
+    protected SelenideElement searchField() {
         return element().$(".n2o-select-tree-search__field");
     }
 
@@ -79,7 +79,7 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
             return Condition.cssClass("n2o-select-tree-tree-switcher_open");
         }
 
-        private SelenideElement switcher() {
+        protected SelenideElement switcher() {
             return element().parent().$(".n2o-select-tree-tree-switcher");
         }
     }

@@ -69,19 +69,19 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
         item().shouldNotBe(expandedContentCondition());
     }
 
-    private SelenideElement header() {
+    protected SelenideElement header() {
         return element().$(".n2o-panel-header");
     }
 
-    private SelenideElement item() {
+    protected SelenideElement item() {
         return element().$(".rc-collapse-item");
+    }
+
+    protected SelenideElement content() {
+        return element().$(".rc-collapse-content-box");
     }
 
     private Condition expandedContentCondition() {
         return Condition.cssClass("rc-collapse-item-active");
-    }
-
-    private SelenideElement content() {
-        return element().$(".rc-collapse-content-box");
     }
 }

@@ -190,15 +190,15 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         shouldBeClosed();
     }
 
-    private SelenideElement input() {
+    protected SelenideElement input() {
         return element().$(".n2o-inp");
     }
 
-    private SelenideElement selectPopUp() {
+    protected SelenideElement selectPopUp() {
         return element().parent().parent().$(".n2o-pop-up");
     }
 
-    private ElementsCollection popUpButtons() {
+    protected ElementsCollection popUpButtons() {
         return selectPopUp().$$("button");
     }
 

@@ -161,7 +161,7 @@ public class N2oSelect extends N2oControl implements Select {
         shouldBeClosed();
     }
 
-    private SelenideElement selectPopUp() {
+    protected SelenideElement selectPopUp() {
         return element().parent().parent().$(".n2o-select-pop-up");
     }
 }

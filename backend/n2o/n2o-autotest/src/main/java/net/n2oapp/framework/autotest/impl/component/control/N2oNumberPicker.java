@@ -80,16 +80,16 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
         inputElement().shouldBe(Condition.attribute("step", step));
     }
 
-    private SelenideElement inputElement() {
+    protected SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-number-picker__input");
     }
 
-    private SelenideElement minusButton() {
+    protected SelenideElement minusButton() {
         return element().parent().$(".n2o-number-picker__button .fa-minus");
     }
 
-    private SelenideElement plusButton() {
+    protected SelenideElement plusButton() {
         return element().parent().$(".n2o-number-picker__button .fa-plus");
     }
 }

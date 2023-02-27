@@ -82,7 +82,7 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
                 .click();
     }
 
-    private SelenideElement inputElement() {
+    protected SelenideElement inputElement() {
         return element().$(".n2o-inp");
     }
 }

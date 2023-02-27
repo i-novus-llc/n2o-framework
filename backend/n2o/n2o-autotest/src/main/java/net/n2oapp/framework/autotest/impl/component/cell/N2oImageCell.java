@@ -63,10 +63,6 @@ public class N2oImageCell extends N2oCell implements ImageCell {
                 .shouldBe(Condition.text(title));
     }
 
-    private SelenideElement getStatus(ImageStatusElementPlace position, int index) {
-        return element().$$(".n2o-image-statuses ." + position).get(index);
-    }
-
     @Override
     public void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon) {
         if (icon != null && !icon.isEmpty()) {
@@ -74,6 +70,14 @@ public class N2oImageCell extends N2oCell implements ImageCell {
                     .$(".n2o-status__icon"+icon)
                     .should(Condition.exist);
         }
+    }
+
+    protected SelenideElement getStatus(ImageStatusElementPlace position, int index) {
+        return element().$$(".n2o-image-statuses ." + position).get(index);
+    }
+
+    protected SelenideElement img() {
+        return element().$("img");
     }
 
     private void imgShouldHaveCircleShape() {
@@ -88,9 +92,5 @@ public class N2oImageCell extends N2oCell implements ImageCell {
         //ToDo: почему проверка на rounded внутри circle?
         img().parent().shouldNotHave(Condition.cssClass("circle"));
         img().parent().shouldNotHave(Condition.cssClass("rounded"));
-    }
-
-    private SelenideElement img() {
-        return element().$("img");
     }
 }

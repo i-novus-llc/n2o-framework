@@ -126,11 +126,11 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
         shouldBeClosed();
     }
 
-    private boolean isOpened() {
-        return Objects.equals(element().getAttribute("aria-expanded"), "true");
+    protected SelenideElement switcher() {
+        return element().$(".n2o-select-tree-arrow");
     }
 
-    private SelenideElement switcher() {
-        return element().$(".n2o-select-tree-arrow");
+    private boolean isOpened() {
+        return Objects.equals(element().getAttribute("aria-expanded"), "true");
     }
 }

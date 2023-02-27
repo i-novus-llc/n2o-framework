@@ -73,7 +73,7 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
         element().$(".card-header .n2o-icon").shouldHave(Condition.cssClass(icon));
     }
 
-    private SelenideElement collapseToggleBtn() {
+    protected SelenideElement collapseToggleBtn() {
         return element().$("button.collapse-toggle");
     }
 

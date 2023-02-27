@@ -15,6 +15,11 @@ import javax.annotation.Nonnull;
  */
 public class N2oRegion extends N2oComponent implements Region {
 
+    @Override
+    public void shouldHaveStyle(String style) {
+        element().shouldHave(Condition.attribute("style", style));
+    }
+
     protected ElementsCollection firstLevelElements(String rootSelector, String childSelector) {
         String elementSelector = rootSelector + " > " + childSelector;
         ElementsCollection nestingElements = element().$$(rootSelector + " " + elementSelector);
@@ -24,13 +29,8 @@ public class N2oRegion extends N2oComponent implements Region {
                     @Override
                     public CheckResult check(@Nonnull Driver driver, @Nonnull WebElement element) {
                         boolean result = !nestingElements.contains(element);
-                        return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, (Object)null);
+                        return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, null);
                     }
                 });
-    }
-
-    @Override
-    public void shouldHaveStyle(String style) {
-        element().shouldHave(Condition.attribute("style", style));
     }
 }

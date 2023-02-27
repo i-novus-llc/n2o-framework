@@ -170,16 +170,16 @@ public class N2oDateInput extends N2oControl implements DateInput {
         shouldBeClosed();
     }
 
-    private SelenideElement inputElement() {
+    protected SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().$(".n2o-date-input input");
     }
 
-    private SelenideElement cellInputElement() {
+    protected SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 
-    private SelenideElement popUp() {
+    protected SelenideElement popUp() {
         return element().parent().parent().$(".n2o-pop-up");
     }
 }

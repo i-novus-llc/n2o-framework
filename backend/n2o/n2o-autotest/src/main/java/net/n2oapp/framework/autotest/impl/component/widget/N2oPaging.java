@@ -151,27 +151,27 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
 
-    private SelenideElement pageNumberButton(String number) {
+    protected SelenideElement pageNumberButton(String number) {
         return element().$$(".n2o-pagination .page-link").findBy(Condition.text(number));
     }
 
-    private SelenideElement paginationInfo() {
+    protected SelenideElement paginationInfo() {
         return element().$(".n2o-pagination .n2o-pagination-total");
     }
 
-    private SelenideElement prevButton() {
+    protected SelenideElement prevButton() {
         return element().$(".n2o-pagination .page-link .previous-button");
     }
 
-    private SelenideElement nextButton() {
+    protected SelenideElement nextButton() {
         return element().$(".n2o-pagination .page-link .next-button");
     }
 
-    private SelenideElement firstButton() {
+    protected SelenideElement firstButton() {
         return element().$(".n2o-pagination .page-link .first-button");
     }
 
-    private SelenideElement lastButton() {
+    protected SelenideElement lastButton() {
         return element().$(".n2o-pagination .page-link .last-button");
     }
 }

@@ -28,7 +28,7 @@ public class N2oRatingCell extends N2oCell implements RatingCell {
                 .click();
     }
 
-    private ElementsCollection ratingInput() {
+    protected ElementsCollection ratingInput() {
         if (element().$$(".rating__input--readonly").isEmpty())
             return element().$$(".rating__input");
         else

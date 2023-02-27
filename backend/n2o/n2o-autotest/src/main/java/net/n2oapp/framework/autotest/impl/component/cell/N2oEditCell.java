@@ -18,7 +18,7 @@ public class N2oEditCell extends N2oCell implements EditCell {
         editableCell().click();
     }
 
-    private SelenideElement editableCell() {
+    protected SelenideElement editableCell() {
         return element().$(".n2o-editable-cell");
     }
 

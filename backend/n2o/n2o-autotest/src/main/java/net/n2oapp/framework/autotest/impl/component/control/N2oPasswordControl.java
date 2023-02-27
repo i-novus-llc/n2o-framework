@@ -66,7 +66,7 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "password"));
     }
 
-    private SelenideElement inputElement() {
+    protected SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-input");
     }

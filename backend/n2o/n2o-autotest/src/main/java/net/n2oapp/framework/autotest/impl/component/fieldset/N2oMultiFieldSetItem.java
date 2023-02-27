@@ -57,11 +57,11 @@ public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetI
         return N2oSelenide.collection(element().$$(".n2o-fieldset"), FieldSets.class);
     }
 
-    private SelenideElement removeButton() {
+    protected SelenideElement removeButton() {
         return element().$(".n2o-multi-fieldset__remove.btn");
     }
 
-    private SelenideElement copyButton() {
+    protected SelenideElement copyButton() {
         return element().$(".n2o-multi-fieldset__copy.btn");
     }
 }

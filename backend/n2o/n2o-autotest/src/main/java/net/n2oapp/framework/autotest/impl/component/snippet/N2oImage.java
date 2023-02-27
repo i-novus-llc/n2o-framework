@@ -46,7 +46,7 @@ public class N2oImage extends N2oSnippet implements Image {
         element().shouldHave(Condition.text(text));
     }
 
-    private SelenideElement imageInfo() {
+    protected SelenideElement imageInfo() {
         return element().parent().parent().$(".n2o-image__info");
     }
 }

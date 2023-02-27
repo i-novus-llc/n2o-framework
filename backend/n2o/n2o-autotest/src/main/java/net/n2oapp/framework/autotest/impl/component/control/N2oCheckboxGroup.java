@@ -50,7 +50,7 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
                 .shouldHave(CollectionCondition.exactTexts(labels));
     }
 
-    private SelenideElement inputElement(String label) {
+    protected SelenideElement inputElement(String label) {
         return element().$$(".custom-control")
                 .findBy(Condition.text(label))
                 .$(".n2o-input");

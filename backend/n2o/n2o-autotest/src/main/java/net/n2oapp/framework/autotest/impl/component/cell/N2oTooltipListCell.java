@@ -48,7 +48,7 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
         else element().click();
     }
 
-    private SelenideElement cellTrigger() {
+    protected SelenideElement cellTrigger() {
         return element().$(".list-text-cell__trigger, .list-text-cell__trigger_dashed");
     }
 }

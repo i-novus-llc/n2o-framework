@@ -65,7 +65,7 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
                 .shouldBe(Condition.hidden);
     }
 
-    private ElementsCollection menuItems() {
+    protected ElementsCollection menuItems() {
         return element().parent()
                 .parent()
                 .$$("div.dropdown-menu .btn.btn-secondary,.dropdown-item");

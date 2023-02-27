@@ -53,7 +53,7 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
                 .shouldHave(condition);
     }
 
-    private SelenideElement inputElement() {
+    protected SelenideElement inputElement() {
         return element().shouldBe(Condition.exist)
                 .parent().$(".n2o-input-money");
     }

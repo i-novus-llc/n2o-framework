@@ -73,7 +73,7 @@ public class N2oSlider extends N2oControl implements Slider {
         element.shouldHave(Condition.attribute("aria-valuenow", value));
     }
 
-    private SelenideElement sliderElement(int index) {
+    protected SelenideElement sliderElement(int index) {
         return element().$$(".rc-slider-handle").get(index).shouldHave(Condition.exist);
     }
 }

@@ -47,11 +47,11 @@ public class N2oPills extends N2oControl implements Pills {
         element().$$(".nav-item").shouldHave(CollectionCondition.exactTexts(options));
     }
 
-    private SelenideElement item(String label) {
+    protected SelenideElement item(String label) {
         return element().$$(".nav-item").findBy(Condition.text(label));
     }
 
-    private SelenideElement itemLink(String label) {
+    protected SelenideElement itemLink(String label) {
         return item(label).$(".nav-link");
     }
 }
