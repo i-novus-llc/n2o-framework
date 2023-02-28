@@ -24,7 +24,7 @@ import { generateFormFilterId } from '../../utils/generateFormFilterId'
 import { ValidationsKey } from '../../core/validation/IValidation'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 
-import { makeFormsFiltersByDatasourceSelector, makeFormsByDatasourceSelector } from './selectors'
+import { makeFormsFiltersByDatasourceSelector } from './selectors'
 import {
     setRequired,
     unsetRequired,
@@ -128,19 +128,10 @@ export function* clearForm({ payload }) {
     * если дёргать ресет формы разу после очистки модели, то форма сетает первый введёный в ней символ
     * поставил задержку, чтобы форма могла сначала принять в себя пустую модель, а потом уже ресетнуть всю мета инфу в себе
     */
-    const { prefixes, key } = payload
-    const formWidgets = yield select(makeFormsByDatasourceSelector(key))
+    const { key } = payload
     const widgetsWithFilter = yield select(makeFormsFiltersByDatasourceSelector(key))
 
     yield delay(50)
-
-    for (const formWidget of formWidgets) {
-        const modelPrefix = get(formWidget, ['form', 'modelPrefix'], ModelPrefix.active)
-
-        if (includes(prefixes, modelPrefix)) {
-            yield put(reset(key))
-        }
-    }
 
     /* костыль для очистки фильтров виджета через clear action */
     for (const widgetFilter of widgetsWithFilter) {
