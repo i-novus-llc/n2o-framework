@@ -123,13 +123,14 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void uploadAreaShouldHaveIconSize(int size) {
-        getUploadAreaElement().shouldHave(Condition.attributeMatching("style", ".*font-size: " + size + "px.*"));
+        getUploadAreaElement().shouldHave(Condition.attributeMatching("style",
+                String.format(".*font-size: %dpx.*", size)));
     }
 
     @Override
     public void uploadAreaShouldHaveWidth(int width) {
         element().shouldHave(Condition.attributeMatching("style",
-                ".*max-width: " + width + "px.*"));
+                String.format(".*max-width: %dpx.*", width)));
     }
 
     @Override

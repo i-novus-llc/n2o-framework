@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.button;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -21,26 +22,22 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     @Override
     public StandardButton menuItem(String label) {
-        return N2oSelenide.component(menuItems().findBy(Condition.text(label)), N2oStandardButton.class);
+        return menuItem(Condition.text(label));
     }
 
     @Override
     public StandardButton menuItem(Condition by) {
-        return N2oSelenide.component(element()
-                .parent()
-                .$$("div.dropdown-menu  .btn .btn-secondary")
-                .findBy(by), N2oStandardButton.class);
+        return N2oSelenide.component(menuItems().findBy(by), N2oStandardButton.class);
     }
 
     @Override
     public void shouldBeVisible() {
-        //ToDo: почему не Condition.visible?
-        element().parent().shouldHave(Condition.cssClass("visible"));
+        element().parent().shouldBe(Condition.visible);
     }
 
     @Override
     public void shouldBeHidden() {
-        element().parent().shouldNotHave(Condition.cssClass("visible"));
+        element().parent().shouldBe(Condition.hidden);
     }
 
     @Deprecated
@@ -50,19 +47,18 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     @Override
     public void shouldBeExpanded() {
-        //ToDo: можно ли заменить на shouldBe(Condition.visible)?
-        element().parent()
-                .parent()
-                .$(".n2o-dropdown-menu")
-                .shouldNotBe(Condition.hidden);
+        dropdownMenu().shouldBe(Condition.visible);
     }
 
     @Override
     public void shouldBeCollapsed() {
-        element().parent()
+        dropdownMenu().shouldBe(Condition.hidden);
+    }
+
+    private SelenideElement dropdownMenu() {
+        return element().parent()
                 .parent()
-                .$(".n2o-dropdown-menu")
-                .shouldBe(Condition.hidden);
+                .$(".n2o-dropdown-menu");
     }
 
     protected ElementsCollection menuItems() {

@@ -76,7 +76,9 @@ public class AutoCompleteAT extends AutoTestBase {
                 .control(AutoComplete.class);
         autoComplete.shouldExists();
 
-        autoComplete.addTag("item1");
+        autoComplete.click();
+        autoComplete.setValue("item1");
+        autoComplete.enter();
         autoComplete.shouldHaveTags("item1");
 
         autoComplete.click();
@@ -85,7 +87,9 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveTags("item1", "abc");
 
-        autoComplete.addTag("item2");
+        autoComplete.click();
+        autoComplete.setValue("item2");
+        autoComplete.enter();
         autoComplete.shouldHaveTags("item1", "abc", "item2");
 
         autoComplete.removeTag("item1");

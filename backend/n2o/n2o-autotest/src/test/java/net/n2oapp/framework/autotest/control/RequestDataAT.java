@@ -92,8 +92,14 @@ public class RequestDataAT extends AutoTestBase {
         inputSelectMulti.closePopup();
         inputSelectMulti.shouldSelectedMulti("test3", "test5");
 
-        autoCompleteMulti.addTag("test1");
-        autoCompleteMulti.addTag("test6");
+        autoCompleteMulti.click();
+        autoCompleteMulti.setValue("test1");
+        autoCompleteMulti.enter();
+
+        autoCompleteMulti.click();
+        autoCompleteMulti.setValue("test6");
+        autoCompleteMulti.enter();
+
         autoCompleteMulti.shouldHaveTags("test1", "test6");
 
         save.click();

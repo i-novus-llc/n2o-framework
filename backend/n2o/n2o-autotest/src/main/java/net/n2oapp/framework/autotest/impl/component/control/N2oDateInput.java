@@ -12,8 +12,8 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldBe(Condition.empty);
+        SelenideElement input = inputElement();
+        if (input.exists()) input.shouldBe(Condition.empty);
         else cellInputElement().shouldBe(Condition.empty);
     }
 

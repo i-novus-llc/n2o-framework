@@ -15,7 +15,7 @@ public class N2oCodeEditor extends N2oControl implements CodeEditor {
 
     @Override
     public void shouldBeEmpty() {
-        ElementsCollection lines = element().$$(".ace_line");
+        ElementsCollection lines = lines();
         lines.shouldHave(CollectionCondition.size(1));
         lines.get(0).shouldBe(Condition.empty);
     }
@@ -33,6 +33,10 @@ public class N2oCodeEditor extends N2oControl implements CodeEditor {
 
     @Override
     public void shouldHaveValue(String value, int line) {
-        element().$$(".ace_line").get(line).shouldHave(Condition.text(value));
+        lines().get(line).shouldHave(Condition.text(value));
+    }
+
+    protected ElementsCollection lines() {
+        return element().$$(".ace_line");
     }
 }

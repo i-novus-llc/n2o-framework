@@ -29,14 +29,12 @@ public class N2oCell extends N2oComponent implements Cell {
 
     @Override
     public void shouldBeExpanded() {
-        element().$(EXPAND_ICON_SELECTOR + "-expanded")
-                .shouldBe(Condition.exist);
+        expandIcon().shouldHave(Condition.cssClass("fa-angle-down"));
     }
 
     @Override
-    public void shouldNotBeExpanded() {
-        element().$(EXPAND_ICON_SELECTOR + "-expanded")
-                .shouldNotBe(Condition.exist);
+    public void shouldBeCollapsed() {
+        expandIcon().shouldHave(Condition.cssClass("fa-angle-right"));
     }
 
     @Override

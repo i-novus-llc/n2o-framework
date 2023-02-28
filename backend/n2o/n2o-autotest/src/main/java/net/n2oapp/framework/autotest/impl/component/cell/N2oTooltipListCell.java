@@ -17,20 +17,21 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
 
     @Override
     public void shouldHaveDashedLabel() {
-        element().$(".list-text-cell__trigger_dashed").shouldBe(Condition.exist);
+        dashedLabel().shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotHaveDashedLabel() {
-        element().$(".list-text-cell__trigger_dashed").shouldNotBe(Condition.exist);
+        dashedLabel().shouldNotBe(Condition.exist);
     }
 
     @Override
     public void hover() {
-        SelenideElement elm = cellTrigger();
-        if (elm.is(Condition.exist))
-            cellTrigger().hover();
-        else element().hover();
+        SelenideElement cellTrigger = cellTrigger();
+        if (cellTrigger.is(Condition.exist))
+            cellTrigger.hover();
+        else
+            element().hover();
     }
 
     @Override
@@ -42,10 +43,15 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
     @Override
     public void click() {
         element().scrollTo();
-        SelenideElement elm = cellTrigger();
-        if (elm.is(Condition.exist))
-            cellTrigger().click();
-        else element().click();
+        SelenideElement cellTrigger = cellTrigger();
+        if (cellTrigger.is(Condition.exist))
+            cellTrigger.click();
+        else
+            element().click();
+    }
+
+    protected SelenideElement dashedLabel() {
+        return element().$(".list-text-cell__trigger_dashed");
     }
 
     protected SelenideElement cellTrigger() {

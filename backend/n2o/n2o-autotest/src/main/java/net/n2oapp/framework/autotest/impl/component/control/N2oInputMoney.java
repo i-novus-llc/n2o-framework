@@ -12,9 +12,10 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     @Override
     public String getValue() {
-        SelenideElement elm = inputElement();
-        return elm.exists() ? elm.getValue()
-                : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
+        SelenideElement input = inputElement();
+        if (input.exists())
+            return input.getValue();
+        return editableCell().text();
     }
 
     @Override
@@ -24,33 +25,38 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(Condition.empty);
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text")
-                .shouldHave(Condition.empty);
+        SelenideElement input = inputElement();
+
+        if (input.exists())
+            input.shouldHave(Condition.empty);
+        else
+            editableCell().shouldHave(Condition.empty);
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = inputElement();
-        if (elm.exists())
-            elm.shouldHave(value == null || value.isEmpty()
-                ? Condition.empty : Condition.value(value));
+        boolean b = value == null || value.isEmpty();
+        SelenideElement input = inputElement();
+
+        if (input.exists())
+            input.shouldHave(b ? Condition.empty : Condition.value(value));
         else
-            element().$(".n2o-editable-cell .n2o-editable-cell-text")
-                .shouldHave(value == null || value.isEmpty()
-                        ? Condition.empty : Condition.text(value));
+            editableCell().shouldHave(b ? Condition.empty : Condition.text(value));
     }
 
     @Override
     public void shouldHavePlaceholder(String value) {
         Condition condition = Condition.attribute("placeholder", value);
-        SelenideElement elm = inputElement();
-        if (elm.exists())
-            elm.shouldHave(condition);
+        SelenideElement input = inputElement();
+
+        if (input.exists())
+            input.shouldHave(condition);
         else
-            element().$(".n2o-editable-cell .n2o-editable-cell-text")
-                .shouldHave(condition);
+            editableCell().shouldHave(condition);
+    }
+
+    protected SelenideElement editableCell() {
+        return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 
     protected SelenideElement inputElement() {
