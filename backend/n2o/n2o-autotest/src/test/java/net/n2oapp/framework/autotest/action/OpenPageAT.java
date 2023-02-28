@@ -152,7 +152,7 @@ public class OpenPageAT extends AutoTestBase {
         Selenide.switchTo().window(1);
         page.shouldExists();
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/open");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/open");
 
         page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
         page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
@@ -170,7 +170,7 @@ public class OpenPageAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование вложенных роутов с path-параметрами");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -178,7 +178,7 @@ public class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Open").click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("Первая вложенная страница");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/reader");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/reader");
 
         table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -186,6 +186,6 @@ public class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Open").click();
 
         page.breadcrumb().crumb(2).shouldHaveLabel("Вторая вложенная страница");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/reader/2/book");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/reader/2/book");
     }
 }

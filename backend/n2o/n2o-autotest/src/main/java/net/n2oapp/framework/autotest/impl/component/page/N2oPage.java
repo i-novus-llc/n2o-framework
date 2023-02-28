@@ -75,8 +75,8 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public void shouldHaveUrlLike(String regexp) {
-        element().should(new UrlMatch(regexp));
+    public void shouldHaveUrlMatches(String regex) {
+        element().should(new UrlMatch(regex));
     }
 
     @Override

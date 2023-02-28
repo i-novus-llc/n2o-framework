@@ -86,7 +86,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.shouldExists();
         openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
-        open.shouldHaveUrlLike(getBaseUrl() + "/#/persons");
+        open.shouldHaveUrlMatches(getBaseUrl() + "/#/persons");
         open.sidebar().shouldExists();
         open.sidebar().shouldHaveTitle("Боковая панель для страницы Persons");
         open.sidebar().shouldHaveBrandLogo("images/logoPersons.png");
@@ -119,7 +119,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.shouldExists();
         openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
-        open.shouldHaveUrlLike(getBaseUrl() + "/#/persons/1/list");
+        open.shouldHaveUrlMatches(getBaseUrl() + "/#/persons/1/list");
         open.sidebar().shouldExists();
         open.sidebar().shouldHaveTitle("Лист");
         open.sidebar().shouldHaveBrandLogo("images/logoList.png");
@@ -152,7 +152,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.shouldExists();
         openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
-        open.shouldHaveUrlLike(getBaseUrl() + "/#/persons/user");
+        open.shouldHaveUrlMatches(getBaseUrl() + "/#/persons/user");
         open.sidebar().shouldExists();
         open.sidebar().shouldHaveTitle("Пользователь");
         open.sidebar().shouldHaveBrandLogo("images/logoUser.png");
@@ -186,7 +186,7 @@ public class SidebarsAT extends AutoTestBase {
         openHeader.shouldExists();
         openHeader.shouldHaveSidebarSwitcher();
         openHeader.switchSidebar();
-        list.shouldHaveUrlLike(getBaseUrl() + "/#/persons/1/list");
+        list.shouldHaveUrlMatches(getBaseUrl() + "/#/persons/1/list");
         list.sidebar().shouldExists();
         list.sidebar().shouldHaveTitle("Лист");
         list.sidebar().shouldHaveBrandLogo("images/logoList.png");
@@ -230,7 +230,7 @@ public class SidebarsAT extends AutoTestBase {
         table.toolbar().topLeft().button("Открыть").click();
 
         page.shouldExists();
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/person/1/profile");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/person/1/profile");
         page.breadcrumb().crumb(1).shouldHaveLabel("Страница профиля");
         sidebar.shouldExists();
         sidebar.shouldHaveState(SidebarState.mini);
@@ -243,7 +243,7 @@ public class SidebarsAT extends AutoTestBase {
         menuItem.click();
 
         page.shouldExists();
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/person/1/docs\\?name=test1");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/person/1/docs\\?name=test1");
         page.breadcrumb().crumb(0).shouldHaveLabel("Документы");
         sidebar.shouldHaveTitle("test1");
         sidebar.shouldHaveSubtitle("type11");

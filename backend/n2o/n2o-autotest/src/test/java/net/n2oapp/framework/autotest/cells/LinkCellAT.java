@@ -64,6 +64,6 @@ public class LinkCellAT extends AutoTestBase {
         cell.shouldHaveIcon("fa-plus");
 
         cell.click();
-        simplePage.shouldHaveUrlLike(getBaseUrl() + "/#/123");
+        simplePage.shouldHaveUrlMatches(getBaseUrl() + "/#/123");
     }
 }

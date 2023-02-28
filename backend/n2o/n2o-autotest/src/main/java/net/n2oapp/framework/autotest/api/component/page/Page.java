@@ -69,9 +69,9 @@ public interface Page extends Component {
 
     /**
      * Проверка совпадения части ссылки страницы
-     * @param regexp часть ссылки в виде регулярного выражения
+     * @param regex часть ссылки в виде регулярного выражения
      */
-    void shouldHaveUrlLike(String regexp);
+    void shouldHaveUrlMatches(String regex);
 
     /**
      * Проверка заголовка на соответствие

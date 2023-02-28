@@ -55,28 +55,28 @@ public class IfElseActionAT extends AutoTestBase {
         table.columns().rows().row(0).click();
         button.click();
         page.breadcrumb().crumb(1).shouldHaveLabel("Меньше-равно 15");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/open1");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open1");
         name.shouldHaveValue("test1");
         page.breadcrumb().crumb(0).click();
 
         table.columns().rows().row(4).click();
         button.click();
         page.breadcrumb().crumb(1).shouldHaveLabel("Больше 30 меньше-равно 60");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/open3");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open3");
         name.shouldHaveValue("test5");
         page.breadcrumb().crumb(0).click();
 
         table.columns().rows().row(3).click();
         button.click();
         page.breadcrumb().crumb(1).shouldHaveLabel("Больше 60");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/open4");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open4");
         name.shouldHaveValue("test4");
         page.breadcrumb().crumb(0).click();
 
         table.columns().rows().row(5).click();
         button.click();
         page.breadcrumb().crumb(1).shouldHaveLabel("Больше 15 меньше-равно 30");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/open2");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open2");
         name.shouldHaveValue("test6");
     }
 }
