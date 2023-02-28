@@ -120,21 +120,21 @@ public interface ImageUploadControl extends Control {
 
     /**
      * Проверка размера поля для загрузки изображения
-     * @param regex регулярное выражение соответствующее ожидаемому размеру шрифта в пикселях
+     * @param size ожидаемый размер в пикселях
      */
-    void uploadAreaShouldHaveIconSizeMatches(String regex);
+    void uploadAreaShouldHaveIconSize(int size);
 
     /**
      * Проверка ширины поля для загрузки изображения
-     * @param regex регулярное выражение соответствующее ожидаемому размеру ширины в пикселях
+     * @param width ожидаемый размер в пикселях
      */
-    void uploadAreaShouldHaveWidthMatches(String regex);
+    void uploadAreaShouldHaveWidth(int width);
 
     /**
      * Проверка высоты поля для загрузки изображения
-     * @param regex регулярное выражение соответствующее ожидаемому размеру высоты в шрифта пикселях
+     * @param height ожидаемый размер в пикселях
      */
-    void uploadAreaShouldHaveHeightMatches(String regex);
+    void uploadAreaShouldHaveHeight(int height);
 
     /**
      * Компонент диалог предварительного просмотра для автотестирования

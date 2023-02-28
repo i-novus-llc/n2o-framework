@@ -122,18 +122,20 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void uploadAreaShouldHaveIconSizeMatches(String regex) {
-        getUploadAreaElement().shouldHave(Condition.attributeMatching("style", regex));
+    public void uploadAreaShouldHaveIconSize(int size) {
+        getUploadAreaElement().shouldHave(Condition.attributeMatching("style", ".*font-size: " + size + "px.*"));
     }
 
     @Override
-    public void uploadAreaShouldHaveWidthMatches(String regex) {
-        element().shouldHave(Condition.attributeMatching("style", regex));
+    public void uploadAreaShouldHaveWidth(int width) {
+        element().shouldHave(Condition.attributeMatching("style",
+                ".*max-width: " + width + "px.*"));
     }
 
     @Override
-    public void uploadAreaShouldHaveHeightMatches(String regex) {
-        element().shouldHave(Condition.attributeMatching("style", regex));
+    public void uploadAreaShouldHaveHeight(int height) {
+        element().shouldHave(Condition.attributeMatching("style",
+                ".*max-height: " + height + "px.*"));
     }
 
     protected ElementsCollection getFilesItems() {

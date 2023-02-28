@@ -66,7 +66,7 @@ public class BadgeAT extends AutoTestBase {
         itemDropDownInputSelect.shouldBeExists();
         itemDropDownInputSelect.shouldHaveText("Проект 1");
         itemDropDownInputSelect.shouldHaveShape(BadgeShape.SQUARE);
-        itemDropDownInputSelect.shouldHaveImageMatches(".*hamburg-3846525__340.jpg");
+        itemDropDownInputSelect.shouldHaveImage("hamburg-3846525__340.jpg");
         itemDropDownInputSelect.shouldHaveImageShape(BadgeShape.CIRCLE);
         itemDropDownInputSelect.shouldHaveImagePosition(BadgePosition.LEFT);
 
@@ -80,7 +80,7 @@ public class BadgeAT extends AutoTestBase {
         itemDropDownSelect.shouldBeExists();
         itemDropDownSelect.shouldHaveText("Проект 1");
         itemDropDownSelect.shouldHaveShape(BadgeShape.ROUNDED);
-        itemDropDownSelect.shouldHaveImageMatches(".*static/hamburg-3846525__340.jpg");
+        itemDropDownSelect.shouldHaveImage("static/hamburg-3846525__340.jpg");
         itemDropDownSelect.shouldHaveImageShape(BadgeShape.ROUNDED);
         itemDropDownSelect.shouldHaveImagePosition(BadgePosition.RIGHT);
 
@@ -101,7 +101,7 @@ public class BadgeAT extends AutoTestBase {
         fourthTreeItem.shouldHaveText("Проект 1.1.1");
         fourthTreeItem.shouldBeExists();
         fourthTreeItem.shouldHaveShape(BadgeShape.CIRCLE);
-        fourthTreeItem.shouldHaveImageMatches(".*static/hamburg-3846525__340.jpg");
+        fourthTreeItem.shouldHaveImage("static/hamburg-3846525__340.jpg");
         fourthTreeItem.shouldHaveImageShape(BadgeShape.SQUARE);
         fourthTreeItem.shouldHaveImagePosition(BadgePosition.RIGHT);
     }
@@ -122,7 +122,7 @@ public class BadgeAT extends AutoTestBase {
         cell.shouldBeExists();
         cell.shouldHaveShape(BadgeShape.ROUNDED);
         cell.shouldHaveText("Проект 3");
-        cell.shouldHaveImageMatches(".*static/hamburg-3846525__340.jpg");
+        cell.shouldHaveImage("static/hamburg-3846525__340.jpg");
         cell.shouldHaveImagePosition(BadgePosition.RIGHT);
         cell.shouldHaveImageShape(BadgeShape.ROUNDED);
     }
@@ -140,7 +140,7 @@ public class BadgeAT extends AutoTestBase {
         firstBtn.shouldBeExists();
         firstBtn.shouldHaveShape(BadgeShape.CIRCLE);
         firstBtn.shouldHaveText("new");
-        firstBtn.shouldHaveImageMatches(".*static/hamburg-3846525__340.jpg");
+        firstBtn.shouldHaveImage("static/hamburg-3846525__340.jpg");
         firstBtn.shouldHaveImageShape(BadgeShape.CIRCLE);
         firstBtn.shouldHaveImagePosition(BadgePosition.LEFT);
 
@@ -149,7 +149,7 @@ public class BadgeAT extends AutoTestBase {
         secondBtn.shouldBeExists();
         secondBtn.shouldHaveShape(BadgeShape.ROUNDED);
         secondBtn.shouldHaveText("new");
-        secondBtn.shouldHaveImageMatches(".*static/hamburg-3846525__340.jpg");
+        secondBtn.shouldHaveImage("static/hamburg-3846525__340.jpg");
         secondBtn.shouldHaveImageShape(BadgeShape.ROUNDED);
         secondBtn.shouldHaveImagePosition(BadgePosition.RIGHT);
 
@@ -158,7 +158,7 @@ public class BadgeAT extends AutoTestBase {
         thirdBtn.shouldBeExists();
         thirdBtn.shouldHaveShape(BadgeShape.SQUARE);
         thirdBtn.shouldHaveText("new");
-        thirdBtn.shouldHaveImageMatches(".*static/hamburg-3846525__340.jpg");
+        thirdBtn.shouldHaveImage("static/hamburg-3846525__340.jpg");
         thirdBtn.shouldHaveImageShape(BadgeShape.SQUARE);
         thirdBtn.shouldHaveImagePosition(BadgePosition.RIGHT);
     }
@@ -185,7 +185,7 @@ public class BadgeAT extends AutoTestBase {
         secondItemTree.shouldBeExists();
         secondItemTree.shouldHaveShape(BadgeShape.ROUNDED);
         secondItemTree.shouldHaveText("Проект 1.1");
-        secondItemTree.shouldHaveImageMatches(".*static/hamburg-3846525__340.jpg");
+        secondItemTree.shouldHaveImage("static/hamburg-3846525__340.jpg");
         secondItemTree.shouldHaveImagePosition(BadgePosition.LEFT);
         secondItemTree.shouldHaveImageShape(BadgeShape.SQUARE);
     }
@@ -206,10 +206,10 @@ public class BadgeAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = simplePage.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconCssClassMatches(".*fa fa-bell");
+        menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.shouldBeExists();
         menuItem.shouldHaveShape(BadgeShape.SQUARE);
-        menuItem.shouldHaveImageMatches(".*static/hamburg-3846525__340.jpg");
+        menuItem.shouldHaveImage("static/hamburg-3846525__340.jpg");
         menuItem.shouldHaveImageShape(BadgeShape.SQUARE);
         menuItem.shouldHaveImagePosition(BadgePosition.RIGHT);
     }

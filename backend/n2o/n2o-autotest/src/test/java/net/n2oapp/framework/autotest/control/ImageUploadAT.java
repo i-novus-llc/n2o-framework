@@ -86,9 +86,9 @@ public class ImageUploadAT extends AutoTestBase {
 
         imageUpload.shouldHaveSize(0);
         imageUpload.uploadAreaShouldHaveIcon("fa fa-plus");
-        imageUpload.uploadAreaShouldHaveIconSizeMatches(".*font-size: 100px.*");
-        imageUpload.uploadAreaShouldHaveWidthMatches(".*max-width: 200px.*");
-        imageUpload.uploadAreaShouldHaveHeightMatches(".*max-height: 200px.*");
+        imageUpload.uploadAreaShouldHaveIconSize(100);
+        imageUpload.uploadAreaShouldHaveWidth(200);
+        imageUpload.uploadAreaShouldHaveHeight(200);
 
         // загрузка файла с неразрешенным расширением
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");

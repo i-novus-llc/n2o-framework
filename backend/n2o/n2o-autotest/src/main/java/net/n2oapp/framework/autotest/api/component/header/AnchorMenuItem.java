@@ -14,9 +14,9 @@ public interface AnchorMenuItem extends MenuItem, Badge {
 
     /**
      * Проверка иконки на соответствие
-     * @param regex регулярное выражение соответствующее ожидаемому классу иконки
+     * @param cssClass ожидаемый класс иконки
      */
-    void shouldHaveIconCssClassMatches(String regex);
+    void shouldHaveIconCssClass(String cssClass);
 
     /**
      * Проверка наличия баджа внутри кнопки

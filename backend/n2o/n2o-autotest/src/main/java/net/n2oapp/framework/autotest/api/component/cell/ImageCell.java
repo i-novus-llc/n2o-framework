@@ -17,9 +17,9 @@ public interface ImageCell extends Cell {
 
     /**
      * Проверка ширины ячейки на соответствие ожидаемому значению
-     * @param regex регулярное выражение в соответствии c ожидаемой шириной ячейки
+     * @param width ожидаемая ширина ячейки
      */
-    void shouldHaveWidthMatches(String regex);
+    void shouldHaveWidth(int width);
 
     /**
      * Проверка формы ячейки на соответствие ожидаемому значению

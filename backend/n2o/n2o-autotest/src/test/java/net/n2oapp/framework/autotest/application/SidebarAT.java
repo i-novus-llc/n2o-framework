@@ -47,7 +47,7 @@ public class SidebarAT extends AutoTestBase {
         header.switchSidebar();
         page.sidebar().shouldExists();
         page.sidebar().shouldHaveTitle("Лого");
-        page.sidebar().shouldHaveBrandLogoMatches(".*images/logoWhite.png");
+        page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
         page.sidebar().shouldHaveState(SidebarState.none);
     }

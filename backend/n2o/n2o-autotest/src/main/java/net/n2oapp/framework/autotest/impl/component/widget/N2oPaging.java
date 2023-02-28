@@ -42,7 +42,7 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void shouldHaveTotalElements(int count) {
-        paginationInfo().scrollTo().should(Condition.matchText(String.valueOf(count)));
+        paginationInfo().scrollTo().should(Condition.matchText("" + count));
     }
 
     @Override

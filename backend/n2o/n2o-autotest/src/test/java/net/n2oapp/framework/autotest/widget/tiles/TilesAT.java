@@ -54,8 +54,8 @@ public class TilesAT extends AutoTestBase {
         tiles.shouldExists();
 
         Tile tile1 = tiles.tile(0);
-        tile1.shouldHaveWidthMatches(".*width: 200px.*");
-        tile1.shouldHaveHeightMatches(".*min-height: 250px.*");
+        tile1.shouldHaveWidth(200);
+        tile1.shouldHaveHeight(250);
         tile1.blocks().cell(0, ImageCell.class).shouldHaveSrc(getBaseUrl() + "/favicon.ico");
         tile1.blocks().cell(1, TextCell.class).shouldHaveText("text1");
         IconCell iconCell = tile1.blocks().cell(2, IconCell.class);

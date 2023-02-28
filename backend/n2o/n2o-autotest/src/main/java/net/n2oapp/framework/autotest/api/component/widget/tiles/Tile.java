@@ -16,13 +16,13 @@ public interface Tile extends Component {
 
     /**
      * Проверка ширины панели
-     * @param regex регулярное выражение соответствующее ожидаемой ширине
+     * @param width ожидаемая ширина
      */
-    void shouldHaveWidthMatches(String regex);
+    void shouldHaveWidth(int width);
 
     /**
      * Проверка высоты панели
-     * @param regex регулярное выражение соответствующее ожидаемой высоте
+     * @param height ожидаемая высота
      */
-    void shouldHaveHeightMatches(String regex);
+    void shouldHaveHeight(int height);
 }

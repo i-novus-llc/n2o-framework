@@ -52,7 +52,7 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconCssClassMatches(".*fa fa-bell");
+        menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("2");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/test");
@@ -74,7 +74,7 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconCssClassMatches(".*fa fa-user");
+        menuItem.shouldHaveIconCssClass("fa fa-user");
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
@@ -151,7 +151,7 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = dropdown.item(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconCssClassMatches(".*fa fa-bell");
+        menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("2");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
@@ -174,14 +174,14 @@ public class MenuAT extends AutoTestBase {
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconCssClassMatches(".*fa fa-user");
+        menuItem.shouldHaveIconCssClass("fa fa-user");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveIcon();
-        menuItem.shouldHaveIconCssClassMatches(".*fa fa-user");
+        menuItem.shouldHaveIconCssClass("fa fa-user");
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");

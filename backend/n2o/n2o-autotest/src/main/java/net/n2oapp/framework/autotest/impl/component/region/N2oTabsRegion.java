@@ -24,8 +24,8 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     }
 
     @Override
-    public void shouldHaveMaxHeightMatches(String regex) {
-        getTabsContent().shouldBe(Condition.attributeMatching("style", regex));
+    public void shouldHaveMaxHeight(int height) {
+        getTabsContent().shouldBe(Condition.attributeMatching("style", ".*max-height: " + height + "px;.*"));
     }
 
     @Override
@@ -59,9 +59,9 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
                     .filter(new Condition("shouldBeFirstLevelElement") {
                         @Nonnull
                         @Override
-                        public CheckResult check(@Nonnull Driver driver, @Nonnull WebElement element) {
+                        public CheckResult check(Driver driver, WebElement element) {
                             boolean result = !nestingElements.contains(element);
-                            return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, null);
+                            return new CheckResult(result ? CheckResult.Verdict.ACCEPT : CheckResult.Verdict.REJECT, (Object)null);
                         }
                     });
             return N2oSelenide.collection(firstLevelElements, RegionItems.class);

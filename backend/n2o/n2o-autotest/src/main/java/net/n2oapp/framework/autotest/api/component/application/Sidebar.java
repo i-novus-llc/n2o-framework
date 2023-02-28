@@ -17,9 +17,9 @@ public interface Sidebar extends Component {
 
     /**
      * Проверка пути к файлу с логотипом на соответствие ожидаемому значению
-     * @param regex регулярное выражение в соответствии с ожидаемым путем к логотипу
+     * @param src ожидаемый путь к логотипу
      */
-    void shouldHaveBrandLogoMatches(String regex);
+    void shouldHaveBrandLogo(String src);
 
     /**
      * Проверка точного соответствия текста подзаголовка ожидаемому значению

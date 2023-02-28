@@ -13,8 +13,8 @@ public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
     }
 
     @Override
-    public void shouldHaveIconCssClassMatches(String regex) {
-        element().$("i").shouldHave(Condition.attributeMatching("class", regex));
+    public void shouldHaveIconCssClass(String cssClass) {
+        element().$("i").shouldHave(Condition.attributeMatching("class", ".*" + cssClass));
     }
 
     @Override

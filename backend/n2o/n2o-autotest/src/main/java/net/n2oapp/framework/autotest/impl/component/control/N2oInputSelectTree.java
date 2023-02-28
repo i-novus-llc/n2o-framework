@@ -17,12 +17,12 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldBeEmpty() {
-        //ToDo реализовать
+
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        //ToDo реализовать
+
     }
 
     @Override

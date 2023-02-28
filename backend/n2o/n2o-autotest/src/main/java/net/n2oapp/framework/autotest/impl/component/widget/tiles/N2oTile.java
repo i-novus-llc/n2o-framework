@@ -13,12 +13,12 @@ public class N2oTile extends N2oComponent implements Tile {
     }
 
     @Override
-    public void shouldHaveWidthMatches(String regex) {
-        element().shouldHave(Condition.attributeMatching("style", regex));
+    public void shouldHaveWidth(int width) {
+        element().shouldHave(Condition.attributeMatching("style", ".*width: " + width + "px.*"));
     }
 
     @Override
-    public void shouldHaveHeightMatches(String regex) {
-        element().shouldHave(Condition.attributeMatching("style", regex));
+    public void shouldHaveHeight(int height) {
+        element().shouldHave(Condition.attributeMatching("style", ".*min-height: " + height + "px.*"));
     }
 }

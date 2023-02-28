@@ -55,7 +55,7 @@ public class CardsBlockStyleAT extends AutoTestBase {
 
         Card.Block textCellBlock = card.columns().column(1).blocks().block(0);
         textCellBlock.shouldHaveCssClass("align-self-center");
-        textCellBlock.shouldHaveStyleMatches(".*color: green.*");
+        textCellBlock.shouldHaveStyle("color: green");
 
         Card.Block buttonCellBlock = card.columns().column(2).blocks().block(1);
         buttonCellBlock.shouldHaveCssClass("align-self-end");

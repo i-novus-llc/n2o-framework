@@ -40,9 +40,9 @@ public interface TableHeader extends Component {
 
     /**
      * Проверка стиля заголовка
-     * @param regex регулярное выражение соответствующее ожидаемому стилю
+     * @param style ожидаемый стиль
      */
-    void shouldHaveStyleMatches(String regex);
+    void shouldHaveStyle(String style);
 
     /**
      * Проверка иконки заголовка
