@@ -21,7 +21,7 @@ import {
     isInitSelector, isVisibleSelector,
     messageSelector, requiredSelector,
 } from '../../../../ducks/form/selectors'
-import { registerFieldExtra } from '../../../../ducks/form/store'
+import { registerFieldExtra, unRegisterExtraField } from '../../../../ducks/form/store'
 import propsResolver from '../../../../utils/propsResolver'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 
@@ -39,6 +39,12 @@ export default (Field) => {
         constructor(props) {
             super(props)
             this.initIfNeeded(props)
+        }
+
+        componentWillUnmount() {
+            const { unRegisterExtraField, form, name } = this.props
+
+            unRegisterExtraField(form, name)
         }
 
         /**
@@ -169,6 +175,7 @@ export default (Field) => {
     const mapDispatchToProps = dispatch => ({
         dispatch,
         registerFieldExtra: (form, name, initialState) => dispatch(registerFieldExtra(form, name, initialState)),
+        unRegisterExtraField: (form, name) => dispatch(unRegisterExtraField(form, name)),
     })
 
     return compose(
