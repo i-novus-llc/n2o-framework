@@ -28,30 +28,6 @@ public interface InputSelect extends Control, PopupControl {
     void setMultiValue(String... values);
 
     /**
-     * Проверка опций в выпадающем списке
-     * @param options список ожидаемых опций
-     */
-    void shouldHaveOptions(String... options);
-
-    /**
-     * Выбор опции из выпадающего списка по номеру
-     * @param index номер выбираемой опции
-     */
-    void select(int index);
-
-    /**
-     * Выбор опции из выпадающего списка по условию
-     * @param by условие выбора опции
-     */
-    void select(Condition by);
-
-    /**
-     * Выбор опций из выпадающего списка по номеру
-     * @param indexes список номеров выбираемых опций
-     */
-    void selectMulti(int... indexes);
-
-    /**
      * Очистка поля ввода
      */
     void clear();
@@ -75,28 +51,55 @@ public interface InputSelect extends Control, PopupControl {
     void shouldSelectedMulti(String... values);
 
     /**
-     * Проверка соответствия дополнительной информации у опции
-     * @param option проверяемая опция
-     * @param description ожидаемая дополнительная информация
-     */
-    void optionShouldHaveDescription(String option, String description);
-
-    /**
-     * Проверка соответствия цвета у опции
-     * @param option проверяемая опция
-     * @param color ожидаемый цвет
-     */
-    void optionShouldHaveStatusColor(String option, Colors color);
-
-    /**
-     * Проверка состояния доступности опции в выпадающем списке
-     * @param enabled состояние
-     * @param option проверяемая опция
-     */
-    void optionShouldBeEnabled(Boolean enabled, String option);
-
-    /**
      * @return выпадающий список для автотестирования
      */
     DropDown dropdown();
+
+    /**
+     * Следует использовать dropdown().shouldHaveOptions(String... options)
+     */
+    @Deprecated
+    void shouldHaveOptions(String... options);
+
+    /**
+     * Следует использовать dropdown().select(int index)
+     */
+    @Deprecated
+    void select(int index);
+
+    /**
+     * Следует использовать dropdown().select(Condition by)
+     */
+    @Deprecated
+    void select(Condition by);
+
+    /**
+     * Следует использовать dropdown().selectMulti(int... indexes)
+     */
+    @Deprecated
+    void selectMulti(int... indexes);
+
+    /**
+     * Следует использовать dropdown().optionShouldHaveDescription(String option, String description)
+     */
+    @Deprecated
+    void optionShouldHaveDescription(String option, String description);
+
+    /**
+     * Следует использовать dropdown().optionShouldHaveStatusColor(String option, Colors color)
+     */
+    @Deprecated
+    void optionShouldHaveStatusColor(String option, Colors color);
+
+    /**
+     * Следует использовать dropdown().optionShouldBeEnabled(String option)
+     */
+    @Deprecated
+    void optionShouldBeEnabled(String option);
+
+    /**
+     * Следует использовать dropdown().optionShouldBeDisabled(String option)
+     */
+    @Deprecated
+    void optionShouldBeDisabled(String option);
 }

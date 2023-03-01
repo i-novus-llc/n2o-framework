@@ -58,10 +58,12 @@ public class FieldResetDependencyAT extends AutoTestBase {
         datePicker.shouldBeEmpty();
         datePicker.setValue("02.02.2023");
         select.shouldBeEmpty();
-        select.select(1);
+        select.openPopup();
+        select.dropdown().selectItem(1);
         inputSelect.shouldBeEmpty();
         inputSelect.click();
-        inputSelect.selectMulti(1, 2);
+        inputSelect.openPopup();
+        inputSelect.dropdown().selectMulti(1, 2);
         inputSelect.closePopup();
         checkbox.setChecked(true);
         checkboxGroup.check("test1");

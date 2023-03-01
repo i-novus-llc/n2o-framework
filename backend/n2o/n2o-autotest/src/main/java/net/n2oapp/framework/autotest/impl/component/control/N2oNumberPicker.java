@@ -17,11 +17,10 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
 
     @Override
     public void setValue(String value) {
-        inputElement().setValue(value);
-        // focus out
-        inputElement().pressTab();
+        inputElement().setValue(value).pressTab();
     }
 
+    @Override
     public void click() {
         inputElement().click();
     }
@@ -29,14 +28,13 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     @Override
     public void clear() {
         inputElement().clear();
-        // focus out
         inputElement().pressTab();
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        inputElement().shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
+        inputElement().shouldHave(
+                value == null || value.isEmpty() ? Condition.empty : Condition.value(value));
     }
 
     @Override
@@ -44,23 +42,27 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
         plusButton().click();
     }
 
+    @Override
     public void minusStepButtonShouldBeEnabled() {
         minusButton().parent().shouldBe(Condition.enabled);
     }
 
+    @Override
     public void minusStepButtonShouldBeDisabled() {
         minusButton().parent().shouldBe(Condition.disabled);
     }
 
     @Override
     public void clickMinusStepButton() {
-        element().parent().$$(".n2o-number-picker__button .fa-minus").get(0).click();
+        minusButton().click();
     }
 
+    @Override
     public void plusStepButtonShouldBeEnabled() {
         plusButton().parent().shouldBe(Condition.enabled);
     }
 
+    @Override
     public void plusStepButtonShouldBeDisabled() {
         plusButton().parent().shouldBe(Condition.disabled);
     }

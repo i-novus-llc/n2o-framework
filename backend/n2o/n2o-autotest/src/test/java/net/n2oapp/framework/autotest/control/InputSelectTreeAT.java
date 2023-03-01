@@ -45,15 +45,18 @@ public class InputSelectTreeAT extends AutoTestBase {
                 .control(InputSelectTree.class);
         inputSelectTree.shouldHavePlaceholder("SelectOption");
         inputSelectTree.shouldBeUnselected();
-        inputSelectTree.expandOptions();
+        inputSelectTree.click();
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(4));
+        inputSelectTree.clearSearchField();
         inputSelectTree.setFilter("three");
 
+        inputSelectTree.click();
+        inputSelectTree.click();
         inputSelectTree.selectOption(0);
         inputSelectTree.selectOption(3);
         inputSelectTree.selectOption(1);
 
-        inputSelectTree.expandOptions();
+        inputSelectTree.click();
 
         inputSelectTree.shouldBeSelected(0, "one");
         inputSelectTree.shouldBeSelected(1, "two");
@@ -80,7 +83,7 @@ public class InputSelectTreeAT extends AutoTestBase {
                 .control(InputSelectTree.class);
 
         inputSelectTree.shouldBeUnselected();
-        inputSelectTree.expandOptions();
+        inputSelectTree.click();
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(2));
         inputSelectTree.expandParentOptions(0);
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(5));

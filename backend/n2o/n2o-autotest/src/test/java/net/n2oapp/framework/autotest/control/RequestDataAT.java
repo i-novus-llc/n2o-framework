@@ -73,7 +73,8 @@ public class RequestDataAT extends AutoTestBase {
 
         select.click();
         select.shouldBeOpened();
-        select.select(Condition.text("test5"));
+        select.openPopup();
+        select.dropdown().selectItemBy(Condition.text("test5"));
         select.shouldSelected("test5");
         select.closePopup();
 
@@ -81,14 +82,16 @@ public class RequestDataAT extends AutoTestBase {
         inputSelect.shouldBeOpened();
         inputSelect.clear();
         inputSelect.shouldBeEmpty();
-        inputSelect.select(Condition.text("test6"));
+        inputSelect.openPopup();
+        inputSelect.dropdown().selectItemBy(Condition.text("test6"));
         inputSelect.shouldHaveValue("test6");
 
         autoComplete.click();
         autoComplete.setValue("test5");
         autoComplete.shouldHaveValue("test5");
 
-        inputSelectMulti.selectMulti(2, 4);
+        inputSelectMulti.openPopup();
+        inputSelectMulti.dropdown().selectMulti(2, 4);
         inputSelectMulti.closePopup();
         inputSelectMulti.shouldSelectedMulti("test3", "test5");
 

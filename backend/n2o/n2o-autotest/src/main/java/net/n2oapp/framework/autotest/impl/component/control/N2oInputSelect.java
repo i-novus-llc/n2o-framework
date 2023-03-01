@@ -10,7 +10,6 @@ import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 /**
  * Компонент ввода текста с выбором из выпадающего списка (input-select) для автотестирования
@@ -27,12 +26,14 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         input().setValue(value);
     }
 
+    @Override
     public void setMultiValue(String... values) {
-        Arrays.stream(values).forEach(s -> {
-            input().click();
-            element().$(".n2o-inp--multi").setValue(s);
-            element().$(".n2o-inp--multi").pressEnter();
-        });
+        Arrays.stream(values).forEach(s -> input().setValue(s).pressEnter());
+    }
+
+    @Override
+    public void shouldSelected(String value) {
+        input().shouldHave(Condition.value(value));
     }
 
     @Override
@@ -41,64 +42,10 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldHaveOptions(String... options) {
-        openPopup();
-        selectPopUp().$$("button .text-cropped,.custom-control-label")
-                .shouldHave(CollectionCondition.exactTexts(options));
-    }
-
-    @Override
-    public void select(int index) {
-        openPopup();
-        popUpButtons().shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
-    }
-
-    @Override
-    public void select(Condition by) {
-        openPopup();
-        popUpButtons().findBy(by).click();
-    }
-
-
-    @Override
-    public void selectMulti(int... indexes) {
-        openPopup();
-        IntStream.of(indexes)
-                .forEach(i -> popUpButtons()
-                        .shouldBe(CollectionCondition.sizeGreaterThan(i))
-                        .get(i)
-                        .click());
-    }
-
-    @Override
-    public void shouldSelected(String value) {
-        element().$(".n2o-input-items .n2o-inp").shouldHave(Condition.value(value));
-    }
-
-    @Override
-    public void shouldBeEmpty() {
-        element().$(".n2o-input-items .n2o-inp").shouldBe(Condition.empty);
-        if (isMulti())
-            shouldSelectedMulti();
-    }
-
-    @Override
     public void shouldSelectedMulti(String... values) {
         if (values.length != 0)
-            element().$$(".selected-item")
-                    .shouldHave(CollectionCondition.size(values.length),
-                            CollectionCondition.textsInAnyOrder(values));
-    }
-
-    @Override
-    public void optionShouldBeEnabled(Boolean enabled, String option) {
-        element().click();
-        if (enabled)
-            popUpButtons().findBy(Condition.text(option))
-                    .shouldNotHave(Condition.cssClass("disabled"));
-        else
-            popUpButtons().findBy(Condition.text(option))
-                    .shouldHave(Condition.cssClass("disabled"));
+            selectedItems().shouldHave(CollectionCondition.size(values.length),
+                    CollectionCondition.textsInAnyOrder(values));
     }
 
     @Override
@@ -107,8 +54,15 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void shouldBeEmpty() {
+        input().shouldBe(Condition.empty);
+        if (isMulti())
+            shouldSelectedMulti();
+    }
+
+    @Override
     public void clearItems(String... items) {
-        ElementsCollection selectedItems = element().$$(".selected-item");
+        ElementsCollection selectedItems = selectedItems();
         Arrays.stream(items)
                 .forEach(s -> selectedItems.find(Condition.text(s))
                         .$("button")
@@ -122,14 +76,14 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void openPopup() {
-        SelenideElement elm = element().$(".n2o-popup-control");
+        SelenideElement elm = popupIcon();
         if (!elm.is(Condition.cssClass("isExpanded")))
             elm.click();
     }
 
     @Override
     public void closePopup() {
-        SelenideElement elm = element().$(".n2o-popup-control");
+        SelenideElement elm = popupIcon();
         if (elm.is(Condition.cssClass("isExpanded")))
             elm.click();
     }
@@ -145,29 +99,49 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void optionShouldHaveDescription(String option, String description) {
-        openPopup();
-        SelenideElement elm = selectPopUp()
-                .$$("button .text-cropped,.custom-control-label")
-                .findBy(Condition.text(option))
-                .parent();
-        if (elm.is(Condition.cssClass("custom-checkbox")))
-            elm = elm.parent();
-        elm.$(".dropdown-header").shouldHave(Condition.text(description));
-    }
-
-    @Override
-    public void optionShouldHaveStatusColor(String option, Colors color) {
-        element().click();
-        popUpButtons().findBy(Condition.text(option))
-                .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
-                .shouldHave(Condition.cssClass(color.name("bg-")));
-    }
-
-    @Override
     public DropDown dropdown() {
         return N2oSelenide.component(element().parent()
                 .parent().$(".n2o-dropdown-control"), DropDown.class);
+    }
+
+    @Deprecated
+    public void shouldHaveOptions(String... options) {
+        dropdown().shouldHaveOptions(options);
+    }
+
+    @Deprecated
+    public void select(int index) {
+        dropdown().selectItem(index);
+    }
+
+    @Deprecated
+    public void select(Condition by) {
+        dropdown().selectItemBy(by);
+    }
+
+    @Deprecated
+    public void selectMulti(int... indexes) {
+        dropdown().selectMulti(indexes);
+    }
+
+    @Deprecated
+    public void optionShouldBeEnabled(String option) {
+        dropdown().optionShouldBeEnabled(option);
+    }
+
+    @Deprecated
+    public void optionShouldBeDisabled(String option) {
+        dropdown().optionShouldBeDisabled(option);
+    }
+
+    @Deprecated
+    public void optionShouldHaveDescription(String option, String description) {
+        dropdown().optionShouldHaveDescription(option, description);
+    }
+
+    @Deprecated
+    public void optionShouldHaveStatusColor(String option, Colors color) {
+        dropdown().optionShouldHaveStatusColor(option, color);
     }
 
     @Deprecated
@@ -190,6 +164,14 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         shouldBeClosed();
     }
 
+    protected SelenideElement popupIcon() {
+        return element().$(".n2o-popup-control");
+    }
+
+    protected ElementsCollection selectedItems() {
+        return element().$$(".selected-item");
+    }
+
     protected SelenideElement input() {
         return element().$(".n2o-inp");
     }
@@ -198,12 +180,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         return element().parent().parent().$(".n2o-pop-up");
     }
 
-    protected ElementsCollection popUpButtons() {
-        return selectPopUp().$$("button");
-    }
-
     private boolean isMulti() {
         return input().has(Condition.cssClass("n2o-inp--multi"));
     }
-
 }

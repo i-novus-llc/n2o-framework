@@ -132,9 +132,11 @@ public class ShowModalAT extends AutoTestBase {
         name.click();
         name.setValue("testValue");
         InputSelect address = fields.field("Простой список").control(InputSelect.class);
-        address.select(2);
+        address.openPopup();
+        address.dropdown().selectItem(2);
         InputSelect addresses = fields.field("Список с множественным выбором").control(InputSelect.class);
-        addresses.selectMulti(1, 2);
+        addresses.openPopup();
+        addresses.dropdown().selectMulti(1, 2);
         Fields fields2 = region.content().widget(1, FormWidget.class).fields();
         InputText id = fields2.field("id").control(InputText.class);
         id.click();

@@ -1,12 +1,10 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import org.openqa.selenium.Keys;
 
 /**
  * Компонент выбора из выпадающего списка для автотестирования
@@ -20,81 +18,37 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void shouldBeEmpty() {
-        element().$(".n2o-input-items").shouldBe(Condition.empty);
+        selectedItemsContainer().shouldBe(Condition.empty);
     }
 
     @Override
-    public void find(String query) {
-        //ToDo: можно ли заменить на встроенный метод бзе sendKeys?
-        element().$(".n2o-input-items input").sendKeys(query, Keys.ARROW_DOWN);
+    public void setValue(String value) {
+        selectedItemsContainer().$(".input").setValue(value);
     }
 
     @Override
     public void click() {
-        element().$(".n2o-input-items").click();
-    }
-
-    @Override
-    public void shouldHaveOptions(String... options) {
-        //ToDo: убрать openPopUp и вызывать отдельно
-        openPopup();
-        selectPopUp().$$("button .text-cropped,.custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
-    }
-
-    @Override
-    public void select(int index) {
-        //ToDo: убрать openPopUp и вызывать отдельно
-        openPopup();
-        selectPopUp().$$("button").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
-    }
-
-    @Override
-    public void select(Condition by) {
-        //ToDo: убрать openPopUp и вызывать отдельно
-        openPopup();
-        selectPopUp().$$("button").findBy(by).click();
-    }
-
-    @Override
-    public void selectMulti(int... indexes) {
-        if (element().$(".n2o-popup-control.isExpanded").is(Condition.not(Condition.exist)))
-            openPopup();
-        for (int index : indexes)
-            selectPopUp().$$(".n2o-input").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
+        selectedItemsContainer().click();
     }
 
     @Override
     public void shouldSelected(String value) {
-        element().$(".n2o-input-items").shouldHave(Condition.text(value));
-    }
-
-    @Override
-    public void shouldBeChecked(int... indexes) {
-        for (int index : indexes)
-            selectPopUp().$$(".n2o-input").shouldBe(CollectionCondition.sizeGreaterThan(index))
-                    .get(index).shouldBe(Condition.checked);
-    }
-
-    @Override
-    public void shouldNotBeChecked(int... indexes) {
-        for (int index : indexes)
-            selectPopUp().$$(".n2o-input").shouldBe(CollectionCondition.sizeGreaterThan(index))
-                    .get(index).shouldNotBe(Condition.checked);
+        selectedItemsContainer().shouldHave(Condition.text(value));
     }
 
     @Override
     public void clear() {
-        element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
+        clearIcon().hover().shouldBe(Condition.visible).click();
     }
 
     @Override
     public void shouldBeCleanable() {
-        element().$$(".n2o-input-clear").shouldHave(CollectionCondition.sizeGreaterThan(0));
+        clearIcon().shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeCleanable() {
-        element().$$(".n2o-input-clear").shouldHave(CollectionCondition.size(0));
+        clearIcon().shouldNotBe(Condition.exist);
     }
 
     @Override
@@ -104,16 +58,18 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void openPopup() {
-        SelenideElement elm = element().$(".n2o-popup-control");
-        if (!elm.is(Condition.cssClass("isExpanded")))
-            elm.click();
+        SelenideElement popupIcon = popupIcon();
+
+        if (!popupIcon.is(Condition.cssClass("isExpanded")))
+            popupIcon.click();
     }
 
     @Override
     public void closePopup() {
-        SelenideElement elm = element().$(".n2o-popup-control");
-        if (elm.is(Condition.cssClass("isExpanded")))
-            elm.click();
+        SelenideElement popupIcon = popupIcon();
+
+        if (popupIcon.is(Condition.cssClass("isExpanded")))
+            popupIcon.click();
     }
 
     @Override
@@ -127,18 +83,46 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
-    public void optionShouldHaveDescription(String option, String description) {
-        openPopup();
-        SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
-                .findBy(Condition.text(option)).parent();
-        if (elm.is(Condition.cssClass("custom-checkbox")))
-            elm = elm.parent();
-        elm.$(".dropdown-header").shouldHave(Condition.text(description));
-    }
-
-    @Override
     public DropDown dropdown() {
         return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
+    }
+
+    @Deprecated
+    public void shouldHaveOptions(String... options) {
+        dropdown().shouldHaveOptions(options);
+    }
+
+    @Deprecated
+    public void select(int index) {
+        dropdown().selectItem(index);
+    }
+
+    @Deprecated
+    public void select(Condition by) {
+        dropdown().selectItemBy(by);
+    }
+
+    @Deprecated
+    public void selectMulti(int... indexes) {
+        if (!popupIcon().has(Condition.cssClass("isExpanded")))
+            openPopup();
+
+        dropdown().selectMulti(indexes);
+    }
+
+    @Deprecated
+    public void shouldBeChecked(int... indexes) {
+        dropdown().shouldBeChecked(indexes);
+    }
+
+    @Deprecated
+    public void shouldNotBeChecked(int... indexes) {
+        dropdown().shouldNotBeChecked(indexes);
+    }
+
+    @Deprecated
+    public void optionShouldHaveDescription(String option, String description) {
+        dropdown().optionShouldHaveDescription(option, description);
     }
 
     @Deprecated
@@ -163,5 +147,17 @@ public class N2oSelect extends N2oControl implements Select {
 
     protected SelenideElement selectPopUp() {
         return element().parent().parent().$(".n2o-select-pop-up");
+    }
+
+    protected SelenideElement popupIcon() {
+        return element().$(".n2o-popup-control");
+    }
+
+    protected SelenideElement clearIcon() {
+        return element().$(".n2o-input-clear");
+    }
+
+    protected SelenideElement selectedItemsContainer() {
+        return element().$(".n2o-input-items");
     }
 }

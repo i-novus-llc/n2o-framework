@@ -3,7 +3,6 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.InputMoneyControl;
-import org.openqa.selenium.Keys;
 
 /**
  * Компонент ввода денежных единиц для автотестирования
@@ -15,7 +14,7 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
         SelenideElement input = inputElement();
         if (input.exists())
             return input.getValue();
-        return editableCell().text();
+        return cellInputElement().text();
     }
 
     @Override
@@ -30,7 +29,7 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
         if (input.exists())
             input.shouldHave(Condition.empty);
         else
-            editableCell().shouldHave(Condition.empty);
+            cellInputElement().shouldHave(Condition.empty);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
         if (input.exists())
             input.shouldHave(b ? Condition.empty : Condition.value(value));
         else
-            editableCell().shouldHave(b ? Condition.empty : Condition.text(value));
+            cellInputElement().shouldHave(b ? Condition.empty : Condition.text(value));
     }
 
     @Override
@@ -52,10 +51,10 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
         if (input.exists())
             input.shouldHave(condition);
         else
-            editableCell().shouldHave(condition);
+            cellInputElement().shouldHave(condition);
     }
 
-    protected SelenideElement editableCell() {
+    protected SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 

@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.Pills;
 
@@ -12,7 +13,7 @@ public class N2oPills extends N2oControl implements Pills {
 
     @Override
     public void shouldBeEmpty() {
-        element().$$(".nav-link.active").shouldHave(CollectionCondition.size(0));
+        items().filterBy(Condition.cssClass("active")).shouldHave(CollectionCondition.size(0));
     }
 
     @Override
@@ -23,13 +24,13 @@ public class N2oPills extends N2oControl implements Pills {
     @Override
     public void check(String label) {
         if (!itemLink(label).is(Condition.cssClass("active")))
-            item(label).shouldBe(Condition.exist).click();
+            items().findBy(Condition.text(label)).shouldBe(Condition.exist).click();
     }
 
     @Override
     public void uncheck(String label) {
         if (itemLink(label).is(Condition.cssClass("active")))
-            item(label).shouldBe(Condition.exist).click();
+            items().findBy(Condition.text(label)).shouldBe(Condition.exist).click();
     }
 
     @Override
@@ -44,14 +45,14 @@ public class N2oPills extends N2oControl implements Pills {
 
     @Override
     public void shouldHaveOptions(String... options) {
-        element().$$(".nav-item").shouldHave(CollectionCondition.exactTexts(options));
+        items().shouldHave(CollectionCondition.exactTexts(options));
     }
 
-    protected SelenideElement item(String label) {
-        return element().$$(".nav-item").findBy(Condition.text(label));
+    protected ElementsCollection items() {
+        return element().$$(".nav-item");
     }
 
     protected SelenideElement itemLink(String label) {
-        return item(label).$(".nav-link");
+        return items().findBy(Condition.text(label)).$(".nav-link");
     }
 }
