@@ -56,6 +56,28 @@ const formSlice = createSlice({
             },
         },
 
+        unRegisterExtraField: {
+            /**
+             * @param {string} key
+             * @param {string} name
+             */
+            prepare(key, name) {
+                return ({
+                    payload: {
+                        name,
+                        key,
+                    },
+                    meta: { key, name },
+                })
+            },
+
+            reducer(state, action) {
+                const { name, key } = action.payload
+
+                delete state?.[key].registeredFields?.[name]
+            },
+        },
+
         DISABLE_FIELD: {
             /**
              * @param {string} key
@@ -553,4 +575,5 @@ export const {
     TOUCH: handleTouch,
     initializeDependencies,
     setDirty,
+    unRegisterExtraField,
 } = formSlice.actions
