@@ -8,7 +8,7 @@ import { modelInit, updateModel } from '../../../../ducks/models/store'
 // @ts-ignore ignore import error from js file
 import { handleBlur, handleFocus, setDirty } from '../../../../ducks/form/store'
 import { TGetValues, TReset, TSetBlur, TSetFocus, TSetValue } from '../types'
-import { getModelSelector } from '../../../../ducks/models/selectors'
+import { getModelFieldByPath } from '../../../../ducks/models/selectors'
 
 type TMethods = {
     setValue: TSetValue
@@ -37,7 +37,7 @@ const FormProvider: FC<TFormProvider> = ({ children, name, prefix, initialValues
 
     const getValues = useCallback<TGetValues>((fieldName) => {
         const state = getState()
-        const models = getModelSelector(`${prefix}.${name}`)(state)
+        const models = getModelFieldByPath(`${prefix}.${name}`)(state)
 
         if (Array.isArray(fieldName)) {
             return get(models, fieldName.map(name => name))
