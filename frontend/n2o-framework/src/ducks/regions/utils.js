@@ -34,6 +34,8 @@ export function checkTabErrors(content = [], fieldsWithErrors = []) {
 }
 
 function checkTabsErrors(tabs, fieldsWithErrors) {
+    if (!tabs?.length) { return false }
+
     return tabs.some(({ content }) => checkTabErrors(content, fieldsWithErrors))
 }
 
