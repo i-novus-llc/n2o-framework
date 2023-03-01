@@ -5,7 +5,6 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -15,9 +14,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 /**
  * Тестирование browser-storage
@@ -104,8 +101,8 @@ public class BrowserStorageAT extends AutoTestBase {
                 .fields().field("Чекбоксы").control(CheckboxGroup.class);
 
         input.shouldBeEmpty();
-        inputDef.shouldHaveValue("test");
-        select.shouldBeEmpty();
+        inputDef.shouldHaveValue("text");
+        select.shouldHaveValue("Введите значение");
         checkboxGroup.shouldBeEmpty();
 
         input.val("test browser-storage");
@@ -122,5 +119,17 @@ public class BrowserStorageAT extends AutoTestBase {
         select.shouldSelected("Иван Алексеев");
         checkboxGroup.shouldBeChecked("Петр Сергеев");
         checkboxGroup.shouldBeChecked("Алексей Иванов");
+        inputDef.shouldBeEmpty();
+
+        Selenide.clearBrowserLocalStorage();
+        Selenide.sessionStorage().clear();
+        Selenide.refresh();
+
+        page.shouldExists();
+
+        input.shouldBeEmpty();
+        inputDef.shouldHaveValue("text");
+        select.shouldHaveValue("Введите значение");
+        checkboxGroup.shouldBeEmpty();
     }
 }
