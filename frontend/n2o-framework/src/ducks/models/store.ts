@@ -222,24 +222,24 @@ const modelsSlice = createSlice({
         },
 
         removeFieldFromArray: {
-            prepare(prefix: ModelPrefix, key: string, field: string, index: number | [number, number]) {
+            prepare(prefix: ModelPrefix, key: string, field: string, start: number, end?: number) {
                 return ({
                     meta: { prefix, key, field },
-                    payload: { prefix, key, field, index },
+                    payload: { prefix, key, field, start, end },
                 })
             },
 
             reducer(state, action: RemoveFieldFromArrayAction) {
-                const { prefix, key, field, index } = action.payload
+                const { prefix, key, field, start, end } = action.payload
                 const arrayValue = get(state, `${prefix}.${key}.${field}`, [])
 
-                if (typeof index === 'number') {
-                    arrayValue.splice(index, 1)
+                if (end === undefined) {
+                    arrayValue.splice(start, 1)
 
                     return
                 }
 
-                arrayValue.splice(...index)
+                arrayValue.splice(start, end)
             },
         },
 

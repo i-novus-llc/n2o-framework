@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { isEmpty, omit, omitBy } from 'lodash'
+import { isEmpty, omit } from 'lodash'
 import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
@@ -357,32 +357,44 @@ const datasource = createSlice({
     },
     extraReducers: {
         [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
-            const { field, index, key, prefix } = action.payload
+            const { key, field, start, end = 1, prefix } = action.payload
+            const datasource = state[key]
+            const errors: Partial<typeof datasource.errors[typeof prefix]> = {}
 
-            const FIRST_ELEM_INDEX = 0
+            const mask = new RegExp(`${field}\\[(\\d+)]\\.(.+)`)
 
-            const generateRegExp = (fieldName: string, index = '\\d') => new RegExp(`^${fieldName}(?=\\[${index})`, 'i')
+            for (const [key, messages] of Object.entries(datasource.errors[prefix] || {})) {
+                const match = key.match(mask)
 
-            if (!state?.[key]?.errors?.[prefix]) {
-                return
-            }
+                if (match) {
+                    const [, i, name] = match
+                    const matchedIndex = Number(i)
 
-            state[key].errors[prefix] = omitBy(state[key].errors[prefix], (_, key) => {
-                if (Array.isArray(index)) {
-                    // index является диапозон от куда и до какого элемента удалять. Если диапозон начинается с 0, удаляем все
-                    const removeAll = index[0] === FIRST_ELEM_INDEX
-                    const isMatch = generateRegExp(field).test(key)
+                    // index before removed elements
+                    if (matchedIndex < start) {
+                        errors[key] = messages
 
-                    if (removeAll) {
-                        return isMatch
+                        // eslint-disable-next-line no-continue
+                        continue
                     }
 
-                    // Удаляем все, что не совпадает с первым элементом и все, что подходит под регулярное выражение
-                    return !generateRegExp(field, FIRST_ELEM_INDEX.toString()).test(key) && isMatch
-                }
+                    // removed elements: ignore it
+                    if ((matchedIndex >= start) && (matchedIndex < start + end)) {
+                        // eslint-disable-next-line no-continue
+                        continue
+                    }
 
-                return generateRegExp(field, index.toString()).test(key)
-            })
+                    // after removed: shift index
+                    const newIndex = matchedIndex - end
+
+                    errors[`${field}[${newIndex}].${name}`] = messages
+                } else {
+                    // not multi-set fields
+                    errors[key] = messages
+                }
+            }
+
+            datasource.errors[prefix] = errors
         },
     },
 })

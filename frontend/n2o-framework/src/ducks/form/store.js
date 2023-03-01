@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import merge from 'deepmerge'
 import set from 'lodash/set'
 import get from 'lodash/get'
-import omitBy from 'lodash/omitBy'
 
 import { removeFieldFromArray, updateModel } from '../models/store'
 
@@ -529,27 +528,49 @@ const formSlice = createSlice({
             }
         },
         [removeFieldFromArray.type](state, action) {
-            const { field, index, key } = action.payload
-            const FIRST_ELEM_INDEX = 0
+            const { field, start, end, key } = action.payload
+            const deleteAll = end !== undefined
 
-            const generateRegExp = (fieldName, index = '\\d') => new RegExp(`^${fieldName}(?=\\[${index})`, 'i')
+            // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
+            const registredKeys = Object
+                .keys(state[key].registeredFields)
+                .filter(fieldName => fieldName.startsWith(`${field}[`))
+                // Разделяем индекс и имя поля в строке мультифилдсета
+                .map(fieldName => fieldName.replace(field, '').match(/\[(\d+)]\.(.+)/))
+                .filter(Boolean)
+                .map(([, index, fieldName]) => ({
+                    index: +index,
+                    fieldName,
+                }))
+            const groupedFields = registredKeys.reduce((out, { index, fieldName }) => {
+                out[index] = out[index] || []
+                out[index].push(fieldName)
 
-            state[key].registeredFields = omitBy(state[key].registeredFields, (_, key) => {
-                if (Array.isArray(index)) {
-                    // index является диапозон от куда и до какого элемента удалять. Если диапозон начинается с 0, удаляем все
-                    const removeAll = index[0] === FIRST_ELEM_INDEX
-                    const isMatch = generateRegExp(field).test(key)
+                return out
+            }, [])
 
-                    if (removeAll) {
-                        return isMatch
-                    }
+            const deleteCount = deleteAll ? groupedFields.length - start : 1
+            let i = start
 
-                    // Удаляем все, что не совпадает с первым элементом и все, что подходит под регулярное выражение
-                    return !generateRegExp(field, FIRST_ELEM_INDEX).test(key) && isMatch
-                }
+            for (; i < start + deleteCount; i += 1) {
+                // eslint-disable-next-line no-loop-func
+                groupedFields[i].forEach((fieldName) => {
+                    const sourceKey = `${field}[${i}].${fieldName}`
 
-                return generateRegExp(field, index).test(key)
-            })
+                    delete state[key].registeredFields[sourceKey]
+                })
+            }
+
+            for (; i < groupedFields.length; i += 1) {
+                // eslint-disable-next-line no-loop-func
+                groupedFields[i].forEach((fieldName) => {
+                    const sourceKey = `${field}[${i}].${fieldName}`
+                    const destKey = `${field}[${i - deleteCount}].${fieldName}`
+
+                    state[key].registeredFields[destKey] = state[key].registeredFields[sourceKey]
+                    delete state[key].registeredFields[sourceKey]
+                })
+            }
         },
     },
 })

@@ -65,7 +65,8 @@ export type AppendFieldToArrayAction = PayloadAction<FieldPath & {
 }>
 
 export type RemoveFieldFromArrayAction = PayloadAction<FieldPath & {
-    index: number | [number, number]
+    start: number
+    end?: number
 }>
 
 export type CopyFieldArrayAction = PayloadAction<FieldPath & {

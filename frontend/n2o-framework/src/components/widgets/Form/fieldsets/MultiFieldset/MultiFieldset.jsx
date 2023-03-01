@@ -1,10 +1,9 @@
-import React, { useCallback, useLayoutEffect, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { compose } from 'recompose'
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import PropTypes from 'prop-types'
 
-import { registerFieldExtra } from '../../../../../ducks/form/store'
 import { dataSourceErrors } from '../../../../../ducks/datasource/selectors'
 import evalExpression, {
     parseExpression,
@@ -34,14 +33,13 @@ function MultiFieldset({
     ...props
 }) {
     const isEnabled = useMemo(() => resolveExpression(enabledExpression, activeModel), [activeModel, enabledExpression])
-    const dispatch = useDispatch()
     const { fields, append, remove, copy } = useFieldArray({
         name,
         primaryKey: generatePrimaryKey ? primaryKey : undefined,
     })
 
     const onRemoveAll = useCallback(() => {
-        remove([canRemoveFirstItem ? 0 : 1, fields.length])
+        remove(canRemoveFirstItem ? 0 : 1, fields.length)
     }, [canRemoveFirstItem, fields.length, remove])
 
     const resolvePlaceholder = useCallback((index) => {
@@ -58,16 +56,6 @@ function MultiFieldset({
 
         return childrenLabel
     }, [activeModel, childrenLabel, firstChildrenLabel])
-
-    useLayoutEffect(() => {
-        if (!isInit) {
-            dispatch(
-                registerFieldExtra(form, name, {
-                    type: 'FieldArray',
-                }),
-            )
-        }
-    }, [dispatch, form, isInit, name])
 
     return (
         <div className="n2o-multi-fieldset">
