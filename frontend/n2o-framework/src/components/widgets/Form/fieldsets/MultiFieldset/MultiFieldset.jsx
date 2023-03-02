@@ -59,8 +59,14 @@ const mapStateToProps = createStructuredSelector({
 export const enhance = compose(
     connect(mapStateToProps),
     lifecycle({
-        componentDidUpdate() {
-            const { dispatch, isInit, form, name } = this.props
+        componentDidUpdate(prevProps) {
+            const { dispatch, isInit, form, name, fields } = this.props
+
+            if (prevProps.fields.length > fields.length) {
+                dispatch(
+                    unregisterMultisetItemExtra(form, name, fields.length, true),
+                )
+            }
 
             if (!isInit) {
                 dispatch(

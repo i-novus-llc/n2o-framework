@@ -240,6 +240,8 @@ export function* checkAndModify(
 }
 
 export function* resolveDependency({ type, meta, payload }) {
+    yield delay(16)
+
     try {
         const { form: formName, field: fieldName } = meta
         const form = yield select(makeFormByName(formName))
