@@ -17,11 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest(properties = {"n2o.engine.test.classpath=/examples/placeholder_context/"},
+@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/placeholder_context/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:/autotest/examples/placeholder_context/user.properties")
-public class PlaceholderContextAT extends AutoTestBase {//TODO работает на файлах из classpath, т.к. файлы примера больше не сетятся в templatesHolder
+@TestPropertySource("classpath:/examples/placeholder_context/user.properties")
+public class PlaceholderContextAT extends AutoTestBase {
 
     @Value("${username}")
     private String username;
@@ -48,8 +48,8 @@ public class PlaceholderContextAT extends AutoTestBase {//TODO работает 
         builder.getEnvironment().getContextProcessor().set("email", email);
         builder.getEnvironment().getContextProcessor().set("roles", roles);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("autotest/examples/placeholder_context/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+                new CompileInfo("/examples/placeholder_context/index.page.xml"));
     }
 
     @Test

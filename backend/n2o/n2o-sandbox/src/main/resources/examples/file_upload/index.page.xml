@@ -8,8 +8,8 @@
                          label-field-id="fileName"
                          value-field-id="id"
                          url-field-id="url"
-                         upload-url="${n2o.sandbox.url}/files"
-                         delete-url="${n2o.sandbox.url}/files"
+                         upload-url="/sandbox/files"
+                         delete-url="/sandbox/files"
                          accept=".img,.png,.xml"
             />
         </fields>
