@@ -101,7 +101,7 @@ public class BrowserStorageAT extends AutoTestBase {
                 .fields().field("Чекбоксы").control(CheckboxGroup.class);
 
         input.shouldBeEmpty();
-        inputDef.shouldHaveValue("text");
+        inputDef.shouldHaveValue("test");
         select.shouldHaveValue("Введите значение");
         checkboxGroup.shouldBeEmpty();
 
@@ -128,7 +128,7 @@ public class BrowserStorageAT extends AutoTestBase {
         page.shouldExists();
 
         input.shouldBeEmpty();
-        inputDef.shouldHaveValue("text");
+        inputDef.shouldHaveValue("test");
         select.shouldHaveValue("Введите значение");
         checkboxGroup.shouldBeEmpty();
     }
