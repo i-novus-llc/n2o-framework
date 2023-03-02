@@ -8,7 +8,6 @@ import java.util.List;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 
-@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
 public class ProjectTemplateController {
     @Autowired
