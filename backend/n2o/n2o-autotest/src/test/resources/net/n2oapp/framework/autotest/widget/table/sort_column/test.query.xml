@@ -10,6 +10,6 @@
 
     <fields>
         <field id="id" domain="integer"/>
-        <field id="name"  sorting="true"/>
+        <field id="full.name"  sorting="true"/>
     </fields>
 </query>
