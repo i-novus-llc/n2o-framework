@@ -3,10 +3,12 @@ package net.n2oapp.framework.sandbox.autotest.examples.fileupload;
 import net.n2oapp.framework.autotest.api.component.control.FileUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/sandbox", "n2o.engine.test.classpath=/examples/file_upload/",
-        "n2o.sandbox.project-id=examples_file_upload"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"server.servlet.context-path=/sandbox", "n2o.engine.test.classpath=/examples/file_upload/"},
+        classes = FileUploadATConfig.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class FileUploadAT extends SandboxAutotestBase {
+public class FileUploadAT extends AutoTestBase {
 
     @Autowired
     private FileStorageController fileStoreController;
@@ -37,8 +38,11 @@ public class FileUploadAT extends SandboxAutotestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        addRuntimeProperty("n2o.sandbox.url", getBaseUrl());
         super.configure(builder);
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
+                new CompileInfo("/examples/file_upload/index.page.xml"),
+                new CompileInfo("/examples/file_upload/files.query.xml"));
     }
 
     @Override
@@ -50,14 +54,14 @@ public class FileUploadAT extends SandboxAutotestBase {
     public void oneFileUploadTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().crumb(0).shouldHaveLabel("Страница загрузки файлов");
+        page.breadcrumb().titleShouldHaveText("Страница загрузки файлов");
         FileUploadControl fileUpload = page.widget(FormWidget.class).fields().field("Загрузка файлов").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
 
         fileStoreController.clear();
-        fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.query.xml");
+        fileUpload.uploadFromClasspath("examples/file_upload/files.query.xml");
         fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFileNameShouldBe(0, "test.query.xml");
+        fileUpload.uploadFileNameShouldBe(0, "files.query.xml");
         assertEquals(1, fileStoreController.size());
         fileUpload.deleteFile(0);
         fileUpload.uploadFilesShouldBe(0);
@@ -68,21 +72,21 @@ public class FileUploadAT extends SandboxAutotestBase {
     public void twoFileUploadTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().crumb(0).shouldHaveLabel("Страница загрузки файлов");
+        page.breadcrumb().titleShouldHaveText("Страница загрузки файлов");
         FileUploadControl fileUpload = page.widget(FormWidget.class).fields().field("Загрузка файлов").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
 
         fileStoreController.clear();
-        fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.query.xml");
+        fileUpload.uploadFromClasspath("examples/file_upload/index.page.xml");
         fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFileNameShouldBe(0, "test.query.xml");
+        fileUpload.uploadFileNameShouldBe(0, "index.page.xml");
         assertEquals(1, fileStoreController.size());
 
         page = open(SimplePage.class); //что бы очистить значение формы загрузки файлов
         page.shouldExists();
-        fileUpload.uploadFromClasspath("autotest/examples/fileupload/test.page.xml");
+        fileUpload.uploadFromClasspath("examples/file_upload/files.query.xml");
         fileUpload.uploadFilesShouldBe(2);
-        fileUpload.uploadFileNameShouldBe(1, "test.page.xml");
+        fileUpload.uploadFileNameShouldBe(1, "files.query.xml");
         assertEquals(2, fileStoreController.size());
 
         fileUpload.deleteFile(1);
