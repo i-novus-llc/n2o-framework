@@ -118,7 +118,7 @@ public class BrowserStorageAT extends AutoTestBase {
         input.setValue("test browser-storage");
         checkboxGroup.check("Петр Сергеев");
         checkboxGroup.check("Алексей Иванов");
-        select.select(1);
+        select.dropdown().selectItem(1);
         inputDef.click();
         inputDef.setValue("test");
         select.click();

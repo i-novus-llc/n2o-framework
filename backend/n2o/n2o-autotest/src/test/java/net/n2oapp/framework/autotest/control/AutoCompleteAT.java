@@ -133,7 +133,7 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.setValue("2");
         autoComplete.shouldHaveDropdownOptions("test2");
 
-        select.select(1);
+        select.dropdown().selectItem(1);
         select.shouldHaveValue("type2");
         autoComplete.click();
         autoComplete.setValue("test");

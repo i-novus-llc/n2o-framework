@@ -57,11 +57,11 @@ public class ProtoPage {
     }
 
     public void searchClients() {
-        getTable().filters().search();
+        getTable().filters().toolbar().button("Найти").click();
     }
 
     public void resetFilter() {
-        getTable().filters().clear();
+        getTable().filters().toolbar().button("Сбросить").click();
     }
 
     public TableSimpleHeader getSurnameHeader() {

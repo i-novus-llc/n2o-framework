@@ -75,13 +75,13 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         Page.Popover popover = page.popover("Предупреждение");
         popover.shouldBeVisible();
         popover.shouldHaveText("confirm-text");
-        popover.click("Нет");
+        popover.button("Нет").click();
         page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         button.click();
         popover.shouldBeVisible();
         popover.shouldHaveText("confirm-text");
-        popover.click("Да");
+        popover.button("Да").click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
     }
 
@@ -94,13 +94,13 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         Page.Popover popover = page.popover("burn");
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");
-        popover.click("No no no");
+        popover.button("No no no").click();
         page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         button.click();
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");
-        popover.click("Hell, yes");
+        popover.button("Hell, yes").click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
     }
 

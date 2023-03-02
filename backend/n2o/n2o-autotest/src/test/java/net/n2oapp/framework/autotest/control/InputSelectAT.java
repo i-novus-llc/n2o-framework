@@ -64,7 +64,7 @@ public class InputSelectAT extends AutoTestBase {
         input.openPopup();
         input.dropdown().selectItem(1);
         input.shouldBeClosed();
-        input.shouldSelected("Two");
+        input.shouldHaveValue("Two");
         input.clear();
         input.shouldBeEmpty();
 
@@ -192,7 +192,7 @@ public class InputSelectAT extends AutoTestBase {
         input.dropdown().optionShouldHaveDescription("name3", "desc3");
         input.openPopup();
         input.dropdown().selectItem(1);
-        input.shouldSelected("name2");
+        input.shouldHaveValue("name2");
         input.clear();
         input.shouldBeEmpty();
         input.setValue("name3");
@@ -240,11 +240,11 @@ public class InputSelectAT extends AutoTestBase {
         InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
         InputSelect genderWithConst = formWidget.fields().field("Gender with const").control(InputSelect.class);
         gender.shouldExists();
-        gender.shouldSelected("Мужской");
+        gender.shouldHaveValue("Мужской");
         gender.openPopup();
         gender.dropdown().shouldHaveOptions("Мужской");
         genderWithConst.shouldExists();
-        genderWithConst.shouldSelected("Женский");
+        genderWithConst.shouldHaveValue("Женский");
         genderWithConst.openPopup();
         genderWithConst.dropdown().shouldHaveOptions("Женский");
     }
@@ -270,11 +270,11 @@ public class InputSelectAT extends AutoTestBase {
         InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
         InputSelect genderWithConst = formWidget.fields().field("Gender with const").control(InputSelect.class);
         gender.shouldExists();
-        gender.shouldSelected("Мужской");
+        gender.shouldHaveValue("Мужской");
         gender.openPopup();
         gender.dropdown().shouldHaveOptions("Мужской");
         genderWithConst.shouldExists();
-        genderWithConst.shouldSelected("Женский");
+        genderWithConst.shouldHaveValue("Женский");
         genderWithConst.openPopup();
         genderWithConst.dropdown().shouldHaveOptions("Женский");
     }

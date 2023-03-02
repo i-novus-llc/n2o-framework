@@ -21,8 +21,9 @@ public class N2oRegion extends N2oComponent implements Region {
     }
 
     protected ElementsCollection firstLevelElements(String rootSelector, String childSelector) {
-        String elementSelector = rootSelector + " > " + childSelector;
-        ElementsCollection nestingElements = element().$$(rootSelector + " " + elementSelector);
+        String elementSelector = String.format("%s > %s", rootSelector, childSelector);
+        ElementsCollection nestingElements = element().$$(String.format("%s %s", rootSelector, elementSelector));
+
         return element().$$(elementSelector)
                 .filter(new Condition("shouldBeFirstLevelElement") {
                     @Nonnull

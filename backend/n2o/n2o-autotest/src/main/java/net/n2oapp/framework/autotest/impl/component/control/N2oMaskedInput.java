@@ -35,12 +35,11 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement input = inputElement();
-        boolean logicResult = value == null || value.isEmpty();
 
         if (input.exists())
-            input.shouldHave(logicResult ? Condition.empty : Condition.value(value));
+            input.shouldHave(Condition.value(value));
         else
-            cellInputElement().shouldHave(logicResult ? Condition.empty : Condition.text(value));
+            cellInputElement().shouldHave(Condition.text(value));
     }
 
     @Override
@@ -48,8 +47,10 @@ public class N2oMaskedInput extends N2oControl implements MaskedInput {
         Condition condition = Condition.attribute("placeholder", value);
         SelenideElement input = inputElement();
 
-        if (input.exists()) input.shouldHave(condition);
-        else cellInputElement().shouldHave(condition);
+        if (input.exists())
+            input.shouldHave(condition);
+        else
+            cellInputElement().shouldHave(condition);
     }
 
     @Override

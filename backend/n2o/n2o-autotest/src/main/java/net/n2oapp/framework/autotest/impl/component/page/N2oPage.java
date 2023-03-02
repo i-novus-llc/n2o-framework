@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
@@ -97,12 +98,12 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     public void shouldHaveCssClass(String classname) {
-        element().$(".n2o-page-body").shouldHave(Condition.cssClass(classname));
+        body().shouldHave(Condition.cssClass(classname));
     }
 
     @Override
     public void shouldHaveStyle(String style) {
-        element().$(".n2o-page-body").shouldHave(Condition.attribute("style", style));
+        body().shouldHave(Condition.attribute("style", style));
     }
 
     @Override
@@ -139,27 +140,28 @@ public class N2oPage extends N2oComponent implements Page {
 
     public class N2oPageToolbar implements PageToolbar {
 
+        private static final String TOOLBAR = ".n2o-page-body .toolbar_placement_%s .btn";
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_topLeft .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "topLeft")), Toolbar.class);
         }
 
         @Override
         public Toolbar topRight() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_topRight .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "topRight")), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomLeft() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_bottomLeft .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "bottomLeft")), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomRight() {
-            return N2oSelenide.collection(element().$$(".n2o-page-body .toolbar_placement_bottomRight .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "bottomRight")), Toolbar.class);
         }
-    }
 
+    }
     public class N2oBreadcrumb extends N2oComponent implements Breadcrumb {
 
         @Deprecated
@@ -177,32 +179,36 @@ public class N2oPage extends N2oComponent implements Page {
         @Deprecated
         @Override
         public void lastTitleShouldHaveText(String title) {
-            element().$$(".breadcrumb-item").last()
-                    .shouldHave(Condition.text(title));
+            crumbs().last().shouldHave(Condition.text(title));
         }
 
         @Deprecated
         @Override
         public void titleShouldHaveText(String title, Integer index) {
-            element().$$(".breadcrumb-item").get(index).shouldHave(Condition.text(title));
+            crumbs().get(index).shouldHave(Condition.text(title));
         }
+
         public N2oBreadcrumb(SelenideElement element) {
             setElement(element);
         }
 
         @Override
         public void shouldHaveSize(int size) {
-            element().$$(".breadcrumb-item").should(CollectionCondition.size(size));
+            crumbs().should(CollectionCondition.size(size));
         }
 
         @Override
         public N2oCrumb crumb(int index) {
-            return new N2oCrumb(element().$$(".breadcrumb-item").get(index));
+            return new N2oCrumb(crumbs().get(index));
         }
 
         @Override
         public N2oCrumb crumb(String label) {
-            return new N2oCrumb(element().$$(".breadcrumb-item").findBy(Condition.text(label)));
+            return new N2oCrumb(crumbs().findBy(Condition.text(label)));
+        }
+
+        private ElementsCollection crumbs() {
+            return element().$$(".breadcrumb-item");
         }
 
         public class N2oCrumb extends N2oComponent implements Crumb {
@@ -223,19 +229,23 @@ public class N2oPage extends N2oComponent implements Page {
 
             @Override
             public void shouldHaveLink(String link) {
-                element().$(".n2o-breadcrumb-link").shouldHave(Condition.href(link));
+                breadcrumbLink().shouldHave(Condition.href(link));
             }
 
             @Override
             public void shouldNotHaveLink() {
-                element().$(".n2o-breadcrumb-link").shouldNot(Condition.exist);
+                breadcrumbLink().shouldNot(Condition.exist);
             }
+
+            protected SelenideElement breadcrumbLink() {
+                return element().$(".n2o-breadcrumb-link");
+            }
+
         }
     }
-
     public static class N2oDialog implements Dialog {
-        private final SelenideElement element;
 
+        private final SelenideElement element;
         public N2oDialog(SelenideElement element) {
             this.element = element;
         }
@@ -257,19 +267,21 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldBeClosed(long timeOut) {
-            if (element.$(".modal-header .modal-title").exists())
-                element.$(".modal-header .modal-title").shouldBe(Condition.exist, Duration.ofMillis(timeOut));
+            SelenideElement modalTitle = element.$(".modal-header .modal-title");
+
+            if (modalTitle.exists())
+                modalTitle.shouldBe(Condition.exist, Duration.ofMillis(timeOut));
         }
 
         @Override
         public void shouldHaveReversedButtons() {
             element.$(".btn-group").shouldHave(Condition.cssClass("flex-row-reverse"));
         }
+
     }
-
     public static class N2oPopover implements Popover {
-        private final SelenideElement element;
 
+        private final SelenideElement element;
         public N2oPopover(SelenideElement element) {
             this.element = element;
         }
@@ -281,25 +293,30 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldHaveText(String text) {
-            element.$(".popover-body").shouldHave(Condition.text(text));
+            popoverBody().shouldHave(Condition.text(text));
         }
 
         @Override
-        public void click(String label) {
-            //ToDo: можно ли выделить в отдельный метод возвращающий Button?
-            element.$$(".btn").findBy(Condition.text(label)).click();
+        public Button button(String label) {
+            return N2oSelenide.component(element.$$(".btn").findBy(Condition.text(label)), Button.class);
         }
 
         @Override
         public void shouldBeClosed(long timeOut) {
-            if (element.$(".popover-header .popover-body").exists())
-                element.$(".popover-header .popover-body").shouldBe(Condition.exist, Duration.ofMillis(timeOut));
+            SelenideElement popoverBody = popoverBody();
+
+            if (popoverBody.exists())
+                popoverBody.shouldBe(Condition.exist, Duration.ofMillis(timeOut));
         }
+
+        private SelenideElement popoverBody() {
+            return element.$(".popover-body");
+        }
+
     }
-
     static class UrlMatch extends Condition {
-        private final String regex;
 
+        private final String regex;
         public UrlMatch(String regex) {
             super("urlMatch", true);
             this.regex = regex;
@@ -317,5 +334,10 @@ public class N2oPage extends N2oComponent implements Page {
         public String toString() {
             return String.format("%s '%s'", getName(), regex);
         }
+
+    }
+
+    protected SelenideElement body() {
+        return element().$(".n2o-page-body");
     }
 }

@@ -38,10 +38,10 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
 
     @Override
     public void clear() {
-        element().$(".n2o-search-bar__control .n2o-search-bar__clear-icon").should(Condition.exist).click();
+        element().$(".n2o-search-bar__clear-icon").should(Condition.exist).click();
     }
 
     protected SelenideElement input() {
-        return element().$(".n2o-search-bar__control .n2o-input-text");
+        return element().$(".n2o-input-text");
     }
 }

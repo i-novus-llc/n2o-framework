@@ -160,12 +160,12 @@ public class FieldsAT extends SandboxAutotestBase {
         selectInput.shouldBeEmpty();
         selectInput.openPopup();
         selectInput.dropdown().selectItem(0);
-        selectInput.shouldSelected("test1");
+        selectInput.shouldHaveValue("test1");
         selectInput.clear();
         selectInput.shouldBeEmpty();
         selectInput.openPopup();
         selectInput.dropdown().selectItem(2);
-        selectInput.shouldSelected("test3");
+        selectInput.shouldHaveValue("test3");
         selectInput.clear();
         selectInput.shouldBeEmpty();
     }

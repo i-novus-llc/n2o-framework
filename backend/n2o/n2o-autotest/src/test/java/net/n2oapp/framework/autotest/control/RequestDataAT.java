@@ -66,7 +66,7 @@ public class RequestDataAT extends AutoTestBase {
         StandardButton save = page.widget(FormWidget.class).toolbar().topLeft().button("Сохранить");
 
         select.shouldSelected("test4");
-        inputSelect.shouldSelected("test4");
+        inputSelect.shouldHaveValue("test4");
         autoComplete.shouldBeEmpty();
         inputSelectMulti.shouldBeEmpty();
         autoCompleteMulti.shouldBeEmpty();

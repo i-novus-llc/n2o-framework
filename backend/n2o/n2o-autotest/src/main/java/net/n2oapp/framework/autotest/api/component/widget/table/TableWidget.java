@@ -67,16 +67,6 @@ public interface TableWidget extends StandardWidget {
         FieldSets fieldsets();
 
         /**
-         * Клик по кнопке "Найти"
-         */
-        void search();
-
-        /**
-         * Клик по кнопке "Очистить"
-         */
-        void clear();
-
-        /**
          * Проверка видимости фильтров
          */
         void shouldBeVisible();
@@ -125,11 +115,16 @@ public interface TableWidget extends StandardWidget {
 
         /**
          * Проверка того, что колонка имеет соответствующий текст.
-         * Если текст не должно быть, следует отправить null или пустой список, тогда колонка будет проверять на пустоту.
          * @param index номер проверяемой колонки
          * @param text ожидаемый текст
          */
         void columnShouldHaveTexts(int index, List<String> text);
+
+        /**
+         * Проверка того, что у колонки нет текста.
+         * @param index номер проверяемой колонки
+         */
+        void columnShouldBeEmpty(int index);
 
         /**
          * Возвращает список текста из колонки

@@ -27,13 +27,13 @@ public class N2oImage extends N2oSnippet implements Image {
 
     @Override
     public void shouldHaveUrl(String url) {
-        element().$(".n2o-image__image").should(Condition.attribute("src", url));
+        image().should(Condition.attribute("src", url));
     }
 
     @Override
     public void shouldHaveWidth(int width) {
-        element().$(".n2o-image__image").should(
-                Condition.attributeMatching("style", ".*width: " + width + "px;.*"));
+        image().should(
+                Condition.attributeMatching("style", String.format(".*width: %dpx;.*", width)));
     }
 
     @Override
@@ -48,5 +48,9 @@ public class N2oImage extends N2oSnippet implements Image {
 
     protected SelenideElement imageInfo() {
         return element().parent().parent().$(".n2o-image__info");
+    }
+
+    protected SelenideElement image() {
+        return element().$(".n2o-image__image");
     }
 }

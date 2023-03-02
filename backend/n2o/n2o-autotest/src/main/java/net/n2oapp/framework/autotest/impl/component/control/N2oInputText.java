@@ -41,12 +41,11 @@ public class N2oInputText extends N2oControl implements InputText {
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement input = inputElement();
-        boolean logicResult = value == null || value.isEmpty();
 
-        if (input.exists()) input.shouldHave(
-                logicResult ? Condition.empty : Condition.exactValue(value));
-        else cellInputElement().shouldHave(
-                logicResult ? Condition.empty : Condition.selectedText(value));
+        if (input.exists())
+            input.shouldHave(Condition.exactValue(value));
+        else
+            cellInputElement().shouldHave(Condition.selectedText(value));
     }
 
     @Override
@@ -54,8 +53,10 @@ public class N2oInputText extends N2oControl implements InputText {
         Condition condition = Condition.attribute("placeholder", placeholder);
         SelenideElement input = inputElement();
 
-        if (input.exists()) input.shouldHave(condition);
-        else cellInputElement().shouldHave(condition);
+        if (input.exists())
+            input.shouldHave(condition);
+        else
+            cellInputElement().shouldHave(condition);
     }
 
     @Override

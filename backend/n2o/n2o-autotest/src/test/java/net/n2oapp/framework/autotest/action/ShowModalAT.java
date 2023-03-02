@@ -160,12 +160,12 @@ public class ShowModalAT extends AutoTestBase {
         modalName2.shouldExists();
         modalName2.shouldHaveValue("testValue");
         InputSelect modalAddress = modalFields.field("Получение значения для спиского поля по default-value").control(InputSelect.class);
-        modalAddress.shouldSelected("test300");
+        modalAddress.shouldHaveValue("test300");
         InputSelect modalAddresses = modalFields.field("Получение значения для спиского поля с множественным выбором").control(InputSelect.class);
         modalAddresses.shouldSelectedMulti("test200","test300");
 
         InputSelect addressByForm = modalFields.field("Получение значения для спиского поля из модели всей формы").control(InputSelect.class);
-        addressByForm.shouldSelected("test400");
+        addressByForm.shouldHaveValue("test400");
     }
     @Test
     public void buttonsEnablingInModalTest() {

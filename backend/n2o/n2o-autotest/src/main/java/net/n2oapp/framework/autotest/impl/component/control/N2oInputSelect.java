@@ -4,7 +4,6 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
@@ -29,11 +28,6 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     @Override
     public void setMultiValue(String... values) {
         Arrays.stream(values).forEach(s -> input().setValue(s).pressEnter());
-    }
-
-    @Override
-    public void shouldSelected(String value) {
-        input().shouldHave(Condition.value(value));
     }
 
     @Override
@@ -76,16 +70,18 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void openPopup() {
-        SelenideElement elm = popupIcon();
-        if (!elm.is(Condition.cssClass("isExpanded")))
-            elm.click();
+        SelenideElement popupIcon = popupIcon();
+
+        if (!popupIcon.is(Condition.cssClass("isExpanded")))
+            popupIcon.click();
     }
 
     @Override
     public void closePopup() {
-        SelenideElement elm = popupIcon();
-        if (elm.is(Condition.cssClass("isExpanded")))
-            elm.click();
+        SelenideElement popupIcon = popupIcon();
+
+        if (popupIcon.is(Condition.cssClass("isExpanded")))
+            popupIcon.click();
     }
 
     @Override
@@ -102,46 +98,6 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     public DropDown dropdown() {
         return N2oSelenide.component(element().parent()
                 .parent().$(".n2o-dropdown-control"), DropDown.class);
-    }
-
-    @Deprecated
-    public void shouldHaveOptions(String... options) {
-        dropdown().shouldHaveOptions(options);
-    }
-
-    @Deprecated
-    public void select(int index) {
-        dropdown().selectItem(index);
-    }
-
-    @Deprecated
-    public void select(Condition by) {
-        dropdown().selectItemBy(by);
-    }
-
-    @Deprecated
-    public void selectMulti(int... indexes) {
-        dropdown().selectMulti(indexes);
-    }
-
-    @Deprecated
-    public void optionShouldBeEnabled(String option) {
-        dropdown().optionShouldBeEnabled(option);
-    }
-
-    @Deprecated
-    public void optionShouldBeDisabled(String option) {
-        dropdown().optionShouldBeDisabled(option);
-    }
-
-    @Deprecated
-    public void optionShouldHaveDescription(String option, String description) {
-        dropdown().optionShouldHaveDescription(option, description);
-    }
-
-    @Deprecated
-    public void optionShouldHaveStatusColor(String option, Colors color) {
-        dropdown().optionShouldHaveStatusColor(option, color);
     }
 
     @Deprecated

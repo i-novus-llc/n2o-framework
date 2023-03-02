@@ -58,7 +58,7 @@ public class OpenPageAT extends AutoTestBase {
         rows.shouldHaveSize(4);
         nameFilter.click();
         nameFilter.setValue("test3");
-        table.filters().search();
+        table.filters().toolbar().button("Найти").click();
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).shouldHaveText("test3");
 
@@ -73,7 +73,7 @@ public class OpenPageAT extends AutoTestBase {
         openPageTableRows.shouldHaveSize(4);
         openPageTypeFilter.click();
         openPageTypeFilter.setValue("2");
-        openPageTable.filters().search();
+        openPageTable.filters().toolbar().button("Найти").click();
         openPageTableRows.shouldHaveSize(2);
 
         open.breadcrumb().crumb(0).click();

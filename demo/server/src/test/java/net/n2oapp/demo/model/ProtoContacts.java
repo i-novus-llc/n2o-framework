@@ -23,7 +23,7 @@ public class ProtoContacts extends BaseSimplePage {
     }
 
     public void shouldHaveContactType(String text) {
-        getFields().field("Тип контакта").control(InputSelect.class).shouldSelected(text);
+        getFields().field("Тип контакта").control(InputSelect.class).shouldHaveValue(text);
     }
 
     public MaskedInput getPhoneNumber() {

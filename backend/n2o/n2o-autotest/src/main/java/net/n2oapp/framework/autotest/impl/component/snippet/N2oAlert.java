@@ -20,7 +20,7 @@ public class N2oAlert extends N2oSnippet implements Alert {
 
     @Override
     public void shouldHaveColor(Colors color) {
-        element().shouldHave(Condition.cssClass(color.name("alert-")));
+        element().shouldHave(Condition.cssClass(String.format("alert-%s", color.name().toLowerCase())));
     }
 
     @Override

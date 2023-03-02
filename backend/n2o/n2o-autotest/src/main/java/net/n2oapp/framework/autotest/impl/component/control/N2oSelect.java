@@ -88,44 +88,6 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Deprecated
-    public void shouldHaveOptions(String... options) {
-        dropdown().shouldHaveOptions(options);
-    }
-
-    @Deprecated
-    public void select(int index) {
-        dropdown().selectItem(index);
-    }
-
-    @Deprecated
-    public void select(Condition by) {
-        dropdown().selectItemBy(by);
-    }
-
-    @Deprecated
-    public void selectMulti(int... indexes) {
-        if (!popupIcon().has(Condition.cssClass("isExpanded")))
-            openPopup();
-
-        dropdown().selectMulti(indexes);
-    }
-
-    @Deprecated
-    public void shouldBeChecked(int... indexes) {
-        dropdown().shouldBeChecked(indexes);
-    }
-
-    @Deprecated
-    public void shouldNotBeChecked(int... indexes) {
-        dropdown().shouldNotBeChecked(indexes);
-    }
-
-    @Deprecated
-    public void optionShouldHaveDescription(String option, String description) {
-        dropdown().optionShouldHaveDescription(option, description);
-    }
-
-    @Deprecated
     public void expand() {
         openPopup();
     }

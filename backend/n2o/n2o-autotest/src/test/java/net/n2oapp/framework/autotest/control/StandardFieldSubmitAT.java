@@ -79,7 +79,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем списковое поле
-        select.select(1);
+        select.dropdown().selectItem(1);
         Selenide.sleep(500);
         select.shouldHaveValue("Женский");
         Selenide.refresh();
