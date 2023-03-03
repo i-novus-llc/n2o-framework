@@ -29,6 +29,7 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -130,7 +131,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             for (AbstractColumn column : source.getColumns()) {
                 headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
                 if (column.getSortingDirection() != null) {
-                    sortings.put(column.getTextFieldId(), column.getSortingDirection().toString().toUpperCase());
+                    sortings.put(RouteUtil.normalizeParam(p.cast(column.getSortingFieldId(), column.getTextFieldId())), column.getSortingDirection().toString().toUpperCase());
                 }
             }
             component.setHeaders(headers);
