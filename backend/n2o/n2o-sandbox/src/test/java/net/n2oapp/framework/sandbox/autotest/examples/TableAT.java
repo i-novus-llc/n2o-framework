@@ -3,7 +3,6 @@ package net.n2oapp.framework.sandbox.autotest.examples;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,7 +42,7 @@ public class TableAT extends SandboxAutotestBase {
 
     @Test
     public void testTableBase() {
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Таблица");
 
         TableWidget table = page.widget(TableWidget.class);

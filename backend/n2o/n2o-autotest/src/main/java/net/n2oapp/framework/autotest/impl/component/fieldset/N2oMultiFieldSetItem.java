@@ -18,12 +18,12 @@ public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetI
     }
 
     @Override
-    public void removeButtonShouldExists() {
+    public void shouldHaveRemoveButton() {
         removeButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void removeButtonShouldNotExists() {
+    public void shouldNotHaveRemoveButton() {
         removeButton().shouldNotBe(Condition.exist);
     }
 
@@ -33,12 +33,12 @@ public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetI
     }
 
     @Override
-    public void copyButtonShouldExists() {
+    public void shouldHaveCopyButton() {
         copyButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void copyButtonShouldNotExists() {
+    public void shouldNotHaveCopyButton() {
         copyButton().shouldNotBe(Condition.exist);
     }
 

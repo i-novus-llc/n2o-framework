@@ -16,7 +16,7 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     }
 
     @Override
-    public void imageSrcShouldBe(String src) {
+    public void imageShouldHaveSrc(String src) {
         element().$("img").shouldHave(Condition.attribute("src", src));
     }
 
@@ -36,7 +36,7 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     }
 
     @Override
-    public void labelShouldHave(String text) {
+    public void shouldHaveLabel(String text) {
         element().shouldHave(Condition.text(text));
     }
 

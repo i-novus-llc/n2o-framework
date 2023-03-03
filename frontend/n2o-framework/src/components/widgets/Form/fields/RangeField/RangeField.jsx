@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers, mapProps } from 'recompose'
 import get from 'lodash/get'
@@ -88,7 +88,7 @@ export function RangeFieldComponent({
         'has-warning': 'text-warning',
     }
 
-    const getLabelWidthPixels = (labelWidth) => {
+    const labelWidthPixels = useMemo(() => {
         switch (labelWidth) {
             case 'default':
                 return 180
@@ -97,9 +97,7 @@ export function RangeFieldComponent({
             default:
                 return labelWidth
         }
-    }
-
-    const labelWidthPixels = getLabelWidthPixels(labelWidth)
+    }, [labelWidth])
 
     const extendedLabelStyle = {
         width: labelWidthPixels,
@@ -145,6 +143,7 @@ export function RangeFieldComponent({
                 >
                     <div className="n2o-range-field-start n2o-range-field-item mr-3">
                         <div className="d-flex align-items-center">
+                            {/* FIXME: Не совсем понятно почему пришлось пробросить компонент явно. Если этого не сделать, пробрасывается что то не то*/}
                             <Control
                                 placeholder={placeholder}
                                 visible={visible}
@@ -155,6 +154,7 @@ export function RangeFieldComponent({
                                 onChange={onBeginValueChange}
                                 {...beginControl}
                                 {...omited}
+                                component={beginControl.component}
                                 className={classNames(beginControl && beginControl.className, {
                                     [validationClass]: touched,
                                 })}
@@ -165,6 +165,7 @@ export function RangeFieldComponent({
                     {divider && <div className="n2o-range-field-divider">{divider}</div>}
                     <div className="n2o-range-field-end n2o-range-field-item ml-3">
                         <div className="d-flex align-items-center">
+                            {/* FIXME: Не совсем понятно почему пришлось пробросить компонент явно. Если этого не сделать, пробрасывается что то не то*/}
                             <Control
                                 placeholder={placeholder}
                                 visible={visible}
@@ -175,6 +176,7 @@ export function RangeFieldComponent({
                                 onChange={onEndValueChange}
                                 {...endControl}
                                 {...omited}
+                                component={endControl.component}
                                 className={classNames(endControl && endControl.className, {
                                     [validationClass]: touched,
                                 })}

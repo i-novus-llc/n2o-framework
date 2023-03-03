@@ -60,6 +60,7 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
             validate,
             startValidate(
                 id,
+                // @ts-ignore поправить типы
                 ValidationsKey.FilterValidations,
                 ModelPrefix.filter,
                 undefined,
@@ -78,9 +79,11 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
         yield put(setModel(ModelPrefix.source, id, response.list))
 
         if (response.additionalInfo) {
+            // @ts-ignore Проблема с типизацией
             yield put(setAdditionalInfo(id, response.additionalInfo))
         }
 
+        // @ts-ignore Проблема с типизацией
         yield put(resolveRequest(id, response))
     } catch (error) {
         const err = error as { message: string, stack: string, json?: { meta: IMeta} }
@@ -93,6 +96,7 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
                 fields[fieldName] = Array.isArray(error) ? error : [error]
             }
 
+            // @ts-ignore Проблема с типизацией
             yield put(failValidate(id, fields, ModelPrefix.filter, { touched: true }))
         }
 
@@ -101,6 +105,8 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
         yield put(
             rejectRequest(
                 id,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 error,
                 err.json?.meta ||
                 {

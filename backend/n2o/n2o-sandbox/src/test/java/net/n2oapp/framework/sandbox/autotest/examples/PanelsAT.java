@@ -4,7 +4,6 @@ import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
 import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
@@ -37,7 +36,7 @@ public class PanelsAT extends SandboxAutotestBase {
     public void testPanels() {
         LeftRightPage page = open(LeftRightPage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница с двумя панелями");
 
         Regions left = page.left();

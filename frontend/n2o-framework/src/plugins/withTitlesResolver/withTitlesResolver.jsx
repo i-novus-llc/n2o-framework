@@ -5,10 +5,10 @@ import { resolveTitles } from './utils'
 
 export const withTitlesResolver = (Component) => {
     const WithTitlesResolver = (props) => {
-        const { logo, subtitle, models } = props
+        const { logo, subtitle, datasourceModel } = props
 
         const { title } = logo
-        const { title: resolvedTitle, subtitle: resolvedSubtitle } = resolveTitles({ title, subtitle }, models)
+        const { title: resolvedTitle, subtitle: resolvedSubtitle } = resolveTitles({ title, subtitle }, datasourceModel)
 
         return (
             <Component
@@ -22,7 +22,7 @@ export const withTitlesResolver = (Component) => {
     WithTitlesResolver.propTypes = {
         logo: PropTypes.object,
         subtitle: PropTypes.string,
-        models: PropTypes.object,
+        datasourceModel: PropTypes.object,
     }
 
     WithTitlesResolver.defaultProps = {

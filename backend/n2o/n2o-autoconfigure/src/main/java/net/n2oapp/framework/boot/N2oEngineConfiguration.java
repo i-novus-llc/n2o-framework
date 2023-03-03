@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.boot.graphql.GraphQlDataProviderEngine;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
+import net.n2oapp.framework.engine.SpringApplicationContextProvider;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
@@ -72,6 +73,10 @@ public class N2oEngineConfiguration {
     @Value("${n2o.engine.test.classpath}")
     private String resourcePath;
 
+    @Bean
+    public SpringApplicationContextProvider applicationContextProvider() {
+        return new SpringApplicationContextProvider();
+    }
 
     @Bean
     @ConditionalOnMissingBean

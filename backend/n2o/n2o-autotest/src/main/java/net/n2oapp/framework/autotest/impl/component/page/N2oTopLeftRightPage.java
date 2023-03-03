@@ -28,12 +28,12 @@ public class N2oTopLeftRightPage extends N2oPage implements TopLeftRightPage {
     }
 
     @Override
-    public void scrollToTopButtonShouldExists() {
+    public void shouldHaveScrollToTopButton() {
         scrollToTopButton().shouldBe(Condition.exist);
     }
 
     @Override
-    public void scrollToTopButtonShouldNotExists() {
+    public void shouldNotHaveScrollToTopButton() {
         scrollToTopButton().shouldNotBe(Condition.exist);
     }
 

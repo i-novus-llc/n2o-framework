@@ -15,7 +15,15 @@ import forOwn from 'lodash/forOwn'
 import { values } from 'lodash'
 
 import evalExpression from '../utils/evalExpression'
-import { setModel, clearModel, updateModel } from '../ducks/models/store'
+import {
+    setModel,
+    clearModel,
+    appendFieldToArray,
+    removeFieldFromArray,
+    copyFieldArray,
+    modelInit,
+    updateModel,
+} from '../ducks/models/store'
 import { registerButton, removeButton } from '../ducks/toolbar/store'
 // eslint-disable-next-line import/no-cycle
 import { resolveColumn } from '../ducks/columns/sagas'
@@ -90,8 +98,8 @@ function* callConditionHandlers(entities, prefix, key, type) {
  * @param entities
  * @param action
  */
-function* watchModel(entities, { payload }) {
-    const { prefix, prefixes, key } = payload
+function* watchModel(entities, action) {
+    const { prefix, prefixes, key } = action.payload
     const groupTypes = keys(entities)
 
     for (let i = 0; i < groupTypes.length; i++) {
@@ -131,9 +139,17 @@ function watchRemove(entities, action) {
 function* conditionWatchers() {
     const entities = {}
 
-    yield takeEvery([registerButton.type, registerColumn.type], watchRegister, entities)
-    yield takeEvery([setModel, clearModel, updateModel], watchModel, entities)
-    yield takeEvery(removeButton.type, watchRemove, entities)
+    yield takeEvery([registerButton, registerColumn], watchRegister, entities)
+    yield takeEvery([
+        setModel,
+        clearModel,
+        updateModel,
+        modelInit,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
+    ], watchModel, entities)
+    yield takeEvery(removeButton, watchRemove, entities)
 }
 
 /**

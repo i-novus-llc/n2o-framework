@@ -67,7 +67,8 @@ public class Case11AT extends SandboxAutotestBase {
         radioGroup.shouldHaveOptions("test1", "test2");
         checkboxGroup.shouldHaveOptions("test1", "test2");
 
-        type.val("2");
+        type.click();
+        type.setValue("2");
         filteredByLink.shouldHaveOptions("test3", "test4");
         filteredByConstant.shouldHaveOptions("test1", "test2");
         filteredByLinkWithCache.shouldHaveOptions("test3", "test4");

@@ -28,7 +28,7 @@ import { flowDefaultModels } from './defaultModels'
 
 export function* generateNewQuery(pageId: string, query?: object | null) {
     const state: State = yield select()
-    const routes: IRoutes = makePageRoutesByIdSelector(pageId)(state)
+    const routes = makePageRoutesByIdSelector(pageId)(state)
 
     if (!isEmpty(routes?.queryMapping) || !isEmpty(query)) {
         const location = getLocation(state)

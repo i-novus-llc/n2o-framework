@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import merge from 'deepmerge'
-import { actionTypes } from 'redux-form'
-import has from 'lodash/has'
 import set from 'lodash/set'
 import get from 'lodash/get'
+
+import { removeFieldFromArray, updateModel } from '../models/store'
 
 import FormPlugin from './FormPlugin'
 
@@ -25,20 +25,18 @@ const formSlice = createSlice({
     reducers: {
         REGISTER_FIELD_EXTRA: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {string} name
              * @param {FormPluginStore.item} initialState
-             * @return {{payload: FormPluginStore.registerFieldExtraPayload, meta: {form: string}}}
              */
-            prepare(form, name, initialState) {
+            prepare(key, name, initialState) {
                 return ({
                     payload: {
                         name,
-                        form,
+                        key,
                         initialState,
                     },
-
-                    meta: { form },
+                    meta: { key, name },
                 })
             },
 
@@ -47,103 +45,47 @@ const formSlice = createSlice({
              * @param {FormPluginStore.state} state
              * @param {Object} action
              * @param {string} action.type
-             * @param {FormPluginStore.registerFieldExtraPayload} action.payload
              */
             reducer(state, action) {
-                const { name, initialState = {} } = action.payload
+                const { name, key, initialState = {} } = action.payload
                 const formState = merge(FormPlugin.defaultState, initialState)
+                const registeredInfo = get(state, [key, 'registeredFields', name], {})
 
-                if (!state.registeredFields) {
-                    state.registeredFields = {}
-                }
-
-                if (!state.registeredFields[name]) {
-                    state.registeredFields[name] = {}
-                }
-
-                state.registeredFields[name] = Object.assign(state.registeredFields[name], formState)
+                set(state, [key, 'registeredFields', name], Object.assign(registeredInfo, formState))
             },
         },
 
-        UNREGISTER_MULTISET_ITEM_EXTRA: {
-            prepare(form, multiField, fromIndex, deleteAll = false) {
+        unRegisterExtraField: {
+            /**
+             * @param {string} key
+             * @param {string} name
+             */
+            prepare(key, name) {
                 return ({
                     payload: {
-                        form,
-                        multiField,
-                        fromIndex,
-                        deleteAll,
+                        name,
+                        key,
                     },
-                    meta: {
-                        form,
-                    },
+                    meta: { key, name },
                 })
             },
+
             reducer(state, action) {
-                const { multiField, fromIndex, deleteAll } = action.payload
+                const { name, key } = action.payload
 
-                if (!state.fields) {
-                    state.fields = {}
-                }
-
-                // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
-                const registredKeys = Object
-                    .keys(state.registeredFields)
-                    .filter(fieldName => fieldName.startsWith(`${multiField}[`))
-                // Разделяем индекс и имя поля в строке мультифилдсета
-                    .map(fieldName => fieldName.replace(multiField, '').match(/\[(\d+)]\.(.+)/))
-                    .filter(Boolean)
-                    .map(([, index, fieldName]) => ({
-                        index: +index,
-                        fieldName,
-                    }))
-                const groupedFields = registredKeys.reduce((out, { index, fieldName }) => {
-                    out[index] = out[index] || []
-                    out[index].push(fieldName)
-
-                    return out
-                }, [])
-
-                const deleteCount = deleteAll ? groupedFields.length - fromIndex : 1
-                let i = fromIndex
-
-                for (; i < fromIndex + deleteCount; i += 1) {
-                    // eslint-disable-next-line no-loop-func
-                    groupedFields[i].forEach((fieldName) => {
-                        const sourceKey = `${multiField}[${i}].${fieldName}`
-
-                        delete state.registeredFields[sourceKey]
-
-                        set(state.fields, sourceKey, undefined)
-                    })
-                }
-
-                for (; i < groupedFields.length; i += 1) {
-                    // eslint-disable-next-line no-loop-func
-                    groupedFields[i].forEach((fieldName) => {
-                        const sourceKey = `${multiField}[${i}].${fieldName}`
-                        const destKey = `${multiField}[${i - deleteCount}].${fieldName}`
-
-                        state.registeredFields[destKey] = state.registeredFields[sourceKey]
-                        delete state.registeredFields[sourceKey]
-
-                        set(state.fields, destKey, get(state.fields, sourceKey))
-                        set(state.fields, sourceKey, undefined)
-                    })
-                }
+                delete state?.[key].registeredFields?.[name]
             },
         },
 
         DISABLE_FIELD: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {string} name
-             * @return {{payload: FormPluginStore.disableFieldPayload, meta: {form: string}}}
              */
-            prepare(form, name) {
+            prepare(key, name) {
                 return ({
-                    payload: { form, name },
-                    meta: { form },
+                    payload: { key, name },
+                    meta: { key },
                 })
             },
 
@@ -155,8 +97,8 @@ const formSlice = createSlice({
              * @param {FormPluginStore.disableFieldPayload} action.payload
              */
             reducer(state, action) {
-                const { name } = action.payload
-                const field = state.registeredFields[name]
+                const { key, name } = action.payload
+                const field = get(state, [key, 'registeredFields', name])
 
                 if (!field) { return warnNonExistent(name, 'disabled') }
 
@@ -167,15 +109,14 @@ const formSlice = createSlice({
 
         ENABLE_FIELD: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {string} name
-             * @return {{payload: FormPluginStore.enableFieldPayload, meta: {form: string}}}
              */
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, name) {
+            prepare(key, name) {
                 return ({
-                    payload: { form, name },
-                    meta: { form },
+                    payload: { key, name },
+                    meta: { key },
                 })
             },
 
@@ -187,8 +128,8 @@ const formSlice = createSlice({
              * @param {FormPluginStore.enableFieldPayload} action.payload
              */
             reducer(state, action) {
-                const { name } = action.payload
-                const field = state.registeredFields[name]
+                const { name, key } = action.payload
+                const field = get(state, [key, 'registeredFields', name])
 
                 if (!field) { return warnNonExistent(name, 'disabled') }
 
@@ -199,15 +140,14 @@ const formSlice = createSlice({
 
         SHOW_FIELD: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {string} name
-             * @return {{payload: FormPluginStore.showFieldPayload, meta: {form: string}}}
              */
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, name) {
+            prepare(key, name) {
                 return ({
-                    payload: { form, name },
-                    meta: { form },
+                    payload: { key, name },
+                    meta: { key },
                 })
             },
 
@@ -219,8 +159,8 @@ const formSlice = createSlice({
              * @param {FormPluginStore.showFieldPayload} action.payload
              */
             reducer(state, action) {
-                const { name } = action.payload
-                const field = state.registeredFields[name]
+                const { name, key } = action.payload
+                const field = get(state, [key, 'registeredFields', name])
 
                 if (!field) { return warnNonExistent(name, 'visible') }
 
@@ -231,15 +171,14 @@ const formSlice = createSlice({
 
         HIDE_FIELD: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {string} name
-             * @return {{payload: FormPluginStore.hideFieldPayload, meta: {form: string}}}
              */
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, name) {
+            prepare(key, name) {
                 return ({
-                    payload: { form, name },
-                    meta: { form },
+                    payload: { key, name },
+                    meta: { key },
                 })
             },
 
@@ -251,8 +190,8 @@ const formSlice = createSlice({
              * @param {FormPluginStore.hideFieldPayload} action.payload
              */
             reducer(state, action) {
-                const { name } = action.payload
-                const field = state.registeredFields[name]
+                const { name, key } = action.payload
+                const field = get(state, [key, 'registeredFields', name])
 
                 if (!field) { return warnNonExistent(name, 'visible') }
 
@@ -263,15 +202,14 @@ const formSlice = createSlice({
 
         REGISTER_DEPENDENCY: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {string} name
              * @param {object} dependency
-             * @return {{payload: FormPluginStore.registerFieldDependencyPayload, meta: {form: string}}}
              */
-            prepare(form, name, dependency) {
+            prepare(key, name, dependency) {
                 return ({
-                    payload: { form, name, dependency },
-                    meta: { form },
+                    payload: { key, name, dependency },
+                    meta: { key },
                 })
             },
 
@@ -283,22 +221,21 @@ const formSlice = createSlice({
              * @param {FormPluginStore.registerFieldDependencyPayload} action.payload
              */
             reducer(state, action) {
-                const { name, dependency } = action.payload
+                const { name, dependency, key } = action.payload
 
-                state.registeredFields[name].dependency = dependency
+                set(state, [key, 'registeredFields', name, 'dependency'], dependency)
             },
         },
 
         SET_REQUIRED: {
             /**
-             * @param {string} form
-             * @param {string} name
-             * @return {{payload: FormPluginStore.setRequiredPayload, meta: {form: string, field: string}}}
+             * @param {string} key
+             * @param {string} field
              */
-            prepare(form, name) {
+            prepare(key, field) {
                 return ({
-                    payload: { form, name },
-                    meta: { form, field: name },
+                    payload: { key, field },
+                    meta: { key, field },
                 })
             },
 
@@ -310,23 +247,22 @@ const formSlice = createSlice({
              * @param {FormPluginStore.setRequiredPayload} action.payload
              */
             reducer(state, action) {
-                const { name } = action.payload
+                const { field, key } = action.payload
 
-                state.registeredFields[name].required = true
+                set(state, [key, 'registeredFields', field, 'required'], true)
             },
         },
 
         UNSET_REQUIRED: {
             /**
-             * @param {string} form
-             * @param {string} name
-             * @return {{payload: FormPluginStore.unsetRequiredPayload, meta: {form: string, field: string}}}
+             * @param {string} key
+             * @param {string} field
              */
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, name) {
+            prepare(key, field) {
                 return ({
-                    payload: { form, name },
-                    meta: { form, field: name },
+                    payload: { key, field },
+                    meta: { key, field },
                 })
             },
 
@@ -338,23 +274,22 @@ const formSlice = createSlice({
              * @param {FormPluginStore.unsetRequiredPayload} action.payload
              */
             reducer(state, action) {
-                const { name } = action.payload
+                const { field, key } = action.payload
 
-                state.registeredFields[name].required = false
+                set(state, [key, 'registeredFields', field, 'required'], false)
             },
         },
 
         SET_LOADING: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {string} name
              * @param {boolean} loading
-             * @return {{payload: FormPluginStore.setLoadingPayload, meta: {form: string}}}
              */
-            prepare(form, name, loading) {
+            prepare(key, name, loading) {
                 return ({
-                    payload: { form, name, loading },
-                    meta: { form },
+                    payload: { key, name, loading },
+                    meta: { key },
                 })
             },
 
@@ -366,22 +301,21 @@ const formSlice = createSlice({
              * @param {FormPluginStore.setLoadingPayload} action.payload
              */
             reducer(state, action) {
-                const { name, loading } = action.payload
+                const { name, loading, key } = action.payload
 
-                state.registeredFields[name].loading = loading
+                set(state, [key, 'registeredFields', name, 'loading'], loading)
             },
         },
 
         SHOW_FIELDS: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {any[]} names
-             * @return {{payload: FormPluginStore.showMultiFieldsPayload, meta: {form: string}}}
              */
-            prepare(form, names) {
+            prepare(key, names) {
                 return ({
-                    payload: { form, names },
-                    meta: { form },
+                    payload: { key, names },
+                    meta: { key },
                 })
             },
 
@@ -393,10 +327,10 @@ const formSlice = createSlice({
              * @param {FormPluginStore.showMultiFieldsPayload} action.payload
              */
             reducer(state, action) {
-                const { names } = action.payload
+                const { names, key: datasourceId } = action.payload
 
                 names.forEach((key) => {
-                    const field = state.registeredFields[key]
+                    const field = get(state, [datasourceId, 'registeredFields', key])
 
                     if (!field) { return warnNonExistent(key, 'visible') }
 
@@ -408,15 +342,14 @@ const formSlice = createSlice({
 
         HIDE_FIELDS: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {any[]} names
-             * @return {{payload: FormPluginStore.hideMultiFieldsPayload, meta: {form: string}}}
              */
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, names) {
+            prepare(key, names) {
                 return ({
-                    payload: { form, names },
-                    meta: { form },
+                    payload: { key, names },
+                    meta: { key },
                 })
             },
 
@@ -428,10 +361,10 @@ const formSlice = createSlice({
              * @param {FormPluginStore.hideMultiFieldsPayload} action.payload
              */
             reducer(state, action) {
-                const { names } = action.payload
+                const { names, key: datasourceId } = action.payload
 
                 names.forEach((key) => {
-                    const field = state.registeredFields[key]
+                    const field = get(state, [datasourceId, 'registeredFields', key])
 
                     if (!field) { return warnNonExistent(key, 'visible') }
 
@@ -443,15 +376,14 @@ const formSlice = createSlice({
 
         DISABLE_FIELDS: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {any[]} names
-             * @return {{payload: FormPluginStore.disableMultiFieldsPayload, meta: {form: string}}}
              */
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, names) {
+            prepare(key, names) {
                 return ({
-                    payload: { form, names },
-                    meta: { form },
+                    payload: { key, names },
+                    meta: { key },
                 })
             },
 
@@ -463,10 +395,10 @@ const formSlice = createSlice({
              * @param {FormPluginStore.disableMultiFieldsPayload} action.payload
              */
             reducer(state, action) {
-                const { names } = action.payload
+                const { names, key } = action.payload
 
                 names.forEach((name) => {
-                    const field = state.registeredFields[name]
+                    const field = get(state, [key, 'registeredFields', name])
 
                     if (!field) { return warnNonExistent(name, 'disabled') }
 
@@ -478,15 +410,14 @@ const formSlice = createSlice({
 
         ENABLE_FIELDS: {
             /**
-             * @param {string} form
+             * @param {string} key
              * @param {any[]} names
-             * @return {{payload: FormPluginStore.enableMultiFieldsPayload, meta: {form: string}}}
              */
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(form, names) {
+            prepare(key, names) {
                 return ({
-                    payload: { form, names },
-                    meta: { form },
+                    payload: { key, names },
+                    meta: { key },
                 })
             },
 
@@ -498,10 +429,10 @@ const formSlice = createSlice({
              * @param {FormPluginStore.enableMultiFieldsPayload} action.payload
              */
             reducer(state, action) {
-                const { names } = action.payload
+                const { names, key: datasourceId } = action.payload
 
                 names.forEach((key) => {
-                    const field = state.registeredFields[key]
+                    const field = get(state, [datasourceId, 'registeredFields', key])
 
                     if (!field) { return warnNonExistent(key, 'disabled') }
 
@@ -511,10 +442,59 @@ const formSlice = createSlice({
             },
         },
 
-        initializeDependencies: {
-            prepare(form) {
+        BLUR: {
+            prepare(prefix, key, field) {
                 return ({
-                    meta: { form },
+                    payload: {},
+                    meta: { prefix, key, field },
+                })
+            },
+
+            reducer() {
+                // empty reducer, action for saga
+            },
+        },
+
+        FOCUS: {
+            prepare(prefix, key, field) {
+                return ({
+                    payload: { prefix, key, field },
+                    meta: { prefix, key, field },
+                })
+            },
+
+            reducer(state, action) {
+                const { field, key } = action.payload
+
+                set(state, [key, 'registeredFields', field, 'touched'], true)
+            },
+        },
+
+        TOUCH: {
+            prepare(prefix, key, fields) {
+                return ({
+                    payload: { prefix, key, fields },
+                    meta: { prefix, key, fields },
+                })
+            },
+
+            reducer(state, action) {
+                const { fields, key } = action.payload
+
+                if (Array.isArray(fields)) {
+                    fields.forEach((field) => {
+                        set(state, [key, 'registeredFields', field, 'touched'], true)
+                    })
+                } else {
+                    set(state, [key, 'registeredFields', fields, 'touched'], true)
+                }
+            },
+        },
+
+        initializeDependencies: {
+            prepare(key) {
+                return ({
+                    meta: { key },
                     payload: {},
                 })
             },
@@ -522,36 +502,75 @@ const formSlice = createSlice({
                 // empty reducer, action for saga
             },
         },
+
+        setDirty: {
+            prepare(key, value) {
+                return ({
+                    meta: { key, value },
+                    payload: { key, value },
+                })
+            },
+            reducer(state, action) {
+                const { key, value } = action.payload
+
+                set(state, [key, 'dirty'], value)
+            },
+        },
     },
 
     extraReducers: {
-        [actionTypes.CHANGE](state, action) {
-            const { field } = action.meta
+        [updateModel.type](state, action) {
+            const { key } = action.payload
+            const isDirty = get(state, 'dirty')
 
-            if (!field) {
-                return
-            }
-            const customFormAction = has(action.payload, 'keepDirty')
-            const value = customFormAction ? action.payload.value : action.payload
-
-            /*
-             * TODO придумать как аккуратно отказаться от _.set
-             *  сейчас он раскручивает поля ввида values[field[index].property]
-             */
-            set(state, `values[${field}]`, value)
-
-            if (customFormAction && !action.payload.keepDirty) {
-                set(state, `initial[${field}]`, action.payload.value)
+            if (!isDirty) {
+                set(state, [key, 'dirty'], true)
             }
         },
-        [actionTypes.FOCUS](state, action) {
-            const { field } = action.meta
+        [removeFieldFromArray.type](state, action) {
+            const { field, start, end, key } = action.payload
+            const deleteAll = end !== undefined
 
-            if (!field) {
-                return
+            // Чистим мапу form[dsName].registeredFields[fieldsetName[index].fieldName]
+            const registredKeys = Object
+                .keys(state[key].registeredFields)
+                .filter(fieldName => fieldName.startsWith(`${field}[`))
+                // Разделяем индекс и имя поля в строке мультифилдсета
+                .map(fieldName => fieldName.replace(field, '').match(/\[(\d+)]\.(.+)/))
+                .filter(Boolean)
+                .map(([, index, fieldName]) => ({
+                    index: +index,
+                    fieldName,
+                }))
+            const groupedFields = registredKeys.reduce((out, { index, fieldName }) => {
+                out[index] = out[index] || []
+                out[index].push(fieldName)
+
+                return out
+            }, [])
+
+            const deleteCount = deleteAll ? groupedFields.length - start : 1
+            let i = start
+
+            for (; i < start + deleteCount; i += 1) {
+                // eslint-disable-next-line no-loop-func
+                groupedFields[i].forEach((fieldName) => {
+                    const sourceKey = `${field}[${i}].${fieldName}`
+
+                    delete state[key].registeredFields[sourceKey]
+                })
             }
 
-            set(state, `fields[${field}].touched`, true)
+            for (; i < groupedFields.length; i += 1) {
+                // eslint-disable-next-line no-loop-func
+                groupedFields[i].forEach((fieldName) => {
+                    const sourceKey = `${field}[${i}].${fieldName}`
+                    const destKey = `${field}[${i - deleteCount}].${fieldName}`
+
+                    state[key].registeredFields[destKey] = state[key].registeredFields[sourceKey]
+                    delete state[key].registeredFields[sourceKey]
+                })
+            }
         },
     },
 })
@@ -560,7 +579,6 @@ export default formSlice.reducer
 
 export const {
     REGISTER_FIELD_EXTRA: registerFieldExtra,
-    UNREGISTER_MULTISET_ITEM_EXTRA: unregisterMultisetItemExtra,
     DISABLE_FIELD: disableField,
     ENABLE_FIELD: enableField,
     SHOW_FIELD: showField,
@@ -573,5 +591,10 @@ export const {
     HIDE_FIELDS: hideMultiFields,
     DISABLE_FIELDS: disableMultiFields,
     ENABLE_FIELDS: enableMultiFields,
+    BLUR: handleBlur,
+    FOCUS: handleFocus,
+    TOUCH: handleTouch,
     initializeDependencies,
+    setDirty,
+    unRegisterExtraField,
 } = formSlice.actions

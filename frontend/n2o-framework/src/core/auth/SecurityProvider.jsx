@@ -95,7 +95,6 @@ class SecurityProvider extends Component {
 
 SecurityProvider.propTypes = {
     authProvider: PropTypes.func,
-    store: PropTypes.object,
     user: PropTypes.object,
     pageMetadata: PropTypes.object,
     children: PropTypes.node,
@@ -108,7 +107,6 @@ SecurityProvider.childContextTypes = {
 }
 
 const mapStateToProps = createStructuredSelector({
-    store: state => state,
     pageMetadata: state => makePageMetadataByIdSelector(rootPageSelector(state))(state),
     user: userSelector,
 })

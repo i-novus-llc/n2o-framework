@@ -11,7 +11,7 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     @Override
     public void shouldBeEnabled() {
-        element().shouldNotBe(Condition.disabled);
+        element().shouldBe(Condition.enabled);
     }
 
     @Override
@@ -26,11 +26,15 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     @Override
     public StandardButton menuItem(Condition by) {
-        return N2oSelenide.component(element().parent().$$("div.dropdown-menu  .btn btn-secondary").findBy(by), N2oStandardButton.class);
+        return N2oSelenide.component(element()
+                .parent()
+                .$$("div.dropdown-menu  .btn .btn-secondary")
+                .findBy(by), N2oStandardButton.class);
     }
 
     @Override
     public void shouldBeVisible() {
+        //ToDo: почему не Condition.visible?
         element().parent().shouldHave(Condition.cssClass("visible"));
     }
 
@@ -46,15 +50,24 @@ public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
     @Override
     public void shouldBeExpanded() {
-        element().parent().parent().$(".n2o-dropdown-menu").shouldNotBe(Condition.hidden);
+        //ToDo: можно ли заменить на shouldBe(Condition.visible)?
+        element().parent()
+                .parent()
+                .$(".n2o-dropdown-menu")
+                .shouldNotBe(Condition.hidden);
     }
 
     @Override
     public void shouldBeCollapsed() {
-        element().parent().parent().$(".n2o-dropdown-menu").shouldBe(Condition.hidden);
+        element().parent()
+                .parent()
+                .$(".n2o-dropdown-menu")
+                .shouldBe(Condition.hidden);
     }
 
     private ElementsCollection menuItems() {
-        return element().parent().parent().$$("div.dropdown-menu .btn.btn-secondary,.dropdown-item");
+        return element().parent()
+                .parent()
+                .$$("div.dropdown-menu .btn.btn-secondary,.dropdown-item");
     }
 }

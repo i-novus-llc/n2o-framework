@@ -47,7 +47,7 @@ public class PageTitleAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование заголовков страницы");
-        page.titleShouldHaveText("Заголовок страницы");
+        page.shouldHaveTitle("Заголовок страницы");
 
         Toolbar toolbar = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).toolbar().topLeft();
         StandardButton openPageBtn = toolbar.button("Open");
@@ -57,7 +57,7 @@ public class PageTitleAT extends AutoTestBase {
         openPageBtn.click();
         SimplePage openPage = N2oSelenide.page(SimplePage.class);
         openPage.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
-        openPage.titleShouldHaveText("Заголовок второй страницы");
+        openPage.shouldHaveTitle("Заголовок второй страницы");
 
         openPage.breadcrumb().crumb(0).click();
         openPage.breadcrumb().crumb(0).shouldHaveLabel("Тестирование заголовков страницы");

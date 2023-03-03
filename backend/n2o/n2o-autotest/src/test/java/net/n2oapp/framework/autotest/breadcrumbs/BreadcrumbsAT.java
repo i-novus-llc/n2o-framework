@@ -144,7 +144,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
         page.breadcrumb().crumb(0).click();
         page.shouldExists();
-        page.urlShouldMatches(url + "/#/");
+        page.shouldHaveUrlLike(url + "/#/");
         page.toolbar().bottomLeft().button("Вторая страница").click();
         page.shouldExists();
         page.toolbar().bottomLeft().button("Третья страница").click();
@@ -167,7 +167,7 @@ public class BreadcrumbsAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLink(getBaseUrl() + "/#/");
         page.breadcrumb().crumb(1).shouldHaveLabel("test3");
         page.breadcrumb().crumb(1).shouldHaveLink(getBaseUrl() + "/#/3/page2");
-        page.titleShouldHaveText("2");
+        page.shouldHaveTitle("2");
     }
 
     private void checkPageAndClickRow(SimplePage page, String firstTableRow, String secondTableRow, Integer clickRow) {
@@ -184,8 +184,8 @@ public class BreadcrumbsAT extends AutoTestBase {
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(2);
 
-        rows.row(0).cell(0).textShouldHave(firstTableRow);
-        rows.row(1).cell(0).textShouldHave(secondTableRow);
+        rows.row(0).cell(0).shouldHaveText(firstTableRow);
+        rows.row(1).cell(0).shouldHaveText(secondTableRow);
 
         rows.row(clickRow).click();
         openButton.click();

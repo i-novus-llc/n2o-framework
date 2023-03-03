@@ -10,8 +10,8 @@ import { findDeep } from '../../utils/findDeep'
 
 /**
  * Базовый селектор всех страниц
- * @param {Object.<any, any>} state
- * @return {pages.store}
+ * @param { GlobalState } state
+ * @return TPageState
  */
 export const pagesSelector = state => state.pages || {}
 
@@ -21,12 +21,62 @@ export const pagesSelector = state => state.pages || {}
 
 /**
  * Селектор-генератор для получения страницы по ID
- * @param {string} pageId
- * @return {pages.item | undefined}
  */
 export const makePageByIdSelector = pageId => createSelector(
-    pagesSelector,
+    [
+        pagesSelector,
+    ],
     pagesState => pagesState[pageId],
+)
+
+/**
+ * Селектор-генератор для получения статуса загрузки по ID
+ * @param {string} pageId
+ * @return {boolean | undefined}
+ */
+export const makePageLoadingByIdSelector = pageId => createSelector(
+    makePageByIdSelector(pageId),
+    pageState => pageState && pageState.loading,
+)
+
+/**
+ * Селектор-генератор для получения статуса ошибки по ID
+ * @param {string} pageId
+ * @return {boolean | undefined}
+ */
+export const makePageErrorByIdSelector = pageId => createSelector(
+    makePageByIdSelector(pageId),
+    pageState => pageState && pageState.error,
+)
+
+/**
+ *  Получение свойства disabled страницы по ее id
+ * @param {string} pageId
+ * @return {boolean | undefined}
+ */
+export const makePageDisabledByIdSelector = pageId => createSelector(
+    makePageByIdSelector(pageId),
+    pageState => pageState && pageState.disabled,
+)
+
+/**
+ * Получение свойсва status страницы по ee d
+ * @param {string} pageId
+ * @return {number | undefined}
+ */
+export const makePageStatusByIdSelected = pageId => createSelector(
+    makePageByIdSelector(pageId),
+    pageState => pageState && pageState.status,
+)
+
+/**
+ * Получение свойсва spinner страницы по ee d
+ * @param {string} pageId
+ * @return {number | undefined}
+ */
+export const makePageSpinnerByIdSelected = pageId => createSelector(
+    makePageByIdSelector(pageId),
+    pageState => pageState && pageState.spinner,
 )
 
 /**
@@ -54,35 +104,12 @@ export const makePageWidgetsByIdSelector = pageId => createSelector(
 /**
  * Селектор-генератор для получения статуса загрузки по ID
  * @param {string} pageId
- * @return {boolean | undefined}
- */
-export const makePageLoadingByIdSelector = pageId => createSelector(
-    makePageByIdSelector(pageId),
-    pageState => pageState && pageState.loading,
-)
-/**
- * Селектор-генератор для получения статуса ошибки по ID
- * @param {string} pageId
- * @return {boolean | undefined}
- */
-export const makePageErrorByIdSelector = pageId => createSelector(
-    makePageByIdSelector(pageId),
-    pageState => pageState && pageState.error,
-)
-
-/**
- * Селектор-генератор для получения статуса загрузки по ID
- * @param {string} pageId
  * @return {Object.<string, any> | undefined}
  */
 export const makePageRoutesByIdSelector = pageId => createSelector(
     makePageMetadataByIdSelector(pageId),
     pageState => pageState && pageState.routes,
 )
-
-/*
- Остальные селекторы
- */
 
 /**
  * Селектро toolbar из metadata по id
@@ -102,33 +129,4 @@ export const makePageToolbarByIdSelector = pageId => createSelector(
 export const makePageTitleByIdSelector = pageId => createSelector(
     makePageMetadataByIdSelector(pageId),
     pageState => pageState && pageState.page && pageState.page.title,
-)
-
-/**
- *  Получение свойства disabled страницы по ее id
- * @param {string} pageId
- * @return {boolean | undefined}
- */
-export const makePageDisabledByIdSelector = pageId => createSelector(
-    makePageByIdSelector(pageId),
-    pageState => pageState && pageState.disabled,
-)
-/**
- * Получение свойсва status страницы по ee d
- * @param {string} pageId
- * @return {number | undefined}
- */
-export const makePageStatusByIdSelected = pageId => createSelector(
-    makePageByIdSelector(pageId),
-    pageState => pageState && pageState.status,
-)
-
-/**
- * Получение свойсва spinner страницы по ee d
- * @param {string} pageId
- * @return {number | undefined}
- */
-export const makePageSpinnerByIdSelected = pageId => createSelector(
-    makePageByIdSelector(pageId),
-    pageState => pageState && pageState.spinner,
 )

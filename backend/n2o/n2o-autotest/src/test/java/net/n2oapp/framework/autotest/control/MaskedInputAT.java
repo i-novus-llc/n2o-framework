@@ -48,19 +48,19 @@ public class MaskedInputAT extends AutoTestBase {
         maskedInput.shouldBeEnabled();
         maskedInput.shouldHavePlaceholder("+7 (___) ___-__-__");
         maskedInput.shouldHaveValue("");
-        maskedInput.val("A7$h-F835-#$7sd fr8!93+2~sr0");
+        maskedInput.setValue("A7$h-F835-#$7sd fr8!93+2~sr0");
         maskedInput.shouldHaveValue("+7 (783) 578-93-20");
         // проверка меры измерения
         maskedInput.shouldHaveMeasure();
-        maskedInput.measureShouldHaveText("тел.");
+        maskedInput.shouldHaveMeasureText("тел.");
 
         MaskedInput maskedInputWithoutClear = getFields().field("MaskedInputWithoutClear").control(MaskedInput.class);
         maskedInputWithoutClear.shouldBeEnabled();
-        maskedInput.val("123");
-        maskedInputWithoutClear.val("783");
+        maskedInput.setValue("123");
+        maskedInputWithoutClear.setValue("783");
         maskedInput.shouldHaveValue("");
         //вводим значение в первое поле, чтобы покинуть второе
-        maskedInput.val("123");
+        maskedInput.setValue("123");
         maskedInputWithoutClear.shouldHaveValue("+7 (783)");
     }
 

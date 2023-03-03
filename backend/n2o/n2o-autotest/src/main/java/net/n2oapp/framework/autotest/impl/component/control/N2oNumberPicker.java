@@ -16,16 +16,18 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     }
 
     @Override
-    public void val(String value) {
-        inputElement().click();
+    public void setValue(String value) {
         inputElement().setValue(value);
         // focus out
         inputElement().pressTab();
     }
 
+    public void click() {
+        inputElement().click();
+    }
+
     @Override
     public void clear() {
-        inputElement().click();
         inputElement().clear();
         // focus out
         inputElement().pressTab();
@@ -64,18 +66,18 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     }
 
     @Override
-    public void minShouldBe(String val) {
-        inputElement().shouldBe(Condition.attribute("min", val));
+    public void shouldHaveMin(String min) {
+        inputElement().shouldBe(Condition.attribute("min", min));
     }
 
     @Override
-    public void maxShouldBe(String val) {
-        inputElement().shouldBe(Condition.attribute("max", val));
+    public void shouldHaveMax(String max) {
+        inputElement().shouldBe(Condition.attribute("max", max));
     }
 
     @Override
-    public void stepShouldBe(String val) {
-        inputElement().shouldBe(Condition.attribute("step", val));
+    public void shouldHaveStep(String step) {
+        inputElement().shouldBe(Condition.attribute("step", step));
     }
 
     private SelenideElement inputElement() {
