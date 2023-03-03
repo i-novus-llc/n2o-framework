@@ -54,8 +54,7 @@
                 <xs:attribute name="result-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг списка результатов.
-                            Для каждого провайдера данных свои значения по умолчанию
+                            Маппинг списка результатов
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -69,8 +68,7 @@
                 <xs:attribute name="count-mapping" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Маппинг общего количества записей.
-                            Для каждого провайдера данных свои значения по умолчанию
+                            Маппинг общего количества записей
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -199,7 +197,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="domain" type="dmn:domainType" default="string">
+                <xs:attribute name="domain" type="dmn:domainType">
                     <xs:annotation>
                         <xs:documentation>
                             Тип данных
@@ -285,7 +283,7 @@
             <xs:annotation>
                 <xs:documentation>
                     Маппинг значения фильтра в поле провайдера.
-                    По умолчанию: идентификатор фильтра
+                    По умолчанию: значение `filter-id`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -293,14 +291,14 @@
             <xs:annotation>
                 <xs:documentation>
                     Тип, в который будет сконвертировано значение фильтра.
-                    По умолчанию: domain от field с преобразованием в список для множественных типов
+                    По умолчанию: Значение `domain` от `<field>`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="default-value" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Значение, по которому будет идти постоянная фильтрация, если для фильтра не передано значение
+                    Значение, которое будет использоваться, если значение фильтра не передано
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -337,7 +335,7 @@
             <xs:annotation>
                 <xs:documentation>
                     Маппинг данных поля из провайдера.
-                    По умолчанию: идентификатор поля
+                    По умолчанию: значение `id`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
