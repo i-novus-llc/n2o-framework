@@ -19,8 +19,7 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     @Override
-    public void val(String value) {
-        element().click();
+    public void setValue(String value) {
         inputElement().setValue(value);
     }
 
@@ -31,18 +30,20 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void clear() {
-        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        inputElement().clear();
     }
 
     @Override
     public void addTag(String value) {
-        val(value);
+        click();
+        setValue(value);
         inputElement().sendKeys(Keys.chord(Keys.ENTER));
     }
 
     @Override
     public void removeTag(String value) {
-        element().$$(".selected-item").findBy(Condition.text(value)).$("button").click();
+        element().$$(".selected-item")
+                .findBy(Condition.text(value)).$("button").click();
     }
 
     @Override
@@ -59,7 +60,9 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void shouldHaveDropdownOptions(String... values) {
-        element().parent().$$(".n2o-dropdown-control .text-cropped").shouldHave(CollectionCondition.texts(values));
+        element().parent()
+                .$$(".n2o-dropdown-control .text-cropped")
+                .shouldHave(CollectionCondition.texts(values));
     }
 
     @Override
@@ -72,7 +75,11 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void chooseDropdownOption(String value) {
-        element().parent().$$(".n2o-dropdown-control button").find(Condition.text(value)).shouldBe(Condition.exist).click();
+        element().parent()
+                .$$(".n2o-dropdown-control button")
+                .find(Condition.text(value))
+                .shouldBe(Condition.exist)
+                .click();
     }
 
     private SelenideElement inputElement() {

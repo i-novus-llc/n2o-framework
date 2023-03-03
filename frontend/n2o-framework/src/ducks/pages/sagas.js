@@ -17,7 +17,14 @@ import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { setGlobalLoading, changeRootPage, rootPageSelector } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
-import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
+import {
+    clearModel,
+    removeAllModel,
+    removeModel,
+    setModel,
+    updateMapModel,
+    updateModel,
+} from '../models/store'
 import { modelsSelector } from '../models/selectors'
 
 import { mapPageQueryToUrl } from './sagas/restoreFilters'
@@ -170,6 +177,13 @@ export function* watchEvents() {
  */
 export default apiProvider => [
     takeEvery(metadataRequest, getMetadata, apiProvider),
-    debounce(100, [setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchEvents),
+    debounce(100, [
+        setModel,
+        removeModel,
+        removeAllModel,
+        clearModel,
+        updateModel,
+        updateMapModel,
+    ], watchEvents),
     throttle(500, MAP_URL, processUrl),
 ]

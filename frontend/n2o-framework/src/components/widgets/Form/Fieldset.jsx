@@ -206,7 +206,6 @@ class Fieldset extends React.Component {
             modelPrefix,
             autoSubmit,
             activeModel,
-            activeField,
             onChange,
             onBlur,
         } = this.props
@@ -228,7 +227,6 @@ class Fieldset extends React.Component {
                 modelPrefix={modelPrefix}
                 disabled={!enabled}
                 autoSubmit={autoSubmit}
-                activeField={activeField}
                 onChange={onChange}
                 onBlur={onBlur}
                 {...props}
@@ -327,7 +325,6 @@ Fieldset.propTypes = {
     activeModel: PropTypes.object,
     style: PropTypes.object,
     autoSubmit: PropTypes.bool,
-    activeField: PropTypes.string,
     help: PropTypes.string,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,

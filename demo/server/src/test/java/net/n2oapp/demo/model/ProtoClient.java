@@ -2,7 +2,6 @@ package net.n2oapp.demo.model;
 
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
-import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 
@@ -40,7 +39,7 @@ public class ProtoClient extends BaseSimplePage {
     }
 
     public void birthdayValue(String value) {
-        getFields().field("Дата рождения").control(DateInput.class).val(value);
+        getFields().field("Дата рождения").control(DateInput.class).setValue(value);
     }
 
     public void birthdayShouldBeDisabled() {

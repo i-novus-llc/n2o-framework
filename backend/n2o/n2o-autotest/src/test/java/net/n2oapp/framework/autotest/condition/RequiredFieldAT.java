@@ -53,7 +53,8 @@ public class RequiredFieldAT extends AutoTestBase {
         InputText inputTextSurname = surNameField.control(InputText.class);
         inputTextSurname.shouldExists();
         inputTextSurname.shouldBeEnabled();
-        inputTextSurname.val("Фамилия");
+        inputTextSurname.click();
+        inputTextSurname.setValue("Фамилия");
 
         StandardButton button = formWidget.toolbar().bottomLeft().button("Создать");
         button.shouldBeEnabled();
@@ -64,7 +65,8 @@ public class RequiredFieldAT extends AutoTestBase {
         InputText inputTextName = nameField.control(InputText.class);
         inputTextName.shouldExists();
         inputTextName.shouldBeEnabled();
-        inputTextName.val("Имя");
+        inputTextName.click();
+        inputTextName.setValue("Имя");
 
         button.click();
 

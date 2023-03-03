@@ -11,10 +11,9 @@ import java.io.File;
  */
 public class N2oFileUploadCell extends N2oCell implements FileUploadCell {
 
-
     @Override
     public void shouldBeEmpty() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -34,18 +33,18 @@ public class N2oFileUploadCell extends N2oCell implements FileUploadCell {
     }
 
     @Override
-    public void uploadFilesShouldBe(int size) {
+    public void uploadFileShouldHaveSize(int size) {
         element().parent().$$(".n2o-file-uploader-files-item").shouldHave(CollectionCondition.size(size));
     }
 
     @Override
-    public void uploadFileNameShouldBe(int index, String fileName) {
+    public void uploadFileShouldHaveName(int index, String fileName) {
         element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-file-name")
                 .get(index).shouldHave(Condition.text(fileName));
     }
 
     @Override
-    public void uploadFileSizeShouldBe(int index, String fileSize) {
+    public void uploadFileShouldHaveSize(int index, String fileSize) {
         element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-item-size")
                 .get(index).shouldHave(Condition.text(fileSize));
     }

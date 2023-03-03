@@ -11,7 +11,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -53,19 +52,19 @@ public class SwitchCaseActionAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().row(1).click();
         button.click();
-        page.urlShouldMatches(getBaseUrl() + "/#/type1");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/type1");
         page.breadcrumb().crumb(0).click();
 
         table.shouldExists();
         table.columns().rows().row(3).click();
         button.click();
-        page.urlShouldMatches(getBaseUrl() + "/#/type2");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/type2");
         page.breadcrumb().crumb(0).click();
 
         table.shouldExists();
         table.columns().rows().row(2).click();
         button.click();
-        page.urlShouldMatches("https://example.com/");
+        page.shouldHaveUrlLike("https://example.com/");
     }
 
     @Test
@@ -77,28 +76,28 @@ public class SwitchCaseActionAT extends AutoTestBase {
         TableWidget table = page.widget(TableWidget.class);
 
         table.shouldExists();
-        table.columns().rows().row(1).cell(1).textShouldHave("1");
+        table.columns().rows().row(1).cell(1).shouldHaveText("1");
         table.columns().rows().row(1).shouldBeClickable();
         table.columns().rows().row(1).click();
         page.shouldExists();
-        page.urlShouldMatches(getBaseUrl() + "/#/type1");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/type1");
         page.breadcrumb().crumb(0).click();
 
         page.shouldExists();
         table.shouldExists();
-        table.columns().rows().row(3).cell(1).textShouldHave("2");
+        table.columns().rows().row(3).cell(1).shouldHaveText("2");
         table.columns().rows().row(3).shouldBeClickable();
         table.columns().rows().row(3).click();
         page.shouldExists();
-        page.urlShouldMatches(getBaseUrl() + "/#/type2");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/type2");
         page.breadcrumb().crumb(0).click();
 
         page.shouldExists();
         table.shouldExists();
-        table.columns().rows().row(2).cell(1).textShouldHave("3");
+        table.columns().rows().row(2).cell(1).shouldHaveText("3");
         table.columns().rows().row(2).shouldBeClickable();
         table.columns().rows().row(2).click();
         page.shouldExists();
-        page.urlShouldMatches("https://example.com/");
+        page.shouldHaveUrlLike("https://example.com/");
     }
 }

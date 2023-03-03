@@ -30,8 +30,8 @@ public class N2oRadioGroup extends N2oControl implements RadioGroup {
     }
 
     @Override
-    public void shouldHaveOptions(String... options) {
-        element().$$(".n2o-radio-input").shouldHave(CollectionCondition.exactTexts(options));
+    public void shouldHaveOptions(String... labels) {
+        element().$$(".n2o-radio-input").shouldHave(CollectionCondition.exactTexts(labels));
     }
 
     @Override

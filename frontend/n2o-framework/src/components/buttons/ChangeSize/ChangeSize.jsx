@@ -40,8 +40,8 @@ ChangeSizeComponent.propTypes = {
     size: PropTypes.number,
 }
 
-const mapStateToProps = (state, props) => ({
-    size: makeWidgetSizeSelector(props.entityKey)(state),
+const mapStateToProps = (state, { entityKey: widgetId }) => ({
+    size: makeWidgetSizeSelector(widgetId)(state),
 })
 
 const ChangeSize = connect(mapStateToProps)(ChangeSizeComponent)

@@ -28,10 +28,11 @@ public abstract class StringUtils {
      * Проверка, что строка - настройка
      * Примеры:
      * {@code
-     *      isProperty("${prop}");      //true
-     *      isProperty("prop");         //false
-     *      isProperty("{prop}");       //false
-     *      }
+     * isProperty("${prop}");      //true
+     * isProperty("prop");         //false
+     * isProperty("{prop}");       //false
+     * }
+     *
      * @param s - строка
      * @return Да (true), нет (false)
      */
@@ -43,11 +44,12 @@ public abstract class StringUtils {
      * Проверка, что текст содержит настройки
      * Примеры:
      * {@code
-     *      hasProperty("${prop}");             //true
-     *      hasProperty("ab ${prop} cd");       //true
-     *      hasProperty("abcd");                //false
-     *      hasProperty("ab {prop} cd");        //false
-     *      }
+     * hasProperty("${prop}");             //true
+     * hasProperty("ab ${prop} cd");       //true
+     * hasProperty("abcd");                //false
+     * hasProperty("ab {prop} cd");        //false
+     * }
+     *
      * @param text Текст
      * @return Содержит (true) или нет (false)
      */
@@ -58,9 +60,10 @@ public abstract class StringUtils {
     /**
      * Проверка, что строка - это контекст
      * Примеры:
-     *      isContext("#{username}");       //true
-     *      isContext("username");          //false
-     *      isContext("{username}");        //false
+     * isContext("#{username}");       //true
+     * isContext("username");          //false
+     * isContext("{username}");        //false
+     *
      * @param s - строка
      * @return true - контекст, false - не контекст
      */
@@ -71,10 +74,11 @@ public abstract class StringUtils {
     /**
      * Проверка, что строка содержит контекст
      * Примеры:
-     *      hasContext("#{username}");             //true
-     *      hasContext("ab #{username} cd");       //true
-     *      hasContext("ab username cd");          //false
-     *      hasContext("ab {username} cd");        //false
+     * hasContext("#{username}");             //true
+     * hasContext("ab #{username} cd");       //true
+     * hasContext("ab username cd");          //false
+     * hasContext("ab {username} cd");        //false
+     *
      * @param text Текст
      * @return Содержит (true) или нет (false)
      */
@@ -86,10 +90,11 @@ public abstract class StringUtils {
      * Проверка, что значение - ссылка.
      * Примеры:
      * {@code
-     *      isLink("{abc}");        //true
-     *      isLink("abc");          //false
-     *      isLink("{"a" : "b"}");  //false
+     * isLink("{abc}");        //true
+     * isLink("abc");          //false
+     * isLink("{"a" : "b"}");  //false
      * }
+     *
      * @param value Значение
      * @return Является ссылкой (true)
      */
@@ -111,10 +116,11 @@ public abstract class StringUtils {
      * Проверка, что строка окаймлена экранированными символами
      * Примеры:
      * {@code
-     *      isEscapedString("'true'");  //true
-     *      isEscapedString("'123'");   //true
-     *      isEscapedString("true");    //false
+     * isEscapedString("'true'");  //true
+     * isEscapedString("'123'");   //true
+     * isEscapedString("true");    //false
      * }
+     *
      * @param text Текст
      * @return
      */
@@ -136,9 +142,10 @@ public abstract class StringUtils {
      * Проверка, что значение - json(то есть обрамлено двойными {{ }} )
      * Примеры:
      * {@code
-     *      isJson("{{"a" : "b"}}");        //true
-     *      isJson("{"a" : "b"}");          //false
+     * isJson("{{"a" : "b"}}");        //true
+     * isJson("{"a" : "b"}");          //false
      * }
+     *
      * @param value Значение
      * @return Является json (true)
      */
@@ -150,11 +157,12 @@ public abstract class StringUtils {
      * Проверка, что строка содержит ссылку.
      * Примеры:
      * {@code
-     *      hasLink("{username}");               //true
-     *      hasLink("ab {username} cd");         //true
-     *      hasLink("ab username cd");           //false
-     *      hasLink("ab ${username} cd");        //false
-     *      }
+     * hasLink("{username}");               //true
+     * hasLink("ab {username} cd");         //true
+     * hasLink("ab username cd");           //false
+     * hasLink("ab ${username} cd");        //false
+     * }
+     *
      * @param text Текст
      * @return Содержит (true) или нет (false)
      */
@@ -166,10 +174,11 @@ public abstract class StringUtils {
      * Проверка, что строка - javaScript выражение
      * Примеры:
      * {@code
-     *      isJs("`1 == 1`");       //true
-     *      isJs("{1 == 1}");       //false
-     *      isJs("1 == 1");         //false
-     *      }
+     * isJs("`1 == 1`");       //true
+     * isJs("{1 == 1}");       //false
+     * isJs("1 == 1");         //false
+     * }
+     *
      * @param s - строка
      * @return true - javaScript выражение, false - не javaScript выражение
      */
@@ -185,9 +194,10 @@ public abstract class StringUtils {
      * Проверка, что строка - javaScript функция
      * Примеры:
      * {@code
-     *      isFunction("now()");    //true
-     *      isFunction("now");      //false
-     *      }
+     * isFunction("now()");    //true
+     * isFunction("now");      //false
+     * }
+     *
      * @param s - строка
      * @return true - javaScript функция, false - не javaScript функция
      */
@@ -201,6 +211,7 @@ public abstract class StringUtils {
 
     /**
      * Проверка, что значение - динамическое (определяется на клиенте)
+     *
      * @param value Значение
      * @return true - динамическое, false - не динамическое
      */
@@ -213,7 +224,8 @@ public abstract class StringUtils {
 
     /**
      * Заменить в тексте плейсхолдеры с настройками
-     * @param text Текст с плейсхолдерами ${...}
+     *
+     * @param text       Текст с плейсхолдерами ${...}
      * @param properties Значения свойств
      * @return Текст без плейсхолдеров
      */
@@ -223,7 +235,8 @@ public abstract class StringUtils {
 
     /**
      * Заменить в тексте плейсхолдеры с настройками
-     * @param text Текст с плейсхолдерами ${...}
+     *
+     * @param text       Текст с плейсхолдерами ${...}
      * @param properties Функция для получения зачений свойств
      * @return Текст без плейсхолдеров
      */
@@ -233,7 +246,8 @@ public abstract class StringUtils {
 
     /**
      * Заменить в тексте плейсхолдеры с контекстом
-     * @param text Текст с плейсхолдерами #{...}
+     *
+     * @param text    Текст с плейсхолдерами #{...}
      * @param context Контекст
      * @return Текст без плейсхолдеров
      */
@@ -247,6 +261,7 @@ public abstract class StringUtils {
 
     /**
      * Заменить в тексте плейсхолдеры с ссылками
+     *
      * @param text Текст с плейсхолдерами {...}
      * @param data Значения ссылок
      * @return Текст без плейсхолдеров
@@ -257,6 +272,7 @@ public abstract class StringUtils {
 
     /**
      * Заменить в тексте плейсхолдеры с ссылками
+     *
      * @param text Текст с плейсхолдерами {...}
      * @param data Функция для получения значений ссылок
      * @return Текст без плейсхолдеров
@@ -267,6 +283,7 @@ public abstract class StringUtils {
 
     /**
      * Собрать в тексте плейсхолдеры с ссылками
+     *
      * @param text Текст с плейсхолдерами {...}
      * @return Список параметров из плейсхолдеров
      */
@@ -276,8 +293,9 @@ public abstract class StringUtils {
 
     /**
      * Сравнивает строку на соответствие маске
+     *
      * @param mask - маска (* - любые символы)
-     * @param val - сравниваемое значение
+     * @param val  - сравниваемое значение
      * @return - результат сравнения
      */
     public static boolean maskMatch(String mask, String val) {
@@ -288,6 +306,7 @@ public abstract class StringUtils {
 
     /**
      * Конвертирует маску в RegEx
+     *
      * @param mask - маска (* - любые символы)
      * @return - регулярное выражение
      */
@@ -317,6 +336,7 @@ public abstract class StringUtils {
 
     /**
      * Убирает переводы на новую строку, пробелы в начале и в конце
+     *
      * @param str Строка
      * @return Строка без начальных и конечныъх переводов на новую строку и пробелов
      */
@@ -340,7 +360,21 @@ public abstract class StringUtils {
             return false;
         return str.contains("*");
     }
+
     public static boolean isEmpty(@Nullable Object str) {
         return (str == null || "".equals(str));
+    }
+
+    public static boolean isSpel(String str) {
+        if (str == null)
+            return false;
+        return str.startsWith("[") && str.endsWith("]");
+    }
+
+    public static String unwrapSpel(String str) {
+        if (!isSpel(str))
+            return str;
+        int num = str.contains("'") ? 2 : 1;
+        return str.substring(num, str.length() - num);
     }
 }

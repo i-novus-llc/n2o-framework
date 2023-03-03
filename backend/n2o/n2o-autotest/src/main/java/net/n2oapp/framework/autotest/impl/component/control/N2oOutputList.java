@@ -37,7 +37,7 @@ public class N2oOutputList extends N2oControl implements OutputList {
     }
 
     @Override
-    public void linkShouldHaveValue(String itemValue, String link) {
+    public void shouldHaveLink(String itemValue, String link) {
         element().$$(".n2o-output-list__item--link").find(Condition.text(itemValue))
                 .shouldHave(Condition.attribute("href", link));
     }

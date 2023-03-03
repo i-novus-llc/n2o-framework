@@ -44,7 +44,7 @@ public class FieldsEnablingAT extends AutoTestBase {
     public void fieldsEnablingTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступность полей");
 
         RadioGroup radioGroup = page.widget(FormWidget.class).fields().field("Пол")

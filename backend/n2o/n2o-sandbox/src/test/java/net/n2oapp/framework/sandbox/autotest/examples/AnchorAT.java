@@ -45,7 +45,7 @@ public class AnchorAT extends AutoTestBase {
     public void externalLinkTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Поиск в яндексе");
 
         Button button = page.widget(FormWidget.class).toolbar().bottomLeft()
@@ -57,12 +57,13 @@ public class AnchorAT extends AutoTestBase {
         inputText.shouldExists();
         inputText.shouldBeEmpty();
 
-        inputText.val("yandex");
+        inputText.click();
+        inputText.setValue("yandex");
         inputText.shouldHaveValue("yandex");
         button.click();
 
         Selenide.switchTo().window(1);
-        page.urlShouldMatches("https://yandex.ru.*");
+        page.shouldHaveUrlLike("https://yandex.ru.*");
         Selenide.closeWindow();
     }
 }

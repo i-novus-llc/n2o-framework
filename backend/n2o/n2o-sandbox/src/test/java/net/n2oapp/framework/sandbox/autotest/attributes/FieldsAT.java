@@ -54,7 +54,7 @@ public class FieldsAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к полям по sec атрибутам");
 
         Fields fields = page.widget(FormWidget.class).fields();
@@ -74,7 +74,7 @@ public class FieldsAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к полям по sec атрибутам");
 
         Fields fields = page.widget(FormWidget.class).fields();

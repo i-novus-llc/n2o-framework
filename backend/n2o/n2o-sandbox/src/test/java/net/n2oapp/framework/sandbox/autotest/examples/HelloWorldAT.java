@@ -43,7 +43,7 @@ public class HelloWorldAT extends AutoTestBase {
     public void testHelloWorldPage() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Моя первая страница");
         page.widget(FormWidget.class).fields().field(0, Text.class).shouldHaveText("Привет Мир!");
     }

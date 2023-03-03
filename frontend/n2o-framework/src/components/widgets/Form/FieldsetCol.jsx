@@ -27,7 +27,6 @@ function FieldsetColComponent({
     colVisible,
     disabled,
     autoSubmit,
-    activeField,
     onChange,
     onBlur,
 }) {
@@ -56,7 +55,6 @@ function FieldsetColComponent({
                                 parentIndex={parentIndex}
                                 disabled={disabled}
                                 autoSubmit={autoSubmit}
-                                active={activeField === field.id}
                                 onChange={onChange}
                                 onBlur={onBlur}
                                 {...field}
@@ -130,7 +128,6 @@ FieldsetColComponent.propTypes = {
     colVisible: PropTypes.bool,
     disabled: PropTypes.bool,
     autoSubmit: PropTypes.bool,
-    activeField: PropTypes.string,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
 }

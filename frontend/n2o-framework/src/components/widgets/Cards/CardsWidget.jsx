@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
@@ -8,6 +9,8 @@ import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { WithActiveModel } from '../Widget/WithActiveModel'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { ModelPrefix } from '../../../core/datasource/const'
 
 import CardsContainer from './CardsContainer'
 
@@ -18,11 +21,12 @@ function CardsWidget(props) {
         toolbar, disabled, className,
         style, filter, paging, loading,
         cards, verticalAlign, height,
-        size, count, models, page, setPage,
+        size, count, page, setPage,
     } = props
     const { place = 'bottomLeft' } = paging
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
     const pagination = {
         [place]: (
             <N2OPagination
@@ -30,7 +34,7 @@ function CardsWidget(props) {
                 size={size}
                 count={count}
                 activePage={page}
-                datasource={models.datasource}
+                datasource={datasourceModel}
                 setPage={setPage}
             />
         ),

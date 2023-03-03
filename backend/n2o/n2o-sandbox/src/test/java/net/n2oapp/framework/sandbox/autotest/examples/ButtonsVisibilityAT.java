@@ -44,7 +44,7 @@ public class ButtonsVisibilityAT extends AutoTestBase {
     public void buttonsVisibilityTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Скрытие кнопок");
 
         RadioGroup radioGroup = page.widget(FormWidget.class).fields().field("Пол")

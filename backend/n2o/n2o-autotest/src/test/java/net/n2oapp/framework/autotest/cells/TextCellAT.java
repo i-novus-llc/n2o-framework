@@ -48,26 +48,26 @@ public class TextCellAT extends AutoTestBase {
         rows.shouldHaveSize(3);
 
         TextCell cell1 = rows.row(0).cell(1);
-        cell1.textShouldHave("test1");
-        cell1.subTextShouldHave("1,1");
+        cell1.shouldHaveText("test1 1,1");
+        cell1.shouldHaveSubText("1,1");
         cell1.shouldHaveIcon("fa-plus");
-        cell1.shouldBeIconPosition(Position.RIGHT);
+        cell1.shouldHaveIconPosition(Position.RIGHT);
 
         TextCell cell2 = rows.row(0).cell(2);
-        cell2.textShouldHave("1,23");
+        cell2.shouldHaveText("1,23");
         cell2.shouldHaveIcon("fa-plus");
-        cell2.shouldBeIconPosition(Position.LEFT);
+        cell2.shouldHaveIconPosition(Position.LEFT);
 
         cell1 = rows.row(1).cell(1);
-        cell1.textShouldHave("test1test2test3");
-        cell1.subTextShouldHave("");
+        cell1.shouldHaveText("test1test2test3");
+        cell1.shouldHaveSubText("");
         cell2 = rows.row(1).cell(2);
-        cell2.textShouldHave("2,35");
+        cell2.shouldHaveText("2,35");
 
         cell1 = rows.row(2).cell(1);
-        cell1.textShouldHave("test3");
-        cell1.subTextShouldHave("1,1", "2,2", "3,3");
+        cell1.shouldHaveText("test3 1,1 2,2 3,3");
+        cell1.shouldHaveSubText("1,1", "2,2", "3,3");
         cell2 = rows.row(2).cell(2);
-        cell2.textShouldHave("3,46");
+        cell2.shouldHaveText("3,46");
     }
 }

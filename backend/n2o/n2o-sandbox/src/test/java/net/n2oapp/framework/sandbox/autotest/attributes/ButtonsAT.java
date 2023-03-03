@@ -54,7 +54,7 @@ public class ButtonsAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.widget(FormWidget.class).shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по sec атрибутам");
 
@@ -83,7 +83,7 @@ public class ButtonsAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.widget(FormWidget.class).shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по sec атрибутам");
 

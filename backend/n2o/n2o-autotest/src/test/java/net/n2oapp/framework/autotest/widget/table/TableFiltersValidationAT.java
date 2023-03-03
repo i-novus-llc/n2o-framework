@@ -66,30 +66,36 @@ public class TableFiltersValidationAT extends AutoTestBase {
         id.shouldHaveValidationMessage(Condition.text("поле должно быть равным 1 или 2"));
         eq.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
-        id.control(InputText.class).val("1");
+        id.control(InputText.class).click();
+        id.control(InputText.class).setValue("1");
         id.shouldHaveValidationMessage(Condition.empty);
         like.control(InputText.class).shouldExists();
         like.shouldBeRequired();
         like.shouldHaveValidationMessage(Condition.empty);
+        like.control(InputText.class).click();
         like.control(InputText.class).clear();
         like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        like.control(InputText.class).val("test");
+        like.control(InputText.class).click();
+        like.control(InputText.class).setValue("test");
         like.shouldHaveValidationMessage(Condition.empty);
 
-        id.control(InputText.class).val("2");
+        id.control(InputText.class).click();
+        id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.empty);
         tableWidget.filters().search();
         like.shouldHaveValidationMessage(Condition.empty);
         tableWidget.filters().clear();
-        id.control(InputText.class).val("2");
+        id.control(InputText.class).click();
+        id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.empty);
         tableWidget.filters().search();
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
-        eq.control(InputText.class).val("test1");
+        eq.control(InputText.class).click();
+        eq.control(InputText.class).setValue("test1");
         eq.shouldHaveValidationMessage(Condition.empty);
     }
 
@@ -108,9 +114,10 @@ public class TableFiltersValidationAT extends AutoTestBase {
         verifyNeverGetDataInvocation("Запрос за данными таблицы при валидации фильтров");
 
         InputText inputText = field.control(InputText.class);
-        inputText.val("test1");
+        inputText.click();
+        inputText.setValue("test1");
         tableWidget.filters().toolbar().button("Найти").click();
-        tableWidget.columns().rows().row(0).cell(0).textShouldHave("test1");
+        tableWidget.columns().rows().row(0).cell(0).shouldHaveText("test1");
     }
 
     private void verifyNeverGetDataInvocation(String errorMessage) {

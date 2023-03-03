@@ -376,7 +376,12 @@ public class InvocationProcessorTest {
         simpleListChildField2.setId("name");
         simpleListChildField2.setNormalize("#this.toUpperCase()");
 
-        listField.setFields(new AbstractParameter[]{simpleListChildField1, simpleListChildField2});
+        //Inner simple3
+        ObjectSimpleField simpleListChildField3 = new ObjectSimpleField();
+        simpleListChildField3.setId("name2");
+        simpleListChildField3.setNormalize("#data['name']");
+
+        listField.setFields(new AbstractParameter[]{simpleListChildField1, simpleListChildField2, simpleListChildField3});
 
         //Out simple fields
         ObjectSimpleField simpleOutId = new ObjectSimpleField();
@@ -385,6 +390,9 @@ public class InvocationProcessorTest {
         ObjectSimpleField simpleOutName = new ObjectSimpleField();
         simpleOutName.setId("name");
         simpleOutName.setMapping("['employees[0].name']");
+        ObjectSimpleField simpleOutName2 = new ObjectSimpleField();
+        simpleOutName2.setId("name2");
+        simpleOutName2.setMapping("['employees[0].name2']");
         ObjectSimpleField simpleOutSize = new ObjectSimpleField();
         simpleOutSize.setId("processedListSize");
         simpleOutSize.setMapping("['employees'].size()");
@@ -404,9 +412,10 @@ public class InvocationProcessorTest {
         DataSet dataSet = new DataSet("employees", dataList);
 
         DataSet result = invocationProcessor.invoke(invocation, dataSet, singletonList(listField),
-                Arrays.asList(simpleOutId, simpleOutName, simpleOutSize));
+                Arrays.asList(simpleOutId, simpleOutName, simpleOutName2, simpleOutSize));
         assertThat(result.getInteger("id"), is(102));
         assertThat(result.getString("name"), is("TEST2"));
+        assertThat(result.getString("name2"), is("test2"));
         assertThat(result.getInteger("processedListSize"), is(1));
     }
 

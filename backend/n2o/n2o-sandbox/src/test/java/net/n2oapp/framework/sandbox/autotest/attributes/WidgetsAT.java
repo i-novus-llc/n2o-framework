@@ -55,7 +55,7 @@ public class WidgetsAT extends AutoTestBase {
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к виджетам по sec атрибутам");
 
         Regions regions = page.regions();
@@ -79,7 +79,7 @@ public class WidgetsAT extends AutoTestBase {
 
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к виджетам по sec атрибутам");
 
         Regions regions = page.regions();

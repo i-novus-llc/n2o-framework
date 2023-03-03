@@ -5,15 +5,35 @@ package net.n2oapp.framework.autotest.api.component.control;
  */
 public interface PasswordControl extends Control {
 
-    String val();
+    /**
+     * @return Значение из поля
+     */
+    String getValue();
 
-    void val(String value);
+    /**
+     * Ввод значение в поле
+     * @param value вводимое значение
+     */
+    void setValue(String value);
 
+    /**
+     * Проверка соответствия текста подсказки для ввода
+     * @param value ожидаемый текст
+     */
     void shouldHavePlaceholder(String value);
 
+    /**
+     * Клик по кнопке отображения пароля
+     */
     void clickEyeButton();
 
-    void passwordShouldBeVisible();
+    /**
+     * Проверка того, что пароль виден
+     */
+    void shouldHaveVisiblePassword();
 
-    void passwordShouldNotBeVisible();
+    /**
+     * Проверка того, что пароль не виден
+     */
+    void shouldNotHaveVisiblePassword();
 }

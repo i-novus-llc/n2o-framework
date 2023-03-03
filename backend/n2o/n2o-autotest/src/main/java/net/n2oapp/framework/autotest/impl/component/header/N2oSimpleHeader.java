@@ -19,7 +19,7 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
     }
 
     @Override
-    public void brandNameShouldBe(String brandName) {
+    public void shouldHaveBrandName(String brandName) {
         element().$$(".navbar-brand").filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(0)
                 .shouldHave(Condition.text(brandName));
     }
@@ -42,7 +42,7 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
     }
 
     @Override
-    public void sidebarSwitcherShouldExists() {
+    public void shouldHaveSidebarSwitcher() {
         element().$(".n2o-sidebar-switcher").should(Condition.exist);
     }
 

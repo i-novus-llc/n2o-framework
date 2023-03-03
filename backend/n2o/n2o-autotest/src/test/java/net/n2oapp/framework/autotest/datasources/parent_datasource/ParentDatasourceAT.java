@@ -2,8 +2,6 @@ package net.n2oapp.framework.autotest.datasources.parent_datasource;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
-import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
-import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
@@ -18,8 +16,6 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 /**
  * Тестирование parent-datasource
@@ -64,9 +60,9 @@ public class ParentDatasourceAT extends AutoTestBase {
         TableWidget.Rows rows = modalPage.content(StandardPage.class).regions().region(0, SimpleRegion.class).content()
                 .widget(1, TableWidget.class).columns().rows();
         rows.shouldHaveSize(3);
-        rows.row(0).cell(0).textShouldHave("1");
-        rows.row(1).cell(0).textShouldHave("2");
-        rows.row(2).cell(0).textShouldHave("3");
+        rows.row(0).cell(0).shouldHaveText("1");
+        rows.row(1).cell(0).shouldHaveText("2");
+        rows.row(2).cell(0).shouldHaveText("3");
     }
 }
 

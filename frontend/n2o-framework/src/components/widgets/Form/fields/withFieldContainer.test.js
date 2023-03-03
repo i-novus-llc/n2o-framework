@@ -1,8 +1,6 @@
 import React from 'react'
-import sinon from 'sinon'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
-import { reduxForm } from 'redux-form'
 
 import { registerFieldExtra } from '../../../../ducks/form/store'
 
@@ -11,9 +9,7 @@ import withFieldContainer from './withFieldContainer'
 const NullComponent = () => null
 
 function setupToProvider(props, overrideStore) {
-    const TestComponent = reduxForm({ form: 'formName' })(
-        withFieldContainer(NullComponent),
-    )
+    const TestComponent = withFieldContainer(NullComponent)
 
     const mockStore = configureMockStore()
     const store = mockStore({
@@ -41,12 +37,8 @@ describe('withFieldContainer', () => {
             disabled: true,
             dependency: 'test',
             required: true,
-            meta: {
-                form: 'formName',
-            },
-            input: {
-                name: 'testName',
-            },
+            form: 'formName',
+            name: 'testName',
         }
 
         const { store } = setupToProvider(testPropsData, {

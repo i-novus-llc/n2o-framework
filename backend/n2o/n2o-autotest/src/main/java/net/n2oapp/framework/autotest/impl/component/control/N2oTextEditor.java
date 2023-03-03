@@ -15,14 +15,21 @@ public class N2oTextEditor extends N2oControl implements TextEditor {
     }
 
     @Override
-    public void val(String value) {
-        SelenideElement element = element().$(".public-DraftEditor-content");
-        element.click();
-        element.setValue(value);
+    public void setValue(String value) {
+        editor().setValue(value);
+    }
+
+    @Override
+    public void click() {
+        editor().click();
     }
 
     @Override
     public void shouldHaveValue(String value) {
         element().shouldHave(Condition.text(value));
+    }
+
+    private SelenideElement editor() {
+        return element().$(".public-DraftEditor-content");
     }
 }

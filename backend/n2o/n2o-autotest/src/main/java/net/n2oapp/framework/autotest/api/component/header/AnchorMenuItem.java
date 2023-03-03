@@ -7,15 +7,37 @@ import net.n2oapp.framework.autotest.api.component.badge.Badge;
  */
 public interface AnchorMenuItem extends MenuItem, Badge {
 
+    /**
+     * Проверка наличия иконки
+     */
     void shouldHaveIcon();
 
-    void iconShouldHaveCssClass(String clazz);
+    /**
+     * Проверка иконки на соответствие
+     * @param cssClass ожидаемый класс иконки
+     */
+    void shouldHaveIconCssClass(String cssClass);
 
+    /**
+     * Проверка наличия баджа внутри кнопки
+     */
     void shouldHaveBadge();
 
-    void badgeShouldHaveValue(String value);
+    /**
+     * Проверка текста баджа на соответствие
+     * @param text ожидаемый текст баджа
+     */
+    void shouldHaveBadgeText(String text);
 
-    void badgeColorShouldHaveValue(String value);
+    /**
+     * Проверка цвета баджа на соответствие
+     * @param color ожидаемый текст баджа
+     */
+    void shouldHaveBadgeColor(String color);
 
-    void urlShouldHave(String url);
+    /**
+     * Проверка ссылки на соответствие
+     * @param url ожидаемая ссылка
+     */
+    void shouldHaveUrl(String url);
 }

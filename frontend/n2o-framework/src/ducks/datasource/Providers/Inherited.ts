@@ -3,11 +3,11 @@ import { get, cloneDeep, set } from 'lodash'
 
 import { dataSourceByIdSelector } from '../selectors'
 import type { QueryOptions, InheritedProvider, InheritedSubmit } from '../Provider'
-import type { DataSourceState } from '../DataSource'
-import { makeGetModelByPrefixSelector } from '../../models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { setModel, removeModel } from '../../models/store'
 import evalExpression from '../../../utils/evalExpression'
 import { State } from '../../State'
+import { DataSourceState } from '../DataSource'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
@@ -20,8 +20,8 @@ export function* submit(id: string, {
     targetField,
     submitValueExpression,
 }: InheritedSubmit) {
-    const sourceModel = cloneDeep((yield select(makeGetModelByPrefixSelector(prefix, id))) as object)
-    const targetModel = cloneDeep((yield select(makeGetModelByPrefixSelector(prefix, targetId))) as object | void)
+    const sourceModel: object = yield select(getModelByPrefixAndNameSelector(prefix, id))
+    const targetModel: object = yield select(getModelByPrefixAndNameSelector(prefix, targetId))
     let source: void | object = sourceModel
 
     if (submitValueExpression) {
@@ -57,7 +57,7 @@ export function* query(id: string, {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
     const { sorting, paging: { size, page } } = datasource
 
-    const sourceModel: object | void = yield select(makeGetModelByPrefixSelector(prefix, datasourceId))
+    const sourceModel: object | void = yield select(getModelByPrefixAndNameSelector(prefix, datasourceId))
     const sourceData = cloneDeep(sourceField ? get(sourceModel, sourceField) : sourceModel)
 
     if (!sourceData) {
