@@ -450,6 +450,19 @@ class N2OSelect extends React.Component {
         return text
     }
 
+    renderValue() {
+        const { labelFieldId, placeholder = '' } = this.props
+        const { selected } = this.state
+
+        if (isEmpty(selected)) {
+            return placeholder
+        }
+
+        const [selectedElement] = selected
+
+        return selectedElement[labelFieldId]
+    }
+
     render() {
         const {
             loading,
@@ -502,7 +515,7 @@ class N2OSelect extends React.Component {
                             {
                                 hasCheckboxes
                                     ? this.renderPlaceholder()
-                                    : !isEmpty(selected) && selected[0][labelFieldId]
+                                    : this.renderValue()
                             }
                         </span>
                     </InputSelectGroup>
