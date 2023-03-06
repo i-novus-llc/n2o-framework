@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef } from 'react'
+import React, { useContext, useMemo, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import values from 'lodash/values'
 import { useSelector } from 'react-redux'
@@ -30,7 +30,8 @@ export const Form = (props) => {
     const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, formName))?.[0]
     const resolveModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, formName))
     const editModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.edit, formName))
-    const activeModelRef = useRef(modelPrefix === ModelPrefix.edit ? editModel : resolveModel)
+    // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
+    const activeModelRef = useRef(modelPrefix === ModelPrefix.edit ? (editModel || resolveModel) : resolveModel)
     const activeModel = useMemo(() => (
         modelPrefix === ModelPrefix.edit ? editModel : resolveModel
     ), [editModel, modelPrefix, resolveModel])
@@ -44,6 +45,10 @@ export const Form = (props) => {
     },
     [datasourceModel])
     const dirty = useSelector(isDirtyForm(formName))
+
+    useEffect(() => {
+        activeModelRef.current = modelPrefix === ModelPrefix.edit ? editModel : resolveModel
+    }, [activeModelRef, editModel, modelPrefix, resolveModel])
 
     return (
         <WidgetLayout
