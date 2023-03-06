@@ -86,6 +86,7 @@ public class FilterColumnAT extends AutoTestBase {
         // проверка фильтрации через списковое поле
         header3.openFilterDropdown();
         Select header3Input = header3.filterControl(Select.class);
+        header3Input.openPopup();
         header3Input.dropdown().selectItem(0);
         header3.clickSearchButton();
         rows.shouldHaveSize(2);
@@ -118,6 +119,7 @@ public class FilterColumnAT extends AutoTestBase {
         header2Input.setValue("1");
         header2.clickSearchButton();
         header3.openFilterDropdown();
+        header3Input.openPopup();
         header3Input.dropdown().selectItem(0);
         header3.clickSearchButton();
         rows.shouldHaveSize(1);
