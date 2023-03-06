@@ -95,6 +95,7 @@ public class ListFieldAT extends AutoTestBase {
         Pills pills = fields.field("pills").control(Pills.class);
 
         select.shouldSelected("test1");
+        select.openPopup();
         select.dropdown().shouldHaveOptions("test1", "test2", "test3", "test4");
         inputSelect.shouldBeEmpty();
         inputSelect.openPopup();

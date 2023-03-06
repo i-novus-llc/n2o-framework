@@ -86,16 +86,19 @@ public class FiltersInDrawerAT extends AutoTestBase {
 
         Select regionField = drawerForm.fields().field("Регион").control(Select.class);
         regionField.shouldExists();
+        regionField.openPopup();
         regionField.dropdown().selectItem(0);
         regionField.shouldSelected("Республика Татарстан");
 
         Select departmentField = drawerForm.fields().field("Отделение").control(Select.class);
         departmentField.shouldExists();
+        departmentField.openPopup();
         departmentField.dropdown().selectItem(0);
         departmentField.shouldSelected("МФЦ Авиастроительный отдел");
 
         Select statusField = drawerForm.fields().field("Статус").control(Select.class);
         statusField.shouldExists();
+        statusField.openPopup();
         statusField.dropdown().selectItem(0);
         statusField.shouldSelected("Новая");
 

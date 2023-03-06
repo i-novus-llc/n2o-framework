@@ -141,6 +141,9 @@ public class SelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
+        input.openPopup();
+        dropdown = input.dropdown();
+        dropdown.shouldBeVisible();
         dropdown.selectMulti(0);
         input.shouldSelected("Объектов 1 шт");
         dropdown.selectMulti(1);

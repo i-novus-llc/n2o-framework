@@ -61,6 +61,7 @@ public class FormAsFilterAT extends AutoTestBase {
         page.shouldHaveUrlMatches(".*/#/");
 
         Select select = form.fields().field("Period").control(Select.class);
+        select.openPopup();
         select.dropdown().selectItem(0);
         select.shouldSelected("Week");
 

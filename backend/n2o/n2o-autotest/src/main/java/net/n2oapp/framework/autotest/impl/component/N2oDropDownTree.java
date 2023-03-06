@@ -82,7 +82,7 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
         }
 
         protected SelenideElement switcher() {
-            return element().parent().$(SWITCHER);
+            return element().parent().$(String.format(".%s", SWITCHER));
         }
     }
 }

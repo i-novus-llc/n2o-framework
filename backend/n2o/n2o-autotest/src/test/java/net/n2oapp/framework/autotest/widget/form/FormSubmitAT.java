@@ -82,6 +82,7 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем списковое поле
+        select.openPopup();
         select.dropdown().selectItem(1);
         Selenide.sleep(DELAY);
         select.shouldHaveValue("Женский");
