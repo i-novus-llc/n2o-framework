@@ -1,11 +1,11 @@
 import React from 'react'
 import sinon from 'sinon'
 
-import SimpleBtn from './Simple'
+import { SimpleButtonBody } from './Simple'
 import mappingProps from './mappingProps'
 
 const setup = (props) => {
-    const wrapper = mount(<SimpleBtn {...props} />)
+    const wrapper = mount(<SimpleButtonBody {...props} />)
     return {
         wrapper,
         btn: wrapper.find('Button'),

@@ -1,8 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import { WithDataSourceTypes } from '../datasource/propTypes'
 import { WithDataSource as DataSourceHOC } from '../datasource/WithDataSource'
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
+import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
+import { ModelPrefix } from '../datasource/const'
 
 import { FETCH_TYPE } from './const'
 import { DataSourceContext, METHODS } from './context'
@@ -50,8 +53,8 @@ export const WithDatasourceLifeCycle = (Component) => {
         }
 
         fetchData = (options, force) => {
-            const { fetchData, visible, models, fetch } = this.props
-            const isEmptyData = !models.datasource.length
+            const { fetchData, visible, datasourceModelLength, fetch } = this.props
+            const isEmptyData = datasourceModelLength === 0
 
             if (
                 (visible && (
@@ -71,7 +74,12 @@ export const WithDatasourceLifeCycle = (Component) => {
     return WithDatasourceLifeCycle
 }
 
-const WithSource = Component => DataSourceHOC(WithDatasourceLifeCycle(Component))
+const mapStateToProps = (state, { datasource }) => ({
+    datasourceModelLength:
+        dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state)?.length || 0,
+})
+
+const WithSource = Component => DataSourceHOC(WithDatasourceLifeCycle(connect(mapStateToProps)(Component)))
 
 export const WithDataSource = (Component) => {
     const WithDataSource = WithSource(Component)

@@ -49,21 +49,21 @@ public class LinkCellAT extends AutoTestBase {
         rows.shouldHaveSize(1);
 
         LinkCell cell = rows.row(0).cell(0, LinkCell.class);
-        cell.textShouldHave("Text");
-        cell.hrefShouldHave(getBaseUrl() + "/123");
+        cell.shouldHaveText("Text");
+        cell.shouldHaveHref(getBaseUrl() + "/123");
         cell.shouldNotHaveIcon();
 
         cell = rows.row(0).cell(1, LinkCell.class);
-        cell.textShouldHave("Text");
-        cell.hrefShouldHave(getBaseUrl() + "/123");
+        cell.shouldHaveText("Text");
+        cell.shouldHaveHref(getBaseUrl() + "/123");
         cell.shouldHaveIcon("fa-plus");
 
         cell = rows.row(0).cell(2, LinkCell.class);
         cell.shouldNotHaveText();
-        cell.hrefShouldHave(getBaseUrl() + "/123");
+        cell.shouldHaveHref(getBaseUrl() + "/123");
         cell.shouldHaveIcon("fa-plus");
 
         cell.click();
-        simplePage.urlShouldMatches(getBaseUrl() + "/#/123");
+        simplePage.shouldHaveUrlLike(getBaseUrl() + "/#/123");
     }
 }

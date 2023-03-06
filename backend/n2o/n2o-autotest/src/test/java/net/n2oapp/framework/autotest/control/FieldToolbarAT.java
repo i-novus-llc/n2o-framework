@@ -57,7 +57,8 @@ public class FieldToolbarAT extends AutoTestBase {
         toolbar.button("Открыть модальное окно").shouldBeDisabled();
         toolbar.button("Открыть страницу").shouldBeDisabled();
 
-        fields.field("id").control(InputText.class).val("test");
+        fields.field("id").control(InputText.class).click();
+        fields.field("id").control(InputText.class).setValue("test");
 
         toolbar.button("Ссылка").shouldBeEnabled();
         toolbar.button("Показать текст").shouldBeEnabled();
@@ -66,10 +67,11 @@ public class FieldToolbarAT extends AutoTestBase {
 
         toolbar.button("Ссылка").click();
         Selenide.switchTo().window(1);
-        page.urlShouldMatches("https://yandex.ru.*");
+        page.shouldHaveUrlLike("https://yandex.ru.*");
         Selenide.switchTo().window(0);
 
-        fields.field("id").control(InputText.class).val("test");
+        fields.field("id").control(InputText.class).click();
+        fields.field("id").control(InputText.class).setValue("test");
         toolbar.button("Показать текст").click();
         Alert alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldHaveColor(Colors.SUCCESS);
@@ -100,7 +102,8 @@ public class FieldToolbarAT extends AutoTestBase {
         dropdownButton.menuItem("Показать текст").shouldBeDisabled();
         dropdownButton.menuItem("Открыть модальное окно").shouldBeDisabled();
         dropdownButton.menuItem("Открыть страницу").shouldBeDisabled();
-        fields.field("sub").control(InputText.class).val("test");
+        fields.field("sub").control(InputText.class).click();
+        fields.field("sub").control(InputText.class).setValue("test");
         dropdownButton.click();
         dropdownButton.menuItem("Ссылка").shouldBeEnabled();
         dropdownButton.menuItem("Показать текст").shouldBeEnabled();
@@ -109,11 +112,13 @@ public class FieldToolbarAT extends AutoTestBase {
 
         dropdownButton.menuItem("Ссылка").click();
         Selenide.switchTo().window(1);
-        page.urlShouldMatches("https://yandex.ru.*");
+        page.shouldHaveUrlLike("https://yandex.ru.*");
         Selenide.switchTo().window(0);
 
-        fields.field("id").control(InputText.class).val("test");
-        fields.field("sub").control(InputText.class).val("notForShow");
+        fields.field("id").control(InputText.class).click();
+        fields.field("id").control(InputText.class).setValue("test");
+        fields.field("sub").control(InputText.class).click();
+        fields.field("sub").control(InputText.class).setValue("notForShow");
         dropdownButton.click();
         dropdownButton.menuItem("Показать текст").click();
         Alert alert = page.alerts(Alert.Placement.top).alert(0);

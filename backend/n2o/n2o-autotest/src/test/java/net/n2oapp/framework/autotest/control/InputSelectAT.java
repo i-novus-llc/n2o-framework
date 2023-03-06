@@ -66,15 +66,15 @@ public class InputSelectAT extends AutoTestBase {
         input.clear();
         input.shouldBeEmpty();
 
-        input.val("Three");
+        input.setValue("Three");
         input.shouldHaveValue("Three");
         input.closePopup();
 
         InputSelect input2 = fields.field("InputSelect1").control(InputSelect.class);
-        input2.itemShouldBeEnabled(true, "One");
-        input2.itemShouldBeEnabled(true, "Two");
-        input2.itemShouldBeEnabled(false, "Three");
-        input2.itemShouldBeEnabled(true, "Four");
+        input2.optionShouldBeEnabled(true, "One");
+        input2.optionShouldBeEnabled(true, "Two");
+        input2.optionShouldBeEnabled(false, "Three");
+        input2.optionShouldBeEnabled(true, "Four");
 
         // close popup by click on outside area
         input2.openPopup();
@@ -93,9 +93,9 @@ public class InputSelectAT extends AutoTestBase {
                 .control(InputSelect.class);
         input.shouldExists();
 
-        input.itemShouldHaveStatusColor("One", Colors.SUCCESS);
-        input.itemShouldHaveStatusColor("Two", Colors.PRIMARY);
-        input.itemShouldHaveStatusColor("Three", Colors.DANGER);
+        input.optionShouldHaveStatusColor("One", Colors.SUCCESS);
+        input.optionShouldHaveStatusColor("Two", Colors.PRIMARY);
+        input.optionShouldHaveStatusColor("Three", Colors.DANGER);
     }
 
     @Test
@@ -154,10 +154,10 @@ public class InputSelectAT extends AutoTestBase {
         input.closePopup();
         input = page.widget(FormWidget.class).fields().field("InputSelect3")
                 .control(InputSelect.class);
-        input.itemShouldBeEnabled(true, "One");
-        input.itemShouldBeEnabled(true, "Two");
-        input.itemShouldBeEnabled(false, "Three");
-        input.itemShouldBeEnabled(true, "Four");
+        input.optionShouldBeEnabled(true, "One");
+        input.optionShouldBeEnabled(true, "Two");
+        input.optionShouldBeEnabled(false, "Three");
+        input.optionShouldBeEnabled(true, "Four");
     }
 
     @Test
@@ -179,7 +179,7 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldSelected("name2");
         input.clear();
         input.shouldBeEmpty();
-        input.val("name3");
+        input.setValue("name3");
         input.shouldHaveValue("name3");
         // сворачиваем popup, чтобы не накладывался на нижний контрол
         input.closePopup();
@@ -269,13 +269,13 @@ public class InputSelectAT extends AutoTestBase {
         DropDown dropdown = inputSelect.dropdown();
         dropdown.shouldHaveItems(3);
 
-        inputSelect.val("a");
+        inputSelect.setValue("a");
         dropdown.shouldHaveItems(3);
 
-        inputSelect.val("au");
+        inputSelect.setValue("au");
         dropdown.shouldHaveItems(3);
 
-        inputSelect.val("aud");
+        inputSelect.setValue("aud");
         dropdown.shouldHaveItems(1);
     }
 }

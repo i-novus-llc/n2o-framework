@@ -59,10 +59,10 @@ public class OpenDrawerAT extends AutoTestBase {
         page.widget(TableWidget.class).toolbar().topLeft().button("openLeft").click();
         Drawer drawerPage = N2oSelenide.drawer();
         drawerPage.shouldHaveTitle("drawer-page");
-        drawerPage.placementShouldBe(Drawer.Placement.left);
-        drawerPage.widthShouldBe("250");
-        drawerPage.heightShouldBe("250");
-        drawerPage.footerShouldNotBeFixed();
+        drawerPage.shouldHavePlacement(Drawer.Placement.left);
+        drawerPage.shouldHaveWidth("250");
+        drawerPage.shouldHaveHeight("250");
+        drawerPage.shouldNotHaveFixedFooter();
         SimplePage pg = drawerPage.content(SimplePage.class);
         pg.shouldExists();
         Fields fields = pg.widget(FormWidget.class).fields();
@@ -77,10 +77,10 @@ public class OpenDrawerAT extends AutoTestBase {
         rows.shouldBeSelected(2);
         page.widget(TableWidget.class).toolbar().topLeft().button("openTop").click();
         drawerPage.shouldHaveTitle("drawer-page");
-        drawerPage.placementShouldBe(Drawer.Placement.top);
-        drawerPage.widthShouldBe("300");
-        drawerPage.heightShouldBe("300");
-        drawerPage.footerShouldBeFixed();
+        drawerPage.shouldHavePlacement(Drawer.Placement.top);
+        drawerPage.shouldHaveWidth("300");
+        drawerPage.shouldHaveHeight("300");
+        drawerPage.shouldHaveFixedFooter();
         pg.shouldExists();
         fields.field("id").control(InputText.class).shouldHaveValue("33");
         drawerPage.scrollDown();
@@ -92,7 +92,7 @@ public class OpenDrawerAT extends AutoTestBase {
         rows.shouldBeSelected(3);
         page.widget(TableWidget.class).toolbar().topLeft().button("openRight").click();
         drawerPage.shouldHaveTitle("drawer-page");
-        drawerPage.placementShouldBe(Drawer.Placement.right);
+        drawerPage.shouldHavePlacement(Drawer.Placement.right);
         pg.shouldExists();
         fields.field("id").control(InputText.class).shouldHaveValue("44");
         fields.field("name").control(InputText.class).shouldHaveValue("test400");
@@ -105,7 +105,7 @@ public class OpenDrawerAT extends AutoTestBase {
         rows.shouldBeSelected(0);
         page.widget(TableWidget.class).toolbar().topLeft().button("openBottom").click();
         drawerPage.shouldHaveTitle("drawer-page");
-        drawerPage.placementShouldBe(Drawer.Placement.bottom);
+        drawerPage.shouldHavePlacement(Drawer.Placement.bottom);
         pg.shouldExists();
         fields.field("id").control(InputText.class).shouldHaveValue("11");
         fields.field("name").control(InputText.class).shouldHaveValue("test100");

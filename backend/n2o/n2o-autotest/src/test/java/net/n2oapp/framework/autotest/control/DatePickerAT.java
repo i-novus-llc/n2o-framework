@@ -53,7 +53,7 @@ public class DatePickerAT extends AutoTestBase {
         date.shouldBeClosed();
         date.openPopup();
         date.shouldBeOpened();
-        date.val("15.02.2020");
+        date.setValue("15.02.2020");
         date.shouldHaveValue("15.02.2020");
         date.clickCalendarButton();
         date.shouldBeActiveDay("15");
@@ -78,9 +78,9 @@ public class DatePickerAT extends AutoTestBase {
         date.clickNextMonthButton();
         date.shouldHaveCurrentMonth("Январь");
         // проверка, что значения, выходящие за границы min/max, не вводятся
-        date.val("05.02.2021");
+        date.setValue("05.02.2021");
         date.shouldHaveValue("12.02.2020");
-        date.val("25.02.2020");
+        date.setValue("25.02.2020");
         date.shouldHaveValue("12.02.2020");
     }
 
@@ -93,7 +93,7 @@ public class DatePickerAT extends AutoTestBase {
         date.shouldHaveValue("01/01/2020 00:00:00");
         date.openPopup();
         date.shouldBeOpened();
-        date.val("15/02/2020 10:20:15");
+        date.setValue("15/02/2020 10:20:15");
         date.shouldHaveValue("15/02/2020 10:20:15");
         date.clickCalendarButton();
         date.timeVal("23", "59", "58");

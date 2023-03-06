@@ -55,12 +55,14 @@ public class Case4AT extends AutoTestBase {
         toolbar.dropdown().shouldExists();
         toolbar.dropdown().element().shouldNotBe(Condition.visible);
 
-        input.val("test");
+        input.click();
+        input.setValue("test");
         toolbar.dropdown().element().shouldBe(Condition.visible);
         toolbar.dropdown().click();
         toolbar.dropdown().shouldHaveItems(1);
         toolbar.dropdown().menuItem("Внутреннее меню").shouldExists();
 
+        input.click();
         input.clear();
         toolbar.dropdown().element().shouldNotBe(Condition.visible);
     }

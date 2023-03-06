@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.cell;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
@@ -9,6 +10,8 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
  */
 public class N2oCell extends N2oComponent implements Cell {
 
+    private static final String EXPAND_ICON_SELECTOR = ".n2o-advanced-table-expand .n2o-advanced-table-expand-icon";
+
     @Override
     public void shouldBeEmpty() {
         element().shouldBe(Condition.empty);
@@ -16,36 +19,44 @@ public class N2oCell extends N2oComponent implements Cell {
 
     @Override
     public void shouldBeExpandable() {
-        element().$(".n2o-advanced-table-expand .n2o-advanced-table-expand-icon").shouldBe(Condition.exist);
+        expandIcon().shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeExpandable() {
-        element().$(".n2o-advanced-table-expand .n2o-advanced-table-expand-icon").shouldNotBe(Condition.exist);
+        expandIcon().shouldNotBe(Condition.exist);
     }
 
     @Override
     public void shouldBeExpanded() {
-        element().$(".n2o-advanced-table-expand .n2o-advanced-table-expand-icon-expanded").shouldBe(Condition.exist);
+        element().$(EXPAND_ICON_SELECTOR + "-expanded")
+                .shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeExpanded() {
-        element().$(".n2o-advanced-table-expand .n2o-advanced-table-expand-icon-expanded").shouldNotBe(Condition.exist);
+        element().$(EXPAND_ICON_SELECTOR + "-expanded")
+                .shouldNotBe(Condition.exist);
     }
 
     @Override
-    public void clickExpand() {
-        element().$(".n2o-advanced-table-expand .n2o-advanced-table-expand-icon").shouldBe(Condition.exist).click();
+    public void expand() {
+        expandIcon().shouldBe(Condition.exist).click();
     }
 
     @Override
     public void shouldHaveIcon(String icon) {
-        element().$(".n2o-icon").shouldHave(Condition.cssClass(icon));
+        element().$(".n2o-icon")
+                .shouldHave(Condition.cssClass(icon));
     }
 
     @Override
     public void shouldNotHaveIcon() {
-        element().$(".n2o-icon").shouldNotBe(Condition.exist);
+        element().$(".n2o-icon")
+                .shouldNotBe(Condition.exist);
+    }
+
+    private SelenideElement expandIcon() {
+        return element().$(EXPAND_ICON_SELECTOR);
     }
 }

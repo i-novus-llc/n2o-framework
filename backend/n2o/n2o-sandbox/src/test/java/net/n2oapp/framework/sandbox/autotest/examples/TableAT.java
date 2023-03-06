@@ -48,7 +48,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testTableBase() {
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Таблица");
 
         TableWidget table = page.widget(TableWidget.class);

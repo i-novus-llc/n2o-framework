@@ -175,7 +175,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         page.toolbar().topLeft().button("Открыть").click();
 
         page.shouldExists();
-        page.titleShouldHaveText("Версия:201 №202");
-        page.urlShouldMatches(getBaseUrl() + "/#/201/open\\?number=202");
+        page.shouldHaveTitle("Версия:201 №202");
+        page.shouldHaveUrlLike(getBaseUrl() + "/#/201/open\\?number=202");
     }
 }

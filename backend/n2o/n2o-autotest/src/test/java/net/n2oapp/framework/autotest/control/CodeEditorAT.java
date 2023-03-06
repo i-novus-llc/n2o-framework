@@ -45,7 +45,7 @@ public class CodeEditorAT extends AutoTestBase {
         textEditor.shouldExists();
 
         textEditor.shouldHaveValue("var str = 'Hello, World!'");
-        textEditor.val("test1\ntest2\ntest3");
+        textEditor.setValue("test1\ntest2\ntest3");
         textEditor.shouldHaveValue("test1\ntest2\ntest3");
     }
 }

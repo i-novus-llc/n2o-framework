@@ -10,17 +10,17 @@
 
 .n2o-multi-fieldset__item {
     position: relative;
+
+    .n2o-multi-fieldset__item-top-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 .n2o-multi-fieldset__actions {
     display: flex;
     align-items: center;
-}
-
-.n2o-multi-fieldset__actions--inner {
-    position: absolute;
-    right: 0;
-    top: 0;
 }
 
 .n2o-multi-fieldset__actions--common {

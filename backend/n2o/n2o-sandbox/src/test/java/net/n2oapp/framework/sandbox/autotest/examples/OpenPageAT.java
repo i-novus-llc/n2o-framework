@@ -48,7 +48,7 @@ public class OpenPageAT extends AutoTestBase {
     public void openPageTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
 
         TableWidget table = page.widget(TableWidget.class);

@@ -68,7 +68,8 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем обычное текстовое поле
-        inputText.val("Ann");
+        inputText.click();
+        inputText.setValue("Ann");
         // обновляем страницу и проверяем значения всех полей
         // ожидание отправки поля
         Selenide.sleep(DELAY);
@@ -92,7 +93,7 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем интервальное поле
-        dateInterval.beginVal("18.01.2020");
+        dateInterval.setValueInBegin("18.01.2020");
         dateInterval.shouldBeOpened();
         Selenide.sleep(DELAY);
         dateInterval.beginShouldHaveValue("18.01.2020");
@@ -103,7 +104,7 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.beginShouldHaveValue("18.01.2020");
         dateInterval.endShouldHaveValue("30.01.2020");
 
-        dateInterval.endVal("24.01.2020");
+        dateInterval.setValueInEnd("24.01.2020");
         dateInterval.shouldBeOpened();
         Selenide.sleep(DELAY);
         dateInterval.endShouldHaveValue("24.01.2020");
@@ -129,8 +130,8 @@ public class FormSubmitAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(3);
 
         Cells row = table.columns().rows().row(1);
-        row.cell(1).textShouldHave("test2");
-        row.cell(2).textShouldHave("20");
+        row.cell(1).shouldHaveText("test2");
+        row.cell(2).shouldHaveText("20");
 
         // открываем модальную страницу для второй записи
         row.click();
@@ -145,23 +146,25 @@ public class FormSubmitAT extends AutoTestBase {
         age.shouldHaveValue("20");
 
         // меняем имя и ждем отправки значения
-        name.val("test123");
+        name.click();
+        name.setValue("test123");
         Selenide.sleep(500);
         modalForm.toolbar().bottomRight().button("Закрыть").click();
 
-        row.cell(1).textShouldHave("test123");
-        row.cell(2).textShouldHave("20");
+        row.cell(1).shouldHaveText("test123");
+        row.cell(2).shouldHaveText("20");
 
         // открываем модальную страницу для второй записи
         row.click();
         btn.click();
 
         // меняем возраст и ждем отправки значения
-        age.val("99");
+        age.click();
+        age.setValue("99");
         Selenide.sleep(500);
         modalForm.toolbar().bottomRight().button("Закрыть").click();
 
-        row.cell(1).textShouldHave("test123");
-        row.cell(2).textShouldHave("99");
+        row.cell(1).shouldHaveText("test123");
+        row.cell(2).shouldHaveText("99");
     }
 }

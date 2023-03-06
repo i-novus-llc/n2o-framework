@@ -63,6 +63,7 @@ public class FieldValidationAfterSetValueAT extends AutoTestBase {
         name.shouldBeEmpty();
         name.shouldBeEnabled();
 
+        name.click();
         name.clear();
         nameField.shouldHaveValidationMessage(Condition.exist);
 

@@ -53,15 +53,16 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.shouldHaveValue("2");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test2");
+        rows.row(0).cell(1).shouldHaveText("test2");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         // filter value should saved after refresh
         Selenide.refresh();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         table.filters().toolbar().button("Сбросить").click();
         rows.shouldHaveSize(4);
@@ -81,11 +82,12 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.shouldHaveValue("test3");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         //todo NNO-7523 filter value should saved after refresh
         /*Selenide.refresh();
@@ -109,11 +111,12 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.shouldHaveValue("test3");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         //todo NNO-7523 filter value should saved after refresh
         /*Selenide.refresh();
@@ -162,11 +165,12 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.shouldHaveValue("test3");
         rows.shouldHaveSize(1);
-        rows.row(0).cell(1).textShouldHave("test3");
+        rows.row(0).cell(1).shouldHaveText("test3");
 
-        filter.val("4");
+        filter.click();
+        filter.setValue("4");
         table.filters().toolbar().button("Найти").click();
-        rows.row(0).cell(1).textShouldHave("test4");
+        rows.row(0).cell(1).shouldHaveText("test4");
 
         //todo NNO-7523 filter value should saved after refresh
         /*Selenide.refresh();

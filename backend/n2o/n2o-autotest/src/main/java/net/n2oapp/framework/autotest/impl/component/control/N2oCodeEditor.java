@@ -21,7 +21,7 @@ public class N2oCodeEditor extends N2oControl implements CodeEditor {
     }
 
     @Override
-    public void val(String value) {
+    public void setValue(String value) {
         element().$("textarea").setValue(value);
     }
 

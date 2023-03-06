@@ -37,7 +37,7 @@ public class FormAT extends AutoTestBase {
 
         page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("N2O");
+        page.header().shouldHaveBrandName("N2O");
         page.breadcrumb().crumb(0).shouldHaveLabel("Форма");
     }
 
@@ -65,14 +65,16 @@ public class FormAT extends AutoTestBase {
         InputText name = page.widget(FormWidget.class).fields().field("Имя").control(InputText.class);
         name.shouldExists();
         name.shouldBeEmpty();
-        name.val("test-name");
+        name.click();
+        name.setValue("test-name");
         name.shouldHaveValue("test-name");
 
         InputText lastName = page.widget(FormWidget.class).fields().field("Фамилия")
                 .control(InputText.class);
         lastName.shouldExists();
         lastName.shouldBeEmpty();
-        lastName.val("test-lastName");
+        lastName.click();
+        lastName.setValue("test-lastName");
         lastName.shouldHaveValue("test-lastName");
     }
 
@@ -96,7 +98,7 @@ public class FormAT extends AutoTestBase {
         date.shouldExists();
 
         date.shouldBeEmpty();
-        date.val("15.02.2020");
+        date.setValue("15.02.2020");
         date.shouldHaveValue("15.02.2020");
         date.clickCalendarButton();
         date.shouldBeActiveDay("15");
@@ -120,7 +122,7 @@ public class FormAT extends AutoTestBase {
         TextArea textArea = page.widget(FormWidget.class).fields().field("Адрес").control(TextArea.class);
         textArea.shouldBeEnabled();
         textArea.shouldHaveValue("");
-        textArea.val("1\n2\n3\n4\na\nb\nC");
+        textArea.setValue("1\n2\n3\n4\na\nb\nC");
         textArea.shouldHaveValue("1\n2\n3\n4\na\nb\nC");
     }
 

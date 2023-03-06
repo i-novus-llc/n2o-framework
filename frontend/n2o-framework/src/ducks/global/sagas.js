@@ -80,6 +80,6 @@ export function* changeLocale(apiProvider, action) {
  * @ignore
  */
 export default apiProvider => [
-    takeEvery(requestConfig, getConfig, apiProvider),
-    takeEvery(changeLocaleGlobal, changeLocale, apiProvider),
+    takeEvery(requestConfig.type, getConfig, apiProvider),
+    takeEvery(changeLocaleGlobal.type, changeLocale, apiProvider),
 ]

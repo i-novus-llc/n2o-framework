@@ -46,44 +46,44 @@ public class HeaderAT extends AutoTestBase {
     public void testHeaderMenu() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.header().brandNameShouldBe("Хедер");
+        page.header().shouldHaveBrandName("Хедер");
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
 
         page.header().nav().shouldHaveSize(3);
 
         AnchorMenuItem menu1 = page.header().nav().anchor(0);
-        menu1.labelShouldHave("Первая страница");
-        menu1.urlShouldHave(getBaseUrl() + "/#/mi1");
+        menu1.shouldHaveLabel("Первая страница");
+        menu1.shouldHaveUrl(getBaseUrl() + "/#/mi1");
         menu1.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Первая страница");
 
         AnchorMenuItem menu2 = page.header().nav().anchor(1);
-        menu2.labelShouldHave("Вторая страница");
-        menu2.urlShouldHave(getBaseUrl() + "/#/mi2");
+        menu2.shouldHaveLabel("Вторая страница");
+        menu2.shouldHaveUrl(getBaseUrl() + "/#/mi2");
         menu2.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
 
         DropdownMenuItem dropdown = page.header().nav().dropdown(2);
         dropdown.click();
-        dropdown.labelShouldHave("Вложенное меню");
-        dropdown.item(0).labelShouldHave("Третья страница");
-        dropdown.item(0).urlShouldHave(getBaseUrl() + "/#/mi4");
+        dropdown.shouldHaveLabel("Вложенное меню");
+        dropdown.item(0).shouldHaveLabel("Третья страница");
+        dropdown.item(0).shouldHaveUrl(getBaseUrl() + "/#/mi4");
         dropdown.item(0).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Третья страница");
 
         dropdown.click();
-        dropdown.labelShouldHave("Вложенное меню");
-        dropdown.item(1).labelShouldHave("Четвертая страница");
-        dropdown.item(1).urlShouldHave(getBaseUrl() + "/#/mi5");
+        dropdown.shouldHaveLabel("Вложенное меню");
+        dropdown.item(1).shouldHaveLabel("Четвертая страница");
+        dropdown.item(1).shouldHaveUrl(getBaseUrl() + "/#/mi5");
         dropdown.item(1).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Четвертая страница");
 
         page.header().extra().shouldHaveSize(1);
         AnchorMenuItem extraLink = page.header().extra().item(0, AnchorMenuItem.class);
-        extraLink.labelShouldHave("Внешняя ссылка");
-        extraLink.urlShouldHave("http://example.com/");
+        extraLink.shouldHaveLabel("Внешняя ссылка");
+        extraLink.shouldHaveUrl("http://example.com/");
         extraLink.click();
-        page.urlShouldMatches("http://example.com/");
+        page.shouldHaveUrlLike("http://example.com/");
     }
 }
 

@@ -6,13 +6,14 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import generateReducer from './reducers'
 import generateSagas from './sagas'
+import { modelInit, updateModel } from './ducks/models/store'
 
 const sagaMiddleware = createSagaMiddleware()
 
 export default (initialState, history, config = {}) => {
     const [squasherMiddleware, squasherStorePatcher] = createSquasher([
-        '@@redux-form/CHANGE',
-        '@@redux-form/INITIALIZE',
+        updateModel.type,
+        modelInit.type,
         'n2o/models/SET',
         'n2o/widgets/CHANGE_PAGE',
         'n2o/widgets/DATA_SUCCESS',

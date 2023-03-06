@@ -7,27 +7,23 @@ import {
     withProps,
     defaultProps,
     withHandlers,
-    shouldUpdate,
     mapProps,
     branch,
 } from 'recompose'
-import { getFormValues } from 'redux-form'
 import isBoolean from 'lodash/isBoolean'
 import memoize from 'lodash/memoize'
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import isNil from 'lodash/isNil'
 
 import {
-    isInitSelector,
-    isVisibleSelector,
     isDisabledSelector,
-    messageSelector,
-    requiredSelector,
+    isInitSelector, isVisibleSelector,
+    messageSelector, requiredSelector,
 } from '../../../../ducks/form/selectors'
-import { registerFieldExtra } from '../../../../ducks/form/store'
+import { registerFieldExtra, unRegisterExtraField } from '../../../../ducks/form/store'
 import propsResolver from '../../../../utils/propsResolver'
+import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 
 import withAutoSave from './withAutoSave'
 
@@ -42,19 +38,22 @@ export default (Field) => {
     class FieldContainer extends React.Component {
         constructor(props) {
             super(props)
-            this.onChange = this.onChange.bind(this)
-            this.onFocus = this.onFocus.bind(this)
-            this.onBlur = this.onBlur.bind(this)
-            this.initIfNeeded()
+            this.initIfNeeded(props)
+        }
+
+        componentWillUnmount() {
+            const { unRegisterExtraField, form, name } = this.props
+
+            unRegisterExtraField(form, name)
         }
 
         /**
          * Регистрация дополнительных свойств поля
          */
-        initIfNeeded() {
+        initIfNeeded(props) {
             const {
-                meta: { form },
-                input: { name },
+                form,
+                name,
                 isInit,
                 visibleToRegister,
                 disabledToRegister,
@@ -63,7 +62,7 @@ export default (Field) => {
                 registerFieldExtra,
                 parentIndex,
                 validation,
-            } = this.props
+            } = props
 
             if (!isInit) {
                 registerFieldExtra(form, name, {
@@ -97,53 +96,6 @@ export default (Field) => {
 
         modifyOn = (on, parentIndex) => on.map(key => key.replace(INDEX_PLACEHOLDER, parentIndex))
 
-        /**
-         * мэппинг onChange
-         * @param e
-         */
-        onChange(e) {
-            const { id, input, onChange } = this.props
-
-            if (input) {
-                input.onChange(e)
-            }
-            if (onChange) {
-                onChange(e, id)
-            }
-        }
-
-        /**
-         * мэппинг onBlur
-         * @param e
-         */
-        onBlur(e) {
-            const { id, input, onBlur } = this.props
-
-            if (input) {
-                input.onBlur(e)
-            }
-
-            if (onBlur) {
-                onBlur(e, id)
-            }
-        }
-
-        /**
-         * мэппинг onFocus
-         * @param e
-         */
-        onFocus(e) {
-            const { input, onFocus } = this.props
-
-            if (input) {
-                input.onFocus(e)
-            }
-
-            if (onFocus) {
-                onFocus(e.target.value)
-            }
-        }
-
         replaceIndex = (obj, index) => JSON.parse(
             JSON.stringify(obj).replaceAll(INDEX_PLACEHOLDER, index),
         )
@@ -173,23 +125,28 @@ export default (Field) => {
             return action
         }
 
-        /**
-         * мэппинг сообщений
-         * @returns {string}
-         */
-
         render() {
             const { mapProps } = this.props
-            const props = mapProps(this.props)
-            const { control, action } = props
+            const mappedProps = mapProps(this.props)
+            const { control, action, subMenu } = mappedProps
+
+            if (subMenu) {
+                mappedProps.subMenu = subMenu.map((option) => {
+                    const { action } = option
+
+                    if (action) {
+                        option.action = this.resolveActionIndexes(action)
+                    }
+
+                    return option
+                })
+            }
 
             return (
                 <Field
-                    {...props}
+                    {...mappedProps}
                     control={this.resolveControlIndexes(control)}
                     action={this.resolveActionIndexes(action)}
-                    onChange={this.onChange}
-                    onBlur={this.onBlur}
                 />
             )
         }
@@ -199,39 +156,26 @@ export default (Field) => {
         id: PropTypes.string,
         mapProps: PropTypes.func,
         input: PropTypes.object,
-        onChange: PropTypes.func,
-        onBlur: PropTypes.func,
-        onFocus: PropTypes.func,
-        meta: PropTypes.object,
-        isInit: PropTypes.bool,
-        visibleToRegister: PropTypes.any,
-        disabledToRegister: PropTypes.any,
-        dependency: PropTypes.object,
-        requiredToRegister: PropTypes.any,
-        registerFieldExtra,
         parentIndex: PropTypes.number,
-        validation: PropTypes.any,
-        control: PropTypes.object,
-        action: PropTypes.object,
     }
 
-    const mapStateToProps = (state, { modelPrefix, ...ownProps }) => {
-        const { form } = ownProps.meta
-        const { name } = ownProps.input
+    const mapStateToProps = (state, ownProps) => {
+        const { form: formName, name: fieldName, modelPrefix } = ownProps
 
         return {
-            isInit: isInitSelector(form, name)(state),
-            visible: isVisibleSelector(form, name)(state),
-            disabled: isDisabledSelector(form, name)(state),
-            message: messageSelector(form, name, modelPrefix)(state),
-            required: requiredSelector(form, name)(state),
-            model: getFormValues(form)(state),
+            isInit: isInitSelector(formName, fieldName)(state),
+            visible: isVisibleSelector(formName, fieldName)(state),
+            disabled: isDisabledSelector(formName, fieldName)(state),
+            required: requiredSelector(formName, fieldName)(state),
+            message: messageSelector(formName, fieldName, modelPrefix)(state),
+            model: getModelByPrefixAndNameSelector(modelPrefix, formName)(state),
         }
     }
 
     const mapDispatchToProps = dispatch => ({
         dispatch,
         registerFieldExtra: (form, name, initialState) => dispatch(registerFieldExtra(form, name, initialState)),
+        unRegisterExtraField: (form, name) => dispatch(unRegisterExtraField(form, name)),
     })
 
     return compose(
@@ -262,7 +206,7 @@ export default (Field) => {
                     return false
                 }
 
-                const { input, message, meta, model, html, ...rest } = props
+                const { input, message, meta, model, html, content, ...rest } = props
                 const pr = propsResolver(rest, model, ['toolbar'])
 
                 return {
@@ -271,6 +215,7 @@ export default (Field) => {
                     validationClass: getValidationState(message),
                     message,
                     html,
+                    content,
                     model,
                     ...input,
                 }
@@ -278,11 +223,11 @@ export default (Field) => {
         }),
         withProps(props => ({
             visibleToRegister: props.visible,
+            requiredToRegister: props.required,
             disabledToRegister:
                 isBoolean(props.enabled) && !props.disabled
                     ? !props.enabled
                     : props.disabled,
-            requiredToRegister: props.required,
         })),
         connect(
             mapStateToProps,
@@ -302,18 +247,6 @@ export default (Field) => {
         branch(
             ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
             withAutoSave,
-        ),
-        shouldUpdate(
-            (props, nextProps) => !isEqual(props.model, nextProps.model) ||
-                props.isInit !== nextProps.isInit ||
-                props.visible !== nextProps.visible ||
-                props.disabled !== nextProps.disabled ||
-                props.message !== nextProps.message ||
-                props.required !== nextProps.required ||
-                props.loading !== nextProps.loading ||
-                props.meta.touched !== nextProps.meta.touched ||
-                props.active !== nextProps.active ||
-                get(props, 'input.value', null) !== get(nextProps, 'input.value', null),
         ),
         withProps(props => ({
             ref: props.setReRenderRef,

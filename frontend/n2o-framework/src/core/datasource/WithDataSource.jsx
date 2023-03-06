@@ -11,7 +11,7 @@ import {
 } from '../../ducks/datasource/store'
 import { setModel } from '../../ducks/models/store'
 import { DataSourceContext } from '../widget/context'
-import { dataSourceByIdSelector, dataSourceModelsSelector } from '../../ducks/datasource/selectors'
+import { dataSourceByIdSelector } from '../../ducks/datasource/selectors'
 
 import { WithDatasourceInitTypes } from './propTypes'
 import { ModelPrefix } from './const'
@@ -23,10 +23,7 @@ export const useDatasourceProps = (datasource) => {
         paging,
     } = useSelector(dataSourceByIdSelector(datasource))
 
-    const models = useSelector(dataSourceModelsSelector((datasource)))
-
     return {
-        models,
         loading,
         sorting,
         ...paging,

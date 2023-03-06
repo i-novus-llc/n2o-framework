@@ -54,17 +54,17 @@ public class FileUploadAT extends AutoTestBase {
     public void oneFileUploadTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница загрузки файлов");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница загрузки файлов");
         FileUploadControl fileUpload = page.widget(FormWidget.class).fields().field("Загрузка файлов").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
 
         fileStoreController.clear();
         fileUpload.uploadFromClasspath("examples/file_upload/files.query.xml");
-        fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFileNameShouldBe(0, "files.query.xml");
+        fileUpload.shouldHaveUploadFiles(1);
+        fileUpload.uploadFileShouldHaveName(0, "files.query.xml");
         assertEquals(1, fileStoreController.size());
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFiles(0);
         assertEquals(0, fileStoreController.size());
     }
 
@@ -72,28 +72,28 @@ public class FileUploadAT extends AutoTestBase {
     public void twoFileUploadTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Страница загрузки файлов");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница загрузки файлов");
         FileUploadControl fileUpload = page.widget(FormWidget.class).fields().field("Загрузка файлов").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
 
         fileStoreController.clear();
         fileUpload.uploadFromClasspath("examples/file_upload/index.page.xml");
-        fileUpload.uploadFilesShouldBe(1);
-        fileUpload.uploadFileNameShouldBe(0, "index.page.xml");
+        fileUpload.shouldHaveUploadFiles(1);
+        fileUpload.uploadFileShouldHaveName(0, "index.page.xml");
         assertEquals(1, fileStoreController.size());
 
         page = open(SimplePage.class); //что бы очистить значение формы загрузки файлов
         page.shouldExists();
         fileUpload.uploadFromClasspath("examples/file_upload/files.query.xml");
-        fileUpload.uploadFilesShouldBe(2);
-        fileUpload.uploadFileNameShouldBe(1, "files.query.xml");
+        fileUpload.shouldHaveUploadFiles(2);
+        fileUpload.uploadFileShouldHaveName(1, "files.query.xml");
         assertEquals(2, fileStoreController.size());
 
         fileUpload.deleteFile(1);
-        fileUpload.uploadFilesShouldBe(1);
+        fileUpload.shouldHaveUploadFiles(1);
         assertEquals(1, fileStoreController.size());
         fileUpload.deleteFile(0);
-        fileUpload.uploadFilesShouldBe(0);
+        fileUpload.shouldHaveUploadFiles(0);
         assertEquals(0, fileStoreController.size());
     }
 }

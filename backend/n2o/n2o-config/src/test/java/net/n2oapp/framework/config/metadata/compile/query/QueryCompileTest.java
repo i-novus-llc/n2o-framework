@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipelin
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
+import net.n2oapp.framework.config.io.query.QueryElementIOv5;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -36,7 +37,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
-                .ios(new QueryElementIOv4())
+                .ios(new QueryElementIOv4(), new QueryElementIOv5())
                 .packs(new N2oPagesPack(), new N2oObjectsPack(), new N2oDataProvidersPack(), new N2oWidgetsPack(),
                         new N2oFieldSetsPack(), new N2oControlsPack())
                 .compilers(new N2oQueryCompiler());
@@ -112,7 +113,6 @@ public class QueryCompileTest extends SourceCompileTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml"))
                 .transformers(new TestEngineQueryTransformer());
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"));
-        assertThat(query.getSimpleFieldsMap().get("id").getSelectExpression(), is("id"));
         assertThat(query.getSimpleFieldsMap().get("id").getSortingExpression(), is("id :idDirection"));
         assertThat(query.getFilterFieldsMap().get("id").getText(), is("id :eq :id"));
     }

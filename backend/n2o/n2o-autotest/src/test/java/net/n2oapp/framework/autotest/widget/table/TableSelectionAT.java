@@ -1,11 +1,18 @@
 package net.n2oapp.framework.autotest.widget.table;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
+import net.n2oapp.framework.autotest.api.component.cell.LinkCell;
 import net.n2oapp.framework.autotest.api.component.cell.RadioCell;
+import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -171,5 +178,26 @@ public class TableSelectionAT extends AutoTestBase {
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Карточка клиента: 2");
         modal.close();
+    }
+
+    @Test
+    void testSelectionNoneElementResolved() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/index.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/modal.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        Modal modal = N2oSelenide.modal();
+        table.columns().rows().shouldHaveSize(4);
+        table.columns().rows().row(1).cell(2, ToolbarCell.class).toolbar().button(0, StandardButton.class).click();
+        modal.shouldExists();
+        modal.content(SimplePage.class).widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("2");
+        modal.close();
+        Selenide.refresh();
+        table.columns().rows().row(1).cell(3, LinkCell.class).click();
+        modal.shouldExists();
+        modal.content(SimplePage.class).widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("2");
     }
 }

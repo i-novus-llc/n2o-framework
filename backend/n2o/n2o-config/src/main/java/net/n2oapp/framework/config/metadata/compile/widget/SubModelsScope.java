@@ -15,10 +15,11 @@ public class SubModelsScope {
     private Map<String, List<SubModelQuery>> subModelScope;
 
     public void add(SubModelQuery query, String datasource) {
-        if (subModelScope == null || subModelScope.get(datasource) == null) {
+        if (subModelScope == null)
+            subModelScope = new HashMap<>();
+        if (subModelScope.get(datasource) == null) {
             List<SubModelQuery> queries = new ArrayList<>();
             queries.add(query);
-            subModelScope = new HashMap<>();
             subModelScope.put(datasource, queries);
             return;
         }

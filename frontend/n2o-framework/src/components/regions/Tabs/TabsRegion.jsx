@@ -14,6 +14,7 @@ import withRegionContainer from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
 import { WithDataSource } from '../../../core/widget/WithDataSource'
+import { dataSourceModelsSelector } from '../../../ducks/datasource/selectors'
 
 import Tabs from './Tabs'
 import { Tab } from './Tab'
@@ -273,8 +274,12 @@ TabRegion.defaultProps = {
     hideSingleTab: false,
 }
 
-const mapStateToProps = (state, props) => ({
-    tabs: makeRegionTabsSelector(props.id)(state),
+const mapStateToProps = (state, { id, datasource }) => ({
+    tabs: makeRegionTabsSelector(id)(state),
+    /* TODO: Костыль при котором тянется все модели, а не только необходимые поля
+     *   необходимо создать зависимость видимости регионов от модели формы
+    */
+    models: dataSourceModelsSelector(datasource)(state),
 })
 
 export { TabRegion }

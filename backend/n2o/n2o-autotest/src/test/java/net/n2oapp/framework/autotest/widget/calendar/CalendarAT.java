@@ -221,7 +221,8 @@ public class CalendarAT extends AutoTestBase {
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Переговорка");
 
         // СОЗДАНИЕ события
-        fields.field("Название события").control(InputText.class).val("Новое событие");
+        fields.field("Название события").control(InputText.class).click();
+        fields.field("Название события").control(InputText.class).setValue("Новое событие");
         modal.toolbar().bottomRight().button("Сохранить").click();
         modal.shouldNotExists();
         // проверка, что событие появилось в календаре

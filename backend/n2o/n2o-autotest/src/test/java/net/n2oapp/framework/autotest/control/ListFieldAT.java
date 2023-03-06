@@ -4,7 +4,6 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.*;
-import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -65,7 +64,8 @@ public class ListFieldAT extends AutoTestBase {
         radioGroup.shouldHaveOptions("test1", "test2");
         checkboxGroup.shouldHaveOptions("test1", "test2");
 
-        type.val("2");
+        type.click();
+        type.setValue("2");
         filteredByLink.shouldHaveOptions("test3", "test4");
         filteredByConstant.shouldHaveOptions("test1", "test2");
         filteredByLinkWithCache.shouldHaveOptions("test3", "test4");
