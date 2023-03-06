@@ -38,8 +38,8 @@ export const useFieldArray = <T>({ defaultValue = [], name: fieldName, primaryKe
     /**
      * Удаление элемента по индексу или диапазон элементов
      */
-    const remove = useCallback((index: number | [number, number]) => {
-        dispatch(removeFieldFromArray(prefix, formName, fieldName, index))
+    const remove = useCallback((start: number, end?: number) => {
+        dispatch(removeFieldFromArray(prefix, formName, fieldName, start, end))
     }, [dispatch, fieldName, formName, prefix])
 
     /**

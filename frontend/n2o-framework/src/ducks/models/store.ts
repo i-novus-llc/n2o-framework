@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
     isString,
     map as mapFn,
-    pick,
     merge,
     omit,
     set,
@@ -111,13 +110,13 @@ const modelsSlice = createSlice({
          * Очистка моделий. которая учивает список исключений (поля которые не нужно очищать)
          */
         CLEAR(state, action: ClearModelAction) {
-            const { prefixes, key, exclude } = action.payload
+            const { prefixes, key } = action.payload
 
             prefixes.forEach((prefix) => {
-                if (state[prefix][key]) {
-                    const clearableValue = pick(state[prefix][key], [exclude])
+                const model = state[prefix][key]
 
-                    set(state, [prefix, key], clearableValue)
+                if (model) {
+                    state[prefix][key] = Array.isArray(model) ? [] : {}
                 }
             })
         },
@@ -223,24 +222,24 @@ const modelsSlice = createSlice({
         },
 
         removeFieldFromArray: {
-            prepare(prefix: ModelPrefix, key: string, field: string, index: number | [number, number]) {
+            prepare(prefix: ModelPrefix, key: string, field: string, start: number, end?: number) {
                 return ({
                     meta: { prefix, key, field },
-                    payload: { prefix, key, field, index },
+                    payload: { prefix, key, field, start, end },
                 })
             },
 
             reducer(state, action: RemoveFieldFromArrayAction) {
-                const { prefix, key, field, index } = action.payload
+                const { prefix, key, field, start, end } = action.payload
                 const arrayValue = get(state, `${prefix}.${key}.${field}`, [])
 
-                if (typeof index === 'number') {
-                    arrayValue.splice(index, 1)
+                if (end === undefined) {
+                    arrayValue.splice(start, 1)
 
                     return
                 }
 
-                arrayValue.splice(...index)
+                arrayValue.splice(start, end)
             },
         },
 

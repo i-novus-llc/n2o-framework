@@ -41,7 +41,6 @@ export type RemoveAllModelAction = PayloadAction<{
 export type ClearModelAction = PayloadAction<{
     key: string
     prefixes: ModelPrefix[]
-    exclude: string
 }>
 
 export type MergeModelAction = PayloadAction<{
@@ -66,7 +65,8 @@ export type AppendFieldToArrayAction = PayloadAction<FieldPath & {
 }>
 
 export type RemoveFieldFromArrayAction = PayloadAction<FieldPath & {
-    index: number | [number, number]
+    start: number
+    end?: number
 }>
 
 export type CopyFieldArrayAction = PayloadAction<FieldPath & {
