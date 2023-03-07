@@ -19,13 +19,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -745,7 +748,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private LocalDateTime parseToLocalDateTime(String strDateTime) {
         try {
-            if (strDateTime.length() > 19)
+            ParsePosition pos = new ParsePosition(0);
+            TemporalAccessor temporalAccessor = DateTimeFormatter.ISO_ZONED_DATE_TIME.parseUnresolved(strDateTime, pos);
+            if (!(temporalAccessor == null || pos.getErrorIndex() >= 0 || pos.getIndex() < strDateTime.length()))
                 return ZonedDateTime.parse(strDateTime).toLocalDateTime();
             return LocalDateTime.parse(strDateTime);
         } catch (DateTimeParseException e) {
