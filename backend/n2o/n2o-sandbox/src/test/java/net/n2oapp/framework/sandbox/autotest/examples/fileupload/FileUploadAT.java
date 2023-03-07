@@ -40,8 +40,7 @@ public class FileUploadAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("/examples/file_upload/index.page.xml"),
+        builder.sources(new CompileInfo("/examples/file_upload/index.page.xml"),
                 new CompileInfo("/examples/file_upload/files.query.xml"));
     }
 

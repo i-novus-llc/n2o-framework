@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/access/attributes/fields/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/access/attributes/fields/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FieldsAT extends AutoTestBase {
@@ -43,8 +43,7 @@ public class FieldsAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("access/attributes/fields/index.page.xml"),
+        builder.sources(new CompileInfo("access/attributes/fields/index.page.xml"),
                 new CompileInfo("META-INF/conf/default.access.xml"));
     }
 

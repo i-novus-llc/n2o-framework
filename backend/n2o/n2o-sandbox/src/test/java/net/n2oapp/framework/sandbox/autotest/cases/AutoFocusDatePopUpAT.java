@@ -39,8 +39,7 @@ public class AutoFocusDatePopUpAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("cases/7.17/date_popup/index.page.xml"),
+        builder.sources(new CompileInfo("cases/7.17/date_popup/index.page.xml"),
                 new CompileInfo("cases/7.17/date_popup/date_time.page.xml"),
                 new CompileInfo("cases/7.17/date_popup/date_interval.page.xml"));
     }

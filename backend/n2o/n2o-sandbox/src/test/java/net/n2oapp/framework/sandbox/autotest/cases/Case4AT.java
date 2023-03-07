@@ -37,8 +37,7 @@ public class Case4AT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("cases/7.0/case4/index.page.xml"));
+        builder.sources(new CompileInfo("cases/7.0/case4/index.page.xml"));
     }
 
     @Test

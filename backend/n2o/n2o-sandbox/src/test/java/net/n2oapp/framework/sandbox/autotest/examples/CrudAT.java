@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/crud/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/examples/crud/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CrudAT extends AutoTestBase {
@@ -41,8 +41,7 @@ public class CrudAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("/examples/crud/index.page.xml"),
+        builder.sources(new CompileInfo("/examples/crud/index.page.xml"),
                 new CompileInfo("/examples/crud/test.object.xml"),
                 new CompileInfo("/examples/crud/test.page.xml"),
                 new CompileInfo("/examples/crud/test.query.xml"));
