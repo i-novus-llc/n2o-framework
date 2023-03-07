@@ -22,11 +22,9 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
-import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -533,10 +531,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
                             return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isBefore((ChronoLocalDateTime<?>) pattern);
                         }
-                        if (pattern instanceof ZonedDateTime) {
-                            ZonedDateTime dateTime = parseToZonedDateTime(m.get(field).toString());
-                            return dateTime.isEqual((ChronoZonedDateTime<?>) pattern) || dateTime.isBefore((ChronoZonedDateTime<?>) pattern);
-                        }
                         return m.get(field).toString().compareTo(pattern.toString()) < 0;
                     })
                     .collect(Collectors.toList());
@@ -561,10 +555,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         if (pattern instanceof LocalDateTime) {
                             LocalDateTime dateTime = parseToLocalDateTime(m.get(field).toString());
                             return dateTime.isEqual((ChronoLocalDateTime<?>) pattern) || dateTime.isAfter((ChronoLocalDateTime<?>) pattern);
-                        }
-                        if (pattern instanceof ZonedDateTime) {
-                            ZonedDateTime dateTime = parseToZonedDateTime(m.get(field).toString());
-                            return dateTime.isEqual((ChronoZonedDateTime<?>) pattern) || dateTime.isAfter((ChronoZonedDateTime<?>) pattern);
                         }
                         return m.get(field).toString().compareTo(pattern.toString()) > 0;
                     })
@@ -758,16 +748,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             if (strDateTime.length() > 19)
                 return ZonedDateTime.parse(strDateTime).toLocalDateTime();
             return LocalDateTime.parse(strDateTime);
-        } catch (DateTimeParseException e) {
-            throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
-        }
-    }
-
-    private ZonedDateTime parseToZonedDateTime(String strDateTime) {
-        try {
-            if (strDateTime.length() > 19)
-                return ZonedDateTime.parse(strDateTime);
-            return ZonedDateTime.of(LocalDateTime.parse(strDateTime), ZoneId.systemDefault());
         } catch (DateTimeParseException e) {
             throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
         }
