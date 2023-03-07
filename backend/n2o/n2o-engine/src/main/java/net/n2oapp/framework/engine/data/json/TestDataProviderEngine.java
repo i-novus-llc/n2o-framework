@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -735,7 +736,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     /**
-     * Переводит строковое представление даты и времени в LocalDateTime
+     * Переводит строковое представление даты и времени в LocalDateTime.
+     * Если строка содержит информацию о часовом поясе, то она будет убрана.
      *
      * @param strDateTime Строковое представление даты и времени в формате ISO_LOCAL_DATE_TIME
      * @return Переменную типа LocalDateTime, соответствующую строковому представлению даты и времени, при неверном формате
@@ -743,6 +745,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private LocalDateTime parseToLocalDateTime(String strDateTime) {
         try {
+            if (strDateTime.length() > 19)
+                return ZonedDateTime.parse(strDateTime).toLocalDateTime();
             return LocalDateTime.parse(strDateTime);
         } catch (DateTimeParseException e) {
             throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
