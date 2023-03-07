@@ -750,9 +750,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         try {
             ParsePosition pos = new ParsePosition(0);
             TemporalAccessor temporalAccessor = DateTimeFormatter.ISO_ZONED_DATE_TIME.parseUnresolved(strDateTime, pos);
-            if (!(temporalAccessor == null || pos.getErrorIndex() >= 0 || pos.getIndex() < strDateTime.length()))
-                return ZonedDateTime.parse(strDateTime).toLocalDateTime();
-            return LocalDateTime.parse(strDateTime);
+            if (temporalAccessor == null || pos.getErrorIndex() >= 0 || pos.getIndex() < strDateTime.length())
+                return LocalDateTime.parse(strDateTime);
+            return ZonedDateTime.parse(strDateTime).toLocalDateTime();
         } catch (DateTimeParseException e) {
             throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
         }
