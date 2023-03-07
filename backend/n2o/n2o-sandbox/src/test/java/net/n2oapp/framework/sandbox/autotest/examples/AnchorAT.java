@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/modal/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/examples/modal/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AnchorAT extends AutoTestBase {
@@ -37,8 +37,7 @@ public class AnchorAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("/examples/anchor/index.page.xml"));
+        builder.sources(new CompileInfo("/examples/anchor/index.page.xml"));
     }
 
     @Test

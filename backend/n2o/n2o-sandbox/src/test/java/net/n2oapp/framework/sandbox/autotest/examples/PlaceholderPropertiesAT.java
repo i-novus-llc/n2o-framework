@@ -19,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/placeholder_properties/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/examples/placeholder_properties/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:/examples/placeholder_properties/application.properties")
@@ -43,8 +43,7 @@ public class PlaceholderPropertiesAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("/examples/placeholder_properties/index.page.xml"));
+        builder.sources(new CompileInfo("/examples/placeholder_properties/index.page.xml"));
     }
 
     @Test

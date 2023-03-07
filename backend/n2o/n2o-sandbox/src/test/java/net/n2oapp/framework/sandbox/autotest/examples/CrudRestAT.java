@@ -29,7 +29,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest(properties = {"server.servlet.context-path=/", "n2o.engine.test.classpath=/examples/crud_sql/"},
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/examples/crud_sql/"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = {CasesConfiguration.class})
@@ -58,8 +58,7 @@ public class CrudRestAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"),
-                new CompileInfo("/examples/crud_rest/index.page.xml"),
+        builder.sources(new CompileInfo("/examples/crud_rest/index.page.xml"),
                 new CompileInfo("/examples/crud_rest/car.object.xml"),
                 new CompileInfo("/examples/crud_rest/car.page.xml"),
                 new CompileInfo("/examples/crud_rest/car.query.xml"));
