@@ -270,7 +270,7 @@ public class N2oPage extends N2oComponent implements Page {
             SelenideElement modalTitle = element.$(".modal-header .modal-title");
 
             if (modalTitle.exists())
-                modalTitle.shouldBe(Condition.exist, Duration.ofMillis(timeOut));
+                modalTitle.shouldNotBe(Condition.exist, Duration.ofMillis(timeOut));
         }
 
         @Override
