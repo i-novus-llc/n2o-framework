@@ -1,17 +1,9 @@
 import { breadcrumbResolver } from './breadcrumbResolver'
 
-const models = {
-    resolve: {
-        name: 'Alex',
-        id: 'uid',
-    },
-    multi: [],
-    datasource: [],
-    filter: {},
-    edit: {},
+const model = {
+    name: 'Alex',
+    id: 'uid',
 }
-
-const modelPrefix = 'resolve'
 
 const breadcrumb = [
     {
@@ -29,7 +21,7 @@ const breadcrumb = [
 
 describe('<breadcrumbResolver>', () => {
     it('breadcrumb labels resolving', () => {
-        const resolvedBreadcrumb = breadcrumbResolver(models, breadcrumb, modelPrefix)
+        const resolvedBreadcrumb = breadcrumbResolver(model, breadcrumb)
 
         expect(resolvedBreadcrumb.length).toBe(3)
 
