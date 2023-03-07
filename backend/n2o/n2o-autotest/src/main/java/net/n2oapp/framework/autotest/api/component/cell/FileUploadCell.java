@@ -29,9 +29,9 @@ public interface FileUploadCell extends Cell {
 
     /**
      * Проверка количества загруженных файлов на соответствие ожидаемому количеству
-     * @param count ожидаемое количество загруженных файлов
+     * @param size ожидаемое количество загруженных файлов
      */
-    void shouldHaveCountFiles(int count);
+    void shouldHaveSize(int size);
 
     /**
      * Проверка того, что имя файла по индексу соответствует ожидаемому значению

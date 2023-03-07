@@ -35,8 +35,8 @@ public class N2oFileUploadCell extends N2oCell implements FileUploadCell {
     }
 
     @Override
-    public void shouldHaveCountFiles(int count) {
-        files().shouldHave(CollectionCondition.size(count));
+    public void shouldHaveSize(int size) {
+        files().shouldHave(CollectionCondition.size(size));
     }
 
     @Override
