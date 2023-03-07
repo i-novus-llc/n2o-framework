@@ -105,7 +105,10 @@ public class ProtoPage {
     }
 
     public void getGenderColumnShouldHaveTexts(List<String> values) {
-        getTable().columns().rows().columnShouldHaveTexts(5, values);
+        if (values.size() == 0)
+            getTable().columns().rows().columnShouldBeEmpty(5);
+        else
+            getTable().columns().rows().columnShouldHaveTexts(5, values);
     }
 
     public List<String> getSurnameColumn() {
