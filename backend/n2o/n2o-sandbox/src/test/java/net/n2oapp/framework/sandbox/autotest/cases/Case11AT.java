@@ -61,17 +61,23 @@ public class Case11AT extends SandboxAutotestBase {
         RadioGroup radioGroup = fields.field("Фильтр по радио кнопкам").control(RadioGroup.class);
         CheckboxGroup checkboxGroup = fields.field("Фильтр по чекбоксам").control(CheckboxGroup.class);
 
-        filteredByLink.shouldHaveOptions("test1", "test2");
-        filteredByConstant.shouldHaveOptions("test1", "test2");
-        filteredByLinkWithCache.shouldHaveOptions("test1", "test2");
+        filteredByLink.openPopup();
+        filteredByLink.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByConstant.openPopup();
+        filteredByConstant.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByLinkWithCache.openPopup();
+        filteredByLinkWithCache.dropdown().shouldHaveOptions("test1", "test2");
         radioGroup.shouldHaveOptions("test1", "test2");
         checkboxGroup.shouldHaveOptions("test1", "test2");
 
         type.click();
         type.setValue("2");
-        filteredByLink.shouldHaveOptions("test3", "test4");
-        filteredByConstant.shouldHaveOptions("test1", "test2");
-        filteredByLinkWithCache.shouldHaveOptions("test3", "test4");
+        filteredByLink.openPopup();
+        filteredByLink.dropdown().shouldHaveOptions("test3", "test4");
+        filteredByConstant.openPopup();
+        filteredByConstant.dropdown().shouldHaveOptions("test1", "test2");
+        filteredByLinkWithCache.openPopup();
+        filteredByLinkWithCache.dropdown().shouldHaveOptions("test3", "test4");
         radioGroup.shouldHaveOptions("test3", "test4");
         checkboxGroup.shouldHaveOptions("test3", "test4");
     }

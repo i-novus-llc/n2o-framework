@@ -60,7 +60,7 @@ public class AnchorActionAT extends AutoTestBase {
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
         open.toolbar().bottomRight().button("Ссылка").click();
 
-        open.shouldHaveUrlLike(getBaseUrl() + "/link/3/");
+        open.shouldHaveUrlMatches(getBaseUrl() + "/link/3/");
     }
 
 
@@ -88,7 +88,7 @@ public class AnchorActionAT extends AutoTestBase {
         formBtn.shouldBeEnabled();
         formBtn.click();
 
-        page.shouldHaveUrlLike("https://example.com/");
+        page.shouldHaveUrlMatches("https://example.com/");
 
         Selenide.back();
 
@@ -97,6 +97,6 @@ public class AnchorActionAT extends AutoTestBase {
         pageBtn.shouldBeEnabled();
         pageBtn.click();
 
-        page.shouldHaveUrlLike("https://example.com/");
+        page.shouldHaveUrlMatches("https://example.com/");
     }
 }

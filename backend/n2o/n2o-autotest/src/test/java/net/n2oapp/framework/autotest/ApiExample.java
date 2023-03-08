@@ -40,12 +40,13 @@ public class ApiExample {
     }
 
     public void testTab() {
-        N2oSelenide.open("/#/proto", SimplePage.class)
+        Select select = N2oSelenide.open("/#/proto", SimplePage.class)
                 .widget(FormWidget.class)
                 .fields()
                 .field(Condition.id("name"))
-                .control(Select.class)
-                .select(Condition.text("Мужской"));
+                .control(Select.class);
+        select.openPopup();
+        select.dropdown().selectItemBy(Condition.text("Мужской"));
     }
 
     public void testPanel() {

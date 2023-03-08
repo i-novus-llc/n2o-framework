@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import org.openqa.selenium.Keys;
@@ -12,26 +13,27 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldBe(Condition.empty);
-        else cellInputElement().shouldBe(Condition.empty);
+        SelenideElement input = inputElement();
+        if (input.exists())
+            input.shouldBe(Condition.empty);
+        else
+            cellInputElement().shouldBe(Condition.empty);
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = inputElement();
-        if (elm.exists())
-            elm.shouldHave(value == null
-                    || value.isEmpty() ? Condition.empty : Condition.value(value));
+        SelenideElement input = inputElement();
+
+        if (input.exists())
+            input.shouldHave(Condition.value(value));
         else
-            cellInputElement().shouldHave(value == null
-                    || value.isEmpty() ? Condition.empty : Condition.text(value));
+            cellInputElement().shouldHave(Condition.text(value));
     }
 
     @Override
     public String getValue() {
-        SelenideElement elm = inputElement();
-        return elm.exists() ? elm.getValue() : cellInputElement().text();
+        SelenideElement input = inputElement();
+        return input.exists() ? input.getValue() : cellInputElement().text();
     }
 
     @Override
@@ -73,14 +75,14 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeActiveDay(String day) {
-        element().$(".n2o-calendar-day.selected")
+        calendarDays().findBy(Condition.cssClass("selected"))
                 .shouldBe(Condition.exist)
                 .shouldHave(Condition.text(day));
     }
 
     @Override
     public void clickDay(String day) {
-        element().$$(".n2o-calendar-day").filter(Condition.text(day))
+        calendarDays().filter(Condition.text(day))
                 .exclude(Condition.cssClass("disabled"))
                 .exclude(Condition.cssClass("other-month"))
                 .get(0).shouldBe(Condition.exist).click();
@@ -88,14 +90,14 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeDisableDay(String day) {
-        element().$$(".n2o-calendar-day.disabled")
+        calendarDays().filterBy(Condition.cssClass("disabled"))
                 .find(Condition.text(day))
                 .shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeDisableDay(String day) {
-        element().$$(".n2o-calendar-day.disabled")
+        calendarDays().filterBy(Condition.cssClass("disabled"))
                 .find(Condition.text(day))
                 .shouldNotBe(Condition.exist);
     }
@@ -170,16 +172,20 @@ public class N2oDateInput extends N2oControl implements DateInput {
         shouldBeClosed();
     }
 
-    private SelenideElement inputElement() {
+    protected SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
         return element().$(".n2o-date-input input");
     }
 
-    private SelenideElement cellInputElement() {
+    protected SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 
-    private SelenideElement popUp() {
+    protected SelenideElement popUp() {
         return element().parent().parent().$(".n2o-pop-up");
+    }
+
+    protected ElementsCollection calendarDays() {
+        return element().$$(".n2o-calendar-day");
     }
 }

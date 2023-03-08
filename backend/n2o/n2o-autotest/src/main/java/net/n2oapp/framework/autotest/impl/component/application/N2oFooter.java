@@ -16,11 +16,19 @@ public class N2oFooter extends N2oComponent implements Footer {
 
     @Override
     public void leftTextShouldHaveValue(String name) {
-        element().$(".text-left").shouldHave(Condition.exactText(name));
+        leftSideText().shouldHave(Condition.exactText(name));
     }
 
     @Override
     public void rightTextShouldHaveValue(String name) {
-        element().$(".text-right").shouldHave(Condition.exactText(name));
+        rightSideText().shouldHave(Condition.exactText(name));
+    }
+
+    protected SelenideElement leftSideText() {
+        return element().$(".text-left");
+    }
+
+    protected SelenideElement rightSideText() {
+        return element().$(".text-right");
     }
 }

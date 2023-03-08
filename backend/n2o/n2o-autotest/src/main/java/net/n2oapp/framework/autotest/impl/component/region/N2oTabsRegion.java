@@ -13,34 +13,37 @@ import javax.annotation.Nonnull;
  * Регион в виде вкладок для автотестирования
  */
 public class N2oTabsRegion extends N2oRegion implements TabsRegion {
+
+    private static final String SCROLL_BAR = "tab-content_no-scrollbar";
+
     @Override
     public TabItem tab(int index) {
-        return new N2oTabItem(element().$$(".n2o-tabs-nav-item").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index));
+        return new N2oTabItem(navItem().shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index));
     }
 
     @Override
     public void shouldHaveSize(int size) {
-        element().$$(".n2o-tabs-nav-item").shouldHave(CollectionCondition.size(size));
+        navItem().shouldHave(CollectionCondition.size(size));
     }
 
     @Override
     public void shouldHaveMaxHeight(int height) {
-        getTabsContent().shouldBe(Condition.attributeMatching("style", ".*max-height: " + height + "px;.*"));
+        getTabsContent().shouldBe(Condition.attributeMatching("style", String.format(".*max-height: %dpx;.*", height)));
     }
 
     @Override
     public void shouldHaveScrollbar() {
-        getTabsContent().shouldNotHave(Condition.cssClass("tab-content_no-scrollbar"));
+        getTabsContent().shouldNotHave(Condition.cssClass(SCROLL_BAR));
     }
 
     @Override
     public void shouldNotHaveScrollbar() {
-        getTabsContent().shouldHave(Condition.cssClass("tab-content_no-scrollbar"));
+        getTabsContent().shouldHave(Condition.cssClass(SCROLL_BAR));
     }
 
     @Override
     public TabItem tab(Condition by) {
-        return new N2oTabItem(element().$$(".n2o-tabs-nav-item").findBy(by));
+        return new N2oTabItem(navItem().findBy(by));
     }
 
     public static class N2oTabItem extends N2oComponent implements TabItem {
@@ -113,7 +116,11 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
     }
 
-    private SelenideElement getTabsContent() {
+    protected SelenideElement getTabsContent() {
         return element().$(".tab-content");
+    }
+
+    protected ElementsCollection navItem() {
+        return element().$$(".n2o-tabs-nav-item");
     }
 }

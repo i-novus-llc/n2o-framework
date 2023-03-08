@@ -77,9 +77,11 @@ public class FormAT extends SandboxAutotestBase {
         Select gender = page.widget(FormWidget.class).fields().field("Пол").control(Select.class);
         gender.shouldExists();
         gender.shouldBeEmpty();
-        gender.select(0);
+        gender.openPopup();
+        gender.dropdown().selectItem(0);
         gender.shouldSelected("Мужской");
-        gender.select(1);
+        gender.openPopup();
+        gender.dropdown().selectItem(1);
         gender.shouldSelected("Женский");
         gender.clear();
         gender.shouldBeEmpty();

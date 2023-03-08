@@ -52,19 +52,19 @@ public class SwitchCaseActionAT extends AutoTestBase {
         table.shouldExists();
         table.columns().rows().row(1).click();
         button.click();
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/type1");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1");
         page.breadcrumb().crumb(0).click();
 
         table.shouldExists();
         table.columns().rows().row(3).click();
         button.click();
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/type2");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type2");
         page.breadcrumb().crumb(0).click();
 
         table.shouldExists();
         table.columns().rows().row(2).click();
         button.click();
-        page.shouldHaveUrlLike("https://example.com/");
+        page.shouldHaveUrlMatches("https://example.com/");
     }
 
     @Test
@@ -80,7 +80,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
         table.columns().rows().row(1).shouldBeClickable();
         table.columns().rows().row(1).click();
         page.shouldExists();
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/type1");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1");
         page.breadcrumb().crumb(0).click();
 
         page.shouldExists();
@@ -89,7 +89,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
         table.columns().rows().row(3).shouldBeClickable();
         table.columns().rows().row(3).click();
         page.shouldExists();
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/type2");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type2");
         page.breadcrumb().crumb(0).click();
 
         page.shouldExists();
@@ -98,6 +98,6 @@ public class SwitchCaseActionAT extends AutoTestBase {
         table.columns().rows().row(2).shouldBeClickable();
         table.columns().rows().row(2).click();
         page.shouldExists();
-        page.shouldHaveUrlLike("https://example.com/");
+        page.shouldHaveUrlMatches("https://example.com/");
     }
 }

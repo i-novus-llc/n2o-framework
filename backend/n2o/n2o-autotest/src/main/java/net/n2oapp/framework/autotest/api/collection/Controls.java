@@ -10,7 +10,7 @@ public interface Controls extends ComponentsCollection {
 
     /**
      * <p>
-     *     Возвращает компонент ввода типа, наследуемого от Control
+     *     Возвращает первый по списку компонент ввода типа, наследуемого от Control
      * </p>
      *
      * <p>For example: {@code

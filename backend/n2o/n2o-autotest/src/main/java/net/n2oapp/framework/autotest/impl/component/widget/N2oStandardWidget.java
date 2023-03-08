@@ -24,28 +24,30 @@ public class N2oStandardWidget extends N2oWidget implements StandardWidget {
 
     public static class N2oWidgetToolbar extends N2oComponent implements WidgetToolbar {
 
+        private static final String TOOLBAR = ".toolbar_placement_%s .btn";
+
         public N2oWidgetToolbar(SelenideElement element) {
             setElement(element);
         }
 
         @Override
         public Toolbar topLeft() {
-            return N2oSelenide.collection(element().$$(".toolbar_placement_topLeft .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "topLeft")), Toolbar.class);
         }
 
         @Override
         public Toolbar topRight() {
-            return N2oSelenide.collection(element().$$(".toolbar_placement_topRight .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "topRight")), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomLeft() {
-            return N2oSelenide.collection(element().$$(".toolbar_placement_bottomLeft .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "bottomLeft")), Toolbar.class);
         }
 
         @Override
         public Toolbar bottomRight() {
-            return N2oSelenide.collection(element().$$(".toolbar_placement_bottomRight .btn"), Toolbar.class);
+            return N2oSelenide.collection(element().$$(String.format(TOOLBAR, "bottomRight")), Toolbar.class);
         }
     }
 }

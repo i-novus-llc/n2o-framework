@@ -57,11 +57,11 @@ public class ProtoPage {
     }
 
     public void searchClients() {
-        getTable().filters().search();
+        getTable().filters().toolbar().button("Найти").click();
     }
 
     public void resetFilter() {
-        getTable().filters().clear();
+        getTable().filters().toolbar().button("Сбросить").click();
     }
 
     public TableSimpleHeader getSurnameHeader() {
@@ -105,7 +105,10 @@ public class ProtoPage {
     }
 
     public void getGenderColumnShouldHaveTexts(List<String> values) {
-        getTable().columns().rows().columnShouldHaveTexts(5, values);
+        if (values.size() == 0)
+            getTable().columns().rows().columnShouldBeEmpty(5);
+        else
+            getTable().columns().rows().columnShouldHaveTexts(5, values);
     }
 
     public List<String> getSurnameColumn() {

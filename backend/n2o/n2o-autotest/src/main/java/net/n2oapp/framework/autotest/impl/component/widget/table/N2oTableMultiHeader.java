@@ -11,9 +11,8 @@ public class N2oTableMultiHeader extends N2oTableHeader implements TableMultiHea
 
     @Override
     public void shouldHaveCssClass(String cssClass) {
-        SelenideElement elm = element().$(".n2o-advanced-table-header-title").exists() ?
-                element() :
-                element().$(".n2o-advanced-table-header-cell-content");
-        elm.shouldHave(Condition.cssClass(cssClass));
+        (element().$(".n2o-advanced-table-header-title")
+                .exists() ? element() : element().$(".n2o-advanced-table-header-cell-content"))
+                .shouldHave(Condition.cssClass(cssClass));
     }
 }

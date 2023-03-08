@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.header;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Menu;
@@ -20,25 +21,24 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
 
     @Override
     public void shouldHaveBrandName(String brandName) {
-        element().$$(".navbar-brand").filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(0)
+        brands().filterBy(Condition.not(Condition.cssClass("n2o-brand")))
+                .get(0)
                 .shouldHave(Condition.text(brandName));
     }
 
     @Override
     public Menu nav() {
-        return N2oSelenide.collection(element().$$(".navbar-collapse .navbar-nav").get(0).$$("ul > li")
-                , N2oMenu.class);
+        return N2oSelenide.collection(element().$$(".main-nav.navbar-nav >li"), N2oMenu.class);
     }
 
     @Override
     public Menu extra() {
-        return N2oSelenide.collection(element().$$(".navbar-collapse .navbar-nav").get(1).$$("ul > li")
-                , N2oMenu.class);
+        return N2oSelenide.collection(navbarContainer().$$(".main-nav-extra.navbar-nav > li"), N2oMenu.class);
     }
 
     @Override
     public SearchBar search() {
-        return N2oSelenide.component(element().$(".navbar-collapse .n2o-search-bar"), N2oSearchBar.class);
+        return N2oSelenide.component(navbarContainer().$(".n2o-search-bar"), N2oSearchBar.class);
     }
 
     @Override
@@ -51,4 +51,11 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
         element().$(".n2o-sidebar-switcher").click();
     }
 
+    protected SelenideElement navbarContainer() {
+        return element().$(".navbar-collapse");
+    }
+
+    protected ElementsCollection brands() {
+        return element().$$(".navbar-brand");
+    }
 }

@@ -144,7 +144,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
         page.breadcrumb().crumb(0).click();
         page.shouldExists();
-        page.shouldHaveUrlLike(url + "/#/");
+        page.shouldHaveUrlMatches(url + "/#/");
         page.toolbar().bottomLeft().button("Вторая страница").click();
         page.shouldExists();
         page.toolbar().bottomLeft().button("Третья страница").click();

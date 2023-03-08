@@ -479,14 +479,14 @@ public class MultiFieldSetAT extends AutoTestBase {
         inputText.setValue("1");
         inputSelect.click();
         inputSelect.dropdown().shouldExists();
-        inputSelect.dropdown().shouldHaveItems(1);
+        inputSelect.dropdown().shouldHaveOptions(1);
         inputSelect.dropdown().item(0).shouldHaveValue("test1");
 
         inputText.click();
         inputText.setValue("2");
         inputSelect.click();
         inputSelect.dropdown().shouldExists();
-        inputSelect.dropdown().shouldHaveItems(1);
+        inputSelect.dropdown().shouldHaveOptions(1);
         inputSelect.dropdown().item(0).shouldHaveValue("test2");
     }
 
@@ -629,7 +629,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         FormWidget formWidget = standardPage.regions().region(0, N2oSimpleRegion.class).content().widget(FormWidget.class);
         InputSelect inputSelect = formWidget.fields().field("items").control(InputSelect.class);
         inputSelect.click();
-        inputSelect.selectMulti(2, 3);
+        inputSelect.openPopup();
+        inputSelect.dropdown().selectMulti(2, 3);
         modal.toolbar().bottomRight().button("Добавить").click();
 
         MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);

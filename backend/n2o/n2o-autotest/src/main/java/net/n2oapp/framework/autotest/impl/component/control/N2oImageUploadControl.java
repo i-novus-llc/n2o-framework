@@ -123,13 +123,14 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void uploadAreaShouldHaveIconSize(int size) {
-        getUploadAreaElement().shouldHave(Condition.attributeMatching("style", ".*font-size: " + size + "px.*"));
+        getUploadAreaElement().shouldHave(Condition.attributeMatching("style",
+                String.format(".*font-size: %dpx.*", size)));
     }
 
     @Override
     public void uploadAreaShouldHaveWidth(int width) {
         element().shouldHave(Condition.attributeMatching("style",
-                ".*max-width: " + width + "px.*"));
+                String.format(".*max-width: %dpx.*", width)));
     }
 
     @Override
@@ -138,30 +139,30 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
                 ".*max-height: " + height + "px.*"));
     }
 
-    private ElementsCollection getFilesItems() {
+    protected ElementsCollection getFilesItems() {
         return element().parent().$$(".n2o-file-uploader-files-item-info");
     }
 
-    private SelenideElement getPreviewElement(int index) {
+    protected SelenideElement getPreviewElement(int index) {
         return getFilesItems().get(index)
                 .$(".n2o-image-uploader__watch .n2o-image-uploader__watch--eye");
     }
 
-    private SelenideElement getNameElement(int index) {
+    protected SelenideElement getNameElement(int index) {
         return getFilesItems().get(index)
                 .$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-name");
     }
 
-    private SelenideElement getSizeElement(int index) {
+    protected SelenideElement getSizeElement(int index) {
         return getFilesItems().get(index)
                 .$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-size");
     }
 
-    private SelenideElement getUploadAreaElement() {
+    protected SelenideElement getUploadAreaElement() {
         return element().$("div");
     }
 
-    private SelenideElement getTrashElement(int index) {
+    protected SelenideElement getTrashElement(int index) {
         return getFilesItems().get(index)
                 .$(".n2o-image-uploader__watch .n2o-image-uploader__watch--trash");
     }

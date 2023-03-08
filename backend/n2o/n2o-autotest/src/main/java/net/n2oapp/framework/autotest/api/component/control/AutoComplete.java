@@ -32,10 +32,9 @@ public interface AutoComplete extends Control {
     void clear();
 
     /**
-     * Добавление тега в случае, если значения в поле отображаются тегами
-     * @param value значение тега
+     * Нажатие по кнопки Enter, для добавления тэга
      */
-    void addTag(String value);
+    void enter();
 
     /**
      * Удаление тега в случае, если значения в поле отображаются тегами

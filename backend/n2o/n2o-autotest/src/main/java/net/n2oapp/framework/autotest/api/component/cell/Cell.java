@@ -29,7 +29,7 @@ public interface Cell extends Component {
     /**
      * Проверка того, что ячейка не раскрыта
      */
-    void shouldNotBeExpanded();
+    void shouldBeCollapsed();
 
     /**
      * Раскрыть/скрыть ячейку

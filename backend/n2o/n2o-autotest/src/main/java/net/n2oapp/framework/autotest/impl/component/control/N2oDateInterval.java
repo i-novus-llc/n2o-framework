@@ -204,6 +204,26 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         shouldBeClosed();
     }
 
+    protected SelenideElement firstInputElement() {
+        return element().$(".n2o-date-input-first input");
+    }
+
+    protected SelenideElement lastInputElement() {
+        return element().$(".n2o-date-input-last input");
+    }
+
+    protected SelenideElement firstCalendar() {
+        return element().$$(".n2o-calendar").get(0);
+    }
+
+    protected SelenideElement lastCalendar() {
+        return element().$$(".n2o-calendar").get(1);
+    }
+
+    protected SelenideElement popUp() {
+        return element().parent().parent().$(".n2o-pop-up");
+    }
+
     private void setTimeValue(SelenideElement element, String hours, String minutes, String seconds) {
         //ToDo: можно ли разделить на отдельный функции?
         element.$(".n2o-calendar-time-container").click();
@@ -211,22 +231,6 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
         element.$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
         element.$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(seconds)).click();
         element.$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
-    }
-
-    private SelenideElement firstInputElement() {
-        return element().$(".n2o-date-input-first input");
-    }
-
-    private SelenideElement lastInputElement() {
-        return element().$(".n2o-date-input-last input");
-    }
-
-    private SelenideElement firstCalendar() {
-        return element().$$(".n2o-calendar").get(0);
-    }
-
-    private SelenideElement lastCalendar() {
-        return element().$$(".n2o-calendar").get(1);
     }
 
     private void shouldBeActiveDay(SelenideElement element, String day) {
@@ -267,9 +271,5 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     private void clickNextMonthButton(SelenideElement element) {
         element.$(".n2o-calendar-header .fa-angle-right").click();
-    }
-
-    private SelenideElement popUp() {
-        return element().parent().parent().$(".n2o-pop-up");
     }
 }

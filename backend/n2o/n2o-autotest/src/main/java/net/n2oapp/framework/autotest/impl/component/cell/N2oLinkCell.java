@@ -10,8 +10,7 @@ public class N2oLinkCell extends N2oCell implements LinkCell {
 
     @Override
     public void click() {
-        element().scrollTo();
-        element().$(".btn").click();
+        element().scrollTo().$(".btn").click();
     }
 
     @Override

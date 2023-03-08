@@ -11,7 +11,7 @@ import net.n2oapp.framework.autotest.api.component.snippet.Snippet;
 public interface Fields extends ComponentsCollection {
     /**
      * <p>
-     *     Возвращает поле страндартного по метке типа из списка полей на форме
+     *     Возвращает поле страндартного типа из списка полей на форме по метке
      * </p>
      *
      * <p>For example: {@code
@@ -25,7 +25,7 @@ public interface Fields extends ComponentsCollection {
 
     /**
      * <p>
-     *     Возвращает поле страндартного по условию типа из списка полей на форме
+     *     Возвращает поле страндартного типа из списка полей на форме по условию
      * </p>
      *
      * <p>For example: {@code
@@ -39,7 +39,7 @@ public interface Fields extends ComponentsCollection {
 
     /**
      * <p>
-     *     Возвращает первое поле типа, наследуемого от Snippet, из списка полей
+     *     Возвращает первое из списка поле типа, наследуемого от Snippet
      * </p>
      *
      * <p>For example: {@code

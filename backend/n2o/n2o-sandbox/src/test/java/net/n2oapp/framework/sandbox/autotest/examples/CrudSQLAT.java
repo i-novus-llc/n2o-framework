@@ -158,16 +158,16 @@ public class CrudSQLAT extends SandboxAutotestBase {
         minPrice.click();
         minPrice.setValue("160000");
         minPrice.shouldHaveValue("160000");
-        table.filters().search();
+        table.filters().toolbar().button("Найти").click();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(2).shouldHaveText("161 000");
-        table.filters().clear();
+        table.filters().toolbar().button("Сбросить").click();
         minPrice.shouldBeEmpty();
 
         maxPrice.click();
         maxPrice.setValue("22000");
         maxPrice.shouldHaveValue("22000");
-        table.filters().search();
+        table.filters().toolbar().button("Найти").click();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(2).shouldHaveText("21 000");
 
@@ -177,11 +177,11 @@ public class CrudSQLAT extends SandboxAutotestBase {
         minPrice.click();
         minPrice.setValue("30000");
         minPrice.shouldHaveValue("30000");
-        table.filters().search();
+        table.filters().toolbar().button("Найти").click();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(2).shouldHaveText("32 000");
 
-        table.filters().clear();
+        table.filters().toolbar().button("Сбросить").click();
         minPrice.shouldBeEmpty();
         maxPrice.shouldBeEmpty();
     }

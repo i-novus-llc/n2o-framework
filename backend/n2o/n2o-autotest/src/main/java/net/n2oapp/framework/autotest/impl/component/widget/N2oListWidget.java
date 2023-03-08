@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.widget;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
@@ -11,17 +12,21 @@ import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 public class N2oListWidget extends N2oStandardWidget implements ListWidget {
     @Override
     public Content content(int index) {
-        return new N2oContent(element().$$(".n2o-widget-list-item").get(index));
+        return new N2oContent(items().get(index));
     }
 
     @Override
     public void shouldHaveSize(int size) {
-        element().$$(".n2o-widget-list-item").shouldHave(CollectionCondition.size(size));
+        items().shouldHave(CollectionCondition.size(size));
     }
 
     @Override
     public Paging paging() {
         return new N2oPaging(element());
+    }
+
+    protected ElementsCollection items() {
+        return element().$$(".n2o-widget-list-item");
     }
 
     public static class N2oContent implements Content {

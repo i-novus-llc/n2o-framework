@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.application;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.application.SidebarState;
 import net.n2oapp.framework.autotest.N2oSelenide;
@@ -20,7 +21,7 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
 
     @Override
     public void shouldHaveTitle(String title) {
-        element().$$(".navbar-brand")
+        navBrands()
                 .filterBy(Condition.not(Condition.cssClass("n2o-brand")))
                 .get(0)
                 .shouldHave(Condition.exactText(title));
@@ -34,7 +35,7 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
 
     @Override
     public void shouldHaveSubtitle(String subtitle) {
-        element().$$(".navbar-brand")
+        navBrands()
                 .filterBy(Condition.not(Condition.cssClass("n2o-brand")))
                 .get(1)
                 .shouldHave(Condition.exactText(subtitle));
@@ -77,5 +78,9 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
                         .$$(".navbar-collapse .navbar-nav")
                         .get(1)
                         .$$("ul > li"), N2oMenu.class);
+    }
+
+    protected ElementsCollection navBrands() {
+        return element().$$(".navbar-brand");
     }
 }

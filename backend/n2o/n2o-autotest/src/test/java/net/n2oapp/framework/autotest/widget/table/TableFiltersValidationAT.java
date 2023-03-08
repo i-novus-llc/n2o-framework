@@ -83,14 +83,14 @@ public class TableFiltersValidationAT extends AutoTestBase {
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.empty);
-        tableWidget.filters().search();
+        tableWidget.filters().toolbar().button("Найти").click();
         like.shouldHaveValidationMessage(Condition.empty);
-        tableWidget.filters().clear();
+        tableWidget.filters().toolbar().button("Сбросить").click();
         id.control(InputText.class).click();
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.empty);
-        tableWidget.filters().search();
+        tableWidget.filters().toolbar().button("Найти").click();
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
