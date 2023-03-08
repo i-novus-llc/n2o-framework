@@ -24,8 +24,34 @@ export function post(url, file, onProgress, onUpload, onError, cancelSource) {
         })
 }
 
+const SPECIAL_SYMBOLS = ['?', '=']
+
+function getDeleteConfig(url, id) {
+    if (url.includes('?')) {
+        const { origin, pathname, search } = new URL(url)
+
+        const query = search
+            .split('')
+            .filter(char => !SPECIAL_SYMBOLS.includes(char))
+            .join('')
+
+        return {
+            deleteUrl: `${origin}${pathname}`,
+            params: { [query]: id },
+        }
+    }
+
+    if (url.endsWith('/')) {
+        return { deleteUrl: `${url}${id}` }
+    }
+
+    return { deleteUrl: `${url}/${id}` }
+}
+
 export function deleteFile(url, id) {
-    axios.delete(`${url}/${id}`)
+    const { deleteUrl, params = {} } = getDeleteConfig(url, id)
+
+    axios.delete(deleteUrl, { params })
 }
 
 export function convertSize(size, step = 0) {
