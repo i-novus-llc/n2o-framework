@@ -606,6 +606,7 @@ public class TestDataProviderEngineTest {
         result = (List<Map>) engine.invoke(provider, inParams);
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(5607640L));
+        assertThat(result.get(0).get("birthday"), is("2018-01-18T00:00:00Z"));
 
         inParams.put("filters", Arrays.asList("birthday :less :birthday.end"));
         inParams.remove("birthday.begin");
@@ -614,6 +615,7 @@ public class TestDataProviderEngineTest {
         result = (List<Map>) engine.invoke(provider, inParams);
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(5607677L));
+        assertThat(result.get(0).get("birthday"), is("1927-01-01T00:00:00+07:00"));
 
 
         inParams.put("filters", Arrays.asList("id :less :id"));
