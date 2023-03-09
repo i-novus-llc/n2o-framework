@@ -238,6 +238,8 @@ export function* checkAndModify(
 }
 
 export function* resolveDependency({ type, meta, payload }) {
+    yield delay(16)
+
     try {
         const { key, field: fieldName, prefix = ModelPrefix.active, formFirstInit } = meta
         const formValue = yield select(getModelByPrefixAndNameSelector(prefix, key))
