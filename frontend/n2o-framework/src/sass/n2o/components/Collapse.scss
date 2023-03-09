@@ -125,4 +125,10 @@
             color: black;
         }
     }
+
+    .n2o-collapse-panel.with-badge {
+        .n2o-panel-header .n2o-panel-header-text {
+            max-width: calc(100% - 10px);
+        }
+    }
 }

@@ -1,11 +1,11 @@
 import React from 'react'
-import isString from 'lodash/isString'
 import PropTypes from 'prop-types'
 import { Panel as BasePanel } from 'rc-collapse'
 import classNames from 'classnames'
 
 import Label from '../../widgets/Form/fields/StandardField/Label'
 import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
+import { Badge } from '../Badge/Badge'
 
 /**
  * Панель Collapse
@@ -21,6 +21,21 @@ import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
  * @returns {*}
  * @constructor
  */
+
+function PanelHeader({ header, help, description, badge }) {
+    const title = typeof header === 'string' ? header : null
+
+    return (
+        <div className="n2o-panel-header-container">
+            <Badge {...badge} visible={!!badge}>
+                <span title={title} className="n2o-panel-header-text">{header}</span>
+            </Badge>
+            <HelpPopover help={help} />
+            <Label className="n2o-fieldset__description" value={description} />
+        </div>
+    )
+}
+
 export const Panel = ({
     className,
     headerClass,
@@ -30,27 +45,17 @@ export const Panel = ({
     collapsible,
     description,
     help,
+    badge,
     ...rest
 }) => (
     <BasePanel
         header={(
-            <div className="n2o-panel-header-container">
-                <span
-                    /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex,jsx-a11y/tabindex-no-positive */
-                    tabIndex={1}
-                    title={isString(header) && header}
-                    className="n2o-panel-header-text"
-                >
-                    {header}
-                </span>
-                {help && <HelpPopover help={help} />}
-                {description && (
-                    <Label
-                        className="n2o-fieldset__description"
-                        value={description}
-                    />
-                )}
-            </div>
+            <PanelHeader
+                header={header}
+                help={help}
+                description={description}
+                badge={badge}
+            />
         )}
         className={classNames(
             'n2o-collapse-panel',
@@ -58,6 +63,7 @@ export const Panel = ({
             className,
             {
                 'with-description': description,
+                'with-badge': badge,
             },
         )}
         headerClass={classNames(

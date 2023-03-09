@@ -17,6 +17,7 @@ export type IBadgeProps = Partial<{
     hasMargin: boolean;
     className: string;
     style: CSSProperties;
+    visible?: boolean;
 }>
 
 export const Badge = React.memo((props: IBadgeProps) => {
@@ -32,6 +33,7 @@ export const Badge = React.memo((props: IBadgeProps) => {
         hasMargin = true,
         className,
         style,
+        visible = true,
     } = props
 
     const isBadgeSquare = shape === Shape.Square
@@ -68,6 +70,10 @@ export const Badge = React.memo((props: IBadgeProps) => {
             {text}
         </ReactstrapBadge>
     )
+
+    if (!visible && children) {
+        return <>{children}</>
+    }
 
     if (!children) {
         return <BadgeComponent />
