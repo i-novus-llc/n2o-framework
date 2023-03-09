@@ -5,7 +5,7 @@
         <fields>
             <row>
                 <image 
-                    id="image-text-top" 
+                    id="image_text_top"
                     width="187px"
                     url="static/san-francisco.png"
                     title="Заголовок"
@@ -13,7 +13,7 @@
                     text-position="top" 
                     />
                 <image 
-                    id="image-text-right" 
+                    id="image_text_right"
                     width="187px"
                     url="static/san-francisco.png"
                     title="Заголовок"
@@ -22,7 +22,7 @@
             </row>
             <row>
                 <image 
-                    id="image-text-bottom" 
+                    id="image_text_bottom"
                     width="187px"
                     url="static/san-francisco.png"
                     title="Заголовок"
@@ -30,7 +30,7 @@
                     text-position="bottom" 
                     />
                 <image 
-                    id="image-text-left" 
+                    id="image_text_left"
                     width="187px"
                     url="static/san-francisco.png"
                     title="Заголовок"
