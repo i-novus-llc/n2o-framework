@@ -4,7 +4,7 @@
     <form>
         <fields>
             <date-time
-                id="date format"
+                id="date_format"
                 no-label="true"
                 date-format="YYYY-MM-DD"
             />

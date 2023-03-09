@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ButtonsEnablingAT extends AutoTestBase {
 
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();

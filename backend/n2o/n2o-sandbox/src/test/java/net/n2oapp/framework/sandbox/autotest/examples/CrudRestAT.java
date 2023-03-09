@@ -38,7 +38,6 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(locations = "/crud-rest.properties")
 public class CrudRestAT extends AutoTestBase {
 
-
     @Autowired
     SpringRestDataProviderEngine restDataProviderEngine;
 
