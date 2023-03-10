@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import CardsCell from './CardsCell'
 
-export function Card({ card, model, index, id, onResolve, dispatch, alignStyle, datasource }) {
+export function Card({ card, index, id, onResolve, dispatch, alignStyle, datasource, model = {} }) {
     const { content = [], col } = card
 
     return (
@@ -22,6 +22,8 @@ export function Card({ card, model, index, id, onResolve, dispatch, alignStyle, 
                     },
                 )
 
+                const { id: key } = model
+
                 return (
                     <div className={wrapperClassName} style={style} key={component.src + index}>
                         <CardsCell
@@ -31,6 +33,7 @@ export function Card({ card, model, index, id, onResolve, dispatch, alignStyle, 
                             onResolve={onResolve}
                             dispatch={dispatch}
                             datasource={datasource}
+                            key={key}
                             {...component}
                         />
                     </div>
