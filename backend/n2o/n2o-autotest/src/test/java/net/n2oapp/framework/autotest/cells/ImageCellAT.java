@@ -41,6 +41,7 @@ public class ImageCellAT extends AutoTestBase {
 
     @Test
     public void imageCellTest() {
+        setJsonPath("net/n2oapp/framework/autotest/cells");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
 
@@ -58,6 +59,7 @@ public class ImageCellAT extends AutoTestBase {
 
     @Test
     public void imageCellWithTitleTest() {
+        setJsonPath("net/n2oapp/framework/autotest/cells/image/title");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/test.query.xml"));
 
@@ -83,6 +85,7 @@ public class ImageCellAT extends AutoTestBase {
 
     @Test
     public void imageCellWithStatusTest() {
+        setJsonPath("net/n2oapp/framework/autotest/cells/image/status");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/test.query.xml"));
 

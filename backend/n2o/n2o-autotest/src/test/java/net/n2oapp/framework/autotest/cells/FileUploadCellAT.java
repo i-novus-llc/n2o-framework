@@ -35,6 +35,7 @@ public class FileUploadCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
+        setJsonPath("net/n2oapp/framework/autotest/cells/fileupload");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/fileupload/test.query.xml"));
     }

@@ -3,7 +3,7 @@
     <operations>
         <operation id="create">
             <invocation>
-                <test operation="create" file="/net/n2oapp/framework/autotest/widget/calendar/without_resources/test.json"/>
+                <test operation="create" file="test.json"/>
             </invocation>
             <in>
                 <field id="title"/>

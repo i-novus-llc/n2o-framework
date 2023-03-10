@@ -34,6 +34,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
 
+        setJsonPath("net/n2oapp/framework/autotest/action/switch_case");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/page1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/page2.page.xml"),

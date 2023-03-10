@@ -39,6 +39,7 @@ public class DynamicQueryAT extends AutoTestBase {
 
     @Test
     public void testDynamic() {
+        setJsonPath("net/n2oapp/framework/autotest/query");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/query/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/query/dynamic.query.xml"));
 

@@ -44,6 +44,7 @@ public class TableSelectionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/test.query.xml"));

@@ -41,6 +41,7 @@ public class IfElseActionAT extends AutoTestBase {
 
     @Test
     public void testIfElse() {
+        setJsonPath("net/n2oapp/framework/autotest/action/if_else");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/if_else/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/if_else/page1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/if_else/test.query.xml"));

@@ -51,6 +51,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
     @Test
     public void testView() {
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -102,6 +103,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
     @Test
     public void testValidationFetch() {
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
         SimplePage page = open(SimplePage.class);
