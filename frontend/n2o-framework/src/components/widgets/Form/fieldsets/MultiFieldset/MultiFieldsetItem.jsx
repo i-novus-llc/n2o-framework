@@ -4,6 +4,8 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import Button from 'reactstrap/lib/Button'
 
+import { MultiFieldsetItemToolbar } from './MultiFieldsetItemToolbar'
+
 function MultiFieldsetItem({
     fields,
     render,
@@ -28,37 +30,24 @@ function MultiFieldsetItem({
             {map(fields, (field, index) => (
                 <div className="n2o-multi-fieldset__container">
                     <div className="n2o-multi-fieldset__item">
-                        <div className="n2o-multi-fieldset__label">
-                            {resolvePlaceholder(index)}
-                        </div>
+                        <section className="n2o-multi-fieldset__item-top-section">
+                            <div className="n2o-multi-fieldset__label">
+                                {resolvePlaceholder(index)}
+                            </div>
+                            <MultiFieldsetItemToolbar
+                                needCopyButton={needCopyButton}
+                                needRemoveButton={needRemoveButton}
+                                disabled={!enabled}
+                                index={index}
+                                canRemoveFirstItem={canRemoveFirstItem}
+                                onRemoveField={onRemoveField}
+                                onCopyField={onCopyField}
+                            />
+                        </section>
                         {render(rows, {
                             parentName: `${parentName}[${index}]`,
                             parentIndex: index,
                         })}
-                        <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--inner">
-                            {needCopyButton && (
-                                <Button
-                                    className="n2o-multi-fieldset__copy"
-                                    color="link"
-                                    size="sm"
-                                    onClick={onCopyField(index)}
-                                    disabled={!enabled}
-                                >
-                                    <i className="fa fa-copy" />
-                                </Button>
-                            )}
-                            {needRemoveButton && index > +!canRemoveFirstItem - 1 && (
-                                <Button
-                                    className="n2o-multi-fieldset__remove"
-                                    color="link"
-                                    size="sm"
-                                    onClick={onRemoveField(index)}
-                                    disabled={!enabled}
-                                >
-                                    <i className="fa fa-trash" />
-                                </Button>
-                            )}
-                        </div>
                     </div>
                 </div>
             ))}
