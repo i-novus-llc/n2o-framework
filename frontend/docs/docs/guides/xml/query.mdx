@@ -174,19 +174,19 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 **Атрибуты**
 
-|Наименование       |Тип                                         |Описание                                                                   |Значение по умолчанию                         |
-|-------------------|--------------------------------------------|---------------------------------------------------------------------------|----------------------------------------------|
-|id                 |Строка                                      |Идентификатор поля                                                         |                                              |
-|name               |Строка                                      |Наименование поля                                                          |                                              |
-|domain             |[Тип данных](../xml/base#Data_types_domain) |Тип данных                                                                 |                                              |
-|default-value      |Строка                                      |Значение по умолчанию. Проставится в поле, если в провайдере оно не задано |                                              |
-|sorting            |true false                                  |Является ли поле сортируемым                                               |false. Если задан sorting-expression, то true |
-|sorting-mapping    |Строка                                      |Маппинг плейсхолдера направления сортировки в провайдере                   |[идентификатор_поля]Direction                 |
-|sorting-expression |Строка                                      |Выражение сортировки поля                                                  |                                              |
-|mapping            |Строка                                      |Маппинг данных поля из провайдера                                          |Значение `id`                                 |
-|normalize          |Строка                                      |Нормализация данных поля из провайдера                                     |                                              |
-|select             |true false                                  |Участвует ли поле в выборке                                                |true                                          |
-|select-expression  |Строка                                      |Выражение для подстановки на место плейсхолдера select в провайдере        |                                              |
+|Наименование       |Тип                                         |Описание                                                                   |Значение по умолчанию                             |
+|-------------------|--------------------------------------------|---------------------------------------------------------------------------|--------------------------------------------------|
+|id                 |Строка                                      |Идентификатор поля                                                         |                                                  |
+|name               |Строка                                      |Наименование поля                                                          |                                                  |
+|domain             |[Тип данных](../xml/base#Data_types_domain) |Тип данных                                                                 |                                                  |
+|default-value      |Строка                                      |Значение по умолчанию. Проставится в поле, если в провайдере оно не задано |                                                  |
+|sorting            |true false                                  |Является ли поле сортируемым                                               |false. Если задан `sorting-expression`, то - true |
+|sorting-mapping    |Строка                                      |Маппинг плейсхолдера направления сортировки в провайдере                   |[идентификатор_поля]Direction                     |
+|sorting-expression |Строка                                      |Выражение сортировки поля                                                  |                                                  |
+|mapping            |Строка                                      |Маппинг данных поля из провайдера                                          |Значение `id`                                     |
+|normalize          |Строка                                      |Нормализация данных поля из провайдера                                     |                                                  |
+|select             |true false                                  |Участвует ли поле в выборке                                                |true                                              |
+|select-expression  |Строка                                      |Выражение для подстановки на место плейсхолдера select в провайдере        |                                                  |
 
 **Пример**
 
@@ -262,20 +262,45 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 **Тело**
 
-|Наименование      |Тип      |Описание                                |Значение по умолчанию|
-|------------------|---------|----------------------------------------|---------------------|
-|&lt;eq&gt;        |Выражение|Фильтр эквивалентности                  |                     |
-|&lt;in&gt;        |Выражение|Фильтр вхождения хотя бы одного в список|                     |
-|&lt;like&gt;      |Выражение|Фильтр вхождения подстроки в строку     |                     |
-|&lt;likeStart&gt; |Выражение|Фильтр начала подстроки                 |                     |
-|&lt;isNull&gt;    |Выражение|Фильтр пустого поля                     |                     |
-|&lt;contains&gt;  |Выражение|Фильтр вхождения списка в список        |                     |
-|&lt;overlaps&gt;  |Выражение|Фильтр пересечения списка со списком    |                     |
-|&lt;more&gt;      |Выражение|Фильтр больше                           |                     |
-|&lt;less&gt;      |Выражение|Фильтр меньше                           |                     |
-|&lt;notEq&gt;     |Выражение|Фильтр не эквивалентности               |                     |
-|&lt;notIn&gt;     |Выражение|Фильтр не вхождения в список            |                     |
-|&lt;isNotNull&gt; |Выражение|Фильтр не пустого поля                  |                     |
+|Наименование       |Тип       |Описание                                 |
+|-------------------|--------- |-----------------------------------------|
+|&lt;eq&gt;         |Выражение |Фильтр эквивалентности                   |
+|&lt;notEq&gt;      |Выражение |Фильтр не эквивалентности                |
+|&lt;more&gt;       |Выражение |Фильтр больше                            |
+|&lt;less&gt;       |Выражение |Фильтр меньше                            |
+|&lt;like&gt;       |Выражение |Фильтр вхождения подстроки в строку      |
+|&lt;in&gt;         |Выражение |Фильтр вхождения хотя бы одного в список |
+|&lt;contains&gt;   |Выражение |Фильтр вхождения списка в список         |
+|&lt;isNull&gt;     |Выражение |Фильтр пустого поля                      |
+|&lt;isNotNull&gt;  |Выражение |Фильтр не пустого поля                   |
+|&lt;eqOrIsNull&gt; |Выражение |Фильтр эквивалентности и не пустого поля |
+|&lt;likeStart&gt;  |Выражение |Фильтр начала подстроки                  |
+|&lt;notIn&gt;      |Выражение |Фильтр не вхождения в список             |
+
+:::note
+Важно отметить, что тип фильтра играет роль только для `<test>` и `<mongo>` провайдеров.
+В таком случае тело фильтра может быть сгенерировано согласно его типу.
+Во всех остальных ситуациях указание тела фильтра обязательно,
+а его тип служит скорее удобным указанием для какой фильтрации он используется,
+но не несет никакой дополнительной функции.
+:::
+
+**Значения выражений по умолчанию для разных провайдеров**
+
+|Наименование       |test                          | mongo                                  |
+|-------------------|------------------------------|----------------------------------------|
+|&lt;eq&gt;         |fieldId :eq :filterId         |{'fieldId' : filterId}                  |
+|&lt;notEq&gt;      |fieldId :notEq :filterId      |{'fieldId': {$ne: '#filterId'}}         |
+|&lt;more&gt;       |fieldId :more :filterId       |{'fieldId': {$gte: '#filterId'}}        |
+|&lt;less&gt;       |fieldId :less :filterId       |{'fieldId': {$lte: '#filterId'}}        |
+|&lt;like&gt;       |fieldId :like :filterId       |{'fieldId': {$regex: '.\*#filterId.*'}} |
+|&lt;in&gt;         |fieldId :in :filterId         |{'fieldId': {$in: '#filterId'}}         |
+|&lt;contains&gt;   |fieldId :contains :filterId   |-                                       |
+|&lt;isNull&gt;     |fieldId :isNull :filterId     |-                                       |
+|&lt;isNotNull&gt;  |fieldId :isNotNull :filterId  |-                                       |
+|&lt;eqOrIsNull&gt; |fieldId :eqOrIsNull :filterId |-                                       |
+|&lt;likeStart&gt;  |-                             |{'fieldId': {$regex: '#filterId.*'}}    |
+|&lt;notIn&gt;      |-                             |{'fieldId': {$nin: '#filterId'}}        |
 
 **Базовые атрибуты**
 
@@ -293,10 +318,13 @@ http://n2oapp.net/framework/config/schema/query-5.0
 
 ```xml
 <filters>
-    <eq field-id="gender.id" mapping="gender_id"
-        default-value="1">gender_id = :gender_id</eq>
-    <in field-id="genders" filter-id="genders*.id"
-        domain="integer[]">gender_id in (:genders)</in>
-    <like field-id="gender.name" filter-id="gender.name" domain="string" normalize="#this.toLowerCase()"/>
+    <eq field-id="gender.id" mapping="gender_id" default-value="1">
+        gender_id = :gender_id
+    </eq>
+    <in field-id="genders" filter-id="genders*.id" domain="integer[]">
+        gender_id in (:genders)
+    </in>
+    <like field-id="gender.name" filter-id="gender.name"
+          domain="string" normalize="#this.toLowerCase()"/>
 </filters>
 ```
