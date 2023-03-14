@@ -226,13 +226,16 @@ export default (Field) => {
         action: PropTypes.object,
     }
 
-    const mapStateToProps = (state, { modelPrefix, ...ownProps }) => {
+    const mapStateToProps = (state, { modelPrefix, visible: propsVisible, ...ownProps }) => {
         const { form } = ownProps.meta
         const { name } = ownProps.input
 
+        const visibleFromRedux = isVisibleSelector(form, name)(state)
+        const visible = visibleFromRedux === undefined ? propsVisible : visibleFromRedux
+
         return {
             isInit: isInitSelector(form, name)(state),
-            visible: isVisibleSelector(form, name)(state),
+            visible,
             disabled: isDisabledSelector(form, name)(state),
             message: messageSelector(form, name, modelPrefix)(state),
             required: requiredSelector(form, name)(state),
