@@ -517,7 +517,6 @@
             <xs:element name="likeStart" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="filterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="contains" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="more" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="less" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notEq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>

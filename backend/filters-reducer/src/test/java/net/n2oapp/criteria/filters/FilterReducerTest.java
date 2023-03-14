@@ -241,76 +241,6 @@ public class FilterReducerTest {
     }
 
     @Test
-    public void testOverlap() throws Exception {
-        //успех - overlap with equal
-        Result result = reduce(
-                new Filter(Arrays.asList(1, 2), FilterType.overlaps),
-                new Filter(2, FilterType.eq));
-        assert result.getType().equals(Result.Type.success);
-        assert result.getResultFilter().getType().equals(FilterType.eq);
-        assert result.getResultFilter().getValue().equals(2);
-
-        //успех - overlap with equal
-        result = reduce(
-                new Filter(Arrays.asList(1, 2, 6), FilterType.overlaps),
-                new Filter(Arrays.asList(1, 2, 3), FilterType.eq));
-        assert result.getType().equals(Result.Type.success);
-        assert result.getResultFilter().getType().equals(FilterType.eq);
-        assert result.getResultFilter().getValue().equals(Arrays.asList(1, 2, 3));
-
-        //успех - overlap with overlap
-        result = reduce(
-                new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps),
-                new Filter(Arrays.asList(2, 3, 4), FilterType.overlaps));
-        assert result.getType().equals(Result.Type.success);
-        assert result.getResultFilter().getType().equals(FilterType.overlaps);
-        assert result.getResultFilter().getValue().equals(Arrays.asList(2, 3));
-
-        //ошибка
-        result = reduce(
-                new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps),
-                new Filter(Arrays.asList(9, 10), FilterType.overlaps));
-        assert result.getType().equals(Result.Type.conflict);
-        assert result.getResultFilter() == null;
-
-        //ошибка more with overlap всегда
-        result = reduce(
-                new Filter(Arrays.asList(2, 3, 4, 5), FilterType.overlaps),
-                new Filter(3, FilterType.more));
-        assert result.getType().equals(Result.Type.notMergeable);
-        assert result.getResultFilter() == null;
-
-        //ошибка - less with overlap всегда
-        result = reduce(
-                new Filter(Arrays.asList(2, 3, 4), FilterType.overlaps),
-                new Filter(4, FilterType.less));
-        assert result.getType().equals(Result.Type.notMergeable);
-        assert result.getResultFilter() == null;
-
-        //ошибка
-        result = reduce(
-                new Filter(FilterType.isNull),
-                new Filter(1, FilterType.overlaps));
-        assert result.getType().equals(Result.Type.conflict);
-        assert result.getResultFilter() == null;
-
-        //успех
-        result = reduce(
-                new Filter(FilterType.isNotNull),
-                new Filter(Arrays.asList(2, 3, 4, 5), FilterType.overlaps));
-        assert result.getType().equals(Result.Type.success);
-        assert result.getResultFilter().getType().equals(FilterType.overlaps);
-        assert result.getResultFilter().getValue().equals(Arrays.asList(2, 3, 4, 5));
-
-        //ошибка notEq with overlap
-        result = reduce(
-                new Filter(1, FilterType.notEq),
-                new Filter(Arrays.asList(1, 2), FilterType.overlaps));
-        assert result.getType().equals(Result.Type.conflict);
-        assert result.getResultFilter() == null;
-    }
-
-    @Test
     public void testContains() throws Exception {
         //успех - contains with equal
         Result result = reduce(
@@ -620,8 +550,5 @@ public class FilterReducerTest {
                 new Filter("es", FilterType.likeStart));
         Assert.assertTrue(result.getType().equals(Result.Type.conflict));
         Assert.assertTrue(result.getResultFilter() == null);
-
-        //overlap
-        //contains
     }
 }

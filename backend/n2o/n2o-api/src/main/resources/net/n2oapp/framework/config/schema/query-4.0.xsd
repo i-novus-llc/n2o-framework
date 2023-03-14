@@ -181,12 +181,10 @@
             <xs:element name="eq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="eqOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="in" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="inOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="like" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="likeStart" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="contains" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="more" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="less" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notEq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>

@@ -41,8 +41,7 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
                     if (isBlank(filter.getText())) {
                         String mapping = unwrapSpel(filter.getMapping());
                         filter.setText(mapping + " " + colon(filter.getType().name()) + " " + colon(mapping));}
-                }
-                else {
+                } else {
                     if (filter.getFilterId() == null)
                         filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
                     if (isBlank(filter.getText()))
