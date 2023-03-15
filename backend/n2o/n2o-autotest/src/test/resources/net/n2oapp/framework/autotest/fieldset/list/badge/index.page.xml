@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Моя первая страница">
+    <form>
+        <fields>
+            <line label="test" badge="12" badge-color="info" badge-shape="rounded"/>
+            <line label="test2" badge="Humburg" badge-color="danger" badge-shape="square"  badge-image="static/hamburg-3846525__340.jpg"
+                  badge-image-position="right"
+                  badge-image-shape="square"/>
+            <line label="test3" badge="{count}">
+                <input-text id="count"/>
+            </line>
+        </fields>
+    </form>
+</simple-page>
