@@ -18,7 +18,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  */
 public class SandboxRestClientImpl implements SandboxRestClient {
 
-    @Value("${n2o.sandbox.url}/api/project")
+    @Value("${n2o.sandbox.url}/project")
     private String baseApiProjectUrl;
     private RestTemplate restTemplate;
 
