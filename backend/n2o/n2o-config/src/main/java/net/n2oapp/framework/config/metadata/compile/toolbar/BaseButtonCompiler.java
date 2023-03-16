@@ -70,7 +70,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
             hint = source.getDescription();
 
         if (hint != null) {
-            button.setHint(hint.trim());
+            button.setHint(p.resolveJS(hint.trim()));
             button.setHintPosition(source.getTooltipPosition());
         }
     }
