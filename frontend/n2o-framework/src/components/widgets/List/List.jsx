@@ -225,16 +225,19 @@ class List extends Component {
                   columnIndex={0}
                   rowIndex={index}
               >
-                  <ListItem
-                      {...data[index]}
-                      hasSelect={hasSelect}
-                      key={key}
-                      style={style}
-                      divider={divider}
-                      selected={selectedIndex === index}
-                      onClick={() => this.onItemClick(index, isEmpty(rows) || permissions)
-                      }
-                  />
+                  {
+                      ({ measure }) => (
+                          <ListItem
+                              {...data[index]}
+                              hasSelect={hasSelect}
+                              key={key}
+                              style={style}
+                              divider={divider}
+                              selected={selectedIndex === index}
+                              onClick={() => this.onItemClick(index, isEmpty(rows) || permissions)}
+                              measure={measure}
+                          />
+                      ) }
               </CellMeasurer>
               {moreBtn}
           </>
