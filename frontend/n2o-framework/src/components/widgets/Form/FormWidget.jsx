@@ -59,6 +59,7 @@ export const Form = (props) => {
             style={style}
             datasource={datasource}
             loading={loading}
+            activeModel={activeModel}
         >
             <ReduxForm
                 form={formName}
