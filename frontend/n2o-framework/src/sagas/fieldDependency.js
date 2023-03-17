@@ -85,7 +85,9 @@ export function* fetchValue(values, form, field, { dataProvider, valueFieldId })
             yield put(updateModel(ModelPrefix.active, form, field, nextFieldValue))
         }
     } catch (e) {
-        yield put(updateModel(ModelPrefix.active, form, field, null))
+        if (values[field] !== null) {
+            yield put(updateModel(ModelPrefix.active, form, field, null))
+        }
         // eslint-disable-next-line no-console
         console.error(e)
     } finally {
