@@ -32,9 +32,11 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setContent(initContent(source.getContent(), context, p, source));
         region.setColor(source.getColor());
         region.setIcon(source.getIcon());
-        region.setHeader(p.cast(source.getHeader(), p.resolve(property("n2o.api.region.panel.header"),  Boolean.class), true));
+        region.setHeader(p.cast(source.getHeader(),
+                p.resolve(property("n2o.api.region.panel.header"),  Boolean.class), true));
         region.setFooterTitle(source.getFooterTitle());
-        region.setOpen(p.cast(source.getOpen(), p.resolve(property("n2o.api.region.panel.open"),  Boolean.class), true));
+        region.setOpen(p.cast(source.getOpen(),
+                p.resolve(property("n2o.api.region.panel.open"),  Boolean.class), true));
         region.setCollapsible(p.cast(source.getCollapsible(),
                 p.resolve(property("n2o.api.region.panel.collapsible"),  Boolean.class), true));
         region.setFullScreen(false);

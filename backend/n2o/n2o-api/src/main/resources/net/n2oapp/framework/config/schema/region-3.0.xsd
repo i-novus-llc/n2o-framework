@@ -135,7 +135,7 @@
             <xs:extension base="regionDefinition">
                 <xs:annotation>
                     <xs:documentation>
-                        Регион в виде панелей
+                        Регион в виде панели
                     </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="title" type="xs:string">

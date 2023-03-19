@@ -54,6 +54,20 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |has-separator |true false |Отображение горизонтального делителя         |true                  |
 |expand        |true false |Исходное раскрытие региона                   |true                  |
 
+**Настройки**
+```yaml
+#Возможность раскрытия и сворачивания региона
+n2o.api.region.line.collapsible = true
+#Отображение горизонтального делителя
+n2o.api.region.line.has_separator = true
+#Исходное раскрытие региона
+n2o.api.region.line.expand = true
+```
+**Тело**
+
+Список [регионов](#) <br/>
+Список [виджетов](../xml/widget)
+
 **Пример**
 
 ```xml
@@ -66,14 +80,9 @@ http://n2oapp.net/framework/config/schema/region-3.0
 
 <Sandbox height={300} projectId="uxcomponents_regions_line" />
 
-**Тело**
-
-Список [регионов](#) <br/>
-Список [виджетов](../xml/widget)
-
 ### &lt;panel&gt; {#panel}
 
-Регион в виде панелей
+Регион в виде панели
 
 **Атрибуты**
 
@@ -89,6 +98,23 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |routable     |true false |Восстановление активных панелей по URL      |true                  |
 |active-param |Строка     |Имя параметра активной панели в URL         |Значение `id`         |
 
+**Настройки**
+```yaml
+#Возможность раскрытия и сворачивания панели
+n2o.api.region.panel.collapsible = true
+#Наличие заголовка
+n2o.api.region.panel.header = true
+#Исходное раскрытие панели
+n2o.api.region.panel.open = true
+#Восстановление активных панелей по URL
+n2o.api.region.panel.routable = true
+```
+
+**Тело**
+
+Список [регионов](#) <br/>
+Список [виджетов](../xml/widget)
+
 **Пример**
 
 ```xml
@@ -100,11 +126,6 @@ http://n2oapp.net/framework/config/schema/region-3.0
 ```
 
 <Sandbox height={200} projectId="uxcomponents_regions_panel" />
-
-**Тело**
-
-Список [регионов](#) <br/>
-Список [виджетов](../xml/widget)
 
 ### &lt;tabs&gt; {#tabs}
 
@@ -124,6 +145,26 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |datasource          |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных, из которого будет взято значение для `active-tab-field-id` | |
 |active-tab-field-id |Ссылка на [поле выборки](../xml/query#field)               |Идентификатор поля, значение которого задает id активной вкладки | |
 
+**Настройки**
+```yaml
+#Обновление данных при переключении между вкладками
+n2o.api.region.tabs.always_refresh = false
+#Ленивая загрузка вкладок
+n2o.api.region.tabs.lazy = true
+#Скрытие единственной доступной вкладки и отображение только ее содержимого
+n2o.api.region.tabs.hide_single_tab = false
+#Максимальная высота содержимого вкладок
+n2o.api.region.tabs.max_height=
+#Отображение полосы прокрутки
+n2o.api.region.tabs.scrollbar = false
+#Восстановление активных вкладок по URL
+n2o.api.region.tabs.routable = true
+```
+
+**Тело**
+
+&lt;tab&gt; - Список [вкладок](#tab)
+
 **Пример**
 
 ```xml
@@ -139,10 +180,6 @@ http://n2oapp.net/framework/config/schema/region-3.0
 
 <Sandbox height={300} projectId="uxcomponents_regions_tabs" />
 
-**Тело**
-
-&lt;tab&gt; - [Вкладка](#tab)
-
 #### &lt;tab&gt; {#tab}
 
 Вкладка
@@ -154,6 +191,11 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |id           |Строка |Идентификатор вкладки |
 |name         |Строка |Наименование вкладки  |
 
+**Тело**
+
+Список [регионов](#) <br/>
+Список [виджетов](../xml/widget)
+
 **Пример**
 
 ```xml
@@ -163,11 +205,6 @@ http://n2oapp.net/framework/config/schema/region-3.0
   <table/>
 </tab>
 ```
-
-**Тело**
-
-Список [регионов](#) <br/>
-Список [виджетов](../xml/widget)
 
 ### &lt;scrollspy&gt; {#scrollspy}
 
@@ -183,6 +220,21 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |headlines    |true false |Наличие разделительной строки между блоками |false                 |
 |routable     |true false |Восстановление активного элемента  по URL   |true                  |
 |active-param |Строка     |Имя параметра активного элемента меню в URL |Значение `id`         |
+
+**Настройки**
+```yaml
+#Сторона расположения меню
+n2o.api.region.scrollspy.placement = left
+#Наличие разделительной строки между блоками
+n2o.api.region.scrollspy.headlines = false
+#Восстановление активного элемента по URL
+n2o.api.region.scrollspy.routable = true
+```
+
+**Тело**
+
+&lt;menu-item&gt; - Список [элементов меню](#scrollspy_menu-item) <br/>
+&lt;sub-menu&gt; - Список [вложенных меню](#scrollspy_sub-menu)
 
 **Пример**
 
@@ -201,11 +253,6 @@ http://n2oapp.net/framework/config/schema/region-3.0
 </scrollspy>
 ```
 
-**Тело**
-
-&lt;menu-item&gt; - Список [элементов меню](#scrollspy_menu-item) <br/>
-&lt;sub-menu&gt; - Список [вложенных меню](#scrollspy_sub-menu)
-
 #### &lt;menu-item&gt; {#scrollspy_menu-item}
 
 Элемент меню
@@ -217,6 +264,11 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |id           |Строка |Идентификатор элемента меню |
 |title        |Строка |Заголовок элемента меню     |
 
+**Тело**
+
+Список [регионов](#) <br/>
+Список [виджетов](../xml/widget)
+
 **Пример**
 
 ```xml
@@ -225,11 +277,6 @@ http://n2oapp.net/framework/config/schema/region-3.0
      <form/>
 </menu-item>
 ```
-
-**Тело**
-
-Список [регионов](#) <br/>
-Список [виджетов](../xml/widget)
 
 #### &lt;sub-menu&gt; {#scrollspy_sub-menu}
 
@@ -241,6 +288,11 @@ http://n2oapp.net/framework/config/schema/region-3.0
 |-------------|-------|------------------------------|
 |id           |Строка |Идентификатор вложенного меню |
 |title        |Строка |Заголовок вложенного меню     |
+
+**Тело**
+
+&lt;menu-item&gt; - Список [элементов меню](#scrollspy_menu-item) <br/>
+&lt;sub-menu&gt; - Список [вложенных меню](#scrollspy_sub-menu)
 
 **Пример**
 
@@ -254,8 +306,3 @@ http://n2oapp.net/framework/config/schema/region-3.0
      </menu-item>
 </sub-menu>
 ```
-
-**Тело**
-
-&lt;menu-item&gt; - Список [элементов меню](#scrollspy_menu-item) <br/>
-&lt;sub-menu&gt; - Список [вложенных меню](#scrollspy_sub-menu)

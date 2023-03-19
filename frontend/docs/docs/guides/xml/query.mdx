@@ -75,6 +75,14 @@ http://n2oapp.net/framework/config/schema/query-5.0
 |desc-expression    |Строка                               |Выражение DESC направления сортировки                                                                                 |desc                  |
 |additional-mapping |Строка                               |Маппинг дополнительной информации                                                                                     |                      |
 
+**Настройки**
+```yaml
+#Значение asc направления сортировки
+n2o.engine.query.asc-expression = asc
+#Значение desc направления сортировки
+n2o.engine.query.desc-expression = desc
+```
+
 **Тело**
 
 [Провайдер данных](../xml/dataprovider)
@@ -187,6 +195,14 @@ http://n2oapp.net/framework/config/schema/query-5.0
 |normalize          |Строка                                      |Нормализация данных поля из провайдера                                     |                                                  |
 |select             |true false                                  |Участвует ли поле в выборке                                                |true                                              |
 |select-expression  |Строка                                      |Выражение для подстановки на место плейсхолдера select в провайдере        |                                                  |
+
+**Настройки**
+```yaml
+#Участвует ли поле в выборке (для всех видов полей)
+n2o.api.query.field.is_selected = true
+#Участвует ли поле в сортировке (для всех видов полей)
+n2o.api.query.field.is_sorted = false
+```
 
 **Пример**
 
