@@ -183,6 +183,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     void testSelectionNoneElementResolved() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/index.page.xml"),
                         new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/modal.page.xml"),
                         new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/elements_resolve/test.query.xml"));

@@ -18,7 +18,7 @@
         </operation>
         <operation id="update">
             <invocation>
-                <test operation="update" file="/net/n2oapp/framework/autotest/widget/calendar/test.json"/>
+                <test operation="update" file="test.json"/>
             </invocation>
             <in>
                 <field id="id"/>
@@ -30,7 +30,7 @@
         </operation>
         <operation id="delete">
             <invocation>
-                <test operation="delete" file="/net/n2oapp/framework/autotest/widget/calendar/test.json"/>
+                <test operation="delete" file="test.json"/>
             </invocation>
             <in>
                 <field id="id"/>

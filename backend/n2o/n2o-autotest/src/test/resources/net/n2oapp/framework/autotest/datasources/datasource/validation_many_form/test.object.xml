@@ -20,7 +20,7 @@
                     message="Имя {name} уже существует"
                     result="#this == null">
             <invocation>
-                <test file="net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/data.json" operation="findOne"/>
+                <test file="data.json" operation="findOne"/>
             </invocation>
             <in>
                 <field id="name"/>
