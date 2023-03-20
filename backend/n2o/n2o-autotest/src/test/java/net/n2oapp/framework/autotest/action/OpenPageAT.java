@@ -116,6 +116,7 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testResolveBreadcrumbOnStandardPage() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
