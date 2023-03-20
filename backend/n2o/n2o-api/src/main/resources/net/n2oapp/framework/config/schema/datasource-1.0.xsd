@@ -221,7 +221,7 @@
         <xs:attribute name="auto" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>
-                    Автоматически ли записывать в хранилище при изменении данных?
+                    Автоматически записывать в хранилище при изменении данных
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -310,7 +310,7 @@
         <xs:attribute name="auto" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>
-                    Автоматически ли записывать при изменении данных?
+                    Автоматически записывать при изменении данных
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

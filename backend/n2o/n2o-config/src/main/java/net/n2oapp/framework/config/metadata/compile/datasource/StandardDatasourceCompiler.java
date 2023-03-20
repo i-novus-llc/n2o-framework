@@ -69,7 +69,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     @Override
     public StandardDatasource compile(N2oStandardDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StandardDatasource compiled = new StandardDatasource();
-        compileDatasource(source, compiled, context, p);
+        compileDatasource(source, compiled, p);
         initDefaults(source, p);
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
@@ -106,7 +106,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         ClientDataProvider dataProvider = new ClientDataProvider();
         String url = getDatasourceRoute(source, compiled, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
-        dataProvider.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
+        dataProvider.setSize(p.cast(source.getSize(),
+                p.resolve(property("n2o.api.datasource.size"), Integer.class)));
         List<Filter> filters = initFilters(source, p, query);
         compileRoutes(compiled, source, filters, p, query);
         initDataProviderMappings(dataProvider, filters, p);

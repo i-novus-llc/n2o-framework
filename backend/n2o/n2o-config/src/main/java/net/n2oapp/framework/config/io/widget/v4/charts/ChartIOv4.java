@@ -9,7 +9,7 @@ import org.jdom2.Namespace;
  * Интерфейс графиков версии 4
  */
 public interface ChartIOv4 extends NamespaceUriAware, BaseElementClassAware<N2oAbstractChart> {
-    Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/n2o-chart-4.0");
+    Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/n2o-chart-1.0");
 
     @Override
     default String getNamespaceUri() {

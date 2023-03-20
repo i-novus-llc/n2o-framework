@@ -442,7 +442,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:string">
+                <xs:attribute name="width" type="xs:string" default="400">
                     <xs:annotation>
                         <xs:documentation>
                             Ширина окна
