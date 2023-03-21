@@ -7,27 +7,19 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Генерация системных кнопок таблицы
- */
 @Component
-public class TableSettingsGenerator implements ButtonGenerator {
+public class TableWordWrapGenerator implements ButtonGenerator {
+
     @Override
     public String getCode() {
-        return "tableSettings";
+        return "word-wrap";
     }
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        List<ToolbarItem> result = new ArrayList<>();
-        result.add(TableSettingsGeneratorUtil.generateFilters(toolbar, p));
-        result.add(TableSettingsGeneratorUtil.generateColumns(p));
-        result.add(TableSettingsGeneratorUtil.generateRefresh(p));
-        result.add(TableSettingsGeneratorUtil.generateResize(p));
-        result.add(TableSettingsGeneratorUtil.generateWordWrap(toolbar, p));
-        return result;
+        return Collections.singletonList(TableSettingsGeneratorUtil.generateWordWrap(toolbar, p));
     }
 }

@@ -6,7 +6,7 @@
         <table object-id="utBlank">
             <toolbar place="topRight" generate="crud"/>
             <toolbar place="topLeft" generate="tableSettings"/>
-            <toolbar place="bottomRight" generate="filters,columns,refresh,resize"/>
+            <toolbar place="bottomRight" generate="filters,columns,refresh,resize,word-wrap"/>
             <toolbar place="bottomLeft">
                 <group generate="crud"/>
                 <sub-menu generate="crud">
