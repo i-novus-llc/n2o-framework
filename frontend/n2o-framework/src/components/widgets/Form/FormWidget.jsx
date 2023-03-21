@@ -11,7 +11,8 @@ import FormContainer from './FormContainer'
 import Fieldsets from './fieldsets'
 
 export const Form = (props) => {
-    const { id, disabled, toolbar, datasource, className, style, form, loading } = props
+    const { id, disabled, toolbar, datasource, className, style, form, loading, models = {} } = props
+    const { resolve = {} } = models
     const { resolveProps } = useContext(FactoryContext)
     const resolvedForm = useMemo(() => ({
         ...form,
@@ -29,6 +30,7 @@ export const Form = (props) => {
             style={style}
             datasource={datasource}
             loading={loading}
+            activeModel={resolve}
         >
             <FormContainer
                 {...props}

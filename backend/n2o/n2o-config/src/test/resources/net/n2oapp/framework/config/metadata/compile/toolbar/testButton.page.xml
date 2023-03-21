@@ -15,5 +15,7 @@
         </button>
         <button id="btn2" label="edit" icon="fa fa-pencil" type="icon"/>
         <button id="btn3" label="load" icon="fa fa-download"/>
+        <button id="btn4" description="{description}">
+        </button>
     </toolbar>
 </page>
