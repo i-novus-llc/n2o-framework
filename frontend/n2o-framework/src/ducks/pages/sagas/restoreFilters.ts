@@ -1,4 +1,4 @@
-import { call, put, select, fork, race, take } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import queryString from 'query-string'
 import isEmpty from 'lodash/isEmpty'
 import mapValues from 'lodash/mapValues'
@@ -17,14 +17,6 @@ import { getLocation, rootPageSelector } from '../../global/store'
 import { State } from '../../State'
 // @ts-ignore import from js file
 import { makePageRoutesByIdSelector } from '../selectors'
-import filtersCache from '../utils/FiltersCache'
-import { DefaultModels } from '../../models/Models'
-// @ts-ignore import from js file
-import { resetPage } from '../store'
-
-import { mappingUrlToRedux } from './mapUrlToRedux'
-import { IRoutes } from './types'
-import { flowDefaultModels } from './defaultModels'
 
 export function* generateNewQuery(pageId: string, query?: object | null) {
     const state: State = yield select()
@@ -58,7 +50,6 @@ export function* generateNewQuery(pageId: string, query?: object | null) {
 export function* mapQueryToUrl(
     pageId: string,
     query?: object | null,
-    withoutCache?: boolean,
 ) {
     const rootPageId: string = yield select(rootPageSelector)
     const newQuery: object | false = yield call(
@@ -69,25 +60,5 @@ export function* mapQueryToUrl(
 
     if (newQuery && pageId === rootPageId) {
         yield put(replace({ search: queryString.stringify(newQuery), state: { silent: true } }))
-
-        if (!filtersCache.checkCacheExists(pageId) && !withoutCache) {
-            filtersCache.addCache(pageId, newQuery)
-        } else if (!withoutCache) {
-            filtersCache.setQueryTo(pageId, newQuery)
-            filtersCache.clearFromPage(pageId)
-        }
     }
-}
-
-export function* mapPageQueryToUrl(pageId: string, defaultModels: DefaultModels) {
-    const state: State = yield select()
-    const routes: IRoutes = makePageRoutesByIdSelector(pageId)(state)
-
-    if (!filtersCache.checkCacheExists(pageId)) {
-        yield race([call(flowDefaultModels, defaultModels), take(resetPage.type)])
-    } else {
-        yield call(mapQueryToUrl, pageId, filtersCache.getCacheByPageId(pageId)?.query)
-    }
-
-    yield fork(mappingUrlToRedux, routes)
 }

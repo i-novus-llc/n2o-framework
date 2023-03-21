@@ -23,7 +23,6 @@ import {
     copyModel,
     removeModel,
     setModel,
-    updateMapModel,
     updateModel,
 } from '../../models/store'
 // @ts-ignore import from js file
@@ -81,7 +80,6 @@ export function* flowDefaultModels(config: DefaultModels) {
             copyModel.type,
             removeModel.type,
             updateModel.type,
-            updateMapModel.type,
         ])
 
         try {
