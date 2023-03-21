@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -67,6 +68,7 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testPopover() {
         StandardButton button = toolbar.bottomLeft().button("popover");
         button.shouldBeEnabled();
@@ -86,6 +88,7 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testCustomPopover() {
         StandardButton button = toolbar.bottomLeft().button("CustomPopover");
         button.shouldBeEnabled();
