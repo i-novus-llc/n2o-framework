@@ -5,8 +5,10 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -34,13 +36,13 @@ public class ClearAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack());
-
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"));
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
     }
 
     @Test
     public void clearAfterAction() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"));
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -64,5 +66,29 @@ public class ClearAT extends AutoTestBase {
 
         clearBtn.click();
         inputText.shouldBeEmpty();
+    }
+
+    @Test
+    public void clearModelInTable() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
+
+        StandardButton clearBtn = page.toolbar().bottomRight().button("Очистить");
+        clearBtn.shouldExists();
+
+        clearBtn.click();
+
+        table.columns().rows().shouldNotHaveRows();
     }
 }
