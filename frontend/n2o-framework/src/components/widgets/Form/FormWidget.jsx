@@ -55,7 +55,9 @@ class FormWidget extends React.Component {
             pageId,
             className,
             style,
+            activeModel,
         } = this.props
+        const model = activeModel[widgetId] || {}
 
         return (
             <StandardWidget
@@ -65,6 +67,7 @@ class FormWidget extends React.Component {
                 className={className}
                 style={style}
                 modelId={modelId}
+                model={model}
             >
                 <FormContainer
                     widgetId={widgetId}
@@ -100,6 +103,7 @@ FormWidget.propTypes = {
     autoSubmit: PropTypes.bool,
     id: PropTypes.string.isRequired,
     datasource: PropTypes.string,
+    activeModel: PropTypes.object,
 }
 
 FormWidget.contextTypes = {

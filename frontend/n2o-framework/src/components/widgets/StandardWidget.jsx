@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { pure } from 'recompose'
+import reduce from 'lodash/reduce'
 
 import Toolbar from '../buttons/Toolbar'
+import propsResolver from '../../utils/propsResolver'
 
 // eslint-disable-next-line import/no-named-as-default
 import WidgetAlerts from './WidgetAlerts'
@@ -17,10 +19,24 @@ import WidgetFilters from './WidgetFilters'
  * @reactProps {boolean} disabled - флаг активности
  * @reactProps {node} children - элемент потомок компонента StandardWidget
  */
+
+function resolveButtonsText(buttons, model = {}) {
+    return buttons.map((button) => {
+        const { hint, label } = button
+
+        return { ...button, ...propsResolver({ hint, label }, model) }
+    })
+}
+
+/* резолвит buttons text props в StandardWidget */
+export function resolveToolbarText(toolbar, model = {}) {
+    return toolbar.map(({ buttons, ...rest }) => ({ buttons: resolveButtonsText(buttons, model), ...rest }))
+}
+
 class StandardWidget extends React.Component {
     // eslint-disable-next-line consistent-return
     renderSection(place) {
-        const { widgetId, toolbar, filter, modelId } = this.props
+        const { widgetId, toolbar: propsToolbar = [], filter, modelId, model } = this.props
         const { [place]: propsPlace } = this.props
 
         if (propsPlace && React.isValidElement(propsPlace)) {
@@ -30,6 +46,18 @@ class StandardWidget extends React.Component {
             ...filter,
             fieldsets: filter.filterFieldsets,
         }
+
+        const toolbarPlaces = Object.keys(propsToolbar)
+
+        function resolveToolbar() {
+            return reduce(toolbarPlaces, (acc, place) => {
+                acc[place] = resolveToolbarText(propsToolbar[place], model)
+
+                return acc
+            }, {})
+        }
+
+        const toolbar = resolveToolbar()
 
         switch (place) {
             case 'left':
@@ -123,6 +151,7 @@ StandardWidget.propTypes = {
     modelId: PropTypes.string,
     toolbar: PropTypes.object,
     filter: PropTypes.object,
+    model: PropTypes.object,
     disabled: PropTypes.bool,
     left: PropTypes.element,
     top: PropTypes.element,
