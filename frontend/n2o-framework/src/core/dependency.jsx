@@ -91,6 +91,7 @@ export const dependency = (WrappedComponent) => {
         isInit: makeWidgetIsInitSelector(props.id)(state, props),
         isVisible: makeWidgetVisibleSelector(props.id)(state, props),
         isEnabled: makeWidgetEnabledSelector(props.id)(state, props),
+        activeModel: get(state, 'models.resolve', {}),
     })
 
     const mapDispatchToProps = (dispatch, ownProps) => {
