@@ -60,6 +60,8 @@ public class ClearAT extends AutoTestBase {
         inputText.shouldBeEmpty();
 
         copyBtn.click();
+        inputText.val("value");
+
         clearBtn.click();
         inputText.shouldBeEmpty();
     }

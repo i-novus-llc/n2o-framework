@@ -16,7 +16,7 @@
                         validate="false"
                 >
                     <set-value to="name">
-                        new Date().toString()
+                        "value"
                     </set-value>
                 </button>
             </toolbar>
