@@ -59,6 +59,9 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         btn = page.getToolbar().getButton("btn3");
         assertThat(btn.getLabel(), is("load"));
         assertThat(btn.getIcon(), is("fa fa-download"));
+
+        btn = page.getToolbar().getButton("btn4");
+        assertThat(btn.getHint(), is("`description`"));
     }
 
     @Test
