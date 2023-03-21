@@ -107,6 +107,8 @@ public class ClearActionAT extends AutoTestBase {
         inputText.shouldBeEmpty();
 
         copyBtn.click();
+        inputText.shouldHaveValue("value");
+
         clearBtn.click();
         inputText.shouldBeEmpty();
     }
