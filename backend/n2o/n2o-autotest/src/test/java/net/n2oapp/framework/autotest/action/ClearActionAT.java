@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
  * Автотест проверяет работу clear
  */
 public class ClearActionAT extends AutoTestBase {
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -38,15 +39,15 @@ public class ClearActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/test.query.xml"));
     }
 
     @Test
     public void testClearInModal() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/test.query.xml"));
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -81,5 +82,29 @@ public class ClearActionAT extends AutoTestBase {
         name.shouldBeEmpty();
 
         modal.close();
+    }
+
+    @Test
+    public void clearModelInTable() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
+
+        StandardButton clearBtn = page.toolbar().bottomRight().button("Очистить");
+        clearBtn.shouldExists();
+
+        clearBtn.click();
+
+        table.columns().rows().shouldNotHaveRows();
     }
 }
