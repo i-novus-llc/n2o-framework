@@ -82,13 +82,15 @@ export function* fetchValue(values, form, field, { dataProvider, valueFieldId })
             )
         }
     } catch (e) {
-        yield put(
-            change(form, field, {
-                keepDirty: true,
-                value: null,
-                error: true,
-            }),
-        )
+        if (values[field] !== null) {
+            yield put(
+                change(form, field, {
+                    keepDirty: true,
+                    value: null,
+                    error: true,
+                }),
+            )
+        }
         // eslint-disable-next-line no-console
         console.error(e)
     } finally {
