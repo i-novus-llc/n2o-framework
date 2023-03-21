@@ -14,6 +14,7 @@ import java.io.File;
  * Загрузка изображения для автотестирования
  */
 public class N2oImageUploadControl extends N2oControl implements ImageUploadControl {
+    private static final String UPLOAD_SHAPE_CLASS = "n2o-image-uploader-control--shape-";
 
     @Override
     public void shouldBeEmpty() {
@@ -105,15 +106,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void uploadAreaShouldHaveShape(ShapeType shape) {
-        //ToDo: NNO-9062, также выделить в отдельное поле селектор
-        switch (shape) {
-            case CIRCLE:
-                element().shouldHave(Condition.cssClass("n2o-image-uploader-control--shape-circle"));
-                break;
-            default:
-                element().shouldNotHave(Condition.cssClass("n2o-image-uploader-control--shape-circle"));
-                break;
-        }
+        element().shouldHave(Condition.cssClass(String.format("%s%s", UPLOAD_SHAPE_CLASS, shape.getId())));
     }
 
     @Override
@@ -136,7 +129,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     @Override
     public void uploadAreaShouldHaveHeight(int height) {
         element().shouldHave(Condition.attributeMatching("style",
-                ".*max-height: " + height + "px.*"));
+                String.format(".*max-height: %dpx.*", height)));
     }
 
     protected ElementsCollection getFilesItems() {
