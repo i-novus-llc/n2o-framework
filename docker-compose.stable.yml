@@ -11,6 +11,7 @@ services:
     deploy:
       resources:
         limits:
+          cpus: '0.5'
           memory: 512M
       placement:
         constraints:
@@ -23,6 +24,7 @@ services:
     deploy:
       resources:
         limits:
+          cpus: '0.5'
           memory: 256M
       placement:
         constraints:
