@@ -108,8 +108,8 @@ export function* resetQuerySaga(pageId) {
     if (routes) {
         const resetQuery = {}
 
-        for (const [k] of Object.entries(routes.queryMapping)) {
-            resetQuery[k] = undefined
+        for (const key of Object.keys(routes.queryMapping)) {
+            resetQuery[key] = undefined
         }
 
         yield mapQueryToUrl(pageId, resetQuery, true)
