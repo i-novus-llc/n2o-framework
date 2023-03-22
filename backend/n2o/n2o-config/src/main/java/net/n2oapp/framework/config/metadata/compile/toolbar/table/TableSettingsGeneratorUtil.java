@@ -3,7 +3,10 @@ package net.n2oapp.framework.config.metadata.compile.toolbar.table;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.action.N2oRefreshAction;
+import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -64,4 +67,25 @@ public class TableSettingsGeneratorUtil {
         return resizeButton;
     }
 
+    public static N2oButton generateExport(CompileProcessor p) {
+        N2oButton exportButton = new N2oButton();
+        N2oShowModal showModalAction = new N2oShowModal();
+
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String datasourceId = widgetScope == null ? null : widgetScope.getClientDatasourceId();
+
+        showModalAction.setPageId("exportModal");
+        showModalAction.setRoute("/:datasourceId/exportTable");
+        N2oPathParam n2oPathParam = new N2oPathParam();
+        n2oPathParam.setName("datasourceId");
+        n2oPathParam.setValue(datasourceId);
+        showModalAction.setParams(new N2oParam[]{n2oPathParam});
+
+        exportButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.export.description"));
+        exportButton.setIcon("fa-solid fa-arrow-up-from-bracket");
+        exportButton.setActions(new N2oShowModal[]{showModalAction});
+        exportButton.setModel(ReduxModel.filter);
+
+        return exportButton;
+    }
 }
