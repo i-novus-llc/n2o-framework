@@ -31,12 +31,6 @@ export type UpdateModelAction = ModelsAction<ModelsPayload & {
     value: unknown
 }>
 
-export type UpdateMapModelAction = ModelsAction<ModelsPayload & {
-    field: string
-    value: unknown
-    map: string
-}>
-
 export type RemoveAllModelAction = ModelsAction<{
     key: string
 }>

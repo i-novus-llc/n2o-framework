@@ -1,9 +1,8 @@
-import { createSlice, createAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import set from 'lodash/set'
 
 import { SET_WIDGET_METADATA } from '../widgets/constants'
 
-import { MAP_URL } from './constants'
 import PageResolver from './PageResolver'
 
 /**
@@ -240,11 +239,6 @@ const pageSlice = createSlice({
 })
 
 export default pageSlice.reducer
-
-// Actions
-export const mapUrl = createAction(MAP_URL, pageId => ({
-    payload: { pageId },
-}))
 
 export const {
     DISABLE: disablePage,

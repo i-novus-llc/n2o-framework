@@ -7,7 +7,13 @@ import {
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
-import { clearModel, removeAllModel, removeModel, setModel, updateMapModel, updateModel } from '../models/store'
+import {
+    clearModel,
+    removeAllModel,
+    removeModel,
+    setModel,
+    updateModel,
+} from '../models/store'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 
 import { dataRequest as query } from './sagas/query'
@@ -88,7 +94,13 @@ export default (apiProvider: unknown) => [
     // @ts-ignore хер знает как затипизировать
     takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
-    takeEvery([setModel, removeModel, removeAllModel, clearModel, updateModel, updateMapModel], watchDependencies),
+    takeEvery([
+        setModel,
+        removeModel,
+        removeAllModel,
+        clearModel,
+        updateModel,
+    ], watchDependencies),
     takeEvery(register, applyOnInitDependencies),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.refresh?.datasources, function* refreshSaga({ meta }) {
