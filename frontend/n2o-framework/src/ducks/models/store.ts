@@ -13,8 +13,8 @@ import type { State } from './Models'
 import type {
     ClearModelAction, CopyAction, MergeModelAction,
     RemoveAllModelAction, RemoveModelAction, SetModelAction,
-    UpdateModelAction, FormInitAction,
-    AppendFieldToArrayAction, CopyFieldArrayAction, RemoveFieldFromArrayAction,
+    UpdateModelAction, AppendFieldToArrayAction, CopyFieldArrayAction,
+    RemoveFieldFromArrayAction,
 } from './Actions'
 
 const initialState: State = {
@@ -30,7 +30,7 @@ const modelsSlice = createSlice({
     initialState,
     reducers: {
         SET: {
-            prepare(prefix: ModelPrefix, key: string, model: object) {
+            prepare(prefix: ModelPrefix, key: string, model?: object) {
                 return ({
                     payload: { prefix, key, model },
                     meta: { prefix, key, model },
@@ -151,28 +151,6 @@ const modelsSlice = createSlice({
             },
         },
 
-        modelInit: {
-            prepare(prefix: ModelPrefix, key: string, model: object, formFirstInit = false) {
-                return ({
-                    meta: { prefix, key, model, formFirstInit },
-                    payload: { prefix, key, model, formFirstInit },
-                })
-            },
-
-            reducer(state, action: FormInitAction) {
-                const { key, model, prefix } = action.payload
-                let newState
-
-                if (Object.keys(model).length) {
-                    newState = merge(state[prefix][key], model)
-                } else {
-                    newState = {}
-                }
-
-                set(state, [prefix, key], newState)
-            },
-        },
-
         appendFieldToArray: {
             prepare({ key, fieldName, ...options }) {
                 return ({
@@ -249,7 +227,6 @@ export const {
     MERGE: combineModels,
     COPY: copyModel,
     REMOVE_ALL: removeAllModel,
-    modelInit,
     appendFieldToArray,
     removeFieldFromArray,
     copyFieldArray,
