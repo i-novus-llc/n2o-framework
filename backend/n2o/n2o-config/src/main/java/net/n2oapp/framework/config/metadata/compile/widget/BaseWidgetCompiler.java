@@ -44,6 +44,7 @@ import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -281,8 +282,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                             validationScope.addAll(f.getServerValidations());
                         }
                         if (f.getClientValidations() != null) {
-                            clientValidations.put(f.getId(), f.getClientValidations());
-                        }
+                            f.getClientValidations().forEach(validation -> {
+                                if (validation.getEnablingConditions() != null) {
+                                    validation.setEnablingConditions(validation.getEnablingConditions()
+                                            .stream().map(ec -> ec.replace("{", "").replace("}", ""))
+                                            .collect(Collectors.toList()));}
+                                            clientValidations.put(f.getId(), f.getClientValidations());
+                                });
+                            }
                     });
                 }
                 if (col.getFieldsets() != null) {
