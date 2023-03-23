@@ -147,5 +147,7 @@ public class LineFieldSetAT extends AutoTestBase {
         fieldsets.fieldset(2, LineFieldSet.class).expand();
         fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).setValue("27");
         fieldsets.fieldset(2, LineFieldSet.class).shouldHaveText("27");
+        fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).setValue("54");
+        fieldsets.fieldset(2, LineFieldSet.class).shouldHaveText("54");
     }
 }
