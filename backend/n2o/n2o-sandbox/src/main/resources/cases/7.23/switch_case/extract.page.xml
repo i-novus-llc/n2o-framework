@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Запросить сведения?">
+    <toolbar place="bottomCenter">>
+        <button id="btn1" label="Нет">
+            <close/>
+        </button>
+        <button label="Да"/>
+    </toolbar>
+</page>

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Multi-set. Генерация первичного ключа и фильтрация inherited-datasource">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <multi-set
+                        id="fl"
+                        label="Проживание с мужем или женой, направленными работать за границу"
+                        add-label="Добавить период"
+                        can-add="true"
+                        can-copy="false"
+                        can-remove="false"
+                        can-remove-all="false"
+                        can-remove-first="false"
+                        primaty-key="id"
+                        generate-primary-key="true"
+                >
+                    <row>
+                        <output-text id="id"/>
+                        <input-text id="surname" label="Фамилия"/>
+                        <input-text id="name" label="Имя"/>
+                        <input-text id="patronymic" label="Отчество"/>
+
+                        <button label="Изменить ">
+                            <show-modal page-id="update" route="/:id/update">
+                                <params>
+                                    <path-param name="id" value="{fl[index].id}"/>
+                                </params>
+                            </show-modal>
+                        </button>
+                    </row>
+                </multi-set>
+            </fields>
+        </form>
+    </regions>
+</page>

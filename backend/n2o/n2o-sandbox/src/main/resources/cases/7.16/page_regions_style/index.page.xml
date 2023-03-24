@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Стили в регионах и страницах"
+      style="font-family: cursive">
+    <regions>
+        <line label="Линия" style="width:50%"/>
+        <panel title="Панель" style="width:50%" class="text-uppercase">
+            <form name="panelForm"/>
+        </panel>
+        <tabs class="font-italic">
+            <tab name="Вкладка1">
+                <form/>
+            </tab>
+            <tab name="Вкладка2">
+                <form/>
+            </tab>
+        </tabs>
+    </regions>
+</page>

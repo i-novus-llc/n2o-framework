@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Карточки в несколько блоков">
+    <cards height="190px">
+        <datasource query-id="itinerary"/>
+        <content>
+            <col size="3">
+                <block>
+                    <image data="{photo}"/>
+                </block>
+            </col>
+            <col size="3">
+                <block text-field-id="name">
+                    <text class="font-weight-bold"/>
+                </block>
+                <block text-field-id="price">
+                    <text class="text-muted"/>
+                </block>
+            </col>
+            <col size="6">
+                <block text-field-id="description">
+                    <text/>
+                </block>
+            </col>
+        </content>
+    </cards>
+</simple-page>

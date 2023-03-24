@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Иванов И.И.",
+    "organization.id": 1
+  },
+  {
+    "id": 2,
+    "name": "Петров П.П.",
+    "organization.id": 1
+  },
+  {
+    "id": 3,
+    "name": "Сидоров С.С.",
+    "organization.id": 2
+  },
+  {
+    "id": 4,
+    "name": "Смирнова С.С.",
+    "organization.id": 2
+  },
+  {
+    "id": 5,
+    "name": "Алексеева А.А.",
+    "organization.id": 3
+  },
+  {
+    "id": 6,
+    "name": "Кузнецова К.К.",
+    "organization.id": 3
+  },
+  {
+    "id": 7,
+    "name": "Матвеев М.М.",
+    "organization.id": 3
+  }
+]

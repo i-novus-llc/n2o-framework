@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "check": true
+  },
+  {
+    "id": 2,
+    "check": false
+  },
+  {
+    "id": 3,
+    "check": true
+  },
+  {
+    "id": 4,
+    "check": false
+  }
+]

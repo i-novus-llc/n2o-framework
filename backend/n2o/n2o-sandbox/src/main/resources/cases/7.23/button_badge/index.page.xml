@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Кнопки cо значком">
+    <form>
+        <toolbar place="topLeft">
+            <button label="Кнопка"
+                    badge="new"
+                    disable-on-empty-model="false"/>
+        </toolbar>
+        <fields>
+            <hidden id="cnt" default-value="3"/>
+            <button id="btn" label="Входящие"
+                    badge="{cnt}"
+                    badge-color="success"
+                    disable-on-empty-model="false">
+
+            </button>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="Задачи"
+                    badge="#{tasks}"
+                    badge-color="warning"
+                    disable-on-empty-model="false"/>
+        </toolbar>
+    </form>
+</simple-page>

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Поле markdown разметки">
+    <actions>
+        <action id="open-page">
+            <open-page page-id="page" route="/page"/>
+        </action>
+    </actions>
+    <regions>
+        <panel
+                collapsible="false"
+                color="primary">
+            <form>
+                <datasource query-id="test"/>
+                <fields>
+                    <markdown actions="open-page">
+                        <![CDATA[
+Плейсхолдер данных {text}
+
+{mymarkdown}
+
+*Курсив*
+**Жирный**
+`Моноширный`
+
+[absolute_link](http://example.com/) \
+[relative_link](/example) \
+[auto_link](http://example.com) \
+
+Ненумерованные списки:
+* Пункт 1
+* Пункт 2
+* Пункт 3
+
+<n2o-button id="open-page" label="{text}" visible="1 == 1" enable="2 == 2" disable-on-empty-model="false"></n2o-button>
+]]>
+                    </markdown>
+                </fields>
+            </form>
+        </panel>
+    </regions>
+</page>

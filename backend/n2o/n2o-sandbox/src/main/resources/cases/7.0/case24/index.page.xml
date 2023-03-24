@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Тестирование динамических страниц">
+    <regions>
+        <form id="master" name="Форма фильтр">
+            <fields>
+                <input-text id="id" label="Версия(введите 1 или 2 или 3)" required="true"/>
+            </fields>
+        </form>
+        <table id="detailDynamic" depends-on="master" detail-field-id="versionId" query-id="dynamic"
+               route="/:master_id/detail"
+               name="Открытие динамической страницы, которая зависит от версии и при этом фильтруется по id строки таблицы">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name" label="Имя"/>
+                <column text-field-id="versionId" label="Версия"/>
+            </columns>
+            <toolbar place="topRight">
+                <button label="Создать - open-page" widget-id="master">
+                    <open-page page-id="testDynamic?{id}" page-name="Версия {id}" upload="defaults"
+                               submit-operation-id="test" route="/master/:version_id/detail/create">
+                        <path-param name="version_id" value="{id}" ref-widget-id="master" ref-model="resolve"/>
+                    </open-page>
+                </button>
+                <button label="Изменить - open-page" widget-id="master">
+                    <open-page page-id="testDynamic?{id}" page-name="Версия {id}" upload="query"
+                               submit-operation-id="test" route="/master/:version_id/detail/update/:id">
+                        <path-param name="version_id" value="{id}" ref-widget-id="master" ref-model="resolve"/>
+                        <path-param name="id" value="{id}" ref-model="resolve" ref-widget-id="detailDynamic"/>
+                        <pre-filters>
+                            <eq field-id="id" value="{id}" ref-model="resolve" ref-widget-id="detailDynamic"/>
+                        </pre-filters>
+                    </open-page>
+                </button>
+
+                <button label="Создать - show-modal" widget-id="master">
+                    <show-modal page-id="testDynamic?{id}" page-name="Версия {id}" upload="defaults"
+                                submit-operation-id="test" route="/master/:version_id/detail/create2">
+                        <path-param name="version_id" value="{id}" ref-widget-id="master" ref-model="resolve"/>
+                    </show-modal>
+                </button>
+                <button label="Изменить - show-modal" widget-id="master">
+                    <show-modal page-id="testDynamic?{id}" page-name="Версия {id}" upload="query"
+                                submit-operation-id="test" route="/master/:version_id/detail/update/:id">
+                        <path-param name="version_id" value="{id}" ref-widget-id="master" ref-model="resolve"/>
+                        <path-param name="id" value="{id}" ref-model="resolve" ref-widget-id="detailDynamic"/>
+                        <pre-filters>
+                            <eq field-id="id" value="{id}" ref-model="resolve" ref-widget-id="detailDynamic"/>
+                        </pre-filters>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Разрешение ссылок в названии страницы">
+    <regions>
+        <table query-id="test" id="master">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="type"/>
+            </columns>
+            <toolbar>
+                <button label="Хлебные крошки">
+                    <open-page page-id="test" route="/:id/open">
+                        <path-param name="id" value="{id}"/>
+                    </open-page>
+                </button>
+                <button label="Модальное окно">
+                    <show-modal page-id="test" route="/:id/modal">
+                        <path-param name="id" value="{id}"/>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+
+        <form depends-on="master" detail-field-id="id" query-id="test" route="/:master_id/detail">
+            <fields>
+                <input-text id="name" enabled="false" no-label="true"/>
+            </fields>
+            <toolbar place="bottomLeft">
+                <button label="Хлебные крошки от master" widget-id="master">
+                    <open-page page-id="test" route="/:id/open2">
+                        <path-param name="id" value="{id}"/>
+                    </open-page>
+                </button>
+                <button label="Модальное окно от detail">
+                    <show-modal page-id="test" route="/:id/modal2">
+                        <path-param name="id" value="{id}"/>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

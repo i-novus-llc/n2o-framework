@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Отображение дополнительной информации в опциях списковых компонентов">
+    <form>
+        <fields>
+            <select id="member1" query-id="members" label="Select"
+                    label-field-id="name" description-field-id="description"/>
+            <input-select id="member2" query-id="members" label="InputSelect"
+                          label-field-id="name" description-field-id="description"/>
+            <select id="member3" query-id="members" label="Select без данных description"
+                    label-field-id="name" description-field-id="description2"/>
+        </fields>
+    </form>
+</simple-page>

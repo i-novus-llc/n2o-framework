@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="test.json"/>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select mapping="[field1]"/>
+        </field>
+        <field id="field1">
+            <select/>
+        </field>
+        <field id="field2">
+            <select/>
+            <sorting/>
+        </field>
+        <field id="field3">
+            <select/>
+            <sorting/>
+        </field>
+        <field id="field4.name">
+            <select mapping="[field1]"/>
+            <sorting mapping="[field1]">field1:field1</sorting>
+        </field>
+    </fields>
+</query>

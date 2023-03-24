@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form name="Валидация по условию">
+        <fields>
+            <input-text id="age" label="Введите возраст">
+                <validations>
+                    <condition id="checkAdult"
+                            message="Запрещено для детей. Ваш возраст {age}, что меньше 18."
+                            field-id="age">age >= 18</condition>
+                </validations>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

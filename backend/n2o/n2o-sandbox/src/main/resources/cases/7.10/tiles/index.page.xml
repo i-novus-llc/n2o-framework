@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Виджет Плитки">
+    <tiles query-id="test" width="250" height="200">
+        <content>
+            <block text-field-id="image">
+                <image/>
+            </block>
+            <block text-field-id="text">
+                <text/>
+            </block>
+            <block text-field-id="icon" tooltip-field-id="icon">
+                <icon type="iconAndText">
+                    <switch value-field-id="icon">
+                        <case value="ship">fa fa-ship</case>
+                        <case value="bicycle">fa fa-bicycle</case>
+                    </switch>
+                </icon>
+            </block>
+            <block text-field-id="badge">
+                <badge color="info"/>
+            </block>
+            <block text-field-id="progress">
+                <progress/>
+            </block>
+            <block text-field-id="rating">
+                <rating half="true"/>
+            </block>
+            <block text-field-id="checkbox">
+                <checkbox/>
+            </block>
+            <block text-field-id="action">
+                <toolbar>
+                    <button label="Info" color="success">
+                        <show-modal page-id="modal" route="/:id/info">
+                            <path-param name="id" value="{id}"/>
+                        </show-modal>
+                    </button>
+                </toolbar>
+            </block>
+        </content>
+    </tiles>
+</simple-page>

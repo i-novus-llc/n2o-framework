@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      datasource="ds" model="resolve" title="Страница {name}" show-title="true">
+    <breadcrumbs>
+        <!-- параметры в лейблах и пути крошек -->
+        <crumb label="Настройка хлебных крошек текущей страницы" path="/"/>
+        <crumb label="{name}" path="/:id/page1"/>
+    </breadcrumbs>
+
+    <datasources>
+        <datasource id="ds" query-id="test">
+            <filters>
+                <eq param="id" field-id="id"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <regions>
+        <form datasource="ds">
+            <fields>
+                <input-text id="name"/>
+                <input-text id="type"/>
+            </fields>
+            <toolbar place="bottomRight">
+                <button label="Далее">
+                    <open-page page-id="page2" route="/page2"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

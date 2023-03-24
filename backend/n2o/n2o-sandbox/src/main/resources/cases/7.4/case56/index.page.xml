@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Тестирование Фильтров">
+    <form route="/search">
+        <fields>
+            <row>
+                <select id="type" label="Выберите тип">
+                    <options>
+                        <option id="1" name="Один"/>
+                        <option id="2" name="Два"/>
+                    </options>
+                </select>
+                <select id="level" label="Выберите уровень" required="true">
+                    <options>
+                        <option id="1" name="Дело" url="business"/>
+                        <option id="2" name="Документ" url="documents"/>
+                    </options>
+                </select>
+            </row>
+        </fields>
+        <toolbar place="bottomRight">
+            <button label="Найти" color="primary" validate="true">
+                <a href=":url" target="application">
+                    <path-param name="url" value="{level.url}"/>
+                    <query-param name="type" value="{type.id}"/>
+                </a>
+            </button>
+            <button label="Очистить">
+                <clear model="resolve"/>
+            </button>
+        </toolbar>
+        <actions>
+            <action id="openDocuments">
+                <open-page page-id="documents" route="/documents">
+                    <query-param name="type" value="{type.id}"/>
+                </open-page>
+            </action>
+            <action id="openBusiness">
+                <open-page page-id="business" route="/business">
+                    <query-param name="type" value="{type.id}"/>
+                </open-page>
+            </action>
+        </actions>
+    </form>
+</simple-page>

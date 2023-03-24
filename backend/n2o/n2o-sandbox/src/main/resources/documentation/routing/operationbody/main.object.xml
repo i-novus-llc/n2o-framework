@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        name="Мой объект">
+    <operations>
+        <operation id="update"
+                   success-text="name={name}, doc.number={doc.number}, doc.serial={doc.serial}">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="name"/>
+                <field id="doc.number"/>
+                <field id="doc.serial"/>
+            </in>
+        </operation>
+    </operations>
+</object>

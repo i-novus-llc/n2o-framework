@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "iconClass": "fa fa-plus"
+  },
+  {
+    "id": 2,
+    "iconClass": "fa fa-pencil"
+  },
+  {
+    "id": 3,
+    "iconClass": "fa fa-trash"
+  }
+]
