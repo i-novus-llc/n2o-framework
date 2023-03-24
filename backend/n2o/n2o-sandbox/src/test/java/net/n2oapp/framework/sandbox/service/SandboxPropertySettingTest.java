@@ -71,11 +71,15 @@ public class SandboxPropertySettingTest {
     @SneakyThrows
     @Test
     public void testApplicationProperties() {
-        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("n2o.api.header.src=CustomHeader\n" +
+        wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
+                StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
+        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("n2o.api.header.src=CustomHeader\n" +
                 "n2o.api.footer.src=CustomFooter\n" +
                 "n2o.api.page.simple.src=CustomPage\n" +
+                "n2o.api.widget.table.src=CustomTable\n" +
                 "n2o.api.widget.form.src=CustomForm")));
-        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
 
         JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
         assertThat(config.getJSONObject("menu").getJSONObject("header").getString("src"), is("CustomHeader"));
@@ -83,19 +87,20 @@ public class SandboxPropertySettingTest {
 
         Page page = viewController.getPage("myProjectId", request);
         assertThat(page.getSrc(), is("CustomPage"));
-        assertThat(((SimplePage) page).getWidget().getSrc(), is("CustomForm"));
+        assertThat(((SimplePage) page).getWidget().getSrc(), is("CustomTable"));
     }
 
     @SneakyThrows
     @Test
     public void testUserProperties() {
-        wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
+        wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testPropertySetting.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody(
+        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody(
                 "email=test@example.com\n" +
                 "username=Joe\n" +
                 "roles=[USER,ADMIN]")));
+        wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
 
         JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
         assertThat(config.getJSONObject("user").getString("email"), is("test@example.com"));
