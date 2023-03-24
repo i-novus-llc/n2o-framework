@@ -3,21 +3,22 @@ package net.n2oapp.framework.sandbox.autotest.examples;
 import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {
-        "n2o.engine.test.classpath=/examples/fields/",
-        "n2o.sandbox.project-id=examples_fields"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/examples/fields/"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class FieldsAT extends SandboxAutotestBase {
+public class FieldsAT extends AutoTestBase {
 
     private SimplePage page;
 
@@ -41,6 +42,9 @@ public class FieldsAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("/examples/fields/index.page.xml"),
+                new CompileInfo("/examples/fields/test.query.xml"));
     }
 
     @Test

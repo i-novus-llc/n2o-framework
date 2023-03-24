@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Родительская страница">
+    <datasources>
+        <datasource id ="persons" query-id="person"/>
+    </datasources>
+    <regions>
+        <table datasource="persons">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Значение интервального поля заданное через параметр">
+                    <open-page page-id="person" route="/card">
+                        <params>
+                            <query-param name="begin" value="{begindate}" datasource="persons" model="resolve"/>
+                            <query-param name="end" value="{enddate}" datasource="persons" model="resolve"/>
+                        </params>
+                    </open-page>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

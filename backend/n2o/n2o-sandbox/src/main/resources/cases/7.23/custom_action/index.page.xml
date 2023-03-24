@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Кастомное действие">
+    <form>
+        <toolbar>
+            <button label="Custom invoke" disable-on-empty-model="false">
+                <action type="n2o/actionImpl/START_INVOKE"
+                     redirect-url="/test" redirect-target="application">
+                    <payload  dataProvider-url="n2o/data/mi2"
+                              datasource="_main"
+                              model="resolve"
+                              pageId="_"
+                              widgetId="_main"/>
+                </action>
+            </button>
+            <button visible="false">
+                <open-page page-id="test" route="/test"/>
+            </button>
+            <button visible="false">
+                <invoke operation-id="echo" object-id="test"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

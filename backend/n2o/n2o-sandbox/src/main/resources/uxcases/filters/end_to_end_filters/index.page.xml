@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Заявки на получение заграничного паспорта"
+      show-title="true">
+    <datasources>
+        <datasource id="ds1" query-id="data" size="5"/>
+    </datasources>
+    <regions>
+        <region>
+            <table name="Заявки на получение заграничного паспорта" datasource="ds1">
+                <columns>
+                    <column text-field-id="id"/>
+                    <column text-field-id="date">
+                        <text format="date DD.MM.YYYY"/>
+                    </column>
+                    <column text-field-id="fioBD"/>
+                    <column text-field-id="snils"/>
+                    <column text-field-id="document"/>
+                    <column text-field-id="zagranType"/>
+                    <column text-field-id="region"/>
+                    <column text-field-id="department"/>
+                    <column text-field-id="urgently"/>
+                    <column text-field-id="status"/>
+                </columns>
+                <filters search-on-change="true">
+                    <row>
+                        <col size="5">
+                            <input-text id="fioBD" placeholder="Поиск по ФИО или дате рождения заявителя"
+                                        no-label-block="true"/>
+                        </col>
+                    </row>
+                </filters>
+                <pagination/>
+            </table>
+        </region>
+    </regions>
+</page>

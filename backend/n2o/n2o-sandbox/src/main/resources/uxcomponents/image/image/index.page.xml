@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Изображение">
+    <form>
+        <fields>
+            <image 
+                id="image" 
+                width="187px"
+                url="static/san-francisco.png"
+                />
+        </fields>
+    </form>
+</simple-page>

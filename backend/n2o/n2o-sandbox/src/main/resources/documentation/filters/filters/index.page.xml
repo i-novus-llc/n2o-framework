@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Фильтрация источника данных">
+    <datasources>
+        <datasource id="docs" query-id="docs">
+            <filters>
+                <eq field-id="status" value="1"/>
+                <more field-id="date" value="{today()}"/>
+            </filters>
+        </datasource>
+    </datasources>
+    <regions>
+        <table datasource="docs">
+            <columns>
+                <column text-field-id="date"/>
+                <column text-field-id="status"/>
+            </columns>
+        </table>
+    </regions>
+</page>

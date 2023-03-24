@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
+        <sidebar path="/person/:id/**" title="{name}" subtitle="{type}">
+            <datasource id="person" query-id="test">
+                <filters>
+                    <eq field-id="id"/>
+                </filters>
+            </datasource>
+            <nav>
+                <menu-item name="Документы">
+                    <open-page page-id="docs"
+                               route="/person/:id/docs">
+                        <params>
+                            <path-param name="id" value=":id"/>
+                            <query-param name="name" value="{name}"/>
+                        </params>
+                    </open-page>
+                </menu-item>
+            </nav>
+        </sidebar>
+    </sidebars>
+</application>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Выпадающий список с ярлыками">
+    <form>
+        <fields >
+            <row>
+                <input-select 
+                placeholder="Введите значение"
+                id="inputSelectWithStatus" 
+                label="Ввод с выпадающим списком"
+                query-id="test" 
+                badge-field-id="badge"
+                badge-color-field-id="status"
+                />
+                <select 
+                placeholder="Введите значение"
+                id="selectWithStatus" 
+                label="Выпадающий список"
+                query-id="test" 
+                badge-field-id="badge"
+                badge-color-field-id="status"
+                />
+            </row>
+        </fields>
+    </form>
+</simple-page>

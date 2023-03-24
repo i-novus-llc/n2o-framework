@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="SQL провайдер данных">
+    <table>
+        <datasource query-id="person"/>
+        <columns>
+            <column text-field-id="id" label="Идентификатор"/>
+            <column text-field-id="firstName" label="Имя"/>
+            <column text-field-id="lastName" label="Фамилия"/>
+            <column text-field-id="option">
+                <toolbar>
+                    <button id="update" icon="fa fa-pencil">
+                        <show-modal page-id="person" submit-operation-id="update" route="/:id/update">
+                            <params>
+                                <path-param name="id" value="{id}"/>
+                            </params>
+                        </show-modal>
+                    </button>
+                    <button id="delete" icon="fa fa-trash">
+                        <invoke operation-id="delete"/>
+                    </button>
+                </toolbar>
+            </column>
+        </columns>
+        <toolbar place="topLeft">
+            <button id="create" label="Создать" icon="fa fa-plus" disable-on-empty-model="false">
+                <show-modal page-id="person" submit-operation-id="create">
+                    <datasources>
+                        <datasource default-values-mode="defaults"/>
+                    </datasources>
+                </show-modal>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

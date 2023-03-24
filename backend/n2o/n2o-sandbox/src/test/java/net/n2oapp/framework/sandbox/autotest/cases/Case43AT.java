@@ -8,19 +8,22 @@ import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"n2o.sandbox.project-id=cases_7.1_case43"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"server.servlet.context-path=/"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class Case43AT extends SandboxAutotestBase {
+public class Case43AT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -36,7 +39,9 @@ public class Case43AT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.sources(
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("cases/7.1/case43/index.page.xml"),
+                new CompileInfo("cases/7.1/case43/test.page.xml"),
                 new CompileInfo("META-INF/conf/test.object.xml"),
                 new CompileInfo("META-INF/conf/test.query.xml"));
     }

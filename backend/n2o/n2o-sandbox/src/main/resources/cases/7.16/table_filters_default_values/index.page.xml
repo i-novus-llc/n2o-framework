@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Значения по умолчанию для фильтров таблицы">
+    <regions>
+        <tabs>
+            <tab name="Через default-value поля">
+                <table query-id="test">
+                    <columns>
+                        <column text-field-id="id"/>
+                        <column text-field-id="name"/>
+                    </columns>
+                    <filters>
+                        <input-text id="name" default-value="2"/>
+                    </filters>
+                </table>
+            </tab>
+            <tab name="Полученные из выборки">
+                <table query-id="test">
+                    <columns>
+                        <column text-field-id="id"/>
+                        <column text-field-id="name"/>
+                    </columns>
+                    <filters default-values-query-id="default">
+                        <input-text id="name"/>
+                    </filters>
+                </table>
+            </tab>
+            <tab name="Оба варианта (приоритетнее из выборки)">
+                <table query-id="test">
+                    <columns>
+                        <column text-field-id="id"/>
+                        <column text-field-id="name"/>
+                    </columns>
+                    <filters default-values-query-id="default">
+                        <input-text id="name" default-value="2"/>
+                    </filters>
+                </table>
+            </tab>
+        </tabs>
+    </regions>
+</page>

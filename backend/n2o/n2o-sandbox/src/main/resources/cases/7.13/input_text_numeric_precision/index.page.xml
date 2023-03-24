@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Ограничение длины дробной части в поле ввода чисел">
+    <form>
+        <fields>
+            <input-text id="numeric" label="Дробная часть длины 4" domain="numeric" precision="4"
+                        default-value="1.3333333333"/>
+            <input-text id="integer" label="В integer поле нельзя ввести дробную часть" domain="integer"/>
+        </fields>
+    </form>
+</simple-page>

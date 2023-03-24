@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test operation="create" file="test.json"/>
+            </invocation>
+            <in>
+                <field id="title"/>
+                <field id="date.begin" mapping="['start']"/>
+                <field id="date.end" mapping="['end']"/>
+                <field id="color" default-value="#0055aa"/>
+                <field id="resource.id" mapping="['resourceId']" domain="string"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+        <operation id="update">
+            <invocation>
+                <test operation="update" file="test.json"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="title"/>
+                <field id="date.begin" mapping="['start']"/>
+                <field id="date.end" mapping="['end']"/>
+                <field id="resource.id" mapping="['resourceId']" domain="string"/>
+            </in>
+        </operation>
+        <operation id="delete">
+            <invocation>
+                <test operation="delete" file="test.json"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+        </operation>
+    </operations>
+</object>

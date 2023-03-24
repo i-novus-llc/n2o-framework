@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Отображение уведомлений в стэке">
+    <form>
+        <datasource object-id="alert"/>
+        <fields>
+            <multi-set id="messages" add-label="Добавить уведомление" can-remove-first="true">
+                <row>
+                    <input-text id="title" label="Заголовок"/>
+                    <input-text id="text" label="Текст сообщения"/>
+                    <input-select id="placement" label="Позиция уведомления">
+                        <options>
+                            <option id="top" name="top"/>
+                            <option id="bottom" name="bottom"/>
+                            <option id="topLeft" name="topLeft"/>
+                            <option id="topRight" name="topRight"/>
+                            <option id="bottomLeft" name="bottomLeft"/>
+                            <option id="bottomRight" name="bottomRight"/>
+                        </options>
+                    </input-select>
+                    <input-select id="color" label="Цвет уведомления">
+                        <options>
+                            <option id="danger" name="danger" />
+                            <option id="warning" name="warning"/>
+                            <option id="info" name="info"/>
+                            <option id="success" name="success"/>
+                        </options>
+                    </input-select>
+                </row>
+            </multi-set>
+        </fields>
+        <toolbar place="bottomRight">
+            <button label="Отправить уведомления">
+                <invoke operation-id="createAlerts"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

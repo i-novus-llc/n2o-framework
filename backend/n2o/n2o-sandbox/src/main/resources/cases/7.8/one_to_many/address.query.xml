@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="address">
+    <list>
+        <test file="address.json"/>
+    </list>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+            <sorting/>
+        </field>
+        <field id="name">
+            <select>name</select>
+        </field>
+        <field id="person.id" domain="integer">
+            <select>person.id</select>
+            <filters>
+                <eq filter-id="person.id"/>
+            </filters>
+        </field>
+    </fields>
+</query>

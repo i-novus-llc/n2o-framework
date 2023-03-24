@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Использование активных вкладок в модели данных">
+    <datasources>
+        <datasource id="tabsDs"/>
+    </datasources>
+
+    <regions>
+        <form datasource="tabsDs">
+            <fields>
+                <input-text id="activeTab" label="Идентификатор активной вкладки"/>
+            </fields>
+        </form>
+
+        <tabs datasource="tabsDs" active-tab-field-id="activeTab">
+            <tab id="tab1" name="Заявления">
+                <form/>
+            </tab>
+
+            <tab id="tab2" name="Уведомления">
+                <form/>
+            </tab>
+
+            <tab id="tab3" name="Направление">
+                <form/>
+            </tab>
+        </tabs>
+    </regions>
+</page>

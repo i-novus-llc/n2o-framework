@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "status": "warning",
+    "img": "static/kazan.png",
+    "name": "Kazan",
+    "url": "https://kzn.ru/",
+    "isCapital": true,
+    "region": "Татарстан",
+    "capital": "Столица",
+    "regionCities": [
+      {"name": "Казань"},
+      {"name": "Бугульма"},
+      {"name": "Чистополь"}
+    ]
+  },
+  {
+    "id": 2,
+    "status": "danger",
+    "img": "static/moscow.png",
+    "name": "Москва",
+    "url": "https://moscow.ru/",
+    "isCapital": true,
+    "region": "Москва",
+    "capital": "Столица",
+    "regionCities": [
+      {"name": "Москва"}
+    ]
+  },
+  {
+    "id": 3,
+    "status": "success",
+    "img": "static/cheboksary.png",
+    "name": "Чебоксары",
+    "url": "https://cheb.ru/",
+    "isCapital": true,
+    "region": "Чувашия",
+    "capital": "Столица",
+    "regionCities": [
+      {"name": "Чебоксары"},
+      {"name": "Канаш"},
+      {"name": "Алатырь"}
+    ]
+  }
+]
