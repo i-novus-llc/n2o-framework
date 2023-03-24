@@ -36,6 +36,5 @@
         <more field-id="test" value="1"/>
         <notEq field-id="test" value="1"/>
         <notIn field-id="test" value="1" values="1,2,3"/>
-        <overlaps field-id="test" value="1" values="1,2,3"/>
     </pre-filters>
 </input-select>

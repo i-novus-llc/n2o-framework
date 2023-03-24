@@ -1,6 +1,4 @@
 import {
-    setIn,
-    generateFlatQuery,
     getWidgetId,
     isPromise,
     difference,
@@ -8,23 +6,6 @@ import {
 } from './helpers'
 
 describe('Проверка helpers', () => {
-    it('setIn сделает set', () => {
-        expect(
-            setIn(
-                {
-                    widgetId: {
-                        value: 'test',
-                    },
-                },
-                'widgetId.value',
-                'supaTest',
-            ),
-        ).toEqual({
-            widgetId: {
-                value: 'supaTest',
-            },
-        })
-    })
 
     it('getWidgetId вернет widgetId', () => {
         expect(getWidgetId('page', 'container')).toEqual('page.container')

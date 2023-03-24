@@ -62,7 +62,7 @@ public class AnchorAT extends AutoTestBase {
         button.click();
 
         Selenide.switchTo().window(1);
-        page.shouldHaveUrlLike("https://yandex.ru.*");
+        page.shouldHaveUrlMatches("https://yandex.ru.*");
         Selenide.closeWindow();
     }
 }

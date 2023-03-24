@@ -57,7 +57,8 @@ public class AlertAT extends AutoTestBase {
 
         text.click();
         text.setValue("Алерт 1");
-        position.select(0);
+        position.openPopup();
+        position.dropdown().selectItem(0);
 
         send.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 1");
@@ -85,12 +86,14 @@ public class AlertAT extends AutoTestBase {
         multiFieldSet.clickAddButton();
         multiFieldSet.item(1).fields().field("Текст сообщения").control(InputText.class).click();
         multiFieldSet.item(1).fields().field("Текст сообщения").control(InputText.class).setValue("Алерт 1-2");
-        multiFieldSet.item(1).fields().field("Позиция уведомления").control(InputSelect.class).select(1);
+        multiFieldSet.item(1).fields().field("Позиция уведомления").control(InputSelect.class).openPopup();
+        multiFieldSet.item(1).fields().field("Позиция уведомления").control(InputSelect.class).dropdown().selectItem(1);
 
         multiFieldSet.clickAddButton();
         multiFieldSet.item(2).fields().field("Текст сообщения").control(InputText.class).click();
         multiFieldSet.item(2).fields().field("Текст сообщения").control(InputText.class).setValue("Алерт 1-3");
-        multiFieldSet.item(2).fields().field("Позиция уведомления").control(InputSelect.class).select(2);
+        multiFieldSet.item(2).fields().field("Позиция уведомления").control(InputSelect.class).openPopup();
+        multiFieldSet.item(2).fields().field("Позиция уведомления").control(InputSelect.class).dropdown().selectItem(2);
 
         send.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 4");

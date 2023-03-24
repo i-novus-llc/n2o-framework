@@ -105,7 +105,8 @@ public class DependsOnFieldAT extends AutoTestBase {
         InputSelect drawerField = drawerPage.widget(FormWidget.class).fields().field("Регион").control(InputSelect.class);
         drawerField.shouldExists();
         drawerField.shouldBeEmpty();
-        drawerField.select(0);
+        drawerField.openPopup();
+        drawerField.dropdown().selectItem(0);
 
         drawer.toolbar().bottomRight().button("Применить").click();
         table.columns().rows().shouldHaveSize(1);

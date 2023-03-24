@@ -2,176 +2,220 @@
 title: Графики
 description: ""
 ---
-import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
-Компоненты графиков/диаграмм.
+import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 
 **Библиотека компонентов**
 
 ```
-http://n2oapp.net/framework/config/schema/n2o-chart-4.0
+http://n2oapp.net/framework/config/schema/n2o-chart-1.0
 ```
 
-### Базовые свойства компонентов {#Basic_properties_of_components}
+## Базовые свойства {#basic_properties}
 
 **Атрибуты**
 
-|Наименование         |Тип                                                    |Описание                               |Значение по умолчанию|
-|---------------------|-------------------------------------------------------|---------------------------------------|---------------------|
-|x-field-id           |Строка                                                 |Ключ значений по оси x                 |                     |
-|x-position           |top bottom                                             |Положение оси x                        |bottom               |
-|x-has-label          |true false                                             |Наличие подписи оси x                  |false                |
-|y-field-id           |Строка                                                 |Ключ значений по оси y                 |                     |
-|y-position           |left right                                             |Положение оси y                        |left                 |
-|y-has-label          |true false                                             |Наличие подписи оси y                  |false                |
-|y-min                |Число                                                  |Минимальное значение по оси y          |                     |
-|y-max                |Число                                                  |Максимальное значение по оси y         |                     |
-|grid-stroke-dasharray|Строка                                                 |Паттерн линий сетки                    |                     |
-|grid-horizontal      |true false                                             |Наличие горизонтальных линий сетки     |true                 |
-|grid-vertical        |true false                                             |Наличие вертикальных линий сетки       |true                 |
-|tooltip-separator    |Строка                                                 |Разделитель между названием и значением|                     |
-|legend-icon-type     |line square rect circle cross diamond star triangle wye|Тип иконок элементов легенды           |line                 |
+|Наименование          |Тип                                                     |Описание                                     |Значение по умолчанию |
+|----------------------|--------------------------------------------------------|---------------------------------------------|----------------------|
+|x-field-id            |Строка                                                  |Идентификатор поля выборки значений по оси x |                      |
+|x-position            |top bottom                                              |Положение оси x                              |bottom                |
+|x-has-label           |true false                                              |Наличие подписи оси x                        |false                 |
+|y-field-id            |Строка                                                  |Идентификатор поля выборки значений по оси y |                      |
+|y-position            |left right                                              |Положение оси y                              |left                  |
+|y-has-label           |true false                                              |Наличие подписи оси y                        |false                 |
+|y-min                 |Число                                                   |Минимальное значение по оси y                |                      |
+|y-max                 |Число                                                   |Максимальное значение по оси y               |                      |
+|grid-stroke-dasharray |Строка                                                  |Паттерн линий сетки                          |                      |
+|grid-horizontal       |true false                                              |Наличие горизонтальных линий сетки           |true                  |
+|grid-vertical         |true false                                              |Наличие вертикальных линий сетки             |true                  |
+|tooltip-separator     |Строка                                                  |Разделитель между названием и значением      |                      |
+|legend-icon-type      |line square rect circle cross diamond star triangle wye |Тип иконок элементов легенды                 |line                  |
+
+**Настройки**
+```yaml
+#Количество записей в запросе за данными
+n2o.api.widget.chart.size = 20
+#Наличие подписи оси x и y
+n2o.api.widget.chart.axis.has_label = false
+#Положение оси x
+n2o.api.widget.chart.axis.x_position = bottom
+#Положение оси y
+n2o.api.widget.chart.axis.y_position = left
+#Наличие горизонтальных линий сетки
+n2o.api.widget.chart.grid.horizontal = true
+#Наличие вертикальных линий сетки
+n2o.api.widget.chart.grid.vertical = true
+#Разделитель между названием и значением
+n2o.api.widget.chart.tooltip.separator =
+#Тип иконок элементов легенды
+n2o.api.widget.chart.legend.icon_type = line
+```
 
 **Пример**
 
 ```xml
-
 <bars x-field-id="xdata" y-field-id="ydata">
     ...
 </bars>
 ```
 
-### &lt;areas&gt; {#areas}
+## &lt;areas&gt; {#areas}
 
-Компонент диаграммы-области. Содержит описание областей.
+Диаграмма-область. Содержит описание областей
+
+**Тело**
+
+&lt;area&gt; - Список [областей](#area)
+
+### &lt;area&gt; {#area}
+
+Область
+
+**Атрибуты**
+
+|Наименование |Тип                                                                                                            |Описание                                    |Значение по умолчанию |
+|-------------|---------------------------------------------------------------------------------------------------------------|--------------------------------------------|----------------------|
+|field-id     |Строка                                                                                                         |Идентификатор поля выборки значений области |                      |
+|label        |Строка                                                                                                         |Заголовок линии                             |                      |
+|line-type    |basis basisClosed basisOpen linear linearClosed natural monotoneX monotoneY monotone step stepBefore stepAfter |Тип интерполяции линии                      |linear                |
+|color        |Строка                                                                                                         |Цвет области                                |                      |
+|stroke-color |Строка                                                                                                         |Цвет линии                                  |                      |
+|has-label    |true false                                                                                                     |Наличие подписи значений                    |false                 |
+
+**Настройки**
+```yaml
+#Тип интерполяции линии
+n2o.api.widget.chart.area.line_type = linear
+#Наличие подписи значений
+n2o.api.widget.chart.area.has_label = false
+```
 
 **Пример**
 
 ```xml
-<areas>
-    <area field-id="uv" color="#ffcccc" stack-id="pv"/>
-    <area field-id="uv2" color="#ccccff" stack-id="pv2"/>
+<areas x-field-id="name" grid-stroke-dasharray="3 3">
+    <area field-id="expenses" line-type="monotone" color="#8884d8"/>
+    <area field-id="income" line-type="monotone" color="#82ca9d"/>
 </areas>
 ```
 
 <Sandbox height={300} projectId="uxcomponents_charts_areas" />
 
-### &lt;bars&gt; {#bars}
+## &lt;bars&gt; {#bars}
 
-Компонент гистограммы. Содержит описание столбцов.
+Гистограмма. Содержит описание столбцов
+
+**Тело**
+
+&lt;bar&gt; - Список [столбцов](#bar)
+
+### &lt;bar&gt; {#bar}
+Столбцы
+
+**Атрибуты**
+
+|Наименование |Тип        |Описание                                     |Значение по умолчанию |
+|-------------|-----------|---------------------------------------------|----------------------|
+|field-id     |Строка     |Идентификатор поля выборки значений столбцов |                      |
+|label        |Строка     |Заголовок столбцов                           |                      |
+|color        |Строка     |Цвет столбцов                                |                      |
+|has-label    |true false |Наличие подписи значений                     |false                 |
+
+**Настройки**
+```yaml
+#Наличие подписи значений
+n2o.api.widget.chart.bar.has_label = false
+```
 
 **Пример**
 
 ```xml
-<bars>
-    <bar field-id="uv" color="#ffcccc" stack-id="pv"/>
-    <bar field-id="uv2" color="#ccccff" stack-id="pv2"/>
+<bars x-field-id="name" grid-stroke-dasharray="3 3">
+    <bar field-id="expenses" color="#8884d8"/>
+    <bar field-id="income" color="#82ca9d"/>
 </bars>
 ```
 
 <Sandbox height={300} projectId="uxcomponents_charts_bars" />
 
-### &lt;lines&gt; {#lines}
+## &lt;lines&gt; {#lines}
 
-Компонент линейного графика. Содержит описание линий.
+Линейный график. Содержит описание линий
+
+**Тело**
+
+&lt;line&gt; - Список [линий](#line)
+
+### &lt;line&gt; {#line}
+
+Линия
+
+**Атрибуты**
+
+|Наименование |Тип                                                                                                            |Описание                                  |Значение по умолчанию |
+|-------------|---------------------------------------------------------------------------------------------------------------|------------------------------------------|----------------------|
+|field-id     |Строка                                                                                                         |Идентификатор поля выборки значений линии |                      |
+|label        |Строка                                                                                                         |Заголовок линии                           |                      |
+|type         |basis basisClosed basisOpen linear linearClosed natural monotoneX monotoneY monotone step stepBefore stepAfter |Тип интерполяции линии                    |linear                |
+|color        |Строка                                                                                                         |Цвет линии                                |                      |
+|has-label    |true false                                                                                                     |Наличие подписи значений                  |false                 |
+
+**Настройки**
+```yaml
+#Тип интерполяции линии
+n2o.api.widget.chart.line.type = linear
+#Наличие подписи значений
+n2o.api.widget.chart.line.has_label = false
+```
 
 **Пример**
 
 ```xml
-<lines>
-    <line field-id="uv" color="#ffcccc"/>
-    <line field-id="uv2" color="#ccccff"/>
+<lines x-field-id="name" grid-stroke-dasharray="3 3">
+    <line field-id="expenses" color="#8884d8" type="monotone"/>
+    <line field-id="income" color="#82ca9d" type="monotone"/>
 </lines>
 ```
 
 <Sandbox height={300} projectId="uxcomponents_charts_lines" />
 
-### &lt;pie&gt; {#pie}
+## &lt;pie&gt; {#pie}
 
-Компонент круговой диаграммы.
+Круговая диаграмма
 
 **Атрибуты**
 
-|Наименование    |Тип       |Описание                                    |Значение по умолчанию|
-|----------------|----------|--------------------------------------------|---------------------|
-|center-x        |Число     |Координата центра по x                      |                     |
-|center-y        |Число     |Координата центра по y                      |                     |
-|inner-radius    |Число     |Внутренний радиус                           |0                    |
-|outer-radius    |Число     |Внешний радиус                              |                     |
-|start-angle     |Число     |Начальный угол графика (в градусах)         |0                    |
-|end-angle       |Число     |Конечный угол графика (в градусах)          |360                  |
-|name-field-id   |Строка    |Идентификатор поля выборки имен секторов    |                     |
-|value-field-id  |Строка    |Идентификатор поля выборки значений секторов|value                |
-|tooltip-field-id|Строка    |Идентификатор поля выборки тултипов секторов|                     |
-|color           |Строка    |Цвет круговой области                       |                     |
-|has-label       |true false|Наличие подписи значений                    |false                |
+|Наименование     |Тип        |Описание                                     |Значение по умолчанию |
+|-----------------|-----------|---------------------------------------------|----------------------|
+|center-x         |Число      |Координата центра по x                       |                      |
+|center-y         |Число      |Координата центра по y                       |                      |
+|inner-radius     |Число      |Внутренний радиус                            |0                     |
+|outer-radius     |Число      |Внешний радиус                               |                      |
+|start-angle      |Число      |Начальный угол графика (в градусах)          |0                     |
+|end-angle        |Число      |Конечный угол графика (в градусах)           |360                   |
+|name-field-id    |Строка     |Идентификатор поля выборки имен секторов     |                      |
+|value-field-id   |Строка     |Идентификатор поля выборки значений секторов |value                 |
+|tooltip-field-id |Строка     |Идентификатор поля выборки тултипов секторов |                      |
+|color            |Строка     |Цвет круговой области                        |                      |
+|has-label        |true false |Наличие подписи значений                     |false                 |
+
+**Настройки**
+```yaml
+#Внутренний радиус
+n2o.api.widget.chart.pie.inner_radius = 0
+#Начальный угол графика (в градусах)
+n2o.api.widget.chart.pie.start_angle = 0
+#Конечный угол графика (в градусах)
+n2o.api.widget.chart.pie.end_angle = 360
+#Наличие подписи значений
+n2o.api.widget.chart.pie.has_label = false
+```
 
 **Пример**
 
 ```xml
-<pie outer-radius="100" name-field-id="name" value-field-id="data" color="#ac8213"/>
+<pie center-x="150" center-y="120" inner-radius="50" outer-radius="80"
+     name-field-id="name" value-field-id="value" color="#82ca9d" has-label="true"/>
 ```
 
 <Sandbox height={300} projectId="uxcomponents_charts_pie" />
-
-### Элементы графиков/диаграмм {#Graph_chart_elements}
-
-### &lt;area&gt; {#area}
-
-Область.
-
-**Атрибуты**
-
-|Наименование|Тип                                                                                                           |Описание                                   |Значение по умолчанию|
-|------------|--------------------------------------------------------------------------------------------------------------|-------------------------------------------|---------------------|
-|field-id    |Строка                                                                                                        |Идентификатор поля выборки значений области|                     |
-|label       |Строка                                                                                                        |Заголовок линии                            |                     |
-|line-type   |basis basisClosed basisOpen linear linearClosed natural monotoneX monotoneY monotone step stepBefore stepAfter|Тип интерполяции линии                     |linear               |
-|color       |Строка                                                                                                        |Цвет области                               |                     |
-|stroke-color|Строка                                                                                                        |Цвет линии                                 |                     |
-|has-label   |true false                                                                                                    |Наличие подписи значений                   |false                |
-
-**Пример**
-
-```xml
-<area field-id="uv" color="#8884d8"/>
-```
-
-
-### &lt;bar&gt; {#bar}
-Столбцы.
-
-**Атрибуты**
-
-|Наименование|Тип       |Описание                                    |Значение по умолчанию|
-|------------|----------|--------------------------------------------|---------------------|
-|field-id    |Строка    |Идентификатор поля выборки значений столбцов|                     |
-|label       |Строка    |Заголовок столбцов                          |                     |
-|color       |Строка    |Цвет столбцов                               |                     |
-|has-label   |true false|Наличие подписи значений                    |false                |
-
-**Пример**
-
-```xml
-<bar field-id="uv" color="#8884d8"/>
-```
-
-### &lt;line&gt; {#line}
-
-Линия.
-
-**Атрибуты**
-
-|Наименование|Тип                                                                                                          |Описание                                 |Значение по умолчанию|
-|------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------------|---------------------|
-|field-id    |Строка                                                                                                       |Идентификатор поля выборки значений линии|                     |
-|label       |Строка                                                                                                       |Заголовок линии                          |                     |
-|type        |basis basisClosed basisOpen linear linearClosed naturalmonotoneX monotoneY monotone step stepBefore stepAfter|Тип интерполяции линии                   |linear               |
-|color       |Строка                                                                                                       |Цвет линии                               |                     |
-|has-label   |true false                                                                                                   |Наличие подписи значений                 |false                |                     |
-
-**Пример**
-
-```xml
-<line field-id="uv" line-type="monotone" color="#8884d8"/>
-```

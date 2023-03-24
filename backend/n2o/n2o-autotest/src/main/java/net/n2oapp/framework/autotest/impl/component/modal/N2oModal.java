@@ -11,6 +11,10 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 public class N2oModal extends N2oComponent implements Modal {
 
+    private static final String MODAL_BODY = ".modal-body";
+    private static final String MODAL_DIALOG_SCROLLABLE = ".modal-dialog-scrollable";
+    private static final String MODAL_HEADER = ".modal-header";
+
     @Override
     public void shouldHaveTitle(String text) {
         element().$(".modal-header .modal-title, .white-space-pre-line")
@@ -19,7 +23,7 @@ public class N2oModal extends N2oComponent implements Modal {
 
     @Override
     public void shouldNotHaveHeader() {
-        element().$(".modal-header").shouldNotBe(Condition.exist);
+        element().$(MODAL_HEADER).shouldNotBe(Condition.exist);
     }
 
     @Override
@@ -29,32 +33,32 @@ public class N2oModal extends N2oComponent implements Modal {
 
     @Override
     public <T extends Page> T content(Class<T> pageClass) {
-        return N2oSelenide.component(element().$(".modal-body"), pageClass);
+        return N2oSelenide.component(element().$(MODAL_BODY), pageClass);
     }
 
     @Override
     public void scrollUp() {
-        Selenide.executeJavaScript("document.querySelector('.modal-body').scrollTop = 0");
+        Selenide.executeJavaScript(String.format("document.querySelector('%s').scrollTop = 0", MODAL_BODY));
     }
 
     @Override
     public void scrollDown() {
-        Selenide.executeJavaScript("document.querySelector('.modal-body').scrollTop = document.querySelector('.modal-body').scrollHeight");
+        Selenide.executeJavaScript(String.format("document.querySelector('%s').scrollTop = document.querySelector('%s').scrollHeight", MODAL_BODY, MODAL_BODY));
     }
 
     @Override
     public void shouldBeScrollable() {
-        element().$(".modal-dialog-scrollable .modal-body").should(Condition.exist);
+        element().$(String.format("%s %s", MODAL_DIALOG_SCROLLABLE, MODAL_BODY)).should(Condition.exist);
     }
 
     @Override
     public void shouldNotBeScrollable() {
-        element().$(".modal-dialog-scrollable .modal-body").shouldNot(Condition.exist);
+        element().$(String.format("%s %s", MODAL_DIALOG_SCROLLABLE, MODAL_BODY)).shouldNot(Condition.exist);
     }
 
     @Override
     public void close() {
-        element().$(".modal-header [aria-label=\"Close\"]").click();
+        element().$(String.format("%s [aria-label=\"Close\"]", MODAL_HEADER)).click();
     }
 
     @Override

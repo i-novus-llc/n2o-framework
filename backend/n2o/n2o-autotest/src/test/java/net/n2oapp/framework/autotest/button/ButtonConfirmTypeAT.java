@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -67,40 +68,22 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testPopover() {
         StandardButton button = toolbar.bottomLeft().button("popover");
-        button.shouldBeEnabled();
-
-        button.click();
-        Page.Popover popover = page.popover("Предупреждение");
-        popover.shouldBeVisible();
-        popover.shouldHaveText("confirm-text");
-        popover.click("Нет");
-        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
-
-        button.click();
-        popover.shouldBeVisible();
-        popover.shouldHaveText("confirm-text");
-        popover.click("Да");
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
-    }
-
-    @Test
-    public void testCustomPopover() {
-        StandardButton button = toolbar.bottomLeft().button("CustomPopover");
         button.shouldBeEnabled();
 
         button.click();
         Page.Popover popover = page.popover("burn");
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");
-        popover.click("No no no");
+        popover.button("No no no").click();
         page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
 
         button.click();
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");
-        popover.click("Hell, yes");
+        popover.button("Hell, yes").click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
     }
 

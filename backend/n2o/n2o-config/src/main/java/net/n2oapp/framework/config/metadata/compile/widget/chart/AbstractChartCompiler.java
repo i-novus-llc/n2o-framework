@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public abstract class AbstractChartCompiler<D extends ChartWidgetComponent, S extends N2oAbstractChart> implements BaseSourceCompiler<D, S, CompileContext<?,?>> {
 
-    protected D build(D compiled, S source, CompileContext<?,?> context, CompileProcessor p, String defaultSrc) {
+    protected D build(D compiled, S source, CompileProcessor p, String defaultSrc) {
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));
         return compiled;
     }

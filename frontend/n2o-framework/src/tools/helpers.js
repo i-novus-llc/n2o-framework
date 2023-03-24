@@ -1,5 +1,3 @@
-import setWith from 'lodash/setWith'
-import clone from 'lodash/clone'
 import each from 'lodash/each'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
@@ -8,15 +6,6 @@ import transform from 'lodash/transform'
 import isEqual from 'lodash/isEqual'
 import cloneDeepWith from 'lodash/cloneDeepWith'
 import map from 'lodash/map'
-
-/**
- * Не мутабельный set
- * @param object
- * @param path
- * @param value
- * @returns {Object}
- */
-export const setIn = (object, path, value) => setWith(clone(object), path, value, clone)
 
 function buildHTTPQuery(formData, numericPrefix, argSeparator) {
     let i = 0

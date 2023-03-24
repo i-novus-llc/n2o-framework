@@ -61,7 +61,7 @@ public class BadgeAT extends AutoTestBase {
         inputSelect.shouldBeOpened();
         DropDown dropDownInputSelect = inputSelect.dropdown();
         dropDownInputSelect.shouldExists();
-        dropDownInputSelect.shouldHaveItems(4);
+        dropDownInputSelect.shouldHaveOptions(4);
         DropDown.DropDownItem itemDropDownInputSelect = dropDownInputSelect.item(0);
         itemDropDownInputSelect.shouldBeExists();
         itemDropDownInputSelect.shouldHaveText("Проект 1");
@@ -75,7 +75,7 @@ public class BadgeAT extends AutoTestBase {
         select.shouldBeOpened();
         DropDown dropDownSelect = select.dropdown();
         dropDownSelect.shouldExists();
-        dropDownSelect.shouldHaveItems(4);
+        dropDownSelect.shouldHaveOptions(4);
         DropDown.DropDownItem itemDropDownSelect = dropDownSelect.item(0);
         itemDropDownSelect.shouldBeExists();
         itemDropDownSelect.shouldHaveText("Проект 1");

@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.fieldset;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
@@ -29,7 +30,7 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
 
     @Override
     public void shouldHaveItems(int count) {
-        element().$$(".n2o-multi-fieldset__item").shouldHave(CollectionCondition.size(count));
+        items().shouldHave(CollectionCondition.size(count));
     }
 
     @Override
@@ -39,7 +40,7 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
 
     @Override
     public MultiFieldSetItem item(int index) {
-        return component(element().$$(".n2o-multi-fieldset__item").get(index), MultiFieldSetItem.class);
+        return component(items().get(index), MultiFieldSetItem.class);
     }
 
     @Override
@@ -92,20 +93,25 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
         removeAllButton().click();
     }
 
-    private SelenideElement label() {
+    protected SelenideElement label() {
         return element().parent().$(".n2o-fieldset__label");
     }
 
-    private SelenideElement addButton() {
+    protected SelenideElement addButton() {
         return element().$(".n2o-multi-fieldset__add.btn");
     }
 
-    private SelenideElement removeAllButton() {
+    protected SelenideElement removeAllButton() {
         return element().$(".n2o-multi-fieldset__remove-all.btn");
     }
 
     @Override
     protected SelenideElement description() {
+        //ToDo нужно ли переопределять этот метод, если он есть у N2oFieldSet
         return element().parent().$(".n2o-fieldset__description");
+    }
+
+    protected ElementsCollection items() {
+        return element().$$(".n2o-multi-fieldset__item");
     }
 }

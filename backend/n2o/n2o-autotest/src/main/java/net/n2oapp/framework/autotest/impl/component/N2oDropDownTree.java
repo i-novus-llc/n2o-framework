@@ -34,11 +34,13 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
         searchField().clear();
     }
 
-    private SelenideElement searchField() {
+    protected SelenideElement searchField() {
         return element().$(".n2o-select-tree-search__field");
     }
 
     public class N2oDropDownTreeItem extends N2oComponent implements DropDownTreeItem {
+
+        private static final String SWITCHER = "n2o-select-tree-tree-switcher";
 
         public N2oDropDownTreeItem(SelenideElement element) {
             setElement(element);
@@ -63,12 +65,12 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
 
         @Override
         public void shouldBeExpanded() {
-            switcher().shouldHave(Condition.cssClass("n2o-select-tree-tree-switcher_open"));
+            switcher().shouldHave(Condition.cssClass(String.format("%s_open", SWITCHER)));
         }
 
         @Override
         public void shouldBeCollapsed() {
-            switcher().shouldHave(Condition.cssClass("n2o-select-tree-tree-switcher_close"));
+            switcher().shouldHave(Condition.cssClass(String.format("%s_close", SWITCHER)));
         }
 
         public void shouldHaveValue(String value) {
@@ -76,11 +78,11 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
         }
 
         private Condition isExpanded() {
-            return Condition.cssClass("n2o-select-tree-tree-switcher_open");
+            return Condition.cssClass(String.format("%s_open", SWITCHER));
         }
 
-        private SelenideElement switcher() {
-            return element().parent().$(".n2o-select-tree-tree-switcher");
+        protected SelenideElement switcher() {
+            return element().parent().$(String.format(".%s", SWITCHER));
         }
     }
 }

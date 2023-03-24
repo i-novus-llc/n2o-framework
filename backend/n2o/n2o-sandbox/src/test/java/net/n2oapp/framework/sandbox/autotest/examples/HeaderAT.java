@@ -83,7 +83,7 @@ public class HeaderAT extends AutoTestBase {
         extraLink.shouldHaveLabel("Внешняя ссылка");
         extraLink.shouldHaveUrl("http://example.com/");
         extraLink.click();
-        page.shouldHaveUrlLike("http://example.com/");
+        page.shouldHaveUrlMatches("http://example.com/");
     }
 }
 

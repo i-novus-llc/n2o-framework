@@ -19,7 +19,7 @@ public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChar
     @Override
     public PieChart compile(N2oPieChart source, CompileContext<?, ?> context, CompileProcessor p) {
         PieChart chart = new PieChart();
-        build(chart, source, context, p, property("n2o.api.widget.chart.pie.src"));
+        build(chart, source, p, property("n2o.api.widget.chart.pie.src"));
         chart.setType(ChartType.pie);
         chart.getComponent().setCenterX(source.getCenterX());
         chart.getComponent().setCenterY(source.getCenterY());
@@ -35,7 +35,7 @@ public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChar
         chart.getComponent().setTooltipFieldId(source.getTooltipFieldId());
         chart.getComponent().setColor(source.getColor());
         chart.getComponent().setHasLabel(p.cast(source.getHasLabel(),
-                p.resolve(property("n2o.api.widget.chart.has_label"), Boolean.class)));
+                p.resolve(property("n2o.api.widget.chart.pie.has_label"), Boolean.class)));
         return chart;
     }
 

@@ -25,10 +25,14 @@ public class N2oTextCell extends N2oCell implements TextCell {
     public void shouldHaveIconPosition(Position position) {
         SelenideElement iconContainer = element().$(".icon-cell-container");
         if (iconContainer.$(".n2o-icon").is(Condition.exist)) {
-            if (position == Position.LEFT)
-                iconContainer.shouldNotHave(Condition.cssClass("icon-cell-container__text-left"));
-            if (position == Position.RIGHT)
-                iconContainer.shouldHave(Condition.cssClass("icon-cell-container__text-left"));
+            switch (position) {
+                case LEFT:
+                    iconContainer.shouldNotHave(Condition.cssClass("icon-cell-container__text-left"));
+                    break;
+                case RIGHT:
+                    iconContainer.shouldHave(Condition.cssClass("icon-cell-container__text-left"));
+                    break;
+            }
         }
     }
 }

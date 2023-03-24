@@ -1,7 +1,7 @@
-import React, { useContext, useMemo, useRef } from 'react'
+import React, { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import values from 'lodash/values'
-import { useSelector } from 'react-redux'
+import { useSelector, useStore } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 
 import WidgetLayout from '../StandardWidget'
@@ -17,6 +17,7 @@ import Fieldsets from './fieldsets'
 import ReduxForm from './ReduxForm'
 
 export const Form = (props) => {
+    const { getState } = useStore()
     const { id, disabled, toolbar, datasource, className, style, form, loading } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedForm = useMemo(() => ({
@@ -27,22 +28,30 @@ export const Form = (props) => {
     }), [form, resolveProps])
     const { modelPrefix, fieldsets } = resolvedForm
     const formName = datasource || id
-    const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, formName))?.[0]
+    const datasourceModel = useSelector(
+        state => getModelByPrefixAndNameSelector(ModelPrefix.source, formName)(state)?.[0],
+    )
     const resolveModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, formName))
     const editModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.edit, formName))
-    const activeModelRef = useRef(modelPrefix === ModelPrefix.edit ? editModel : resolveModel)
+    // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
     const activeModel = useMemo(() => (
-        modelPrefix === ModelPrefix.edit ? editModel : resolveModel
+        modelPrefix === ModelPrefix.edit ? (editModel || resolveModel) : resolveModel
     ), [editModel, modelPrefix, resolveModel])
-    const fields = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
     const initialValues = useMemo(() => {
-        if (isEmpty(activeModelRef.current) && isEmpty(datasourceModel)) {
-            return undefined
+        const state = getState()
+        const resolveModel = getModelByPrefixAndNameSelector(ModelPrefix.active, formName)(state)
+        const editModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, formName)(state)
+        // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
+        const activeModel = modelPrefix === ModelPrefix.edit ? (editModel || resolveModel) : resolveModel
+
+        if (isEmpty(activeModel) && isEmpty(datasourceModel)) {
+            // Возвращение null необходимо, поскольку если вернуть undefined redux-toolkit не вызовет экшен
+            return null
         }
 
-        return { ...activeModelRef.current, ...datasourceModel }
-    },
-    [datasourceModel])
+        return { ...activeModel, ...datasourceModel }
+    }, [datasourceModel, formName, getState, modelPrefix])
+    const fields = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
     const dirty = useSelector(isDirtyForm(formName))
 
     return (
@@ -54,6 +63,7 @@ export const Form = (props) => {
             style={style}
             datasource={datasource}
             loading={loading}
+            activeModel={activeModel}
         >
             <ReduxForm
                 form={formName}

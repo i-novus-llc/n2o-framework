@@ -69,7 +69,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     @Override
     public StandardDatasource compile(N2oStandardDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         StandardDatasource compiled = new StandardDatasource();
-        compileDatasource(source, compiled, context, p);
+        compileDatasource(source, compiled, p);
         initDefaults(source, p);
         compiled.setDefaultValuesMode(p.cast(source.getDefaultValuesMode(), source.getQueryId() == null ?
                 DefaultValuesMode.defaults : DefaultValuesMode.query));
@@ -106,7 +106,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         ClientDataProvider dataProvider = new ClientDataProvider();
         String url = getDatasourceRoute(source, compiled, p);
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + url);
-        dataProvider.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.datasource.size"), Integer.class)));
+        dataProvider.setSize(p.cast(source.getSize(),
+                p.resolve(property("n2o.api.datasource.size"), Integer.class)));
         List<Filter> filters = initFilters(source, p, query);
         compileRoutes(compiled, source, filters, p, query);
         initDataProviderMappings(dataProvider, filters, p);
@@ -417,16 +418,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                     .filter(Filter::getRoutable)
                     .filter(f -> !f.getLink().isConst())
                     .forEach(filter -> {
-                        ReduxAction onGet;
-                        String filterId = filter.getFilterId();
-                        if (filterId.contains(SPREAD_OPERATOR)) {
-                            onGet = Redux.dispatchUpdateMapModel(compiled.getId(), ReduxModel.filter,
-                                    filterId.substring(0, filterId.indexOf(SPREAD_OPERATOR)),
-                                    filterId.substring(filterId.indexOf(SPREAD_OPERATOR) + 2), colon(filter.getParam()));
-                        } else {
-                            onGet = Redux.dispatchUpdateModel(compiled.getId(), ReduxModel.filter, filterId, colon(filter.getParam()));
-                        }
-                        routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
+                        routes.addQueryMapping(filter.getParam(), null, filter.getLink());
                     });
             for (QuerySimpleField field : query.getSortingFields()) {
                 String sortParam = RouteUtil.normalizeParam(SORTING + source.getId() + "_" + field.getId());

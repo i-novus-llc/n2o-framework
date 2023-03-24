@@ -68,10 +68,8 @@ const createRegionContainer = config => (WrappedComponent) => {
             changeActiveEntity: props => (value) => {
                 const { dispatch, id } = props
 
-                if (value || typeof value === 'boolean' || typeof value === 'number') {
-                    dispatch(setActiveRegion(id, value))
-                    dispatch(mapUrl(value))
-                }
+                dispatch(setActiveRegion(id, value))
+                dispatch(mapUrl(value))
             },
         }),
         lifecycle({

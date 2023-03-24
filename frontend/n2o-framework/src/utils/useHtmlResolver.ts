@@ -9,15 +9,15 @@ export const useHtmlResolver = (html: string, model: IModel) => {
         return null
     }
 
-    if (isEmpty(model)) {
+    const parsedExpression = parseExpression(html)
+
+    if (!parsedExpression) {
         return html
     }
 
-    const parsedExpression = parseExpression(html)
-
-    if (parsedExpression) {
-        return evalExpression(parsedExpression.replace(/\n/g, ''), model)
+    if (isEmpty(model)) {
+        return null
     }
 
-    return html
+    return evalExpression(parsedExpression.replace(/\n/g, ''), model)
 }

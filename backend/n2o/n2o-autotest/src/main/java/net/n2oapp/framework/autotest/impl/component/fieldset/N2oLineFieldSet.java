@@ -33,18 +33,17 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
 
     @Override
     public void shouldHaveLabel(String label) {
-        SelenideElement elm = header().exists() ?
-                header().$(".n2o-panel-header-text") :
-                element().$(".title-fieldset-text");
-        elm.shouldHave(Condition.text(label));
+        SelenideElement labelElement = header().exists() ? panelHeaderText() : fieldsetTitleText();
+
+        labelElement.shouldHave(Condition.text(label));
     }
 
     @Override
     public void shouldNotHaveLabel() {
         if (header().exists())
-            header().$(".n2o-panel-header-text").shouldHave(Condition.empty);
+            panelHeaderText().shouldHave(Condition.empty);
         else
-            element().$(".title-fieldset-text").shouldNotBe(Condition.exist);
+            fieldsetTitleText().shouldNotBe(Condition.exist);
     }
 
     @Override
@@ -69,19 +68,27 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
         item().shouldNotBe(expandedContentCondition());
     }
 
-    private SelenideElement header() {
+    protected SelenideElement header() {
         return element().$(".n2o-panel-header");
     }
 
-    private SelenideElement item() {
+    protected SelenideElement item() {
         return element().$(".rc-collapse-item");
+    }
+
+    protected SelenideElement content() {
+        return element().$(".rc-collapse-content-box");
     }
 
     private Condition expandedContentCondition() {
         return Condition.cssClass("rc-collapse-item-active");
     }
 
-    private SelenideElement content() {
-        return element().$(".rc-collapse-content-box");
+    protected SelenideElement fieldsetTitleText() {
+        return element().$(".title-fieldset-text");
+    }
+
+    protected SelenideElement panelHeaderText() {
+        return header().$(".n2o-panel-header-text");
     }
 }

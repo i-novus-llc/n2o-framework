@@ -5,7 +5,7 @@ import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.AlwaysConflictRule;
 
 /**
- * Rule for merge isNull and overlap contains
+ * Rule for merge isNull and contains filters
  */
 public class Contains_IsNull extends AlwaysConflictRule {
 

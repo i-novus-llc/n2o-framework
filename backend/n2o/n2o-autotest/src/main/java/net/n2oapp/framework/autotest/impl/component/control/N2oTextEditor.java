@@ -29,7 +29,7 @@ public class N2oTextEditor extends N2oControl implements TextEditor {
         element().shouldHave(Condition.text(value));
     }
 
-    private SelenideElement editor() {
+    protected SelenideElement editor() {
         return element().$(".public-DraftEditor-content");
     }
 }

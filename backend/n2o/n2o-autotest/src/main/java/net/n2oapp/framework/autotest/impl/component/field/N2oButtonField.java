@@ -20,7 +20,7 @@ public class N2oButtonField extends N2oField implements ButtonField {
         btn().shouldBe(Condition.disabled);
     }
 
-    private SelenideElement btn() {
+    protected SelenideElement btn() {
         return element().$(".btn");
     }
 

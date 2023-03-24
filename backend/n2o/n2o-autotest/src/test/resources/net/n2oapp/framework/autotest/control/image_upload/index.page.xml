@@ -7,6 +7,7 @@
                           label-field-id="fileName" value-field-id="id" url-field-id="url"
                           upload-url="/files"
                           delete-url="/files"
+                          shape="square"
             />
 
             <image-upload label="imageUpload2" id="files"

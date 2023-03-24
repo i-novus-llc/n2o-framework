@@ -163,12 +163,14 @@ public class FieldsAT extends AutoTestBase {
                 .control(InputSelect.class);
         selectInput.shouldExists();
         selectInput.shouldBeEmpty();
-        selectInput.select(0);
-        selectInput.shouldSelected("test1");
+        selectInput.openPopup();
+        selectInput.dropdown().selectItem(0);
+        selectInput.shouldHaveValue("test1");
         selectInput.clear();
         selectInput.shouldBeEmpty();
-        selectInput.select(2);
-        selectInput.shouldSelected("test3");
+        selectInput.openPopup();
+        selectInput.dropdown().selectItem(2);
+        selectInput.shouldHaveValue("test3");
         selectInput.clear();
         selectInput.shouldBeEmpty();
     }
@@ -179,9 +181,11 @@ public class FieldsAT extends AutoTestBase {
                 .control(InputSelect.class);
         selectInput.shouldExists();
         selectInput.shouldBeEmpty();
-        selectInput.selectMulti(0);
+        selectInput.openPopup();
+        selectInput.dropdown().selectMulti(0);
         selectInput.shouldSelectedMulti("test1");
-        selectInput.selectMulti(1, 2);
+        selectInput.openPopup();
+        selectInput.dropdown().selectMulti(1, 2);
         selectInput.shouldSelectedMulti("test1", "test2", "test3");
         selectInput.clear();
         selectInput.shouldBeEmpty();

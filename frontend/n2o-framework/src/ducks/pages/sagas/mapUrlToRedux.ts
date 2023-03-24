@@ -21,23 +21,6 @@ export function* mappingUrlToRedux(routes: IRoutes) {
             call(queryMapping, location, routes),
         ])
     }
-    // TODO: исправить сброс роутинга до базового уровня
-    // try {
-    //   const firstRoute = (routes && routes.list && routes.list[0]) || {};
-    //   const basePath = autoDetectBasePath(firstRoute.path, location.pathname);
-    //   if (!firstRoute.isOtherPage && location.pathname !== basePath) {
-    //     yield put(
-    //       replace({
-    //         pathname: basePath,
-    //         search: location.search,
-    //         state: { silent: true },
-    //       })
-    //     );
-    //   }
-    // } catch (e) {
-    //   console.error(`Ошибка автоматического определения базового роута.`);
-    //   console.error(e);
-    // }
 }
 
 export function* pathMapping(location: Location, routes: IRoutes) {

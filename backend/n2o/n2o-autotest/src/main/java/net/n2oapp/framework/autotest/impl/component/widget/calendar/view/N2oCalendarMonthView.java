@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.widget.calendar.view;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarMonthView;
 
@@ -11,7 +12,9 @@ public class N2oCalendarMonthView extends N2oStandardCalendarView implements Cal
     @Override
     public void shouldBeDayOff(String day) {
         int index = 0;
-        for (SelenideElement elm : element().$$(".rbc-date-cell")) {
+        ElementsCollection dateCells = dateCells();
+
+        for (SelenideElement elm : dateCells) {
             if (elm.getText().equals(day))
                 break;
             else
@@ -23,16 +26,20 @@ public class N2oCalendarMonthView extends N2oStandardCalendarView implements Cal
 
     @Override
     public void shouldBeToday(String day) {
-        element().$(".rbc-date-cell.rbc-now").shouldHave(Condition.text(day));
+        dateCells().findBy(Condition.cssClass("rbc-now")).shouldHave(Condition.text(day));
     }
 
     @Override
     public void clickOnCell(String day) {
-        element().$$(".rbc-date-cell").findBy(Condition.text(day)).click();
+        dateCells().findBy(Condition.text(day)).click();
     }
 
     @Override
     public void clickOnDay(String day) {
-        element().$$(".rbc-date-cell a").findBy(Condition.text(day)).click();
+        dateCells().findBy(Condition.text(day)).$("a").click();
+    }
+
+    protected ElementsCollection dateCells() {
+        return element().$$(".rbc-date-cell");
     }
 }

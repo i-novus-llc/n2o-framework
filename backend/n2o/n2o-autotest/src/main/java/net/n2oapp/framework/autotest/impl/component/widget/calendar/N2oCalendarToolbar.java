@@ -61,7 +61,7 @@ public class N2oCalendarToolbar extends N2oComponent implements CalendarToolbar 
         element().$(".rbc-active").shouldHave(Condition.text(viewType.getTitle()));
     }
 
-    private StandardButton button(String label) {
+    protected StandardButton button(String label) {
         return N2oSelenide.component(element().$$("button").findBy(Condition.text(label)), StandardButton.class);
     }
 }

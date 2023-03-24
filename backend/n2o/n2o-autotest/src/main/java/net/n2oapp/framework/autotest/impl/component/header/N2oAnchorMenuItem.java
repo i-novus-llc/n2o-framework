@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.header;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 
 /**
@@ -9,32 +10,40 @@ import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
     @Override
     public void shouldHaveIcon() {
-        element().$("i").shouldHave(Condition.exist);
+        icon().shouldHave(Condition.exist);
     }
 
     @Override
     public void shouldHaveIconCssClass(String cssClass) {
-        element().$("i").shouldHave(Condition.attributeMatching("class", ".*" + cssClass));
+        icon().shouldHave(Condition.attributeMatching("class", String.format(".*%s", cssClass)));
     }
 
     @Override
     public void shouldHaveBadge() {
-        //ToDo: можно ли использовать методы badge?
-        element().$(".badge").shouldHave(Condition.exist);
+        //ToDo: можно ли использовать методы Badge.class?
+        badge().shouldHave(Condition.exist);
     }
 
     @Override
     public void shouldHaveBadgeText(String text) {
-        element().$(".badge").shouldHave(Condition.text(text));
+        badge().shouldHave(Condition.text(text));
     }
 
     @Override
     public void shouldHaveBadgeColor(String color) {
-        element().$(".badge").shouldHave(Condition.cssClass("badge-" + color));
+        badge().shouldHave(Condition.cssClass(String.format("badge-%s", color)));
     }
 
     @Override
     public void shouldHaveUrl(String url) {
         element().$("a").shouldHave(Condition.attribute("href", url));
+    }
+
+    protected SelenideElement icon() {
+        return element().$("i");
+    }
+
+    protected SelenideElement badge() {
+        return element().$(".badge");
     }
 }

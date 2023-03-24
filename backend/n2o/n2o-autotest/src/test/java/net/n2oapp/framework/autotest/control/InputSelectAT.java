@@ -58,11 +58,13 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldBeClosed();
 
         input.shouldBeEmpty();
-        input.shouldHaveOptions("One", "Two", "Three");
+        input.openPopup();
+        input.dropdown().shouldHaveOptions("One", "Two", "Three");
         // close popup by click on options
-        input.select(1);
+        input.openPopup();
+        input.dropdown().selectItem(1);
         input.shouldBeClosed();
-        input.shouldSelected("Two");
+        input.shouldHaveValue("Two");
         input.clear();
         input.shouldBeEmpty();
 
@@ -71,10 +73,11 @@ public class InputSelectAT extends AutoTestBase {
         input.closePopup();
 
         InputSelect input2 = fields.field("InputSelect1").control(InputSelect.class);
-        input2.optionShouldBeEnabled(true, "One");
-        input2.optionShouldBeEnabled(true, "Two");
-        input2.optionShouldBeEnabled(false, "Three");
-        input2.optionShouldBeEnabled(true, "Four");
+        input2.click();
+        input2.dropdown().optionShouldBeEnabled("One");
+        input2.dropdown().optionShouldBeEnabled("Two");
+        input2.dropdown().optionShouldBeDisabled("Three");
+        input2.dropdown().optionShouldBeEnabled("Four");
 
         // close popup by click on outside area
         input2.openPopup();
@@ -93,9 +96,11 @@ public class InputSelectAT extends AutoTestBase {
                 .control(InputSelect.class);
         input.shouldExists();
 
-        input.optionShouldHaveStatusColor("One", Colors.SUCCESS);
-        input.optionShouldHaveStatusColor("Two", Colors.PRIMARY);
-        input.optionShouldHaveStatusColor("Three", Colors.DANGER);
+        input.click();
+        DropDown dropdown = input.dropdown();
+        dropdown.optionShouldHaveStatusColor("One", Colors.SUCCESS);
+        dropdown.optionShouldHaveStatusColor("Two", Colors.PRIMARY);
+        dropdown.optionShouldHaveStatusColor("Three", Colors.DANGER);
     }
 
     @Test
@@ -109,13 +114,16 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
-        input.shouldHaveOptions("One", "Two", "Three");
-        input.selectMulti(1, 2);
+        input.openPopup();
+        input.dropdown().shouldHaveOptions("One", "Two", "Three");
+        input.openPopup();
+        input.dropdown().selectMulti(1, 2);
         input.shouldSelectedMulti("Two", "Three");
         input.clear();
         input.shouldBeEmpty();
 
-        input.selectMulti(2, 1, 0);
+        input.openPopup();
+        input.dropdown().selectMulti(2, 1, 0);
         input.shouldSelectedMulti("Three", "Two", "One");
 
         // удаление выбранных значений
@@ -136,13 +144,16 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
-        input.shouldHaveOptions("One", "Two", "Three");
-        input.selectMulti(1, 2);
+        input.openPopup();
+        input.dropdown().shouldHaveOptions("One", "Two", "Three");
+        input.openPopup();
+        input.dropdown().selectMulti(1, 2);
         input.shouldSelectedMulti("Two", "Three");
         input.clear();
         input.shouldBeEmpty();
 
-        input.selectMulti(2, 1, 0);
+        input.openPopup();
+        input.dropdown().selectMulti(2, 1, 0);
         input.shouldSelectedMulti("Three", "Two", "One");
 
         // удаление выбранных значений
@@ -154,10 +165,11 @@ public class InputSelectAT extends AutoTestBase {
         input.closePopup();
         input = page.widget(FormWidget.class).fields().field("InputSelect3")
                 .control(InputSelect.class);
-        input.optionShouldBeEnabled(true, "One");
-        input.optionShouldBeEnabled(true, "Two");
-        input.optionShouldBeEnabled(false, "Three");
-        input.optionShouldBeEnabled(true, "Four");
+        input.click();
+        input.dropdown().optionShouldBeEnabled("One");
+        input.dropdown().optionShouldBeEnabled("Two");
+        input.dropdown().optionShouldBeDisabled("Three");
+        input.dropdown().optionShouldBeEnabled("Four");
     }
 
     @Test
@@ -172,11 +184,15 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
-        input.shouldHaveOptions("name1", "name2", "name3");
-        input.optionShouldHaveDescription("name1", "desc1");
-        input.optionShouldHaveDescription("name3", "desc3");
-        input.select(1);
-        input.shouldSelected("name2");
+        input.openPopup();
+        input.dropdown().shouldHaveOptions("name1", "name2", "name3");
+        input.openPopup();
+        input.dropdown().optionShouldHaveDescription("name1", "desc1");
+        input.openPopup();
+        input.dropdown().optionShouldHaveDescription("name3", "desc3");
+        input.openPopup();
+        input.dropdown().selectItem(1);
+        input.shouldHaveValue("name2");
         input.clear();
         input.shouldBeEmpty();
         input.setValue("name3");
@@ -190,10 +206,14 @@ public class InputSelectAT extends AutoTestBase {
         input2.shouldExists();
 
         input2.shouldBeEmpty();
-        input2.optionShouldHaveDescription("name1", "desc1");
-        input2.optionShouldHaveDescription("name3", "desc3");
-        input2.shouldHaveOptions("name1", "name2", "name3");
-        input2.selectMulti(1, 2);
+        input2.openPopup();
+        input2.dropdown().optionShouldHaveDescription("name1", "desc1");
+        input2.openPopup();
+        input2.dropdown().optionShouldHaveDescription("name3", "desc3");
+        input2.openPopup();
+        input2.dropdown().shouldHaveOptions("name1", "name2", "name3");
+        input2.openPopup();
+        input2.dropdown().selectMulti(1, 2);
         input2.shouldSelectedMulti("name2", "name3");
         input2.clear();
         input2.shouldBeEmpty();
@@ -220,11 +240,13 @@ public class InputSelectAT extends AutoTestBase {
         InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
         InputSelect genderWithConst = formWidget.fields().field("Gender with const").control(InputSelect.class);
         gender.shouldExists();
-        gender.shouldSelected("Мужской");
-        gender.shouldHaveOptions("Мужской");
+        gender.shouldHaveValue("Мужской");
+        gender.openPopup();
+        gender.dropdown().shouldHaveOptions("Мужской");
         genderWithConst.shouldExists();
-        genderWithConst.shouldSelected("Женский");
-        genderWithConst.shouldHaveOptions("Женский");
+        genderWithConst.shouldHaveValue("Женский");
+        genderWithConst.openPopup();
+        genderWithConst.dropdown().shouldHaveOptions("Женский");
     }
 
     @Test
@@ -248,11 +270,13 @@ public class InputSelectAT extends AutoTestBase {
         InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
         InputSelect genderWithConst = formWidget.fields().field("Gender with const").control(InputSelect.class);
         gender.shouldExists();
-        gender.shouldSelected("Мужской");
-        gender.shouldHaveOptions("Мужской");
+        gender.shouldHaveValue("Мужской");
+        gender.openPopup();
+        gender.dropdown().shouldHaveOptions("Мужской");
         genderWithConst.shouldExists();
-        genderWithConst.shouldSelected("Женский");
-        genderWithConst.shouldHaveOptions("Женский");
+        genderWithConst.shouldHaveValue("Женский");
+        genderWithConst.openPopup();
+        genderWithConst.dropdown().shouldHaveOptions("Женский");
     }
 
     @Test
@@ -267,15 +291,15 @@ public class InputSelectAT extends AutoTestBase {
                 .fields().field("Input-select min-length=3").control(InputSelect.class);
         inputSelect.openPopup();
         DropDown dropdown = inputSelect.dropdown();
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveOptions(3);
 
         inputSelect.setValue("a");
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveOptions(3);
 
         inputSelect.setValue("au");
-        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveOptions(3);
 
         inputSelect.setValue("aud");
-        dropdown.shouldHaveItems(1);
+        dropdown.shouldHaveOptions(1);
     }
 }

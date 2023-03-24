@@ -71,7 +71,9 @@ public class TableAT extends AutoTestBase {
         table.filters().toolbar().button("resetLabel").shouldBeDisabled();
         table.filters().fields().field("Имя").control(InputText.class).click();
         table.filters().fields().field("Имя").control(InputText.class).setValue("test");
-        table.filters().fields().field("Пол").control(Select.class).select(Condition.text("Мужской"));
+        Select select = table.filters().fields().field("Пол").control(Select.class);
+        select.openPopup();
+        select.dropdown().selectItemBy(Condition.text("Мужской"));
         table.filters().toolbar().button("resetLabel").click();
         table.filters().fields().field("Имя").control(InputText.class).shouldHaveValue("test");
 

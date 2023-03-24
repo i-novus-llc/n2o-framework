@@ -59,9 +59,9 @@ public class ResolveTableFilterSubModelsAT extends AutoTestBase {
         Fields fields = newPage.widget(TableWidget.class).filters().fields();
         InputSelect genderField = fields.field("Gender").control(InputSelect.class);
         genderField.shouldExists();
-        genderField.shouldSelected("Men");
+        genderField.shouldHaveValue("Men");
         InputSelect typeField = fields.field("Type").control(InputSelect.class);
         typeField.shouldExists();
-        typeField.shouldSelected("type2");
+        typeField.shouldHaveValue("type2");
     }
 }

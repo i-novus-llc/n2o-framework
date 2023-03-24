@@ -18,7 +18,7 @@ public interface InputSelectTree extends Control, PopupControl {
     /**
      * Раскрытие выпадающего списка
      */
-    void expandOptions();
+    void click();
 
     /**
      * Раскрытие списка у опции
@@ -31,6 +31,11 @@ public interface InputSelectTree extends Control, PopupControl {
      * @param value значение
      */
     void setFilter(String value);
+
+    /**
+     * Очищение поля поиска
+     */
+    void clearSearchField();
 
     /**
      * Проверка того, что опция отображаемые опции соответствуют условию

@@ -26,8 +26,8 @@ public class N2oTextArea extends N2oControl implements TextArea {
 
     @Override
     public void shouldHaveValue(String value) {
-        element().should(value == null || value.isEmpty() ?
-                Condition.empty : Condition.text(value));
+        element().should(
+                value == null || value.isEmpty() ? Condition.empty : Condition.text(value));
     }
 
     @Override

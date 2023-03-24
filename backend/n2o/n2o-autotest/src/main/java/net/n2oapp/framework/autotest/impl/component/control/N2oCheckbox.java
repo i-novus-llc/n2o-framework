@@ -10,6 +10,7 @@ public class N2oCheckbox extends N2oControl implements Checkbox {
 
     @Override
     public void shouldHaveValue(String value) {
+        //ToDo нужен ли shouldBeChecked, если value у checkbox это и есть true или false
         throw new UnsupportedOperationException();
     }
 
