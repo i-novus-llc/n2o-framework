@@ -119,12 +119,12 @@ public class SandboxDataProviderTest {
     public void testSetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main/3/update/submit");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
-        wireMockServer.stubFor(get("/api/project/myProjectId").willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
+        wireMockServer.stubFor(get("/project/myProjectId").willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(put("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withStatus(200)));
-        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
+        wireMockServer.stubFor(put("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withStatus(200)));
+        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
                 "  {\n" +
                 "    \"id\": 1,\n" +
                 "    \"name\": \"test1\"\n" +
