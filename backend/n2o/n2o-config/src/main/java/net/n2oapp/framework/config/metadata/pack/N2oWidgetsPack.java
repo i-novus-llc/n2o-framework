@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.metadata.merge.widget.N2oTableMerger;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oWidgetMerger;
 
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
+
     @Override
     public void build(N2oApplicationBuilder b) {
         b.packs(new N2oWidgetsIOPack(), new N2oWidgetsV5IOPack());
@@ -46,6 +47,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new TableFiltersGenerator(),
                 new TableRefreshGenerator(),
                 new TableResizeGenerator(),
+                new TableWordWrapGenerator(),
                 new TableExportGenerator(),
                 new TableSettingsGenerator());
         b.binders(new WidgetBinder(),
