@@ -80,7 +80,11 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.luhuiguo</groupId>
+            <artifactId>aspose-cells</artifactId>
+        </dependency>
 
-    </dependencies>
+</dependencies>
 
 </project>

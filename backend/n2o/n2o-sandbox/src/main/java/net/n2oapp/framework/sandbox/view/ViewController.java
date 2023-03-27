@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.rest.ControllerFactory;
+import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
@@ -45,6 +46,7 @@ import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.ui.controller.DataController;
+import net.n2oapp.framework.ui.controller.ExportController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.CopyValuesController;
@@ -192,6 +194,26 @@ public class ViewController {
             n2oSubModelsProcessor.setEnvironment(builder.getEnvironment());
 
             return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
+        } finally {
+            sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export/", "/view/{projectId}/n2o/export"})
+    @ResponseBody
+    public ResponseEntity<ExportResponse> export(@PathVariable(value = "projectId") String projectId,
+                           HttpServletRequest request, HttpSession session) {
+        try {
+            ThreadLocalProjectId.setProjectId(projectId);
+
+            Map<String, String[]> parameterMap = request.getParameterMap();
+
+            ExportController exportController = new ExportController();
+            ExportResponse response = exportController.export(parameterMap, "scv");
+
+            return ResponseEntity.status(response.getStatus()).body(response);
         } finally {
             sandboxContext.refresh();
             ThreadLocalProjectId.clear();
