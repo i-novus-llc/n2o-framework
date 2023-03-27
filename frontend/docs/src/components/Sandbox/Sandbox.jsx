@@ -36,7 +36,7 @@ function SandboxBody({
     }, [projectData])
 
     useEffect(() => {
-        fetch(`${CONFIG.sandboxUrl}/api/project/${projectId}/`)
+        fetch(`${CONFIG.sandboxUrl}/project/${projectId}?stand=${CONFIG.n2oSandboxUrl}`)
                 .then((response) => {
                     if (response.ok) {
                         return response.json()
