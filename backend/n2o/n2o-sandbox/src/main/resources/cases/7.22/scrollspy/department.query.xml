@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="department.json"/>
+    </list>
+    <count>
+        <test file="department.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <like filter-id="name"/>
+            </filters>
+        </field>
+    </fields>
+</query>

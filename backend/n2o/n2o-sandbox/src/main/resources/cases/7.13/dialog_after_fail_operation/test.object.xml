@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="register" success-text="{message}">
+            <invocation>
+                <java method="register"
+                      class="net.n2oapp.framework.sandbox.cases.dialog.DialogService">
+                    <spring/>
+                    <arguments>
+                        <argument type="primitive" name="name"/>
+                        <argument type="primitive" name="useExists"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="name" mapping="['name']"/>
+                <field id="useExists" param="join" mapping="['useExists']"/>
+            </in>
+            <out>
+                <field id="message" mapping="#this"/>
+            </out>
+            <fail-out>
+                <field id="errorMessage" mapping="#this.getMessage()"/>
+            </fail-out>
+            <validations>
+                <dialog id="userUniqueCheck" server-moment="after-fail-operation"
+                        result="!(#this[errorMessage].contains('Пользователь с таким именем уже существует'))"
+                        message="Joe уже зарегистрирован, что делать?">
+                    <toolbar>
+                        <button id="btn1" label="Зарегистрировать нового">
+                            <invoke operation-id="register">
+                                <header-param name="join" value="false"/>
+                            </invoke>
+                        </button>
+                        <button id="btn2" label="Использовать существующего">
+                            <invoke operation-id="register">
+                                <header-param name="join" value="true"/>
+                            </invoke>
+                        </button>
+                        <button label="Отмена">
+                            <close/>
+                        </button>
+                    </toolbar>
+                </dialog>
+            </validations>
+        </operation>
+    </operations>
+</object>

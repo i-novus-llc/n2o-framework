@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="data.json" operation="findAll" />
+    </list>
+
+    <fields>
+        <field id="id">
+            <select />
+        </field>
+        <field id="status">
+            <select />
+        </field>
+        <field id="img">
+            <select />
+        </field>
+        <field id="name">
+            <select />
+        </field>
+        <field id="url">
+            <select />
+        </field>
+        <field id="isCapital">
+            <select />
+        </field>
+        <field id="region">
+            <select />
+        </field>
+        <field id="capital">
+            <select />
+        </field>
+        <field id="regionCities">
+            <select />
+        </field>
+    </fields>
+</query>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form object-id="test">
+        <fields>
+            <alert id="message" color="info"
+                   text="Сохраните значение и закройте окно одним из способов (кнопкой close, ESC, крестиком или кликом по фону)"/>
+            <input-text id="name"/>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="Save">
+                <invoke operation-id="create"/>
+            </button>
+            <button label="Close">
+                <close refresh="true"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

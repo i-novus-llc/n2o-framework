@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      object-id="person">
+    <regions>
+        <form query-id="person" id="person" name="Пользователь" mode="two-models">
+            <fields>
+                <input-text id="name" label="Имя"/>
+                <input-text id="age" label="Возраст"/>
+            </fields>
+            <pre-filters>
+                <eq field-id="id" param="person_id"/>
+            </pre-filters>
+        </form>
+        <tabs>
+            <tab name="Адреса">
+                <table id="address" query-id="address"
+                       depends-on="person" detail-field-id="person.id">
+                    <toolbar>
+                        <button id="create" label="Создать" model="filter">
+                            <dependencies>
+                                <enabling ref-model="resolve" ref-widget-id="person">id != null</enabling>
+                            </dependencies>
+                            <show-modal page-id="address" submit-operation-id="create" upload="defaults">
+                                <query-param name="person_id" value="{id}" ref-widget-id="person" ref-model="resolve"/>
+                            </show-modal>
+                        </button>
+                        <button id="update" label="Изменить" model="resolve">
+                            <show-modal page-id="address" submit-operation-id="update"
+                                        upload="query" route="/addresses/:address_id/update">
+                                <path-param name="address_id" value="{id}"/>
+                            </show-modal>
+                        </button>
+                        <button id="delete" label="Удалить">
+                            <invoke operation-id="delete" route="/addresses/delete"/>
+                        </button>
+                    </toolbar>
+                    <columns>
+                        <column text-field-id="name"/>
+                    </columns>
+                </table>
+            </tab>
+            <tab name="Работа">
+                <table id="jobs" query-id="jobs"
+                       depends-on="person" detail-field-id="person.id">
+                    <toolbar>
+                        <button id="create" label="Создать" model="filter">
+                            <dependencies>
+                                <enabling ref-model="resolve" ref-widget-id="person">id != null</enabling>
+                            </dependencies>
+                            <show-modal page-id="jobs" submit-operation-id="create" upload="defaults" route="/jobs/create">
+                                <query-param name="person_id" value="{id}" ref-widget-id="person" ref-model="resolve"/>
+                            </show-modal>
+                        </button>
+                        <button id="update" label="Изменить" model="resolve">
+                            <show-modal page-id="jobs" submit-operation-id="update"
+                                        upload="query" route="/jobs/:job_id/update">
+                                <path-param name="job_id" value="{id}"/>
+                            </show-modal>
+                        </button>
+                        <button id="delete" label="Удалить">
+                            <invoke operation-id="delete" route="/jobs/delete"/>
+                        </button>
+                    </toolbar>
+                    <columns>
+                        <column text-field-id="name"/>
+                    </columns>
+                </table>
+            </tab>
+        </tabs>
+    </regions>
+    <toolbar>
+        <button id="update" label="Сохранить" widget-id="person" model="resolve"
+                validate="true" visible="{typeof id != 'undefined' &amp;&amp; id != null}">
+            <invoke operation-id="update" refresh-widget-id="person">
+                <form-param id="id" value="{id}" ref-widget-id="person" ref-model="edit"/>
+                <form-param id="name" value="{name}" ref-widget-id="person" ref-model="edit"/>
+                <form-param id="age" value="{age}" ref-widget-id="person" ref-model="edit"/>
+            </invoke>
+        </button>
+        <button id="close" label="Закрыть" widget-id="person" model="edit">
+            <close/>
+        </button>
+    </toolbar>
+</page>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="При автофокусе на date-time и date-interval открывается pop-up">
+    <form>
+        <toolbar>
+            <button label="Открыть форму с date-time"
+                    disable-on-empty-model="false">
+                <show-modal page-id="date_time" unsaved-data-prompt-on-close="false"/>
+            </button>
+            <button label="Открыть форму с date-interval"
+                    disable-on-empty-model="false">
+                <show-modal page-id="date_interval" unsaved-data-prompt-on-close="false"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

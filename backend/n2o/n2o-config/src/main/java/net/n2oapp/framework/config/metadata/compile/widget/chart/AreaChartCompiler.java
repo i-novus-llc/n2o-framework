@@ -22,7 +22,7 @@ public class AreaChartCompiler extends StandardChartCompiler<AreaChart, N2oAreaC
     @Override
     public AreaChart compile(N2oAreaChart source, CompileContext<?, ?> context, CompileProcessor p) {
         AreaChart chart = new AreaChart();
-        build(chart, source, context, p, property("n2o.api.widget.chart.area.src"));
+        build(chart, source, p, property("n2o.api.widget.chart.area.src"));
         chart.setType(ChartType.area);
         for (N2oAreaChartItem item : source.getItems()) {
             AreaChartItem component = new AreaChartItem();
@@ -33,10 +33,10 @@ public class AreaChartCompiler extends StandardChartCompiler<AreaChart, N2oAreaC
             component.setColor(item.getColor());
             component.setStrokeColor(item.getStrokeColor());
             component.setHasLabel(p.cast(item.getHasLabel(),
-                    p.resolve(property("n2o.api.widget.chart.has_label"), Boolean.class)));
+                    p.resolve(property("n2o.api.widget.chart.area.has_label"), Boolean.class)));
             chart.addItem(component);
         }
-        return compileStandardChart(chart, source, context, p);
+        return compileStandardChart(chart, source, p);
     }
 
     @Override

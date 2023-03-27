@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Модальная страница с прокинутыми значениями">
+    <form id="info">
+        <fields>
+            <input-text id="city" label="Значение из поля виджета, в котором кнопка открытия окна"
+                        default-value="{city}"
+                        ref-page="parent"/>
+
+            <input-text id="street" label="Значение из поля другого виджета"
+                        default-value="{street}"
+                        ref-page="parent"
+                        ref-widget-id="form2"/>
+
+            <input-text id="house" label="Значение вводимое только в модальном окне"/>
+        </fields>
+    </form>
+</simple-page>

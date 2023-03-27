@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list result-normalize="T(java.util.Arrays).asList([0]['data.method1.application.applicationProperties'], [0]['data.method2.application.applicationProperties'])">
+        <test file="test.json"/>
+    </list>
+
+    <fields>
+        <reference id="id">
+            <field id="value"/>
+        </reference>
+        <reference id="name">
+            <field id="value"/>
+        </reference>
+        <reference id="code">
+            <field id="value"/>
+        </reference>
+    </fields>
+</query>

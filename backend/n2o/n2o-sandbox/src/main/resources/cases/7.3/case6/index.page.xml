@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Стили для строк в таблице">
+    <regions>
+        <table query-id="test">
+            <columns>
+                <column text-field-id="name">
+                    <text/>
+                </column>
+                <column text-field-id="type">
+                    <badge/>
+                </column>
+                <column text-field-id="check">
+                    <checkbox/>
+                </column>
+            </columns>
+            <rows class="font-weight-bold"/>
+        </table>
+        <table query-id="test">
+            <columns>
+                <column text-field-id="name">
+                    <text/>
+                </column>
+                <column text-field-id="type">
+                    <badge/>
+                </column>
+                <column text-field-id="check">
+                    <checkbox/>
+                </column>
+            </columns>
+            <rows>
+                <switch value-field-id="type">
+                    <case value="1">font-weight-bold</case>
+                </switch>
+            </rows>
+        </table>
+    </regions>
+</page>

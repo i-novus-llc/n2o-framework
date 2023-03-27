@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Передача path-param и query-param между страницами">
+    <regions>
+        <form id="main" query-id="test">
+            <fields>
+                <button id="btn0" label="Кнопка главной формы" color="success">
+                    <open-drawer
+                            page-id="page2"
+                            route="/:version/btn0">
+                        <path-param name="version" value="{version}"/>
+                        <query-param name="number" value="{number}"/>
+                    </open-drawer>
+                </button>
+                <input-text id="version" label="Версия"/>
+                <input-text id="number" label="#"/>
+            </fields>
+        </form>
+
+        <form id="dependent" depends-on="main">
+            <fields>
+                <button id="btn1"
+                        widget-id="main"
+                        label="1. Кнопка в fields зависимой формы"
+                        color="success">
+                    <open-drawer
+                            page-id="page2"
+                            route="/:version/btn1">
+                        <path-param name="version" value="{version}"/>
+                        <query-param name="number" value="{number}"/>
+                    </open-drawer>
+                </button>
+            </fields>
+
+            <toolbar place="bottomLeft">
+                <button id="btn2"
+                        widget-id="main"
+                        label="2. Кнопка в тулбаре зависимой формы"
+                        color="success">
+                    <open-drawer
+                            page-id="page2"
+                            route="/:version/btn2">
+                        <path-param name="version" value="{version}"/>
+                        <query-param name="number" value="{number}"/>
+                    </open-drawer>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+
+    <toolbar place="bottomLeft">
+        <button id="btn3"
+                widget-id="main"
+                label="3. Кнопка в тулбаре страницы"
+                color="success">
+            <open-drawer
+                    page-id="page2"
+                    route="/:version/btn3">
+                <path-param name="version" value="{version}"/>
+                <query-param name="number" value="{number}"/>
+            </open-drawer>
+        </button>
+    </toolbar>
+</page>

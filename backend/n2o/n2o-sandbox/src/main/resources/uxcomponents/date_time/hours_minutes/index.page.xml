@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Выбор часа и минуты">
+    <form>
+        <fields>
+            <time-picker
+                id="time_hours_minutes"
+                no-label="true"
+                mode="hours,minutes"
+            />
+        </fields>
+    </form>
+</simple-page>

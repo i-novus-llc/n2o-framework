@@ -75,7 +75,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
 
-import static net.n2oapp.framework.sandbox.utils.ProjectUtil.findFilesByUri;
+import static net.n2oapp.framework.sandbox.utils.FileUtil.findFilesByUri;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
@@ -160,10 +160,10 @@ public class ViewController {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             projectRouteRegister.clearAll();
-            builder = getBuilder(projectId, null);
+            builder = getBuilder(projectId);
             addedValues.put("menu", getMenu(builder));
 
-            AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient, session);
+            AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient);
             appConfigJsonWriter.setPropertyResolver(builder.getEnvironment().getSystemProperties());
             appConfigJsonWriter.setContextProcessor(builder.getEnvironment().getContextProcessor());
             appConfigJsonWriter.build();
@@ -178,11 +178,11 @@ public class ViewController {
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/page/**", "/view/{projectId}/n2o/page/", "/view/{projectId}/n2o/page"})
     public Page getPage(@PathVariable(value = "projectId") String projectId,
-                        HttpServletRequest request, HttpSession session) {
+                        HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             projectRouteRegister.clearAll();
-            N2oApplicationBuilder builder = getBuilder(projectId, session);
+            N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getMenu(builder);
             String path = getPath(request, "/n2o/page");
@@ -204,7 +204,7 @@ public class ViewController {
                                                    HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-            N2oApplicationBuilder builder = getBuilder(projectId, null);
+            N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getMenu(builder);
             String path = getPath(request, "/n2o/data");
@@ -243,7 +243,7 @@ public class ViewController {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
 
-            N2oApplicationBuilder builder = getBuilder(projectId, null);
+            N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getMenu(builder);
             String path = getPath(request, "/n2o/data");
@@ -332,11 +332,11 @@ public class ViewController {
         }
     }
 
-    private N2oApplicationBuilder getBuilder(@PathVariable("projectId") String projectId, HttpSession session) {
-        N2oEnvironment env = createEnvironment(projectId, session);
+    private N2oApplicationBuilder getBuilder(@PathVariable("projectId") String projectId) {
+        N2oEnvironment env = createEnvironment(projectId);
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
-        builder.scanners(new ProjectFileScanner(projectId, session, builder.getEnvironment().getSourceTypeRegister(), restClient));
+        builder.scanners(new ProjectFileScanner(projectId, builder.getEnvironment().getSourceTypeRegister(), restClient));
         return builder.scan();
     }
 
@@ -356,13 +356,12 @@ public class ViewController {
      * передает имя первого попавшегося файла
      *
      * @param projectId Идентификатор проекта
-     * @param session   Сессия проекта
      * @return Имя файла (без .access.xml) или null,
      * если папка проекта не содержит файлов указанного формата
      */
-    private String getAccessFilename(String projectId, HttpSession session) {
+    private String getAccessFilename(String projectId) {
         String format = ".access.xml";
-        ProjectModel project = restClient.getProject(projectId, session);
+        ProjectModel project = restClient.getProject(projectId);
         if (project != null && project.getFiles() != null) {
             Optional<String> first = project.getFiles().stream()
                     .map(FileModel::getFile)
@@ -376,13 +375,13 @@ public class ViewController {
         return null;
     }
 
-    private N2oEnvironment createEnvironment(String projectId, HttpSession session) {
+    private N2oEnvironment createEnvironment(String projectId) {
         N2oEnvironment env = new N2oEnvironment();
         String path = basePath + "/" + projectId;
 
         Map<String, String> runtimeProperties = new HashMap<>();
-        runtimeProperties.put("n2o.access.schema.id", getAccessFilename(projectId, session));
-        configurePropertyResolver(runtimeProperties, projectId, session);
+        runtimeProperties.put("n2o.access.schema.id", getAccessFilename(projectId));
+        configurePropertyResolver(runtimeProperties, projectId);
 
         env.setSystemProperties(propertyResolver);
         env.setMessageSource(getMessageSourceAccessor(path));
@@ -402,8 +401,8 @@ public class ViewController {
         return env;
     }
 
-    private void configurePropertyResolver(Map<String, String> runtimeProperties, String projectId, HttpSession session) {
-        propertyResolver.configure(environment, runtimeProperties, restClient.getFile(projectId, "application.properties", session));
+    private void configurePropertyResolver(Map<String, String> runtimeProperties, String projectId) {
+        propertyResolver.configure(environment, runtimeProperties, restClient.getFile(projectId, "application.properties"));
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
@@ -412,7 +411,6 @@ public class ViewController {
         subModelsProcessor.setEnvironment(environment);
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, messageBuilder, environment, messagesConstructor));
-        //N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor, operationExceptionHandler);
         beans.put("operationController", new OperationController(dataProcessingStack,
                 operationProcessor, messageBuilder, environment, messagesConstructor));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,

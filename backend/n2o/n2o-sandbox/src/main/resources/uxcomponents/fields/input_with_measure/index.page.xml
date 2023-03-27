@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Поле с подсказкой справа">
+    <form>
+        <fields>
+            <input-text id="distance" measure="км" default-value="1234" no-label-block="true"/>
+            <input-text id="square" measure="кв.м." default-value="1" domain="integer" no-label-block="true"/>
+        </fields>
+    </form>
+</simple-page>

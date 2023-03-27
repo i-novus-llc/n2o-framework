@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="detail">
+    <list>
+        <test file="detail.json"/>
+    </list>
+
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <eq filter-id="name"/>
+            </filters>
+        </field>
+        <field id="parent_id">
+            <select>parent.id</select>
+            <filters>
+                <eq filter-id="parent_id">parent.id :eq :parent_id</eq>
+            </filters>
+        </field>
+        <field id="birthDate" domain="date">
+            <select/>
+            <filters>
+                <eq filter-id="birthDate"/>
+            </filters>
+        </field>
+    </fields>
+</query>

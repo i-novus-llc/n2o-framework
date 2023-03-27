@@ -74,26 +74,6 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
         button.shouldBeEnabled();
 
         button.click();
-        Page.Popover popover = page.popover("Предупреждение");
-        popover.shouldBeVisible();
-        popover.shouldHaveText("confirm-text");
-        popover.button("Нет").click();
-        page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
-
-        button.click();
-        popover.shouldBeVisible();
-        popover.shouldHaveText("confirm-text");
-        popover.button("Да").click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("success");
-    }
-
-    @Test
-    @Disabled
-    public void testCustomPopover() {
-        StandardButton button = toolbar.bottomLeft().button("CustomPopover");
-        button.shouldBeEnabled();
-
-        button.click();
         Page.Popover popover = page.popover("burn");
         popover.shouldBeVisible();
         popover.shouldHaveText("Going to hell?");

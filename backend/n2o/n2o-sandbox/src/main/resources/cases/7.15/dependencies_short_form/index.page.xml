@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Короткий способ задания зависимостей">
+    <regions>
+        <tabs>
+            <tab name="Поля">
+                <form>
+                    <fields>
+                        <line label="Enabled">
+                            <row>
+                                <radio-group id="type1">
+                                    <options>
+                                        <option id="1" name="Доступно"/>
+                                        <option id="2" name="Недоступно"/>
+                                    </options>
+                                </radio-group>
+                                <input-text id="field1" enabled="{type1.id == 1}"/>
+                            </row>
+                        </line>
+                        <line label="Visible">
+                            <row>
+                                <radio-group id="type2">
+                                    <options>
+                                        <option id="1" name="Видимость"/>
+                                        <option id="2" name="Скрытие"/>
+                                    </options>
+                                </radio-group>
+                                <input-text id="field2" visible="{type2.id == 1}"/>
+                            </row>
+                        </line>
+                        <line label="Required">
+                            <row>
+                                <radio-group id="type3">
+                                    <options>
+                                        <option id="1" name="Обязательность"/>
+                                        <option id="2" name="Не обязательность"/>
+                                    </options>
+                                </radio-group>
+                                <input-text id="field3" required="{type3.id == 1}"/>
+                            </row>
+                        </line>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Филдсеты">
+                <form>
+                    <fields>
+                        <line label="Enabled">
+                            <row>
+                                <radio-group id="type4">
+                                    <options>
+                                        <option id="1" name="Доступно"/>
+                                        <option id="2" name="Недоступно"/>
+                                    </options>
+                                </radio-group>
+                                <set enabled="{type4.id == 1}">
+                                    <input-text id="field4"/>
+                                    <input-text id="field5"/>
+                                </set>
+                            </row>
+                        </line>
+                        <line label="Visible">
+                            <row>
+                                <radio-group id="type5">
+                                    <options>
+                                        <option id="1" name="Видимость"/>
+                                        <option id="2" name="Скрытие"/>
+                                    </options>
+                                </radio-group>
+                                <set visible="{type5.id == 1}">
+                                    <input-text id="field6"/>
+                                    <input-text id="field7"/>
+                                </set>
+                            </row>
+                        </line>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Кнопки">
+                <form>
+                    <fields>
+                        <line label="Enabled">
+                            <row>
+                                <radio-group id="type6">
+                                    <options>
+                                        <option id="1" name="Доступно все"/>
+                                        <option id="2" name="Только кнопка"/>
+                                        <option id="3" name="Только первая кнопка сабменю"/>
+                                        <option id="4" name="Только вторая кнопка сабменю"/>
+                                        <option id="5" name="Недоступна ни одна кнопка"/>
+                                    </options>
+                                    <toolbar>
+                                        <button label="Кнопка1" enabled="{type6.id == 1 || type6.id == 2}"/>
+                                        <sub-menu label="Сабменю">
+                                            <menu-item label="Кнопка1 сабменю"
+                                                       enabled="{type6.id == 1 || type6.id == 3}"/>
+                                            <menu-item label="Кнопка2 сабменю"
+                                                       enabled="{type6.id == 1 || type6.id == 4}"/>
+                                        </sub-menu>
+                                    </toolbar>
+                                </radio-group>
+                            </row>
+                        </line>
+                        <line label="Visible">
+                            <row>
+                                <radio-group id="type7">
+                                    <options>
+                                        <option id="1" name="Видимо все"/>
+                                        <option id="2" name="Только кнопка"/>
+                                        <option id="3" name="Только первая кнопка сабменю"/>
+                                        <option id="4" name="Только вторая кнопка сабменю"/>
+                                        <option id="5" name="Скрыты все кнопки"/>
+                                    </options>
+                                    <toolbar>
+                                        <button label="Кнопка1" visible="{type7.id == 1 || type7.id == 2}"/>
+                                        <sub-menu label="Сабменю">
+                                            <menu-item label="Кнопка1 сабменю"
+                                                       visible="{type7.id == 1 || type7.id == 3}"/>
+                                            <menu-item label="Кнопка2 сабменю"
+                                                       visible="{type7.id == 1 || type7.id == 4}"/>
+                                        </sub-menu>
+                                    </toolbar>
+                                </radio-group>
+                            </row>
+                        </line>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>

@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-chart-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="areas" type="areaChartDefinition"/>
+    <xs:element name="bars" type="barChartDefinition"/>
+    <xs:element name="lines" type="lineChartDefinition"/>
+    <xs:element name="pie" type="pieChartDefinition"/>
+
+    <xs:complexType name="chartComponentBaseDefinition">
+        <xs:attribute name="x-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля выборки значений по оси x
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="x-position" type="xAxisPosition" default="bottom">
+            <xs:annotation>
+                <xs:documentation>
+                    Положение оси x
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="x-has-label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие подписи оси x
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля выборки значений по оси y
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y-position" type="yAxisPosition" default="left">
+            <xs:annotation>
+                <xs:documentation>
+                    Положение оси y
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y-has-label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие подписи оси y
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y-min" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>
+                    Минимальное значение по оси y
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y-max" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>
+                    Максимальное значение по оси y
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="grid-stroke-dasharray" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Паттерн линий сетки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="grid-horizontal" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие горизонтальных линий сетки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="grid-vertical" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие вертикальных линий сетки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-separator" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Разделитель между названием и значением
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="legend-icon-type" type="legendIconType" default="line">
+            <xs:annotation>
+                <xs:documentation>
+                    Тип иконок элементов легенды
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="xAxisPosition">
+        <xs:annotation>
+            <xs:documentation>
+                Положение оси x
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="yAxisPosition">
+        <xs:annotation>
+            <xs:documentation>
+                Положение оси y
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="legendIconType">
+        <xs:annotation>
+            <xs:documentation>
+                Тип иконок элементов легенды
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="line"/>
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="rect"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="cross"/>
+            <xs:enumeration value="diamond"/>
+            <xs:enumeration value="star"/>
+            <xs:enumeration value="triangle"/>
+            <xs:enumeration value="wye"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="areaChartDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Диаграмма-область
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="chartComponentBaseDefinition">
+                <xs:sequence>
+                    <xs:element name="area" type="areaDefinition" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="areaDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Область
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля выборки значений области
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок линии
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Цвет области
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="stroke-color" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Цвет линии
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="line-type" type="lineType" default="linear">
+            <xs:annotation>
+                <xs:documentation>
+                    Тип интерполяции линии
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="has-label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие подписи значений
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="barChartDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Гистограмма
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="chartComponentBaseDefinition">
+                <xs:sequence>
+                    <xs:element name="bar" type="barDefinition" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="barDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Столбцы
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля выборки значений столбцов
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок столбцов
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Цвет столбцов
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="has-label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие подписи значений
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="lineChartDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Линейный график
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="chartComponentBaseDefinition">
+                <xs:sequence>
+                    <xs:element name="line" type="lineDefinition" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="lineDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Линия
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля выборки значений линии
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок линии
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Цвет линии
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="lineType" default="linear">
+            <xs:annotation>
+                <xs:documentation>
+                    Тип интерполяции линии
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="has-label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие подписи значений
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="lineType">
+        <xs:annotation>
+            <xs:documentation>
+                Тип интерполяции линии
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="basis"/>
+            <xs:enumeration value="basisClosed"/>
+            <xs:enumeration value="basisOpen"/>
+            <xs:enumeration value="linear"/>
+            <xs:enumeration value="linearClosed"/>
+            <xs:enumeration value="natural"/>
+            <xs:enumeration value="monotoneX"/>
+            <xs:enumeration value="monotoneY"/>
+            <xs:enumeration value="monotone"/>
+            <xs:enumeration value="step"/>
+            <xs:enumeration value="stepBefore"/>
+            <xs:enumeration value="stepAfter"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="pieChartDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Круговая диаграмма
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="center-x" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>
+                    Координата центра по x
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="center-y" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>
+                    Координата центра по y
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="inner-radius" type="xs:integer" default="0">
+            <xs:annotation>
+                <xs:documentation>
+                    Внутренний радиус
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="outer-radius" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>
+                    Внешний радиус
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="start-angle" type="xs:integer" default="0">
+            <xs:annotation>
+                <xs:documentation>
+                    Начальный угол графика (в градусах)
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="end-angle" type="xs:integer" default="360">
+            <xs:annotation>
+                <xs:documentation>
+                    Конечный угол графика (в градусах)
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля выборки имен секторов
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value-field-id" type="xs:string" default="value">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля выборки значений секторов
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор поля выборки тултипов секторов
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Цвет круговой области
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="has-label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Наличие подписи значений
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+</xs:schema>

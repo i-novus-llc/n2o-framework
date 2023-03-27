@@ -12,7 +12,7 @@ type FieldPath = ModelsPayload & {
 }
 
 export type SetModelAction = PayloadAction<ModelsPayload & {
-    model: object
+    model?: object
 }>
 
 export type RemoveModelAction = PayloadAction<ModelsPayload>
@@ -26,12 +26,6 @@ export type SyncModelAction = PayloadAction<{
 export type UpdateModelAction = PayloadAction<ModelsPayload & {
     field: string
     value: unknown
-}>
-
-export type UpdateMapModelAction = PayloadAction<ModelsPayload & {
-    field: string
-    value: unknown
-    map: string
 }>
 
 export type RemoveAllModelAction = PayloadAction<{
@@ -52,11 +46,6 @@ export type CopyAction = PayloadAction<{
     target: ModelsPayload
     mode: 'replace' | 'merge' | 'add'
     sourceMapper?: string
-}>
-
-export type FormInitAction = PayloadAction<ModelsPayload & {
-    model: object
-    formFirstInit: boolean
 }>
 
 export type AppendFieldToArrayAction = PayloadAction<FieldPath & {

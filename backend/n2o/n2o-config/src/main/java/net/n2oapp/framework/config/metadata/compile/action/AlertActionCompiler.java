@@ -59,8 +59,10 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
         message.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         message.setClassName(source.getCssClass());
         message.setHref(p.resolveJS(source.getHref()));
-        message.setSeverity(p.cast(source.getColor(), p.resolve(property("n2o.api.action.alert.color"), String.class)));
-        message.setCloseButton(p.cast(source.getCloseButton(), p.resolve(property("n2o.api.action.alert.close_button"), Boolean.class)));
+        message.setSeverity(p.cast(source.getColor(),
+                p.resolve(property("n2o.api.action.alert.color"), String.class)));
+        message.setCloseButton(p.cast(source.getCloseButton(),
+                p.resolve(property("n2o.api.action.alert.close_button"), Boolean.class)));
         message.setPlacement(p.cast(p.resolve(source.getPlacement(), MessagePlacement.class),
                 p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));//fixme добавить резолв из контекста
         message.setTimeout(p.cast(p.resolve(source.getTimeout(), Integer.class),

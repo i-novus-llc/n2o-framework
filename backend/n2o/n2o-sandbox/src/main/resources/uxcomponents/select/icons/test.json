@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Алексей Иванов",
+    "icon":"fa fa-plus-circle"
+  },
+  {
+    "id": 2,
+    "name": "Иван Алексеев",
+    "icon":"fa fa-question-circle"
+  },
+  {
+    "id": 3,
+    "name": "Павел Афанасьев",
+    "icon":"fa fa-plus-circle"
+  },
+  {
+    "id": 4,
+    "name": "Петр Сергеев",
+    "icon":"fa fa-times-circle"
+  }
+]

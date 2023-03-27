@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Зависимости на кнопках от master виджета">
+    <regions>
+        <table query-id="test" id="master">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="type"/>
+            </columns>
+        </table>
+        <table query-id="test" depends-on="master" id="detail" detail-field-id="id">
+            <columns>
+                <column text-field-id="id"/>
+            </columns>
+            <filters>
+                <input-text id="type"/>
+            </filters>
+            <toolbar>
+                <button label="Зависит от master resolve" description="Блокируется, если в master type!=1"
+                        widget-id="master"
+                        enabled="{type==1}"/>
+                <button label="Зависит от detail filter" description="Блокируется, если в detail filter type!=1"
+                        model="filter"
+                        enabled="{type==1}"/>
+            </toolbar>
+        </table>
+    </regions>
+</page>

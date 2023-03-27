@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Компоненты с картинками в badge">
+    <regions>
+        <tabs>
+            <tab name="Поля">
+                <form>
+                    <fields>
+                        <row>
+                            <input-select
+                                    placeholder="Введите значение"
+                                    id="inputSelect"
+                                    label="Ввод с выпадающим списком"
+                                    query-id="test"
+                                    badge-field-id="badge"
+                                    badge-color-field-id="status"
+                                    badge-position="right"
+                                    badge-shape="rounded"
+                                    badge-image-field-id="badgeImage"
+                                    badge-image-position="left"
+                                    badge-image-shape="circle"
+                            />
+                            <input-select-tree
+                                    id="tree"
+                                    label="Дерево"
+                                    query-id="tree"
+                                    parent-field-id="parent"
+                                    label-field-id="name"
+                                    badge-field-id="badge"
+                                    badge-color-field-id="status"
+                                    badge-image-field-id="badgeImage"
+                            />
+                        </row>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Кнопки">
+                <form>
+                    <toolbar>
+                        <button label="Кнопка"
+                                color="primary"
+                                badge="Hamburg"
+                                badge-color="success"
+                                badge-position="left"
+                                badge-shape="square"
+                                badge-image="static/hamburg-3846525__340.jpg"
+                                badge-image-position="right"
+                                badge-image-shape="square"
+                                disable-on-empty-model="false"/>
+                        <button label="Кнопка"
+                                badge="Roma"
+                                badge-color="info"
+                                badge-position="right"
+                                badge-shape="rounded"
+                                badge-image="static/roma.png"
+                                badge-image-position="left"
+                                badge-image-shape="square"
+                                disable-on-empty-model="false"/>
+                    </toolbar>
+                </form>
+            </tab>
+            <tab name="Ячейки">
+                <table selection="none">
+                    <datasource query-id="cell_test"/>
+                    <columns>
+                        <column text-field-id="id" label="№"/>
+                        <column text-field-id="name" label="Отдел"/>
+                        <column text-field-id="lead" label="Руководитель">
+                            <badge
+                                    shape="square"
+                                    image-field-id="badgeImage"
+                                    image-position="left"
+                                    image-shape="rounded"
+                            >
+                                <switch value-field-id="id">
+                                    <case value="1">success</case>
+                                    <case value="2">warning</case>
+                                    <case value="3">info</case>
+                                </switch>
+                            </badge>
+                        </column>
+                    </columns>
+                </table>
+            </tab>
+        </tabs>
+    </regions>
+</page>

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create"
+                   success-title="Запись создана"
+                   success-text="Запись под номером {id} успешно создана"
+                   fail-title="Ошибка"
+                   fail-text="Запись с name={name} не может быть создана">
+            <invocation>
+                <test file="test.json" operation="create"/>
+            </invocation>
+            <in>
+                <field id="name" domain="integer"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+
+        <operation id="delete"
+                   success-title="Запись удалена"
+                   success-text="Запись с id={id} успешно удалена" >
+            <invocation>
+                <test file="test.json" operation="delete"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+            <validations>
+                <condition server-moment="before-operation"
+                           title="Ошибка валидации"
+                           message="Запись с id={id} не может быть удалена">
+                    id > 4
+                </condition>
+            </validations>
+        </operation>
+    </operations>
+</object>

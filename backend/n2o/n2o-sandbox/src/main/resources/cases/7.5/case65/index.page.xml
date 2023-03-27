@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Ленивая загрузка вкладок">
+    <regions>
+        <tabs always-refresh="true" lazy="true">
+            <tab name="table1">
+                <form id="table1" query-id="case65">
+                    <fields>
+                        <input-text label="always-refresh=&quot;true&quot;, lazy=&quot;true&quot;" id="test"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="table2">
+                <form id="table2" query-id="case65">
+                    <fields>
+                        <input-text label="always-refresh=&quot;true&quot;, lazy=&quot;true&quot;" id="test"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+        <tabs always-refresh="true" lazy="false">
+            <tab name="table3">
+                <form id="table3" query-id="case65">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;true&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="table4">
+                <form id="table4" query-id="case65">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;true&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+        <tabs always-refresh="false" lazy="true">
+            <tab name="table5">
+                <form id="table5" query-id="case65">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;true&quot;"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="table6">
+                <form id="table6" query-id="case65">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;true&quot;"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+        <tabs always-refresh="false" lazy="false">
+            <tab name="table7">
+                <form id="table7" query-id="case65">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="table8">
+                <form id="table8" query-id="case65">
+                    <fields>
+                        <input-text id="test" label="always-refresh=&quot;false&quot;, lazy=&quot;false&quot;"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>
