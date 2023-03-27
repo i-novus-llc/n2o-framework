@@ -1,6 +1,8 @@
 package net.n2oapp.framework.sandbox.view;
 
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
+import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
+import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,8 @@ public class IndexPageHandler {
     private String servletContext;
     @Autowired
     private SandboxRestClient restClient;
+    @Autowired
+    private ProjectTemplateHolder templatesHolder;
 
     private static final String SERVICE_WORKER_JS = "serviceWorker.js";
     private static final String VIEW_INDEX_HTML = "META-INF/resources/index.html";
@@ -38,7 +42,8 @@ public class IndexPageHandler {
     @CrossOrigin(origins = "*")
     @GetMapping("/view/{projectId}/")
     public ResponseEntity<Resource> getIndex(@PathVariable(value = "projectId") String projectId) {
-        if (!restClient.isProjectExists(projectId))
+        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
+        if (templateModel == null && !restClient.isProjectExists(projectId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project " + projectId + " not found");
 
         return ResponseEntity.ok()
