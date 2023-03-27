@@ -26,7 +26,6 @@ import static com.codeborne.selenide.Configuration.timeout;
  */
 @SpringBootTest(classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith(SpringExtension.class)
 public class AutoTestBase extends N2oTestBase {
     @LocalServerPort
     protected int port;
