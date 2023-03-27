@@ -15,7 +15,6 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(
         classes = {ProjectSearcher.class},
         properties = {"n2o.sandbox.projectSearchFolders:/test_examples"})

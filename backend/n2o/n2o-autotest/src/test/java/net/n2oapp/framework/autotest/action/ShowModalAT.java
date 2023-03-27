@@ -119,6 +119,7 @@ public class ShowModalAT extends AutoTestBase {
 
     @Test
     public void valueFromParent() {
+        setJsonPath("net/n2oapp/framework/autotest/action");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/valueFromParent/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/modal/valueFromParent/test.page.xml"));

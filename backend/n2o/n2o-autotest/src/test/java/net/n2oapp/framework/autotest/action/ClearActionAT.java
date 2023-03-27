@@ -43,6 +43,7 @@ public class ClearActionAT extends AutoTestBase {
 
     @Test
     public void testClearInModal() {
+        setJsonPath("net/n2oapp/framework/autotest/action/clear");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/modal.page.xml"),

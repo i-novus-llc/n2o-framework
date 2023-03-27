@@ -58,6 +58,7 @@ public class HtmlAT extends AutoTestBase {
 
     @Test
     public void testHtmlPlaceholder() {
+        setJsonPath("net/n2oapp/framework/autotest/control/html/html_with_placeholder");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/html_with_placeholder/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/html/html_with_placeholder/test.query.xml"));
 

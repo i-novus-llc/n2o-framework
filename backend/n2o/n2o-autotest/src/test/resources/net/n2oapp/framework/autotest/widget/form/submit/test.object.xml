@@ -3,7 +3,7 @@
     <operations>
         <operation id="update">
             <invocation>
-                <test operation="update" file="net/n2oapp/framework/autotest/widget/form/submit/test.json"/>
+                <test operation="update" file="test.json"/>
             </invocation>
             <in>
                 <field id="id"/>

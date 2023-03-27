@@ -74,6 +74,7 @@ public class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     public void readFromQueryTest() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/nodes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -104,6 +105,7 @@ public class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     public void testSearchMinLength() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/throttle_delay");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/test.query.xml"));
 

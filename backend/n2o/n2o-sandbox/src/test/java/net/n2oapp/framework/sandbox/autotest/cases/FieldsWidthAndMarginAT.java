@@ -5,7 +5,6 @@ import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.run.AutoTestApplication;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Nonnull;
 import java.util.stream.IntStream;
@@ -24,9 +22,6 @@ import java.util.stream.IntStream;
 import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;
 import static com.codeborne.selenide.CheckResult.Verdict.REJECT;
 
-@SpringBootTest(properties = "server.servlet.context-path=/",
-        classes = AutoTestApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FieldsWidthAndMarginAT extends AutoTestBase {
     private static final int WIDTH = 162; // эталонная ширина полей под заданный размер окна
     private static final int PRECISION_SHIFT = 10; // допустимая погрешность ширины полей
