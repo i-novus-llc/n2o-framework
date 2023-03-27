@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
+import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
@@ -38,7 +39,7 @@ import static org.hamcrest.Matchers.is;
  * Тест получения и установки значений провайдером данных
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
+        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, ProjectTemplateHolder.class,
                 SandboxTestDataProviderEngine.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
         properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
 @PropertySource("classpath:sandbox.properties")

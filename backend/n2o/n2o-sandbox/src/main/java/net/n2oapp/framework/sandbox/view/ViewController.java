@@ -44,6 +44,8 @@ import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
+import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
+import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.OperationController;
@@ -76,6 +78,7 @@ import java.net.URLClassLoader;
 import java.util.*;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findFilesByUri;
+import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
@@ -111,6 +114,8 @@ public class ViewController {
     private SandboxRestClient restClient;
     @Autowired
     private XsdSchemaParser schemaParser;
+    @Autowired
+    private ProjectTemplateHolder templatesHolder;
 
     private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
 
@@ -336,7 +341,7 @@ public class ViewController {
         N2oEnvironment env = createEnvironment(projectId);
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
-        builder.scanners(new ProjectFileScanner(projectId, builder.getEnvironment().getSourceTypeRegister(), restClient));
+        builder.scanners(new ProjectFileScanner(projectId, builder.getEnvironment().getSourceTypeRegister(), restClient, templatesHolder));
         return builder.scan();
     }
 
@@ -361,16 +366,27 @@ public class ViewController {
      */
     private String getAccessFilename(String projectId) {
         String format = ".access.xml";
-        ProjectModel project = restClient.getProject(projectId);
-        if (project != null && project.getFiles() != null) {
-            Optional<String> first = project.getFiles().stream()
-                    .map(FileModel::getFile)
-                    .filter(name -> name.endsWith(format))
-                    .findFirst();
-            if (first.isPresent()) {
-                String filename = first.get();
-                return filename.substring(0, (filename.length() - format.length()));
+        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
+        if (templateModel == null) {
+            ProjectModel project = restClient.getProject(projectId);
+            if (project != null && project.getFiles() != null) {
+                return getFirstFilenameByFormat(format, project.getFiles());
             }
+        } else {
+            List<FileModel> files = findResources(templateModel.getTemplateId());
+            return getFirstFilenameByFormat(format, files);
+        }
+        return null;
+    }
+
+    private String getFirstFilenameByFormat(String format, List<FileModel> files) {
+        Optional<String> first = files.stream()
+                .map(FileModel::getFile)
+                .filter(name -> name.endsWith(format))
+                .findFirst();
+        if (first.isPresent()) {
+            String filename = first.get();
+            return filename.substring(0, (filename.length() - format.length()));
         }
         return null;
     }
