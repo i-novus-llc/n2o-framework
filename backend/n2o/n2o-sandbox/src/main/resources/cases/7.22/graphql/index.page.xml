@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="GraphQL провайдер данных">
+    <table>
+        <datasource query-id="car" object-id="car"/>
+        <columns>
+            <column text-field-id="name" label="Марка"/>
+            <column text-field-id="price" label="Цена">
+                <text format="number 0,0"/>
+            </column>
+            <column text-field-id="showrooms" label="Автосалоны">
+                <list label-field-id="name"/>
+            </column>
+        </columns>
+        <filters>
+            <row>
+                <input-text id="minPrice" label="Минимальная цена"/>
+                <input-text id="maxPrice" label="Максимальная цена"/>
+            </row>
+        </filters>
+        <toolbar generate="crud"/>
+    </table>
+</simple-page>

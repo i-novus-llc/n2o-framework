@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Множественные боковые панели">
+    <regions>
+        <form>
+            <toolbar>
+                <button label="Домашняя страница" disable-on-empty-model="false">
+                    <open-page page-id="home" route="/home"/>
+                </button>
+                <button label="Страница профиля" disable-on-empty-model="false">
+                    <open-page page-id="profile" route="/profile"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

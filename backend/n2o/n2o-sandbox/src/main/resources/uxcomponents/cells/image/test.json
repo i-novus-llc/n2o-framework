@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "fio": "Иванов П.И.",
+    "birthdate": "25.01.1989",
+    "foto": "static/men.jfif"
+  },
+  {
+    "id": 2,
+    "fio": "Васильев Г.П.",
+    "birthdate": "07.04.1992",
+    "foto": "static/men2.jfif"
+  }
+]

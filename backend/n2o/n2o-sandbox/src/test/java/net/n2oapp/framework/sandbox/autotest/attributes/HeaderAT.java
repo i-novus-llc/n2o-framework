@@ -5,10 +5,13 @@ import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,12 +21,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest(properties = {
-        "n2o.engine.test.classpath=/access/attributes/header/",
-        "n2o.sandbox.project-id=access_attributes_header"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/access/attributes/header/"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HeaderAT extends SandboxAutotestBase {
+public class HeaderAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -38,10 +39,16 @@ public class HeaderAT extends SandboxAutotestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        builder.packs(new AccessSchemaPack());
-        CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
         super.configure(builder);
-        builder.sources(new CompileInfo("META-INF/conf/default.access.xml"));
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
+        CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
+        builder.sources(new CompileInfo("access/attributes/header/tutorial.application.xml"),
+                new CompileInfo("access/attributes/header/index.page.xml"),
+                new CompileInfo("access/attributes/header/menu1.page.xml"),
+                new CompileInfo("access/attributes/header/menu2.page.xml"),
+                new CompileInfo("access/attributes/header/menu3.page.xml"),
+                new CompileInfo("access/attributes/header/menu4.page.xml"),
+                new CompileInfo("META-INF/conf/default.access.xml"));
     }
 
     @Test

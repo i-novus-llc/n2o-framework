@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Инлайн валидации на фильтрах">
+    <table query-id="test">
+        <filters>
+            <input-text id="id" default-value="3"
+                        label="Фильтр по id"
+                        description="Введите 1 или 2 и появится фильтр по имени">
+                <validations>
+                    <condition id="c1" severity="danger" message="Поле должно быть равным 1 или 2">id==1||id==2
+                    </condition>
+                </validations>
+            </input-text>
+            <input-text id="name"
+                        label="Фильтр по имени like"
+                        description="Поле обязательно, если в фильтре по id значения 1 или 2. Валидация сработает, только если это поле видимо и доступно для заполнения">
+                <dependencies>
+                    <visibility on="id">id == 1 || id == 2</visibility>
+                    <enabling on="id">id == 1</enabling>
+                    <requiring on="id">id == 1 || id == 2</requiring>
+                </dependencies>
+            </input-text>
+            <input-text id="name_eq"
+                        label="Фильтр по имени eq"
+                        required="true"
+                        description="Поле обязательно">
+            </input-text>
+            <date-interval id="birthDate" label="birthDate"/>
+        </filters>
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name" label="Имя"/>
+        </columns>
+    </table>
+</simple-page>

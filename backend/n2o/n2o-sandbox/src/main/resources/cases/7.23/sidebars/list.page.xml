@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Страница со списком пользователей">
+    <regions>
+        <table>
+            <datasource query-id="users"/>
+            <columns>
+                <column text-field-id="id">
+                    <text/>
+                </column>
+                <column text-field-id="name">
+                    <text/>
+                </column>
+            </columns>
+            <rows>
+                <click>
+                    <open-page page-id="profile" route="/:id/profile">
+                        <params>
+                            <path-param name="id" value="{id}"/>
+                        </params>
+                    </open-page>
+                </click>
+            </rows>
+        </table>
+    </regions>
+</page>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Варианты выбора записей таблицы">
+    <regions>
+        <tabs>
+            <tab name="None - без возможности выбрать строку">
+                <table id="none" ref-id="table" selection="none"/>
+            </tab>
+            <tab name="Active - стандартный выбор одной строки">
+                <table id="active" ref-id="table"/>
+            </tab>
+            <tab name="Radio - выбор одной строки с помощью radio">
+                <table id="radio" ref-id="table" selection="radio"/>
+            </tab>
+            <tab name="Checkbox - выбор нескольких строк">
+                <table id="checkbox" ref-id="table" selection="checkbox"/>
+            </tab>
+        </tabs>
+    </regions>
+</page>

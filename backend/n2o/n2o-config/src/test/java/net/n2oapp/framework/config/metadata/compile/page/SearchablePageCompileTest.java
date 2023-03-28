@@ -47,11 +47,6 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSearchBar().getFieldId(), is("name"));
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
-        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getPrefix(), is("filter"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("testSearchablePage_table"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":table_name"));
         assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage_table'].name"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.filter));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage_table"));
@@ -68,11 +63,6 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
 
         assertThat(page.getSrc(), is("SearchablePage"));
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("name");
-        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getPrefix(), is("filter"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("testSearchablePage2_table"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":name"));
         assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage2_table'].name"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.filter));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage2_table"));

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Компонент загрузки изображения с превью"
+             route="/pageRoute">
+    <form>
+        <datasource query-id="files"/>
+        <fields>
+            <image-upload label="Загрузка изображения без превью" id="files" multi="true"
+                          label-field-id="fileName" value-field-id="id" url-field-id="url"
+                          upload-url="${n2o.sandbox.url}/files"
+                          delete-url="${n2o.sandbox.url}/files"
+                          accept=".jpg,.png"
+                          list-type="card"
+                          show-name="true"/>
+            <image-upload label="Загрузка изображения с превью, но без удаления"
+                          id="files2" multi="true"
+                          label-field-id="fileName" value-field-id="id" url-field-id="url"
+                          upload-url="${n2o.sandbox.url}/files"
+                          delete-url="${n2o.sandbox.url}/files"
+                          accept=".jpg,.png"
+                          can-lightbox="true" can-delete="false"
+                          icon="fa fa-plus" icon-size="150"
+                          width="200" height="200"
+                          show-tooltip="false" shape="circle"/>
+            />
+        </fields>
+    </form>
+</simple-page>

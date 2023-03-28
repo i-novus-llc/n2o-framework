@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Сохранение нескольких форм одновременно">
+    <regions>
+        <table query-id="actor">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="firstName" label="Имя"/>
+                <column text-field-id="lastName" label="Фамилия"/>
+                <column text-field-id="country" label="Страна"/>
+            </columns>
+            <toolbar>
+                <button id="create" label="Создать" model="filter">
+                    <open-page page-id="fewForms" route="/create" upload="defaults"/>
+                </button>
+                <button id="update" label="Изменить">
+                    <open-page page-id="fewForms" route="/:actor_id/update">
+                        <path-param name="actor_id" value="{id}"/>
+                    </open-page>
+                </button>
+                <button id="delete" label="Удалить">
+                    <invoke operation-id="delete"/>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

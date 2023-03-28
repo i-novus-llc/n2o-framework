@@ -2,7 +2,6 @@ import {
     metadataRequest,
     metadataSuccess,
     metadataFail,
-    mapUrl,
     resetPage,
     disablePage,
     enablePage,
@@ -48,13 +47,6 @@ describe('Тесты экшенов pages', () => {
             const action = metadataFail(pageId, err)
             expect(action.payload.pageId).toEqual(pageId)
             expect(action.payload.err).toEqual(err)
-        })
-    })
-
-    describe('Проверка экшена mapUrl', () => {
-        it('Возвращает правильный payload', () => {
-            const action = mapUrl(pageId)
-            expect(action.payload.pageId).toEqual(pageId)
         })
     })
 

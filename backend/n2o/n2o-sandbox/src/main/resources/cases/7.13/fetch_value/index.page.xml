@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="unique и list запросы в fetch-value">
+    <form>
+        <fields>
+            <input-text id="value" label="Тестирование fetch-value на форме. Введите id" domain="integer"/>
+            <input-text id="name" label="Должно появиться имя (unique)">
+                <dependencies>
+                    <fetch-value query-id="test" on="value" value-field-id="name" apply-on-init="false" size="1">
+                        <pre-filters>
+                            <eq field-id="id" value="{value}"/>
+                        </pre-filters>
+                    </fetch-value>
+                </dependencies>
+            </input-text>
+            <input-select id="orgs" label="Должен появится список названий (list)" query-id="orgs" type="multi">
+                <dependencies>
+                    <fetch-value query-id="orgs" on="value" apply-on-init="false">
+                        <pre-filters>
+                            <eq field-id="type" value="{value}"/>
+                        </pre-filters>
+                    </fetch-value>
+                </dependencies>
+            </input-select>
+        </fields>
+    </form>
+</simple-page>

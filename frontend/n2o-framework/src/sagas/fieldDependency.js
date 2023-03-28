@@ -242,7 +242,15 @@ export function* checkAndModify(
 }
 
 export function* resolveDependency({ type, meta, payload }) {
-    yield delay(16)
+    /* Костыль под определенный кейс.
+     * Прим. Мультисет собирается с помощью зависимости от селекта.
+     * delay - для обхода гонки в форме,
+     * зависимость отрабатывает раньше чем redux form изменяет поля с пред. данными
+     * если delay будет безусловный, в полях при обработке начнется мерцание.
+     */
+    if (Array.isArray(payload)) {
+        yield delay(16)
+    }
 
     try {
         const { form: formName, field: fieldName } = meta

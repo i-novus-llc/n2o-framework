@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Кнопки">
+    <form>
+        <toolbar place="topLeft">
+            <group>
+                <button label="Кнопка"/>
+                <button label="Кнопка  с иконкой" icon="fa fa-plus"/>
+                <button label="Иконка" icon="fa fa-pencil" type="icon"/>
+            </group>
+            <group>
+                <sub-menu label="Меню">
+                    <menu-item label="Один"/>
+                    <menu-item label="Два"/>
+                </sub-menu>
+                <button label="Подсказка"
+                        description="Эта подсказка появляется сверху"
+                        tooltip-position="top"/>
+            </group>
+        </toolbar>
+        <toolbar place="topRight">
+            <button label="Главная" color="primary"/>
+            <button label="Опасная" color="danger"/>
+            <button label="Ссылка" color="link"/>
+        </toolbar>
+
+        <fields>
+            <hidden id="id" default-value="1"/>
+        </fields>
+    </form>
+</simple-page>

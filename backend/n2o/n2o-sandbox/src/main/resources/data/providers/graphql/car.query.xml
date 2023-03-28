@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list result-mapping="['data.queryCar']" count-mapping="['data.aggregateCar.count']">
+        <graphql filter-separator=", and:{">
+            query MyQuery {
+                queryCar(first: $$size, offset: $$offset, filter: { $$filters }, order: { $$sorting }) {
+                    $$select
+                }
+                aggregateCar {
+                        count
+                }
+            }
+        </graphql>
+    </list>
+
+    <filters>
+        <eq field-id="id" filter-id="id">id: $$id</eq>
+        <more field-id="price" filter-id="minPrice">price: {ge: $$minPrice}</more>
+        <less field-id="price" filter-id="maxPrice">price: {le: $$maxPrice}}</less>
+    </filters>
+
+    <fields>
+        <field id="id" select-expression="id"/>
+
+        <field id="name" select-expression="name" sorting-mapping="['name']"
+               sorting-expression="$$name: name"/>
+
+        <field id="price" select-expression="price" sorting-mapping="['price']"
+               sorting-expression="$$price: price"/>
+
+        <list id="showrooms" select-expression="showrooms { $$showrooms }" select-key="showrooms">
+            <field id="id" select-expression="id"/>
+            <field id="name" select-expression="name"/>
+        </list>
+
+    </fields>
+</query>

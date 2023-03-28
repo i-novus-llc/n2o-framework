@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Значения по умолчанию">
+    <form id="main">
+        <fields>
+            <button label="Открыть google.com">
+                <a href="http://www.google.com" target="newWindow"/>
+            </button>
+            <radio-group id="test1" label="Радио" label-field-id="name" value-field-id="id" inline="true"
+                         description="Должно быть Test1" type="btn">
+                <options>
+                    <option id="1" name="Test1"/>
+                    <option id="2" name="Test2"/>
+                    <option id="3" name="Test3"/>
+                </options>
+                <default-value id="1" name="Test1"/>
+            </radio-group>
+            <select id="test2" label="Селект" help="Нельзя очистить крестиком"
+                    label-field-id="display" icon-field-id="ico"
+                    badge-field-id="badge"
+                    badge-color-field-id="color"
+                    cleanable="false"
+                    description="Должно быть Test1">
+                <options>
+                    <option id="1" display="Test1" ico="fa fa-plus" badge="a" color="warning"/>
+                    <option id="2" display="Test2" ico="fa fa-pencil" badge="b" color="info"/>
+                    <option id="3" display="Test3" ico="fa fa-trash" badge="c" color="danger"/>
+                </options>
+                <default-value id="1" display="Test1"/>
+            </select>
+            <input-select id="test21" label="Селект мульти" type="multi"
+                          label-field-id="display" icon-field-id="ico"
+                          badge-field-id="badge2"
+                          badge-color-field-id="color2"
+                          description="Должно быть Test1">
+                <options>
+                    <option id="1" display="Test1" ico="fa fa-plus" badge2="a" color2="warning"/>
+                    <option id="2" display="Test2" ico="fa fa-pencil" badge2="b" color2="info"/>
+                    <option id="3" display="Test3" ico="fa fa-trash" badge="c" color2="danger"/>
+                </options>
+                <default-value id="1" display="Test1"/>
+            </input-select>
+            <input-select-tree id="tree1" label="Дерево" description="Должно быть 1"
+                               parent-field-id="parent" label-field-id="name"
+                               icon-field-id="icon" query-id="tree" search="false">
+                <default-value id="1" name="1"/>
+            </input-select-tree>
+            <input-select-tree id="tree2" label="Дерево с чекбоксами" checkboxes="true"
+                               parent-field-id="parent" label-field-id="name"
+                               icon-field-id="icon" query-id="tree"
+                               description="Должно быть 1" required="true" search="false">
+                <default-value id="1" name="1"/>
+            </input-select-tree>
+            <set field-label-location="left">
+                <output-text id="test3" label="Оутпут"
+                             default-value="Тест" icon="fa fa-plus" class="badge badge-primary"
+                             position="right" description="Должно быть Test +"/>
+
+                <file-upload id="file"
+                             label="Файл"
+                             label-field-id="filename"
+                             message-field-id="message"
+                             value-field-id="id"
+                             request-param="file"
+                             url-field-id="url" upload-url="${n2o.sandbox.url}/upload"
+                             description="Должен быть test.txt">
+                    <default-value id="1" filename="test.txt" url="/download/1" message="Файл загружен"/>
+                </file-upload>
+
+                <password id="password" label="Ввод пароля"
+                          default-value="adminadmin"
+                          description="Должно быть adminadmin"/>
+
+                <input-text id="num" label="Ввод чисел с точкой"
+                            step="1.00" domain="numeric"
+                            default-value="123.45"
+                            description="Должно быть 123.45"/>
+            </set>
+            <set>
+                <row>
+                    <date-time id="time" date-format="DD.MM.YYYY" time-format="HH:mm" label="Время"
+                               default-value="2019-01-01T00:00:00" description="Должно быть 01.01.2019 00:00">
+                    </date-time>
+                    <date-interval id="date" label="Интервал времени" date-format="DD.MM.YYYY" time-format="HH:mm"
+                                   description="Должно быть с 01.01.2019 00:00 по 31.12.2019 23:59">
+                        <default-value begin="2019.01.01 00:00:00" end="2019.12.31 23:59:59"/>
+                    </date-interval>
+                </row>
+            </set>
+            <set>
+                <masked-input id="mask" label="Маска" mask="9999999999" default-value="1234567890"
+                              description="Должно отобразиться 1234567890"/>
+            </set>
+            <set>
+                <input-text id="noLabel" label="Лейбла нет" no-label="true"
+                            default-value="123" description="Поле без лейбла"/>
+            </set>
+            <set>
+                <code-editor id="code" label="Редактор кода"
+                             language="sql" rows="5"
+                             default-value="SELECT * FROM table"
+                             description="Должно быть SELECT * FROM table"/>
+                <text-editor id="textEdit" label="Редактор текста"/>
+                <row>
+                    <field id="switcher" label="Переключатель" description="Должно быть true">
+                        <controls>
+                            <checkbox id="switcher" src="Switch"
+                                      default-value="true">
+                            </checkbox>
+                        </controls>
+                    </field>
+                </row>
+            </set>
+            <set>
+                <input-money id="money" label="Деньги" default-value="1000.5" suffix=" руб."
+                             fraction-formatting="auto" decimal-separator=","
+                             description="Должно быть 1 000,50 руб."/>
+                <output-text id="money" label="Output формат денег"/>
+            </set>
+            <set>
+                <field id="text1" label="Заголовок">
+                    <controls>
+                        <text id="text1" class="text-success">Текст с заголовком</text>
+                    </controls>
+                </field>
+                <text id="text2" class="text-success">Текст без заголовка</text>
+            </set>
+        </fields>
+    </form>
+</simple-page>

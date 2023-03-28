@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="test">
+    <list>
+        <test file="test.json"/>
+    </list>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="type">
+            <select/>
+            <filters>
+                <eqOrIsNull filter-id="type"/>
+            </filters>
+        </field>
+        <field id="name">
+            <select/>
+            <filters>
+                <eq filter-id="name_eq"/>
+                <eqOrIsNull filter-id="name_eq_or_is_null"/>
+                <like filter-id="name"/>
+            </filters>
+        </field>
+    </fields>
+</query>

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test file="data.json" operation="create"/>
+            </invocation>
+            <in>
+                <field id="lastname"/>
+                <field id="name" required="true"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+    </operations>
+</object>

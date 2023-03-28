@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Anna Smith",
+    "phone": "0112-34-56"
+  },
+  {
+    "id": 2,
+    "name": "Joe Marks",
+    "phone": "1298-76-54"
+  },
+  {
+    "id": 3,
+    "name": "Frank Johnson",
+    "phone": "2315-27-81"
+  }
+]

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Функции значений по умолчанию">
+    <form>
+        <fields>
+            <row>
+                <date-time id="now" label="Сейчас" time-format="HH:mm:ss" default-value="{$.now()}"/>
+                <date-time id="today" label="Сегодня" time-format="HH:mm:ss" default-value="{$.today()}"/>
+            </row>
+            <row>
+                <date-time id="yesterday" label="Вчера" time-format="HH:mm:ss" default-value="{$.yesterday()}"/>
+                <date-time id="tomorrow" label="Завтра" time-format="HH:mm:ss" default-value="{$.tomorrow()}"/>
+            </row>
+            <row>
+                <date-time id="beginWeek" label="Начало недели" time-format="HH:mm:ss" default-value="{$.beginWeek()}"/>
+                <date-time id="endWeek" label="Конец недели" time-format="HH:mm:ss" default-value="{$.endWeek()}"/>
+            </row>
+            <row>
+                <date-time id="beginMonth" label="Начало месяца" time-format="HH:mm:ss" default-value="{$.beginMonth()}"/>
+                <date-time id="endMonth" label="Конец месяца" time-format="HH:mm:ss" default-value="{$.endMonth()}"/>
+            </row>
+            <row>
+                <date-time id="beginYear" label="Начало года" time-format="HH:mm:ss" default-value="{$.beginYear()}"/>
+                <date-time id="endYear" label="Конец года" time-format="HH:mm:ss" default-value="{$.endYear()}"/>
+            </row>
+            <output-text id="moment" default-value="{moment('06.02.2019').format('DD.MM.YYYY')}"/>
+            <output-text id="numeral" default-value="{numeral(1.5).format('0.00')}"/>
+            <output-text id="lodash" default-value="{_.join(['a', 'b', 'c'], '~')}"/>
+        </fields>
+    </form>
+</simple-page>

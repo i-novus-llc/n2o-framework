@@ -7,11 +7,14 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,10 +23,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * Автотест фильтрации списковых полей
  */
-@SpringBootTest(properties = {"n2o.sandbox.project-id=cases_7.0_case11"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"server.servlet.context-path=/"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class Case11AT extends SandboxAutotestBase {
+public class Case11AT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -38,9 +41,10 @@ public class Case11AT extends SandboxAutotestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        builder.transformers(new TestEngineQueryTransformer());
         super.configure(builder);
-        builder.sources(
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.transformers(new TestEngineQueryTransformer());
+        builder.sources(new CompileInfo("cases/7.0/case11/index.page.xml"),
                 new CompileInfo("META-INF/conf/test.object.xml"),
                 new CompileInfo("META-INF/conf/test.query.xml"));
     }

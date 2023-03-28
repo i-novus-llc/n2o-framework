@@ -121,10 +121,13 @@ const formSlice = createSlice({
                 for (; i < groupedFields.length; i += 1) {
                     // eslint-disable-next-line no-loop-func
                     groupedFields[i].forEach((fieldName) => {
+                        const newIndex = i - deleteCount
                         const sourceKey = `${multiField}[${i}].${fieldName}`
-                        const destKey = `${multiField}[${i - deleteCount}].${fieldName}`
+                        const destKey = `${multiField}[${newIndex}].${fieldName}`
 
                         state.registeredFields[destKey] = state.registeredFields[sourceKey]
+                        state.registeredFields[destKey].parentIndex = newIndex
+
                         delete state.registeredFields[sourceKey]
 
                         set(state.fields, destKey, get(state.fields, sourceKey))

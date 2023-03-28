@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Регион в виде панелей">
+    <regions>
+        <panel title="Регион">
+            <form/>
+        </panel>
+    </regions>
+</page>

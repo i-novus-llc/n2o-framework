@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Маршрут операции с параметром тела запроса">
+    <datasources>
+        <datasource id="docs" query-id="docs"/>
+        <datasource id="main" query-id="main" object-id="main"/>
+    </datasources>
+
+    <regions>
+        <form datasource="main">
+            <fields>
+                <input-text id="name"/>
+            </fields>
+            <toolbar>
+                <button label="Сохранить">
+                    <invoke operation-id="update" datasource="main" route="/update" submit-all="true">
+                        <form-param id="doc.number"
+                                    value="{number}"
+                                    datasource="docs"
+                                    model="resolve"/>
+                        <form-param id="doc.serial"
+                                    value="{serial}"
+                                    datasource="docs"
+                                    model="resolve"/>
+                    </invoke>
+                </button>
+            </toolbar>
+        </form>
+        <form datasource="docs">
+            <fields>
+                <input-text id="number"/>
+                <input-text id="serial"/>
+            </fields>
+        </form>
+    </regions>
+</page>

@@ -1,6 +1,10 @@
 import React, { ReactElement, useMemo } from 'react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbProps } from 'reactstrap'
 import classNames from 'classnames'
+import { useSelector } from 'react-redux'
+
+// @ts-ignore ignore import error from js file
+import { breadcrumbsSelector } from '../../../ducks/global/store'
 
 import { breadcrumb } from './const'
 import { Crumb } from './Crumb'
@@ -16,15 +20,18 @@ type WindowType = Window & typeof globalThis & {
 }
 
 export function SimpleBreadcrumb({ items = [] }: { items: breadcrumb }): ReactElement<BreadcrumbProps> {
+    const routes: Record<string, string> = useSelector(breadcrumbsSelector)
+
     return (
         <Breadcrumb className="n2o-breadcrumb">
             {
                 items.map(({ label, path }) => {
                     const disabled = !path
+                    const pathName = path && routes[path] ? `${path}${routes[path]}` : path
 
                     return (
                         <BreadcrumbItem className={classNames({ disabled })}>
-                            <Crumb label={label} path={path} />
+                            <Crumb label={label} path={pathName} />
                         </BreadcrumbItem>
                     )
                 })

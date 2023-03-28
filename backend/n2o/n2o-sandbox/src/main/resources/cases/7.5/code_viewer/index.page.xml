@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Поле для просмотра кода">
+    <form>
+        <fields>
+            <code id="code" label="Код:" theme="light" language="javascript">
+                let str = "123";
+                alert(typeof str); // string
+                let num = Number(str); // становится числом 123
+                alert(typeof num); // number
+            </code>
+        </fields>
+    </form>
+</simple-page>
