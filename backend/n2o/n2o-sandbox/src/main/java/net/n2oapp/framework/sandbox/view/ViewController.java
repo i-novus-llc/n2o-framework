@@ -364,9 +364,8 @@ public class ViewController {
      * @return Имя файла (без .access.xml) или null,
      * если папка проекта не содержит файлов указанного формата
      */
-    private String getAccessFilename(String projectId) {
+    private String getAccessFilename(String projectId, TemplateModel templateModel) {
         String format = ".access.xml";
-        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
         if (templateModel == null) {
             ProjectModel project = restClient.getProject(projectId);
             if (project != null && project.getFiles() != null) {
@@ -391,13 +390,25 @@ public class ViewController {
         return null;
     }
 
+    private String getApplicationProperties(String projectId, TemplateModel templateModel) {
+        String filename = "application.properties";
+        if (templateModel == null) {
+            return restClient.getFile(projectId, filename);
+        } else {
+            List<FileModel> files = findResources(templateModel.getTemplateId());
+            Optional<FileModel> first = files.stream().filter(f -> f.getFile().equals(filename)).findFirst();
+            return first.map(FileModel::getSource).orElse(null);
+        }
+    }
+
     private N2oEnvironment createEnvironment(String projectId) {
         N2oEnvironment env = new N2oEnvironment();
         String path = basePath + "/" + projectId;
 
+        TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
         Map<String, String> runtimeProperties = new HashMap<>();
-        runtimeProperties.put("n2o.access.schema.id", getAccessFilename(projectId));
-        configurePropertyResolver(runtimeProperties, projectId);
+        runtimeProperties.put("n2o.access.schema.id", getAccessFilename(projectId, templateModel));
+        configurePropertyResolver(runtimeProperties, getApplicationProperties(projectId, templateModel));
 
         env.setSystemProperties(propertyResolver);
         env.setMessageSource(getMessageSourceAccessor(path));
@@ -417,8 +428,8 @@ public class ViewController {
         return env;
     }
 
-    private void configurePropertyResolver(Map<String, String> runtimeProperties, String projectId) {
-        propertyResolver.configure(environment, runtimeProperties, restClient.getFile(projectId, "application.properties"));
+    private void configurePropertyResolver(Map<String, String> runtimeProperties, String applicationPropertyFile) {
+        propertyResolver.configure(environment, runtimeProperties, applicationPropertyFile);
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
