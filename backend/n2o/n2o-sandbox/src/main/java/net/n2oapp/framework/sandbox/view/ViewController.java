@@ -391,11 +391,12 @@ public class ViewController {
     }
 
     private String getApplicationProperties(String projectId, TemplateModel templateModel) {
+        String filename = "application.properties";
         if (templateModel == null) {
-            return restClient.getFile(projectId, "application.properties");
+            return restClient.getFile(projectId, filename);
         } else {
             List<FileModel> files = findResources(templateModel.getTemplateId());
-            Optional<FileModel> first = files.stream().filter(f -> f.getFile().equals("application.properties")).findFirst();
+            Optional<FileModel> first = files.stream().filter(f -> f.getFile().equals(filename)).findFirst();
             return first.map(FileModel::getSource).orElse(null);
         }
     }
