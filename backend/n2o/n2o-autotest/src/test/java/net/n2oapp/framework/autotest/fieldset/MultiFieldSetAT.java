@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
@@ -699,5 +700,57 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         fieldset.shouldHaveItems(0);
         input.shouldHaveValue("1234");
+    }
+
+    @Test
+    public void setRowIndexInFields() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/set_row_index/index.page.xml"));
+
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+
+        fieldset.clickAddButton();
+
+        Fields firstFields = fieldset.item(0).fields();
+        OutputText value = firstFields.field("значение").control(OutputText.class);
+        OutputText string = firstFields.field("строка").control(OutputText.class);
+        OutputText doubleValue = firstFields.field("значение + значение").control(OutputText.class);
+        OutputText valueAndStr = firstFields.field("значение + строка").control(OutputText.class);
+        OutputText doubleStr = firstFields.field("строка + строка").control(OutputText.class);
+        OutputText undefinedValue = firstFields.field("значение несуществующей переменной").control(OutputText.class);
+        OutputText overrideValue = firstFields.field("переопределение переменной").control(OutputText.class);
+        OutputText anotherString = firstFields.field("ещё строка").control(OutputText.class);
+
+        value.shouldHaveValue("0");
+        string.shouldHaveValue("index");
+        doubleValue.shouldHaveValue("0");
+        valueAndStr.shouldHaveValue("index0");
+        doubleStr.shouldHaveValue("indexindex");
+        undefinedValue.shouldHaveValue("undefined");
+        overrideValue.shouldHaveValue("test");
+        anotherString.shouldHaveValue("- index -");
+
+        fieldset.clickAddButton();
+
+        Fields secondFields = fieldset.item(1).fields();
+        value = secondFields.field("значение").control(OutputText.class);
+        string = secondFields.field("строка").control(OutputText.class);
+        doubleValue = secondFields.field("значение + значение").control(OutputText.class);
+        valueAndStr = secondFields.field("значение + строка").control(OutputText.class);
+        doubleStr = secondFields.field("строка + строка").control(OutputText.class);
+        undefinedValue = secondFields.field("значение несуществующей переменной").control(OutputText.class);
+        overrideValue = secondFields.field("переопределение переменной").control(OutputText.class);
+        anotherString = secondFields.field("ещё строка").control(OutputText.class);
+
+        value.shouldHaveValue("1");
+        string.shouldHaveValue("index");
+        doubleValue.shouldHaveValue("2");
+        valueAndStr.shouldHaveValue("index1");
+        doubleStr.shouldHaveValue("indexindex");
+        undefinedValue.shouldHaveValue("undefined");
+        overrideValue.shouldHaveValue("test");
+        anotherString.shouldHaveValue("- index -");
     }
 }
