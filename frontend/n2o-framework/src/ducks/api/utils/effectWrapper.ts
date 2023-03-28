@@ -3,6 +3,15 @@ import { put } from 'redux-saga/effects'
 import { Action } from '../../Action'
 import { failOperation, startOperation, successOperation } from '../Operation'
 
+const getErrorMessage = (error: unknown): string => {
+    if (!error) { return 'Unknown error' }
+    if (typeof error === 'string') { return error }
+    if (error instanceof Error && error.message) { return error.message }
+    if (typeof error === 'object' && error.toString) { return error.toString() }
+
+    return String(error)
+}
+
 /**
  * Обёртка над сагами, проверяющая наличие operationId в экшене
  * и запускающая экшены начала/конца работы операции
@@ -31,7 +40,7 @@ export function EffectWrapper<
 
             return result
         } catch (error) {
-            const message = error instanceof Error ? error.message : error
+            const message = getErrorMessage(error)
 
             if (operationId) {
                 yield put(failOperation(
