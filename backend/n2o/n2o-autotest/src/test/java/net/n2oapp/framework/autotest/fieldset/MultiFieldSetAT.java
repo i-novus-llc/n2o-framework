@@ -11,6 +11,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -752,5 +753,36 @@ public class MultiFieldSetAT extends AutoTestBase {
         undefinedValue.shouldHaveValue("undefined");
         overrideValue.shouldHaveValue("test");
         anotherString.shouldHaveValue("- index -");
+    }
+
+    @Test
+    public void checkUpdateParentIndexAfterDeleteRow() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/update_parent_index/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(0, MultiFieldSet.class);
+
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+        fieldset.clickAddButton();
+
+        OutputText zero = fieldset.item(0).fields().field("0").control(OutputText.class);
+        OutputText one = fieldset.item(1).fields().field("1").control(OutputText.class);
+        OutputText two = fieldset.item(2).fields().field("2").control(OutputText.class);
+        OutputText free = fieldset.item(3).fields().field("3").control(OutputText.class);
+
+        zero.shouldHaveValue("0");
+        one.shouldHaveValue("1");
+        two.shouldHaveValue("2");
+        free.shouldHaveValue("3");
+
+        fieldset.item(2).clickRemoveButton();
+
+        zero.shouldHaveValue("0");
+        one.shouldHaveValue("1");
+        two.shouldHaveValue("2");
     }
 }

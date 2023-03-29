@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Моя первая страница">
+    <form>
+        <fields>
+            <multi-set id="multi" can-add="true" can-remove="true" can-remove-first="true">
+                <output-text id="id" label="{index}">
+                    <dependencies>
+                        <set-value on="multi">
+                            return index
+                        </set-value>
+                    </dependencies>
+                </output-text>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>
