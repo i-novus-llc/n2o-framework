@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Очистка модели после выполнения invoke">
+    <datasources>
+        <browser-storage id="ds1"
+                key="n2o.form"
+                type="sessionStorage">
+            <submit auto="true"/>
+        </browser-storage>
+    </datasources>
+
+    <regions>
+        <form id="form" datasource="ds1">
+            <fields>
+                <input-text id="input" label="Инпут"/>
+                <input-text id="inputDef" label="Инпут с default value" default-value="test"/>
+                <select
+                        id="select"
+                        placeholder="Введите значение"
+                        label="Ввод с выпадающим списком"
+                        type="multi">
+                    <options>
+                        <option id="fio1" name="Алексей Иванов"/>
+                        <option id="fio2" name="Иван Алексеев"/>
+                        <option id="fio3" name="Павел Афанасьев"/>
+                        <option id="fio4" name="Петр Сергеев"/>
+                    </options>
+                </select>
+                <checkbox-group
+                        id="checkboxGroup"
+                        placeholder="Введите значение"
+                        label="Чекбоксы"
+                        type="multi">
+                    <options>
+                        <option id="fio1" name="Алексей Иванов"/>
+                        <option id="fio2" name="Иван Алексеев"/>
+                        <option id="fio3" name="Павел Афанасьев"/>
+                        <option id="fio4" name="Петр Сергеев"/>
+                    </options>
+                </checkbox-group>
+            </fields>
+            <toolbar>
+                <button label="next">
+                    <open-page page-id="step2" route="/step2">
+                        <submit datasource="ds1"/>
+                    </open-page>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

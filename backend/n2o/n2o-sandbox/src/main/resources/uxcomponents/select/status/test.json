@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Алексей Иванов",
+    "position": "Экономист",
+    "status": "success"
+  },
+  {
+    "id": 2,
+    "name": "Иван Алексеев",
+    "position": "Бухгалтер",
+    "status": "warning"
+  },
+  {
+    "id": 3,
+    "name": "Павел Афанасьев",
+    "position": "Бухгалтер",
+    "status": "success"
+  },
+  {
+    "id": 4,
+    "name": "Петр Сергеев",
+    "position": "Кассир",
+    "status": "danger"
+  }
+]

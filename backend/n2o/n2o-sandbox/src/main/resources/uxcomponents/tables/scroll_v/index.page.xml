@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Вертикальный скрол">
+    <table selection="none" height="150px">
+        <datasource query-id="data"/>
+        <columns>
+            <column text-field-id="id" label="№"/>
+            <column text-field-id="name" label="Фамилия И.О"/>
+            <column text-field-id="date" label="Дата рождения"/>
+        </columns>
+    </table>
+</simple-page>

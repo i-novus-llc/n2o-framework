@@ -979,7 +979,6 @@
             <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="contains" type="preFilterDefValuesWithBody" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="preFilterDefValuesWithBody" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="more" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="less" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notEq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>

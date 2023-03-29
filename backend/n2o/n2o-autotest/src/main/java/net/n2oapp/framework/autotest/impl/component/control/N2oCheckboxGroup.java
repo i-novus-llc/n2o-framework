@@ -25,13 +25,13 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     @Override
     public void check(String label) {
         if (!inputElement(label).isSelected())
-            inputElement(label).shouldBe(Condition.exist).parent().click();
+            inputElement(label).parent().click();
     }
 
     @Override
     public void uncheck(String label) {
         if (inputElement(label).isSelected())
-            inputElement(label).shouldBe(Condition.exist).parent().click();
+            inputElement(label).parent().click();
     }
 
     @Override
@@ -50,9 +50,10 @@ public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
                 .shouldHave(CollectionCondition.exactTexts(labels));
     }
 
-    private SelenideElement inputElement(String label) {
+    protected SelenideElement inputElement(String label) {
         return element().$$(".custom-control")
                 .findBy(Condition.text(label))
-                .$(".n2o-input");
+                .$(".n2o-input")
+                .shouldBe(Condition.exist);
     }
 }

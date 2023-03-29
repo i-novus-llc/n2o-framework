@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Страница для type 1">
+    <form id="test1">
+        <datasource query-id="test">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+        <fields>
+            <output-text id="id"/>
+            <output-text id="name"/>
+            <output-text id="type" label="type должен быть 1"/>
+        </fields>
+
+        <toolbar place="bottomRight">
+            <button label="Закрыть">
+                <close/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

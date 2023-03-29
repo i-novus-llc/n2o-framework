@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test file="test.json" operation="create"/>
+            </invocation>
+            <in>
+                <field id="name"/>
+                <field id="age"/>
+                <field id="validated" param="validated"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+            <validations>
+                <dialog id="userCheck" server-moment="before-operation"
+                        result="#this[name]!=null &amp;&amp; #this[age]!=null &amp;&amp; #this[age]&gt;=0"
+                        enabled="{typeof(validated) === 'undefined' || validated == false}"
+                        message="Вы пытаетесь сохранить пользователя с некорректными данными.
+                        Уверены, что хотите его добавить?">
+                    <toolbar>
+                        <button id="yes" label="Да">
+                            <invoke operation-id="create">
+                                <header-param name="validated" value="true"/>
+                            </invoke>
+                        </button>
+                        <button label="Отмена">
+                            <close/>
+                        </button>
+                    </toolbar>
+                </dialog>
+            </validations>
+        </operation>
+    </operations>
+</object>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Форма с двумя моделями, загруженная через выборку">
+    <regions>
+        <panel title="Форма с двумя моделями: edit и resolve">
+            <form id="master" query-id="test" mode="two-models">
+                <fields>
+                    <input-text id="id" description="Введите 1 или 2"/>
+                </fields>
+                <pre-filters>
+                    <eq field-id="id" value="1"/>
+                </pre-filters>
+                <toolbar place="bottomLeft">
+                    <button id="btn" label="Скопировать">
+                        <copy source-model="edit" target-model="resolve"/>
+                    </button>
+                </toolbar>
+            </form>
+        </panel>
+        <panel title="Форма зависимая от resolve">
+            <form id="detail" query-id="test" depends-on="master" detail-field-id="id">
+                <fields>
+                    <input-text id="name" description="Здесь должно быть значение test1 или test2"/>
+                </fields>
+            </form>
+        </panel>
+    </regions>
+</page>

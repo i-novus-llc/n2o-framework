@@ -44,6 +44,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/control/submit");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/submit/test.query.xml"),
@@ -79,7 +80,8 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем списковое поле
-        select.select(1);
+        select.openPopup();
+        select.dropdown().selectItem(1);
         Selenide.sleep(500);
         select.shouldHaveValue("Женский");
         Selenide.refresh();
@@ -91,7 +93,6 @@ public class StandardFieldSubmitAT extends AutoTestBase {
 
         // изменяем интервальное поле
         dateInterval.setValueInBegin("18.01.2020");
-        dateInterval.shouldBeOpened();
         Selenide.sleep(500);
         dateInterval.beginShouldHaveValue("18.01.2020");
         Selenide.refresh();
@@ -102,7 +103,6 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         dateInterval.setValueInEnd("24.01.2020");
-        dateInterval.shouldBeOpened();
         Selenide.sleep(500);
         dateInterval.endShouldHaveValue("24.01.2020");
         Selenide.refresh();

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create" success-text="Человек добавлен в базу">
+            <invocation>
+                <sql>INSERT INTO persons (id, first_name) VALUES (null, :name);</sql>
+            </invocation>
+            <in>
+                <field id="name" mapping="['name']"/>
+            </in>
+            <out>
+                <field id="id" mapping="[0]"/>
+            </out>
+        </operation>
+    </operations>
+</object>

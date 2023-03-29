@@ -18,12 +18,12 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
 
     @Override
     public void shouldHaveTitle(String title) {
-        element().$(".card-header").shouldHave(Condition.text(title));
+        header().shouldHave(Condition.text(title));
     }
 
     @Override
     public void shouldNotHaveTitle() {
-        element().$(".card-header").shouldNot(Condition.exist);
+        header().shouldNot(Condition.exist);
     }
 
     @Override
@@ -73,11 +73,15 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
         element().$(".card-header .n2o-icon").shouldHave(Condition.cssClass(icon));
     }
 
-    private SelenideElement collapseToggleBtn() {
+    protected SelenideElement collapseToggleBtn() {
         return element().$("button.collapse-toggle");
     }
 
     private Condition collapsedCondition() {
         return Condition.cssClass("collapse-toggle--up");
+    }
+
+    protected SelenideElement header() {
+        return element().$(".card-header");
     }
 }

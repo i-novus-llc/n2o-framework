@@ -3,7 +3,7 @@
     <operations>
         <operation id="updateMany">
             <invocation>
-                <test file="net/n2oapp/framework/autotest/action/bulk_operation/test.json" operation="updateMany"/>
+                <test file="test.json" operation="updateMany"/>
             </invocation>
             <in-parameters>
                 <param id="ids"  mapping="['ids']"/>
@@ -12,7 +12,7 @@
         </operation>
         <operation id="deleteMany" confirm="false">
             <invocation>
-                <test file="net/n2oapp/framework/autotest/action/bulk_operation/test.json" operation="deleteMany"/>
+                <test file="test.json" operation="deleteMany"/>
             </invocation>
             <in-parameters>
                 <param id="$list*.id"  mapping="['ids']"/>

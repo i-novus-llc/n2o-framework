@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Валидация невидимых полей">
+    <form object-id="test">
+        <fields>
+            <hidden id="id" default-value="1"/>
+            <radio-group id="type" label="Родительское поле" query-id="ref"/>
+
+            <input-select id="test0" label="Невидимое дочернее поле"
+                          search-filter-id="fullName"
+                          query-id="ref" label-field-id="name" required="true">
+                <dependencies>
+                    <visibility on="type">type.id==1 || type.id==2</visibility>
+                </dependencies>
+            </input-select>
+            <set depends-on="type" visible="{type.id==1 || type.id==2}">
+                <input-select id="test1" label="Дочернее поле в невидимом филдсете"
+                              search-filter-id="fullName"
+                              query-id="ref" label-field-id="name" required="true">
+                </input-select>
+            </set>
+            <set depends-on="type" visible="{type.id==1 || type.id==2}">
+                <set>
+                    <input-select id="test2" label="Дочернее поле в невидимом филдсете в филдсете"
+                                  search-filter-id="fullName"
+                                  query-id="ref" label-field-id="name" required="true">
+                    </input-select>
+                </set>
+            </set>
+            <set depends-on="type" visible="{type.id==1 || type.id==2}">
+                <set>
+                    <set>
+                        <input-select id="test3" label="Дочернее поле в невидимом филдсете в филдсете в филдсете"
+                                      search-filter-id="fullName"
+                                      query-id="ref" label-field-id="name" required="true">
+                        </input-select>
+                    </set>
+                </set>
+            </set>
+        </fields>
+        <toolbar>
+            <button id="b1" label="Валидировать" validate="true">
+                <invoke operation-id="echo" route="/test"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

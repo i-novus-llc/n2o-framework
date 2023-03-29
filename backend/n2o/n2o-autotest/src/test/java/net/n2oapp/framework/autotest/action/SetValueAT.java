@@ -68,10 +68,12 @@ public class SetValueAT extends AutoTestBase {
         StandardButton copyUrlBtn = socialField.toolbar().button("copyUrl");
         OutputText siteUrl = fields.field("siteUrl").control(OutputText.class);
 
-        social.select(0);
+        social.openPopup();
+        social.dropdown().selectItem(0);
         copyUrlBtn.click();
         siteUrl.shouldHaveValue("https://fb.com");
-        social.select(2);
+        social.openPopup();
+        social.dropdown().selectItem(2);
         copyUrlBtn.click();
         siteUrl.shouldHaveValue("https://youtube.com");
 

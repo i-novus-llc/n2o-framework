@@ -131,7 +131,8 @@ public class EditListAT extends AutoTestBase {
 
         addButton.click();
         addModal.shouldExists();
-        items.selectMulti(0, 2);
+        items.openPopup();
+        items.dropdown().selectMulti(0, 2);
         addButtonModal.click();
         table.columns().rows().shouldHaveSize(2);
         table.columns().rows().row(0).cell(1).shouldHaveText("test1");
@@ -139,7 +140,8 @@ public class EditListAT extends AutoTestBase {
 
         addButton.click();
         addModal.shouldExists();
-        items.selectMulti(1, 3);
+        items.openPopup();
+        items.dropdown().selectMulti(1, 3);
         addButtonModal.click();
         table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(0).cell(1).shouldHaveText("test1");

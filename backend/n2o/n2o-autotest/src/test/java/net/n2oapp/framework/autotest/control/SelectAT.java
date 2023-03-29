@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -57,9 +58,11 @@ public class SelectAT extends AutoTestBase {
         input.click();
         input.shouldBeClosed();
 
-        input.shouldHaveOptions("One", "Two", "Three");
+        input.openPopup();
+        DropDown dropdown = input.dropdown();
+        dropdown.shouldHaveOptions("One", "Two", "Three");
         input.shouldBeEmpty();
-        input.select(1);
+        dropdown.selectItem(1);
         input.shouldSelected("Two");
         input.shouldBeCleanable();
         input.clear();
@@ -68,7 +71,9 @@ public class SelectAT extends AutoTestBase {
         Select input2 = fields.field("Select2").control(Select.class);
         input2.shouldExists();
 
-        input2.select(1);
+        input2.openPopup();
+        DropDown dropdown2 = input2.dropdown();
+        dropdown2.selectItem(1);
         input2.shouldNotBeCleanable();
 
         // close popup by click on outside area
@@ -89,15 +94,17 @@ public class SelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
-        input.shouldHaveOptions("One", "Two", "Three");
-        input.selectMulti(0);
-        input.shouldBeChecked(0);
+        input.openPopup();
+        DropDown dropdown = input.dropdown();
+        dropdown.shouldHaveOptions("One", "Two", "Three");
+        dropdown.selectMulti(0);
+        dropdown.shouldBeChecked(0);
         input.shouldSelected("Объектов 1 шт");
-        input.selectMulti(1, 2);
-        input.shouldBeChecked(0, 1, 2);
+        dropdown.selectMulti(1, 2);
+        dropdown.shouldBeChecked(0, 1, 2);
         input.shouldSelected("Объектов 3 шт");
         input.clear();
-        input.shouldNotBeChecked(0, 1, 2);
+        dropdown.shouldNotBeChecked(0, 1, 2);
         input.shouldBeEmpty();
     }
 
@@ -112,18 +119,20 @@ public class SelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
-        input.shouldHaveOptions("One", "Two", "Three", "Four", "Five");
-        input.selectMulti(0);
-        input.shouldBeChecked(0);
+        input.openPopup();
+        DropDown dropdown = input.dropdown();
+        dropdown.shouldHaveOptions("One", "Two", "Three", "Four", "Five");
+        dropdown.selectMulti(0);
+        dropdown.shouldBeChecked(0);
         input.shouldSelected("1 объект");
-        input.selectMulti(1);
-        input.shouldBeChecked(0, 1);
+        dropdown.selectMulti(1);
+        dropdown.shouldBeChecked(0, 1);
         input.shouldSelected("2 объекта");
-        input.selectMulti(2, 3, 4);
-        input.shouldBeChecked(0, 1, 2, 3, 4);
+        dropdown.selectMulti(2, 3, 4);
+        dropdown.shouldBeChecked(0, 1, 2, 3, 4);
         input.shouldSelected("5 объектов");
         input.clear();
-        input.shouldNotBeChecked(0, 1, 2, 3, 4);
+        dropdown.shouldNotBeChecked(0, 1, 2, 3, 4);
         input.shouldBeEmpty();
 
 
@@ -132,11 +141,14 @@ public class SelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
-        input.selectMulti(0);
+        input.openPopup();
+        dropdown = input.dropdown();
+        dropdown.shouldBeVisible();
+        dropdown.selectMulti(0);
         input.shouldSelected("Объектов 1 шт");
-        input.selectMulti(1);
+        dropdown.selectMulti(1);
         input.shouldSelected("Объектов 2 шт");
-        input.selectMulti(2, 3, 4);
+        dropdown.selectMulti(2, 3, 4);
         input.shouldSelected("Объектов 5 шт");
         input.clear();
         input.shouldBeEmpty();
@@ -144,6 +156,7 @@ public class SelectAT extends AutoTestBase {
 
     @Test
     public void testReadFromQuery() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select/query");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/query/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select/query/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -154,10 +167,14 @@ public class SelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
-        input.shouldHaveOptions("name1", "name2", "name3");
-        input.optionShouldHaveDescription("name1", "desc1");
-        input.optionShouldHaveDescription("name3", "desc3");
-        input.select(1);
+        input.openPopup();
+        DropDown dropdown = input.dropdown();
+        dropdown.shouldHaveOptions("name1", "name2", "name3");
+        input.openPopup();
+        dropdown.optionShouldHaveDescription("name1", "desc1");
+        input.openPopup();
+        dropdown.optionShouldHaveDescription("name3", "desc3");
+        dropdown.selectItem(1);
         input.shouldSelected("name2");
         input.clear();
         input.shouldBeEmpty();
@@ -170,11 +187,15 @@ public class SelectAT extends AutoTestBase {
         input2.shouldExists();
 
         input2.shouldBeEmpty();
-        input2.shouldHaveOptions("name1", "name2", "name3");
-        input2.optionShouldHaveDescription("name1", "desc1");
-        input2.optionShouldHaveDescription("name3", "desc3");
-        input2.selectMulti(1, 2);
-        input2.shouldBeChecked(1, 2);
+        input2.openPopup();
+        DropDown dropdown2 = input2.dropdown();
+        dropdown2.shouldHaveOptions("name1", "name2", "name3");
+        input2.openPopup();
+        dropdown2.optionShouldHaveDescription("name1", "desc1");
+        input2.openPopup();
+        dropdown2.optionShouldHaveDescription("name3", "desc3");
+        dropdown2.selectMulti(1, 2);
+        dropdown2.shouldBeChecked(1, 2);
         input2.shouldSelected("Объектов 2 шт");
         input2.clear();
         input2.shouldBeEmpty();

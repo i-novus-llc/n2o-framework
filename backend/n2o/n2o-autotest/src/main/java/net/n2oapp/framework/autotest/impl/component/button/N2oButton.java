@@ -21,6 +21,6 @@ public abstract class N2oButton extends N2oComponent implements Button {
 
     @Override
     public void click() {
-        element().shouldBe(Condition.exist).click();
+        element().shouldBe(Condition.exist, Condition.interactable).click();
     }
 }

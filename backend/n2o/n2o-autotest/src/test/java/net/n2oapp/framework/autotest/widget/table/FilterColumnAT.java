@@ -42,6 +42,7 @@ public class FilterColumnAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filter_column");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/table.widget.xml"),
@@ -86,7 +87,8 @@ public class FilterColumnAT extends AutoTestBase {
         // проверка фильтрации через списковое поле
         header3.openFilterDropdown();
         Select header3Input = header3.filterControl(Select.class);
-        header3Input.select(0);
+        header3Input.openPopup();
+        header3Input.dropdown().selectItem(0);
         header3.clickSearchButton();
         rows.shouldHaveSize(2);
         rows.row(0).cell(0).shouldHaveText("1");
@@ -118,7 +120,8 @@ public class FilterColumnAT extends AutoTestBase {
         header2Input.setValue("1");
         header2.clickSearchButton();
         header3.openFilterDropdown();
-        header3Input.select(0);
+        header3Input.openPopup();
+        header3Input.dropdown().selectItem(0);
         header3.clickSearchButton();
         rows.shouldHaveSize(1);
         rows.row(0).cell(0).shouldHaveText("1");

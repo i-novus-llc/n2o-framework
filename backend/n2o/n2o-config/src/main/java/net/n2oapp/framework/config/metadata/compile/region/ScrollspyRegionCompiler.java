@@ -41,8 +41,10 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         ScrollspyRegion region = new ScrollspyRegion();
         build(region, source, p);
         region.setTitle(source.getTitle());
-        region.setPlacement(p.cast(source.getPlacement(), p.resolve(property("n2o.api.region.scrollspy.placement"), String.class)));
-        region.setHeadlines(p.cast(source.getHeadlines(), p.resolve(property("n2o.api.region.scrollspy.headlines"), Boolean.class)));
+        region.setPlacement(p.cast(source.getPlacement(),
+                p.resolve(property("n2o.api.region.scrollspy.placement"), String.class)));
+        region.setHeadlines(p.cast(source.getHeadlines(),
+                p.resolve(property("n2o.api.region.scrollspy.headlines"), Boolean.class)));
         region.setMenu(initMenu(source.getMenu(), context, p));
         region.setActive(source.getActive());
         compileRoute(source, region.getId(), "n2o.api.region.scrollspy.routable", p);

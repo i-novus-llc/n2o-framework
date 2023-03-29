@@ -16,12 +16,12 @@ public class N2oStatus extends N2oSnippet implements Status {
 
     @Override
     public void shouldHaveTextPosition(Position position) {
-        element().shouldHave(Condition.cssClass("n2o-status-text__" + position.getId()));
+        element().shouldHave(Condition.cssClass(String.format("n2o-status-text__%s", position.getId())));
     }
 
     @Override
     public void shouldHaveColor(Colors color) {
         element().$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
-                .shouldHave(Condition.cssClass(color.name("bg-")));
+                .shouldHave(Condition.cssClass(String.format("bg-%s", color.name().toLowerCase())));
     }
 }

@@ -38,6 +38,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testAutoComplete() {
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
                         new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -67,6 +68,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testTags() {
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -76,7 +78,9 @@ public class AutoCompleteAT extends AutoTestBase {
                 .control(AutoComplete.class);
         autoComplete.shouldExists();
 
-        autoComplete.addTag("item1");
+        autoComplete.click();
+        autoComplete.setValue("item1");
+        autoComplete.enter();
         autoComplete.shouldHaveTags("item1");
 
         autoComplete.click();
@@ -85,7 +89,9 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveTags("item1", "abc");
 
-        autoComplete.addTag("item2");
+        autoComplete.click();
+        autoComplete.setValue("item2");
+        autoComplete.enter();
         autoComplete.shouldHaveTags("item1", "abc", "item2");
 
         autoComplete.removeTag("item1");
@@ -111,6 +117,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testPrefilters() {
+        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/pre_filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/pre_filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/pre_filters/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -129,7 +136,8 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.setValue("2");
         autoComplete.shouldHaveDropdownOptions("test2");
 
-        select.select(1);
+        select.openPopup();
+        select.dropdown().selectItem(1);
         select.shouldHaveValue("type2");
         autoComplete.click();
         autoComplete.setValue("test");

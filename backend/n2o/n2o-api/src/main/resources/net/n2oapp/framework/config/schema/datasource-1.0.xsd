@@ -221,7 +221,7 @@
         <xs:attribute name="auto" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>
-                    Автоматически ли записывать в хранилище при изменении данных?
+                    Автоматически записывать в хранилище при изменении данных
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -310,7 +310,7 @@
         <xs:attribute name="auto" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>
-                    Автоматически ли записывать при изменении данных?
+                    Автоматически записывать при изменении данных
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -517,7 +517,6 @@
             <xs:element name="likeStart" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="filterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="contains" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="more" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="less" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notEq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>

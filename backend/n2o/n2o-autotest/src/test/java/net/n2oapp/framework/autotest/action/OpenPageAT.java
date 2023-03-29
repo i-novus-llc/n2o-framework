@@ -42,6 +42,7 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testFilterState() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/open.page.xml"));
@@ -58,7 +59,7 @@ public class OpenPageAT extends AutoTestBase {
         rows.shouldHaveSize(4);
         nameFilter.click();
         nameFilter.setValue("test3");
-        table.filters().search();
+        table.filters().toolbar().button("Найти").click();
         rows.shouldHaveSize(1);
         rows.row(0).cell(1).shouldHaveText("test3");
 
@@ -73,7 +74,7 @@ public class OpenPageAT extends AutoTestBase {
         openPageTableRows.shouldHaveSize(4);
         openPageTypeFilter.click();
         openPageTypeFilter.setValue("2");
-        openPageTable.filters().search();
+        openPageTable.filters().toolbar().button("Найти").click();
         openPageTableRows.shouldHaveSize(2);
 
         open.breadcrumb().crumb(0).click();
@@ -94,6 +95,7 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testResolveBreadcrumb() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
@@ -114,6 +116,7 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testResolveBreadcrumbOnStandardPage() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/widget.widget.xml"),
@@ -134,6 +137,7 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testTargetNewWindow() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/target/new_window");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target/new_window/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target/new_window/page.page.xml"),
@@ -152,7 +156,7 @@ public class OpenPageAT extends AutoTestBase {
         Selenide.switchTo().window(1);
         page.shouldExists();
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/open");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/open");
 
         page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
         page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
@@ -161,6 +165,7 @@ public class OpenPageAT extends AutoTestBase {
 
     @Test
     public void testNestedRoutesWithPathParameters() {
+        setJsonPath("net/n2oapp/framework/autotest/action/open_page/nested_routes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/book.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/books.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/index.page.xml"),
@@ -170,7 +175,7 @@ public class OpenPageAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование вложенных роутов с path-параметрами");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/");
 
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -178,7 +183,7 @@ public class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Open").click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("Первая вложенная страница");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/reader");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/reader");
 
         table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -186,6 +191,6 @@ public class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Open").click();
 
         page.breadcrumb().crumb(2).shouldHaveLabel("Вторая вложенная страница");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/1/reader/2/book");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/reader/2/book");
     }
 }

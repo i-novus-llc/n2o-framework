@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="CRUD + localStorage">
+    <datasources>
+        <browser-storage id="table" key="crud" type="localStorage">
+            <submit/>
+        </browser-storage>
+    </datasources>
+    <regions>
+        <table datasource="table">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+    <toolbar place="topLeft">
+        <button label="Создать"  datasource="table" disable-on-empty-model="false">
+            <show-modal page-id="form?operation=create"
+                        route="/create"
+                        page-name="Создание">
+                <datasources>
+                    <parent-datasource id="table"/>
+                </datasources>
+            </show-modal>
+        </button>
+        <button label="Изменить" datasource="table">
+            <show-modal page-id="form?operation=update"
+                        route="/update"
+                        page-name="Изменение">
+                <datasources>
+                    <parent-datasource id="table"/>
+                    <inherited-datasource id="form"
+                                          source-datasource="table"
+                                          source-model="resolve"/>
+                </datasources>
+            </show-modal>
+        </button>
+        <button label="Удалить" datasource="table" confirm="true">
+            <edit-list operation="delete"
+                       datasource="table"
+                       model="datasource"
+                       item-datasource="table"
+                       item-model="resolve"/>
+            <submit datasource="table"/>
+        </button>
+    </toolbar>
+</page>

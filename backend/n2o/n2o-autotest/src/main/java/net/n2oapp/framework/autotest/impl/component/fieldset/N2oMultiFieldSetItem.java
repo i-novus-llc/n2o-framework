@@ -14,7 +14,7 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetItem {
     @Override
     public void shouldHaveLabel(String label) {
-        element().$(".n2o-multi-fieldset__label").shouldHave(Condition.text(label));
+        label().shouldHave(Condition.text(label));
     }
 
     @Override
@@ -57,11 +57,15 @@ public class N2oMultiFieldSetItem extends N2oComponent implements MultiFieldSetI
         return N2oSelenide.collection(element().$$(".n2o-fieldset"), FieldSets.class);
     }
 
-    private SelenideElement removeButton() {
+    protected SelenideElement removeButton() {
         return element().$(".n2o-multi-fieldset__remove.btn");
     }
 
-    private SelenideElement copyButton() {
+    protected SelenideElement copyButton() {
         return element().$(".n2o-multi-fieldset__copy.btn");
+    }
+
+    protected SelenideElement label() {
+        return element().$(".n2o-multi-fieldset__label");
     }
 }

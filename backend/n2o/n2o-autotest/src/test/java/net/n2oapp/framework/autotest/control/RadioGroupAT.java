@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -32,12 +33,12 @@ public class RadioGroupAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/radio_group/index.page.xml"));
     }
 
     @Test
     public void testRadioGroup() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/radio_group/index.page.xml"));
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -69,5 +70,16 @@ public class RadioGroupAT extends AutoTestBase {
         tabsRadio.shouldBeChecked("Three");
         tabsRadio.check("Two");
         tabsRadio.shouldBeChecked("Two");
+    }
+
+    @Test
+    public void defaultValue() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/radio_group/default_value/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        RadioGroup radioGroup = page.widget(FormWidget.class).fields().field("Радио кнопки").control(RadioGroup.class);
+        radioGroup.shouldBeChecked("Два");
     }
 }

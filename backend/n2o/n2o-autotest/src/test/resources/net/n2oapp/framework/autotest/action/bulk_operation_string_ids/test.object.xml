@@ -3,7 +3,7 @@
     <operations>
         <operation id="updateMany">
             <invocation>
-                <test file="net/n2oapp/framework/autotest/action/bulk_operation_string_ids/test.json"
+                <test file="test.json"
                       operation="updateMany" primary-key-type="string"/>
             </invocation>
             <in>
@@ -13,7 +13,7 @@
         </operation>
         <operation id="deleteMany">
             <invocation>
-                <test file="net/n2oapp/framework/autotest/action/bulk_operation_string_ids/test.json"
+                <test file="test.json"
                       operation="deleteMany" primary-key-type="string"/>
             </invocation>
             <in>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Цвета сообщений">
+    <form>
+        <fields>
+            <alert id="primary" color="primary" text="primary"/>
+            <alert id="secondary" color="secondary" text="secondary"/>
+            <alert id="success" color="success" text="success"/>
+            <alert id="danger" color="danger" text="danger"/>
+            <alert id="warning" color="warning" text="warning"/>
+            <alert id="info" color="info" text="info"/>
+            <alert id="light" color="light" text="light"/>
+            <alert id="dark" color="dark" text="dark"/>
+        </fields>
+    </form>
+</simple-page>

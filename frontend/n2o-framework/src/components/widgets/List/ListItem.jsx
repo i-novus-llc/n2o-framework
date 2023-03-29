@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -17,9 +17,22 @@ import classNames from 'classnames'
  * @param {boolean} divider - разделить между строками
  * @param {object} style - стили
  * @param {object} hasSelect
+ * @param measure
  * @returns {*}
  * @constructor
  */
+function HeaderWrapper({ children, isValid }) {
+    if (isValid) {
+        return children
+    }
+
+    return (
+        <h3 className="n2o-widget-list-item-header">
+            {children}
+        </h3>
+    )
+}
+
 function ListItem({
     leftTop,
     leftBottom,
@@ -34,14 +47,19 @@ function ListItem({
     divider,
     style,
     hasSelect,
+    measure = () => {},
 }) {
-    const renderImage = image => (checkOnReactElement(image) ? (
-        image
-    ) : (
-        <img src={image.src} alt={image.alt || ''} {...image} />
-    ))
+    useEffect(() => {
+        measure()
+    }, [style, measure])
 
-    const checkOnReactElement = element => React.isValidElement(element)
+    const renderImage = (image) => {
+        if (isValidElement(image)) {
+            return image
+        }
+
+        return <img src={image.src} alt={image.alt || ''} {...image} />
+    }
 
     return (
         <div
@@ -53,48 +71,21 @@ function ListItem({
             })}
         >
             <div className="n2o-widget-list-item-left-container">
-                {leftTop && (
-                    <div className="n2o-widget-list-item-left-top">
-                        {renderImage(leftTop)}
-                    </div>
-                )}
-                {leftBottom && (
-                    <div className="n2o-widget-list-item-left-bottom">{leftBottom}</div>
-                )}
+                {leftTop && <div className="n2o-widget-list-item-left-top">{renderImage(leftTop)}</div>}
+                {leftBottom && <div className="n2o-widget-list-item-left-bottom">{leftBottom}</div>}
             </div>
             <div className="n2o-widget-list-item-main-container">
                 <div className="n2o-widget-list-item-header-row">
-                    {checkOnReactElement(header) || checkOnReactElement(subHeader) ? (
-                        <>
-                            {header && (
-                                <div className="n2o-widget-list-item-header">{header}</div>
-                            )}
-                            {subHeader && (
-                                <div className="n2o-widget-list-item-subheader text-muted">
-                                    {subHeader}
-                                </div>
-                            )}
-                        </>
-                    ) : (
-                        <h3 className="n2o-widget-list-item-header">
-                            {header}
-                            {subHeader && (
-                                <small className="n2o-widget-list-item-subheader text-muted">
-                                    {subHeader}
-                                </small>
-                            )}
-                        </h3>
-                    )}
+                    <HeaderWrapper isValid={isValidElement(header) || isValidElement(subHeader)}>
+                        {header && <div className="n2o-widget-list-item-header">{header}</div>}
+                        {subHeader && <div className="n2o-widget-list-item-subheader text-muted">{subHeader}</div>}
+                    </HeaderWrapper>
                 </div>
                 {body && <div className="n2o-widget-list-item-body">{body}</div>}
             </div>
             <div className="n2o-widget-list-item-right-container">
-                {rightTop && (
-                    <div className="n2o-widget-list-item-right-top">{rightTop}</div>
-                )}
-                {rightBottom && (
-                    <div className="n2o-widget-list-item-right-bottom">{rightBottom}</div>
-                )}
+                {rightTop && <div className="n2o-widget-list-item-right-top">{rightTop}</div>}
+                {rightBottom && <div className="n2o-widget-list-item-right-bottom">{rightBottom}</div>}
             </div>
             <div className="n2o-widget-list-item-extra-container">
                 {extra && <div className="n2o-widget-list-item-extra">{extra}</div>}
@@ -117,6 +108,7 @@ ListItem.propTypes = {
     divider: PropTypes.bool,
     style: PropTypes.object,
     hasSelect: PropTypes.bool,
+    measure: PropTypes.func,
 }
 
 export default ListItem

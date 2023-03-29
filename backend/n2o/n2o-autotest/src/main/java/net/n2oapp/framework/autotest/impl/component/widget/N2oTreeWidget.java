@@ -21,6 +21,8 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
 
     public class N2oTreeItem extends N2oComponent implements TreeWidget.TreeItem {
 
+        private static final String SWITCHER = "n2o-rc-tree-switcher";
+
         public N2oTreeItem(SelenideElement element) {
             setElement(element);
         }
@@ -44,20 +46,20 @@ public class N2oTreeWidget extends N2oStandardWidget implements TreeWidget {
 
         @Override
         public void shouldBeExpanded() {
-            switcher().shouldHave(Condition.cssClass("n2o-rc-tree-switcher_open"));
+            switcher().shouldHave(Condition.cssClass(String.format("%s_open", SWITCHER)));
         }
 
         @Override
         public void shouldBeCollapsed() {
-            switcher().shouldHave(Condition.cssClass("n2o-rc-tree-switcher_close"));
+            switcher().shouldHave(Condition.cssClass(String.format("%s_close", SWITCHER)));
         }
 
         private Condition isExpanded() {
-            return Condition.cssClass("n2o-rc-tree-switcher_open");
+            return Condition.cssClass(String.format("%s_open", SWITCHER));
         }
 
-        private SelenideElement switcher() {
-            return element().parent().$(".n2o-rc-tree-switcher");
+        protected SelenideElement switcher() {
+            return element().parent().$(String.format(".%s", SWITCHER));
         }
     }
 }

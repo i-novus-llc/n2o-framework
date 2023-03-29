@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Ячейка загрузки файлов">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="docs" label="Документ">
+                <file-upload id="docs"
+                             url-field-id="url"
+                             label-field-id="fileName"
+                             upload-url="${n2o.sandbox.url}/persons/{id}/files"
+                             delete-url="${n2o.sandbox.url}/persons/{id}/files"
+                             accept=".img,.png,.xml"
+                             request-param="file"
+                >
+                </file-upload>
+            </column>
+            <column text-field-id="surname" label="Фамилия"/>
+            <column text-field-id="name" label="Имя"/>
+            <column text-field-id="patronymic" label="Отчество"/>
+        </columns>
+        <toolbar generate="crud"/>
+    </table>
+</simple-page>

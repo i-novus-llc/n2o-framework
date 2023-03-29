@@ -4,17 +4,16 @@ import get from 'lodash/get'
 import { useDispatch, useStore } from 'react-redux'
 
 import { ModelPrefix } from '../../../../core/datasource/const'
-import { modelInit, updateModel } from '../../../../ducks/models/store'
+import { setModel, updateModel } from '../../../../ducks/models/store'
 // @ts-ignore ignore import error from js file
 import { handleBlur, handleFocus, setDirty } from '../../../../ducks/form/store'
-import { TGetValues, TReset, TSetBlur, TSetFocus, TSetValue } from '../types'
+import { TGetValues, TSetBlur, TSetFocus, TSetValue } from '../types'
 import { getModelFieldByPath } from '../../../../ducks/models/selectors'
 
 type TMethods = {
     setValue: TSetValue
     setFocus: TSetFocus
     setBlur: TSetBlur
-    reset: TReset
 }
 
 type TFormContext = {
@@ -56,32 +55,19 @@ const FormProvider: FC<TFormProvider> = ({ children, name, prefix, initialValues
         setBlur: (fieldName) => {
             dispatch(handleBlur(prefix, name, fieldName))
         },
-        reset: (data) => {
-            let firstInit = true // Костыль, для саги
-
-            return (() => {
-                dispatch(modelInit(prefix, name, data, firstInit))
-
-                if (prefix === ModelPrefix.edit) {
-                    dispatch(modelInit(ModelPrefix.active, name, data, firstInit))
-                }
-
-                firstInit = false
-            })()
-        },
     }), [dispatch, prefix, name])
-
-    const { reset } = methods
 
     const remove = useCallback(() => {
         dispatch(setDirty(name, false))
     }, [dispatch, name])
 
     useEffect(() => {
-        if (initialValues !== undefined) {
-            reset(initialValues)
+        dispatch(setModel(prefix, name, initialValues))
+
+        if (prefix === ModelPrefix.edit) {
+            dispatch(setModel(ModelPrefix.active, name, initialValues))
         }
-    }, [reset, initialValues])
+    }, [initialValues, dispatch, prefix, name])
 
     useEffect(() => remove, [remove])
 

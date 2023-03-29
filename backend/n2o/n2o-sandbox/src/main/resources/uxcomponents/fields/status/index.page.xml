@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Поле статус">
+    <form>
+        <fields>
+            <status id="status1" text="Заявка одобрена" color="success"/>
+            <status id="status2" text="Заявка на рассмотрении" color="warning"/>
+            <status id="status3" text="Заявка отклонена" color="danger"/>
+        </fields>
+    </form>
+</simple-page>

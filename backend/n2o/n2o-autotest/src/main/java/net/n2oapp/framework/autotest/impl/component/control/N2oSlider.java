@@ -45,15 +45,6 @@ public class N2oSlider extends N2oControl implements Slider {
         setValue(sliderElement(1), value, step);
     }
 
-    private void setValue(SelenideElement element, String value, int step) {
-        String current = element.getAttribute("aria-valuenow");
-        int dif = (Integer.parseInt(current) - Integer.parseInt(value)) / step;
-        Keys keys = dif > 0 ? Keys.ARROW_LEFT : Keys.ARROW_RIGHT;
-        element.click();
-        for (int i = 0; i < Math.abs(dif); i++)
-            element.sendKeys(keys);
-    }
-
     @Override
     public void shouldHaveValue(String value) {
         shouldHaveValue(sliderElement(0), value);
@@ -73,7 +64,16 @@ public class N2oSlider extends N2oControl implements Slider {
         element.shouldHave(Condition.attribute("aria-valuenow", value));
     }
 
-    private SelenideElement sliderElement(int index) {
+    protected SelenideElement sliderElement(int index) {
         return element().$$(".rc-slider-handle").get(index).shouldHave(Condition.exist);
+    }
+
+    private void setValue(SelenideElement element, String value, int step) {
+        String current = element.getAttribute("aria-valuenow");
+        int dif = (Integer.parseInt(current) - Integer.parseInt(value)) / step;
+        Keys keys = dif > 0 ? Keys.ARROW_LEFT : Keys.ARROW_RIGHT;
+        element.click();
+        for (int i = 0; i < Math.abs(dif); i++)
+            element.sendKeys(keys);
     }
 }

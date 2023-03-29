@@ -8,7 +8,7 @@ import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 public interface FieldSets extends ComponentsCollection {
     /**
      * <p>
-     *     Возвращает компонент филдсет по индексу
+     *     Возвращает простой компонент филдсет по индексу
      * </p>
      *
      * <p>For example: {@code
@@ -22,7 +22,7 @@ public interface FieldSets extends ComponentsCollection {
 
     /**
      * <p>
-     *     Возвращает первый филдсет типа, наследуемого FieldSet
+     *     Возвращает первый из списка филдсет типа, наследуемого FieldSet
      * </p>
      *
      * <p>For example: {@code

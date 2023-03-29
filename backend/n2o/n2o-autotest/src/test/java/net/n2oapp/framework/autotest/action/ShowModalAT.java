@@ -119,6 +119,7 @@ public class ShowModalAT extends AutoTestBase {
 
     @Test
     public void valueFromParent() {
+        setJsonPath("net/n2oapp/framework/autotest/action");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/valueFromParent/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/modal/valueFromParent/test.page.xml"));
@@ -132,9 +133,11 @@ public class ShowModalAT extends AutoTestBase {
         name.click();
         name.setValue("testValue");
         InputSelect address = fields.field("Простой список").control(InputSelect.class);
-        address.select(2);
+        address.openPopup();
+        address.dropdown().selectItem(2);
         InputSelect addresses = fields.field("Список с множественным выбором").control(InputSelect.class);
-        addresses.selectMulti(1, 2);
+        addresses.openPopup();
+        addresses.dropdown().selectMulti(1, 2);
         Fields fields2 = region.content().widget(1, FormWidget.class).fields();
         InputText id = fields2.field("id").control(InputText.class);
         id.click();
@@ -158,12 +161,12 @@ public class ShowModalAT extends AutoTestBase {
         modalName2.shouldExists();
         modalName2.shouldHaveValue("testValue");
         InputSelect modalAddress = modalFields.field("Получение значения для спиского поля по default-value").control(InputSelect.class);
-        modalAddress.shouldSelected("test300");
+        modalAddress.shouldHaveValue("test300");
         InputSelect modalAddresses = modalFields.field("Получение значения для спиского поля с множественным выбором").control(InputSelect.class);
         modalAddresses.shouldSelectedMulti("test200","test300");
 
         InputSelect addressByForm = modalFields.field("Получение значения для спиского поля из модели всей формы").control(InputSelect.class);
-        addressByForm.shouldSelected("test400");
+        addressByForm.shouldHaveValue("test400");
     }
     @Test
     public void buttonsEnablingInModalTest() {

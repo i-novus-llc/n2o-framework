@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Размеры кнопок">
+    <form>
+        <toolbar place="topLeft">
+            <button label="Большая кнопка" color="primary" class="btn-lg"/>
+            <button label="Большая кнопка" color="secondary" class="btn-lg"/>
+        </toolbar>
+        <toolbar place="bottomLeft">
+            <button label="Маленькая кнопка" color="primary" class="btn-sm"/>
+            <button label="Маленькая кнопка" color="secondary" class="btn-sm"/>
+        </toolbar>
+    </form>
+</simple-page>

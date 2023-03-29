@@ -40,6 +40,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/page/title/params");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/test.query.xml"));
     }
@@ -176,6 +177,6 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
         page.shouldExists();
         page.shouldHaveTitle("Версия:201 №202");
-        page.shouldHaveUrlLike(getBaseUrl() + "/#/201/open\\?number=202");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/201/open\\?number=202");
     }
 }

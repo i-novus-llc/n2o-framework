@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Фильтрация input-select по array фильтру">
+    <form>
+        <fields>
+            <input-select id="list1" label="Выпадающий список 1"
+                          query-id="test"
+                          type="checkboxes"
+                          search="false"
+                          value-field-id="id"
+                          label-field-id="name"/>
+
+            <input-select-tree id="list2" checkboxes="true" label="Дерево Выпадающий список 2"
+                               value-field-id="id" parent-field-id="parentId" label-field-id="name"
+                               query-id="test" search-field-id="name">
+                <pre-filters>
+                    <in field-id="id" values="{list1*.id}"/>
+                </pre-filters>
+            </input-select-tree>
+
+            <input-select id="list3" label="Выпадающий список 3"
+                          query-id="test"
+                          value-field-id="id" label-field-id="name">
+                <pre-filters>
+                    <in field-id="id" values="{list1*.id}"/>
+                </pre-filters>
+            </input-select>
+        </fields>
+    </form>
+</simple-page>

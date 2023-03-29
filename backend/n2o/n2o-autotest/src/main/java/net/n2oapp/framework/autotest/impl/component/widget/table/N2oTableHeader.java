@@ -30,17 +30,17 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
 
     @Override
     public void shouldNotBeSorted() {
-        element().$(".n2o-sorting-icon").shouldNot(Condition.exist);
+        sortingIcon().shouldNot(Condition.exist);
     }
 
     @Override
     public void shouldBeSortedByAsc() {
-        element().$(".n2o-sorting-icon.fa-sort-amount-asc").should(Condition.exist);
+        sortingIcon().should(Condition.exist, Condition.cssClass("fa-sort-amount-asc"));
     }
 
     @Override
     public void shouldBeSortedByDesc() {
-        element().$(".n2o-sorting-icon.fa-sort-amount-desc").should(Condition.exist);
+        sortingIcon().should(Condition.exist, Condition.cssClass("fa-sort-amount-desc"));
     }
 
     @Override
@@ -48,16 +48,24 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
         SelenideElement elm = element().$(".n2o-advanced-table-header-title");
         if (!elm.exists())
             elm = element().$("div.n2o-advanced-table-header-cel");
-        elm.shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
+        elm.shouldHave(Condition.attributeMatching("style", String.format(".*%s.*", style)));
     }
 
     @Override
     public void shouldHaveIcon(String icon) {
-        element().$(".n2o-icon").shouldHave(Condition.cssClass(icon));
+        icon().shouldHave(Condition.cssClass(icon));
     }
 
     @Override
     public void shouldNotHaveIcon() {
-        element().$(".n2o-icon").shouldNotBe(Condition.exist);
+        icon().shouldNotBe(Condition.exist);
+    }
+
+    protected SelenideElement icon() {
+        return element().$(".n2o-icon");
+    }
+
+    protected SelenideElement sortingIcon() {
+        return element().$(".n2o-sorting-icon");
     }
 }

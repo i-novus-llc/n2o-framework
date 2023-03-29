@@ -53,7 +53,9 @@ public class OpenDrawerCompiler extends AbstractModalCompiler<OpenDrawer, N2oOpe
         payload.setClosable(p.cast(source.getClosable(),
                 p.resolve(property("n2o.api.action.open_drawer.closable"), Boolean.class), true));
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
-        payload.setFixedFooter(p.cast(source.getFixedFooter(), p.resolve(property("n2o.api.action.open_drawer.fixed_footer"), Boolean.class)));
-        payload.setCloseOnEscape(p.cast(source.getCloseOnEscape(), p.resolve(property("n2o.api.action.open_drawer.close_on_escape"), Boolean.class)));
+        payload.setFixedFooter(p.cast(source.getFixedFooter(),
+                p.resolve(property("n2o.api.action.open_drawer.fixed_footer"), Boolean.class)));
+        payload.setCloseOnEscape(p.cast(source.getCloseOnEscape(),
+                p.resolve(property("n2o.api.action.open_drawer.close_on_escape"), Boolean.class)));
     }
 }

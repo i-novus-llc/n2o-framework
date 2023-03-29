@@ -5,7 +5,7 @@ import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.AlwaysConflictRule;
 
 /**
- * Rule for reduse overlap with notEq filters by AND
+ * Rule for merge notEq and contains filters
  */
 public class Contains_NotEq extends AlwaysConflictRule {
 

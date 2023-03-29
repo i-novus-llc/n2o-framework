@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
+import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
@@ -69,9 +70,9 @@ public interface Page extends Component {
 
     /**
      * Проверка совпадения части ссылки страницы
-     * @param regexp часть ссылки в виде регулярного выражения
+     * @param regex часть ссылки в виде регулярного выражения
      */
-    void shouldHaveUrlLike(String regexp);
+    void shouldHaveUrlMatches(String regex);
 
     /**
      * Проверка заголовка на соответствие
@@ -268,10 +269,10 @@ public interface Page extends Component {
         void shouldHaveText(String text);
 
         /**
-         * Клик по кнопке соответствующей метке
+         * Возвращает кнопку соответствующую метке
          * @param label метка кнопки
          */
-        void click(String label);
+        Button button(String label);
 
         /**
          * Проверка закрытия поповера в течение передаваемого времени

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Динамические свойства в полях">
+    <form>
+        <fields>
+            <input-text id="test" default-value="123" label="Введите что-нибудь"/>
+            <input-text id="test1" label="Лейбл и {test}" depends-on="test"
+                        description="Лейбл зависит от поля выше"/>
+            <input-text id="test2" label="Лейбл" depends-on="test"
+                        description="Подсказка и {test}"/>
+            <input-text id="test3" label="Лейбл" placeholder="Плейсхолдер и {test}" depends-on="test"
+                        description="Плейсхолдер зависит от поля выше"/>
+        </fields>
+    </form>
+</simple-page>

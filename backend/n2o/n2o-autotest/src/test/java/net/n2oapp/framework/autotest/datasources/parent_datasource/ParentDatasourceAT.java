@@ -44,6 +44,7 @@ public class ParentDatasourceAT extends AutoTestBase {
      */
     @Test
     public void testFiltersByParent() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/test.query.xml"));

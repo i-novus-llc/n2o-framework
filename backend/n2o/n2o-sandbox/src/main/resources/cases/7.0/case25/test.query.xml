@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list result-mapping="#this">
+        <java method="getList" class="net.n2oapp.framework.sandbox.cases.case25.Case25Controller"/>
+    </list>
+
+    <fields>
+        <field id="id"/>
+        <field id="date" domain="date">
+            <select/>
+        </field>
+        <field id="localDateTime" domain="localdatetime">
+            <select/>
+        </field>
+        <field id="localDate" domain="localdate">
+            <select/>
+        </field>
+        <field id="localTime" domain="localtime">
+            <select/>
+        </field>
+        <field id="num" domain="numeric">
+            <select mapping="['num']"/>
+        </field>
+    </fields>
+</query>

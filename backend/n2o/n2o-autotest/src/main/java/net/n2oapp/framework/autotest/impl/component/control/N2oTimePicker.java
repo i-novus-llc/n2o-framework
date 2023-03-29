@@ -134,40 +134,40 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
         closePopup();
     }
 
-    private SelenideElement popUp() {
+    protected SelenideElement popUp() {
         return element().parent().parent().$(".n2o-pop-up");
     }
 
-    private SelenideElement prefix() {
+    protected SelenideElement prefix() {
         return element().$(".time-prefix");
     }
 
-    private ElementsCollection items(String title) {
+    protected ElementsCollection items(String title) {
         return popUp().$$(".n2o-time-picker__header").findBy(Condition.text(title))
                 .parent().$$(".dropdown-item");
     }
 
-    private ElementsCollection hoursItems() {
+    protected ElementsCollection hoursItems() {
         return items("часы");
     }
 
-    private ElementsCollection minutesItems() {
+    protected ElementsCollection minutesItems() {
         return items("минуты");
     }
 
-    private ElementsCollection secondsItems() {
+    protected ElementsCollection secondsItems() {
         return items("секунды");
     }
 
-    private SelenideElement hoursActiveItem() {
+    protected SelenideElement hoursActiveItem() {
         return hoursItems().findBy(Condition.cssClass("active"));
     }
 
-    private SelenideElement minutesActiveItem() {
+    protected SelenideElement minutesActiveItem() {
         return minutesItems().findBy(Condition.cssClass("active"));
     }
 
-    private SelenideElement secondsActiveItem() {
+    protected SelenideElement secondsActiveItem() {
         return secondsItems().findBy(Condition.cssClass("active"));
     }
 }

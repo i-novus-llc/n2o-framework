@@ -26,6 +26,7 @@ public class LinkCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
+        setJsonPath("net/n2oapp/framework/autotest/cells/link");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/link/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/link/test.query.xml"));
@@ -64,6 +65,6 @@ public class LinkCellAT extends AutoTestBase {
         cell.shouldHaveIcon("fa-plus");
 
         cell.click();
-        simplePage.shouldHaveUrlLike(getBaseUrl() + "/#/123");
+        simplePage.shouldHaveUrlMatches(getBaseUrl() + "/#/123");
     }
 }

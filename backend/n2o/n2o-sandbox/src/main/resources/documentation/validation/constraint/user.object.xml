@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create" success-text="Пользователь добавлен">
+            <invocation>
+                <sql>INSERT INTO user (id, username) VALUES (null, :username);</sql>
+            </invocation>
+            <in>
+                <field id="username"/>
+            </in>
+            <out>
+                <field id="id" mapping="[0]"/>
+            </out>
+            <validations white-list="checkUniqueName"/>
+        </operation>
+    </operations>
+
+    <validations>
+        <constraint id="checkUniqueName"
+                    severity="danger"
+                    message="Пользователь с таким именем уже существует в системе"
+                    result = "[0].get('CNT') == 0">
+            <invocation>
+                <sql>
+                    SELECT count(1) as cnt
+                    FROM user
+                    WHERE username = :username
+                </sql>
+            </invocation>
+            <in>
+                <field id="username"/>
+            </in>
+        </constraint>
+    </validations>
+</object>

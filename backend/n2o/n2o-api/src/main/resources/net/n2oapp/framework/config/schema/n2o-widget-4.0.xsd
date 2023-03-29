@@ -4,7 +4,7 @@
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
            xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-2.0"
            xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-4.0"
-           xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
+           xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="table" type="tableReferenceDefinition"/>
@@ -1402,7 +1402,6 @@
             <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="contains" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="overlaps" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="more" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="less" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notEq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>

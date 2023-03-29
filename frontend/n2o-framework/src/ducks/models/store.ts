@@ -1,15 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-    isString,
-    map as mapFn,
     merge,
     omit,
     set,
     get,
 } from 'lodash'
 
-// @ts-ignore ignore import error from js file
-import { setIn } from '../../tools/helpers'
 import { ModelPrefix } from '../../core/datasource/const'
 import { id } from '../../utils/id'
 
@@ -17,8 +13,8 @@ import type { State } from './Models'
 import type {
     ClearModelAction, CopyAction, MergeModelAction,
     RemoveAllModelAction, RemoveModelAction, SetModelAction,
-    UpdateMapModelAction, UpdateModelAction, FormInitAction,
-    AppendFieldToArrayAction, CopyFieldArrayAction, RemoveFieldFromArrayAction,
+    UpdateModelAction, AppendFieldToArrayAction, CopyFieldArrayAction,
+    RemoveFieldFromArrayAction,
 } from './Actions'
 
 const initialState: State = {
@@ -34,7 +30,7 @@ const modelsSlice = createSlice({
     initialState,
     reducers: {
         SET: {
-            prepare(prefix: ModelPrefix, key: string, model: object) {
+            prepare(prefix: ModelPrefix, key: string, model?: object) {
                 return ({
                     payload: { prefix, key, model },
                     meta: { prefix, key, model },
@@ -80,29 +76,6 @@ const modelsSlice = createSlice({
                 const { prefix, key, field, value } = action.payload
 
                 set(state, `${prefix}.${key}.${field}`, value)
-            },
-        },
-
-        UPDATE_MAP: {
-            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, map: string) {
-                return ({
-                    payload: { prefix, key, field, value, map },
-                })
-            },
-
-            /**
-             * Обновление массива с маппингом
-             */
-            reducer(state, action: UpdateMapModelAction) {
-                const { prefix, value, key, field, map } = action.payload
-                const newValue = isString(value) ? [value] : value
-
-                state[prefix] = setIn(
-                    state[prefix],
-                    [key, field],
-                    // @ts-ignore FIXME: выяснить что за тип приходит в value
-                    mapFn(newValue, v => ({ [map]: v })),
-                )
             },
         },
 
@@ -178,28 +151,6 @@ const modelsSlice = createSlice({
             },
         },
 
-        modelInit: {
-            prepare(prefix: ModelPrefix, key: string, model: object, formFirstInit = false) {
-                return ({
-                    meta: { prefix, key, model, formFirstInit },
-                    payload: { prefix, key, model, formFirstInit },
-                })
-            },
-
-            reducer(state, action: FormInitAction) {
-                const { key, model, prefix } = action.payload
-                let newState
-
-                if (Object.keys(model).length) {
-                    newState = merge(state[prefix][key], model)
-                } else {
-                    newState = {}
-                }
-
-                set(state, [prefix, key], newState)
-            },
-        },
-
         appendFieldToArray: {
             prepare({ key, fieldName, ...options }) {
                 return ({
@@ -272,12 +223,10 @@ export const {
     SET: setModel,
     REMOVE: removeModel,
     UPDATE: updateModel,
-    UPDATE_MAP: updateMapModel,
     CLEAR: clearModel,
     MERGE: combineModels,
     COPY: copyModel,
     REMOVE_ALL: removeAllModel,
-    modelInit,
     appendFieldToArray,
     removeFieldFromArray,
     copyFieldArray,

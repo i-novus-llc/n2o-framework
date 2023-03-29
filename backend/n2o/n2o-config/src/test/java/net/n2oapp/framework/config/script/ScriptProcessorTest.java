@@ -276,22 +276,6 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    @Ignore
-    public void buildOverlapExpressionTest() {
-        String exp = scriptProcessor
-                .buildOverlapListExpression("name", Arrays.asList("John", "Marry", "Mike"));
-        ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("name", "John");
-            assert (Boolean) engine.eval(exp);
-            engine.put("name", "Bobby");
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
-    }
-
-    @Test
     public void buildLikeAndLikeStartExpressionTest() {
         String exp = scriptProcessor
                 .buildLikeExpression("name", "est str");

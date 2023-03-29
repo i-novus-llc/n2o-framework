@@ -51,6 +51,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
     @Test
     public void testView() {
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -83,14 +84,14 @@ public class TableFiltersValidationAT extends AutoTestBase {
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.empty);
-        tableWidget.filters().search();
+        tableWidget.filters().toolbar().button("Найти").click();
         like.shouldHaveValidationMessage(Condition.empty);
-        tableWidget.filters().clear();
+        tableWidget.filters().toolbar().button("Сбросить").click();
         id.control(InputText.class).click();
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.empty);
-        tableWidget.filters().search();
+        tableWidget.filters().toolbar().button("Найти").click();
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
@@ -102,6 +103,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
     @Test
     public void testValidationFetch() {
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/test.query.xml"));
         SimplePage page = open(SimplePage.class);

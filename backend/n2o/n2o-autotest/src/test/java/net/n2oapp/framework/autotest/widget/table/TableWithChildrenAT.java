@@ -42,6 +42,7 @@ public class TableWithChildrenAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/with_children");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/with_children/modal.page.xml"),
@@ -70,12 +71,12 @@ public class TableWithChildrenAT extends AutoTestBase {
         table.columns().rows().row(4).cell(0).shouldBeExpanded();
 
         table.columns().rows().row(0).cell(0).expand();
-        table.columns().rows().row(0).cell(0).shouldNotBeExpanded();
+        table.columns().rows().row(0).cell(0).shouldBeCollapsed();
         table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "", "", "", "2", "21", "22", "23", "3", "4"));
 
         table.columns().rows().row(4).cell(0).shouldBeExpanded();
         table.columns().rows().row(4).cell(0).expand();
-        table.columns().rows().row(4).cell(0).shouldNotBeExpanded();
+        table.columns().rows().row(4).cell(0).shouldBeCollapsed();
         table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "", "", "", "2", "", "", "", "3", "4"));
 
         table.columns().rows().row(0).cell(0).expand();

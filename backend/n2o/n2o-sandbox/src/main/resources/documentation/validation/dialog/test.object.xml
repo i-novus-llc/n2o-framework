@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test file="test.json" operation="create"/>
+            </invocation>
+            <in>
+                <field id="name"/>
+                <field id="validated" param="validated"/>
+            </in>
+            <validations>
+                <dialog id="dialog" server-moment="before-operation"
+                        result="#this &lt; 3"
+                        enabled="{typeof(validated) === 'undefined' || validated == false}"
+                        message="Достигнут лимит по количеству пользователей.
+                        Вы уверены, что хотите добавить еще одного?">
+                    <invocation>
+                        <test file="test.json" operation="count"/>
+                    </invocation>
+                    <toolbar>
+                        <button id="yes" label="Да">
+                            <invoke operation-id="create">
+                                <header-param name="validated" value="true"/>
+                            </invoke>
+                        </button>
+                        <button label="Отмена">
+                            <close/>
+                        </button>
+                    </toolbar>
+                </dialog>
+            </validations>
+        </operation>
+
+        <operation id="delete">
+            <invocation>
+                <test operation="delete" file="test.json"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+        </operation>
+    </operations>
+</object>

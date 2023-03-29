@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import { Resizable } from 'react-resizable'
 
 import { Icon } from '../../snippets/Icon/Icon'
+// eslint-disable-next-line import/no-named-as-default
+import TextTableHeader from '../Table/headers/TextTableHeader'
 
 // eslint-disable-next-line import/no-named-as-default
 import AdvancedTableFilter from './AdvancedTableFilter'
@@ -128,7 +130,7 @@ class AdvancedTableHeaderCell extends Component {
         let cellContent = null
 
         if (isString(title)) {
-            cellContent = title
+            cellContent = <TextTableHeader label={title} {...this.props} columnId={id} className="in-multi" />
         } else if (isString(children)) {
             return this.renderStringChild()
         } else if (multiHeader && isArray(children)) {

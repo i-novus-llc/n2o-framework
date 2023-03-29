@@ -63,6 +63,7 @@ public class ImageUploadAT extends AutoTestBase {
         fileStoreController.clearFileStore();
 
         imageUpload.uploadAreaShouldHaveIcon("fa fa-upload");
+        imageUpload.uploadAreaShouldHaveShape(ShapeType.SQUARE);
 
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);

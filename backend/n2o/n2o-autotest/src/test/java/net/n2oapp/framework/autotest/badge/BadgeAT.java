@@ -47,6 +47,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testSelects() {
+        setJsonPath("net/n2oapp/framework/autotest/badge/selectors");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/test.query.xml"),
@@ -61,7 +62,7 @@ public class BadgeAT extends AutoTestBase {
         inputSelect.shouldBeOpened();
         DropDown dropDownInputSelect = inputSelect.dropdown();
         dropDownInputSelect.shouldExists();
-        dropDownInputSelect.shouldHaveItems(4);
+        dropDownInputSelect.shouldHaveOptions(4);
         DropDown.DropDownItem itemDropDownInputSelect = dropDownInputSelect.item(0);
         itemDropDownInputSelect.shouldBeExists();
         itemDropDownInputSelect.shouldHaveText("Проект 1");
@@ -75,7 +76,7 @@ public class BadgeAT extends AutoTestBase {
         select.shouldBeOpened();
         DropDown dropDownSelect = select.dropdown();
         dropDownSelect.shouldExists();
-        dropDownSelect.shouldHaveItems(4);
+        dropDownSelect.shouldHaveOptions(4);
         DropDown.DropDownItem itemDropDownSelect = dropDownSelect.item(0);
         itemDropDownSelect.shouldBeExists();
         itemDropDownSelect.shouldHaveText("Проект 1");
@@ -108,6 +109,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testCell() {
+        setJsonPath("net/n2oapp/framework/autotest/badge/cell");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/cell/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/cell/test.query.xml"));
@@ -165,6 +167,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testTree() {
+        setJsonPath("net/n2oapp/framework/autotest/badge/tree");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/tree/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/tree/test.query.xml"));

@@ -19,12 +19,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -128,8 +132,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     protected String richKey(String key) {
-        if (pathOnDisk != null) return pathOnDisk + "/" + key;
         if (classpathResourcePath != null) return classpathResourcePath + "/" + key;
+        if (pathOnDisk != null) return pathOnDisk + "/" + key;
         return key;
     }
 
@@ -735,7 +739,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     /**
-     * Переводит строковое представление даты и времени в LocalDateTime
+     * Переводит строковое представление даты и времени в LocalDateTime.
+     * Если строка содержит информацию о часовом поясе, то она будет убрана.
      *
      * @param strDateTime Строковое представление даты и времени в формате ISO_LOCAL_DATE_TIME
      * @return Переменную типа LocalDateTime, соответствующую строковому представлению даты и времени, при неверном формате
@@ -743,7 +748,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private LocalDateTime parseToLocalDateTime(String strDateTime) {
         try {
-            return LocalDateTime.parse(strDateTime);
+            ParsePosition pos = new ParsePosition(0);
+            TemporalAccessor temporalAccessor = DateTimeFormatter.ISO_ZONED_DATE_TIME.parseUnresolved(strDateTime, pos);
+            if (temporalAccessor == null || pos.getErrorIndex() >= 0 || pos.getIndex() < strDateTime.length())
+                return LocalDateTime.parse(strDateTime);
+            return ZonedDateTime.parse(strDateTime).toLocalDateTime();
         } catch (DateTimeParseException e) {
             throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
         }

@@ -45,6 +45,7 @@ public class FormSubmitAT extends AutoTestBase {
 
     @Test
     public void testSubmit() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/submit");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit/test.object.xml"));
@@ -82,7 +83,8 @@ public class FormSubmitAT extends AutoTestBase {
         dateInterval.endShouldHaveValue("30.01.2020");
 
         // изменяем списковое поле
-        select.select(1);
+        select.openPopup();
+        select.dropdown().selectItem(1);
         Selenide.sleep(DELAY);
         select.shouldHaveValue("Женский");
         Selenide.refresh();
@@ -118,6 +120,7 @@ public class FormSubmitAT extends AutoTestBase {
 
     @Test
     public void testModalSubmit() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/submit_modal");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit_modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit_modal/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/submit_modal/test.query.xml"),

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Фильтры">
+    <form>
+        <fields>
+            <row>
+                <date-interval id="date" label="Дата подачи заявки" ref-page="parent" ref-model="filter">
+                    <default-value begin="{date.begin}" end="{date.end}"/>
+                </date-interval>
+            </row>
+            <select id="region" label="Регион" ref-page="parent" ref-model="filter" query-id="region">
+                <default-value id="{region.id}" name="{region.name}"/>
+            </select>
+            <select id="department" label="Отделение" ref-page="parent" ref-model="filter" query-id="department">
+                <default-value id="{department.id}" name="{department.name}"/>
+            </select>
+            <select id="status" label="Статус"  ref-page="parent" ref-model="filter" query-id="status">
+                <default-value id="{status.id}" name="{status.name}"/>
+            </select>
+            <set label="Заявитель">
+                <input-text id="fio" label="Фамилия Имя Отчество" default-value="{fio}" ref-page="parent"
+                            ref-model="filter"/>
+                <masked-input id="snils" label="СНИЛС" mask="999-999-999 99" default-value="{snils}" ref-page="parent"
+                              ref-model="filter"/>
+            </set>
+        </fields>
+    </form>
+</simple-page>

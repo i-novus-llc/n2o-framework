@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "icon": "plus",
+    "tooltip": "Добавить"
+  },
+  {
+    "id": 2,
+    "icon": "pencil",
+    "tooltip": "Редактировать"
+  },
+  {
+    "id": 3,
+    "icon": "trash",
+    "tooltip": "Удалить"
+  },
+  {
+    "id": 4,
+    "icon": "download",
+    "tooltip": "Скачать"
+  }
+]

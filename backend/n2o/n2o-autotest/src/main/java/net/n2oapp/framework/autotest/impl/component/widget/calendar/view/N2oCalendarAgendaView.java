@@ -32,19 +32,19 @@ public class N2oCalendarAgendaView extends N2oComponent implements CalendarAgend
         eventCell(index).shouldHave(Condition.text(name));
     }
 
-    private ElementsCollection rows() {
+    protected ElementsCollection rows() {
         return element().$$(".rbc-agenda-content .rbc-agenda-table tr");
     }
 
-    private SelenideElement dateCell(int row) {
+    protected SelenideElement dateCell(int row) {
         return rows().get(row).$(".rbc-agenda-date-cell");
     }
 
-    private SelenideElement timeCell(int row) {
+    protected SelenideElement timeCell(int row) {
         return rows().get(row).$(".rbc-agenda-time-cell");
     }
 
-    private SelenideElement eventCell(int row) {
+    protected SelenideElement eventCell(int row) {
         return rows().get(row).$(".rbc-agenda-event-cell");
     }
 }
