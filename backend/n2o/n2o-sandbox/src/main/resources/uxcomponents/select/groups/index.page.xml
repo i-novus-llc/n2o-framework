@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Выпадающий список с группой">
+    <form>
+        <fields>
+            <row>
+                <input-select 
+                    id="member2" 
+                    query-id="test" 
+                    label="Ввод с выпадающим списком"
+                    label-field-id="name" 
+                    group-field-id="department"
+                    placeholder="Введите значение"
+                />
+                <select
+                    id="member1" 
+                    query-id="test" 
+                    label="Выпадающий список"
+                    label-field-id="name" 
+                    group-field-id="department"
+                />
+            </row>
+        </fields>
+    </form>
+</simple-page>

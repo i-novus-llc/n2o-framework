@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Регион с горизонтальным делителем">
+    <regions>
+        <line label="Заголовок">
+            <form/>
+        </line>
+        <line label="Без делителя" has-separator="false">
+            <form/>
+        </line>
+        <line label="Свернутый" expand="false">
+            <form/>
+        </line>
+        <line label="Без возможности скрытия/раскрытия" collapsible="false">
+            <form>
+                <fields>
+                    <text id="field1">
+                        Регион
+                    </text>
+                </fields>
+            </form>
+        </line>
+    </regions>
+</page>

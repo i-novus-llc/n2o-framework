@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Группа чекбоксов в линию">
+    <form>
+        <fields>
+            <checkbox-group
+                id="checkboxes_inline"
+                no-label="true"
+                inline="true">
+                <options>
+                    <option id="1" name="Первый"/>
+                    <option id="2" name="Второй"/>
+                    <option id="3" name="Третий"/>
+                </options>
+            </checkbox-group>
+        </fields>
+    </form>
+</simple-page>

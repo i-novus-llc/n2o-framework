@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "image": "static/hamburg-3846525__340.jpg",
+    "status": "Статус1",
+    "icon": "fa fa-plus"
+  },
+  {
+    "id": 2,
+    "image": "static/hamburg-3846525__340.jpg",
+    "status": "Статус2"
+  }
+]

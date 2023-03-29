@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Открытие ссылок">
+    <form>
+        <toolbar place="bottomLeft">
+            <button label="Google" disable-on-empty-model="false">
+                <a href="https://google.com/" target="newWindow"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

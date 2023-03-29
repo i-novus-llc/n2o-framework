@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Task1",
+    "status": "New"
+  },
+  {
+    "id": 2,
+    "name": "Task2",
+    "status": "In Progress"
+  },
+  {
+    "id": 3,
+    "name": "Task3",
+    "status": "Completed"
+  },
+  {
+    "id": 4,
+    "name": "Task4",
+    "status": "Blocked"
+  }
+]

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Скрытие столбца по условию через элемент">
+    <regions>
+        <form id="form">
+            <fields>
+                <input-text id="type" default-value="1" domain="integer"
+                            description="Столбец shortName видим, если type равен 1"/>
+            </fields>
+        </form>
+        <table query-id="person">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="shortName">
+                    <dependencies>
+                        <!-- Столбец shortName видим, если type равен 1, где
+                            type - поле в источнике данных form с моделью resolve -->
+                        <visibility>type == 1</visibility>
+                    </dependencies>
+                </column>
+            </columns>
+        </table>
+    </regions>
+</page>

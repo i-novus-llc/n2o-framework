@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Значение по умолчанию через ссылку на данные">
+    <form>
+        <fields>
+            <output-text id="person.id"
+                         default-value="{id}"
+                         ref-widget-id="persons"
+                         ref-model="resolve"
+                         ref-page="parent"/>
+
+            <input-text id="personname"
+                        default-value="{name}"
+                        ref-widget-id="persons"
+                        ref-model="resolve"
+                        ref-page="parent"/>
+        </fields>
+    </form>
+</simple-page>

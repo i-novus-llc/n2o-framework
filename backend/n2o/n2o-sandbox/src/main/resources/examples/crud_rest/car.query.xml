@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="car">
+    <list result-mapping="['_embedded.cars']" count-mapping="['page.totalElements']">
+        <rest>/data/cars/search/findAll?{filters}&amp;page={page}&amp;size={limit}</rest>
+    </list>
+    <unique>
+        <rest>/data/cars/{id}</rest>
+    </unique>
+
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+
+        <field id="name">
+            <select/>
+            <filters>
+                <eq filter-id="name"/>
+            </filters>
+        </field>
+
+        <field id="price" domain="long">
+            <select/>
+            <filters>
+                <more filter-id="minPrice">minPrice={minPrice}</more>
+                <less filter-id="maxPrice">maxPrice={maxPrice}</less>
+            </filters>
+        </field>
+    </fields>
+</query>

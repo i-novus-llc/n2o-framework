@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="jobs">
+    <list>
+        <mongodb collection-name="jobs" operation="find"/>
+    </list>
+    <count>
+        <mongodb collection-name="jobs" operation="countDocuments"/>
+    </count>
+
+    <fields>
+        <field id="id" domain="string">
+            <select/>
+            <filters>
+                <eq filter-id="id" />
+            </filters>
+            <sorting/>
+        </field>
+        <field id="name">
+            <select/>
+        </field>
+        <field id="person.id" domain="string">
+            <select mapping="['person'].get('id').toString()"/>
+            <filters>
+                <eq filter-id="person.id"/>
+            </filters>
+        </field>
+    </fields>
+</query>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Фильтры в заголовках">
+    <table selection="none" query-id="data" size="3">
+        <columns>
+            <column text-field-id="id" label="№"/>
+            <filter-column
+                    label="Фамилия И.О"
+                    text-field-id="name">
+                <filter>
+                    <input-text id="name"/>
+                </filter>
+            </filter-column>
+            <filter-column text-field-id="date" label="Дата рождения">
+                <cell>
+                    <text format="date DD.MM.YYYY"/>
+                </cell>
+                <filter>
+                    <date-interval id="date"/>
+                </filter>
+            </filter-column>
+        </columns>
+        <pagination/>
+    </table>
+</simple-page>

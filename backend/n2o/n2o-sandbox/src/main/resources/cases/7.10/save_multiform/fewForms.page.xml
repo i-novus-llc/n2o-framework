@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Сложная форма">
+    <regions>
+        <form id="master" query-id="actor">
+            <fields>
+                <input-text id="firstName" label="Имя"/>
+                <input-text id="lastName" label="Фамилия"/>
+            </fields>
+            <pre-filters>
+                <eq field-id="id" param="actor_id"/>
+            </pre-filters>
+        </form>
+        <tabs>
+            <tab name="Зависимая форма">
+                <form id="country" query-id="actor" depends-on="master"
+                      detail-field-id="id" master-param="actor_id" route="/country">
+                    <fields>
+                        <input-text id="country" label="Страна"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Зависимая таблица">
+                <table id="roles" query-id="role" depends-on="master">
+                    <columns>
+                        <column text-field-id="name"/>
+                    </columns>
+                    <toolbar>
+                        <button id="createRole" label="Создать" model="filter">
+                            <open-page page-id="role" route="/createRole" upload="defaults"/>
+                            <dependencies>
+                                <enabling ref-model="resolve" ref-widget-id="master">id != null</enabling>
+                            </dependencies>
+                        </button>
+                        <button id="updateRole" label="Изменить">
+                            <open-page page-id="role" route="/:role_id/updateRole">
+                                <path-param name="role_id" value="{id}"/>
+                            </open-page>
+                        </button>
+                        <button id="delete" label="Удалить">
+                            <invoke operation-id="delete"/>
+                        </button>
+                    </toolbar>
+                    <pre-filters>
+                        <eq field-id="actorId" param="actor_id"/>
+                    </pre-filters>
+                </table>
+            </tab>
+        </tabs>
+    </regions>
+    <toolbar>
+        <button id="create" label="Сохранить" widget-id="master"
+                visible="{typeof id == 'undefined' || id == null}">
+            <invoke operation-id="create" close-on-success="true">
+                <form-param id="country" value="{country}" ref-widget-id="country" ref-model="resolve"/>
+            </invoke>
+        </button>
+        <button id="save" label="Сохранить" widget-id="master" visible="{id != null}">
+            <invoke operation-id="update" close-on-success="true">
+                <form-param id="country" value="{country}" ref-widget-id="country" ref-model="resolve"/>
+            </invoke>
+        </button>
+    </toolbar>
+</page>

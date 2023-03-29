@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Родительская страница">
+    <regions>
+        <table query-id="person">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Дочерняя страница с параметром пути">
+                    <open-page page-id="docs" route="/:person_id/docs">
+                        <path-param name="person_id" value="{id}"/>
+                    </open-page>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

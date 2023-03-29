@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Картотека и фильтры справа от списка">
+    <left width="70%">
+        <tiles query-id="data" depends-on="filters" id="tiles" width="350" height="200" route="/w1">
+            <content>
+                <block text-field-id="image">
+                    <image width="200px"/>
+                </block>
+                <block text-field-id="name">
+                    <text class="font-weight-bold"/>
+                </block>
+                <block text-field-id="author">
+                    <text class="font-weight-light"/>
+                </block>
+                <block text-field-id="description">
+                    <text class="font-weight-light"/>
+                </block>
+            </content>
+            <pre-filters>
+                <like field-id="name" value="{name}" ref-widget-id="filters" ref-model="resolve"/>
+                <eq field-id="author" value="{author.id == 1 ? null : author}" ref-widget-id="filters" ref-model="resolve"/>
+                <in field-id="genre" values="{genre*.id}" ref-widget-id="filters" ref-model="resolve"/>
+                <in field-id="type" values="{type*.id}" ref-widget-id="filters" ref-model="resolve"/>
+            </pre-filters>
+        </tiles>
+    </left>
+    <right width="30%">
+        <region style="background-color: #f5f5f5">
+            <form id="filters" style="padding: 10px" datasource="filters">
+                <fields>
+                    <input-text id="name" label="Каталог книг" placeholder="Поиск по названию"/>
+                    <input-select id="genre" label="Категория" type="checkboxes">
+                        <options>
+                            <option id="1" name="Художественная литература"/>
+                            <option id="2" name="Психология"/>
+                            <option id="3" name="Саморазвитие"/>
+                            <option id="4" name="Компьютерные технологии"/>
+                            <option id="5" name="История"/>
+                        </options>
+                    </input-select>
+                    <checkbox-group id="type" no-label-block="true">
+                        <options>
+                            <option id="1" name="Аудиокнига"/>
+                            <option id="2" name="Твердый переплет"/>
+                            <option id="3" name="Мягкий переплет"/>
+                        </options>
+                    </checkbox-group>
+                    <radio-group id="author" label="Авторы">
+                        <options>
+                            <option id="1" name="Все"/>
+                            <option id="2" name="Федор Достоевский"/>
+                            <option id="3" name="Александр Грибоедов"/>
+                            <option id="4" name="Николай Гоголь"/>
+                            <option id="5" name="Игорь Рызов"/>
+                            <option id="6" name="Михаил Лермонтов"/>
+                            <option id="7" name="Иван Тургенев"/>
+                            <option id="8" name="Иван Бунин"/>
+                            <option id="9" name="Стивен Кови"/>
+                            <option id="10" name="Максим Батырев"/>
+                        </options>
+                    </radio-group>
+                </fields>
+            </form>
+        </region>
+    </right>
+</left-right-page>

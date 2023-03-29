@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Заголовок первого элемента мультисета">
+    <form>
+        <fields>
+            <multi-set id="members" add-label="Добавить участника"
+                       children-label="Участник №{(index + 1)}" first-children-label="Участник">
+                <row>
+                    <input-text id="name"/>
+                    <input-text id="age"/>
+                </row>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>

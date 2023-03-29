@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="time">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="time" normalize="new java.util.Date()" domain="date"/>
+            </in>
+        </operation>
+        <operation id="echo">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+        </operation>
+    </operations>
+</object>

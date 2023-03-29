@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Ячейка с чекбоксом">
+    <table selection="none" object-id="test" query-id="test">
+        <columns>
+            <column text-field-id="project" label="Проект"/>
+            <column text-field-id="inProgress" label="В прогрессе">
+                <checkbox>
+                    <invoke operation-id="update"/>
+                </checkbox>
+            </column>
+        </columns>
+    </table>
+</simple-page>

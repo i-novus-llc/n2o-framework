@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Выпадающий список со статусом">
+    <form >
+        <fields >
+            <row>
+                <input-select 
+                placeholder="Введите значение"
+                id="inputSelectWithStatus" 
+                label="Ввод с выпадающим списком" 
+                query-id="test" 
+                status-field-id="status"
+                />
+            <select 
+                id="selectWithStatus" 
+                label="Выпадающий список" 
+                query-id="test" 
+                status-field-id="status"
+                />
+            </row>
+            
+        </fields>
+    </form>
+</simple-page>

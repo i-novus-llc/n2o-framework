@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Родительская страница">
+    <regions>
+        <table query-id="persons">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="gender_id"/>
+            </columns>
+            <toolbar>
+                <button label="Значение спискового поля заданное через параметр">
+                    <open-page page-id="person" route="/card">
+                        <query-param name="gender_id" value="{gender_id}"/>
+                    </open-page>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             object-id="person">
+    <form query-id="person" id="person" name="Пользователь">
+        <fields>
+            <input-text id="name" label="Имя"/>
+            <input-text id="age" label="Возраст"/>
+        </fields>
+    </form>
+</simple-page>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="role">
+        <fields>
+            <input-text id="actorId" param="actor_id"/>
+            <input-text id="name"/>
+        </fields>
+        <toolbar>
+            <button id="create" label="Сохранить" visible="{typeof id == 'undefined' || id == null}">
+                <invoke operation-id="create" close-on-success="true"/>
+            </button>
+            <button id="update" label="Сохранить" visible="{id != null}">
+                <invoke operation-id="update" close-on-success="true"/>
+            </button>
+        </toolbar>
+        <pre-filters>
+            <eq field-id="id" param="role_id"/>
+        </pre-filters>
+    </form>
+</simple-page>
