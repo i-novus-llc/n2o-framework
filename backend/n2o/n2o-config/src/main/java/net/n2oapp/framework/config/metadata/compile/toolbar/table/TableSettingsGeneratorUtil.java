@@ -76,6 +76,31 @@ public class TableSettingsGeneratorUtil {
         return resizeButton;
     }
 
+    public static N2oButton generateWordWrap(N2oToolbar toolbar, CompileProcessor p) {
+        N2oButton wordWrapButton = new N2oButton();
+        N2oCustomAction wordWrapAction = new N2oCustomAction();
+
+        String datasourceId = toolbar.getDatasourceId();
+        if (datasourceId == null) {
+            WidgetScope widgetScope = p.getScope(WidgetScope.class);
+            datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
+        }
+        Map<String, String> payload = Collections.singletonMap("datasource", datasourceId);
+
+        wordWrapButton.setDescription(resolveDescription(p, "wordwrap"));
+        String icon = resolveIcon(p, "wordwrap");
+        if (icon == null)
+            icon = "fa-solid fa-grip-lines";
+        wordWrapButton.setIcon(icon);
+        wordWrapButton.setSrc(resolveSrc(p, "wordwrap"));
+        wordWrapAction.setType(resolveActionType(p, "wordwrap"), String.class));
+        wordWrapAction.setPayload(payload);
+        wordWrapButton.setActions(new N2oCustomAction[]{wordWrapAction});
+        wordWrapButton.setModel(ReduxModel.filter);
+
+        return wordWrapButton;
+    }
+
     private static String resolveIcon(CompileProcessor p, String generatorType) {
         String icon;
         try {
