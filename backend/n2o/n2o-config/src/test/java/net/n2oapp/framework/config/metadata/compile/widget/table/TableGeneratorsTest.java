@@ -58,12 +58,13 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
                 .get(new PageContext("table_settings"));
         Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(4));
+        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(5));
 
         AbstractButton filtersBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(0);
         AbstractButton columnsBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(1);
         AbstractButton refreshBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(2);
         AbstractButton resizeBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(3);
+        AbstractButton wordwrapBtn = t.getToolbar().get("topLeft").get(0).getButtons().get(4);
 
         assertThat(filtersBtn.getHint(), is("Изменить видимость фильтров"));
         assertThat(filtersBtn.getIcon(), is("fa fa-filter"));
@@ -75,6 +76,9 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(resizeBtn.getSrc(), is("ChangeSize"));
         assertThat(resizeBtn.getHint(), is("Изменить размер"));
         assertThat(resizeBtn.getIcon(), is("fa fa-bars"));
+        assertThat(wordwrapBtn.getSrc(), is("WordWrap"));
+        assertThat(wordwrapBtn.getHint(), is("Перенос по словам"));
+        assertThat(wordwrapBtn.getIcon(), is("fa-solid fa-grip-lines"));
     }
 
     @Test
@@ -133,5 +137,20 @@ public class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(button.getSrc(), is("ChangeSize"));
         assertThat(button.getHint(), is("Изменить размер"));
         assertThat(button.getIcon(), is("fa fa-bars"));
+    }
+
+    @Test
+    public void generateWordWrap() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/generate/wordwrap.page.xml")
+                .get(new PageContext("wordwrap"));
+        Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+
+        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().size(), is(1));
+
+        AbstractButton button = t.getToolbar().get("bottomRight").get(0).getButtons().get(0);
+
+        assertThat(button.getSrc(), is("WordWrap"));
+        assertThat(button.getHint(), is("Перенос по словам"));
+        assertThat(button.getIcon(), is("fa-solid fa-grip-lines"));
     }
 }

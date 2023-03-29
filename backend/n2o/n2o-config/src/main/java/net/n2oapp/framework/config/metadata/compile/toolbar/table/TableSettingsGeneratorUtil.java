@@ -93,7 +93,7 @@ public class TableSettingsGeneratorUtil {
             icon = "fa-solid fa-grip-lines";
         wordWrapButton.setIcon(icon);
         wordWrapButton.setSrc(resolveSrc(p, "wordwrap"));
-        wordWrapAction.setType(resolveActionType(p, "wordwrap"), String.class));
+        wordWrapAction.setType(resolveActionType(p, "wordwrap"));
         wordWrapAction.setPayload(payload);
         wordWrapButton.setActions(new N2oCustomAction[]{wordWrapAction});
         wordWrapButton.setModel(ReduxModel.filter);
