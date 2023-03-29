@@ -48,3 +48,8 @@ export function activeTabHasErrors(activeEntity, tabs) {
 
     return get(activeTabMeta, 'invalid', false)
 }
+
+export function tabsIncludesId(id, tabsRegions = []) {
+    return tabsRegions
+        .some(({ tabs = [] }) => tabs.some(({ content = [] }) => content.some(({ datasource }) => datasource === id)))
+}
