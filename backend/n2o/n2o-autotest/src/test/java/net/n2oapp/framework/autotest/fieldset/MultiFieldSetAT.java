@@ -756,7 +756,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void checkUpdateParentIndexAfterDeleteRow() {
+    public void checkUpdateParentIndexAfterDeleteItem() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/update_parent_index/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
