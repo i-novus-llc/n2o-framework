@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "name": "Департамент 1",
+    "hasChildren": true
+  },
+  {
+    "id": 2,
+    "name": "Департамент 2"
+  },
+   {
+    "id": 3,
+    "name": "Департамент 3"
+  },
+  {
+    "id": 4,
+    "name": "Алексей Иванов",
+    "foto":"static/men.jfif",
+    "parentId": 1
+  },
+  {
+    "id": 5,
+    "name": "Иван Алексеев",
+    "foto":"static/men2.jfif",
+    "parentId": 1
+  },
+  {
+    "id": 6,
+    "name": "Павел Афанасьев",
+    "foto":"static/men.jfif",
+    "parentId": 2
+  },
+  {
+    "id": 7,
+    "name": "Петр Сергеев",
+    "foto":"static/men2.jfif",
+    "parentId": 2
+  },
+  {
+    "id": 8,
+    "name": "Александр Александров",
+    "foto":"static/men2.jfif",
+    "parentId": 3
+  }
+]

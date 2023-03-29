@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Фильтры в отдельном окне" show-title="true">
+    <datasources>
+        <datasource id="ds1" query-id="data" size="5"/>
+    </datasources>
+    <regions>
+        <table id="table" datasource="ds1">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="date">
+                    <text format="date DD.MM.YYYY"/>
+                </column>
+                <column text-field-id="fioBD"/>
+                <column text-field-id="snils"/>
+                <column text-field-id="document"/>
+                <column text-field-id="zagranType"/>
+                <column text-field-id="region.name" label="Регион"/>
+                <column text-field-id="department.name" label="Отделение"/>
+                <column text-field-id="urgently.name" label="Срочность"/>
+                <column text-field-id="status.name" label="Статус"/>
+            </columns>
+            <filters search-on-change="true">
+                <set field-label-location="left">
+                    <row>
+                        <hidden id="fio"/>
+                        <hidden id="snils"/>
+                        <col size="4">
+                            <date-interval id="date" label="Интервал подачи заявки"/>
+                        </col>
+                        <col size="4">
+                            <select id="region" label="Регион" query-id="region"/>
+                        </col>
+                    </row>
+                    <row>
+                        <col size="4">
+                            <select id="department" label="Отделение" query-id="department"/>
+                        </col>
+                        <col size="4">
+                            <select id="status" label="Статус" query-id="status"/>
+                        </col>
+                        <button id="sb" label="Все фильтры" model="filter" icon="fa fa-filter">
+                            <open-drawer page-id="modal"
+                                         closable="false"
+                                         submit-action-type="copy"
+                                         submit-label="Применить"
+                                         copy-mode="replace"
+                                         target-model="filter"
+                            />
+                        </button>
+                        <button label="Сбросить">
+                            <clear model="filter"/>
+                        </button>
+                    </row>
+                </set>
+            </filters>
+        </table>
+    </regions>
+</page>

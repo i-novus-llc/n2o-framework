@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Окно ввода данных"
+      show-title="true">
+    <datasources>
+        <datasource id="ds1" query-id="data" object-id="data"/>
+    </datasources>
+    <regions>
+        <table datasource="ds1">
+            <columns>
+                <column text-field-id="id" label="Номер заявки"/>
+                <column text-field-id="requestDate" label="Дата подачи заявки">
+                    <text format="date DD.MM.YYYY"/>
+                </column>
+                <column text-field-id="fioBD" label="ФИО, дата рождения"/>
+                <column text-field-id="snils" label="СНИЛС"/>
+                <column text-field-id="documentData" label="Документ удостоверяющий личность"/>
+                <column text-field-id="zagranType.name" label="Тип заграничного паспорта"/>
+                <column text-field-id="region.name" label="Регион"/>
+                <column text-field-id="department.name" label="Отделение"/>
+                <column text-field-id="urgentlyString" label="Срочность"/>
+                <column text-field-id="status.name" label="Статус"/>
+                <column text-field-id="option">
+                    <toolbar>
+                        <button id="updateButton" icon="fa fa-pencil"/>
+                        <button id="deleteButton" icon="fa fa-trash">
+                            <invoke operation-id="delete" object-id="data"/>
+                        </button>
+                    </toolbar>
+                </column>
+            </columns>
+            <toolbar>
+                <button label="Добавить" disable-on-empty-model="false" color="primary" icon="fa fa-plus">
+                    <show-modal page-id="modal" scrollable="true" submit-operation-id="create"
+                                submit-label="Сохранить">
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

@@ -1,0 +1,130 @@
+{
+  "name": "Данные",
+  "sections": [
+    {
+      "name": "Объект",
+      "templates": [
+        {
+          "templateId": "data/object/operations",
+          "name": "Операции объекта",
+          "since": "7.16"
+        },
+        {
+          "templateId": "data/object/validation_condition",
+          "name": "Валидация на месте",
+          "since": "7.16"
+        },
+        {
+          "templateId": "data/object/validation_constraint",
+          "name": "Валидация в сервисе",
+          "since": "7.16"
+        },
+        {
+          "templateId": "data/object/nesting_object_fields_for_map_provider",
+          "name": "Вложенные поля в объекте на примере TestProvider",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/object/nesting_object_fields_for_args_provider",
+          "name": "Вложенные поля в объекте на примере JavaProvider",
+          "since": "7.23"
+        }
+      ]
+    },
+    {
+      "name": "Выборка",
+      "templates": [
+        {
+          "templateId": "data/query/list",
+          "name": "Пагинация",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/query/list_filters",
+          "name": "Фильтрация",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/query/unique",
+          "name": "Уникальность",
+          "since": "7.23"
+        }
+      ]
+    },
+    {
+      "name": "Связывание",
+      "templates": [
+        {
+          "templateId": "data/binding/simple",
+          "name": "Простое поле",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/binding/select",
+          "name": "Списковое поле",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/binding/interval",
+          "name": "Интервальное поле",
+          "since": "7.23"
+        }
+      ]
+    },
+    {
+      "name": "Провайдеры данных",
+      "templates": [
+        {
+          "templateId": "data/providers/sql",
+          "name": "SQL",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/providers/sql_mapping",
+          "name": "Маппинг в SQL",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/providers/rest",
+          "name": "REST",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/providers/rest_mapping",
+          "name": "Маппинг в REST",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/providers/java",
+          "name": "Java",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/providers/mapping_java_primitive",
+          "name": "Маппинг примитивов в Java",
+          "since": "7.16"
+        },
+        {
+          "templateId": "data/providers/mapping_java_entity",
+          "name": "Маппинг сущности в Java",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/providers/mapping_java_criteria",
+          "name": "Маппинг критериев в Java",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/providers/mongodb",
+          "name": "MongoDb",
+          "since": "7.23"
+        },
+        {
+          "templateId": "data/providers/graphql",
+          "name": "GraphQL",
+          "since": "7.23"
+        }
+      ]
+    }
+  ]
+}

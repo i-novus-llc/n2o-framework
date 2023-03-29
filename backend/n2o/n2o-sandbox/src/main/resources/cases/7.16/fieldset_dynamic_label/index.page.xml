@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Динамический заголовок филдсетов">
+    <form>
+        <fields>
+            <input-text id="master" label="Master поле" default-value="test"/>
+            <set label="Set {master}" depends-on="master">
+                <text id="text">Текст внутри филдсета: {master}</text>
+            </set>
+            <line label="Line {master}" depends-on="master">
+                <text id="text">Текст внутри line филдсета: {master}</text>
+            </line>
+        </fields>
+    </form>
+</simple-page>

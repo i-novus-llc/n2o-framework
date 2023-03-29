@@ -33,6 +33,7 @@ public class SearchableAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/page/searchable");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/searchable/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/searchable/search.query.xml"));

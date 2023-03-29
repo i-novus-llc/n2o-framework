@@ -1,0 +1,8 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+      name="Version 2" query-id="dynamic">
+    <fields>
+        <input-text id="id" label="Version 2 Id"/>
+        <input-text id="name" label="Version 2 Name"/>
+        <input-text id="versionId"/>
+    </fields>
+</form>

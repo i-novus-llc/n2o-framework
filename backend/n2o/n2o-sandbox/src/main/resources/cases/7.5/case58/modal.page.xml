@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Opened page">
+    <form query-id="test">
+        <fields>
+            <input-text id="id"/>
+            <input-text id="name"/>
+            <input-text id="type"/>
+        </fields>
+
+        <toolbar>
+            <button label="Открыть" description="При нажатии пропадает параметр sid=1 из адресной строки">
+                <open-page page-id="modal" upload="query" master-field-id="id" detail-field-id="id">
+                    <pre-filters>
+                        <eq field-id="type" value="{type}" param="sid"/>
+                    </pre-filters>
+                </open-page>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

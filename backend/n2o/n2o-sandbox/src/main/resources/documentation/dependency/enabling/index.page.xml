@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Блокирование поля по условию">
+    <form>
+        <fields>
+            <input-text id="gender" label="Пол"
+                        description="Если в поле Пол написать 'woman', то Девичья фамилия станет доступна для редактирования"/>
+            <input-text id="maidenName" label="Девичья фамилия">
+                <dependencies>
+                    <enabling on="gender">gender == 'woman'</enabling>
+                </dependencies>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Кейс проверки фильтрации виджетов с одной query на одной странице">
+    <regions>
+        <table query-id="test">
+            <filters>
+                <input-select query-id="inputSelect" id="surname"
+                              label="Фильтр по имени(нужно в будущем убрать)"/>
+            </filters>
+            <columns>
+                <column text-field-id="name" label="Кликните на строке и откроется новая страница"/>
+            </columns>
+            <rows>
+                <click>
+                    <open-page page-id="open" route="/:id/open">
+                        <path-param name="id" value="{id}"/>
+                    </open-page>
+                </click>
+            </rows>
+        </table>
+    </regions>
+</page>

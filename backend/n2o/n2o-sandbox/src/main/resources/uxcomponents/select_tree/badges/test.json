@@ -1,0 +1,49 @@
+[
+  {
+    "id": 1,
+    "name": "Департамент 1"
+  },
+  {
+    "id": 2,
+    "name": "Департамент 2"
+  },
+  {
+    "id": 3,
+    "name": "Департамент 3"
+  },
+  {
+    "id": 4,
+    "name": "Алексей Иванов",
+    "parentId": 1,
+    "status": "success",
+    "badge":"Проект 1"
+  },
+  {
+    "id": 5,
+    "name": "Иван Алексеев",
+    "parentId": 1,
+    "status": "warning",
+    "badge":"Проект 2"
+  },
+  {
+    "id": 6,
+    "name": "Павел Афанасьев",
+    "parentId": 2,
+    "status": "warning",
+    "badge":"Проект 2"
+  },
+  {
+    "id": 7,
+    "name": "Петр Сергеев",
+    "parentId": 2,
+    "status": "danger",
+    "badge":"Проект 3"
+  },
+  {
+    "id": 8,
+    "name": "Александр Александров",
+    "parentId": 3,
+    "status": "danger",
+    "badge":"Проект 3"
+  }
+]

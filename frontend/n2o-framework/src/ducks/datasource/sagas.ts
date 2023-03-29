@@ -9,7 +9,6 @@ import type { Task } from 'redux-saga'
 
 import {
     clearModel,
-    modelInit,
     removeAllModel,
     removeModel,
     setModel,
@@ -110,7 +109,6 @@ export default (apiProvider: unknown) => [
         appendFieldToArray,
         removeFieldFromArray,
         copyFieldArray,
-        modelInit,
     ], watchDependencies),
     takeEvery(register, applyOnInitDependencies),
     // @ts-ignore FIXME: проставить тип action

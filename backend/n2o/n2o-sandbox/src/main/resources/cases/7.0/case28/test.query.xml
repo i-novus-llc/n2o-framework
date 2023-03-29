@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <unique>
+        <test operation="echo"/>
+    </unique>
+
+    <fields>
+        <field id="version.id">
+            <select default-value="1"/>
+        </field>
+        <field id="version.name">
+            <select default-value="1"/>
+        </field>
+    </fields>
+</query>

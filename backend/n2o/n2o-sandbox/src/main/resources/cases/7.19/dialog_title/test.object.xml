@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="sum" name="Сложить" success-text="Сумма A + B = {sum}">
+            <invocation>
+                <java class="net.n2oapp.framework.sandbox.cases.mapping_java.Calculator" method="sum">
+                    <arguments>
+                        <argument type="primitive"/>
+                        <argument type="primitive"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="a" mapping="[0]" domain="long"/>
+                <field id="b" mapping="[1]" domain="long"/>
+                <field id="validated" param="validated" enabled="false"/>
+            </in>
+
+            <validations>
+                <dialog id="limitCheck" server-moment="before-operation"
+                        result="#this[a]!=0 &amp;&amp; #this[b]!=0"
+                        enabled="{typeof(validated) === 'undefined' || validated == null || validated == false}"
+                        title="Введены некорректные данные"
+                        message="Вы уверены, что хотите выполнить операцию?" size="sm">
+                    <toolbar>
+                        <button id="yes" label="Да" color="primary" disable-on-empty-model="false">
+                            <invoke operation-id="sum" >
+                                <header-param name="validated" value="true"/>
+                            </invoke>
+                        </button>
+                        <button id="no" label="Нет" disable-on-empty-model="false">
+                            <close/>
+                        </button>
+                    </toolbar>
+                </dialog>
+            </validations>
+
+            <out>
+                <field id="sum" mapping="#this" domain="long"/>
+                <field id="validated" mapping="false"/>
+            </out>
+        </operation>
+    </operations>
+</object>

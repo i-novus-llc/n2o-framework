@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Добавление пользователя">
+    <form object-id="test">
+        <fields>
+            <text id="info" style="color:red">
+                Для вызова диалога введите пустое имя или отрицательный возраст
+            </text>
+            <input-text id="name" label="Имя"/>
+            <input-text id="age" label="Возраст" default-value="-1" domain="integer"/>
+        </fields>
+    </form>
+</simple-page>

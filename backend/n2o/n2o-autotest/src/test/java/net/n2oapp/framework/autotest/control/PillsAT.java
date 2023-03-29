@@ -37,6 +37,7 @@ public class PillsAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+        setJsonPath("net/n2oapp/framework/autotest/control/pills");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/pills/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/pills/pills.query.xml"));

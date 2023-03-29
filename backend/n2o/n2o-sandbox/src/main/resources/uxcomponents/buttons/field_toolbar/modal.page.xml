@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Другая страница">
+    <datasources>
+        <datasource id="modal_ds" object-id="test"/>
+    </datasources>
+    <regions>
+        <form datasource="modal_ds">
+            <fields>
+                <input-text id="modal" label="С другой страницы"/>
+            </fields>
+        </form>
+    </regions>
+</page>

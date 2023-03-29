@@ -156,6 +156,7 @@ public class SelectAT extends AutoTestBase {
 
     @Test
     public void testReadFromQuery() {
+        setJsonPath("net/n2oapp/framework/autotest/control/select/query");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/query/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select/query/test.query.xml"));
         SimplePage page = open(SimplePage.class);

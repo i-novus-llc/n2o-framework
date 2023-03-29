@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Города России">
+    <cards height="150px">
+        <datasource query-id="data"/>
+        <content>
+            <col size="2">
+                <block>
+                    <image data="{photo}" width="170px"/>
+                </block>
+            </col>
+            <col size="3">
+                <block text-field-id="name">
+                    <text class="font-weight-bold"/>
+                </block>
+                <block text-field-id="link">
+                    <link type="iconAndText" icon="fa fa-desktop" target="newWindow" url="{link}"/>
+                </block>
+            </col>
+            <col size="7">
+                <block text-field-id="description">
+                    <text/>
+                </block>
+            </col>
+        </content>
+    </cards>
+</simple-page>

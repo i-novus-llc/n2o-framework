@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useDispatch, useSelector, useStore } from 'react-redux'
 import difference from 'lodash/difference'
 import map from 'lodash/map'
 import unset from 'lodash/unset'
@@ -30,6 +30,7 @@ const WidgetFilters = (props) => {
         filterFieldsets,
         datasource: formName,
     } = props
+    const { getState } = useStore()
     const dispatch = useDispatch()
     const fieldsKeys = useMemo(() => {
         const resolved = Object.values(propsResolver(fieldsets) || {})
@@ -43,14 +44,15 @@ const WidgetFilters = (props) => {
         dispatch(setModel(ModelPrefix.source, formName, []))
     }, [dispatch, formName])
 
-    const [defaultValues, setDefaultValues] = useState(reduxFormFilter)
+    const defaultValues = useRef(reduxFormFilter)
 
     const handleFilter = useCallback(() => {
         fetchData({ page: 1 })
     }, [fetchData])
     const handleReset = useCallback((fetchOnClear = true) => {
         if (fetchOnClear) {
-            const newReduxForm = clone(reduxFormFilter)
+            const filterModel = getModelByPrefixAndNameSelector(ModelPrefix.filter, formName)(getState())
+            const newReduxForm = clone(filterModel)
             const toReset = difference(
                 map(flatFields(fieldsets, []), 'id'),
                 blackResetList,
@@ -60,12 +62,12 @@ const WidgetFilters = (props) => {
                 unset(newReduxForm, field)
             })
 
-            setDefaultValues(newReduxForm)
+            dispatch(setModel(ModelPrefix.filter, formName, newReduxForm))
             handleFilter(newReduxForm)
         } else {
             clearDatasourceModel()
         }
-    }, [blackResetList, fieldsets, handleFilter, reduxFormFilter, clearDatasourceModel])
+    }, [formName, getState, fieldsets, blackResetList, dispatch, handleFilter, clearDatasourceModel])
 
     useEffect(() => {
         if (searchOnChange && reduxFormFilter) {
@@ -92,7 +94,7 @@ const WidgetFilters = (props) => {
                     fieldsets={filterFieldsets}
                     fields={fieldsKeys}
                     activeModel={reduxFormFilter}
-                    initialValues={defaultValues}
+                    initialValues={defaultValues.current}
                     modelPrefix={ModelPrefix.filter}
                 />
             </Filter>

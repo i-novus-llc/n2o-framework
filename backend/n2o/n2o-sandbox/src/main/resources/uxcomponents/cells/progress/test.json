@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "project": "Проект 1",
+    "progress": 50
+  },
+  {
+    "id": 2,
+    "project": "Проект 2",
+    "progress": 65
+  }
+]

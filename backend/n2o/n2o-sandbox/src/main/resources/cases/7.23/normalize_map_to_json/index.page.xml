@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Нормализация из map в json">
+    <form>
+        <datasource query-id="test"/>
+        <fields>
+            <input-text id="id" label="id"/>
+            <input-text id="organization" label="organization"/>
+        </fields>
+    </form>
+</simple-page>

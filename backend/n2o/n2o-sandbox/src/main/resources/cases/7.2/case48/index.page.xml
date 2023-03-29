@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                 name="Виджет Дерево">
+    <left>
+        <tree id="tree" query-id="tree" parent-field-id="parent" label-field-id="name">
+            <toolbar>
+                <button id="create" label="Создать">
+                    <show-modal page-id="modal" submit-operation-id="create" upload="defaults"/>
+                </button>
+                <button id="update" label="Изменить">
+                    <show-modal page-id="modal" submit-operation-id="update" route="/:id/update">
+                        <path-param name="id" value="{id}"/>
+                    </show-modal>
+                </button>
+                <button id="delete" label="Удалить">
+                    <invoke operation-id="delete"/>
+                </button>
+            </toolbar>
+        </tree>
+    </left>
+    <right>
+        <form query-id="tree" depends-on="tree" detail-field-id="id">
+            <fields>
+                <input-text id="id"/>
+                <input-text id="name"/>
+                <input-text id="parent"/>
+            </fields>
+        </form>
+    </right>
+</left-right-page>

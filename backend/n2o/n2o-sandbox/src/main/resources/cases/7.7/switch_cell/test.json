@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "type": "type1",
+    "name": "badge"
+  },
+  {
+    "id": 2,
+    "type": "type2",
+    "name": "icon"
+  },
+  {
+    "id": 3,
+    "type": "type3",
+    "name": "checkbox"
+  },
+  {
+    "id": 4,
+    "type": "type4",
+    "name": "text"
+  }
+]

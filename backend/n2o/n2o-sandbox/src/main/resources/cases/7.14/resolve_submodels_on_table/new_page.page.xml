@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="name"/>
+            <column text-field-id="gender.id"/>
+            <column text-field-id="type.id"/>
+        </columns>
+        <filters>
+            <input-select id="gender" label="Должно быть Men" label-field-id="name" param="gender_param">
+                <options>
+                    <option id="1" name="Men"/>
+                    <option id="2" name="Women"/>
+                </options>
+            </input-select>
+            <input-select id="type" query-id="type" label="Должно быть type2" param="type_param"/>
+        </filters>
+    </table>
+</simple-page>

@@ -43,6 +43,7 @@ public class ClearActionAT extends AutoTestBase {
 
     @Test
     public void testClearInModal() {
+        setJsonPath("net/n2oapp/framework/autotest/action/clear");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/modal.page.xml"),
@@ -82,6 +83,35 @@ public class ClearActionAT extends AutoTestBase {
         name.shouldBeEmpty();
 
         modal.close();
+    }
+
+    @Test
+    public void clearAfterAction() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/clear/clearAfterAction/index.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget form = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(FormWidget.class);
+        form.shouldExists();
+
+        InputText inputText = form.fields().field("Исходные данные").control(InputText.class);
+        inputText.shouldHaveValue("Привет, Мир!");
+
+        StandardButton clearBtn = form.toolbar().topLeft().button("clear");
+        StandardButton copyBtn = form.toolbar().topLeft().button("copy");
+
+        clearBtn.click();
+        inputText.shouldBeEmpty();
+
+        copyBtn.click();
+        inputText.shouldHaveValue("value");
+
+        clearBtn.click();
+        inputText.shouldBeEmpty();
     }
 
     @Test

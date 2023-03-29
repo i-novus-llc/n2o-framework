@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Яблоки",
+    "types": [
+      "Red Delicious", "Granny Smith", "Ginger Gold", "Pacific Rose", "Honeycrisp"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Томаты",
+    "types": [
+      "Cherry", "Red Beefsteak", "Roma"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Апельсины",
+    "types": [
+      "Hamlin"
+    ]
+  }
+]
