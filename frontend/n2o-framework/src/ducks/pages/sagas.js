@@ -6,6 +6,7 @@ import {
     take,
     debounce,
     race,
+    fork,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import { getLocation } from 'connected-react-router'
@@ -81,7 +82,7 @@ export function* getMetadata(apiProvider, action) {
         yield put(setStatus(metadata.id, 200))
         yield put(metadataSuccess(metadata.id, metadata))
 
-        yield race([
+        yield fork(race, [
             call(flowDefaultModels, metadata.models),
             take(resetPage.type),
         ])
