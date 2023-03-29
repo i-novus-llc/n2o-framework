@@ -136,20 +136,20 @@ public class LineFieldSetAT extends AutoTestBase {
         page.shouldExists();
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
 
-        fieldsets.fieldset(0, LineFieldSet.class).shouldHaveText("12");
-        fieldsets.fieldset(0, LineFieldSet.class).shouldHaveShape(BadgeShape.ROUNDED);
-        fieldsets.fieldset(1, LineFieldSet.class).shouldHaveText("Humburg");
-        fieldsets.fieldset(1, LineFieldSet.class).shouldHaveShape(BadgeShape.SQUARE);
-        fieldsets.fieldset(1, LineFieldSet.class).shouldHaveImage("static/hamburg-3846525__340.jpg");
-        fieldsets.fieldset(1, LineFieldSet.class).shouldHaveImagePosition(BadgePosition.RIGHT);
-        fieldsets.fieldset(1, LineFieldSet.class).shouldHaveImageShape(BadgeShape.SQUARE);
-        fieldsets.fieldset(2, LineFieldSet.class).shouldHaveText("");
+        fieldsets.fieldset(0, LineFieldSet.class).badgeShouldHaveText("12");
+        fieldsets.fieldset(0, LineFieldSet.class).badgeShouldHaveShape(BadgeShape.ROUNDED);
+        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveText("Humburg");
+        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveShape(BadgeShape.SQUARE);
+        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
+        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImageShape(BadgeShape.SQUARE);
+        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldNotHaveText();
         fieldsets.fieldset(2, LineFieldSet.class).expand();
         fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).setValue("27");
-        fieldsets.fieldset(2, LineFieldSet.class).shouldHaveText("27");
+        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldHaveText("27");
         fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).setValue("54");
-        fieldsets.fieldset(2, LineFieldSet.class).shouldHaveText("54");
+        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldHaveText("54");
         fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).clear();
-        fieldsets.fieldset(2, LineFieldSet.class).shouldHaveText("");
+        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldNotHaveText();
     }
 }

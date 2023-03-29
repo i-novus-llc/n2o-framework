@@ -12,7 +12,7 @@ public interface Badge extends Component {
     /**
      * Проверка наличия баджа внутри элемента
      */
-    default void shouldBeExists() {
+    default void badgeShouldBeExists() {
         element().$(".n2o-badge").shouldBe(Condition.exist);
     }
 
@@ -20,7 +20,7 @@ public interface Badge extends Component {
      * Проверка наличие картинки и ее соответствие ожидаемому значению
      * @param imageSrc ожидаемый путь к картинке
      */
-    default void shouldHaveImage(String imageSrc) {
+    default void badgeShouldHaveImage(String imageSrc) {
         element().$(".n2o-badge")
                 .$(".n2o-badge-image")
                 .shouldBe(Condition.exist, Condition.attributeMatching("src", ".*" + imageSrc));
@@ -30,7 +30,7 @@ public interface Badge extends Component {
      * Проверка баджа на соответствие ожидаемой форме
      * @param shape ожидаемая форма баджа
      */
-    default void shouldHaveShape(BadgeShape shape) {
+    default void badgeShouldHaveShape(BadgeShape shape) {
         element().$(".n2o-badge")
                 .shouldHave(Condition.cssClass(shape.name("n2o-badge--")));
     }
@@ -39,7 +39,7 @@ public interface Badge extends Component {
      * Проверка картинки внутри баджа на соответствие ожидаемой форме
      * @param shape ожидаемая форма картинки
      */
-    default void shouldHaveImageShape(BadgeShape shape) {
+    default void badgeShouldHaveImageShape(BadgeShape shape) {
         element().$(".n2o-badge")
                 .$(".n2o-badge-image")
                 .shouldHave(Condition.cssClass(shape.name("n2o-badge-image--")));
@@ -49,7 +49,7 @@ public interface Badge extends Component {
      * Проверка позиции картинки внутри баджа на соответствие ожидаемой позиции
      * @param position ожидаемая позиция картинки
      */
-    default void shouldHaveImagePosition(BadgePosition position) {
+    default void badgeShouldHaveImagePosition(BadgePosition position) {
         element().$(".n2o-badge")
                 .$(".n2o-badge-image")
                 .shouldHave(Condition.cssClass(position.name("n2o-badge-image--")));
@@ -59,7 +59,14 @@ public interface Badge extends Component {
      * Проверка текста внутри баджа на точное соответствие (не учитывая регистр) ожидаемому тексту
      * @param text ожидаемый текст баджа
      */
-    default void shouldHaveText(String text) {
+    default void badgeShouldHaveText(String text) {
         element().$(".n2o-badge").shouldHave(Condition.exactText(text));
+    }
+
+    /**
+     * Проверка на отсутствие текста внутри баджа
+     */
+    default void badgeShouldNotHaveText() {
+        element().$(".n2o-badge").shouldHave(Condition.empty);
     }
 }

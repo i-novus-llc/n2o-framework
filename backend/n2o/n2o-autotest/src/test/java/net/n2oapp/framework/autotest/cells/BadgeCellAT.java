@@ -52,9 +52,9 @@ public class BadgeCellAT extends AutoTestBase {
     public void badgeCellTest() {
         int col = 0;
 
-        rows.row(0).cell(col, BadgeCell.class).shouldHaveText("Male");
+        rows.row(0).cell(col, BadgeCell.class).badgeShouldHaveText("Male");
         rows.row(0).cell(col, BadgeCell.class).shouldHaveColor(Colors.DANGER);
-        rows.row(3).cell(col, BadgeCell.class).shouldHaveText("Female");
+        rows.row(3).cell(col, BadgeCell.class).badgeShouldHaveText("Female");
         rows.row(3).cell(col, BadgeCell.class).shouldHaveColor(Colors.SUCCESS);
     }
 
