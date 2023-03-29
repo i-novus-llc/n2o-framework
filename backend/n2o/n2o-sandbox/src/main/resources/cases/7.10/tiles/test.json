@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "text": "Hamburg",
+    "icon": "ship",
+    "badge": "Germany",
+    "image": "static/hamburg-3846525__340.jpg",
+    "progress": 50,
+    "rating": 4,
+    "checkbox": true
+  },
+  {
+    "id": 2,
+    "text": "Paris",
+    "icon": "bicycle",
+    "badge": "France",
+    "image": "static/paris-3193674__340.jpg",
+    "progress": 70,
+    "rating": 4.5,
+    "checkbox": false
+  }
+]

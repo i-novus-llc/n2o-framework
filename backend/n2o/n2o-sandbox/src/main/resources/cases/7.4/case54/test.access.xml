@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
+    <permit-all>
+        <object-access object-id="test"/>
+        <object-filters object-id="test">
+            <eq field-id="name" id="eqName" value="test1"/>
+            <!--<eqOrIsNull field-id="name" id="eqName" value="test1"/>-->
+        </object-filters>
+    </permit-all>
+</access>

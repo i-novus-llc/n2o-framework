@@ -22,7 +22,6 @@ import {
     copyModel,
     removeModel,
     updateModel,
-    updateMapModel,
 } from '../../models/store'
 import { FETCH_PAGE_METADATA } from '../../../core/api'
 import { FETCH_END, FETCH_START } from '../../../constants/fetch'
@@ -34,7 +33,6 @@ import {
     flowDefaultModels,
     compareAndResolve,
     getMetadata,
-    processUrl,
     mappingUrlToRedux,
     queryMapping,
     pathMapping,
@@ -281,75 +279,6 @@ describe.skip('Сага для для наблюдения за изменени
             expect(dispatched.length === 2).toBeTruthy()
         })
     })
-    describe('тесты processUrl', () => {
-        it('должен замапить url в редакс', async () => {
-            const dispatched = []
-            const fakeStore = {
-                getState: () => ({
-                    test: {
-                        id: 123,
-                    },
-                    router: {
-                        location: {
-                            search: '?name=Sergey',
-                            pathname: '/testRoot/:id',
-                            hash: '',
-                        },
-                        action: 'REPLACE',
-                    },
-                    global: {
-                        rootPageId: 'testRoot',
-                    },
-                    pages: {
-                        testRoot: {
-                            metadata: {
-                                routes: {
-                                    list: [
-                                        {
-                                            path: '/test',
-                                            exact: true,
-                                            isOtherPage: true,
-                                        },
-                                        {
-                                            path: '/testRoot/:id',
-                                            exact: true,
-                                            isOtherPage: true,
-                                            params: {
-                                                test: {},
-                                            },
-                                        },
-                                    ],
-                                    pathMapping: {
-                                        id: {
-                                            link: 'test.id',
-                                        },
-                                    },
-                                    queryMapping: {
-                                        name: {
-                                            get: {
-                                                payload: "",
-                                                type: "test",
-                                            }
-                                        }
-                                    },
-                                },
-                            },
-                        },
-                    },
-                }),
-                dispatch: action => dispatched.push(action),
-            }
-
-            await runSaga(fakeStore, processUrl)
-            await delay(300)
-
-            expect(dispatched[0]).toEqual({ link: 'test.id' })
-            expect(dispatched[1]).toEqual({
-                payload: "",
-                type: "test",
-            })
-        })
-    })
     describe('тесты getMetadata', () => {
         it('должен получить метаданные, если есть rootPage', async () => {
             const dispatched = []
@@ -504,7 +433,6 @@ describe.skip('Сага для для наблюдения за изменени
                 copyModel.type,
                 removeModel.type,
                 updateModel.type,
-                updateMapModel.type,
             ]),
         )
         expect(gen.next(mockChan).value).toEqual(select())

@@ -1,0 +1,18 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Появление тулбара при наведении на строку в таблице">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+            <column text-field-id="options" hide-on-blur="true">
+                <toolbar>
+                    <button label="Кнопка"/>
+                    <sub-menu label="Меню">
+                        <menu-item label="Кнопка1"/>
+                        <menu-item label="Кнопка2"/>
+                    </sub-menu>
+                </toolbar>
+            </column>
+        </columns>
+    </table>
+</simple-page>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <unique result-mapping="[0]">
+        <test file="test.json"/>
+    </unique>
+
+    <fields>
+        <field id="id"/>
+        <field id="firstName"/>
+        <field id="lastName"/>
+        <list id="docs">
+            <field id="id"/>
+            <field id="type"/>
+            <field id="series"/>
+            <field id="number"/>
+        </list>
+        <list id="contacts">
+            <field id="id"/>
+            <field id="type"/>
+            <field id="value"/>
+        </list>
+    </fields>
+</query>

@@ -5,10 +5,14 @@ import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,12 +22,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest(properties = {
-        "n2o.engine.test.classpath=/access/schema/header/",
-        "n2o.sandbox.project-id=access_schema_header"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/access/schema/header/"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HeaderAT extends SandboxAutotestBase {
+public class HeaderAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -38,16 +40,23 @@ public class HeaderAT extends SandboxAutotestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        builder.packs(new AccessSchemaPack());
-        CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        addRuntimeProperty("n2o.access.schema.id", "schema");
         super.configure(builder);
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
+        CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
+        builder.sources(new CompileInfo("access/schema/header/tutorial.application.xml"),
+                new CompileInfo("access/schema/header/index.page.xml"),
+                new CompileInfo("access/schema/header/menu1.page.xml"),
+                new CompileInfo("access/schema/header/menu2.page.xml"),
+                new CompileInfo("access/schema/header/menu3.page.xml"),
+                new CompileInfo("access/schema/header/menu4.page.xml"),
+                new CompileInfo("access/schema/header/schema.access.xml"));
     }
 
     @Test
     public void testAdminAccess() {
         Map<String, Object> testUser = loadUser();
         setUserInfo(testUser);
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "schema");
         builder.getEnvironment().getContextProcessor().set("username", testUser.get("username"));
 
         SimplePage page = open(SimplePage.class);
@@ -84,6 +93,7 @@ public class HeaderAT extends SandboxAutotestBase {
     @Test
     public void testAnonymousAccess() {
         setUserInfo(null);
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "schema");
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

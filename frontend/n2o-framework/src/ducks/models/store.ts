@@ -1,15 +1,10 @@
 import { createSlice, createAction } from '@reduxjs/toolkit'
 import {
-    isArray,
-    isObject,
-    isString,
-    map as mapFn,
     merge,
     omit,
+    set,
 } from 'lodash'
 
-// @ts-ignore ignore import error from js file
-import { setIn } from '../../tools/helpers'
 import type { ModelPrefix } from '../../core/datasource/const'
 
 import { ALL_PREFIXES, COPY } from './constants'
@@ -17,7 +12,7 @@ import type { State } from './Models'
 import type {
     ClearModelAction, CopyAction, MergeModelAction,
     RemoveAllModelAction, RemoveModelAction, SetModelAction,
-    UpdateMapModelAction, UpdateModelAction,
+    UpdateModelAction,
 } from './Actions'
 
 const initialState: State = {
@@ -89,39 +84,7 @@ const modelsSlice = createSlice({
             reducer(state, action: UpdateModelAction) {
                 const { prefix, key, field, value } = action.payload
 
-                if (field) {
-                    const modelState = state[prefix][key]
-
-                    state[prefix][key] = setIn(
-                        isArray(modelState) || isObject(modelState)
-                            ? modelState
-                            : {}, field, value,
-                    )
-                }
-            },
-        },
-
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        UPDATE_MAP: {
-            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, map: string) {
-                return ({
-                    payload: { prefix, key, field, value, map },
-                })
-            },
-
-            /**
-             * Обновление массива с маппингом
-             */
-            reducer(state, action: UpdateMapModelAction) {
-                const { prefix, value, key, field, map } = action.payload
-                const newValue = isString(value) ? [value] : value
-
-                state[prefix] = setIn(
-                    state[prefix],
-                    [key, field],
-                    // @ts-ignore FIXME: выяснить что за тип приходит в value
-                    mapFn(newValue, v => ({ [map]: v })),
-                )
+                set(state, `${prefix}.${key}.${field}`, value)
             },
         },
 
@@ -195,7 +158,6 @@ export const {
     SET: setModel,
     REMOVE: removeModel,
     UPDATE: updateModel,
-    UPDATE_MAP: updateMapModel,
     CLEAR: clearModel,
     MERGE: combineModels,
     REMOVE_ALL: removeAllModel,

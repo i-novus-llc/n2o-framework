@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Скрытие филдсетов">
+    <form>
+        <fields>
+            <radio-group id="type" label="Скрытие филдсета в зависимости от типа" inline="true">
+                <options>
+                    <option id="1" name="откроется 2 филдсета"/>
+                    <option id="2" name="откроется третий филдсет"/>
+                    <option id="3" name="никто не откроется"/>
+                </options>
+            </radio-group>
+            <set visible="{type.id==1}" depends-on="type.id">
+                <input-text id="reportingPeriod" label="Отчетный период"/>
+                <line label="Комиссия за поручительство">
+                    <row>
+                        <col>
+                            <input-text id="commissionAccrued" label="Начисленная сумма"/>
+                        </col>
+                        <col>
+                            <input-text id="amount" label="Оплачиваемая сумма"/>
+                        </col>
+                        <col>
+                            <input-text id="remain" label="Неоплаченный остаток"/>
+                        </col>
+                    </row>
+                </line>
+                <line label="Пени">
+                    <row>
+                        <col>
+                            <input-text id="penaltiesAccrued" label="Начисленная сумма"/>
+                        </col>
+                        <col>
+                            <input-text id="penaltiesAmount" label="Оплачиваемая сумма"/>
+                        </col>
+                        <col>
+                            <input-text id="penaltiesRemain" label="Неоплаченный остаток"/>
+                        </col>
+                    </row>
+                </line>
+            </set>
+            <set visible="{type.id==2}" depends-on="type.id">
+                <row>
+                    <col>
+                        <input-text id="usedAmount" label="Начисленная сумма"/>
+                    </col>
+                    <col>
+                        <input-text id="amount2" label="Оплачиваемая сумма"/>
+                    </col>
+                    <col>
+                        <input-text id="remain2" label="Неоплаченный остаток"/>
+                    </col>
+                </row>
+            </set>
+        </fields>
+    </form>
+</simple-page>

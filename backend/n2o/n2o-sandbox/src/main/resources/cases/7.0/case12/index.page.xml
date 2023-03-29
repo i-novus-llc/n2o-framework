@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                 name="Форма как фильтры таблицы">
+    <left>
+        <form id="filters" mode="one-model" name="Фильтры">
+            <fields>
+                <row>
+                    <input-text id="search" description="Это фильтр по name"/>
+                </row>
+            </fields>
+        </form>
+        <table depends-on="filters" query-id="test" route="/w1" fetch-on-init="true">
+            <columns>
+                <column text-field-id="name">
+                    <text/>
+                </column>
+            </columns>
+            <pre-filters>
+                <like field-id="name" value="{search}"/>
+            </pre-filters>
+        </table>
+    </left>
+    <right>
+        <form id="filters2" mode="two-models" name="Фильтры">
+            <fields>
+                <row>
+                    <input-text id="search" description="Это фильтр по name"/>
+                </row>
+            </fields>
+            <toolbar>
+                <button label="Найти" color="primary" model="edit">
+                    <copy source-model="edit" target-model="resolve"/>
+                </button>
+                <button label="Очистить" id="clear" model="edit">
+                    <clear model="edit,resolve"/>
+                </button>
+            </toolbar>
+        </form>
+        <table depends-on="filters2" query-id="test" route="/w2" fetch-on-init="true">
+            <columns>
+                <column text-field-id="name">
+                    <text/>
+                </column>
+            </columns>
+            <pre-filters>
+                <like field-id="name" value="{search}"/>
+            </pre-filters>
+        </table>
+    </right>
+</left-right-page>

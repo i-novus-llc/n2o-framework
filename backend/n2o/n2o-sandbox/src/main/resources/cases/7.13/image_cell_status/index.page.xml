@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Статус у ячейки и поля с картинкой">
+    <regions>
+        <line label="Статус у поля с картинкой">
+            <form query-id="test">
+                <fields>
+                    <image id="image" url="{image}">
+                        <statuses>
+                            <status
+                                    field-id="status"
+                                    icon="{icon}"
+                                    place="topRight"
+                            />
+                        </statuses>
+                    </image>
+                </fields>
+                <pre-filters>
+                    <eq field-id="id" value="1"/>
+                </pre-filters>
+            </form>
+        </line>
+        <line label="Статус у ячейки с картинкой">
+            <tiles query-id="test">
+                <content>
+                    <block text-field-id="image">
+                        <image>
+                            <statuses>
+                                <status
+                                        field-id="status"
+                                        icon="{icon}"
+                                        place="topRight"
+                                />
+                            </statuses>
+                        </image>
+                    </block>
+                </content>
+            </tiles>
+        </line>
+    </regions>
+</page>

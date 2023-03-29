@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Создание записи">
+    <form>
+        <fields>
+            <input-text id="name"
+                        description="Для успеха введите Число, для ошибки - Строку"/>
+        </fields>
+
+        <toolbar place="bottomRight">
+            <button label="Создать">
+                <invoke operation-id="create" object-id="test"
+                        close-on-success="true"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Расширенные возможности пагинации">
+    <table query-id="person" size="5">
+        <pagination
+                layout="separated-rounded"
+                last="true"
+                prev="true"
+                next="true"
+                first-label="На первую"
+                last-icon="fa fa-space-shuttle"
+                prev-label="Назад"
+                next-label="Вперёд"
+                max-pages="5"
+                place="bottomRight"/>
+        <columns>
+            <column text-field-id="id" label="Идентификатор"/>
+            <column text-field-id="name" label="Имя"/>
+        </columns>
+    </table>
+</simple-page>

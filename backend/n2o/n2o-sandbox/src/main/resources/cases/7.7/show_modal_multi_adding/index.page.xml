@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Мульти добавление через модальное окно">
+    <form id="form">
+        <fields>
+            <multi-set id="members" can-remove="false" can-add="false">
+                <row>
+                    <input-text id="id"/>
+                    <input-text id="name"/>
+                </row>
+            </multi-set>
+        </fields>
+        <toolbar>
+            <button label="Выбрать" model="filter">
+                <show-modal page-id="modal" submit-action-type="copy" submit-label="Выбрать"
+                            copy-model="multi" target-field-id="members" copy-mode="add"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

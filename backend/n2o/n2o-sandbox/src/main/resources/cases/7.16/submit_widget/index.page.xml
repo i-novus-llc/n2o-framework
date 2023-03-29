@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Ссылка на виджет в submit">
+    <regions>
+
+        <form id="mainForm" query-id="test" object-id="test" route="/main">
+            <fields>
+                <input-text id="name" label="Имя (Обновляется верхний виджет)">
+                    <submit operation-id="updateField" refresh-on-success="true" refresh-widget-id="upperForm" route="updateUpper">
+                        <form-param id="id" value="{id}"/>
+                        <form-param id="key" value="name"/>
+                        <form-param id="value" value="{name}"/>
+                    </submit>
+                </input-text>
+                <select id="gender" label="Пол (Обновляется нижний виджет)">
+                    <options>
+                        <option id="m" name="Мужской"/>
+                        <option id="w" name="Женский"/>
+                    </options>
+                    <submit operation-id="updateField" refresh-on-success="true" refresh-widget-id="bottomForm" route="updateBottom">
+                        <form-param id="id" value="{id}"/>
+                        <form-param id="key" value="gender.id"/>
+                        <form-param id="value" value="{gender.id}"/>
+                    </submit>
+                </select>
+
+            </fields>
+        </form>
+
+        <form id="upperForm" query-id="test">
+            <fields>
+                <text id="id1">Верхний виджет</text>
+                <input-text id="name" label="Имя" enabled="false"/>
+                <select id="gender" label="Пол" enabled="false">
+                    <options>
+                        <option id="m" name="Мужской"/>
+                        <option id="w" name="Женский"/>
+                    </options>
+                </select>
+            </fields>
+        </form>
+
+        <form id="bottomForm" query-id="test" >
+            <fields>
+                <text id="id2">Нижний виджет</text>
+                <input-text id="name" label="Имя" enabled="false"/>
+                <select id="gender" label="Пол" enabled="false">
+                    <options>
+                        <option id="m" name="Мужской"/>
+                        <option id="w" name="Женский"/>
+                    </options>
+                </select>
+            </fields>
+        </form>
+
+    </regions>
+</page>

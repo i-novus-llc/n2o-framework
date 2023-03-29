@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Выпадающий список из datasource">
+    <datasources>
+        <datasource id="form1" query-id="genders"/>
+        <inherited-datasource id="genders"
+                              source-datasource="form1"
+                              source-field-id="genders"/>
+    </datasources>
+
+    <regions>
+        <form datasource="form1">
+            <fields>
+                <multi-set id="genders" label="Мультисет" can-add="false">
+                    <row>
+                        <input-text id="id" label="code"/>
+                        <input-text id="name" label="name"/>
+                    </row>
+                </multi-set>
+            </fields>
+        </form>
+
+        <form>
+            <fields>
+                <select id="genders" datasource="genders"
+                        label="Списковое поле"
+                        description="опции из датасорса"/>
+            </fields>
+        </form>
+    </regions>
+</page>

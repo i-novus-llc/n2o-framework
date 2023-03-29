@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="data">
+    <list>
+        <test file="data.json" operation="findAll"/>
+    </list>
+    <count>
+        <test file="data.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="surname" domain="string" name="Фамилия">
+            <select/>
+            <filters>
+                <like filter-id="surname"/>
+            </filters>
+            <sorting/>
+        </field>
+        <field id="name" name="Имя">
+            <select/>
+            <filters>
+                <like filter-id="name"/>
+            </filters>
+            <sorting/>
+        </field>
+        <field id="patronymic" name="Отчество">
+            <select/>
+            <filters>
+                <like filter-id="patronymic"/>
+            </filters>
+            <sorting/>
+        </field>
+        <field id="birthday" domain="localdate" name="День рождения">
+            <select/>
+            <filters>
+                <more filter-id="birthday.begin"/>
+                <less filter-id="birthday.end"/>
+            </filters>
+        </field>
+        <field id="gender.name" name="Пол">
+            <select/>
+        </field>
+        <field id="gender.id" domain="integer">
+            <select/>
+            <filters>
+                <eq filter-id="gender.id"/>
+            </filters>
+        </field>
+        <field id="vip" name="VIP" domain="boolean">
+            <select/>
+            <filters>
+                <eq filter-id="vip"/>
+            </filters>
+        </field>
+    </fields>
+</query>

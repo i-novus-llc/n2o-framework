@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Редактируемые ячейки">
+    <table query-id="test" object-id="test">
+        <actions>
+            <action id="update">
+                <invoke operation-id="update"
+                        refresh-on-submit="false"
+                        message-on-success="false"/>
+            </action>
+        </actions>
+        <columns>
+            <column text-field-id="name">
+                <edit action-id="update">
+                    <input-text id="name"/>
+                </edit>
+            </column>
+            <column id="r1" text-field-id="ref.id">
+                <edit action-id="update" edit-field-id="ref">
+                    <input-select id="ref">
+                        <options>
+                            <option id="1" name="one"/>
+                            <option id="2" name="two"/>
+                            <option id="3" name="three"/>
+                        </options>
+                    </input-select>
+                </edit>
+            </column>
+            <column text-field-id="birthDate">
+                <edit action-id="update" format="date DD.MM.YYYY" enabled="{ref.id==1}">
+                    <date-time id="birthDate" date-format="DD.MM.YYYY"/>
+                </edit>
+            </column>
+        </columns>
+    </table>
+</simple-page>

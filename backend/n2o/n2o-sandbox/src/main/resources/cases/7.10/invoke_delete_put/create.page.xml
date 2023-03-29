@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Добавить запись">
+    <form object-id="test">
+        <fields>
+            <input-text id="name"/>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button id="testPost" label="testPost">
+                <invoke operation-id="create" close-on-success="true" route="/create">
+                    <form-param id="name" value="{name}"/>
+                </invoke>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

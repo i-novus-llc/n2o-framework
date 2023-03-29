@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Master Detail фильтрация источников данных">
+    <datasources>
+        <!-- Организации -->
+        <datasource id="org" query-id="organizations"/>
+        <!-- Сотрудники -->
+        <datasource id="employee" query-id="employees">
+            <filters>
+                <!-- Фильтр по организации -->
+                <eq field-id="org.id"
+                    value="{id}"
+                    datasource="org"
+                    required="true"/>
+            </filters>
+            <dependencies>
+                <!-- Получение новых данных
+                    при изменении модели resolve в источнике Организация -->
+                <fetch on="org" model="resolve"/>
+            </dependencies>
+        </datasource>
+    </datasources>
+    <regions>
+        <table datasource="org">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+        <table datasource="employee">
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+</page>

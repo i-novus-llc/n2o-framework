@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Простой регион с несколькими виджетами и регионами">
+    <regions>
+        <form>
+            <fields>
+                <input-text id="field1" label="Поле первой формы"/>
+            </fields>
+        </form>
+        <form>
+            <fields>
+                <input-text id="field2" label="Поле второй формы"/>
+            </fields>
+        </form>
+
+        <line label="Линия"/>
+        <panel title="Панель">
+            <form name="panelForm"/>
+        </panel>
+        <tabs>
+            <tab name="Вкладка1">
+                <form/>
+            </tab>
+            <tab name="Вкладка2">
+                <form/>
+            </tab>
+        </tabs>
+    </regions>
+</page>
