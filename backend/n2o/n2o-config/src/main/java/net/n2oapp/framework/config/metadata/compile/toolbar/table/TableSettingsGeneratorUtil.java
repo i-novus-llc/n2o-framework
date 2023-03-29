@@ -20,9 +20,12 @@ public class TableSettingsGeneratorUtil {
 
     public static N2oButton generateColumns(CompileProcessor p) {
         N2oButton columnsButton = new N2oButton();
-        columnsButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.columns.description"));
-        columnsButton.setIcon("fa fa-table");
-        columnsButton.setSrc(p.resolve(property("n2o.api.action.columns.src"), String.class));
+        columnsButton.setDescription(resolveDescription(p, "columns"));
+        String icon = resolveIcon(p, "columns");
+        if (icon == null)
+            icon = "fa fa-table";
+        columnsButton.setIcon(icon);
+        columnsButton.setSrc(resolveSrc(p, "columns"));
         columnsButton.setModel(ReduxModel.filter);
         return columnsButton;
     }
@@ -34,10 +37,13 @@ public class TableSettingsGeneratorUtil {
             widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
         }
         N2oButton filterButton = new N2oButton();
-        filterButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.filter.description"));
-        filterButton.setIcon("fa fa-filter");
+        filterButton.setDescription(resolveDescription(p, "filters"));
+        String icon = resolveIcon(p, "filters");
+        if (icon == null)
+            icon = "fa fa-filter";
+        filterButton.setIcon(icon);
         N2oCustomAction filterAction = new N2oCustomAction();
-        filterAction.setType(p.resolve(property("n2o.api.action.filters.type"), String.class));
+        filterAction.setType(resolveActionType(p, "filters"));
         Map<String, String> payload = Collections.singletonMap("widgetId", widgetId);
         filterAction.setPayload(payload);
         filterButton.setActions(new N2oCustomAction[]{filterAction});
@@ -47,8 +53,11 @@ public class TableSettingsGeneratorUtil {
 
     public static N2oButton generateRefresh(CompileProcessor p) {
         N2oButton refreshButton = new N2oButton();
-        refreshButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.refresh.description"));
-        refreshButton.setIcon("fa fa-refresh");
+        refreshButton.setDescription(resolveDescription(p, "refresh"));
+        String icon = resolveIcon(p, "refresh");
+        if (icon == null)
+            icon = "fa fa-refresh";
+        refreshButton.setIcon(icon);
         N2oRefreshAction refreshAction = new N2oRefreshAction();
         refreshButton.setActions(new N2oRefreshAction[]{refreshAction});
         refreshButton.setModel(ReduxModel.filter);
@@ -57,11 +66,53 @@ public class TableSettingsGeneratorUtil {
 
     public static N2oButton generateResize(CompileProcessor p) {
         N2oButton resizeButton = new N2oButton();
-        resizeButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.resize.description"));
-        resizeButton.setIcon("fa fa-bars");
-        resizeButton.setSrc(p.resolve(property("n2o.api.action.resize.src"), String.class));
+        resizeButton.setDescription(resolveDescription(p, "resize"));
+        String icon = resolveIcon(p, "resize");
+        if (icon == null)
+            icon = "fa fa-bars";
+        resizeButton.setIcon(icon);
+        resizeButton.setSrc(resolveSrc(p, "resize"));
         resizeButton.setModel(ReduxModel.filter);
         return resizeButton;
     }
 
+    private static String resolveIcon(CompileProcessor p, String generatorType) {
+        String icon;
+        try {
+            icon = p.resolve(property(String.format("n2o.api.generate.button.%s.icon", generatorType)), String.class);
+        } catch (Exception e) {
+            icon = null;
+        }
+        return icon;
+    }
+
+    private static String resolveDescription(CompileProcessor p, String generatorType) {
+        String description;
+        try {
+            description = p.resolve(property(String.format("n2o.api.generate.button.%s.description", generatorType)), String.class);
+        } catch (Exception e) {
+            description = p.getMessage(String.format("n2o.api.generate.button.%s.description", generatorType));
+        }
+        return description;
+    }
+
+    private static String  resolveSrc(CompileProcessor p, String generatorType) {
+        String src;
+        try {
+            src = p.resolve(property(String.format("n2o.api.generate.button.%s.action.src", generatorType)), String.class);
+        } catch (Exception e) {
+            src = p.resolve(property(String.format("n2o.api.generate.button.%s.action.src", generatorType)), String.class);
+        }
+        return src;
+    }
+
+    private static String  resolveActionType(CompileProcessor p, String generatorType) {
+        String type;
+        try {
+            type = p.resolve(property(String.format("n2o.api.generate.button.%s.action.type", generatorType)), String.class);
+        } catch (Exception e) {
+            type = p.resolve(property(String.format("n2o.api.generate.button.%s.action.type", generatorType)), String.class);
+        }
+        return type;
+    }
 }
