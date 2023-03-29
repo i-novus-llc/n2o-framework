@@ -41,7 +41,7 @@ import static org.hamcrest.Matchers.is;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, ProjectTemplateHolder.class,
                 SandboxTestDataProviderEngine.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
-        properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
+        properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.host}:${n2o.sandbox.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxDataProviderTest {
@@ -50,10 +50,10 @@ public class SandboxDataProviderTest {
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
             .enableBrowserProxying(true));
 
-    @Value("${n2o.sandbox.api.host}")
+    @Value("${n2o.sandbox.host}")
     private String host;
 
-    @Value("${n2o.sandbox.api.port}")
+    @Value("${n2o.sandbox.port}")
     private Integer port;
 
 
@@ -76,7 +76,7 @@ public class SandboxDataProviderTest {
     @SneakyThrows
     @Test
     public void testGetData() {
-        request.setRequestURI("/sandbox/view/myProjectId/n2o/data/_main");
+        request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
         wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));

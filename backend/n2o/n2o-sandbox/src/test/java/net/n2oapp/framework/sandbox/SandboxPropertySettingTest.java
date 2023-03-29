@@ -38,7 +38,7 @@ import static org.hamcrest.Matchers.is;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
                 SandboxContext.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class, ProjectTemplateHolder.class},
-        properties = {"n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
+        properties = {"n2o.sandbox.url=http://${n2o.sandbox.host}:${n2o.sandbox.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxPropertySettingTest {
@@ -47,10 +47,10 @@ public class SandboxPropertySettingTest {
     private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
             .enableBrowserProxying(true));
 
-    @Value("${n2o.sandbox.api.host}")
+    @Value("${n2o.sandbox.host}")
     private String host;
 
-    @Value("${n2o.sandbox.api.port}")
+    @Value("${n2o.sandbox.port}")
     private Integer port;
 
     @Autowired
@@ -113,7 +113,7 @@ public class SandboxPropertySettingTest {
         assertThat(config.getJSONObject("user").getString("username"), is("Joe"));
 
         Page page = viewController.getPage("myProjectId", request);
-        assertThat(page.getModels().get("resolve['_main'].email").getValue(), is("test@example.com"));
-        assertThat((page.getModels().get("resolve['_main'].roles").getValue()), is("[USER, ADMIN]"));
+        assertThat(page.getModels().get("resolve['main'].email").getValue(), is("test@example.com"));
+        assertThat((page.getModels().get("resolve['main'].roles").getValue()), is("[USER, ADMIN]"));
     }
 }
