@@ -5,6 +5,16 @@
       "name": "7.23",
       "templates": [
         {
+          "templateId": "cases/7.24/badge_line_fieldset",
+          "name": "Badge в line филдсет",
+          "since": "7.24"
+        }
+      ]
+    },
+    {
+      "name": "7.23",
+      "templates": [
+        {
           "templateId": "cases/7.23/dev_mode",
           "name": "Отображение ошибок метаданных в develop режиме",
           "since": "7.23"
