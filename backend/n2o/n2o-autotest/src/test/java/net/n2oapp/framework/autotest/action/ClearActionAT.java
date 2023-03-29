@@ -116,6 +116,7 @@ public class ClearActionAT extends AutoTestBase {
 
     @Test
     public void clearModelInTable() {
+        setJsonPath("net/n2oapp/framework/autotest/action/clear/clear_model_in_table");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/test.query.xml"));
