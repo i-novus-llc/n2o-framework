@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="users.json" operation="findAll"/>
+    </list>
+    <count>
+        <test file="users.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+        </field>
+        <field id="name" domain="string">
+            <select/>
+        </field>
+    </fields>
+</query>

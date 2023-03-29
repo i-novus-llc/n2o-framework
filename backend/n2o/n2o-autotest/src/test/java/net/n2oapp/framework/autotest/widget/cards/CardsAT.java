@@ -40,6 +40,7 @@ public class CardsAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/cards/");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/test.query.xml"));
     }
@@ -182,6 +183,7 @@ public class CardsAT extends AutoTestBase {
 
     @Test
     public void testPaging() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/cards/paging");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);

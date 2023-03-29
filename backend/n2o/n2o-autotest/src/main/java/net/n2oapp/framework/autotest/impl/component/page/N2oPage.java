@@ -298,7 +298,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public Button button(String label) {
-            return N2oSelenide.component(element.$$(".btn").findBy(Condition.text(label)), Button.class);
+            return N2oSelenide.component(element.shouldBe(Condition.exist).$$(".popover-body .btn").findBy(Condition.exactText(label)), StandardButton.class);
         }
 
         @Override

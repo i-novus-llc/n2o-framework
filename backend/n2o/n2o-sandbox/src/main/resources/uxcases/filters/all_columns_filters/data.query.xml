@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="data.json" operation="findAll"/>
+    </list>
+    <count>
+        <test file="data.json" operation="count"/>
+    </count>
+    <fields>
+        <field id="id" name="Номер заявки">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+            <sorting/>
+        </field>
+        <field id="date" name="Дата подачи заявки">
+            <select/>
+            <filters>
+                <more filter-id="date.begin"/>
+                <less filter-id="date.end"/>
+            </filters>
+        </field>
+        <field id="fio" name="Фамилия Имя Отчество">
+            <select/>
+        </field>
+        <field id="birthday">
+            <select/>
+        </field>
+        <field id="fioBD" name="ФИО, дата рождения">
+            <select/>
+            <filters>
+                <like filter-id="fioBD"/>
+            </filters>
+        </field>
+        <field id="snils" name="СНИЛС">
+            <select/>
+            <filters>
+                <like filter-id="snils"/>
+            </filters>
+        </field>
+        <field id="document">
+            <select/>
+        </field>
+        <field id="number" name="Документ удостоверяющий личность">
+            <select mapping="[document]+' '+[number]"/>
+            <filters>
+                <like filter-id="number"/>
+            </filters>
+        </field>
+        <field id="zagranType" name="Тип заграничного паспорта">
+            <select mapping="['zagranType.name']"/>
+            <filters>
+                <eq filter-id="zagranType.id" mapping="['zagranType.id']">zagranType.id:eq:zagranType.id</eq>
+            </filters>
+        </field>
+        <field id="region" name="Регион">
+            <select mapping="['region.name']"/>
+            <filters>
+                <eq filter-id="region.id" mapping="['region.id']">region.id:eq:region.id</eq>
+            </filters>
+        </field>
+        <field id="department" name="Отделение">
+            <select mapping="['department.name']"/>
+            <filters>
+                <eq filter-id="department.id" mapping="['department.id']">department.id:eq:department.id</eq>
+            </filters>
+        </field>
+        <field id="urgently" name="Срочность">
+            <select mapping="['urgently.name']"/>
+            <filters>
+                <eq filter-id="urgently.id" mapping="['urgently.id']">urgently.id:eq:urgently.id</eq>
+            </filters>
+        </field>
+        <field id="status" name="Статус">
+            <select mapping="['status.name']"/>
+            <filters>
+                <in filter-id="status*.id" mapping="['status']">status.id:in:status</in>
+            </filters>
+        </field>
+    </fields>
+</query>

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Маршрутизация виджетов Master-Detail">
+    <datasources>
+        <datasource id="ds1" query-id="person"/>
+        <datasource id="ds2" query-id="docs">
+            <filters>
+                <eq field-id="person.id" value="{id}" datasource="ds1"/>
+            </filters>
+            <dependencies>
+                <fetch model="resolve" on="ds1"/>
+            </dependencies>
+        </datasource>
+    </datasources>
+    <regions>
+        <table id="master" route="/person" datasource="ds1">
+            <!-- master виджет -->
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+
+        <table datasource="ds2">
+            <!-- detail виджет -->
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+</page>

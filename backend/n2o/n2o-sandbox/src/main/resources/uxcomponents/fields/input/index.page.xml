@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Поле ввода">
+    <form>
+        <fields>
+            <input-text id="name" placeholder="Введите имя" no-label-block="true"/>
+        </fields>
+    </form>
+</simple-page>

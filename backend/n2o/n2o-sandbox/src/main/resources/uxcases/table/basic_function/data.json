@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "surname": "Васильева",
+    "name": "Валерия",
+    "patronymic": "Булатовна",
+    "birthday": "2009-05-10",
+    "gender": {
+      "id": 2,
+      "name": "Женский"
+    },
+    "vip": true
+  },
+  {
+    "id": 2,
+    "surname": "Яблочкин",
+    "name": "Федот",
+    "patronymic": "Андроникович",
+    "birthday": "2009-05-10",
+    "gender": {
+      "id": 1,
+      "name": "Мужской"
+    },
+    "vip": true
+  },
+  {
+    "id": 3,
+    "surname": "Яшнова",
+    "name": "Алина",
+    "patronymic": "Иосифовна",
+    "birthday": "1995-04-08",
+    "gender": {
+      "id": 2,
+      "name": "Женский"
+    },
+    "vip": false
+  },
+  {
+    "id": 4,
+    "surname": "Глоба",
+    "name": "Виктория",
+    "patronymic": "Ипполитовна",
+    "birthday": "1964-11-28",
+    "gender": {
+      "id": 2,
+      "name": "Женский"
+    },
+    "vip": false
+  },
+  {
+    "id": 5,
+    "surname": "Суходолина",
+    "name": "Клара",
+    "patronymic": "Ивановна",
+    "birthday": "1971-02-27",
+    "gender": {
+      "id": 2,
+      "name": "Женский"
+    },
+    "vip": true
+  },
+  {
+    "id": 6,
+    "surname": "Барсова",
+    "name": "Марина",
+    "patronymic": "Казимировна",
+    "birthday": "1977-06-27",
+    "gender": {
+      "id": 2,
+      "name": "Женский"
+    },
+    "vip": true
+  },
+  {
+    "id": 7,
+    "surname": "Оленева",
+    "name": "Анастасия",
+    "patronymic": "Мефодиевна",
+    "birthday": "1983-03-25",
+    "gender": {
+      "id": 2,
+      "name": "Женский"
+    },
+    "vip": false
+  },
+  {
+    "id": 8,
+    "surname": "Меркушев",
+    "name": "Денис",
+    "patronymic": "Владимирович",
+    "birthday": "1977-08-09",
+    "gender": {
+      "id": 1,
+      "name": "Мужской"
+    },
+    "vip": true
+  },
+  {
+    "id": 9,
+    "surname": "Летова",
+    "name": "Елена",
+    "patronymic": "Федотовна",
+    "birthday": "1971-06-25",
+    "gender": {
+      "id": 2,
+      "name": "Женский"
+    },
+    "vip": false
+  },
+  {
+    "id": 10,
+    "surname": "Чечин",
+    "name": "Константин",
+    "patronymic": "Владимирович",
+    "birthday": "1968-06-29",
+    "gender": {
+      "id": 1,
+      "name": "Мужской"
+    },
+    "vip": false
+  },
+  {
+    "id": 11,
+    "surname": "Камкин",
+    "name": "Зиновий",
+    "patronymic": "Изяславович",
+    "birthday": "1953-09-11",
+    "gender": {
+      "id": 1,
+      "name": "Мужской"
+    },
+    "vip": false
+  }
+]

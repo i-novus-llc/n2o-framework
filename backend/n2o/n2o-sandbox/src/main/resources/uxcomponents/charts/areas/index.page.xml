@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Диаграмма-область">
+    <regions>
+        <chart width="730" height="250">
+            <datasource query-id="area"/>
+            <areas x-field-id="name" grid-stroke-dasharray="3 3">
+                <area field-id="expenses" line-type="monotone" color="#8884d8" stroke-color="#8884d8"/>
+                <area field-id="income" line-type="monotone" color="#82ca9d" stroke-color="#82ca9d"/>
+            </areas>
+        </chart>
+    </regions>
+</page>

@@ -101,21 +101,6 @@ public abstract class Redux {
     }
 
     /**
-     * Вызвать обновление поля со списком в модели виджета
-     *
-     * @param widgetId Идентификатор виджета
-     * @param model    Модель виджета
-     * @param field    Поле виджета
-     * @param map      Поле для маппинга
-     * @param value    Значение
-     * @return Redux действие
-     */
-    public static ReduxAction dispatchUpdateMapModel(String widgetId, ReduxModel model, String field, String map, Object value) {
-        UpdateMapModelPayload payload = new UpdateMapModelPayload(model.getId(), widgetId, field, value, map);
-        return new ReduxAction("n2o/models/UPDATE_MAP", payload);
-    }
-
-    /**
      * Вызвать сортировку виджета
      *
      * @param widgetId  Идентификатор виджета

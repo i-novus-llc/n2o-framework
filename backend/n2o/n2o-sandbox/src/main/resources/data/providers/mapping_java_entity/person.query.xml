@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
+       object-id="person">
+    <list result-mapping="content" count-mapping="totalElements">
+        <java method="getList" class="net.n2oapp.framework.sandbox.cases.mapping_java.PersonService">
+            <spring/>
+            <arguments>
+                <argument class="net.n2oapp.framework.sandbox.cases.mapping_java.PersonCriteria"
+                          type="criteria"/>
+            </arguments>
+        </java>
+    </list>
+
+    <filters>
+        <eq field-id="id" filter-id="id"/>
+    </filters>
+
+    <fields>
+        <field id="id"/>
+        <field id="firstName"/>
+        <field id="lastName"/>
+    </fields>
+</query>
+

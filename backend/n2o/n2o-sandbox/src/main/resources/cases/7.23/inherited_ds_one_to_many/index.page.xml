@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Inherited datasource. Форма и таблицы одним запросом">
+
+    <datasources>
+        <datasource id="form" query-id="test"/>
+        <inherited-datasource id="docs"
+                              source-datasource="form"
+                              source-model="resolve"
+                              source-field-id="docs">
+            <dependencies>
+                <fetch on="form"/>
+            </dependencies>
+        </inherited-datasource>
+        <inherited-datasource id="contacts"
+                              source-datasource="form"
+                              source-model="resolve"
+                              source-field-id="contacts">
+            <dependencies>
+                <fetch on="form"/>
+            </dependencies>
+        </inherited-datasource>
+    </datasources>
+
+    <regions>
+        <form datasource="form">
+            <fields>
+                <input-text id="firstName"/>
+                <input-text id="lastName"/>
+            </fields>
+        </form>
+        <table datasource="docs">
+            <columns>
+                <column text-field-id="type"/>
+                <column text-field-id="series"/>
+                <column text-field-id="number"/>
+            </columns>
+        </table>
+        <table datasource="contacts">
+            <columns>
+                <column text-field-id="type"/>
+                <column text-field-id="value"/>
+            </columns>
+        </table>
+    </regions>
+</page>

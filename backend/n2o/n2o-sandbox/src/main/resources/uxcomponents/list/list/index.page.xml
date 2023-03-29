@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Список">
+    <list>
+        <datasource query-id="test"/>
+        <content>
+            <left-top text-field-id="image">
+                <image width="50px" shape="rounded"/>
+            </left-top>
+            <body text-field-id="name"/>
+        </content>
+    </list>
+</simple-page>

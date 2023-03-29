@@ -73,6 +73,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      */
     @Test
     public void testModelResolve() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -105,6 +106,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      */
     @Test
     public void testModelMulti() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -135,6 +137,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      */
     @Test
     public void testModelDatasource() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -154,6 +157,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      */
     @Test
     public void testSourceFieldId() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/test.query.xml"));
         StandardPage page = open(StandardPage.class);

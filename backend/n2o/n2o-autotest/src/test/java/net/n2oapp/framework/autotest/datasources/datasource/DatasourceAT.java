@@ -53,6 +53,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testFormAsFilter() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -133,6 +134,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testOneDSManyWidgets() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -151,6 +153,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testSaveManyFormOneButton() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/saveForm.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/save_many_form_one_button/test.query.xml"),
@@ -213,6 +216,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testValidationManyForm() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.object.xml"));
@@ -267,6 +271,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testSimpleCopyDepend() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -291,6 +296,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testCopyDepend() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/resolve/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -323,6 +329,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     public void testSubmit() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/submit");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.query.xml"));

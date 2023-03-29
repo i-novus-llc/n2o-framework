@@ -3,7 +3,7 @@
     <operations>
         <operation id="create" success-text="form_value={form_value} second_form.value={second_form.value} second_form.value2={second_form.value2}">
             <invocation>
-                <test file="net/n2oapp/framework/autotest/action/invoke/form_param/test.json" operation="echo"/>
+                <test file="test.json" operation="echo"/>
             </invocation>
             <in>
                 <field id="form_value"/>

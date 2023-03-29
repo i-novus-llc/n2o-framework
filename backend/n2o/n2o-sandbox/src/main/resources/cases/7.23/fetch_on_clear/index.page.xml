@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Отсутствие запроса за данными при очистке фильтров">
+    <datasources>
+        <datasource id="ds1" query-id="test"/>
+    </datasources>
+
+    <regions>
+        <table datasource="ds1">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="type"/>
+            </columns>
+            <filters place="top">
+                <row>
+                    <input-text id="name"/>
+                    <input-text id="type"/>
+                </row>
+                <row>
+                    <search-buttons id="search" fetch-on-clear="false"/>
+                </row>
+            </filters>
+        </table>
+    </regions>
+</page>

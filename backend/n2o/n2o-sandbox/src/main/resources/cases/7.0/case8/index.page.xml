@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Сортировка по sorting-field-id">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="field1"/>
+            <column text-field-id="field2"/>
+            <column text-field-id="field3" sorting-field-id="field2"
+                    label="field3(сортировка по field2)"/>
+            <column text-field-id="field4.name"
+                    label="field4.name (Сортировка с точкой)"/>
+        </columns>
+    </table>
+</simple-page>

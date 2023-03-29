@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Всплывающие уведомления">
+    <form>
+        <fields>
+            <row>
+                <button label="primary" color="primary">
+                    <alert text="Привет, мир!" color="primary"/>
+                </button>
+                <button label="secondary" color="secondary">
+                    <alert text="Привет, мир!" color="secondary"/>
+                </button>
+                <button label="light" color="light">
+                    <alert text="Привет, мир!" color="light"/>
+                </button>
+                <button label="dark" color="dark">
+                    <alert text="Привет, мир!" color="dark"/>
+                </button>
+                <button label="success" color="success">
+                    <alert text="Привет, мир!" color="success"/>
+                </button>
+                <button label="danger" color="danger">
+                    <alert text="Привет, мир!" color="danger"/>
+                </button>
+                <button label="warning" color="warning">
+                    <alert text="Привет, мир!" color="warning"/>
+                </button>
+                <button label="info" color="info">
+                    <alert text="Привет, мир!" color="info"/>
+                </button>
+            </row>
+            <row>
+                <button label="top">
+                    <alert text="Привет, мир!" placement="top"/>
+                </button>
+                <button label="bottom">
+                    <alert text="Привет, мир!" placement="bottom"/>
+                </button>
+                <button label="topLeft">
+                    <alert text="Привет, мир!" placement="topLeft"/>
+                </button>
+                <button label="topRight">
+                    <alert text="Привет, мир!" placement="topRight"/>
+                </button>
+                <button label="bottomLeft">
+                    <alert text="Привет, мир!" placement="bottomLeft"/>
+                </button>
+                <button label="bottomRight">
+                    <alert text="Привет, мир!" placement="bottomRight"/>
+                </button>
+            </row>
+            <col>
+                <button label="Заголовок">
+                    <alert text="Привет, мир!" title="Новое сообщение"/>
+                </button>
+                <button label="Без кнопки закрыть">
+                    <alert text="Привет, мир!" close-button="false"/>
+                </button>
+                <button label="С ссылкой">
+                    <alert text="Для перехода по ссылке нажмите на сообщение" href="http://example.org"/>
+                </button>
+                <button label="С таймаутом">
+                    <alert text="Это сообщение закроется через 10 секунд" timeout="10000"/>
+                </button>
+                <button label="С временной меткой">
+                    <alert text="Привет, мир!" time="2022-02-02T19:11:00"/>
+                </button>
+            </col>
+        </fields>
+    </form>
+</simple-page>

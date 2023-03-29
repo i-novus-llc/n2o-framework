@@ -21,7 +21,6 @@ import {
     appendFieldToArray,
     removeFieldFromArray,
     copyFieldArray,
-    modelInit,
     updateModel,
 } from '../ducks/models/store'
 import { registerButton, removeButton } from '../ducks/toolbar/store'
@@ -144,7 +143,6 @@ function* conditionWatchers() {
         setModel,
         clearModel,
         updateModel,
-        modelInit,
         appendFieldToArray,
         removeFieldFromArray,
         copyFieldArray,

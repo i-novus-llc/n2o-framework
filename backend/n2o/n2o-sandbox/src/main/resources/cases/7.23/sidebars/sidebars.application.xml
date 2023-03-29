@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+
+    <header title="Хедер" home-page-url="#">
+        <nav>
+            <menu-item id="person-list" name="Список пользователей">
+                <open-page page-id="list" route="/persons/list"/>
+            </menu-item>
+            <menu-item id="person-other" name="Другое">
+                <open-page page-id="other" route="/persons/other"/>
+            </menu-item>
+        </nav>
+    </header>
+
+    <sidebars>
+        <sidebar title="N2O"/>
+        <sidebar title="Список пользователей" path="/persons/list"/>
+        <sidebar title="Профиль пользователя" path="/persons/list/*/profile" subtitle="Информация пользователя"/>
+        <sidebar title="Остальные страницы пользователей" path="/persons/**"/>
+    </sidebars>
+
+</application>

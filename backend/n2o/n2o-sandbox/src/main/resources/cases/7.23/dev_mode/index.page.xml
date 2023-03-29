@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Отображение ошибок метаданных в develop режиме">
+    <form>
+        <datasource object-id="errors"/>
+        <toolbar>
+            <button label="Ошибка GraphQL">
+                <invoke operation-id="errorGraphQl"/>
+            </button>
+            <button label="Ошибка SQL">
+                <invoke operation-id="errorSql"/>
+            </button>
+            <button label="Ошибка REST">
+                <invoke operation-id="errorRest"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

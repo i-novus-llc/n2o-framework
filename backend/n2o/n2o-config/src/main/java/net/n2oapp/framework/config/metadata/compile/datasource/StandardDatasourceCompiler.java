@@ -418,16 +418,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                     .filter(Filter::getRoutable)
                     .filter(f -> !f.getLink().isConst())
                     .forEach(filter -> {
-                        ReduxAction onGet;
-                        String filterId = filter.getFilterId();
-                        if (filterId.contains(SPREAD_OPERATOR)) {
-                            onGet = Redux.dispatchUpdateMapModel(compiled.getId(), ReduxModel.filter,
-                                    filterId.substring(0, filterId.indexOf(SPREAD_OPERATOR)),
-                                    filterId.substring(filterId.indexOf(SPREAD_OPERATOR) + 2), colon(filter.getParam()));
-                        } else {
-                            onGet = Redux.dispatchUpdateModel(compiled.getId(), ReduxModel.filter, filterId, colon(filter.getParam()));
-                        }
-                        routes.addQueryMapping(filter.getParam(), onGet, filter.getLink());
+                        routes.addQueryMapping(filter.getParam(), null, filter.getLink());
                     });
             for (QuerySimpleField field : query.getSortingFields()) {
                 String sortParam = RouteUtil.normalizeParam(SORTING + source.getId() + "_" + field.getId());

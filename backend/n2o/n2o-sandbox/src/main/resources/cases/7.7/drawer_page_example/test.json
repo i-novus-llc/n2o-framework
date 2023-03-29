@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Заявление1",
+    "inProgress": false
+  },
+  {
+    "id": 2,
+    "name": "Заявление2",
+    "inProgress": false
+  },
+  {
+    "id": 3,
+    "name": "Заявление3",
+    "inProgress": false
+  },
+  {
+    "id": 4,
+    "name": "Заявление4",
+    "inProgress": true
+  }
+]

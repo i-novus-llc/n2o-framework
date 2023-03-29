@@ -256,6 +256,5 @@ export const formPluginSagas = [
         appendFieldToArray,
         removeFieldFromArray,
         copyFieldArray,
-        // actionTypes.BLUR,
     ], autoSubmit),
 ]

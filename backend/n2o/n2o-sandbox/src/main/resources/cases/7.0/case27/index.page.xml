@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Редирект с изменением значения">
+    <regions>
+        <form id="master" object-id="test" query-id="test">
+            <fields>
+                <row>
+                    <input-text id="id"/>
+                    <output-text id="time"/>
+                </row>
+            </fields>
+        </form>
+        <table id="detail" depends-on="master"
+               detail-field-id="id"
+               query-id="test">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="time"/>
+            </columns>
+            <toolbar place="bottomRight">
+                <button label="Обновить master">
+                    <invoke operation-id="time"/>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>
