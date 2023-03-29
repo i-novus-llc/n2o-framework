@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Заявки на получение заграничного паспорта"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Badge в line филдсет"
       show-title="true">
     <datasources>
         <datasource id="ds1" query-id="data" size="5"/>
@@ -17,17 +17,10 @@
             <table name="Заявки на получение заграничного паспорта" datasource="ds1">
                 <columns>
                     <column text-field-id="id"/>
-                    <column text-field-id="date">
-                        <text format="date DD.MM.YYYY"/>
-                    </column>
-                    <column text-field-id="fioBD"/>
+                    <column text-field-id="fio"/>
                     <column text-field-id="snils"/>
-                    <column text-field-id="document"/>
-                    <column text-field-id="zagranType"/>
                     <column text-field-id="region"/>
                     <column text-field-id="department"/>
-                    <column text-field-id="urgently"/>
-                    <column text-field-id="status"/>
                 </columns>
                 <filters>
                     <line label="Расширенные фильтры" expand="true" has-separator="false" badge="{count}">
@@ -39,6 +32,7 @@
                                     <option id="2" name="Республика Марий-Эл"/>
                                     <option id="3" name="Кабардино-Балкарская Республика"/>
                                 </options>
+                                <default-value id="1"/>
                             </select>
                             <select id="department">
                                 <options>
@@ -50,6 +44,7 @@
                                     <option id="6" name="МФЦ Московское отделение"/>
                                     <option id="7" name="МФЦ Дербышинский отдел"/>
                                 </options>
+                                <default-value id="2"/>
                             </select>
                             <input-text id="fio"/>
                             <masked-input id="snils" mask="999-999-999 99"/>

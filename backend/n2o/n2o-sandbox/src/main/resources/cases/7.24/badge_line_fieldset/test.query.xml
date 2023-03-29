@@ -15,13 +15,6 @@
             </filters>
             <sorting/>
         </field>
-        <field id="date" name="Дата подачи заявки" domain="localdate">
-            <select/>
-            <filters>
-                <more filter-id="date.begin"/>
-                <less filter-id="date.end"/>
-            </filters>
-        </field>
         <field id="fio" name="Фамилия Имя Отчество">
             <select/>
             <filters>
@@ -31,20 +24,11 @@
         <field id="birthday">
             <select/>
         </field>
-        <field id="fioBD" name="ФИО, дата рождения">
-            <select mapping="[fio]+' '+[birthday]"/>
-        </field>
         <field id="snils" name="СНИЛС">
             <select/>
             <filters>
                 <eq filter-id="snils"/>
             </filters>
-        </field>
-        <field id="document" name="Документ удостоверяющий личность">
-            <select/>
-        </field>
-        <field id="zagranType" name="Тип заграничного паспорта">
-            <select/>
         </field>
 
         <field id="region" name="Регион">
@@ -58,20 +42,6 @@
             <select mapping="['department.name']"/>
             <filters>
                 <eq filter-id="department.id" mapping="['department.id']">department.id:eq:department.id</eq>
-            </filters>
-        </field>
-
-        <field id="urgently" name="Срочность">
-            <select mapping="['urgently.name']"/>
-            <filters>
-                <in filter-id="urgently*.id" mapping="['urgently']">urgently.id:in:urgently</in>
-            </filters>
-        </field>
-
-        <field id="status" name="Статус">
-            <select mapping="['status.name']"/>
-            <filters>
-                <eq filter-id="status.id" mapping="['status.id']">status.id:eq:status.id</eq>
             </filters>
         </field>
     </fields>
