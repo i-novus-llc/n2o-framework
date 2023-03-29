@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "type": 1,
+    "name": "test1 test1 test1 test1",
+    "ref": {
+      "id": 1,
+      "name" : "ОдинОдинОдинОдинОдинОдинОдинОдин"
+    },
+    "check" : true,
+    "birthDate": "1990-01-01T 00:00:00"
+  },
+  {
+    "id": 2,
+    "type": 1,
+    "name": "test2 test2 test2 test2 test2",
+    "ref": {
+      "id": 1,
+      "name" : "Один Один Один Один Один"
+    },
+    "check" : true,
+    "birthDate": "1990-02-20T 00:00:00"
+  },
+  {
+    "id": 3,
+    "type": 2,
+    "name": "test3 test3 test3 test3",
+    "ref": {
+      "id": 2,
+      "name" : "ДваДваДваДваДваДваДваДваДваДва"
+    },
+    "check" : false,
+    "birthDate": "1990-03-30T 00:00:00"
+  },
+  {
+    "id": 4,
+    "type": 2,
+    "name": "test4 test4 test4 test4",
+    "ref": {
+      "id": 2,
+      "name" : "Два Два Два Два Два"
+    },
+    "check" : false,
+    "birthDate": "1990-04-04T 00:00:00"
+  }
+]

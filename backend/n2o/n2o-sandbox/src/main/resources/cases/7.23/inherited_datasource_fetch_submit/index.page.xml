@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Пример использования fetch-value и submit в inherited-datasource">
+    <datasources>
+        <datasource id="ds1"/>
+        <inherited-datasource id="ds2" source-model="resolve" source-datasource="ds1">
+            <!-- Получить значение для fetch -->
+            <!-- Переменные: -->
+            <!--    source - модель, полученная по source-datasource, source-model, source-field-id -->
+            <fetch-value>
+                return [{dollar : source.rub * source.rate}]
+            </fetch-value>
+            <dependencies>
+                <fetch on="ds1"/>
+            </dependencies>
+            <submit target-datasource="ds1">
+                <!-- Получить значение для submit -->
+                <!-- Переменные: -->
+                <!--    source - текущая модель для отправки -->
+                <!--    target - модель, полученная по target-datasource, target-model, target-field-id -->
+                <submit-value>
+                    return {rub : source.dollar / target.rate, rate: target.rate}
+                </submit-value>
+            </submit>
+        </inherited-datasource>
+    </datasources>
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <input-text id="rub"/>
+                <input-text id="rate" default-value="2"/>
+            </fields>
+        </form>
+        <form datasource="ds2">
+            <fields>
+                <input-text id="dollar"/>
+            </fields>
+        </form>
+    </regions>
+</page>

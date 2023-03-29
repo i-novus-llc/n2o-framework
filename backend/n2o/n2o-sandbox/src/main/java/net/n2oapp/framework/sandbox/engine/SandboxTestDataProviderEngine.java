@@ -13,7 +13,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
-import javax.servlet.http.HttpSession;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,8 +28,6 @@ import java.util.Map;
 @Component
 public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
 
-    @Autowired
-    private HttpSession session;
     @Autowired
     private SandboxRestClient restClient;
 
@@ -59,7 +56,7 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
             FileModel fileModel = new FileModel();
             fileModel.setFile(filename);
             fileModel.setSource(mapAsJson);
-            restClient.putFiles(projectId, Collections.singletonList(fileModel), session);
+            restClient.putFiles(projectId, Collections.singletonList(fileModel));
         } catch (JsonProcessingException e) {
             throw new N2oException(e);
         }
@@ -69,7 +66,7 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     protected InputStream getResourceInputStream(N2oTestDataProvider invocation) throws IOException {
         try {
             String projectId = ThreadLocalProjectId.getProjectId();
-            String response = restClient.getFile(projectId, invocation.getFile(), session);
+            String response = restClient.getFile(projectId, invocation.getFile());
             if (response != null)
                 return new ByteArrayInputStream(response.getBytes());
             throw new FileNotFoundException(invocation.getFile());

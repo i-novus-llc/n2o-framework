@@ -10,19 +10,22 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.run.AutoTestApplication;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestApplication;
-import net.n2oapp.framework.sandbox.autotest.SandboxAutotestBase;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = {"n2o.engine.test.classpath=/cases/7.11/refresh_toolbar_cell",
-        "n2o.sandbox.project-id=cases_7.11_refresh_toolbar_cell"},
-        classes = SandboxAutotestApplication.class,
+@SpringBootTest(properties = {"n2o.engine.test.classpath=/cases/7.11/refresh_toolbar_cell"},
+        classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class RefreshToolbarCellAT extends SandboxAutotestBase {
+public class RefreshToolbarCellAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -38,6 +41,11 @@ public class RefreshToolbarCellAT extends SandboxAutotestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
+        builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("cases/7.11/refresh_toolbar_cell/index.page.xml"),
+                new CompileInfo("cases/7.11/refresh_toolbar_cell/test.page.xml"),
+                new CompileInfo("cases/7.11/refresh_toolbar_cell/test.object.xml"),
+                new CompileInfo("cases/7.11/refresh_toolbar_cell/test.query.xml"));
     }
 
     @Test

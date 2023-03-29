@@ -41,9 +41,9 @@ public class AnchorActionAT extends AutoTestBase {
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
     }
 
-
     @Test
     public void testAnchorAction() {
+        setJsonPath("net/n2oapp/framework/autotest/action/anchor");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor/test.page.xml"),
@@ -69,6 +69,7 @@ public class AnchorActionAT extends AutoTestBase {
      */
     @Test
     public void testHrefResolve() {
+        setJsonPath("net/n2oapp/framework/autotest/action/anchor/check_href");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor/check_href/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor/check_href/test.query.xml"));

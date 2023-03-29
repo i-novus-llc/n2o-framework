@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Joe",
+    "begindate": "2020-02-12",
+    "enddate": "2020-03-12"
+  },
+  {
+    "id": 2,
+    "name": "Mary",
+    "begindate": "2020-02-12",
+    "enddate": "2020-04-12"
+  },
+  {
+    "id": 3,
+    "name": "Harry",
+    "begindate": "2020-02-12",
+    "enddate": "2020-05-12"
+  },
+  {
+    "id": 4,
+    "name": "Katy",
+    "begindate": "2020-02-12",
+    "enddate": "2020-06-12"
+  }
+]

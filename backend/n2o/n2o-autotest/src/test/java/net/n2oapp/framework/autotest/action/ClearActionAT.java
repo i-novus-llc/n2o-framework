@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
  * Автотест проверяет работу clear
  */
 public class ClearActionAT extends AutoTestBase {
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -38,15 +39,16 @@ public class ClearActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/clear/test.query.xml"));
     }
 
     @Test
     public void testClearInModal() {
+        setJsonPath("net/n2oapp/framework/autotest/action/clear");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/clear/test.query.xml"));
+
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -81,5 +83,34 @@ public class ClearActionAT extends AutoTestBase {
         name.shouldBeEmpty();
 
         modal.close();
+    }
+
+    @Test
+    public void clearAfterAction() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/clear/clearAfterAction/index.page.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget form = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(FormWidget.class);
+        form.shouldExists();
+
+        InputText inputText = form.fields().field("Исходные данные").control(InputText.class);
+        inputText.shouldHaveValue("Привет, Мир!");
+
+        StandardButton clearBtn = form.toolbar().topLeft().button("clear");
+        StandardButton copyBtn = form.toolbar().topLeft().button("copy");
+
+        clearBtn.click();
+        inputText.shouldBeEmpty();
+
+        copyBtn.click();
+        inputText.shouldHaveValue("value");
+
+        clearBtn.click();
+        inputText.shouldBeEmpty();
     }
 }

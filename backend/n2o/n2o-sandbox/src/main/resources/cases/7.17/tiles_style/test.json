@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "city": "Hamburg",
+    "description": "A picturesque place to travel along river channels. Lovely views will delight you",
+    "image": "static/hamburg-3846525__340.jpg"
+  },
+  {
+    "id": 2,
+    "city": "Paris",
+    "description": "Cycling has never been so enjoyable. Beautiful streets of Paris will leave you with unforgettable emotions.",
+    "image": "static/paris-3193674__340.jpg"
+  }
+]

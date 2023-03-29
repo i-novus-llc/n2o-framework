@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Зависимости на Page Actions">
+    <toolbar place="topLeft">
+        <button label="Эта кнопка должна быть заблокирована"
+                widget-id="form" enabled="{field === '+'}"/>
+    </toolbar>
+    <regions>
+        <panel>
+            <form id="form">
+                <toolbar place="topLeft">
+                    <button label="Эта кнопка должна быть заблокирована"
+                            enabled="{field === '+'}">
+                    </button>
+                </toolbar>
+                <fields>
+                    <input-text id="field" label="Кнопка разблокируется, если ввести &quot;+&quot;"/>
+                </fields>
+            </form>
+        </panel>
+    </regions>
+</page>

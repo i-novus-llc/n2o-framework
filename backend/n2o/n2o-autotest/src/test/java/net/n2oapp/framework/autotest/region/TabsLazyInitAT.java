@@ -34,6 +34,7 @@ public class TabsLazyInitAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/region/tabs/lazy");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/lazy/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/lazy/test.query.xml"));

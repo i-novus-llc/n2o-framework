@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test file="data.json" operation="create"/>
+            </invocation>
+            <in>
+                <field id="lastname"/>
+                <field id="name"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+            <validations white-list="requiredName"/>
+        </operation>
+    </operations>
+
+    <validations>
+        <mandatory id="requiredName"
+                   field-id="name"
+                   severity="danger"
+                   message="Имя должно быть заполнено"/>
+    </validations>
+</object>

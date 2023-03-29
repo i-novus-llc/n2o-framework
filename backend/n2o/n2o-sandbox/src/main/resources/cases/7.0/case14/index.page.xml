@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Стиль поля текста">
+    <form>
+        <fields>
+            <row>
+                <col>
+                    <set field-label-align="right" field-label-location="left" field-label-width="100px">
+                        <output-text id="secondary" class="badge badge-secondary" default-value="1"/>
+                        <output-text id="success" class="badge badge-success" default-value="2"/>
+                        <output-text id="danger" class="badge badge-danger" default-value="3"/>
+                        <output-text id="info" class="badge badge-info" default-value="4"/>
+                    </set>
+                </col>
+                <col>
+                    <set>
+                        <output-text id="secondary" class="badge badge-secondary" default-value="1"/>
+                        <output-text id="success" class="badge badge-success" default-value="2"/>
+                        <output-text id="danger" class="badge badge-danger" default-value="3"/>
+                        <output-text id="info" class="badge badge-info" default-value="4"/>
+                    </set>
+                </col>
+            </row>
+            <row>
+                <col>
+                    <set field-label-align="right" field-label-location="left" field-label-width="100px">
+                        <output-text id="bold" class="font-weight-bold" default-value="Жирный"/>
+                        <output-text id="italic" class="font-italic" default-value="Курсив"/>
+                    </set>
+                </col>
+                <col>
+                    <set>
+                        <output-text id="bold" class="font-weight-bold" default-value="Жирный"/>
+                        <output-text id="italic" class="font-italic" default-value="Курсив"/>
+                    </set>
+                </col>
+            </row>
+        </fields>
+    </form>
+</simple-page>

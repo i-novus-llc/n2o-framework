@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Воспроизводится потеря параметров при переходе между страницами">
+    <table query-id="test">
+        <filters>
+            <row>
+                <input-text id="name" label="Имя"/>
+                <input-text id="type" domain="integer" label="Тип"/>
+            </row>
+        </filters>
+        <columns>
+            <column text-field-id="name" label="Имя"/>
+            <column text-field-id="type" label="Тип"/>
+        </columns>
+        <toolbar>
+            <button label="Открыть">
+                <open-page page-id="modal2" upload="query" route="/:id/modal2">
+                    <path-param name="id" value="{id}"/>
+                    <query-param name="sid" value="{type}"/>
+                </open-page>
+            </button>
+            <button label="Открыть по старому">
+                <open-page page-id="modal" upload="query" detail-field-id="id">
+                    <pre-filters>
+                        <eq field-id="type" value="{type}" param="sid"/>
+                    </pre-filters>
+                </open-page>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

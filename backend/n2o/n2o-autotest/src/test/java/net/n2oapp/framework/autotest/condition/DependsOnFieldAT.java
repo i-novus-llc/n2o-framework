@@ -44,6 +44,7 @@ public class DependsOnFieldAT extends AutoTestBase {
 
     @Test
     public void dependsOnField() {
+        setJsonPath("net/n2oapp/framework/autotest/condition/depends_on");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/orgs.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -76,6 +77,7 @@ public class DependsOnFieldAT extends AutoTestBase {
 
     @Test
     public void dependsOnFieldWithDifferentNameInDrawer() {
+        setJsonPath("net/n2oapp/framework/autotest/condition/depends_on/field_with_different_name/drawer");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/field_with_different_name/drawer/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/depends_on/field_with_different_name/drawer/data.query.xml"),

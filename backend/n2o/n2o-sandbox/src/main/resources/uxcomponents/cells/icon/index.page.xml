@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Ячейка с иконкой">
+    <table selection="none">
+        <datasource query-id="test"/>
+        <columns>
+            <column text-field-id="from" label="Откуда"/>
+            <column text-field-id="to" label="Куда"/>
+            <column text-field-id="type" label="">
+                <icon>
+                    <switch value-field-id="type">
+                        <case value="plane">fa fa-plane</case>
+                        <case value="ship">fa fa-ship</case>
+                        <default>fa fa-car</default>
+                    </switch>
+                </icon>
+            </column>
+        </columns>
+    </table>
+</simple-page>

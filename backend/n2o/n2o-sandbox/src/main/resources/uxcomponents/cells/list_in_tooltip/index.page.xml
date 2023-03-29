@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Ячейка со списком в тултипе">
+    <table selection="none">
+        <datasource query-id="test"/>
+        <columns>
+            <column text-field-id="fio" label="Фамилия И.О."/>
+            <column text-field-id="projects" label="Проект">
+                <tooltip-list label="Проекты {size} шт."/>
+            </column>
+        </columns>
+    </table>
+</simple-page>

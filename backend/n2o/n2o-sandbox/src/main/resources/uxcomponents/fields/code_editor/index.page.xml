@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Поле редактора кода">
+    <form>
+        <fields>
+            <code-editor id="editor" label="Редактор кода"/>
+        </fields>
+    </form>
+</simple-page>

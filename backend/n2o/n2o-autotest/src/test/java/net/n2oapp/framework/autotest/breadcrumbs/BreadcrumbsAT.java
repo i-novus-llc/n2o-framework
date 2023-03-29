@@ -37,6 +37,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void breadcrumbsTest() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/reader.page.xml"),
@@ -108,6 +109,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void testOpenPage() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs/open_page");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/page2.page.xml"),
@@ -154,6 +156,7 @@ public class BreadcrumbsAT extends AutoTestBase {
 
     @Test
     public void testResolve() {
+        setJsonPath("net/n2oapp/framework/autotest/breadcrumbs/resolve");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/page2.page.xml"),

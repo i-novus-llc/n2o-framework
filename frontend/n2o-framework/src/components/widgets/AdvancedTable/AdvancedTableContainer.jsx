@@ -24,7 +24,7 @@ import { getContainerColumns } from '../../../ducks/columns/selectors'
 import evalExpression from '../../../utils/evalExpression'
 import { dataProviderResolver } from '../../../core/dataProviderResolver'
 import { widgetPropTypes } from '../../../core/widget/propTypes'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { ModelPrefix, SortDirection } from '../../../core/datasource/const'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell'
@@ -176,6 +176,7 @@ class AdvancedTableContainer extends React.Component {
                 }
 
                 const cell = find(cells, c => c.id === child.id) || {}
+                const compiledSorting = isEmpty(sorting) ? SortDirection.none : sorting[child.sortingParam]
 
                 return {
                     ...child,
@@ -186,6 +187,8 @@ class AdvancedTableContainer extends React.Component {
                             onFilter={this.handleSetFilter}
                             filters={filters}
                             filterControl={child.filterControl}
+                            setSorting={setSorting}
+                            sorting={compiledSorting}
                         />
                     ),
                     render: (value, record, index) => ({

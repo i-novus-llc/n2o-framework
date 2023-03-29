@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Заявки на получение заграничного паспорта"
+      show-title="true">
+    <datasources>
+        <datasource id="ds1" query-id="data"/>
+    </datasources>
+    <regions>
+        <table name="Заявки на получение заграничного паспорта" datasource="ds1">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="date">
+                    <text format="date DD.MM.YYYY"/>
+                </column>
+                <column text-field-id="fioBD"/>
+                <column text-field-id="snils"/>
+                <column text-field-id="document"/>
+                <column text-field-id="zagranType"/>
+                <column text-field-id="region"/>
+                <column text-field-id="department"/>
+                <column text-field-id="urgently"/>
+                <column text-field-id="status"/>
+            </columns>
+            <filters search-on-change="true">
+                <radio-group id="status" type="tabs" no-label-block="true">
+                    <default-value id="1"/>
+                    <options>
+                        <option id="1" name="Новая"/>
+                        <option id="2" name="На рассмотрении"/>
+                        <option id="3" name="Отклонена"/>
+                        <option id="4" name="Отменена"/>
+                        <option id="5" name="Одобрена"/>
+                    </options>
+                </radio-group>
+            </filters>
+        </table>
+    </regions>
+
+</page>

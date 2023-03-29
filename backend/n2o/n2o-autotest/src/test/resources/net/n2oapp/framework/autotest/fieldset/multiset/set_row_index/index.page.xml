@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Страница для автотеста проверяющего установку index филдсета в поля филдсета">
+    <form>
+        <fields>
+            <input-text id="index">
+
+            </input-text>
+            <multi-set id="legalauthenticator" children-label="{index}">
+                <row>
+                    <output-text id="test_1"
+                                 label="значение"
+                                 description="должно быть = номер строки"
+                    >
+                        <dependencies>
+                            <set-value>
+                                index
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                    <output-text id="test_2"
+                                 label="строка"
+                                 description="должно быть 'index'"
+                    >
+                        <dependencies>
+                            <set-value>
+                                "index"
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                    <output-text id="test_3"
+                                 label="значение + значение"
+                                 description="должно быть в номер строки*2"
+                    >
+                        <dependencies>
+                            <set-value>
+                                index + index
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                </row>
+                <row>
+                    <output-text id="test_4"
+                                 label="значение + строка"
+                                 description="должно быть 'index*' *-номер строки"
+                    >
+                        <dependencies>
+                            <set-value>
+                                "index" + index
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                    <output-text id="test_5"
+                                 label="строка + строка"
+                                 description="должно быть 'indexindex'"
+                    >
+                        <dependencies>
+                            <set-value>
+                                "index" + "index"
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                    <output-text id="test_6"
+                                 label="значение несуществующей переменной"
+                                 description="должно быть 'undefined'"
+                    >
+                        <dependencies>
+                            <set-value>
+                                typeof _index
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                </row>
+                <row>
+                    <output-text id="test_7"
+                                 label="переопределение переменной"
+                                 description="должно быть 'test'"
+                    >
+                        <dependencies>
+                            <set-value>
+                                var index = "test"
+                                return index
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                    <output-text id="test_8"
+                                 label="ещё строка"
+                                 description="должно быть '- index -'"
+                    >
+                        <dependencies>
+                            <set-value>
+                                "- index -"
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                </row>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>

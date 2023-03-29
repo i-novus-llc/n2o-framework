@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Алексей Иванов",
+    "foto":"static/men.jfif"
+  },
+  {
+    "id": 2,
+    "name": "Иван Алексеев",
+    "foto":"static/men2.jfif"
+  },
+  {
+    "id": 3,
+    "name": "Павел Афанасьев",
+    "foto":"static/men.jfif"
+  },
+  {
+    "id": 4,
+    "name": "Петр Сергеев",
+    "foto":"static/men2.jfif"
+  }
+]

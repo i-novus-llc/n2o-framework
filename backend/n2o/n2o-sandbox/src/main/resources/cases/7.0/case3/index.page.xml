@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Префильтрация модальных окон">
+    <table query-id="test">
+        <toolbar>
+            <button label="Модальное окно">
+                <show-modal page-id="modal">
+                    <pre-filters>
+                        <eq field-id="field1" value="{field1}"/>
+                        <eq field-id="field2" value="{field2}"/>
+                    </pre-filters>
+                </show-modal>
+            </button>
+        </toolbar>
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="field1"/>
+            <column text-field-id="field2"/>
+        </columns>
+    </table>
+</simple-page>

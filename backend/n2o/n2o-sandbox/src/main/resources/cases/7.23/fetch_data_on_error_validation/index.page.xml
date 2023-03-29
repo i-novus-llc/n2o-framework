@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Таблица не запрашивает данные при ошибке валидации фильтров">
+    <table fetch-on-init="false">
+        <datasource query-id="test"/>
+        <filters>
+            <input-text id="name" required="true"/>
+            <input-text id="type">
+                <validations>
+                    <condition message="Укажите type">
+                        type!=null
+                    </condition>
+                </validations>
+            </input-text>
+        </filters>
+        <columns>
+            <column text-field-id="name"/>
+            <column text-field-id="type"/>
+        </columns>
+    </table>
+</simple-page>

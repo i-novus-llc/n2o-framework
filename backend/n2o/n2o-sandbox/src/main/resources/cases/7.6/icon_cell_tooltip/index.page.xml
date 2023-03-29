@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Подсказка у IconCell">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="id" label="ID"/>
+            <column text-field-id="icon" label="Иконка" tooltip-field-id="tooltip">
+                <icon>
+                    <switch value-field-id="icon">
+                        <case value="plus">fa fa-plus</case>
+                        <case value="pencil">fa fa-pencil</case>
+                        <case value="trash">fa fa-trash</case>
+                        <case value="download">fa fa-download</case>
+                    </switch>
+                </icon>
+            </column>
+        </columns>
+    </table>
+</simple-page>

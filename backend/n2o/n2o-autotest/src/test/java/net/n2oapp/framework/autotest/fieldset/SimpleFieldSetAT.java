@@ -122,6 +122,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
      */
     @Test
     public void testVisibilityConditionsInFilters() {
+        setJsonPath("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters/test.query.xml"));
         SimplePage page = open(SimplePage.class);

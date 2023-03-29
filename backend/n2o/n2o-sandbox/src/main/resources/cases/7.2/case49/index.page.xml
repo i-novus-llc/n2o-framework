@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Сокращенный URL">
+    <regions>
+        <table query-id="test" id="master" route="/">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+                <column text-field-id="type"/>
+            </columns>
+            <toolbar>
+                <button label="open">
+                    <open-page route="/:id/open" page-id="open">
+                        <path-param name="id" value="{id}"/>
+                    </open-page>
+                </button>
+            </toolbar>
+        </table>
+
+        <form depends-on="master" detail-field-id="id" query-id="test" route="/:id/detail">
+            <fields>
+                <input-text id="name" enabled="false" no-label="true"/>
+            </fields>
+            <toolbar>
+                <button label="open">
+                    <open-page route="/:id/detail/open" page-id="open">
+                        <path-param name="id" value="{id}" ref-widget-id="master"/>
+                    </open-page>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

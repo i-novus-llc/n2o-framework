@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Родительская страница">
+    <datasources>
+        <datasource id ="persons" query-id="person"/>
+    </datasources>
+    <regions>
+        <table datasource="persons">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Дочерняя страница с параметром пути">
+                    <open-page page-id="docs" route="/:person_id/docs">
+                        <params>
+                            <path-param name="person_id" value="{id}"/>
+                        </params>
+                        <datasources>
+                            <datasource id="docs" query-id="docs">
+                                <filters>
+                                    <!-- На странице docs в источнике данных docs фильтруется поле person.id
+                                         по значению переданному в параметре person_id -->
+                                    <eq field-id="person.id" param="person_id"/>
+                                </filters>
+                            </datasource>
+                        </datasources>
+                    </open-page>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>
