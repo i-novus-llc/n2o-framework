@@ -4,20 +4,12 @@
     <datasources>
         <datasource id="ds" query-id="test" size="5"/>
     </datasources>
-    <regions>
-        <table datasource="ds" selection="checkbox">
-            <filters>
-                <masked-input mask="999-999-999 99" placeholder="___-___-___ __" label="СНИЛС" id="snils"/>
-            </filters>
-            <toolbar place="topLeft">
-                <button label="Добавить" icon="fa fa-plus" color="primary">
-                    <show-modal page-id="subPage"/>
-                </button>
-            </toolbar>
-            <columns>
-                <column text-field-id="id"/>
-                <column text-field-id="snils" label="СНИЛС"/>
-            </columns>
-        </table>
-    </regions>
+    <toolbar place="topLeft">
+        <button label="Добавить через modal" icon="fa fa-plus" color="primary">
+            <show-modal page-id="subPage"/>
+        </button>
+        <button label="Добавить через page" icon="fa fa-plus" color="primary">
+            <open-page page-id="subPage"/>
+        </button>
+    </toolbar>
 </page>

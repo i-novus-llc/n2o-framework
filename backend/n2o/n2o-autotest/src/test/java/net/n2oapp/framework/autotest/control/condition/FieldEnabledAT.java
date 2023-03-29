@@ -12,7 +12,6 @@ import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -217,13 +216,11 @@ public class FieldEnabledAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
-        table.shouldExists();
+        //проверка через модальное окно
+        StandardButton openModalBtn = page.toolbar().topLeft().button("Добавить через modal");
+        openModalBtn.shouldBeEnabled();
 
-        StandardButton button = table.toolbar().topLeft().button("Добавить");
-        button.shouldBeEnabled();
-
-        button.click();
+        openModalBtn.click();
 
         StandardPage modal = N2oSelenide.modal().content(StandardPage.class);
         modal.shouldExists();
@@ -254,46 +251,37 @@ public class FieldEnabledAT extends AutoTestBase {
         inputField.shouldNotBeRequired();
 
         N2oSelenide.modal().close();
-        button.click();
+        openModalBtn.click();
 
         modal.shouldExists();
 
         buttonField.shouldBeDisabled();
         inputText.shouldBeEnabled();
         inputField.shouldBeRequired();
-    }
 
-    @Test
-    public void enabledByDependencyOnPage() {
-        setJsonPath("net/n2oapp/framework/autotest/control/condition/enabled/by_dependency_on_page");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/condition/enabled/by_dependency_on_page/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/condition/enabled/by_dependency_on_page/subPage.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/condition/enabled/by_dependency_on_page/test.query.xml"));
+        N2oSelenide.modal().close();
 
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
+        //проверка через open-page
+        StandardButton openPageBtn = page.toolbar().topLeft().button("Добавить через page");
+        openPageBtn.shouldBeEnabled();
 
-        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
-        table.shouldExists();
-
-        StandardButton button = table.toolbar().topLeft().button("Добавить");
-        button.shouldBeEnabled();
-
-        button.click();
+        openPageBtn.click();
 
         StandardPage subPage = N2oSelenide.page(StandardPage.class);
         subPage.shouldExists();
 
-        FormWidget mainForm = subPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
-        FormWidget subForm = subPage.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
+        subPage = N2oSelenide.page(StandardPage.class);
+        subPage.shouldExists();
+
+        mainForm = subPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        subForm = subPage.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
         subForm.shouldExists();
         mainForm.shouldExists();
 
-        MaskedInput maskedInput = mainForm.fields().field("СНИЛС").control(MaskedInput.class);
-        ButtonField buttonField = mainForm.fields().field("Поиск по СНИЛС", ButtonField.class);
-        StandardField inputField = subForm.fields().field("Фамилия");
-        InputText inputText = inputField.control(InputText.class);
+        maskedInput = mainForm.fields().field("СНИЛС").control(MaskedInput.class);
+        buttonField = mainForm.fields().field("Поиск по СНИЛС", ButtonField.class);
+        inputField = subForm.fields().field("Фамилия");
+        inputText = inputField.control(InputText.class);
 
         buttonField.shouldBeDisabled();
         inputText.shouldBeEnabled();
@@ -311,7 +299,7 @@ public class FieldEnabledAT extends AutoTestBase {
         inputField.shouldNotBeRequired();
 
         subPage.breadcrumb().crumb(0).click();
-        button.click();
+        openPageBtn.click();
 
         subPage.shouldExists();
 
