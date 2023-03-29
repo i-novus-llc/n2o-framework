@@ -5,6 +5,7 @@ import {
     select,
     takeEvery,
     throttle,
+    delay,
 } from 'redux-saga/effects'
 import isFunction from 'lodash/isFunction'
 import get from 'lodash/get'
@@ -225,6 +226,13 @@ export function* handleInvoke(apiProvider, action) {
                 yield put(
                     setModel(modelPrefix, datasource, newModel),
                 )
+
+                /*
+                * Костыль для редакс формы и мультидействий:
+                * надо дать ей прорендериться с новой моделью, прежде чем завершать текущий шаг и идти к следующему,
+                * который может поменять модель. Если не сделать, то форма, при перерендерах, может потереть более актуальную модель текущей
+                */
+                yield delay(50)
             }
         }
         yield put(successInvoke(datasource, meta))
