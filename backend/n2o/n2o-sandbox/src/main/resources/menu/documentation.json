@@ -6,73 +6,59 @@
       "templates": [
         {
           "templateId": "documentation/routing/routingnav",
-          "name": "Маршрут страниц в меню навигации",
-          "since": "7.16"
+          "name": "Маршрут страниц в меню навигации"
         },
         {
           "templateId": "documentation/routing/homepage",
-          "name": "Начальная страница приложения",
-          "since": "7.16"
+          "name": "Начальная страница приложения"
         },
         {
           "templateId": "documentation/routing/childpage",
-          "name": "Маршрутизация вложенных страниц",
-          "since": "7.16"
+          "name": "Маршрутизация вложенных страниц"
         },
         {
           "templateId": "documentation/routing/pathparam",
-          "name": "Маршрут дочерней страницы с параметром пути",
-          "since": "7.16"
+          "name": "Маршрут дочерней страницы с параметром пути"
         },
         {
           "templateId": "documentation/routing/queryparam",
-          "name": "Маршрут дочерней страницы с параметром запроса",
-          "since": "7.16"
+          "name": "Маршрут дочерней страницы с параметром запроса"
         },
         {
           "templateId": "documentation/routing/pageparam",
-          "name": "Передача и использование параметра страницы",
-          "since": "7.16"
+          "name": "Передача и использование параметра страницы"
         },
         {
           "templateId": "documentation/routing/queryroute",
-          "name": "Маршрутизация выборки",
-          "since": "7.16"
+          "name": "Маршрутизация выборки"
         },
         {
           "templateId": "documentation/routing/queryfilter",
-          "name": "Параметры запроса фильтра выборки",
-          "since": "7.16"
+          "name": "Параметры запроса фильтра выборки"
         },
         {
           "templateId": "documentation/routing/operation",
-          "name": "Маршрутизация операций",
-          "since": "7.16"
+          "name": "Маршрутизация операций"
         },
         {
           "templateId": "documentation/routing/operationpath",
-          "name": "Маршрут операции с параметром пути",
-          "since": "7.16"
+          "name": "Маршрут операции с параметром пути"
         },
         {
           "templateId": "documentation/routing/operationbody",
-          "name": "Маршрут операции с параметром тела запроса",
-          "since": "7.16"
+          "name": "Маршрут операции с параметром тела запроса"
         },
         {
           "templateId": "documentation/routing/field",
-          "name": "Значение простого поля заданное через параметр",
-          "since": "7.16"
+          "name": "Значение простого поля заданное через параметр"
         },
         {
           "templateId": "documentation/routing/fieldlist",
-          "name": "Задание значений списковых полей через параметры",
-          "since": "7.16"
+          "name": "Задание значений списковых полей через параметры"
         },
         {
           "templateId": "documentation/routing/fieldinterval",
-          "name": "Задание значений интервальных полей через параметры",
-          "since": "7.16"
+          "name": "Задание значений интервальных полей через параметры"
         }
 
       ]
@@ -82,93 +68,75 @@
       "templates": [
         {
           "templateId": "documentation/dependency/enabling",
-          "name": "Блокирование поля по условию",
-          "since": "7.16"
+          "name": "Блокирование поля по условию"
         },
         {
           "templateId": "documentation/dependency/enabledshort",
-          "name": "Короткая запись условия блокировки поля",
-          "since": "7.16"
+          "name": "Короткая запись условия блокировки поля"
         },
         {
           "templateId": "documentation/dependency/enabledset",
-          "name": "Блокирование филдсета по условию",
-          "since": "7.16"
+          "name": "Блокирование филдсета по условию"
         },
         {
           "templateId": "documentation/dependency/enablingbutton",
-          "name": "Блокирование кнопки по условию в элементе",
-          "since": "7.16"
+          "name": "Блокирование кнопки по условию в элементе"
         },
         {
           "templateId": "documentation/dependency/enabledbutton",
-          "name": "Блокирование кнопки по условию в атрибуте",
-          "since": "7.16"
+          "name": "Блокирование кнопки по условию в атрибуте"
         },
         {
           "templateId": "documentation/dependency/enabledcell",
-          "name": "Блокирование кнопки ячейки по условию в атрибуте ",
-          "since": "7.16"
+          "name": "Блокирование кнопки ячейки по условию в атрибуте "
         },
         {
           "templateId": "documentation/dependency/visibility",
-          "name": "Скрытие поля по условию через элемент",
-          "since": "7.16"
+          "name": "Скрытие поля по условию через элемент"
         },
         {
           "templateId": "documentation/dependency/visible",
-          "name": "Скрытие поля по условию через атрибут",
-          "since": "7.16"
+          "name": "Скрытие поля по условию через атрибут"
         },
         {
           "templateId": "documentation/dependency/visibleset",
-          "name": "Скрытие филдсета по условию",
-          "since": "7.16"
+          "name": "Скрытие филдсета по условию"
         },
         {
           "templateId": "documentation/dependency/visibilitybutton",
-          "name": "Скрытие кнопки по условию через элемент",
-          "since": "7.16"
+          "name": "Скрытие кнопки по условию через элемент"
         },
         {
           "templateId": "documentation/dependency/visiblebutton",
-          "name": "Скрытие кнопки по условию через атрибут",
-          "since": "7.16"
+          "name": "Скрытие кнопки по условию через атрибут"
         },
         {
           "templateId": "documentation/dependency/visibilitycolumn",
-          "name": "Скрытие столбца таблицы по условию через элемент",
-          "since": "7.16"
+          "name": "Скрытие столбца таблицы по условию через элемент"
         },
         {
           "templateId": "documentation/dependency/visibilitycell",
-          "name": "Скрытие кнопки ячейки по условию в атрибуте",
-          "since": "7.16"
+          "name": "Скрытие кнопки ячейки по условию в атрибуте"
         },
         {
           "templateId": "documentation/dependency/setvalue",
-          "name": "Установка значения в простом поле",
-          "since": "7.16"
+          "name": "Установка значения в простом поле"
         },
         {
           "templateId": "documentation/dependency/setvaluelist",
-          "name": "Установка значения в списковом поле",
-          "since": "7.16"
+          "name": "Установка значения в списковом поле"
         },
         {
           "templateId": "documentation/dependency/setvaluecheckbox",
-          "name": "Установка значения в чекбоксе",
-          "since": "7.16"
+          "name": "Установка значения в чекбоксе"
         },
         {
           "templateId": "documentation/dependency/requiring",
-          "name": "Условие обязательности заполнения поля через элемент",
-          "since": "7.16"
+          "name": "Условие обязательности заполнения поля через элемент"
         },
         {
           "templateId": "documentation/dependency/required",
-          "name": "Условие обязательности заполнения поля через атрибут",
-          "since": "7.16"
+          "name": "Условие обязательности заполнения поля через атрибут"
         }
       ]
     },
@@ -177,8 +145,7 @@
       "templates": [
         {
           "templateId": "documentation/filters/filters",
-          "name": "Фильтрация источника данных",
-          "since": "7.16"
+          "name": "Фильтрация источника данных"
         }
       ]
     },
@@ -187,38 +154,31 @@
       "templates": [
         {
           "templateId": "documentation/validation/condition",
-          "name": "Валидация по условию",
-          "since": "7.16"
+          "name": "Валидация по условию"
         },
         {
           "templateId": "documentation/validation/constraint",
-          "name": "Валидация с запросом к провайдеру данных",
-          "since": "7.16"
+          "name": "Валидация с запросом к провайдеру данных"
         },
         {
           "templateId": "documentation/validation/required",
-          "name": "Обязательность заполнения входящего параметра операции",
-          "since": "7.16"
+          "name": "Обязательность заполнения входящего параметра операции"
         },
         {
           "templateId": "documentation/validation/mandatory",
-          "name": "Валидация обязательности заполнения",
-          "since": "7.16"
+          "name": "Валидация обязательности заполнения"
         },
         {
           "templateId": "documentation/validation/mandatoryenabled",
-          "name": "Отключение валидации",
-          "since": "7.16"
+          "name": "Отключение валидации"
         },
         {
           "templateId": "documentation/validation/dialog",
-          "name": "Настраиваемый диалог",
-          "since": "7.16"
+          "name": "Настраиваемый диалог"
         },
         {
           "templateId": "documentation/validation/whitelist",
-          "name": "Список валидаций прикрепленных к полю",
-          "since": "7.16"
+          "name": "Список валидаций прикрепленных к полю"
         }
       ]
     },
@@ -227,33 +187,27 @@
       "templates": [
         {
           "templateId": "documentation/defaultvalue/field",
-          "name": "Значение по умолчанию для простых полей",
-          "since": "7.16"
+          "name": "Значение по умолчанию для простых полей"
         },
         {
           "templateId": "documentation/defaultvalue/list",
-          "name": "Значение по умолчанию для списковых полей",
-          "since": "7.16"
+          "name": "Значение по умолчанию для списковых полей"
         },
         {
           "templateId": "documentation/defaultvalue/query",
-          "name": "Выборка значений по умолчанию",
-          "since": "7.16"
+          "name": "Выборка значений по умолчанию"
         },
         {
           "templateId": "documentation/defaultvalue/js",
-          "name": "Значение по умолчанию в виде JavaScript выражения",
-          "since": "7.16"
+          "name": "Значение по умолчанию в виде JavaScript выражения"
         },
         {
           "templateId": "documentation/defaultvalue/datetime",
-          "name": "Значение по умолчанию в виде функции даты и времени",
-          "since": "7.16"
+          "name": "Значение по умолчанию в виде функции даты и времени"
         },
         {
           "templateId": "documentation/defaultvalue/ref",
-          "name": "Значение по умолчанию через ссылку на данные",
-          "since": "7.16"
+          "name": "Значение по умолчанию через ссылку на данные"
         }
       ]
     },
@@ -262,43 +216,35 @@
       "templates": [
         {
           "templateId": "documentation/components/simplepage",
-          "name": "Простая страница",
-          "since": "7.16"
+          "name": "Простая страница"
         },
         {
           "templateId": "documentation/components/page",
-          "name": "Страница с разметкой регионов (page)",
-          "since": "7.16"
+          "name": "Страница с разметкой регионов (page)"
         },
         {
           "templateId": "documentation/components/lrpage",
-          "name": "Страница с разметкой регионов (left-right-page)",
-          "since": "7.16"
+          "name": "Страница с разметкой регионов (left-right-page)"
         },
         {
           "templateId": "documentation/components/toplrpage",
-          "name": "Страница с разметкой регионов (top-left-right-page)",
-          "since": "7.16"
+          "name": "Страница с разметкой регионов (top-left-right-page)"
         },
         {
           "templateId": "documentation/components/searchablepage",
-          "name": "Страница с поисковой строкой",
-          "since": "7.16"
+          "name": "Страница с поисковой строкой"
         },
         {
           "templateId": "documentation/components/tabs",
-          "name": "Регион в виде вкладок",
-          "since": "7.16"
+          "name": "Регион в виде вкладок"
         },
         {
           "templateId": "documentation/components/table",
-          "name": "Виджет таблица",
-          "since": "7.16"
+          "name": "Виджет таблица"
         },
         {
           "templateId": "documentation/components/form",
-          "name": "Виджет форма",
-          "since": "7.16"
+          "name": "Виджет форма"
         }
       ]
     },
@@ -307,33 +253,27 @@
       "templates": [
         {
           "templateId": "documentation/dynamic/icon",
-          "name": "Иконка в таблице по данным строки",
-          "since": "7.16"
+          "name": "Иконка в таблице по данным строки"
         },
         {
           "templateId": "documentation/dynamic/textlabel",
-          "name": "Заголовок поля по значению другого поля",
-          "since": "7.16"
+          "name": "Заголовок поля по значению другого поля"
         },
         {
           "templateId": "documentation/dynamic/checkboxenabled",
-          "name": "Доступность чекбокса по условию",
-          "since": "7.16"
+          "name": "Доступность чекбокса по условию"
         },
         {
           "templateId": "documentation/dynamic/columnformat",
-          "name": "Форматирование значения столбца таблицы",
-          "since": "7.16"
+          "name": "Форматирование значения столбца таблицы"
         },
         {
           "templateId": "documentation/dynamic/columnswitch",
-          "name": "Переключатель ячейки столбца таблицы",
-          "since": "7.16"
+          "name": "Переключатель ячейки столбца таблицы"
         },
         {
           "templateId": "documentation/dynamic/pagelink",
-          "name": "Динамическая ссылка на страницу",
-          "since": "7.16"
+          "name": "Динамическая ссылка на страницу"
         }
       ]
     }
