@@ -1,7 +1,5 @@
 package net.n2oapp.framework.autotest.fieldset;
 
-import net.n2oapp.framework.autotest.BadgePosition;
-import net.n2oapp.framework.autotest.BadgeShape;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
@@ -127,29 +125,5 @@ public class LineFieldSetAT extends AutoTestBase {
         inputText.setValue("test");
         line1Field.shouldBeDisabled();
         line2Field.shouldBeEnabled();
-    }
-
-    @Test
-    public void testBadge() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/list/badge/index.page.xml"));
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
-
-        fieldsets.fieldset(0, LineFieldSet.class).badgeShouldHaveText("12");
-        fieldsets.fieldset(0, LineFieldSet.class).badgeShouldHaveShape(BadgeShape.ROUNDED);
-        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveText("Humburg");
-        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveShape(BadgeShape.SQUARE);
-        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImagePosition(BadgePosition.RIGHT);
-        fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImageShape(BadgeShape.SQUARE);
-        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldNotBeExists();
-        fieldsets.fieldset(2, LineFieldSet.class).expand();
-        fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).setValue("27");
-        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldHaveText("27");
-        fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).setValue("54");
-        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldHaveText("54");
-        fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).clear();
-        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldNotBeExists();
     }
 }

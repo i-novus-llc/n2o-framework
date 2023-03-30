@@ -2,13 +2,16 @@ package net.n2oapp.framework.autotest.badge;
 
 import net.n2oapp.framework.autotest.BadgePosition;
 import net.n2oapp.framework.autotest.BadgeShape;
+import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -215,5 +218,34 @@ public class BadgeAT extends AutoTestBase {
         menuItem.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
         menuItem.badgeShouldHaveImageShape(BadgeShape.SQUARE);
         menuItem.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+    }
+
+    @Test
+    public void testLineFieldset() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/fieldset/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+
+        LineFieldSet fieldset = fieldsets.fieldset(0, LineFieldSet.class);
+        fieldset.badgeShouldHaveText("12");
+        fieldset.badgeShouldHaveShape(BadgeShape.ROUNDED);
+
+        fieldset = fieldsets.fieldset(1, LineFieldSet.class);
+        fieldset.badgeShouldHaveText("Humburg");
+        fieldset.badgeShouldHaveShape(BadgeShape.SQUARE);
+        fieldset.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
+        fieldset.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+        fieldset.badgeShouldHaveImageShape(BadgeShape.SQUARE);
+
+        fieldset = fieldsets.fieldset(2, LineFieldSet.class);
+        fieldset.badgeShouldNotBeExists();
+        fieldset.expand();
+        fieldset.fields().field("count").control(InputText.class).setValue("27");
+        fieldset.badgeShouldHaveText("27");
+        fieldset.fields().field("count").control(InputText.class).setValue("54");
+        fieldset.badgeShouldHaveText("54");
+        fieldset.fields().field("count").control(InputText.class).clear();
+        fieldset.badgeShouldNotBeExists();
     }
 }

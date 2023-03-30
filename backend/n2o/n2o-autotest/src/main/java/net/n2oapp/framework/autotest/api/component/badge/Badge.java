@@ -17,6 +17,13 @@ public interface Badge extends Component {
     }
 
     /**
+     * Проверка отсутствия баджа внутри элемента
+     */
+    default void badgeShouldNotBeExists() {
+        element().$(".n2o-badge").shouldNotBe(Condition.visible);
+    }
+
+    /**
      * Проверка наличие картинки и ее соответствие ожидаемому значению
      * @param imageSrc ожидаемый путь к картинке
      */
@@ -68,9 +75,5 @@ public interface Badge extends Component {
      */
     default void badgeShouldNotHaveText() {
         element().$(".n2o-badge").shouldHave(Condition.empty);
-    }
-
-    default void badgeShouldNotBeExists() {
-        element().$(".n2o-badge").shouldNotBe(Condition.visible);
     }
 }

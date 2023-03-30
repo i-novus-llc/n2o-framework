@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Моя первая страница">
+             name="Страница проверки badge в line филдсете">
     <form>
         <fields>
             <line label="test" badge="12" badge-color="info" badge-shape="rounded"/>

@@ -1,17 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Badge в line филдсет"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Badge в line филдсете"
       show-title="true">
     <datasources>
         <datasource id="ds1" query-id="data" size="5"/>
     </datasources>
+
     <events>
         <on-change datasource="ds1" model="filter">
             <set-value to="count" target-datasource="ds1" target-model="filter"
                        source-datasource="ds1" source-model="filter">
-                Object.keys(this).filter(key => this[key] &amp;&amp; key !== 'count').length > 0 ? Object.keys(this).filter(key => this[key] &amp;&amp; key !== 'count').length : null
+                Object.keys(this).filter(key => this[key] &amp;&amp; key !== 'count').length > 0 ?
+                Object.keys(this).filter(key => this[key] &amp;&amp; key !== 'count').length : null
             </set-value>
         </on-change>
     </events>
+
     <regions>
         <region>
             <table name="Заявки на получение заграничного паспорта" datasource="ds1">
@@ -23,7 +27,7 @@
                     <column text-field-id="department"/>
                 </columns>
                 <filters>
-                    <line label="Расширенные фильтры" expand="true" has-separator="false" badge="{count}">
+                    <line label="Расширенные фильтры" badge="{count}">
                         <hidden id="count"/>
                         <row>
                             <select id="region">
