@@ -784,5 +784,10 @@ public class MultiFieldSetAT extends AutoTestBase {
         zero.shouldHaveValue("0");
         one.shouldHaveValue("1");
         two.shouldHaveValue("2");
+
+        fieldset.item(0).clickRemoveButton();
+
+        zero.shouldHaveValue("0");
+        one.shouldHaveValue("1");
     }
 }
