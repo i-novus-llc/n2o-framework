@@ -37,6 +37,13 @@ import {
 } from './store'
 import { flowDefaultModels } from './sagas/defaultModels'
 
+function* setDefaultModels(models) {
+    yield race([
+        call(flowDefaultModels, models),
+        take(resetPage.type),
+    ])
+}
+
 /**
  * сага, фетчит метадату
  * @param apiProvider
@@ -82,10 +89,7 @@ export function* getMetadata(apiProvider, action) {
         yield put(setStatus(metadata.id, 200))
         yield put(metadataSuccess(metadata.id, metadata))
 
-        yield fork(race, [
-            call(flowDefaultModels, metadata.models),
-            take(resetPage.type),
-        ])
+        yield fork(setDefaultModels, metadata.models)
     } catch (err) {
         if (err && err.status) {
             yield put(setStatus(pageId, err.status))
