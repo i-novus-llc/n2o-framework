@@ -67,7 +67,7 @@ public class TilesAT extends AutoTestBase {
 
         BadgeCell badgeCell = tile1.blocks().cell(3, BadgeCell.class);
         badgeCell.shouldHaveColor(Colors.INFO);
-        badgeCell.shouldHaveText("alert");
+        badgeCell.badgeShouldHaveText("alert");
         tile1.blocks().cell(4, ProgressBarCell.class).shouldHaveValue("50");
         tile1.blocks().cell(5, RatingCell.class).shouldHaveValue("4");
         tile1.blocks().cell(6, CheckboxCell.class).shouldBeChecked();

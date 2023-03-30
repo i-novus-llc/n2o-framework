@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Badge в line филдсет"
+      show-title="true">
+    <datasources>
+        <datasource id="ds1" query-id="data" size="5"/>
+    </datasources>
+    <events>
+        <on-change datasource="ds1" model="filter">
+            <set-value to="count" target-datasource="ds1" target-model="filter"
+                       source-datasource="ds1" source-model="filter">
+                Object.keys(this).filter(key => this[key] &amp;&amp; key !== 'count').length > 0 ? Object.keys(this).filter(key => this[key] &amp;&amp; key !== 'count').length : null
+            </set-value>
+        </on-change>
+    </events>
+    <regions>
+        <region>
+            <table name="Заявки на получение заграничного паспорта" datasource="ds1">
+                <columns>
+                    <column text-field-id="id"/>
+                    <column text-field-id="fio"/>
+                    <column text-field-id="snils"/>
+                    <column text-field-id="region"/>
+                    <column text-field-id="department"/>
+                </columns>
+                <filters>
+                    <line label="Расширенные фильтры" expand="true" has-separator="false" badge="{count}">
+                        <hidden id="count"/>
+                        <row>
+                            <select id="region">
+                                <options>
+                                    <option id="1" name="Республика Татарстан"/>
+                                    <option id="2" name="Республика Марий-Эл"/>
+                                    <option id="3" name="Кабардино-Балкарская Республика"/>
+                                </options>
+                                <default-value id="1"/>
+                            </select>
+                            <select id="department">
+                                <options>
+                                    <option id="1" name="МФЦ Авиастроительный отдел"/>
+                                    <option id="2" name="МФЦ г. Звенигово"/>
+                                    <option id="3" name="Филиал ГБУ «МФЦ КБР» по Урванскому муниципальному району"/>
+                                    <option id="4" name="МФЦ Авиастроительный отдел"/>
+                                    <option id="5" name="МФЦ Юдинский отдел"/>
+                                    <option id="6" name="МФЦ Московское отделение"/>
+                                    <option id="7" name="МФЦ Дербышинский отдел"/>
+                                </options>
+                                <default-value id="2"/>
+                            </select>
+                            <input-text id="fio"/>
+                            <masked-input id="snils" mask="999-999-999 99"/>
+                        </row>
+                    </line>
+                </filters>
+                <pagination/>
+            </table>
+        </region>
+    </regions>
+</page>
