@@ -69,4 +69,8 @@ public interface Badge extends Component {
     default void badgeShouldNotHaveText() {
         element().$(".n2o-badge").shouldHave(Condition.empty);
     }
+
+    default void badgeShouldNotBeExists() {
+        element().$(".n2o-badge").shouldNotBe(Condition.visible);
+    }
 }

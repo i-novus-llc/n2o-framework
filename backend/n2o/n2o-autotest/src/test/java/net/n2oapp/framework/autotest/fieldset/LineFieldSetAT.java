@@ -143,13 +143,13 @@ public class LineFieldSetAT extends AutoTestBase {
         fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
         fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImagePosition(BadgePosition.RIGHT);
         fieldsets.fieldset(1, LineFieldSet.class).badgeShouldHaveImageShape(BadgeShape.SQUARE);
-        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldNotHaveText();
+        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldNotBeExists();
         fieldsets.fieldset(2, LineFieldSet.class).expand();
         fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).setValue("27");
         fieldsets.fieldset(2, LineFieldSet.class).badgeShouldHaveText("27");
         fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).setValue("54");
         fieldsets.fieldset(2, LineFieldSet.class).badgeShouldHaveText("54");
         fieldsets.fieldset(2, LineFieldSet.class).fields().field("count").control(InputText.class).clear();
-        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldNotHaveText();
+        fieldsets.fieldset(2, LineFieldSet.class).badgeShouldNotBeExists();
     }
 }
