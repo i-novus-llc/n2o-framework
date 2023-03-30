@@ -25,7 +25,7 @@ import { setModel } from '../models/store'
 
 import { setActiveRegion, regionsSelector, setTabInvalid, registerRegion } from './store'
 import { MAP_URL } from './constants'
-import { getTabsRegions, checkTabErrors, activeTabHasErrors } from './utils'
+import { getTabsRegions, checkTabErrors, activeTabHasErrors, tabsIncludesId } from './utils'
 
 function* mapUrl(value) {
     const rootPageId = yield select(rootPageSelector)
@@ -280,6 +280,10 @@ function* validateTabs({ payload, meta, type }) {
 
     const state = yield select()
     const tabsRegions = getTabsRegions(state)
+
+    if (!tabsIncludesId(id, tabsRegions)) {
+        yield cancel()
+    }
 
     const errors = yield select(dataSourceErrors(id)) || {}
     const fieldsWithErrors = Object.keys(errors)
