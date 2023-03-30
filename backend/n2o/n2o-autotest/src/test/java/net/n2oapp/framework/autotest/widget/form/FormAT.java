@@ -107,6 +107,7 @@ public class FormAT extends AutoTestBase {
     
     @Test
     public void testMode() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/form/mode");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/test.query.xml"));
         StandardPage page = open(StandardPage.class);

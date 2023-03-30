@@ -31,12 +31,12 @@ public class CheckboxGroupAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/checkbox_group/index.page.xml"));
     }
 
     @Test
     public void testCheckboxGroup() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/checkbox_group/index.page.xml"));
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -54,5 +54,18 @@ public class CheckboxGroupAT extends AutoTestBase {
         checkboxGroup.shouldBeChecked("One");
         checkboxGroup.shouldBeUnchecked("Two");
         checkboxGroup.shouldBeChecked("Three");
+    }
+
+    @Test
+    public void defaultValue() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/checkbox_group/default_value/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        CheckboxGroup checkboxGroup = page.widget(FormWidget.class).fields().field("Группа чекбоксов").control(CheckboxGroup.class);
+        checkboxGroup.shouldBeUnchecked("Один");
+        checkboxGroup.shouldBeChecked("Два");
+        checkboxGroup.shouldBeUnchecked("Три");
     }
 }

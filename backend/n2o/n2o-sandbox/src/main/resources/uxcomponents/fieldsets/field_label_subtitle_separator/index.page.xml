@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Филдсет с заголовком и делителем">
+    <form>
+        <fields>
+            <line label="Заголовок" sub-title="Подзаголовок" collapsible="false">
+                <text id="text"/>
+            </line>
+        </fields>
+    </form>
+</simple-page>

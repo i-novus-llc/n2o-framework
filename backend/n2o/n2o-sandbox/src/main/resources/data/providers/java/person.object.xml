@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+
+    <operations>
+        <operation id="create" name="Добавить" success-text="Человек добавлен в базу">
+            <invocation>
+                <java method="create" class="net.n2oapp.framework.sandbox.examples.MyService">
+                    <spring/>
+                    <arguments>
+                        <argument class="net.n2oapp.framework.sandbox.cases.persons.Person"
+                                  type="entity" name="person"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="firstName" mapping="['person'].firstName"/>
+                <field id="lastName" mapping="['person'].lastName"/>
+            </in>
+            <out>
+                <field id="id" mapping="['id']"/>
+            </out>
+        </operation>
+
+        <operation id="update" name="Изменить" success-text="Данные о человеке изменены">
+            <invocation>
+                <java method="update" class="net.n2oapp.framework.sandbox.examples.MyService">
+                    <spring/>
+                    <arguments>
+                        <argument class="net.n2oapp.framework.sandbox.cases.persons.Person"
+                                  type="entity" name="person"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="id" mapping="['person'].id"/>
+                <field id="firstName" mapping="['person'].firstName"/>
+                <field id="lastName" mapping="['person'].lastName"/>
+            </in>
+        </operation>
+
+        <operation id="delete" name="Удалить" success-text="Данные о человеке удалены">
+            <invocation>
+                <java method="delete" class="net.n2oapp.framework.sandbox.examples.MyService">
+                    <spring/>
+                    <arguments>
+                        <argument type="primitive"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in>
+                <field id="id" mapping="[0]" domain="long"/>
+            </in>
+        </operation>
+    </operations>
+</object>

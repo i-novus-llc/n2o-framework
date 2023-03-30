@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Скрытие поля по условию через элемент">
+    <form>
+        <fields>
+            <input-text id="gender" label="Пол"
+                        description="Если в поле Пол написать 'woman', то поле Девичья фамилия станет видимым"/>
+            <input-text id="maidenName" label="Девичья фамилия">
+                <dependencies>
+                    <!-- Поле "Девичья фамилия" видимо, если пол женский -->
+                    <visibility on="gender">gender == 'woman'</visibility>
+                </dependencies>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

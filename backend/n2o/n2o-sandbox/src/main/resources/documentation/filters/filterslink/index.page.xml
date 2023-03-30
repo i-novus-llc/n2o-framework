@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Фильтрация по ссылке">
+    <datasources>
+        <datasource id ="org" query-id="org"/>
+    </datasources>
+    <regions>
+        <table datasource="org">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+            <toolbar>
+                <button label="Сотрудники компании">
+                    <show-modal page-id="employees">
+                        <datasources>
+                            <datasource id="employees" query-id="employees">
+                                <filters>
+                                    <eq field-id="organization.id"
+                                        value="{id}"
+                                        datasource="org"
+                                        model="resolve"/>
+                                </filters>
+                            </datasource>
+                        </datasources>
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

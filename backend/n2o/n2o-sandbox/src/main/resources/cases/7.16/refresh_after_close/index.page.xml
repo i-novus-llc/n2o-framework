@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Обновление виджета после закрытия модального окна">
+    <regions>
+        <table id="table" query-id="test">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+        <form>
+            <toolbar>
+                <button label="Modal" disable-on-empty-model="false">
+                    <show-modal page-id="modal" route="/modal" unsaved-data-prompt-on-close="false"
+                                backdrop="true" refresh-on-close="true" refresh-widget-id="table"/>
+                </button>
+                <button label="Drawer" disable-on-empty-model="false">
+                    <open-drawer page-id="modal" route="/drawer" unsaved-data-prompt-on-close="false"
+                                 close-on-backdrop="true" refresh-on-close="true" refresh-widget-id="table"/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

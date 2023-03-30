@@ -12,7 +12,6 @@ import isEqual from 'lodash/isEqual'
 import some from 'lodash/some'
 import includes from 'lodash/includes'
 import get from 'lodash/get'
-import keys from 'lodash/keys'
 
 import evalExpression from '../utils/evalExpression'
 import { makeFormByName } from '../ducks/form/selectors'
@@ -35,7 +34,6 @@ import {
     appendFieldToArray,
     combineModels,
     copyFieldArray,
-    modelInit,
     removeFieldFromArray,
     updateModel,
 } from '../ducks/models/store'
@@ -225,7 +223,6 @@ export function* checkAndModify(
                     appendFieldToArray.type,
                     removeFieldFromArray.type,
                     copyFieldArray,
-                    modelInit.type,
                 ].some(type => type === actionType)
 
                 if (
@@ -243,38 +240,23 @@ export function* resolveDependency({ type, meta, payload }) {
     yield delay(16)
 
     try {
-        const { key, field: fieldName, prefix = ModelPrefix.active, formFirstInit } = meta
+        const { key, field: fieldName, prefix = ModelPrefix.active } = meta
         const formValue = yield select(getModelByPrefixAndNameSelector(prefix, key))
         const form = yield select(makeFormByName(key))
-        const fieldKeys = type === modelInit.type ? keys(form.registeredFields) : null
 
         if (isEmpty(form) || isEmpty(form.registeredFields)) {
             return
         }
 
-        if (fieldKeys && !formFirstInit) {
-            for (const field of fieldKeys) {
-                yield call(
-                    checkAndModify,
-                    prefix,
-                    formValue || {},
-                    form.registeredFields,
-                    key,
-                    field,
-                    type,
-                )
-            }
-        } else if (!formFirstInit) {
-            yield call(
-                checkAndModify,
-                prefix,
-                formValue || {},
-                form.registeredFields,
-                key,
-                type === registerFieldExtra.type ? payload.name : fieldName,
-                type,
-            )
-        }
+        yield call(
+            checkAndModify,
+            prefix,
+            formValue || {},
+            form.registeredFields,
+            key,
+            type === registerFieldExtra.type ? payload.name : fieldName,
+            type,
+        )
     } catch (e) {
         // todo: падает тут из-за отсутствия формы
         // eslint-disable-next-line no-console
@@ -312,7 +294,6 @@ export function* resolveDependencyDefaultModels({ payload }) {
 
 export const fieldDependencySagas = [
     takeEvery([
-        modelInit,
         registerFieldExtra,
         updateModel,
         initializeDependencies,

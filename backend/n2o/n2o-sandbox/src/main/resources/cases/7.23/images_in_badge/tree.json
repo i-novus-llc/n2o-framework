@@ -1,0 +1,46 @@
+[
+  {
+    "id" : 1,
+    "name" : "Отдел тестирования"
+  },
+  {
+    "id" : 2,
+    "name" : "Отдел разработки"
+  },
+  {
+    "id" : 3,
+    "name" : "Отдел аналитики"
+  },
+  {
+    "id" : 11,
+    "name" : "Руководитель",
+    "parent" : 1,
+    "status": "success",
+    "badge":"Алексей Иванов",
+    "badgeImage": "static/men.jfif"
+  },
+  {
+    "id" : 21,
+    "name" : "Руководитель",
+    "parent" : 2,
+    "status": "warning",
+    "badge":"Иван Алексеев",
+    "badgeImage": "static/men2.jfif"
+  },
+  {
+    "id" : 211,
+    "name" : "Старший разработчик",
+    "parent" : 21,
+    "status": "warning",
+    "badge":"Анна Сергеева",
+    "badgeImage": "static/candidate2.png"
+  },
+  {
+    "id" : 31,
+    "name" : "Руководитель",
+    "parent" : 3,
+    "status": "info",
+    "badge":"Павел Афанасьев",
+    "badgeImage": "static/men3.jfif"
+  }
+]

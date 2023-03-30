@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Вычисление, копирование и очистка значений полей">
+    <form>
+        <fields>
+            <button label="Результат 1 + 2">
+                <set-value to="result">1 + 2</set-value>
+            </button>
+            <output-text id="result" label="Итог"/>
+
+            <button label="Узнать текущее время">
+                <set-value to="currentTime">moment().format('hh:mm:ss')</set-value>
+            </button>
+            <output-text id="currentTime" label="Текущее время"/>
+
+            <row>
+                <masked-input id="phone1" label="Телефон1" mask="99-99-99">
+                    <toolbar>
+                        <button icon="fa fa-files-o" type="icon" label="Скопировать">
+                            <set-value to="phone2">phone1</set-value>
+                        </button>
+                    </toolbar>
+                </masked-input>
+                <masked-input id="phone2" label="Телефон2" mask="99-99-99"/>
+            </row>
+
+            <row>
+                <masked-input id="phone" label="Номер телефона" mask="99-99-99" default-value="123456">
+                    <toolbar>
+                        <button icon="fa fa-trash" type="icon" label="Очистить">
+                            <set-value to="phone">null</set-value>
+                        </button>
+                    </toolbar>
+                </masked-input>
+            </row>
+        </fields>
+    </form>
+</simple-page>

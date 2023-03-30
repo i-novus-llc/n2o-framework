@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Подсветка невалидных полей в неактивных вкладках">
+    <datasources>
+        <datasource id="main" object-id="test"/>
+        <datasource id="address" object-id="test"/>
+        <datasource id="org" object-id="test"/>
+    </datasources>
+    <toolbar>
+        <button id="create" datasource="main"
+                label="Сохранить"
+                disable-on-empty="false"
+                validate-datasources="main,address,org">
+            <invoke operation-id="create">
+                <form-param id="name" datasource="main" value="{name}"/>
+                <form-param id="address" datasource="address" value="{address}"/>
+                <form-param id="org" datasource="org" value="{org}"/>
+            </invoke>
+        </button>
+    </toolbar>
+    <regions>
+        <form name="Клиент" datasource="main">
+            <fields>
+                <input-text id="name" label="Имя" required="true" description="Введите 'test' для проверки валидации">
+                    <validations white-list="uniqueName"/>
+                </input-text>
+            </fields>
+        </form>
+        <tabs lazy="false">
+            <tab name="Адрес">
+                <form datasource="address">
+                    <fields>
+                        <input-text id="address" label="Адрес"/>
+                    </fields>
+                </form>
+            </tab>
+            <tab name="Организация">
+                <form datasource="org">
+                    <fields>
+                        <input-text id="org" label="Название организации" required="true" description="Введите 'test' для проверки валидации">
+                            <validations white-list="uniqueOrg"/>
+                        </input-text>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>

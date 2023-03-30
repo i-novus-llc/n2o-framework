@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Размеры плиток">
+    <tiles cols-lg="4" cols-md="2" cols-sm="1" width="400" height="200">
+        <datasource query-id="itinerary"/>
+        <content>
+            <block text-field-id="photo">
+                <image style="height: 200px"/>
+            </block>
+            <block text-field-id="name">
+                <text class="font-weight-bold" />
+            </block>
+            <block text-field-id="price">
+                <text class="font-weight-bold" />
+            </block>
+            <block text-field-id="description">
+                <text class="font-weight-light" />
+            </block>
+        </content>
+    </tiles>
+</simple-page>

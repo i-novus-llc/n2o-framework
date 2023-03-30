@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+             name="Доступ к полям по sec атрибутам">
+    <form>
+        <fields>
+            <input-text id="field1" label="Доступно всем"
+                        sec:permit-all="true"/>
+            <input-text id="field2" label="Только с ролью admin"
+                        sec:roles="admin"/>
+            <input-text id="field3" label="Только с правом edit"
+                        sec:permissions="edit"/>
+            <input-text id="field4" label="Только анонимам"
+                        sec:anonymous="true"/>
+        </fields>
+    </form>
+</simple-page>

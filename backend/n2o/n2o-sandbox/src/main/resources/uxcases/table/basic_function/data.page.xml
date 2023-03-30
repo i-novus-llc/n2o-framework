@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="main" query-id="data">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+    </datasources>
+    <regions>
+        <form datasource="main">
+            <fields>
+                <row>
+                    <col>
+                        <input-text id="surname"/>
+                        <input-text id="name"/>
+                        <input-text id="patronymic"/>
+                    </col>
+                    <col>
+                        <date-time id="birthday"/>
+                        <radio-group id="gender" query-id="gender"
+                                     label="Пол" inline="true"/>
+                        <checkbox id="vip"/>
+                    </col>
+                </row>
+            </fields>
+        </form>
+    </regions>
+</page>

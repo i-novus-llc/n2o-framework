@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource query-id="car"/>
+        <fields>
+            <input-text id="name" label="Наименование"/>
+            <input-text id="price" label="Цена"/>
+        </fields>
+    </form>
+</simple-page>

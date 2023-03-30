@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list result-mapping="#this" count-mapping="#this.files.length">
+        <java method="getList">
+            <spring bean="fileStorageController"/>
+        </java>
+    </list>
+
+    <fields>
+        <list id="files">
+            <field id="id"/>
+            <field id="fileName"/>
+            <field id="url"/>
+            <field id="size" domain="long"/>
+        </list>
+    </fields>
+</query>

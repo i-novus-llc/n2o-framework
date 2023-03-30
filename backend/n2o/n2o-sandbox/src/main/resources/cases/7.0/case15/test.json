@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "type": 1,
+    "name": "test1",
+    "option": 10,
+    "form": "123.45"
+  },
+  {
+    "id": 2,
+    "type": 1,
+    "name": "test2",
+    "form": "123.45"
+  },
+  {
+    "id": 3,
+    "type": 2,
+    "name": "test3",
+    "option": 30,
+    "form": "123.45"
+  },
+  {
+    "id": 4,
+    "type": 2,
+    "name": "test4",
+    "form": "123.45"
+  }
+]

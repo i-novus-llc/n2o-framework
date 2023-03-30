@@ -1,0 +1,14 @@
+[
+  {
+    "genders": [
+      {
+        "id": "m",
+        "name": "Man"
+      },
+      {
+        "id": "w",
+        "name": "Woman"
+      }
+    ]
+  }
+]

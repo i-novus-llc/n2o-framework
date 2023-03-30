@@ -2,7 +2,6 @@ import models, {
     setModel,
     removeModel,
     updateModel,
-    updateMapModel,
     removeAllModel
 } from '../store'
 
@@ -194,41 +193,6 @@ describe('Тесты models reducer', () => {
         ).toEqual({
             edit: {
                 editKey: { a: { b: 'value1' } },
-            },
-        })
-    })
-
-    it('Проверка UPDATE_MAP', () => {
-        expect(
-            models(
-                {
-                    edit: {
-                        editKey: {},
-                    },
-                },
-                {
-                    type: updateMapModel.type,
-                    payload: {
-                        prefix: 'edit',
-                        key: 'editKey',
-                        field: 'field',
-                        map: 'map',
-                        value: [1, 2],
-                    },
-                },
-            ),
-        ).toEqual({
-            edit: {
-                editKey: {
-                    field: [
-                        {
-                            map: 1,
-                        },
-                        {
-                            map: 2,
-                        },
-                    ],
-                },
             },
         })
     })

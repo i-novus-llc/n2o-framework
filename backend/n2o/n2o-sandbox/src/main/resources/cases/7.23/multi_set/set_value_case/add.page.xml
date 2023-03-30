@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <parent-datasource id="ds1"/>
+        <datasource id="add"/>
+    </datasources>
+
+    <regions>
+        <form datasource="add">
+            <fields>
+                <row>
+                    <hidden id="id">
+                        <dependencies>
+                            <set-value>
+                                return $.uuid()
+                            </set-value>
+                        </dependencies>
+                    </hidden>
+                    <input-text id="surname" label="Фамилия"/>
+                    <input-text id="name" label="Имя"/>
+                    <input-text id="patronymic" label="Отчество"/>
+                </row>
+            </fields>
+            <toolbar>
+                <button label="Добавить">
+                    <edit-list
+                            operation="create"
+                            model="resolve"
+                            datasource="ds1"
+                            list-field-id="fl"
+                            item-model="resolve"
+                            item-datasource="add"
+                    />
+                    <close/>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

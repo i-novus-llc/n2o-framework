@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Выпадающий список с иконками">
+    <form >
+        <fields >
+            <row>
+                <input-select 
+                    placeholder="Введите значение"
+                    id="inputSelectWithIcon" 
+                    label="Ввод с выпадающим списком"
+                    query-id="test" 
+                    icon-field-id="icon"
+                />
+                <select 
+                    placeholder="Введите значение"
+                    id="selectWithIcon" 
+                    label="Выпадающий список"
+                    query-id="test" 
+                    icon-field-id="icon"
+                />
+            </row>
+        </fields>
+    </form>
+</simple-page>

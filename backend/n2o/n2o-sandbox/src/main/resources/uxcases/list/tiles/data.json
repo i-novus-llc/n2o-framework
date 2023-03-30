@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Москва",
+    "image": "static/moscow.png",
+    "description": "Москва – великий город с богатой историей и интересными достопримечательностями",
+    "link": "https://moscow.ru/"
+  },
+  {
+    "id": 2,
+    "name": "Казань",
+    "image": "static/kazan.png",
+    "description": "Казань – столица Республики Татарстан, расположена на Волге в 850 км от Москвы.",
+    "link": "https://kzn.ru/"
+  },
+  {
+    "id": 3,
+    "name": "Чебоксары",
+    "image": "static/cheboksary.png",
+    "description": "Чебоксары современный город, имеющий свою неповторимую архитектуру.",
+    "link": "https://cheb.ru/"
+  }
+]

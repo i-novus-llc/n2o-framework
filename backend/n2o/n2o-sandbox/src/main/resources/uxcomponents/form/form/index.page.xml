@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Форма">
+    <form>
+        <datasource query-id="person">
+            <filters>
+                <eq field-id="id" value="1"/>
+            </filters>
+        </datasource>
+        <fields>
+            <input-text id="name" label="Имя"/>
+            <input-text id="surname" label="Фамилия"/>
+            <date-time id="birthday" label="Дата рождения"/>
+        </fields>
+    </form>
+</simple-page>
+

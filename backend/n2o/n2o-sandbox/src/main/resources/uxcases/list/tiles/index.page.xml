@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Города России">
+    <tiles width="250" height="200" cols-lg="3">
+        <datasource query-id="city"/>
+        <content>
+            <block text-field-id="image">
+                <image width="200px"/>
+            </block>
+            <block text-field-id="name">
+                <text class="font-weight-bold" />
+            </block>
+            <block text-field-id="description">
+                <text class="font-weight-light text-center" />
+            </block>
+            <block text-field-id="skills">
+                <text class="font-weight-light" />
+            </block>
+            <block text-field-id="link">
+                <link type="iconAndText" icon="fa fa-desktop" url="{link}" target="self"/>
+            </block>
+            <block>
+                <toolbar>
+                    <button label="Подробнее" class="border"/>
+                </toolbar>
+            </block>
+        </content>
+    </tiles>
+</simple-page>

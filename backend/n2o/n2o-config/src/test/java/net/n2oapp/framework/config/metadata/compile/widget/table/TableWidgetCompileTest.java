@@ -277,11 +277,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(columnHeaders.get(0).getFilterControl().getId(), is("name"));
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("main_name");
-        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getPrefix(), is("filter"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("testFilterColumns_main"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":main_name"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
@@ -325,11 +320,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         // проверка компиляции фильтруемого столбца внутри мульти-столбца
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
-        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getPrefix(), is("filter"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("testMultiColumn_table"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
-        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":table_name"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testMultiColumn_table']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 

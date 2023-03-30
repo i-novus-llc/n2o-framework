@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Отфильтрованный список">
+    <datasources>
+        <datasource id="persons" query-id="persons" route="/list">
+            <filters>
+                <like field-id="name" param="name_like"/>
+            </filters>
+        </datasource>
+    </datasources>
+    <regions>
+        <table datasource="persons">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+</page>
