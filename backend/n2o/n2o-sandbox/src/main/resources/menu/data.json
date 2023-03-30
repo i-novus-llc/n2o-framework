@@ -6,28 +6,23 @@
       "templates": [
         {
           "templateId": "data/object/operations",
-          "name": "Операции объекта",
-          "since": "7.16"
+          "name": "Операции объекта"
         },
         {
           "templateId": "data/object/validation_condition",
-          "name": "Валидация на месте",
-          "since": "7.16"
+          "name": "Валидация на месте"
         },
         {
           "templateId": "data/object/validation_constraint",
-          "name": "Валидация в сервисе",
-          "since": "7.16"
+          "name": "Валидация в сервисе"
         },
         {
           "templateId": "data/object/nesting_object_fields_for_map_provider",
-          "name": "Вложенные поля в объекте на примере TestProvider",
-          "since": "7.23"
+          "name": "Вложенные поля в объекте на примере TestProvider"
         },
         {
           "templateId": "data/object/nesting_object_fields_for_args_provider",
-          "name": "Вложенные поля в объекте на примере JavaProvider",
-          "since": "7.23"
+          "name": "Вложенные поля в объекте на примере JavaProvider"
         }
       ]
     },
@@ -36,18 +31,15 @@
       "templates": [
         {
           "templateId": "data/query/list",
-          "name": "Пагинация",
-          "since": "7.23"
+          "name": "Пагинация"
         },
         {
           "templateId": "data/query/list_filters",
-          "name": "Фильтрация",
-          "since": "7.23"
+          "name": "Фильтрация"
         },
         {
           "templateId": "data/query/unique",
-          "name": "Уникальность",
-          "since": "7.23"
+          "name": "Уникальность"
         }
       ]
     },
@@ -56,18 +48,15 @@
       "templates": [
         {
           "templateId": "data/binding/simple",
-          "name": "Простое поле",
-          "since": "7.23"
+          "name": "Простое поле"
         },
         {
           "templateId": "data/binding/select",
-          "name": "Списковое поле",
-          "since": "7.23"
+          "name": "Списковое поле"
         },
         {
           "templateId": "data/binding/interval",
-          "name": "Интервальное поле",
-          "since": "7.23"
+          "name": "Интервальное поле"
         }
       ]
     },
@@ -76,53 +65,43 @@
       "templates": [
         {
           "templateId": "data/providers/sql",
-          "name": "SQL",
-          "since": "7.23"
+          "name": "SQL"
         },
         {
           "templateId": "data/providers/sql_mapping",
-          "name": "Маппинг в SQL",
-          "since": "7.23"
+          "name": "Маппинг в SQL"
         },
         {
           "templateId": "data/providers/rest",
-          "name": "REST",
-          "since": "7.23"
+          "name": "REST"
         },
         {
           "templateId": "data/providers/rest_mapping",
-          "name": "Маппинг в REST",
-          "since": "7.23"
+          "name": "Маппинг в REST"
         },
         {
           "templateId": "data/providers/java",
-          "name": "Java",
-          "since": "7.23"
+          "name": "Java"
         },
         {
           "templateId": "data/providers/mapping_java_primitive",
-          "name": "Маппинг примитивов в Java",
-          "since": "7.16"
+          "name": "Маппинг примитивов в Java"
         },
         {
           "templateId": "data/providers/mapping_java_entity",
-          "name": "Маппинг сущности в Java",
-          "since": "7.23"
+          "name": "Маппинг сущности в Java"
         },
         {
           "templateId": "data/providers/mapping_java_criteria",
-          "name": "Маппинг критериев в Java",
-          "since": "7.23"
+          "name": "Маппинг критериев в Java"
         },
         {
           "templateId": "data/providers/mongodb",
-          "name": "MongoDb",
-          "since": "7.23"
+          "name": "MongoDb"
         },
         {
           "templateId": "data/providers/graphql",
-          "name": "GraphQL",
-          "since": "7.23"
+          "name": "GraphQL"
         }
       ]
     }
