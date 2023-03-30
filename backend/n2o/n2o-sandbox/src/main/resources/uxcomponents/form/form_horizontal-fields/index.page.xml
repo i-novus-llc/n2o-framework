@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form name="Горизонтальные заголовки">
+        <datasource object-id="test"/>
+        <fields>
+            <set field-label-align="left"
+                 field-label-location="left"
+                 field-label-width="50%">
+                <input-text id="input1" label="Заголовок"/>
+                <input-text id="input2" label="Заголовок"/>
+            </set>
+            <set field-label-location="left"
+                 field-label-align="right"
+                 field-label-width="50%">
+                <input-text id="input3" label="Заголовок"/>
+                <input-text id="input4" label="Заголовок"/>
+            </set>
+        </fields>
+    </form>
+</simple-page>

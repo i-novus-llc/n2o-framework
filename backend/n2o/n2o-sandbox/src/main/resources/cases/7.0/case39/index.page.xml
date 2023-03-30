@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Компонент дерево">
+    <regions>
+        <region place="single">
+            <form query-id="test" upload="query" name="Выборка">
+                <fields>
+                    <input-select-tree id="tree2" label="Дерево с выбранным не рутовым элементом" checkboxes="true"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name"/>
+                    <input-select-tree id="tree3" label="Дерево с ограничением отображения выбранных = 2"
+                                       checkboxes="true" max-tag-count="2"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name"/>
+                    <input-select-tree id="tree4" label="Дерево со стратегией выбора child"
+                                       checkboxes="true" checking-strategy="child"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name"/>
+                    <input-select-tree id="tree5" label="Дерево со стратегией выбора parent"
+                                       checkboxes="true" checking-strategy="parent"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name"/>
+                </fields>
+                <pre-filters>
+                    <eq field-id="id" value="1"/>
+                </pre-filters>
+            </form>
+            <form query-id="test" upload="defaults" name="Значения по умолчанию">
+                <fields>
+                    <input-select-tree id="tree1" label="Дерево с выбранным не рутовым элементом" checkboxes="true"
+                                       query-id="tree" parent-field-id="parent" label-field-id="name">
+                        <default-value id="11" name="11" parent="1"/>
+                    </input-select-tree>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>

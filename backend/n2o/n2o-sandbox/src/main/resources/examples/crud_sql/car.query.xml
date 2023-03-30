@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="car">
+    <list result-mapping="#this">
+        <sql>
+            SELECT :select
+            FROM cars c
+            WHERE :filters
+            ORDER BY :sorting
+            LIMIT :limit OFFSET :offset
+        </sql>
+    </list>
+    <count count-mapping="[0]['cnt']">
+        <sql>
+            SELECT count(*) as cnt
+            FROM cars c
+            WHERE :filters
+        </sql>
+    </count>
+
+    <fields>
+        <field id="id" name="№">
+            <select>id</select>
+            <filters>
+                <eq filter-id="id" mapping="['id']">id=:id</eq>
+            </filters>
+        </field>
+
+        <field id="name" name="Марка">
+            <select>name</select>
+            <sorting mapping="['nameDir']">name :nameDir</sorting>
+            <filters>
+                <like filter-id="name" mapping="['name']">name like '%'||name</like>
+            </filters>
+        </field>
+
+        <field id="price" domain="long" name="Цена">
+            <select>price</select>
+            <filters>
+                <more filter-id="minPrice" mapping="['minPrice']"><![CDATA[price >= :minPrice]]></more>
+                <less filter-id="maxPrice" mapping="['maxPrice']"><![CDATA[price <= :maxPrice]]></less>
+            </filters>
+            <sorting mapping="['priceDir']">price :priceDir</sorting>
+        </field>
+    </fields>
+</query>

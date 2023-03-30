@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "type": "1"
+  },
+  {
+    "id": 2,
+    "name": "test2",
+    "parentId" : 1,
+    "type": "1"
+  },
+  {
+    "id": 3,
+    "name": "test3",
+    "parentId" : 2,
+    "type": "2"
+  },
+  {
+    "id": 4,
+    "name": "test4",
+    "parentId" : 1,
+    "type": "2"
+  }
+]

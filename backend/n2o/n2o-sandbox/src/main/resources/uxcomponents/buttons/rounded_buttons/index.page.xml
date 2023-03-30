@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Скругленные кнопки">
+    <form>
+        <toolbar>
+            <button label="Добавить" icon="fa fa-plus" type="icon" color="primary" class="btn-sm" rounded="true"/>
+            <button label="Удалить" icon="fa fa-minus" type="icon" color="primary" class="btn-sm" rounded="true"/>
+            <button label="Добавить" icon="fa fa-plus" type="icon" color="primary" class="btn-md" rounded="true"/>
+            <button label="Удалить" icon="fa fa-minus" type="icon" color="primary" class="btn-md" rounded="true"/>
+            <button label="Избранное" icon="fa fa-star" type="icon" color="primary" class="btn-lg" rounded="true"/>
+            <button label="Добавить" icon="fa fa-plus" type="icon" color="primary" class="btn-lg" rounded="true"/>
+            <button label="Удалить" icon="fa fa-minus" type="icon" color="primary" class="btn-lg" rounded="true"/>
+            <button label="Сохранить" color="primary" rounded="true"/>
+            <button label="Отмена" rounded="true"/>
+        </toolbar>
+    </form>
+</simple-page>

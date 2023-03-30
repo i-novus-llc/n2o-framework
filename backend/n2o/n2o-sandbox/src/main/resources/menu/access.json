@@ -1,0 +1,39 @@
+{
+  "name": "Доступ",
+  "sections": [
+    {
+      "name": "По атрибутам",
+      "templates": [
+        {
+          "templateId": "access/attributes/header",
+          "name": "Меню навигации"
+        },
+        {
+          "templateId": "access/attributes/widgets",
+          "name": "Виджеты"
+        },
+        {
+          "templateId": "access/attributes/buttons",
+          "name": "Кнопки"
+        },
+        {
+          "templateId": "access/attributes/fields",
+          "name": "Поля"
+        }
+      ]
+    },
+    {
+      "name": "По схеме",
+      "templates": [
+        {
+          "templateId": "access/schema/header",
+          "name": "Меню навигации"
+        },
+        {
+          "templateId": "access/schema/buttons",
+          "name": "Кнопки"
+        }
+      ]
+    }
+  ]
+}

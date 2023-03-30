@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Расширенный ввод через модальное окно">
+    <form id="form">
+        <fields>
+            <input-text id="address" label="Адрес">
+                <toolbar>
+                    <button label="Ввести новый" model="filter">
+                        <show-modal page-id="modal" submit-action-type="copy"
+                                    submit-label="Выбрать" copy-mode="replace"/>
+                    </button>
+                </toolbar>
+                <dependencies>
+                    <set-value on="city,street,house">
+                        var address = "";
+                        if (typeof city != 'undefined')
+                        address += city;
+                        if (typeof street != 'undefined') {
+                        if (address.length !== 0)
+                        address += ", ";
+                        address += street;
+                        }
+                        if (typeof house != 'undefined') {
+                        if (address.length !== 0)
+                        address += ", ";
+                        address += house;
+                        }
+                        return address;
+                    </set-value>
+                </dependencies>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

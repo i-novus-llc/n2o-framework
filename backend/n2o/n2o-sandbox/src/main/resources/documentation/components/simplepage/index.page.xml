@@ -1,0 +1,8 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+  name="Простая страница">
+  <form>
+    <fields>
+        <text id="text">Виджет</text>
+    </fields>
+  </form>
+</simple-page>

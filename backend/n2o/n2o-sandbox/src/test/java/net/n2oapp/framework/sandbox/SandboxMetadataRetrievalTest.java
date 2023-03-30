@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
+import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
+import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.json.JSONObject;
@@ -35,7 +37,8 @@ import static org.hamcrest.Matchers.is;
  * Тест на проверку обработки запросов на получение конфигурации и страницы примера
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, XsdSchemaParser.class},
+        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
+                XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class, ProjectTemplateHolder.class},
         properties = {"n2o.sandbox.url=http://${n2o.sandbox.host}:${n2o.sandbox.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
@@ -70,9 +73,10 @@ public class SandboxMetadataRetrievalTest {
     @SneakyThrows
     @Test
     public void testGetConfig(){
-        wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")));
-        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")));
+        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
         JSONObject config = new JSONObject(viewController.getConfig("myProjectId", null));
 
         assertThat(config.getString("project"), is("myProjectId"));
@@ -95,10 +99,10 @@ public class SandboxMetadataRetrievalTest {
     @SneakyThrows
     @Test
     public void testGetPage() {
-        wireMockServer.stubFor(get("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")
+        wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")
                 .withBody(StreamUtils.copyToString(new ClassPathResource("data/testMetadataRetrieval.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        Page page = viewController.getPage("myProjectId", request, null);
+        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        Page page = viewController.getPage("myProjectId", request);
 
         assertThat(page.getId(), is("_"));
         assertThat(page.getModels().size(), is(0));

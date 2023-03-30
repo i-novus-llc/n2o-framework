@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Радиогруппа в виде кнопок">
+    <form>
+        <fields>
+            <radio-group
+                    id="inlineTrue"
+                    type="btn"
+                    inline="true"
+            >
+                <default-value id="1" name="Пункт 1"/>
+                <options>
+                    <option id="1" name="Пункт 1"/>
+                    <option id="2" name="Пункт 2"/>
+                    <option id="3" name="Пункт 3"/>
+                </options>
+            </radio-group>
+            <radio-group
+                    id="inlineFalse"
+                    type="btn"
+                    inline="false"
+            >
+                <default-value id="1" name="Пункт 1"/>
+                <options>
+                    <option id="1" name="Пункт 1"/>
+                    <option id="2" name="Пункт 2"/>
+                    <option id="3" name="Пункт 3"/>
+                </options>
+            </radio-group>
+        </fields>
+    </form>
+</simple-page>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create" success-text="Человек добавлен в базу">
+            <invocation>
+                <sql>INSERT INTO persons (id, first_name, last_name) VALUES (null, :firstName, :lastName);</sql>
+            </invocation>
+            <in>
+                <field id="firstName"/>
+                <field id="lastName"/>
+            </in>
+            <out>
+                <field id="id" mapping="[0]"/>
+            </out>
+        </operation>
+
+        <operation id="update" success-text="Данные о человеке изменены">
+            <invocation>
+                <sql>UPDATE persons SET first_name = :firstName, last_name = :lastName WHERE id = :id</sql>
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="firstName"/>
+                <field id="lastName"/>
+            </in>
+        </operation>
+
+        <operation id="delete" success-text="Данные о человеке удалены">
+            <invocation>
+                <sql>DELETE FROM persons WHERE id = :id</sql>
+            </invocation>
+            <in>
+                <field id="id"/>
+            </in>
+        </operation>
+    </operations>
+</object>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Валидация с запросом к провайдеру данных">
+    <table query-id="user">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="username"/>
+        </columns>
+        <toolbar>
+            <button id="create" label="Создать нового пользователя" disable-on-empty-model="false"
+                    description="Создайте ещё одного пользователя с именем Anna">
+                <show-modal page-id="user" submit-operation-id="create" upload="defaults"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

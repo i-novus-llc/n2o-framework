@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Установка значения в чекбоксе">
+    <form>
+        <fields>
+            <input-text id="addressReq" label="Адрес регистрации"/>
+            <input-text id="addressFact" label="Адрес проживания"/>
+
+            <checkbox id="eq" label="Адрес проживания совпадает с регистрацией">
+                <dependencies>
+                    <!-- Если адрес проживания совпадает с адресом регистрации,
+                         то чекбокс выделяется, иначе выделение снимается  -->
+                    <set-value on="addressReq,addressFact">
+                        if (addressReq == addressFact)
+                        return true;
+                        else
+                        return false;
+                    </set-value>
+                </dependencies>
+            </checkbox>
+        </fields>
+    </form>
+</simple-page>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Сворачиваемые ярлыки">
+    <table selection="none" query-id="test">
+        <columns>
+            <column text-field-id="fio" label="Фамилия И.О."/>
+            <column text-field-id="projects" label="Проект" >
+                <list label-field-id="name" size="3"/>
+            </column>
+        </columns>
+    </table>
+</simple-page>

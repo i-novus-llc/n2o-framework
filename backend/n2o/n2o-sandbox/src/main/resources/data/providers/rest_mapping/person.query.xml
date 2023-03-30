@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="person">
+    <list result-mapping="['_embedded.persons']" count-mapping="['page.totalElements']">
+        <rest>/data/persons/search/findAll?{filters}&amp;page={page}&amp;size={limit}</rest>
+    </list>
+    <unique>
+        <rest>/data/persons/{id}</rest>
+    </unique>
+
+    <fields>
+        <field id="id">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+
+        <field id="name">
+            <!--маппинг поля с сервера firstName в поле на клиенте name-->
+            <select mapping="['firstName']"/>
+            <!--маппинг фильтра: имя_на_клиенте={имя_на_сервере}-->
+            <filters>
+                <like filter-id="name">firstName={name}</like>
+            </filters>
+        </field>
+    </fields>
+</query>
+

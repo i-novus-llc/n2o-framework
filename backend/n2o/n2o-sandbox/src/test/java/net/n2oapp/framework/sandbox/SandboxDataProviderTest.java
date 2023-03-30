@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
+import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
+import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.apache.catalina.util.ParameterMap;
@@ -37,8 +39,8 @@ import static org.hamcrest.Matchers.is;
  * Тест получения и установки значений провайдером данных
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
-                SandboxTestDataProviderEngine.class, XsdSchemaParser.class},
+        classes = {ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class, ProjectTemplateHolder.class,
+                SandboxTestDataProviderEngine.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
         properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.host}:${n2o.sandbox.port}"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
@@ -76,11 +78,11 @@ public class SandboxDataProviderTest {
     public void testGetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
-        wireMockServer.stubFor(get(urlMatching("/api/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
+        wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
+        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
                 "  {\n" +
                 "    \"id\": 1,\n" +
                 "    \"name\": \"test1\"\n" +
@@ -99,7 +101,7 @@ public class SandboxDataProviderTest {
                 "  }\n" +
                 "]")));
 
-        ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request, null);
+        ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody().getCount(), is(4));
         assertThat(response.getBody().getList().get(0).get("id"), is(1L));
@@ -118,12 +120,12 @@ public class SandboxDataProviderTest {
     public void testSetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/main/3/update/submit");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
-        wireMockServer.stubFor(get("/api/project/myProjectId").willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
+        wireMockServer.stubFor(get("/project/myProjectId").willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
                 StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(put("/api/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withStatus(200)));
-        wireMockServer.stubFor(get("/api/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/api/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
+        wireMockServer.stubFor(put("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withStatus(200)));
+        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        wireMockServer.stubFor(get("/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
                 "  {\n" +
                 "    \"id\": 1,\n" +
                 "    \"name\": \"test1\"\n" +
@@ -142,7 +144,7 @@ public class SandboxDataProviderTest {
                 "  }\n" +
                 "]")));
 
-        ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId", new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request, null);
+        ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId", new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request);
         assertThat(response.getStatusCodeValue(), is(200));
         assertThat(response.getBody().getData().get("id"), is(3));
         assertThat(response.getBody().getData().get("name"), is("name3"));

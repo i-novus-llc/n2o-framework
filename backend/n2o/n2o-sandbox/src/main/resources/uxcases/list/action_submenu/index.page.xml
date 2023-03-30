@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Список с кнопкой действий в правом столбце"
+      show-title="true">
+    <regions>
+        <table id="table" query-id="data" object-id="data">
+            <columns>
+                <column text-field-id="id" label="Номер заявки"/>
+                <column text-field-id="requestDate" label="Дата подачи заявки">
+                    <text format="date DD.MM.YYYY"/>
+                </column>
+                <column text-field-id="fioBD" label="ФИО, дата рождения"/>
+                <column text-field-id="snils" label="СНИЛС"/>
+                <column text-field-id="documentData" label="Документ удостоверяющий личность"/>
+                <column text-field-id="zagranType.name" label="Тип заграничного паспорта"/>
+                <column text-field-id="region.name" label="Регион"/>
+                <column text-field-id="department.name" label="Отделение"/>
+                <column text-field-id="urgentlyString" label="Срочность"/>
+                <column text-field-id="status.name" label="Статус"/>
+                <column text-field-id="option" label="Действия">
+                    <toolbar>
+                        <sub-menu>
+                            <menu-item label="Изменить" icon="fa fa-pencil">
+                                <show-modal page-id="modal" submit-operation-id="update" route="/:id/update">
+                                        <path-param name="id" value="{id}"/>
+                                </show-modal>
+                            </menu-item>
+                            <menu-item label="Выгрузить" icon="fa fa-download"/>
+                            <menu-item label="Удалить" icon="fa fa-trash">
+                                <invoke operation-id="delete"/>
+                            </menu-item>
+                        </sub-menu>
+                    </toolbar>
+                </column>
+            </columns>
+            <toolbar place="topLeft">
+                <button label="Добавить" disable-on-empty-model="false" color="primary" icon="fa fa-plus">
+                    <show-modal page-id="modal" scrollable="true" submit-operation-id="create"
+                                submit-label="Сохранить" upload="defaults">
+                    </show-modal>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

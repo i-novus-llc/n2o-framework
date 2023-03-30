@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Редактируемые ячейки">
+    <table selection="none" query-id="data" object-id="data" size="3">
+        <actions>
+            <action id="update">
+                <invoke operation-id="update" message-on-success="false"/>
+            </action>
+        </actions>
+        <columns>
+            <column text-field-id="id" label="№"/>
+            <column text-field-id="name" label="Фамилия И.О">
+                <edit action-id="update">
+                    <input-text id="name"/>
+                </edit>
+            </column>
+            <column text-field-id="date">
+                <edit action-id="update" format="date DD.MM.YYYY">
+                    <date-time id="date" date-format="DD.MM.YYYY"/>
+                </edit>
+            </column>
+        </columns>
+        <pagination/>
+    </table>
+</simple-page>

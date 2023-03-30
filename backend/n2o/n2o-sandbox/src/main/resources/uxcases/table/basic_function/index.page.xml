@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Список контактов" show-title="true">
+    <regions>
+        <table query-id="data" size="5" checkboxes="true" selection="none">
+            <columns>
+                <column text-field-id="surname"/>
+                <column text-field-id="name"/>
+                <column text-field-id="patronymic"/>
+                <column text-field-id="birthday">
+                    <text format="date DD.MM.YYYY"/>
+                </column>
+                <column text-field-id="gender.name">
+                    <badge color="{gender.id==1?'danger':'success'}"/>
+                </column>
+                <column text-field-id="vip">
+                    <checkbox>
+                        <invoke operation-id="update" route="/:id/updateVip">
+                            <path-param name="id" value="{id}"/>
+                        </invoke>
+                    </checkbox>
+                </column>
+                <column text-field-id="">
+                    <toolbar>
+                        <sub-menu icon="fa fa-ellipsis-v"
+                                  show-toggle-icon="false">
+                            <menu-item label="Просмотр" icon="fa fa-search">
+                                <show-modal page-id="data"
+                                            route="/:id/view"
+                                            page-name="Карточка клиента">
+                                        <path-param name="id" value="{id}"/>
+                                </show-modal>
+                            </menu-item>
+                            <menu-item label="Изменить" icon="fa fa-pencil">
+                                <show-modal page-id="data"
+                                            submit-operation-id="update"
+                                            route="/:id/edit"
+                                            page-name="Карточка клиента">
+                                        <path-param name="id" value="{id}"/>
+                                </show-modal>
+                            </menu-item>
+                        </sub-menu>
+                    </toolbar>
+                </column>
+            </columns>
+            <filters place="top">
+                <row>
+                    <col size="3">
+                        <input-text id="surname"/>
+                    </col>
+                    <col size="3">
+                        <input-text id="name"/>
+                    </col>
+                    <col size="3">
+                        <input-text id="patronymic"/>
+                    </col>
+                </row>
+                <row>
+                    <date-interval id="birthday" date-format="DD.MM.YYYY"/>
+                    <radio-group id="gender" label="Пол" query-id="gender" label-field-id="name" inline="true"/>
+                    <checkbox id="vip"/>
+                    <search-buttons id="search"/>
+                </row>
+            </filters>
+            <toolbar place="topLeft">
+                <button label="Добавить" icon="fa fa-plus" model="filter" color="primary">
+                    <show-modal page-id="data"
+                                route="/new"
+                                submit-operation-id="create"
+                                upload="defaults"
+                                page-name="Карточка нового клиента"/>
+                </button>
+                <button label="Удалить" model="multi" icon="fa fa-times">
+                    <invoke operation-id="deleteMany" route="/delete"/>
+                    <dependencies>
+                        <enabling ref-model="multi">!_.isEmpty(this)</enabling>
+                    </dependencies>
+                </button>
+            </toolbar>
+            <toolbar place="topRight">
+                <group generate="filters"/>
+                <group generate="columns"/>
+                <group generate="refresh"/>
+                <group generate="resize"/>
+            </toolbar>
+        </table>
+    </regions>
+
+</page>

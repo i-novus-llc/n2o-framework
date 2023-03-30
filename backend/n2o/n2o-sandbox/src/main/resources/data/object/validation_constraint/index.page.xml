@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Валидация в сервисе">
+    <form id="form" object-id="myObject">
+        <fields>
+            <alert id="message" color="info" text="Для вызова валидации повторно введите то же самое имя"/>
+            <input-text id="name" label="Наименование"/>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button id="create" label="Создать">
+                <invoke operation-id="create"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

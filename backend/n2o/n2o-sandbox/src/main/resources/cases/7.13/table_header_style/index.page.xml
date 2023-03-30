@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Стили для заголовков таблицы">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="name" label="Шрифт Italic" class="font-italic">
+                <text/>
+            </column>
+            <multi-column label="Красный текст" style="color: red">
+                <column text-field-id="type" label="Красный текст" style="color: red">
+                    <badge/>
+                </column>
+            </multi-column>
+            <filter-column text-field-id="id" style="color: red">
+                <filter>
+                    <input-text id="id"/>
+                </filter>
+            </filter-column>
+        </columns>
+    </table>
+</simple-page>

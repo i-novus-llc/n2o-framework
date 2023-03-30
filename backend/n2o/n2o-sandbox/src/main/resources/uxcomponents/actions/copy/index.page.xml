@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Копирование данных">
+    <regions>
+        <form>
+            <fields>
+                <input-text id="name" default-value="Привет, Мир!" no-label-block="true"/>
+            </fields>
+            <toolbar place="bottomLeft">
+                <button id="btn" label="Копирование">
+                    <copy target-widget-id="form"/>
+                </button>
+            </toolbar>
+        </form>
+        <form id="form">
+            <fields>
+                <input-text id="name" no-label-block="true"/>
+            </fields>
+        </form>
+    </regions>
+</page>

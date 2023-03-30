@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Ячейка со статусом">
+    <table selection="none" query-id="test">
+        <columns>
+            <column text-field-id="fio" label="Фамилия И.О."/>
+            <column text-field-id="status" label="Статус">
+                <badge src="StatusCell">
+                    <switch value-field-id="status">
+                        <case value="Заявка одобрена">success</case>
+                        <case value="Заявка на рассмотрении">info</case>
+                    </switch>
+                </badge>
+            </column>
+        </columns>
+    </table>
+</simple-page>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Установка максимальной длины выбранных элементов в виджете дерево">
+    <form>
+        <fields>
+            <input-select-tree id="tree1" label="Максимальная длина выбранных элементов по умолчанию" checkboxes="true"
+                               query-id="test" parent-field-id="parent" label-field-id="name" value-field-id="id"/>
+            <input-select-tree id="tree2" label="Максимальная длина увеличена до 30" checkboxes="true" query-id="test"
+                               parent-field-id="parent" label-field-id="name" value-field-id="id"
+                               max-tag-text-length="30"/>
+        </fields>
+    </form>
+</simple-page>

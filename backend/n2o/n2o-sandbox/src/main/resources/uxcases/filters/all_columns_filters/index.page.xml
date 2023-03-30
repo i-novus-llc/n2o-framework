@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Фильтры по каждому столбцу"
+      show-title="true">
+    <regions>
+        <table query-id="data" size="5">
+            <columns>
+                <filter-column text-field-id="id">
+                    <filter>
+                        <input-text id="id"/>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="date">
+                    <cell>
+                        <text format="date DD.MM.YYYY"/>
+                    </cell>
+                    <filter>
+                        <date-interval id="date"/>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="fioBD">
+                    <filter>
+                        <input-text id="fioBD" label="Фамилия Имя Отчество"/>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="snils">
+                    <filter>
+                        <masked-input id="snils" mask="999-999-999 99"/>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="number">
+                    <filter>
+                        <input-text id="number"/>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="zagranType">
+                    <filter>
+                        <select id="zagranType">
+                            <options>
+                                <option id="1" name="Нового образца"/>
+                                <option id="2" name="Старого образца"/>
+                            </options>
+                        </select>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="region">
+                    <filter>
+                        <select id="region">
+                            <options>
+                                <option id="1" name="Республика Татарстан"/>
+                                <option id="2" name="Республика Марий-Эл"/>
+                                <option id="3" name="Кабардино-Балкарская Республика"/>
+                            </options>
+                        </select>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="department">
+                    <filter>
+                        <select id="department">
+                            <options>
+                                <option id="1" name="МФЦ Авиастроительный отдел"/>
+                                <option id="2" name="МФЦ г. Звенигово"/>
+                                <option id="3" name="Филиал ГБУ «МФЦ КБР» по Урванскому муниципальному району"/>
+                                <option id="4" name="МФЦ Приволжский отдел"/>
+                                <option id="5" name="МФЦ Юдинский отдел"/>
+                                <option id="6" name="МФЦ Московское отделение"/>
+                                <option id="7" name="МФЦ Дербышинский отдел"/>
+                            </options>
+                        </select>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="urgently">
+                    <filter>
+                        <select id="urgently">
+                            <options>
+                                <option id="1" name="Да"/>
+                                <option id="2" name="Нет"/>
+                            </options>
+                        </select>
+                    </filter>
+                </filter-column>
+                <filter-column text-field-id="status">
+                    <filter>
+                        <input-select id="status" label="Статус" type="checkboxes">
+                            <options>
+                                <option id="1" name="Новая"/>
+                                <option id="2" name="На рассмотрении"/>
+                                <option id="3" name="Отклонена"/>
+                                <option id="4" name="Отменена"/>
+                                <option id="5" name="Одобрена"/>
+                            </options>
+                        </input-select>
+                    </filter>
+                </filter-column>
+            </columns>
+        </table>
+    </regions>
+</page>

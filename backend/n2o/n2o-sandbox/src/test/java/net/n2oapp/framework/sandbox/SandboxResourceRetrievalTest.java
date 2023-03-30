@@ -3,6 +3,7 @@ package net.n2oapp.framework.sandbox;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
+import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,8 @@ import static org.hamcrest.Matchers.is;
  * Тест на проверку обработки запросов на получение xsd схем и шаблонов xml
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {ViewController.class, SandboxPropertyResolver.class, XsdSchemaParser.class, SandboxRestClientImpl.class})
+        classes = {ViewController.class, SandboxPropertyResolver.class, XsdSchemaParser.class,
+                SandboxRestClientImpl.class, ProjectTemplateHolder.class})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 public class SandboxResourceRetrievalTest {

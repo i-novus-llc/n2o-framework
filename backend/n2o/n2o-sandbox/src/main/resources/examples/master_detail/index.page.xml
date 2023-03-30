@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                 name="Связь Master Detail">
+    <left>
+        <table query-id="test" id="master">
+            <columns>
+                <column text-field-id="id"/>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </left>
+    <right>
+        <form query-id="test" depends-on="master">
+            <pre-filters>
+                <eq field-id="id"
+                    value="{id}"
+                    ref-widget-id="master"
+                    ref-model="resolve"
+                    required="true"/>
+            </pre-filters>
+            <fields>
+                <input-text id="id" enabled="false"/>
+                <input-text id="name" enabled="false"/>
+            </fields>
+        </form>
+    </right>
+</left-right-page>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Выпадающий список">
+    <form>
+        <fields>
+            <select
+                id="select" 
+                no-label="true"
+                >
+                <options>
+                    <option id="fio1" name="Алексей Иванов" />
+                    <option id="fio2" name="Иван Алексеев"/>
+                    <option id="fio3" name="Павел Афанасьев"/>
+                    <option id="fio4" name="Петр Сергеев"/>
+                </options>
+            </select>
+        </fields>
+    </form>
+</simple-page>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Маппинг в REST провайдере данных">
+    <table query-id="person">
+        <filters>
+            <input-text id="name" label="Имя"/>
+        </filters>
+        <columns>
+            <column text-field-id="id" label="Идентификатор"/>
+            <column text-field-id="name" label="Имя"/>
+        </columns>
+
+        <toolbar place="topLeft">
+            <button id="create" label="Создать" icon="fa fa-plus" disable-on-empty-model="false">
+                <show-modal page-id="person" submit-operation-id="create" upload="defaults"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

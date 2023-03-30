@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Поле ввода числа из диапазона">
+    <form>
+        <fields>
+            <number-picker id="test" min="1" max="10" step="2" default-value="4" label="Значения с шагом 2 начинаются с 1"/>
+            <number-picker id="defaultPicker" label="По умолчанию"/>
+        </fields>
+    </form>
+</simple-page>

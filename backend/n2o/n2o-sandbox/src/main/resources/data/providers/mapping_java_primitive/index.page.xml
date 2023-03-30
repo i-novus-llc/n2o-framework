@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Маппинг примитивов в Java">
+    <form object-id="test">
+        <fields>
+            <input-text domain="integer" id="a" label="A" required="true"/>
+            <input-text domain="integer" id="b" label="B" required="true"/>
+        </fields>
+        <toolbar place="bottomRight">
+            <button id="sum" label="Сложить">
+                <invoke operation-id="sum" route="/sum"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form name="Отключение валидации (Обязательность заполнения по условию)">
+        <fields>
+            <input-text id="gender" label="Пол" default-value="woman"
+                description="Если в поле Пол написать 'woman', то поле Девичья фамилия станет обязательным"/>
+            <input-text id="maidenName" label="Девичья фамилия">
+                <validations>
+                    <mandatory id="requiredMaidenNameForWomen" severity="danger"
+                            field-id="maidenName"
+                            enabled="{gender == 'woman'}"/>
+                </validations>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Карточки">
+    <cards height="100px" query-id="candidates">
+        <content>
+            <col size="2">
+                <block>
+                    <image data="{photo}"/>
+                </block>
+            </col>
+            <col size="2">
+                <block text-field-id="name">
+                    <text class="font-weight-bold"/>
+                </block>
+            </col>
+            <col size="2">
+                <block text-field-id="position">
+                    <text class="font-weight-bold"/>
+                </block>
+            </col>
+            <col size="6">
+                <block text-field-id="skills">
+                    <text/>
+                </block>
+            </col>
+        </content>
+    </cards>
+</simple-page>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Кнопки в полях">
+    <form id="fieldToolbar" object-id="test">
+        <fields>
+            <hidden id="id" default-value="1"/>
+            <input-text id="toolbar" label="Кнопки в поле">
+                <toolbar>
+                    <button label="Ссылка">
+                        <a href="https://yandex.ru/search" target="newWindow">
+                            <query-param name="text" value="{toolbar}"/>
+                        </a>
+                    </button>
+                    <button label="Показать текст">
+                        <invoke operation-id="showText"/>
+                    </button>
+                    <button label="Открыть модальное окно">
+                        <show-modal page-id="modal" />
+                    </button>
+                    <button label="Открыть страницу">
+                        <open-page page-id="modal"/>
+                    </button>
+                </toolbar>
+            </input-text>
+            <input-text id="sub" label="Саб меню">
+                <toolbar>
+                    <sub-menu>
+                        <menu-item label="Ссылка">
+                            <a href="https://yandex.ru/search" target="newWindow">
+                                <query-param name="text" value="{sub}"/>
+                            </a>
+                        </menu-item>
+                        <menu-item label="Показать текст">
+                            <invoke operation-id="showTextFromSub"/>
+                        </menu-item>
+                        <menu-item label="Открыть модальное окно">
+                            <show-modal page-id="modal" />
+                        </menu-item>
+                        <menu-item label="Открыть страницу">
+                            <open-page page-id="modal"/>
+                        </menu-item>
+                    </sub-menu>
+                </toolbar>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

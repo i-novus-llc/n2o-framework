@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <table name="Города России" query-id="city">
+        <columns>
+            <column label="Статус">
+                <badge src="StatusCell" color="{status}"/>
+            </column>
+            <column text-field-id="img" label="Изображение">
+                <image url="{img}" width="100px"/>
+            </column>
+            <column text-field-id="name" label="Наименование(+ иконка)">
+                <icon icon="fa fa-plus" type="iconAndText"/>
+            </column>
+            <column text-field-id="url" label="Ссылка">
+                <link target="newWindow" url="{url}"/>
+            </column>
+            <column text-field-id="isCapital" label="Столица">
+                <checkbox />
+            </column>
+            <column text-field-id="capital" label="Регион">
+                <badge text="{region}" color="success"/>
+            </column>
+            <column text-field-id="regionCities" label="Города региона">
+                <list label-field-id="name" size="2" color="success" style="font-size:large;"/>
+            </column>
+        </columns>
+    </table>
+</simple-page>

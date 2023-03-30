@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Редактирование данных на нескольких вкладках">
+    <regions>
+        <tabs lazy="false">
+            <tab name="Основные данные">
+                <form query-id="data" object-id="data">
+                    <pre-filters>
+                        <eq field-id="id" value="10"/>
+                    </pre-filters>
+                    <fields>
+                        <row>
+                            <col size="3">
+                                <input-select id="status" label="Статус" enabled="false">
+                                    <options>
+                                        <option id="1" name="Новая"/>
+                                        <option id="2" name="Отклонена"/>
+                                        <option id="3" name="На рассмотрении"/>
+                                    </options>
+                                </input-select>
+                            </col>
+                        </row>
+                        <row>
+                            <col size="3">
+                                <input-text id="id" label="Номер заявки" enabled="false"/>
+                            </col>
+                            <col size="3">
+                                <date-time id="requestDate" label="Дата подачи заявки" enabled="{editable==1}"/>
+                            </col>
+                        </row>
+                        <row>
+                            <col size="6">
+                                <input-select id="region" label="Регион" enabled="false">
+                                    <options>
+                                        <option id="1" name="Республика Татарстан"/>
+                                        <option id="2" name="Московская область"/>
+                                        <option id="3" name="Республика Марий-Эл"/>
+                                        <option id="4" name="Кабардино-Балкарская Республика"/>
+                                    </options>
+                                </input-select>
+                            </col>
+                        </row>
+                        <row>
+                            <col size="6">
+                                <input-select id="department" label="Отделение" enabled="{editable==1}">
+                                    <options>
+                                        <option id="1" name="МФЦ Авиастроительный отдел"/>
+                                        <option id="2" name="МФЦ Юдинский отдел"/>
+                                        <option id="3" name="Филиал ГБУ «МФЦ КБР» по Урванскому муниципальному району"/>
+                                        <option id="4" name="МФЦ г.Звенигово"/>
+                                    </options>
+                                </input-select>
+                            </col>
+                        </row>
+                    </fields>
+                    <toolbar place="bottomLeft">
+                        <button id="edit" label="Редактировать" color="info" visible="{editable==0}">
+                            <set-value to="editable">1</set-value>
+                        </button>
+                        <button id="save" label="Сохранить" color="info" visible="{editable==1}">
+                            <invoke operation-id="update"/>
+                        </button>
+                        <button id="close" label="Закрыть"/>
+                    </toolbar>
+                </form>
+            </tab>
+            <tab name="Сведения о заграничном паспорте">
+                <form query-id="data" object-id="data">
+                    <pre-filters>
+                        <eq field-id="id" value="10"/>
+                    </pre-filters>
+                    <fields>
+                        <set enabled="{editable==1}">
+                            <row>
+                                <col size="3">
+                                    <input-select id="zagranType" label="Тип заграничного паспорта">
+                                        <options>
+                                            <option id="1" name="Нового образца"/>
+                                            <option id="2" name="Старого образца"/>
+                                        </options>
+                                    </input-select>
+                                </col>
+                                <col size="3">
+                                    <checkbox id="urgently" label="Получить срочно"/>
+                                </col>
+                            </row>
+                        </set>
+                    </fields>
+                    <toolbar place="bottomLeft">
+                        <button id="edit" label="Редактировать" color="info" visible="{editable==0}">
+                            <set-value to="editable">1</set-value>
+                        </button>
+                        <button id="save" label="Сохранить" color="info" visible="{editable==1}">
+                            <invoke operation-id="update"/>
+                        </button>
+                        <button id="close" label="Закрыть"/>
+                    </toolbar>
+                </form>
+            </tab>
+            <tab name="Персональные сведения о заявителе">
+                <form query-id="data" object-id="data">
+                    <pre-filters>
+                        <eq field-id="id" value="10"/>
+                    </pre-filters>
+                    <fields>
+                        <set enabled="{editable==1}">
+                            <row>
+                                <col size="1">
+                                    <image id="photo" data="{file.url}"/>
+                                </col>
+                                <col size="3">
+                                    <file-upload id="file" label-field-id="fileName"
+                                                 value-field-id="id"
+                                                 upload-url="${n2o.sandbox.url}/files" delete-url="${n2o.sandbox.url}/files"
+                                                 accept=".jpg,.png" show-size="false" no-label-block="true">
+                                    </file-upload>
+                                </col>
+                            </row>
+                            <row>
+                                <radio-group id="gender" no-label="true" inline="true">
+                                    <options>
+                                        <option id="1" name="Мужской"/>
+                                        <option id="2" name="Женский"/>
+                                    </options>
+                                </radio-group>
+                            </row>
+                            <row>
+                                <col size="3">
+                                    <input-text id="secondName" label="Фамилия"/>
+                                </col>
+                                <col size="3">
+                                    <input-text id="firstName" label="Имя"/>
+                                </col>
+                                <col size="3">
+                                    <input-text id="thirdName" label="Отчество"/>
+                                </col>
+                            </row>
+                            <row>
+                                <col size="3">
+                                    <date-time id="birthday" label="Дата рождения"/>
+                                </col>
+                                <col size="3">
+                                    <input-text id="birthplace" label="Место рождения"/>
+                                </col>
+                            </row>
+                            <row>
+                                <col size="3">
+                                    <masked-input id="snils" mask="999-999-999 99" placeholder="XXX-XXX-XXX XX"
+                                                  label="Снилс"/>
+                                </col>
+                                <col size="3">
+                                    <masked-input id="phone" mask="+9 (999) 999-99-99" placeholder="+7 (___) ___-__-__"
+                                                  label="Телефон"/>
+                                </col>
+                            </row>
+                        </set>
+                    </fields>
+                    <toolbar place="bottomLeft">
+                        <button id="edit" label="Редактировать" color="info" visible="{editable==0}">
+                            <set-value to="editable">1</set-value>
+                        </button>
+                        <button id="save" label="Сохранить" color="info" visible="{editable==1}">
+                            <invoke operation-id="update"/>
+                        </button>
+                        <button id="close" label="Закрыть"/>
+                    </toolbar>
+                </form>
+            </tab>
+            <tab name="Сведения о паспорте гражданина РФ">
+                <form query-id="data" object-id="data">
+                    <pre-filters>
+                        <eq field-id="id" value="10"/>
+                    </pre-filters>
+                    <fields>
+                        <set enabled="{editable==1}">
+                            <row>
+                                <col size="3">
+                                    <input-select id="document" label="Вид документа">
+                                        <options>
+                                            <option id="1" name="Паспорт РФ"/>
+                                            <option id="2" name="Свидетельство о рождении"/>
+                                        </options>
+                                    </input-select>
+                                </col>
+                            </row>
+                            <row>
+                                <col size="3">
+                                    <masked-input id="serial" mask="99 99" placeholder="__ __"
+                                                  label="Серия"/>
+                                </col>
+                                <col size="3">
+                                    <masked-input id="number" mask="999999" placeholder="______"
+                                                  label="Номер"/>
+                                </col>
+                            </row>
+                            <row>
+                                <col size="3">
+                                    <date-time id="documentDate" label="Дата выдачи"/>
+                                </col>
+                                <col size="3">
+                                    <masked-input id="code" mask="999-999" placeholder="___-___"
+                                                  label="Код подразделения"/>
+                                </col>
+                            </row>
+                        </set>
+                    </fields>
+                    <toolbar place="bottomLeft">
+                        <button id="edit" label="Редактировать" color="info" visible="{editable==0}">
+                            <set-value to="editable">1</set-value>
+                        </button>
+                        <button id="save" label="Сохранить" color="info" visible="{editable==1}">
+                            <invoke operation-id="update"/>
+                        </button>
+                        <button id="close" label="Закрыть"/>
+                    </toolbar>
+                </form>
+            </tab>
+            <tab name="Сведения об адресе регистрации/пребывания заявителя">
+                <form query-id="data" object-id="data">
+                    <pre-filters>
+                        <eq field-id="id" value="10"/>
+                    </pre-filters>
+                    <fields>
+                        <set enabled="{editable==1}">
+                            <row>
+                                <col size="9">
+                                    <input-text id="address" label="Адрес регистрации по месту жительства"/>
+                                </col>
+                            </row>
+                            <row>
+                                <checkbox id="matchAddress"
+                                          label="Адрес места пребывания совпадает с адресом регистрации по месту жительства"/>
+                            </row>
+                            <row>
+                                <col size="3">
+                                    <date-time id="registerDate" label="Дата регистрации"/>
+                                </col>
+                            </row>
+                        </set>
+                    </fields>
+                    <toolbar place="bottomLeft">
+                        <button id="edit" label="Редактировать" color="info" visible="{editable==0}">
+                            <set-value to="editable">1</set-value>
+                        </button>
+                        <button id="save" label="Сохранить" color="info" visible="{editable==1}">
+                            <invoke operation-id="update"/>
+                        </button>
+                        <button id="close" label="Закрыть"/>
+                    </toolbar>
+                </form>
+            </tab>
+            <tab name="Сведения о действующем заграничном паспорте">
+                <form query-id="data" object-id="data">
+                    <pre-filters>
+                        <eq field-id="id" value="10"/>
+                    </pre-filters>
+                    <fields>
+                        <row>
+                            <col size="6">
+                                <checkbox id="hasForeignPassport" src="Switch"
+                                          label="Заграничный паспорт имеется" enabled="{editable==1}"/>
+                            </col>
+                        </row>
+                        <set visible="{hasForeignPassport==true}" enabled="{editable==1}">
+                            <row>
+                                <col size="3">
+                                    <masked-input id="oldSerial" label="Серия" mask="99 99"/>
+                                </col>
+                                <col size="3">
+                                    <masked-input id="oldNumber" label="Номер" mask="999999"/>
+                                </col>
+                            </row>
+                            <row>
+                                <col size="3">
+                                    <date-time id="oldRegisterDate" label="Дата выдачи"/>
+                                </col>
+                                <col size="3">
+                                    <masked-input id="oldCode" label="Код подразделения" mask="999-999"/>
+                                </col>
+                            </row>
+                        </set>
+                    </fields>
+                    <toolbar place="bottomLeft">
+                        <button id="edit" label="Редактировать" color="info" visible="{editable==0}">
+                            <set-value to="editable">1</set-value>
+                        </button>
+                        <button id="save" label="Сохранить" color="info" visible="{editable==1}">
+                            <invoke operation-id="update"/>
+                        </button>
+                        <button id="close" label="Закрыть"/>
+                    </toolbar>
+                </form>
+            </tab>
+        </tabs>
+    </regions>
+</page>

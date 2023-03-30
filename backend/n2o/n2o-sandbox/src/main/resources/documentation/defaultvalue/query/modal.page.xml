@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form name="Заявка" query-id="persons" object-id="persons">
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
+        <fields>
+            <input-text id="name" label="ФИО" default-value="Фамилия"/>
+
+            <input-select id="gender" label="Пол">
+                <default-value id="2" name="Женский"/>
+                <options>
+                    <option id="1" name="Мужской"/>
+                    <option id="2" name="Женский"/>
+                </options>
+            </input-select>
+
+            <input-select id="status" label="Статус заявки">
+                <options>
+                    <option id="1" name="Новая"/>
+                    <option id="2" name="Отклонена"/>
+                    <option id="3" name="На рассмотрении"/>
+                </options>
+                <default-value id="1" name="Новая"/>
+            </input-select>
+        </fields>
+    </form>
+</simple-page>
+

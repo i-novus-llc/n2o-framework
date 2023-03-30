@@ -6,23 +6,19 @@ import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-import javax.servlet.http.HttpSession;
-
 public class SandboxAppConfigJsonWriter extends AppConfigJsonWriter {
 
     private String projectId;
     private SandboxRestClient restClient;
-    private HttpSession session;
 
-    public SandboxAppConfigJsonWriter(String projectId, SandboxRestClient restClient, HttpSession session) {
+    public SandboxAppConfigJsonWriter(String projectId, SandboxRestClient restClient) {
         this.projectId = projectId;
         this.restClient = restClient;
-        this.session = session;
     }
 
     @Override
     protected void readOverrideResource(PathMatchingResourcePatternResolver r, N2oConfigBuilder<AppConfig> configBuilder) {
-        String file = restClient.getFile(projectId, "config.json", session);
+        String file = restClient.getFile(projectId, "config.json");
         if (file != null)
             configBuilder.read(file);
     }

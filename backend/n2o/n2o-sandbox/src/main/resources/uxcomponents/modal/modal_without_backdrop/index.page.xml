@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Модальные окна без затемнения фона">
+    <form>
+        <toolbar>
+            <button label="Открыть модальное окно" disable-on-empty-model="false">
+                <show-modal page-id="modal" backdrop="false" page-name="Модальное окно"/>
+            </button>
+            <button label="Открыть боковую панель" disable-on-empty-model="false">
+                <open-drawer page-id="modal" backdrop="false" page-name="Боковая панель"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Просмотр события">
+    <form query-id="test" route="/update">
+        <fields>
+            <input-text id="title" label="Название события"/>
+            <date-interval id="date" time-format="HH:mm:ss" label="Дата"/>
+            <radio-group id="resource" label="Ресурс" required="true">
+                <options>
+                    <option id="1" name="Конференц зал"/>
+                    <option id="2" name="Переговорка"/>
+                </options>
+            </radio-group>
+        </fields>
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
+        <toolbar place="topRight">
+            <button icon="fa fa-trash" description="Удалить" rounded="true" color="danger"
+                    confirm="true" confirm-title="Вы действительно хотите удалить событие?">
+                <invoke operation-id="delete" close-on-success="true"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

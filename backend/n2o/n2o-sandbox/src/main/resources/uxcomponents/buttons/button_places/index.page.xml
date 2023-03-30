@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Расположение кнопок">
+    <toolbar place="topLeft">
+        <button label="Слева сверху" widget-id="main"/>
+    </toolbar>
+    <toolbar place="topCenter">
+        <button label="Вцентре сверху" widget-id="main"/>
+    </toolbar>
+    <toolbar place="topRight">
+        <button label="Справа сверху" widget-id="main"/>
+    </toolbar>
+    <regions>
+        <panel header="false">
+            <form id="main">
+                <toolbar place="topLeft">
+                    <button label="Слева сверху"/>
+                </toolbar>
+                <toolbar place="topCenter">
+                    <button label="Вцентре сверху"/>
+                </toolbar>
+                <toolbar place="topRight">
+                    <button label="Справа сверху"/>
+                </toolbar>
+                <fields>
+
+                </fields>
+                <toolbar place="bottomLeft">
+                    <button label="Слева снизу"/>
+                </toolbar>
+                <toolbar place="bottomCenter">
+                    <button label="Вцентре снизу"/>
+                </toolbar>
+                <toolbar place="bottomRight">
+                    <button label="Справа снизу"/>
+                </toolbar>
+            </form>
+        </panel>
+    </regions>
+    <toolbar place="bottomLeft">
+        <button label="Слева снизу" widget-id="main"/>
+    </toolbar>
+    <toolbar place="bottomCenter">
+        <button label="Вцентре снизу" widget-id="main"/>
+    </toolbar>
+    <toolbar place="bottomRight">
+        <button label="Справа снизу" widget-id="main"/>
+    </toolbar>
+</page>

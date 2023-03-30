@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+      name="Профиль">
+    <regions>
+        <scrollspy>
+            <menu-item title="Личные данные">
+                <form query-id="data" object-id="data">
+                    <fields>
+                        <input-text id="firstName" label="Имя" enabled="{flag == 1}"/>
+                        <input-text id="secondName" label="Фамилия" enabled="{flag == 1}"/>
+                        <date-time id="birthday" label="Дата рождения" enabled="{flag == 1}"/>
+                    </fields>
+                </form>
+            </menu-item>
+            <menu-item title="Контакты и адреса">
+                <tabs>
+                    <tab name="Контакты">
+                        <form query-id="data" object-id="data">
+                            <fields>
+                                <masked-input id="phone"
+                                              mask="+9 (999) 999-99-99"
+                                              placeholder="+7 (___) ___-__-__"
+                                              label="Телефон" enabled="{flag == 1}"/>
+                            </fields>
+                        </form>
+                    </tab>
+                    <tab name="Адреса">
+                        <form query-id="data" object-id="data">
+                            <fields>
+                                <input-text id="address" label="Адрес регистрации по месту жительства"
+                                            enabled="{flag == 1}"/>
+                            </fields>
+                        </form>
+                    </tab>
+                </tabs>
+            </menu-item>
+            <sub-menu title="Лечение и анализы">
+                <menu-item title="Лабораторные исследования">
+                    <form query-id="data" object-id="data">
+                        <fields>
+                            <text-area id="uzi" label="УЗИ" enabled="{flag == 1}"/>
+                            <text-area id="mrt" label="МРТ" enabled="{flag == 1}"/>
+                        </fields>
+                    </form>
+                </menu-item>
+                <menu-item title="Лечение">
+                    <form query-id="data" object-id="data">
+                        <fields>
+                            <text-area id="naz" label="Назначения" enabled="{flag == 1}"/>
+                            <text-area id="rek" label="Рекомендации" enabled="{flag == 1}"/>
+                        </fields>
+                    </form>
+                </menu-item>
+            </sub-menu>
+        </scrollspy>
+        <form query-id="data" object-id="data">
+            <toolbar place="bottomRight">
+                <button id="edit" label="Редактировать" color="info" visible="{flag == 0}">
+                    <set-value to="flag">1</set-value>
+                </button>
+                <button id="update" label="Сохранить" color="info" visible="{flag == 1}">
+                    <invoke operation-id="update">
+                        <form-param id="firstName" value="{firstName}"/>
+                        <form-param id="secondName" value="{secondName}"/>
+                        <form-param id="birthday" value="{birthday}"/>
+
+                        <form-param id="phone" value="{phone}"/>
+                        <form-param id="address" value="{address}"/>
+
+                        <form-param id="uzi" value="{uzi}"/>
+                        <form-param id="mrt" value="{mrt}"/>
+
+                        <form-param id="naz" value="{naz}"/>
+                        <form-param id="rek" value="{rek}"/>
+                    </invoke>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

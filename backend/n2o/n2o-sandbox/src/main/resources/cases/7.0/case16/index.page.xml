@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+             name="Зависимости полей">
+    <form>
+        <fields>
+            <line>
+                <radio-group id="type" label="Тип" inline="true" description="Нажмите 2, поле станет видимо">
+                    <options>
+                        <option id="1" name="1"/>
+                        <option id="2" name="2"/>
+                    </options>
+                </radio-group>
+                <input-text id="amount" label="Видимость от типа 2" placeholder="После скрытия значение не сбросится">
+                    <dependencies>
+                        <visibility on="type">type.id==2</visibility>
+                    </dependencies>
+                </input-text>
+            </line>
+            <line>
+                <set field-label-location="left" field-label-width="300px">
+                    <output-text id="hiddenOnNullDependency" label="Поле скрывается, если null">
+                        <dependencies>
+                            <visibility on="hiddenOnNull">hiddenOnNull</visibility>
+                        </dependencies>
+                    </output-text>
+                </set>
+                <input-text id="hiddenOnNull" default-value="test" label="Сотрите значение"/>
+            </line>
+            <line>
+                <input-text id="setGenderId" label="Установка значений"
+                            description="Если введете 1, то появится Мужской, если 2, то Женский, если 3, то сотрется значение, любое другое не изменит значения.">
+
+                </input-text>
+                <output-text id="setValue" label="Результат:">
+                    <dependencies>
+                        <set-value on="setGenderId">
+                            if (setGenderId == 1)
+                            return "Мужской";
+                            if (setGenderId == 2)
+                            return "Женский";
+                            if (setGenderId == 3)
+                            return null;
+                            else
+                            return undefined;
+                        </set-value>
+                    </dependencies>
+                </output-text>
+            </line>
+            <line label="Скрытие поля от setValue">
+                <input-text id="vis1" label="Поле, которое скроется">
+                    <dependencies>
+                        <visibility on="vis3.status">vis3.status==1</visibility>
+                    </dependencies>
+                </input-text>
+                <checkbox id="vis2" label="Нажмите для скрытия через setValue"/>
+                <input-text id="vis3.status" label="Скрытое поле с setValue" default-value="1">
+                    <dependencies>
+                        <set-value on="vis2">vis2?2:1</set-value>
+                    </dependencies>
+                </input-text>
+            </line>
+            <line label="Сумма чисел (зависимость setValue от двух полей)">
+                <row>
+                    <input-text domain="integer" id="f1" label="Введите число"/>
+                    <input-text domain="integer" id="f2" label="Введите число"/>
+                </row>
+                <input-text domain="integer" id="f3" label="Сумма чисел">
+                    <dependencies>
+                        <set-value on="f1,f2">(function(){return parseInt(f1) + parseInt(f2)})();</set-value>
+                    </dependencies>
+                </input-text>
+            </line>
+            <line label="Зависимость обязательного заполнения">
+                <input-text id="r1" label="Введите 1"/>
+                <input-text id="r2" label="Для 1 поле обязательное">
+                    <dependencies>
+                        <requiring on="r1">r1==1</requiring>
+                    </dependencies>
+                </input-text>
+            </line>
+            <line label="Зависимость от двух полей">
+                <row>
+                    <radio-group id="ff1" label="Первое поле" label-field-id="id">
+                        <options>
+                            <option id="A"/>
+                            <option id="B"/>
+                            <option id="C"/>
+                        </options>
+                    </radio-group>
+                    <radio-group id="ff2" label="Второе поле" label-field-id="id">
+                        <options>
+                            <option id="X"/>
+                            <option id="Y"/>
+                            <option id="Z"/>
+                        </options>
+                    </radio-group>
+                </row>
+
+                <output-text id="oo1" label="Видимо, если A и X">
+                    <dependencies>
+                        <visibility on="ff1,ff2">ff1.id=='A'&amp;&amp;ff2.id=='X'</visibility>
+                    </dependencies>
+                </output-text>
+                <input-text id="oo2" label="Доступно, если B и Y">
+                    <dependencies>
+                        <enabling on="ff1,ff2">ff1.id=='B'&amp;&amp;ff2.id=='Y'</enabling>
+                    </dependencies>
+                </input-text>
+            </line>
+            <line label="Вложенные поля в on">
+                <input-text id="deep1.subfield" label="Вложенное поле" placeholder="Введите 1"/>
+                <input-text id="deep2" label="Поле, зависимое от вложенного">
+                    <dependencies>
+                        <enabling on="deep1.subfield">deep1.subfield==1</enabling>
+                    </dependencies>
+                </input-text>
+            </line>
+            <line label="Зависимость сброса значения">
+                <input-text id="reset1" label="Первое поле" placeholder="Введите 1 и второе поле очистится"/>
+                <input-text id="reset2" label="Второе поле">
+                    <dependencies>
+                        <reset on="reset1">reset1 === '1'</reset>
+                    </dependencies>
+                </input-text>
+                <input-select id="reset3" label="Выпадающий список с префильтрацией"
+                              query-id="test" placeholder="Значение сбросится при изменении во втором поле">
+                    <pre-filters>
+                        <like field-id="name" value="{reset2}" reset-on-change="true"/>
+                    </pre-filters>
+                </input-select>
+            </line>
+        </fields>
+    </form>
+</simple-page>
