@@ -19,9 +19,6 @@ public class TemplateModel {
     private String templateId;
 
     @JsonProperty
-    private String since;
-
-    @JsonProperty
     private String name;
 
     @JsonGetter("projectId")//TODO убрать после слития https://jira.i-novus.ru/browse/NNO-6485
