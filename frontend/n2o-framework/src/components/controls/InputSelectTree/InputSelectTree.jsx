@@ -337,7 +337,8 @@ function InputSelectTree({
                 treeNodeFilterProp={labelFieldId}
                 treeNodeLabelProp={labelFieldId}
                 maxTagTextLength={maxTagTextLength}
-                clearIcon={clearIcon}
+                clearIcon={clearIcon} // иконка очищения всего инпута
+                removeIcon={clearIcon} // иконка очищения итема
                 onChange={handleChange}
                 onSelect={handleSelect}
                 onSearch={handleSearch}
